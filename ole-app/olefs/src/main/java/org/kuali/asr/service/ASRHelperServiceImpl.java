@@ -571,10 +571,12 @@ public class ASRHelperServiceImpl {
         if(oleCirculationDeskLocations.size()>0){
                    for(OleCirculationDeskLocation oleCirculationDeskLocation : oleCirculationDeskLocations){
                        //for(String location:oleCirculationDeskLocation.getLocation().getFullLocationPath().split("['/']")){
+                       if(oleCirculationDeskLocation.getCirculationPickUpDeskLocation()==null || (oleCirculationDeskLocation.getCirculationPickUpDeskLocation()!=null && oleCirculationDeskLocation.getCirculationPickUpDeskLocation().trim().isEmpty())){
                            if(oleCirculationDeskLocation.getLocation().getFullLocationPath().equals(itemLocation)){
                                valid = true;
                                break;
                            }
+                       }
                        //}
                        /*if(oleCirculationDeskLocation.getLocation().getFullLocationPath().contains(itemLocation)){
                             valid = true;
@@ -653,10 +655,12 @@ public class ASRHelperServiceImpl {
         if(oleCirculationDeskLocations.size()>0){
             for(OleCirculationDeskLocation oleCirculationDeskLocation : oleCirculationDeskLocations){
                 //for(String location:oleCirculationDeskLocation.getLocation().getFullLocationPath().split("['/']")){
+              if(oleCirculationDeskLocation.getCirculationPickUpDeskLocation()==null || (oleCirculationDeskLocation.getCirculationPickUpDeskLocation()!=null && oleCirculationDeskLocation.getCirculationPickUpDeskLocation().trim().isEmpty())){
                 if(oleCirculationDeskLocation.getLocation().getFullLocationPath().equals(itemLocation)){
                     valid = true;
                     break;
                 }
+              }
                 //}
                        /*if(oleCirculationDeskLocation.getLocation().getFullLocationPath().contains(itemLocation)){
                             valid = true;

@@ -48,6 +48,7 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
@@ -1790,7 +1791,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             if (oleeResourceInstance != null) {
                 coverageStartDate = oleeResourceInstance.getCovStartDate();
                 if (StringUtils.isNotEmpty(coverageStartDate)) {
-                    if (coverageStartDate.matches(OLEConstants.OLEEResourceRecord.DATE_FORMAT_REGEX)) {
+                    if (coverageStartDate.matches(convertDateFormatToRegex(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE))) {
                         //String dateFormat = getDateFormat(coverageStartDate);
                         String dateFormat = coverageStartDate;
                         oleeResourceInstance.setCovStartDate(dateFormat);
@@ -1908,7 +1909,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             if (oleeResourceInstance != null) {
                 coverageEndDate = oleeResourceInstance.getCovEndDate();
                 if (StringUtils.isNotEmpty(coverageEndDate)) {
-                    if (coverageEndDate.matches(OLEConstants.OLEEResourceRecord.DATE_FORMAT_REGEX)) {
+                    if (coverageEndDate.matches(convertDateFormatToRegex(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE))) {
                         //String dateFormat = getDateFormat(coverageEndDate);
                         String dateFormat = coverageEndDate;
                         oleeResourceInstance.setCovEndDate(dateFormat);
@@ -2026,7 +2027,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             if (oleeResourceInstance != null) {
                 perpetualAccessStartDate = oleeResourceInstance.getPerpetualAccStartDate();
                 if (StringUtils.isNotEmpty(perpetualAccessStartDate)) {
-                    if (perpetualAccessStartDate.matches(OLEConstants.OLEEResourceRecord.DATE_FORMAT_REGEX)) {
+                    if (perpetualAccessStartDate.matches(convertDateFormatToRegex(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE))) {
                         //String dateFormat = getDateFormat(perpetualAccessStartDate);
                         String dateFormat = perpetualAccessStartDate;
                         oleeResourceInstance.setPerpetualAccStartDate(dateFormat);
@@ -2143,7 +2144,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             if (oleeResourceInstance != null) {
                 perpetualAccessEndDate = oleeResourceInstance.getPerpetualAccEndDate();
                 if (StringUtils.isNotEmpty(perpetualAccessEndDate)) {
-                    if (perpetualAccessEndDate.matches(OLEConstants.OLEEResourceRecord.DATE_FORMAT_REGEX)) {
+                    if (perpetualAccessEndDate.matches(convertDateFormatToRegex(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE))) {
                         //String dateFormat = getDateFormat(perpetualAccessEndDate);
                         String dateFormat = perpetualAccessEndDate;
                         oleeResourceInstance.setPerpetualAccEndDate(dateFormat);
@@ -2355,7 +2356,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             if (coverage != null) {
                 coverageStartDate = coverage.getCoverageStartDate();
                 if (StringUtils.isNotEmpty(coverageStartDate)) {
-                    if (coverageStartDate.matches(OLEConstants.OLEEResourceRecord.DATE_FORMAT_REGEX)) {
+                    if (coverageStartDate.matches(convertDateFormatToRegex(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE))) {
                         //String dateFormat = getDateFormat(coverageStartDate);
                         String dateFormat = coverageStartDate;
                         coverage.setCoverageStartDate(dateFormat);
@@ -2454,7 +2455,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             if (coverage != null) {
                 coverageEndDate = coverage.getCoverageEndDate();
                 if (StringUtils.isNotEmpty(coverageEndDate)) {
-                    if (coverageEndDate.matches(OLEConstants.OLEEResourceRecord.DATE_FORMAT_REGEX)) {
+                    if (coverageEndDate.matches(convertDateFormatToRegex(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE))) {
                         //String dateFormat = getDateFormat(coverageEndDate);
                         String dateFormat = coverageEndDate;
                         coverage.setCoverageEndDate(dateFormat);
@@ -2551,7 +2552,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             if (perpetualAccess != null) {
                 perpetualAccessStartDate = perpetualAccess.getPerpetualAccessStartDate();
                 if (StringUtils.isNotEmpty(perpetualAccessStartDate)) {
-                    if (perpetualAccessStartDate.matches(OLEConstants.OLEEResourceRecord.DATE_FORMAT_REGEX)) {
+                    if (perpetualAccessStartDate.matches(convertDateFormatToRegex(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE))) {
                         //String dateFormat = getDateFormat(perpetualAccessStartDate);
                         String dateFormat = perpetualAccessStartDate;
                         perpetualAccess.setPerpetualAccessStartDate(dateFormat);
@@ -2648,7 +2649,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             if (perpetualAccess != null) {
                 perpetualAccessEndDate = perpetualAccess.getPerpetualAccessEndDate();
                 if (StringUtils.isNotEmpty(perpetualAccessEndDate)) {
-                    if (perpetualAccessEndDate.matches(OLEConstants.OLEEResourceRecord.DATE_FORMAT_REGEX)) {
+                    if (perpetualAccessEndDate.matches(convertDateFormatToRegex(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE))) {
                         //String dateFormat = getDateFormat(perpetualAccessEndDate);
                         String dateFormat = perpetualAccessEndDate;
                         perpetualAccess.setPerpetualAccessEndDate(dateFormat);
@@ -4279,5 +4280,31 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
         FileCopyUtils.copy(fis, response.getOutputStream());
     }
 
+    private String convertDateFormatToRegex(String format){
+        format = format.replace("\\", "\\\\").replace(".", "\\.").replace("-", "\\-").replace("+", "\\+").replace("(",
+                "\\(").replace(")", "\\)").replace("[", "\\[").replace("]", "\\]").replace("|", "\\|").replace("yyyy",
+                "((19|2[0-9])[0-9]{2})").replace("yy", "([0-9]{2})").replaceAll("M{4,}",
+                "([@]+)") //"(January|February|March|April|May|June|July|August|September|October|November|December)")
+                .replace("MMM", "([@]{3})") //"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)")
+                .replace("MM", "(0[1-9]|1[012])").replace("M", "(0?[1-9]|1[012])").replace("dd",
+                        "(0[1-9]|[12][0-9]|3[01])").replace("d", "(0?[1-9]|[12][0-9]|3[01])").replace("hh",
+                        "(1[0-2]|0[1-9])").replace("h", "(1[0-2]|0?[1-9])").replace("HH", "(2[0-3]|1[0-9]|0[0-9])")
+                .replace("H", "(2[0-3]|1[0-9]|0?[0-9])").replace("kk", "(2[0-4]|1[0-9]|0[1-9])").replace("k",
+                        "(2[0-4]|1[0-9]|0?[1-9])").replace("KK", "(1[01]|0[0-9])").replace("K", "(1[01]|0?[0-9])")
+                .replace("mm", "([0-5][0-9])").replace("m", "([1-5][0-9]|0?[0-9])").replace("ss", "([0-5][0-9])")
+                .replace("s", "([1-5][0-9]|0?[0-9])").replace("SSS", "([0-9][0-9][0-9])").replace("SS",
+                        "([0-9][0-9][0-9]?)").replace("S", "([0-9][0-9]?[0-9]?)").replaceAll("E{4,}",
+                        "([@]+)")//"(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)")
+                .replaceAll("E{1,3}", "([@]{3})")//"(Mon|Tue|Wed|Thu|Fri|Sat|Sun)")
+                .replace("DDD", "(3[0-6][0-5]|[1-2][0-9][0-9]|0[0-9][1-9])").replace("DD",
+                        "(3[0-6][0-5]|[1-2][0-9][0-9]|0?[0-9][1-9])").replace("D",
+                        "(3[0-6][0-5]|[1-2][0-9][0-9]|0?[0-9]?[1-9])").replace("F", "([1-5])").replace("ww",
+                        "(5[0-3]|[1-4][0-9]|0[1-9])").replace("w", "(5[0-3]|[1-4][0-9]|[1-9])").replace("W", "([1-5])")
+                .replaceAll("z{4,}", "([@]+)").replaceAll("z{1,3}", "([@]{1,4})").replaceAll("a{1,}", "([aApP][mM])")
+                .replaceAll("G{1,}", "([aA][dD]|[bB][cC])").replace(" ", "\\s").replace("@", "a-zA-Z");
 
+        return format;
+
+    }
+	
 }

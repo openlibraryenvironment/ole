@@ -31,7 +31,7 @@ public class PurApDateFormatUtils {
      * @return
      */
     public static final SimpleDateFormat getSimpleDateFormat(String formatName) {
-        return new SimpleDateFormat(getFormattingString(formatName), Locale.US);
+        return new SimpleDateFormat(getFormattingString(formatName), Locale.getDefault());
     }
 
     public static final String getFormattingString(String formatName) {

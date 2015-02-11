@@ -26,6 +26,13 @@ public class OleFilteredCopyGroup extends Group implements OleComponent {
 		return filterModelProperty;
 	}
 
+	@Override
+	public List<? extends Component> getItems() {
+		synchronized (this) {
+			return super.getItems();
+		}
+	}
+
 	/**
 	 * Filters {@link OleComponent} instances based on
 	 * {@link OleComponent#getFilterModelProperty()}, if the current model is
@@ -33,13 +40,19 @@ public class OleFilteredCopyGroup extends Group implements OleComponent {
 	 */
 	@Override
 	protected <T> void copyProperties(T component) {
-		List<? extends Component> srcitems = getItems();
 		
-		// prevent super() from copying items
-		setItems(null);
-		super.copyProperties(component);
-		setItems(srcitems);
-		
+		List<? extends Component> srcitems;
+		synchronized (this) {
+			srcitems = getItems();
+			try {
+				// prevent super() from copying items
+				setItems(null);
+				super.copyProperties(component);
+			} finally {
+				setItems(srcitems);
+			}
+		}
+
 		Group groupCopy = (Group) component;
 		groupCopy.setItems(OleComponentUtils.filterItems(srcitems));
 	}

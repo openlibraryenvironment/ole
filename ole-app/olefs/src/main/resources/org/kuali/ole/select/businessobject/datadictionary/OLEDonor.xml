@@ -126,7 +126,7 @@
     <bean id="OLEDonor-donorPublicDisplay-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="forceUppercase" value="false"/>
         <property name="shortLabel" value="Donor Public Display"/>
-        <property name="maxLength" value="100"/>
+        <property name="maxLength" value="4000"/>
         <property name="validationPattern">
             <bean parent="AnyCharacterValidationPattern"/>
         </property>
@@ -276,7 +276,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
         <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEDonor"/>
@@ -289,7 +289,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/select/scripts/donor.js</value>
             </list>
         </property>

@@ -108,7 +108,7 @@
 	<bean id="pdpProcessDao" parent="platformAwareDao" class="org.kuali.ole.pdp.dataaccess.impl.ProcessDaoOjb" />
 	
 	
-	<bean id="pdpLoadPaymentsJob" parent="scheduledJobDescriptor">
+	<bean id="pdpLoadPaymentsJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="pdpLoadPaymentsStep" />
@@ -196,7 +196,7 @@
 		<property name="cronExpression" value="00 30 14 ? * *" />
 	</bean>-->
 
-	<bean id="pdpExtractCanceledChecksJob" parent="scheduledJobDescriptor">
+	<bean id="pdpExtractCanceledChecksJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="pdpExtractCanceledChecksStep" />
@@ -395,6 +395,7 @@
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="extractPaymentService" ref="pdpExtractPaymentService" />
+        <property name="oleSelectDocumentService" ref="oleSelectDocumentService" />
 	</bean>
     <bean id="pdpGlPendingTransactionService" parent="pdpGlPendingTransactionService-parentBean"/>
 	

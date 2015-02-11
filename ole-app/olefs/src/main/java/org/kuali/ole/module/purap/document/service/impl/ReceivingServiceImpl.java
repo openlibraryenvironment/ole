@@ -31,6 +31,7 @@ import org.kuali.ole.module.purap.document.service.PurchaseOrderService;
 import org.kuali.ole.module.purap.document.service.ReceivingService;
 import org.kuali.ole.module.purap.document.validation.event.AttributedContinuePurapEvent;
 import org.kuali.ole.select.businessobject.*;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.service.GeneralLedgerPendingEntryService;
@@ -73,6 +74,7 @@ public class ReceivingServiceImpl implements ReceivingService {
     protected ConfigurationService configurationService;
     protected PurapService purapService;
     protected NoteService noteService;
+    private OleSelectDocumentService oleSelectDocumentService;
 
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
@@ -179,7 +181,7 @@ public class ReceivingServiceImpl implements ReceivingService {
         return canCreateLineItemReceivingDocument(po, null);
     }
 
-    protected boolean canCreateLineItemReceivingDocument(PurchaseOrderDocument po, String receivingDocumentNumber) {
+    public boolean canCreateLineItemReceivingDocument(PurchaseOrderDocument po, String receivingDocumentNumber) {
         boolean canCreate = false;
 
         if (isPurchaseOrderValidForLineItemReceivingDocumentCreation(po) &&
@@ -488,7 +490,7 @@ public class ReceivingServiceImpl implements ReceivingService {
             // delete unentered items
             purapService.deleteUnenteredItems(receivingDocument);
             poDoc = receivingDocument.getPurchaseOrderDocument();
-            SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(poDoc);
+       //     SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(poDoc);
         } else if (receivingDocument instanceof CorrectionReceivingDocument) {
             CorrectionReceivingDocument correctionDocument = (CorrectionReceivingDocument) receivingDocument;
             poDoc = purchaseOrderService.getCurrentPurchaseOrder(correctionDocument.getLineItemReceivingDocument().getPurchaseOrderIdentifier());
@@ -498,7 +500,7 @@ public class ReceivingServiceImpl implements ReceivingService {
 
         //TODO: custom doc specific service hook here for correction to do it's receiving doc update
 
-        purapService.saveDocumentNoValidation(poDoc);
+     //   purapService.saveDocumentNoValidation(poDoc);
 
         // sendFyiForItems(receivingDocument);
 
@@ -674,7 +676,7 @@ public class ReceivingServiceImpl implements ReceivingService {
 
             //if a new item has been added spawn a purchase order amendment
             if (hasNewUnorderedItem((LineItemReceivingDocument) receivingDocument)) {
-                String newSessionUserId = OLEConstants.SYSTEM_USER;
+                String newSessionUserId = getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER);
                 try {
 
                     LogicContainer logicToRun = new LogicContainer() {
@@ -1154,5 +1156,15 @@ public class ReceivingServiceImpl implements ReceivingService {
         return receiptStatusId;
     }
 
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
+    }
 }
 

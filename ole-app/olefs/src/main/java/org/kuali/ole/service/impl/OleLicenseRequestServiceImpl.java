@@ -647,7 +647,8 @@ public class OleLicenseRequestServiceImpl implements OleLicenseRequestService {
       ((publisher!=null&&!publisher.isEmpty()) ?   publisher+"," : "") +
       ((isbn!=null&&!isbn.isEmpty() ) ?  isbn+"," : "");*/
             if(itemDescription != null && !(itemDescription.equals(""))){
-                itemDescription = itemDescription.substring(0, itemDescription.lastIndexOf(","));
+                itemDescription = itemDescription.lastIndexOf(",") < 0 ? itemDescription :
+                        itemDescription.substring(0, itemDescription.lastIndexOf(","));
             }
 
         }catch(Exception e){

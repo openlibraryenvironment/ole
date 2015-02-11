@@ -7,7 +7,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch01s04.html"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
         <property name="items">
@@ -29,7 +29,7 @@
         </property>
 
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/batch/script/batchJob.js</value>
             </list>
         </property>
@@ -49,31 +49,32 @@
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.richTable.render" value="true" />
         <property name="renderAddLine" value="false"/>
-        <property name="renderLineActions" value="false"/>
+        <property name="renderLineActions" value="true"/>
+        <property name="useServerPaging" value="true"/>
         <property name="layoutManager.actionFieldPrototype.group.layoutManager">
             <bean parent="Uif-HorizontalBoxLayout"/>
         </property>
         <property name="layoutManager.richTable.templateOptions">
             <map>
                 <entry key="aaSorting" value="[[0,'desc']]"/>
-                <entry key="aoColumns"
-                       value="[ {'bSortable':true, 'sWidth':'2%'},
-                  {'bSortable':true, 'sWidth':'5%'},
-                  {'bSortable':true, 'sWidth':'2%'},
-                  {'bSortable':true, 'sWidth':'5%'},
-                  {'bSortable':true, 'sWidth':'8%'},
-                  {'bSortable':true, 'sWidth':'5%'},
-                  {'bSortable':false, 'sWidth':'2%'},
-                  {'bSortable':false, 'sWidth':'2%'},
-                  {'bSortable':false, 'sWidth':'2%'},
-                  {'bSortable':true, 'sWidth':'8%'},
-                  {'bSortable':true, 'sWidth':'8%'},
-                  {'bSortable':false, 'sWidth':'8%'},
-                  {'bSortable':true, 'sWidth':'5%'},
-                  {'bSortable':false, 'sWidth':'16%'},
-                  {'bSortable':false, 'sWidth':'10%'},
-                  {'bSortable':false, 'sWidth':'10%'}
-                ]"/>
+                <!--<entry key="bFilter" value="true"/>-->
+                <!-- <entry key="aoColumns"
+                        value="[ {'bSortable':true, 'sWidth':'2%'},
+                   {'bSortable':true, 'sWidth':'5%'},
+                   {'bSortable':true, 'sWidth':'2%'},
+                   {'bSortable':true, 'sWidth':'5%'},
+                   {'bSortable':true, 'sWidth':'8%'},
+                   {'bSortable':true, 'sWidth':'5%'},
+                   {'bSortable':false, 'sWidth':'2%'},
+                   {'bSortable':false, 'sWidth':'2%'},
+                   {'bSortable':false, 'sWidth':'2%'},
+                   {'bSortable':true, 'sWidth':'8%'},
+                   {'bSortable':true, 'sWidth':'8%'},
+                   {'bSortable':false, 'sWidth':'8%'},
+                   {'bSortable':true, 'sWidth':'5%'},
+                   {'bSortable':false, 'sWidth':'16%'},
+                   {'bSortable':false, 'sWidth':'10%'}
+                 ]"/>-->
 
             </map>
         </property>
@@ -97,13 +98,13 @@
 
 
 
-                <bean id="status_buttons_view" parent="Uif-HorizontalFieldGroup">
+               <!-- <bean id="status_buttons_view" parent="Uif-HorizontalFieldGroup">
                 <property name="title" value="Actions"/>
                 <property name="items">
                     <list>
 
                         <bean id="stopOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"   p:actionScript="stop(@{#line?.jobId});"  p:actionLabel="Stop"  p:render="@{#line?.status eq 'RUNNING'}" />
-                        <!--bean id="startOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="start(@{#line?.jobId});"    p:actionLabel="Start"  p:render="@{#line?.status eq 'STOPPED'}" /-->
+                        &lt;!&ndash;bean id="startOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="start(@{#line?.jobId});"    p:actionLabel="Start"  p:render="@{#line?.status eq 'STOPPED'}" /&ndash;&gt;
                         <bean id="removeOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="remove(@{#line?.jobId});"  p:actionLabel="Remove"  p:render="@{#line?.status eq 'STOPPED' or #line?.status eq 'COMPLETED' or #line?.status eq 'PAUSED'}" />
                         <bean id="pauseOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="pause(@{#line?.jobId});" p:actionLabel="Pause"  p:render="@{#line?.status eq 'RUNNING'}" />
                         <bean id="resumeOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="resume(@{#line?.jobId});" p:actionLabel="Resume"  p:render="@{#line?.status eq 'PAUSED'}" />
@@ -117,9 +118,20 @@
                             <bean id="viewJobDetails" parent="Uif-LinkField" p:style="font-weight:bold;"  p:linkText="View Job Report" p:target="_blank" p:href="oleBatchProcessJobController?viewId=OLEBatchJobPopup&amp;methodToCall=openViewReport&amp;jobId=@{#line.jobId}" />
                         </list>
                     </property>
-                </bean>
+                </bean>-->
+
+                <bean id="viewJobDetails" parent="Uif-LinkField" p:style="font-weight:bold;"  p:linkText="View Job Report" p:target="_blank" p:href="oleBatchProcessJobController?viewId=OLEBatchJobPopup&amp;methodToCall=openViewReport&amp;jobId=@{#line.jobId}" />
                 <bean id="destinationDirectoryPathField" parent="Uif-InputField" p:propertyName="oLEBatchProcessDefinitionDocument.destinationDirectoryPath" p:label="Directory Path" p:readOnly="true"/>
 
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="stopOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"   p:actionScript="stop(@{#line?.jobId});"  p:actionLabel="Stop"  p:render="@{#line?.status eq 'RUNNING'}" />
+                <!--bean id="startOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="start(@{#line?.jobId});"    p:actionLabel="Start"  p:render="@{#line?.status eq 'STOPPED'}" /-->
+                <bean id="removeOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="remove(@{#line?.jobId});"  p:actionLabel="Remove"  p:render="@{#line?.status eq 'STOPPED' or #line?.status eq 'COMPLETED' or #line?.status eq 'PAUSED'}" />
+                <bean id="pauseOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="pause(@{#line?.jobId});" p:actionLabel="Pause"  p:render="@{#line?.status eq 'RUNNING'}" />
+                <bean id="resumeOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="resume(@{#line?.jobId});" p:actionLabel="Resume"  p:render="@{#line?.status eq 'PAUSED'}" />
             </list>
         </property>
     </bean>

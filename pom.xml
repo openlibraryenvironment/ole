@@ -19,6 +19,7 @@
         <module>ole-app</module>
         <module>ole-docstore</module>
         <module>ole-common</module>
+        <module>ole-sip2</module>
     </modules>
     <scm>
         <connection>scm:svn:https://svn.kuali.org/repos/ole/trunk</connection>

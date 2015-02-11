@@ -64,34 +64,36 @@ public class OleFormView extends FormView {
 
 	@Override
 	public List<? extends Group> getItems() {
-		if (itemsBusy)
-			return originalItems;
-
-		List<? extends Group> rv = super.getItems();
-		if ((rv == null || rv.isEmpty()) && originalItems != null) {
-			itemsBusy = true;
-			try {
-				setItems(rv = OleComponentUtils.filterCurrentPage(
-						getCurrentPageId(), originalItems));
-			} finally {
-				itemsBusy = false;
+		synchronized (this) {
+			if (itemsBusy)
+				return originalItems;
+	
+			List<? extends Group> rv = super.getItems();
+			if ((rv == null || rv.isEmpty()) && originalItems != null) {
+				itemsBusy = true;
+				try {
+					setItems(rv = OleComponentUtils.filterCurrentPage(
+							getCurrentPageId(), originalItems));
+				} finally {
+					itemsBusy = false;
+				}
+	
+				if (LOG.isDebugEnabled()) {
+					StringBuilder sb = new StringBuilder("Lazy init items:");
+					if (rv == null)
+						sb.append(" NULL!");
+					else
+						for (Group comp : rv)
+							if (comp == null)
+								sb.append("\n     NULL!");
+							else
+								sb.append("\n   - ").append(comp.getClass())
+										.append(" ").append(comp.getId());
+					LOG.debug(sb, new Throwable());
+				}
 			}
-
-			if (LOG.isDebugEnabled()) {
-				StringBuilder sb = new StringBuilder("Lazy init items:");
-				if (rv == null)
-					sb.append(" NULL!");
-				else
-					for (Group comp : rv)
-						if (comp == null)
-							sb.append("\n     NULL!");
-						else
-							sb.append("\n   - ").append(comp.getClass())
-									.append(" ").append(comp.getId());
-				LOG.debug(sb, new Throwable());
-			}
+			return rv;
 		}
-		return rv;
 	}
 
 	/**
@@ -100,12 +102,16 @@ public class OleFormView extends FormView {
 	 */
 	@Override
 	protected <T> void copyProperties(T component) {
-		List<? extends Group> srcitems = getItems();
+		List<? extends Group> srcitems;
 
 		synchronized (this) {
-			setItems(null);
-			super.copyProperties(component);
-			setItems(srcitems);
+			srcitems = getItems();
+			try {
+				setItems(null);
+				super.copyProperties(component);
+			} finally {
+				setItems(srcitems);
+			}
 		}
 
 		OleFormView copyView = (OleFormView) component;

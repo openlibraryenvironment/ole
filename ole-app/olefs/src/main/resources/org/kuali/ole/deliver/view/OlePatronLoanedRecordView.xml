@@ -71,7 +71,7 @@
             </list>
         </property>
     </bean>
-    <bean id="OlePatronLoanedRecordView-OlePatronLoanedRecordsSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="12" >
+    <bean id="OlePatronLoanedRecordView-OlePatronLoanedRecordsSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="17" >
         <property name="headerText" value="Loaned Items" />
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
         <property name="propertyName" value="loanDocuments"/>
@@ -103,6 +103,9 @@
                 <bean id="viewLoan_missingPieceNote" parent="Uif-DataField" p:label="Missing Piece Note" p:propertyName="missingPieceNote" />
                 <bean id="viewLoan_itemDamagedStatus" parent="Uif-DataField" p:label="Item Damaged Flag" p:propertyName="itemDamagedStatus"/>
                 <bean id="viewLoan_itemDamagedNote" parent="Uif-DataField" p:label="Item Damaged Note" p:propertyName="claimsReturnNote"/>
+                <bean id="viewLoan_ItemViewRequest" parent="Uif-LinkField" p:label="Pending Requests" p:width="10%" p:linkText="@{#line.requestFlag}" p:target="_blank" p:href="lookup?methodToCall=search&amp;itemId=@{#line.itemId}&amp;flag=true&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo" p:style="font-weight:bold;">
+                    <property name="cssClasses" value="uif-secondaryActionButton"/>
+                </bean>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>

@@ -19,7 +19,7 @@ public class OleSelectNotificationConstant {
 
     public static final String OLE_ACCOUNT_TEMP_RESTRICTED_EDIT_DOCUMENT_DESCRIPTION = "Extend or Remove Account Restriction";
 
-    public static final String ACCOUNT_DOCUMENT_INTIATOR = "account.document.initiator";
+    public static final String ACCOUNT_DOCUMENT_INTIATOR = "ACCOUNT_DOCUMENT_INTIATOR";
 
     public static final String CHANNEL_NAME = "University Alerts";
 

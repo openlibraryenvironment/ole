@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.Date;
 
 import org.joda.time.DateTime;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEParameterKeyConstants;
 import org.kuali.ole.sys.batch.AutoDisapproveDocumentsStep;
@@ -68,6 +69,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
     private PersonService personService;
     
     private ReportWriterService autoDisapproveErrorReportWriterService;
+    private OleSelectDocumentService oleSelectDocumentService;
     
     /**
      * Constructs a AutoDisapproveDocumentsServiceImpl instance
@@ -87,7 +89,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
             if (canAutoDisapproveJobRun()) {
                 LOG.debug("autoDisapproveDocumentsInEnrouteStatus() started");
                 
-                Person systemUser = getPersonService().getPersonByPrincipalName(OLEConstants.SYSTEM_USER);
+                Person systemUser = getPersonService().getPersonByPrincipalName(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
                 
                 String principalId = systemUser.getPrincipalId();
                 String annotationForAutoDisapprovalDocument = getParameterService().getParameterValueAsString(AutoDisapproveDocumentsStep.class, OLEParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_ANNOTATION);                
@@ -406,7 +408,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
      *     
      */
     protected void autoDisapprovalYearEndDocument(Document document, String annotationForAutoDisapprovalDocument)  throws Exception {
-        Person systemUser = getPersonService().getPersonByPrincipalName(OLEConstants.SYSTEM_USER);      
+        Person systemUser = getPersonService().getPersonByPrincipalName(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
         
         Note approveNote = noteService.createNote(new Note(), document.getDocumentHeader(), systemUser.getPrincipalId());
         approveNote.setNoteText(annotationForAutoDisapprovalDocument);
@@ -530,6 +532,17 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
      */
     public void setAutoDisapproveErrorReportWriterService(ReportWriterService autoDisapproveErrorReportWriterService) {
         this.autoDisapproveErrorReportWriterService = autoDisapproveErrorReportWriterService;
+    }
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
     
 }

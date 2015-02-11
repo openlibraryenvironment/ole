@@ -159,7 +159,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>/ole/editor/scripts/InstanceEditor.js</value>
                 <value>/ole/treeview/scripts/treeview.js</value>
             </list>

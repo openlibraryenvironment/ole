@@ -1,5 +1,8 @@
 package org.kuali.ole.bo.serachRetrieve;
 
+import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecord;
+import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecords;
+
 import java.util.List;
 
 /**
@@ -10,7 +13,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class OleSRUResponseRecordData {
-
+    public BibMarcRecords  bibMarcRecords;
     public String bibliographicRecord;
     public List<OleSRUInstanceDocument> holdings;
 
@@ -47,5 +50,13 @@ public class OleSRUResponseRecordData {
                 ", holdings=" + holdings +
                 ", extraRequestData='" + extraRequestData + '\'' +
                 '}';
+    }
+
+    public BibMarcRecords getBibMarcRecords() {
+        return bibMarcRecords;
+    }
+
+    public void setBibMarcRecords(BibMarcRecords bibMarcRecords) {
+        this.bibMarcRecords = bibMarcRecords;
     }
 }

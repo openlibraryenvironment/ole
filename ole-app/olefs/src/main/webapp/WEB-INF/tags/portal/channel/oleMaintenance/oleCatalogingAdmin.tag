@@ -1,5 +1,5 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-<channel:portalChannelTop channelTitle="Cataloging Admin"/>
+<channel:portalChannelTop channelTitle="${ConfigProperties.CatalogingAdmin}"/>
 
 <div class="body">
     <portal:portalLink displayTitle="true"  title="Bibliographic Record Status"

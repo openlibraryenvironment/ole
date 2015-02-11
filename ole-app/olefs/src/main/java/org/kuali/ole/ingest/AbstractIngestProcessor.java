@@ -249,7 +249,12 @@ public abstract class AbstractIngestProcessor {
                     createErrorLog(job, orderBibMarcRecord.getBibMarcRecord());
                 }
             }
-        } else {
+            orderImportHelperBo.setCreateBibCount(orderBibMarcRecordList.get(orderBibMarcRecordList.size()-1).getCreateBibCount());
+            orderImportHelperBo.setUpdateBibCount(orderBibMarcRecordList.get(orderBibMarcRecordList.size() - 1).getUpdateBibCount());
+            orderImportHelperBo.setCreateHoldingsCount(orderBibMarcRecordList.get(orderBibMarcRecordList.size() - 1).getCreateHoldingsCount());
+            orderImportHelperBo.setUpdateHoldingsCount(orderBibMarcRecordList.get(orderBibMarcRecordList.size()-1).getUpdateHoldingsCount());
+        }
+        else {
             for (int count = 0; count < records.size(); count++) {
                 createErrorLog(job, records.get(count));
                 setOleOrderRecordAsFailureRecord(job);
@@ -415,82 +420,73 @@ public abstract class AbstractIngestProcessor {
         BibMarcRecords bibMarcRecords = bibMarcRecordProcessor.fromXML(marcXMLContent);
         List<BibMarcRecord> records = bibMarcRecords.getRecords();
         OLEBatchProcessProfileBo oleBatchProcessProfileBoForBibImport = getBibImportProfile(oleBatchProcessProfileBo);
-        BatchProcessBibImport batchProcessBibImport = new BatchProcessBibImport();
+        BatchProcessBibImport batchProcessBibImport = new BatchProcessBibImport(processDef, job);
         batchProcessBibImport.setOleBatchProcessProfileBo(oleBatchProcessProfileBoForBibImport);
         //DataCarrierService dataCarrierService = GlobalResourceLoader.getService(OLEConstants.DATA_CARRIER_SERVICE);
         //dataCarrierService.addData(OLEConstants.FAILURE_REASON, new ArrayList<>());
         OrderImportHelperBo orderImportHelperBo = job.getOrderImportHelperBo();
         orderImportHelperBo.setFailureReason(new ArrayList<String>());
-        try {
-            batchProcessBibImport.processBatch(records);
-        } catch (Exception e) {
-            LOG.error("Exception while calling processBatch method " + e);
-        }
         /*dataCarrierService.addData(OLEConstants.ORDER_IMPORT_SUCCESS_COUNT, 0);
         dataCarrierService.addData(OLEConstants.ORDER_IMPORT_FAILURE_COUNT,0);*/
         orderImportHelperBo.setOrderImportSuccessCount(0);
         orderImportHelperBo.setOrderImportFailureCount(0);
         orderImportHelperBo.setOleBatchProcessProfileBo(oleBatchProcessProfileBo);
-        for(int marcCount = 0;marcCount < records.size();marcCount++) {
-            boolean marcFlag = true;
-            for(int ediCount = 0;ediCount < ediOrder.getLineItemOrder().size();ediCount++) {
-                String isbn = getISBN(ediOrder.getLineItemOrder().get(ediCount));
-                if(isbn.equalsIgnoreCase(records.get(marcCount).getDataFields().get(0).getSubFields().get(0).getValue())){
-                    marcFlag = false;
-                    Thread.sleep(2000);
-                    String bibId = getBibId(isbn);
-                    if(bibId == null){
-                        createErrorLog(job);
-                    }
+        OLEBatchBibImportDataObjects oleBatchBibImportDataObjects = new OLEBatchBibImportDataObjects();
+        List<OrderBibMarcRecord> orderBibMarcRecordList = oleBatchBibImportDataObjects.processBibImport(records, batchProcessBibImport);
+        if (orderBibMarcRecordList != null && orderBibMarcRecordList.size() > 0) {
+            for (int recordCount = 0; recordCount < orderBibMarcRecordList.size(); recordCount++) {
+                OrderBibMarcRecord orderBibMarcRecord = orderBibMarcRecordList.get(recordCount);
+                if (orderBibMarcRecord != null && orderBibMarcRecord.getBibId() != null && orderBibMarcRecord.getBibId().getId() != null) {
+                    String bibId = orderBibMarcRecord.getBibId().getId();
                     oleOrderRecordService = SpringContext.getBean(OleOrderRecordService.class);
-                    OleOrderRecord oleOrderRecord = oleOrderRecordService.fetchOleOrderRecordForMarcEdi(bibId, ediOrder,records.get(marcCount),marcCount, job);
-                    oleOrderRecord.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI);
+                    OleOrderRecord oleOrderRecord = oleOrderRecordService.fetchOleOrderRecordForMarcEdi(bibId, ediOrder, records.get(recordCount), recordCount, job);
                     oleOrderRecord.setAgendaName(OLEConstants.PROFILE_AGENDA_NM);
-                    if(oleOrderRecord.getMessageMap().get(OLEConstants.IS_VALID_BFN).toString().equalsIgnoreCase(OLEConstants.TRUE)){
-                        setBibValues(oleOrderRecord,bibId);
-                        populateOrderRecordForValidBFN(job,oleOrderRecord,ediOrder,records,marcCount, oleBatchProcessProfileBo);
-                        oleOrderRecordList.add(oleOrderRecord);
-                    }
-                    else {
-                        oleOrderRecord.getMessageMap().put(OLEConstants.IS_VALID_RECORD,true);
-                        oleOrderRecord.getMessageMap().put(OLEConstants.IS_BAD_CTRL_FLD,false);
+                    if (oleOrderRecord.getMessageMap().get(OLEConstants.IS_VALID_BFN).toString().equalsIgnoreCase(OLEConstants.TRUE)) {
+                        try {
+                            setBibValues(oleOrderRecord, orderBibMarcRecord.getBibId());
+                            if (oleBatchProcessProfileBoForBibImport.getDataToImport() != null) {
+                                if (oleBatchProcessProfileBoForBibImport.getDataToImport().equals(OLEConstants.BIB_DATA_ONLY)
+                                        || oleBatchProcessProfileBoForBibImport.getDataToImport().equals(OLEConstants.BIB_INS)) {
+                                    oleOrderRecord.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI);
+                                } else if (oleBatchProcessProfileBoForBibImport.getDataToImport().equals(OLEConstants.BIB_EINS)) {
+                                    oleOrderRecord.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_ELECTRONIC);
+                                } else if (oleBatchProcessProfileBoForBibImport.getDataToImport().equals(OLEConstants.BIB_INS_EINS)) {
+                                    oleOrderRecord.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_PRINT_ELECTRONIC);
+                                }
+                            }
+                            populateOrderRecordForValidBFN(job, oleOrderRecord, ediOrder, records, recordCount, oleBatchProcessProfileBo);
+                            oleOrderRecordList.add(oleOrderRecord);
+                        } catch (Exception e) {
+                            setOleOrderRecordAsFailureRecord(job);
+                            createErrorLog(job, orderBibMarcRecord.getBibMarcRecord(), OLEConstants.BIB_IMPORT_FAILURE_REASON);
+                        }
+                    } else {
+                        oleOrderRecord.getMessageMap().put(OLEConstants.IS_VALID_RECORD, true);
+                        oleOrderRecord.getMessageMap().put(OLEConstants.IS_BAD_CTRL_FLD, false);
                         oleOrderRecord.setOleOriginalBibRecordFileName(ingestRecord.getOriginalMarcFileName());
                         oleOrderRecord.setOriginalEDIFileName(ingestRecord.getOriginalEdiFileName());
-                        /*dataCarrierService.addData(OLEConstants.ORDER_IMPORT_FAILURE_COUNT,(int) dataCarrierService.getData(OLEConstants.ORDER_IMPORT_FAILURE_COUNT)+1);*/
-                        orderImportHelperBo.setOrderImportFailureCount(orderImportHelperBo.getOrderImportFailureCount()+1);
+                        createErrorLog(job, orderBibMarcRecord.getBibMarcRecord(), "Invalid BFN");
+                        orderImportHelperBo.setOrderImportFailureCount(orderImportHelperBo.getOrderImportFailureCount() + 1);
                         oleOrderRecordList.add(oleOrderRecord);
                     }
-                    break;
+                } else if (orderBibMarcRecord != null && orderBibMarcRecord.getFailureReason() != null && orderBibMarcRecord.getBibMarcRecord() != null) {
+                    setOleOrderRecordAsFailureRecord(job);
+                    createErrorLog(job, orderBibMarcRecord.getBibMarcRecord(), orderBibMarcRecord.getFailureReason());
+                } else {
+                    setOleOrderRecordAsFailureRecord(job);
+                    createErrorLog(job, orderBibMarcRecord.getBibMarcRecord());
                 }
             }
-            if(marcFlag){
-                getDocstoreClientLocator().getDocstoreClient().deleteBib(getBibId(records.get(marcCount).getDataFields().get(0).getSubFields().get(0).getValue()));
-                OleOrderRecord oleOrderRecord = populateOrderRecordForExtraMarc(records, marcCount, ediOrder);
-                /*dataCarrierService.addData(OLEConstants.ORDER_IMPORT_FAILURE_COUNT,(int) dataCarrierService.getData(OLEConstants.ORDER_IMPORT_FAILURE_COUNT)+1);*/
-                orderImportHelperBo.setOrderImportFailureCount(orderImportHelperBo.getOrderImportFailureCount()+1);
-                oleOrderRecordList.add(oleOrderRecord);
-            }
-        }
-        for(int ediCount = 0;ediCount < ediOrder.getLineItemOrder().size();ediCount++) {
-            boolean ediFlag = true;
-            for(int marcCount = 0;marcCount < records.size();marcCount++) {
-                String isbn = getISBN(ediOrder.getLineItemOrder().get(ediCount));
-                if(isbn.equalsIgnoreCase(records.get(marcCount).getDataFields().get(0).getSubFields().get(0).getValue())){
-                    ediFlag = false;
-                    break;
-                }
-            }
-            if(ediFlag) {
-                OleOrderRecord oleOrderRecord = populateOrderRecordForExtraEdi(ediCount,ediOrder);
-                /*dataCarrierService.addData(OLEConstants.ORDER_IMPORT_FAILURE_COUNT,(int) dataCarrierService.getData(OLEConstants.ORDER_IMPORT_FAILURE_COUNT)+1);*/
-                orderImportHelperBo.setOrderImportFailureCount(orderImportHelperBo.getOrderImportFailureCount()+1);
-                oleOrderRecordList.add(oleOrderRecord);
+        } else {
+            for (int count = 0; count < records.size(); count++) {
+                createErrorLog(job, records.get(count));
+                setOleOrderRecordAsFailureRecord(job);
             }
         }
         /*dataCarrierService.addData(OLEConstants.UPDATE_BIB_CNT, 0);
         dataCarrierService.addData(OLEConstants.CREATE_HLD_CNT, 0);*/
         orderImportHelperBo.setUpdateBibCount(0);
-        orderImportHelperBo.setCreatHoldingCount(0);
+        orderImportHelperBo.setCreateHoldingsCount(0);
         LOG.info("----End of marcEdiProcess()------------------------------");
         return true;
     }

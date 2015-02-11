@@ -10,20 +10,20 @@ import org.kuali.ole.batch.document.OLEBatchProcessDefinitionDocument;
 import org.kuali.ole.batch.form.OLEBatchProcessDefinitionForm;
 import org.kuali.ole.batch.helper.OLESchedulerHelper;
 import org.kuali.ole.batch.util.BatchBibImportUtil;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.impl.parameter.ParameterBo;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.EmailAddressValidationPattern;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.quartz.CronExpression;
 
 import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,6 +37,8 @@ import java.util.regex.Pattern;
 public class OLEBatchProcessRule {
 
     Logger LOG = Logger.getLogger(OLEBatchProcessRule.class);
+
+
 
     public boolean batchValidations(OLEBatchProcessDefinitionForm oleBatchProcessDefinitionForm) {
         OLEBatchProcessDefinitionDocument oleBatchProcessDefinitionDocument = (OLEBatchProcessDefinitionDocument) oleBatchProcessDefinitionForm.getDocument();
@@ -361,6 +363,8 @@ public class OLEBatchProcessRule {
         Date date = exp.getNextValidTimeAfter(new Date());
         return date == null;
     }
+
+
 
     private void validateOrderRecordImport(OLEBatchProcessDefinitionDocument oleBatchProcessDefinitionDocument){
         if(oleBatchProcessDefinitionDocument.getMarcOnly()){

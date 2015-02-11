@@ -1,5 +1,10 @@
 package org.kuali.ole.ncip.bo;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonMethod;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Created with IntelliJ IDEA.
  * User: sheiksalahudeenm
@@ -7,12 +12,28 @@ package org.kuali.ole.ncip.bo;
  * Time: 8:01 PM
  * To change this template use File | Settings | File Templates.
  */
+@JsonAutoDetect(JsonMethod.FIELD)
 public class OLEPlaceRequest {
+
+    @JsonProperty("code")
     private String code;
+
+    @JsonProperty("message")
     private String message;
+
+    @JsonProperty("requestId")
     private String requestId;
+
+    @JsonProperty("queuePosition")
     private String queuePosition;
+
+    @JsonProperty("availableDate")
     private String availableDate;
+
+    /*This following fields are only for SIP2*/
+    @JsonIgnore
+    private String expirationDate;
+    /*This above fields are only for SIP2*/
 
     public String getCode() {
         return code;
@@ -52,5 +73,13 @@ public class OLEPlaceRequest {
 
     public void setAvailableDate(String availableDate) {
         this.availableDate = availableDate;
+    }
+
+    public String getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(String expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }

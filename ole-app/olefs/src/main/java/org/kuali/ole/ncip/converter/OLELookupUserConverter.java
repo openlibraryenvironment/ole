@@ -29,7 +29,36 @@ public class OLELookupUserConverter {
         xstream.alias("patronName",OlePatronNameBo.class);
         xstream.alias("patronEmail",OlePatronEmailBo.class);
         xstream.alias("patronAddress",OlePatronAddressBo.class);
-        xstream.alias("patronPhone",OlePatronPhoneBo.class);
+        xstream.alias("patronPhone", OlePatronPhoneBo.class);
+        xstream.omitField(OlePatronPhoneBo.class,"isValidPatron");
+        xstream.omitField(OLECheckedOutItems.class,"message");
+        xstream.omitField(OLEHolds.class,"message");
+        xstream.omitField(OLEItemFines.class,"message");
+        xstream.omitField(OLECheckedOutItems.class,"code");
+        xstream.omitField(OLEHolds.class,"code");
+        xstream.omitField(OLEItemFines.class,"code");
+        xstream.aliasField("userPrivileges", OLELookupUser.class, "oleUserPrivileges");
+        xstream.alias("holds",OLEHolds.class);
+        xstream.aliasField("holdsList",OLEHolds.class,"oleHoldsList");
+        xstream.alias("fines",OLEItemFines.class);
+        xstream.aliasField("finesList",OLEItemFines.class,"oleItemFineList");
+        String response  =xstream.toXML(lookupUser);
+        if (LOG.isDebugEnabled())
+            LOG.debug(response);
+    return  response;
+    }
+
+    public String generateLookupUserResponseXmlForSip2(OLELookupUser lookupUser){
+        XStream xstream = new XStream();
+        xstream.alias("lookupUser",OLELookupUser.class);
+        xstream.alias("userPrivilege",OLEUserPrivilege.class);
+        xstream.alias("hold",OLEHold.class);
+        xstream.alias("checkedOutItem",OLECheckedOutItem.class);
+        xstream.alias("fine",OLEItemFine.class);
+        xstream.alias("patronName",OlePatronNameBo.class);
+        xstream.alias("patronEmail",OlePatronEmailBo.class);
+        xstream.alias("patronAddress",OlePatronAddressBo.class);
+        xstream.alias("patronPhone", OlePatronPhoneBo.class);
         xstream.omitField(OLECheckedOutItems.class,"message");
         xstream.omitField(OLEHolds.class,"message");
         xstream.omitField(OLEItemFines.class,"message");

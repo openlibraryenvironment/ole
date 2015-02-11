@@ -77,15 +77,39 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         return results;
     }
 
+    public Collection<Object> getLoanDocumentsUsingItemBarcodeAndPatronIdForRenewal(String patronId,List<String> itemBarcode){
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("patronId",patronId);
+        criteria.addIn("itemId",itemBarcode);
+        QueryByCriteria query = QueryFactory.newQuery(OleLoanDocument.class, criteria);
+        Collection results=  getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return results;
+    }
+
     public Collection<Object> getHoldRequests(List<String> requestTypeIds){
         Criteria criteria = new Criteria();
         criteria.addIn("requestTypeId",requestTypeIds);
         criteria.addEqualTo("borrowerQueuePosition","1");
         criteria.addColumnIsNull("ONHLD_NTC_SNT_DT");
+        String pickupLocation = getPickUpLocation();
+        if(pickupLocation!=null && !pickupLocation.trim().isEmpty()){
+         criteria.addEqualTo("PCKUP_LOC_ID",pickupLocation);
+        }
         QueryByCriteria query = QueryFactory.newQuery(OleDeliverRequestBo.class, criteria);
         query.addOrderBy("borrowerId");
         Collection results=  getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return results;
+    }
+
+    public String getPickUpLocation(){
+        String pickupLocation = null;
+        Map<String,String> oleBatchBoMap = new HashMap<String,String>();
+        oleBatchBoMap.put("jobTriggerName","generateOnHoldNoticeJob");
+        List<OleBatchJobBo> oleBatchJobBos = (List<OleBatchJobBo>)getBusinessObjectService().findMatching(OleBatchJobBo.class,oleBatchBoMap);
+        if(oleBatchJobBos != null && oleBatchJobBos.size()>0){
+            pickupLocation = oleBatchJobBos.get(0).getPickupLocation();
+        }
+        return pickupLocation;
     }
 
     public Collection<Object> getExpiredRequests(){
@@ -367,7 +391,22 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
     return getRequestTypeIds(requestTypes);
     }
 
+    public Collection<PatronBillPayment> getPatronBills(String patronId){
+        Criteria criteria = new Criteria();
+        criteria.addNotEqualTo("unPaidBalance",OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE);
+        criteria.addEqualTo("patronId",patronId);
+        QueryByCriteria query = QueryFactory.newQuery(PatronBillPayment.class, criteria);
+        Collection results=  getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return new ArrayList<PatronBillPayment>(results);
+    }
 
-
+    public Collection<OleDeliverRequestHistoryRecord> getDeliverRequestHistoryRecords(String itemBarcode){
+        Criteria criteria = new Criteria();
+        criteria.addColumnEqualToField("OLE_ITEM_ID",itemBarcode);
+        QueryByCriteria query = QueryFactory.newQuery(OleDeliverRequestHistoryRecord.class, criteria);
+        query.addOrderByDescending("archiveDate");
+        Collection results=  getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return results;
+    }
 
 }

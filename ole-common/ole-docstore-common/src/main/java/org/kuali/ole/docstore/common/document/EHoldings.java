@@ -166,7 +166,7 @@ public class EHoldings
 
         if (docField.equalsIgnoreCase(DESTINATION_FIELD_CALL_NUMBER)) {
             oleHoldings.getCallNumber().setNumber(fieldValue);
-            oleHoldings.getCallNumber().getShelvingScheme().setCodeValue(LCC);
+            oleHoldings.getCallNumber().getShelvingScheme().setCodeValue("NONE");
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_HOLDING_CALL_NUMBER_TYPE)) {
             oleHoldings.getCallNumber().getShelvingScheme().setCodeValue(fieldValue);
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_CALL_NUMBER_TYPE_PREFIX)) {

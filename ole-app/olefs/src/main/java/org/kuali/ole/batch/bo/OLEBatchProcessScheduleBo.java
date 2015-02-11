@@ -23,6 +23,7 @@ public class OLEBatchProcessScheduleBo extends PersistableBusinessObjectBase {
     private String uploadFileName;
     private Timestamp createTime = new Timestamp(new Date().getTime());
     private Date oneTimeDate;
+    private String oneTimeStartDate;
     private String oneTimeStartTime;
     private String scheduleType;
     private String startTime;
@@ -236,5 +237,13 @@ public class OLEBatchProcessScheduleBo extends PersistableBusinessObjectBase {
 
     public void setBatchProfileName(String batchProfileName) {
         this.batchProfileName = batchProfileName;
+    }
+
+    public String getOneTimeStartDate() {
+        return oneTimeStartDate;
+    }
+
+    public void setOneTimeStartDate(String oneTimeStartDate) {
+        this.oneTimeStartDate = oneTimeStartDate;
     }
 }

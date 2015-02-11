@@ -27,18 +27,17 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
-import org.kuali.ole.sys.OLEConstants;
+import org.kuali.ole.OLEConstants;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.batch.service.SchedulerService;
 import org.kuali.ole.sys.context.ProxyUtils;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.service.impl.OleParameterConstants;
-import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.quartz.InterruptableJob;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -65,6 +64,7 @@ public class Job implements StatefulJob, InterruptableJob {
     private Appender ndcAppender;
     private boolean notRunnable;
     private transient Thread workerThread;
+    private static OleSelectDocumentService oleSelectDocumentService;
 
     /**
      * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
@@ -158,7 +158,7 @@ public class Job implements StatefulJob, InterruptableJob {
             Class<?> stepClass = unProxiedStep.getClass();
             GlobalVariables.clear();
             
-            String stepUserName = OLEConstants.SYSTEM_USER;
+            String stepUserName = getOleSelectDocumentService().getSelectParameterValue(org.kuali.ole.sys.OLEConstants.SYSTEM_USER);
             if (parameterService.parameterExists(stepClass, STEP_USER_PARM_NM)) {
                 stepUserName = parameterService.getParameterValueAsString(stepClass, STEP_USER_PARM_NM);
             }
@@ -416,5 +416,16 @@ public class Job implements StatefulJob, InterruptableJob {
         catch (UnknownHostException e) {
             return "Unknown";
         }
+    }
+
+    public static OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 }

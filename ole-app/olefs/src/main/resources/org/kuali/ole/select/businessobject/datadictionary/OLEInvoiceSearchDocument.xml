@@ -179,7 +179,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/select/scripts/OLEInvoiceSearchDocument.js</value>
             </list>
         </property>

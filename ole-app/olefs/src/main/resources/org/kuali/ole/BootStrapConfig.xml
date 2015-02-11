@@ -21,6 +21,7 @@
         classpath:META-INF/${project.groupId.path}/${project.artifactId}/project-rice-properties.xml
     </param>
     <param name="config.location">classpath:${project.groupId.path}/olefs-config-defaults.xml</param>
+    <param name="config.location">classpath:${project.groupId.path}/ole-lable-properties-config.xml</param>
     <param name="config.location">classpath:${project.groupId.path}/OleApplicationResources.properties</param>
 
     <!--
@@ -46,7 +47,7 @@
     <param name="maxNumberOfSessionForms">20</param>
 
     <param name="dev.mode">false</param>
-
+    <param name="config.location">classpath:org/kuali/ole/custom-common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
     <param name="config.location">${alt.config.location}</param>

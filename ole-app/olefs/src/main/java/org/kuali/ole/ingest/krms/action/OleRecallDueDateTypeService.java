@@ -1,10 +1,15 @@
 package org.kuali.ole.ingest.krms.action;
 
 import org.apache.log4j.Logger;
+import org.kuali.common.util.Str;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
+import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.OLEDeliverNoticeHelperService;
+import org.kuali.ole.deliver.service.impl.OLEDeliverNoticeHelperServiceImpl;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.repository.action.ActionDefinition;
@@ -14,8 +19,10 @@ import org.kuali.rice.krms.impl.type.ActionTypeServiceBase;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,20 +33,35 @@ import java.util.Date;
  */
 public class OleRecallDueDateTypeService extends ActionTypeServiceBase {
     private static final Logger LOG = Logger.getLogger(OleRecallDueDateTypeService.class);
+    private OLEDeliverNoticeHelperService oleDeliverNoticeHelperService;
     @Override
     public Action loadAction(ActionDefinition actionDefinition) {
         String minimumLoanPeriod= actionDefinition.getAttributes().get(OLEConstants.MINIMUM_LOAN_PERIOD);
         String recallLoanPeriod= actionDefinition.getAttributes().get(OLEConstants.RECALL_LOAN_PERIOD);
-        return  new OleRecallDueDate(minimumLoanPeriod,recallLoanPeriod);
+        String courtesyNoticeInterval = actionDefinition.getAttributes().get("courtesyNoticeInterval");
+         String numberOfOverdueToBeSent = actionDefinition.getAttributes().get("numberOfOverdueToBeSent");
+         String intervalToGenerateOverdueNotice = actionDefinition.getAttributes().get("intervalToGenerateOverdueNotice");
+         String replacementBill = actionDefinition.getAttributes().get("replacementBill");
+        return  new OleRecallDueDate(minimumLoanPeriod,recallLoanPeriod,courtesyNoticeInterval,numberOfOverdueToBeSent,intervalToGenerateOverdueNotice,replacementBill);
     }
     public class OleRecallDueDate implements Action {
         private String minimumLoanPeriod;
         private String recallLoanPeriod;
+        private String courtesyNoticeInterval;
+        private String numberOfOverdueToBeSent;
+        private String intervalToGenerateOverdueNotice;
+        private String replacementBill;
 
 
-        public OleRecallDueDate(String minimumLoanPeriod, String recallLoanPeriod) {
+
+        public OleRecallDueDate(String minimumLoanPeriod, String recallLoanPeriod,String courtesyNoticeInterval,String numberOfOverdueToBeSent,String intervalToGenerateOverdueNotice,String replacementBill) {
             this.minimumLoanPeriod = minimumLoanPeriod;
             this.recallLoanPeriod = recallLoanPeriod;
+            this.courtesyNoticeInterval=courtesyNoticeInterval;
+            this.numberOfOverdueToBeSent=numberOfOverdueToBeSent;
+            this.intervalToGenerateOverdueNotice=intervalToGenerateOverdueNotice;
+            this.replacementBill=replacementBill;
+
         }
 
         @Override
@@ -99,6 +121,21 @@ public class OleRecallDueDateTypeService extends ActionTypeServiceBase {
                             format(recallDueDate).concat(" ").concat(defaultCloseTime));
                 }
                 environment.getEngineResults().setAttribute(OLEConstants.RECALL_DUE_DATE, recallDueDate);
+
+                List<OLEDeliverNotice> deliverNotices = (List<OLEDeliverNotice>) environment.getEngineResults().getAttribute("deliverNotices");
+                if(deliverNotices==null){
+                    deliverNotices = new ArrayList<>();
+                }
+
+
+                getOleDeliverNoticeHelperService().generateDeliverNoticesUsingKRMSValues(deliverNotices,recallDueDate,"CourtesyNotice",null,
+                        numberOfOverdueToBeSent,courtesyNoticeInterval,null);
+
+                getOleDeliverNoticeHelperService().generateDeliverNoticesUsingKRMSValues(deliverNotices,recallDueDate,"OverdueNotice",null,
+                        numberOfOverdueToBeSent,courtesyNoticeInterval,replacementBill);
+
+                environment.getEngineResults().setAttribute("deliverNotices",deliverNotices);
+
                 LOG.info("minimumLoanPeriod---------->" + minimumLoanPeriod);
                 LOG.info("recallLoanPeriod---------->" + recallLoanPeriod);
             }
@@ -128,5 +165,15 @@ public class OleRecallDueDateTypeService extends ActionTypeServiceBase {
             }
             return dueDate;
         }
+    }
+    public OLEDeliverNoticeHelperService getOleDeliverNoticeHelperService() {
+        if(oleDeliverNoticeHelperService ==null){
+            oleDeliverNoticeHelperService = SpringContext.getBean(OLEDeliverNoticeHelperServiceImpl.class);
+        }
+        return oleDeliverNoticeHelperService;
+    }
+
+    public void setOleDeliverNoticeHelperService(OLEDeliverNoticeHelperService oleDeliverNoticeHelperService) {
+        this.oleDeliverNoticeHelperService = oleDeliverNoticeHelperService;
     }
 }

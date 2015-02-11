@@ -56,7 +56,7 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
         bibRecord.setFormerId("");
         bibRecord.setSuppressFromPublic(String.valueOf(bib.isPublic()));
         bibRecord.setStatus(bib.getStatus());
-
+        bibRecord.setDateEntered(getTimeStampFromString(bib.getCreatedOn()));
         bibRecord.setStaffOnlyFlag(bib.isStaffOnly());
         bibRecord.setUniqueIdPrefix(DocumentUniqueIDPrefix.getPrefix(bib.getCategory(), bib.getType(), bib.getFormat()));
         getBusinessObjectService().save(bibRecord);
@@ -181,6 +181,7 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
             getBusinessObjectService().deleteMatching(EInstancePerpetualAccessRecord.class, holdingsMap);
             getBusinessObjectService().deleteMatching(HoldingsAccessLocation.class, holdingsMap);
             getBusinessObjectService().deleteMatching(HoldingsStatisticalSearchRecord.class, holdingsMap);
+            getBusinessObjectService().deleteMatching(OLEHoldingsDonorRecord.class, holdingsMap);
 
 
             getBusinessObjectService().delete(holdingsRecord);

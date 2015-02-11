@@ -20,6 +20,7 @@
                         BAT_PRCS_PRF_DESC="Test_Desc_Bib"
                         BAT_PRCS_PRF_DT_TO_IMPRT="Bibliographic and Instance Data"
                         BAT_PRCS_PRF_ID="3" BAT_PRCS_PRF_NM="Test_Bib_Import"
+                        BAT_PRCS_MATCH_PROFILE="matchBibs=false,noMatchBibs_addBibs=true,bibNotMatched_discardBib=false,bibNotMatched_addBib=true,bibMatched_addBib=false,bibMatched_discardBib=false,bibMatched_updateBib=true,matchHoldings=true,noMatchHoldings_discardHoldingsItems=true,noMatchHoldings_deleteAddHoldingsItems=false,noMatchHoldings_retainAddHoldingsItems=false,holdingsNotMatched_discardHoldings=false,holdingsNotMatched_addHoldings=true,holdingsNotMatched_addItems=false,holdingsMatched_addHoldings=false,holdingsMatched_addItems=false,holdingsMatched_discardHoldings=false,holdingsMatched_updateHoldings=true,matchItems=true,noMatchItem_discardItems=true,noMatchItem_deleteAddItems=false,noMatchItem_retainAddItems=false,itemNotMatched_discardItem=false,itemNotMatched_addItem=true,itemMatched_addItem=false,itemMatched_updateItem=true"
                         OBJ_ID="f6f342ca-d6b6-435f-adea-a6bb6dc5cedf" BAT_PRCS_MARC_ONLY="N"
                         OLE_BAT_PRCS_TYP="Bib Import" VER_NBR="1"/>
     <OLE_BAT_PRCS_PRF_T BAT_PRCS_PRF_DESC="Test_Desc_delete"
@@ -162,6 +163,7 @@
                         BAT_PRCS_PRF_DESC="Test_Desc_Bib_callNumber"
                         BAT_PRCS_PRF_DT_TO_IMPRT="Bibliographic and Instance Data"
                         BAT_PRCS_PRF_ID="21" BAT_PRCS_PRF_NM="Test_Bib_Import_datamapping"
+                        BAT_PRCS_MATCH_PROFILE="matchBibs=false,noMatchBibs_addBibs=true,bibNotMatched_discardBib=false,bibNotMatched_addBib=true,bibMatched_addBib=false,bibMatched_discardBib=false,bibMatched_updateBib=true,matchHoldings=true,noMatchHoldings_discardHoldingsItems=true,noMatchHoldings_deleteAddHoldingsItems=false,noMatchHoldings_retainAddHoldingsItems=false,holdingsNotMatched_discardHoldings=false,holdingsNotMatched_addHoldings=true,holdingsNotMatched_addItems=false,holdingsMatched_addHoldings=false,holdingsMatched_addItems=false,holdingsMatched_discardHoldings=false,holdingsMatched_updateHoldings=true,matchItems=true,noMatchItem_discardItems=true,noMatchItem_deleteAddItems=false,noMatchItem_retainAddItems=false,itemNotMatched_discardItem=false,itemNotMatched_addItem=true,itemMatched_addItem=false,itemMatched_updateItem=true"
                         OBJ_ID="f6f342ca-d6b6-435f-adea-a6bb6dc5cedf" BAT_PRCS_MARC_ONLY="N"
                         OLE_BAT_PRCS_TYP="Bib Import" VER_NBR="1"/>
 

@@ -1,0 +1,15 @@
+<config>
+
+    <param name="CatalogingAdmin">Cataloging Admin</param>
+    <param name="Organization">Organization</param>
+    <param name="OrganizationType">Organization Type</param>
+    <param name="LicenseRequestCurrentLocation">License Request Current Location</param>
+    <param name="LicenseRequestStatus">License Request Status</param>
+    <param name="LicenseRequestType">License Request Type</param>
+    <param name="LicensingRequirementCode">Licensing Requirement Code</param>
+    <param name="OrganizationAPOLimit">Organization APO Limit</param>
+    <param name="FormatChecksACH">Format Checks/ACH</param>
+    <param name="ORGANIZATIONINFORMATION">ORGANIZATION INFORMATION</param>
+    <param name="krad.ole.soas.externalizable.images.url">../images-portal/</param>
+
+</config>

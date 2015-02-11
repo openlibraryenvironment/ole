@@ -54,6 +54,7 @@ import org.kuali.ole.pdp.service.FormatService;
 import org.kuali.ole.pdp.service.PaymentGroupService;
 import org.kuali.ole.pdp.service.PendingTransactionService;
 import org.kuali.ole.pdp.service.impl.exception.FormatException;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.DynamicCollectionComparator;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
@@ -88,6 +89,7 @@ public class FormatServiceImpl implements FormatService {
     protected DateTimeService dateTimeService;
     protected ExtractPaymentService extractPaymentService;
     protected PersonService personService;
+    private OleSelectDocumentService oleSelectDocumentService;
 
     /**
      * Constructs a FormatServiceImpl.java.
@@ -427,7 +429,7 @@ public class FormatServiceImpl implements FormatService {
             paymentGroupHistory.setBank(originalBank);
             paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
 
-            Person changeUser = getPersonService().getPersonByPrincipalName(OLEConstants.SYSTEM_USER);
+            Person changeUser = getPersonService().getPersonByPrincipalName(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
             paymentGroupHistory.setChangeUser(changeUser);
             paymentGroupHistory.setPaymentGroup(paymentGroup);
             paymentGroupHistory.setChangeTime(new Timestamp(new Date().getTime()));
@@ -855,6 +857,17 @@ public class FormatServiceImpl implements FormatService {
             this.disbursementNumber = disbursementNumber;
             this.noteLines = noteLines;
         }
+    }
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 
 }

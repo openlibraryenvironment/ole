@@ -37,6 +37,7 @@ import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.vnd.businessobject.CampusParameter;
 import org.kuali.ole.vnd.businessobject.ContractManager;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -216,7 +217,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
 
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
         // Date format pattern: MM-dd-yyyy
-        SimpleDateFormat sdf = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.KUALI_SIMPLE_DATE_FORMAT_2);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE, Locale.getDefault());
 
         CampusParameter campusParameter = getCampusParameter(contractManagerCampusCode);
         String purchasingAddressFull = getPurchasingAddressFull(campusParameter);

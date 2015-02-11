@@ -13,7 +13,9 @@ import org.kuali.rice.core.api.mail.EmailFrom;
 import org.kuali.rice.core.api.mail.EmailSubject;
 import org.kuali.rice.core.api.mail.EmailTo;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -734,7 +736,7 @@ public class PatronBillController extends UifControllerBase {
                 buffer.append("<TR><TD><p>");
                 buffer.append("<TR><TD>&nbsp;</TD><TD>&nbsp;</TD></TR></TABLE>");
                 buffer.append("<table id=\"PatronDetails\" style=\"text-align: center;\">");
-                SimpleDateFormat df = new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE_PRINT);
+                SimpleDateFormat df = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
                 buffer.append("<tr><td style=\"text-align: left;\">Date       </td><td style=\"text-align: left;\">&nbsp;&nbsp;:&nbsp;&nbsp;" + (df.format(System.currentTimeMillis())) + "</td></tr>");
                 buffer.append("<tr><td style=\"text-align: left;\">First Name </td><td style=\"text-align: left;\">&nbsp;&nbsp;:&nbsp;&nbsp;" + (patronBillForm.getOlePatronDocument().getFirstName() != null ? patronBillForm.getOlePatronDocument().getFirstName() : " ") + "</td></tr>");
                 buffer.append("<tr><td style=\"text-align: left;\">Last Name  </td><td style=\"text-align: left;\">&nbsp;&nbsp;:&nbsp;&nbsp;" + (patronBillForm.getOlePatronDocument().getLastName() != null ? patronBillForm.getOlePatronDocument().getLastName() : " ") + "</td></tr>");
@@ -798,8 +800,8 @@ public class PatronBillController extends UifControllerBase {
                                 bufferData.append("<td style=\"text-align: center;\">" + (feeType.getItemAuthor() != null ? feeType.getItemAuthor() : " ") + "</td>");
                                 bufferData.append("<td style=\"text-align: center;\">" + (feeType.getItemCallNumber() != null ? feeType.getItemCallNumber() : " ") + "</td>");
                                 /*bufferData.append("<td style=\"text-align: center;\">" + (feeType.getItemCopyNumber() != null ? feeType.getItemCopyNumber() : " ") + "</td>");*/
-                                bufferData.append("<td style=\"text-align: center;\">" + (feeType.getFeeAmount() != null ? "$" + feeType.getFeeAmount() : "$0") + "</td>");
-                                bufferData.append("<td style=\"text-align: center; size:30px;\">" + (oleItemLevelBillPayment.getAmount() != null ? "$" + oleItemLevelBillPayment.getAmount() : "$0") + "</td>");
+                                bufferData.append("<td style=\"text-align: center;\">" + (feeType.getFeeAmount() != null ? CurrencyFormatter.getSymbolForCurrencyPattern() + feeType.getFeeAmount() :CurrencyFormatter.getSymbolForCurrencyPattern() +"0") + "</td>");
+                                bufferData.append("<td style=\"text-align: center; size:30px;\">" + (oleItemLevelBillPayment.getAmount() != null ? CurrencyFormatter.getSymbolForCurrencyPattern() + oleItemLevelBillPayment.getAmount() : CurrencyFormatter.getSymbolForCurrencyPattern()+"0") + "</td>");
                                 bufferData.append("<td style=\"text-align: center;\">" + (oleItemLevelBillPayment.getTransactionNumber() != null ? oleItemLevelBillPayment.getTransactionNumber() : " ") + "</td>");
                                 bufferData.append("<td style=\"text-align: center;\">" + (oleItemLevelBillPayment.getTransactionNote() != null ? oleItemLevelBillPayment.getTransactionNote() : " ") + "</td>");
                                 bufferData.append("<td style=\"text-align: center;\">" + (oleItemLevelBillPayment.getPaymentMode() != null ? oleItemLevelBillPayment.getPaymentMode() : " ") + "</td>");

@@ -86,6 +86,11 @@
                 <value>org.kuali.rice</value>
             </list>
         </property>
+        <property name="resourceBundleNames">
+            <list>
+                <value>org/kuali/ole/locale/${ole.locale.properties.folder}/Labels-Deliver</value>
+            </list>
+        </property>
     </bean>
     <bean class="org.kuali.ole.deliver.service.OleBatchJobService"/>
 

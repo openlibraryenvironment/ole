@@ -657,6 +657,9 @@
                                         whether funds in the account are:</para>
                                     <para role="Table Cells">T = Temporarily restricted R =
                                         Restricted U = Unrestricted</para>
+                                    <para>Restricted (R) and Temporarily Restricted (T) statuses
+                                        will prevent staff from using accounts to purchase or pay
+                                        for library materials.</para>
                                     <para role="Table Cells">If it is 'T,' then an account
                                         restricted status date is required. If the sub-fund
                                         associated with the account has a restricted status code,
@@ -1863,7 +1866,11 @@
                                     <imageobject>
                                         <imagedata fileref="../images/Lookup.png"/>
                                     </imageobject>
-                                </inlinemediaobject>.</entry>
+                                </inlinemediaobject>. When a person is assigned as the Chart
+                                Manager, they will also be assigned to the role Chart Manager
+                                (OLE37). To avoid any errors, assign only one person to each chart.
+                                To reassign a chart to a new Manager, remove the person from OLE37
+                                first.</entry>
                         </row>
                         <row>
                             <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -1871,7 +1878,7 @@
                             </entry>
                             <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                 <para role="Table Cells">The employee name matching the principal's
-                                    name</para>
+                                    name.</para>
                             </entry>
                         </row>
                         <row>
@@ -2078,6 +2085,15 @@
                     to search for valid Object Codes (but please do not change object codes on the
                     IU or BL Charts).</para>
             </note>
+        </section>
+        <section>
+            <title>Implementation Information</title>
+            <para>You must have at least one Chart in OLE.  It is recommended that if you only have
+                one Chart, that chart should report to itself.</para>
+            <para>A chart requires a Chart Manager.  As stated above, when a person is assigned as
+                the Chart Manager, they will also be assigned to the role Chart Manager (OLE37). To
+                avoid any errors, assign only one person as the manager for each chart. To assign a
+                new Chart Manager, remove the person from OLE37 first.</para>
         </section>
     </section>
     <section>
@@ -2766,9 +2782,11 @@
             Sociology (each of these has related CoA structures and budgets), or <emphasis
                 role="bold">create new</emphasis>.</para>
         <para role="Body Text">To <emphasis role="bold">edit</emphasis> or <emphasis role="bold"
-                >copy</emphasis> an existing Organization, simply click on that option. Please do
-            NOT change “Chart” code on existing library sample organizations, but users can edit
-            miscellaneous OLE sample organizations not listed in this document.</para>
+                >copy</emphasis> an existing Organization, simply click on that option. </para>
+        <note>
+            <para role="Body Text">Please do NOT change “Chart” code on existing library sample
+                organizations in OLE's test environments.</para>
+        </note>
         <section>
             <title>Document Layout</title>
             <para role="Body Text">The Organization document includes the <emphasis role="bold">Edit
@@ -3103,6 +3121,13 @@
                         </imageobject>
                     </inlinemediaobject></para>
             </section>
+        </section>
+        <section>
+            <title>Implementation Information</title>
+            <para>You must have one and only one Organization with an Organization type = U.  This
+                organization will be your top level organization - it must report to itself.
+                Without this organization, with Organization type U, you will not be able to assign
+                a person to the role of manager (OLE44) or others.</para>
         </section>
     </section>
     <section>

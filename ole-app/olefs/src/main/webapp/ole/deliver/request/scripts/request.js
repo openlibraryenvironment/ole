@@ -112,10 +112,62 @@ jq(document).ready(function(){
     );
 
 
+    jq('#placeRequest_deliver_control').live("change",function(){
+        jq('select#placeRequest-pickupLocation_control option[value=""]').attr("selected",true);
+    });
+
+    jq('#placeRequest-pickupLocation_control').live("change",function(){
+        jq('#placeRequest_deliver_control').removeAttr('checked');
+    });
+
+
+    jq('#pageRequestTyp_control_0').live("click",function(){
+
+        jq('#pageRequestTyp_control_0').attr("checked","true");
+        jq('#copyRequestTyp_control_0').removeAttr('checked');
+        jq('#recallRequestTyp_control_0').removeAttr('checked');
+        jq('#holdRequestTyp_control_0').removeAttr('checked');
+    });
+    jq('#copyRequestTyp_control_0').live("click",function(){
+
+        jq('#copyRequestTyp_control_0').attr("checked","true");
+        jq('#pageRequestTyp_control_0').removeAttr('checked');
+        jq('#recallRequestTyp_control_0').removeAttr('checked');
+        jq('#holdRequestTyp_control_0').removeAttr('checked');
+    });
+    jq('#recallRequestTyp_control_0').live("click",function(){
+
+        jq('#recallRequestTyp_control_0').attr("checked","true");
+        jq('#pageRequestTyp_control_0').removeAttr('checked');
+        jq('#copyRequestTyp_control_0').removeAttr('checked');
+        jq('#holdRequestTyp_control_0').removeAttr('checked');
+    });
+
+    jq('#holdRequestTyp_control_0').live("click",function(){
+
+        jq('#holdRequestTyp_control_0').attr("checked","true");
+        jq('#pageRequestTyp_control_0').removeAttr('checked');
+        jq('#copyRequestTyp_control_0').removeAttr('checked');
+        jq('#recallRequestTyp_control_0').removeAttr('checked');
+    });
+
+    jq('#titleLevelRequest_control_0').live("click",function(){
+        jq('#titleLevelRequest_control_0').attr("checked","true");
+        jq('#itemLevelRequest_control_0').removeAttr('checked');
+        jq('#item_level_request_button').focus().click();
+    });
+
+    jq('#itemLevelRequest_control_0').live("click",function(){
+        jq('#itemLevelRequest_control_0').attr("checked","true");
+        if(jq('#titleLevelRequest_control_0').val()=="true"){
+        jq('#titleLevelRequest_control_0').removeAttr('checked');
+        }
+        jq('#item_level_request_Clear_button').focus().click();
+    });
+
+
+
 });
-
-
-
 
 
 
@@ -192,3 +244,36 @@ function printResponseString(){
         jq('#hiddenButtonForCreatePdf').focus().click();
     }
 }
+
+function displayDialogWindow(divID){
+
+    jq(divID).fadeIn(300);
+    var popMargTop = (jq(divID).height() + 24) / 2;
+    var popMargLeft = (jq(divID).width() + 24) / 2;
+    jq(divID).css({
+        'margin-top' : -popMargTop,
+        'margin-left' : -popMargLeft
+    });
+    jq(divID).draggable();
+    jq('body').append('<div id="mask"></div>');
+    jq('#mask').fadeIn(300);
+}
+
+
+function showItemsDialog() {
+     jq("div#OLEPlaceRequestView_MultipleItem_details").show();
+     displayDialogWindow("div#OLEPlaceRequestView_MultipleItem-parentBean");
+}
+
+function closeItemsDialog(){
+    jq("div#OLEPlaceRequestView_MultipleItem-parentBean").fadeOut(300);
+    jq('#mask').fadeOut(300);
+}
+function selectAllItem(){
+    jq(".selectItemCBClass").attr("checked","true");
+}
+
+function deSelectAllItem(){
+    jq(".selectItemCBClass").removeAttr("checked");
+}
+

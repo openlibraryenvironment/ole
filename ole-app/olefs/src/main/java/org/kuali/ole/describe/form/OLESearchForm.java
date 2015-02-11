@@ -1,4 +1,3 @@
-
 package org.kuali.ole.describe.form;
 
 import org.kuali.ole.describe.bo.*;
@@ -67,6 +66,9 @@ public class OLESearchForm extends UifFormBase {
     private List<OleWorkHoldingsDocument> workHoldingsDocumentList;
     private List<OleWorkEHoldingsDocument> workEHoldingsDocumentList;
     private String linkToOrderOption;
+    
+    private int totalRecordCount;
+    private String pageNumber;
 
     private boolean showMoreFacetNext = false;
     private boolean showMoreFacetPrevious = false;
@@ -75,6 +77,24 @@ public class OLESearchForm extends UifFormBase {
     private String solrTime;
     private String serverTime;
     private boolean showTime = false;
+    private boolean selectAllRecords= false;
+    private String idsToBeOpened;
+
+    public String getIdsToBeOpened() {
+        return idsToBeOpened;
+    }
+
+    public void setIdsToBeOpened(String idsToBeOpened) {
+        this.idsToBeOpened = idsToBeOpened;
+    }
+
+    public boolean isSelectAllRecords() {
+        return selectAllRecords;
+    }
+
+    public void setSelectAllRecords(boolean selectAllRecords) {
+        this.selectAllRecords = selectAllRecords;
+    }
 
     public OLESearchForm() {
         searchResultDisplayFields = new SearchResultDisplayFields();
@@ -239,7 +259,23 @@ public class OLESearchForm extends UifFormBase {
         this.pageSize = pageSize;
     }
 
-    public int getFacetLimit() {
+    public String getPageNumber() {
+		return pageNumber;
+	}
+
+	public void setPageNumber(String pageNumber) {
+		this.pageNumber = pageNumber;
+	}
+
+	public int getTotalRecordCount() {
+		return totalRecordCount;
+	}
+
+	public void setTotalRecordCount(int totalRecordCount) {
+		this.totalRecordCount = totalRecordCount;
+	}
+
+	public int getFacetLimit() {
         return facetLimit;
     }
 
@@ -337,6 +373,22 @@ public class OLESearchForm extends UifFormBase {
         else
             this.docType = docType;
 
+    }
+    
+    public boolean isFilterBibSearch() {
+    	return !"bibliographic".equals(getDocType());
+    }
+
+    public boolean isFilterHoldingsSearch() {
+    	return !"holdings".equals(getDocType());
+    }
+
+    public boolean isFilterEHoldingsSearch() {
+    	return !"eHoldings".equals(getDocType());
+    }
+
+    public boolean isFilterItemSearch() {
+    	return !"item".equals(getDocType());
     }
 
     public String getSearchType() {

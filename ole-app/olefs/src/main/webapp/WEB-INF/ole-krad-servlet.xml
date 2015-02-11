@@ -42,6 +42,9 @@
     <context:component-scan base-package="org.kuali.ole.batch"/>
     <context:component-scan base-package="org.kuali.ole.coa"/>
     <context:component-scan base-package="org.kuali.ole.alert"/>
+    
+    <bean id="inquiryController" class="org.kuali.ole.krad.OleInquiryController" />
+    
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="*" />

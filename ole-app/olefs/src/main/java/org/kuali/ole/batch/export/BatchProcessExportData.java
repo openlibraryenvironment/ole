@@ -965,7 +965,7 @@ public class BatchProcessExportData extends AbstractBatchProcess {
         updateJobProgress();
 
 
-        bibTreeDBUtil.init();
+        bibTreeDBUtil.init(0, 0,null);
 
         recProcessed = Integer.parseInt(job.getNoOfRecordsProcessed());
         totalRecords = Integer.parseInt(job.getTotalNoOfRecords());

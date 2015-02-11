@@ -16,6 +16,7 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.coreservice.impl.parameter.ParameterBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -212,9 +213,9 @@ public class PrintBill extends PdfPageEventHelper {
                         paraGraph.add(Chunk.NEWLINE);
                         paraGraph.add(populateParagraphCell(OLEConstants.OlePatronBill.LABEL_ITEM_CALL_NUMBER,feeTypeList.get(j).getItemCallNumber() != null ? feeTypeList.get(j).getItemCallNumber() : " "));
                         paraGraph.add(Chunk.NEWLINE);
-                        paraGraph.add(populateParagraphCell(OLEConstants.OlePatronBill.LABEL_TOTAL_AMOUNT,feeTypeList.get(j).getFeeAmount() != null ? "$"+feeTypeList.get(j).getFeeAmount().toString() : "$0"));
+                        paraGraph.add(populateParagraphCell(OLEConstants.OlePatronBill.LABEL_TOTAL_AMOUNT,feeTypeList.get(j).getFeeAmount() != null ? CurrencyFormatter.getSymbolForCurrencyPattern()+feeTypeList.get(j).getFeeAmount().toString() : CurrencyFormatter.getSymbolForCurrencyPattern()+"0"));
                         paraGraph.add(Chunk.NEWLINE);
-                        paraGraph.add(populateParagraphCell(OLEConstants.OlePatronBill.LABEL_PAID_AMOUNT,oleItemLevelBillPayment.getAmount() != null ? "$"+oleItemLevelBillPayment.getAmount().toString() : "$0"));
+                        paraGraph.add(populateParagraphCell(OLEConstants.OlePatronBill.LABEL_PAID_AMOUNT,oleItemLevelBillPayment.getAmount() != null ? CurrencyFormatter.getSymbolForCurrencyPattern()+oleItemLevelBillPayment.getAmount().toString() : CurrencyFormatter.getSymbolForCurrencyPattern()+"0"));
                         paraGraph.add(Chunk.NEWLINE);
                         paraGraph.add(populateParagraphCell(OLEConstants.OlePatronBill.LABEL_TRANSACTION_NUMBER,oleItemLevelBillPayment.getTransactionNumber() != null ? oleItemLevelBillPayment.getAmount().toString() : " "));
                         paraGraph.add(Chunk.NEWLINE);
@@ -234,7 +235,7 @@ public class PrintBill extends PdfPageEventHelper {
 
 
             paraGraph.add(Chunk.NEWLINE);
-            paraGraph.add(new Chunk(OLEConstants.TOT_AMT + " : " +"$"+ feeAmount.subtract(paidAmount)!=null?feeAmount.subtract(paidAmount).toString():"0" + "", printFontMap.get("Total_Font")).setBackground(printColorMap.get("Total_BGColor")));
+            paraGraph.add(new Chunk(OLEConstants.TOT_AMT + " : " +CurrencyFormatter.getSymbolForCurrencyPattern()+ feeAmount.subtract(paidAmount)!=null?feeAmount.subtract(paidAmount).toString():"0" + "", printFontMap.get("Total_Font")).setBackground(printColorMap.get("Total_BGColor")));
             response.setContentType("application/pdf");
             ServletOutputStream sos = response.getOutputStream();
             PdfWriter.getInstance(document, sos);
@@ -358,8 +359,8 @@ public class PrintBill extends PdfPageEventHelper {
                         table.addCell(populateCell(feeType.getItemTitle() != null ? feeType.getItemTitle() : " "));
                         table.addCell(populateCell(feeType.getItemAuthor() != null ? feeType.getItemAuthor() : " "));
                         table.addCell(populateCell(feeType.getItemCallNumber() != null ? feeType.getItemCallNumber() : " "));
-                        table.addCell(populateCell(feeType.getFeeAmount() != null ? "$"+feeType.getFeeAmount().bigDecimalValue().setScale(2, BigDecimal.ROUND_HALF_UP) : "$0"));
-                        table.addCell(populateCell(oleItemLevelBillPayment.getAmount() != null ? "$"+oleItemLevelBillPayment.getAmount().bigDecimalValue().setScale(2, BigDecimal.ROUND_HALF_UP) : "$0"));
+                        table.addCell(populateCell(feeType.getFeeAmount() != null ? CurrencyFormatter.getSymbolForCurrencyPattern()+feeType.getFeeAmount().bigDecimalValue().setScale(2, BigDecimal.ROUND_HALF_UP) : CurrencyFormatter.getSymbolForCurrencyPattern()+"0"));
+                        table.addCell(populateCell(oleItemLevelBillPayment.getAmount() != null ? CurrencyFormatter.getSymbolForCurrencyPattern()+oleItemLevelBillPayment.getAmount().bigDecimalValue().setScale(2, BigDecimal.ROUND_HALF_UP) : CurrencyFormatter.getSymbolForCurrencyPattern()+"0"));
                         table.addCell(populateCell(oleItemLevelBillPayment.getTransactionNumber() != null ? oleItemLevelBillPayment.getTransactionNumber() : " "));
                         table.addCell(populateCell(oleItemLevelBillPayment.getTransactionNote() != null ? oleItemLevelBillPayment.getTransactionNote() : " "));
                         table.addCell(populateCell(oleItemLevelBillPayment.getPaymentMode() != null ? oleItemLevelBillPayment.getPaymentMode() : " "));
@@ -371,9 +372,9 @@ public class PrintBill extends PdfPageEventHelper {
                 }
             }
             String totaldueAmount=feeAmount.subtract(paidAmount)!=null?feeAmount.subtract(paidAmount).toString():"0";
-         /*   paraGraph.add(new Chunk(OLEConstants.TOT_AMT + " : " + "$" + totaldueAmount + "",printFontMap.get("Patron_Name_Font")));
+         /*   paraGraph.add(new Chunk(OLEConstants.TOT_AMT + " : " + CurrencyFormatter.getSymbolForCurrencyPattern() + totaldueAmount + "",printFontMap.get("Patron_Name_Font")));
             paraGraph.add(Chunk.NEWLINE);*/
-            paraGraph.add(new Chunk(OLEConstants.TOT_AMT_PAID + " : " + "$" + (paidAmount!=null?paidAmount.toString():"0") + "",printFontMap.get("Patron_Name_Font")));
+            paraGraph.add(new Chunk(OLEConstants.TOT_AMT_PAID + " : " + CurrencyFormatter.getSymbolForCurrencyPattern()+ (paidAmount!=null?paidAmount.toString():"0") + "",printFontMap.get("Patron_Name_Font")));
             paraGraph.add(Chunk.NEWLINE);
             response.setContentType("application/pdf");
             ServletOutputStream sos = response.getOutputStream();

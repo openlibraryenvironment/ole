@@ -34,6 +34,7 @@
   <param name="header.text" override="false">${project.name} ::</param>
   <param name="production.environment.code" override="false">prd</param>
   <param name="ole.locale" override="false">en_US</param>
+  <param name="ole.locale.properties.folder" override="false">us</param>
 
   <!--Rice Urls -->
   <param name="rice.server.url">${application.url}</param>
@@ -236,7 +237,7 @@
   <param name="batch.quartz.trigger.check.interval" override="false">30000</param>
 
   <!-- Web File Configuration -->
-    <param name="kns.javascript.files" override="false">plugins/jquery/jquery-1.8.3.js,plugins/cookie/jquery.cookie.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js</param>
+    <param name="kns.javascript.files" override="false">plugins/jquery/jquery-1.8.3.js,plugins/cookie/jquery.cookie.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js,ole/sys/scripts/tabtitle.js</param>
     <param name="kns.css.files" override="false">kr/css/kuali.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
 
     <param name="portal.css.files" override="false">rice-portal/css/portal.css,plugins/fancybox/jquery.fancybox.css,plugins/textpopout/popoutTextarea.css,plugins/jgrowl/jquery.jgrowl.css</param>
@@ -359,8 +360,6 @@
   <!-- batch container -->
   <param name="step.status.check.interval" override="false">10</param>
 
-  <!-- date time formatters -->
-  <param name="STRING_TO_DATE_FORMATS" override="false">yyyy-MM-dd;MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MM-dd-yyyy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss</param>
 
   <param name="ole.partEnumeration.copy">C</param>
   <param name="ole.partEnumeration.volume">V</param>
@@ -379,7 +378,7 @@
   <param name="PREORDER_WFRM_OPR" override="false">createPreOrderForForm</param>
   <param name="PREORDER_OPENURL_OPR" override="false">createPreOrderForOpenURL</param>
   <param name="dateFrom" override="false">01/01/1001</param>
-  <param name="account.document.initiator" override="false">ole-quickstart</param>
+  <!--<param name="account.document.initiator" override="false">ole-quickstart</param>-->
 
     <!-- Default Value for SRR -->
     <param name="save.action.usr" override="false">OLE10002</param>
@@ -472,6 +471,13 @@
     <param name="ole.fs.discovery.url">${ole.docstore.url.base}/discovery</param>
     <param name="ole.fs.docstore.services.tab.url">${ole.docstore.url.base}?tab=services</param>
 
+    <!--Config for SIP2-->
+    <param name="sip2.port">21711</param>
+    <param name="sip2.startOnLoad">false</param>
+    <param name="sip2.url">${application.url}</param>
+    
+    <!-- This parameter is used to set solr max page size for the batch job 'updateStatusIntoAvailableAfterReShelvingJob' -->
+    <param name="solr.max.page.size.for.update.item.status.job">100000</param>
 
 
 </config>

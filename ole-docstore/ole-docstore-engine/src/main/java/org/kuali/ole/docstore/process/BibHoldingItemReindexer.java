@@ -31,8 +31,15 @@ public class BibHoldingItemReindexer {
     private ReindexBatchStatistics currentBatchStatistics = new ReindexBatchStatistics();
     BatchBibTreeDBUtil bibTreeUtil = new BatchBibTreeDBUtil();
 
+    public ReindexBatchStatistics getTotalBatchStatistics() {
+        return totalBatchStatistics;
+    }
 
-    public void index(int batchSize) throws Exception {
+    public void setTotalBatchStatistics(ReindexBatchStatistics totalBatchStatistics) {
+        this.totalBatchStatistics = totalBatchStatistics;
+    }
+
+    public void index(int batchSize, int startIndex, int endIndex,String updateDate) throws Exception {
 
         totalBatchStatistics.setStartTime(new Date());
 
@@ -40,7 +47,7 @@ public class BibHoldingItemReindexer {
 
         int count = 1;
 
-        bibTreeUtil.init();
+        bibTreeUtil.init(startIndex, endIndex,updateDate);
 
         BibTrees bibTrees = bibTreeUtil.fetchNextBatch(batchSize, totalBatchStatistics);
 

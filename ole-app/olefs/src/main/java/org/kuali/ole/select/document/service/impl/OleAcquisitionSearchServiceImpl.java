@@ -80,22 +80,20 @@ public class OleAcquisitionSearchServiceImpl implements OleAcquisitionSearchServ
         return Collections.emptyList();
     }*/
     protected Collection<Bib> getBib(List<DocumentSearchResult> documentSearchResults) {
-        List<Object> titleIds = new ArrayList<>();
+        List<String> titleIds = new ArrayList<>();
         for (DocumentSearchResult documentSearchResult : documentSearchResults) {
             for (DocumentAttribute documentAttribute : documentSearchResult.getDocumentAttributes()) {
                 if (documentAttribute.getName().equalsIgnoreCase(OleSelectConstant.AcquisitionsSearch.ITEM_TITLE_ID) &&
                         documentAttribute.getValue() != null &&
                         StringUtils.isNotBlank(documentAttribute.getValue().toString())) {
-                    titleIds.add(documentAttribute.getValue());
+                    titleIds.add((String)documentAttribute.getValue());
                 }
             }
         }
         if (!titleIds.isEmpty()) {
             try {
                 List<Bib> bibs=new ArrayList<>();
-                for(Object id:titleIds){
-                    bibs.add(getDocstoreClientLocator().getDocstoreClient().retrieveBib(id.toString()));
-                }
+                bibs.addAll(getDocstoreClientLocator().getDocstoreClient().acquisitionSearchRetrieveBibs(titleIds));
                 return bibs;
                 //return SpringContext.getBean(OleDocStoreSearchService.class).getResult(DocData.class, "", titleIds);
             } catch (Exception ex) {
@@ -227,7 +225,7 @@ public class OleAcquisitionSearchServiceImpl implements OleAcquisitionSearchServ
             for (DocumentSearchResult searchResult : componentResults) {
                 acqSearchResult = new OleAcquisitionSearchResult();
                 acqSearchResult.setResultDetails(true, searchResult, bibs);
-                if (acqSearchResult != null) {
+                if (acqSearchResult != null & StringUtils.isNotBlank(acqSearchResult.getLocalIdentifier())) {
                     bibResult.add(acqSearchResult);
                 }
             }

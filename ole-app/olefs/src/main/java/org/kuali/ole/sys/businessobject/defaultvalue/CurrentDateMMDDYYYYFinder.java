@@ -15,14 +15,15 @@
  */
 package org.kuali.ole.sys.businessobject.defaultvalue;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.krad.valuefinder.ValueFinder;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class CurrentDateMMDDYYYYFinder implements ValueFinder {
 
@@ -34,7 +35,7 @@ public class CurrentDateMMDDYYYYFinder implements ValueFinder {
         date = DateUtils.truncate(date, Calendar.DAY_OF_MONTH);
 
         // format it as expected
-        return DateFormatUtils.format(date, "MM/dd/yyyy");
+        return DateFormatUtils.format(date, RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE);
     }
 
 }

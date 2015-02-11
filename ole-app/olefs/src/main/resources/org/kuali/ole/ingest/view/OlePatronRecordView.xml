@@ -29,7 +29,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="@{#ConfigProperties['externalizable.help.url']}/reference/html/ADMIN.html#_Patron_Import"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
         <property name="items">

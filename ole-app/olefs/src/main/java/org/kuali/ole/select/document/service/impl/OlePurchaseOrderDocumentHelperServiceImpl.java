@@ -283,7 +283,7 @@ public class OlePurchaseOrderDocumentHelperServiceImpl implements OlePurchaseOrd
                 String user = null;
                 if (GlobalVariables.getUserSession() == null) {
                     kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
-                    user = kualiConfigurationService.getPropertyValueAsString(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR);
+                    user = kualiConfigurationService.getPropertyValueAsString(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
                     GlobalVariables.setUserSession(new UserSession(user));
                 }
                 RequisitionDocument rdoc = SpringContext.getBean(org.kuali.ole.module.purap.document.service.RequisitionService.class)

@@ -6,6 +6,9 @@ import org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory;
 import org.kuali.ole.deliver.bo.PatronBillPayment;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -20,6 +23,7 @@ import java.util.*;
  */
 public class OLEConstants {
 
+	public static final String EMPTY_ITEM_BARCODE ="empty.item.barcode";
     public static final String ERES_ACCESS_MAINTENANCE_ACTION_LINK = "oleAccessActivationConfiguration";
     public static final String OLE_ACCESS_ACTIVATION = "OLEAccessActivationConfigurationMaintenanceDocument-AccessActivationWorkflow";
     public static final String ACCESS_ACTIVATION_CONFIGURATION_CONTROLLER = "oleAccessActivationConfiguration";
@@ -47,6 +51,7 @@ public class OLEConstants {
     public static final String SERIAL_SINGLE_SEC_LIMIT = "SERIAL_SINGLE_SEC_LIMIT";
     public static final String SERIAL_MULTI_SEC_LIMIT = "SERIAL_MULTI_SEC_LIMIT";
     public static final String SERIAL_SEARCH_LIMIT = "SERIAL_SEARCH_LIMIT";
+    public static final String VIEW_ALL_REQUESTS= "View all requests";
     //calender
     public static final String CALENDAR_BEGIN_END_DATE = "error.begin.end.date";
     public static final String CALENDAR_GENERAL = "GeneralInfo";
@@ -200,6 +205,7 @@ public class OLEConstants {
     public static final String ITEM_STATUS_RECENTLY_RETURNED = "Recently Returned";
     public static final String ITM_CHECKIN_MSG = "Item is not loaned.";
     public static final String MARC_XML = "marc_xml";
+    public static final String FINE_AMOUNT="fineAmount";
     //public static final String FIELD_035 = "035";
     public static final String OLE_BIB_RECORD = "oleBibRecord";
     public static final String ID = "id";
@@ -422,6 +428,12 @@ public class OLEConstants {
 
 
     public static final class OLEBatchProcess {
+        public static final String SECTION_ID ="OLEBatchProcessProfileBo-MaintenanceView-MatchPointSection";
+        public static final String OLE_BATCH_BIB_MATCH_POINT="error.batch.bib.match.point";
+        public static final String OLE_BATCH_HOLDINGS_MATCH_POINT="error.batch.holdings.match.point";
+        public static final String OLE_BATCH_EHOLDINGS_MATCH_POINT="error.batch.eholdings.match.point";
+        public static final String OLE_BATCH_ITEM_MATCH_POINT="error.batch.item.match.point";
+
         public static final String ERROR_SELECT_FIELD = "errot.batch.fill.atleast.onefield";
         public static final String ERROR_DATE_FORMAT_FIELD_VALUE = "error.batch.filtercritria.dateFormat.date";
         public static final String ERROR_DATE_FORMAT_FIELD_RANGE = "error.batch.filtercritria.dateFormat.daterange";
@@ -693,7 +705,7 @@ public class OLEConstants {
         public static final String PART = "part";
 
         // data mapping and profile constants for order record import
-
+        public static final String BATCH_ORDER_IMPORT =  "Order Record Import";
         public static final String ORDER_IMPORT = "OrderImport";
         public static final String CHART_CODE = "chartCode";
         public static final String ORG_CODE = "orgCode";
@@ -736,6 +748,10 @@ public class OLEConstants {
         public static final String VOLUME_NUMBER = "volumeNumber";
         public static final String VENDOR_CUST_NBR = "vendorCustomerNumber";
         public static final String FORMAT_TYP_NM = "formatTypeName";
+        public static final String RECURRING_PAYMENT_TYP = "RecurringPaymentType";
+        public static final String RECURRING_PAYMENT_BEGIN_DT = "RecurringPaymentBeginDate";
+        public static final String RECURRING_PAYMENT_END_DT = "RecurringPaymentEndDate";
+        public static final String RECURRING_PAYMENT_TYP_CODE = "recurringPaymentTypeCode";
         public static final String REQUEST_SRC = "requestSourceType";
         public static final String REC_POSITION = "record # ";
         public static final String DELIVERY_BUILDING_ROOM_NUMBER = "deliveryBuildingRoomNumber";
@@ -755,6 +771,8 @@ public class OLEConstants {
         public static final String VENDOR_REF_NUMBER = "vendorRefNumber";
         public static final String TRUE = "true";
         public static final String FALSE = "false";
+        public static final String RECURR_PAY_END_DATE = "RecurringPaymentEndDate";
+        public static final String RECURR_PAY_BEGIN_DATE = "RecurringPaymentBeginDate";
 
         //Validation message for order record import
         public static final String INVALID_DONOR_CODE = "error.invalid.donorCode";
@@ -789,6 +807,7 @@ public class OLEConstants {
         public static final String INVALID_REQUESTOR_NAME = "error.invalid.requestorName";
         public static final String INVALID_ITEM_STATUS = "error.invalid.itemStatus";
         public static final String DESC_MAX_LENG = "Document Description should not be more than 40 characters.";
+        public static final String INVALID_RECURRING_PAYMENT_DATE = "error.invalid.recurringPayment.date";
 
         //Validation message for invoice import
 
@@ -1159,6 +1178,11 @@ public class OLEConstants {
     public static final String DATE_ENTERED_FORMAT = "MMM dd, yyyy";
     public static final String LAST_UPDATED_FORMAT = "MMM dd, yyyy hh:mm:ss a";
 
+    //Bib Editor Messages
+    public static final String BIB_EDITOR_CREATE_SUCCESS = "record.create.message";
+    public static final String BIB_EDITOR_UPDATE_SUCCESS = "record.update.message";
+
+
     //Instance Editor Messages
     public static final String INSTANCE_EDITOR_SUCCESS = "Record Submitted Successfully";
     public static final String INSTANCE_EDITOR_FAILURE = "Failed to Submit Record";
@@ -1365,7 +1389,7 @@ public class OLEConstants {
         public static final String OLE_INVALID_CIRCULATION_DESK_LOCATION = "error.valid.circulationDesk.invalid.location";
         public static final String OLE_COPY_FORMAT_CODE = "code";
         public static final String OLE_COPY_FORMAT_CODE_ERROR = "error.copyformat.code";
-
+        public static final String SOLR_MAX_PAGE_SIZE = "solr.max.page.size.for.update.item.status.job";
     }
 
     public static final class OleLocationLevel {
@@ -1693,6 +1717,8 @@ public class OLEConstants {
     public static final String FAST_ADD_ITM_VALIDATION_FAIL = "Barcode already exist.";
     public static final String RENEWAL_ITM_ERR_INFO = "Select an item from Currently Checked Out item(s).";
     public static final String RENEWAL_ITM_SUCCESS_INFO = "Item Renewal is done successfully.";
+    public static final String RENEWAL_INDEFINITE_INFO = "Items on indefinite loan do not need to be renewed.";
+    public static final String RENEWAL_DUEDATE_SAME_INFO =  "The item was not renewed because the new due date/time would not change.";
     public static final String RENEWAL_ITM_POPUP = "Do you want to renew the item?";
     public static final String PENDING_RQST_RENEWAL_ITM_INFO = "Item contains the pending request";
     public static final String RENEWAL_ITM_AFTER_FIXED_DUEDATE = "Please renew on or after fixed due date.";
@@ -1787,13 +1813,13 @@ public class OLEConstants {
     public static final String IN_ERROR = "PAY_ERR";
     public static final String ERROR = "Error";
     public static final String FORGIVEN = "PAY_FORGIVEN";
-    public static final String FORGIVE = "Forgive";
+    public static final String FORGIVE = getParameter("PAYMENT_MODE_FORGIVE");
     public static final String CANCELLED = "PAY_CANCELLED";
     public static final String CANCEL = "Cancel";
     public static final String CANCEL_MESSAGE = "This Bill has been Cancelled ";
     public static final String CANCEL_MESSAGE_AMT = "This bill has been Cancelled with an amount ";
-    public static final String FORGIVE_MESSAGE =" has  been forgiven ";
-    public static final String ERROR_MESSAGE =" has made an error ";
+    public static final String FORGIVE_MESSAGE = getParameter("PAYMENT_MODE_FORGIVE_MESSAGE");
+    public static final String ERROR_MESSAGE = " has made an error ";
     public static final String FEE_TYPE_NONE = "None";
     public static final String ITEM_STATUS_LOST = "LOST";
     public static final BigDecimal BIGDECIMAL_DEF_VALUE = new BigDecimal(0.00);
@@ -1882,7 +1908,7 @@ public class OLEConstants {
                 public static final String REQUEST_TYPE_ID_8 = "8";*/
         public static final String SHELVING = "Shelving";
         public static final String QUEUE_POSITION = "borrowerQueuePosition";
-        public static final String REQUEST_QUEUE = "REQUEST QUEUE";
+        public static final String REQUEST_QUEUE = "REQUEST_QUEUE";
         public static final String ITEM_BARCODE = "itemBarCode";
         public static final String ITEM_TYPE_CODE = "instanceItemTypeCode";
         public static final String DATE_FORMAT = "yyyyMMdd";
@@ -1996,6 +2022,8 @@ public class OLEConstants {
     public static final String PICKUP_NOTICE = "Pickup Notice";
     public static final String NOTICE_ONHOLD = "OnHoldNotice";
     public static final String MY_ACCOUNT_URL = "MY_ACCOUNT_URL";
+    public static final String OLE_MY_ACCOUNT_URL_CHANNEL = "/portal.do?channelTitle=MyAccount&channelUrl=";
+    public static final String OLE_MY_ACCOUNT_URL = "/ole-kr-krad/myaccountcontroller?viewId=RenewalItemView&methodToCall=start";
     public static final String NOTICE_LOST = "Lost";
     public static final String PICKUP_NOTICE_START_CONTENT = "The item you requested is available for pickup from the ";
     public static final String PICKUP_NOTICE_MIDDLE_CONTENT = ". It will be held until ";
@@ -2442,6 +2470,7 @@ public class OLEConstants {
     public static final String SEARCH_ITEM = "Search Item";
     public static final String SEARCH_ITEM_ERROR = "You are not authorized to search item information";
     public static final String NO_PATRON_INFO = "error.no.patron.information";
+    public static final String ITEM_BARCODE_REQUIRED ="item.barcode.required";
     public static final String CIRCULATION_DESK_NOT_MAPPED_OPERATOR = "error.no.circulation.desk.mapped";
     public static final String SUCCESSFULLEY_LOANED = "success.loan.message";
     public static final String OPERATION_FAILED = "Operation Failed";
@@ -2988,8 +3017,13 @@ public class OLEConstants {
     public static final String INVALID_VENDOR_CUST_NBR = "Invalid Acquisition Unit's Vendor account / Vendor Info Customer # -";
     public static final String INVALID_ITEM_TYPE_CD = "Invalid Item Type Code -";
     public static final String INVALID_METHOD_OF_PO_TRANSMISSION_CD = "Invalid PO Transmission Method Code -";
+    public static final String INVALID_RECURRING_PAYMENT_TYP_CD = "Invalid Recurring Payment Type Code -";
     public static final String INVALID_COST_SOURCE_CD = "Invalid Cost Source Code -";
     public static final String INVALID_PERCENT = "Invalid Percentage -";
+    public static final String INVALID_RECURRING_BEGIN_DT = "Invalid Recurring Begin Date -";
+    public static final String RECURRING_BEGIN_DT = "Recurring Begin Date -";
+    public static final String INVALID_RECURRING_END_DT = "Invalid Recurring End Date -";
+    public static final String RECURRING_END_DT = "Recurring End Date -";
     public static final String INVALID_LOCN_NM = "Invalid Location Name -";
     public static final String INVALID_LIST_PRICE = "Invalid List Price -";
     public static final String INVALID_INVOICED_PRICE = "Invalid Invoiced Price -";
@@ -3067,6 +3101,8 @@ public class OLEConstants {
     public static final String SYSTEM = "System";
     public static final String DATEFORMAT = "MM/dd/yyyy";
     public static final String TIMESTAMP = "MM/dd/yyyy hh:mm a";
+    public static final String CREATE_BIB = "CREATE";
+    public static final String UPDATE_BIB = "UPDATE";
 
     public static final String TEMPITEMTYPE = "TemporaryItemTypeCodeValue_search";
     public static final String PUBLISHERDISPLAY = "Publisher_display";
@@ -3094,6 +3130,8 @@ public class OLEConstants {
     public static final String ORDER_RECORD_IMPORT_MARC_ONLY_PRINT = "ORDER_RECORD_IMPORT_MARC_ONLY_PRINT";
     public static final String ORDER_RECORD_IMPORT_MARC_ONLY_PRINT_ELECTRONIC = "ORDER_RECORD_IMPORT_MARC_ONLY_PRINT_ELECTRONIC";
     public static final String ORDER_RECORD_IMPORT_MARC_EDI = "ORDER_RECORD_IMPORT_MARC_EDI";
+    public static final String ORDER_RECORD_IMPORT_MARC_EDI_ELECTRONIC = "ORDER_RECORD_IMPORT_MARC_EDI_ELECTRONIC";
+    public static final String ORDER_RECORD_IMPORT_MARC_EDI_PRINT_ELECTRONIC = "ORDER_RECORD_IMPORT_MARC_EDI_PRINT_ELECTRONIC";
     public static final String BIB_IMP_RESP = "bibImportResponse";
     public static final String BIB_DATA_ONLY = "Bibliographic Data Only";
     public static final String BIB_INS = "Bibliographic and Instance Data";
@@ -3144,7 +3182,47 @@ public class OLEConstants {
     public static final String   REENCUMBER_RECURRING_ORDERS = "REENCUMBER_RECURRING_ORDERS";
     public static final String   RECUR_PMT_TYP_CD = "RECUR_PMT_TYP_CD";
     public static final String   REENCUMBER_FILE_DIRECTORY = "/rollover";
-    public static final String   REENCUMBER_FILE_PATH = "/ReEncumberRecuring.data";
+    public static final String   REENCUMBER_FILE_PATH = "/ReEncumberRecuring";
+	
+    public static final String   MULTIPLE = "Multiple";
+    public static final String PO ="PO";
+    public static final String INVOICE ="Invoice";
+
+    public static final String GL_UNIV_FIS_YR = "UNIV_FISCAL_YR";
+    public static final String GL_CHART_CD = "FIN_COA_CD";
+    public static final String GL_ACCOUNT_NBR = "ACCOUNT_NBR";
+    public static final String GL_SUB_ACCT_NBR = "SUB_ACCT_NBR";
+    public static final String GL_OBJ_CD = "FIN_OBJECT_CD";
+    public static final String GL_SUB_OBJ_CD = "FIN_SUB_OBJ_CD";
+    public static final String GL_BAL_TYP_CD = "FIN_BALANCE_TYP_CD";
+    public static final String GL_OBJ_TYP_CD = "FIN_OBJ_TYP_CD";
+    public static final String GL_UNIV_FISC_PERIOD_CD = "UNIV_FISCAL_PRD_CD";
+    public static final String GL_FIN_DOC_TYP_CD = "FDOC_TYP_CD";
+    public static final String GL_FIN_SYS_ORG_CD = "FS_ORIGIN_CD";
+    public static final String GL_DOC_NBR = "FDOC_NBR";
+    public static final String TRANS_LED_SEQ_NO = "TRN_ENTR_SEQ_NBR";
+    public static final String GL_TRANS_LED_ENTRY_DESC = "TRN_LDGR_ENTR_DESC";
+    public static final String GL_TRANS_LED_ENTRY_AMT = "TRN_LDGR_ENTR_AMT";
+    public static final String GL_TRANS_DEB_CRE_CD = "TRN_DEBIT_CRDT_CD";
+    public static final String GL_TRANS_DT = "TRANSACTION_DT";
+    public static final String GL_TOTAL_INV_AMT = "amt";
+    public static final String DOC_NBR = "FDOC_REF_NBR";
+    public static final String EXC_RATE = "OLE_EXCHANGE_RT";
+
+
+
+
+    public static String getParameter(String name) {
+        ParameterKey parameterKey = ParameterKey.create(OLEConstants.APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,name);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        if(parameter==null){
+            parameterKey = ParameterKey.create(OLEConstants.APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,name);
+            parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        }
+        return parameter!=null?parameter.getValue():null;
+    }
+
+    public static final String DELIVER_ITEM__SEARCH_SERVICE = "oleDeliverItemSearchService";
     public static final String OLE_PLATFORM_DOC = "OLE_PLTFRM_DOC";
     public static final List<String> PLATFORM_RESULT_FIELDS = getSearchPlatformfields();
     public static final List<String> getSearchPlatformfields() {

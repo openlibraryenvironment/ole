@@ -55,6 +55,11 @@
                 <value>org/kuali/ole/module/purap/ojb-purap.xml</value>
             </list>
         </property>
+        <property name="resourceBundleNames">
+            <list>
+                <value>org/kuali/ole/locale/${ole.locale.properties.folder}/Labels-Module</value>
+            </list>
+        </property>
         <property name="jobNames">
             <list>
                 <value>autoApprovePaymentRequestsJob</value>
@@ -180,6 +185,7 @@
                 <value>OLE_PREQ</value>
             </list>
         </property>
+        <property name="oleSelectDocumentService" ref="oleSelectDocumentService" />
     </bean>
     <bean id="requisitionService" parent="requisitionService-parentBean"/>
 
@@ -268,6 +274,7 @@
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="accountService" ref="accountService" />
+        <property name="oleSelectDocumentService" ref="oleSelectDocumentService" />
     </bean>
 
     <bean id="paymentRequestDao" parent="platformAwareDao" class="org.kuali.ole.module.purap.document.dataaccess.impl.PaymentRequestDaoOjb"/>
@@ -382,6 +389,7 @@
         <property name="mailService" ref="mailService" />
         <property name="printService" ref="printService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="oleSelectDocumentService" ref="oleSelectDocumentService" />
     </bean>
     <bean id="negativePaymentRequestApprovalLimitService" parent="negativePaymentRequestApprovalLimitService-parentBean"/>
 
@@ -485,6 +493,7 @@
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="receivingDao" ref="receivingDao" />
         <property name="workflowDocumentService" ref="workflowDocumentService" />
+        <property name="oleSelectDocumentService" ref="oleSelectDocumentService" />
     </bean>
     <bean id="bulkReceivingService" parent="bulkReceivingService-parentBean"/>
 
@@ -570,7 +579,7 @@
         <property name="receivingService" ref="receivingService" />
     </bean>
 
-    <bean id="faxPendingDocumentJob" parent="scheduledJobDescriptor">
+    <bean id="faxPendingDocumentJob" parent="unscheduledJobDescriptor">
         <property name="steps">
             <list>
                 <ref bean="faxPendingDocumentStep" />
@@ -699,7 +708,7 @@
 
     <bean id="electronicInvoicingDao" parent="platformAwareDao" class="org.kuali.ole.module.purap.dataaccess.impl.ElectronicInvoicingDaoOjb"/>
 
-    <bean id="electronicInvoiceExtractJob" parent="scheduledJobDescriptor">
+    <bean id="electronicInvoiceExtractJob" parent="unscheduledJobDescriptor">
         <property name="steps">
             <list>
                 <ref bean="electronicInvoiceExtractStep" />

@@ -7,7 +7,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch01s06.html"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
         <property name="items">
@@ -26,7 +26,7 @@
         </property>
 
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/batch/script/batch.js</value>
             </list>
         </property>

@@ -42,6 +42,8 @@
 <c:if test="${empty intialOpen}">
     <c:set var="intialOpen" value="true" />
 </c:if>
+
+<c:set var="baseCurrency" value="${ConfigProperties.config.base.currency}" />
 <c:set var="fullEntryMode"
        value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
 <c:set var="amendmentEntry"
@@ -180,11 +182,11 @@
 
 <tr>
     <c:if
-            test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar') or (not KualiForm.document.vendorDetail.currencyType.currencyType eq null)}">
+            test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency) or (not KualiForm.document.vendorDetail.currencyType.currencyType eq null)}">
         <c:set var="rowSpanLineNum" value="6" />
     </c:if>
     <c:if
-            test="${KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar' or (KualiForm.document.vendorDetail.currencyType.currencyType eq  null) }">
+            test="${KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency or (KualiForm.document.vendorDetail.currencyType.currencyType eq  null) }">
         <c:set var="rowSpanLineNum" value="5" />
     </c:if>
 
@@ -269,7 +271,7 @@
             attributeEntry="${itemAttributes.itemListPrice}"
             forceRequired="true" width="10%"/>
     <c:if
-            test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar') and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
+            test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency) and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
         <td class="infoline">
             <div align="center"><kul:htmlControlAttribute
                     attributeEntry="${itemAttributes.itemListPrice}"
@@ -278,7 +280,7 @@
         </td>
     </c:if>
     <c:if
-            test="${KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar' or ( KualiForm.document.vendorDetail.currencyType.currencyType eq  null)}">
+            test="${KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency or ( KualiForm.document.vendorDetail.currencyType.currencyType eq  null)}">
         <td class="infoline">
             <div align="center"><kul:htmlControlAttribute
                     attributeEntry="${itemAttributes.itemListPrice}"
@@ -346,7 +348,7 @@
 <c:set var="colSpanForeignTab" value="14" />
 
 <c:if
-        test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar') and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
+        test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency) and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
     <%-- <tr>
         <td colspan="${colSpanForeignTab}" class="subhead"><span
             class="subhead-left">Foreign Currency Conversion</span></td>
@@ -564,7 +566,7 @@
 <tr>
 
     <c:if
-            test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar') and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
+            test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency) and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
         <kul:htmlAttributeHeaderCell
                 attributeEntry="${itemAttributes.itemForeignUnitCost}" colspan="1" />
         <td class="infoline" colspan="1">
@@ -593,7 +595,7 @@
     </c:if>
 
     <c:if
-            test="${KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar' or ( KualiForm.document.vendorDetail.currencyType.currencyType eq  null)}">
+            test="${KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency or ( KualiForm.document.vendorDetail.currencyType.currencyType eq  null)}">
         <kul:htmlAttributeHeaderCell
                 attributeEntry="${itemAttributes.itemUnitPrice}"
                 forceRequired="true" width="10%"/>
@@ -640,7 +642,7 @@
     </td>
 
     <c:if
-            test="${not (KualiForm.document.vendorDetail.currencyType.currencyType  eq 'US Dollar') }">
+            test="${not (KualiForm.document.vendorDetail.currencyType.currencyType  eq baseCurrency) }">
         <td class="infoline" rowspan="1" colspan="2">
             <div align="center"><html:image
                     property="methodToCall.addItem"
@@ -650,7 +652,7 @@
         </td>
     </c:if>
     <c:if
-            test="${KualiForm.document.vendorDetail.currencyType.currencyType  eq 'US Dollar'}">
+            test="${KualiForm.document.vendorDetail.currencyType.currencyType  eq baseCurrency}">
         <td class="infoline" rowspan="1" colspan="2">
             <div align="center"><html:image
                     property="methodToCall.addItem"
@@ -684,11 +686,11 @@
 </tr>
 
 <c:if
-        test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar') or (not KualiForm.document.vendorDetail.currencyType.currencyType eq null)}">
+        test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency) or (not KualiForm.document.vendorDetail.currencyType.currencyType eq null)}">
     <c:set var="currentItemRowspan" value="9" />
 </c:if>
 <c:if
-        test="${KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar' or ( KualiForm.document.vendorDetail.currencyType.currencyType eq  null)}">
+        test="${KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency or ( KualiForm.document.vendorDetail.currencyType.currencyType eq  null)}">
     <c:set var="currentItemRowspan" value="6" />
 </c:if>
 
@@ -1079,7 +1081,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
             attributeEntry="${itemAttributes.itemListPrice}"
             forceRequired="true" width="10%"/>
     <c:if
-            test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar') and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
+            test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency) and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
         <td class="infoline" colspan="1">
             <div align="center" />
             <kul:htmlControlAttribute
@@ -1090,7 +1092,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         <td class="infoline">&nbsp;</td> -->
     </c:if>
     <c:if
-            test="${KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar' or (KualiForm.document.vendorDetail.currencyType.currencyType eq  null)}">
+            test="${KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency or (KualiForm.document.vendorDetail.currencyType.currencyType eq  null)}">
 
         <td class="infoline" colspan="1">
             <div align="center" />
@@ -1165,7 +1167,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
 </tr>
 
 <c:if
-        test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar') and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
+        test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency) and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
     <!-- <tr>
     <td colspan="14" class="subhead"><span class="subhead-left">Foreign
     Currency Conversion</span></td>
@@ -1383,7 +1385,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
 
 <tr>
     <c:if
-            test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar') and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
+            test="${not (KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency) and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
         <kul:htmlAttributeHeaderCell
                 attributeEntry="${itemAttributes.itemForeignUnitCost}"
                 colspan="1" />
@@ -1416,7 +1418,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
 
     </c:if>
     <c:if
-            test="${KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar' or ( KualiForm.document.vendorDetail.currencyType.currencyType eq  null)}">
+            test="${KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency or ( KualiForm.document.vendorDetail.currencyType.currencyType eq  null)}">
         <kul:htmlAttributeHeaderCell
                 attributeEntry="${itemAttributes.itemUnitPrice}" width="10%"/>
 
@@ -1468,7 +1470,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
     </td>
 
     <c:if
-            test="${ not (KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar') and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
+            test="${ not (KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency) and (not (KualiForm.document.vendorDetail.currencyType.currencyType eq null))}">
         <td class="infoline" rowspan="1"
             colspan="2">
             <div align="center"><c:choose>
@@ -1508,7 +1510,7 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         </td>
     </c:if>
     <c:if
-            test="${KualiForm.document.vendorDetail.currencyType.currencyType eq 'US Dollar' or ( KualiForm.document.vendorDetail.currencyType.currencyType eq  null)}">
+            test="${KualiForm.document.vendorDetail.currencyType.currencyType eq baseCurrency or ( KualiForm.document.vendorDetail.currencyType.currencyType eq  null)}">
         <td class="infoline" rowspan="1"
             colspan="2">
             <div align="center"><c:choose>

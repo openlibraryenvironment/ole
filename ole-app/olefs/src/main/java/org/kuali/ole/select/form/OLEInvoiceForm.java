@@ -1,5 +1,9 @@
 package org.kuali.ole.select.form;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.ole.select.document.OleInvoiceDocument;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
 /**
@@ -24,8 +28,13 @@ public class OLEInvoiceForm extends TransactionalDocumentFormBase {
 
     private String duplicationMessage;
     private String duplicationApproveMessage;
-    
+
     private boolean filterProcessItems = true;
+    private Boolean filterAdditionalCharges;
+
+    private String pageNumber;
+    private String selectRowDetails;
+    private boolean showSelectedRowDetails;
 
     public String getSubscriptionDateValidationFlag() {
         return subscriptionDateValidationFlag;
@@ -157,6 +166,172 @@ public class OLEInvoiceForm extends TransactionalDocumentFormBase {
 
 	public void setFilterProcessItems(boolean filterProcessItems) {
 		this.filterProcessItems = filterProcessItems;
+	}
+
+	public boolean isFilterAdditionalCharges() {
+		if (filterAdditionalCharges == null) {
+			OleInvoiceDocument doc = (OleInvoiceDocument) getDocument();
+			filterAdditionalCharges = doc == null ? true : !doc.isAdditionalChargesFlag();
+		}
+		return filterAdditionalCharges;
+	}
+	
+	public void setFilterAdditionalCharges(boolean filterAdditionalCharges) {
+		this.filterAdditionalCharges = filterAdditionalCharges;
+	}
+
+	public boolean isFilterRequisition() {
+		Map<String, Object> ext = getExtensionData();
+		for (String k : ext.keySet())
+			if (k != null && k.startsWith("requisition"))
+				return false;
+		return true;
+	}
+	
+	public boolean showRequisition(String id) {
+		return Boolean.TRUE.equals(getExtensionData().get("requisition" + id));
+	}
+
+	public void setShowRequisitionFor(String id) {
+		Map<String, Object> ext = getExtensionData();
+		synchronized (ext) {
+			ext.put("requisition" + id, Boolean.TRUE);
+		}
+	}
+	
+	public void setHideRequisitionFor(String id) {
+		Map<String, Object> ext = getExtensionData();
+		synchronized (ext) {
+			ext.remove("requisition" + id);
+		}
+	}
+	
+	public boolean isFilterLineItemReceiving() {
+		Map<String, Object> ext = getExtensionData();
+		for (String k : ext.keySet())
+			if (k != null && k.startsWith("LineItemReceiving"))
+				return false;
+		return true;
+	}
+	
+	public boolean showLineItemReceiving(String id) {
+		return Boolean.TRUE.equals(getExtensionData().get("LineItemReceiving" + id));
+	}
+
+	public void setShowLineItemReceivingFor(String id) {
+		Map<String, Object> ext = getExtensionData();
+		synchronized (ext) {
+			ext.put("LineItemReceiving" + id, Boolean.TRUE);
+		}
+	}
+	
+	public void setHideLineItemReceivingFor(String id) {
+		Map<String, Object> ext = getExtensionData();
+		synchronized (ext) {
+			ext.remove("LineItemReceiving" + id);
+		}
+	}
+	
+	public boolean isFilterCorrection() {
+		Map<String, Object> ext = getExtensionData();
+		for (String k : ext.keySet())
+			if (k != null && k.startsWith("Correction"))
+				return false;
+		return true;
+	}
+	
+	public boolean showCorrection(String id) {
+		return Boolean.TRUE.equals(getExtensionData().get("Correction" + id));
+	}
+
+	public void setShowCorrectionFor(String id) {
+		Map<String, Object> ext = getExtensionData();
+		synchronized (ext) {
+			ext.put("Correction" + id, Boolean.TRUE);
+		}
+	}
+	
+	public void setHideCorrectionFor(String id) {
+		Map<String, Object> ext = getExtensionData();
+		synchronized (ext) {
+			ext.remove("Correction" + id);
+		}
+	}
+	
+	public boolean isFilterPaymentRequest() {
+		Map<String, Object> ext = getExtensionData();
+		for (String k : ext.keySet())
+			if (k != null && k.startsWith("PaymentRequest"))
+				return false;
+		return true;
+	}
+	
+	public boolean showPaymentRequest(String id) {
+		return Boolean.TRUE.equals(getExtensionData().get("PaymentRequest" + id));
+	}
+
+	public void setShowPaymentRequestFor(String id) {
+		Map<String, Object> ext = getExtensionData();
+		synchronized (ext) {
+			ext.put("PaymentRequest" + id, Boolean.TRUE);
+		}
+	}
+	
+	public void setHidePaymentRequestFor(String id) {
+		Map<String, Object> ext = getExtensionData();
+		synchronized (ext) {
+			ext.remove("PaymentRequest" + id);
+		}
+	}
+	
+	public boolean isFilterCreditMemo() {
+		Map<String, Object> ext = getExtensionData();
+		for (String k : ext.keySet())
+			if (k != null && k.startsWith("CreditMemo"))
+				return false;
+		return true;
+	}
+	
+	public boolean showCreditMemo(String id) {
+		return Boolean.TRUE.equals(getExtensionData().get("CreditMemo" + id));
+	}
+
+	public void setShowCreditMemoFor(String id) {
+		Map<String, Object> ext = getExtensionData();
+		synchronized (ext) {
+			ext.put("CreditMemo" + id, Boolean.TRUE);
+		}
+	}
+	
+	public void setHideCreditMemoFor(String id) {
+		Map<String, Object> ext = getExtensionData();
+		synchronized (ext) {
+			ext.remove("CreditMemo" + id);
+		}
+	}
+	
+	public String getPageNumber() {
+		return pageNumber;
+	}
+
+	public void setPageNumber(String pageNumber) {
+		this.pageNumber = pageNumber;
+	}
+
+	public String getSelectRowDetails() {
+		return selectRowDetails;
+	}
+
+	public void setSelectRowDetails(String selectRowDetails) {
+		this.selectRowDetails = selectRowDetails;
+	}
+
+	public boolean isShowSelectedRowDetails() {
+		return showSelectedRowDetails;
+	}
+
+	public void setShowSelectedRowDetails(boolean showSelectedRowDetails) {
+		this.showSelectedRowDetails = showSelectedRowDetails;
 	}
 
 }

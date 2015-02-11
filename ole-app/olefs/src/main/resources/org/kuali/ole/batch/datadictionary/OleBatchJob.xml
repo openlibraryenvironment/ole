@@ -10,6 +10,7 @@
                 <ref bean="OleDeliverBatchJob-jobTriggerName"/>
                 <ref bean="OleDeliverBatchJob-jobCronExpression"/>
                 <ref bean="OleDeliverBatchJob-jobEnableStatus"/>
+                <ref bean="OleDeliverBatchJob-pickupLocation"/>
             </list>
         </property>
         <property name="primaryKeys">
@@ -92,13 +93,34 @@
         <property name="label" value="Job Cron Expression"/>
     </bean>
 
+    <bean id="OleDeliverBatchJob-pickupLocation" parent="OleDeliverBatchJob-pickupLocation-parentBean"/>
+
+    <bean id="OleDeliverBatchJob-pickupLocation-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Pick up location"/>
+        <property name="description" value="pickupLocation"/>
+        <property name="name" value="pickupLocation"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Pick-up Location "/>
+    </bean>
+
+
+
+
     <bean id="OleDeliverBatchJob-LookupView" parent="Uif-OLELookupView">
         <property name="headerText" value="Batch Job Lookup" />
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch01s09.html"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
         <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleBatchJobBo" />

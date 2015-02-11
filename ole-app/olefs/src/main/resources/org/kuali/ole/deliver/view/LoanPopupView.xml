@@ -45,7 +45,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/deliver/loan/script/loan.js</value>
             </list>
         </property>

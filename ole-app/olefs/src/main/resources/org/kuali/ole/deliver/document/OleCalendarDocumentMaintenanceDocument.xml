@@ -44,7 +44,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="${ole.externalizable.help.url}/reference/webhelp/CIRC/content/ch04s02.html"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
         <property name="items">
@@ -57,7 +57,7 @@
         </property>
 
         <property name="additionalScriptFiles">
-        <list>
+        <list merge="true">
         <value>ole/deliver/loan/script/olecalendar.js</value>
         </list>
         </property>
@@ -151,7 +151,16 @@
                         <bean parent="Uif-DateControl" p:size="10"/>
                     </property>
                     <property name="validCharactersConstraint">
-                        <bean parent="BasicDatePatternConstraint"/>
+                        <bean parent="BasicDatePatternConstraint">
+                            <property name="allowedFormats">
+                                <list>
+                                    <value>${allowedFormats.dateFormat1}</value>
+                                    <value>${allowedFormats.dateFormat2}</value>
+                                    <value>${allowedFormats.dateFormat3}</value>
+                                    <value>${allowedFormats.dateFormat4}</value>
+                                </list>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
                <bean id="oleCalendarEndDate" parent="Uif-InputField" p:propertyName="endDate" p:label="End Date" ><!--date--><!--p:render="@{maintenanceAction ne 'Edit'}"-->
@@ -159,7 +168,16 @@
                         <bean parent="Uif-DateControl" p:size="10"/>
                     </property>
                     <property name="validCharactersConstraint">
-                        <bean parent="BasicDatePatternConstraint"/>
+                        <bean parent="BasicDatePatternConstraint">
+                            <property name="allowedFormats">
+                                <list>
+                                    <value>${allowedFormats.dateFormat1}</value>
+                                    <value>${allowedFormats.dateFormat2}</value>
+                                    <value>${allowedFormats.dateFormat3}</value>
+                                    <value>${allowedFormats.dateFormat4}</value>
+                                </list>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
                <bean id="oleCalendarGroupId" parent="Uif-InputField" p:propertyName="calendarGroupId"
@@ -330,7 +348,16 @@
                                     <bean parent="Uif-DateControl" p:size="10"/>
                                 </property>
                                 <property name="validCharactersConstraint">
-                                    <bean parent="BasicDatePatternConstraint"/>
+                                    <bean parent="BasicDatePatternConstraint">
+                                        <property name="allowedFormats">
+                                            <list>
+                                                <value>${allowedFormats.dateFormat1}</value>
+                                                <value>${allowedFormats.dateFormat2}</value>
+                                                <value>${allowedFormats.dateFormat3}</value>
+                                                <value>${allowedFormats.dateFormat4}</value>
+                                            </list>
+                                        </property>
+                                    </bean>
                                 </property>
                             </bean>
 
@@ -441,7 +468,16 @@
                                     <bean parent="Uif-DateControl" p:size="10"/>
                                 </property>
                                 <property name="validCharactersConstraint">
-                                    <bean parent="BasicDatePatternConstraint"/>
+                                    <bean parent="BasicDatePatternConstraint">
+                                        <property name="allowedFormats">
+                                            <list>
+                                                <value>${allowedFormats.dateFormat1}</value>
+                                                <value>${allowedFormats.dateFormat2}</value>
+                                                <value>${allowedFormats.dateFormat3}</value>
+                                                <value>${allowedFormats.dateFormat4}</value>
+                                            </list>
+                                        </property>
+                                    </bean>
                                 </property>
                             </bean>
 
@@ -451,7 +487,16 @@
                                     <bean parent="Uif-DateControl" p:size="10"/>
                                 </property>
                                 <property name="validCharactersConstraint">
-                                    <bean parent="BasicDatePatternConstraint"/>
+                                    <bean parent="BasicDatePatternConstraint">
+                                        <property name="allowedFormats">
+                                            <list>
+                                                <value>${allowedFormats.dateFormat1}</value>
+                                                <value>${allowedFormats.dateFormat2}</value>
+                                                <value>${allowedFormats.dateFormat3}</value>
+                                                <value>${allowedFormats.dateFormat4}</value>
+                                            </list>
+                                        </property>
+                                    </bean>
                                 </property>
                             </bean>
                             <bean id="oleCalendarExceptionPeriodType" parent="Uif-InputField" p:label="Exception Period Type"  p:propertyName="exceptionPeriodType">

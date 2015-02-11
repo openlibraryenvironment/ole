@@ -29,7 +29,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CIRC/content/ch02s04.html"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
         <property name="items">
@@ -48,7 +48,7 @@
             <ref bean="ClearFooterView-buttons" />
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/deliver/loan/script/loan.js</value>
             </list>
         </property>
@@ -297,7 +297,16 @@
             <bean parent="Uif-DateControl" p:size="10"/>
         </property>
         <property name="validCharactersConstraint">
-            <bean parent="BasicDatePatternConstraint"/>
+            <bean parent="BasicDatePatternConstraint">
+                <property name="allowedFormats">
+                    <list>
+                        <value>${allowedFormats.dateFormat1}</value>
+                        <value>${allowedFormats.dateFormat2}</value>
+                        <value>${allowedFormats.dateFormat3}</value>
+                        <value>${allowedFormats.dateFormat4}</value>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 

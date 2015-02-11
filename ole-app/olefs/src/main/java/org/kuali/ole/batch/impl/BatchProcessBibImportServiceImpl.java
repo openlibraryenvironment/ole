@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -201,10 +202,8 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
                 }
             }
             if (StringUtils.isNotEmpty(oleBatchProcessProfileDeleteField.getSubField()) || oleBatchProcessProfileDeleteField.getSubField() != "" || oleBatchProcessProfileDeleteField.getSubField() != null) {
-                if (!isProtectedSubField(oleBatchProcessProfileBo, oleBatchProcessProfileDeleteField)) {
-                    if (StringUtils.isNotEmpty(oleBatchProcessProfileDeleteField.getSubField())) {
-                        getOleBatchProcessDataHelper().deleteMarcSubFields(bibRecord, oleBatchProcessProfileDeleteField);
-                    }
+                if (StringUtils.isNotEmpty(oleBatchProcessProfileDeleteField.getSubField())) {
+                    getOleBatchProcessDataHelper().deleteMarcSubFields(bibRecord, oleBatchProcessProfileDeleteField);
                 }
             }
         }
@@ -440,18 +439,14 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
             oleBatchProcessProfileDeleteField.setSecondIndicator(renameField.getOriginalSecondIndicator());
             oleBatchProcessProfileDeleteField.setSubField(renameField.getOriginalSubField());
             if (StringUtils.isNotEmpty(oleBatchProcessProfileDeleteField.getSubField()) || oleBatchProcessProfileDeleteField.getSubField() != "" || oleBatchProcessProfileDeleteField.getSubField() != null) {
-                if (!isProtectedSubField(oleBatchProcessProfileBo, oleBatchProcessProfileDeleteField)) {
-                    if (StringUtils.isNotEmpty(oleBatchProcessProfileDeleteField.getSubField())) {
-                        getOleBatchProcessDataHelper().addMarcFields(targetRecord, renameField);
-                        getOleBatchProcessDataHelper().deleteMarcSubFields(targetRecord, oleBatchProcessProfileDeleteField);
-                    }
+                if (StringUtils.isNotEmpty(oleBatchProcessProfileDeleteField.getSubField())) {
+                    getOleBatchProcessDataHelper().addMarcFields(targetRecord, renameField);
+                    getOleBatchProcessDataHelper().deleteMarcSubFields(targetRecord, oleBatchProcessProfileDeleteField);
                 }
             }
             if (StringUtils.isEmpty(oleBatchProcessProfileDeleteField.getSubField()) || (oleBatchProcessProfileDeleteField.getSubField() == "" || oleBatchProcessProfileDeleteField.getSubField() == null)) {
-                if (!isProtectedDataField(oleBatchProcessProfileBo, oleBatchProcessProfileDeleteField)) {
-                    if (StringUtils.isNotEmpty(oleBatchProcessProfileDeleteField.getTag())) {
-                        getOleBatchProcessDataHelper().renameMarcFields(targetRecord, renameField);
-                    }
+                if (StringUtils.isNotEmpty(oleBatchProcessProfileDeleteField.getTag())) {
+                    getOleBatchProcessDataHelper().renameMarcFields(targetRecord, renameField);
                 }
             }
         }
@@ -558,26 +553,41 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
         String fullDataField = null;
         List<OLEBatchProcessProfileConstantsBo> oleBatchProcessProfileConstantsBoList = oleBatchProcessProfileBo.getOleBatchProcessProfileConstantsList();
         for (OLEBatchProcessProfileConstantsBo oleBatchProcessProfileConstantsBo : oleBatchProcessProfileConstantsBoList) {
-            //if (!isProtectedField(oleBatchProcessProfileBo, oleBatchProcessProfileConstantsBo.getAttributeName(), "")) {
+            if (!"Bibmarc".equalsIgnoreCase(oleBatchProcessProfileConstantsBo.getDataType()))
+                continue;
+
+            boolean isDataFieldExist = false;
             for (DataField dataField : targetRecord.getDataFields()) {
                 if (dataField.getTag().equalsIgnoreCase(oleBatchProcessProfileConstantsBo.getAttributeName().substring(0, 3))) {
                     for (SubField subField : dataField.getSubFields()) {
                         fullDataField = getBatchDataFldFullString(dataField.getTag(), dataField.getInd1(), dataField.getInd2(), subField.getCode());
+                        buildDataFiledfullForComparision(oleBatchProcessProfileConstantsBo);
                         if (fullDataField.equalsIgnoreCase(oleBatchProcessProfileConstantsBo.getAttributeName())) {
                             if (oleBatchProcessProfileConstantsBo.getDefaultValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.PROFILE_CONSTANT_DEFAULT)) {
+                                isDataFieldExist = true;
                                 if (StringUtils.isEmpty(subField.getValue())) {
                                     subField.setValue(oleBatchProcessProfileConstantsBo.getAttributeValue());
                                 }
-                            } else {
-                                subField.setValue(oleBatchProcessProfileConstantsBo.getAttributeValue());
                             }
                         }
                     }
                 }
             }
-            //}
+            if (!isDataFieldExist) {
+                DataField dataField = BatchBibImportUtil.buildDataField(oleBatchProcessProfileConstantsBo.getAttributeName(), oleBatchProcessProfileConstantsBo.getAttributeValue());
+                targetRecord.getDataFields().add(dataField);
+            }
         }
 
+    }
+
+    private void buildDataFiledfullForComparision(OLEBatchProcessProfileConstantsBo oleBatchProcessProfileConstantsBo) {
+        if (oleBatchProcessProfileConstantsBo.getAttributeName().length() < 7) {
+            String[] attributeList = oleBatchProcessProfileConstantsBo.getAttributeName().split(" ");
+            if (attributeList.length == 2) {
+                oleBatchProcessProfileConstantsBo.setAttributeName(getBatchDataFldFullString(attributeList[0], "#", "#", attributeList[1]));
+            }
+        }
     }
 
     /**
@@ -716,7 +726,7 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
 
         // Add incoming data fields from list
         dataFieldList.addAll(inComingRecord.getDataFields());
-
+        Collections.sort(dataFieldList);
         matchedRecord.setDataFields(dataFieldList);
         List<ControlField> controlFields = inComingRecord.getControlFields();
         ControlField controlField001 = getMatchedControlField(inComingRecord, OLEConstants.OLEBatchProcess.CONTROL_FIELD_001);

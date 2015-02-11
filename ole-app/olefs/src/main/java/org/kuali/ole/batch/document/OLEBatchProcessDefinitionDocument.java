@@ -5,6 +5,7 @@ import org.kuali.ole.batch.form.OLEBatchProcessDefinitionForm;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +66,24 @@ public class OLEBatchProcessDefinitionDocument extends TransactionalDocumentBase
     private String runNowOrSchedule;
     private boolean afterSubmitFlag;
     private String loadIdFromFile = "false";
+    private String processNameHidden;
+    private String processTypeHidden;
+
+    public String getProcessNameHidden() {
+        return processNameHidden;
+    }
+
+    public void setProcessNameHidden(String processNameHidden) {
+        this.processNameHidden = processNameHidden;
+    }
+
+    public String getProcessTypeHidden() {
+        return processTypeHidden;
+    }
+
+    public void setProcessTypeHidden(String processTypeHidden) {
+        this.processTypeHidden = processTypeHidden;
+    }
 
     public boolean isAfterSubmitFlag() {
         return afterSubmitFlag;

@@ -81,6 +81,10 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private boolean showRequestedItems;
     private boolean showTemporaryCirculationHistoryRecords;
 
+    private String realPatronFirstName;
+
+    private String realPatronLastName;
+
     private transient IdentityService identityService;
 
     public IdentityService getIdentityService() {
@@ -1445,5 +1449,27 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
 
     public void setShowTemporaryCirculationHistoryRecords(boolean showTemporaryCirculationHistoryRecords) {
         this.showTemporaryCirculationHistoryRecords = showTemporaryCirculationHistoryRecords;
+    }
+
+    public String getRealPatronFirstName() {
+        if(entity!=null && entity.getNames()!=null && entity.getNames().size()>0){
+            this.realPatronFirstName=entity.getNames().get(0).getFirstName().replaceAll("'", "\'");
+        }
+        return realPatronFirstName;
+    }
+
+    public void setRealPatronFirstName(String realPatronFirstName) {
+        this.realPatronFirstName = realPatronFirstName;
+    }
+
+    public String getRealPatronLastName() {
+        if(entity!=null && entity.getNames()!=null && entity.getNames().size()>0){
+            this.realPatronLastName=entity.getNames().get(0).getLastName().replaceAll("'", "\'");
+        }
+        return realPatronLastName;
+    }
+
+    public void setRealPatronLastName(String realPatronLastName) {
+        this.realPatronLastName = realPatronLastName;
     }
 }

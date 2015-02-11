@@ -1,6 +1,7 @@
 package org.kuali.ole.deliver.batch;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
@@ -13,6 +14,7 @@ import org.kuali.ole.docstore.common.search.SearchResult;
 import org.kuali.ole.docstore.common.search.SearchResultField;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import java.text.DateFormat;
@@ -31,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 public class OleShelvingLagTime {
 
     private static final Logger LOG = Logger.getLogger(OleShelvingLagTime.class);
+    private static final String solrMaxPageSize = ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.OleCirculationDesk.SOLR_MAX_PAGE_SIZE);
 
     private BusinessObjectService businessObjectService;
 
@@ -56,6 +59,9 @@ public class OleShelvingLagTime {
         SearchResponse searchResponse = null;
         search_Params.getSearchConditions().add(search_Params.buildSearchCondition("", search_Params.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), item.ITEM_STATUS, "RECENTLY-RETURNED"), ""));
         search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "id"));
+        if (StringUtils.isNotBlank(solrMaxPageSize)) {
+            search_Params.setPageSize(Integer.parseInt(solrMaxPageSize));
+        }
         searchResponse = getDocstoreClientLocator().getDocstoreClient().search(search_Params);
         for (SearchResult searchResult : searchResponse.getSearchResults()) {
             for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {

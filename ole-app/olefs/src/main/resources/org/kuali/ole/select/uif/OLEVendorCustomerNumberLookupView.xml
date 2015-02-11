@@ -93,7 +93,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>scripts/ole/invoice.js</value>
             </list>
         </property>

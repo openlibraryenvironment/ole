@@ -31,6 +31,9 @@ import org.kuali.ole.select.bo.OLESerialReceivingDocument;
 import org.kuali.ole.select.bo.OLESerialReceivingHistory;
 import org.kuali.ole.select.businessobject.OleCopy;
 import org.kuali.ole.service.impl.OLESerialReceivingServiceImpl;
+import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -103,14 +106,15 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
 
         //TODO: set title info
         WorkInstanceOlemlForm workInstanceOlemlForm = new WorkInstanceOlemlForm();
-//        editorForm.setHeaderText("Instance Editor (Holdings) - OLEML Format");
+        String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(org.kuali.ole.sys.OLEConstants.EXTERNALIZABLE_HELP_URL_KEY);
+        editorForm.setExternalHelpUrl(directory+"/reference/webhelp/CG/content/ch01s03.html#_Holdings");
         editorForm.setHeaderText("Holdings");
         editorForm.setHasLink(true);
         editorForm.setShowEditorFooter(true);
         String bibId = editorForm.getBibId();
         List<BibTree> bibTreeList = new ArrayList();
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" HH:mm:ss");
         String dateStr = sdf.format(date);
         BibTree bibTree = null;
         if (!StringUtils.isNotEmpty(bibId)) {
@@ -273,7 +277,7 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
         String editorMessage = "";
         Bib bib = null;
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" HH:mm:ss");
         String dateStr = sdf.format(date);
         String user = GlobalVariables.getUserSession().getPrincipalName();
         try {
@@ -466,7 +470,7 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
                             }
 
                             Map<String,String> asrItemMap = new HashMap<String,String>();
-                            asrItemMap.put("itemBarcode",itemData.getAccessInformation().getBarcode());
+                            asrItemMap.put("itemBarcode", asrItem.getItemBarcode());
                             List<ASRItem> existingASRItems = (List<ASRItem>)getBusinessObjectService().findMatching(ASRItem.class,asrItemMap);
 
                             if(existingASRItems.size()==0){
@@ -862,7 +866,7 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
         String editorMessage = "";
         Bib bib = null;
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" HH:mm:ss");
         String dateStr = sdf.format(date);
         String user = GlobalVariables.getUserSession().getPrincipalName();
         workInstanceOlemlForm.setBibTreeList(bibTreeList);

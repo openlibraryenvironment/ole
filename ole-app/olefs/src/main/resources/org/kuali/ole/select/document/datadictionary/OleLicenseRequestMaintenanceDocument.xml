@@ -40,7 +40,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="${ole.externalizable.help.url}/reference/webhelp/AG/content/ch08s03.html"/>
-                <property name="tooltipHelpContent" value="[Help] maintenance help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] maintenance help"/>-->
             </bean>
         </property>
         <property name="items">
@@ -53,7 +53,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/license/scripts/licenseRequest.js</value>
             </list>
         </property>

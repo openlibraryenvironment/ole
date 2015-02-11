@@ -564,6 +564,7 @@
         <column default="0" name="OLE_CRCL_DSK_LOCN_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="OLE_CRCL_DSK_ID" required="true" size="40" type="VARCHAR"/>
         <column name="OLE_CRCL_DSK_LOCN" required="true" size="40" type="VARCHAR"/>
+        <column name="OLE_CRCL_PICKUP_DSK_LOCN"  size="40" type="VARCHAR"/>
         <foreign-key foreignTable="OLE_CRCL_DSK_T" name="OLE_CRCL_LOCN_FK">
             <reference foreign="OLE_CRCL_DSK_ID" local="OLE_CRCL_DSK_ID"/>
         </foreign-key>
@@ -593,6 +594,7 @@
         <column name="OLE_CLNDR_GRP_ID" size="40" type="VARCHAR"/>
         <column name="HOLD_FORMAT" size="40" type="VARCHAR"/>
         <column name="HOLD_QUEUE" required="true" size="1" type="VARCHAR"/>
+        <column name="REPLY_TO_EMAIL" size="100" type="VARCHAR"/>
     </table>
 
     <table name="OLE_DATAFIELD_T">
@@ -728,6 +730,7 @@
         <column name="JOB_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="JOB_TRG_NM" required="true" size="100" type="VARCHAR"/>
         <column name="ROW_ACT_IND" required="true" size="1" type="VARCHAR"/>
+        <column name="PCK_UP_LOCN"  size="100" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="JOB_CRON_EXPRSN" size="80" type="VARCHAR"/>
@@ -1033,6 +1036,8 @@
         <column name="PTRN_Q_POS" type="INTEGER"/>
         <column name="ITEM_UUID" required="true" size="100" type="VARCHAR"/>
         <column name="RQST_STAT" size="10" type="VARCHAR"/>
+        <column name="RQST_LVL" size="40" type="VARCHAR"/>
+        <column name="BIB_ID" size="40" type="VARCHAR"/>
         <column name="ASR_FLAG"  size="1" type="VARCHAR"/>
         <foreign-key foreignTable="ole_ptrn_t" name="flk5">
             <reference foreign="OLE_PTRN_ID" local="PROXY_PTRN_ID"/>
@@ -2894,7 +2899,17 @@
     </table>
 
 
-
+    <table name="OLE_LOAN_INTRANSIT_HISTORY_T">
+        <column name="ID"   type="VARCHAR" size="36" primaryKey="true"/>
+        <column name="ITEM_BARCODE"   type="VARCHAR"  size="40"/>
+        <column name="ITEM_UUID"   type="VARCHAR" size="40"/>
+        <column name="ITEM_RETURNED_DT"  type="TIMESTAMP"/>
+        <column name="OPERATOR"   type="VARCHAR" size="36"/>
+        <column name="CIR_DESK_LOC"  type="VARCHAR" size="100"/>
+        <column name="CIR_DESK_ROUTE_TO"  type="VARCHAR" size="100"/>
+        <column name="VER_NBR" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+    </table>
 
     <table name="OLE_SBSCRP_STS_T">
         <column name="OLE_SBSCRP_STS_ID" primaryKey="true" size="10" type="VARCHAR"/>
@@ -3419,6 +3434,7 @@ AND ENT.ENTITY_ID = ENT_NM.ENTITY_ID)&#xa;&#xa;&#xa;&#xa;"/>
     <sequence name="OLE_SBSCRP_STS_S" nextval="5"/>
     <sequence name="OLE_DLVR_LOAN_NOTICE_S" nextval="1"/>
     <sequence name="OLE_DLVR_LOAN_NOTICE_HSTRY_S" nextval="1"/>
+    <sequence name="OLE_LOAN_INTRANSIT_HISTORY_S" nextval="1"/>
     <sequence name="OLE_VRNT_TTL_S" nextval="1"/>
     <sequence name="ACTN_LST_ALRT_S" nextval="1"/>
     <sequence name="ALRT_S" nextval="1"/>

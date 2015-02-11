@@ -23,7 +23,7 @@
 
     <bean id="OleItemSearch-LookupView" parent="Uif-OLELookupView">
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/deliver/loan/script/Item.js</value>
 
             </list>

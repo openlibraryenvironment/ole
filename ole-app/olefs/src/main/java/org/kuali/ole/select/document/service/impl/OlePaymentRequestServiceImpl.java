@@ -37,6 +37,7 @@ import org.kuali.ole.select.businessobject.OlePurchaseOrderItem;
 import org.kuali.ole.select.document.OlePaymentRequestDocument;
 import org.kuali.ole.select.document.service.OlePaymentRequestService;
 import org.kuali.ole.select.document.service.OlePurapAccountingService;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEKeyConstants;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
@@ -67,6 +68,7 @@ public class OlePaymentRequestServiceImpl extends PaymentRequestServiceImpl impl
     protected NoteService noteService;
     private OlePurapAccountingService olePurapAccountingService;
     private PurapAccountingService purapAccountingService;
+    private OleSelectDocumentService oleSelectDocumentService;
 
     @Override
     public void setPurapService(PurapService purapService) {
@@ -208,7 +210,7 @@ public class OlePaymentRequestServiceImpl extends PaymentRequestServiceImpl impl
 
             //if a new item has been added spawn a purchase order amendment
             if (hasNewUnorderedItem(paymentDocument)) {
-                String newSessionUserId = OLEConstants.SYSTEM_USER;
+                String newSessionUserId = getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER);
                 try {
 
                     LogicContainer logicToRun = new LogicContainer() {
@@ -670,6 +672,17 @@ public class OlePaymentRequestServiceImpl extends PaymentRequestServiceImpl impl
             return olePaymentMethod.getPaymentMethod();
         }
         return "";
+    }
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 
 }

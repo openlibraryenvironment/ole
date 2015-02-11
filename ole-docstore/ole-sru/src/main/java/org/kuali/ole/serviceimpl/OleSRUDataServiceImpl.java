@@ -1,5 +1,6 @@
 package org.kuali.ole.serviceimpl;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.kuali.ole.OLESruItemHandler;
 import org.kuali.ole.OleSRUConstants;
@@ -11,6 +12,8 @@ import org.kuali.ole.docstore.common.document.HoldingsTree;
 import org.kuali.ole.docstore.common.document.content.bib.dc.BibDcRecord;
 import org.kuali.ole.docstore.common.document.content.bib.dc.DCValue;
 import org.kuali.ole.docstore.common.document.content.bib.dc.xstream.BibDcRecordProcessor;
+import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecords;
+import org.kuali.ole.docstore.common.document.content.bib.marc.xstream.BibMarcRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.InstanceOlemlRecordProcessor;
@@ -89,14 +92,14 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
         } catch (Exception e) {
             LOG.error(e.getMessage());
             if(e instanceof SolrServerException){
-                    if(solrQuery.contains("LocalId"))
-                        oleBibIDList.add("Invalid Local Id");
-                    else
-                oleBibIDList.add("Exception Occured");
+                if(solrQuery.contains("LocalId"))
+                    oleBibIDList.add("Invalid Local Id");
+                else
+                    oleBibIDList.add("Exception Occured");
 
                 return  oleBibIDList;
             } else
-            return null;
+                return null;
         }
         return oleBibIDList;
     }
@@ -135,6 +138,7 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
                     OleSRUResponseDocument oleSRUResponseDocument = new OleSRUResponseDocument();
                     OleSRUData oleSRUData = (OleSRUData) oleBibIDList.get(i);
                     bibRecordInfo = getBibliographicRecordInfo(oleSRUData.getBibId());
+                    BibMarcRecords bibMarcRecords=(BibMarcRecords)(new BibMarcRecordProcessor()).fromXML(bibRecordInfo);
                     OleSRUResponseRecordData oleSRUResponseRecordData = new OleSRUResponseRecordData();
                     String recordSchema= (String)reqParamMap.get(OleSRUConstants.RECORD_SCHEMA);
                     if (recordSchema.equalsIgnoreCase(OleSRUConstants.OPAC_RECORD)) {
@@ -159,10 +163,15 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
                         }
                         OleSRUDublinRecordResponseHandler oleSRUDublinRecordResponseHandler = new OleSRUDublinRecordResponseHandler();
                         String dublinInfo = oleSRUDublinRecordResponseHandler.toXML(oleSRUDublinRecord);
+                        //dublinInfo = dublinInfo.replaceAll("&amp;","&");
+                        //bibRecordInfo=StringEscapeUtils.unescapeXml(bibRecordInfo);
                         oleSRUResponseRecordData.setBibliographicRecord(dublinInfo);
                         oleSRUResponseDocument.setOleSRUResponseRecordData(oleSRUResponseRecordData);
                     } else {
+                        //bibRecordInfo = bibRecordInfo.replaceAll("&amp;","&");
+                        //bibRecordInfo=StringEscapeUtils.unescapeXml(bibRecordInfo);
                         oleSRUResponseRecordData.setBibliographicRecord(bibRecordInfo);
+                        oleSRUResponseRecordData.setBibMarcRecords(bibMarcRecords);
                         oleSRUResponseDocument.setOleSRUResponseRecordData(oleSRUResponseRecordData);
                     }
                     oleSRUSearchRetrieveResponse.setNumberOfRecords((Long) (reqParamMap.get(OleSRUConstants.NUMBER_OF_REORDS)));
@@ -191,7 +200,8 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
                 if (OleSRUConstants.RECORD_PACK_XML.equalsIgnoreCase((String) reqParamMap.get(OleSRUConstants.RECORD_PACKING))) {
                     String opacXML = oleSRUOpacXMLResponseHandler.toXML(oleSRUSearchRetrieveResponse,(String)reqParamMap.get(OleSRUConstants.RECORD_SCHEMA));
                     if (null != opacXML)
-                        opacXML = replaceStringWithSymbols(opacXML);
+                        //opacXML=StringEscapeUtils.unescapeXml(opacXML);
+                        //opacXML = replaceStringWithSymbols(opacXML);
                     return opacXML;
                 } else if (OleSRUConstants.RECORD_PACK_STRING.equalsIgnoreCase((String) reqParamMap.get(OleSRUConstants.RECORD_PACKING))) {
                     return oleSRUSearchRetrieveResponse.toString();
@@ -319,17 +329,17 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
      * @param opacXML
      * @return opac xml response
      */
-    private String replaceStringWithSymbols(String opacXML) {
+   /* private String replaceStringWithSymbols(String opacXML) {
         LOG.info("Inside replaceStringWithSymbols method");
         opacXML = opacXML.replaceAll("&lt;", "<");
         opacXML = opacXML.replaceAll("&gt;", ">");
         opacXML = opacXML.replaceAll("&quot;", "\"");
         opacXML = opacXML.replaceAll("&apos;", "\'");
-        opacXML =opacXML.replaceAll("&amp;","&");
+        //opacXML =opacXML.replaceAll("&amp;","&");
         //opacXML = opacXML.replaceAll("&","&amp;");
         //opacXML = StringEscapeUtils.unescapeHtml(opacXML).replaceAll("[^\\x20-\\x7e]", "");
         return opacXML;
-    }
+    }*/
 
     public List<OleSRUInstanceDocument> getOleSRUInstanceDocument() {
         LOG.info("Inside getOleSRUInstanceDocument method");
@@ -399,8 +409,6 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
         LOG.info("Inside processInstanceCollectionXml method");
         String sruTrueValue = getParameter(OleSRUConstants.BOOLEAN_FIELD_TRUE_FORMAT);
         String sruFalseValue = getParameter(OleSRUConstants.BOOLEAN_FIELD_FALSE_FORMAT);
-        StringBuffer localLocationName = new StringBuffer();
-        String temporaryLocation = null;
         InstanceOlemlRecordProcessor instanceOlemlRecordProcessor = new InstanceOlemlRecordProcessor();
         InstanceCollection instanceCollection = instanceOlemlRecordProcessor.fromXML(instanceXml);
         OleSRUInstanceDocument oleSRUInstanceDocument = null;
@@ -460,23 +468,23 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
                             } else {
                                 oleSRUCirculationDocument.setOnHold(sruFalseValue);
                             }
-                                                    String shelvingLocation = "";
+                            String shelvingLocationCode = "";
                             if (item.getLocation() != null) {
-                                shelvingLocation = getShelvingLocation(item.getLocation());
+                                shelvingLocationCode = getShelvingLocation(item.getLocation());
                             }
                             String itemTypeCode = "";
                             if (item.getItemType() != null) {
                                 itemTypeCode = item.getItemType().getCodeValue();
                             }
 
-                            if(item.getLocation()!=null){
-                                sruItemContent = oleLoanDocumentService.getItemInformation(item.getItemIdentifier(), itemTypeCode, shelvingLocation, getLocations(item.getLocation(), OleSRUConstants.SHELVING_LOCATION), getLocations(item.getLocation(), OleSRUConstants.LOCAL_LOCATION));
+                            if (item.getLocation() != null) {
+                                sruItemContent = oleLoanDocumentService.getItemInformation(item.getItemIdentifier(), itemTypeCode, shelvingLocationCode, getLocations(item.getLocation(), OleSRUConstants.SHELVING_LOCATION), getLocations(item.getLocation(), OleSRUConstants.LOCAL_LOCATION));
                                 oleSruItem = (OLESruItem) getOleSruItemHandler().getObjectFromXml(sruItemContent, (Object) new OLESruItem());
-                                if(oleSruItem!=null){
-                                    String shelvingLocations = oleSruItem.getLocalLocation()!=null ? oleSruItem.getLocalLocation() : "";
-                                    String localLocation = oleSruItem.getShelvingLocation()!=null ? oleSruItem.getShelvingLocation() : "";
-                                    temporaryLocation =  localLocation+"/"+shelvingLocations;
-                                oleSRUCirculationDocument.setTemporaryLocation(temporaryLocation);
+                                if (oleSruItem != null) {
+                                    String tempLocation = oleSruItem.getShelvingLocation() != null ? oleSruItem.getShelvingLocation() : "";
+                                    if (!"".equals(tempLocation)) {
+                                        oleSRUCirculationDocument.setTemporaryLocation(tempLocation);
+                                    }
                                 }
                             }
 
@@ -507,27 +515,7 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
         return oleSRUInstanceDocument;
     }
 
-    private void buildLocationNameAndLocationLevel(Location location, StringBuffer locationName) {
-        if (location.getLocationLevel() != null) {
-            locationName = locationName.append(location.getLocationLevel().getName());
 
-            if (location.getLocationLevel().getLocationLevel() != null) {
-                locationName = locationName.append("/").append(location.getLocationLevel().getLocationLevel().getName());
-
-                if (location.getLocationLevel().getLocationLevel().getLocationLevel() != null) {
-                    locationName = locationName.append("/").append(location.getLocationLevel().getLocationLevel().getLocationLevel().getName());
-
-                    if (location.getLocationLevel().getLocationLevel().getLocationLevel().getLocationLevel() != null) {
-                        locationName = locationName.append("/").append(location.getLocationLevel().getLocationLevel().getLocationLevel().getLocationLevel().getName());
-
-                        if (location.getLocationLevel().getLocationLevel().getLocationLevel().getLocationLevel().getLocationLevel() != null) {
-                            locationName = locationName.append("/").append(location.getLocationLevel().getLocationLevel().getLocationLevel().getLocationLevel().getLocationLevel().getName());
-                        }
-                    }
-                }
-            }
-        }
-    }
     public String getParameter(String name) {
         String parameter = "";
         try {

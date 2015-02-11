@@ -52,6 +52,8 @@ public class DocstoreUtil {
         Map<String, String> itemMap = new HashMap<String, String>();
         LocationValuesBuilder locationValuesBuilder = new LocationValuesBuilder();
         String holdingsId = "";
+        String bibTitle="";
+        String bibAuthor="";
         try {
             try {
                 org.kuali.ole.docstore.common.document.Item item = new ItemOleml();
@@ -60,6 +62,8 @@ public class DocstoreUtil {
                 search_Params.getSearchConditions().add(search_Params.buildSearchCondition("phrase", search_Params.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), item.ITEM_BARCODE, oleDeliverRequestBo.getItemId()), ""));
                 search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "id"));
                 search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "holdingsIdentifier"));
+                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "Title_display"));
+                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "Author_display"));
                 searchResponse = getDocstoreClientLocator().getDocstoreClient().search(search_Params);
                 for (SearchResult searchResult : searchResponse.getSearchResults()) {
                     for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
@@ -67,9 +71,12 @@ public class DocstoreUtil {
                         String fieldValue = searchResultField.getFieldValue() != null ? searchResultField.getFieldValue() : "";
                         if (fieldName.equalsIgnoreCase("holdingsIdentifier") && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode())) {
                             holdingsId = fieldValue;
-                        } else {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase("Title_display") &&!fieldValue.isEmpty()) {
+                            bibTitle = searchResultField.getFieldValue();
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase("Author_display") &&!fieldValue.isEmpty()) {
+                            bibAuthor = searchResultField.getFieldValue();
+                        } else  if (searchResultField.getFieldName().equalsIgnoreCase("id") &&!fieldValue.isEmpty()){
                             oleDeliverRequestBo.setItemUuid(fieldValue);
-                            String itemUUID = fieldValue;
                         }
                     }
                 }
@@ -90,11 +97,19 @@ public class DocstoreUtil {
                 oleDeliverRequestBo.setItemType(itemSearchList.getItemType());
                 oleDeliverRequestBo.setItemLocation(itemSearchList.getShelvingLocation());
             }
+            if(StringUtils.isNotEmpty(bibTitle)){
+                oleDeliverRequestBo.setTitle(bibTitle);
+            }
+            if(StringUtils.isNotEmpty(bibAuthor)){
+                oleDeliverRequestBo.setAuthor(bibAuthor);
+            }
             LoanProcessor loanProcessor = new LoanProcessor();
             String itemXml = loanProcessor.getItemXML(oleDeliverRequestBo.getItemUuid());
             Item oleItem = loanProcessor.getItemPojo(itemXml);
             oleDeliverRequestBo.setOleItem(oleItem);
             oleDeliverRequestBo.setCopyNumber(oleItem.getCopyNumber());
+            oleDeliverRequestBo.setEnumeration(oleItem.getEnumeration());
+            oleDeliverRequestBo.setChronology(oleItem.getChronology());
             oleDeliverRequestBo.setItemStatus(oleItem.getItemStatus().getCodeValue());
             oleDeliverRequestBo.setClaimsReturnedFlag(oleItem.isClaimsReturnedFlag());
             locationValuesBuilder.getLocation(oleItem, oleDeliverRequestBo, holdingsId);
@@ -126,12 +141,12 @@ public class DocstoreUtil {
             } else {
                 oleItemSearch.setShelvingLocation(getLocation(oleHoldings.getLocation(), locationLevel));
             }
-            String callNumber;
+           /* String callNumber;
             if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
-                callNumber = itemContent.getCallNumber().getNumber();
+                callNumber = loanProcessor.getItemCallNumber(itemContent.getCallNumber());
             }else {
                 callNumber = loanProcessor.getItemCallNumber(oleHoldings.getCallNumber());
-            }
+            }*/
             String itemType;
             if(itemContent.getTemporaryItemType()!=null && itemContent.getTemporaryItemType().getCodeValue()!=null){
                 itemType = itemContent.getTemporaryItemType().getCodeValue();
@@ -139,7 +154,7 @@ public class DocstoreUtil {
                 itemType = itemContent.getItemType().getCodeValue();
             }
             oleItemSearch.setPublisher(item.getHolding().getBib().getPublisher());
-            oleItemSearch.setCallNumber(callNumber);
+            oleItemSearch.setCallNumber(loanProcessor.getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
             oleItemSearch.setHoldingUUID(item.getHolding().getId());
             oleItemSearch.setInstanceUUID(item.getHolding().getId());
             oleItemSearch.setCopyNumber(itemContent.getCopyNumber());

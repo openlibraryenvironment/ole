@@ -36,6 +36,7 @@ import org.kuali.ole.docstore.engine.service.search.DocstoreSearchService;
 import org.kuali.ole.docstore.engine.service.search.DocstoreSolrSearchService;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.docstore.model.enums.DocType;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -303,7 +304,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
         if (itemRecord.getEffectiveDate() != null) {
             //Format formatter = new SimpleDateFormat("yyyy-MM-dd");
             //String effectiveDate = formatter.format(itemRecord.getEffectiveDate().toString());
-            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+            SimpleDateFormat format1 = new SimpleDateFormat(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("info.DateFormat")+" hh:mm:ss");
             SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             Date effectiveDate = null;
             try {
@@ -362,7 +363,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
                 LOG.error(" getGregorianCalendar", e);
             }*/
             //try {
-            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            SimpleDateFormat format1 = new SimpleDateFormat(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("info.DateFormat")+" HH:mm:ss");
             SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date dueDateTime = null;
             try {
@@ -567,6 +568,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
             }
             if (callNumber.getShelvingScheme() != null) {
                 CallNumberTypeRecord callNumberTypeRecord = saveCallNumberTypeRecord(callNumber.getShelvingScheme());
+                itemRecord.setCallNumberTypeRecord(callNumberTypeRecord);
                 itemRecord.setCallNumberTypeId(callNumberTypeRecord == null ? null : callNumberTypeRecord.getCallNumberTypeId());
             }
         }
@@ -686,6 +688,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
         }
         if (item.getHighDensityStorage() != null) {
             HighDensityStorageRecord highDensityStorageRecord = saveHighDensityStorageRecord(item.getHighDensityStorage());
+            itemRecord.setHighDensityStorageRecord(highDensityStorageRecord);
             itemRecord.setHighDensityStorageId(highDensityStorageRecord == null ? null : highDensityStorageRecord.getHighDensityStorageId());
         }
         StringBuffer locationLevel = new StringBuffer("");
@@ -835,6 +838,9 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
     protected CallNumberTypeRecord saveCallNumberTypeRecord(ShelvingScheme scheme) {
 
         Map callMap = new HashMap();
+        if(scheme.getCodeValue() != null && scheme.getCodeValue() .equalsIgnoreCase("none")){
+            scheme.setCodeValue("NOINFO");
+        }
         callMap.put("code", scheme.getCodeValue());
         List<CallNumberTypeRecord> callNumberTypeRecords = (List<CallNumberTypeRecord>) getBusinessObjectService().findMatching(CallNumberTypeRecord.class, callMap);
         if (callNumberTypeRecords.size() == 0) {
@@ -1186,10 +1192,8 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
         // Check if CallNumber is present
         if (StringUtils.isNotEmpty(callNumber)) {
             // Check if callNumberType is empty or #
-            if ((callNumberType == null) || (callNumberType.length() == 0) || (callNumberType.equals("NOINFO"))) {
-                DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.CALL_NUMBER_TYPE_INFO, DocstoreResources.CALL_NUMBER_TYPE_INFO);
-                throw docstoreException;
-//                throw new OleDocStoreException("Please enter valid call number type value in call number information ");
+            if ((callNumberType == null) || (callNumberType.length() == 0) || callNumber.equalsIgnoreCase("none")) {
+                cNum.getShelvingScheme().setCodeValue("NOINFO");
             }
         }
     }

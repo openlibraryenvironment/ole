@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OLEItemRequestedRecordView" parent="OLEItemRequestedRecordView-parentBean"/>
+    <bean id="OLEItemRequestedRecordView-parentBean" parent="Uif-OLEFormView">
+        <property name="items">
+            <list>
+                <bean id="OLEItemRequestedRecordPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="OleItemRequestedRecordView-OleItemRequestedRecordsSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="OleItemRequestedRecordView-HorizontalBoxSection-button"/>
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.OLEItemRequestedRecordsForm"/>
+    </bean>
+
+    <bean id="OleItemRequestedRecordView-OleItemRequestedRecordsSection" parent="Uif-MaintenanceTableCollectionSection">
+        <property name="headerText" value="Requested Items"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleDeliverRequestBo"/>
+        <property name="propertyName" value="requestBos"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Item Barcode" p:propertyName="itemId"/>
+                <bean parent="Uif-DataField" p:label="Request Id" p:propertyName="requestId"/>
+                <bean parent="Uif-DataField" p:label="Request Type"
+                      p:propertyName="oleDeliverRequestType.requestTypeCode"/>
+                <bean parent="Uif-DataField" p:label="Borrower Queue Position" p:propertyName="borrowerQueuePosition"/>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="oleItemSearch.title"/>
+                <bean parent="Uif-DataField" p:label="Author" p:propertyName="oleItemSearch.author"/>
+                <bean parent="Uif-DataField" p:label="Copy Number" p:propertyName="oleItemSearch.copyNumber"/>
+                <bean parent="Uif-DataField" p:label="Shelving Location"
+                      p:propertyName="oleItemSearch.shelvingLocation"/>
+                <bean parent="Uif-DataField" p:label="Call Number" p:propertyName="oleItemSearch.callNumber"/>
+                <bean parent="Uif-DataField" p:label="Volume Number" p:propertyName="oleItemSearch.volumeNumber"/>
+                <bean parent="Uif-DataField" p:label="Item Type" p:propertyName="oleItemSearch.itemType"/>
+                <bean parent="Uif-DataField" p:label="Item Status" p:propertyName="oleItemSearch.itemStatus"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OleItemRequestedRecordView-HorizontalBoxSection-button" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="itemRequestRecordsClose" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:15em" p:onClickScript="parent.window.close();"
+                      p:actionLabel="Close"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

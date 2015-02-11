@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OLEPlaceRequestView" parent="OLEPlaceRequestView-parentBean"/>
+    <bean id="OLEPlaceRequestView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Place Request"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CIRC/content/ch02s02.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="OLEPlaceRequestViewPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEPlaceRequestView_errorMessage"/>
+                            <ref bean="OLEPlaceRequestView_successMessage"/>
+                            <ref bean="OLEPlaceRequestView_ItemDetails"/>
+                            <ref bean="OLEPlaceRequestView_PatronDetails"/>
+                            <ref bean="OLEPlaceRequestView_RequestLevel"/>
+                            <ref bean="OLEPlaceRequestView_RequestType"/>
+                            <ref bean="OLEPlaceRequestView_request_details"/>
+                            <bean id="request_submit_button" parent="Uif-SecondaryActionButton-Small"
+                                  p:methodToCall="submit" p:actionLabel="Submit"/>
+                            <bean id="item_level_request_button" parent="Uif-SecondaryActionButton-Small"
+                                  p:methodToCall="getItemsForTitleLevelRequest" p:actionLabel="Submit" p:hidden="true" p:successCallback="showItemsDialog()"/>
+                            <bean id="item_level_request_Clear_button" parent="Uif-SecondaryActionButton-Small"
+                                  p:methodToCall="clearItemsForTitleLevelRequest" p:actionLabel="clear" p:hidden="true"/>
+                            <ref bean="OLEPlaceRequestView_MultipleItem_details"/>
+
+                            <ref bean="plc_rqst_process_request"/>
+                            <ref bean="tit_lvl_rqst"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/ingest/css/circulationDesk.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/deliver/request/scripts/request.js</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.OLEPlaceRequestForm"/>
+    </bean>
+
+    <bean id="OLEPlaceRequestView_errorMessage" parent="Uif-VerticalBoxSection"
+          p:render="@{errorMessage ne null and (errorMessage ne null and errorMessage ne '')}"
+          p:style="font-weight:normal;" p:cssClasses="messageClass">
+        <property name="header.headerText" value="Error Message"/>
+        <property name="items">
+            <list>
+                <bean id="OLEPlaceRequestView_messageFields" parent="Uif-MessageField"
+                      p:messageText="@{errorMessage}" />
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEPlaceRequestView_successMessage" parent="Uif-VerticalBoxSection"
+          p:render="@{errorMessage ne null and (successMessage ne null and successMessage ne '')}"
+          p:style="font-weight:normal;">
+        <property name="header.headerText" value="Success Message"/>
+        <property name="items">
+            <list>
+                <bean id="OLEPlaceRequestView_successFields" parent="Uif-MessageField"
+                      p:messageText="@{successMessage}" />
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEPlaceRequestView_ItemDetails" parent="OLEPlaceRequestView_ItemDetails-parentBean"/>
+
+    <bean id="OLEPlaceRequestView_ItemDetails-parentBean" parent="Uif-Disclosure-VerticalBoxSection"
+          p:render="@{title ne null and title ne ''}">
+        <property name="headerText" value="Item Information"/>
+        <property name="items">
+            <list>
+                <bean id="place_request_itm_title" parent="Uif-LinkField"
+                      p:style="font-weight:bold;font-size:16px;border:2px;"
+
+                      p:label="Title: " p:linkText="@{title}" p:target="_blank"
+                      p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=@{itemId}&amp;bibId=@{bibId}&amp;instanceId=@{holdingId}"/>
+                <bean parent="Uif-DataField" p:propertyName="author" p:label="Author: "
+                      p:style="font-weight:bold;font-size:16px;border:2px;"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEPlaceRequestView_PatronDetails" parent="OLEPlaceRequestView_PatronDetails-parentBean" p:render="@{itemEligible}"/>
+    <bean id="OLEPlaceRequestView_PatronDetails-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Patron details"/>
+        <property name="items">
+            <list>
+                <bean id="pl_req_pat" parent="Uif-InputField"
+                      p:propertyName="patronBarcode" p:label="Patron Barcode"
+                      p:render="@{title ne null and title ne ''}">
+
+
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
+                              p:fieldConversions="patronBarcode:patronBarcode,patronType:patronType,firstName:patronName,patronId:patronId"
+                              p:lookupParameters="patronBarcode:patronBarcode"/>
+                    </property>
+                </bean>
+                <bean id="ptr_pl" parent="Uif-DataField" p:propertyName="patronName" p:label="Patron Name"
+                      p:style="font-weight:bold;font-size:16px;border:2px;"
+                      p:render="@{patronBarcode ne null and patronBarcode ne ''}"/>
+
+                <bean parent="Uif-DataField" p:propertyName="patronType" p:label="Patron Type"
+                      p:style="font-weight:bold;font-size:16px;border:2px;"
+                      p:render="@{patronBarcode ne null and patronBarcode ne ''}"/>
+
+                <bean parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:15em"
+                      p:methodToCall="confirmPatron" p:actionLabel="Confirm patron and Continue with Request"
+
+                      p:render="@{!processRequest and patronBarcode ne null and patronBarcode ne ''}"/>
+
+                <bean id="plc_searchPatron" parent="Uif-SecondaryActionButton-Small" p:methodToCall="searchPatron" p:actionLabel="Search" p:hidden="true" />
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEPlaceRequestView_RequestLevel" parent="OLEPlaceRequestView_RequestLevel-parentBean"/>
+
+    <bean id="OLEPlaceRequestView_RequestLevel-parentBean" parent="Uif-Disclosure-HorizontalBoxSection"
+          p:render="@{processRequest}">
+        <property name="headerText" value="Request Level"/>
+        <property name="items">
+            <list>
+                <bean id="itemLevelRequest" parent="Uif-InputField" p:propertyName="requestLevel" p:render="@{itemLevelRequest}">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="itemLevel" p:value="Item Level"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="titleLevelRequest" parent="Uif-InputField" p:propertyName="requestLevel" p:render="@{titleLevelRequest}">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="titleLevel" p:value="Title Level"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEPlaceRequestView_RequestType" parent="OLEPlaceRequestView_RequestType-parentBean"/>
+
+    <bean id="OLEPlaceRequestView_RequestType-parentBean" parent="Uif-Disclosure-HorizontalBoxSection"
+          p:render="@{processRequest}">
+        <property name="headerText" value="Request Type"/>
+        <property name="items">
+            <list>
+
+
+                <!--<bean parent="Uif-InputField" p:propertyName="requestType" p:defaultValue="recall">
+    <property name="control">
+        <bean parent="Uif-VerticalRadioControl">
+            <property name="options">
+                <list>
+                    <bean id="recall" parent="Uif-KeyLabelPair" p:key="recall" p:value="Recall" />
+                    <bean id="hold" parent="Uif-KeyLabelPair" p:key="hold" p:value="Hold"/>
+                    <bean id="page" parent="Uif-KeyLabelPair" p:key="page" p:value="Page"/>
+                    <bean id="copy" parent="Uif-KeyLabelPair" p:key="copy" p:value="Copy"/>
+                    <bean id="intransit" parent="Uif-KeyLabelPair" p:key="intransit" p:value="InTransit"/>
+            </list>
+        </property>
+    </bean>
+</property>
+</bean>-->
+                <bean  id="recallRequestTyp" parent="Uif-InputField" p:propertyName="recallRequestType" p:hidden="@{!recallRequest}">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean  id="recallRequestType" parent="Uif-KeyLabelPair" p:key="recall" p:value="Recall"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="holdRequestTyp" parent="Uif-InputField" p:propertyName="holdRequestType" p:hidden="@{!holdRequest}">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                        <bean id="holdRequestType" parent="Uif-KeyLabelPair" p:key="hold" p:value="Hold"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="pageRequestTyp" parent="Uif-InputField" p:propertyName="pageRequestType" p:hidden="@{!pageRequest}" >
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                      <bean id="pageRequestType" parent="Uif-KeyLabelPair" p:key="page" p:value="Page"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="copyRequestTyp" parent="Uif-InputField" p:propertyName="copyRequestType"  p:hidden="@{!copyRequest}">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                   <bean id="copyRequestType"  parent="Uif-KeyLabelPair" p:key="copy" p:value="Copy"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+
+
+
+
+    <bean id="OLEPlaceRequestView_request_details" parent="OLEPlaceRequestView_request_details-parentBean"/>
+
+    <bean id="OLEPlaceRequestView_request_details-parentBean" parent="Uif-Disclosure-VerticalBoxSection"
+          p:render="@{processRequest}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="placeRequest_deliver" parent="Uif-InputField" p:propertyName="address"
+                                  p:label="Deliver to patron" p:render="@{address}">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl" p:cssClasses="publicDisplaySupplementClass" p:disabled="false"/>
+                                </property>
+                            </bean>
+
+
+                            <bean id="placeRequest-pickupLocation" parent="Uif-InputField"
+                                  p:propertyName="pickUpLocationId" p:label="Pickup Location">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OlePlaceRequestCirculationDeskKeyValue"/>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="placeRequest-expirationDate" parent="Uif-InputField"
+                      p:propertyName="requestExpiryDate" p:label="Request Expiration Date">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+
+<!--                <bean id="placeRequest-createDate" parent="Uif-InputField"
+                      p:propertyName="createDate" p:label="Created Date">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>-->
+
+
+            </list>
+
+        </property>
+    </bean>
+
+
+    <bean id="plc_rqst_process_request" parent="Uif-InputField" p:propertyName="processRequest" p:hidden="true"/>
+
+    <bean id="tit_lvl_rqst" parent="Uif-InputField" p:propertyName="titleLevelRequest" p:hidden="true"/>
+
+    <bean id="OLEPlaceRequest_Items-HorizontalBoxSection" parent="OLEPlaceRequest_Items-HorizontalBoxSection-parentBean" />
+    <bean id="OLEPlaceRequest_Items-HorizontalBoxSection-parentBean" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleTitleLevelRequestItem"/>
+        <property name="propertyName" value="titleLevelRequestItems"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <!--<property name="collectionLookup.render" value="false"/>-->
+        <property name="items">
+            <list>
+                <bean id="selectedItem" parent="Uif-InputField" p:label="Select" p:propertyName="selectedItem">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="selectItemCBClass"/>
+                    </property>
+                </bean>
+                <bean id="itemBarcode" parent="Uif-DataField" p:label="Item Barcode"  p:propertyName="itemBarcode">
+
+                </bean>
+                <bean id="holdingsId" parent="Uif-DataField" p:label="Holdings Id" p:propertyName="holdingsId">
+
+                </bean>
+                <bean id="itemLocation" parent="Uif-DataField" p:label="Item Location"  p:propertyName="itemLocation">
+
+                </bean>
+                <bean id="itemType" parent="Uif-DataField" p:label="Item Type" p:propertyName="itemType">
+
+                </bean>
+                <bean id="itemStatus" parent="Uif-DataField" p:label="Item Status" p:propertyName="itemStatus">
+
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+
+    </bean>
+
+    <bean id="OLEPlaceRequestView_MultipleItem_details" parent="OLEPlaceRequestView_MultipleItem-parentBean"/>
+
+    <bean id="OLEPlaceRequestView_MultipleItem-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+    <property name="items">
+        <list>
+        <ref bean="OLEPlaceRequest_Items-HorizontalBoxSection"/>
+        <ref bean="OLEPlaceRequest_MultipleItem_button"/>
+
+    </list>
+    </property>
+    </bean>
+
+    <bean id="OLEPlaceRequest_MultipleItem_button" parent="OLEPlaceRequest_MultipleItem_button_parent"/>
+    <bean id="OLEPlaceRequest_MultipleItem_button_parent" parent="Uif-Disclosure-HorizontalBoxSection">
+    <property name="items">
+    <list>
+        <bean id="multiple_item_select_button" parent="Uif-SecondaryActionButton-Small"
+              p:methodToCall="getSelectedItemsFromResults" p:actionLabel="Place Request" p:render="@{titleLevelRequestItems ne null and titleLevelRequestItems.size() > 0}" p:successCallback="closeItemsDialog()"/>
+        <bean id="multiple_item_cancel_button" parent="Uif-SecondaryActionButton-Small"
+               p:actionLabel="Cancel" p:methodToCall="clearItemsForTitleLevelRequest" p:render="@{titleLevelRequestItems ne null and titleLevelRequestItems.size() > 0}" p:successCallback="closeItemsDialog()"/>
+
+        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Select All" p:actionScript="selectAllItem();" p:render="@{titleLevelRequestItems ne null and titleLevelRequestItems.size() > 0}"/>
+        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Deselect All" p:actionScript="deSelectAllItem();" p:render="@{titleLevelRequestItems ne null and titleLevelRequestItems.size() > 0}"/>
+            </list>
+    </property>
+    </bean>
+
+
+
+</beans>

@@ -6,7 +6,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="${ole.externalizable.help.url}/reference/webhelp/AG/content/ch04s02.html"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
         <property name="formClass" value="org.kuali.ole.select.form.OLEInvoiceForm"/>
@@ -17,7 +17,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>scripts/ole/invoice.js</value>
             </list>
         </property>
@@ -687,7 +687,7 @@
                            <!-- <bean id="OLEInvoiceView-Item-currentItemsBtn_Btn" parent="Uif-PrimaryActionButton-Small" p:methodToCall="currentItemsBtn" p:actionLabel="Current Items" p:refreshId="OleInvoiceView-invoiceItems"/>-->
                             <ref bean="OleInvoiceView-invoiceItems" />
                             <ref bean="OLEInvoiceView-ProcessItem-InvoiceTotal"/>
-                            <ref bean="OLEInvoiceView-ProcessItem-AdditionalCharges"/>
+                            <ref bean="OLEInvoiceView-ProcessItem-AdditionalCharges-Wrapper"/>
                             <ref bean="OLEInvoiceView-ProcessItem-GrandTotal"/>
                         </list>
                     </property>

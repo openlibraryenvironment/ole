@@ -13,7 +13,16 @@ import org.kuali.ole.ncip.bo.OLECheckInItem;
  */
 public class OLECheckInItemConverter {
     final Logger LOG = Logger.getLogger(OLECheckInItemConverter.class);
-     public String generateCheckInItemXml(OLECheckInItem oleCheckInItem){
+
+    public String generateCheckInItemXml(OLECheckInItem oleCheckInItem){
+        XStream xStream = new XStream();
+        xStream.alias("renewItem",OLECheckInItem.class);
+        xStream.omitField(OLECheckInItem.class, "patronBarcode");
+        xStream.omitField(OLECheckInItem.class, "itemLocation");
+        return xStream.toXML(oleCheckInItem);
+    }
+
+    public String generateCheckInItemXmlForSIP2(OLECheckInItem oleCheckInItem){
          XStream xStream = new XStream();
          xStream.alias("checkInItem",OLECheckInItem.class);
          return xStream.toXML(oleCheckInItem);

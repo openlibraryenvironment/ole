@@ -290,4 +290,8 @@ public class DocstoreLocalClient implements DocstoreClient {
         return ds.processBibTrees(bibTrees);
     }
 
+    @Override
+    public List<Bib> acquisitionSearchRetrieveBibs(List<String> bibIds) {
+        return ds.retrieveBibs(bibIds);
+    }
 }

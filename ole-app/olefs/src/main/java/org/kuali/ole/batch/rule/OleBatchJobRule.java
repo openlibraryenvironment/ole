@@ -1,7 +1,11 @@
 package org.kuali.ole.batch.rule;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.batch.bo.OLEBatchProcessScheduleBo;
+import org.kuali.ole.batch.helper.OLESchedulerHelper;
 import org.kuali.ole.deliver.bo.OleBatchJobBo;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -10,6 +14,12 @@ import org.quartz.JobDetail;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdScheduler;
 import org.springframework.scheduling.quartz.CronTriggerBean;
+
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,7 +35,19 @@ public class OleBatchJobRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         boolean isValid = true;
         OleBatchJobBo oleBatchJobBo = (OleBatchJobBo) document.getNewMaintainableObject().getDataObject();
-
+        if (oleBatchJobBo.getRunNowOrSchedule().equalsIgnoreCase("RunNow")) {
+            OLEBatchProcessScheduleBo oleBatchProcessScheduleBo = oleBatchJobBo.getOleBatchProcessScheduleBo();
+            oleBatchProcessScheduleBo.setCreateTime(new Timestamp(new Date().getTime()));
+            oleBatchProcessScheduleBo.setOneTimeOrRecurring("onetime");
+            oleBatchProcessScheduleBo.setOneTimeStartDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+            oleBatchProcessScheduleBo.setOneTimeStartTime(new SimpleDateFormat("HH:mm").format(DateUtils.addMinutes(new Date(), 1)));
+            oleBatchJobBo.setJobCronExpression(OLESchedulerHelper.getInstance().getCronExpression(oleBatchProcessScheduleBo));
+        }
+        if (StringUtils.isNotBlank(oleBatchJobBo.getCronOrSchedule()) && oleBatchJobBo.getCronOrSchedule().equalsIgnoreCase("Scheduled")) {
+            OLEBatchProcessScheduleBo oleBatchProcessScheduleBo = oleBatchJobBo.getOleBatchProcessScheduleBo();
+            oleBatchProcessScheduleBo.setOneTimeOrRecurring(oleBatchJobBo.getOneTimeOrRecurring());
+            oleBatchJobBo.setJobCronExpression(OLESchedulerHelper.getInstance().getCronExpression(oleBatchJobBo.getOleBatchProcessScheduleBo()));
+        }
         isValid &= validateCronExpression(oleBatchJobBo);
         return isValid;
     }

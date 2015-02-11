@@ -12,6 +12,7 @@ import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOleml
 
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.api.parameter.ParameterKey;
@@ -168,11 +169,12 @@ public class PatronBillHelperService {
                     if (feeType.getItemUuid().equals(item.getId())) {
                         feeType.setItemTitle(item.getHolding().getBib().getTitle());
                         feeType.setItemAuthor(item.getHolding().getBib().getAuthor());
-                        if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
-                            feeType.setItemCallNumber(itemContent.getCallNumber().getNumber());
+                      /*  if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
+                            feeType.setItemCallNumber(loanProcessor.getItemCallNumber(itemContent.getCallNumber()));
                         }else {
                             feeType.setItemCallNumber(loanProcessor.getItemCallNumber(oleHoldings.getCallNumber()));
-                        }
+                        }*/
+                        feeType.setItemCallNumber(loanProcessor.getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
                         feeType.setItemCopyNumber(itemContent.getCopyNumber());
                         feeType.setItemChronologyOwnLocation(itemContent.getChronology());
                         feeType.setItemEnumeration(itemContent.getEnumeration());
@@ -322,16 +324,16 @@ public class PatronBillHelperService {
                     patronBillPayment.setPaymentMethod(paymentMethod);
                     if (patronBillPayment.getPaymentMethod().equals(OLEConstants.FORGIVE) || patronBillPayment.getPaymentMethod().equals(OLEConstants.CANCEL) || patronBillPayment.getPaymentMethod().equals(OLEConstants.ERROR)) {
                         if(patronBillPayment.getPaymentMethod().equalsIgnoreCase(OLEConstants.FORGIVE)){
-                            patronBillPayment.setFreeTextNote("$"+patronBillPayment.getPaymentAmount() + OLEConstants.FORGIVE_MESSAGE);
+                            patronBillPayment.setFreeTextNote(CurrencyFormatter.getSymbolForCurrencyPattern()+patronBillPayment.getPaymentAmount() + OLEConstants.FORGIVE_MESSAGE);
                         }
                         if(patronBillPayment.getPaymentMethod().equalsIgnoreCase(OLEConstants.CANCEL)){
                             patronBillPayment.setFreeTextNote(OLEConstants.CANCEL_MESSAGE);
                         }
                         if(patronBillPayment.getPaymentMethod().equalsIgnoreCase(OLEConstants.ERROR)){
-                            patronBillPayment.setFreeTextNote("$"+patronBillPayment.getPaymentAmount()+OLEConstants.ERROR_MESSAGE);
+                            patronBillPayment.setFreeTextNote(CurrencyFormatter.getSymbolForCurrencyPattern()+patronBillPayment.getPaymentAmount()+OLEConstants.ERROR_MESSAGE);
                         }
                     } else {
-                        patronBillPayment.setFreeTextNote("$"+patronBillPayment.getPaymentAmount() + " paid through " + patronBillPayment.getPaymentMethod());
+                        patronBillPayment.setFreeTextNote(CurrencyFormatter.getSymbolForCurrencyPattern()+patronBillPayment.getPaymentAmount() + " paid through " + patronBillPayment.getPaymentMethod());
                         patronBillPayment.setNote(null);
                     }
                     getBusinessObjectService().save(patronBillPayment);
@@ -422,16 +424,16 @@ public class PatronBillHelperService {
                         patronBillPayment.setPaymentMethod(paymentMethod);
                         if (patronBillPayment.getPaymentMethod().equals(OLEConstants.FORGIVE) || patronBillPayment.getPaymentMethod().equals(OLEConstants.CANCEL) || patronBillPayment.getPaymentMethod().equals(OLEConstants.ERROR)) {
                             if(patronBillPayment.getPaymentMethod().equalsIgnoreCase(OLEConstants.FORGIVE)){
-                                patronBillPayment.setFreeTextNote("$"+patronBillPayment.getPaymentAmount() +OLEConstants.FORGIVE_MESSAGE);
+                                patronBillPayment.setFreeTextNote(CurrencyFormatter.getSymbolForCurrencyPattern()+patronBillPayment.getPaymentAmount() +OLEConstants.FORGIVE_MESSAGE);
                             }
                             if(patronBillPayment.getPaymentMethod().equalsIgnoreCase(OLEConstants.CANCEL)){
-                                patronBillPayment.setFreeTextNote(OLEConstants.CANCEL_MESSAGE_AMT+" $"+patronBillPayment.getPaymentAmount());
+                                patronBillPayment.setFreeTextNote(OLEConstants.CANCEL_MESSAGE_AMT+CurrencyFormatter.getSymbolForCurrencyPattern()+patronBillPayment.getPaymentAmount());
                             }
                             if(patronBillPayment.getPaymentMethod().equalsIgnoreCase(OLEConstants.ERROR)){
-                                patronBillPayment.setFreeTextNote("$"+patronBillPayment.getPaymentAmount()+OLEConstants.ERROR_MESSAGE);
+                                patronBillPayment.setFreeTextNote(CurrencyFormatter.getSymbolForCurrencyPattern()+patronBillPayment.getPaymentAmount()+OLEConstants.ERROR_MESSAGE);
                             }
                         } else {
-                            patronBillPayment.setFreeTextNote("$" + patronBillPayment.getPaymentAmount() + " paid through " + patronBillPayment.getPaymentMethod());
+                            patronBillPayment.setFreeTextNote(CurrencyFormatter.getSymbolForCurrencyPattern() + patronBillPayment.getPaymentAmount() + " paid through " + patronBillPayment.getPaymentMethod());
                             patronBillPayment.setNote(null);
                         }
                         getBusinessObjectService().save(patronBillPayment);
@@ -530,7 +532,7 @@ public class PatronBillHelperService {
                         if (LOG.isDebugEnabled()){
                             LOG.debug("unPaidAmount" + patronBillPayment.getUnPaidBalance());
                         }
-                        patronBillPayment.setFreeTextNote(OLEConstants.CANCEL_MESSAGE_AMT+"$"+billValue);
+                        patronBillPayment.setFreeTextNote(OLEConstants.CANCEL_MESSAGE_AMT+CurrencyFormatter.getSymbolForCurrencyPattern()+billValue);
                         patronBillPayment.setNote(null);
                         patronBillPayment.setPaymentMethod(OLEConstants.CANCEL);
                         patronBillPayment.setPaymentOperatorId(GlobalVariables.getUserSession().getPrincipalId());
@@ -603,11 +605,12 @@ public class PatronBillHelperService {
                     if (feeType.getItemUuid().equals(item.getId())) {
                         feeType.setItemTitle(item.getHolding().getBib().getTitle());
                         feeType.setItemAuthor(item.getHolding().getBib().getAuthor());
-                        if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
-                            feeType.setItemCallNumber(itemContent.getCallNumber().getNumber());
+                        /*if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())) {
+                            feeType.setItemCallNumber(loanProcessor.getItemCallNumber(itemContent.getCallNumber()));
                         }else {
                             feeType.setItemCallNumber(loanProcessor.getItemCallNumber(oleHoldings.getCallNumber()));
-                        }
+                        }*/
+                        feeType.setItemCallNumber(loanProcessor.getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
                         feeType.setItemCopyNumber(itemContent.getCopyNumber());
                         feeType.setItemChronologyOwnLocation(itemContent.getChronology());
                         feeType.setItemEnumeration(itemContent.getEnumeration());

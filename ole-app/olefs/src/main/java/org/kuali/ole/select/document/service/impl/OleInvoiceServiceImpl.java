@@ -53,12 +53,12 @@ import org.kuali.ole.select.document.OleVendorCreditMemoDocument;
 import org.kuali.ole.select.document.service.OleCreditMemoService;
 import org.kuali.ole.select.document.service.OleInvoiceService;
 import org.kuali.ole.select.document.service.OlePurapAccountingService;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.select.form.OLEInvoiceForm;
 import org.kuali.ole.service.OleOrderRecordService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEKeyConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
-import org.kuali.ole.sys.businessobject.AccountingLine;
 import org.kuali.ole.sys.businessobject.Bank;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
 import org.kuali.ole.sys.context.SpringContext;
@@ -70,7 +70,6 @@ import org.kuali.ole.vnd.businessobject.VendorAddress;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.type.AbstractKualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
@@ -86,7 +85,6 @@ import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.AutoPopulatingList;
 
@@ -114,6 +112,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
     private OLEBatchProcessProfileBo oleBatchProcessProfileBo;
     private OleOrderRecordService oleOrderRecordService;
     DataCarrierService dataCarrierService = GlobalResourceLoader.getService(org.kuali.ole.OLEConstants.DATA_CARRIER_SERVICE);
+    private OleSelectDocumentService oleSelectDocumentService;
 
     public void setOleBatchProcessProfileBo(OLEBatchProcessProfileBo oleBatchProcessProfileBo) {
         this.oleBatchProcessProfileBo = oleBatchProcessProfileBo;
@@ -250,7 +249,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
 
             //if a new item has been added spawn a purchase order amendment
             if (hasNewUnorderedItem(invoice)) {
-                String newSessionUserId = OLEConstants.SYSTEM_USER;
+                String newSessionUserId = getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER);
                 try {
 
                     LogicContainer logicToRun = new LogicContainer() {
@@ -912,6 +911,10 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 if(lineItems.size()==0 && item.getPurchaseOrderIdentifier()!=null){
                     lineItems.add(item);
                     firstPOTotalUnitPrice = firstPOTotalUnitPrice.add(item.getItemUnitPrice());
+                }else if(lineItems.size()>0 && item.getPurchaseOrderIdentifier()!=null &&
+                        lineItems.get(0).getPurchaseOrderIdentifier().compareTo(item.getPurchaseOrderIdentifier())==0){
+                    lineItems.add(item);
+                    firstPOTotalUnitPrice = firstPOTotalUnitPrice.add(item.getItemUnitPrice());
                 }
 
                 if(item.getItemType().isQuantityBasedGeneralLedgerIndicator()){
@@ -944,6 +947,10 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 if(lineItems.size()==0 && item.getPurchaseOrderIdentifier()!=null){
                     lineItems.add(item);
                     firstPOTotalUnitPrice = firstPOTotalUnitPrice.subtract(item.getItemUnitPrice());
+                }else if(lineItems.size()>0 && item.getPurchaseOrderIdentifier()!=null &&
+                        lineItems.get(0).getPurchaseOrderIdentifier().compareTo(item.getPurchaseOrderIdentifier())==0){
+                    lineItems.add(item);
+                    firstPOTotalUnitPrice = firstPOTotalUnitPrice.add(item.getItemUnitPrice());
                 }
 
                 if(item.getItemType().isQuantityBasedGeneralLedgerIndicator()){
@@ -1108,6 +1115,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 invItemMap.put(PurapConstants.PRQSDocumentsStrings.PUR_ID, inv.getPurapDocumentIdentifier());
                 invItemMap.put(PurapConstants.PRQSDocumentsStrings.PO_ID, purchaseOrderId);
                 List<OleInvoiceItem> invoiceItems = (List<OleInvoiceItem>) businessObjectService.findMatchingOrderBy(OleInvoiceItem.class, invItemMap, PurapConstants.PRQSDocumentsStrings.PO_ID, true);
+
                 KualiDecimal itemCount = new KualiDecimal(0);
                 KualiDecimal itemPrice = new KualiDecimal(0);
                 PurchaseOrderDocument poDoc = inv.getPurchaseOrderDocument(purchaseOrderId);
@@ -1519,7 +1527,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                     String user = null;
                     if (GlobalVariables.getUserSession() == null) {
                         kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
-                        user = kualiConfigurationService.getPropertyValueAsString(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR);
+                        user = kualiConfigurationService.getPropertyValueAsString(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
                         GlobalVariables.setUserSession(new UserSession(user));
                     }
 
@@ -2782,5 +2790,35 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
             return tempOleExchangeRate;
         }
         return null;
+    }
+
+    @Override
+    public void deleteInvoiceItem(OleInvoiceDocument oleInvoiceDocument) {
+        List<OleInvoiceItem> oleDeletedInvoiceItemList =oleInvoiceDocument.getDeletedInvoiceItems();
+        for(OleInvoiceItem oleInvoiceItem:oleDeletedInvoiceItemList){
+            List<OLEPaidCopy> olePaidCopies = oleInvoiceItem.getPaidCopies();
+            for(OLEPaidCopy olePaidCopy : olePaidCopies){
+                Map<String,Integer> olePaidCopyMap=new HashMap<String,Integer>();
+                olePaidCopyMap.put("olePaidCopyId",olePaidCopy.getOlePaidCopyId());
+                KRADServiceLocator.getBusinessObjectService().deleteMatching(OLEPaidCopy.class,olePaidCopyMap);
+            }
+            Map<String,Integer> invoiceAccountMap=new HashMap<String,Integer>();
+            invoiceAccountMap.put("itemIdentifier",oleInvoiceItem.getItemIdentifier());
+            KRADServiceLocator.getBusinessObjectService().deleteMatching(InvoiceAccount.class,invoiceAccountMap);
+            Map<String,Integer> invoiceItemMap=new HashMap<String,Integer>();
+            invoiceItemMap.put("itemIdentifier",oleInvoiceItem.getItemIdentifier());
+            KRADServiceLocator.getBusinessObjectService().deleteMatching(OleInvoiceItem.class,invoiceItemMap);
+        }
+    }
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 }

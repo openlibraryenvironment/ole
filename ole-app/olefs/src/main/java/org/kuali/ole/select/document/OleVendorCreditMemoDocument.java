@@ -325,7 +325,8 @@ public class OleVendorCreditMemoDocument extends VendorCreditMemoDocument {
                             ((bib.getPublisher() != null && !bib.getPublisher().isEmpty()) ? bib.getPublisher() + "," : "") +
                             ((bib.getIsbn() != null && !bib.getIsbn().isEmpty()) ? bib.getIsbn() + "," : "");
                     if (!itemDescription.isEmpty()) {
-                        itemDescription = itemDescription.substring(0, itemDescription.lastIndexOf(","));
+                        itemDescription = itemDescription.lastIndexOf(",") < 0 ? itemDescription :
+                                itemDescription.substring(0, itemDescription.lastIndexOf(","));
                     }
                     StringEscapeUtils stringEscapeUtils = new StringEscapeUtils();
                     itemDescription = stringEscapeUtils.unescapeXml(itemDescription);

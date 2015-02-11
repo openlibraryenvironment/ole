@@ -25,25 +25,9 @@
     <bean id="WorkEInstanceEditorView" parent="WorkEInstanceEditorView-parentBean"/>
 
     <bean id="WorkEInstanceEditorView-parentBean" parent="Uif-OLEFormView">
-        <property name="headerText" value="Work Instance Editor"/>
-        <property name="help">
-            <bean parent="Uif-Help">
-                <property name="externalHelpUrl"
-                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s04.html"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
-            </bean>
-        </property>
         <property name="items">
             <list>
                 <bean id="WorkEInstanceViewPage" parent="Uif-Page">
-                    <property name="headerText" value="@{headerText}"/>
-                    <property name="help">
-                        <bean parent="Uif-Help">
-                            <property name="externalHelpUrl"
-                                      value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s04.html"/>
-                            <property name="tooltipHelpContent" value="[Help] help"/>
-                        </bean>
-                    </property>
                     <property name="items">
                         <list>
                             <ref bean="WorkEInstanceIdSection"/>
@@ -322,21 +306,7 @@
                       p:constraintText="Date format" p:label="Start Date" p:onKeyPressScript="coverageDateStart(this.id)"
                       p:onClickScript="coverageDateStart(this.id)"  p:onChangeScript="coverageDateStart(this.id)" p:onMouseOverScript="coverageDateStart(this.id)">
                     <property name="control">
-                        <bean parent="Uif-DateControl" >
-                            <property name="datePicker.templateOptions">
-                                <map>
-                                    <entry key="showOn" value="button"/>
-                                    <entry key="constrainInput" value="true"/>
-                                    <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
-                                    <entry key="buttonImageOnly" value="true"/>
-                                    <entry key="showAnim" value="fadeIn"/>
-                                    <entry key="showButtonPanel" value="true"/>
-                                    <entry key="changeMonth" value="true"/>
-                                    <entry key="changeYear" value="true"/>
-                                    <entry key="numberOfMonths" value="1"/>
-                                </map>
-                            </property>
-                        </bean>
+                        <bean parent="Uif-DateControl-EResource"/>
                     </property>
                 </bean>
                 <bean id="coverageStartDateString" parent="Uif-InputField" p:propertyName="coverageStartDateString"
@@ -362,21 +332,7 @@
                       p:constraintText="Date format" p:label="End Date" p:onKeyPressScript="coverageDateEnd(this.id)"
                       p:onClickScript="coverageDateEnd(this.id)" p:onChangeScript="coverageDateEnd(this.id)" p:onMouseOverScript="coverageDateEnd(this.id)">
                     <property name="control">
-                        <bean parent="Uif-DateControl" >
-                            <property name="datePicker.templateOptions">
-                                <map>
-                                    <entry key="showOn" value="button"/>
-                                    <entry key="constrainInput" value="true"/>
-                                    <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
-                                    <entry key="buttonImageOnly" value="true"/>
-                                    <entry key="showAnim" value="fadeIn"/>
-                                    <entry key="showButtonPanel" value="true"/>
-                                    <entry key="changeMonth" value="true"/>
-                                    <entry key="changeYear" value="true"/>
-                                    <entry key="numberOfMonths" value="1"/>
-                                </map>
-                            </property>
-                        </bean>
+                        <bean parent="Uif-DateControl-EResource"/>
                     </property>
                 </bean>
                 <bean id="coverageEndDateString" parent="Uif-InputField" p:propertyName="coverageEndDateString"
@@ -441,21 +397,7 @@
                       p:constraintText="Date format" p:label="Start Date" p:onKeyPressScript="perpetualDateStart(this.id)"
                       p:onClickScript="perpetualDateStart(this.id)" p:onChangeScript="perpetualDateStart(this.id)" p:onMouseOverScript="perpetualDateStart(this.id)">
                     <property name="control">
-                        <bean parent="Uif-DateControl" >
-                            <property name="datePicker.templateOptions">
-                                <map>
-                                    <entry key="showOn" value="button"/>
-                                    <entry key="constrainInput" value="true"/>
-                                    <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
-                                    <entry key="buttonImageOnly" value="true"/>
-                                    <entry key="showAnim" value="fadeIn"/>
-                                    <entry key="showButtonPanel" value="true"/>
-                                    <entry key="changeMonth" value="true"/>
-                                    <entry key="changeYear" value="true"/>
-                                    <entry key="numberOfMonths" value="1"/>
-                                </map>
-                            </property>
-                        </bean>
+                        <bean parent="Uif-DateControl-EResource"/>
                     </property>
                 </bean>
                 <bean id="perpetualAccessStartDateString" parent="Uif-InputField" p:propertyName="perpetualAccessStartDateString"
@@ -482,21 +424,7 @@
                       p:constraintText="Date format" p:label="End Date" p:onKeyPressScript="perpetualDateEnd(this.id)"
                       p:onClickScript="perpetualDateEnd(this.id)" p:onChangeScript="perpetualDateEnd(this.id)" p:onMouseOverScript="perpetualDateEnd(this.id)">
                     <property name="control">
-                        <bean parent="Uif-DateControl" >
-                            <property name="datePicker.templateOptions">
-                                <map>
-                                    <entry key="showOn" value="button"/>
-                                    <entry key="constrainInput" value="true"/>
-                                    <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
-                                    <entry key="buttonImageOnly" value="true"/>
-                                    <entry key="showAnim" value="fadeIn"/>
-                                    <entry key="showButtonPanel" value="true"/>
-                                    <entry key="changeMonth" value="true"/>
-                                    <entry key="changeYear" value="true"/>
-                                    <entry key="numberOfMonths" value="1"/>
-                                </map>
-                            </property>
-                        </bean>
+                        <bean parent="Uif-DateControl-EResource"/>
                     </property>
                 </bean>
                 <bean id="perpetualAccessEndDateString" parent="Uif-InputField" p:propertyName="perpetualAccessEndDateString"

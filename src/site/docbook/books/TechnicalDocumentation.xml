@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title>Kuali Open Library Environment, Technical Documentation</title>
+    <section>
+        <title>Select and Acquire</title>
+        <para/>
+    </section>
+    <section>
+        <title>Describe</title>
+        <para/>
+    </section>
+    <section>
+        <title>Deliver</title>
+        <itemizedlist>
+            <listitem>
+                <para><link xlink:href="../pdfs/PatronTechnicalDocument.pdf">Patron</link>.</para>
+            </listitem>
+            <listitem>
+                <para><link xlink:href="../pdfs/LocationTechnicalDocument.pdf"
+                    >Location</link>.</para>
+            </listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title>Admin</title>
+        <itemizedlist>
+            <listitem>
+                <para><link xlink:href="../pdfs/BatchProcessProfileTechnicalDocument.pdf">Batch
+                        Process Profile</link>.</para>
+            </listitem>
+            <listitem>
+                <para><link xlink:href="../pdfs/ScheduledJobsTechnicalDocument.pdf">Scheduled
+                        Jobs</link>.</para>
+            </listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title>Integration</title>
+        <itemizedlist>
+            <listitem>
+                <para><link xlink:href="../pdfs/OLE-SIP2Document.pdf">3M Integration</link>.</para>
+            </listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title>Additional Links</title>
+        <itemizedlist>
+            <listitem>
+                <para>The <link xlink:href="../webhelp/BASICS/content/go01.html">OLE glossary</link>
+                    is available through the wiki.</para>
+                <para>See the <link xlink:href="../html/Index.html">OLE Documentation Portal</link>
+                    to access User Documentation.</para>
+                <para>Release Notes are available on the wiki at <link
+                        xlink:href="https://wiki.kuali.org/display/OLE/OLE+Current+Release+Status+Report"
+                        >OLE Current Release Status Report</link>.</para>
+            </listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title>Contact Us</title>
+        <para>If you have technical questions, please contact our collaboration community at <link
+                xlink:href="mailto:ole.technical.usergroup@kuali.org"
+                >ole.technical.usergroup@kuali.org</link>.</para>
+        <para>For functional questions, please contact our collaboration community at <link
+                xlink:href="mailto:ole.functional.usergroup@kuali.org"
+                >ole.functional.usergroup@kuali.org</link>.</para>
+    </section>
+</article>

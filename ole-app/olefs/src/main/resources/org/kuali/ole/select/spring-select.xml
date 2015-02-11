@@ -46,6 +46,12 @@
                 <value>org/kuali/ole/select/ojb-select.xml</value>
             </list>
         </property>
+
+        <property name="resourceBundleNames">
+            <list>
+                <value>org/kuali/ole/locale/${ole.locale.properties.folder}/Labels-Select</value>
+            </list>
+        </property>
         <!--
           <property name="scriptConfigurationFilePaths">
           <list>
@@ -94,6 +100,8 @@
     <bean id="selectModuleService-parentBean" class="org.kuali.ole.sys.service.impl.OleModuleServiceImpl" abstract="true">
         <property name="moduleConfiguration" ref="selectModuleConfiguration" />
     </bean>
+    <bean id="reEncumberRecurringOrdersJobService" parent="platformAwareDaoJdbc" class="org.kuali.ole.select.document.service.impl.OLEReEncumberRecurringOrdersJobServiceImpl"/>
+
 
     <bean id="preOrderService" parent="preOrderService-parentBean" />
     <bean id="preOrderService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.PreOrderServiceImpl"></bean>
@@ -160,7 +168,7 @@
 
         <!-- Modified for Jira OLE-2357 starts -->
 
-    <bean id="accountTemporaryRestrictedNotifyJob" parent="scheduledJobDescriptor">
+    <bean id="accountTemporaryRestrictedNotifyJob" parent="unscheduledJobDescriptor">
         <property name="steps">
             <list>
                 <ref bean="oleAccountTemporaryRestrictedStep" />
@@ -443,6 +451,7 @@
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="olePurapAccountingService" ref="olePurapAccountingService" />
         <property name="purapAccountingService" ref="purapAccountingService" />
+        <property name="oleSelectDocumentService" ref="oleSelectDocumentService" />
     </bean>
     <!-- bean id="olePurchaseOrderService" class="org.kuali.ole.select.document.service.impl.OlePurchaseOrderServiceImpl" parent="org.kuali.ole.module.purap.document.service.impl.PurchaseOrderServiceImpl"/ -->
 
@@ -455,10 +464,13 @@
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="olePurapAccountingService" ref="olePurapAccountingService" />
         <property name="purapAccountingService" ref="purapAccountingService" />
+        <property name="oleSelectDocumentService" ref="oleSelectDocumentService" />
     </bean>
 
     <bean id="olePurchaseOrderService" parent="olePurchaseOrderService-parentBean" />
-    <bean id="olePurchaseOrderService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OlePurchaseOrderServiceImpl" parent="purchaseOrderService-parentBean" />
+    <bean id="olePurchaseOrderService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OlePurchaseOrderServiceImpl" parent="purchaseOrderService-parentBean">
+        <property name="oleSelectDocumentService" ref="oleSelectDocumentService" />
+    </bean>
 
     <bean id="olePurapAccountingService" parent="olePurapAccountingService-parentBean" />
     <bean id="olePurapAccountingService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OlePurapAccountingServiceImpl" parent="purapAccountingService">
@@ -587,6 +599,9 @@
         <property name="configurationService">
             <ref bean="configurationService" />
         </property>
+        <property name="oleSelectDocumentService">
+            <ref bean="oleSelectDocumentService" />
+        </property>
     </bean>
 
     <bean id="oleReqPOCreateDocumentService" parent="oleReqPOCreateDocumentService-parentBean" />
@@ -617,6 +632,9 @@
         </property>
         <property name="olePurapService">
             <ref bean="olePurapService" />
+        </property>
+        <property name="oleSelectDocumentService">
+            <ref bean="oleSelectDocumentService" />
         </property>
     </bean>
 
@@ -711,13 +729,19 @@
     <bean id="olePaymentRequestFundCheckService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OlePaymentRequestFundCheckServiceImpl"/>
 
     <bean id="oleRequisitionDocumentService" parent="oleRequisitionDocumentService-parentBean" />
-    <bean id="oleRequisitionDocumentService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleRequisitionDocumentServiceImpl"/>
+    <bean id="oleRequisitionDocumentService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleRequisitionDocumentServiceImpl">
+        <property name="oleSelectDocumentService">
+            <ref bean="oleSelectDocumentService" />
+        </property>
+    </bean>
 
     <bean id="oleInvoiceItemService" parent="oleInvoiceItemService-parentBean" />
     <bean id="oleInvoiceItemService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleInvoiceItemServiceImpl"/>
 
     <bean id="oleInvoiceFundCheckService" parent="oleInvoiceFundCheckService-parentBean" />
-    <bean id="oleInvoiceFundCheckService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleInvoiceFundCheckServiceImpl"/>
+    <bean id="oleInvoiceFundCheckService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleInvoiceFundCheckServiceImpl">
+        <property name="oleSelectDocumentService" ref="oleSelectDocumentService" />
+    </bean>
 
 <!--
    <bean id="docstoreClient" class="org.kuali.ole.docstore.engine.client.DocstoreLocalClient"/>
@@ -740,4 +764,11 @@
     <bean id="oleHoldingsDao" parent="platformAwareDao" class="org.kuali.ole.service.impl.OLEHoldingsDaoOjb" />
     <bean id="oleGOKBSearchDaoOjb" parent="platformAwareDao" class="org.kuali.ole.service.OLEGOKBSearchDaoOjb" />
     <bean id="oleInvoiceDao" parent="platformAwareDao" class="org.kuali.ole.select.service.impl.OLEInvoiceDaoOjb" />
+
+    <bean id="encumberOpenRecurringOrdersService" parent="encumberOpenRecurringOrdersService-parentBean"/>
+    <bean id="encumberOpenRecurringOrdersService-parentBean" abstract="true"
+          class="org.kuali.ole.select.document.service.impl.OLEEncumberOpenRecurringOrdersServiceImpl">
+        <property name="batchFileDirectoryName" value="${staging.directory}/rollover"/>
+    </bean>
+
 </beans>

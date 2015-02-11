@@ -16,6 +16,7 @@
 package org.kuali.ole.select.businessobject;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.lookup.DocData;
@@ -355,13 +356,18 @@ public class OleAcquisitionSearchResult extends BusinessObjectBase {
         }
         if (isBibSearch && bibs.size() > 0) {
             for (Bib bib : bibs) {
-                bib=(Bib)bib.deserializeContent(bib);
+                //bib=(Bib)bib.deserializeContent(bib);
                 if (itemTitleId != null && this.itemTitleId.equals(bib.getId())) {
-                    this.setTitle(bib.getTitle());
-                    this.setAuthor(bib.getAuthor());
-                    this.setPublisher(bib.getPublisher());
-                    this.setIsbn(bib.getIsbn());
-                    this.setLocalIdentifier(bib.getLocalId());
+                    String localId = DocumentUniqueIDPrefix.getDocumentId(bib.getId());
+                    if(StringUtils.isNotBlank(localId)){
+                        this.setTitle(bib.getTitle());
+                        this.setAuthor(bib.getAuthor());
+                        this.setPublisher(bib.getPublisher());
+                        this.setIsbn(bib.getIsbn());
+                        this.setLocalIdentifier(localId);
+                        break;
+                    }
+
                 }
             }
         }

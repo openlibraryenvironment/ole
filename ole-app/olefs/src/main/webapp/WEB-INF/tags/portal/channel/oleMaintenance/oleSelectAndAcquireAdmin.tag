@@ -89,13 +89,13 @@
     <br/>
     
 
-    <strong>ORGANIZATION INFORMATION</strong><br/><br/>
-    
+    <strong>${ConfigProperties.ORGANIZATIONINFORMATION}</strong><br/><br/>
+
     <portal:portalLink displayTitle="true"
                            title="Negative Payment Request Approval Limit"
                            url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.module.purap.businessobject.NegativePaymentRequestApprovalLimit&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
     <br/>
-    <portal:portalLink displayTitle="true" title="Organization APO Limit"
+    <portal:portalLink displayTitle="true" title="${ConfigProperties.OrganizationAPOLimit}"
                           url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.module.purap.businessobject.OrganizationParameter&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
     <br/>
     <portal:portalLink displayTitle="true"
@@ -164,6 +164,7 @@
     <portal:portalLink displayTitle="true" title="Organization Reversion" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.coa.businessobject.OrganizationReversion&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /><br/>
     <portal:portalLink displayTitle="true" title="Organization Reversion Category" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.coa.businessobject.OrganizationReversionCategory&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /><br/>
     <portal:portalLink displayTitle="true" title="Organization Reversion Global" url="kr/maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.ole.coa.businessobject.OrganizationReversionGlobal" /><br/>
+    <portal:portalLink displayTitle="true" title="University Date" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.sys.businessobject.UniversityDate&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /><br/>
 
     
 

@@ -25,4 +25,5 @@ public interface OleSelectDocumentService {
 
     public String getPatronName(List<OLERequestorPatronDocument> olePatronDocumentList, String requestorId);
 
+    public String getSelectParameterValue(String parameterName);
 }

@@ -1143,7 +1143,7 @@ public class OleLookupableImpl extends ViewHelperServiceImpl implements Lookupab
     }
 
     //TODO: This code snippet is from KRADUtils of Rice 2.3.2
-    private Map<String, String> getPropertyKeyValuesFromDataObject(List<String> propertyNames, Object dataObject) {
+    public Map<String, String> getPropertyKeyValuesFromDataObject(List<String> propertyNames, Object dataObject) {
         Map<String, String> propertyKeyValues = new HashMap<String, String>();
 
         if (dataObject == null) {

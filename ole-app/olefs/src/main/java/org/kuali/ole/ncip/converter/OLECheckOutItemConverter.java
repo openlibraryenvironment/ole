@@ -13,7 +13,19 @@ import org.kuali.ole.ncip.bo.OLECheckOutItem;
  */
 public class OLECheckOutItemConverter {
     final Logger LOG = Logger.getLogger(OLECheckOutItemConverter.class);
+
     public String generateCheckOutItemXml(OLECheckOutItem oleCheckOutItem){
+        XStream xStream = new XStream();
+        xStream.alias("checkOutItem",OLECheckOutItem.class);
+        xStream.omitField(OLECheckOutItem.class, "titleIdentifier");
+        xStream.omitField(OLECheckOutItem.class, "feeAmount");
+        xStream.omitField(OLECheckOutItem.class, "feeType");
+        xStream.omitField(OLECheckOutItem.class, "transactionId");
+        xStream.omitField(OLECheckOutItem.class, "itemProperties");
+        return xStream.toXML(oleCheckOutItem);
+    }
+    
+    public String generateCheckOutItemXmlForSIP2(OLECheckOutItem oleCheckOutItem){
         XStream xStream = new XStream();
         xStream.alias("checkOutItem",OLECheckOutItem.class);
         return xStream.toXML(oleCheckOutItem);

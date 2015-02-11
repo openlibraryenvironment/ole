@@ -27,9 +27,13 @@ public class OrderImportHelperBo {
 
     private String agendaName;
 
+    private int createBibCount;
+
     private int updateBibCount;
 
-    private int creatHoldingCount;
+    private int createHoldingsCount;
+
+    private int updateHoldingsCount;
 
     private OleTxRecord oleTxRecord;
 
@@ -103,12 +107,28 @@ public class OrderImportHelperBo {
         this.updateBibCount = updateBibCount;
     }
 
-    public int getCreatHoldingCount() {
-        return creatHoldingCount;
+    public int getCreateBibCount() {
+        return createBibCount;
     }
 
-    public void setCreatHoldingCount(int creatHoldingCount) {
-        this.creatHoldingCount = creatHoldingCount;
+    public void setCreateBibCount(int createBibCount) {
+        this.createBibCount = createBibCount;
+    }
+
+    public int getCreateHoldingsCount() {
+        return createHoldingsCount;
+    }
+
+    public void setCreateHoldingsCount(int createHoldingsCount) {
+        this.createHoldingsCount = createHoldingsCount;
+    }
+
+    public int getUpdateHoldingsCount() {
+        return updateHoldingsCount;
+    }
+
+    public void setUpdateHoldingsCount(int updateHoldingsCount) {
+        this.updateHoldingsCount = updateHoldingsCount;
     }
 
     public OleTxRecord getOleTxRecord() {

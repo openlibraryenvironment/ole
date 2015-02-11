@@ -1,8 +1,10 @@
 package org.kuali.ole.krad;
 
+import java.text.DateFormat;
 import java.text.Format;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +29,13 @@ public final class OleComponentUtils {
 		@Override
 		protected Format initialValue() {
 			return NumberFormat.getCurrencyInstance();
+		}
+	};
+
+	private static ThreadLocal<Format> DATE_FORMAT = new ThreadLocal<Format>() {
+		@Override
+		protected Format initialValue() {
+			return DateFormat.getDateInstance();
 		}
 	};
 
@@ -71,6 +80,10 @@ public final class OleComponentUtils {
 				Object filterVal = filterProp == null ? null
 						: ObjectPropertyUtils.getPropertyValue(model,
 								filterProp);
+				if (filterVal instanceof String)
+					filterVal = Boolean.parseBoolean((String) filterVal);
+				if (filterVal == null && filterProp != null)
+					filterVal = Boolean.TRUE;
 				if (Boolean.TRUE.equals(filterVal)) {
 					LOG.debug("Omitting " + itemComponent.getClass() + " "
 							+ itemComponent.getId() + ", " + filterProp
@@ -144,6 +157,25 @@ public final class OleComponentUtils {
 	 */
 	public static String formatAsCurrency(Number amount) {
 		return amount == null ? "" : CURRENCY_FORMAT.get().format(amount);
+	}
+
+	/**
+	 * Convenience method for converting {@link Date} to a string
+	 * representation with minimal overhead.
+	 * 
+	 * <p>
+	 * Intended for use in KRAD SpEL expressions, for example:
+	 * </p>
+	 * 
+	 * <pre>
+	 * @{T(org.kuali.ole.krad.OleComponentUtils).formatDate(aDate)}
+	 * </pre>
+	 * 
+	 * @param date date
+	 * @return formatted date string
+	 */
+	public static String formatDate(Date date) {
+		return date == null ? "" : DATE_FORMAT.get().format(date);
 	}
 
 	private OleComponentUtils() {

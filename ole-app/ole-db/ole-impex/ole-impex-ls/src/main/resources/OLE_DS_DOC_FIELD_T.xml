@@ -261,6 +261,12 @@
                         IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="Y"
                         NAME="ISSN_search" OBJ_ID="4" VER_NBR="1"/>
 
+    <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="OCLC No" DESCRIPTION=""
+                        DOC_FIELD_ID="365" DOC_FORMAT_ID="1" DOC_TYPE_ID="1"
+                        EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
+                        IS_EXPORT="N" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="Y"
+                        NAME="mdf_035a" OBJ_ID="365" VER_NBR="1"/>
+
     <!-- Search Holding-->
 
     <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="Local Identifier"
@@ -470,6 +476,61 @@
                         EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
                         IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="Y"
                         NAME="TempItemType_search" OBJ_ID="291" VER_NBR="1"/>
+
+    <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="Title" DESCRIPTION=""
+                        DOC_FIELD_ID="357" DOC_FORMAT_ID="9" DOC_TYPE_ID="4"
+                        EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
+                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="Y"
+                        NAME="Title_search" OBJ_ID="357" VER_NBR="1"/>
+
+    <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="Author" DESCRIPTION=""
+                        DOC_FIELD_ID="358" DOC_FORMAT_ID="9" DOC_TYPE_ID="4"
+                        EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
+                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="Y"
+                        NAME="Author_search" OBJ_ID="358" VER_NBR="1"/>
+
+    <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="Publisher" DESCRIPTION=""
+                        DOC_FIELD_ID="359" DOC_FORMAT_ID="9" DOC_TYPE_ID="4"
+                        EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
+                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="Y"
+                        NAME="Publisher_search" OBJ_ID="359" VER_NBR="1"/>
+
+    <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="ISSN" DESCRIPTION=""
+                        DOC_FIELD_ID="360" DOC_FORMAT_ID="9" DOC_TYPE_ID="4"
+                        EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
+                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="Y"
+                        NAME="ISSN_search" OBJ_ID="360" VER_NBR="1"/>
+
+    <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="ISBN" DESCRIPTION=""
+                        DOC_FIELD_ID="361" DOC_FORMAT_ID="9" DOC_TYPE_ID="4"
+                        EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
+                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="Y"
+                        NAME="ISBN_search" OBJ_ID="361" VER_NBR="1"/>
+
+    <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="Format" DESCRIPTION=""
+                        DOC_FIELD_ID="362" DOC_FORMAT_ID="9" DOC_TYPE_ID="4"
+                        EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
+                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="Y"
+                        NAME="Format_search" OBJ_ID="362" VER_NBR="1"/>
+
+    <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="Language" DESCRIPTION=""
+                        DOC_FIELD_ID="363" DOC_FORMAT_ID="9" DOC_TYPE_ID="4"
+                        EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
+                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="Y"
+                        NAME="Language_search" OBJ_ID="363" VER_NBR="1"/>
+
+    <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="Date of Publication" DESCRIPTION=""
+                        DOC_FIELD_ID="364" DOC_FORMAT_ID="9" DOC_TYPE_ID="4"
+                        EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
+                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="Y"
+                        NAME="PublicationDate_search" OBJ_ID="364" VER_NBR="1"/>
+
+    <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="Bib Local Identifier" DESCRIPTION=""
+                        DOC_FIELD_ID="366" DOC_FORMAT_ID="9" DOC_TYPE_ID="4"
+                        EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
+                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="Y"
+                        NAME="bibIdentifier" OBJ_ID="366" VER_NBR="1"/>
+
 
     <!-- Search EHoldings-->
 

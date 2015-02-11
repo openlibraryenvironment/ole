@@ -4886,7 +4886,7 @@ INSERT INTO KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, D
 INSERT INTO KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND) VALUES ('OLE10314', 'OLE70095', '1', '1', 'OLE-DLVR', 'Item has pending request queue where patron presenting item is NOT the patron in queue position ''1''', 'Allows users to override if patron presenting item is NOT the patron in queue position ''1''', 'Y')
 /
 
-INSERT INTO KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND) VALUES ('OLE10315', 'OLE70096', '1', '1', 'OLE-DLVR', 'Item not at circ desk authorized to service the item’s shelving location', 'Allows users to override if an item is not at a circ desk authorized to service the item’s shelving location', 'Y')
+INSERT INTO KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND) VALUES ('OLE10315', 'OLE70096', '1', '1', 'OLE-DLVR', 'Item not at circ desk authorized to service the item�s shelving location', 'Allows users to override if an item is not at a circ desk authorized to service the item�s shelving location', 'Y')
 /
 
 INSERT INTO KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND) VALUES ('OLE10316', 'OLE70097', '1', '58', 'OLE-CAT', 'Global Edit of Holdings/Items/EHoldings', 'Allows users to edit multiple OLE Instances by making the same changes to all affected OLE Instances', 'Y')
@@ -7059,13 +7059,13 @@ INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, 
 INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND) VALUES ('OLE10052', 'OLE100021', '1', 'OLE_LicenseManager', 'OLE-LIC', 'Group of users who actually do the work of license negotiation used for routing purposes.', '1', 'Y')
 /
 
-INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND) VALUES ('OLE10053', 'OLE100031', '1', 'OLE_Licenses', 'OLE-LIC', 'OLE_Licenses are the assignees for Requisitions requiring licenses or license negotiations. This role is the “owner” of the license agreement  and has full edit  attachment  routing  and status change permissions.', '1', 'Y')
+INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND) VALUES ('OLE10053', 'OLE100031', '1', 'OLE_Licenses', 'OLE-LIC', 'OLE_Licenses are the assignees for Requisitions requiring licenses or license negotiations. This role is the �owner� of the license agreement  and has full edit  attachment  routing  and status change permissions.', '1', 'Y')
 /
 
 INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND) VALUES ('OLE10054', 'OLE100041', '1', 'OLE_LicenseReviewer', 'OLE-LIC', 'This role is a person with the authority to sign a license.', '1', 'Y')
 /
 
-INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND) VALUES ('OLE10055', 'OLE100051', '1', 'OLE_Licensing_Approver', 'OLE-LIC', 'OLE_Licensing_Approver will receive License Requests in status “Complete” as final step in workflow.', '1', 'Y')
+INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND) VALUES ('OLE10055', 'OLE100051', '1', 'OLE_Licensing_Approver', 'OLE-LIC', 'OLE_Licensing_Approver will receive License Requests in status �Complete� as final step in workflow.', '1', 'Y')
 /
 
 INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND) VALUES ('OLE10056', 'OLE100061', '1', 'OLE_LicenseViewer', 'OLE-LIC', 'License documents and Search on Licenses have very limited permissons. This role can view only Agreements Agreement docs License Requests.', '1', 'Y')
@@ -7173,7 +7173,10 @@ INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, 
 INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND) VALUES ('OLE10086', 'OLE100010', '1', 'OLE_Serial-Receiving', 'OLE-SELECT', 'Authorized to edit Serial Receiving record.', '1', 'Y')
 /
 
-INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_OLE_KRIM_ROLE_T', 'ole', 'bootstrap_krim_role_perm_data.xml', NOW(), 19, '7:10ab09dcd2d3ab4cf0e2435aaf6a1d23', 'loadData', '', 'EXECUTED', '3.2.0')
+INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND) VALUES ('OLE10087', 'OLE100676', '1', 'OLE-ROLL-OVER', 'OLE-SELECT', 'Fiscal Year Roll Over.', '1', 'Y')
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_OLE_KRIM_ROLE_T', 'ole', 'bootstrap_krim_role_perm_data.xml', NOW(), 19, '7:73a92c76833c0cb0f6e5e630f34c497b', 'loadData', '', 'EXECUTED', '3.2.0')
 /
 
 --  Changeset bootstrap_krim_role_perm_data.xml::OLE_KRIM_ROLE_PERM_T::ole
@@ -10306,7 +10309,7 @@ INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, ROLE_ID, PERM_ID, ACTV_IND) 
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, ROLE_ID, PERM_ID, ACTV_IND) VALUES ('OLE12354', 'OLE70558', 'OLE10074', 'OLE10324', 'Y')
 /
 
-INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, ROLE_ID, PERM_ID, ACTV_IND) VALUES ('OLE12355', 'OLE70559', 'OLE10068', 'OLE10325', 'Y')
+INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, ROLE_ID, PERM_ID, ACTV_IND) VALUES ('OLE12355', 'OLE70559', 'OLE10087', 'OLE10325', 'Y')
 /
 
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, ROLE_ID, PERM_ID, ACTV_IND) VALUES ('OLE12356', 'OLE70560', 'OLE10068', 'OLE10326', 'Y')
@@ -10354,7 +10357,7 @@ INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, ROLE_ID, PERM_ID, ACTV_IND) 
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, ROLE_ID, PERM_ID, ACTV_IND) VALUES ('OLE12370', 'OLE70574', 'OLE10068', 'OLE10328', 'Y')
 /
 
-INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_KRIM_ROLE_PERM_T', 'ole', 'bootstrap_krim_role_perm_data.xml', NOW(), 20, '7:c4d6c66c7bff26247394a6a58e1c67aa', 'loadData', '', 'EXECUTED', '3.2.0')
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_KRIM_ROLE_PERM_T', 'ole', 'bootstrap_krim_role_perm_data.xml', NOW(), 20, '7:6f5feb5241640cb96afe50456e37c618', 'loadData', '', 'EXECUTED', '3.2.0')
 /
 
 --  Changeset bootstrap_krim_role_perm_data.xml::OLE_KRIM_ROLE_RSP_T::ole

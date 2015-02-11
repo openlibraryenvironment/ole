@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -839,6 +840,20 @@ public class DocstoreRestClient implements DocstoreClient {
         return reqParam.toString();
     }
 
+    private String buildQueryPostString(List<String> ids, String queryParam) {
+        StringBuilder reqParam = new StringBuilder("");
+        int size = ids.size();
+        for (int i = 0; i < size; i++) {
+            reqParam.append(queryParam);
+            reqParam.append("=");
+            reqParam.append(ids.get(i));
+            if (i != (size - 1)) {
+                reqParam.append("&");
+            }
+        }
+        return reqParam.toString();
+    }
+
     public String buildIds(List<String> ids, String value) {
         StringBuilder idSb = new StringBuilder(value);
         for (String id : ids) {
@@ -1019,6 +1034,63 @@ public class DocstoreRestClient implements DocstoreClient {
             }
         } catch (Exception e) {
         }
+    }
+
+    public List<Bib> acquisitionSearchRetrieveBibs(List<String> bibIds) {
+//        String bibIdSb = buildIds(bibIds, "bibIds=");
+        RestResponse restResponse = sendPostForAcquisitionSearch(DOCSTORE_URL+BIB_URL+"searchAcquistion",buildQueryPostString(bibIds, "bibId"));
+        Bibs bibsObj = new Bibs();
+        if (restResponse.getResponse().getStatusLine().getStatusCode() == 200) {
+            if (restResponse.getResponseBody().startsWith("<org.kuali.ole.docstore.common.exception")) {
+                throw DocstoreExceptionProcessor.fromXML(restResponse.getResponseBody());
+            } else {
+                if (bibIds.size() == 1) {
+                    Bib bib = new Bib();
+                    bibsObj.getBibs().add((Bib) bib.deserialize(restResponse.getResponseBody()));
+                    return bibsObj.getBibs();
+                }
+                bibsObj = (Bibs) Bibs.deserialize(restResponse.getResponseBody());
+
+            }
+        }
+        return bibsObj.getBibs();
+
+    }
+
+    private RestResponse sendPostForAcquisitionSearch(String url, String urlParameters) {
+
+        StatusLine statusLine = new BasicStatusLine(new ProtocolVersion("http", 1, 1), 200, "OK");
+        HttpResponse httpResponse = new BasicHttpResponse(statusLine);
+        String postResponse = null;
+        try {
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+            con.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+            wr.writeBytes(urlParameters);
+            wr.flush();
+            wr.close();
+            int responseCode = con.getResponseCode();
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            postResponse = response.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        RestResponse response = new RestResponse();
+        response.setContentType("text/html; charset=utf-8");
+        response.setResponseBody(postResponse);
+        response.setResponse(httpResponse);
+        return response;
     }
 
 }

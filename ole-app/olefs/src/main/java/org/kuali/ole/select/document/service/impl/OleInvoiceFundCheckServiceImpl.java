@@ -29,6 +29,7 @@ import org.kuali.ole.select.document.OleInvoiceDocument;
 import org.kuali.ole.select.document.OlePaymentRequestDocument;
 import org.kuali.ole.select.document.service.OleInvoiceFundCheckService;
 import org.kuali.ole.select.document.service.OleInvoiceService;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.ole.sys.businessobject.GeneralLedgerPendingEntry;
@@ -53,6 +54,8 @@ import java.util.Map;
 public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckService {
     protected static final Logger LOG = Logger.getLogger(OleInvoiceFundCheckServiceImpl.class);
     protected ConfigurationService kualiConfigurationService;
+    private OleSelectDocumentService oleSelectDocumentService;
+
     @Override
     public boolean hasSufficientFundCheckRequired(SourceAccountingLine accLine) {
         boolean hasSufficientFundRequired = false;
@@ -165,7 +168,7 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
                             String user = null;
                             if (GlobalVariables.getUserSession() == null) {
                                 kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
-                                user = kualiConfigurationService.getPropertyValueAsString(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR);
+                                user = kualiConfigurationService.getPropertyValueAsString(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
                                 GlobalVariables.setUserSession(new UserSession(user));
                             }
 
@@ -217,7 +220,7 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
                                 String user = null;
                                 if (GlobalVariables.getUserSession() == null) {
                                     kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
-                                    user = kualiConfigurationService.getPropertyValueAsString(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR);
+                                    user = kualiConfigurationService.getPropertyValueAsString(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
                                     GlobalVariables.setUserSession(new UserSession(user));
                                 }
 
@@ -275,7 +278,7 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
                             String user = null;
                             if (GlobalVariables.getUserSession() == null) {
                                 kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
-                                user = kualiConfigurationService.getPropertyValueAsString(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR);
+                                user = kualiConfigurationService.getPropertyValueAsString(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
                                 GlobalVariables.setUserSession(new UserSession(user));
                             }
                                 workflowDocument = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(paidInvDoc.getDocumentNumber(), SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPerson().getPrincipalId()));
@@ -327,7 +330,7 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
                                 String user = null;
                                 if (GlobalVariables.getUserSession() == null) {
                                     kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
-                                    user = kualiConfigurationService.getPropertyValueAsString(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR);
+                                    user = kualiConfigurationService.getPropertyValueAsString(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
                                     GlobalVariables.setUserSession(new UserSession(user));
                                 }
                                 workflowDocument = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(paidPaymentDoc.getDocumentNumber(), SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPerson().getPrincipalId()));
@@ -573,6 +576,17 @@ public class OleInvoiceFundCheckServiceImpl implements OleInvoiceFundCheckServic
         }
 
         return budgetDecrease.negated();
+    }
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 
 }

@@ -35,6 +35,7 @@ import org.kuali.ole.module.purap.pdf.PurchaseOrderTransmitParameters;
 import org.kuali.ole.module.purap.util.PurApObjectUtils;
 import org.kuali.ole.module.purap.util.ThresholdHelper;
 import org.kuali.ole.module.purap.util.ThresholdHelper.ThresholdSummary;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.select.service.OleTransmissionService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
@@ -126,6 +127,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     protected static final boolean TRANSMISSION_IS_RETRANSMIT = true;
     protected static final boolean TRANSMISSION_IS_NOT_RETRANSMIT = !TRANSMISSION_IS_RETRANSMIT;
     protected OlePurapService olePurapService;
+    private OleSelectDocumentService oleSelectDocumentService;
 
     public OlePurapService getOlePurapService() {
         if (olePurapService == null) {
@@ -242,7 +244,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     @Override
     public void createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument) {
-        String newSessionUserId = OLEConstants.SYSTEM_USER;
+        String newSessionUserId = getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER);
         try {
 
             LogicContainer logicToRun = new LogicContainer() {
@@ -485,8 +487,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         po.setOverrideWorkflowButtons(Boolean.FALSE);
         boolean performedAction = purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", PurapConstants.PurchaseOrderStatuses.NODE_DOCUMENT_TRANSMISSION, GlobalVariables.getUserSession().getPerson(), null);
         if (!performedAction) {
-            Person systemUserPerson = getPersonService().getPersonByPrincipalName(OLEConstants.SYSTEM_USER);
-            purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getPerson().getName(), PurapConstants.PurchaseOrderStatuses.NODE_DOCUMENT_TRANSMISSION, systemUserPerson, OLEConstants.SYSTEM_USER);
+            Person systemUserPerson = getPersonService().getPersonByPrincipalName(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
+            purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getPerson().getName(), PurapConstants.PurchaseOrderStatuses.NODE_DOCUMENT_TRANSMISSION, systemUserPerson, getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
         }
         po.setOverrideWorkflowButtons(Boolean.TRUE);
         if (!po.getApplicationDocumentStatus().equals(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN)) {
@@ -1773,7 +1775,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     }
 
                     purapService.saveDocumentNoValidation(req);
-                    createPurchaseOrderDocument(req, OLEConstants.SYSTEM_USER, detail.getContractManagerCode());
+                    createPurchaseOrderDocument(req, getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER), detail.getContractManagerCode());
                 }
             }
 
@@ -2561,5 +2563,16 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             LOG.info("Email Sending Failed for fromAddress ["+fromEmailAddress+"] and toAddress [ "+toEmailAddress+" ]");
             e.printStackTrace();
         }
+    }
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 }

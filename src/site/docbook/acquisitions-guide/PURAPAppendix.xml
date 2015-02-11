@@ -4422,7 +4422,7 @@
             </informaltable>
         </section>
         <section>
-            <title>Sample Library (OLE) Organizations </title>
+            <title><anchor xml:id="_SampleLibraryOrganizations"/>Sample Library (OLE) Organizations </title>
             <informaltable frame="none">
                 <tgroup cols="3">
                     <colspec colname="col1" colnum="1"/>

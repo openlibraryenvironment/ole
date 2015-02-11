@@ -3,6 +3,8 @@ package org.kuali.ole.batch.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.bo.*;
+import org.kuali.ole.batch.util.BatchBibImportUtil;
+import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.ole.batch.bo.xstream.OLEBatchProcessProfileRecordProcessor;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.bo.OleGloballyProtectedField;
@@ -233,7 +235,8 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
         //OLEBatchProcessProfileBo oldOleBatchProcessProfileBo = (OLEBatchProcessProfileBo) document.getOldMaintainableObject().getDataObject();
         //OLEBatchProcessProfileBo oleBatchProcessProfileBo1 = (OLEBatchProcessProfileBo) document.getNewMaintainableObject().getDataObject();
         OLEBatchProcessProfileBo newOleBatchProcessProfileBo = (OLEBatchProcessProfileBo)document.getNewMaintainableObject().getDataObject();
-        newOleBatchProcessProfileBo.setMatchingProfile(newOleBatchProcessProfileBo.getMatchingProfileObj().toString());
+        MatchingProfile matchingProfile = newOleBatchProcessProfileBo.getMatchingProfileObj();
+        newOleBatchProcessProfileBo.setMatchingProfile(matchingProfile.toString());
         List<OLEBatchProcessProfileFilterCriteriaBo> filterCriteriaBoList=new ArrayList<OLEBatchProcessProfileFilterCriteriaBo>();
         if(newOleBatchProcessProfileBo.getOleBatchProcessProfileFilterCriteriaList().size()>0){
             for(OLEBatchProcessProfileFilterCriteriaBo oleBatchProcessProfileFilterCriteriaBo:newOleBatchProcessProfileBo.getOleBatchProcessProfileFilterCriteriaList()){
@@ -249,6 +252,9 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
                 newOleBatchProcessProfileBo.setValueToRemove("");
         }
 
+        if (!validateMatchPoints(newOleBatchProcessProfileBo,matchingProfile)) {
+            return getUIFModelAndView(form);
+        }
         List<OLEBatchProcessProfileBibStatus> oleBatchProcessProfileBibStatuses=newOleBatchProcessProfileBo.getDeleteBatchProcessProfileBibStatusList();
         KRADServiceLocator.getBusinessObjectService().save(oleBatchProcessProfileBibStatuses);
         for(OLEBatchProcessProfileBibStatus oleBatchProcessProfileBibStatus:oleBatchProcessProfileBibStatuses){
@@ -337,6 +343,48 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
             newOleBatchProcessProfileBo.setOleBatchGloballyProtectedFieldList(batchGloballyProtectedFieldList);
         }
         return super.route(form, result, request, response);
+    }
+
+    private boolean validateMatchPoints(OLEBatchProcessProfileBo newOleBatchProcessProfileBo, MatchingProfile matchingProfile) {
+        boolean isValid = true;
+        if (newOleBatchProcessProfileBo.getBatchProcessProfileType().equalsIgnoreCase(OLEConstants.OLEBatchProcess.BATCH_BIB_IMPORT)) {
+            if (matchingProfile.isMatchBibs()) {
+                List<OLEBatchProcessProfileMatchPoint> oleBatchProcessProfileMatchPointList = newOleBatchProcessProfileBo.getOleBatchProcessProfileBibliographicMatchPointList();
+                if (oleBatchProcessProfileMatchPointList.size() == 0) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLEBatchProcess.SECTION_ID, OLEConstants.OLEBatchProcess.OLE_BATCH_BIB_MATCH_POINT);
+                    isValid = false;
+                }
+                if (matchingProfile.isMatchHoldings()) {
+                    if (OLEConstants.OLEBatchProcess.DATA_TO_IMPORT_BIB_INSTANCE.equalsIgnoreCase(newOleBatchProcessProfileBo.getDataToImport()) ||
+                            OLEConstants.OLEBatchProcess.DATA_TO_IMPORT_BIB_INSTANCE_EINSTANCE.equalsIgnoreCase(newOleBatchProcessProfileBo.getDataToImport())) {
+                        oleBatchProcessProfileMatchPointList = newOleBatchProcessProfileBo.getOleBatchProcessProfileHoldingMatchPointList();
+                        if (oleBatchProcessProfileMatchPointList.size() == 0) {
+                            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLEBatchProcess.SECTION_ID, OLEConstants.OLEBatchProcess.OLE_BATCH_HOLDINGS_MATCH_POINT);
+                            isValid = false;
+                        }
+
+                        if (matchingProfile.isMatchItems()) {
+                            oleBatchProcessProfileMatchPointList = newOleBatchProcessProfileBo.getOleBatchProcessProfileItemMatchPointList();
+                            if (oleBatchProcessProfileMatchPointList.size() == 0) {
+                                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLEBatchProcess.SECTION_ID, OLEConstants.OLEBatchProcess.OLE_BATCH_ITEM_MATCH_POINT);
+                                isValid = false;
+                            }
+                        }
+                    }
+                    if (OLEConstants.OLEBatchProcess.DATA_TO_IMPORT_BIB_EINSTANCE.equalsIgnoreCase(newOleBatchProcessProfileBo.getDataToImport()) ||
+                            OLEConstants.OLEBatchProcess.DATA_TO_IMPORT_BIB_INSTANCE_EINSTANCE.equalsIgnoreCase(newOleBatchProcessProfileBo.getDataToImport())) {
+                        oleBatchProcessProfileMatchPointList = newOleBatchProcessProfileBo.getOleBatchProcessProfileEholdingMatchPointList();
+                        if (oleBatchProcessProfileMatchPointList.size() == 0) {
+                            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLEBatchProcess.SECTION_ID, OLEConstants.OLEBatchProcess.OLE_BATCH_EHOLDINGS_MATCH_POINT);
+                            isValid = false;
+                        }
+                    }
+                }
+
+            }
+
+        }
+        return isValid;
     }
 
     @Override
@@ -770,13 +818,22 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
                 return true;
             }
         }
+        else if(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT.equals(oleBatchProcessProfileConstantsBo.getAttributeName()) || OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT.equals(oleBatchProcessProfileConstantsBo.getAttributeName())){
+            boolean validRecurringPaymenteDate = validateRecurringPaymentDate(oleBatchProcessProfileConstantsBo.getAttributeValue());
+            if(!validRecurringPaymenteDate){
+                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLEBatchProcess.OLE_BATCH_PROFILE_CONSTANT_SECTION_ID, OLEConstants.OLEBatchProcess.INVALID_RECURRING_PAYMENT_DATE);
+                return true;
+            }
+        }
+
         return false;
     }
 
     private void setAttributeValueForOrderImport(OLEBatchProcessProfileConstantsBo oleBatchProcessProfileConstantsBo){
         String attributeName = oleBatchProcessProfileConstantsBo.getAttributeName();
         if(attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.PERCENT) || attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.LIST_PRICE) ||
-                attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.DISCOUNT) || attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.QUANTITY) || OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS.equals(attributeName)){
+                attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.DISCOUNT) || attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.QUANTITY) || OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS.equals(attributeName) ||
+                attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.RECURR_PAY_BEGIN_DATE) || attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.RECURR_PAY_END_DATE)){
             oleBatchProcessProfileConstantsBo.setAttributeValue(oleBatchProcessProfileConstantsBo.getAttributeValueText());
         }
     }
@@ -945,6 +1002,18 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
         SimpleDateFormat dateFromRawFile = new SimpleDateFormat("yyyyMMdd");
         try {
             dateFromRawFile.parse(invoiceDate);
+            return true;
+        }
+        catch (ParseException e) {
+            return false;
+        }
+    }
+
+    public boolean validateRecurringPaymentDate(String recurringPaymentDate){
+        SimpleDateFormat dateFromRawFile = new SimpleDateFormat(org.kuali.ole.OLEConstants.DATE_FORMAT);
+        dateFromRawFile.setLenient(false);
+        try {
+            dateFromRawFile.parse(recurringPaymentDate);
             return true;
         }
         catch (ParseException e) {

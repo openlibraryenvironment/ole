@@ -10,10 +10,7 @@ import org.kuali.ole.coa.businessobject.Organization;
 import org.kuali.ole.describe.bo.OleItemAvailableStatus;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
-import org.kuali.ole.module.purap.businessobject.FundingSource;
-import org.kuali.ole.module.purap.businessobject.PurchaseOrderTransmissionMethod;
-import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
-import org.kuali.ole.module.purap.businessobject.PurchaseOrderVendorChoice;
+import org.kuali.ole.module.purap.businessobject.*;
 import org.kuali.ole.select.businessobject.OLERequestorPatronDocument;
 import org.kuali.ole.select.businessobject.OleRequestSourceType;
 import org.kuali.ole.select.document.service.OleSelectDocumentService;
@@ -231,6 +228,15 @@ public class OLEBatchProcessOrderImportValuesFinder extends UifKeyValuesFinderBa
                                 for (PurchaseOrderTransmissionMethod transmissionMethod : transmissionMethodList) {
                                     if(transmissionMethod.isDisplayToUser()){
                                         keyValues.add(new ConcreteKeyValue(transmissionMethod.getPurchaseOrderTransmissionMethodDescription(), transmissionMethod.getPurchaseOrderTransmissionMethodDescription()));
+                                    }
+                                }
+                            }
+                            else if(attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP)){
+                                KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
+                                List<RecurringPaymentType> recurringPaymentTypeList = (List<RecurringPaymentType>) boService.findAll(RecurringPaymentType.class);
+                                for (RecurringPaymentType recurringPaymentTypeMethod : recurringPaymentTypeList) {
+                                    if(recurringPaymentTypeMethod.isActive()){
+                                        keyValues.add(new ConcreteKeyValue(recurringPaymentTypeMethod.getRecurringPaymentTypeCode(), recurringPaymentTypeMethod.getRecurringPaymentTypeDescription()));
                                     }
                                 }
                             }

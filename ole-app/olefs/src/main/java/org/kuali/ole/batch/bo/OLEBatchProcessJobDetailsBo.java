@@ -74,6 +74,7 @@ public class OLEBatchProcessJobDetailsBo extends TransactionalDocumentBase {
     private Integer createBibCount;
     private Integer updateBibCount;
     private Integer createHoldingsCount;
+    private Integer updateHoldingsCount;
 
     private Integer noOfEinstanceAdded;
     private Integer noOfEinstanceDeleted;
@@ -618,6 +619,14 @@ public class OLEBatchProcessJobDetailsBo extends TransactionalDocumentBase {
 
     public void setOrderImportHelperBo(OrderImportHelperBo orderImportHelperBo) {
         this.orderImportHelperBo = orderImportHelperBo;
+    }
+
+    public Integer getUpdateHoldingsCount() {
+        return updateHoldingsCount;
+    }
+
+    public void setUpdateHoldingsCount(Integer updateHoldingsCount) {
+        this.updateHoldingsCount = updateHoldingsCount;
     }
 
     public void setJobstatistics(OLEBatchBibImportStatistics bibImportStatistics) {

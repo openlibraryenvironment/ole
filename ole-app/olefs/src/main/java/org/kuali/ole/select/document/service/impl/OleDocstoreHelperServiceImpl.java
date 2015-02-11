@@ -150,12 +150,21 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
             if (singleItem.getLinkToOrderOption().equals(OLEConstants.EB_PRINT) || singleItem.getLinkToOrderOption().equals(OLEConstants.EB_ELECTRONIC)) {
                 performDocstoreCRUDOperationForExistingBib(poNumber, singleItem.getLinkToOrderOption(), bibTree, copyList, oleDonors, poLineItemId, itemTypeDescription, singleItem.getItemStatus(), itemTitleId, singleItem, documentTypeName, note);
             } else if (singleItem.getLinkToOrderOption().equals(OLEConstants.NB_ELECTRONIC) && copyList != null && copyList.size() > 0) {
-                createEInstance(copyList.get(0), oleDonors, bibTree);
-            } else if (singleItem.getLinkToOrderOption().equals(OLEConstants.NB_PRINT) || singleItem.getLinkToOrderOption().equals(org.kuali.ole.OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI)) {
+                if (documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT) ||
+                        documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT) ||
+                        documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT) ||
+                        documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT) ||
+                        documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT) ||
+                        documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT)){
+                     updateEInstance(copyList.get(0), oleDonors);
+                }   else {
+                    createEInstance(copyList.get(0), oleDonors, bibTree);
+                }
+            } else if (singleItem.getLinkToOrderOption().equals(OLEConstants.NB_PRINT)) {
                 performDocstoreCRUDOperationForItemNew(poNumber, copies, copyList, oleDonors, itemTypeDescription, itemTitleId, bibTree, poLineItemId, singleItem.getItemStatus(), singleItem.getItemLocation(), documentTypeName, note, singleItem);
-            } else if (singleItem.getLinkToOrderOption().equals(org.kuali.ole.OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT)) {
+            } else if (singleItem.getLinkToOrderOption().equals(org.kuali.ole.OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT) || singleItem.getLinkToOrderOption().equals(org.kuali.ole.OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI)) {
                 performDocstoreCRUDOperationFoROrderRecordImportMarcOnlyPrint(poNumber, copyList, singleItem, oleDonors, bibTree, poLineItemId);
-            } else if (singleItem.getLinkToOrderOption().equals(org.kuali.ole.OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC)) {
+            } else if (singleItem.getLinkToOrderOption().equals(org.kuali.ole.OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC) || singleItem.getLinkToOrderOption().equals(org.kuali.ole.OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_ELECTRONIC)) {
                 performDocstoreCRUDOperationFoROrderRecordImportMarcOnlyElectronic(copyList, oleDonors, bibTree);
             }
         }
@@ -177,6 +186,8 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
                     if (oleCopy.getItemUUID() != null) {
                         org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(oleCopy.getItemUUID());
                         Item itemContent = new ItemOlemlRecordProcessor().fromXML(item.getContent());
+                        List<DonorInfo> donorInfoList = setDonorInfoToItem(singleItem.getOleDonors(), new ArrayList<DonorInfo>());
+                        itemContent.setDonorInfo(donorInfoList);
                         setItemDetails(itemContent, oleCopy, singleItem, oleDonors, poNumber);
                         item.setContent(new ItemOlemlRecordProcessor().toXML(itemContent));
                         item.setId(itemContent.getItemIdentifier());
@@ -215,33 +226,7 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
             OleCopy oleCopy = oleCopyList.get(0);
             if (oleCopy != null) {
                 if (oleCopy.getInstanceId() != null) {
-                    Holdings holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(oleCopy.getInstanceId());
-                    org.kuali.ole.docstore.common.document.content.instance.OleHoldings oleHoldings = holdingOlemlRecordProcessor.fromXML(holdings.getContent());
-                    oleHoldings.setLocation(setHoldingDetails(oleCopy).getLocation());
-                    List<OLELinkPurapDonor> oleReqDonors = new ArrayList<>();
-                    List<DonorInfo> donorInfoList = new ArrayList<>();
-                    boolean flag = true;
-                    for (OLELinkPurapDonor reqDonorInfo : oleDonors) {
-                        if (oleHoldings.getDonorInfo() != null && oleHoldings.getDonorInfo().size() > 0) {
-                            for (DonorInfo donorInfo : oleHoldings.getDonorInfo()) {
-                                if (donorInfo.getDonorCode().equals(donorInfo.getDonorCode())) {
-                                    flag = false;
-                                    break;
-                                }
-                            }
-                            if (flag) {
-                                oleReqDonors.add(reqDonorInfo);
-                            }
-                        }
-                    }
-                    if (oleHoldings.getDonorInfo() != null && oleHoldings.getDonorInfo().size() > 0) {
-                        donorInfoList = setDonorInfoToItem(oleReqDonors, oleHoldings.getDonorInfo());
-                    } else {
-                        donorInfoList = setDonorInfoToItem(oleDonors, oleHoldings.getDonorInfo());
-                    }
-                    oleHoldings.setDonorInfo(donorInfoList);
-                    holdings.setContent(new HoldingOlemlRecordProcessor().toXML(oleHoldings));
-                    getDocstoreClientLocator().getDocstoreClient().updateHoldings(holdings);
+                    updateEInstance(oleCopy,oleDonors);
                 } else {
                     createEInstance(oleCopy, oleDonors, bibTree);
                 }
@@ -249,7 +234,7 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
         }
     }
 
-    private void setItemDetails(Item itemContent, OleCopy oleCopy, OlePurchaseOrderItem singleItem, List<OLELinkPurapDonor> oleDonors, String poNumber) {
+    public void setItemDetails(Item itemContent, OleCopy oleCopy, OlePurchaseOrderItem singleItem, List<OLELinkPurapDonor> oleDonors, String poNumber) {
         if (StringUtils.isBlank(itemContent.getEnumeration())) {
             itemContent.setEnumeration(oleCopy.getEnumeration());
         }
@@ -304,7 +289,17 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
                 performUpdateForPODocuments(poNumber, bibTree, documentTypeName, poLineItemId, note, singleItem, copyList, oleCopyList, newCopyList, oleDonors, itemTypeDescription, itemStatusValue);
             }
         } else if (linkToOrderOption.equals(OLEConstants.EB_ELECTRONIC)) {
+            if (documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT) ||
+                    documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT) ||
+                    documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT) ||
+                    documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT) ||
+                    documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT) ||
+                    documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT)){
+                updateEInstance(oleCopyList.get(0), oleDonors);
+            }   else {
             createEInstance(oleCopyList.get(0),oleDonors,bibTree);
+        }
+            //createEInstance(oleCopyList.get(0),oleDonors,bibTree);
         }
     }
 
@@ -325,6 +320,38 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
         holdingsTree.setHoldings(eHoldings);
         getDocstoreClientLocator().getDocstoreClient().createHoldingsTree(holdingsTree);
         oleCopy.setInstanceId(holdingsTree.getHoldings().getId());
+    }
+
+    private void updateEInstance(OleCopy oleCopy, List<OLELinkPurapDonor> oleDonors) throws Exception{
+        Holdings holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(oleCopy.getInstanceId());
+        org.kuali.ole.docstore.common.document.content.instance.OleHoldings oleHoldings = holdingOlemlRecordProcessor.fromXML(holdings.getContent());
+        oleHoldings.setLocation(setHoldingDetails(oleCopy).getLocation());
+        List<OLELinkPurapDonor> oleReqDonors = new ArrayList<>();
+        List<DonorInfo> donorInfoList = new ArrayList<>();
+        boolean flag = true;
+        for (OLELinkPurapDonor reqDonorInfo : oleDonors) {
+            if (oleHoldings.getDonorInfo() != null && oleHoldings.getDonorInfo().size() > 0) {
+                for (DonorInfo donorInfo : oleHoldings.getDonorInfo()) {
+                    if (donorInfo.getDonorCode().equals(donorInfo.getDonorCode())) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {
+                    oleReqDonors.add(reqDonorInfo);
+                }
+            }
+        }
+        if (oleHoldings.getDonorInfo() != null && oleHoldings.getDonorInfo().size() > 0) {
+            donorInfoList = setDonorInfoToItem(oleReqDonors, oleHoldings.getDonorInfo());
+        } else {
+            donorInfoList = setDonorInfoToItem(oleDonors, oleHoldings.getDonorInfo());
+        }
+        oleHoldings.setDonorInfo(donorInfoList);
+        donorInfoList = setDonorInfoToItem(oleDonors, new ArrayList<DonorInfo>());
+        oleHoldings.setDonorInfo(donorInfoList);
+        holdings.setContent(new HoldingOlemlRecordProcessor().toXML(oleHoldings));
+        getDocstoreClientLocator().getDocstoreClient().updateHoldings(holdings);
     }
 
     /*private void performDocstoreCRUDOperationForEInstance(BibTree bibTree, OleCopy oleCopy, List<OLELinkPurapDonor> oleDonors) throws Exception {
@@ -541,7 +568,9 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
             }
             isLocationAvailable = true;
         }
-        if (bibTree.getHoldingsTrees().size() > 0 && documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT)) {
+        if (bibTree.getHoldingsTrees().size() > 0 && (documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT) ||
+                documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT) ||
+                documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT))) {
             org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(oleCopyList.get(0).getItemUUID());
             Item itemContent=new ItemOlemlRecordProcessor().fromXML(item.getContent());
             if (StringUtils.isNotEmpty(poNumber)) {
@@ -1268,6 +1297,8 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
     private void updateOleItem(String poNumber, String itemId, String poLineItemId, OlePurchaseOrderItem singleItem) throws Exception {
         org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemId);
         Item itemContent=new ItemOlemlRecordProcessor().fromXML(item.getContent());
+        List<DonorInfo> donorInfoList = setDonorInfoToItem(singleItem.getOleDonors(), new ArrayList<DonorInfo>());
+        itemContent.setDonorInfo(donorInfoList);
         itemContent.setPurchaseOrderLineItemIdentifier(poNumber);
         if (singleItem != null) {
             itemContent.setVendorLineItemIdentifier(singleItem.getVendorItemPoNumber());
@@ -1404,7 +1435,7 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
         }
     }
 
-    private void createOleHoldingsTree(String poNumber, BibTree bibTree,List<OleCopy> copyList, String poLineItemId,List<OLELinkPurapDonor> oleDonors,List<OleCopy> oleCopyList,
+    public void createOleHoldingsTree(String poNumber, BibTree bibTree,List<OleCopy> copyList, String poLineItemId,List<OLELinkPurapDonor> oleDonors,List<OleCopy> oleCopyList,
                                         String itemTypeDescription,String itemStatusValue, OlePurchaseOrderItem singleItem) throws Exception {
         OleCopy copy = oleCopyList.get(0);
         Holdings pHoldings = new PHoldings();

@@ -45,6 +45,7 @@ import org.kuali.ole.pdp.service.PaymentFileService;
 import org.kuali.ole.pdp.service.PaymentGroupService;
 import org.kuali.ole.pdp.service.PdpEmailService;
 import org.kuali.ole.select.document.OleDisbursementVoucherDocument;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.ole.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -87,6 +88,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     private BusinessObjectService businessObjectService;
     private PdpEmailService paymentFileEmailService;
     private int maxNoteLines;
+    private OleSelectDocumentService oleSelectDocumentService;
 
     // This should only be set to true when testing this system. Setting this to true will run the code but
     // won't set the doc status to extracted
@@ -114,12 +116,12 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
         }
 
-        Person uuser = getPersonService().getPersonByPrincipalName(OLEConstants.SYSTEM_USER);
+        Person uuser = getPersonService().getPersonByPrincipalName(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
         if (uuser == null) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("extractPayments() Unable to find user " + OLEConstants.SYSTEM_USER);
+                LOG.debug("extractPayments() Unable to find user " + getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
             }
-            throw new IllegalArgumentException("Unable to find user " + OLEConstants.SYSTEM_USER);
+            throw new IllegalArgumentException("Unable to find user " + getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
         }
 
         // Get a list of campuses that have documents with an 'A' (approved) status.
@@ -152,10 +154,10 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
         }
 
-        Person uuser = getPersonService().getPersonByPrincipalName(OLEConstants.SYSTEM_USER);
+        Person uuser = getPersonService().getPersonByPrincipalName(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
         if (uuser == null) {
-            LOG.debug("extractPayments() Unable to find user " + OLEConstants.SYSTEM_USER);
-            throw new IllegalArgumentException("Unable to find user " + OLEConstants.SYSTEM_USER);
+            LOG.debug("extractPayments() Unable to find user " + getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
+            throw new IllegalArgumentException("Unable to find user " + getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
         }
 
         // Get a list of campuses that have documents with an 'A' (approved) status.
@@ -919,10 +921,10 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         catch (NumberFormatException nfe) {
             throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
         }
-        Person user = getPersonService().getPersonByPrincipalName(OLEConstants.SYSTEM_USER);
+        Person user = getPersonService().getPersonByPrincipalName(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
         if (user == null) {
-            LOG.debug("extractPayments() Unable to find user " + OLEConstants.SYSTEM_USER);
-            throw new IllegalArgumentException("Unable to find user " + OLEConstants.SYSTEM_USER);
+            LOG.debug("extractPayments() Unable to find user " + getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
+            throw new IllegalArgumentException("Unable to find user " + getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
         }
 
         Batch batch = createBatch(disbursementVoucher.getCampusCode(), user, processRunDate);
@@ -1018,6 +1020,17 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             personService = SpringContext.getBean(PersonService.class);
         }
         return personService;
+    }
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 
 }

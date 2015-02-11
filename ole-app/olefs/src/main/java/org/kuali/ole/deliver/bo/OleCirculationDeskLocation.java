@@ -19,10 +19,14 @@ public class OleCirculationDeskLocation extends PersistableBusinessObjectBase {
     private String circulationDeskLocationId;
     private String circulationDeskId;
     private String circulationDeskLocation;
+    private String circulationPickUpDeskLocation;
+    private String circulationPickUpLocationCode;
     private String circulationLocationCode;
     private String circulationFullLocationCode;
+    private String circulationPickUpFullLocationCode;
     private OleCirculationDesk oleCirculationDesk = new OleCirculationDesk();
     private OleLocation location = new OleLocation();
+    private OleLocation pickupLocation = new OleLocation();
 
     public String getCirculationDeskLocationId() {
         return circulationDeskLocationId;
@@ -104,7 +108,67 @@ public class OleCirculationDeskLocation extends PersistableBusinessObjectBase {
         return fullLocationCode;
     }
 
+    public String getCirculationPickUpFullLocationCode() {
+        String fullLocationCode = this.getCirculationPickUpLocationCode();
+        if (circulationPickUpDeskLocation != null) {
+            Map<String, String> locationMap = new HashMap<String, String>();
+            locationMap.put("locationId", circulationPickUpDeskLocation);
+            List<OleLocation> oleLocationList = (List<OleLocation>) KRADServiceLocator.getBusinessObjectService().findMatching(OleLocation.class, locationMap);
+            if (oleLocationList.size() > 0) {
+
+                OleLocation deskLocation = oleLocationList.get(0);
+                if (deskLocation.getParentLocationId() != null) {
+                    deskLocation = deskLocation.getOleLocation();
+                } else {
+                    return fullLocationCode;
+                }
+                while (deskLocation != null) {
+                    fullLocationCode = deskLocation.getLocationCode() + "/" + fullLocationCode;
+                    if (deskLocation.getParentLocationId() != null) {
+                        deskLocation = deskLocation.getOleLocation();
+                    } else
+                        deskLocation = null;
+                }
+                return fullLocationCode;
+            }
+        } else {
+            fullLocationCode = this.circulationPickUpDeskLocation;
+        }
+        return fullLocationCode;
+    }
+
+    public void setCirculationPickUpFullLocationCode(String circulationPickUpFullLocationCode) {
+        this.circulationPickUpFullLocationCode = circulationPickUpFullLocationCode;
+    }
+
     public void setCirculationFullLocationCode(String circulationFullLocationCode) {
         this.circulationFullLocationCode = circulationFullLocationCode;
+    }
+
+    public String getCirculationPickUpDeskLocation() {
+        return circulationPickUpDeskLocation;
+    }
+
+    public void setCirculationPickUpDeskLocation(String circulationPickUpDeskLocation) {
+        this.circulationPickUpDeskLocation = circulationPickUpDeskLocation;
+    }
+
+    public OleLocation getPickupLocation() {
+        return pickupLocation;
+    }
+
+    public void setPickupLocation(OleLocation pickupLocation) {
+        this.pickupLocation = pickupLocation;
+    }
+
+    public String getCirculationPickUpLocationCode() {
+        if ((circulationPickUpLocationCode == null && pickupLocation != null)) {
+            return pickupLocation.getLocationCode();
+        }
+        return circulationPickUpLocationCode;
+    }
+
+    public void setCirculationPickUpLocationCode(String circulationPickUpLocationCode) {
+        this.circulationPickUpLocationCode = circulationPickUpLocationCode;
     }
 }

@@ -1,18 +1,6 @@
 package org.kuali.ole.ncip.bo;
 
 import org.apache.log4j.Logger;
-import org.jfree.util.HashNMap;
-import org.kuali.ole.OLEConstants;
-import org.kuali.ole.module.purap.PurapConstants;
-import org.kuali.ole.module.purap.PurapParameterConstants;
-import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.coreservice.impl.parameter.ParameterBo;
-import org.kuali.rice.krad.service.BusinessObjectService;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -46,6 +34,7 @@ public class OLENCIPConstants {
     public static final String PLACEREQUEST_SERVICE ="placeRequest";
     public static final String CANCELREQUEST_SERVICE ="cancelRequest";
     public static final String RENEWITEM_SERVICE ="renewItem";
+    public static final String RENEWITEMLIST_SERVICE ="renewItemList";
     public static final String ACCEPTITEM_SERVICE ="acceptItem";
     public static final String CHECKINITEM_SERVICE ="checkInItem";
     public static final String CHECKOUTITEM_SERVICE ="checkOutItem";
@@ -90,7 +79,7 @@ public class OLENCIPConstants {
 
     public static final String TELEPHONE_CODE = "TEL";
     public static final String ADDRESS_TYPE_SCHEME = "http://www.niso.org/ncip/v1_0/imp1/schemes/physicaladdresstype/physicaladdresstype.scm";
-    public static final String EMAIL = "electronic mail address";
+    public static final String EMAIL = "NCIP_EMAILADDRESS_TYPE";
 
     public static final String CHECK_ALL_OVERDUE_FINE_AMT = "Check all Overdue fine amount";
     public static final String CHECK_OVERALL_CHARGES = "Check Overall Charges";

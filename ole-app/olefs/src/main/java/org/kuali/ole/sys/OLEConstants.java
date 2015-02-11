@@ -83,7 +83,7 @@ public class OLEConstants {
     //TODO: eventually this should be removed and the system user should be pulled from a parameter
     // right now, you HAVE to make sure that a 'ole' user exists in your system, either in the DB
     // or in an external system such as LDAP if implemented
-    public static final String SYSTEM_USER = "ole-quickstart";
+    public static final String SYSTEM_USER = "SYSTEM_USER";
 
     public static final String BATCH_FAILURE_ATCH_NAME_BIB="Failure Bib File";
     public static final String BATCH_FAILURE_ATCH_NAME_EDI="Failure Edi File";
@@ -1892,6 +1892,7 @@ public class OLEConstants {
     public static final String FISCAL_YEAR = "universityFiscalYear";
     public static final String OBJECT_CODE = "objectCode";
     public static final String CHART_CODE_NOT_FOUND = "The requested Chart Code does not exist";
+    public static final String CHART_CODE_WILDCARD_SEARCH = "Wildcard search not applicable to chart code";
     public static final String ACC_NO_NOT_FOUND = "The requested Account Number does not exist";
     public static final String OBJ_CODE_NOT_FOUND = "The requested Object Code does not exist";
     public static final String UNIV_FIS_YR_FOUND = "No result found for requested fiscal year";
@@ -1969,5 +1970,30 @@ public class OLEConstants {
     public static final String VENDOR_TRANSMISSION_FILE = "VENDOR_TRANSMISSION_FILE";
     public static final String VENDOR_DIRECTORY = "VENDOR_DIRECTORY";
     public static final String PARENT_FOLDER = "PARENT_FOLDER";
-
+    public static final String LIQUIBASE_GL_ACCT_BAL_LOC = "/ole-app/ole-db/ole-liquibase/ole-liquibase-changeset/src/main/resources/ole-demo/general-ledger/GL_ACCT_BALANCES_T.csv";
+    public static final String USER_DIR = "user.dir";
+    public static final String SOURCE_FISCAL_YR = "sourceFiscalYear";
+    public static final String DEST_FISCAL_YR = "destFiscalYear";
+    public static final String RUN = "run";
+    public static final String CARRY_FORWARD = "carryForward";
+    public static final String SUB_ACCT_NO = "-----";
+    public static final String SUB_OBJECT_CD = "---";
+    public static final String XLS_FORMAT = ".xls";
+    public static final String ROLLOVER_INGEST_SUCCESS = "ingest.successfull";
+    public static final String FISCAL_YR_CONTROLLER = "OLEFiscalYearRolloverController.class";
+    public static final String OLE_APP = "ole-app";
+    public static final String SAMPLE_FILE = "/Sample.xls";
+    public static final String PENDING_ENTRY_OPTION = "dummyBusinessObject.pendingEntryOption";
+    public static final String CONSOLIDATION_OPTION = "dummyBusinessObject.consolidationOption";
+    public static final String SUB_ACCT_NUMBER = "subAccountNumber";
+    public static final String BACK_LOC= "backLocation";
+    public static final String DOC_FORM_VALUE = "88888888";
+    public static final String  SUB_OBJ_CD = "subObjectCode";
+    public static final String  CONSOLIDATION = "Consolidation";
+    public static final String  ALL_VALUE = "All";
+    public static final String  PORTAL = "portal.do";
+    public static final String OLE_COPY_CSV = "OleCopyFiscalYearCSVData.groovy";
+    public static final String OLE_COPY_SCHEMA = "OleCopyFiscalYearData.groovy";
+    public static final String INVALID_FILE = "invalid.file";
+    public static final String REENCUM_RECURR = "ReEncumberRecuring";
 }

@@ -62,11 +62,15 @@
                             fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-96.png"/>
                     </imageobject>
                 </inlinemediaobject></emphasis></para>
+        <para>Even though a library's acquisition process does not require that the library actually
+            do their own banking, at least one bank record is required to process invoices. Banks
+            are also used to identify institutions to which deposits are made on Advance Deposit and
+            Cash Management documents. In the PDP, they are used to identify institutions from which
+            disbursements are made.  This functionality was an inheritance from KFS and requires
+            future refactoring.</para>
         <para>The Bank document allows you to view and edit bank information currently in OLE,
-            including the bankrouting number and account number. Using this screen, you may also add
-            new banks to the system.</para>
-        <para>In the PDP, banks are used to identify institutions from which disbursements are
-            made.</para>
+            including the bank's routing number and account number. Using this screen, you may also
+            add new banks to the system.</para>
         <para>When the Flexible Banking Enhancement is in use, additional document types may require
             users to identify a bank.</para>
         <para>Only users with the OLE-SYS Manager role may create Bank maintenance documents. These
@@ -165,7 +169,7 @@
                             <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                 <para role="Table Cells">Optional. If using the Flexible Banking
                                     Enhancement, this is the Chart of Accounts code associated with
-                                    the account to which cash offsets should post when KFS
+                                    the account to which cash offsets should post when OLE
                                     transactions are associated with this bank. Existing chart codes
                                     may be retrieved from the lookup <inlinemediaobject>
                                         <imageobject>
@@ -318,6 +322,21 @@
                     </tbody>
                 </tgroup>
             </informaltable>
+        </section>
+        <section>
+            <title>Implementation Information</title>
+            <para>There’s a parameter called “Default_Bank_By_Document_Type” which sets a default
+                Bank for each document type. Make sure the bank values you have in this parameter
+                actually exist in the FP_BANK_T table (the bank maintenance document).  A default
+                bank is provided with the bootstrap data.  If you create a new default bank, the
+                parameter values must match it.</para>
+            <para>The value for the Default_Bank_By_Document_Type parameter in OLE's demo system is
+                OLE_DV=TEST;OLE_ND=TEST;OLE_AD=TEST;OLE_CMD=TEST;OLE_PREQ=TEST;OLE_PRQS=TEST;OLE_CM=TEST;OLE_CTRL=TEST;OLE_CCR=TEST.
+                The syntax for the value is “doctype=bank;”  These values will not appear on the
+                Invoice document, since its Bank Code field is an input box, but they do work within
+                the code.  Without the bank and the Default_Bank_By_Document_Type parameter
+                correctly implemented, you will receive the message "Bank Code is a required field"
+                when you create an Invoice.</para>
         </section>
     </section>
     <section>

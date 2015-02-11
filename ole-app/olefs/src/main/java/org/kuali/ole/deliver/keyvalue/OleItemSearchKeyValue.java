@@ -25,8 +25,9 @@ public class OleItemSearchKeyValue extends KeyValuesBase {
         Collection<OleInstanceItemType> oleInstanceItemTypes = KRADServiceLocator.getBusinessObjectService().findAll(OleInstanceItemType.class);
         keyValues.add(new ConcreteKeyValue("", ""));
         for (OleInstanceItemType oleInstanceItemType : oleInstanceItemTypes) {
-            keyValues.add(new ConcreteKeyValue(oleInstanceItemType.getInstanceItemTypeCode(), oleInstanceItemType.getInstanceItemTypeName()));
-
+            if (oleInstanceItemType.isActive()) {
+                keyValues.add(new ConcreteKeyValue(oleInstanceItemType.getInstanceItemTypeCode(), oleInstanceItemType.getInstanceItemTypeName()));
+            }
         }
         return keyValues;
     }

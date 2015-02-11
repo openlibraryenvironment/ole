@@ -112,6 +112,11 @@ public class LoanProcessor {
     private OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb;
     private OLEDeliverNoticeHelperService oleDeliverNoticeHelperService;
     private static Map<String, String> locationName = new HashMap<>();
+    private List<String> locationLevelIds = new ArrayList<>();
+
+    public void setLocationLevelIds(List<String> locationLevelIds) {
+        this.locationLevelIds = locationLevelIds;
+    }
 
     private DocstoreClientLocator docstoreClientLocator;
 
@@ -652,7 +657,7 @@ public class LoanProcessor {
      * @param entityBo
      * @return String
      */
-    private String getPatronName(EntityBo entityBo) {
+    public String getPatronName(EntityBo entityBo) {
         LOG.debug("Inside the getPatronName method");
         List<EntityNameBo> entityNameBo = entityBo.getNames();
         return entityNameBo!=null && entityNameBo.size() > 0 ? entityNameBo.get(0).getFirstName() + " " + entityNameBo.get(0).getLastName() : "";
@@ -711,19 +716,19 @@ public class LoanProcessor {
             if(oleLoanDocument.getOlePatron()!=null){
                 oleLoanDocument.getOlePatron().setNumberOfClaimsReturned(count);
             }
-            String callNumber;
+           /* String callNumber;
              if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
-                callNumber = itemContent.getCallNumber().getNumber();
+                callNumber = getItemCallNumber(itemContent.getCallNumber());
             }else {
                 callNumber = getItemCallNumber(oleHoldings.getCallNumber());
-            }
+            }*/
             String itemType;
             if(itemContent.getTemporaryItemType() != null && itemContent.getTemporaryItemType().getCodeValue()!=null){
                 itemType = itemContent.getTemporaryItemType().getCodeValue();
             }else{
                 itemType = itemContent.getItemType().getCodeValue();
             }
-            oleLoanDocument.setItemCallNumber(callNumber);
+            oleLoanDocument.setItemCallNumber(getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
             getCopyNumber(itemContent,oleHoldings,oleLoanDocument);
            // oleLoanDocument.setItemCopyNumber(itemContent.getCopyNumber());
             oleLoanDocument.setEnumeration(itemContent.getEnumeration());
@@ -860,23 +865,24 @@ public class LoanProcessor {
 
                 oleTemporaryCirculationHistory.setItemUuid(item.getId());
 
-
-                if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
-                   /* String[] callNumber = item.getCallNumber().split(" ");
+                oleTemporaryCirculationHistory.setCallNumber(getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
+               /* if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
+                   *//* String[] callNumber = item.getCallNumber().split(" ");
                     if (callNumber.length > 0) {
                         item.setCallNumber(callNumber != null ? callNumber[0] : item.getCallNumber());
                     }
-                    oleTemporaryCirculationHistory.setCallNumber(getItemCallNumber(item.getCallNumberType(), item.getCallNumberPrefix(), item.getCallNumber()));*/
-                    oleTemporaryCirculationHistory.setCallNumber(itemContent.getCallNumber().getNumber());
+                    oleTemporaryCirculationHistory.setCallNumber(getItemCallNumber(item.getCallNumberType(), item.getCallNumberPrefix(), item.getCallNumber()));*//*
+                    String callNumber = getItemCallNumber(itemContent.getCallNumber());
+                    oleTemporaryCirculationHistory.setCallNumber(callNumber);
                 } else {
-                   /* String[] callNumber = item.getHolding().getCallNumber().split(" ");
+                   *//* String[] callNumber = item.getHolding().getCallNumber().split(" ");
                     if (callNumber.length > 0) {
                         item.getHolding().setCallNumber(callNumber != null ? callNumber[0] : item.getHolding().getCallNumber());
                     }
-                    oleTemporaryCirculationHistory.setCallNumber(getItemCallNumber(item.getHolding().getCallNumberType(), item.getHolding().getCallNumberPrefix(), item.getHolding().getCallNumber()));*/
+                    oleTemporaryCirculationHistory.setCallNumber(getItemCallNumber(item.getHolding().getCallNumberType(), item.getHolding().getCallNumberPrefix(), item.getHolding().getCallNumber()));*//*
                     String callNumber = getItemCallNumber(oleHoldings.getCallNumber());
                     oleTemporaryCirculationHistory.setCallNumber(callNumber);
-                }
+                }*/
                 oleTemporaryCirculationHistory.setCopyNumber(itemContent.getCopyNumber());
                 oleTemporaryCirculationHistory.setVolumeNumber(itemContent.getVolumeNumber());
                 oleTemporaryCirculationHistory.setItemStatus(itemContent.getItemStatus().getFullValue());
@@ -934,16 +940,17 @@ public class LoanProcessor {
             if (oleDeliverRequestBo.getItemUuid().equals(item.getId())) {
                 oleDeliverRequestBo.setTitle(item.getHolding().getBib().getTitle());
                 oleDeliverRequestBo.setAuthor(item.getHolding().getBib().getAuthor());
-                if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
+                oleDeliverRequestBo.setCallNumber(getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
+                /*if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
 
-                    oleDeliverRequestBo.setCallNumber(itemContent.getCallNumber().getNumber());
+                    oleDeliverRequestBo.setCallNumber(getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
                     // oleDeliverRequestBo.setCallNumber(getItemCallNumber(item.getCallNumberType(), item.getCallNumberPrefix(), item.getCallNumber()));
                 } else {
               //      String callNumber = getItemCallNumber(itemContent, item.getHolding().getId());
 
                     oleDeliverRequestBo.setCallNumber(oleHoldings.getCallNumber().getNumber());
                     //oleDeliverRequestBo.setCallNumber(getItemCallNumber(item.getHolding().getCallNumberType(), item.getHolding().getCallNumberPrefix(), item.getHolding().getCallNumber()));
-                }
+                }*/
                 oleDeliverRequestBo.setCopyNumber(itemContent.getCopyNumber());
                 oleDeliverRequestBo.setVolumeNumber(itemContent.getVolumeNumber());
                 oleDeliverRequestBo.setItemStatus(itemContent.getItemStatus().getCodeValue());
@@ -997,41 +1004,45 @@ public class LoanProcessor {
     }
 
     public String getItemCallNumber(org.kuali.ole.docstore.common.document.content.instance.Item oleItem, String instanceUUID) throws Exception {
-        CallNumber callNumber = null;
+       /* CallNumber callNumber = null;
         if (oleItem.getCallNumber() != null && oleItem.getCallNumber().getNumber() != null && !oleItem.getCallNumber().getNumber().isEmpty()) {
             callNumber = oleItem.getCallNumber();
         } else {
             OleHoldings oleHoldings = getOleHoldings(instanceUUID);
-
             callNumber = oleHoldings.getCallNumber();
-        }
-        return getItemCallNumber(callNumber);
+        }*/
+        OleHoldings oleHoldings = getOleHoldings(instanceUUID);
+        return getItemCallNumber(oleItem.getCallNumber(),oleHoldings.getCallNumber());
     }
 
     /**
      * Retrieves Item call number.
      *
-     * @param callNumber
+     * @param itemCallNumber,holdingCallNumber
      * @return
      * @throws Exception
      */
-    public String getItemCallNumber(CallNumber callNumber) throws Exception {
+    public String getItemCallNumber(CallNumber itemCallNumber,CallNumber holdingCallNumber) throws Exception {
         LOG.debug("Inside the getItemCallNumber method");
-        String itemCallNumber = "";
-        if (callNumber != null) {
+        String callNumber = "";
 
-            if (StringUtils.isNotBlank(callNumber.getType())) {
-                itemCallNumber += callNumber.getType() + OLEConstants.DELIMITER_DASH;
+            if (itemCallNumber != null && StringUtils.isNotBlank(itemCallNumber.getType())) {
+                callNumber += itemCallNumber.getType() + OLEConstants.DELIMITER_DASH;
+            }else if(holdingCallNumber != null && StringUtils.isNotBlank(holdingCallNumber.getType())){
+                callNumber += holdingCallNumber.getType() + OLEConstants.DELIMITER_DASH;
             }
-            if (StringUtils.isNotBlank(callNumber.getPrefix())) {
-                itemCallNumber += callNumber.getPrefix() + OLEConstants.DELIMITER_DASH;
+            if (itemCallNumber != null && StringUtils.isNotBlank(itemCallNumber.getPrefix())) {
+                callNumber += itemCallNumber.getPrefix() + OLEConstants.DELIMITER_DASH;
+            }else if(holdingCallNumber != null && StringUtils.isNotBlank(holdingCallNumber.getPrefix())){
+                callNumber += holdingCallNumber.getPrefix() + OLEConstants.DELIMITER_DASH;
             }
-            if (callNumber.getNumber() != null) {
-                itemCallNumber += callNumber.getNumber();
+            if (itemCallNumber != null && StringUtils.isNotBlank(itemCallNumber.getNumber())) {
+                callNumber += itemCallNumber.getNumber();
+            }else if(holdingCallNumber != null && StringUtils.isNotBlank(holdingCallNumber.getNumber())){
+                callNumber += holdingCallNumber.getNumber();
             }
 
-        }
-        return itemCallNumber;
+        return callNumber;
     }
 
     /**
@@ -1114,6 +1125,8 @@ public class LoanProcessor {
 
         LOG.debug("Inside the addLoan method");
         String itemUUID= oleLoanDocument.getItemUuid();
+        String bibTitle = null;
+        String bibauthor = null;
         String holdingsId = null;
         Long begin = System.currentTimeMillis();
         if(itemUUID==null){
@@ -1123,17 +1136,23 @@ public class LoanProcessor {
                 SearchResponse searchResponse = null;
                 search_Params.getSearchConditions().add(search_Params.buildSearchCondition("phrase", search_Params.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), item.ITEM_BARCODE, itemBarcode), ""));
                 search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "id"));
+                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "Title_display"));
 //                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.HOLDINGS.getCode(), "id"));
                 searchResponse = getDocstoreClientLocator().getDocstoreClient().search(search_Params);
                 for (SearchResult searchResult : searchResponse.getSearchResults()) {
                     for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
-                        String fieldName = searchResultField.getFieldName();
-                        String fieldValue = searchResultField.getFieldValue() != null ? searchResultField.getFieldValue() : "";
+                        if (searchResultField.getFieldName().equalsIgnoreCase("id")) {
+                            String fieldValue = searchResultField.getFieldValue() != null ? searchResultField.getFieldValue() : "";
+                            itemUUID = fieldValue;
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase("Title_display")) {
+                            bibTitle = searchResultField.getFieldValue();
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase("Author_display")) {
+                            bibauthor = searchResultField.getFieldValue();
+                        }
+                        oleLoanDocument.setItemUuid(itemUUID);
 //                        if (fieldName.equalsIgnoreCase("id") && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase("holdings")) {
 //                            holdingsId = fieldValue;
 //                        } else {
-                        itemUUID = fieldValue;
-                        oleLoanDocument.setItemUuid(itemUUID);
 //                        }
                     }
                 }
@@ -1146,6 +1165,17 @@ public class LoanProcessor {
         Bib bib = (Bib)detailMap.get(OLEConstants.BIB);
         oleLoanDocument.setTitle(bib.getTitle());
         oleLoanDocument.setAuthor(bib.getAuthor());
+        if(StringUtils.isNotEmpty(bibauthor)){
+           oleLoanDocument.setAuthor(bibauthor);
+        }
+        if (StringUtils.isNotEmpty(bibTitle)) {
+            oleLoanDocument.setTitle(bibTitle);
+        }
+        if(itemUUID!=null) {
+            Bib bibDetail=getDocstoreClientLocator().getDocstoreClient().retrieveBib(bib.getId()) ;
+            oleLoanDocument.setTitle(bibDetail.getTitle());
+            oleLoanDocument.setAuthor(bibDetail.getAuthor());
+        }
         org.kuali.ole.docstore.common.document.content.instance.Item item = (org.kuali.ole.docstore.common.document.content.instance.Item)detailMap.get(OLEConstants.ITEM);
         OleHoldings oleHoldings = (OleHoldings)detailMap.get(OLEConstants.HOLDING);
         org.kuali.ole.docstore.common.document.Item item1 = (org.kuali.ole.docstore.common.document.Item)detailMap.get("documentItem");
@@ -1166,11 +1196,12 @@ public class LoanProcessor {
         oleLoanDocument.setOleItem(item);
         try {
             getCopyNumber(item,oleHoldings,oleLoanDocument);
-            if(item.getCallNumber()!=null && !StringUtils.isEmpty(item.getCallNumber().getNumber())){
-                oleLoanDocument.setItemCallNumber(item.getCallNumber().getNumber());
+            oleLoanDocument.setItemCallNumber(getItemCallNumber(item.getCallNumber(),oleHoldings.getCallNumber()));
+            /*if(item.getCallNumber()!=null && !StringUtils.isEmpty(item.getCallNumber().getNumber())){
+                oleLoanDocument.setItemCallNumber(getItemCallNumber(item.getCallNumber()));
             }else {
                 oleLoanDocument.setItemCallNumber(getItemCallNumber(oleHoldings.getCallNumber()));
-            }
+            }*/
             oleLoanDocument.setEnumeration(item.getEnumeration());
             oleLoanDocument.setChronology(item.getChronology());
             String status = item.getItemStatus().getCodeValue();
@@ -1294,32 +1325,38 @@ public class LoanProcessor {
         }
         String requestType = null;
         OlePatronDocument oleRequestPatron = null;
+        String requestPatronId=null;
         OleDeliverRequestBo oleDeliverRequestForQueue = null;
-        OleDeliverRequestBo oleDeliverRequestBo = getPrioritizedRequest(oleLoanDocument.getItemUuid());
-        if (oleDeliverRequestBo != null) {
-            oleLoanDocument.setOleDeliverRequestBo(oleDeliverRequestBo);
-            requestType = oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode();
-            oleRequestPatron = getOlePatronDocument(oleDeliverRequestBo.getBorrowerId());
-            oleLoanDocument.setOleRequestPatron(oleRequestPatron);
-            String requestPatronId = oleRequestPatron != null ? oleRequestPatron.getOlePatronId() : null;
-            if (oleLoanDocument.getPatronId().equals(requestPatronId)) {
-                oleLoanDocument.setRequestPatron(true);
-                oleLoanDocument.setOleRequestId(oleDeliverRequestBo.getRequestId());
-            } else {
-                oleDeliverRequestForQueue = getCurrentQueue(oleLoanDocument.getPatronId(), oleLoanDocument.getItemUuid());
-                oleLoanDocument.setOleRequestId(oleDeliverRequestForQueue != null ? oleDeliverRequestForQueue.getRequestId() : null);
+        if(!oleLoanDocument.isVuFindFlag()){
+            OleDeliverRequestBo oleDeliverRequestBo = getPrioritizedRequest(oleLoanDocument.getItemUuid());
+            if (oleDeliverRequestBo != null) {
+                oleLoanDocument.setOleDeliverRequestBo(oleDeliverRequestBo);
+                requestType = oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode();
+                oleRequestPatron = getOlePatronDocument(oleDeliverRequestBo.getBorrowerId());
+                oleLoanDocument.setOleRequestPatron(oleRequestPatron);
+                requestPatronId = oleRequestPatron != null ? oleRequestPatron.getOlePatronId() : null;
+                if (oleLoanDocument.getPatronId().equals(requestPatronId) || (oleLoanDocument.getProxyPatronId() != null && oleLoanDocument.getProxyPatronId().equals(requestPatronId))) {
+                    oleLoanDocument.setRequestPatron(true);
+                    oleLoanDocument.setOleRequestId(oleDeliverRequestBo.getRequestId());
+                } else {
+                    oleDeliverRequestForQueue = getCurrentQueue(oleLoanDocument.getPatronId(), oleLoanDocument.getItemUuid());
+                    oleLoanDocument.setOleRequestId(oleDeliverRequestForQueue != null ? oleDeliverRequestForQueue.getRequestId() : null);
+                }
+                oleLoanDocument.setRequestFlag(OLEConstants.VIEW_ALL_REQUESTS);
             }
         }
 
         String digitRoutine = getParameter(OLEParameterConstants.ITEM_DIGIT_ROUTINE);
         String pattern = getParameter(OLEParameterConstants.ITEM_DIGIT_ROUTINE_PATTERN);
-        String itemCircLoction = getFullPathLocation(getLocationByLocationCode(oleLoanDocument.getItemLocation()));
+        String itemCircLoction = getFullPathLocation(getLocationByLocationCode(oleLoanDocument.getItemLocation()),getLocationLevelIds());
         DateFormat formatter = new SimpleDateFormat(OLEConstants.DDMMYYYYHHMMSS);
         Date loanDueDate = oleLoanDocument.getLoanDueDate() != null ? new Date(oleLoanDocument.getLoanDueDate().getTime()) : null;
-        String dateToString = oleLoanDocument.getLoanDueDate() != null ? formatter.format(oleLoanDocument.getLoanDueDate()) : null;
+        String dateToString = oleLoanDocument.getLoanDueDate() != null ? formatter.format(oleLoanDocument.getLoanDueDate()) : "null";
         checkReplacementFineExist(oleLoanDocument);
         checkOverdueExist(oleLoanDocument);
-        isItemLoanedByDifferentPatron(oleLoanDocument);
+        if(!oleLoanDocument.isRenewalItemFlag()){
+          isItemLoanedByDifferentPatron(oleLoanDocument); // No need for renewal.
+        }
         checkItemDamagedStatus(oleLoanDocument);
         isMissingPieceFlagActive(oleLoanDocument);
         String agendaName = oleLoanDocument.isRenewalItemFlag() ? OLEConstants.RENEWAL_AGENDA_NM : OLEConstants.CHECK_OUT_AGENDA_NM;
@@ -1343,8 +1380,16 @@ public class LoanProcessor {
         termValues.put(OLEConstants.ITEM_BARCODE, itemBarcode);
         termValues.put(OLEConstants.ITEM_LOCATION, itemCircLoction);
         termValues.put(OLEConstants.CIRCULATION_LOCATION, operatorsCirculationLocation);
-        termValues.put(OLEConstants.IS_PATRON_POSITION_ONE, oleLoanDocument.getPatronId().equals(oleRequestPatron != null ? oleRequestPatron.getOlePatronId() : null) ? OLEConstants.TRUE : OLEConstants.FALSE);
-        termValues.put(OLEConstants.REQUEST_TYPE, requestType);
+        if(requestPatronId == null ){
+            termValues.put(OLEConstants.IS_PATRON_POSITION_ONE, OLEConstants.FALSE);
+        }
+        else if (oleLoanDocument.getPatronId().equals(requestPatronId) || (oleLoanDocument.getProxyPatronId() != null && oleLoanDocument.getProxyPatronId().equals(requestPatronId))) {
+            termValues.put(OLEConstants.IS_PATRON_POSITION_ONE, OLEConstants.TRUE );
+            termValues.put(OLEConstants.REQUEST_TYPE, requestType);
+        }else{
+            termValues.put(OLEConstants.IS_PATRON_POSITION_ONE, OLEConstants.FALSE);
+            termValues.put(OLEConstants.REQUEST_TYPE, requestType);
+        }
       /*  termValues.put(OLEConstants.ITEM_STATUS, oleLoanDocument.getItemLoanStatus());*/
         termValues.put(OLEConstants.ITEM_SHELVING, oleLoanDocument.getItemLocation());
         termValues.put(OLEConstants.ITEM_COLLECTION, oleLoanDocument.getItemCollection());
@@ -1368,8 +1413,10 @@ public class LoanProcessor {
         oleLoanDocument.setFineRate(maxFine != null ? maxFine : fineRate);
         oleLoanDocument.getErrorsAndPermission().clear();
         HashMap<String, String> errorsAndPermission = new HashMap<>();
-        if( oleLoanDocument.isRenewalItemFlag() && checkPendingRequestforItem(oleLoanDocument.getItemUuid())){
-            failures.append(OLEConstants.PENDING_RQST_RENEWAL_ITM_INFO+ OLEConstants.OR);
+        if(!oleLoanDocument.isVuFindFlag()){
+            if( oleLoanDocument.isRenewalItemFlag() && checkPendingRequestforItem(oleLoanDocument.getItemUuid())){
+                failures.append(OLEConstants.PENDING_RQST_RENEWAL_ITM_INFO+ OLEConstants.OR);
+            }
         }
         errorsAndPermission = (HashMap<String, String>) engineResults.getAttribute(OLEConstants.ERRORS_AND_PERMISSION);
         PermissionService service = KimApiServiceLocator.getPermissionService();
@@ -1438,11 +1485,30 @@ public class LoanProcessor {
         }
         getDataCarrierService().addData(OLEConstants.ERROR_ACTION, null);
         getDataCarrierService().addData(OLEConstants.ERRORS_AND_PERMISSION, null);
+
+        if(dateToString != null && dateToString.equalsIgnoreCase("null")){
+            if(oleLoanDocument.isRenewalItemFlag() || (oleLoanDocument.isVuFindFlag() && oleLoanDocument.isRenewalItemFlag())) {
+                failures.delete(0,failures.length()-1);
+                failures.append(OLEConstants.RENEWAL_INDEFINITE_INFO);
+                oleLoanDocument.setIndefiniteCheckFlag(true);
+            }else{
+                oleLoanDocument.setIndefiniteCheckFlag(false);
+            }
+        }else{
+            oleLoanDocument.setIndefiniteCheckFlag(false);
+        }
         if (item.getItemType().getCodeValue().equalsIgnoreCase(OLEConstants.NONCIRC) || circulationPolicySetId == null) {
             oleLoanDocument.setNonCirculatingItem(true);
         }
         if ((!oleLoanDocument.isRenewalItemFlag() || (oleLoanDocument.isRenewalItemFlag() && failures.toString().isEmpty()))) {
             oleLoanDocument.setLoanDueDate(dueDate != null ? dueDate : null);
+        }
+        if(oleLoanDocument.isRenewalItemFlag() && !oleLoanDocument.isIndefiniteCheckFlag() && oleLoanDocument.getLoanDueDate().equals(dueDate)){
+            failures.delete(0,failures.length()-1);
+            oleLoanDocument.setRenewNotFlag(true);
+            failures.append(OLEConstants.RENEWAL_DUEDATE_SAME_INFO);
+        }else{
+            oleLoanDocument.setRenewNotFlag(false);
         }
         if ((!oleLoanDocument.isRenewalItemFlag() || (oleLoanDocument.isRenewalItemFlag()))) {
             oleLoanDocument.setRenewalLoanDueDate(dueDate != null ? dueDate : null);
@@ -1452,7 +1518,7 @@ public class LoanProcessor {
             return oleLoanDocument;
         }
 
-        if (oleLoanDocument.isRenewalItemFlag()) {
+        if (oleLoanDocument.isRenewalItemFlag() && !oleLoanDocument.isIndefiniteCheckFlag() && !oleLoanDocument.isRenewNotFlag()) {
             if (oleLoanDocument.getNumberOfRenewals() == null) {
                 oleLoanDocument.setNumberOfRenewals(OLEConstants.ZERO);
             }
@@ -1465,6 +1531,9 @@ public class LoanProcessor {
             oleLoanDocument.setRenewalItemFlag(false);
         }
         Long beginSaveLoan = System.currentTimeMillis();
+        if(oleLoanDocument.getManualRenewalDueDate()!=null && oleLoanDocument.getLoanDueDate() == null){
+           oleLoanDocument.setLoanDueDate(oleLoanDocument.getManualRenewalDueDate());
+        }
         saveLoan(oleLoanDocument);
         Long endSaveLoan = System.currentTimeMillis();
         Long timeTakenSaveLoan = endSaveLoan-beginSaveLoan;
@@ -1475,19 +1544,25 @@ public class LoanProcessor {
     public String circulationDeskLocations(OleCirculationDesk oleCirculationDesk) throws Exception {
         String operatorsCirculationLocation = "";
         if (oleCirculationDesk != null) {
-            List<OleLocation> oleLocations = new ArrayList<OleLocation>();
+            //  List<OleLocation> oleLocations = new ArrayList<OleLocation>();
             if (oleCirculationDesk.getOleCirculationDeskLocations() != null) {
+                StringBuffer location = new StringBuffer();
                 for (OleCirculationDeskLocation oleCirculationDeskLocation : oleCirculationDesk.getOleCirculationDeskLocations()) {
-                    oleLocations.add(oleCirculationDeskLocation.getLocation());
+                    //oleLocations.add(oleCirculationDeskLocation.getLocation());
+                    if(oleCirculationDeskLocation.getCirculationPickUpDeskLocation()==null || (oleCirculationDeskLocation.getCirculationPickUpDeskLocation()!=null && oleCirculationDeskLocation.getCirculationPickUpDeskLocation().trim().isEmpty())){
+                    location.append(getFullPathLocation(oleCirculationDeskLocation.getLocation(), getLocationLevelIds())).append(OLEConstants.DELIMITER_HASH);
+                    }
                 }
+                operatorsCirculationLocation = location.toString();
+                operatorsCirculationLocation = operatorsCirculationLocation.replaceAll(OLEConstants.SLASH + OLEConstants.DELIMITER_HASH, OLEConstants.DELIMITER_HASH);
             } else {
                 throw new Exception(OLEConstants.NO_LOC_CIR_DESK);
             }
-            StringBuffer location = new StringBuffer();
+           /* StringBuffer location = new StringBuffer();
             for (OleLocation oleLocation : oleLocations) {
                 location.append(getFullPathLocation(oleLocation)).append(OLEConstants.DELIMITER_HASH);
-            }
-            operatorsCirculationLocation = location.toString();
+            }*/
+            //operatorsCirculationLocation = location.toString();
         }
         return operatorsCirculationLocation;
     }
@@ -1512,24 +1587,34 @@ public class LoanProcessor {
         return levelFullCode;
     }
 
-    public String getFullPathLocation(OleLocation oleLocation) throws Exception {
-        String levelFullCode = "";
-        if (oleLocation != null) {
-            levelFullCode = oleLocation.getLocationCode();
-            boolean parentId = oleLocation.getParentLocationId() != null ? true : false;
-            while (parentId) {
-                Map criteriaMap = new HashMap();
-                criteriaMap.put(OLEConstants.LOCATION_ID, oleLocation.getParentLocationId());
-                OleLocation location = businessObjectService.findByPrimaryKey(OleLocation.class,
-                        criteriaMap);
-                if (levelFullCode != null) {
-                    levelFullCode = location.getLocationCode() + OLEConstants.SLASH + levelFullCode;
-                }
-                parentId = location.getParentLocationId() != null ? true : false;
-                oleLocation = location;
+    public String getFullPathLocation(OleLocation oleLocation,List<String> locationLevelNames) throws Exception {
+        StringBuilder locationBuilder = new StringBuilder();
+        for(String locationLevelName : locationLevelNames){
+            String locationValue  = getLocationLevelName(oleLocation, locationLevelName);
+            if(StringUtils.isNotBlank(locationValue))
+                locationBuilder.append( locationValue + OLEConstants.SLASH);
+        }
+        String fullLocation = locationBuilder.toString();
+        fullLocation = fullLocation.substring(0, fullLocation.length() - 1);
+        return fullLocation;
+    }
+
+    private String getLocationLevelName(OleLocation oleLocation, String level) {
+        if (oleLocation == null || org.apache.commons.lang.StringUtils.isEmpty(oleLocation.getLevelId()))
+            return null;
+        if (oleLocation.getLevelId().equalsIgnoreCase(level))
+            return oleLocation.getLocationCode();
+        return getLocationLevelName(oleLocation.getOleLocation(), level);
+    }
+
+    private List<String> getLocationLevelIds() {
+        if(CollectionUtils.isEmpty(this.locationLevelIds)){
+            List<OleLocationLevel> locationLevel = (List<OleLocationLevel>) KRADServiceLocator.getBusinessObjectService().findAllOrderBy(OleLocationLevel.class, OLEConstants.LEVEL_ID, true);
+            for (OleLocationLevel oleLocationLevel : locationLevel) {
+                this.locationLevelIds.add(oleLocationLevel.getLevelId());
             }
         }
-        return levelFullCode;
+        return this.locationLevelIds;
     }
 
     /**
@@ -2099,6 +2184,11 @@ public class LoanProcessor {
             itemIds.add(loanDocument.getItemUuid());
         }
         Collection loanObjects = getOleLoanDocumentDaoOjb().getLoanDocumentsUsingItemIdsAndPatronId(patronId,itemIds);
+        return loanObjects;
+    }
+
+    public Collection getLoanObjectFromDAOForRenewal(List<String> barcode,String patronId){
+        Collection loanObjects = getOleLoanDocumentDaoOjb().getLoanDocumentsUsingItemBarcodeAndPatronIdForRenewal(patronId, barcode);
         return loanObjects;
     }
 
@@ -2737,11 +2827,12 @@ public class LoanProcessor {
             throw new Exception(OLEConstants.INVAL_ITEM);
         oleLoanDocument.setOleItem(oleItem);
         try {
-            if(oleItem.getCallNumber()!=null && !StringUtils.isEmpty(oleItem.getCallNumber().getNumber())){
-                oleLoanDocument.setItemCallNumber(oleItem.getCallNumber().getNumber());
+           /* if(oleItem.getCallNumber()!=null && !StringUtils.isEmpty(oleItem.getCallNumber().getNumber())){
+                oleLoanDocument.setItemCallNumber(getItemCallNumber(oleItem.getCallNumber()));
             }else {
                 oleLoanDocument.setItemCallNumber(getItemCallNumber(oleHoldings.getCallNumber()));
-            }
+            }*/
+            oleLoanDocument.setItemCallNumber(getItemCallNumber(oleItem.getCallNumber(),oleHoldings.getCallNumber()));
             getCopyNumber(oleItem,oleHoldings,oleLoanDocument);
             oleLoanDocument.setEnumeration(oleItem.getEnumeration());
             oleLoanDocument.setChronology(oleItem.getChronology());
@@ -2806,14 +2897,16 @@ public class LoanProcessor {
         List<OleLocation> oleLocations = new ArrayList<OleLocation>();
         if (oleCirculationDesk.getOleCirculationDeskLocations() != null) {
             for (OleCirculationDeskLocation oleCirculationDeskLocation : oleCirculationDesk.getOleCirculationDeskLocations()) {
+                if(oleCirculationDeskLocation.getCirculationPickUpDeskLocation()==null || (oleCirculationDeskLocation.getCirculationPickUpDeskLocation()!=null && oleCirculationDeskLocation.getCirculationPickUpDeskLocation().trim().isEmpty())){
                 oleLocations.add(oleCirculationDeskLocation.getLocation());
+                }
             }
         } else {
             throw new Exception(OLEConstants.NO_LOC_CIR_DESK);
         }
         StringBuffer location = new StringBuffer();
         for (OleLocation oleLocation : oleLocations) {
-            String operatorsCirculationLocation = getFullPathLocation(oleLocation);
+            String operatorsCirculationLocation = getFullPathLocation(oleLocation,getLocationLevelIds());
             location.append(operatorsCirculationLocation).append(OLEConstants.DELIMITER_HASH);
         }
         String operatorsCirculationLocation = location.toString();
@@ -2866,7 +2959,7 @@ public class LoanProcessor {
         termValues.put(OLEConstants.ITEM_INSTITUTION, oleLoanDocument.getItemInstitution());
         termValues.put(OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_FLAG, oleItem.isClaimsReturnedFlag());
         termValues.put(OLEConstants.REPLACEMENT_FEE_EXIST, oleLoanDocument.isReplacementFeeExist());
-        String itemFullPathLocation = getFullPathLocation(getLocationByLocationCode(oleLoanDocument.getItemLocation()));
+        String itemFullPathLocation = getFullPathLocation(getLocationByLocationCode(oleLoanDocument.getItemLocation()),getLocationLevelIds());
         oleLoanDocument.setItemFullPathLocation(itemFullPathLocation);
         String patronId = oleLoanDocument.getPatronId()!=null ?  oleLoanDocument.getPatronId() : "";
         String itemId = oleLoanDocument.getItemId()!=null ?  oleLoanDocument.getItemId() : "";
@@ -2949,7 +3042,7 @@ public class LoanProcessor {
             oleLoanDocument.setCopyRequest(true);
             returnLoan = true;
         }
-        if (returnLoan) {
+        if (returnLoan || oleItem.isClaimsReturnedFlag()) {
             return oleLoanDocument;
 
         }
@@ -3046,7 +3139,12 @@ public class LoanProcessor {
         OleDeliverBatchServiceImpl oleDeliverBatchService = new OleDeliverBatchServiceImpl();
         contentForSendMail.append(oleDeliverBatchService.generateMailContentFromPatronBill(oleLoanDocument, olePatronDocument, feeTypeName, String.valueOf(fineAmount), patronBillPayment));
         OleMailer oleMail = GlobalResourceLoader.getService("oleMailer");
-        oleMail.sendEmail(new EmailFrom(getParameter(OLEParameterConstants.NOTICE_FROM_MAIL)), new EmailTo(patronMail), new EmailSubject(feeTypeName), new EmailBody(contentForSendMail.toString()), true);
+        String replyToEmail = getReplyToEmail(oleLoanDocument.getItemLocation());
+        if (replyToEmail != null) {
+            oleMail.sendEmail(new EmailFrom(replyToEmail), new EmailTo(patronMail), new EmailSubject(feeTypeName), new EmailBody(contentForSendMail.toString()), true);
+        } else {
+            oleMail.sendEmail(new EmailFrom(getParameter(OLEParameterConstants.NOTICE_FROM_MAIL)), new EmailTo(patronMail), new EmailSubject(feeTypeName), new EmailBody(contentForSendMail.toString()), true);
+        }
         if (LOG.isInfoEnabled()){
             LOG.info("Mail send successfully to " + patronMail);
         }
@@ -3126,6 +3224,12 @@ public class LoanProcessor {
         if (olePatronDocument != null) {
             createCirculationHistoryAndTemporaryHistoryRecords(oleLoanDocument);
             getOleDeliverNoticeHelperService().deleteDeliverNotices(oleLoanDocument.getLoanId());
+            OleDeliverRequestBo oleDeliverRequestBo = oleLoanDocument.getOleDeliverRequestBo();
+            if(oleDeliverRequestBo!=null){
+                getOleDeliverRequestDocumentHelperService().deleteTitleLevelIndividualRequests(oleDeliverRequestBo);
+                getBusinessObjectService().save(oleDeliverRequestBo);
+            }
+
             getBusinessObjectService().delete(oleLoanDocument);
         }
         OleDeliverRequestBo oleDeliverRequestBo = oleLoanDocument.getOleDeliverRequestBo();
@@ -3443,11 +3547,12 @@ public class LoanProcessor {
         String itemXml = item.getContent()!=null ? item.getContent() : getItemXML(item.getId());
         org.kuali.ole.docstore.common.document.content.instance.Item oleItem = getItemPojo(itemXml);
         OleHoldings oleHoldings = new HoldingOlemlRecordProcessor().fromXML(item.getHolding().getContent());
-        if(oleItem.getCallNumber()!=null && !StringUtils.isEmpty(oleItem.getCallNumber().getNumber())){
-            oleLoanDocument.setItemCallNumber(oleItem.getCallNumber().getNumber());
+        /*if(oleItem.getCallNumber()!=null && !StringUtils.isEmpty(oleItem.getCallNumber().getNumber())){
+            oleLoanDocument.setItemCallNumber(getItemCallNumber(oleItem.getCallNumber()));
         }else {
             oleLoanDocument.setItemCallNumber(getItemCallNumber(oleHoldings.getCallNumber()));
-        }
+        }*/
+        oleLoanDocument.setItemCallNumber(getItemCallNumber(oleItem.getCallNumber(),oleHoldings.getCallNumber()));
         getLocation(oleItem, oleLoanDocument,item);
 
     }
@@ -3486,20 +3591,28 @@ public class LoanProcessor {
     }
 
     public OleLoanDocument overrideSaveLoanForRenewal(OleLoanDocument oleLoanDocument) throws Exception {
-        Date pastDueDate = oleLoanDocument.getLoanDueDate();
-        oleLoanDocument.setLoanDueDate(oleLoanDocument.getRenewalLoanDueDate());
-        compareExpirationDateWithDueDate(oleLoanDocument);
-        if (oleLoanDocument.isRenewalItemFlag()) {
-            if (oleLoanDocument.getNumberOfRenewals() == null)
-                oleLoanDocument.setNumberOfRenewals("0");
-            String noOfRenewal = "" + (Integer.parseInt(oleLoanDocument.getNumberOfRenewals()) + 1);
-            if(noOfRenewal!=null && !noOfRenewal.isEmpty()){
-                oleLoanDocument.setNumberOfOverdueNoticesSent("0");
+        if(!oleLoanDocument.isIndefiniteCheckFlag() && !oleLoanDocument.isRenewNotFlag()) {
+            Date pastDueDate = oleLoanDocument.getLoanDueDate();
+            if (oleLoanDocument.getRenewalLoanDueDate() != null) {
+                oleLoanDocument.setLoanDueDate(oleLoanDocument.getRenewalLoanDueDate());
+            } else {
+                oleLoanDocument.setLoanDueDate(oleLoanDocument.getManualRenewalDueDate());
+                oleLoanDocument.setManualRenewalDueDate(null);
+                oleLoanDocument.setNonCirculatingItem(false);
             }
-            oleLoanDocument.setNumberOfRenewals(noOfRenewal);
-            oleLoanDocument.setPastDueDate(pastDueDate);
-            oleLoanDocument.setRenewalItemFlag(false);
-            saveLoan(oleLoanDocument);
+            compareExpirationDateWithDueDate(oleLoanDocument);
+            if (oleLoanDocument.isRenewalItemFlag()) {
+                if (oleLoanDocument.getNumberOfRenewals() == null)
+                    oleLoanDocument.setNumberOfRenewals("0");
+                String noOfRenewal = "" + (Integer.parseInt(oleLoanDocument.getNumberOfRenewals()) + 1);
+                if (noOfRenewal != null && !noOfRenewal.isEmpty()) {
+                    oleLoanDocument.setNumberOfOverdueNoticesSent("0");
+                }
+                oleLoanDocument.setNumberOfRenewals(noOfRenewal);
+                oleLoanDocument.setPastDueDate(pastDueDate);
+                oleLoanDocument.setRenewalItemFlag(false);
+                saveLoan(oleLoanDocument);
+            }
         }
         return oleLoanDocument;
     }
@@ -3571,6 +3684,7 @@ public class LoanProcessor {
     public CallNumber getCallNumber(OleLoanFastAdd oleLoanFastAdd) {
         CallNumber callNumber = new CallNumber();
         callNumber.setNumber(oleLoanFastAdd.getCallNumber());
+        callNumber.setPrefix(oleLoanFastAdd.getCallNumberPrefix());
         ShelvingScheme shelvingScheme = new ShelvingScheme();
         shelvingScheme.setCodeValue(oleLoanFastAdd.getCallNumberType());
         callNumber.setShelvingScheme(shelvingScheme);
@@ -3733,13 +3847,14 @@ public class LoanProcessor {
         map.put(OLEConstants.FEE_TYPE_FIELD, getOleFeeTypeCode(OLEConstants.FEE_TYPE_CODE_REPL_FEE));
         List<FeeType> feeTypes = (List<FeeType>) KRADServiceLocator.getBusinessObjectService().findMatching(FeeType.class, map);
         if (feeTypes != null && feeTypes.size() > 0) {
-            oleLoanDocument.setReplacementFeeExist(true);
-           /* for(FeeType feeType:feeTypes){
-                if(feeType.getBalFeeAmount().compareTo(OLEConstants.BIGDECIMAL_DEF_VALUE)!=0){
-                    oleLoanDocument.setReplacementFeePaidStatus(false);
+           /* feeTypes.get(feeTypes.size())
+            oleLoanDocument.setReplacementFeeExist(true);*/
+            for(FeeType feeType:feeTypes){
+                if(feeType.getBalFeeAmount().isGreaterThan(new KualiDecimal(0.00))){
+                    oleLoanDocument.setReplacementFeeExist(true);
                     break;
                 }
-            }*/
+            }
         }
 
     }
@@ -3896,7 +4011,7 @@ public class LoanProcessor {
         if (oleLoanForm.getLoanList() != null && !oleLoanForm.getLoanList().isEmpty()) {
             existingItemList.addAll(oleLoanForm.getLoanList());
         }
-        if (oleLoanDocument.getItemLoanStatus() != null && oleLoanDocument.getItemLoanStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST) || oleLoanDocument.isReplacementFeeExist()) {
+        if (oleLoanDocument.getItemLoanStatus() != null && oleLoanDocument.getItemLoanStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_LOST)) {
             oleLoanForm.setBlockUser(true);
         }
         else if (oleLoanDocument.isOverdueFineExist() && oleLoanDocument.isDifferentPatron()) {
@@ -3966,7 +4081,7 @@ public class LoanProcessor {
     }
 
 
-    public HashMap<String,Integer> getItemTypeMap(List<OleLoanDocument> oleLoanDocuments,OleLoanDocument currentLoan){
+   /* public HashMap<String,Integer> getItemTypeMap(List<OleLoanDocument> oleLoanDocuments,OleLoanDocument currentLoan){
         Long begin = System.currentTimeMillis();
         HashMap<String,Integer> itemTypeMap = new HashMap<>();
         for(OleLoanDocument oleLoanDocument : oleLoanDocuments){
@@ -3989,7 +4104,7 @@ public class LoanProcessor {
         Long timeTaken = end - begin;
         LOG.info("The Time Taken for getItemTypeMap in Add Item"+timeTaken);
         return itemTypeMap;
-    }
+    }*/
 
 
     public HashMap<String,Integer> getItemTypeFromCurrentLoan(HashMap<String,Integer> itemTypeMap,OleLoanDocument currentLoan){
@@ -4081,6 +4196,12 @@ public class LoanProcessor {
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item" , "checkOutDateTime"));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item","ClaimsReturnedFlag_search"));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item","itemStatusEffectiveDate"));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item","HoldingsCallNumberPrefix_search"));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item","HoldingsCallNumberPrefix_display"));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item","HoldingsShelvingSchemeCode_search"));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item","HoldingsShelvingSchemeCode_display"));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item","HoldingsShelvingSchemeValue_search"));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item","HoldingsShelvingSchemeValue_display"));
     }
 
 
@@ -4114,6 +4235,14 @@ public class LoanProcessor {
                         if(searchResultField.getFieldName().equalsIgnoreCase("ItemBarcode_display")) {
                             oleLoanDocument = new OleLoanDocument();
                             oleLoanDocument.setItemId(searchResultField.getFieldValue());
+                            Map itemMap = new HashMap();
+                            itemMap.put(OLEConstants.OleDeliverRequest.ITEM_ID, oleLoanDocument.getItemId());
+                            List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, itemMap);
+                            if (oleDeliverRequestBoList != null && oleDeliverRequestBoList.size() > 0) {
+                                oleLoanDocument.setRequestFlag(OLEConstants.VIEW_ALL_REQUESTS);
+                            } else {
+                                oleLoanDocument.setRequestFlag(" ");
+                            }
                         }
                         if (searchResultField.getFieldName().equalsIgnoreCase("id")) {
                            //(OleLoanDocument)loanMap.get((searchResultField.getFieldValue()));
@@ -4166,6 +4295,11 @@ public class LoanProcessor {
                         }
                         else if (searchResultField.getFieldName().equalsIgnoreCase("CallNumber_display")) {
                             oleLoanDocument.setItemCallNumber(searchResultField.getFieldValue());
+                        }else if(searchResultField.getFieldName().equalsIgnoreCase("CallNumberPrefix_display")){
+                            oleLoanDocument.setItemCallNumberPrefix(searchResultField.getFieldValue());
+                        }else if(searchResultField.getFieldName().equalsIgnoreCase("HoldingsCallNumberPrefix_display") &&
+                                (oleLoanDocument.getItemCallNumberPrefix() == null || oleLoanDocument.getItemCallNumberPrefix().isEmpty())){
+                            oleLoanDocument.setItemCallNumberPrefix(searchResultField.getFieldValue());
                         }
                         else if (searchResultField.getFieldName().equalsIgnoreCase("TemporaryItemTypeFullValue_search")) {
                             oleLoanDocument.setItemType(searchResultField.getFieldValue());
@@ -4233,6 +4367,9 @@ public class LoanProcessor {
                 }
                 if(oleLoanDocument.getOlePatron()!=null){
                     oleLoanDocument.getOlePatron().setNumberOfClaimsReturned(count);
+                }
+                if(oleLoanDocument.getItemCallNumber()!=null && oleLoanDocument.getItemCallNumberPrefix()!=null){
+                        oleLoanDocument.setItemCallNumber(oleLoanDocument.getItemCallNumberPrefix() + "-" + oleLoanDocument.getItemCallNumber());
                 }
                 oleLoanDocuments.add(oleLoanDocument);
             }
@@ -4351,6 +4488,30 @@ public class LoanProcessor {
 
     public void setOleDeliverNoticeHelperService(OLEDeliverNoticeHelperService oleDeliverNoticeHelperService) {
         this.oleDeliverNoticeHelperService = oleDeliverNoticeHelperService;
+    }
+
+    public String getReplyToEmail(String itemLocation) {
+        OleCirculationDesk oleCirculationDesk = getCirculationDesk(itemLocation);
+        if (oleCirculationDesk != null && StringUtils.isNotBlank(oleCirculationDesk.getReplyToEmail())) {
+            return oleCirculationDesk.getReplyToEmail();
+        }
+        return null;
+    }
+
+    public OleCirculationDesk getCirculationDesk(String itemLocation) {
+        OleLocation oleLocation = null;
+        try {
+            if (StringUtils.isNotBlank(itemLocation)) {
+                oleLocation = getLocationByLocationCode(itemLocation);
+            }
+        } catch (Exception e) {
+            LOG.error("Exception " + e);
+        }
+        if (oleLocation != null) {
+            OleCirculationDesk oleCirculationDesk = getCirculationDeskByLocationId(oleLocation.getLocationId());
+            return oleCirculationDesk;
+        }
+        return null;
     }
 }
 

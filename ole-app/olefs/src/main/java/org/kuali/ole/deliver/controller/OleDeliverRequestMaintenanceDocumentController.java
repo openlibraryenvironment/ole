@@ -1,21 +1,21 @@
 package org.kuali.ole.deliver.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.asr.ASRConstants;
 import org.kuali.asr.service.ASRHelperServiceImpl;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.batch.OleDeliverBatchServiceImpl;
-import org.kuali.ole.deliver.bo.OleCirculationDesk;
-import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
-import org.kuali.ole.deliver.bo.OleDeliverRequestType;
-import org.kuali.ole.deliver.bo.OleLoanDocument;
+import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.OLEDeliverNoticeHelperService;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.deliver.service.impl.OLEDeliverNoticeHelperServiceImpl;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.ingest.pojo.MatchBo;
+import org.kuali.ole.service.OleCirculationPolicyService;
+import org.kuali.ole.service.OleCirculationPolicyServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.util.DocstoreUtil;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
@@ -69,6 +69,7 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
     private DocstoreUtil docstoreUtil = getDocstoreUtil();
     private OleDeliverRequestDocumentHelperServiceImpl service =  getService();
     private OLEDeliverNoticeHelperService oleDeliverNoticeHelperService ;
+    private OleCirculationPolicyService oleCirculationPolicyService;
 
     /**
      * This method initiate LoanProcessor.
@@ -102,6 +103,18 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
             oleDeliverNoticeHelperService = SpringContext.getBean(OLEDeliverNoticeHelperServiceImpl.class);
         }
         return oleDeliverNoticeHelperService;
+    }
+
+    /**
+     * Gets the oleCirculationPolicyService attribute.
+     *
+     * @return Returns the oleCirculationPolicyService
+     */
+    public OleCirculationPolicyService getOleCirculationPolicyService() {
+        if (null == oleCirculationPolicyService) {
+            oleCirculationPolicyService = SpringContext.getBean(OleCirculationPolicyServiceImpl.class);
+        }
+        return oleCirculationPolicyService;
     }
 
     public void setOleDeliverNoticeHelperService(OLEDeliverNoticeHelperService oleDeliverNoticeHelperService) {
@@ -348,7 +361,7 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
 
         return  super.route(form, result, request, response);
         }else{
-            return getUIFModelAndView(form);
+            return  super.route(form, result, request, response);
         }
     }
 
@@ -391,6 +404,21 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
 
             String location = oleDeliverRequestBo.getShelvingLocation();
             LoanProcessor loanProcessor = getLoanProcessor();
+
+
+
+            List<FeeType> feeTypeList = getOleCirculationPolicyService().getPatronBillPayment(oleDeliverRequestBo.getBorrowerId());
+            Integer overdueFineAmt = 0;
+            Integer replacementFeeAmt = 0;
+            Integer serviceFeeAmt = 0;
+            for (FeeType feeType : feeTypeList) {
+                Integer fineAmount = feeType.getFeeAmount().subtract(feeType.getPaidAmount()).intValue();
+                overdueFineAmt += feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.OVERDUE_FINE) ? fineAmount : 0;
+                replacementFeeAmt += feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.REPLACEMENT_FEE) ? fineAmount : 0;
+                serviceFeeAmt += feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.SERVICE_FEE) ? fineAmount : 0;
+            }
+
+
             OleLoanDocument oleLoanDocument = loanProcessor.getOleLoanDocumentUsingItemUUID(oleDeliverRequestBo.getItemUuid());
             DataCarrierService dataCarrierService = GlobalResourceLoader.getService(OLEConstants.DATA_CARRIER_SERVICE);
             dataCarrierService.addData(OLEConstants.LOANED_DATE, oleLoanDocument != null ? oleLoanDocument.getCreateDate() : null);
@@ -440,6 +468,7 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
             termValues.put(OLEConstants.MAX_NO_OF_PAGE_REQUEST, new Integer(pageList.size()) + 1);
             termValues.put(OLEConstants.MAX_NO_OF_ASR_REQUEST, new Integer(asrList.size()) + 1);
             termValues.put(OLEConstants.OleDeliverRequest.CLAIMS_RETURNED_FLAG, oleDeliverRequestBo.isClaimsReturnedFlag());
+            termValues.put(OLEConstants.FINE_AMOUNT, overdueFineAmt + replacementFeeAmt + serviceFeeAmt);
             // termValues.put("maxNumberOfRequestByBorrower",requestsByBorrower.size());
             termValues.put(OLEConstants.OleDeliverRequest.REQUEST_TYPE_ID, requestTypeId);
             termValues.put(OLEConstants.REQUEST_TYPE, requestType);
@@ -493,13 +522,22 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
                     OLEDeliverNoticeHelperService oleDeliverNoticeHelperService =getOleDeliverNoticeHelperService();
                     oleDeliverNoticeHelperService.deleteDeliverNotices(oleLoanDocument.getLoanId());
                     try{
-                        oleDeliverNoticeHelperService.generateDeliverNotices(oleLoanDocument.getPatronId(), oleLoanDocument.getItemUuid(),
+                     /*   oleDeliverNoticeHelperService.generateDeliverNotices(oleLoanDocument.getPatronId(), oleLoanDocument.getItemUuid(),
                                 oleLoanDocument.getOleCirculationDesk()!=null ? oleLoanDocument.getOleCirculationDesk().getCirculationDeskCode() : null,
                                 oleLoanDocument.getBorrowerTypeCode(),itemType, oleDeliverRequestBo.getItemStatus(),
                                 oleLoanDocument.isClaimsReturnedIndicator() ? OLEConstants.TRUE : OLEConstants.FALSE,
                                 oleLoanDocument.getRepaymentFeePatronBillId() != null ? OLEConstants.TRUE : OLEConstants.FALSE,
                                 oleDeliverRequestBo.getShelvingLocation(), oleDeliverRequestBo.getItemCollection(), oleDeliverRequestBo.getItemLibrary(),
-                                oleDeliverRequestBo.getItemCampus(), oleDeliverRequestBo.getItemInstitution(), oleLoanDocument.getLoanDueDate(),oleLoanDocument.getLoanId());
+                                oleDeliverRequestBo.getItemCampus(), oleDeliverRequestBo.getItemInstitution(), oleLoanDocument.getLoanDueDate(),oleLoanDocument.getLoanId(),oleDeliverRequestBo.getRequestTypeCode());
+                    */
+                        List<OLEDeliverNotice> deliverNotices = (List<OLEDeliverNotice>) engineResult.getAttribute("deliverNotices");
+                        if(deliverNotices!=null){
+                            for(OLEDeliverNotice deliverNotice : deliverNotices){
+                                deliverNotice.setLoanId(oleLoanDocument.getLoanId());
+                                deliverNotice.setPatronId(oleLoanDocument.getPatronId());
+                            }
+                            getBusinessObjectService().save(deliverNotices);
+                        }
                     }catch(Exception e){
                         LOG.info("Exception occured while updating the date in notice table");
                         LOG.error(e,e);
@@ -527,13 +565,22 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
                         OLEDeliverNoticeHelperService oleDeliverNoticeHelperService =getOleDeliverNoticeHelperService();
                         oleDeliverNoticeHelperService.deleteDeliverNotices(oleLoanDocument.getLoanId());
                         try{
-                            oleDeliverNoticeHelperService.generateDeliverNotices(oleLoanDocument.getPatronId(), oleLoanDocument.getItemUuid(),
+      /*                      oleDeliverNoticeHelperService.generateDeliverNotices(oleLoanDocument.getPatronId(), oleLoanDocument.getItemUuid(),
                                     oleLoanDocument.getOleCirculationDesk()!=null ? oleLoanDocument.getOleCirculationDesk().getCirculationDeskCode() : null,
                                     oleLoanDocument.getBorrowerTypeCode(),itemType, oleDeliverRequestBo.getItemStatus(),
                                     oleLoanDocument.isClaimsReturnedIndicator() ? OLEConstants.TRUE : OLEConstants.FALSE,
                                     oleLoanDocument.getRepaymentFeePatronBillId() != null ? OLEConstants.TRUE : OLEConstants.FALSE,
                                     oleDeliverRequestBo.getShelvingLocation(), oleDeliverRequestBo.getItemCollection(), oleDeliverRequestBo.getItemLibrary(),
-                                    oleDeliverRequestBo.getItemCampus(), oleDeliverRequestBo.getItemInstitution(), oleLoanDocument.getLoanDueDate(),oleLoanDocument.getLoanId());
+                                    oleDeliverRequestBo.getItemCampus(), oleDeliverRequestBo.getItemInstitution(), oleLoanDocument.getLoanDueDate(),oleLoanDocument.getLoanId(),oleDeliverRequestBo.getRequestTypeCode());
+                       */
+                            List<OLEDeliverNotice> deliverNotices = (List<OLEDeliverNotice>) engineResult.getAttribute("deliverNotices");
+                            if(deliverNotices!=null){
+                                for(OLEDeliverNotice deliverNotice : deliverNotices){
+                                    deliverNotice.setLoanId(oleLoanDocument.getLoanId());
+                                    deliverNotice.setPatronId(oleLoanDocument.getPatronId());
+                                }
+                                getBusinessObjectService().save(deliverNotices);
+                            }
                         }catch(Exception e){
                             LOG.info("Exception occured while updating the date in notice table");
                             LOG.error(e,e);
@@ -607,6 +654,7 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
         selector.put(NAME_SELECTOR, agendaName);
         return selector;
     }
+
 
     @RequestMapping(params = "methodToCall=refreshPageView")
     public ModelAndView refreshPageView(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,

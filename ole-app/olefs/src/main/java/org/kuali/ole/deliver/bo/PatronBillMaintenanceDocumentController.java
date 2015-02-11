@@ -318,11 +318,12 @@ public class PatronBillMaintenanceDocumentController extends MaintenanceDocument
                 if (feeType.getItemUuid().equals(item.getId())) {
                     feeType.setItemTitle(item.getHolding().getBib().getTitle());
                     feeType.setItemAuthor(item.getHolding().getBib().getAuthor());
-                    if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
-                        feeType.setItemCallNumber(itemContent.getCallNumber().getNumber());
+                    /*if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
+                        feeType.setItemCallNumber((new LoanProcessor()).getItemCallNumber(itemContent.getCallNumber()));
                     }else {
                         feeType.setItemCallNumber((new LoanProcessor()).getItemCallNumber(oleHoldings.getCallNumber()));
-                    }
+                    }*/
+                    feeType.setItemCallNumber((new LoanProcessor()).getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
                     feeType.setItemCopyNumber(itemContent.getCopyNumber());
                     feeType.setItemChronologyOwnLocation(itemContent.getChronology());
                     feeType.setItemEnumeration(itemContent.getEnumeration());
@@ -361,11 +362,12 @@ public class PatronBillMaintenanceDocumentController extends MaintenanceDocument
                 if (feeType.getItemUuid().equals(item.getId())) {
                     feeType.setItemTitle(item.getHolding().getBib().getTitle());
                     feeType.setItemAuthor(item.getHolding().getBib().getAuthor());
-                    if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
-                        feeType.setItemCallNumber(itemContent.getCallNumber().getNumber());
+                    /*if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
+                        feeType.setItemCallNumber((new LoanProcessor()).getItemCallNumber(itemContent.getCallNumber()));
                     }else {
                         feeType.setItemCallNumber((new LoanProcessor()).getItemCallNumber(oleHoldings.getCallNumber()));
-                    }
+                    }*/
+                    feeType.setItemCallNumber((new LoanProcessor()).getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
                     feeType.setItemCopyNumber(itemContent.getCopyNumber());
                     feeType.setItemChronologyOwnLocation(itemContent.getChronology());
                     feeType.setItemEnumeration(itemContent.getEnumeration());

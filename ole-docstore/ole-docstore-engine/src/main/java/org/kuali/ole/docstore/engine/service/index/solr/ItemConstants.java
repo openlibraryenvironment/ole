@@ -144,8 +144,14 @@ public interface ItemConstants {
     public static final String ITEMNOTE_VALUE_DISPLAY = "ItemNote_Value_display";
     public static final String ITEMNOTE_TYPE_DISPLAY = "ItemNote_Type_display";
     public static final String HOLDINGS_CALLNUMBER_SEARCH = "HoldingsCallNumber_search";
+    public static final String HOLDINGS_CALLNUMBER_PREFIX_SEARCH = "HoldingsCallNumberPrefix_search";
+    public static final String HOLDINGS_SHELVING_SCHEME_CODE_SEARCH = "HoldingsShelvingSchemeCode_search";
+    public static final String HOLDINGS_SHELVING_SCHEME_VALUE_SEARCH = "HoldingsShelvingSchemeValue_search";
     public static final String HOLDINGS_LOCATION_SEARCH = "HoldingsLocation_search";
     public static final String HOLDINGS_CALLNUMBER_DISPLAY = "HoldingsCallNumber_display";
+    public static final String HOLDINGS_CALLNUMBER_PREFIX_DISPLAY = "HoldingsCallNumberPrefix_display";
+    public static final String HOLDINGS_SHELVING_SCHEME_CODE_DISPLAY = "HoldingsShelvingSchemeCode_display";
+    public static final String HOLDINGS_SHELVING_SCHEME_VALUE_DISPLAY = "HoldingsShelvingSchemeValue_display";
     public static final String HOLDINGS_LOCATION_DISPLAY = "HoldingsLocation_display";
     public static final String HOLDINGS_COPYNUMBER_SEARCH = "HoldingsCopyNumber_search";
     public static final String HOLDINGS_COPYNUMBER_DISPLAY = "HoldingsCopyNumber_display";

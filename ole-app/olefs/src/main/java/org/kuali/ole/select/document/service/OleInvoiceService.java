@@ -115,4 +115,6 @@ public interface OleInvoiceService extends InvoiceService {
     public OleExchangeRate getExchangeRate(String currencyTypeId);
 
     public String getCurrencyTypeIdFromCurrencyType(String currencyType);
+
+    public void deleteInvoiceItem(OleInvoiceDocument oleInvoiceDocument);
 }

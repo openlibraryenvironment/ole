@@ -1,0 +1,13 @@
+NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID
+"OLE-SELECT","Select","REENCUMBER_RECURRING_ORDERS","OLE6575","1","CONFG","PO,+ 0 $","This parameter is having option for to calculate either reencumber recurring Purchase Orders amounts or Invoice amounts, By default it calculate for PO","A","OLE"
+"OLE-SELECT","Select","SYSTEM_USER","OLE6576","1","CONFG","ole-quickstart","Default System User","A","KUALI"
+"OLE-SELECT","Select","ACCOUNT_DOCUMENT_INTIATOR","OLE6577","1","CONFG","ole-quickstart","Default Account Document Intiator","A","KUALI"
+"OLE-SELECT","Select","NCIP_EMAILADDRESS_TYPE","OLE6578","1","CONFG","electronic mail address","Parameter is used to set the value for NCIP Email Address Type","A","KUALI"
+"OLE-DLVR","Deliver","PAYMENT_MODE_FORGIVE","OLE6579","1","CONFG","Forgive","The forgive value can be configured.(e.g) SOAS needs Waived instead of Forgive. So Universities can have the value whatever is appropriate to them","A","OLE"
+"OLE-DLVR","Deliver","PAYMENT_MODE_FORGIVE_MESSAGE","OLE6580","1","CONFG","has been forgiven","The forgive message can be configured.(e.g) SOAS needs has been waived instead of has been forgiven. So Universities can have the value whatever is appropriate to them","A","OLE"
+"OLE-DLVR","Deliver","DEFAULT_REQUEST_LEVEL","OLE6581","1","CONFG","Item","This for setting the default request level while placing a request .Allowed values were Item and Title","A","OLE"
+"OLE-DLVR","Deliver","TITLE_LEVEL_REQUEST_INDICATOR","OLE6582","1","CONFG","Y","This is to decide whether the title request can be placed on an item or not.Allowed values were Y and N","A","OLE"
+"OLE-DLVR","Deliver","DEFAULT_CIRCULATION_DESK","OLE6583","1","CONFG","BL_EDUC","This parameter value wil be used as the default circulation desk value if the item owning location is not mapped to any circulation desk","A","OLE"
+"OLE-DLVR","Deliver","SIP2_INSTITUTION_NAME","OLE6584","1","CONFG","OLE","This parameter hold the Institution name for 3M machine","A","OLE"
+"OLE-DLVR","Deliver","SIP2_REQUEST_TYPE","OLE6585","1","CONFG","Hold/Hold Request","This parameter hold the request type for 3M machine","A","OLE"
+"OLE-DLVR","Deliver","SIP2_OPERATOR_ID","OLE6586","1","CONFG","olequickstart","This parameter hold the operator id for 3M machine to perform checking/checkout operation","A","OLE"

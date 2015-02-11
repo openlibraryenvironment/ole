@@ -70,6 +70,7 @@ import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocumentServiceImpl implements OleReqPOCreateDocumentService {
@@ -94,6 +95,10 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
             oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
         }
         return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 
     public OlePatronDocumentList getOlePatronDocumentList() {
@@ -183,6 +188,9 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
                                 requisitionCreateDocumentService.saveRequisitionDocuments(requisitionDocument);
                                 //dataCarrierService.addData(OLEConstants.ORDER_IMPORT_SUCCESS_COUNT,(int) dataCarrierService.getData(OLEConstants.ORDER_IMPORT_SUCCESS_COUNT)+1);
                                 orderImportHelperBo.setOrderImportSuccessCount(orderImportHelperBo.getOrderImportSuccessCount()+1);
+                                if(!oleBatchProcessProfileBo.getMarcOnly()){
+                                    orderImportHelperBo.setCreateBibCount(orderImportHelperBo.getOrderImportSuccessCount());
+                                }
                                 orderImportHelperBo.getReqList().add(requisitionDocument.getPurapDocumentIdentifier());
                             }
                             catch (Exception ex) {
@@ -282,7 +290,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
     public OleRequisitionDocument createRequisitionDocument() throws WorkflowException {
         String user;
         if (GlobalVariables.getUserSession() == null) {
-            user = getConfigurationService().getPropertyValueAsString(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR);
+            user = getConfigurationService().getPropertyValueAsString(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
             if(LOG.isDebugEnabled()){
                 LOG.debug("createRequisitionDocument - user from session"+user);
             }
@@ -299,7 +307,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
             user = GlobalVariables.getUserSession().getPrincipalName();
             if (user == null) {
                 user = getConfigurationService().getPropertyValueAsString(
-                        OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR);
+                        getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
             }
             GlobalVariables.setUserSession(new UserSession(user));
         }
@@ -334,6 +342,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
         // ******************Items Section******************
         // ******************Capital Assets Section******************
         // ******************Payment INfo Section******************
+        setRecurringPaymentInfo(requisitionDocument,oleOrderRecord);
         // ******************Additional Institutional Info Section******************
         requisitionDocument.getDocumentHeader().setDocumentDescription(getDocumentDescription(requisitionDocument, oleOrderRecord,job,recPosition));
         requisitionDocument.setPurchaseOrderTransmissionMethodCode(getTransmissionMethodCode(oleOrderRecord.getOleTxRecord().getMethodOfPOTransmission()));//FAX
@@ -436,6 +445,17 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
                 requisitionDocument.setBillingPhoneNumber(getOlePurapService().getParameter(org.kuali.ole.sys.OLEConstants.BILL_PHN_NBR));
 
             }
+        }
+    }
+
+    private void setRecurringPaymentInfo(OleRequisitionDocument requisitionDocument, OleOrderRecord oleOrderRecord)throws Exception{
+        if(oleOrderRecord.getOleTxRecord().getRecurringPaymentType() != null){
+            requisitionDocument.setRecurringPaymentTypeCode(oleOrderRecord.getOleTxRecord().getRecurringPaymentType());
+            SimpleDateFormat sdf1 = new SimpleDateFormat(org.kuali.ole.OLEConstants.DATE_FORMAT);
+            java.util.Date beginDate = sdf1.parse(oleOrderRecord.getOleTxRecord().getRecurringPaymentBeginDate());
+            java.util.Date endDate = sdf1.parse(oleOrderRecord.getOleTxRecord().getRecurringPaymentEndDate());
+            requisitionDocument.setPurchaseOrderBeginDate(new java.sql.Date(beginDate.getTime()));
+            requisitionDocument.setPurchaseOrderEndDate(new java.sql.Date(endDate.getTime()));
         }
     }
 
@@ -562,7 +582,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
         item.setBibTree(oleOrderRecord.getBibTree());
         item.setLinkToOrderOption(oleOrderRecord.getLinkToOrderOption());
         if (item.getLinkToOrderOption() != null) {
-            if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT_ELECTRONIC)) {
+            if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT_ELECTRONIC) || item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_PRINT_ELECTRONIC)) {
                 if (oleOrderRecord.getBibTree() != null) {
                     boolean printHolding = false;
                     boolean electronicHolding = false;
@@ -582,16 +602,24 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
                         }
                     }
                     if (!printHolding && electronicHolding) {
-                        item.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC);
+                        if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT_ELECTRONIC)){
+                            item.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC);
+                        }else if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_PRINT_ELECTRONIC)){
+                            item.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_ELECTRONIC);
+                        }
                     } else {
                         if (electronicHoldingsIdList.size()>0 && oleOrderRecord.getBibTree().getHoldingsIds()!=null){
                             oleOrderRecord.getBibTree().getHoldingsIds().removeAll(electronicHoldingsIdList);
                         }
-                        item.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT);
+                        if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT_ELECTRONIC)){
+                            item.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT);
+                        }else if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_PRINT_ELECTRONIC)){
+                            item.setLinkToOrderOption(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI);
+                        }
                     }
                 }
             }
-            if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT)) {
+            if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_PRINT) || item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI)) {
                 if (oleOrderRecord.getBibTree() != null) {
                     List<HoldingsId> holdingsIds = oleOrderRecord.getBibTree().getHoldingsIds();
                     if (holdingsIds != null && holdingsIds.size() > 0) {
@@ -615,7 +643,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
                         item.setItemNoOfParts(new KualiInteger(1));
                     }
                 }
-            } else if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC)) {
+            } else if (item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_ONLY_ELECTRONIC) || item.getLinkToOrderOption().equals(OLEConstants.ORDER_RECORD_IMPORT_MARC_EDI_ELECTRONIC)) {
                 item.setItemQuantity(new KualiDecimal(1));
                 item.setItemNoOfParts(new KualiInteger(1));
             }
@@ -910,7 +938,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
         if(description.startsWith("_")){
             description = description.substring(1);
         }
-        if(description.length() > 40) {
+        if(description.length() > 255) {
             if(job.getOrderImportHelperBo().getOleBatchProcessProfileBo().getRequisitionsforTitle().equalsIgnoreCase(OLEConstants.ONE_REQUISITION_PER_TITLE)) {
                 job.getOrderImportHelperBo().getFailureReason().add(OLEConstants.OLEBatchProcess.REC_POSITION + (recPosition + 1) + " " + OLEConstants.OLEBatchProcess.DESC_MAX_LENG);
             } else {

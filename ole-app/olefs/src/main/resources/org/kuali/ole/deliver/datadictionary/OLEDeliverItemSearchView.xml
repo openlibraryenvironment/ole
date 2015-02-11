@@ -1,0 +1,590 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OLEDeliverItemSearchView" parent="OLEDeliverItemSearchView-parentBean"/>
+    <bean id="OLEDeliverItemSearchView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Deliver Item Search"/>
+        <property name="items">
+            <list>
+                <bean id="OLEDeliverItemSearchPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEDeliverItemSearchPanel"/>
+                            <ref bean="OLEDeliverItemSearchButtons"/>
+                            <ref bean="OLEDeliverBibSearchResults"/>
+                            <ref bean="OLEDeliverItemSearchResult"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.OLEDeliverItemSearchForm"/>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/deliver/deliverItemSearch/css/deliverItemSearch.css</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchPanel" parent="Uif-GridSection" p:layoutManager.numberOfColumns="2">
+        <property name="items">
+            <list>
+                <bean id="OLEDeliverItemSearch_Title" parent="Uif-InputField" p:label="Title"
+                      p:propertyName="title" p:maxLength="100">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30"/>
+                    </property>
+                </bean>
+                <bean id="OLEDeliverItemSearch_Author" parent="Uif-InputField" p:label="Author"
+                      p:propertyName="author" p:maxLength="100">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30"/>
+                    </property>
+                </bean>
+                <bean id="OLEDeliverItemSearch_Publisher" parent="Uif-InputField" p:label="Publisher"
+                      p:propertyName="publisher" p:maxLength="100">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30"/>
+                    </property>
+                </bean>
+                <bean id="OLEDeliverItemSearch_BarCode" parent="Uif-InputField" p:label="BarCode"
+                      p:propertyName="itemBarCode" p:maxLength="100">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30"/>
+                    </property>
+                </bean>
+                <bean id="OLEDeliverItemSearch_CallNumber" parent="Uif-InputField" p:label="Call No"
+                      p:propertyName="itemCallNumber" p:maxLength="100">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30"/>
+                    </property>
+                </bean>
+                <bean id="OLEDeliverItemSearch_ItemUUID" parent="Uif-InputField" p:label="Item Id"
+                      p:propertyName="itemUUID" p:maxLength="100">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30"/>
+                    </property>
+                </bean>
+                <bean id="OLEDeliverItemSearch_ItemType" parent="Uif-InputField" p:label="Item Type"
+                      p:propertyName="itemType">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleItemSearchKeyValue"/>
+                    </property>
+                </bean>
+                <bean id="OLEDeliverItemSearch_Location" parent="Uif-InputField" p:label="Location"
+                      p:propertyName="itemLocation">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.businessobject.options.OleLocationKeyValueFinder"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchButtons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="itemSearch_search_button" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:70em"
+                      p:methodToCall="search" p:actionLabel="Search"/>
+                <bean id="itemSearch_clear_button" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="clearSearch" p:actionLabel="Clear"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverBibSearchResults" parent="Uif-TableCollectionSection"
+          p:layoutManager.applyDefaultCellWidths="false">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEBibSearchResultDisplayRow"/>
+        <property name="propertyName" value="oleBibSearchResultDisplayRowList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{#line.id}&amp;editable=true"
+                      p:label="Bib ID" p:linkText="@{#line.id}" p:target="_blank"/>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title"/>
+                <bean parent="Uif-DataField" p:label="Author" p:propertyName="author"/>
+                <bean parent="Uif-DataField" p:label="Pub Year" p:propertyName="publicationYear"/>
+                <bean parent="Uif-DataField" p:label="Holdings Location" p:propertyName="holdingsLocation"/>
+                <bean parent="Uif-DataField" p:label="Item Location" p:propertyName="itemLocation"/>
+                <bean parent="Uif-DataField" p:label="Call Number" p:propertyName="itemCallNumber"/>
+                <bean parent="Uif-DataField" p:label="Status" p:propertyName="itemStatus"/>
+                <bean parent="Uif-DataField" p:label="Item Type" p:propertyName="itemType"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.rowDetailsOpen" value="false"/>
+        <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <ref bean="OLEDeliverHoldingsSearchResults"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverHoldingsSearchResults" parent="Uif-TableSubCollection-WithinSection"
+          p:layoutManager.applyDefaultCellWidths="false">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEHoldingsSearchResultDisplayRow"/>
+        <property name="propertyName" value="oleHoldingsSearchResultDisplayRowList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=@{#line.id}&amp;bibId=@{#line.bibIdentifier}&amp;editable=false"
+                      p:label="Holdings ID" p:linkText="@{#line.id}" p:target="_blank"/>
+                <bean parent="Uif-DataField" p:label="Holdings Location" p:propertyName="location"/>
+                <bean parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber"/>
+                <bean parent="Uif-DataField" p:label="Item Location" p:propertyName="itemLocation"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.rowDetailsOpen" value="false"/>
+        <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <ref bean="OLEDeliverItemSearchResults"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResults" parent="Uif-TableSubCollection-WithinSection"
+          p:layoutManager.applyDefaultCellWidths="false">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEItemSearchResultDisplayRow"/>
+        <property name="propertyName" value="oleItemSearchResultDisplayRowList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;" p:render="@{singleItemFlag}"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=@{#line.id}&amp;bibId=@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}&amp;editable=false"
+                      p:label="Item ID" p:linkText="@{#line.id}" p:target="_blank"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;" p:render="@{!singleItemFlag}"
+                      p:href="@{#ConfigProperties['ole.fs.url.base']}/portal.do?channelTitle=Item Result&amp;channelUrl=@{#ConfigProperties['ole.fs.url.base']}/ole-kr-krad/deliverItemResultController?viewId=OLEDeliverItemResultView&amp;methodToCall=start&amp;itemId=@{#line.id}"
+                      p:label="Item ID" p:linkText="@{#line.id}" p:target="_blank"/>
+                <bean parent="Uif-DataField" p:label="Item Location" p:propertyName="location"/>
+                <bean parent="Uif-DataField" p:label="Item Type" p:propertyName="itemType"/>
+                <bean parent="Uif-DataField" p:label="Item Status" p:propertyName="itemStatus"/>
+                <bean parent="Uif-DataField" p:label="Barcode" p:propertyName="itemBarCode"/>
+                <bean parent="Uif-DataField" p:label="Enum" p:propertyName="enumeration"/>
+                <bean parent="Uif-DataField" p:label="Chron" p:propertyName="chronology"/>
+                <bean id="placeRequest" parent="Uif-LinkField"
+                      p:linkText="Place Request"
+                      p:href="placeRequestController?viewId=OLEPlaceRequestView&amp;methodToCall=start&amp;itemId=@{#line.id}&amp;bibId=@{#line.bibIdentifier}"
+                      p:target="_blank">
+                    <property name="cssClasses" value="buttonForLink"/>
+                </bean>
+                <bean parent="Uif-LinkField" p:render="@{singleItemFlag and #line.requestExists}" p:label="Requests"
+                      p:target="_blank"
+                      p:linkText="View Requests"
+                      p:href="@{#ConfigProperties['ole.fs.url.base']}/portal.do?channelTitle=Requests&amp;channelUrl=@{#ConfigProperties['ole.fs.url.base']}/ole-kr-krad/itemRequestedRecord?viewId=OLEItemRequestedRecordView&amp;methodToCall=viewRequestedRecords&amp;itemBarCode=@{#line.itemBarCode}">
+                    <property name="cssClasses" value="buttonForLink"/>
+                </bean>
+                <bean parent="Uif-MessageField" p:label="Requests"
+                      p:render="@{singleItemFlag and !#line.requestExists}"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{singleItemFlag}">
+        <property name="items">
+            <list>
+
+                <ref bean="OLEDeliverItemSearchResult-BibInfo"/>
+                <ref bean="OLEDeliverItemSearchResult-ItemInfo"/>
+                <ref bean="OLEDeliverItemSearchResult-Borrower"/>
+                <ref bean="OLEDeliverItemSearchResult-AdditionalCopies"/>
+                <ref bean="OLEDeliverItemSearchResult-Request"/>
+                <ref bean="OLEDeliverItemSearchResult-ItemFlags"/>
+                <ref bean="OLEDeliverItemSearchResult-Notes"/>
+                <ref bean="OLEDeliverItemSearchResult-OutstandingFines"/>
+                <ref bean="OLEDeliverItemSearchResult-IDNumbers"/>
+                <ref bean="OLEDeliverItemSearchResult-ItemHistory"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-BibInfo" parent="Uif-GridSection" p:layoutManager.numberOfColumns="2">
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{oleSingleItemResultDisplayRow.bibIdentifier}&amp;editable=true"
+                      p:label="Title" p:linkText="@{oleSingleItemResultDisplayRow.title}"
+                      p:target="_blank"/>
+                <bean parent="Uif-LinkField" p:label="Author"
+                      p:linkText="@{oleSingleItemResultDisplayRow.author}" p:target="_blank"
+                      p:href="@{#ConfigProperties['ole.search.url']}olesearchcontroller?viewId=OLESearchView&amp;methodToCall=filterBibs&amp;author=@{oleSingleItemResultDisplayRow.author}"/>
+                <bean parent="Uif-DataField" p:label="Publication"
+                      p:propertyName="oleSingleItemResultDisplayRow.publication"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-ItemInfo" parent="Uif-GridSection" p:layoutManager.numberOfColumns="6">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Item Status"
+                      p:propertyName="oleSingleItemResultDisplayRow.itemStatus"/>
+                <bean parent="Uif-DataField" p:label="Item Status Date"
+                      p:propertyName="oleSingleItemResultDisplayRow.itemStatusDate"/>
+                <bean parent="Uif-DataField" p:label="Due Date"
+                      p:propertyName="oleSingleItemResultDisplayRow.dueDate"/>
+                <bean parent="Uif-DataField" p:label="Item Location"
+                      p:propertyName="oleSingleItemResultDisplayRow.location"/>
+                <bean parent="Uif-DataField" p:label="Item Type"
+                      p:propertyName="oleSingleItemResultDisplayRow.itemType"/>
+                <bean parent="Uif-DataField" p:label="Holding Location"
+                      p:propertyName="oleSingleItemResultDisplayRow.holdingsLocation"/>
+                <bean parent="Uif-DataField" p:label="Call Number"
+                      p:propertyName="oleSingleItemResultDisplayRow.callNumber"/>
+                <bean parent="Uif-DataField" p:label="Enum"
+                      p:propertyName="oleSingleItemResultDisplayRow.enumeration"/>
+                <bean parent="Uif-DataField" p:label="Chron"
+                      p:propertyName="oleSingleItemResultDisplayRow.chronology"/>
+                <bean parent="Uif-DataField" p:label="Barcode"
+                      p:propertyName="oleSingleItemResultDisplayRow.itemBarCode"/>
+                <bean parent="Uif-DataField" p:label="No of Pieces"
+                      p:propertyName="oleSingleItemResultDisplayRow.noOfPieces"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-Borrower" parent="Uif-Disclosure-VerticalBoxSection"
+          p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Borrower"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="6"
+                      p:render="@{oleSingleItemResultDisplayRow.currentBorrowerId ne null}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField" p:label="Patron Barcode"
+                                  p:linkText="@{oleSingleItemResultDisplayRow.patronBarcode}" p:target="_blank"
+                                  p:href="@{oleSingleItemResultDisplayRow.patronURL}"/>
+                            <bean parent="Uif-DataField" p:propertyName="oleSingleItemResultDisplayRow.patronType"
+                                  p:label="Patron Type"/>
+                            <bean parent="Uif-DataField" p:propertyName="oleSingleItemResultDisplayRow.patronExpDate"
+                                  p:label="Patron Exp. Date"/>
+                            <bean parent="Uif-DataField" p:propertyName="oleSingleItemResultDisplayRow.patronLastName"
+                                  p:label="Last Name"/>
+                            <bean parent="Uif-DataField" p:propertyName="oleSingleItemResultDisplayRow.patronFirstName"
+                                  p:label="First Name"/>
+                            <bean parent="Uif-DataField" p:propertyName="oleSingleItemResultDisplayRow.patronMiddleName"
+                                  p:label="Middle Name"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4"
+                      p:render="@{oleSingleItemResultDisplayRow.currentBorrowerId ne null and oleSingleItemResultDisplayRow.proxyBorrowerId ne null}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField" p:label="Proxy Patron Barcode"
+                                  p:linkText="@{oleSingleItemResultDisplayRow.proxyPatronBarcode}" p:target="_blank"
+                                  p:href="@{oleSingleItemResultDisplayRow.proxyPatronURL}"/>
+                            <bean parent="Uif-DataField" p:propertyName="oleSingleItemResultDisplayRow.proxyPatronName"
+                                  p:label="Proxy Patron Name"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4"
+                      p:render="@{oleSingleItemResultDisplayRow.currentBorrowerId ne null}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="oleSingleItemResultDisplayRow.itemStatusDate"
+                                  p:label="Orig. Charge Date"/>
+                            <bean parent="Uif-DataField" p:propertyName="oleSingleItemResultDisplayRow.dueDate"
+                                  p:label="Orig. Due Date"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-AdditionalCopies" parent="Uif-Disclosure-TableCollectionSection"
+          p:disclosure.defaultOpen="false"
+          p:layoutManager.applyDefaultCellWidths="false">
+        <property name="headerText" value="Additional Copies"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEHoldingsSearchResultDisplayRow"/>
+        <property name="propertyName" value="oleSingleItemResultDisplayRow.oleHoldingsSearchResultDisplayRowList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{oleSingleItemResultDisplayRow.bibIdentifier}&amp;editable=false"
+                      p:label="Bib ID" p:linkText="@{oleSingleItemResultDisplayRow.bibIdentifier}"
+                      p:target="_blank"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=@{#line.id}&amp;bibId=@{#line.bibIdentifier}&amp;editable=false"
+                      p:label="Holdings ID" p:linkText="@{#line.id}" p:target="_blank"/>
+                <bean parent="Uif-DataField" p:label="Holdings Location" p:propertyName="location"/>
+                <bean parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber"/>
+                <bean parent="Uif-DataField" p:label="Item Location" p:propertyName="itemLocation"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.rowDetailsOpen" value="false"/>
+        <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <ref bean="OLEDeliverItemSearchResults"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-Request" parent="Uif-Disclosure-VerticalBoxSection"
+          p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Requests"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEDeliverItemSearchResult-Requests"/>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="placeRequest_button" parent="Uif-LinkField"
+                                  p:linkText="Place Request"
+                                  p:href="placeRequestController?viewId=OLEPlaceRequestView&amp;methodToCall=start&amp;itemId=@{oleSingleItemResultDisplayRow.id}&amp;bibId=@{oleSingleItemResultDisplayRow.bibIdentifier}"
+                                  p:target="_blank">
+                                <property name="cssClasses" value="buttonForLink"/>
+                            </bean>
+                            <bean id="reOrderRequest_button" parent="Uif-LinkField" p:target="_blank"
+                                  p:linkText="ReOrder Requests"
+                                  p:href="@{#ConfigProperties['ole.fs.url.base']}/portal.do?channelTitle=Request Re-order&amp;channelUrl=@{#ConfigProperties['ole.fs.url.base']}/ole-kr-krad/deliverRequestController?viewId=DeliverRequestSearch&amp;methodToCall=search&amp;itemUuid=@{oleSingleItemResultDisplayRow.id}&amp;itemId=@{oleSingleItemResultDisplayRow.itemBarCode}"
+                                  p:render="@{oleSingleItemResultDisplayRow.oleDeliverRequestResultDisplayRowList ne null and oleSingleItemResultDisplayRow.oleDeliverRequestResultDisplayRowList.size() > 0}">
+                                <property name="cssClasses" value="buttonForLink"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-Requests" parent="Uif-TableCollectionSection"
+          p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="false">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEDeliverRequestResultDisplayRow"/>
+        <property name="propertyName" value="oleSingleItemResultDisplayRow.oleDeliverRequestResultDisplayRowList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Queue Pos." p:propertyName="borrowerQueuePosition"/>
+                <bean parent="Uif-LinkField"
+                      p:href="inquiry?methodToCall=start&amp;docCategory=work&amp;requestId=@{#line.requestId}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo"
+                      p:target="_blank" p:label="Request Type" p:linkText="@{#line.requestTypeCode}"/>
+                <bean parent="Uif-DataField" p:label="First Name" p:propertyName="borrowerFirstName"/>
+                <bean parent="Uif-DataField" p:label="Last Name" p:propertyName="borrowerLastName"/>
+                <bean parent="Uif-DataField" p:label="Barcode" p:propertyName="borrowerBarcode"/>
+                <bean parent="Uif-DataField" p:label="Create Date" p:propertyName="createDate"/>
+                <bean parent="Uif-DataField" p:label="Exp. Date" p:propertyName="expiryDate"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-ItemFlags" parent="Uif-Disclosure-VerticalBoxSection"
+          p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Item Flags"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="Claims Returned Flag"
+                      p:propertyName="oleSingleItemResultDisplayRow.claimsReturnedFlag">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2"
+                      p:render="@{oleSingleItemResultDisplayRow.claimsReturnedFlag ne null and oleSingleItemResultDisplayRow.claimsReturnedFlag eq 'true'}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:label="Claims Returned Date"
+                                  p:propertyName="oleSingleItemResultDisplayRow.claimsReturnedDate"/>
+                            <bean parent="Uif-DataField" p:label="Claims Returned Note"
+                                  p:propertyName="oleSingleItemResultDisplayRow.claimsReturnedNote"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Damaged Flag"
+                      p:propertyName="oleSingleItemResultDisplayRow.itemDamagedStatusFlag">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2"
+                      p:render="@{oleSingleItemResultDisplayRow.itemDamagedStatusFlag ne null and oleSingleItemResultDisplayRow.itemDamagedStatusFlag eq 'true'}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:label="Damaged Note"
+                                  p:propertyName="oleSingleItemResultDisplayRow.itemDamagedNote"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Missing Pieces Flag"
+                      p:propertyName="oleSingleItemResultDisplayRow.missingPieceFlag">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2"
+                      p:render="@{oleSingleItemResultDisplayRow.missingPieceFlag ne null and oleSingleItemResultDisplayRow.missingPieceFlag eq 'true'}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:label="Total Pieces"
+                                  p:propertyName="oleSingleItemResultDisplayRow.noOfPieces"/>
+                            <bean parent="Uif-DataField" p:label="Total Missing Pieces"
+                                  p:propertyName="oleSingleItemResultDisplayRow.missingPieceCount"/>
+                            <bean parent="Uif-DataField" p:label="Missing Pieces Note"
+                                  p:propertyName="oleSingleItemResultDisplayRow.missingPieceNote"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-Notes" parent="Uif-Disclosure-TableCollectionSection"
+          p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Notes"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEItemNoteResultDisplayRow"/>
+        <property name="propertyName" value="oleSingleItemResultDisplayRow.oleItemNoteResultDisplayRowList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Note Type" p:propertyName="noteType"/>
+                <bean parent="Uif-DataField" p:label="Note" p:propertyName="noteValue"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-OutstandingFines" parent="Uif-Disclosure-TableCollectionSection"
+          p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Outstanding Fines"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEFeeTypeResultDisplayRow"/>
+        <property name="propertyName" value="oleSingleItemResultDisplayRow.oleFeeTypeResultDisplayRowList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField"
+                      p:href="patronbill?viewId=BillView&amp;methodToCall=start&amp;patronId=@{#line.borrowerId}"
+                      p:label="Patron ID" p:linkText="@{#line.borrowerId}"
+                      p:target="_blank"/>
+                <bean parent="Uif-DataField" p:label="Patron First Name" p:propertyName="borrowerFirstName"/>
+                <bean parent="Uif-DataField" p:label="Patron Last Name" p:propertyName="borrowerLastName"/>
+                <bean parent="Uif-DataField" p:label="Patron Barcode" p:propertyName="borrowerBarcode"/>
+                <bean parent="Uif-DataField" p:label="Fee Type" p:propertyName="feeType"/>
+                <bean parent="Uif-DataField" p:label="Amount" p:propertyName="feeAmount"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-IDNumbers" parent="Uif-Disclosure-VerticalBoxSection"
+          p:disclosure.defaultOpen="false">
+        <property name="headerText" value="ID Numbers"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="6">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{oleSingleItemResultDisplayRow.bibIdentifier}&amp;editable=false"
+                                  p:label="Bib ID" p:linkText="@{oleSingleItemResultDisplayRow.bibIdentifier}"
+                                  p:target="_blank"/>
+                            <bean parent="Uif-LinkField"
+                                  p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=@{oleSingleItemResultDisplayRow.holdingsIdentifier}&amp;bibId=@{oleSingleItemResultDisplayRow.bibIdentifier}&amp;editable=false"
+                                  p:label="Holdings ID" p:linkText="@{oleSingleItemResultDisplayRow.holdingsIdentifier}"
+                                  p:target="_blank"/>
+                            <bean parent="Uif-LinkField"
+                                  p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=@{oleSingleItemResultDisplayRow.id}&amp;bibId=@{oleSingleItemResultDisplayRow.bibIdentifier}&amp;instanceId=@{oleSingleItemResultDisplayRow.holdingsIdentifier}&amp;editable=false"
+                                  p:label="Item ID" p:linkText="@{oleSingleItemResultDisplayRow.id}" p:target="_blank"/>
+                            <bean parent="Uif-LinkField" p:label="OCLC No"
+                                  p:linkText="@{oleSingleItemResultDisplayRow.oclcNumber}" p:target="_blank"
+                                  p:href="@{#ConfigProperties['ole.search.url']}olesearchcontroller?viewId=OLESearchView&amp;methodToCall=filterBibs&amp;oclcNumber=@{oleSingleItemResultDisplayRow.oclcNumber}"/>
+                            <bean parent="Uif-LinkField" p:label="ISBN"
+                                  p:linkText="@{oleSingleItemResultDisplayRow.isbn}" p:target="_blank"
+                                  p:href="@{#ConfigProperties['ole.search.url']}olesearchcontroller?viewId=OLESearchView&amp;methodToCall=filterBibs&amp;isbn=@{oleSingleItemResultDisplayRow.isbn}"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-ItemHistory" parent="Uif-Disclosure-VerticalBoxSection"
+          p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Item History"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="Item Record History"/>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:label="Created Date"
+                                  p:propertyName="oleSingleItemResultDisplayRow.createdDate"/>
+                            <bean parent="Uif-DataField" p:label="Created By"
+                                  p:propertyName="oleSingleItemResultDisplayRow.createdBy"/>
+                            <bean parent="Uif-DataField" p:label="Update Date"
+                                  p:propertyName="oleSingleItemResultDisplayRow.updatedDate"/>
+                            <bean parent="Uif-DataField" p:label="Update By"
+                                  p:propertyName="oleSingleItemResultDisplayRow.updatedBy"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-MessageField" p:messageText="Request History"/>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:label="Last Request Type"
+                                  p:propertyName="oleSingleItemResultDisplayRow.requestTypeCode"/>
+                            <bean parent="Uif-DataField" p:label="Pick up Location"
+                                  p:propertyName="oleSingleItemResultDisplayRow.pickUpLocationCode"/>
+                            <bean parent="Uif-DataField" p:label="Final Status"
+                                  p:propertyName="oleSingleItemResultDisplayRow.finalStatus"/>
+                            <bean parent="Uif-DataField" p:label="Final Status Date"
+                                  p:propertyName="oleSingleItemResultDisplayRow.finalStatusDate"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

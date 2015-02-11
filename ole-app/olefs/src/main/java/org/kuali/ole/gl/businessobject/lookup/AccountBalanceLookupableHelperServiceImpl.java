@@ -120,6 +120,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
                 if(searchResultsCollection.size() < 1) {
                     String accountNumber = fieldValues.get(OLEConstants.ACCOUNT_NUMBER).toString();
                     String chartCode = fieldValues.get(OLEConstants.CHART_CODE).toString();
+                    if(!chartCode.equals("*") || !accountNumber.equals("*")){
                     List<Account> accountList =  checkAccountEntry(accountNumber,chartCode);
                     for (Iterator<Account> accountIterator = accountList.iterator(); accountIterator.hasNext(); ) {
                         Account account = accountIterator.next();
@@ -135,6 +136,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
                         balance.setAccountLineActualsBalanceAmount(KualiDecimal.ZERO);
                         balance.setAccountLineEncumbranceBalanceAmount(KualiDecimal.ZERO);
                         searchResultsCollection.add(balance);
+                    }
                     }
                 }
             }

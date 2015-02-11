@@ -389,24 +389,20 @@ jq(document).ready(function () {
                         var id = selectedNode.attr("class").split(' ')[0];
                         if (id.indexOf('w') == 0) {
                            viewHoldingsEdit(id,jq('#hiddenBibId_control').val(),id,jq('#hdnEditable_control').val());
-                            //submitForm('load', null, null, null, null);
                         }
                     }
                     if (checkHoldingsOrItemNode(selectedNode) == "ITEM") {
 
 
                         if (selectedNode.attr("class").split(' ').length > 2) {
-                            jq('#hiddenDocId_control').val(selectedNode.attr("class").split(' ')[0]);
-                            jq('#hiddenHoldingsId_control').val((selectedNode.parent()).parent().attr("class").split(' ')[0]);
+                            var id = selectedNode.attr("class").split(' ')[0];
+                            var holdingsId = (selectedNode.parent()).parent().attr("class").split(' ')[0];
                             if (jq("#Control_Field_008_control").val() != null && jq("#Control_Field_008_control").val() != "") {
-                                viewItemEdit(jq('#hiddenDocId_control').val(),jq('#hiddenBibId_control').val(),jq('#hiddenHoldingsId_control').val(),jq('#hdnEditable_control').val());
-                                //submitForm('load', null, null, null, null);
+                                viewItemEdit(id,jq('#hiddenBibId_control').val(),holdingsId,jq('#hdnEditable_control').val());
                             } else if (jq('#OleHoldingLocation_h0').val() == 'item') {
-                                viewItemEdit(jq('#hiddenDocId_control').val(),jq('#hiddenBibId_control').val(),jq('#hiddenHoldingsId_control').val(),jq('#hdnEditable_control').val());
-                                //submitForm('load', null, null, null, null);
+                                viewItemEdit(id,jq('#hiddenBibId_control').val(),holdingsId,jq('#hdnEditable_control').val());
                             } else if(jq("#hdnEditable_control").val()== "false") {
-                                viewItemEdit(jq('#hiddenDocId_control').val(),jq('#hiddenBibId_control').val(),jq('#hiddenHoldingsId_control').val(),jq('#hdnEditable_control').val());
-                                //submitForm('load', null, null, null, null);
+                                viewItemEdit(id,jq('#hiddenBibId_control').val(),holdingsId,jq('#hdnEditable_control').val());
                             }
                             else {
                                 if(localStorage.onchangeRecordEvent == "true" && localStorage.closeWindowEvent == "true" && jq("#hiddenItemFlag_control").val() == "true"){
@@ -414,7 +410,7 @@ jq(document).ready(function () {
                                     localStorage.closeWindowEvent= false;
                                     jq("#hiddenItemFlag_control").val(false);
                                 }
-                                jq('#hiddenButtonItem').focus().click();
+                                viewItemEditSelf(id,jq('#hiddenBibId_control').val(),holdingsId,jq('#hdnEditable_control').val());
                             }
 
                         }
@@ -430,9 +426,6 @@ jq(document).ready(function () {
 
                         var id = selectedNode.attr("class").split(' ')[0];
                         viewEHoldingsEdit(id,jq('#hiddenBibId_control').val(),id,jq('#hdnEditable_control').val());
-                        //submitForm('load', null, null, null, function () {
-                        //jq("#Editor_Footer").hide();
-                        // });
                     }
                     var current =jq('#hiddenDocId_control').val();
                     jq('#holdingsItemTree_tree').jstree('deselect_all');
@@ -1098,6 +1091,12 @@ function viewItemEdit(docId,bibId,instanceId,editable){
 
 function viewEHoldingsEdit(docId,bibId,holdingsId,editable){
     window.open(jq('#channelUrl_control').val() + "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=eHoldings&docFormat=oleml&docId="+docId+"&editable="+editable+"&fromSearch=true&bibId="+bibId+"&holdingsId="+holdingsId);
+    return false;
+
+}
+
+function viewItemEditSelf(docId,bibId,instanceId,editable){
+    window.open(jq('#channelUrl_control').val() + "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=item&docFormat=oleml&docId="+docId+"&bibId="+bibId+"&instanceId="+instanceId+"&editable="+editable+"&fromSearch=true","_self");
     return false;
 
 }

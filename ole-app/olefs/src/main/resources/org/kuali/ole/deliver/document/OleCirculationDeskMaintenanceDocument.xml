@@ -41,7 +41,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="${ole.externalizable.help.url}/reference/webhelp/CIRC/content/ch04s05.html"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
         <property name="items">
@@ -83,15 +83,18 @@
                                 </property>
                             </bean>
                             <bean id="create_holdQueue" parent="Uif-InputField" p:propertyName="holdQueue"/>
+                            <bean id="create_replyToEmail" parent="Uif-InputField" p:propertyName="replyToEmail"/>
                         </list>
                     </property>
                 </bean>
                 <ref bean="OleCirculationDesk-Locations" />
+                <ref bean="OleCirculationDesk-Pickup-Locations" />
             </list>
         </property>
     </bean>
     <bean id="OleCirculationDeskMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.ole.deliver.bo.OleCirculationDesk"/>
+        <property name="maintainableClass" value="org.kuali.ole.deliver.maintenance.OleCirculationDeskMaintenanceImpl"/>
         <property name="documentTypeName" value="OLE_CIRC_DESK_MD"/>
         <property name="documentAuthorizerClass"
                   value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
@@ -116,7 +119,7 @@
         <property name="headerText" value="Location" />
 
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleCirculationDeskLocation" />
-        <property name="propertyName" value="oleCirculationDeskLocations" />
+        <property name="propertyName" value="oleCirculationDeskLocationList" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="items">
@@ -163,6 +166,46 @@
         <property name="lineActions">
             <list>
                 <bean id="CKDSK_deleteLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteCirculationLine" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+    <bean id="OleCirculationDesk-Pickup-Locations" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:disclosure.defaultOpen="true">
+        <!--p:fieldBindingObjectPath="document.newMaintainableObject.dataObject"-->
+        <property name="headerText" value="Pick up location for" />
+
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleCirculationDeskLocation" />
+        <property name="propertyName" value="olePickupCirculationDeskLocations" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="shelvingLocation-pickup" parent="Uif-InputField" p:propertyName="circulationFullLocationCode"
+                      p:label="Location  (Type * for all locations, other letters for matching locations)"  p:required="true">
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig"
+                                      p:queryMethodToCall="retrieveLocationDetailsForSuggest"
+                                      p:queryMethodInvokerConfig.targetClass="org.kuali.ole.describe.keyvalue.LocationValuesBuilder"/>
+                            </property>
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="minLength" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="Pickup-CKDSK_addLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addPickupCirculationLine" p:actionLabel="Add" p:title="Add" p:ajaxSubmit="true"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="Pickup-CKDSK_deleteLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deletePickupCirculationLine" p:actionLabel="Delete"  />
             </list>
         </property>
     </bean>

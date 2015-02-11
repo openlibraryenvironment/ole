@@ -37,6 +37,7 @@ import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.businessobject.*;
 import org.kuali.ole.select.document.service.OleCopyHelperService;
 import org.kuali.ole.select.document.service.OlePurchaseOrderDocumentHelperService;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.select.service.BibInfoService;
 import org.kuali.ole.select.service.BibInfoWrapperService;
 import org.kuali.ole.select.service.FileProcessingService;
@@ -97,6 +98,8 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
     private String poNotes;
     private String poItemLink;
     private DocstoreClientLocator docstoreClientLocator;
+    private OleSelectDocumentService oleSelectDocumentService;
+
     protected static DocumentService getDocumentService() {
         if (documentService == null) {
             documentService = SpringContext.getBean(DocumentService.class);
@@ -430,7 +433,7 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
         try {
             UserSession userSession = GlobalVariables.getUserSession();
             // TODO: need to configure a user/role
-            GlobalVariables.setUserSession(new UserSession(OLEConstants.SYSTEM_USER));
+            GlobalVariables.setUserSession(new UserSession(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER)));
             RequisitionDocument requisitionDocument = getRequisitionService().generateRequisitionFromPurchaseOrder(this);
             // rdoc.setAccountsPayablePurchasingDocumentLinkIdentifier(this.getDocumentNumber());
             if (LOG.isDebugEnabled()) {
@@ -878,5 +881,16 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
 
     public void setPoItemLink(String poItemLink) {
         this.poItemLink = poItemLink;
+    }
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 }

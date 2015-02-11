@@ -32,5 +32,10 @@
                 </bean>
             </list>
         </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/sys/scripts/tabtitle.js</value>
+            </list>
+        </property>
     </bean>
 </beans>

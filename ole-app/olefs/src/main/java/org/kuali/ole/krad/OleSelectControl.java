@@ -12,12 +12,23 @@ public class OleSelectControl extends SelectControl {
 	private static final long serialVersionUID = -4788433260315348270L;
 
 	@Override
-	public void performApplyModel(View view, Object model, Component parent) {
-		List<KeyValue> options = getOptions();
-		setOptions(null);
-		super.performApplyModel(view, model, parent);
-		setOptions(options);
+	public List<KeyValue> getOptions() {
+		synchronized (this) {
+			return super.getOptions();
+		}
 	}
-	
-}
 
+	@Override
+	public void performApplyModel(View view, Object model, Component parent) {
+		synchronized (this) {
+			List<KeyValue> options = getOptions();
+			try {
+				setOptions(null);
+				super.performApplyModel(view, model, parent);
+			} finally {
+				setOptions(options);
+			}
+		}
+	}
+
+}

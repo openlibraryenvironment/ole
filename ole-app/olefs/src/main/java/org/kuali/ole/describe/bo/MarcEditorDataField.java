@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * MarcEditorDataField is business object class for Marc Editor
  */
-public class MarcEditorDataField implements Serializable {
+public class MarcEditorDataField implements Serializable, Comparable<MarcEditorDataField>  {
     private String tag;
     private String ind1;
     private String ind2;
@@ -92,5 +92,10 @@ public class MarcEditorDataField implements Serializable {
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public int compareTo(MarcEditorDataField o) {
+        return this.getTag().compareTo(o.getTag());
     }
 }

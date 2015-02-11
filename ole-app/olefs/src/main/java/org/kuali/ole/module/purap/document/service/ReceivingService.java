@@ -68,6 +68,8 @@ public interface ReceivingService {
      */
     public boolean canCreateLineItemReceivingDocument(Integer poId, String receivingDocumentNumber) throws RuntimeException;
 
+    public boolean canCreateLineItemReceivingDocument(PurchaseOrderDocument purchaseOrderDocument, String receivingDocumentNumber) throws RuntimeException;
+
     /**
      * Determines if a receiving line document can be created at the time the user requests it.
      * This version requires the purchase order being evaluated to be passed in.

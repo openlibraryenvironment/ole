@@ -29,6 +29,8 @@
                        url="${ConfigProperties.application.url}/ole-kr-krad/deliverRequestController?viewId=DeliverRequestSearch&methodToCall=start"/> <br/>
     <portal:portalLink displayTitle="true" title="Return"
                            url="${ConfigProperties.application.url}/ole-kr-krad/loancontroller?viewId=ReturnItemView&methodToCall=start"/> <br/>
+    <portal:portalLink displayTitle="true" title="Item Search"
+                           url="${ConfigProperties.application.url}/ole-kr-krad/deliverItemSearchController?viewId=OLEDeliverItemSearchView&methodToCall=start"/> <br/>
  <br/>
 </div>
 <channel:portalChannelBottom/>

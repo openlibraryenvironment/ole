@@ -348,7 +348,7 @@ public class OlePatronLookupableImpl extends OleLookupableImpl {
 
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        Map<String, String> primaryKeyValues = KRADUtils.getPropertyKeyValuesFromDataObject(pkNames, dataObject);
+        Map<String, String> primaryKeyValues = super.getPropertyKeyValuesFromDataObject(pkNames, dataObject);
         for (String primaryKey : primaryKeyValues.keySet()) {
             String primaryKeyValue = primaryKeyValues.get(primaryKey);
 

@@ -34,9 +34,9 @@ import org.kuali.ole.pdp.PdpConstants;
 import org.kuali.ole.pdp.PdpParameterConstants;
 import org.kuali.ole.pdp.businessobject.*;
 import org.kuali.ole.pdp.service.*;
-import org.kuali.ole.select.businessobject.OleInvoiceItem;
 import org.kuali.ole.select.businessobject.OlePaymentMethod;
 import org.kuali.ole.select.document.OlePaymentRequestDocument;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEParameterKeyConstants;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
@@ -63,7 +63,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.springframework.transaction.annotation.Transactional;
-import org.kuali.ole.module.purap.PurapConstants;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -92,6 +91,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private DataDictionaryService dataDictionaryService;
     private PurapAccountingServiceImpl purapAccountingService;
     private List<String> lockedDocuments;
+    private OleSelectDocumentService oleSelectDocumentService;
 
     /**
      * @see org.kuali.ole.module.purap.service.PdpExtractService#extractImmediatePaymentsOnly()
@@ -128,10 +128,10 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     protected void extractPayments(boolean immediateOnly, Date processRunDate) {
         LOG.debug("extractPayments() started");
 
-        Person uuser = getPersonService().getPersonByPrincipalName(OLEConstants.SYSTEM_USER);
+        Person uuser = getPersonService().getPersonByPrincipalName(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
         if (uuser == null) {
-            LOG.error("extractPayments() Unable to find user " + OLEConstants.SYSTEM_USER);
-            throw new IllegalArgumentException("Unable to find user " + OLEConstants.SYSTEM_USER);
+            LOG.error("extractPayments() Unable to find user " + getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
+            throw new IllegalArgumentException("Unable to find user " + getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
         }
 
         List<String> campusesToProcess = getChartCodes(immediateOnly, processRunDate);
@@ -1265,5 +1265,15 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         return null;
     }
 
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
+    }
 
 }

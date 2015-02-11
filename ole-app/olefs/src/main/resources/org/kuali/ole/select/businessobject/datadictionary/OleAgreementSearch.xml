@@ -119,7 +119,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/AG/content/ch08s01.html"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
         <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OleAgreementSearch"/>
@@ -151,7 +151,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>/ole/license/scripts/agreementSearch.js</value>
             </list>
         </property>

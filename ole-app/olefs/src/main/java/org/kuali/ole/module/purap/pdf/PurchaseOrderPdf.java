@@ -35,6 +35,7 @@ import org.kuali.ole.select.businessobject.OleNoteType;
 import org.kuali.ole.select.businessobject.OleNotes;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -335,12 +336,12 @@ public class PurchaseOrderPdf extends PurapPdf {
         this.po = po;
         this.logoImage = logoImage;
         this.environment = environment;
-
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
+        // Code has been changed to get the locale dynamically
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
         Collection errors = new ArrayList();
 
         // Date format pattern: MM-dd-yyyy
-        SimpleDateFormat sdf = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.KUALI_SIMPLE_DATE_FORMAT_2);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE, Locale.getDefault());
 
         // This turns on the page events that handle the header and page numbers.
         PurchaseOrderPdf events = new PurchaseOrderPdf().getPageEvents();

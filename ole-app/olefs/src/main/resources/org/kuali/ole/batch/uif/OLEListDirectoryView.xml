@@ -37,7 +37,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/batch/script/listDirectory.js</value>
             </list>
         </property>

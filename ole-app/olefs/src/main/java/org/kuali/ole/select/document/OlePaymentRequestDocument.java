@@ -665,7 +665,8 @@ public class OlePaymentRequestDocument extends PaymentRequestDocument {
                             + ((bib.getIsbn() != null && !bib.getIsbn()
                             .isEmpty()) ? bib.getIsbn().trim() + ", " : "");
                     if (itemDescription != null && !(itemDescription.equals(""))) {
-                        itemDescription = itemDescription.substring(0, itemDescription.lastIndexOf(","));
+                        itemDescription = itemDescription.lastIndexOf(",") < 0 ? itemDescription :
+                                itemDescription.substring(0, itemDescription.lastIndexOf(","));
                         StringEscapeUtils stringEscapeUtils = new StringEscapeUtils();
                         itemDescription = stringEscapeUtils.unescapeXml(itemDescription);
                         singleItem.setItemDescription(itemDescription);

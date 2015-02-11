@@ -37,6 +37,12 @@
                 <ref bean="OLE-AlertSection"/>
             </list>
         </property>-->
+	
+	<property name="additionalScriptFiles">
+            <list>
+                <value>ole/sys/scripts/tabtitle.js</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="OLEUifMaintenanceDocumentEntry" parent="uifMaintenanceDocumentEntry" class="org.kuali.ole.alert.document.OleMaintenanceDocumentEntry">

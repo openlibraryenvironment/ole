@@ -6,6 +6,19 @@
  * To change this template use File | Settings | File Templates.
  */
 
+jq(window).load(function () {
+
+    var profileType = localStorage.getItem("profile");
+    var profileName = localStorage.getItem("profileName")
+
+   if(profileType != null){
+       jq("#BatchProcessDefinition-batchProcessProfileName_processName_control").val(profileName);
+       jq("#BatchProcessDefinition-batchProcessProfileName_processType_control").val(profileType);
+       jq('#storeProfileId').focus().click();
+
+   }
+
+});
 
 jq(document).ready(function(){
 
@@ -15,6 +28,78 @@ jq(document).ready(function(){
 
     refreshPageUser();
     refreshBeanId();
+    jq("#BatchProcessDefinition-batchProcessType_control").live("change",function() {
+        /*alert("value changed");*/
+         jq("#BatchProcessDefinition-batchProcessProfileName_orderImport_control").val("");
+         jq("#BatchProcessDefinition-batchProcessProfileName_invoiceImport_control").val("");
+         jq("#BatchProcessDefinition-batchProcessProfileName_batchDelete_control").val("");
+         jq("#BatchProcessDefinition-batchProcessProfileName_batchExport_control").val("");
+         jq("#BatchProcessDefinition-batchProcessProfileName_patronImport_control").val("");
+         jq("#BatchProcessDefinition-batchProcessProfileName_bibImport_control").val("");
+         jq("#BatchProcessDefinition-batchProcessProfileName_locationImport_control").val("");
+         jq("#BatchProcessDefinition-batchProcessProfileName_claimReport_control").val("");
+         jq("#BatchProcessDefinition-batchProcessProfileName_serialRecordImport_control").val("");
+         jq('#hiddenButtonRefresh').focus().click();
+
+    })
+    jq("#BatchProcessDefinition-batchProcessProfileName_orderImport_control").live("blur",function() {
+            jq('#hiddenProfileId').focus().click();
+            localStorage.setItem("profile", "Order Record Import")
+            localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_orderImport_control").val());
+    });
+
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_invoiceImport_control").live("blur",function() {
+        localStorage.setItem("profile", "Invoice Import");
+        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_invoiceImport_control").val());
+    });
+
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_batchDelete_control").live("blur",function() {
+        localStorage.setItem("profile", "Batch Delete");
+        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_batchDelete_control").val());
+
+    });
+
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_batchExport_control").live("blur",function() {
+        localStorage.setItem("profile", "Batch Export");
+        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_batchExport_control").val());
+
+    });
+
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_patronImport_control").live("blur",function() {
+        localStorage.setItem("profile", "Patron Import");
+        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_patronImport_control").val());
+
+    });
+
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_bibImport_control").live("blur",function() {
+        localStorage.setItem("profile", "Bib Import")
+        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_bibImport_control").val());
+
+    });
+
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_locationImport_control").live("blur",function() {
+        localStorage.setItem("profile", "Location Import");
+        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_locationImport_control").val());
+
+    });
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_claimReport_control").live("blur",function() {
+        localStorage.setItem("profile", "Claim Report");
+        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_claimReport_control").val());
+
+    });
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_serialRecordImport_control").live("blur",function() {
+        localStorage.setItem("profile", "Serial Record Import");
+        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_serialRecordImport_control").val());
+
+    });
 
     jq("#filterCriteria_filterFieldName_select_add_control").live("change",function() {
         //jq('#invoiceVendorBtn').click();
@@ -498,6 +583,15 @@ jq("#matchingAddOverlaySection-incomingHoldingNotMatched-addItsItem").click(func
         jq("#matchingAddOverlaySection-incomingHoldingNotMatched-addItsItem_control").prop('checked', false);
     }
 });
+
+
+
+
+
+
+
+
+
 
 
 

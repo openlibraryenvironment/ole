@@ -12,7 +12,6 @@
             <list>
                 <ref bean="OLEBatchProcessDefinitionDocument-batchProcessName"/>
                 <ref bean="OLEBatchProcessDefinitionDocument-batchProcessProfileName"/>
-                <ref bean="OLEBatchProcessDefinitionDocument-batchProcessType"/>
                 <ref bean="OLEBatchProcessDefinitionDocument-batchProcessKRMSProfile"/>
                 <ref bean="OLEBatchProcessDefinitionDocument-batchProcessProfileId"/>
                 <ref bean="OLEBatchProcessDefinitionDocument-outputFormat"/>
@@ -68,21 +67,6 @@
         <property name="label" value="Batch Process Profile Name"/>
     </bean>
 
-    <bean id="OLEBatchProcessDefinitionDocument-batchProcessType" parent="OLEBatchProcessDefinitionDocument-batchProcessType-parentBean"/>
-    <bean id="OLEBatchProcessDefinitionDocument-batchProcessType-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="maxLength" value="40"/>
-        <property name="shortLabel" value="Batch Process Type"/>
-        <property name="description" value="Batch Process Type"/>
-        <property name="name" value="batchProcessType"/>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="30"/>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="30"/>
-        </property>
-        <property name="forceUppercase" value="false"/>
-        <property name="label" value="Batch Process Type"/>
-    </bean>
 
     <bean id="OLEBatchProcessDefinitionDocument-batchProcessKRMSProfile" parent="OLEBatchProcessDefinitionDocument-batchProcessKRMSProfile-parentBean"/>
     <bean id="OLEBatchProcessDefinitionDocument-batchProcessKRMSProfile-parentBean" abstract="true" parent="AttributeDefinition">

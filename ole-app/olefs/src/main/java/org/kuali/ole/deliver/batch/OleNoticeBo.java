@@ -22,6 +22,7 @@ public class OleNoticeBo extends PersistableBusinessObjectBase {
     private String circulationDeskEmailAddress;
     private String circulationDeskPhoneNumber;
     private String circulationDeskName;
+    private String circulationDeskReplyToEmail;
 
     private String patronName;
     private String patronAddress;
@@ -55,6 +56,9 @@ public class OleNoticeBo extends PersistableBusinessObjectBase {
     private String checkInDate;
 
     private String noticeType;
+
+    private String chronology;
+    private String enumeration;
 
     public String getNoticeType() {
         return noticeType;
@@ -294,5 +298,29 @@ public class OleNoticeBo extends PersistableBusinessObjectBase {
 
     public void setCheckInDate(String checkInDate) {
         this.checkInDate = checkInDate;
+    }
+
+    public String getChronology() {
+        return chronology;
+    }
+
+    public void setChronology(String chronology) {
+        this.chronology = chronology;
+    }
+
+    public String getEnumeration() {
+        return enumeration;
+    }
+
+    public void setEnumeration(String enumeration) {
+        this.enumeration = enumeration;
+    }
+
+    public String getCirculationDeskReplyToEmail() {
+        return circulationDeskReplyToEmail;
+    }
+
+    public void setCirculationDeskReplyToEmail(String circulationDeskReplyToEmail) {
+        this.circulationDeskReplyToEmail = circulationDeskReplyToEmail;
     }
 }

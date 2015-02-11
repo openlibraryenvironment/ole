@@ -145,7 +145,7 @@ public class OleLoanDocumentWebServiceImpl implements OleLoanDocumentWebService 
                         Integer serviceFeeAmt = 0;
                         DateFormat formatter = new SimpleDateFormat(OLEConstants.DDMMYYYYHHMMSS);
                         Date loanDueDate = oleLoanDocuments.get(0).getLoanDueDate() != null ? new Date(oleLoanDocuments.get(0).getLoanDueDate().getTime()) : null;
-                        String dateToString = oleLoanDocuments.get(0).getLoanDueDate() != null ? formatter.format(oleLoanDocuments.get(0).getLoanDueDate()) : null;
+                        String dateToString = oleLoanDocuments.get(0).getLoanDueDate() != null ? formatter.format(oleLoanDocuments.get(0).getLoanDueDate()) : "null";
                         List<FeeType> feeTypeList = getOleCirculationPolicyService().getPatronBillPayment(oleLoanDocuments.get(0).getPatronId());
                         if (feeTypeList != null & feeTypeList.size() > 0) {
                             for (FeeType feeType : feeTypeList) {

@@ -17,6 +17,7 @@ package org.kuali.ole.select.batch;
 
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.select.OleSelectNotificationConstant;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.select.service.OleAccountService;
 import org.kuali.ole.select.service.OleNotifyService;
 import org.kuali.ole.select.service.impl.OleNotifyServiceImpl;
@@ -41,6 +42,9 @@ public class OleAccountTemporaryRestrictedStep extends AbstractStep {
     /**
      * @see org.kuali.ole.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */
+
+    private OleSelectDocumentService oleSelectDocumentService;
+
     @Override
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         // TODO Auto-generated method stub
@@ -68,7 +72,7 @@ public class OleAccountTemporaryRestrictedStep extends AbstractStep {
 
                 try {
 
-                    GlobalVariables.setUserSession(new UserSession(kualiConfigurationService.getPropertyValueAsString(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR)));
+                    GlobalVariables.setUserSession(new UserSession(kualiConfigurationService.getPropertyValueAsString(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR))));
                     GlobalVariables.getUserSession().getPrincipalName();
                     editAccountTemporaryRestrictedRecordDocument(TRestrictedAccount);
                 } catch (Exception ex) {
@@ -105,6 +109,17 @@ public class OleAccountTemporaryRestrictedStep extends AbstractStep {
         } catch (WorkflowException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 
 }

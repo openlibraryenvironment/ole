@@ -7,6 +7,7 @@ import org.kuali.ole.docstore.common.document.config.DocFieldConfig;
 import org.kuali.ole.docstore.common.document.config.DocFormatConfig;
 import org.kuali.ole.docstore.common.document.config.DocTypeConfig;
 import org.kuali.ole.docstore.common.document.config.DocumentSearchConfig;
+import org.kuali.ole.docstore.engine.service.index.solr.ItemConstants;
 import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -56,7 +57,9 @@ public class SearchFieldKeyValuefinder extends UifKeyValuesFinderBase {
                                     (globalEditForm != null && globalEditForm.getDocType().equalsIgnoreCase(docFieldConfig.getDocType().getName())) ||
                                     (boundwithForm != null && boundwithForm.getDocType().equalsIgnoreCase(docFieldConfig.getDocType().getName()))){
                                 if(docFieldConfig.isSearchable()){
-                                    if(docFieldConfig.getName().endsWith("_search")){
+                                    if (docFieldConfig.getName().endsWith("_search")) {
+                                        sortedMap.put(docFieldConfig.getLabel(), docFieldConfig.getName());
+                                    } else if (docFieldConfig.getName().equalsIgnoreCase("mdf_035a")) {
                                         sortedMap.put(docFieldConfig.getLabel(), docFieldConfig.getName());
                                     }
                                 }
@@ -70,6 +73,8 @@ public class SearchFieldKeyValuefinder extends UifKeyValuesFinderBase {
                                     (boundwithForm!=null && boundwithForm.getDocType().equalsIgnoreCase(docFieldConfig.getDocType().getName()))){
                                         if(docFieldConfig.isSearchable()){
                                             if(docFieldConfig.getName().endsWith("_search")){
+                                                sortedMap.put(docFieldConfig.getLabel(), docFieldConfig.getName());
+                                            }if(docFieldConfig.getName().equalsIgnoreCase(ItemConstants.BIB_IDENTIFIER)){
                                                 sortedMap.put(docFieldConfig.getLabel(), docFieldConfig.getName());
                                             }
                                         }

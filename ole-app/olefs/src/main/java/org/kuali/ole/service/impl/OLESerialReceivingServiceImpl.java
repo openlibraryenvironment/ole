@@ -792,7 +792,7 @@ public class OLESerialReceivingServiceImpl implements OLESerialReceivingService 
                 List<VendorDetail> vendorDetailList = (List) businessObject.findMatching(VendorDetail.class, vendorAliasMap);
                 if(poMap.size()==1){
                     oleSerialReceivingDocument.setPoId(olePurchaseOrderDocument.getPurapDocumentIdentifier()!=null ? olePurchaseOrderDocument.getPurapDocumentIdentifier().toString() : "");
-                    oleSerialReceivingDocument.setPoIdLink(olePurchaseOrderDocument.getDocumentNumber());
+                    oleSerialReceivingDocument.setPoIdLink(oleSerialReceivingDocument.formPoIdLinkUsingPoDocumentNumber(olePurchaseOrderDocument.getDocumentNumber()));
                     oleSerialReceivingDocument.setVendorId(vendorHeaderGeneratedIdentifier + "-" + vendorDetailAssignedIdentifier);
                     if(vendorAliasList != null && vendorAliasList.size() >0) {
                         oleSerialReceivingDocument.setVendorAliasName(vendorAliasList.get(0).getVendorAliasName());

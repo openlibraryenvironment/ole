@@ -42,7 +42,7 @@
             <ref bean="ClearFooterView-buttons" />
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>/ole/myaccount/renewal/renewal.js</value>
             </list>
         </property>

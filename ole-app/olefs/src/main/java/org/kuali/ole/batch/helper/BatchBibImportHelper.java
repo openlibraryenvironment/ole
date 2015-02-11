@@ -88,10 +88,12 @@ public class BatchBibImportHelper {
         char unicode = leader.charAt(9);
         if (unicode == 'a') {
 
-            dataMapping = processPriority(bibRecord, profile);
-            constantsMapping = profile.getOleBatchProcessProfileConstantsList();
-            // Getting Holdings and item Data Fields  for every Bib Record
-            getHoldingsItemDataFields(bibRecord, dataMapping, holdingsDataFields, itemDataFields, eHoldingsDataFields);
+            if (BatchBibImportUtil.has245aDataField(bibRecord)) {
+
+                dataMapping = processPriority(bibRecord, profile);
+                constantsMapping = profile.getOleBatchProcessProfileConstantsList();
+                // Getting Holdings and item Data Fields  for every Bib Record
+                getHoldingsItemDataFields(bibRecord, dataMapping, holdingsDataFields, itemDataFields, eHoldingsDataFields);
 
 
             if (!matchingProfile.isMatchBibs()) {
@@ -161,8 +163,13 @@ public class BatchBibImportHelper {
                     LOG.info(e.getErrorMessage());
                 }
 
+                }
+            } else {
+                Bib bib = new Bib();
+                bib.setMessage("Bib Record with id " + bibRecord.getRecordId() + " does not have a 245a data field");
+                bib.setResult(DocstoreDocument.ResultType.FAILURE);
+                bibTree.setBib(bib);
             }
-
         } else {
             Bib bib = new Bib();
             bib.setMessage("Invalid Leader Field - " + leader);
@@ -288,6 +295,7 @@ public class BatchBibImportHelper {
                 }
             } else {
                 if (eHoldingsMatchPointList != null && eHoldingsMatchPointList.size() > 0) {
+                    docType = DocType.EHOLDINGS.getCode();
                     // Process EHoldings   to find matching record
                     processMatchedEHoldings(bibRecord, profile, bibTree.getBib(), oleBatchBibImportDataObjects, holdingsTrees, matchingProfile, eHoldingsMatchPointList, docType);
                 }

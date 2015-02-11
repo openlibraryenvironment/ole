@@ -57,7 +57,7 @@
 
 
     <bean id="describeModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
-        <property name="namespaceCode" value="tv"/>
+        <property name="namespaceCode" value="OLE-DESC"/>
         <property name="initializeDataDictionary" value="true"/>
         <property name="dataDictionaryPackages">
             <list>
@@ -77,6 +77,11 @@
             <list>
                 <value>org.kuali.ole</value>
                 <value>org.kuali.rice</value>
+            </list>
+        </property>
+        <property name="resourceBundleNames">
+            <list>
+                <value>org/kuali/ole/locale/${ole.locale.properties.folder}/Labels-Describe</value>
             </list>
         </property>
     </bean>

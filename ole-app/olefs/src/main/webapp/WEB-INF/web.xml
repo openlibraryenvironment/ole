@@ -256,6 +256,10 @@ This file contains custom application specific web.xml content.
         <listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
     </listener>
 
+    <listener>
+        <listener-class>org.kuali.ole.sip2.listener.OLESIP2InitializeListener</listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>action</servlet-name>
         <servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
@@ -282,6 +286,16 @@ This file contains custom application specific web.xml content.
     <servlet-mapping>
         <servlet-name>olecirculation</servlet-name>
         <url-pattern>/circulation</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>olecirculationsip</servlet-name>
+        <servlet-class>org.kuali.ole.sip2.servlet.OLESIP2Servlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>olecirculationsip</servlet-name>
+        <url-pattern>/circulationsip</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -500,6 +514,16 @@ This file contains custom application specific web.xml content.
         <servlet-name>documentrest</servlet-name>
         <url-pattern>/documentrest/*</url-pattern>
     </servlet-mapping>-->
+
+    <servlet>
+        <servlet-name>oleSip2</servlet-name>
+        <servlet-class>org.kuali.ole.sip2.servlet.OLENettyServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>oleSip2</servlet-name>
+        <url-pattern>/oleSip2</url-pattern>
+    </servlet-mapping>
 
 </web-app>
 

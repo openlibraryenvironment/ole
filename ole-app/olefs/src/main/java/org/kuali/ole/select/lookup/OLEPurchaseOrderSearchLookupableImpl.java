@@ -1,5 +1,6 @@
 package org.kuali.ole.select.lookup;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
@@ -240,22 +241,40 @@ public class OLEPurchaseOrderSearchLookupableImpl extends LookupableImpl {
                     olePurchaseOrderSearch.setCallNumber(oleHoldings.getCallNumber()!=null ? oleHoldings.getCallNumber().getNumber() : null);
 
                     Map vendorNameMap = new HashMap();
-                    List<DocumentAttribute> vendnm = searchResult.getDocumentAttributeByName("vendorName");
-                    String ttt = (String) searchResult.getDocumentAttributeByName("vendorName").get(0).getValue();
-                    vendorNameMap.put("vendorName", vendnm.get(0).getValue());
+                    //List<DocumentAttribute> vendnm = searchResult.getDocumentAttributeByName("vendorName");
+                    String vendorNumber = (String) searchResult.getDocumentAttributeByName("vendorNumber").get(0).getValue();
+                    String vendorHeaderGeneratedIdentifier = "";
+                    String vendorDetailAssignedIdentifier = "";
+                    String [] vendorNumberArray=vendorNumber.split("-");
+                    if(vendorNumberArray.length==1){
+                        vendorHeaderGeneratedIdentifier=vendorNumberArray[0];
+                    }
+                    if(vendorNumberArray.length==2){
+                        vendorHeaderGeneratedIdentifier=vendorNumberArray[0];
+                        vendorDetailAssignedIdentifier=vendorNumberArray[1];
+                    }
+                    if(StringUtils.isNotBlank(vendorDetailAssignedIdentifier)){
+                        vendorNameMap.put("vendorDetailAssignedIdentifier", vendorDetailAssignedIdentifier);
+                    }
+                    if(StringUtils.isNotBlank(vendorHeaderGeneratedIdentifier)){
+                        vendorNameMap.put("vendorHeaderGeneratedIdentifier", vendorHeaderGeneratedIdentifier);
+                    }
+
+                    //vendorNameMap.put("vendorName", vendnm.get(0).getValue());
                     List<VendorDetail> vendorDetailList = (List) getBusinessObjectService().findMatching(VendorDetail.class, vendorNameMap);
                     if (vendorDetailList != null && vendorDetailList.size() > 0) {
 
                         olePurchaseOrderSearch.setVendorId(vendorDetailList.get(0).getVendorHeaderGeneratedIdentifier().toString()
                                 + "-" + vendorDetailList.get(0).getVendorDetailAssignedIdentifier().toString());
-                    }
-                    Map vendorAliasMap = new HashMap();
-                    vendorAliasMap.put(org.kuali.ole.sys.OLEConstants.VENDOR_HEADER_IDENTIFIER, vendorDetailList.get(0).getVendorHeaderGeneratedIdentifier());
-                    vendorAliasMap.put(org.kuali.ole.sys.OLEConstants.VENDOR_DETAIL_IDENTIFIER, vendorDetailList.get(0).getVendorDetailAssignedIdentifier());
-                    List<VendorAlias> vendorAliasList = (List) getBusinessObjectService().findMatching(VendorAlias.class, vendorAliasMap);
 
-                    if (vendorAliasList != null && vendorAliasList.size() > 0) {
-                        olePurchaseOrderSearch.setVendorAliasName(vendorAliasList.get(0).getVendorAliasName());
+                        Map vendorAliasMap = new HashMap();
+                        vendorAliasMap.put(org.kuali.ole.sys.OLEConstants.VENDOR_HEADER_IDENTIFIER, vendorDetailList.get(0).getVendorHeaderGeneratedIdentifier());
+                        vendorAliasMap.put(org.kuali.ole.sys.OLEConstants.VENDOR_DETAIL_IDENTIFIER, vendorDetailList.get(0).getVendorDetailAssignedIdentifier());
+                        List<VendorAlias> vendorAliasList = (List) getBusinessObjectService().findMatching(VendorAlias.class, vendorAliasMap);
+
+                        if (vendorAliasList != null && vendorAliasList.size() > 0) {
+                            olePurchaseOrderSearch.setVendorAliasName(vendorAliasList.get(0).getVendorAliasName());
+                        }
                     }
 
                     olePurchaseOrderSearch.setPoId(((BigInteger) searchResult.getDocumentAttributeByName("purapDocumentIdentifier").get(0).getValue()).intValue());

@@ -14,6 +14,7 @@ import org.kuali.ole.docstore.common.document.content.instance.Instance;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.InstanceOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.util.BatchBibTreeDBUtil;
 import org.kuali.ole.docstore.common.util.BibInfoStatistics;
+import org.kuali.ole.docstore.common.util.ReindexBatchStatistics;
 import org.kuali.ole.docstore.discovery.service.SolrServerManager;
 import org.kuali.ole.docstore.discovery.solr.work.bib.marc.WorkBibMarcDocBuilder;
 import org.kuali.ole.docstore.document.rdbms.RdbmsWorkBibMarcDocumentManager;
@@ -81,6 +82,9 @@ public class RebuildIndexesHandler
     private CheckoutManager checkoutManager;
     //    private ReIndexingStatus reIndexingStatus;
     private int batchSize;
+    private int startIndex;
+    private int endIndex;
+    private String updateDate;
 
     public static String EXCEPION_FILE_NAME = "";
     public static String STATUS_FILE_NAME = "";
@@ -153,7 +157,7 @@ public class RebuildIndexesHandler
         }
         return status;
     }
-    public String startProcess(String docCategory, String docType, String docFormat, int batchSize) throws InterruptedException {
+    public String startProcess(String docCategory, String docType, String docFormat, int batchSize, int startIndex, int endIndex,String updateDate) throws InterruptedException {
         String status = null;
         if (isRunning()) {
             status = "ReIndexing process is already running. Click 'Show Status' button to know the status. ";
@@ -176,6 +180,9 @@ public class RebuildIndexesHandler
             this.docType = docType;
             this.docFormat = docFormat;
             this.batchSize = batchSize;
+            this.startIndex = startIndex;
+            this.endIndex = endIndex;
+            this.updateDate=updateDate;
             Thread reBuilderThread = new Thread(this);
             reBuilderThread.start();
             //            reBuilderThread.join();
@@ -242,7 +249,8 @@ public class RebuildIndexesHandler
                         STATUS_FILE_NAME = "ReindexBatchStatus-" + date.toString() + ".txt";
                         BatchBibTreeDBUtil.writeStatusToFile(filePath, RebuildIndexesHandler.EXCEPION_FILE_NAME, "Reindex started at:" + date);
                         BibHoldingItemReindexer bibHoldingItemReindexer = BibHoldingItemReindexer.getInstance();
-                        bibHoldingItemReindexer.index(batchSize);
+                        bibHoldingItemReindexer.setTotalBatchStatistics(new ReindexBatchStatistics());
+                        bibHoldingItemReindexer.index(batchSize, startIndex, endIndex,updateDate);
                         date = new Date();
                         BatchBibTreeDBUtil.writeStatusToFile(filePath, RebuildIndexesHandler.EXCEPION_FILE_NAME, "Reindex ended at:" + date);
                         stopWatch.stop();
@@ -945,7 +953,7 @@ public class RebuildIndexesHandler
         bibInfoStatistics = new BibInfoStatistics();
         bibInfoStatistics.setStartDateTime(date);
 
-        bibTreeDBUtil.init();
+        bibTreeDBUtil.init(0, 0,null);
 
         int batchNo = 0;
         int count = bibTreeDBUtil.storeBibInfo(batchSize, filePath, STORAGE_EXCEPTION_FILE_NAME, bibInfoStatistics, batchNo);

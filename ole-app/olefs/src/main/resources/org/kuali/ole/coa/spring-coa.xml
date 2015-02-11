@@ -81,6 +81,11 @@
             	<value>${reports.directory}/coa</value>
          	</list>
         </property>
+        <property name="resourceBundleNames">
+            <list>
+                <value>org/kuali/ole/locale/${ole.locale.properties.folder}/Labels-Coa</value>
+            </list>
+        </property>
 	</bean>
 
     <bean id="coaModuleService" parent="coaModuleService-parentBean"/>

@@ -15,7 +15,9 @@
  */
 package org.kuali.ole.sys.service.impl;
 
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.OLEConstants;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -30,13 +32,26 @@ public class PostProcessorServiceImpl extends org.kuali.rice.krad.service.impl.P
      * 
      * @see org.kuali.rice.krad.service.impl.PostProcessorServiceImpl#establishPostProcessorUserSession()
      */
+
+    private OleSelectDocumentService oleSelectDocumentService;
+
     @Override
     protected UserSession establishPostProcessorUserSession() throws WorkflowException {
         if (GlobalVariables.getUserSession() == null) {
-            return new UserSession(OLEConstants.SYSTEM_USER);
+            return new UserSession(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
         } else {
             return GlobalVariables.getUserSession();
         }
     }
-    
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
+    }
 }

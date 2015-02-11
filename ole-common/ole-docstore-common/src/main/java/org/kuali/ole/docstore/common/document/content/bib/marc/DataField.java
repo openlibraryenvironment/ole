@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  */
-public class DataField implements Serializable {
+public class DataField implements Serializable, Comparable<DataField> {
     private String tag;
     private String ind1;
     private String ind2;
@@ -88,5 +88,11 @@ public class DataField implements Serializable {
 
     public void addAllSubFields(List<SubField> subFields) {
         this.subFields.addAll(subFields);
+    }
+
+
+    @Override
+    public int compareTo(DataField o) {
+        return this.getTag().compareTo(o.getTag());
     }
 }

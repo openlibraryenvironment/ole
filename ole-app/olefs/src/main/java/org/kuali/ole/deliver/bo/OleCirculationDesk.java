@@ -21,7 +21,10 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
     private String onHoldDays;
     private String shelvingLagTime;
     private List<OleCirculationDeskLocation> oleCirculationDeskLocations = new ArrayList<OleCirculationDeskLocation>();
+    private List<OleCirculationDeskLocation> oleCirculationDeskLocationList = new ArrayList<OleCirculationDeskLocation>();
+    private List<OleCirculationDeskLocation> olePickupCirculationDeskLocations = new ArrayList<OleCirculationDeskLocation>();
     private List<OleCirculationDeskLocation> deleteoleCirculationDeskLocations = new ArrayList<OleCirculationDeskLocation>();
+    private List<OleCirculationDeskLocation> deleteOlePickupCirculationDeskLocations = new ArrayList<OleCirculationDeskLocation>();
     private String locationId;
     private boolean printSlip;
     private String errorMessage;
@@ -29,6 +32,7 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
     private String calendarGroupId;
     private String holdFormat;
     private boolean holdQueue;
+    private String replyToEmail;
 
     public String getErrorMessage() {
         return errorMessage;
@@ -228,5 +232,37 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
 
     public void setHoldQueue(boolean holdQueue) {
         this.holdQueue = holdQueue;
+    }
+
+    public String getReplyToEmail() {
+        return replyToEmail;
+    }
+
+    public void setReplyToEmail(String replyToEmail) {
+        this.replyToEmail = replyToEmail;
+    }
+
+    public List<OleCirculationDeskLocation> getOlePickupCirculationDeskLocations() {
+        return olePickupCirculationDeskLocations;
+    }
+
+    public void setOlePickupCirculationDeskLocations(List<OleCirculationDeskLocation> olePickupCirculationDeskLocations) {
+        this.olePickupCirculationDeskLocations = olePickupCirculationDeskLocations;
+    }
+
+    public List<OleCirculationDeskLocation> getDeleteOlePickupCirculationDeskLocations() {
+        return deleteOlePickupCirculationDeskLocations;
+    }
+
+    public void setDeleteOlePickupCirculationDeskLocations(List<OleCirculationDeskLocation> deleteOlePickupCirculationDeskLocations) {
+        this.deleteOlePickupCirculationDeskLocations = deleteOlePickupCirculationDeskLocations;
+    }
+
+    public List<OleCirculationDeskLocation> getOleCirculationDeskLocationList() {
+        return oleCirculationDeskLocationList;
+    }
+
+    public void setOleCirculationDeskLocationList(List<OleCirculationDeskLocation> oleCirculationDeskLocationList) {
+        this.oleCirculationDeskLocationList = oleCirculationDeskLocationList;
     }
 }

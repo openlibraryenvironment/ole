@@ -25,25 +25,9 @@
     <bean id="WorkInstanceEditorView" parent="WorkInstanceEditorView-parentBean"/>
 
     <bean id="WorkInstanceEditorView-parentBean" parent="Uif-OLEFormView">
-        <property name="headerText" value="Work Instance Editor"/>
-        <property name="help">
-            <bean parent="Uif-Help">
-                <property name="externalHelpUrl"
-                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s04.html#_Instance_Editor_1"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
-            </bean>
-        </property>
         <property name="items">
             <list>
                 <bean id="WorkHoldingsViewPage" parent="Uif-Page">
-                    <property name="headerText" value="@{headerText}"/>
-                    <property name="help">
-                        <bean parent="Uif-Help">
-                            <property name="externalHelpUrl"
-                                      value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s03.html#_Holdings"/>
-                            <property name="tooltipHelpContent" value="[Help] help"/>
-                        </bean>
-                    </property>
                     <property name="items">
                         <list>
                             <ref bean="WorkInstanceMessageSection"/>
@@ -54,14 +38,6 @@
                     </property>
                 </bean>
                 <bean id="WorkItemViewPage" parent="Uif-Page">
-                    <property name="headerText" value="@{headerText}"/>
-                    <property name="help">
-                        <bean parent="Uif-Help">
-                            <property name="externalHelpUrl"
-                                      value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s03.html#_Item"/>
-                            <property name="tooltipHelpContent" value="[Help] help"/>
-                        </bean>
-                    </property>
                     <property name="items">
                         <list>
                             <ref bean="WorkItemMessageSection"/>

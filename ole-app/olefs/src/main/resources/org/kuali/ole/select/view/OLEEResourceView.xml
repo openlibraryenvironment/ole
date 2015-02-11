@@ -7,7 +7,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="${ole.externalizable.help.url}/reference/webhelp/AG/content/ch10s01.html"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
         <property name="formClass" value="org.kuali.ole.select.form.OLEEResourceRecordForm"/>
@@ -46,7 +46,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/eresource/scripts/eresource.js</value>
             </list>
         </property>

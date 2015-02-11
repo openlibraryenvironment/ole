@@ -32,6 +32,7 @@ import org.kuali.ole.module.purap.document.validation.event.AttributedCalculateA
 import org.kuali.ole.module.purap.document.validation.event.AttributedPreCalculateAccountsPayableEvent;
 import org.kuali.ole.module.purap.service.PurapAccountingService;
 import org.kuali.ole.module.purap.util.PurQuestionCallback;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.ole.sys.context.SpringContext;
@@ -68,6 +69,8 @@ import java.sql.Timestamp;
  */
 public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableActionBase.class);
+
+    private OleSelectDocumentService oleSelectDocumentService;
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -558,7 +561,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                     return SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(po.getDocumentNumber(), PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, (String) objects[1], null, PurchaseOrderStatuses.APPDOC_PENDING_REOPEN);
                 }
             };
-            return (PurchaseOrderDocument) SpringContext.getBean(PurapService.class).performLogicWithFakedUserSession(OLEConstants.SYSTEM_USER, logicToRun, new Object[]{po, annotation});
+            return (PurchaseOrderDocument) SpringContext.getBean(PurapService.class).performLogicWithFakedUserSession(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER), logicToRun, new Object[]{po, annotation});
         } catch (WorkflowException e) {
             String errorMsg = "Workflow Exception caught: " + e.getLocalizedMessage();
             LOG.error(errorMsg, e);
@@ -751,5 +754,16 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 lineAcct.setAccountLinePercent(pOLineAcct.getAccountLinePercent());
             }
         }
+    }
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 }

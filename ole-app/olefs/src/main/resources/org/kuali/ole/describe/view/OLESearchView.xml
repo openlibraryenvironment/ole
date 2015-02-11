@@ -29,7 +29,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_Describe_Workbench"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
         <property name="items">
@@ -53,7 +53,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/describe/scripts/workbench.js</value>
                 <value>ole/describe/scripts/callNumberBrowse.js</value>
             </list>
@@ -70,19 +70,7 @@
                 <ref bean="SearchConditionsSection"/>
                 <ref bean="SearchFooterSection"/>
                 <ref bean="SearchResultsSection"/>
-                <ref bean="hidden_refresh_button"/>
-                <ref bean="hidden_search_button"/>
-                <ref bean="hidden_NextFlag_button"/>
-                <ref bean="hidden_PreviousFlag_button"/>
-                <ref bean="hiddenStart"/>
-                <ref bean="hiddenRows"/>
-                <ref bean="hiddenSortOrder"/>
-                <ref bean="hiddenSortField"/>
-                <ref bean="hiddenSortFlag"/>
-                <ref bean="searchNextFlag"/>
-                <ref bean="searchPreviousFlag"/>
-                <ref bean="searchPageShowEntries"/>
-                <ref bean="facetPageShowEntries"/>
+                <ref bean="hiddenSearchFields"/>
                 <ref bean="totalTime"/>
                 <ref bean="solrTime"/>
                 <ref bean="serverTime"/>
@@ -133,17 +121,11 @@
                 <ref bean="Title-Browse-BibSearchResults"/>
                 <ref bean="CallNumberSection"/>
                 <ref bean="CallNumberSectionResults"/>
-                <ref bean="Hidden_BrowseSearchRows_button"/>
-                <ref bean="Hidden_BrowsePrevious_button"/>
-                <ref bean="Hidden_BrowseNext_button"/>
             </list>
         </property>
     </bean>
 
-    <bean id="Hidden_BrowsePrevious_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:10em" p:methodToCall="previous" p:actionLabel="BrowsePrevious" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="browse()" />
-    <bean id="Hidden_BrowseNext_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:10em" p:methodToCall="next" p:actionLabel="BrowseNext" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="browse()" />
 
-    <bean id="Hidden_BrowseSearchRows_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="rowsBrowse" p:style="float:left;margin-left:10em" p:actionLabel="Browse" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="browse()" />
 
     <bean id="TitleSection" parent="Uif-HorizontalBoxSection" p:render="@{browseField eq 'title'}" >
         <property name="items">
@@ -198,7 +180,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false" p:width="50px">
+                <bean parent="Base-Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false" p:width="50px">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
@@ -285,10 +267,10 @@
                 <bean id="items" parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean id="SearchConditions_SearchText_id" parent="Uif-InputField" p:label="Search For"
+                            <bean id="SearchConditions_SearchText_id" parent="Base-Uif-InputField" p:label="Search For"
                                   p:propertyName="searchField.fieldValue" p:required="false">
                             </bean>
-                            <bean id="SearchConditions_Operator_id" parent="Uif-InputField" p:propertyName="searchScope"
+                            <bean id="SearchConditions_Operator_id" parent="Base-Uif-InputField" p:propertyName="searchScope"
                                   p:label="">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
@@ -302,7 +284,7 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean id="SearchConditions_DocField_id" parent="Uif-InputField"
+                            <bean id="SearchConditions_DocField_id" parent="Base-Uif-InputField"
                                   p:propertyName="searchField.fieldName" p:label="In Field"
                                   p:optionsFinderClass="org.kuali.ole.describe.keyvalue.SearchFieldKeyValuefinder"
                                   p:defaultValue="any">
@@ -310,7 +292,7 @@
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
                             </bean>
-                            <bean id="SearchConditions_SearchScope_id" parent="Uif-InputField" p:propertyName="operator" p:label="" p:defaultValue="OR">
+                            <bean id="SearchConditions_SearchScope_id" parent="Base-Uif-InputField" p:propertyName="operator" p:label="" p:defaultValue="OR">
                                 <property name="control">
                                     <bean parent="Uif-HorizontalRadioControl">
                                         <property name="options">
@@ -362,275 +344,94 @@
         </property>
     </bean>
 
-    <bean id="BibSearchResults" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5" p:render="@{docType eq 'bibliographic'}">
+    <bean id="BibSearchResults" parent="Uif-CollectionGroupBase"
+          p:render="@{docType eq 'bibliographic'}"
+          p:filterModelProperty="filterBibSearch">
+        <property name="propertyName" value="searchResultDisplayRowList" />
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
         <property name="collectionObjectClass"
                   value="org.kuali.ole.describe.bo.SearchResultDisplayRow" />
-        <property name="propertyName" value="searchResultDisplayRowList" />
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.generateAutoSequence" value="false" />
-        <property name="renderAddLine" value="false"/>
-        <property name="layoutManager.richTable.render" value="true" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
-        <property name="renderLineActions" value="false"/>
-        <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="iDisplayLength" value="@{pageSize}"/>
-                <entry key="aLengthMenu" value="@{showPageSize}"/>
-                <entry key="aoColumns"  value="@{showFieldSort}"/>
-            </map>
+        <property name="layoutManager">
+            <bean class="org.kuali.ole.describe.krad.OleSearchLayout"
+                  p:template="/WEB-INF/ftl/ole-search-workbench.ftl" p:templateName="ole_bib_search">
+                <property name="pager">
+                    <bean parent="Uif-Pager" p:linkScript="oleSearchPager(this,'SearchFieldResultSection')" />
+                </property>
+            </bean>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false" p:width="50px">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=@{#line.DocFormat}&amp;docId=@{#line.localId}&amp;bibId=@{#line.bibIdentifier}&amp;editable=true"
-                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:width="400px" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'false'}">
-                    <!--<property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:onFocus="true" p:tooltipContent="@{#line.titleDisplay}"/>
-                    </property>-->
-                </bean>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{#line.localId}&amp;bibId=@{#line.bibIdentifier}"
-                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:width="400px" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'true'}" p:cssClasses="staffOnlyForHiperlink"/>
-                <bean parent="Uif-DataField" p:label="Local Identifier" p:propertyName="localId" p:render="@{searchResultDisplayFields.localId}" p:width="150px"/>
-                <bean parent="Uif-DataField" p:label="Journal Title" p:propertyName="journalTitle" p:width="400px" p:render="@{searchResultDisplayFields.journalTitle}"/>
-                <bean parent="Uif-DataField" p:label="Author" p:propertyName="author" p:width="200px" p:render="@{searchResultDisplayFields.author}"/>
-                <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher" p:width="200px" p:render="@{searchResultDisplayFields.publisher}"/>
-                <bean parent="Uif-DataField" p:label="Isbn" p:propertyName="isbn" p:render="@{searchResultDisplayFields.isbn}"/>
-                <bean parent="Uif-DataField" p:label="Issn" p:propertyName="issn" p:render="@{searchResultDisplayFields.issn}"/>
-                <bean parent="Uif-DataField" p:label="Subject" p:propertyName="subject" p:render="@{searchResultDisplayFields.subject}"/>
-                <bean parent="Uif-DataField" p:label="Publication Place" p:propertyName="publicationPlace" p:render="@{searchResultDisplayFields.publicationPlace}"/>
-                <bean parent="Uif-DataField" p:label="Edition" p:propertyName="edition" p:render="@{searchResultDisplayFields.edition}"/>
-                <bean parent="Uif-DataField" p:label="Format" p:propertyName="format" p:render="@{searchResultDisplayFields.format}"/>
-                <bean parent="Uif-DataField" p:label="FormGenre" p:propertyName="formGenre" p:render="@{searchResultDisplayFields.formGenre}"/>
-                <bean parent="Uif-DataField" p:label="Language" p:propertyName="language" p:render="@{searchResultDisplayFields.language}"/>
-                <bean parent="Uif-DataField" p:label="Description" p:propertyName="description" p:render="@{searchResultDisplayFields.description}"/>
-                <bean parent="Uif-DataField" p:label="Pub Date" p:propertyName="publicationDate" p:width="100px" p:render="@{searchResultDisplayFields.publicationDate}"/>
-                <bean parent="Uif-DataField" p:label="Barcode" p:propertyName="barcode" p:render="@{searchResultDisplayFields.barcode}"/>
+                <bean parent="Uif-MessageField" p:messageText=" " />
             </list>
         </property>
     </bean>
 
-    <bean id="HoldingsSearchResults" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:style="width: 1460px;" p:render="@{docType eq 'holdings'}" >
+    <bean id="HoldingsSearchResults" parent="Uif-CollectionGroupBase"
+          p:render="@{docType eq 'holdings'}"
+          p:filterModelProperty="filterHoldingsSearch">
+        <property name="propertyName" value="searchResultDisplayRowList" />
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
         <property name="collectionObjectClass"
                   value="org.kuali.ole.describe.bo.SearchResultDisplayRow" />
-        <property name="propertyName" value="searchResultDisplayRowList" />
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.generateAutoSequence" value="false" />
-        <property name="renderAddLine" value="false"/>
-        <property name="layoutManager.richTable.render" value="true" />
-        <property name="renderLineActions" value="false"/>
-        <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="iDisplayLength" value="@{pageSize}"/>
-                <entry key="aLengthMenu" value="@{showPageSize}"/>
-                <entry key="aoColumns"  value="@{showFieldSort}"/>
-            </map>
+        <property name="layoutManager">
+            <bean class="org.kuali.ole.describe.krad.OleSearchLayout"
+                  p:template="/WEB-INF/ftl/ole-search-workbench.ftl" p:templateName="ole_holdings_search">
+                <property name="pager">
+                    <bean parent="Uif-Pager" p:linkScript="oleSearchPager(this,'SearchFieldResultSection')" />
+                </property>
+            </bean>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>
-                <bean id="holdingRelation_links_search" parent="Uif-HorizontalFieldGroup" p:label="Relations">
-                    <property name="items">
-                        <list>
-                            <bean id="BoundWithRelation-search" parent="Uif-ActionLink"
-                                  p:actionScript="viewBoundWithRelation('@{#line.holdingsIdentifier}');"
-                                  p:actionLabel="BW" p:render="@{#line.boundWithHolding eq 'true'}"/>
-                            <bean id="SeriesHoldingRelation-search" parent="Uif-ActionLink"
-                                  p:actionScript="viewSeriesHoldingRelation('@{#line.holdingsIdentifier}');"
-                                  p:actionLabel="SH" p:render="@{#line.seriesHolding eq 'true'}"/>
-                            <bean id="AnalyticHoldingRelation_search" parent="Uif-ActionLink"
-                                  p:actionScript="viewAnalyticItemRelation('@{#line.itemIdentifier}');"
-                                  p:actionLabel="AH" p:render="@{#line.analyticItem eq 'true'}"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean id="localIDviewHoldingsNotStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=@{#line.holdingsIdentifier}&amp;bibId=@{#line.bibIdentifier}&amp;editable=true"
-                      p:label="Local Identifier" p:linkText="@{#line.localId}" p:target="_blank" p:render="@{searchResultDisplayFields.localId and #line.staffOnly eq 'false'}"/>
-                <bean id="localIDviewHoldingsStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=@{#line.holdingsIdentifier}&amp;bibId=@{#line.bibIdentifier}&amp;editable=true"
-                      p:label="Local Identifier" p:linkText="@{#line.localId}" p:target="_blank" p:render="@{searchResultDisplayFields.localId and #line.staffOnly eq 'true'}" p:cssClasses="staffOnlyForHiperlink"/>
-                <bean id="titleviewHoldingsNotStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=@{#line.holdingsIdentifier}&amp;bibId=@{#line.bibIdentifier}"
-                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'false'}"/>
-                <bean id="titleviewHoldingsStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=@{#line.holdingsIdentifier}&amp;bibId=@{#line.bibIdentifier}"
-                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'true'}" p:cssClasses="staffOnlyForHiperlink"/>
-                <bean parent="Uif-DataField" p:label="Location" p:propertyName="locationName" p:render="@{searchResultDisplayFields.location}"/>
-                <bean parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber" p:render="@{searchResultDisplayFields.callNumber}"/>
-                <bean parent="Uif-DataField" p:label="Call Number Prefix" p:propertyName="callNumberPrefix" p:render="@{searchResultDisplayFields.callNumberPrefix}"/>
-                <bean parent="Uif-DataField" p:label="Classification Part" p:propertyName="classificationPart" p:render="@{searchResultDisplayFields.classificationPart}"/>
-                <bean parent="Uif-DataField" p:label="Shelving Order" p:propertyName="shelvingOrder" p:render="@{searchResultDisplayFields.shelvingOrder}"/>
-                <bean parent="Uif-DataField" p:label="Shelving Order Code" p:propertyName="shelvingOrderCode" p:render="@{searchResultDisplayFields.shelvingOrderCode}"/>
-                <bean parent="Uif-DataField" p:label="Shelving Scheme Code" p:propertyName="shelvingSchemeCode" p:render="@{searchResultDisplayFields.shelvingSchemeCode}"/>
-                <bean parent="Uif-DataField" p:label="Shelving Scheme Value" p:propertyName="shelvingSchemeValue" p:render="@{searchResultDisplayFields.shelvingSchemeValue}"/>
-                <bean parent="Uif-DataField" p:label="Uri" p:propertyName="uri" p:render="@{searchResultDisplayFields.uri}"/>
-                <bean parent="Uif-DataField" p:label="ReceiptStatus" p:propertyName="receiptStatus" p:render="@{searchResultDisplayFields.receiptStatus}"/>
-                <bean parent="Uif-DataField" p:label="CopyNumber" p:propertyName="copyNumber" p:render="@{searchResultDisplayFields.copyNumber}"/>
-                <bean parent="Uif-DataField" p:label="Location Level" p:propertyName="locationLevel" p:render="@{searchResultDisplayFields.locationLevel}"/>
-                <bean parent="Uif-DataField" p:label="Location Level Name" p:propertyName="locationLevelName" p:render="@{searchResultDisplayFields.locationLevelName}"/>
-                <bean parent="Uif-DataField" p:label="Holdings Note" p:propertyName="holdingsNote" p:render="@{searchResultDisplayFields.holdingsNote}"/>
-                <bean parent="Uif-DataField" p:label="ExtentOfOwnership Note Type" p:propertyName="extentOfOwnershipNoteType" p:render="@{searchResultDisplayFields.extentOfOwnershipNoteType}"/>
-                <bean parent="Uif-DataField" p:label="ExtentOfOwnership Note Value" p:propertyName="extentOfOwnershipNoteValue" p:render="@{searchResultDisplayFields.extentOfOwnershipNoteValue}"/>
-                <bean parent="Uif-DataField" p:label="ExtentOfOwnership Type" p:propertyName="extentOfOwnershipType" p:render="@{searchResultDisplayFields.extentOfOwnershipType}"/>
+                <bean parent="Uif-MessageField" p:messageText=" " />
             </list>
         </property>
     </bean>
 
-    <bean id="ItemSearchResults" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="7" p:style="width: 1463px;" p:render="@{docType eq 'item'}">
+    <bean id="ItemSearchResults" parent="Uif-CollectionGroupBase"
+          p:render="@{docType eq 'item'}"
+          p:filterModelProperty="filterItemSearch">
+        <property name="propertyName" value="searchResultDisplayRowList" />
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
         <property name="collectionObjectClass"
                   value="org.kuali.ole.describe.bo.SearchResultDisplayRow" />
-        <property name="propertyName" value="searchResultDisplayRowList" />
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.generateAutoSequence" value="false" />
-        <property name="renderAddLine" value="false"/>
-        <property name="layoutManager.richTable.render" value="true" />
-        <property name="renderLineActions" value="false"/>
-        <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="iDisplayLength" value="@{pageSize}"/>
-                <entry key="aLengthMenu" value="@{showPageSize}"/>
-                <entry key="aoColumns"  value="@{showFieldSort}"/>
-            </map>
+        <property name="layoutManager">
+            <bean class="org.kuali.ole.describe.krad.OleSearchLayout"
+                  p:template="/WEB-INF/ftl/ole-search-workbench.ftl" p:templateName="ole_item_search">
+                <property name="pager">
+                    <bean parent="Uif-Pager" p:linkScript="oleSearchPager(this,'SearchFieldResultSection')" />
+                </property>
+            </bean>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>
-                <bean id="itemRelation_links_search" parent="Uif-HorizontalFieldGroup" p:label="Relations">
-                    <property name="items">
-
-                        <list>
-                            <bean id="AnalyticItemRelation_search" parent="Uif-ActionLink"
-                                  p:actionScript="viewAnalyticItemRelation('@{#line.itemIdentifier}');"
-                                  p:actionLabel="AI" p:render="@{#line.analyticItem eq 'true'}"/>
-
-                        </list>
-                    </property>
-                </bean>
-                <bean id="localIDViewItemsNotStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=@{#line.itemIdentifier}&amp;bibId=@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}&amp;editable=true"
-                      p:label="Local Identifier" p:linkText="@{#line.localId}" p:render="@{searchResultDisplayFields.localId and #line.staffOnly eq 'false'}" p:target="_blank"/>
-                <bean id="localIDViewItemsStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=@{#line.itemIdentifier}&amp;bibId=@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}&amp;editable=true"
-                      p:label="Local Identifier" p:linkText="@{#line.localId}" p:render="@{searchResultDisplayFields.localId and #line.staffOnly eq 'true'}" p:cssClasses="staffOnlyForHiperlink" p:target="_blank"/>
-                <bean id="titleViewItemsNotStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=@{#line.itemIdentifier}&amp;bibId=@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}"
-                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'false'}"/>
-                <bean id="titleViewItemsStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=@{#line.itemIdentifier}&amp;bibId=@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}"
-                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'true'}" p:cssClasses="staffOnlyForHiperlink"/>
-                <bean parent="Uif-DataField" p:label="Location" p:propertyName="locationName" p:render="@{searchResultDisplayFields.location}"/>
-                <bean parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber" p:render="@{searchResultDisplayFields.callNumber}"/>
-                <bean parent="Uif-DataField" p:label="Barcode" p:propertyName="barcode" p:render="@{searchResultDisplayFields.barcode}"/>
-                <bean parent="Uif-DataField" p:label="BarcodeARSL" p:propertyName="barcodeArsl" p:render="@{searchResultDisplayFields.barcodeArsl}"/>
-                <bean parent="Uif-DataField" p:label="Call Number Prefix" p:propertyName="callNumberPrefix" p:render="@{searchResultDisplayFields.callNumberPrefix}"/>
-                <bean parent="Uif-DataField" p:label="Classification Part" p:propertyName="classificationPart" p:render="@{searchResultDisplayFields.classificationPart}"/>
-                <bean parent="Uif-DataField" p:label="Shelving Order" p:propertyName="shelvingOrder" p:render="@{searchResultDisplayFields.shelvingOrder}"/>
-                <bean parent="Uif-DataField" p:label="Shelving Order Code" p:propertyName="shelvingOrderCode" p:render="@{searchResultDisplayFields.shelvingOrderCode}"/>
-                <bean parent="Uif-DataField" p:label="Shelving Scheme Code" p:propertyName="shelvingSchemeCode" p:render="@{searchResultDisplayFields.shelvingSchemeCode}"/>
-                <bean parent="Uif-DataField" p:label="Shelving Scheme Value" p:propertyName="shelvingSchemeValue" p:render="@{searchResultDisplayFields.shelvingSchemeValue}"/>
-                <bean parent="Uif-DataField" p:label="Item Part" p:propertyName="itemPart" p:render="@{searchResultDisplayFields.itemPart}"/>
-                <bean parent="Uif-DataField" p:label="ItemStatus" p:propertyName="itemStatus" p:render="@{searchResultDisplayFields.itemStatus}"/>
-                <bean parent="Uif-DataField" p:label="Uri" p:propertyName="uri" p:render="@{searchResultDisplayFields.uri}"/>
-                <bean parent="Uif-DataField" p:label="CopyNumber" p:propertyName="copyNumber" p:render="@{searchResultDisplayFields.copyNumber}"/>
-                <bean parent="Uif-DataField" p:label="CopyNumber Label" p:propertyName="copyNumberLabel" p:render="@{searchResultDisplayFields.copyNumberLabel}"/>
-                <bean parent="Uif-DataField" p:label="VolumeNumber" p:propertyName="volumeNumber" p:render="@{searchResultDisplayFields.volumeNumber}"/>
-                <bean parent="Uif-DataField" p:label="VolumeNumber Label" p:propertyName="volumeNumberLabel" p:render="@{searchResultDisplayFields.volumeNumberLabel}"/>
-                <bean parent="Uif-DataField" p:label="Enumeration" p:propertyName="enumeration" p:render="@{searchResultDisplayFields.enumeration}"/>
-                <bean parent="Uif-DataField" p:label="Chronology" p:propertyName="chronology" p:render="@{searchResultDisplayFields.chronology}"/>
-                <bean parent="Uif-DataField" p:label="Item Identifier" p:propertyName="itemIdentifier" p:render="@{searchResultDisplayFields.itemIdentifier}"/>
-                <bean parent="Uif-DataField" p:label="Item Type Code Value" p:propertyName="itemTypeCodeValue" p:render="@{searchResultDisplayFields.itemTypeCodeValue}"/>
-                <bean parent="Uif-DataField" p:label="Item Type Full Value" p:propertyName="itemTypeFullValue" p:render="@{searchResultDisplayFields.itemTypeFullValue}"/>
+                <bean parent="Uif-MessageField" p:messageText=" " />
             </list>
         </property>
     </bean>
 
-    <bean id="EHoldingsSearchResults" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="7" p:style="width: 1460px;" p:render="@{docType eq 'eHoldings'}">
+    <bean id="EHoldingsSearchResults" parent="Uif-CollectionGroupBase"
+          p:render="@{docType eq 'eHoldings'}"
+          p:filterModelProperty="filterEHoldingsSearch">
+        <property name="propertyName" value="searchResultDisplayRowList" />
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
         <property name="collectionObjectClass"
                   value="org.kuali.ole.describe.bo.SearchResultDisplayRow" />
-        <property name="propertyName" value="searchResultDisplayRowList" />
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.generateAutoSequence" value="false" />
-        <property name="renderAddLine" value="false"/>
-        <property name="layoutManager.richTable.render" value="true" />
-        <property name="renderLineActions" value="false"/>
-        <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="iDisplayLength" value="@{pageSize}"/>
-                <entry key="aLengthMenu" value="@{showPageSize}"/>
-                <entry key="aoColumns"  value="@{showFieldSort}"/>
-            </map>
+        <property name="layoutManager">
+            <bean class="org.kuali.ole.describe.krad.OleSearchLayout"
+                  p:template="/WEB-INF/ftl/ole-search-workbench.ftl" p:templateName="ole_eholdings_search">
+                <property name="pager">
+                    <bean parent="Uif-Pager" p:linkScript="oleSearchPager(this,'SearchFieldResultSection')" />
+                </property>
+            </bean>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>
-                <bean id="localIDViewEHoldingsNotStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=@{#line.holdingsIdentifier}&amp;bibId=@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}&amp;editable=true"
-                      p:label="Local Identifier" p:linkText="@{#line.localId}" p:render="@{searchResultDisplayFields.localId and #line.staffOnly eq 'false'}" p:target="_blank"/>
-                <bean id="localIDViewEHoldingsStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=@{#line.holdingsIdentifier}&amp;bibId=@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}&amp;editable=true"
-                      p:label="Local Identifier" p:linkText="@{#line.localId}" p:render="@{searchResultDisplayFields.localId and #line.staffOnly eq 'true'}" p:cssClasses="staffOnlyForHiperlink" p:target="_blank"/>
-                <bean id="TitleViewEHoldingsNotStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=@{#line.holdingsIdentifier}&amp;bibId=@{#line.bibIdentifier}"
-                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'false'}"/>
-                <bean id="TitleViewEHoldingsStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=@{#line.holdingsIdentifier}&amp;bibId=@{#line.bibIdentifier}"
-                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'true'}" p:cssClasses="staffOnlyForHiperlink"/>
-                <bean parent="Uif-DataField" p:label="Access Password" p:propertyName="accessPassword" p:render="@{searchResultDisplayFields.accessPassword}"/>
-                <bean parent="Uif-DataField" p:label="Access UserName" p:propertyName="accessUserName" p:render="@{searchResultDisplayFields.accessUserName}"/>
-                <bean parent="Uif-DataField" p:label="Access Location" p:propertyName="accessLocation" p:render="@{searchResultDisplayFields.accessLocation}"/>
-                <bean parent="Uif-DataField" p:label="Access Status" p:propertyName="accessStatus" p:render="@{searchResultDisplayFields.accessStatus}"/>
-                <bean parent="Uif-DataField" p:label="Admin Password" p:propertyName="adminPassword" p:render="@{searchResultDisplayFields.adminPassword}"/>
-                <bean parent="Uif-DataField" p:label="Admin Url" p:propertyName="adminUrl" p:render="@{searchResultDisplayFields.adminUrl}"/>
-                <bean parent="Uif-DataField" p:label="Admin UserName" p:propertyName="adminUserName" p:render="@{searchResultDisplayFields.adminUserName}"/>
-                <bean parent="Uif-DataField" p:label="Authentication" p:propertyName="authentication" p:render="@{searchResultDisplayFields.authentication}"/>
-                <bean parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber" p:render="@{searchResultDisplayFields.callNumber}"/>
-                <bean parent="Uif-DataField" p:label="Call Number Prefix" p:propertyName="callNumberPrefix" p:render="@{searchResultDisplayFields.callNumberPrefix}"/>
-                <bean parent="Uif-DataField" p:label="Classification Part" p:propertyName="classificationPart" p:render="@{searchResultDisplayFields.classificationPart}"/>
-                <bean parent="Uif-DataField" p:label="Coverage Date" p:propertyName="coverageDate" p:render="@{searchResultDisplayFields.coverageDate}"/>
-                <bean parent="Uif-DataField" p:label="Donor Code" p:propertyName="donorCode" p:render="@{searchResultDisplayFields.donorCode}"/>
-                <bean parent="Uif-DataField" p:label="Donor Note" p:propertyName="donorNote" p:render="@{searchResultDisplayFields.donorNote}"/>
-                <bean parent="Uif-DataField" p:label="Donor Public" p:propertyName="donorPublic" p:render="@{searchResultDisplayFields.donorPublic}"/>
-                <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher" p:render="@{searchResultDisplayFields.publisher}"/>
-                <bean parent="Uif-DataField" p:label="Holdings Note" p:propertyName="holdingsNote" p:render="@{searchResultDisplayFields.holdingsNote}"/>
-                <bean parent="Uif-DataField" p:label="ILL" p:propertyName="ill" p:render="@{searchResultDisplayFields.ill}"/>
-                <bean parent="Uif-DataField" p:label="Imprint" p:propertyName="imprint" p:render="@{searchResultDisplayFields.imprint}"/>
-                <bean parent="Uif-DataField" p:label="Item Part" p:propertyName="itemPart" p:render="@{searchResultDisplayFields.itemPart}"/>
-                <bean parent="Uif-DataField" p:label="Link Text" p:propertyName="linkText" p:render="@{searchResultDisplayFields.linkText}"/>
-                <bean parent="Uif-DataField" p:label="Location" p:propertyName="locationName" p:render="@{searchResultDisplayFields.location}"/>
-                <bean parent="Uif-DataField" p:label="Location Level" p:propertyName="locationLevel" p:render="@{searchResultDisplayFields.locationLevel}"/>
-                <bean parent="Uif-DataField" p:label="Location Level Name" p:propertyName="locationLevelName" p:render="@{searchResultDisplayFields.locationLevelName}"/>
-                <bean parent="Uif-DataField" p:label="Number Of Simultaneous Uses" p:propertyName="numberOfSimultaneousUses" p:render="@{searchResultDisplayFields.numberOfSimultaneousUses}"/>
-                <bean parent="Uif-DataField" p:label="Extent Of OwnerShip" p:propertyName="perpetualAccess" p:render="@{searchResultDisplayFields.perpetualAccess}"/>
-                <bean parent="Uif-DataField" p:label="Persist Link" p:propertyName="persistLink" p:render="@{searchResultDisplayFields.persistLink}"/>
-                <bean parent="Uif-DataField" p:label="PlatForm" p:propertyName="platForm" p:render="@{searchResultDisplayFields.platform}"/>
-                <bean parent="Uif-DataField" p:label="Proxied" p:propertyName="proxied" p:render="@{searchResultDisplayFields.proxied}"/>
-                <bean parent="Uif-DataField" p:label="Donor Info" p:propertyName="publicNote" p:render="@{searchResultDisplayFields.publicNote}"/>
-                <bean parent="Uif-DataField" p:label="ReceiptStatus" p:propertyName="receiptStatus" p:render="@{searchResultDisplayFields.receiptStatus}"/>
-                <bean parent="Uif-DataField" p:label="Shelving Order Code" p:propertyName="shelvingOrderCode" p:render="@{searchResultDisplayFields.shelvingOrderCode}"/>
-                <bean parent="Uif-DataField" p:label="Call Number Type Code" p:propertyName="shelvingSchemeCode" p:render="@{searchResultDisplayFields.shelvingSchemeCode}"/>
-                <bean parent="Uif-DataField" p:label="Call Number Type Value" p:propertyName="shelvingSchemeValue" p:render="@{searchResultDisplayFields.shelvingSchemeValue}"/>
-                <bean parent="Uif-DataField" p:label="Subscription" p:propertyName="subscription" p:render="@{searchResultDisplayFields.subscription}"/>
-                <bean parent="Uif-DataField" p:label="Url" p:propertyName="url" p:render="@{searchResultDisplayFields.url}"/>
-                <bean parent="Uif-DataField" p:label="Statistical Code" p:propertyName="statisticalCode" p:render="@{searchResultDisplayFields.statisticalCode}"/>
-
+                <bean parent="Uif-MessageField" p:messageText=" " />
             </list>
         </property>
     </bean>
@@ -732,6 +533,9 @@
     <bean id="SearchFooterSec" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
+                <bean id="SelectedAll_button" parent="Uif-SecondaryActionButton"
+                      p:actionScript="selectAll('@{docType}');" p:actionLabel="Select All Records"
+                      p:render="@{searchResultDisplayRowList ne null and searchType eq 'search'}"/>
                 <bean id="OpenSelectedRecord_button" parent="Uif-SecondaryActionButton"
                       p:actionScript="openSelectAll('@{docType}');" p:actionLabel="Open Selected Records"
                       p:render="@{searchResultDisplayRowList ne null and searchType eq 'search'}"/>
@@ -740,7 +544,7 @@
         </property>
     </bean>
 
-    <bean id="requestXML" parent="Uif-InputField" p:propertyName="requestXMLTextArea"
+    <bean id="requestXML" parent="Base-Uif-InputField" p:propertyName="requestXMLTextArea"
           p:label="" p:render="@{showRequestXml eq true and searchType eq 'search'}"
           p:required="false">
         <property name="control">
@@ -748,30 +552,13 @@
         </property>
     </bean>
 
-    <bean id="hidden_refresh_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="start" p:hidden="true" />
-    <bean id="hidden_search_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="search" p:hidden="true"
-          p:successCallback="searching()"/>
-    <bean id="hidden_NextFlag_button" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="nextSearch" p:hidden="true" p:successCallback="searching()" />
-    <bean id="hidden_PreviousFlag_button" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="previousSearch" p:hidden="true" p:successCallback="searching()" />
-    <bean id="hiddenStart" parent="Uif-InputField"  p:hidden="true" p:propertyName="start"/>
-    <bean id="hiddenRows" parent="Uif-InputField" p:propertyName="pageSize">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>
-    <bean id="hiddenSortOrder" parent="Uif-InputField"  p:hidden="true" p:propertyName="sortOrder"/>
-    <bean id="hiddenSortField" parent="Uif-InputField"  p:hidden="true" p:propertyName="sortField"/>
-    <bean id="hiddenSortFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="sortFlag"/>
-    <bean id="searchNextFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="nextFlag"/>
-    <bean id="searchPreviousFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="previousFlag"/>
-    <bean id="searchPageShowEntries" parent="Uif-InputField"  p:hidden="true" p:propertyName="pageShowEntries"/>
-    <bean id="facetPageShowEntries" parent="Uif-InputField"  p:hidden="true" p:propertyName="facetPageEntries"/>
 
+    <bean id="hiddenSearchFields" parent="Base-Uif-InputField" p:hidden="true" p:propertyName="pageNumber" p:additionalHiddenPropertyNames="start,pageSize,sortOrder,sortField,sortFlag,nextFlag,previousFlag,pageShowEntries,facetPageEntries,selectAllRecords,idsToBeOpened"/>
     <bean id="solrTime" parent="Uif-DataField" p:propertyName="solrTime" p:label="Time Taken By Solr (sec)" p:render="@{showTime}"/>
     <bean id="serverTime" parent="Uif-DataField" p:propertyName="serverTime" p:label="Time Taken By Server (sec)" p:render="@{showTime}"/>
     <bean id="totalTime" parent="Uif-DataField" p:propertyName="totalTime" p:label="Total Time (sec)" p:render="@{showTime}"/>
 
-    <bean id="hiddenTotalTime" parent="Uif-InputField" p:propertyName="totalTime" p:render="@{showTime}">
+    <bean id="hiddenTotalTime" parent="Base-Uif-InputField" p:propertyName="totalTime" p:render="@{showTime}">
         <property name="control">
             <bean parent="Uif-HiddenControl"/>
         </property>

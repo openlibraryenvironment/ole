@@ -164,6 +164,7 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
     private boolean enableCurrentItems = false;
     private String foreignVendorAmount;
     private String foreignInvoiceAmount;
+    private List<OleInvoiceItem> deletedInvoiceItems =  new ArrayList<>();
 
     public boolean isBlanketApproveFlag() {
         return blanketApproveFlag;
@@ -1015,7 +1016,8 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
                             .isEmpty()) ? bibInfoRecord.getIsxn().trim() + ", " : "");
                 }
                 if (itemDescription != null && !(itemDescription.equals(""))) {
-                    itemDescription = itemDescription.substring(0, itemDescription.lastIndexOf(","));
+                    itemDescription = itemDescription.lastIndexOf(",") < 0 ? itemDescription :
+                            itemDescription.substring(0, itemDescription.lastIndexOf(","));
                     StringEscapeUtils stringEscapeUtils = new StringEscapeUtils();
                     itemDescription = stringEscapeUtils.unescapeXml(itemDescription);
                     items.setItemDescription(itemDescription);
@@ -2692,5 +2694,13 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
 
     public void setEnableCurrentItems(boolean enableCurrentItems) {
         this.enableCurrentItems = enableCurrentItems;
+    }
+
+    public List<OleInvoiceItem> getDeletedInvoiceItems() {
+        return deletedInvoiceItems;
+    }
+
+    public void setDeletedInvoiceItems(List<OleInvoiceItem> deletedInvoiceItems) {
+        this.deletedInvoiceItems = deletedInvoiceItems;
     }
 }

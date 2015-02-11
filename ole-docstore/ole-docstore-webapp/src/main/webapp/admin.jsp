@@ -31,6 +31,8 @@
     String docstoreUploadDir = ProcessParameters.getBulkUploadDir();
 %>
 
+
+
 <%@ include file="oleHeader.jsp" %>
 
 <%--
@@ -550,7 +552,7 @@
     function showReindexResult(action) {
         document.getElementById("reindexResult").value = "";
         $.post("./rebuildIndex",
-                {action:"start", batchSize:$("#batchSize").val()},
+                {action:"start", batchSize:$("#batchSize").val(), startIndex:$("#startIndex").val(), endIndex:$("#endIndex").val(),updateDate:$("#updateDate").val()+" "+$("#time").val()},
                 function (data) {
                     document.getElementById("reindexResult").value = data.toString();
                 }, 'html');
@@ -597,6 +599,11 @@
             }
         });
     });
+
+    $(function () {
+        $('#updateDate').datepicker({ dateFormat: 'yy-mm-dd' });
+        $('#updateDate').datepicker();
+    });
 </script>
 
 
@@ -613,15 +620,21 @@
             <a id="userGuideLink"
                href=" https://wiki.kuali.org/display/OLE/User+Guide+-+OLE+Document+Store#UserGuide-OLEDocumentStore-2.9Rebuildindexes%28Adminfunction%29|toolbar=0,menubar=0,width=1000,height=1000,scrollbars=1">
                 <img align="right" src="images/user-guide.jpg" title="User Guide"/> </a>
-            <table width="850">
+            <table>
                 <tr>
                     <td><h3>Rebuild Solr Indexes</h3></td>
                 </tr>
                 <tr>
                     <td>
-                        Index all bibs, holdings and items
+                        Index all, bibs, holdings and items
                     </td>
                     <td>
+                 <!--       <select Name="indexType" id="indexType">
+                            <option value="ALL">All</option>
+                            <option value="Bib">Bib</option>
+                            <option value="Holdings">Holdings</option>
+                            <option value="Item">Item</option>
+                        </select> -->
                     </td>
                 </tr>
                 <tr>
@@ -632,6 +645,26 @@
                         <input type="text" name="batchSize" value="5000" id="batchSize"
                                style="height: 25px; width: 200px; font-style: oblique; font-weight: bold;"/>
                     </td>
+                    <td>
+                        Start BibId :
+                    </td>
+                    <td>
+                        <input type="text" name="startIndex" value="0" id="startIndex"
+                               style="height: 25px; width: 200px; font-style: oblique; font-weight: bold;"/>
+                    </td>
+                    <td>
+                        End BibId :
+                    </td>
+                    <td>
+                        <input type="text" name="endIndex" value="0" id="endIndex"
+                               style="height: 25px; width: 200px; font-style: oblique; font-weight: bold;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Date:</td>
+                    <td><input type="text" name="updateDate" id="updateDate" /></td>
+                    <td>Time</td>
+                    <td><input type="text" name="time" id="time" placeholder="HH:MM:SS"/></td>
                 </tr>
                 <tr>
                     <td width="125"><input type="button" name="start" value="Start" id="start"

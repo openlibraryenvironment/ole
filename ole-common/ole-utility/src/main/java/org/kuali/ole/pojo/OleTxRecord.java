@@ -148,6 +148,37 @@ public class OleTxRecord {
     private List<String> splProcessInstrNotes;
     private List<String> vendorInstrNotes;
 
+    //Payment information
+    private String recurringPaymentType;
+    private String recurringPaymentBeginDate;
+    private String recurringPaymentEndDate;
+
+
+
+    public String getRecurringPaymentType() {
+        return recurringPaymentType;
+    }
+
+    public void setRecurringPaymentType(String recurringPaymentType) {
+        this.recurringPaymentType = recurringPaymentType;
+    }
+
+    public String getRecurringPaymentBeginDate() {
+        return recurringPaymentBeginDate;
+    }
+
+    public void setRecurringPaymentBeginDate(String recurringPaymentBeginDate) {
+        this.recurringPaymentBeginDate = recurringPaymentBeginDate;
+    }
+
+    public String getRecurringPaymentEndDate() {
+        return recurringPaymentEndDate;
+    }
+
+    public void setRecurringPaymentEndDate(String recurringPaymentEndDate) {
+        this.recurringPaymentEndDate = recurringPaymentEndDate;
+    }
+
     public String getRequestorName() {
         return requestorName;
     }

@@ -929,7 +929,11 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
@@ -1346,14 +1350,18 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
                 <trueActions>
-                    <rule> <!--Check out Circulation Policy Set 2: if borrowerType in (faculty, staff) AND itemType in (stks, magazine) AND (itemLibrary in (B-HPER) OR itemShelving in (BEDJOURNALS, GEN)), then circpolicyFound=True AND set loanPeriod=fixedDueDate, OverDueDay=20, recallOverDueDay=15, AND runs checks on checkClaimsReturned, overdueFineAmt, replacementOverdueFineAmt, overallCharges, limitOnCheckedOutItems, limitOnBorrowerOverdueItems, limitOnOverdueRecalledItems AND for each display appropriate errors-->
+                    <rule> <!--Check out Circulation Policy Set 2: if borrowerType in (faculty, staff) AND itemType in (BOOK, magazine) AND (itemLibrary in (B-HPER) OR itemShelving in (BEDJOURNALS, GEN)), then circpolicyFound=True AND set loanPeriod=fixedDueDate, OverDueDay=20, recallOverDueDay=15, AND runs checks on checkClaimsReturned, overdueFineAmt, replacementOverdueFineAmt, overallCharges, limitOnCheckedOutItems, limitOnBorrowerOverdueItems, limitOnOverdueRecalledItems AND for each display appropriate errors-->
                         <name>Check out Circulation Policy Set 2</name>
-                        <oleProposition> <!--if borrowerType in (faculty, staff) AND itemType in (stks, MAGAZINE,AUDIOCD,AV,AUDIOTAPE,MICRO) AND (ItemLibrary in (PERKN) OR itemShelving in (PLI, PLV1))-->
+                        <oleProposition> <!--if borrowerType in (faculty, staff) AND itemType in (BOOK, MAGAZINE,AUDIOCD,AV,AUDIOTAPE,MICRO) AND (ItemLibrary in (PERKN) OR itemShelving in (PLI, PLV1))-->
                             <type>compound</type>
                             <compoundProposition>
                                 <operator>AND</operator>
@@ -1813,14 +1821,18 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
                 <trueActions>
-                    <rule> <!--Check out Circulation Policy Set 3: if borrowerType in (researcher, guest, Faculty) AND itemType in (stks, magazine) AND itemShelving in (JRLRES, LawRes, FRD, SciDDC), then circpolicyFound=True AND set loanPeriod=11-D, OverDueDay=25, recallOverDueDay=25, AND runs checks on checkClaimsReturned, overdueFineAmt, replacementOverdueFineAmt, overallCharges, limitOnCheckedOutItems, limitOnBorrowerOverdueItems, limitOnOverdueRecalledItems AND for each display appropriate errors-->
+                    <rule> <!--Check out Circulation Policy Set 3: if borrowerType in (researcher, guest, Faculty) AND itemType in (BOOK, magazine) AND itemShelving in (JRLRES, LawRes, FRD, SciDDC), then circpolicyFound=True AND set loanPeriod=11-D, OverDueDay=25, recallOverDueDay=25, AND runs checks on checkClaimsReturned, overdueFineAmt, replacementOverdueFineAmt, overallCharges, limitOnCheckedOutItems, limitOnBorrowerOverdueItems, limitOnOverdueRecalledItems AND for each display appropriate errors-->
                         <name>Check out Circulation Policy Set 3</name>
-                        <oleProposition> <!--if borrowerType in (researcher, Guest, Faculty) AND, is the item a stks or a magazine, is the item's location covered by this policy-->
+                        <oleProposition> <!--if borrowerType in (researcher, Guest, Faculty) AND, is the item a BOOK or a magazine, is the item's location covered by this policy-->
                             <type>compound</type>
                             <compoundProposition>
                                 <operator>AND</operator>
@@ -2226,7 +2238,11 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
@@ -2389,7 +2405,11 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
@@ -2488,14 +2508,18 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
                 <trueActions>
-                    <rule> <!--Renewal Circulation Policy Set 1: if borrowerType in (Undergrad, Graduate) AND itemType in (stks, MAGAZINE), then circulationPolicyFound=true AND circulationPolicyFound=true AND loanPeriod = 10-D AND overdueDay = 30 AND recallOverdueDay = 25 AND run Check Claims Returned for Renewal, Check all Overdue fine amount for Renewal, Check Replacement fee amt for Renewal, Check Overall Charges for Renewal, RenewalLimit, IndefiniteCheck, FixedDueDateCheck and display appropriate messages-->
+                    <rule> <!--Renewal Circulation Policy Set 1: if borrowerType in (Undergrad, Graduate) AND itemType in (BOOK, MAGAZINE), then circulationPolicyFound=true AND circulationPolicyFound=true AND loanPeriod = 10-D AND overdueDay = 30 AND recallOverdueDay = 25 AND run Check Claims Returned for Renewal, Check all Overdue fine amount for Renewal, Check Replacement fee amt for Renewal, Check Overall Charges for Renewal, RenewalLimit, IndefiniteCheck, FixedDueDateCheck and display appropriate messages-->
                         <name>Renewal Circulation Policy Set 1</name>
-                        <oleProposition><!--if borrowerType in (Undergrad, Graduate) AND itemType in (stks, MAGAZINE)-->
+                        <oleProposition><!--if borrowerType in (Undergrad, Graduate) AND itemType in (BOOK, MAGAZINE)-->
                             <type>compound</type>
                             <compoundProposition>
                                 <operator>AND</operator>
@@ -2893,7 +2917,11 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
@@ -2960,7 +2988,11 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
@@ -3352,7 +3384,11 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
@@ -3586,14 +3622,18 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
                 <trueActions>
                     <rule> <!--Check in Circulation Policy Set 2: validates combination of item type, borrower type and item location, independent of the circdesk coverage and sets itemstatus, replacementbill if lost,and overdue and Max fines-->
                         <name>Check In Circulation Policy Set 2</name>
-                        <oleProposition> <!--if borrowerType in (faculty, staff) AND itemType in (stks, magazine, AUDIOCD,AV,AUDIOTAPE,MICRO) AND (itemLibrary in (PERKN) OR itemShelving in (PLI, PLV1))-->
+                        <oleProposition> <!--if borrowerType in (faculty, staff) AND itemType in (BOOK, magazine, AUDIOCD,AV,AUDIOTAPE,MICRO) AND (itemLibrary in (PERKN) OR itemShelving in (PLI, PLV1))-->
                             <type>compound</type>
                             <compoundProposition>
                                 <operator>AND</operator>
@@ -3614,7 +3654,7 @@
                                         </value>
                                     </values>
                                 </simpleProposition>
-                                <simpleProposition> <!--if itemType in (stks, magazine, AUDIOCD,AV,AUDIOTAPE,MICRO)-->
+                                <simpleProposition> <!--if itemType in (BOOK, magazine, AUDIOCD,AV,AUDIOTAPE,MICRO)-->
                                     <term>
                                         <type>java.lang.String</type>
                                         <value>itemType</value>
@@ -3792,14 +3832,18 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
                 <trueActions>
-                    <rule> <!--Check in Circulation Policy Set 3: if borrowerType in (researcher, guest, Faculty) AND itemType in (stks, magazine) AND itemShelving in ((JRLRES, LawRes, FRD, SciDDC), then circpolicyFound=True AND -->
+                    <rule> <!--Check in Circulation Policy Set 3: if borrowerType in (researcher, guest, Faculty) AND itemType in (BOOK, magazine) AND itemShelving in ((JRLRES, LawRes, FRD, SciDDC), then circpolicyFound=True AND -->
                         <name>Check In Circulation Policy Set 3</name>
-                        <oleProposition> <!--if borrowerType in (researcher, Guest, Faculty) AND, itemtype in (stks, magazine) AND  itemShelving in (JRLRES, LawRes, FRD, SciDDC)-->
+                        <oleProposition> <!--if borrowerType in (researcher, Guest, Faculty) AND, itemtype in (BOOK, magazine) AND  itemShelving in (JRLRES, LawRes, FRD, SciDDC)-->
                             <type>compound</type>
                             <compoundProposition>
                                 <operator>AND</operator>
@@ -3824,7 +3868,7 @@
                                         </value>
                                     </values>
                                 </simpleProposition>
-                                <simpleProposition> <!--if itemType in (stks, magazine)-->
+                                <simpleProposition> <!--if itemType in (BOOK, magazine)-->
                                     <term>
                                         <type>java.lang.String</type>
                                         <value>itemType</value>
@@ -3978,7 +4022,11 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
@@ -4045,7 +4093,11 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
@@ -4064,7 +4116,35 @@
     <agenda> <!--Request Validation:  contains the policies for Requests-->
         <name>Request Validation</name>
         <rules>
-            <rule> <!--RequestApproval; This rule checks whether request type id is Page/DeliveryRequest,Page/HoldRequest,CopyRequest-->
+            <rule> <!--Fine Check: if the patron outstanding fine amount exceeds the limit then display the message Outstanding patron fine amount exceeds the limit-->
+                <name>Fine Check</name> <!--if fineAmount > 100 then display error-->
+                <oleProposition> 
+                    <type>simple</type>
+                    <simpleProposition>
+                        <term>
+                            <type>java.lang.Integer</type>
+                            <value>fineAmount</value>
+                        </term>
+                        <operator>greaterThan</operator>
+                        <values>
+                            <value>
+                                <type>java.lang.Integer</type>
+                                <name>100</name>
+                            </value>
+                        </values>
+                    </simpleProposition>
+                </oleProposition>
+                <trueActions>
+                    <action> <!--display message that fine amount is over the limit-->
+                        <name>errorAction</name>
+                        <parameter>
+                            <name>errorMessage</name>
+                            <value>Outstanding Patron fine amount exceeds the limit</value>
+                        </parameter>
+                    </action>
+                </trueActions>
+            </rule>            
+			<rule> <!--RequestApproval; This rule checks whether request type id is Page/DeliveryRequest,Page/HoldRequest,CopyRequest-->
                 <name>RequestApproval</name>
                 <oleProposition> <!--if RequestType in Page/DeliveryRequest,Page/HoldRequest,CopyRequest, Notify PeopleFlow-->
                     <type>simple</type>
@@ -4140,7 +4220,11 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
@@ -4483,7 +4567,11 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
@@ -4511,7 +4599,7 @@
                                         </value>
                                     </values>
                                 </simpleProposition>
-                                <simpleProposition> <!--if itemtype in (stks, magazine,AUDIOTAPE)-->
+                                <simpleProposition> <!--if itemtype in (book, magazine,AUDIOTAPE)-->
                                     <term>
                                         <type>java.lang.String</type>
                                         <value>itemType</value>
@@ -4782,7 +4870,11 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
@@ -4849,7 +4941,11 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
@@ -4868,32 +4964,6 @@
     <agenda> <!--The agenda 'Notice Validation' Contains the policies for notices-->
         <name>Notice Validation</name>
         <rules>
-            <rule>  <!--CourtesyNoticeCheck: if dueDateDiffInterval=configurableInterval, then set generateNotice=CourtesyNotice-->
-                <name>Courtesy Notice Check</name>
-                <oleProposition>
-                    <type>simple</type>
-                    <simpleProposition> <!--if dueDateDiffInterval=configurableInterval-->
-                        <term>
-                            <type>java.lang.Integer</type>
-                            <value>dueDateDiffInterval</value>
-                        </term>
-                        <operator>=</operator>
-                        <term>
-                            <type>java.lang.Integer</type>
-                            <value>configurableInterval</value>
-                        </term>
-                    </simpleProposition>
-                </oleProposition>
-                <trueActions>
-                    <action> <!--set generateNotice=CourtesyNotice-->
-                        <name>generateNotice</name>
-                        <parameter>
-                            <name>generateNotice</name>
-                            <value>CourtesyNotice</value>
-                        </parameter>
-                    </action>
-                </trueActions>
-            </rule>
             <rule> <!--Notice Validation Policy Set 1: If if circPolicyFound function isCircPolicyNotFound, Then (if borrowtype in (#) and itemtype in (#) and itemlocation in (#), then (set policyfound = true) AND (check holdNotice) AND (check overdueNotice))-->
                 <name>Circulation Policy Set 1 Validation for Notice</name>
                 <oleProposition> <!--if circPolicyFound function isCircPolicyNotFound-->
@@ -4902,7 +4972,11 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
@@ -5050,6 +5124,115 @@
                                     <value>true</value>
                                 </parameter>
                             </action>
+                            <rule>  <!--CourtesyNoticeCheck: To enable courtesy Notice Action, make it to true-->
+                                <name>Courtesy Notice Check</name>
+                                <oleProposition>
+                                    <type>simple</type>
+                                    <simpleProposition>
+                                        <term>
+                                            <type>java.util.Date</type>
+                                            <value>itemDueDate</value>
+                                        </term>
+                                        <operator>!=</operator>
+                                        <values>
+                                            <value>
+                                                <type>java.util.Date</type>
+                                                <name></name>
+                                            </value>
+                                        </values>
+                                    </simpleProposition>
+                                </oleProposition>
+                                <trueActions><!-- This Action is for courtesy batch job-->
+                                    <action>
+                                        <name>DeliverNotice</name>
+                                        <parameter>
+                                            <name>noticeType</name>
+                                            <value>CourtesyNotice</value>
+                                        </parameter>
+                                        <parameter>
+                                            <name>numberOfOverdueToBeSent</name>
+                                            <value></value>
+                                        </parameter>
+                                        <parameter><!--If intervalToGenerateNotice is mentioned as empty, It will be taken from system parameter-->
+                                            <name>intervalToGenerateNotice</name>
+                                            <value>2</value>
+                                        </parameter>
+                                        <parameter>
+                                            <name>replacementBill</name>
+                                            <value></value>
+                                        </parameter>
+                                    </action>
+                                </trueActions>
+                            </rule>
+                            <rule> <!--OverdueNoticeCheck: if (claimsReturned=true And replacementFeePatronBill= false)-->
+                                <name>OverdueNotice Check</name>
+                                <oleProposition>
+                                    <type>compound</type>
+                                    <compoundProposition>
+                                        <operator>AND</operator>
+                                        <simpleProposition>
+                                            <term>
+                                                <type>java.util.Date</type>
+                                                <value>itemDueDate</value>
+                                            </term>
+                                            <operator>!=</operator>
+                                            <values>
+                                                <value>
+                                                    <type>java.util.Date</type>
+                                                    <name></name>
+                                                </value>
+                                            </values>
+                                        </simpleProposition>
+                                        <simpleProposition> <!--if claimsReturned=true-->
+                                            <term>
+                                                <type>java.lang.String</type>
+                                                <value>claimsReturned</value>
+                                            </term>
+                                            <operator>=</operator>
+                                            <values>
+                                                <value>
+                                                    <type>java.lang.String</type>
+                                                    <name>false</name>
+                                                </value>
+                                            </values>
+                                        </simpleProposition>
+                                        <simpleProposition> <!--if replacementFeePatronBill in true-->
+                                            <term>
+                                                <type>java.lang.String</type>
+                                                <value>replacementFeePatronBill</value>
+                                            </term>
+                                            <operator>=</operator>
+                                            <values>
+                                                <value>
+                                                    <type>java.lang.String</type>
+                                                    <name>false</name>
+                                                </value>
+                                            </values>
+                                        </simpleProposition>
+                                    </compoundProposition>
+                                </oleProposition>
+                                <trueActions>
+                                    <action><!--This Action is for Overdue Batch Job-->
+                                        <name>DeliverNotice</name>
+                                        <parameter>
+                                            <name>noticeType</name>
+                                            <value>OverdueNotice</value>
+                                        </parameter>
+                                        <parameter>
+                                            <name>numberOfOverdueToBeSent</name>
+                                            <value>2</value>
+                                        </parameter>
+                                        <parameter><!--If intervalToGenerateNotice is mentioned as empty, It will be taken from system parameter-->
+                                            <name>intervalToGenerateNotice</name>
+                                            <value>2</value>
+                                        </parameter>
+                                        <parameter>
+                                            <name>replacementBill</name>
+                                            <value>100</value>
+                                        </parameter>
+                                    </action>
+                                </trueActions>
+                            </rule>
                             <rule> <!--Hold Courtesy Notice Check: if (itemStatus = ONHOLD  AND numberOfDaysOnHold>max#ofDaysOnHold), then generateNotice = HoldCourtesyNotice-->
                                 <name>Hold Courtesy Notice Check</name>
                                 <oleProposition> <!--if (itemStatus = ONHOLD  AND numberOfDaysOnHold>max#ofDaysOnHold)-->
@@ -5092,124 +5275,6 @@
                                     </action>
                                 </trueActions>
                             </rule>
-                            <rule> <!--OverdueNoticeCheck: if (claimsReturned=true OR replacementFeePatronBill in true) then do nothing, Else (if numberOfOverdueSent < 5, then (if dueDateSumInterval=intervalWithNoticeCount, then set generateNotice=OverDueNotice), Else set updateItemStatus=LOST)-->
-                                <name>OverdueNotice Check</name>
-                                <oleProposition>
-                                    <type>compound</type>
-                                    <compoundProposition>
-                                        <operator>AND</operator>
-                                        <simpleProposition> <!--if claimsReturned=true-->
-                                            <term>
-                                                <type>java.lang.String</type>
-                                                <value>claimsReturned</value>
-                                            </term>
-                                            <operator>=</operator>
-                                            <values>
-                                                <value>
-                                                    <type>java.lang.String</type>
-                                                    <name>false</name>
-                                                </value>
-                                            </values>
-                                        </simpleProposition>
-                                        <simpleProposition> <!--if replacementFeePatronBill in true-->
-                                            <term>
-                                                <type>java.lang.String</type>
-                                                <value>replacementFeePatronBill</value>
-                                            </term>
-                                            <operator>=</operator>
-                                            <values>
-                                                <value>
-                                                    <type>java.lang.String</type>
-                                                    <name>false</name>
-                                                </value>
-                                            </values>
-                                        </simpleProposition>
-                                    </compoundProposition>
-                                </oleProposition>
-                                <trueActions>
-                                    <rule> <!--MaxNumberOfOverDueNotices: if numberOfOverdueSent < 5, then (if dueDateSumInterval=intervalWithNoticeCount, then set generateNotice=OverDueNotice), Else set updateItemStatus=LOST-->
-                                        <name>MaxNumberOfOverDueNotices</name>
-                                        <oleProposition> <!--if numberOfOverdueSent < 5-->
-                                            <type>simple</type>
-                                            <simpleProposition>
-                                                <term>
-                                                    <type>java.lang.Integer</type>
-                                                    <value>numberOfOverdueSent</value>
-                                                </term>
-                                                <operator>lessThan</operator>
-                                                <values>
-                                                    <value>
-                                                        <type>java.lang.Integer</type>
-                                                        <name>2</name>
-                                                    </value>
-                                                </values>
-                                            </simpleProposition>
-                                        </oleProposition>
-                                        <trueActions>
-                                            <rule> <!--CheckDueDateWithInterval: if dueDateSumInterval=intervalWithNoticeCount, then set generateNotice=OverDueNotice-->
-                                                <name>CheckDueDateWithInterval</name>
-                                                <oleProposition> <!--if dueDateSumInterval>=intervalWithNoticeCount-->
-                                                    <type>compound</type>
-                                                    <compoundProposition>
-                                                        <operator>OR</operator>
-                                                        <simpleProposition>
-                                                            <term>
-                                                                <type>java.lang.Integer</type>
-                                                                <value>dueDateSumInterval</value>
-                                                            </term>
-                                                            <operator>greaterThan</operator>
-                                                            <values>
-                                                                <value>
-                                                                    <type>java.lang.Integer</type>
-                                                                    <name>2</name>
-                                                                </value>
-                                                            </values>
-                                                        </simpleProposition>
-                                                        <simpleProposition>
-                                                            <term>
-                                                                <type>java.lang.Integer</type>
-                                                                <value>dueDateSumInterval</value>
-                                                            </term>
-                                                            <operator>=</operator>
-                                                            <values>
-                                                                <value>
-                                                                    <type>java.lang.Integer</type>
-                                                                    <name>2</name>
-                                                                </value>
-                                                            </values>
-                                                        </simpleProposition>
-                                                    </compoundProposition>
-                                                </oleProposition>
-                                                <trueActions> <!--generateNotice: set generateNotice=OverDueNotice-->
-                                                    <action>
-                                                        <name>generateNotice</name>
-                                                        <parameter>
-                                                            <name>generateNotice</name>
-                                                            <value>OverdueNotice</value>
-                                                        </parameter>
-                                                    </action>
-                                                </trueActions>
-                                            </rule>
-                                        </trueActions>
-                                        <falseActions> <!--updateItemStatus: set updateItemStatus=LOST AND set replacementBill=100 -->
-                                            <action>
-                                                <name>replacementBill</name>
-                                                <parameter>
-                                                    <name>replacementBill</name>
-                                                    <value>100</value>
-                                                </parameter>
-                                            </action>
-                                            <action>
-                                                <name>updateItemStatus</name>
-                                                <parameter>
-                                                    <name>updateItemStatus</name>
-                                                    <value>LOST</value>
-                                                </parameter>
-                                            </action>
-                                        </falseActions>
-                                    </rule>
-                                </trueActions>
-                            </rule>
                         </trueActions>
                     </rule>
                 </trueActions>
@@ -5222,7 +5287,11 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
@@ -5289,7 +5358,11 @@
                         <function>circulationPolicyFoundFunction</function>
                         <term>
                             <type>java.lang.String</type>
-                            <value>isCirculationPolicyNotFound</value>
+                            <value>patronId</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>itemId</value>
                         </term>
                     </simpleProposition>
                 </oleProposition>
@@ -5299,6 +5372,71 @@
                         <parameter>
                             <name>errorMessage</name>
                             <value>There is no circulation rule for this combination.</value>
+                        </parameter>
+                    </action>
+                </trueActions>
+            </rule>
+            <rule> <!--Notice Type Check:  if borrowerType in (Undergrad, graduate, Faculty) AND deskLocation in (ILXSTACKS, IL-ALEXAND/ILXSTACKS), then determine notice method (email, sms, mail-->
+                <name>Notice Format Check</name>
+                <oleProposition> <!--if borrowerType in (Undergrad, graduate, Faculty) AND deskLocation in (ILXSTACKS, IL-ALEXAND/ILXSTACKS)-->
+                    <type>compound</type>
+                    <compoundProposition> <!--if borrowerType in (Undergrad, graduate, Faculty) AND deskLocation in (ILXSTACKS, IL-ALEXAND/ILXSTACKS)-->
+                        <operator>AND</operator>
+                        <simpleProposition> <!--if borrowerType in (Undergrad, graduate, Faculty)-->
+                            <term>
+                                <type>java.lang.String</type>
+                                <value>borrowerType</value>
+                            </term>
+                            <operator>IN</operator>
+                            <values>
+                                <value>
+                                    <type>java.lang.String</type>
+                                    <name>UGRAD</name>
+                                </value>
+                                <value>
+                                    <type>java.lang.String</type>
+                                    <name>I</name>
+                                </value>
+                                <value>
+                                    <type>java.lang.String</type>
+                                    <name>GRAD</name>
+                                </value>
+                                <value>
+                                    <type>java.lang.String</type>
+                                    <name>FAC</name>
+                                </value>
+                            </values>
+                        </simpleProposition>
+                        <simpleProposition> <!--if deskLocation in (BL_EDUC, UC_JRLMAIN)-->
+                            <term>
+                                <type>java.lang.String</type>
+                                <value>deskLocation</value>
+                            </term>
+                            <operator>IN</operator>
+                            <values>
+                                <value>
+                                    <type>java.lang.String</type>
+                                    <name>BL_EDUC</name>
+                                </value>
+                                <value>
+                                    <type>java.lang.String</type>
+                                    <name>UC_JRLMAIN</name>
+                                </value>
+                            </values>
+                        </simpleProposition>
+                    </compoundProposition>
+                </oleProposition>
+                <trueActions>
+                    <action> <!--emailForOverdueNotice: if notice=OverdueNotice, set noticeType email and
+                    if notice=CourtesyNotice, set noticeType email-->
+                        <name>NoticeFormat</name>
+                        <parameter>
+                            <name>notice</name>
+                            <value>OverdueNotice|CourtesyNotice</value>
+                        </parameter>
+                        <parameter>
+                            <name>noticeType</name>
+                            <value>email|email</value>
                         </parameter>
                     </action>
                 </trueActions>
@@ -5387,62 +5525,6 @@
                     </compoundProposition>
                 </oleProposition>
                 <trueActions>
-                    <rule> <!--emailForOverdueNotice: if notice=overdueNotice, set noticeType email-->
-                        <name>email for overdue notice</name>
-                        <oleProposition> <!--if notice=overdueNotice-->
-                            <type>simple</type>
-                            <simpleProposition>
-                                <term>
-                                    <type>java.lang.String</type>
-                                    <value>notice</value>
-                                </term>
-                                <operator>=</operator>
-                                <values>
-                                    <value>
-                                        <type>java.lang.String</type>
-                                        <name>OverdueNotice</name>
-                                    </value>
-                                </values>
-                            </simpleProposition>
-                        </oleProposition>
-                        <trueActions>
-                            <action> <!--noticeType: set noticeType email-->
-                                <name>noticeType</name>
-                                <parameter>
-                                    <name>noticeType</name>
-                                    <value>email</value>
-                                </parameter>
-                            </action>
-                        </trueActions>
-                    </rule>
-                    <rule> <!--mail for courtesy notice: if notice=courtesy, then set noticeType=sms-->
-                        <name>sms for courtesy notice</name>
-                        <oleProposition> <!--if notice=courtesy-->
-                            <type>simple</type>
-                            <simpleProposition>
-                                <term>
-                                    <type>java.lang.String</type>
-                                    <value>notice</value>
-                                </term>
-                                <operator>=</operator>
-                                <values>
-                                    <value>
-                                        <type>java.lang.String</type>
-                                        <name>CourtesyNotice</name>
-                                    </value>
-                                </values>
-                            </simpleProposition>
-                        </oleProposition>
-                        <trueActions> <!--set noticeType=sms-->
-                            <action>
-                                <name>noticeType</name>
-                                <parameter>
-                                    <name>noticeType</name>
-                                    <value>email</value>
-                                </parameter>
-                            </action>
-                        </trueActions>
-                    </rule>
                     <rule> <!--mail for holdCourtesy notice: if notice=HoldCourtesyNotice, then set noticeType=mail-->
                         <name>mail for holdCourtesy notice</name>
                         <oleProposition> <!--if notice=HoldCourtesyNotice-->

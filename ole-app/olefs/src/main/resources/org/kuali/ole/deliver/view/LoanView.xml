@@ -29,7 +29,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CIRC/content/ch02s01.html"/>
-                <property name="tooltipHelpContent" value="[Help] Loan help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] Loan help"/>-->
             </bean>
         </property>
         <property name="items">
@@ -49,7 +49,7 @@
             <ref bean="ClearFooterView-buttons" />
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/deliver/loan/script/loan.js</value>
             </list>
         </property>
@@ -727,7 +727,7 @@
             <list>
                 <bean id="selectRealPatron" parent="Loan-Uif-InputField" p:label="Choose Proxied Patron" p:propertyName="realPatronCheck">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:cssClasses="patronCheckBoxClass" p:onClickScript="getProxyName('@{#line.entity.names[0].firstName}','@{#line.entity.names[0].lastName}')"/>
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="patronCheckBoxClass" p:onClickScript="getProxyName('@{#line.realPatronFirstName}','@{#line.realPatronLastName}')"/>
                     </property>
                 </bean>
                 <bean id="realPatronId" parent="Uif-DataField" p:label="Proxied Patron Id"  p:propertyName="olePatronId">
@@ -784,7 +784,7 @@
     </bean>
 
     <bean id="RenewalDueDateCollection-HorizontalBoxSection" parent="RenewalDueDateCollection-HorizontalBoxSection-parentBean" />
-    <bean id="RenewalDueDateCollection-HorizontalBoxSection-parentBean" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="12" p:style="width:1000px">
+    <bean id="RenewalDueDateCollection-HorizontalBoxSection-parentBean" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="13" p:style="width:1000px">
         <property name="headerText" value="Renew Items" />
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
         <property name="propertyName" value="renewDueDateList"/>
@@ -825,8 +825,28 @@
                 <bean id="renewItemEnumeration" parent="Uif-DataField" p:label="Enumeration" p:width="10%" p:propertyName="enumeration"/>
 
                 <bean id="renewItemChronology" parent="Uif-DataField" p:label="Chronology" p:width="10%" p:propertyName="chronology"/>
+                <bean id="renewPopUp" parent="Uif-VerticalFieldGroup" p:label="Due Date" p:render="@{#line.nonCirculatingItem eq true}">
+                    <property name="items">
+                        <list>
+                            <bean id="renewPopUpDate" parent="Loan-Uif-InputField" p:propertyName="renewalDateMap" p:render="@{#line.nonCirculatingItem eq true}">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10" />
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="BasicDatePatternConstraint"/>
+                                </property>
+                            </bean>
+                            <bean id="renewPopUpTime" parent="Loan-Uif-InputField" p:propertyName="renewalDateTime" p:render="@{#line.nonCirculatingItem eq true}">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="6" p:watermarkText="hh:mm"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
 
-                <bean id="renewloanDueDateRenewal" parent="Uif-DataField" p:label="Due Date" p:width="10%" p:propertyName="loanDueDate"/>
+
+                <bean id="renewloanDueDateRenewal" parent="Uif-DataField" p:label="Due Date" p:width="10%" p:propertyName="loanDueDate" p:render="@{#line.nonCirculatingItem eq false}"/>
 
                 <bean id="renewItemSatus" parent="Uif-DataField" p:label="Item Status" p:width="10%" p:propertyName="itemStatus"/>
 
@@ -908,7 +928,16 @@
                         <bean parent="Uif-DateControl" p:size="10"/>
                     </property>
                     <property name="validCharactersConstraint">
-                        <bean parent="BasicDatePatternConstraint"/>
+                        <bean parent="BasicDatePatternConstraint">
+                            <property name="allowedFormats">
+                                <list>
+                                    <value>${allowedFormats.dateFormat1}</value>
+                                    <value>${allowedFormats.dateFormat2}</value>
+                                    <value>${allowedFormats.dateFormat3}</value>
+                                    <value>${allowedFormats.dateFormat4}</value>
+                                </list>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
                 <bean id="alterLoanDueDateTime" parent="Loan-Uif-InputField" p:propertyName="loanDueDateTimeToAlter" p:label="Time">
@@ -1093,7 +1122,16 @@
                         <bean parent="Uif-DateControl" p:size="10" />
                     </property>
                     <property name="validCharactersConstraint">
-                        <bean parent="BasicDatePatternConstraint"/>
+                        <bean parent="BasicDatePatternConstraint">
+                            <property name="allowedFormats">
+                                <list>
+                                    <value>${allowedFormats.dateFormat1}</value>
+                                    <value>${allowedFormats.dateFormat2}</value>
+                                    <value>${allowedFormats.dateFormat3}</value>
+                                    <value>${allowedFormats.dateFormat4}</value>
+                                </list>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
                 <bean id="popUpTime" parent="Loan-Uif-InputField" p:propertyName="popDateTime" p:label="Time" p:render="@{nonCirculatingFlag}">
@@ -1138,7 +1176,9 @@
                     </property>
                 </bean>
 
-                <bean id="renewalBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="renewalItem" p:actionLabel="Renew" p:render="@{overrideRenewItemFlag and !renewalFlag and message ne null and message ne '' and renewPermission}" p:ajaxSubmit="true"  p:successCallback="closeMessageBox()" />
+                <bean id="renewalBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="setRenewalDueDate();" p:actionLabel="Renew" p:render="@{overrideRenewItemFlag and !renewalFlag and message ne null and message ne '' and renewPermission}" />
+
+                <bean id="hdnRenewalBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="renewalItem" p:actionLabel="Renew" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="closeMessageBox()" />
 
                 <bean id="noRenewalBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="doNotRenewalItem" p:actionLabel="Do not Renew" p:render="@{overrideRenewItemFlag and !renewalFlag and message ne null and message ne ''}" p:ajaxSubmit="true"  p:successCallback="closeMessageBox()" />
 
@@ -1270,6 +1310,9 @@
                 <bean id="loanView_existing_DamagedNote" parent="Uif-DataField" p:label="Item Damaged Note" p:width="10%"  p:propertyName="itemDamagedNote">
 
                 </bean>
+                <bean id="viewItemRequest" parent="Uif-LinkField" p:label="Pending Requests" p:width="10%" p:linkText="@{#line.requestFlag}" p:target="_blank" p:href="lookup?methodToCall=search&amp;itemId=@{#line.itemId}&amp;flag=true&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo" p:style="font-weight:bold;">
+                    <property name="cssClasses" value="uif-secondaryActionButton"/>
+                </bean>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>
@@ -1356,6 +1399,9 @@
                 </bean>
                 <bean id="loanView_DamagedNote" parent="Uif-DataField" p:label="Item Damaged Note" p:width="10%"  p:propertyName="itemDamagedNote">
 
+                </bean>
+                <bean id="loanView_ItemRequest" parent="Uif-LinkField" p:label="Pending Requests" p:width="10%" p:linkText="@{#line.requestFlag}" p:target="_blank" p:href="lookup?methodToCall=search&amp;itemId=@{#line.itemId}&amp;flag=true&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo" p:style="font-weight:bold;">
+                    <property name="cssClasses" value="uif-secondaryActionButton"/>
                 </bean>
             </list>
         </property>

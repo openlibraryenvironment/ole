@@ -1,6 +1,5 @@
 package org.kuali.ole.ncip.service.impl;
 
-import com.thoughtworks.xstream.XStream;
 import org.apache.log4j.Logger;
 import org.extensiblecatalog.ncip.v2.service.*;
 import org.kuali.ole.OLEConstants;
@@ -98,7 +97,7 @@ public class OLECheckOutItemServiceImpl implements OLECheckOutItemService {
                 itemType = agencyPropertyMap.get(OLENCIPConstants.ITEM_TYPE);
                 operatorId = agencyPropertyMap.get(OLENCIPConstants.OPERATOR_ID);
                 LOG.info("Inside Check Out Item Service . Patron Barcode : " + initData.getUserId().getUserIdentifierValue() + " Operator Id : "+ operatorId + " Item Barcode : "+ initData.getItemId().getItemIdentifierValue() );
-                responseString = oleCirculationService.checkOutItem(initData.getUserId().getUserIdentifierValue(), operatorId, initData.getItemId().getItemIdentifierValue());
+                responseString = oleCirculationService.checkOutItem(initData.getUserId().getUserIdentifierValue(), operatorId, initData.getItemId().getItemIdentifierValue(),false);
                 oleCheckOutItem = (OLECheckOutItem) oleCheckOutItemConverter.generateCheckoutItemObject(responseString);
                 if (oleCheckOutItem != null && oleCheckOutItem.getMessage() != null && oleCheckOutItem.getMessage().equals(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.SUCCESSFULLEY_LOANED))) {
                     ItemId itemId = new ItemId();

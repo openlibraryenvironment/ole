@@ -525,7 +525,12 @@ public class InvoiceItem extends AccountsPayableItemBase {
             map.put("purapDocumentIdentifier",this.getPurchaseOrderIdentifier());
             List<OlePurchaseOrderDocument> purchaseOrderDocumentList = (List<OlePurchaseOrderDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePurchaseOrderDocument.class,map);
             if(purchaseOrderDocumentList!=null && purchaseOrderDocumentList.size()>0){
-                setPurchaseOrderDocument(purchaseOrderDocumentList.get(0));
+                for(OlePurchaseOrderDocument olePurchaseOrderDocument : purchaseOrderDocumentList){
+                    if(olePurchaseOrderDocument.isPurchaseOrderCurrentIndicator()){
+                        setPurchaseOrderDocument(olePurchaseOrderDocument);
+                    }
+                }
+
             }
         }
         return purchaseOrderDocument;

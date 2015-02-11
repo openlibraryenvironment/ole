@@ -64,6 +64,9 @@ public class OLEBatchProcessOrderImportDataTypeValuesFinder extends KeyValuesBas
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.VOLUME_NUMBER,"Volume Number"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.FORMAT_TYP_NM,"Format"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER,OLEConstants.OLEBatchProcess.BUILDING_ROOM_NUMBER));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP,"Recurring Payment Type"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT,"Recurring Payment Begin Date"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT,"Recurring Payment End Date"));
         Collections.sort(keyValues, new Comparator<KeyValue>() {
             public int compare(KeyValue keyValue1, KeyValue keyValue2) {
                 return keyValue1.getValue().compareTo(keyValue2.getValue());

@@ -772,4 +772,8 @@
         <property name="parameterService" ref="parameterService"/>
     </bean>
 
+    <bean id="oleDeliverItemSearchService" parent="oleDeliverItemSearchService-parentBean"/>
+    <bean id="oleDeliverItemSearchService-parentBean" abstract="true"
+          class="org.kuali.ole.deliver.service.impl.OLEDeliverItemSearchServiceImpl"/>
+
 </beans>

@@ -570,7 +570,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
         solrDoc.addField(DOC_FORMAT, DocFormat.MARC.getDescription());
 
         for (String field : documentSearchConfig.FIELDS_TO_TAGS_2_INCLUDE_MAP.keySet()) {
-            if (!field.startsWith("Local")) {
+            if (!field.equalsIgnoreCase("mdf_035a") && !field.startsWith("Local")) {
                 addFieldToSolrDoc(record, field, buildFieldValue(field, record), solrDoc);
             }
 

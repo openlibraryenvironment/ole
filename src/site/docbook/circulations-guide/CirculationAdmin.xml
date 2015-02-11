@@ -1415,6 +1415,9 @@
       <imagedata fileref="../images/DescribeNoTitlePage-184.png"/>
      </imageobject>
     </inlinemediaobject></emphasis></para>
+     <note>
+         <para role="Normal">Please click <link xlink:href="../../../pdfs/LocationTechnicalDocument.pdf">here</link> for technical documentation.</para>
+     </note>
   <para role="Normal"/>
   <para role="Normal">The goals of the location system are to:</para>
   <orderedlist numeration="arabic" spacing="normal">
@@ -1515,6 +1518,29 @@
     </tgroup>
    </informaltable>
   </section>
+  <section>
+   <title>Implementation Information</title>
+   <para>Each Location must have a Location Code, a Location Name, and a Location Level (Location
+    Level Id). Each Location may have a Parent Location (displayed as the Location Name and, in
+    brackets, the Location Code) of a location with a higher location level than its own level. Note
+    the Parent Location does not have to be one defined at the next higher location level – it can
+    be a location with any level higher than its own level. Its parent cannot be at the same level
+    as itself or at a level below its own.</para>
+   <para>There is one other restriction when building an institution’s Locations. The lowest level
+    of Locations must be defined using the Location Level 5 Id.  Additionally, the Location Codes
+    for Level 5 must be completely unique from any other Location Codes.</para>
+   <para>If your institution does not want to use Institution or Collection Levels, just Campuses,
+    Libraries, and Shelving levels, you can leave the Location Level definitions alone. You
+    construct your Locations and have the highest level be a 2, Libraries (level 3’s) with Level 2
+    parents, and Shelvings (Level 5’s) with level 2 or level 3 parents.</para>
+   <para>If your institution wants a different 3 level structure like Campus, Library, and
+    Collection, you can do that as well although it may not look as clean as the previous example.
+    Your Collections locations must use a Level 5 definition (lowest level must be Level 5). This is
+    going to look a bit messy if the Location Level Code for Level ID 5 cannot be changed (must be
+    left as “SHELVING”). Your institution could at least change the Level Name of the Level ID 5
+    record to read “Collection”. Then proceed building the Locations using Level Id’s 2, 3, and
+    5.</para>
+  </section>
  </section>
  <section>
   <title><anchor xml:id="_Location_Level"/>Location Level</title>
@@ -1547,6 +1573,12 @@
   <para role="Body Text">Locations are structured so that a location can be part of another
    location. The various levels that make up a location are named and structured in this maintenance
    document.</para>
+  <para>There are always 5 location levels. They are identified by the Location ID number 1 through
+   5. The Location Level ID cannot be changed. </para>
+  <para>Each Location Level must have a Level Code and a Level Name. Each Location level may have a
+   Parent Level ID of one of the other levels. In practice only the top level location will be
+   without a Parent Location. No Parent Level ID should be used in more than one other Location
+   Level definition.</para>
   <note>
    <para role="Normal">Only users with an OLE-PTRN Location Administrator role may create and manage
     Location Levels.</para>
@@ -1610,6 +1642,65 @@
      </tbody>
     </tgroup>
    </informaltable>
+  </section>
+  <section>
+   <title>Implementation Information</title>
+   <para>The out of the box values for Level Code and Level Names are:</para>
+   <informaltable frame="top">
+    <tgroup cols="4">
+     <colspec colname="c1" colnum="1"/>
+     <colspec colname="c2" colnum="1"/>
+     <colspec colname="c3" colnum="1"/>
+     <colspec colname="c4" colnum="1"/>
+     <thead>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">Level ID</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">Level Code</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">Level Name</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">Parent Level ID</entry>
+      </row>
+     </thead>
+     <tbody>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">1</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">INSTITUTION</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">Institution</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top"></entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">2</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">CAMPUS</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">Campus</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">1</entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">3</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">LIBRARY</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">Library</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">2</entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">4</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">COLLECTION</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">Collection</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">3</entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">5</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">SHELVING</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">Shelving</entry>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">4</entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </informaltable>
+   <para>Each installing partner can provide their own Level Code and Level Name values with the
+    possible exception of Level ID 5. It may be that its code must be SHELVING but it could have any
+    Name value.  We are looking into that to see if and where code is referencing the level code
+    value rather than the Level ID.</para>
+   <para>The Location Level structure is used to build the actual Locations at a particular
+    institution. See additional Implementation Information under <link linkend="_Location">Location
+    </link>.</para>
   </section>
  </section>
  <section>

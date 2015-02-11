@@ -2,7 +2,6 @@ package org.kuali.ole.deliver.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.ole.LoanUtil;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.OLEPropertyConstants;
@@ -29,9 +28,11 @@ import org.kuali.rice.core.api.mail.EmailTo;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -555,6 +556,10 @@ public class LoanController extends UifControllerBase {
         Long begin = System.currentTimeMillis();
         OleLoanForm oleLoanForm = (OleLoanForm) form;
         oleLoanForm.setBlockItem(false);
+        if(oleLoanForm.getItem().equals("")){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.EMPTY_ITEM_BARCODE);
+            return getUIFModelAndView(oleLoanForm);
+        }
         try {
             oleLoanForm.setOleFormKey(oleLoanForm.getFormKey());
             oleLoanForm.setInformation("");
@@ -573,7 +578,7 @@ public class LoanController extends UifControllerBase {
                 existItemList.addAll(oleLoanForm.getLoanList());
             String item = oleLoanForm.getItem();
           /*  Long trail = System.currentTimeMillis();*/
-            for (OleLoanDocument oleLoanDocument : existItemList) {
+              for (OleLoanDocument oleLoanDocument : existItemList) {
                // OleLoanDocument oleLoanDocument = existItemList.get(i);
                 if (oleLoanDocument.getItemId() != null && oleLoanDocument.getItemId().equals(item)) {
                     oleLoanForm.setRenewalFlag(true);
@@ -584,7 +589,7 @@ public class LoanController extends UifControllerBase {
                     renewalFlag = true;
                     break;
                 }
-            }
+              }
            /* Long trailEnd = System.currentTimeMillis();
             Long timeTakenTrail = trailEnd - trail;
             LOG.info("------------Trail Check---------------"+timeTakenTrail);*/
@@ -888,13 +893,18 @@ public class LoanController extends UifControllerBase {
                                     Date date = new Date(oleLoanDocument.getCheckInDate().getTime());
                                     if (oleNoticeBo != null) {
                                         oleNoticeBo.setCheckInDate(dateFormat.format(date));
-                                        String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
-                                        if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
-                                            fromAddress = OLEConstants.KUALI_MAIL;
-                                        }
                                         String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                                         OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                                        String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                                        if (replyToEmail!=null){
+                                            oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                                        }else {
+                                            String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+                                            if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
+                                                fromAddress = OLEConstants.KUALI_MAIL;
+                                            }
+                                            oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                                        }
                                         if (LOG.isInfoEnabled()) {
                                             LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
                                         }
@@ -993,13 +1003,18 @@ public class LoanController extends UifControllerBase {
                     Date date = new Date(oleLoanDocument.getCheckInDate().getTime());
                     if (oleNoticeBo != null) {
                         oleNoticeBo.setCheckInDate(dateFormat.format(date));
-                        String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
-                        if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
-                            fromAddress = OLEConstants.KUALI_MAIL;
-                        }
                         String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                         OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                        String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                        if (replyToEmail != null) {
+                            oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                        } else {
+                            String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+                            if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
+                                fromAddress = OLEConstants.KUALI_MAIL;
+                            }
+                            oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                        }
                         if (LOG.isInfoEnabled()) {
                             LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
                         }
@@ -1818,6 +1833,7 @@ public class LoanController extends UifControllerBase {
         oleLoanForm.setPreviousCirculationDesk(currentLocation);
         oleLoanForm.setNewPrincipalId("");
         oleLoanForm.setAddressVerified(false);
+        oleLoanForm.setOverrideRenewItemFlag(false);
         oleLoanForm.setInformation("");
         oleLoanForm.setSuccessInfo("");
         oleLoanForm.setReturnInformation("");
@@ -1854,6 +1870,7 @@ public class LoanController extends UifControllerBase {
         oleLoanForm.setDisplayDamagedRecordNotePopup(false);
         oleLoanForm.setCheckoutDamagedRecordFlag(false);
         oleLoanForm.setPatronbill(false);
+        oleLoanForm.setPopDateTimeInfo("");
         GlobalVariables.getUserSession().clearBackdoorUser();
         GlobalVariables.getUserSession().setBackdoorUser(oleLoanForm.getOldPrincipalId());
         oleLoanForm.setNewPrincipalId(null);
@@ -1893,6 +1910,7 @@ public class LoanController extends UifControllerBase {
         }
         //oleLoanForm.setNewPrincipalId("");
         oleLoanForm.setAddressVerified(false);
+        oleLoanForm.setOverrideRenewItemFlag(false);
         oleLoanForm.setInformation("");
         oleLoanForm.setSuccessInfo("");
         oleLoanForm.setReturnInformation("");
@@ -1931,6 +1949,7 @@ public class LoanController extends UifControllerBase {
         oleLoanForm.setCheckoutDamagedRecordFlag(false);
         oleLoanForm.setPatronbill(false);
         oleLoanForm.setSuccessMessage(null);
+        oleLoanForm.setPopDateTimeInfo("");
         //GlobalVariables.getUserSession().clearBackdoorUser();
         //GlobalVariables.getUserSession().setBackdoorUser( oleLoanForm.getOldPrincipalId() );
         //oleLoanForm.setNewPrincipalId(null);
@@ -2137,6 +2156,8 @@ public class LoanController extends UifControllerBase {
         oleLoanForm.setInformation("");
         oleLoanForm.setSuccessInfo("");
         oleLoanForm.setMessage("");
+        oleLoanForm.setPopDateTimeInfo("");
+        oleLoanForm.setOverrideRenewItemFlag(false);
         oleLoanForm.setRenewalFlag(false);
         List<OleLoanDocument> existingItemList = new ArrayList<OleLoanDocument>();
         existingItemList.addAll(oleLoanForm.getExistingLoanList());
@@ -2179,6 +2200,57 @@ public class LoanController extends UifControllerBase {
                 oleLoanDocument.setErrorMessage(null);
             }
         }
+        if(oleLoanDocument.getRenewalLoanDueDate() == null && oleLoanForm.getDueDateMap() != null){
+                Timestamp timestamp;
+                Pattern pattern;
+                Matcher matcher;
+                SimpleDateFormat fmt = new SimpleDateFormat(OLEConstants.OlePatron.PATRON_MAINTENANCE_DATE_FORMAT);
+                boolean timeFlag = false;
+                if (oleLoanForm.getPopDateTime() != null && !oleLoanForm.getPopDateTime().isEmpty()) {
+                    String[] str = oleLoanForm.getPopDateTime().split(":");
+                    pattern = Pattern.compile(OLEConstants.TIME_24_HR_PATTERN);
+                    matcher = pattern.matcher(oleLoanForm.getPopDateTime());
+                    timeFlag = matcher.matches();
+                    if (timeFlag) {
+                        if (str != null && str.length <= 2) {
+                            oleLoanForm.setPopDateTime(oleLoanForm.getPopDateTime() + OLEConstants.CHECK_IN_TIME_MS);
+                        }
+                        timestamp = Timestamp.valueOf(new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT).format(oleLoanForm.getDueDateMap()).concat(" ").concat(oleLoanForm.getPopDateTime()));
+                    } else {
+                        oleLoanForm.setPopDateTimeInfo(OLEConstants.DUE_DATE_TIME_FORMAT_MESSAGE);
+                                     /*return getUIFModelAndView(oleLoanForm,"PatronItemViewPage");*/
+                        return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
+                    }
+                } else if (fmt.format(oleLoanForm.getDueDateMap()).compareTo(fmt.format(new Date())) == 0) {
+                    timestamp = new Timestamp(new Date().getTime());
+                } else {
+                    timestamp = Timestamp.valueOf(new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT).format(oleLoanForm.getDueDateMap()).concat(" ").concat(new SimpleDateFormat("HH:mm:ss").format(new Date())));
+                }
+                oleLoanDocument.setManualRenewalDueDate(timestamp);
+            if(oleLoanDocument.getLoanDueDate() != null && oleLoanDocument.getLoanDueDate().equals(oleLoanDocument.getManualRenewalDueDate())){
+                oleLoanDocument.setRenewNotFlag(true);
+            }else{
+                oleLoanDocument.setRenewNotFlag(false);
+            }
+           // Timestamp timestamp = Timestamp.valueOf(new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT).format(oleLoanForm.getDueDateMap()).concat(" ").concat(new SimpleDateFormat("HH:mm:ss").format(new Date())));
+            oleLoanForm.setNonCirculatingFlag(false);
+        }else{
+            oleLoanDocument.setManualRenewalDueDate(null);
+        }
+        if(oleLoanDocument.getLoanDueDate() == null && oleLoanDocument.isRenewalItemFlag()){
+            oleLoanForm.setInformation("");
+            oleLoanForm.setReturnInformation("");
+            oleLoanForm.setRenewalFlag(false);
+            oleLoanForm.setSuccess(true);
+            oleLoanForm.setMessage("");
+            oleLoanForm.setOverrideRenewal(false);
+            oleLoanForm.setRenewDueDateFlag(false);
+            oleLoanForm.setOverrideRenewItemFlag(false);
+            oleLoanForm.setNonCirculatingFlag(false);
+            oleLoanForm.setRenewPermission(oleLoanDocument.isRenewPermission());
+            oleLoanForm.setSuccessInfo(OLEConstants.RENEWAL_INDEFINITE_INFO);
+            return getUIFModelAndView(oleLoanForm, "PatronItemViewPage");
+        }
         if (!oleLoanForm.isOverrideRenewal()) {
          //   if (!getLoanProcessor().checkPendingRequestforItem(oleLoanDocument.getItemUuid())) {
 
@@ -2189,7 +2261,18 @@ public class LoanController extends UifControllerBase {
                     oleLoanDocument.setBorrowerTypeCode(oleLoanForm.getBorrowerCode());
                     oleLoanDocument.setCirculationLocationId(oleLoanForm.getCirculationDesk());
                     oleLoanDocument = getLoanProcessor().addLoan(oleLoanDocument.getPatronBarcode(), oleLoanDocument.getItemId(), oleLoanDocument,  null);
-                    if (oleLoanDocument.getErrorMessage() == null) {
+                    if(oleLoanDocument.isNonCirculatingItem()){
+                     oleLoanForm.setNonCirculatingFlag(oleLoanDocument.isNonCirculatingItem());
+                    }
+                    if(oleLoanDocument.isIndefiniteCheckFlag()){
+                        oleLoanForm.setRenewalFlag(false);
+                        oleLoanForm.setOverrideRenewItemFlag(false);
+                        oleLoanForm.setSuccess(true);
+                        oleLoanForm.setMessage("");
+                        oleLoanForm.setRenewPermission(oleLoanDocument.isRenewPermission());
+                        oleLoanForm.setSuccessInfo(OLEConstants.RENEWAL_INDEFINITE_INFO);
+                    }
+                    if (oleLoanDocument.getErrorMessage() == null && !oleLoanDocument.isRenewNotFlag()) {
                         oleLoanForm.setRenewalFlag(false);
                         oleLoanForm.setOverrideRenewItemFlag(false);
                         oleLoanForm.setSuccess(true);
@@ -2197,6 +2280,14 @@ public class LoanController extends UifControllerBase {
                         // oleLoanForm.getExistingLoanList().remove(renewCurrentCount);
                         oleLoanForm.setRenewPermission(oleLoanDocument.isRenewPermission());
                         oleLoanForm.setSuccessInfo(OLEConstants.RENEWAL_ITM_SUCCESS_INFO);
+                    } else if(oleLoanDocument.isRenewNotFlag()){
+                        oleLoanForm.setRenewalFlag(false);
+                        oleLoanForm.setOverrideRenewItemFlag(false);
+                        oleLoanForm.setSuccess(true);
+                        oleLoanForm.setMessage("");
+                        // oleLoanForm.getExistingLoanList().remove(renewCurrentCount);
+                        oleLoanForm.setRenewPermission(oleLoanDocument.isRenewPermission());
+                        oleLoanForm.setSuccessInfo(OLEConstants.RENEWAL_DUEDATE_SAME_INFO);
                     } else {
                         if (!oleLoanForm.isOverrideRenewal())
                             oleLoanForm.setOverrideRenewal(true);
@@ -2218,24 +2309,26 @@ public class LoanController extends UifControllerBase {
                         }
                       oleLoanForm.setMessage(errMsg);
                     }
-                    if (oleLoanForm.getExistingLoanList() != null && oleLoanForm.getExistingLoanList().size() > 0) {
-                        //  oleLoanForm.getExistingLoanList().remove(renewCurrentCount);
-                        for (int i = 0; i < oleLoanForm.getExistingLoanList().size(); i++) {
-                            if ((oleLoanForm.getExistingLoanList().get(i).getItemId()).equalsIgnoreCase(oleLoanDocument.getItemId())) {
-                                oleLoanForm.getExistingLoanList().remove(i);
-                                break;
+                    if(!oleLoanDocument.isIndefiniteCheckFlag()) {
+                        if (oleLoanForm.getExistingLoanList() != null && oleLoanForm.getExistingLoanList().size() > 0) {
+                            //  oleLoanForm.getExistingLoanList().remove(renewCurrentCount);
+                            for (int i = 0; i < oleLoanForm.getExistingLoanList().size(); i++) {
+                                if ((oleLoanForm.getExistingLoanList().get(i).getItemId()).equalsIgnoreCase(oleLoanDocument.getItemId())) {
+                                    oleLoanForm.getExistingLoanList().remove(i);
+                                    break;
+                                }
                             }
                         }
-                    }
-                    if (oleLoanForm.getLoanList() != null && oleLoanForm.getLoanList().size() > 0) {
-                        for (int i = 0; i < oleLoanForm.getLoanList().size(); i++) {
-                            if ((oleLoanForm.getLoanList().get(i).getItemId()).equalsIgnoreCase(oleLoanDocument.getItemId())) {
-                                oleLoanForm.getLoanList().remove(i);
-                                break;
+                        if (oleLoanForm.getLoanList() != null && oleLoanForm.getLoanList().size() > 0) {
+                            for (int i = 0; i < oleLoanForm.getLoanList().size(); i++) {
+                                if ((oleLoanForm.getLoanList().get(i).getItemId()).equalsIgnoreCase(oleLoanDocument.getItemId())) {
+                                    oleLoanForm.getLoanList().remove(i);
+                                    break;
+                                }
                             }
                         }
+                        oleLoanForm.setOleLoanDocumentToLoanList(oleLoanDocument);
                     }
-                    oleLoanForm.setOleLoanDocumentToLoanList(oleLoanDocument);
 
                 } catch (Exception e) {
                     oleLoanForm.setInformation(e.getMessage());
@@ -2272,7 +2365,14 @@ public class LoanController extends UifControllerBase {
                     oleLoanForm.setOverrideRenewal(false);
                     oleLoanForm.setRenewalFlag(false);
                     oleLoanForm.setOverrideRenewItemFlag(false);
-                    oleLoanForm.setSuccessInfo(OLEConstants.RENEWAL_ITM_SUCCESS_INFO);
+                    if(!oleLoanDocument.isNonCirculatingItem()){
+                       oleLoanForm.setNonCirculatingFlag(false);
+                    }
+                    if(oleLoanDocument.isRenewNotFlag()){
+                        oleLoanForm.setSuccessInfo(OLEConstants.RENEWAL_DUEDATE_SAME_INFO);
+                    }else {
+                        oleLoanForm.setSuccessInfo(OLEConstants.RENEWAL_ITM_SUCCESS_INFO);
+                    }
                 }
                 // } else
                 //   oleLoanForm.setMessage(OLEConstants.RENEWAL_ITM_AFTER_FIXED_DUEDATE);
@@ -2309,6 +2409,7 @@ public class LoanController extends UifControllerBase {
         oleLoanForm.setOverrideRenewal(false);
         oleLoanForm.setRenewDueDateFlag(false);
         oleLoanForm.setOverrideRenewItemFlag(false);
+        oleLoanForm.setNonCirculatingFlag(false);
         return getUIFModelAndView(oleLoanForm, "PatronItemViewPage");
     }
 
@@ -2329,7 +2430,7 @@ public class LoanController extends UifControllerBase {
         oleLoanForm.setInformation("");
         oleLoanForm.setSuccessInfo("");
         oleLoanForm.setMessage("");
-
+        oleLoanForm.setOleFormKey(oleLoanForm.getFormKey());
         List<OleLoanDocument> existingItemList = new ArrayList<OleLoanDocument>(0);
         List<OleLoanDocument> renewalItemList = new ArrayList<OleLoanDocument>(0);
         existingItemList.addAll(oleLoanForm.getExistingLoanList());
@@ -2373,7 +2474,24 @@ public class LoanController extends UifControllerBase {
                             renewalItemList.add(loanDocument);
                             oleLoanForm.setRenewDueDateList(renewalItemList);
                         } else */
-                    if (loanDocument.getErrorMessage() == null) {
+                    oleLoanForm.setNonCirculatingFlag(loanDocument.isNonCirculatingItem());
+                    if(loanDocument.isIndefiniteCheckFlag()){
+                        errMsg = errMsg + (i + 1) + ". " + OLEConstants.RENEWAL_INDEFINITE_INFO + "  (" + loanDocument.getItemId() + ")<br/>";
+                        oleLoanForm.setRenewDueDateFlag(false);
+                     /*   oleLoanForm.setRenewalFlag(false);
+                        oleLoanForm.setOverrideRenewal(false);
+                        oleLoanForm.setOverrideRenewItemFlag(false);*/
+                        oleLoanForm.setNonCirculatingFlag(false);
+                        i++;
+                    } else if(loanDocument.isRenewNotFlag()){
+                        errMsg = errMsg + (i + 1) + ". " + OLEConstants.RENEWAL_DUEDATE_SAME_INFO + "  (" + loanDocument.getItemId() + ")<br/>";
+                        oleLoanForm.setRenewDueDateFlag(false);
+                     /*   oleLoanForm.setRenewDueDateFlag(false);
+                        oleLoanForm.setRenewalFlag(false);
+                        oleLoanForm.setOverrideRenewal(false);
+                        oleLoanForm.setOverrideRenewItemFlag(false);*/
+                        oleLoanForm.setNonCirculatingFlag(false);
+                    } else if (loanDocument.getErrorMessage() == null) {
                         errMsg = errMsg + (i + 1) + ". " + OLEConstants.RENEWAL_ITM_SUCCESS_INFO + "  (" + loanDocument.getItemId() + ")<br/>";
                         i++;
                         //oleLoanForm.getExistingLoanList().remove(i);
@@ -2437,7 +2555,9 @@ public class LoanController extends UifControllerBase {
                                            HttpServletRequest request, HttpServletResponse response) {
         LOG.debug("Inside the renewal items method");
         OleLoanForm oleLoanForm = (OleLoanForm) form;
+        oleLoanForm.setOleFormKey(oleLoanForm.getFormKey());
         oleLoanForm.setMessage("");
+        oleLoanForm.setPopDateTimeInfo("");
         String info = oleLoanForm.getSuccessInfo()!=null ? oleLoanForm.getSuccessInfo() : "";
         List<OleLoanDocument> renewItemList = new ArrayList<OleLoanDocument>(0);
         renewItemList.addAll(oleLoanForm.getRenewDueDateList());
@@ -2462,6 +2582,39 @@ public class LoanController extends UifControllerBase {
                             if (loanDocument.isRenewCheckNo()) {
                                 loanDocument.setRenewCheckNo(false);
                                 //if (currentDate.after(loanDocument.getLoanDueDate())) {
+                                if(loanDocument.isNonCirculatingItem() && loanDocument.getLoanDueDate() == null && loanDocument.getRenewalDateMap() != null){
+                                    Timestamp timestamp;
+                                    Pattern pattern;
+                                    Matcher matcher;
+                                    SimpleDateFormat fmt = new SimpleDateFormat(OLEConstants.OlePatron.PATRON_MAINTENANCE_DATE_FORMAT);
+                                    boolean timeFlag = false;
+                                    oleLoanForm.setDueDateMap(loanDocument.getRenewalDateMap());
+                                    if (loanDocument.getRenewalDateTime() != null && !loanDocument.getRenewalDateTime().isEmpty()) {
+                                        String[] str = loanDocument.getRenewalDateTime().split(":");
+                                        pattern = Pattern.compile(OLEConstants.TIME_24_HR_PATTERN);
+                                        matcher = pattern.matcher(loanDocument.getRenewalDateTime());
+                                        timeFlag = matcher.matches();
+                                        if (timeFlag) {
+                                            if (str != null && str.length <= 2) {
+                                                loanDocument.setRenewalDateTime(loanDocument.getRenewalDateTime() + OLEConstants.CHECK_IN_TIME_MS);
+                                            }
+                                            timestamp = Timestamp.valueOf(new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT).format(loanDocument.getRenewalDateMap()).concat(" ").concat(loanDocument.getRenewalDateTime()));
+                                        } else {
+                                            oleLoanForm.setPopDateTimeInfo(OLEConstants.DUE_DATE_TIME_FORMAT_MESSAGE);
+                                     /*return getUIFModelAndView(oleLoanForm,"PatronItemViewPage");*/
+                                            return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
+                                        }
+                                    } else if (fmt.format(oleLoanForm.getDueDateMap()).compareTo(fmt.format(new Date())) == 0) {
+                                        timestamp = new Timestamp(new Date().getTime());
+                                    } else {
+                                        timestamp = Timestamp.valueOf(new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT).format(oleLoanForm.getDueDateMap()).concat(" ").concat(new SimpleDateFormat("HH:mm:ss").format(new Date())));
+                                    }
+                                    loanDocument.setManualRenewalDueDate(timestamp);
+                                    // Timestamp timestamp = Timestamp.valueOf(new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT).format(oleLoanForm.getDueDateMap()).concat(" ").concat(new SimpleDateFormat("HH:mm:ss").format(new Date())));
+                                    oleLoanForm.setNonCirculatingFlag(false);
+                                }else{
+                                    loanDocument.setManualRenewalDueDate(null);
+                                }
                                 getLoanProcessor().overrideSaveLoanForRenewal(loanDocument);
                                 loanDocument.setErrorMessage(OLEConstants.RENEWAL_ITM_SUCCESS_INFO);
                                 for (int j = 0; j < oleLoanForm.getExistingLoanList().size(); j++) {
@@ -2488,7 +2641,12 @@ public class LoanController extends UifControllerBase {
                                 oleLoanForm.setMessage("");
                                 oleLoanForm.setSuccess(true);
                                 oleLoanForm.setOverrideRenewal(false);
-                                info = info + (i + 1) + ". " + OLEConstants.RENEWAL_ITM_SUCCESS_INFO + "  (" + loanDocument.getItemId() + ")<br/>";
+                                oleLoanForm.setNonCirculatingFlag(loanDocument.isNonCirculatingItem());
+                                if(loanDocument.isRenewNotFlag()){
+                                    info = info + (i + 1) + ". " + OLEConstants.RENEWAL_DUEDATE_SAME_INFO + "  (" + loanDocument.getItemId() + ")<br/>";
+                                }else {
+                                    info = info + (i + 1) + ". " + OLEConstants.RENEWAL_ITM_SUCCESS_INFO + "  (" + loanDocument.getItemId() + ")<br/>";
+                                }
                                 // } else
                                 //loanDocument.setErrorMessage(OLEConstants.RENEWAL_ITM_AFTER_FIXED_DUEDATE);
 
@@ -2730,13 +2888,19 @@ public class LoanController extends UifControllerBase {
                 Date date = new Date(oleLoanDocument.getCheckInDate().getTime());
                 if (oleNoticeBo != null) {
                     oleNoticeBo.setCheckInDate(dateFormat.format(date));
-                    String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
-                    if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
-                        fromAddress = OLEConstants.KUALI_MAIL;
-                    }
+
                     String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    if (replyToEmail != null) {
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    } else {
+                        String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+                        if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
+                            fromAddress = OLEConstants.KUALI_MAIL;
+                        }
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    }
                     if (LOG.isInfoEnabled()) {
                         LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
                     }
@@ -2867,13 +3031,19 @@ public class LoanController extends UifControllerBase {
                 Date date = new Date(oleLoanDocument.getCheckInDate().getTime());
                 if (oleNoticeBo != null) {
                     oleNoticeBo.setCheckInDate(dateFormat.format(date));
-                    String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
-                    if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
-                        fromAddress = OLEConstants.KUALI_MAIL;
-                    }
+
                     String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    if (replyToEmail != null) {
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    } else {
+                        String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+                        if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
+                            fromAddress = OLEConstants.KUALI_MAIL;
+                        }
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    }
                     if (LOG.isInfoEnabled()) {
                         LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
                     }
@@ -2937,13 +3107,18 @@ public class LoanController extends UifControllerBase {
                 Date date = new Date(oleLoanDocument.getCheckInDate().getTime());
                 if (oleNoticeBo != null) {
                     oleNoticeBo.setCheckInDate(dateFormat.format(date));
-                    String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
-                    if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
-                        fromAddress = OLEConstants.KUALI_MAIL;
-                    }
                     String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    if (replyToEmail != null) {
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    } else {
+                        String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+                        if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
+                            fromAddress = OLEConstants.KUALI_MAIL;
+                        }
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    }
                     if (LOG.isInfoEnabled()) {
                         LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
                     }
@@ -3047,6 +3222,7 @@ public class LoanController extends UifControllerBase {
                 if (oleLoanForm.isRecordNote()) {
                     saveGeneralNoteForFlaggedItem(OLEConstants.CLAIMS_CHECKED_IN_FLAG, true, oleLoanDocument, false, true, false, oleLoanForm.getPatronBarcode());
                 }
+                oleLoanDocument = getLoanProcessor().returnLoan(oleLoanDocument);
             }
             if (oleLoanDocument.isCopyRequest()) {
                 oleLoanForm.setCopyRequest(true);
@@ -3224,13 +3400,18 @@ public class LoanController extends UifControllerBase {
                 Date date = new Date(oleLoanDocument.getCheckInDate().getTime());
                 if (oleNoticeBo != null && (!oleLoanDocument.isBackgroundCheckInMissingPiece()) && oleLoanForm.isSendMissingPieceMail()) {
                     oleNoticeBo.setCheckInDate(dateFormat.format(date));
-                    String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
-                    if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
-                        fromAddress = OLEConstants.KUALI_MAIL;
-                    }
                     String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    if (replyToEmail != null) {
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    } else {
+                        String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+                        if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
+                            fromAddress = OLEConstants.KUALI_MAIL;
+                        }
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    }
                     if (LOG.isInfoEnabled()) {
                         LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
                     }
@@ -3439,13 +3620,18 @@ public class LoanController extends UifControllerBase {
                 Date date = new Date(oleLoanDocument.getCheckInDate().getTime());
                 if (oleNoticeBo != null) {
                     oleNoticeBo.setCheckInDate(dateFormat.format(date));
-                    String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
-                    if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
-                        fromAddress = OLEConstants.KUALI_MAIL;
-                    }
                     String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    if (replyToEmail != null) {
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    } else {
+                        String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+                        if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
+                            fromAddress = OLEConstants.KUALI_MAIL;
+                        }
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    }
                     if (LOG.isInfoEnabled()) {
                         LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
                     }
@@ -3522,6 +3708,16 @@ public class LoanController extends UifControllerBase {
             oleLoanForm.setOleItem(oleLoanDocument.getOleItem());
             return getUIFModelAndView(form, "ReturnItemViewPage");
         }
+        if (StringUtils.isNotEmpty(oleLoanDocument.getItemStatusCode()) && (oleLoanDocument.getItemStatusCode().equalsIgnoreCase(OLEConstants.ITEM_STATUS_IN_TRANSIT) || oleLoanDocument.getItemStatusCode().equalsIgnoreCase(OLEConstants.ITEM_STATUS_IN_TRANSIT_HOLD))) {
+            OLELoanIntransitRecordHistory oleLoanIntransitRecordHistory = new OLELoanIntransitRecordHistory();
+            oleLoanIntransitRecordHistory.setItemBarcode(oleLoanDocument.getItemId());
+            oleLoanIntransitRecordHistory.setItemUUID(oleLoanDocument.getItemUuid());
+            oleLoanIntransitRecordHistory.setRouteCirculationDesk(oleLoanDocument.getRouteToLocation());
+            oleLoanIntransitRecordHistory.setOperator(GlobalVariables.getUserSession().getPrincipalId());
+            oleLoanIntransitRecordHistory.setHomeCirculationDesk(oleLoanDocument.getOleCirculationDesk().getCirculationDeskCode());
+            oleLoanIntransitRecordHistory.setReturnedDateTime(oleLoanDocument.getCheckInDate());
+            KRADServiceLocator.getBusinessObjectService().save(oleLoanIntransitRecordHistory);
+        }
         if (oleLoanDocument.getOleCirculationDesk() != null && oleLoanDocument.getOleCirculationDesk().isPrintSlip()) {
             if (oleLoanDocument.getOleItem().isMissingPieceFlag() && oleLoanForm.isSendMissingPieceMail()) {
                 OleNoticeBo oleNoticeBo = getLoanProcessor().getNotice(oleLoanDocument);
@@ -3531,13 +3727,18 @@ public class LoanController extends UifControllerBase {
                 Date date = new Date(oleLoanDocument.getCheckInDate().getTime());
                 if (oleNoticeBo != null) {
                     oleNoticeBo.setCheckInDate(dateFormat.format(date));
-                    String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
-                    if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
-                        fromAddress = OLEConstants.KUALI_MAIL;
-                    }
                     String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    if (replyToEmail != null) {
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    } else {
+                        String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+                        if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
+                            fromAddress = OLEConstants.KUALI_MAIL;
+                        }
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    }
                     if (LOG.isInfoEnabled()) {
                         LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
                     }
@@ -3689,13 +3890,18 @@ public class LoanController extends UifControllerBase {
                 Date date = new Date(oleLoanDocument.getCheckInDate().getTime());
                 if (oleNoticeBo != null) {
                     oleNoticeBo.setCheckInDate(dateFormat.format(date));
-                    String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
-                    if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
-                        fromAddress = OLEConstants.KUALI_MAIL;
-                    }
                     String missingNoticeDetails = getOleDeliverBatchService().sendMissingNotice(oleNoticeBo);
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    if (replyToEmail != null) {
+                        oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    } else {
+                        String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+                        if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
+                            fromAddress = OLEConstants.KUALI_MAIL;
+                        }
+                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(missingNoticeDetails), true);
+                    }
                     if (LOG.isInfoEnabled()) {
                         LOG.info("Mail send successfully to " + oleNoticeBo.getPatronEmailAddress());
                     }

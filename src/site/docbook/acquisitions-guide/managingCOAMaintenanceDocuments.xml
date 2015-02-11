@@ -1471,6 +1471,9 @@
             within an account are restricted, unrestricted, temporarily restricted or not
             applicable. Some OLE business rules refer to Restricted Status records when determining
             the validity of an e-doc transaction.</para>
+        <para>Restricted (R) and Temporarily Restricted (T) statuses will prevent staff from using
+            accounts to purchase or pay for library materials.</para>
+        <para/>
         <section>
             <title>Document Layout</title>
             <para role="Illustration">

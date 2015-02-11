@@ -1,5 +1,6 @@
 package org.kuali.ole.batch.util;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.bo.OLEBatchProcessProfileMatchPoint;
@@ -465,6 +466,70 @@ public class BatchBibImportUtil {
         return false;
     }
 
+    /**
+     * This method checks the existence of a '245' data field with a sub field 'a' in the bib marc record.
+     * @param bibRecord
+     * @return
+     */
+    public static boolean has245aDataField(BibMarcRecord bibRecord) {
+        DataField dataField245 = bibRecord.getDataFieldForTag(OLEConstants.MARC_EDITOR_TITLE_245);
+        if (dataField245 != null) {
+            if (CollectionUtils.isNotEmpty(dataField245.getSubFields())) {
+                for (SubField subField : dataField245.getSubFields()) {
+                    if (!subField.getCode().isEmpty()) {
+                        if (subField.getCode().equals(OLEConstants.A)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
+    /**
+     *
+     * @param dataFieldString
+     * @param value
+     * @return
+     */
+    public static DataField buildDataField(String dataFieldString, String value) {
+        DataField dataField = new DataField();
+        if (dataFieldString != null) {
+            String[] dataFieldArrray = dataFieldString.split(" ");
+
+            dataField.setTag(dataFieldArrray[0]);
+            List<SubField> subFields = new ArrayList<>();
+            if (dataFieldArrray.length > 2) {
+                dataField.setInd1(dataFieldArrray[1].substring(0, 1));
+                dataField.setInd2(dataFieldArrray[1].substring(1));
+                String[] subFiledArray = dataFieldArrray[2].split("\\$");
+                for (String subFieldString : subFiledArray) {
+                    if (StringUtils.isNotEmpty(subFieldString)) {
+                        SubField subField = new SubField();
+                        subField.setCode(subFieldString);
+                        subField.setValue(value);
+                        subFields.add(subField);
+                    }
+                }
+            } else {
+                if (dataFieldArrray.length == 2) {
+                    String[] subFiledArray = dataFieldArrray[1].split("\\$");
+                    for (String subFieldString : subFiledArray) {
+                        if (StringUtils.isNotEmpty(subFieldString)) {
+                            SubField subField = new SubField();
+                            dataField.setInd1(" ");
+                            dataField.setInd2(" ");
+                            subField.setCode(subFieldString);
+                            subField.setValue(value);
+                            subFields.add(subField);
+                        }
+                    }
+                }
+            }
+            dataField.setSubFields(subFields);
+        }
+        return dataField;
+    }
 
 }

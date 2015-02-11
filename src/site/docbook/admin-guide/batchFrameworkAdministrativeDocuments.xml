@@ -256,6 +256,116 @@
                     </itemizedlist>
                 </listitem>
                 <listitem>
+                    <para>Depending on the <emphasis role="bold">Batch Process Type</emphasis>
+                        (auto-populated when the <emphasis role="bold">Batch Process Profile
+                            Name</emphasis> is selected), an <emphasis role="bold">Input
+                            Section</emphasis> or an <emphasis role="bold">Output Section</emphasis>
+                        will appear. </para>
+                    <itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">Output Section</emphasis> is made available
+                                for exporting records types. Select the <emphasis role="bold">Output
+                                    Format</emphasis> (MARC or MARCXML) from the drop down.</para>
+                            <para>Enter the <emphasis role="bold">Output File Name</emphasis>, a
+                                name given to the file.</para>
+                            <note>
+                                <para>A note on naming the Output File:<itemizedlist>
+                                        <listitem>
+                                            <para>If a "Batch Process Name" is specified, and no
+                                                "Output File Name" is specified, the batch process
+                                                name is used for the filename.</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>If an "Output File Name" is specified, and no
+                                                "Batch Process Name" is given, the "Output File
+                                                Field" is used for the filename.</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>If a "Batch Process Name" is specified, and a
+                                                filename is given in the "Output File Name" field,
+                                                the "Output File Name" field is used to generate the
+                                                filename.</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>If a file name containing a space is entered in
+                                                either the "Output File Name" field or the "Batch
+                                                Process Name" field on the Batch Process screen,
+                                                although the file will appear normal in the
+                                                directory display (accessed from Batch Process Job
+                                                Details &gt; View Job Report &gt; View Export Path),
+                                                the link to download the file will break off the
+                                                filename at the first space, with no extension. </para>
+                                            <para>This is a known bug to be fixed in a future
+                                                release. See <link
+                                                  xlink:href="https://jira.kuali.org/browse/OLE-6603"
+                                                  >OLE-6603</link>.</para>
+                                        </listitem>
+                                    </itemizedlist></para>
+                                <para>Exported file location will be: export/[batch_process_profile
+                                    or user_specified_location]/[job_name or job [batch_id]]- [start
+                                    timestamp] [-part#]. [extension]</para>
+                            </note>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Batch Process Interface with Output Section (For Batch
+                                            Exports)</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-304.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Output and Input Section for Export Records
+                                    by File</emphasis>: If in the profile <emphasis role="bold">Bib
+                                    Local Id From File</emphasis> was chose as the filter criteria,
+                                you will be able to modify the Output section as noted above and you
+                                will upload the .txt file of local identifiers in the Input section.
+                                Click <emphasis role="bold">Browse</emphasis> to find the file on
+                                your local machine. </para>
+                            <important>
+                                <para>In the Input section, only a .txt file is allowed. In the
+                                    file, the local identifiers must be separated by a line
+                                    break.</para>
+                            </important>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Batch Process Interface with Output and Input
+                                            Sections</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-178.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Input Section</emphasis> is made available
+                                for most importing record types. Select <emphasis role="bold"
+                                    >Browse...</emphasis> (or <emphasis role="bold">Choose
+                                    File</emphasis> depending on your browser) to search for the
+                                file from your local machine.</para>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Batch Process Interface with Input Section (For
+                                            Importing Bib Records</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-304a.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+                <listitem>
                     <para>Select <emphasis role="bold">Run Now</emphasis> and click <inlinemediaobject>
                             <alt>Submit</alt>
                             <imageobject>
@@ -317,8 +427,7 @@
                                 <para><emphasis role="bold">One Time</emphasis>: Enter the date or
                                     search for it from the calendar icon <inlinemediaobject>
                                         <imageobject>
-                                            <imagedata
-                                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-151.png"
+                                            <imagedata fileref="../images/DeliverNoTitlePage-27.png"
                                             />
                                         </imageobject>
                                     </inlinemediaobject> and time for the job to begin.</para>
@@ -475,10 +584,10 @@
             <section>
                 <title>Scheduling a full dump followed by daily incrementals</title>
                 <para>To schedule a full dump and then have daily incrementals, create two separate
-                    profiles - one for the full dump and one for the incremental.  Using the created
+                    profiles - one for the full dump and one for the incremental. Using the created
                     profiles, run the full export immediately followed by the scheduled incremental
-                    export.  Schedule the incremental export to run after 'x' amount of time (6pm
-                    every evening for example).  The first incremental export will be useless.
+                    export. Schedule the incremental export to run after 'x' amount of time (6pm
+                    every evening for example). The first incremental export will be useless.
                     However after the incremental runs the second time and after every 'x' amount of
                     time following, it will export the records changed from the time it was
                     scheduled.</para>
@@ -646,6 +755,11 @@
                     </imageobject>
                 </inlinemediaobject>
             </emphasis></para>
+        <note>
+            <para role="Normal">Please click <link
+                    xlink:href="../../../pdfs/BatchProcessProfileTechnicalDocument.pdf">here</link>
+                for technical documentation.</para>
+        </note>
         <para role="Body Text">When you select the <emphasis role="bold">Batch Process
                 Profile</emphasis> link from the <emphasis role="bold">Admin</emphasis> menu, the
             system displays the Batch Process Profile lookup. This screen allows staff to search for
@@ -882,6 +996,18 @@
                             <imagedata fileref="../images/DeliverNoTitlePage-48.png"/>
                         </imageobject>
                     </inlinemediaobject>.</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Constant: The value entered in the profile will override the present
+                            value or add a value if one was not present in the incoming invoice
+                            file.</para>
+                    </listitem>
+                    <listitem>
+                        <para> Default: The value entered in the profile will be added to the
+                            created document if the value is not available in the incoming invoice
+                            file.</para>
+                    </listitem>
+                </itemizedlist>
                 <note>
                     <para>Do not forget to select items for the additional <emphasis role="bold"
                             >Main Section</emphasis> fields. </para>
@@ -990,6 +1116,16 @@
                         <orderedlist>
                             <listitem>
                                 <para>Default Location</para>
+                                <note>
+                                    <para>The default location must come from only one subfield (for
+                                        example: 980 $x), it cannot be two (980 $x$y). </para>
+                                    <para>The default location in your MARC record must match the
+                                        location exactly as it appears in the Requisition's location
+                                        dropdown.  If three levels are used at your institution and
+                                        three levels appear on the Requisition, then all three
+                                        levels must be in you MARC subfield.  Additionally, location
+                                        levels must be separated by slashes ($xUC/DDL/Law).</para>
+                                </note>
                             </listitem>
                             <listitem>
                                 <para>Item Type<note>
@@ -1096,6 +1232,8 @@
                 <section>
                     <title>Creating and Linking Items and E-Holdings during Order Record Import with
                         a Bib Import Profile attached</title>
+                    <para>When running the batch process for order imports, the Bib Import Profile
+                        is executed first and then the Order Import Profile.</para>
                     <para>Items and E-Holdings can be created by the Bib Import Profile and by the
                         Order Record Import via the Requision's transition to a Purchase Order. In
                         order to prevent OLE from creating both, a check has been added to the Order
@@ -1104,6 +1242,13 @@
                         created during the Requisition's transition to a Purchase Order. This
                         ensures that only one new e-holding/item is linked to the Purchase Order and
                         Bibliographic Record.</para>
+                    <note>
+                        <para>OLE cannot run an Order Import batch process with hundreds of items.
+                            Additionally, the more items links to each order, the more time the
+                            system will take to import the order.</para>
+                        <para>In OLE 1.5, you will not be able to import multiple orders with
+                            multiple copies and locations. </para>
+                    </note>
                 </section>
                 <section>
                     <title>EDI Invoice Import Match Points</title>
@@ -1688,9 +1833,87 @@
                             linkend="batchProcess">Batch Process</link> interface to set up your
                         incremental export to run on a schedule.</para>
                 </section>
+                <section>
+                    <title>Batch Export: Bib Local ID from File</title>
+                    <para>Set up the Profile:</para>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Batch Process Profile for exporting by Bib Local ID from
+                                    File</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/admin-200.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <orderedlist>
+                        <listitem>
+                            <para>In the Document Overview: Enter a <emphasis role="bold"
+                                    >Description</emphasis></para>
+                        </listitem>
+                        <listitem>
+                            <para>In the Main Section: Enter a <emphasis role="bold">Batch Profile
+                                    Name</emphasis>, search for the <emphasis role="bold">Batch
+                                    Process Type</emphasis> “Batch Export”, select a type of
+                                    <emphasis role="bold">Data to Export</emphasis>, and select the
+                                    <emphasis role="bold">Export Scope</emphasis> “Filter”.</para>
+                        </listitem>
+                        <listitem>
+                            <para>In the Filter Criteria: Select “Bib Local ID from File” under
+                                    <emphasis role="bold">Select Field Name</emphasis>. Click
+                                    <emphasis role="bold">Add</emphasis>.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Click <emphasis role="bold">Submit</emphasis></para>
+                        </listitem>
+                    </orderedlist>
+                    <para>From the Batch Process:</para>
+                    <orderedlist>
+                        <listitem>
+                            <para>Select the <emphasis role="bold">Batch Process Profile
+                                    Name</emphasis> from the Lookup <inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/Lookup2.png"/>
+                                    </imageobject>
+                                </inlinemediaobject>.</para>
+                        </listitem>
+                        <listitem>
+                            <para>In the Input Section: Click <emphasis role="bold"
+                                    >Browse…</emphasis> to search your computer for the .txt
+                                file</para>
+                            <important>
+                                <para>This .txt file’s local identifiers must be separated by a line
+                                    break</para>
+                            </important>
+                        </listitem>
+                        <listitem>
+                            <para>Click <emphasis role="bold">Submit</emphasis></para>
+                        </listitem>
+                        <listitem>
+                            <para>When the <emphasis role="bold">Batch Process Job
+                                    Details</emphasis> screen appears, refresh your screen to see
+                                the completed job. Click <emphasis role="bold">View Job
+                                    Report</emphasis> to download the exported file.</para>
+                        </listitem>
+                    </orderedlist>
+                </section>
             </section>
             <section>
                 <title>Bib Import</title>
+                <para>For a demonstration of several Bib Imports in OLE 1.5.2.1, watch "Bib Import
+                    101" available under <link
+                        xlink:href="https://wiki.kuali.org/display/OLE/OLE+Demonstration+Library#OLEDemonstrationLibrary-OLE1.5Demos"
+                        >OLE Demonstration Library - OLE 1.5 Demos</link>. The demonstration
+                    presents the setup of several different bib import profiles and the batch
+                    processing of .mrc files to import records using the created profiles into OLE.
+                    Additionally, to see the step by step functionality of the Bib Import profile,
+                    see the Google Document: <link
+                        xlink:href="https://docs.google.com/a/kuali.org/spreadsheets/d/1ZZbUSuACkpRF9BNne4ZCOd6IdrRfI5uKpRCqpyatpu4/edit#gid=1698959993"
+                        >Spec - Batch Import</link></para>
+                <note>
+                    <para>You will need to log into KIS to view this document.</para>
+                </note>
                 <para>If the <emphasis role="bold">Bib Import</emphasis> type is selected from the
                         <emphasis role="bold">Main Section</emphasis>, additional tabs will load:
                         <emphasis role="bold">Match Point</emphasis>, <emphasis role="bold"
@@ -1705,6 +1928,14 @@
                     <para>All imported MARC bibliographic records must be Unicode-compliant
                         (UTF-8).</para>
                 </note>
+                <para>In the <emphasis role="bold">Main Section</emphasis>, be sure to select the
+                        <emphasis role="bold">Data to Import</emphasis> that is relevant for your
+                    import files. If you select "Bibliographic, Instance and EInstance" but only
+                    import E-Instance records, you will end up with extraneous holdings and items.
+                    Additionally, the <emphasis role="bold">Constant and Default Values</emphasis>
+                    should match the data to import. If you create a profile and select
+                    "Bibliographic and EInstance Data", do not enter any constant or default values
+                    for Holdings and Items - only for E-Holdings.</para>
                 <para/>
                 <para role="Illustration">
                     <screenshot>
@@ -1935,9 +2166,10 @@
                                                   created or modified by the batch process.</para>
                                             </listitem>
                                             <listitem>
-                                                <para>“Default” data will be added to records unless
-                                                  other data is identified for that field in the
-                                                  Data Mapping section.</para>
+                                                <para>“Default” data will be added to records if
+                                                  there is nothing found on the incoming record.
+                                                  Data will be added unless other data is identified
+                                                  for that field in the Data Mapping section.</para>
                                             </listitem>
                                         </itemizedlist>
                                     </entry>
@@ -2063,6 +2295,11 @@
                                                 you have made a selection in the Destination Data
                                                 Type Field.</para>
                                         </note>
+                                        <tip>
+                                            <para>If you choose a location level from the dropdown
+                                                for Holdings or Items, be sure that your institution
+                                                has a location assigned to that level.</para>
+                                        </tip>
                                     </entry>
                                 </row>
                                 <row>
@@ -2079,7 +2316,15 @@
                                         >Destination Field Value</entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">If you have chosen bibmarc as the
-                                            data type, enter a destination field value. </para>
+                                            data type, enter a destination field value to overlay or
+                                            add the value to the newly created record. Leave blank
+                                            for the incoming record to populate the field.</para>
+                                        <note>
+                                            <para>The values in this field are not applicable to
+                                                holdings and item records. The batch process will
+                                                ignore any data you enter in this field for these
+                                                record types.</para>
+                                        </note>
                                     </entry>
                                 </row>
                                 <row>
@@ -2500,6 +2745,39 @@
                     <para/>
                     <para/>
                 </section>
+                <section>
+                    <title>Bib Import with multiple holdings and multiple items</title>
+                    <para>To import multiple holdings and items with the Bib Import Profile, you
+                        will need to enter information for at least two different destination
+                        fields: A "Location Level5" for both the holdings, and a "Holdings Location
+                        Level5" for the item. (Depending on your institution, you may need to
+                        include additional location levels.) If you do not include these location
+                        level destination fields, the bib import profile will only create one
+                        holding and one item per bibliographic record. For Example:</para>
+                    <variablelist>
+                        <varlistentry>
+                            <term/>
+                            <listitem>
+                                <para/>
+                            </listitem>
+                        </varlistentry>
+                    </variablelist>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Batch Process Profile Document: Data Mapping tab with the three
+                                    location fields required for multiple holdings and items</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/admin-482.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <warning>
+                        <para>Leave the Destination Field Value blank. The created records will not
+                            include the values if you enter them in this field.</para>
+                    </warning>
+                </section>
             </section>
         </section>
     </section>
@@ -2748,7 +3026,7 @@
                         <imagedata fileref="../images/admin-47.png"/>
                     </imageobject>
                 </inlinemediaobject></emphasis></para>
-        <para>The Batch/Scheduled Jobs document allows users to edit the cron expression which
+        <para>The Batch/Scheduled Jobs document allows users to edit the cron expression that
             specifies when the particular job should be scheduled. This interface is only for
             OLE-created jobs (Circulation jobs for example) and not KFS-inherited jobs. To learn
             more about each of the jobs available in Deliver, see <link
@@ -2788,61 +3066,252 @@
                 </screenshot>
             </para>
             <para/>
-            <para role="Body Text">The Batch Job document includes the <emphasis role="bold"
-                    >Add/Edit Batch Job</emphasis> tab. The system automatically enters data into
-                both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
-                    >New</emphasis> sections in this tab. Selected data fields are available for
-                editing.</para>
-            <para/>
-            <para role="TableHeading"><emphasis role="bold">Add/Edit Batch Job
-                definition</emphasis></para>
-            <informaltable frame="top">
-                <tgroup cols="2">
-                    <colspec colname="c1" colnum="1"/>
-                    <colspec colname="c1" colnum="1"/>
-                    <tbody>
-                        <row>
-                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                <para role="Table Cells">Title</para>
-                            </entry>
-                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                <para role="Table Cells">Description</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                <para role="Table Cells">Job Trigger Name</para>
-                            </entry>
-                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                <para role="Table Cells">Display Only. The name of the batch job
-                                    that needs to be scheduled.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                <para role="Table Cells">Job Cron Expression</para>
-                            </entry>
-                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                <para role="Table Cells">Enter the cron expression for when the job
-                                    should be scheduled.</para>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                <para role="Table Cells">Enable Job</para>
-                            </entry>
-                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                <para role="Table Cells">Check the box to allow the job to
-                                    run.</para>
-                            </entry>
-                        </row>
-                    </tbody>
-                </tgroup>
-            </informaltable>
+            <para role="Body Text">This screen includes unique <emphasis role="bold">Add/Edit Batch
+                    Job</emphasis> and <emphasis role="bold">Run/Schedule Batch Job</emphasis> tabs
+                in addition to the standard tabs that display on OLE document screens.</para>
+            <note>
+                <para> For more information about the standard tabs, see <link
+                        xlink:href="../../../webhelp/BASICS/content/ch02s02.html">Standard
+                        Tabs</link> on the <link
+                        xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide to
+                            OLE Basic Functionality and Key Concepts</emphasis></link>.</para>
+            </note>
+            <section>
+                <title>Add/Edit Batch Job</title>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Batch Job Document: Add/Edit Batch Job tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-191.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text">The Batch Job document includes the <emphasis role="bold"
+                        >Add/Edit Batch Job</emphasis> tab. The system automatically enters data
+                    into both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                        >New</emphasis> sections in this tab.</para>
+                <para/>
+                <para role="TableHeading"><emphasis role="bold">Add/Edit Batch Job
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Job Trigger Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display Only. The name of the batch job
+                                        that needs to be scheduled.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Job Cron Expression</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display Only.  The cron expression for
+                                        when the job is scheduled to run.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Enable Job</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Check the box to allow the job to
+                                        run.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title>Run/Schedule Batch Job</title>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Batch Job Document: Run/Schedule Batch Job tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-192.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text">The Batch Job document includes the <emphasis role="bold"
+                        >Run/Schedule Batch Job</emphasis> tab. </para>
+                <para>Click <emphasis role="bold">Run Now</emphasis> and <emphasis role="bold"
+                        >Submit</emphasis> to start the job.  Click <emphasis role="bold"
+                        >Schedule</emphasis> to choose a date and time to start the job.  Choosing
+                        <emphasis role="bold">Schedule</emphasis> opens a new tab:</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Batch Job Document: Run/Schedule Batch Job: Schedule tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-193.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para>You have two options to schedule your batch job.</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Click <emphasis role="bold">Provide Cron Expression</emphasis> and
+                            enter the Cron Expression.  See <link linkend="_cron">Job CRON
+                                Expression - controlling the frequency/schedule of job
+                                execution</link> below for assistance entering the Expression</para>
+                        <para role="Illustration">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Batch Job Document: Run/Schedule Batch Job: Schedule tab to
+                                        enter CRON Expressions</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/admin-196.png" width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <emphasis role="bold">Schedule</emphasis> to enter a specified
+                            date or recurring dates for the batch job to run.</para>
+                        <para role="Illustration">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Batch Job Document: Run/Schedule Batch Job: Schedule tab to
+                                        enter a scheduled time or recurring time</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/admin-198.png" width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para>You may also choose the radio button <emphasis role="bold"
+                                >Schedule</emphasis> to manually enter when the job should occur.
+                            You will have two options:</para>
+                        <itemizedlist>
+                            <listitem>
+                                <para><emphasis role="bold">One Time</emphasis>: Enter the date or
+                                    search for it from the calendar icon <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/DeliverNoTitlePage-27.png"
+                                            />
+                                        </imageobject>
+                                    </inlinemediaobject> and time for the job to begin.</para>
+                                <para><inlinemediaobject>
+                                        <alt>Batch Job Document: Run/Schedule Batch Job: Schedule
+                                            Tab set to schedule a one time job</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-301.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject></para>
+                            </listitem>
+                            <listitem>
+                                <para><emphasis role="bold">Recurring</emphasis>: Select the
+                                    schedule type Daily, Weekly or Monthly.</para>
+                                <itemizedlist>
+                                    <listitem>
+                                        <para>If you selected the Schedule Type <emphasis
+                                                role="bold">Daily</emphasis>, enter the time for the
+                                            job to begin.</para>
+                                        <para/>
+                                        <para><inlinemediaobject>
+                                                <alt>Batch Job Document: Run/Schedule Batch Job:
+                                                  Schedule Tab set to schedule a daily recurring
+                                                  job</alt>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/admin-164.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject></para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>If you selected the Schedule Type <emphasis
+                                                role="bold">Weekly</emphasis>, enter the time for
+                                            the job to begin and check the box for the days of the
+                                            week that the job should run.</para>
+                                        <para/>
+                                        <para><inlinemediaobject>
+                                                <alt>Batch Job Document: Run/Schedule Batch Job:
+                                                  Schedule Tab set to schedule a weekly recurring
+                                                  job</alt>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/admin-167.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject></para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>If you selected the Schedule Type <emphasis
+                                                role="bold">Monthly</emphasis>, enter the time for
+                                            the job to begin, select the calendar date (for example,
+                                            23 for the 23rd day of each month), and enter the number
+                                            of months that should elapse before the job runs again
+                                            (for example, you may set the job to run every 3 or 6
+                                            months).</para>
+                                        <para/>
+                                        <para><inlinemediaobject>
+                                                <alt>Batch Job Document: Run/Schedule Batch Job: :
+                                                  Schedule Tab set to schedule a monthly recurring
+                                                  job</alt>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/admin-168.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject></para>
+                                    </listitem>
+                                </itemizedlist>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                </itemizedlist>
+                <para>Once your schedule has been determined, click <inlinemediaobject>
+                        <alt>Submit</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-303.png"/>
+                        </imageobject>
+                    </inlinemediaobject>.</para>
+            </section>
+            <section>
+                <title>Pick up Location (for On Hold Notices)</title>
+                <para>If you have selected the <emphasis role="bold"
+                        >generateOnHoldNoticeJob</emphasis>, an additional tab will be available.
+                        <emphasis role="bold">Pick up Location</emphasis> allows you to regulate the
+                    printing or electronic transmission of Deliver notices by Circulation
+                    Location/Library Name if desired.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Batch Job Document: Picku up Location</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-199.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para>Select the Pick-up Location from the drop down list.  The list will only
+                    include locations for which you are authorized.</para>
+            </section>
         </section>
         <section>
             <title><anchor xml:id="_cron"/>Job CRON Expression - controlling the frequency/schedule
                 of job execution</title>
+            <note>
+                <para>OLE uses the <link
+                        xlink:href="http://www.quartz-scheduler.org/documentation/quartz-1.x/tutorials/crontrigger"
+                        >Quartz Job Scheduler</link> as its authority on Cron expressions.</para>
+            </note>
             <para>CRON enables users to schedule jobs to run periodically at certain times or dates.
                 A CRON expression is a string comprised of 5 or 6 fields separated by white space
                 that represents a set of times, normally as a schedule to execute some
@@ -3171,6 +3640,11 @@
                         <imagedata fileref="../images/admin-420.png"/>
                     </imageobject>
                 </inlinemediaobject></emphasis></para>
+        <note>
+            <para role="Normal">Please click <link
+                    xlink:href="../../../pdfs/ScheduledJobsTechnicalDocument.pdf">here</link> for
+                technical documentation.</para>
+        </note>
         <para role="Body Text">The Schedule option allows users to view, schedule or execute OLE
             batch processes (commonly called 'jobs' or 'batch jobs'). Scheduling is very necessary
             for OLE as there are many jobs - some running nightly, hourly, and others that only run
@@ -3296,6 +3770,11 @@
             called "scheduleJob". Its function is to run all the other jobs in the Scheduled job
             group. It reads the dependencies listed for each job it runs, so it can run them in the
             right order.</para>
+        <para>There is a parameter, OLE-SYS CUTOFF_TIME, which controls when the daily batch
+            schedule should terminate.  If schedulejob does not complete and some of the dependent
+            jobs are stuck at "Pending",  a cut-off time check, which prevents the job from
+            overrunning, is causing the error.  Adjust the time on the parameter to correct the
+            problem.</para>
         <note>
             <para>OLE comes with a cron job that controls the running of the job "scheduleJob". The
                 cron job is not accessible through the UI, however it is accessible through the
@@ -3477,7 +3956,10 @@
             <section>
                 <title>Tentative List of Select and Acquire jobs to be scheduled</title>
                 <note>
-                    <para>This list is a work in progress.</para>
+                    <para>This list is a work in progress.  For a working list of all Batch Jobs and
+                        additional information about them, see <link
+                            xlink:href="https://docs.google.com/a/kuali.org/spreadsheet/ccc?key=0AuCs4Q8X_DXJdHhqelc1Skwya2JpckpfYzY4bHVnQ2c"
+                        />.  You will need a KIS account to access this document.</para>
                 </note>
                 <para>accountTemporaryRestrictedNotifyJob </para>
                 <para>approveLineItemReceivingJob </para>
@@ -3563,5 +4045,66 @@
                         <imagedata fileref="../images/admin-402.png"/>
                     </imageobject>
                 </inlinemediaobject></emphasis></para>
+    </section>
+    <section>
+        <title><anchor xml:id="_computeCourtesyAndOverdueNoticeDatesForLoans"/>Compute Courtesy and
+            Overdue Notice Dates for Loans</title>
+        <para role="Body Text"><emphasis role="bold"><inlinemediaobject>
+                    <alt>Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/Admin.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Batch Processes</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-396.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>OLE FS Batch</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-400.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Compute Courtesy and Overdue Notice Dates for Loans</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-179.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Compute Courtesy and Overdue Notice Dates for Loans</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-184.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>The Compute Courtesy and Overdue Notice Dates for Loans screen allows users to update
+            the notice table for existing loan records. During implementation, the loan table
+            (OLE_DLVR_LOAN_T) and the notice table (OLE_DLVR_LOAN_NOTICE_T) could be populated while
+            loading institutional data. However, if your institution has not done so or if you need
+            to repopulate the notice table, you may do it through this interface.</para>
+        <note>
+            <para>The Courtesy and Overdue notices are dependent on your KRMS circulation policies.
+                The notice table relies on the loan periods that are described in the
+                policies.</para>
+        </note>
+        <para>Click <emphasis role="bold">run</emphasis> to trigger OLE's scan of loan documents in
+            the loan table and update the notice table. </para>
+        <para role="Illustration">
+            <screenshot>
+                <mediaobject>
+                    <alt>Compute Loan Overdue Notice Dates for Loans Screen</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-185.png"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para>You will not receive any feedback from the interface that the tables are getting
+            updated. To see changes, check your <link
+                xlink:href="../../../CIRC/content/ch03s01.html">Deliver Notices</link> after some
+            time (it could take an hour or two). </para>
+        <note>
+            <para>Deliver Notices documentation is available in the <link
+                    xlink:href="../../../webhelp/CIRC/content/pr01.html"><emphasis role="italic"
+                        >Guide to the OLE Deliver Module.</emphasis></link>.</para>
+        </note>
     </section>
 </chapter>

@@ -1,6 +1,5 @@
 package org.kuali.ole.ncip.service.impl;
 
-import com.thoughtworks.xstream.XStream;
 import org.apache.log4j.Logger;
 import org.extensiblecatalog.ncip.v2.service.*;
 import org.kuali.ole.OLEConstants;
@@ -9,13 +8,13 @@ import org.kuali.ole.ncip.bo.*;
 import org.kuali.ole.ncip.converter.OLELookupUserConverter;
 import org.kuali.ole.ncip.service.OLECirculationService;
 import org.kuali.ole.ncip.service.OLELookupUserService;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,6 +31,8 @@ public class OLELookupUserServiceImpl implements OLELookupUserService {
     private OLECirculationHelperServiceImpl oleCirculationHelperService= getOleCirculationHelperService();
     private LoanProcessor loanProcessor;
     private OLELookupUserConverter oleLookupUserConverter = getOleLookupUserConverter();
+    private OleSelectDocumentService oleSelectDocumentService;
+
 
     public LoanProcessor getLoanProcessor() {
         if (loanProcessor == null) {
@@ -260,7 +261,7 @@ public class OLELookupUserServiceImpl implements OLELookupUserService {
     private UserAddressInformation retrieveElectronicAddress(OLELookupUser oleLookupUser) {
         ElectronicAddress electronicAddress = new ElectronicAddress();
         electronicAddress.setElectronicAddressData(oleLookupUser.getPatronEmail().getEmailAddress());
-        ElectronicAddressType electronicAddressType = new ElectronicAddressType(OLENCIPConstants.EMAIL);
+        ElectronicAddressType electronicAddressType = new ElectronicAddressType(getOleSelectDocumentService().getSelectParameterValue(OLENCIPConstants.EMAIL));
         electronicAddress.setElectronicAddressType(electronicAddressType);
         UserAddressInformation userAddressInformation = new UserAddressInformation();
         UserAddressRoleType userAddressRoleType = new UserAddressRoleType(oleLookupUser.getPatronEmail().getEmailTypeCode());
@@ -406,6 +407,17 @@ public class OLELookupUserServiceImpl implements OLELookupUserService {
         return userFiscalAccounts;
     }
 
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
+    }
 
 
 

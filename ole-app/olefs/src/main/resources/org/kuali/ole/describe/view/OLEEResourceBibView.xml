@@ -45,7 +45,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/describe/scripts/workbench.js</value>
 
             </list>
@@ -86,18 +86,7 @@
                 <ref bean="SearchConditionsSection"/>
                 <ref bean="SearchFooterSection"/>
                 <ref bean="OLEERSSearchResultsPanel"/>
-                <ref bean="hidden_refresh_button"/>
-                <ref bean="hidden_search_button"/>
-                <ref bean="hidden_NextFlag_button"/>
-                <ref bean="hidden_PreviousFlag_button"/>
-                <ref bean="hiddenStart"/>
-                <ref bean="hiddenRows"/>
-                <ref bean="hiddenSortOrder"/>
-                <ref bean="hiddenSortField"/>
-                <ref bean="hiddenSortFlag"/>
-                <ref bean="searchNextFlag"/>
-                <ref bean="searchPreviousFlag"/>
-                <ref bean="searchPageShowEntries"/>
+                <ref bean="hiddenSearchFields"/>
             </list>
         </property>
     </bean>

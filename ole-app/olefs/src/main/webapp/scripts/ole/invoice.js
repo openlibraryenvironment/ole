@@ -389,3 +389,18 @@ jq(".uif-detailsAction").live("click",function(){
 jq("#Uif-Inv-DocumentRouteLogSection_toggle_col").live("click",function(){
     jq("#routeLogDisplayBtn").focus().click();
 });
+
+function oleInvoicePager(linkElement, collectionId) {
+    var link = jQuery(linkElement);
+    if (link.parent().is(kradVariables.ACTIVE_CLASS)) return;
+    retrieveComponent(collectionId, "refresh", null, {
+    	"pageNumber": link.data(kradVariables.PAGE_NUMBER_DATA)
+    }, true);
+}
+
+function oleInvoiceRowDetails(lineId, collectionId, show) {
+    retrieveComponent(collectionId, "refresh", null, {
+    	"selectRowDetails" : lineId,
+    	"showSelectedRowDetails" : show
+    }, true);
+}

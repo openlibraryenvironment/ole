@@ -7,6 +7,7 @@ import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecords;
 import org.kuali.ole.docstore.common.document.content.bib.marc.xstream.BibMarcRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.*;
+import org.kuali.ole.docstore.common.exception.DocstoreException;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,15 +99,26 @@ public class BatchBibTreeDBUtil {
            this.isStaffOnly=isStaffOnly;
    }
 
-    public void init() throws SQLException {
+    public void init(int startIndex, int endIndex, String updateDate) throws SQLException {
+
+        if (connection == null || connection.isClosed()) {
+            connection = getConnection();
+        }
+        if (startIndex != 0 && endIndex != 0) {
+            bibQuery = "SELECT * FROM OLE_DS_BIB_T WHERE BIB_ID BETWEEN " + startIndex + " AND " + endIndex + " ORDER BY BIB_ID";
+        } else if (StringUtils.isNotEmpty(updateDate)) {
+            updateDate = getDateStringForOracle(updateDate);
+            bibQuery = "SELECT * FROM OLE_DS_BIB_T where DATE_UPDATED > '"+updateDate+"'";
+        }
+        else{
+            bibQuery = "SELECT * FROM OLE_DS_BIB_T ORDER BY BIB_ID";
+        }
         if(!isStaffOnly){
             bibQuery = bibStaffOnly;
             holdingsQuery =  holdingsQuery + staffOnlyHoldings;
             itemQuery =  itemQuery + staffOnlyItem;
         }
-        if (connection == null || connection.isClosed()) {
-            connection = getConnection();
-        }
+
         fetchCallNumberType();
         fetchReceiptStatus();
         fetchAuthenticationType();
@@ -118,7 +130,6 @@ public class BatchBibTreeDBUtil {
         bibConnection = getConnection();
         holdingsConnection = getConnection();
         itemConnection = getConnection();
-
         bibConnection.setAutoCommit(false);
 
         bibStatement = bibConnection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
@@ -139,12 +150,29 @@ public class BatchBibTreeDBUtil {
 
         String updateQuery = "UPDATE OLE_DS_BIB_INFO_T SET TITLE=?, AUTHOR=?, PUBLISHER=?, ISXN=?, BIB_ID_STR=? WHERE BIB_ID=?";
         bibUpdatePreparedStatement = connection.prepareStatement(updateQuery);
-
     }
 
+    private String getDateStringForOracle(String updateDate) {
+        try {
+            if (dbVendor.equalsIgnoreCase("oracle")) {
+                if(updateDate.length()<11){
+                    updateDate=updateDate+ " 00:00:00";
+                }
+                SimpleDateFormat formatter = new SimpleDateFormat("yy-mm-dd hh:mm:ss");
+                Date date = formatter.parse(updateDate);
 
+                String dateFormat="dd-MMM-yy hh:mm:ss";
 
+                SimpleDateFormat oracleFormat = new SimpleDateFormat(dateFormat);
+                updateDate=oracleFormat.format(date);
+            }
 
+        } catch (ParseException e) {
+            LOG.error("ParseException : " + e);
+            throw new DocstoreException(e);
+        }
+        return updateDate;
+    }
 
 
     private Connection getConnection() throws SQLException {
@@ -390,7 +418,10 @@ public class BatchBibTreeDBUtil {
     }
 
     public synchronized BibTrees fetchNextBatch(int batchSize, BatchStatistics batchStatistics) throws Exception {
-        return fetchResultSet(batchSize, batchStatistics, false);
+        BibTrees bibTrees = null;
+
+        bibTrees = fetchResultSet(batchSize, batchStatistics, false);
+        return bibTrees;
     }
 
     private BibTrees fetchResultSet(int batchSize, BatchStatistics batchStatistics, Boolean isBibOnly) throws Exception {

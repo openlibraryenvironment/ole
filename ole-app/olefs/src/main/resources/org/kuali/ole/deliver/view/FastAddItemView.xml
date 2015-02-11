@@ -40,7 +40,7 @@
             <ref bean="FastAddItem-HorizontalBoxSection-button" />
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/deliver/loan/script/loan.js</value>
             </list>
         </property>
@@ -135,6 +135,11 @@
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.describe.keyvalue.ShelvingScheme"/>
+                    </property>
+                </bean>
+                <bean id="callNumberPrefix" parent="Uif-InputField"   p:propertyName="oleLoanFastAdd.callNumberPrefix"   p:label="Call Number Prefix" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength=""/>
                     </property>
                 </bean>
                 <bean id="callNumber" parent="Uif-InputField" p:label="Call Number" p:propertyName="oleLoanFastAdd.callNumber" p:required="true">

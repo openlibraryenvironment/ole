@@ -98,9 +98,10 @@ public class RequisitionCreateDocumentServiceImpl implements RequisitionCreateDo
                 }
                 if (LOG.isDebugEnabled())
                     LOG.debug("purchaseOrderType >>>>>>>>>>>" + purchaseOrderType);
-                if (purchaseOrderType.equalsIgnoreCase(PurapConstants.ORDER_TYPE_FIRM)) {
+                //Modified for jira OLE-7278
+                //if (purchaseOrderType.equalsIgnoreCase(PurapConstants.ORDER_TYPE_FIRM)) {
                     getDocumentService().routeDocument(reqDocument, null, null);
-                }
+                //}
                 LOG.debug("After Calling createWorkflowDocument >>>>>>>>>>>");
             }
             //  System.out.println("After Calling createWorkflowDocument >>>>>>>>>>>" + reqDocument.getDocumentHeader().getWorkflowDocument().getStatus());

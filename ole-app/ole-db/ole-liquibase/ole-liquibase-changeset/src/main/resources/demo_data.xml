@@ -357,6 +357,10 @@
         <loadData tableName="PUR_VNDR_TAX_CHG_T" file="ole-demo/purchasing/PUR_VNDR_TAX_CHG_T.csv"/>
     </changeSet>
 
+    <changeSet context="demo" author="ole" id="OLE_CNCL_RSN_T">
+        <loadData tableName="OLE_CNCL_RSN_T" file="ole-bootstrap/purchasing/OLE_CNCL_RSN_T.csv"/>
+    </changeSet>
+
 
     <!--<changeSet context="demo" author="ole" id="SEC_SCRTY_ATTR_T">-->
     <!--<loadData tableName="SEC_SCRTY_ATTR_T" file="ole-demo/SEC_SCRTY_ATTR_T.csv"/>-->

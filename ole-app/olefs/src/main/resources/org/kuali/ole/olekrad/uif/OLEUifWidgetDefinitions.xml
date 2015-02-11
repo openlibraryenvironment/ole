@@ -69,6 +69,7 @@
             <map>
                 <entry key="showOn" value="button"/>
                 <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                <entry key="dateFormat" value="${Uif-DatePicker.dateFormat}"/>
                 <entry key="buttonImageOnly" value="true"/>
                 <entry key="showAnim" value="slideDown"/>
                 <entry key="showButtonPanel" value="true"/>

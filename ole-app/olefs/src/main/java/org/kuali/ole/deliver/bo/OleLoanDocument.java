@@ -25,6 +25,8 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private String patronId;
     private String itemId;
     private boolean blockLoan;
+    private String requestFlag;
+    private boolean vuFindFlag = false;
     private Date loanPeriodDate;
     private Integer loanPeriod;
     private String loanTermUnitId;
@@ -67,6 +69,7 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private java.util.Date expirationDate;
     private boolean dueDateEmpty;
     private String itemCallNumber;
+    private String itemCallNumberPrefix;
     private String itemCopyNumber;
     private List<OlePatronDocument> realPatron;
     private String realPatronBarcode;
@@ -75,7 +78,11 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private String itemVolumeNumber;
     private boolean inDefinite = false;
     private String dueDateType = "Indefinite";
-    private boolean NonCirculatingItem = false;
+    private boolean nonCirculatingItem = false;
+    private Timestamp manualRenewalDueDate;
+    private Date renewalDateMap;
+    private String renewalDateTime;
+    private boolean renewNotFlag=false;
     /**
      * New Fields added
      */
@@ -157,6 +164,47 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private String noticeSendType;
     private OLEDeliverNotice oleDeliverNotice;
     private String oleLocationCode;
+    private boolean indefiniteCheckFlag= false;
+
+    public boolean isIndefiniteCheckFlag() {
+        return indefiniteCheckFlag;
+    }
+
+    public void setIndefiniteCheckFlag(boolean indefiniteCheckFlag) {
+        this.indefiniteCheckFlag = indefiniteCheckFlag;
+    }
+
+    public boolean isRenewNotFlag() {
+        return renewNotFlag;
+    }
+
+    public void setRenewNotFlag(boolean renewNotFlag) {
+        this.renewNotFlag = renewNotFlag;
+    }
+
+    public String getRequestFlag() {
+        return requestFlag;
+    }
+
+    public void setRequestFlag(String requestFlag) {
+        this.requestFlag = requestFlag;
+    }
+
+    public Date getRenewalDateMap() {
+        return renewalDateMap;
+    }
+
+    public void setRenewalDateMap(Date renewalDateMap) {
+        this.renewalDateMap = renewalDateMap;
+    }
+
+    public String getRenewalDateTime() {
+        return renewalDateTime;
+    }
+
+    public void setRenewalDateTime(String renewalDateTime) {
+        this.renewalDateTime = renewalDateTime;
+    }
 
     /*private boolean statusLost;
 
@@ -164,10 +212,34 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
         return statusLost;
     }
 
+
     public void setStatusLost(boolean statusLost) {
         this.statusLost = statusLost;
     }*/
 
+    public String getItemCallNumberPrefix() {
+        return itemCallNumberPrefix;
+    }
+
+    public void setItemCallNumberPrefix(String itemCallNumberPrefix) {
+        this.itemCallNumberPrefix = itemCallNumberPrefix;
+    }
+
+    public Timestamp getManualRenewalDueDate() {
+        return manualRenewalDueDate;
+    }
+
+    public void setManualRenewalDueDate(Timestamp manualRenewalDueDate) {
+        this.manualRenewalDueDate = manualRenewalDueDate;
+    }
+
+    public boolean isVuFindFlag() {
+        return vuFindFlag;
+    }
+
+    public void setVuFindFlag(boolean vuFindFlag) {
+        this.vuFindFlag = vuFindFlag;
+    }
 
     public String getRouteToLocationName() {
         return routeToLocationName;
@@ -237,11 +309,11 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     }
 
     public boolean isNonCirculatingItem() {
-        return NonCirculatingItem;
+        return nonCirculatingItem;
     }
 
     public void setNonCirculatingItem(boolean nonCirculatingItem) {
-        NonCirculatingItem = nonCirculatingItem;
+        this.nonCirculatingItem = nonCirculatingItem;
     }
 
     public String getItemStatusCode() {

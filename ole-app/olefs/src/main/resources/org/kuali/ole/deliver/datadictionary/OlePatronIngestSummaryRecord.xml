@@ -195,7 +195,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="@{#ConfigProperties['externalizable.help.url']}/reference/html/ADMIN.html#_Patron_Load_Reports"/>
-                <property name="tooltipHelpContent" value="[Help] Lookup help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] Lookup help"/>-->
             </bean>
         </property>
         <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OlePatronIngestSummaryRecord" />

@@ -395,14 +395,8 @@ public class OLESerialReceivingDocument extends TransactionalDocumentBase {
         return poIdLink;
     }
 
-    public void setPoIdLink(String poDocNumber) {
-        String documentTypeName = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT;
-        DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(documentTypeName);
-        String docHandlerUrl = docType.getResolvedDocumentHandlerUrl();
-        int endSubString = docHandlerUrl.lastIndexOf("/");
-        String serverName = docHandlerUrl.substring(0, endSubString);
-        String handler = docHandlerUrl.substring(endSubString + 1, docHandlerUrl.lastIndexOf("?"));
-        this.poIdLink = serverName + "/" + KRADConstants.PORTAL_ACTION + "?channelTitle=" + docType.getName() + "&channelUrl=" + handler + "?" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=" + KRADConstants.DOC_HANDLER_METHOD + "&" + KRADConstants.PARAMETER_DOC_ID + "=" + poDocNumber + "&" + KRADConstants.PARAMETER_COMMAND + "=" + KewApiConstants.DOCSEARCH_COMMAND;
+    public void setPoIdLink(String poIdLink) {
+        this.poIdLink = poIdLink;
     }
 
     public List<OLESerialReceivingHistory> getMainSerialReceivingHistoryList() {
@@ -1252,5 +1246,15 @@ public class OLESerialReceivingDocument extends TransactionalDocumentBase {
 
     public void setValidChildHistoryRecordType(boolean validChildHistoryRecordType) {
         this.validChildHistoryRecordType = validChildHistoryRecordType;
+    }
+
+    public String formPoIdLinkUsingPoDocumentNumber(String poDocNumber){
+        String documentTypeName = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT;
+        DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(documentTypeName);
+        String docHandlerUrl = docType.getResolvedDocumentHandlerUrl();
+        int endSubString = docHandlerUrl.lastIndexOf("/");
+        String serverName = docHandlerUrl.substring(0, endSubString);
+        String handler = docHandlerUrl.substring(endSubString + 1, docHandlerUrl.lastIndexOf("?"));
+        return serverName + "/" + KRADConstants.PORTAL_ACTION + "?channelTitle=" + docType.getName() + "&channelUrl=" + handler + "?" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=" + KRADConstants.DOC_HANDLER_METHOD + "&" + KRADConstants.PARAMETER_DOC_ID + "=" + poDocNumber + "&" + KRADConstants.PARAMETER_COMMAND + "=" + KewApiConstants.DOCSEARCH_COMMAND;
     }
 }

@@ -47,7 +47,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/select/scripts/claim.js</value>
             </list>
         </property>

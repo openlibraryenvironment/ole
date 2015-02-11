@@ -17,7 +17,7 @@
                             <ref bean="FacetFieldResultTableSection1"/>
                             <ref bean="moreFacetPrevious"/>
                             <ref bean="moreFacetNext"/>
-                            <ref bean="facetPageShowEntries"/>
+                            <ref bean="hiddenSearchFields"/>
                         </list>
                     </property>
                 </bean>
@@ -29,7 +29,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/describe/scripts/morefacet.js</value>
             </list>
         </property>

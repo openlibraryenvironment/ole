@@ -15,7 +15,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -94,7 +93,7 @@ public class OLERenewItemServiceImpl implements OLERenewItemService {
             String patronId = renewItemInitiationData.getUserId().getUserIdentifierValue();
             String itemBarcode = renewItemInitiationData.getItemId().getItemIdentifierValue();
             LOG.info("Inside Renew Item Service . Patron Barcode :  " + patronId + " Operator Id : " +operatorId + "Item Barcode : " + itemBarcode);
-            String response = oleCirculationService.renewItem(patronId, operatorId, itemBarcode);
+            String response = oleCirculationService.renewItem(patronId, operatorId, itemBarcode,false);
             LOG.info(response);
             OLERenewItem oleRenewItem = (OLERenewItem) oleRenewItemConverter.generateRenewItemObject(response);
             if (oleRenewItem != null && oleRenewItem.getMessage().contains(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.RENEW_SUCCESS))) {

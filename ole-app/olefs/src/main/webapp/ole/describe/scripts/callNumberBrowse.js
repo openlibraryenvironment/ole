@@ -19,7 +19,9 @@ jq(window).load(function() {
     jq(".dataTables_length select").live("change",function(){
         jq("#pageSize_control").val(jq(".dataTables_length select").val());
         if(jq("#docType_control").val()=="bibliographic"){
-            jq('#Hidden_BrowseSearchRows_button').focus().click();
+            submitForm('rowsBrowse', null, null, true, function () {
+                browse();
+            });
         }
         else {
             jq('#CallNumberBrowseSearchRows_button').focus().click();
@@ -28,7 +30,9 @@ jq(window).load(function() {
 
     jq(".paginate_enabled_previous").live("click",function(){
         if(jq("#docType_control").val()=="bibliographic"){
-            jq('#Hidden_BrowsePrevious_button').focus().click();
+            submitForm('previous', null, null, true, function () {
+                browse();
+            });
         }
         else {
             jq('#CallNumberBrowsePrevious_button').focus().click();
@@ -37,7 +41,9 @@ jq(window).load(function() {
 
     jq(".paginate_enabled_next").live("click",function(){
         if(jq("#docType_control").val()=="bibliographic"){
-            jq('#Hidden_BrowseNext_button').focus().click();
+            submitForm('next', null, null, true, function () {
+                browse();
+            });
         }
         else {
             jq('#CallNumberBrowseNext_button').focus().click();

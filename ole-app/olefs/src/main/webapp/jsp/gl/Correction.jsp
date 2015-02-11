@@ -186,6 +186,7 @@
         	              </c:when>
             	          <c:otherwise>
                 	        <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|ole|gl|businessobject|options|CorrectionGroupEntriesFinder" label="value" value="key" />
+                              <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|ole|batch|keyvalue|OLEEncumberOpenRecurringOrdersValueFinder" label="value" value="key" />
                     	  </c:otherwise>
                     	</c:choose>
                    	</c:otherwise>

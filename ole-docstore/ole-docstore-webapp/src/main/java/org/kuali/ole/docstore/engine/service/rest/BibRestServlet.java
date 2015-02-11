@@ -86,6 +86,8 @@ public class BibRestServlet extends HttpServlet {
                 result = transferHoldings(req);
             } else if (req.getPathInfo().contains("/process")) {
                 result = processBibTrees(req);
+            }else if (req.getPathInfo().contains("/searchAcquistion")) {
+                result = retrieveBib(req);
             } else {
                 result = createBib(req);
             }

@@ -143,7 +143,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
     }
 
     @Override
-    public String lookupUser(String patronBarcode, String operator, String agencyId) {
+    public String lookupUser(String patronBarcode, String operator, String agencyId, boolean isSIP2Request) {
         LOG.info("Inside the look up user : patron Barcode : " + patronBarcode + "operator : "+ operator + "agencyId : " + agencyId );
         OLELookupUser lookupUser = new OLELookupUser();
         if (!loanProcessor.hasCirculationDesk(operator)) {
@@ -156,6 +156,11 @@ public class OLECirculationServiceImpl implements OLECirculationService {
             if (olePatronDocumentList.size() > 0) {
                 OlePatronDocument olePatronDocument = olePatronDocumentList.get(0);
                 lookupUser = oleCirculationHelperService.initialiseLookupUser(olePatronDocument, agencyId);
+                if (olePatronDocument.isGeneralBlock() || oleCirculationHelperService.isPatronExpired(olePatronDocument) || !olePatronDocument.isActiveIndicator() || oleCirculationHelperService.isPatronActivated(olePatronDocument)){
+                    lookupUser.setValidPatron(false);
+                }else{
+                    lookupUser.setValidPatron(true);
+                }
                 try {
                     List<OleLoanDocument> oleLoanDocumentList = loanProcessor.getPatronLoanedItemBySolr(olePatronDocument.getOlePatronId());
                     List<OLECheckedOutItem> oleCheckedOutItemList = getPatronCheckedOutItemList(oleLoanDocumentList,olePatronDocument.getOleBorrowerType().getBorrowerTypeCode(),agencyId!=null?false:true);
@@ -194,7 +199,12 @@ public class OLECirculationServiceImpl implements OLECirculationService {
                 lookupUser.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
             }
         }
-        String responseMessage = oleLookupUserConverter.generateLookupUserResponseXml(lookupUser);
+        String responseMessage = "";
+        if(isSIP2Request){
+            responseMessage = oleLookupUserConverter.generateLookupUserResponseXmlForSip2(lookupUser);
+        }else{
+            responseMessage = oleLookupUserConverter.generateLookupUserResponseXml(lookupUser);
+        }
         return responseMessage;
     }
 
@@ -250,8 +260,8 @@ public class OLECirculationServiceImpl implements OLECirculationService {
     }
 
     @Override
-    public String placeRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemLocation) {
-        String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operatorId, itemBarcode, requestType, pickUpLocation, null, itemLocation, null, null, null, null, false);
+    public String placeRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemLocation,String bibId,String requestLevel) {
+        String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operatorId, itemBarcode, requestType, pickUpLocation, null, itemLocation, null, null, null, null, false,bibId,requestLevel);
         return responseMessage;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -330,9 +340,16 @@ public class OLECirculationServiceImpl implements OLECirculationService {
     }
 
     @Override
-    public String renewItem(String patronBarcode, String operator, String itemBarcode) {
+    public String renewItem(String patronBarcode, String operator, String itemBarcode, boolean isSIP2Request) {
         LOG.info("Inside cancel request  : Operator : " + operator + "Patron Barcode : " + patronBarcode + "Item barcode : "+ itemBarcode);
-        String responseMessage = oleCirculationHelperService.renewItem(patronBarcode, operator, itemBarcode);
+        String responseMessage = oleCirculationHelperService.renewItem(patronBarcode, operator, itemBarcode, isSIP2Request);
+        return responseMessage;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String renewItemList(String patronBarcode, String operator, String itemBarcode, boolean isSIP2Request) {
+        LOG.info("Inside cancel request  : Operator : " + operator + "Patron Barcode : " + patronBarcode + "Item barcode : "+ itemBarcode);
+        String responseMessage = oleCirculationHelperService.renewItemList(patronBarcode, operator, itemBarcode,isSIP2Request);
         return responseMessage;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -391,7 +408,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
             if ("".equals(itemIdentifier)) {
                 itemIdentifier = null;
             }
-                String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operator, itemBarcode, requestType, pickUpLocation, itemIdentifier, itemLocation, itemType, title, author, callNumber, true);
+                String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operator, itemBarcode, requestType, pickUpLocation, itemIdentifier, itemLocation, itemType, title, author, callNumber, true,null,null);
                 responseMessage = responseMessage.replaceAll("&lt;br/&gt;", "");
                 responseMessage = responseMessage.replaceAll("<br/>", "");
                 OLEPlaceRequestConverter olePlaceRequestConverter = new OLEPlaceRequestConverter();
@@ -415,7 +432,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
     }
 
     @Override
-    public String checkInItem(String patronBarcode, String operator, String itemBarcode, String deleteIndicator) {
+    public String checkInItem(String patronBarcode, String operator, String itemBarcode, String deleteIndicator, boolean isSIP2Request) {
         LOG.info( " Inside check in item : Patron Barcode :"  +patronBarcode + "operator : "+ operator + "item barcode : "+ itemBarcode);
         if (!loanProcessor.hasCirculationDesk(operator)) {
             OLECheckInItem oleCheckInItem = new OLECheckInItem();
@@ -424,14 +441,14 @@ public class OLECirculationServiceImpl implements OLECirculationService {
             LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CIRCULATION_DESK_NOT_MAPPED_OPERATOR));
             return oleCheckInItemConverter.generateCheckInItemXml(oleCheckInItem);
         }
-        String responseMessage = oleCirculationHelperService.checkInItem(patronBarcode, operator, itemBarcode, deleteIndicator);
+        String responseMessage = oleCirculationHelperService.checkInItem(patronBarcode, operator, itemBarcode, deleteIndicator,isSIP2Request);
         return responseMessage;
     }
 
     @Override
-    public String checkOutItem(String patronBarcode, String operator, String itemBarcode) {
+    public String checkOutItem(String patronBarcode, String operator, String itemBarcode, boolean isSIP2Request) {
         LOG.info( " Inside checkOutItem : Patron Barcode :"  +patronBarcode + "operator : "+ operator + "item barcode : "+ itemBarcode);
-        String responseMessage = oleCirculationHelperService.checkOutItem(patronBarcode, operator, itemBarcode);
+        String responseMessage = oleCirculationHelperService.checkOutItem(patronBarcode, operator, itemBarcode,isSIP2Request);
         return responseMessage;
     }
 
@@ -634,8 +651,8 @@ public class OLECirculationServiceImpl implements OLECirculationService {
     }
 
     public List<OLEHold> getHoldsList(List<OleDeliverRequestBo> oleDeliverRequestBoList) throws Exception {
-        String availableDate = "";
-        String callNumber="";
+        //String availableDate = "";
+        //String callNumber="";
         String copyNumber="";
 
         String[] availableDates;
@@ -654,11 +671,11 @@ public class OLECirculationServiceImpl implements OLECirculationService {
                 oleHold.setAvailableStatus(item.getItemStatus().getCodeValue());
             }
 
-            if(item.getCallNumber()!=null && !StringUtils.isEmpty(item.getCallNumber().getNumber())){
-                callNumber = item.getCallNumber().getNumber();
+            /*if(item.getCallNumber()!=null && !StringUtils.isEmpty(item.getCallNumber().getNumber())){
+                callNumber = loanProcessor.getItemCallNumber(item.getCallNumber());
             }else {
                 callNumber = loanProcessor.getItemCallNumber(oleHoldings.getCallNumber());
-            }
+            }*/
             if(item.getCopyNumber()!=null && !item.getCopyNumber().isEmpty()){
                 copyNumber=item.getCopyNumber();
             }
@@ -668,7 +685,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
             oleHold.setTitle(bib.getTitle());
             oleHold.setAuthor(bib.getAuthor());
             oleHold.setVolumeNumber(item.getEnumeration()!=null ? item.getEnumeration():"");
-            oleHold.setCallNumber(callNumber);
+            oleHold.setCallNumber(loanProcessor.getItemCallNumber(item.getCallNumber(),oleHoldings.getCallNumber()));
             oleHold.setCopyNumber(copyNumber);
             if (item.getItemType() != null)
                 oleHold.setItemType(item.getItemType().getCodeValue());

@@ -115,25 +115,18 @@ public class BatchProcessOrderIngest extends AbstractBatchProcess {
 
 
     private void checkForFailureReport() throws Exception {
-        /*DataCarrierService dataCarrierService = GlobalResourceLoader.getService(OLEConstants.DATA_CARRIER_SERVICE);
-        Integer createBibCount = (Integer) dataCarrierService.getData(OLEConstants.ORDER_IMPORT_SUCCESS_COUNT);
-        Integer updateBibCount = (Integer) dataCarrierService.getData(OLEConstants.UPDATE_BIB_CNT);
-        Integer createHoldingsCount = (Integer) dataCarrierService.getData(OLEConstants.CREATE_HLD_CNT);
-        Integer orderImportSuccessCount = (Integer) dataCarrierService.getData(OLEConstants.ORDER_IMPORT_SUCCESS_COUNT);
-        Integer orderImportFailureCount = (Integer) dataCarrierService.getData(OLEConstants.ORDER_IMPORT_FAILURE_COUNT);
-        List<String> reasonForFailure = (List<String>) dataCarrierService.getData(OLEConstants.FAILURE_REASON);*/
-
         OrderImportHelperBo orderImportHelperBo = job.getOrderImportHelperBo();
-        Integer createBibCount = orderImportHelperBo.getOrderImportSuccessCount();
+        Integer createBibCount = orderImportHelperBo.getCreateBibCount();
         Integer updateBibCount = orderImportHelperBo.getUpdateBibCount();
-        Integer createHoldingsCount = orderImportHelperBo.getCreatHoldingCount();
+        Integer createHoldingsCount = orderImportHelperBo.getCreateHoldingsCount();
+        Integer updateHoldingsCount = orderImportHelperBo.getUpdateHoldingsCount();
         Integer orderImportSuccessCount = orderImportHelperBo.getOrderImportSuccessCount();
         Integer orderImportFailureCount = orderImportHelperBo.getOrderImportFailureCount();
         List<String> reasonForFailure = orderImportHelperBo.getFailureReason();
-
         job.setCreateBibCount(createBibCount);
         job.setUpdateBibCount(updateBibCount);
         job.setCreateHoldingsCount(createHoldingsCount);
+        job.setUpdateHoldingsCount(updateHoldingsCount);
         job.setOrderImportSuccessCount(orderImportSuccessCount);
         job.setOrderImportFailureCount(orderImportFailureCount);
         StringBuffer failureBuffer = new StringBuffer();
@@ -143,9 +136,6 @@ public class BatchProcessOrderIngest extends AbstractBatchProcess {
             }
             createBatchErrorAttachmentFile(failureBuffer.toString());
         }
-        /*dataCarrierService.addData(OLEConstants.ORDER_IMPORT_SUCCESS_COUNT,0);
-        dataCarrierService.addData(OLEConstants.ORDER_IMPORT_FAILURE_COUNT,0);
-        dataCarrierService.addData(OLEConstants.FAILURE_REASON,new ArrayList<>());*/
     }
 
 }

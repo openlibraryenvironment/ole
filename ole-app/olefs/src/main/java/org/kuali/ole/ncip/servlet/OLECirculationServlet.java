@@ -70,7 +70,7 @@ public class OLECirculationServlet extends HttpServlet {
                                 if(parameterMap.containsKey(OLENCIPConstants.PICKUP_LOCATION)) {
                                     pickupLocation=parameterMap.get(OLENCIPConstants.PICKUP_LOCATION)[0];
                                 }
-                                responseString=oleCirculationService.placeRequest(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0],parameterMap.get(OLENCIPConstants.REQUEST_TYPE)[0],pickupLocation,null);
+                                responseString=oleCirculationService.placeRequest(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0],parameterMap.get(OLENCIPConstants.REQUEST_TYPE)[0],pickupLocation,null,null,null);
                                 if(outputFormat.equalsIgnoreCase(OLENCIPConstants.JSON_FORMAT)){
                                     responseString=new OLEPlaceRequestConverter().generatePlaceRequestJson(responseString);
                                 }
@@ -115,9 +115,36 @@ public class OLECirculationServlet extends HttpServlet {
                                 parameterMap.containsKey(OLENCIPConstants.OPERATOR_ID) &&
                                 parameterMap.containsKey(OLENCIPConstants.ITEM_BARCODE)){
                             if(parameterMap.size()==4 || parameterMap.size()==5){
-                                responseString=oleCirculationService.renewItem(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0]);
+                                responseString=oleCirculationService.renewItem(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0],false);
                                 if(outputFormat.equalsIgnoreCase(OLENCIPConstants.JSON_FORMAT)){
                                     responseString=new OLERenewItemConverter().generateRenewItemJson(responseString);
+                                }
+                                if(responseString==null){
+                                    OLENCIPErrorResponse olencipErrorResponse=new OLENCIPErrorResponse();
+                                    olencipErrorResponse.getErrorMap().put(OLENCIPConstants.PATRON_BARCODE,parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0]);
+                                    olencipErrorResponse.getErrorMap().put(OLENCIPConstants.OPERATOR_ID,parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0]);
+                                    olencipErrorResponse.getErrorMap().put(OLENCIPConstants.MESSAGE,responseString);
+                                    responseString=olencipErrorResponse.getErrorXml(service);
+                                }
+                            }else{
+                                responseString=getCirculationErrorMessage(service,OLENCIPConstants.INVALID_PARAMETERS,"501",OLENCIPConstants.RENEWITEM,outputFormat);
+                            }
+                        }else{
+                            responseString=getCirculationErrorMessage(service,OLENCIPConstants.PARAMETER_MISSING,"502",OLENCIPConstants.RENEWITEM,outputFormat);
+                        }
+                        break;
+                    case OLENCIPConstants.RENEWITEMLIST_SERVICE:
+                        if(parameterMap.containsKey(OLENCIPConstants.PATRON_BARCODE) &&
+                                parameterMap.containsKey(OLENCIPConstants.OPERATOR_ID) &&
+                                parameterMap.containsKey(OLENCIPConstants.ITEM_BARCODE)){
+                            if(parameterMap.size()==4 || parameterMap.size()==5){
+                                Long startingTime = System.currentTimeMillis();
+                                responseString=oleCirculationService.renewItemList(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0], parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0], parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0], false);
+                                Long endTimme = System.currentTimeMillis();
+                                Long timeTakenForRenewAll = endTimme-startingTime;
+                                LOG.info("The Time Taken for RenewAll : "+timeTakenForRenewAll);
+                                if(outputFormat.equalsIgnoreCase(OLENCIPConstants.JSON_FORMAT)){
+                                    responseString=new OLERenewItemConverter().generateRenewItemListJson(responseString);
                                 }
                                 if(responseString==null){
                                     OLENCIPErrorResponse olencipErrorResponse=new OLENCIPErrorResponse();
@@ -182,7 +209,7 @@ public class OLECirculationServlet extends HttpServlet {
                                 parameterMap.containsKey(OLENCIPConstants.ITEM_BARCODE) &&
                                 parameterMap.containsKey(OLENCIPConstants.DELETE_INDICATOR)){
                             if(parameterMap.size()==5 || parameterMap.size()==6){
-                                responseString=oleCirculationService.checkInItem(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0],parameterMap.get(OLENCIPConstants.DELETE_INDICATOR)[0]);
+                                responseString=oleCirculationService.checkInItem(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0],parameterMap.get(OLENCIPConstants.DELETE_INDICATOR)[0],false);
                                 if(outputFormat.equalsIgnoreCase(OLENCIPConstants.JSON_FORMAT)){
                                     responseString=new OLECheckInItemConverter().generateCheckInItemJson(responseString);
                                 }
@@ -206,7 +233,7 @@ public class OLECirculationServlet extends HttpServlet {
                                 parameterMap.containsKey(OLENCIPConstants.OPERATOR_ID) &&
                                 parameterMap.containsKey(OLENCIPConstants.ITEM_BARCODE)){
                             if(parameterMap.size()==4 || parameterMap.size()==5){
-                                responseString=oleCirculationService.checkOutItem(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0]);
+                                responseString=oleCirculationService.checkOutItem(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0],false);
                                 if(outputFormat.equalsIgnoreCase(OLENCIPConstants.JSON_FORMAT)){
                                     responseString=new OLECheckOutItemConverter().generateCheckOutItemJson(responseString);
                                 }
@@ -289,7 +316,7 @@ public class OLECirculationServlet extends HttpServlet {
                     if(parameterMap.containsKey(OLENCIPConstants.PATRON_BARCODE) &&
                             parameterMap.containsKey(OLENCIPConstants.OPERATOR_ID)){
                         if(parameterMap.size()==3 || parameterMap.size()==4){
-                            responseString=oleCirculationService.lookupUser(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],null);
+                            responseString=oleCirculationService.lookupUser(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],null, false);
                             if(outputFormat.equalsIgnoreCase(OLENCIPConstants.JSON_FORMAT)){
                                 responseString=new OLELookupUserConverter().generateLookupUserJson(responseString);
                             }

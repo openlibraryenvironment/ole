@@ -4184,6 +4184,34 @@
                     </action>
                 </trueActions>
             </rule>
+            <rule> <!--Fine Check: if the patron outstanding fine amount exceeds the limit then display the message Outstanding patron fine amount exceeds the limit-->
+                <name>Fine Check</name>
+                <oleProposition> <!--if requestType in (page/hold, page/delivery) AND if maxNumberOfPageRequest > 2-->
+                    <type>simple</type>
+                    <simpleProposition> <!--if maxNumberOfPageRequest > 2-->
+                        <term>
+                            <type>java.lang.Integer</type>
+                            <value>fineAmount</value>
+                        </term>
+                        <operator>greaterThan</operator>
+                        <values>
+                            <value>
+                                <type>java.lang.Integer</type>
+                                <name>100</name>
+                            </value>
+                        </values>
+                    </simpleProposition>
+                </oleProposition>
+                <trueActions>
+                    <action> <!--display message that max number of page requests exceeded-->
+                        <name>errorAction</name>
+                        <parameter>
+                            <name>errorMessage</name>
+                            <value>Outstanding Patron fine amount exceeds the limit</value>
+                        </parameter>
+                    </action>
+                </trueActions>
+            </rule>
             <rule> <!--ValidationRequestPolicySet1:-->
                 <name>Circulation Policy Set 1 Validation for Request</name>
                 <oleProposition> <!--set isCircPolicyNotFound-->
@@ -4327,6 +4355,22 @@
                                         <parameter>
                                             <name>recallLoanPeriod</name>
                                             <value>2-D</value>
+                                        </parameter>
+                                        <parameter>
+                                            <name>courtesyNoticeInterval</name>
+                                            <value>1</value>
+                                        </parameter>
+                                        <parameter>
+                                            <name>numberOfOverdueToBeSent</name>
+                                            <value>6</value>
+                                        </parameter>
+                                        <parameter><!--If intervalToGenerateNotice is mentioned as empty, It will be taken from system parameter-->
+                                            <name>intervalToGenerateOverdueNotice</name>
+                                            <value>1</value>
+                                        </parameter>
+                                        <parameter>
+                                            <name>replacementBill</name>
+                                            <value>500</value>
                                         </parameter>
                                     </action>
                                     <rule> <!--and run rule MaxNumberOfRecallRequest if > 2 then display error-->

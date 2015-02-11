@@ -16,6 +16,7 @@ public class OleLoanFastAdd extends PersistableBusinessObjectBase {
     private String circulationLocation;
     private String itemType;
     private String callNumber;
+    private String callNumberPrefix;
     private String labelForCopyNumber;
     private String enumeration;
     private String checkinNote;
@@ -163,5 +164,13 @@ public class OleLoanFastAdd extends PersistableBusinessObjectBase {
 
     public void setCallNumberType(String callNumberType) {
         this.callNumberType = callNumberType;
+    }
+
+    public String getCallNumberPrefix() {
+        return callNumberPrefix;
+    }
+
+    public void setCallNumberPrefix(String callNumberPrefix) {
+        this.callNumberPrefix = callNumberPrefix;
     }
 }

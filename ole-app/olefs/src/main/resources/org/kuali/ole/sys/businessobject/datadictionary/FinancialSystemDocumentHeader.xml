@@ -46,7 +46,7 @@
 	<!-- Overriding this base Rice attribute definition to limit description length to 40 as required
 		 by KFS ledger entry-creating documents -->
   <bean id="DocumentHeader-documentDescription" parent="DocumentHeader-documentDescription-parentBean">
-    <property name="maxLength" value="40"/>
+    <property name="maxLength" value="255"/>
   </bean>
 
   <bean id="FinancialSystemDocumentHeader-applicationDocumentStatus" parent="FinancialSystemDocumentHeader-applicationDocumentStatus-parentBean"/>

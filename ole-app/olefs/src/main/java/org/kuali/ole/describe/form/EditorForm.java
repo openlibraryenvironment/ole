@@ -1,6 +1,7 @@
 package org.kuali.ole.describe.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.ole.deliver.bo.OLELoanIntransitRecordHistory;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.document.BibTree;
@@ -142,6 +143,7 @@ public class EditorForm extends UifFormBase {
     private List<OLESerialReceivingHistory> mainSerialReceivingHistoryList;
     private List<OLESerialReceivingHistory> supplementSerialReceivingHistoryList;
     private List<OLESerialReceivingHistory> indexSerialReceivingHistoryList;
+    private List<OLELoanIntransitRecordHistory> oleLoanIntransitRecordHistories;
     private String globalEditFlag = "false";
 
     private GlobalEditHoldingsFieldsFlagBO globalEditHoldingsFieldsFlagBO;
@@ -156,6 +158,15 @@ public class EditorForm extends UifFormBase {
     private boolean showTime = false;
     private String channelUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.editor.url");
     private boolean canDeleteEHoldings = true;
+    private String externalHelpUrl;
+
+    public String getExternalHelpUrl() {
+        return externalHelpUrl;
+    }
+
+    public void setExternalHelpUrl(String externalHelpUrl) {
+        this.externalHelpUrl = externalHelpUrl;
+    }
 
     public String getCheckOverwriteFlag() {
         return checkOverwriteFlag;
@@ -1123,5 +1134,13 @@ public class EditorForm extends UifFormBase {
 
     public void setCanDeleteEHoldings(boolean canDeleteEHoldings) {
         this.canDeleteEHoldings = canDeleteEHoldings;
+    }
+
+    public List<OLELoanIntransitRecordHistory> getOleLoanIntransitRecordHistories() {
+        return oleLoanIntransitRecordHistories;
+    }
+
+    public void setOleLoanIntransitRecordHistories(List<OLELoanIntransitRecordHistory> oleLoanIntransitRecordHistories) {
+        this.oleLoanIntransitRecordHistories = oleLoanIntransitRecordHistories;
     }
 }

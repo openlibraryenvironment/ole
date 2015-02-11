@@ -632,6 +632,9 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
     protected CallNumberTypeRecord saveCallNumberTypeRecord(ShelvingScheme scheme) {
 
         Map callMap = new HashMap();
+        if(scheme.getCodeValue() != null  && scheme.getCodeValue() .equalsIgnoreCase("none")){
+            scheme.setCodeValue("NOINFO");
+        }
         callMap.put("code", scheme.getCodeValue());
         List<CallNumberTypeRecord> callNumberTypeRecords = (List<CallNumberTypeRecord>) getBusinessObjectService().findMatching(CallNumberTypeRecord.class, callMap);
         if (callNumberTypeRecords.size() == 0) {
@@ -950,6 +953,9 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
 //        if (!CollectionUtils.isEmpty(holdingsItemRecords)) {
 //            holdings.setSeries(true);
 //        }
+
+        holdings.setLocationName(holdingsRecord.getLocation());
+
         return holdings;
     }
 
@@ -1506,8 +1512,8 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         // Check if CallNumber is present
         if (StringUtils.isNotBlank(callNumber)) {
             // Check if callNumberType is empty or #
-            if ((callNumberType == null) || (callNumberType.length() == 0) || (callNumberType.equals("NOINFO"))) {
-                throw new DocstoreValidationException(DocstoreResources.CALL_NUMBER_TYPE_INFO, DocstoreResources.CALL_NUMBER_TYPE_INFO);
+            if ((callNumberType == null) || (callNumberType.length() == 0) || callNumber.equalsIgnoreCase("none")) {
+                cNum.getShelvingScheme().setCodeValue("NOINFO");
             }
         }
     }

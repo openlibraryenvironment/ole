@@ -446,23 +446,23 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
      */
     protected void addBibInfoForHoldingsOrItems(SolrInputDocument solrInputDocument, SolrDocument sourceDocument) {
 
-        solrInputDocument.addField(TITLE_SEARCH, sourceDocument.getFieldValue(TITLE_SEARCH));
-        solrInputDocument.addField(AUTHOR_SEARCH, sourceDocument.getFieldValue(AUTHOR_SEARCH));
-        solrInputDocument.addField(PUBLISHER_SEARCH, sourceDocument.getFieldValue(PUBLISHER_SEARCH));
-        solrInputDocument.addField(ISSN_SEARCH, sourceDocument.getFieldValue(ISSN_SEARCH));
-        solrInputDocument.addField(ISBN_SEARCH, sourceDocument.getFieldValue(ISBN_SEARCH));
-        solrInputDocument.addField(FORMAT_SEARCH, sourceDocument.getFieldValue(FORMAT_SEARCH));
-        solrInputDocument.addField(LANGUAGE_SEARCH, sourceDocument.getFieldValue(LANGUAGE_SEARCH));
-        solrInputDocument.addField(PUBLICATIONDATE_SEARCH, sourceDocument.getFieldValue(PUBLICATIONDATE_SEARCH));
+        solrInputDocument.addField(TITLE_SEARCH, sourceDocument.getFieldValues(TITLE_SEARCH));
+        solrInputDocument.addField(AUTHOR_SEARCH, sourceDocument.getFieldValues(AUTHOR_SEARCH));
+        solrInputDocument.addField(PUBLISHER_SEARCH, sourceDocument.getFieldValues(PUBLISHER_SEARCH));
+        solrInputDocument.addField(ISSN_SEARCH, sourceDocument.getFieldValues(ISSN_SEARCH));
+        solrInputDocument.addField(ISBN_SEARCH, sourceDocument.getFieldValues(ISBN_SEARCH));
+        solrInputDocument.addField(FORMAT_SEARCH, sourceDocument.getFieldValues(FORMAT_SEARCH));
+        solrInputDocument.addField(LANGUAGE_SEARCH, sourceDocument.getFieldValues(LANGUAGE_SEARCH));
+        solrInputDocument.addField(PUBLICATIONDATE_SEARCH, sourceDocument.getFieldValues(PUBLICATIONDATE_SEARCH));
 
-        solrInputDocument.addField(TITLE_DISPLAY, sourceDocument.getFieldValue(TITLE_DISPLAY));
-        solrInputDocument.addField(AUTHOR_DISPLAY, sourceDocument.getFieldValue(AUTHOR_DISPLAY));
-        solrInputDocument.addField(PUBLISHER_DISPLAY, sourceDocument.getFieldValue(PUBLISHER_DISPLAY));
-        solrInputDocument.addField(ISSN_DISPLAY, sourceDocument.getFieldValue(ISSN_DISPLAY));
-        solrInputDocument.addField(ISBN_DISPLAY, sourceDocument.getFieldValue(ISBN_DISPLAY));
-        solrInputDocument.addField(FORMAT_DISPLAY, sourceDocument.getFieldValue(FORMAT_DISPLAY));
-        solrInputDocument.addField(LANGUAGE_DISPLAY, sourceDocument.getFieldValue(LANGUAGE_DISPLAY));
-        solrInputDocument.addField(PUBLICATIONDATE_DISPLAY, sourceDocument.getFieldValue(PUBLICATIONDATE_DISPLAY));
+        solrInputDocument.addField(TITLE_DISPLAY, sourceDocument.getFieldValues(TITLE_DISPLAY));
+        solrInputDocument.addField(AUTHOR_DISPLAY, sourceDocument.getFieldValues(AUTHOR_DISPLAY));
+        solrInputDocument.addField(PUBLISHER_DISPLAY, sourceDocument.getFieldValues(PUBLISHER_DISPLAY));
+        solrInputDocument.addField(ISSN_DISPLAY, sourceDocument.getFieldValues(ISSN_DISPLAY));
+        solrInputDocument.addField(ISBN_DISPLAY, sourceDocument.getFieldValues(ISBN_DISPLAY));
+        solrInputDocument.addField(FORMAT_DISPLAY, sourceDocument.getFieldValues(FORMAT_DISPLAY));
+        solrInputDocument.addField(LANGUAGE_DISPLAY, sourceDocument.getFieldValues(LANGUAGE_DISPLAY));
+        solrInputDocument.addField(PUBLICATIONDATE_DISPLAY, sourceDocument.getFieldValues(PUBLICATIONDATE_DISPLAY));
 
     }
 
@@ -474,36 +474,41 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
 
     protected void addBibInfoForHoldingsOrItems(SolrInputDocument solrInputDocument, SolrInputDocument sourceInputDocument) {
 
-        solrInputDocument.addField(TITLE_SEARCH, sourceInputDocument.getFieldValue(TITLE_SEARCH));
-        solrInputDocument.addField(TITLE_SORT, sourceInputDocument.getFieldValue(TITLE_SORT));
-        solrInputDocument.addField(AUTHOR_SEARCH, sourceInputDocument.getFieldValue(AUTHOR_SEARCH));
-        solrInputDocument.addField(PUBLISHER_SEARCH, sourceInputDocument.getFieldValue(PUBLISHER_SEARCH));
-        solrInputDocument.addField(ISSN_SEARCH, sourceInputDocument.getFieldValue(ISSN_SEARCH));
-        solrInputDocument.addField(ISBN_SEARCH, sourceInputDocument.getFieldValue(ISBN_SEARCH));
-        solrInputDocument.addField(FORMAT_SEARCH, sourceInputDocument.getFieldValue(FORMAT_SEARCH));
-        solrInputDocument.addField(LANGUAGE_SEARCH, sourceInputDocument.getFieldValue(LANGUAGE_SEARCH));
-        solrInputDocument.addField(PUBLICATIONDATE_SEARCH, sourceInputDocument.getFieldValue(PUBLICATIONDATE_SEARCH));
+        solrInputDocument.addField(TITLE_SEARCH, sourceInputDocument.getFieldValues(TITLE_SEARCH));
+        solrInputDocument.addField(TITLE_SORT, sourceInputDocument.getFieldValues(TITLE_SORT));
+        solrInputDocument.addField(AUTHOR_SEARCH, sourceInputDocument.getFieldValues(AUTHOR_SEARCH));
+        solrInputDocument.addField(PUBLISHER_SEARCH, sourceInputDocument.getFieldValues(PUBLISHER_SEARCH));
+        solrInputDocument.addField(ISSN_SEARCH, sourceInputDocument.getFieldValues(ISSN_SEARCH));
+        solrInputDocument.addField(ISBN_SEARCH, sourceInputDocument.getFieldValues(ISBN_SEARCH));
+        solrInputDocument.addField(FORMAT_SEARCH, sourceInputDocument.getFieldValues(FORMAT_SEARCH));
+        solrInputDocument.addField(LANGUAGE_SEARCH, sourceInputDocument.getFieldValues(LANGUAGE_SEARCH));
+        solrInputDocument.addField(PUBLICATIONDATE_SEARCH, sourceInputDocument.getFieldValues(PUBLICATIONDATE_SEARCH));
 
-        solrInputDocument.addField(TITLE_DISPLAY, sourceInputDocument.getFieldValue(TITLE_DISPLAY));
-        solrInputDocument.addField(AUTHOR_DISPLAY, sourceInputDocument.getFieldValue(AUTHOR_DISPLAY));
-        solrInputDocument.addField(PUBLISHER_DISPLAY, sourceInputDocument.getFieldValue(PUBLISHER_DISPLAY));
-        solrInputDocument.addField(ISSN_DISPLAY, sourceInputDocument.getFieldValue(ISSN_DISPLAY));
-        solrInputDocument.addField(ISBN_DISPLAY, sourceInputDocument.getFieldValue(ISBN_DISPLAY));
-        solrInputDocument.addField(FORMAT_DISPLAY, sourceInputDocument.getFieldValue(FORMAT_DISPLAY));
-        solrInputDocument.addField(LANGUAGE_DISPLAY, sourceInputDocument.getFieldValue(LANGUAGE_DISPLAY));
-        solrInputDocument.addField(PUBLICATIONDATE_DISPLAY, sourceInputDocument.getFieldValue(PUBLICATIONDATE_DISPLAY));
+        solrInputDocument.addField(TITLE_DISPLAY, sourceInputDocument.getFieldValues(TITLE_DISPLAY));
+        solrInputDocument.addField(AUTHOR_DISPLAY, sourceInputDocument.getFieldValues(AUTHOR_DISPLAY));
+        solrInputDocument.addField(PUBLISHER_DISPLAY, sourceInputDocument.getFieldValues(PUBLISHER_DISPLAY));
+        solrInputDocument.addField(ISSN_DISPLAY, sourceInputDocument.getFieldValues(ISSN_DISPLAY));
+        solrInputDocument.addField(ISBN_DISPLAY, sourceInputDocument.getFieldValues(ISBN_DISPLAY));
+        solrInputDocument.addField(FORMAT_DISPLAY, sourceInputDocument.getFieldValues(FORMAT_DISPLAY));
+        solrInputDocument.addField(LANGUAGE_DISPLAY, sourceInputDocument.getFieldValues(LANGUAGE_DISPLAY));
+        solrInputDocument.addField(PUBLICATIONDATE_DISPLAY, sourceInputDocument.getFieldValues(PUBLICATIONDATE_DISPLAY));
 
     }
 
 
     protected void addHoldingsInfoToItem(SolrInputDocument solrInputDocument, SolrInputDocument sourceInputDocument) {
-        solrInputDocument.addField("HoldingsLocation_search", sourceInputDocument.getFieldValue("Location_search"));
-        solrInputDocument.addField("HoldingsCallNumber_search", sourceInputDocument.getFieldValue("CallNumber_search"));
-        solrInputDocument.addField("HoldingsLocation_display", sourceInputDocument.getFieldValue("Location_display"));
-        solrInputDocument.addField("HoldingsCallNumber_display", sourceInputDocument.getFieldValue("CallNumber_display"));
-        solrInputDocument.addField("HoldingsCopyNumber_display", sourceInputDocument.getFieldValue("CopyNumber_display"));
-        solrInputDocument.addField("HoldingsCopyNumber_search", sourceInputDocument.getFieldValue("CopyNumber_search"));
-
+        solrInputDocument.addField(ItemConstants.HOLDINGS_LOCATION_SEARCH, sourceInputDocument.getFieldValue(ItemConstants.LOCATION_LEVEL_SEARCH));
+        solrInputDocument.addField(ItemConstants.HOLDINGS_CALLNUMBER_SEARCH, sourceInputDocument.getFieldValue(ItemConstants.CALL_NUMBER_SEARCH));
+        solrInputDocument.addField(ItemConstants.HOLDINGS_LOCATION_DISPLAY, sourceInputDocument.getFieldValue(ItemConstants.LOCATION_LEVEL_DISPLAY));
+        solrInputDocument.addField(ItemConstants.HOLDINGS_CALLNUMBER_DISPLAY, sourceInputDocument.getFieldValue(ItemConstants.CALL_NUMBER_DISPLAY));
+        solrInputDocument.addField(ItemConstants.HOLDINGS_COPYNUMBER_DISPLAY, sourceInputDocument.getFieldValue(ItemConstants.COPY_NUMBER_DISPLAY));
+        solrInputDocument.addField(ItemConstants.HOLDINGS_COPYNUMBER_SEARCH, sourceInputDocument.getFieldValue(ItemConstants.COPY_NUMBER_SEARCH));
+        solrInputDocument.addField(ItemConstants.HOLDINGS_CALLNUMBER_PREFIX_SEARCH, sourceInputDocument.getFieldValue(ItemConstants.CALL_NUMBER_PREFIX_SEARCH));
+        solrInputDocument.addField(ItemConstants.HOLDINGS_CALLNUMBER_PREFIX_DISPLAY, sourceInputDocument.getFieldValue(ItemConstants.CALL_NUMBER_PREFIX_DISPLAY));
+        solrInputDocument.addField(ItemConstants.HOLDINGS_SHELVING_SCHEME_CODE_SEARCH, sourceInputDocument.getFieldValue(ItemConstants.SHELVING_SCHEME_CODE_SEARCH));
+        solrInputDocument.addField(ItemConstants.HOLDINGS_SHELVING_SCHEME_CODE_DISPLAY, sourceInputDocument.getFieldValue(ItemConstants.SHELVING_SCHEME_CODE_DISPLAY));
+        solrInputDocument.addField(ItemConstants.HOLDINGS_SHELVING_SCHEME_VALUE_SEARCH, sourceInputDocument.getFieldValue(ItemConstants.SHELVING_SCHEME_VALUE_SEARCH));
+        solrInputDocument.addField(ItemConstants.HOLDINGS_SHELVING_SCHEME_VALUE_DISPLAY, sourceInputDocument.getFieldValue(ItemConstants.SHELVING_SCHEME_VALUE_DISPLAY));
     }
 
 

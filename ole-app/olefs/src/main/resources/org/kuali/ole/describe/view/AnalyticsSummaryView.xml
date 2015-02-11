@@ -44,7 +44,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/describe/scripts/analytics.js</value>
             </list>
         </property>

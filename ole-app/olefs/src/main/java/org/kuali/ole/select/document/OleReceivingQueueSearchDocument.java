@@ -15,8 +15,21 @@
  */
 package org.kuali.ole.select.document;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
+import org.kuali.ole.docstore.common.document.Bib;
+import org.kuali.ole.docstore.common.document.Item;
+import org.kuali.ole.docstore.common.document.ItemOleml;
+import org.kuali.ole.docstore.common.document.content.enums.DocType;
+import org.kuali.ole.docstore.common.search.SearchResponse;
+import org.kuali.ole.docstore.common.search.SearchResult;
+import org.kuali.ole.docstore.common.search.SearchResultField;
+import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
+import org.kuali.ole.docstore.engine.service.index.solr.ItemConstants;
+import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.PurapPropertyConstants;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
 import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
@@ -29,24 +42,29 @@ import org.kuali.ole.select.document.service.OleDocstoreHelperService;
 import org.kuali.ole.select.document.service.OleLineItemReceivingService;
 import org.kuali.ole.select.document.service.OleNoteTypeService;
 import org.kuali.ole.select.document.service.impl.OleLineItemReceivingServiceImpl;
+import org.kuali.ole.select.lookup.DocData;
 import org.kuali.ole.select.service.OleDocStoreLookupService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEKeyConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttribute;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.exception.WorkflowServiceError;
 import org.kuali.rice.kew.exception.WorkflowServiceErrorException;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -127,6 +145,15 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
    /* private int poId=0;*/
 
     private String documentNumber = null;
+
+    private DateTimeService dateTimeService;
+
+    public DateTimeService getDateTimeService() {
+        if (dateTimeService == null) {
+            dateTimeService = SpringContext.getBean(DateTimeService.class);
+        }
+        return dateTimeService;
+    }
 
     public List<OlePurchaseOrderItem> purchaseOrders = new ArrayList<OlePurchaseOrderItem>(0);
 
@@ -597,11 +624,310 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
         }
     }
 
+    private DocstoreClientLocator docstoreClientLocator;
+
+    public DocstoreClientLocator getDocstoreClientLocator() {
+
+        if (docstoreClientLocator == null) {
+            docstoreClientLocator = SpringContext.getBean(DocstoreClientLocator.class);
+
+        }
+        return docstoreClientLocator;
+    }
+
     /**
      * This method Takes Value from UI and return results after selecting search
      *
      * @throws Exception
      */
+    public void receiveingQueueRecordSearch() {
+        Long b1 = System.currentTimeMillis();
+        Set<String> bibIds = new HashSet<String>();
+        List<OlePurchaseOrderItem> purchaseOrderItemList = new ArrayList<>();
+        List<OlePurchaseOrderItem> results = new ArrayList<>();
+        boolean isOnlyDocCriteria = false;
+        boolean isDbCriteriaExist = false;
+        if ((StringUtils.isNotBlank(purchaseOrderNumber) || StringUtils.isNotBlank(purchaseOrderType) || StringUtils.isNotBlank(vendorName)
+                || StringUtils.isNotBlank(purchaseOrderStatusDescription) || ObjectUtils.isNotNull(beginDate) || ObjectUtils.isNotNull(endDate))) {
+            isDbCriteriaExist = true;
+        }
+        BigDecimal orderTypeId = null;
+        if (StringUtils.isNotBlank(this.purchaseOrderType)) {
+            Map<String, String> orderTypeMap = new HashMap<String, String>();
+            orderTypeMap.put("purchaseOrderType", this.purchaseOrderType);
+            List<PurchaseOrderType> items = (List<PurchaseOrderType>) KRADServiceLocator.getBusinessObjectService().findMatching(PurchaseOrderType.class, orderTypeMap);
+            if (CollectionUtils.isNotEmpty(items)) {
+                orderTypeId = items.get(0).getPurchaseOrderTypeId();
+            }
+        }
+        if (!isDbCriteriaExist && (StringUtils.isNotBlank(this.title) || (StringUtils.isNotBlank(this.standardNumber)))) {
+            isOnlyDocCriteria = true;
+            List<String> newBibIds = new ArrayList<>();
+            bibIds = getDocSearchResults(this.title, this.standardNumber);
+            for (String bibId : bibIds) {
+                Map<String, String> poItemMap = new HashMap<String, String>();
+                poItemMap.put("itemTitleId", bibId);
+                poItemMap.put("itemTypeCode", "ITEM");
+                List<OlePurchaseOrderItem> items = (List<OlePurchaseOrderItem>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePurchaseOrderItem.class, poItemMap);
+                if (CollectionUtils.isNotEmpty(items)) {
+                    for (OlePurchaseOrderItem orderItem : items) {
+                        int purAppNum = orderItem.getPurchaseOrder().getPurapDocumentIdentifier();
+                        String docNumber = orderItem.getPurchaseOrder().getDocumentNumber();
+                        if (validatePurchaseOrderItem(orderItem) && validateRecords(purAppNum, docNumber)) {
+                            newBibIds.add(orderItem.getItemTitleId());
+                            results.add(orderItem);
+                        }
+
+                    }
+                }
+            }
+            bibIds.clear();
+            ;
+            bibIds.addAll(newBibIds);
+            this.setPurchaseOrders(results);
+        } else {
+
+            if (StringUtils.isNotBlank(purchaseOrderNumber)) {
+                String[] purchaseOrderNumbers = (this.purchaseOrderNumber.toString()).split(",");
+                for (int i = 0; i < purchaseOrderNumbers.length; i++) {
+                    results.addAll(getSearchResults(purchaseOrderNumbers[i], bibIds, orderTypeId));
+                }
+
+            } else {
+                results.addAll(getSearchResults("", bibIds, orderTypeId));
+            }
+        }
+        try {
+            if (CollectionUtils.isNotEmpty(bibIds)) {
+                List<Bib> bibs = new ArrayList<>();
+                bibs.addAll(getDocstoreClientLocator().getDocstoreClient().acquisitionSearchRetrieveBibs(new ArrayList<String>(bibIds)));
+                if (bibIds!=null && bibs!=null) {
+                    for (OlePurchaseOrderItem orderItem : results) {
+                        inner:
+                        for (Bib bib : bibs) {
+                            if (bib.getId().equals(orderItem.getItemTitleId())) {
+                                boolean isAllowed = true;
+                                boolean isTitle = true;
+                                boolean isIsbn = true;
+                                if (StringUtils.isNotBlank(this.title)) {
+                                    if (!bib.getTitle().contains(this.title)) {
+                                        isTitle = false;
+                                    }
+                                    isAllowed = false;
+                                }
+                                if (StringUtils.isNotBlank(this.standardNumber)) {
+                                    if (!bib.getIsbn().equals(this.standardNumber)) {
+                                        isIsbn = false;
+                                    }
+                                    isAllowed = false;
+                                }
+                                if (!isAllowed) {
+                                    isAllowed = isIsbn && isTitle;
+                                }
+                                if (isAllowed) {
+                                    DocData docData = new DocData();
+                                    docData.setTitle(bib.getTitle());
+                                    docData.setAuthor(bib.getAuthor());
+                                    docData.setPublisher(bib.getPublisher());
+                                    docData.setIsbn(bib.getIsbn());
+                                    docData.setLocalIdentifier(DocumentUniqueIDPrefix.getDocumentId(bib.getId()));
+                                    docData.setBibIdentifier(bib.getId());
+                                    orderItem.setDocData(docData);
+                                    purchaseOrderItemList.add(orderItem);
+                                    break inner;
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+
+        }
+        this.setPurchaseOrders(purchaseOrderItemList);
+    }
+
+    public List<OlePurchaseOrderItem> getSearchResults(String poNumber, Set<String> bibIds, BigDecimal orderTypeId) {
+        List<OlePurchaseOrderItem> results = new ArrayList<>();
+        DocumentSearchCriteria.Builder docSearchCriteria = DocumentSearchCriteria.Builder.create();
+        docSearchCriteria.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PO_DOCUMENT);
+        List<DocumentStatus> documentStatuses = new ArrayList<>();
+        documentStatuses.add(DocumentStatus.FINAL);
+        Map<String, List<String>> fixedParameters = new HashMap<>();
+        Map<String, List<String>> itemTitleIds = new HashMap<>();
+        Map<String, List<String>> attributes = new HashMap<String, List<String>>();
+        if (StringUtils.isNotBlank(poNumber))
+            fixedParameters.put("purapDocumentIdentifier", Arrays.asList(poNumber));
+        if (StringUtils.isNotBlank(vendorName)) {
+            fixedParameters.put("vendorName", Arrays.asList(vendorName));
+        }
+        if (docSearchCriteria != null) {
+            if (!fixedParameters.isEmpty()) {
+                for (String propertyField : fixedParameters.keySet()) {
+                    if (fixedParameters.get(propertyField) != null) {
+                        attributes.put(propertyField, fixedParameters.get(propertyField));
+                    }
+                }
+            }
+        }
+        docSearchCriteria.setDocumentAttributeValues(attributes);
+        //docSearchCriteria.setSearchOptions(itemTitleIds);
+        Date currentDate = new Date();
+        docSearchCriteria.setDateCreatedTo(new DateTime(currentDate));
+        //docSearchCriteria.setMaxResults(500);
+        //docSearchCriteria.setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
+        List<String> applicationStatus = new ArrayList<String>();
+        applicationStatus.add(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
+        if (StringUtils.isNotBlank(this.purchaseOrderStatusDescription)) {
+            applicationStatus.clear();
+            applicationStatus.add(this.purchaseOrderStatusDescription);
+        }
+        docSearchCriteria.setApplicationDocumentStatuses(applicationStatus);
+        try {
+            if (ObjectUtils.isNotNull(this.beginDate)) {
+                docSearchCriteria.setDateCreatedFrom(new DateTime(this.beginDate));
+            }
+            if (ObjectUtils.isNotNull(this.endDate)) {
+                docSearchCriteria.setDateCreatedTo(new DateTime(this.endDate));
+            }
+        } catch (Exception e) {
+
+        }
+
+        //docSearchCriteria.setDocumentStatuses(documentStatuses);
+        List<String> purchaseOrderIds = new ArrayList<>();
+        DocumentSearchCriteria docSearchCriteriaDTO = docSearchCriteria.build();
+        DocumentSearchResults components = null;
+        components = KEWServiceLocator.getDocumentSearchService().lookupDocuments(GlobalVariables.getUserSession().getPrincipalId(), docSearchCriteriaDTO);
+        List<DocumentSearchResult> docSearchResults = components.getSearchResults();
+        for (DocumentSearchResult searchResult : docSearchResults) {
+            if (StringUtils.isNotBlank(searchResult.getDocument().getDocumentId())) {
+                purchaseOrderIds.add(searchResult.getDocument().getDocumentId());
+                Map<String, String> poItemMap = new HashMap<String, String>();
+                poItemMap.put("documentNumber", searchResult.getDocument().getDocumentId());
+                poItemMap.put("itemTypeCode", "ITEM");
+                List<OlePurchaseOrderItem> items = (List<OlePurchaseOrderItem>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePurchaseOrderItem.class, poItemMap);
+                if (CollectionUtils.isNotEmpty(items)) {
+                    if (orderTypeId != null) {
+                        for (OlePurchaseOrderItem orderItem : items) {
+                            if (orderItem.getPurchaseOrder() != null && orderItem.getPurchaseOrder().getPurchaseOrderTypeId() != null && orderItem.getPurchaseOrder().getPurchaseOrderTypeId().equals(orderTypeId)) {
+                                if (validatePurchaseOrderItem(orderItem)) {
+                                    bibIds.add(orderItem.getItemTitleId());
+                                    results.add(orderItem);
+                                }
+                            }
+                        }
+                    } else {
+                        for (OlePurchaseOrderItem orderItem : items) {
+                            if (validatePurchaseOrderItem(orderItem)) {
+                                bibIds.add(orderItem.getItemTitleId());
+                                results.add(orderItem);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return results;
+    }
+
+    public boolean validatePurchaseOrderItem(OlePurchaseOrderItem olePurchaseOrderItem) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        String dateString = dateFormat.format(new Date());
+        String actionDateString = olePurchaseOrderItem.getClaimDate() != null ? dateFormat.format(olePurchaseOrderItem.getClaimDate()) : "";
+        boolean isValid = true;
+        PurchaseOrderDocument olePurchaseOrderDocument = olePurchaseOrderItem.getPurapDocument();
+      /*  int purAppNum = olePurchaseOrderDocument.getPurapDocumentIdentifier();
+        olePurchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purAppNum);*/
+
+        Map purchaseOrderTypeIdMap = new HashMap();
+        purchaseOrderTypeIdMap.put("purchaseOrderTypeId", olePurchaseOrderDocument.getPurchaseOrderTypeId());
+        org.kuali.rice.krad.service.BusinessObjectService businessObject = SpringContext.getBean(org.kuali.rice.krad.service.BusinessObjectService.class);
+        List<PurchaseOrderType> purchaseOrderTypeDocumentList = (List) businessObject.findMatching(PurchaseOrderType.class, purchaseOrderTypeIdMap);
+
+        //isValid=isValid && isValidRecord(olePurchaseOrderDocument);
+        isValid = isValid && validatePurchaseOrderStatus(purchaseOrderTypeDocumentList, olePurchaseOrderDocument);
+        isValid = isValid && validatePoByRetiredVersionStatus(olePurchaseOrderDocument);
+        isValid = isValid && !(checkSpecialHandlingNotesExsist(olePurchaseOrderItem));
+        //isValid =isValid && validateCopiesAndParts(olePurchaseOrderItem);
+
+        if (isValid) {
+            boolean serialPOLink = olePurchaseOrderItem.getCopyList() != null && olePurchaseOrderItem.getCopyList().size() > 0 ? olePurchaseOrderItem.getCopyList().get(0).getSerialReceivingIdentifier() != null : false;
+            boolean continuing = (purchaseOrderTypeDocumentList != null && purchaseOrderTypeDocumentList.size() > 0 ?
+                    purchaseOrderTypeDocumentList.get(0).getPurchaseOrderType().equalsIgnoreCase("Continuing") : false);
+            if (olePurchaseOrderItem.getReceiptStatusId() != null && olePurchaseOrderItem.getReceiptStatusId().toString().equalsIgnoreCase((String.valueOf(getReceiptStatusDetails(OLEConstants.PO_RECEIPT_STATUS_FULLY_RECEIVED))))) {
+                GlobalVariables.clear();
+                GlobalVariables.getMessageMap().putInfo(OleSelectConstant.RECEIVING_QUEUE_SEARCH,
+                        OLEKeyConstants.ERROR_NO_PURCHASEORDERS_FOUND_FOR_FULLY_RECEIVED);
+            } else if (this.isClaimFilter()) {
+                if (!olePurchaseOrderItem.isDoNotClaim() && olePurchaseOrderItem.getClaimDate() != null && (actionDateString.equalsIgnoreCase(dateString) || olePurchaseOrderItem.getClaimDate().before(new Date()))
+                        && !serialPOLink && !continuing) {
+                    olePurchaseOrderItem.setClaimFilter(true);
+                    isValid = isValid & true;
+                }
+            } else {
+                if (!olePurchaseOrderItem.isDoNotClaim() && olePurchaseOrderItem.getClaimDate() != null && (actionDateString.equalsIgnoreCase(dateString) || olePurchaseOrderItem.getClaimDate().before(new Date()))
+                        && !serialPOLink && !continuing) {
+                    olePurchaseOrderItem.setClaimFilter(true);
+                }
+                isValid = isValid & true;
+            }
+        }
+
+        return isValid;
+    }
+
+
+    public Set<String> getDocSearchResults(String title, String isbn) {
+        int maxLimit = Integer.parseInt(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(OLEConstants.DOCSEARCH_ORDERQUEUE_LIMIT_KEY));
+        Set<String> itemTitles = new HashSet<>();
+        try {
+            org.kuali.ole.docstore.common.document.Item item = new ItemOleml();
+            org.kuali.ole.docstore.common.search.SearchParams searchParams = new org.kuali.ole.docstore.common.search.SearchParams();
+            searchParams.setPageSize(maxLimit);
+            if (StringUtils.isNotBlank(title)) {
+                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.TITLE_SEARCH, title), "AND"));
+            }
+            if (StringUtils.isNotBlank(isbn)) {
+                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.ISBN_SEARCH, isbn), "AND"));
+            }
+            SearchResponse searchResponse = null;
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), ItemConstants.BIB_IDENTIFIER));
+            searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+            for (SearchResult searchResult : searchResponse.getSearchResults()) {
+                for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
+                    if (StringUtils.isNotBlank(searchResultField.getFieldValue())) {
+                        if (searchResultField.getFieldName().equals("bibIdentifier")) {
+                            itemTitles.add(searchResultField.getFieldValue());
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "Item Exists");
+            LOG.error(org.kuali.ole.OLEConstants.ITEM_EXIST + ex);
+        }
+
+        return itemTitles;
+    }
+
+    private boolean validatePoByRetiredVersionStatus(PurchaseOrderDocument olePurchaseOrderDocument) {
+        return (olePurchaseOrderDocument.getPurchaseOrderCurrentIndicatorForSearching());
+    }
+
+    private boolean validatePurchaseOrderStatus(List<PurchaseOrderType> purchasrOrderTypeList, PurchaseOrderDocument po) {
+        boolean valid = false;
+        for (PurchaseOrderType purchaseOrderTypes : purchasrOrderTypeList) {
+            BigDecimal poTypeId = purchaseOrderTypes.getPurchaseOrderTypeId();
+            if (poTypeId.compareTo(po.getPurchaseOrderTypeId()) == 0) {
+                valid = true;
+            }
+        }
+        return valid;
+    }
+
+
     public void valueSearch() throws Exception {
         String[] purchaseOrderNumbers = {};
         Collection results = new ArrayList<OlePurchaseOrderItem>();

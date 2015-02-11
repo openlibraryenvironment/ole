@@ -41,14 +41,215 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="jobTriggerName" p:readOnly="true"/>
-                            <bean parent="Uif-InputField" p:propertyName="jobCronExpression"/>
+                            <bean parent="Uif-InputField" p:propertyName="jobCronExpression" p:readOnly="true"/>
                             <bean parent="Uif-InputField" p:propertyName="jobEnableStatus" />
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="BatchJob-PickUpLocation"/>
+                <ref bean="RunNowOrSchedule-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RunNowOrSchedule-Section" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Run/Schedule Batch Job"/>
+        <property name="items">
+            <list>
+                <bean id="RunNowOrSchedule-Id" parent="Uif-InputField" p:propertyName="runNowOrSchedule" p:defaultValue="RunNow" p:style="float:left;margin-left:50em">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="RunNow" p:value="Run Now" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="Scheduled" p:value="Schedule"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="BatchJob-schedule" parent="Uif-VerticalBoxSection" p:layoutManager.cssClasses="fl-container-flex"
+                      p:layoutManager.style="border:1px solid;" p:progressiveRenderAndRefresh="true"
+                      p:progressiveRender="@{document.newMaintainableObject.dataObject.runNowOrSchedule eq 'Scheduled'}">
+                    <property name="headerText" value="Schedule"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="BatchJob-Schedule-provideCronExp"/>
+                            <ref bean="BatchJob-Schedule-oneTimeOrRecurring"/>
+                            <ref bean="BatchJob-Schedule-cronExpField"/>
+                            <ref bean="BatchJob-Schedule-DateField"/>
+                            <ref bean="BatchJob-Schedule-timeField"/>
+                            <ref bean="BatchJob-Schedule-RadioButtons"/>
+                            <ref bean="BatchJob-Schedule-startTimeField"/>
+                            <ref bean="BatchJob-Schedule-WeeklyOption"/>
+                            <ref bean="BatchJob-Schedule-MonthlyOption"/>
                         </list>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
+
+    <bean id="BatchJob-Schedule-provideCronExp" parent="Uif-InputField" p:propertyName="cronOrSchedule" p:style="float:left;margin-left:50em">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="ProvidedCron" p:value="Provide Cron Expression"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="Scheduled" p:value="Schedule"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BatchJob-Schedule-cronExpField" parent="Uif-InputField" p:propertyName="jobCronExpression"
+          p:label="Enter Cron Expression" p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{document.newMaintainableObject.dataObject.cronOrSchedule eq 'ProvidedCron'}" p:style="float:left;margin-left:50em"/>
+
+    <bean id="BatchJob-Schedule-oneTimeOrRecurring" parent="Uif-InputField" p:propertyName="oneTimeOrRecurring"
+          p:progressiveRenderAndRefresh="true" p:progressiveRender="@{document.newMaintainableObject.dataObject.cronOrSchedule eq 'Scheduled'}" p:style="float:left;margin-left:50em">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="onetime" p:value="One Time"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="recurring" p:value="Recurring"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BatchJob-Schedule-DateField" parent="Uif-InputField" p:propertyName="oleBatchProcessScheduleBo.oneTimeDate"
+          p:label="Date" p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{document.newMaintainableObject.dataObject.cronOrSchedule eq 'Scheduled' and document.newMaintainableObject.dataObject.oneTimeOrRecurring eq 'onetime'}"
+          p:style="float:left;margin-left:50em"  >
+        <property name="control">
+            <bean parent="Uif-DateControl" p:size="10"/>
+        </property>
+    </bean>
+    <bean id="BatchJob-Schedule-timeField" parent="Uif-InputField" p:propertyName="oleBatchProcessScheduleBo.oneTimeStartTime" p:label="Time"
+          p:instructionalText="Enter Time in 24HR Format" p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{document.newMaintainableObject.dataObject.cronOrSchedule eq 'Scheduled' and document.newMaintainableObject.dataObject.oneTimeOrRecurring eq 'onetime'}"
+          p:style="float:left;margin-left:50em">
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="12" p:watermarkText="HH:MM"/>
+        </property>
+    </bean>
+
+    <bean id="BatchJob-Schedule-RadioButtons" parent="Uif-InputField" p:propertyName="scheduleType" p:label="Schedule Type"
+          p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{document.newMaintainableObject.dataObject.cronOrSchedule eq 'Scheduled' and document.newMaintainableObject.dataObject.oneTimeOrRecurring eq 'recurring'}"
+          p:style="float:left;margin-left:50em">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="Daily" p:value="Daily"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="Weekly" p:value="Weekly"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="Monthly" p:value="Monthly"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BatchJob-Schedule-startTimeField" parent="Uif-InputField" p:propertyName="oleBatchProcessScheduleBo.startTime" p:label="Time"
+          p:instructionalText="Enter Time in 24HR Format" p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{document.newMaintainableObject.dataObject.cronOrSchedule eq 'Scheduled' and document.newMaintainableObject.dataObject.oneTimeOrRecurring eq 'recurring'
+          and (document.newMaintainableObject.dataObject.scheduleType eq 'Daily' or document.newMaintainableObject.dataObject.scheduleType eq 'Weekly'
+          or document.newMaintainableObject.dataObject.scheduleType eq 'Monthly')}" p:style="float:left;margin-left:50em" >
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="12" p:watermarkText="HH:MM"/>
+        </property>
+    </bean>
+
+    <bean id="BatchJob-Schedule-WeeklyOption" parent="Uif-HorizontalBoxSection" p:style="float:left;margin-left:45em;width:300px"
+          p:layoutManager.cssClasses="fl-container-flex"
+          p:layoutManager.style="border:1px solid;" p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{document.newMaintainableObject.dataObject.cronOrSchedule eq 'Scheduled' and document.newMaintainableObject.dataObject.oneTimeOrRecurring eq 'recurring'
+          and document.newMaintainableObject.dataObject.scheduleType eq 'Weekly'}" >
+        <property name="headerText" value="Select Days of Week"/>
+        <property name="items">
+            <list>
+                <ref bean="weekDaysField"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BatchJob-weekDaysField" parent="Uif-InputField-LabelTop" p:propertyName="oleBatchProcessScheduleBo.weekDaysList"
+          p:label="Week days" p:style="float:left;margin-left:9em">
+        <property name="control">
+            <bean parent="Uif-VerticalCheckboxesControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="MON" p:value="Monday"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="TUE" p:value="Tuesday"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="WED" p:value="Wednesday"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="THU" p:value="Thursday"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="FRI" p:value="Friday"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="SAT" p:value="Saturday"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="SUN" p:value="Sunday"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BatchJob-Schedule-MonthlyOption" parent="Uif-HorizontalBoxSection" p:style="float:left;margin-left:40em;width:650px"
+          p:layoutManager.cssClasses="fl-container-flex"
+          p:layoutManager.style="border:1px solid;" p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{document.newMaintainableObject.dataObject.cronOrSchedule eq 'Scheduled' and document.newMaintainableObject.dataObject.oneTimeOrRecurring eq 'recurring'
+          and document.newMaintainableObject.dataObject.scheduleType eq 'Monthly'}">
+        <property name="headerText" value="Select Day of Month"/>
+        <property name="items">
+            <list>
+                <bean id="dayFieldSection" parent="Uif-MessageField" p:messageText="Day " />
+                <bean id="weekNumberField" parent="Uif-InputField" p:propertyName="oleBatchProcessScheduleBo.dayNumber"
+                      p:defaultValue="">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessMonthValuesFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-11-select"/>
+                    </property>
+                </bean>
+
+                <bean id="ofEveryFieldSection" parent="Uif-MessageField" p:messageText="of every"
+                        />
+                <bean id="monthNumberField" parent="Uif-InputField"
+                      p:propertyName="oleBatchProcessScheduleBo.monthNumber">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="2" p:maxLength="5"/>
+                    </property>
+                </bean>
+                <bean id="monthsFieldSection" parent="Uif-MessageField" p:messageText="Month(s)."
+                        />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BatchJob-PickUpLocation" parent="Uif-MaintenanceGridSection"
+          p:render="@{document.newMaintainableObject.dataObject.jobTriggerName eq 'generateOnHoldNoticeJob'}">
+        <property name="headerText" value="Pick up Location"/>
+        <property name="items">
+            <list>
+                <bean id="pickupLocation" parent="Uif-InputField" p:propertyName="pickupLocation" p:label="Pick-up Location">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.CirculationDeskKeyValueFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <bean id="OleDeliverBatchJobMaintenance" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.ole.deliver.bo.OleBatchJobBo"/>
         <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>

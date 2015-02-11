@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OLEDeliverItemResultView" parent="OLEDeliverItemResultView-parentBean"/>
+    <bean id="OLEDeliverItemResultView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Item"/>
+        <property name="items">
+            <list>
+                <bean id="OLEDeliverItemResultPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEDeliverItemSearchResult-BibInfo"/>
+                            <ref bean="OLEDeliverItemSearchResult-ItemInfo"/>
+                            <ref bean="OLEDeliverItemSearchResult-Borrower"/>
+                            <ref bean="OLEDeliverItemSearchResult-AdditionalCopies"/>
+                            <ref bean="OLEDeliverItemSearchResult-Request"/>
+                            <ref bean="OLEDeliverItemSearchResult-ItemFlags"/>
+                            <ref bean="OLEDeliverItemSearchResult-Notes"/>
+                            <ref bean="OLEDeliverItemSearchResult-OutstandingFines"/>
+                            <ref bean="OLEDeliverItemSearchResult-IDNumbers"/>
+                            <ref bean="OLEDeliverItemSearchResult-ItemHistory"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.OLEDeliverItemResultForm"/>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/deliver/deliverItemSearch/css/deliverItemSearch.css</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -575,9 +575,9 @@ function validPatronItem(){
         return false;
     }
 
-    // hiddenLoanField_h2 mapped to renewalFlag.
+    // hiddenLoanField_h2 mapped to renewalFlag. && jq("#hiddenLoanField_h2").val()=='true'
     //hiddenLoanField_h9 mapped to  success
-    if(jq("#hiddenLoanField_h9").val()=='false' && jq("#hiddenLoanField_h2").val()=='true'){
+    if(jq("#hiddenLoanField_h9").val()=='false'){
         playAudio();
         jq('body').scrollTop(0);
         jq(window.parent).scrollTop(0);
@@ -615,6 +615,15 @@ function validPatronItem(){
     focusItem();
 
 }
+
+function setRenewalDueDate(){
+    if(jq( "#popUpDate_control").val() != null){
+        jq( "#hiddenLoanField_h17").val(jq( "#popUpDate_control").val());
+    }
+    jq('#hdnRenewalBtn').focus().click();
+}
+
+
 //hiddenLoanField_h34 mapped to successMessage
 function displayDueDateInfo(){
     if(jq("#hiddenLoanField_h34").val() !=null && jq("#hiddenLoanField_h34").val()!=""){
@@ -715,6 +724,9 @@ function doNotLoan(){
     closeMessageBox();
 }
 function proceed(){
+    if(jq( "#popUpDate_control").val() != null){
+       jq( "#hiddenLoanField_h17").val(jq( "#popUpDate_control").val());
+    }
     jq('#hdnProceedRenewBtn').focus().click();
     closeMessageBox();
 

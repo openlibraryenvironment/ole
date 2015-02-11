@@ -33,6 +33,7 @@ import org.kuali.ole.select.businessobject.OleLoadProfile;
 import org.kuali.ole.select.businessobject.OleLoadSumRecords;
 import org.kuali.ole.select.constants.OleSelectPropertyConstants;
 import org.kuali.ole.select.document.AcquisitionBatchInputFileDocument;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.select.service.OleReqPOCreateDocumentService;
 import org.kuali.ole.select.service.OleReqPOLoadTransactionsService;
 import org.kuali.ole.sys.OLEConstants;
@@ -69,6 +70,7 @@ public class OleReqPOLoadTransactionsServiceImpl implements OleReqPOLoadTransact
     protected BuildVendorBibInfoBean buildVendorBibInfoBean;
     protected Properties properties = null;
     protected ConfigurationService kualiConfigurationService;
+    private OleSelectDocumentService oleSelectDocumentService;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -146,7 +148,7 @@ public class OleReqPOLoadTransactionsServiceImpl implements OleReqPOLoadTransact
                 user = GlobalVariables.getUserSession().getPrincipalName();
                 if (user == null) {
                     user = getConfigurationService().getPropertyValueAsString(
-                            OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR);
+                            getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
                 }
                 GlobalVariables.setUserSession(new UserSession(user));
             }
@@ -341,7 +343,7 @@ public class OleReqPOLoadTransactionsServiceImpl implements OleReqPOLoadTransact
         if (GlobalVariables.getUserSession() != null) {
             user = GlobalVariables.getUserSession().getPrincipalName();
         } else {
-            user = getConfigurationService().getPropertyValueAsString(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR);
+            user = getConfigurationService().getPropertyValueAsString(getOleSelectDocumentService().getSelectParameterValue(OleSelectNotificationConstant.ACCOUNT_DOCUMENT_INTIATOR));
         }
         GlobalVariables.setUserSession(new UserSession(user));
         AcquisitionBatchInputFileDocument acqBatchDocument = (AcquisitionBatchInputFileDocument) SpringContext.getBean(DocumentService.class).getNewDocument(FinancialDocumentTypeCodes.ACQ_BATCH_UPLOAD);
@@ -478,6 +480,17 @@ public class OleReqPOLoadTransactionsServiceImpl implements OleReqPOLoadTransact
         ParameterKey parameterKey = ParameterKey.create(org.kuali.ole.OLEConstants.APPL_ID, org.kuali.ole.OLEConstants.SELECT_NMSPC, org.kuali.ole.OLEConstants.SELECT_CMPNT,name);
         Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
         return parameter!=null?parameter.getValue():null;
+    }
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 
 }

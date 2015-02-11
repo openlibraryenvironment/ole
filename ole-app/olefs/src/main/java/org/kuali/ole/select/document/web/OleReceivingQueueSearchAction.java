@@ -33,7 +33,6 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.actionlist.service.ActionListService;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
 import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
@@ -146,7 +145,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
             //return mapping.findForward(RiceConstants.MAPPING_BASIC);
 
         }else{
-        oleReceivingQueueSearchDocument.valueSearch();
+        oleReceivingQueueSearchDocument.receiveingQueueRecordSearch();
         }
         //request.setAttribute(OLEConstants.OrderQueue.CONSTANTS, (KewApiConstants.class));
         return mapping.findForward(RiceConstants.MAPPING_BASIC);

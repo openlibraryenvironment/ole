@@ -1,18 +1,11 @@
 package org.kuali.ole.ncip.service.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.bo.*;
-import org.kuali.ole.deliver.calendar.bo.OleCalendar;
-import org.kuali.ole.deliver.calendar.service.OleCalendarService;
-import org.kuali.ole.deliver.calendar.service.impl.OleCalendarServiceImpl;
 import org.kuali.ole.deliver.processor.LoanProcessor;
-
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
-import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
@@ -24,17 +17,8 @@ import org.kuali.ole.docstore.common.document.content.bib.marc.xstream.BibMarcRe
 import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
-
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
-
-import org.kuali.ole.docstore.common.search.SearchResponse;
-import org.kuali.ole.docstore.common.search.SearchResult;
-import org.kuali.ole.docstore.common.search.SearchResultField;
-
-import org.kuali.ole.docstore.model.xmlpojo.ingest.*;
-
 import org.kuali.ole.ncip.bo.*;
-
 import org.kuali.ole.ncip.converter.OLECheckInItemConverter;
 import org.kuali.ole.ncip.converter.OLECheckOutItemConverter;
 import org.kuali.ole.ncip.converter.OLERenewItemConverter;
@@ -45,25 +29,18 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.util.DocstoreUtil;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.identity.address.EntityAddressBo;
 import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
 import org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.ole.docstore.common.document.content.instance.Location;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.framework.engine.BasicRule;
 
-
-import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -441,9 +418,16 @@ public class OLECirculationHelperServiceImpl {
         return allowed;
     }
 
-    public String checkOutItem(String patronId, String operatorId, String itemBarcode) {
+    public String checkOutItem(String patronId, String operatorId, String itemBarcode, boolean isSIP2Request) {
         LOG.info("In  Check Out Item . Patron Barcode : "+patronId + " OperatorId : " +operatorId + "Item Barcode : "+itemBarcode);
         OlePatronDocument olePatronDocument = null;
+        if(itemBarcode == null ||( itemBarcode!=null && itemBarcode.trim().isEmpty())){
+            OLECheckOutItem oleCheckOutItem = new OLECheckOutItem();
+            oleCheckOutItem.setCode("900");
+            oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_REQUIRED));
+            LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_REQUIRED));
+            return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+        }
        /*  Map<String, String> patronMap = new HashMap<String, String>();
         patronMap.put(OLEConstants.BARCODE, patronId);
         List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>) businessObjectService.findMatching(OlePatronDocument.class, patronMap);
@@ -454,7 +438,11 @@ public class OLECirculationHelperServiceImpl {
             oleCheckOutItem.setCode("002");
             oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
             LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
+            if(isSIP2Request){
+                return oleCheckOutItemConverter.generateCheckOutItemXmlForSIP2(oleCheckOutItem);
+            }else{
             return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+            }
         }*/
         OleLoanDocument oleLoanDocument;
         try {
@@ -466,7 +454,11 @@ public class OLECirculationHelperServiceImpl {
                 oleCheckOutItem.setCode("002");
                 oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
                 LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
-                return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                if(isSIP2Request){
+                    return oleCheckOutItemConverter.generateCheckOutItemXmlForSIP2(oleCheckOutItem);
+                }else{
+                    return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                }
             }
             long t66 = System.currentTimeMillis();
             oleLoanDocument.setLoanOperatorId(operatorId);
@@ -497,7 +489,11 @@ public class OLECirculationHelperServiceImpl {
                 oleCheckOutItem.setCode("026");
                 oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CIRCULATION_DESK_NOT_MAPPED_OPERATOR));
                 LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CIRCULATION_DESK_NOT_MAPPED_OPERATOR));
-                return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                if(isSIP2Request){
+                    return oleCheckOutItemConverter.generateCheckOutItemXmlForSIP2(oleCheckOutItem);
+                }else{
+                    return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                }
             }
             if (oleLoanDocument.getErrorMessage() == null || (oleLoanDocument.getErrorMessage() != null && oleLoanDocument.getErrorMessage().isEmpty())) {
                 if (olePatronDocument != null) {
@@ -516,8 +512,14 @@ public class OLECirculationHelperServiceImpl {
                         }
                         oleCheckOutItem.setCode("030");
                         oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.SUCCESSFULLEY_LOANED));
+                        oleCheckOutItem.setItemProperties("Author : " + oleLoanDocument.getAuthor() + " , Status : " + oleLoanDocument.getItemStatus());
+                        oleCheckOutItem.setItemType(oleLoanDocument.getItemType());
                         LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.SUCCESSFULLEY_LOANED));
-                        return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                        if(isSIP2Request){
+                            return oleCheckOutItemConverter.generateCheckOutItemXmlForSIP2(oleCheckOutItem);
+                        }else{
+                            return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                        }
 
                     } else {
                         if (oleLoanDocument.getOleItem() != null && oleLoanDocument.getOleItem().getLocation() == null) {
@@ -525,7 +527,11 @@ public class OLECirculationHelperServiceImpl {
                             oleCheckOutItem.setCode("028");
                             oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INVAL_LOC));
                             LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INVAL_LOC));
-                            return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                            if(isSIP2Request){
+                                return oleCheckOutItemConverter.generateCheckOutItemXmlForSIP2(oleCheckOutItem);
+                            }else{
+                                return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                            }
                         } else if (oleLoanDocument.getOleItem() != null && oleLoanDocument.getOleItem().getItemStatus() != null &&
                                 oleLoanDocument.getOleItem().getItemStatus().getCodeValue() != null && oleLoanDocument.getOleItem().getItemStatus().getCodeValue().equalsIgnoreCase("LOANED")) {
 
@@ -533,13 +539,21 @@ public class OLECirculationHelperServiceImpl {
                             oleCheckOutItem.setCode("100");
                             oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_IN_LOAN));
                             LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_IN_LOAN));
-                            return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                            if(isSIP2Request){
+                                return oleCheckOutItemConverter.generateCheckOutItemXmlForSIP2(oleCheckOutItem);
+                            }else{
+                                return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                            }
                         } else {
                             OLECheckOutItem oleCheckOutItem = new OLECheckOutItem();
                             oleCheckOutItem.setCode("500");
                             oleCheckOutItem.setMessage(oleLoanDocument.getErrorMessage());
                             LOG.info(oleLoanDocument.getErrorMessage());
-                            return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                            if(isSIP2Request){
+                                return oleCheckOutItemConverter.generateCheckOutItemXmlForSIP2(oleCheckOutItem);
+                            }else{
+                                return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                            }
                         }
                     }
                 } else {
@@ -547,14 +561,22 @@ public class OLECirculationHelperServiceImpl {
                     oleCheckOutItem.setCode("500");
                     oleCheckOutItem.setMessage(oleLoanDocument.getErrorMessage());
                     LOG.info(oleLoanDocument.getErrorMessage());
-                    return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                    if(isSIP2Request){
+                        return oleCheckOutItemConverter.generateCheckOutItemXmlForSIP2(oleCheckOutItem);
+                    }else{
+                        return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                    }
                 }
             } else {
                 OLECheckOutItem oleCheckOutItem = new OLECheckOutItem();
                 oleCheckOutItem.setCode("500");
                 oleCheckOutItem.setMessage(oleLoanDocument.getErrorMessage());
                 LOG.info(oleLoanDocument.getErrorMessage());
-                return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                if(isSIP2Request){
+                    return oleCheckOutItemConverter.generateCheckOutItemXmlForSIP2(oleCheckOutItem);
+                }else{
+                    return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                }
             }
         } catch (Exception e) {
             OLECheckOutItem oleCheckOutItem = new OLECheckOutItem();
@@ -562,11 +584,15 @@ public class OLECirculationHelperServiceImpl {
             oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
             LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
             LOG.error(e,e);
-            return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+            if(isSIP2Request){
+                return oleCheckOutItemConverter.generateCheckOutItemXmlForSIP2(oleCheckOutItem);
+            }else{
+                return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+            }
         }
     }
 
-    public String checkInItem(String patronBarcode, String operatorId, String itemBarcode, String deleteIndicator) {
+    public String checkInItem(String patronBarcode, String operatorId, String itemBarcode, String deleteIndicator, boolean isSIP2Request) {
         LOG.info("Inside checkInItem method .Patron barcode : " + patronBarcode + " Operator Id : " +operatorId + " Item Barcode : " + itemBarcode );
 
         OleLoanDocument oleLoanDocument = null;
@@ -625,18 +651,31 @@ public class OLECirculationHelperServiceImpl {
 
                         getDocstoreClientLocator().getDocstoreClient().deleteBib(bibId);
                     }
-                    return oleCheckInItemConverter.generateCheckInItemXml(oleCheckInItem);
+                    if(isSIP2Request){
+                        return oleCheckInItemConverter.generateCheckInItemXmlForSIP2(oleCheckInItem);
+                    }else{
+                        return oleCheckInItemConverter.generateCheckInItemXml(oleCheckInItem);
+                    }
+
                 } else {
                     oleCheckInItem.setCode("500");
                     oleCheckInItem.setMessage(oleLoanDocument.getErrorMessage());
                     LOG.info(oleLoanDocument.getErrorMessage());
-                    return oleCheckInItemConverter.generateCheckInItemXml(oleCheckInItem);
+                    if(isSIP2Request){
+                        return oleCheckInItemConverter.generateCheckInItemXmlForSIP2(oleCheckInItem);
+                    }else{
+                        return oleCheckInItemConverter.generateCheckInItemXml(oleCheckInItem);
+                    }
                 }
             } else {
                 oleCheckInItem.setCode("025");
                 oleCheckInItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CHECK_IN_FAILED));
                 LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CHECK_IN_FAILED));
-                return oleCheckInItemConverter.generateCheckInItemXml(oleCheckInItem);
+                if(isSIP2Request){
+                    return oleCheckInItemConverter.generateCheckInItemXmlForSIP2(oleCheckInItem);
+                }else{
+                    return oleCheckInItemConverter.generateCheckInItemXml(oleCheckInItem);
+                }
             }
         } catch (Exception e) {
             if(e.getMessage()!=null && (e.getMessage().equals(OLEConstants.ITM_BARCD_NT_AVAL_DOC)||e.getMessage().equals(OLEConstants.INVAL_ITEM) ||e.getMessage().equals(OLEConstants.ITM_STS_NT_AVAL)||e.getMessage().equals(OLEConstants.NO_LOC_CIR_DESK))){
@@ -644,13 +683,21 @@ public class OLECirculationHelperServiceImpl {
                 oleCheckInItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CHECK_IN_FAILED) + "." + e.getMessage());
                 LOG.info(ConfigContext.getCurrentContextConfig().getProperty(e.getMessage()));
                 LOG.error(e,e);
-                return oleCheckInItemConverter.generateCheckInItemXml(oleCheckInItem);
+                if(isSIP2Request){
+                    return oleCheckInItemConverter.generateCheckInItemXmlForSIP2(oleCheckInItem);
+                }else{
+                    return oleCheckInItemConverter.generateCheckInItemXml(oleCheckInItem);
+                }
             }
 
             oleCheckInItem.setCode("025");
             oleCheckInItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CHECK_IN_FAILED));
             LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CHECK_IN_FAILED));
-            return oleCheckInItemConverter.generateCheckInItemXml(oleCheckInItem);
+            if(isSIP2Request){
+                return oleCheckInItemConverter.generateCheckInItemXmlForSIP2(oleCheckInItem);
+            }else{
+                return oleCheckInItemConverter.generateCheckInItemXml(oleCheckInItem);
+            }
         }
     }
 
@@ -745,7 +792,7 @@ public class OLECirculationHelperServiceImpl {
         return agencyPropertyMap;
     }
 
-    public String renewItem(String patronBarcode, String operatorId, String itemBarcode) {
+    public String renewItem(String patronBarcode, String operatorId, String itemBarcode, boolean isSIP2Request) {
         LOG.info("Inside Renew Item . Patron Barcode :  " + patronBarcode + "Operator Id : "+ operatorId + " Item Barcode : " +itemBarcode);
         OLERenewItem oleRenewItem = new OLERenewItem();
         OLERenewItemConverter oleRenewItemConverter = new OLERenewItemConverter();
@@ -759,13 +806,21 @@ public class OLECirculationHelperServiceImpl {
             oleRenewItem.setCode("002");
             oleRenewItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
             LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
-            return oleRenewItemConverter.generateRenewItemXml(oleRenewItem);
+            if(isSIP2Request){
+                return  oleRenewItemConverter.generateRenewItemXmlForSIP2(oleRenewItem);
+            }else{
+                return oleRenewItemConverter.generateRenewItemXml(oleRenewItem);
+            }
         }
         if (!getLoanProcessor().hasCirculationDesk(operatorId)) {
             oleRenewItem.setCode("001");
             oleRenewItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INVALID_OPRTR_ID));
             LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INVALID_OPRTR_ID));
-            return oleRenewItemConverter.generateRenewItemXml(oleRenewItem);
+            if(isSIP2Request){
+                return  oleRenewItemConverter.generateRenewItemXmlForSIP2(oleRenewItem);
+            }else{
+                return oleRenewItemConverter.generateRenewItemXml(oleRenewItem);
+            }
         }
         Map<String, String> loanMap = new HashMap<String, String>();
         loanMap.put(OLEConstants.PATRON_ID, olePatronDocument.getOlePatronId());
@@ -795,38 +850,288 @@ public class OLECirculationHelperServiceImpl {
                             oleRenewItem.setPastDueDate(oleLoanDocument.getPastDueDate().toString());
                             oleRenewItem.setNewDueDate(oleLoanDocument.getLoanDueDate() != null ? oleLoanDocument.getLoanDueDate().toString() : "");
                             oleRenewItem.setRenewalCount(oleLoanDocument.getNumberOfRenewals());
-                            return oleRenewItemConverter.generateRenewItemXml(oleRenewItem);
+                            oleRenewItem.setPatronBarcode(olePatronDocument.getBarcode());
+                            oleRenewItem.setItemBarcode(oleLoanDocument.getItemId());
+                            oleRenewItem.setTitleIdentifier(oleLoanDocument.getTitle());
+                            /*oleRenewItem.setFeeType();
+                            oleRenewItem.setFeeAmount();*/
+                            oleRenewItem.setItemProperties("Author="+oleLoanDocument.getAuthor());
+                            oleRenewItem.setMediaType(oleLoanDocument.getItemType());
+                            if(isSIP2Request){
+                                return  oleRenewItemConverter.generateRenewItemXmlForSIP2(oleRenewItem);
+                            }else{
+                                return oleRenewItemConverter.generateRenewItemXml(oleRenewItem);
+                            }
                         } else {
                             oleRenewItem.setCode("500");
                             oleRenewItem.setMessage(oleLoanDocument.getErrorMessage());
                             LOG.info(oleLoanDocument.getErrorMessage());
-                            return oleRenewItemConverter.generateRenewItemXml(oleRenewItem);
+                            if(isSIP2Request){
+                                return  oleRenewItemConverter.generateRenewItemXmlForSIP2(oleRenewItem);
+                            }else{
+                                return oleRenewItemConverter.generateRenewItemXml(oleRenewItem);
+                            }
 
                         }
                     } catch (Exception e) {
                         LOG.error(e,e);
-                        return "Exception occured while renewing an item";
+                        return "Exception occurred while renewing an item";
                     }
 
                 } else {
                     oleRenewItem.setCode("009");
                     oleRenewItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.RQST_PNDNG));
                     LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.RQST_PNDNG));
-                    return oleRenewItemConverter.generateRenewItemXml(oleRenewItem);
+                    if(isSIP2Request){
+                        return  oleRenewItemConverter.generateRenewItemXmlForSIP2(oleRenewItem);
+                    }else{
+                        return oleRenewItemConverter.generateRenewItemXml(oleRenewItem);
+                    }
                 }
             } else {
                 oleRenewItem.setCode("010");
                 oleRenewItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_RENEW));
                 LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_RENEW));
-                return oleRenewItemConverter.generateRenewItemXml(oleRenewItem);
+                if(isSIP2Request){
+                    return  oleRenewItemConverter.generateRenewItemXmlForSIP2(oleRenewItem);
+                }else{
+                    return oleRenewItemConverter.generateRenewItemXml(oleRenewItem);
+                }
             }
         } else {
             oleRenewItem.setCode("011");
             oleRenewItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITM_NT_LOAN));
-           LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITM_NT_LOAN));
-            return oleRenewItemConverter.generateRenewItemXml(oleRenewItem);
+            LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITM_NT_LOAN));
+            if(isSIP2Request){
+                return  oleRenewItemConverter.generateRenewItemXmlForSIP2(oleRenewItem);
+            }else{
+                return oleRenewItemConverter.generateRenewItemXml(oleRenewItem);
+            }
         }
     }
+
+
+    public String renewItemList(String patronBarcode, String operatorId, String itemBarcodeList, boolean isSIP2Request) {
+        LOG.info("Inside Renew Item . Patron Barcode :  " + patronBarcode + "Operator Id : "+ operatorId + " Item Barcode : " +itemBarcodeList);
+        OLERenewItem oleRenewItemPatron = new OLERenewItem();
+        OLERenewItemList oleRenewItemList = new OLERenewItemList();
+        OLERenewItemConverter oleRenewItemConverter = new OLERenewItemConverter();
+        List<OLERenewItem> oleRenewItems = new ArrayList<>();
+        OlePatronDocument olePatronDocument = null;
+        StringBuffer errorMessage = new StringBuffer();
+        Map<String, String> patronMap = new HashMap<String, String>();
+        patronMap.put(OLEConstants.BARCODE, patronBarcode);
+        Long beginLocation = System.currentTimeMillis();
+        List<OlePatronDocument> patronDocuments = (List<OlePatronDocument>) businessObjectService.findMatching(OlePatronDocument.class, patronMap);
+        Long endLocation = System.currentTimeMillis();
+        Long timeTakenLocation = endLocation-beginLocation;
+        LOG.info("The Time Taken for Patron call using vufind"+timeTakenLocation);
+        if (patronDocuments.size() > 0) {
+            olePatronDocument = patronDocuments.get(0);
+        } else {
+            oleRenewItems = errorCode002(oleRenewItemPatron, oleRenewItems);
+            oleRenewItemList.setRenewItemList(oleRenewItems);
+            if(isSIP2Request){
+                return oleRenewItemConverter.generateRenewItemListXmlForSip2(oleRenewItemList);
+            }else{
+
+                return oleRenewItemConverter.generateRenewItemListXml(oleRenewItemList);
+            }
+        }
+        if (!getLoanProcessor().hasCirculationDesk(operatorId)) {
+            oleRenewItems = errorCode001(oleRenewItemPatron,oleRenewItems);
+            oleRenewItemList.setRenewItemList(oleRenewItems);
+            if(isSIP2Request){
+                return oleRenewItemConverter.generateRenewItemListXmlForSip2(oleRenewItemList);
+            }else{
+
+                return oleRenewItemConverter.generateRenewItemListXml(oleRenewItemList);
+            }
+        }
+        String[] itemBarcode = itemBarcodeList.split(",");
+        if(itemBarcode != null && itemBarcode.length>1){
+        List renewalItemList = new ArrayList();
+        for(int j=0;j<=itemBarcode.length-1;j++){
+            renewalItemList.add(itemBarcode[j]);
+        }
+        Long beginItem = System.currentTimeMillis();
+        List<OleLoanDocument> loanDocuments = (List<OleLoanDocument>) getLoanProcessor().getLoanObjectFromDAOForRenewal(renewalItemList,olePatronDocument.getOlePatronId());
+        Long endItem = System.currentTimeMillis();
+        Long timeTakenItem = endItem-beginItem;
+        LOG.info("The Time Taken to fetch item from loan table using vufind"+timeTakenItem);
+        if(loanDocuments != null && loanDocuments.size() > 0  ){
+            for(int j=0;j<=itemBarcode.length-1;j++){
+                OLERenewItem oleRenewItem = new OLERenewItem();
+                boolean barcodeFlag = true;
+                nextItem:{
+                for(int i=0;i<loanDocuments.size();i++){
+                   if(itemBarcode[j].equals(loanDocuments.get(i).getItemId())){
+                       OleLoanDocument oleLoanDocument = loanDocuments.get(i);
+                       barcodeFlag = false;
+                       oleLoanDocument = setPatronInformation(patronDocuments,olePatronDocument,oleLoanDocument);
+                       if (getLoanProcessor().canOverrideLoan(operatorId)) {
+                           if (!getLoanProcessor().checkPendingRequestforItem(oleLoanDocument.getItemUuid())) {
+                               try {
+                                   oleLoanDocument.setVuFindFlag(true);
+                                   Long beginItemRenewal = System.currentTimeMillis();
+                                   oleLoanDocument = getLoanProcessor().addLoan(oleLoanDocument.getPatronBarcode(), oleLoanDocument.getItemId(), oleLoanDocument, operatorId);
+                                   Long endItemRenewal = System.currentTimeMillis();
+                                   Long timeTakenRenewal = endItemRenewal-beginItemRenewal;
+                                   LOG.info("The Time Taken for item renewal using vufind"+timeTakenRenewal);
+                                   if (oleLoanDocument.getErrorMessage() == null || (oleLoanDocument.getErrorMessage() != null && oleLoanDocument.getErrorMessage().trim().isEmpty())) {
+                                       oleRenewItem = errorCode003(oleRenewItem,oleLoanDocument,itemBarcode[j]);
+                                       oleRenewItem = populateRenewItemForSip2(olePatronDocument,oleLoanDocument,oleRenewItem);
+                                       oleRenewItems.add(oleRenewItem);
+                                       break nextItem;
+                                   } else {
+                                       oleRenewItem = errorCode500(oleRenewItem,oleLoanDocument,itemBarcode[j]);
+                                       oleRenewItems.add(oleRenewItem);
+                                       //errorMessage.append(oleRenewItemConverter.generateRenewItemXml(oleRenewItem));
+                                       break nextItem;
+                                   }
+                               } catch (Exception e) {
+                                   LOG.error(e,e);
+                                   return "Exception occured while renewing an item";
+                               }
+                           } else {
+                               oleRenewItem = errorCode009(oleRenewItem,itemBarcode[j]);
+                               oleRenewItems.add(oleRenewItem);
+                               break nextItem;
+                           }
+                       } else {
+                           oleRenewItem = errorCode010(oleRenewItem,itemBarcode[j]);
+                           oleRenewItems.add(oleRenewItem);
+                           break nextItem;
+                       }
+                   }
+               }
+            }
+                if(barcodeFlag){
+                    oleRenewItem = errorCode011(oleRenewItem, itemBarcode[j]);
+                    oleRenewItems.add(oleRenewItem);
+                }
+            }
+         }
+       } else {
+
+            Map<String, String> loanMap = new HashMap<String, String>();
+            loanMap.put(OLEConstants.PATRON_ID, olePatronDocument.getOlePatronId());
+            loanMap.put(OLEConstants.OleDeliverRequest.ITEM_ID, itemBarcode[0]);
+            List<OleLoanDocument> loanDocuments = (List<OleLoanDocument>) businessObjectService.findMatching(OleLoanDocument.class, loanMap);
+            OLERenewItem oleRenewItem = new OLERenewItem();
+            if (loanDocuments.size() > 0) {
+                OleLoanDocument oleLoanDocument = loanDocuments.get(0);
+                oleLoanDocument = setPatronInformation(patronDocuments,olePatronDocument,oleLoanDocument);
+                if (getLoanProcessor().canOverrideLoan(operatorId)) {
+                    if (!getLoanProcessor().checkPendingRequestforItem(oleLoanDocument.getItemUuid())) {
+                        try {
+                            oleLoanDocument.setVuFindFlag(true);
+                            oleLoanDocument = getLoanProcessor().addLoan(oleLoanDocument.getPatronBarcode(), oleLoanDocument.getItemId(), oleLoanDocument, operatorId);
+                            if (oleLoanDocument.getErrorMessage() == null || (oleLoanDocument.getErrorMessage() != null && oleLoanDocument.getErrorMessage().trim().isEmpty())) {
+                                oleRenewItem = errorCode003(oleRenewItem,oleLoanDocument,itemBarcode[0]);
+                                oleRenewItem = populateRenewItemForSip2(olePatronDocument,oleLoanDocument,oleRenewItem);
+                                oleRenewItems.add(oleRenewItem);
+                            } else {
+                                oleRenewItem = errorCode500(oleRenewItem, oleLoanDocument, itemBarcode[0]);
+                                oleRenewItems.add(oleRenewItem);
+                            }
+                        } catch (Exception e) {
+                            LOG.error(e,e);
+                            return "Exception occured while renewing an item";
+                        }
+
+                    } else {
+                        oleRenewItem = errorCode009(oleRenewItem, itemBarcode[0]);
+                        oleRenewItems.add(oleRenewItem);
+                    }
+                } else {
+                    oleRenewItem = errorCode010(oleRenewItem, itemBarcode[0]);
+                    oleRenewItems.add(oleRenewItem);
+                }
+            } else {
+                oleRenewItem = errorCode011(oleRenewItem, itemBarcode[0]);
+                oleRenewItems.add(oleRenewItem);
+            }
+       }
+        oleRenewItemList.setRenewItemList(oleRenewItems);
+        if(isSIP2Request){
+            return oleRenewItemConverter.generateRenewItemListXmlForSip2(oleRenewItemList);
+        }else{
+
+            return oleRenewItemConverter.generateRenewItemListXml(oleRenewItemList);
+        }
+    }
+
+    private List<OLERenewItem> errorCode001(OLERenewItem oleRenewItemPatron,List<OLERenewItem> oleRenewItems){
+        oleRenewItemPatron.setCode("001");
+        oleRenewItemPatron.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INVALID_OPRTR_ID));
+        LOG.info(oleRenewItemPatron.getMessage());
+        oleRenewItems.add(oleRenewItemPatron);
+        return oleRenewItems;
+    }
+
+    private List<OLERenewItem> errorCode002(OLERenewItem oleRenewItemPatron,List<OLERenewItem> oleRenewItems){
+        oleRenewItemPatron.setCode("002");
+        oleRenewItemPatron.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
+        LOG.info(oleRenewItemPatron.getMessage());
+        oleRenewItems.add(oleRenewItemPatron);
+        return oleRenewItems;
+    }
+
+    private OLERenewItem errorCode003(OLERenewItem oleRenewItem,OleLoanDocument oleLoanDocument,String itemBarcode){
+        oleRenewItem.setCode("003");
+        oleRenewItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.RENEW_SUCCESS)+" - Item Barcode("+itemBarcode+")");
+        LOG.info(oleRenewItem.getMessage());
+        if(oleLoanDocument.getPastDueDate() != null)
+            oleRenewItem.setPastDueDate(oleLoanDocument.getPastDueDate().toString());
+        oleRenewItem.setNewDueDate(oleLoanDocument.getLoanDueDate() != null ? oleLoanDocument.getLoanDueDate().toString() : "");
+        oleRenewItem.setRenewalCount(oleLoanDocument.getNumberOfRenewals());
+        return oleRenewItem;
+    }
+
+    private OLERenewItem errorCode500(OLERenewItem oleRenewItem,OleLoanDocument oleLoanDocument,String itemBarcode){
+        oleRenewItem.setCode("500");
+        oleRenewItem.setMessage(oleLoanDocument.getErrorMessage()+" - Item Barcode("+itemBarcode+")");
+        LOG.info(oleLoanDocument.getErrorMessage());
+        return oleRenewItem;
+    }
+
+    private OLERenewItem errorCode009(OLERenewItem oleRenewItem,String itemBarcode){
+        oleRenewItem.setCode("009");
+        oleRenewItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.RQST_PNDNG)+" - Item Barcode("+itemBarcode+")");
+        LOG.info(oleRenewItem.getMessage());
+        return oleRenewItem;
+    }
+
+    private OLERenewItem errorCode010(OLERenewItem oleRenewItem,String itemBarcode){
+        oleRenewItem.setCode("010");
+        oleRenewItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_RENEW)+" - Item Barcode("+itemBarcode+")");
+        LOG.info(oleRenewItem.getMessage());
+        return oleRenewItem;
+    }
+
+    private OLERenewItem errorCode011(OLERenewItem oleRenewItem,String itemBarcode){
+        oleRenewItem.setCode("011");
+        oleRenewItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITM_NT_LOAN) +" - Item Barcode("+itemBarcode+")");
+        LOG.info(oleRenewItem.getMessage());
+        return oleRenewItem;
+    }
+
+
+    private OleLoanDocument setPatronInformation(List<OlePatronDocument> patronDocuments,OlePatronDocument olePatronDocument,OleLoanDocument oleLoanDocument){
+        if (patronDocuments.size() > 0) {
+            oleLoanDocument.setOlePatron(olePatronDocument);
+            oleLoanDocument.setBorrowerTypeCode(olePatronDocument.getBorrowerTypeCode());
+            oleLoanDocument.setBorrowerTypeId(olePatronDocument.getBorrowerType());
+            oleLoanDocument.setOleBorrowerType(olePatronDocument.getOleBorrowerType());
+            oleLoanDocument.setBorrowerTypeName(olePatronDocument.getBorrowerTypeName());
+        }
+        oleLoanDocument.setRenewalItemFlag(true);
+        oleLoanDocument.setErrorMessage(null);
+        return oleLoanDocument;
+    }
+
+
 
 
     public boolean validPatron(String patronId) {
@@ -905,6 +1210,17 @@ public class OLECirculationHelperServiceImpl {
             return new GregorianCalendar(year, month, day);
         }
         return null;
+    }
+
+    public OLERenewItem populateRenewItemForSip2(OlePatronDocument olePatronDocument , OleLoanDocument oleLoanDocument,OLERenewItem oleRenewItem){
+        oleRenewItem.setPatronBarcode(olePatronDocument.getBarcode());
+        oleRenewItem.setItemBarcode(oleLoanDocument.getItemId());
+        oleRenewItem.setTitleIdentifier(oleLoanDocument.getTitle());
+        /*oleRenewItem.setFeeType();
+        oleRenewItem.setFeeAmount();*/
+        oleRenewItem.setItemProperties("Author="+oleLoanDocument.getAuthor());
+        oleRenewItem.setMediaType(oleLoanDocument.getItemType());
+        return oleRenewItem;
     }
 }
 

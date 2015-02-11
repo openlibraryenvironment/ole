@@ -44,6 +44,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.ole.batch.keyvalue.OLEEncumberOpenRecurringOrdersValueFinder;
 import org.kuali.ole.gl.GeneralLedgerConstants;
 import org.kuali.ole.gl.businessobject.CorrectionChange;
 import org.kuali.ole.gl.businessobject.CorrectionChangeGroup;
@@ -58,6 +59,8 @@ import org.kuali.ole.gl.document.service.CorrectionDocumentService;
 import org.kuali.ole.gl.service.GlCorrectionProcessOriginEntryService;
 import org.kuali.ole.gl.service.OriginEntryGroupService;
 import org.kuali.ole.gl.service.OriginEntryService;
+import org.kuali.ole.select.document.service.OLEEncumberOpenRecurringOrdersService;
+import org.kuali.ole.select.document.service.impl.OLEEncumberOpenRecurringOrdersServiceImpl;
 import org.kuali.ole.sys.Message;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEKeyConstants;
@@ -87,6 +90,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     protected static OriginEntryService originEntryService;
     protected static DateTimeService dateTimeService;
     protected static ConfigurationService kualiConfigurationService;
+    protected static OLEEncumberOpenRecurringOrdersService oleEncumberOpenRecurringOrdersService;
 
     public static final String SYSTEM_AND_EDIT_METHOD_ERROR_KEY = "systemAndEditMethod";
 
@@ -107,6 +111,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             CorrectionAction.originEntryService = SpringContext.getBean(OriginEntryService.class);
             CorrectionAction.dateTimeService = SpringContext.getBean(DateTimeService.class);
             CorrectionAction.kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
+            CorrectionAction.oleEncumberOpenRecurringOrdersService = SpringContext.getBean(OLEEncumberOpenRecurringOrdersService.class);
         }
 
         CorrectionForm rForm = (CorrectionForm) form;
@@ -576,7 +581,10 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                 //String fileName = oeg.getSource().getCode() + oeg.getId().toString() + "_" + oeg.getDate().toString() + ".txt";
                 String batchDirectory = SpringContext.getBean(CorrectionDocumentService.class).getBatchFileDirectoryName();
                 String fileNameWithPath;
-                if (!correctionForm.getInputGroupId().contains(batchDirectory)){
+                if (correctionForm.getInputGroupId().contains(OLEConstants.REENCUM_RECURR)) {
+                    OLEEncumberOpenRecurringOrdersServiceImpl encumberOpenRecurringOrdersService = (OLEEncumberOpenRecurringOrdersServiceImpl) SpringContext.getBean("encumberOpenRecurringOrdersService");
+                    fileNameWithPath = encumberOpenRecurringOrdersService.getBatchFileDirectoryName() + File.separator + correctionForm.getInputGroupId();
+                } else if (!correctionForm.getInputGroupId().contains(batchDirectory)) {
                     fileNameWithPath = batchDirectory + File.separator + correctionForm.getInputGroupId();
                 } else {
                     fileNameWithPath = correctionForm.getInputGroupId();
@@ -625,7 +633,12 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         if (checkOriginEntryGroupSelection(correctionForm)) {
             GeneralLedgerCorrectionProcessDocument doc = (GeneralLedgerCorrectionProcessDocument) correctionForm.getDocument();
-            doc.setCorrectionInputFileName(batchDirectory + File.separator + correctionForm.getInputGroupId());
+            if (correctionForm.getInputGroupId().contains(OLEConstants.REENCUM_RECURR)) {
+                OLEEncumberOpenRecurringOrdersServiceImpl oleEncumberOpenRecurringOrdersService1 = (OLEEncumberOpenRecurringOrdersServiceImpl) SpringContext.getBean("encumberOpenRecurringOrdersService");
+                doc.setCorrectionInputFileName(oleEncumberOpenRecurringOrdersService1.getBatchFileDirectoryName() + File.separator + correctionForm.getInputGroupId());
+            } else {
+                doc.setCorrectionInputFileName(batchDirectory + File.separator + correctionForm.getInputGroupId());
+            }
 
             int inputGroupSize = originEntryService.getGroupCount(correctionForm.getInputGroupId());
             int recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();

@@ -34,7 +34,11 @@ public class OLESchedulerHelper {
         if(oneTimeOrRecur.equalsIgnoreCase(OLEConstants.OLEBatchProcess.SCHEDULE_ONETIME)){
             Date oneDate = oleBatchProcessScheduleBo.getOneTimeDate();
             String oneTime = oleBatchProcessScheduleBo.getOneTimeStartTime();
-            cronExpression = getCronExpressionForOneTime(oneDate, oneTime);
+            if (oneDate != null) {
+                cronExpression = getCronExpressionForOneTime(oneDate.toString(), oneTime);
+            } else {
+                cronExpression = getCronExpressionForOneTime(oleBatchProcessScheduleBo.getOneTimeStartDate(), oneTime);
+            }
         }
 
         if(oneTimeOrRecur.equalsIgnoreCase(OLEConstants.OLEBatchProcess.SCHEDULE_RECURRING)){
@@ -64,11 +68,10 @@ public class OLESchedulerHelper {
             }
     }
 
-    public String getCronExpressionForOneTime(Date oneTimeDate, String oneTime) {
+    public String getCronExpressionForOneTime(String startDate, String oneTime) {
         String[] oneTimeArray = oneTime.split(":");
         String hour = oneTimeArray[0];
         String minutes = oneTimeArray[1];
-        String startDate = oneTimeDate.toString();
         String[] dateArray = startDate.split("\\-");
         String year = dateArray[0];
         String month = dateArray[1];

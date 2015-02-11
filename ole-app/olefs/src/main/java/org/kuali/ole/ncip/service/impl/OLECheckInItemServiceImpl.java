@@ -1,6 +1,5 @@
 package org.kuali.ole.ncip.service.impl;
 
-import com.thoughtworks.xstream.XStream;
 import org.apache.log4j.Logger;
 import org.extensiblecatalog.ncip.v2.service.*;
 import org.kuali.ole.OLEConstants;
@@ -100,7 +99,7 @@ public class OLECheckInItemServiceImpl implements OLECheckInItemService {
                 operatorId = agencyPropertyMap.get(OLENCIPConstants.OPERATOR_ID);
                 itemDeleteIndicator=getLoanProcessor().getParameter(OLENCIPConstants.TEMP_ITEM_DELETE_INDICATOR);
                 LOG.info("Inside Check in Item Service . Operator Id : "+operatorId + " Item Id : " + initData.getItemId().getItemIdentifierValue());
-                responseString = oleCirculationService.checkInItem(OLENCIPConstants.PATRON_ID, operatorId, initData.getItemId().getItemIdentifierValue(), itemDeleteIndicator);
+                responseString = oleCirculationService.checkInItem(OLENCIPConstants.PATRON_ID, operatorId, initData.getItemId().getItemIdentifierValue(), itemDeleteIndicator,false);
                 oleCheckInItem = (OLECheckInItem) oleCheckInItemConverter.generateCheckInItemObject(responseString);
                 if (oleCheckInItem != null && oleCheckInItem.getMessage() != null && oleCheckInItem.getMessage().equals(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.SUCCESSFULLEY_CHECKED_IN))) {
                     ItemId itemId = new ItemId();

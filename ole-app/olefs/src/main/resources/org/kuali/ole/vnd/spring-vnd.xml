@@ -52,6 +52,11 @@
 				<value>org/kuali/ole/vnd/ojb-vnd.xml</value>
 			</list>
 		</property>
+        <property name="resourceBundleNames">
+            <list>
+                <value>org/kuali/ole/locale/${ole.locale.properties.folder}/Labels-vnd</value>
+            </list>
+        </property>
         <property name="batchFileDirectories">
           	<list>
             	<value>${reports.directory}/vnd</value>

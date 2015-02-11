@@ -605,7 +605,8 @@ public class OlePurapServiceImpl implements OlePurapService {
     public String getItemDescription(Bib bib){
         LOG.debug("### Inside setItemDescription() of OleRequisitionDocument ###");
         String itemDescription = ((bib.getTitle() != null && !bib.getTitle().isEmpty()) ? bib.getTitle() + "," : "") + ((bib.getAuthor() != null && !bib.getAuthor().isEmpty()) ? bib.getAuthor() + "," : "") + ((bib.getPublisher() != null && !bib.getPublisher().isEmpty()) ? bib.getPublisher() + "," : "") + ((bib.getIsbn() != null && !bib.getIsbn().isEmpty()) ? bib.getIsbn() + "," : "");
-        itemDescription = itemDescription.substring(0, itemDescription.lastIndexOf(","));
+        itemDescription = itemDescription.lastIndexOf(",") < 0 ? itemDescription :
+                itemDescription.substring(0, itemDescription.lastIndexOf(","));
         if(LOG.isDebugEnabled()){
             LOG.debug("Item Description---------->"+itemDescription);
         }
@@ -633,7 +634,8 @@ public class OlePurapServiceImpl implements OlePurapService {
                     .isEmpty()) ? bibInfoRecord.getIsxn().trim() + ", " : "");
         }
         if (itemDescription != null && !(itemDescription.equals(""))) {
-            itemDescription = itemDescription.substring(0, itemDescription.lastIndexOf(","));
+            itemDescription = itemDescription.lastIndexOf(",") < 0 ? itemDescription :
+                    itemDescription.substring(0, itemDescription.lastIndexOf(","));
             StringEscapeUtils stringEscapeUtils = new StringEscapeUtils();
             itemDescription = stringEscapeUtils.unescapeXml(itemDescription);
         }

@@ -536,6 +536,9 @@ but may be good for SKUs.  Can insert dashes in the wrong place and still match.
         <field name="TemporaryItemTypeFullValue_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="TemporaryItemTypeCodeValue_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="HoldingsCallNumber_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HoldingsCallNumberPrefix_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HoldingsShelvingSchemeCode_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HoldingsShelvingSchemeValue_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="HoldingsLocation_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="HoldingsCopyNumber_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="MissingPieceCount_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
@@ -581,6 +584,9 @@ but may be good for SKUs.  Can insert dashes in the wrong place and still match.
         <field name="ItemNote_Value_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="ItemNote_Type_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="HoldingsCallNumber_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HoldingsCallNumberPrefix_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HoldingsShelvingSchemeCode_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HoldingsShelvingSchemeValue_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="HoldingsLocation_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="HoldingsCopyNumber_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="MissingPieceCount_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
@@ -723,7 +729,7 @@ but may be good for SKUs.  Can insert dashes in the wrong place and still match.
         <!--::::::::::::::: SERVICE PATRON FIELDS:: END :::::::::::::: -->
 
         <!-- Fields for eInstance -->
-        <field name="gokbIdentifier" type="text" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+
         <field name="AccessStatus_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="Imprint_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="Platform_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>

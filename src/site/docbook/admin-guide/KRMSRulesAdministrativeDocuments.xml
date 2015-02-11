@@ -20,7 +20,16 @@
             </inlinemediaobject></emphasis></para>
 <para role="Body Text">The KRMS submenu allows you to perform a variety of functional and technical
 activities that affect the entire system.</para>
-<para> </para>
+    <tip>
+        <para>A <link xlink:href="https://www.fuzemeeting.com/replay_meeting/a0e69d63/6914498"
+                >presentation about KRMS rules </link>was done on December 4th, 2014.  This
+            presentation covers the background, an introduction to and definitions for KRMS, and
+            then dives deeper into the functionality, architecture, and execution of rules in KRMS.
+            The presention and it's slides, booklet, and a link to GitHub are available from the
+                <link xlink:href="https://wiki.kuali.org/display/KULRICE/Rice+Developer+Sessions"
+                >Rice Developer Sessions</link> wiki page.</para>
+        <para>Note - the presentation gets very technical in the second half.</para>
+    </tip>
 <section>
 <title><anchor xml:id="_agenda"/>Agenda Lookup</title>
 <para role="Body Text"><inlinemediaobject>

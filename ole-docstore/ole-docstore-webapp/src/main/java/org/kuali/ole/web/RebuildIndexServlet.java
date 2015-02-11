@@ -42,14 +42,32 @@ public class RebuildIndexServlet extends HttpServlet {
             String docFormat = DocFormat.MARC.getCode();
             String action = req.getParameter("action");
             String batchSizeReq = req.getParameter("batchSize");
+            String startIndexReq = req.getParameter("startIndex");
+            String endIndexReq = req.getParameter("endIndex");
+            String updateDate=null;
+            if(req.getParameter("updateDate")!=null){
+                updateDate=req.getParameter("updateDate").trim();
+            }
             int batchSize = 0;
+            int startIndex = 0;
+            int endIndex = 0;
             if(StringUtils.isNotEmpty(batchSizeReq)) {
                 batchSize = Integer.parseInt(batchSizeReq);
+            }
+            if(StringUtils.isNotEmpty(startIndexReq)) {
+                startIndex = Integer.parseInt(startIndexReq);
+            }
+            if(StringUtils.isNotEmpty(endIndexReq)) {
+                endIndex = Integer.parseInt(endIndexReq);
+            }
+            if(startIndex > endIndex) {
+                String result = "Please provide valid input " +  startIndex + " > " + endIndex;
+                outputMessage(resp, result);
             }
             RebuildIndexesHandler rebuildIndexesHandler = RebuildIndexesHandler.getInstance();
 
             if (action.equalsIgnoreCase("start")) {
-                String result = rebuildIndexesHandler.startProcess(docCategory, docType, docFormat, batchSize);
+                String result = rebuildIndexesHandler.startProcess(docCategory, docType, docFormat, batchSize, startIndex, endIndex,updateDate);
                 outputMessage(resp, result);
             } else if (action.equalsIgnoreCase("stop")) {
                 String result = rebuildIndexesHandler.stopProcess();

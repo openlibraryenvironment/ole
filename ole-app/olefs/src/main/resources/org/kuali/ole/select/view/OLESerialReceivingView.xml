@@ -7,7 +7,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="${ole.externalizable.help.url}/reference/webhelp/AG/content/ch05s06.html"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
         <property name="formClass" value="org.kuali.ole.select.form.OLESerialReceivingForm"/>
@@ -24,7 +24,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/receive/scripts/receive.js</value>
             </list>
         </property>
@@ -164,6 +164,7 @@
                 <ref bean="serialReceivingVendor_button" />
             <!--    <ref bean="statusCode"/>-->
                 <ref bean="Link-PO-Button"/>
+                <ref bean="No-Link-PO-Button"/>
            <!--     <ref bean="linkPO"/>-->
                 <ref bean="Link-PO-ErrMsg"/>
                 <ref bean="refreshReceivingRecordTypeBtn"/>
@@ -670,6 +671,7 @@
                             <bean id="SerialPOErr" parent="Uif-MessageField" p:messageText="@{document.serialPOErrMsg}" p:cssClasses="messageClass"/>
                             <ref bean="OLESerialReceiving-OLESerialRelatedPODocument"/>
                             <ref bean="Link-PO"/>
+                            <ref bean="No-Link-PO"/>
                         </list>
                     </property>
                 </bean>
@@ -697,11 +699,15 @@
         </property>
     </bean>
 
-    <bean id="Link-PO" parent="Uif-SecondaryActionButton-Small" p:actionScript="linkPO();" p:actionLabel="Link PO" />
+    <bean id="Link-PO" parent="Uif-SecondaryActionButton-Small" p:actionScript="linkPO();" p:actionLabel="Link PO" p:style="float:left;margin-left:0em" />
+
+    <bean id="No-Link-PO" parent="Uif-SecondaryActionButton-Small" p:actionScript="noLinkPO();" p:actionLabel="Skip"  p:style="float:left;margin-left:0em" />
 
     <bean id="Link-PO-ErrMsg" parent="Uif-SecondaryActionButton-Small" p:methodToCall="linkPOErrMsg" p:hidden="true" p:ajaxSubmit="true" p:successCallback="displayRelatedPOs()"/>
 
     <bean id="Link-PO-Button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="linkPO"  p:hidden="true" p:ajaxSubmit="true"  p:successCallback="createItemLink()"/>
+
+    <bean id="No-Link-PO-Button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="noLinkPO"  p:hidden="true" p:ajaxSubmit="true"  p:successCallback="createItemLink()"/>
 
     <bean id="OLESerialReceiving-MainReceiptHistory_Link" parent="Uif-SecondaryActionButton-Small"
           p:actionLabel="Show/Hide Main Receipt History" p:actionScript="loadMainHistoryRecords()"

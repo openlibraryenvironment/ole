@@ -9,6 +9,7 @@ import org.kuali.ole.batch.util.BatchBibImportUtil;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.marc4j.*;
 import org.marc4j.marc.Record;
+import org.marc4j.marc.impl.ControlFieldImpl;
 import org.marc4j.marc.impl.DataFieldImpl;
 
 import java.io.*;
@@ -187,6 +188,31 @@ public class BatchProcessDeleteData extends AbstractBatchProcess {
                                 break;
                             }
                         }
+
+                        if (OLEConstants.OLEBatchProcess.CONTROL_FIELD_001.equals(profileDataFiled)) {
+                            for (ControlFieldImpl controlField : (List<ControlFieldImpl>) record.getControlFields()) {
+                                if (!OLEConstants.OLEBatchProcess.CONTROL_FIELD_001.equalsIgnoreCase(controlField.getTag()))
+                                    continue;
+                                Map batchDeleteMap = getBatchProcessDeleteService().getBibIdsForBatchDelete(controlField.getData(), profileFieldQuery);
+                                List bibIdList = (List) batchDeleteMap.get(OLEConstants.BIB_SEARCH);
+                                if (bibIdList == null || (bibIdList != null && bibIdList.size() > 1)) {
+                                    failureCount++;
+                                    failureWriter.write(record);
+                                } else {
+                                    matchBibIdsList.addAll(bibIdList);
+                                    successWriter.write(record);
+                                }
+                                String failureInfo = (String) batchDeleteMap.get(OLEConstants.OLEBatchProcess.FAILURE_INFO);
+                                if (failureInfo != null) {
+                                    failureReport.append(controlField.getData() + "  (" + profileField + ")   :: " + failureInfo + "\n");
+                                }
+                                recExistFlag = false;
+                                break;
+
+
+                            }
+                        }
+
                         // provide matchpoint record data is not available in mrc record
                         if (recExistFlag) {
                             failureCount++;

@@ -44,22 +44,24 @@ jq(document).ready(function(){
     });*/
     jq(".enumClass").live("click",function() {
         var id = jq(this).attr("id");
+        id=id.replace(/[^\d.]/g,"");
         if(jq(this).hasClass("enumSupplementClass")) {
-            jq("#onChangeEnumSupplement_line"+id.substring(id.length-1)).focus().click();
+            jq("#onChangeEnumSupplement_line"+id).focus().click();
         }else if(jq(this).hasClass("enumMainClass")) {
-            jq("#onChangeEnumMain_line"+id.substring(id.length-1)).focus().click();
+            jq("#onChangeEnumMain_line"+id).focus().click();
         }else if(jq(this).hasClass("enumIndexClass")) {
-            jq("#onChangeEnumIndex_line"+id.substring(id.length-1)).focus().click();
+            jq("#onChangeEnumIndex_line"+id).focus().click();
         }
     });
     jq(".chronClass").live("click",function() {
         var id = jq(this).attr("id");
+        id=id.replace(/[^\d.]/g,"");
         if(jq(this).hasClass("chronSupplementClass")) {
-            jq("#onChangeChronSupplement_line"+id.substring(id.length-1)).focus().click();
+            jq("#onChangeChronSupplement_line"+id).focus().click();
         }else if(jq(this).hasClass("chronMainClass")) {
-            jq("#onChangeChronMain_line"+id.substring(id.length-1)).focus().click();
+            jq("#onChangeChronMain_line"+id).focus().click();
         }else if(jq(this).hasClass("chronIndexClass")) {
-            jq("#onChangeChronIndex_line"+id.substring(id.length-1)).focus().click();
+            jq("#onChangeChronIndex_line"+id).focus().click();
         }
     });
 });
@@ -81,6 +83,13 @@ function linkPO(){
     }
 
 }
+
+function noLinkPO(){
+    jq("div#OLESerialReceiving-OLESerialRelatedPODocument-HorizontalBoxSection").fadeOut(300);
+    jq('#mask').fadeOut(300)
+    jq('#No-Link-PO-Button').click();
+}
+
 function displayRelatedPOs(){
     displayDialogWindow("div#OLESerialReceiving-OLESerialRelatedPODocument-HorizontalBoxSection");
 }

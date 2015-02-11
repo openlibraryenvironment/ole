@@ -17,6 +17,7 @@ package org.kuali.ole.select.document.service.impl;
 
 
 import org.kuali.ole.DataCarrierService;
+import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.ole.module.purap.PurapKeyConstants;
@@ -33,6 +34,7 @@ import org.kuali.ole.module.purap.document.service.impl.PurchaseOrderServiceImpl
 import org.kuali.ole.pojo.OleTxRecord;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.document.service.OlePurchaseOrderService;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.validation.event.DocumentSystemSaveEvent;
@@ -68,7 +70,7 @@ public class OlePurchaseOrderServiceImpl extends PurchaseOrderServiceImpl implem
     private ConfigurationService kualiConfigurationService;
     private PrintService printService;
     private PurApWorkflowIntegrationService purapWorkflowIntegrationService;
-
+    private OleSelectDocumentService oleSelectDocumentService;
 
     @Override
     public void setPrintService(PrintService printService) {
@@ -90,7 +92,7 @@ public class OlePurchaseOrderServiceImpl extends PurchaseOrderServiceImpl implem
      */
     @Override
     public void createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument) {
-        String newSessionUserId = OLEConstants.SYSTEM_USER;
+        String newSessionUserId = getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER);
         try {
             LogicContainer logicToRun = new LogicContainer() {
                 @Override
@@ -177,8 +179,8 @@ public class OlePurchaseOrderServiceImpl extends PurchaseOrderServiceImpl implem
         po.setOverrideWorkflowButtons(Boolean.FALSE);
         boolean performedAction = purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", PurapConstants.PurchaseOrderStatuses.NODE_DOCUMENT_TRANSMISSION, GlobalVariables.getUserSession().getPerson(), null);
         if (!performedAction) {
-            Person systemUserPerson = getPersonService().getPersonByPrincipalName(OLEConstants.SYSTEM_USER);
-            purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getPerson().getName(), PurapConstants.PurchaseOrderStatuses.NODE_DOCUMENT_TRANSMISSION, systemUserPerson, OLEConstants.SYSTEM_USER);
+            Person systemUserPerson = getPersonService().getPersonByPrincipalName(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
+            purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getPerson().getName(), PurapConstants.PurchaseOrderStatuses.NODE_DOCUMENT_TRANSMISSION, systemUserPerson, getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
         }
         po.setOverrideWorkflowButtons(Boolean.TRUE);
         if (!po.getApplicationDocumentStatus().equals(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN)) {
@@ -340,6 +342,17 @@ public class OlePurchaseOrderServiceImpl extends PurchaseOrderServiceImpl implem
 
     public boolean getIsATypeOfCORRDoc() {
         return false;
+    }
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 
 }

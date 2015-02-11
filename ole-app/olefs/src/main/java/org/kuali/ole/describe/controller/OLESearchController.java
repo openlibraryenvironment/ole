@@ -11,6 +11,8 @@ import org.kuali.ole.describe.form.GlobalEditForm;
 import org.kuali.ole.describe.form.OLESearchForm;
 import org.kuali.ole.describe.service.BrowseService;
 import org.kuali.ole.describe.service.impl.BrowseServiceImpl;
+import org.kuali.ole.docstore.OleException;
+import org.kuali.ole.docstore.common.client.DocstoreClient;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.config.*;
@@ -19,6 +21,11 @@ import org.kuali.ole.docstore.common.document.content.enums.DocType;
 import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.search.*;
+import org.kuali.ole.docstore.common.search.SearchResult;
+import org.kuali.ole.docstore.engine.client.DocstoreLocalClient;
+import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
+import org.kuali.ole.docstore.engine.service.index.solr.ItemConstants;
+import org.kuali.ole.docstore.utility.ISBNUtil;
 import org.kuali.ole.select.bo.OLEEditorResponse;
 import org.kuali.ole.select.businessobject.OleCopy;
 import org.kuali.ole.select.businessobject.OleDocstoreResponse;
@@ -69,10 +76,18 @@ public class OLESearchController extends UifControllerBase {
     private int totalRecCount;
     private int start;
     private int pageSize;
-    private DocstoreClientLocator docstoreClientLocator;
+    private DocstoreClient docstoreClient = getDocstoreLocalClient();
     private OLEEResourceSearchService oleEResourceSearchService;
     private BrowseService browseService;
     private DocumentService documentService;
+
+    public DocstoreClient getDocstoreLocalClient() {
+        if (null == docstoreClient) {
+            return new DocstoreLocalClient();
+        }
+        return docstoreClient;
+    }
+
     public BrowseService getBrowseService() {
         if(browseService == null) {
             browseService = new BrowseServiceImpl();
@@ -96,14 +111,6 @@ public class OLESearchController extends UifControllerBase {
         this.documentService = documentService;
     }
     DocumentSearchConfig documentSearchConfig = DocumentSearchConfig.getDocumentSearchConfig();
-
-
-    public DocstoreClientLocator getDocstoreClientLocator() {
-        if (null == docstoreClientLocator) {
-            return SpringContext.getBean(DocstoreClientLocator.class);
-        }
-        return docstoreClientLocator;
-    }
 
     public int getTotalRecCount() {
         return totalRecCount;
@@ -171,6 +178,7 @@ public class OLESearchController extends UifControllerBase {
         oleSearchForm.setWorkItemDocumentList(null);
         oleSearchForm.setWorkEHoldingsDocumentList(null);
         oleSearchForm.setSearchTypeField("OLESearch");
+        oleSearchForm.setSelectAllRecords(false);
         request.getSession().setAttribute("selectedFacetResults", null);
         if (oleSearchForm.getDocType() == null) {
             oleSearchForm.setDocType(DocType.BIB.getCode());
@@ -299,7 +307,7 @@ public class OLESearchController extends UifControllerBase {
     }
     private void processNewRecordResponseForOLE(String bibId, String tokenId, String linkToOrderOption) throws Exception {
         String instanceUUID = null;
-        BibTree bibTree = getDocstoreClientLocator().getDocstoreClient().retrieveBibTree(bibId);
+        BibTree bibTree = getDocstoreLocalClient().retrieveBibTree(bibId);
         OLEEditorResponse oleEditorResponse = new OLEEditorResponse();
         if (bibTree.getHoldingsTrees() != null && bibTree.getHoldingsTrees().size() > 0) {
             instanceUUID = bibTree.getHoldingsTrees().get(0).getId();
@@ -324,6 +332,42 @@ public class OLESearchController extends UifControllerBase {
         oleSearchForm.setShowPageSize(pageSizes.toString());
     }
 
+    @RequestMapping(params = "methodToCall=pageNumberSearch")
+    public ModelAndView pageNumberSearch(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        OLESearchForm oleSearchForm = (OLESearchForm) form;
+        SearchParams searchParams = oleSearchForm.getSearchParams();
+        try {
+            int start = Math.max(0,
+                    (Integer.parseInt(oleSearchForm.getPageNumber()) - 1)
+                            * searchParams.getPageSize());
+            searchParams.setStartIndex(start);
+        } catch (NumberFormatException e) {
+            LOG.warn("Invalid page number " + oleSearchForm.getPageNumber(), e);
+        }
+        return search(oleSearchForm, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=lastPageSearch")
+    public ModelAndView lastPageSearch(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        OLESearchForm oleSearchForm = (OLESearchForm) form;
+        SearchParams searchParams = oleSearchForm.getSearchParams();
+        try {
+            int totalLines = oleSearchForm.getTotalRecordCount();
+            int pageSize = searchParams.getPageSize();
+            int lastPage = totalLines / pageSize
+                    + (totalLines % pageSize == 0 ? 0 : 1);
+            int start = Math.max(0, lastPage);
+            searchParams.setStartIndex(start);
+        } catch (NumberFormatException e) {
+            LOG.warn("Invalid page number " + oleSearchForm.getPageNumber(), e);
+        }
+        return search(oleSearchForm, result, request, response);
+    }
+
     @RequestMapping(params = "methodToCall=nextSearch")
     public ModelAndView nextSearch(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -337,7 +381,7 @@ public class OLESearchController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=previousSearch")
     public ModelAndView previousSearch(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         OLESearchForm oleSearchForm = (OLESearchForm) form;
         SearchParams searchParams = oleSearchForm.getSearchParams();
@@ -397,7 +441,7 @@ public class OLESearchController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=moreFacets")
     public ModelAndView moreFacets(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                    HttpServletRequest request, HttpServletResponse response) {
+                                   HttpServletRequest request, HttpServletResponse response) {
         OLESearchForm oleSearchForm = (OLESearchForm) form;
         if(StringUtils.isEmpty(oleSearchForm.getDocType())) {
             oleSearchForm.setDocType(request.getParameter("docType"));
@@ -416,6 +460,7 @@ public class OLESearchController extends UifControllerBase {
             searchParams.setFacetPrefix(request.getParameter("facetPrefix"));
         }
         oleSearchForm.setSearchParams(searchParams);
+        oleSearchForm.getSearchConditions().addAll(searchParams.getSearchConditions());
         searchParams.setFacetOffset(0);
         searchParams.setFacetLimit(documentSearchConfig.getFacetPageSizeLong());
         oleSearchForm.setMoreFacets(true);
@@ -425,7 +470,7 @@ public class OLESearchController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=nextFacet")
     public ModelAndView nextFacet(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                    HttpServletRequest request, HttpServletResponse response) {
+                                  HttpServletRequest request, HttpServletResponse response) {
         OLESearchForm oleSearchForm = (OLESearchForm) form;
         if(StringUtils.isEmpty(oleSearchForm.getDocType())) {
             oleSearchForm.setDocType(request.getParameter("docType"));
@@ -444,9 +489,8 @@ public class OLESearchController extends UifControllerBase {
         int facetOffset = searchParams.getFacetOffset() + documentSearchConfig.getFacetPageSizeLong();
         searchParams.setFacetOffset(facetOffset);
         oleSearchForm.setSearchParams(searchParams);
+        oleSearchForm.getSearchConditions().addAll(searchParams.getSearchConditions());
         oleSearchForm.setMoreFacets(true);
-
-
         oleSearchForm.setFacetPageEntries(getFacetShowEntries(searchParams, facetCount));
         searchDocstoreData(oleSearchForm, request);
         return super.navigate(oleSearchForm, result, request, response);
@@ -454,7 +498,7 @@ public class OLESearchController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=previousFacet")
     public ModelAndView previousFacet(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                    HttpServletRequest request, HttpServletResponse response) {
+                                      HttpServletRequest request, HttpServletResponse response) {
         OLESearchForm oleSearchForm = (OLESearchForm) form;
         if(StringUtils.isEmpty(oleSearchForm.getDocType())) {
             oleSearchForm.setDocType(request.getParameter("docType"));
@@ -473,6 +517,7 @@ public class OLESearchController extends UifControllerBase {
         int facetLimit = searchParams.getFacetOffset() - documentSearchConfig.getFacetPageSizeLong();
         searchParams.setFacetOffset(facetLimit > 0 ? facetLimit : 0);
         oleSearchForm.setSearchParams(searchParams);
+        oleSearchForm.getSearchConditions().addAll(searchParams.getSearchConditions());
         oleSearchForm.setMoreFacets(true);
         oleSearchForm.setFacetPageEntries(getFacetShowEntries(searchParams, facetCount));
         searchDocstoreData(oleSearchForm, request);
@@ -511,7 +556,7 @@ public class OLESearchController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=workBenchBrowseClear")
     public ModelAndView workBenchClear(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
         OLESearchForm oleSearchForm = (OLESearchForm) form;
         List<Integer> pageSizes = documentSearchConfig.getPageSizes();
         if(!pageSizes.isEmpty() || pageSizes.size() > 0) {
@@ -615,7 +660,7 @@ public class OLESearchController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=exportToXml")
     public ModelAndView exportToXml(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) {
+                                    HttpServletRequest request, HttpServletResponse response) {
         OLESearchForm oleSearchForm = (OLESearchForm) form;
         boolean hasPermission = canExportToRequestXml(GlobalVariables.getUserSession().getPrincipalId());
         if (!hasPermission) {
@@ -625,18 +670,32 @@ public class OLESearchController extends UifControllerBase {
             return navigate(oleSearchForm, result, request, response);
         }
         List<String> idsToExport = new ArrayList<>();
-        for (SearchResultDisplayRow searchResultDisplayRow : oleSearchForm.getSearchResultDisplayRowList()) {
-            if(searchResultDisplayRow.isSelect()) {
-                idsToExport.add(searchResultDisplayRow.getLocalId());
+        if(oleSearchForm.isSelectAllRecords()){
+            if(StringUtils.isEmpty(oleSearchForm.getIdsToBeOpened())){
+                searchDocstoreForLocalIds(oleSearchForm, request);
+            }
+            String[]  localIds=oleSearchForm.getIdsToBeOpened().split(",");
+            for(String localId:localIds){
+                String[] ids= localId.split("#");
+                idsToExport.add(ids[0]);
+            }
+
+        }else{
+            for (SearchResultDisplayRow searchResultDisplayRow : oleSearchForm.getSearchResultDisplayRowList()) {
+                if(searchResultDisplayRow.isSelect()) {
+                    idsToExport.add(searchResultDisplayRow.getLocalId());
+                }
             }
         }
+
+
         String requestXml = "";
         if(oleSearchForm.getDocType().equalsIgnoreCase(DocType.BIB.getCode())) {
 
             try {
                 BibTrees bibTrees = new BibTrees();
                 for(String id : idsToExport) {
-                    BibTree bibTree = getDocstoreClientLocator().getDocstoreClient().retrieveBibTree(id);
+                    BibTree bibTree =getDocstoreLocalClient().retrieveBibTree(id);
                     bibTrees.getBibTrees().add(bibTree);
                 }
                 requestXml = BibTrees.serialize(bibTrees);
@@ -649,7 +708,7 @@ public class OLESearchController extends UifControllerBase {
             try {
                 HoldingsTrees holdingsTrees = new HoldingsTrees();
                 for (String id : idsToExport) {
-                    HoldingsTree holdingsTree = getDocstoreClientLocator().getDocstoreClient().retrieveHoldingsTree(id);
+                    HoldingsTree holdingsTree = getDocstoreLocalClient().retrieveHoldingsTree(id);
                     holdingsTrees.getHoldingsTrees().add(holdingsTree);
                 }
                 requestXml = HoldingsTrees.serialize(holdingsTrees);
@@ -661,7 +720,7 @@ public class OLESearchController extends UifControllerBase {
 
         if(oleSearchForm.getDocType().equalsIgnoreCase(DocType.ITEM.getCode())) {
             try {
-                List<Item> itemList = getDocstoreClientLocator().getDocstoreClient().retrieveItems(idsToExport);
+                List<Item> itemList = getDocstoreLocalClient().retrieveItems(idsToExport);
                 Items items = new Items();
                 items.getItems().addAll(itemList);
                 requestXml = Items.serialize(items);
@@ -760,6 +819,7 @@ public class OLESearchController extends UifControllerBase {
         oleSearchForm.setPreviousFlag(getPreviousFlag());
         oleSearchForm.setNextFlag(getNextFlag());
         oleSearchForm.setPageShowEntries(getPageShowEntries());
+        oleSearchForm.setTotalRecordCount(this.totalRecCount);
     }
 
 
@@ -824,9 +884,30 @@ public class OLESearchController extends UifControllerBase {
             searchParams.setPageSize(oleSearchForm.getPageSize());
 //            searchParams.setStartIndex(this.start);
         }
+        int startIndex = searchParams.getStartIndex();
+        searchParams.setStartIndex(startIndex - startIndex % searchParams.getPageSize());
         for (SearchCondition searchCondition : oleSearchForm.getSearchConditions()) {
             searchCondition.getSearchField().setDocType(oleSearchForm.getDocType());
+            if(searchCondition.getSearchField().getFieldName().equalsIgnoreCase(BibConstants.ISBN_SEARCH)){
+               String fieldValue= searchCondition.getSearchField().getFieldValue().replaceAll("-","");
+                    ISBNUtil isbnUtil = new ISBNUtil();
+                    try {
+                        fieldValue = isbnUtil.normalizeISBN(fieldValue);
+                    } catch (OleException e) {
+                        LOG.error("Exception "+e);
+                    }
+               searchCondition.getSearchField().setFieldValue(fieldValue);
+               searchCondition.setSearchScope("phrase");
+            }
+            if(DocType.ITEM.getCode().equals(oleSearchForm.getDocType()) && searchCondition.getSearchField().getFieldName().equalsIgnoreCase(ItemConstants.BIB_IDENTIFIER)){
+                if(!DocumentUniqueIDPrefix.hasPrefix(searchCondition.getSearchField().getFieldValue())){
+                    searchCondition.getSearchField().setFieldValue(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC+"-"+searchCondition.getSearchField().getFieldValue());
+                }
+
+            }
         }
+
+
         if(CollectionUtils.isEmpty(searchParams.getSearchConditions())) {
             isRemoveSearchCondition = true;
             searchParams.getSearchConditions().add(searchParams.buildSearchCondition("", searchParams.buildSearchField(oleSearchForm.getDocType(), "", ""), ""));
@@ -855,11 +936,14 @@ public class OLESearchController extends UifControllerBase {
                 sortCondition.setSortOrder("asc");
                 searchParams.getSortConditions().add(sortCondition);
             }
-            searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+            searchResponse = getDocstoreLocalClient().search(searchParams);
             oleSearchForm.setSearchResponse(searchResponse);
         } catch (Exception e) {
             LOG.error("Exception : ", e);
         }
+
+
+
         float end = System.currentTimeMillis()/1000;
         oleSearchForm.setSolrTime(String.valueOf(end-start));
         List<SearchResultDisplayRow> searchResultDisplayRows = new ArrayList<>();
@@ -901,6 +985,15 @@ public class OLESearchController extends UifControllerBase {
         }
         if (oleSearchForm instanceof GlobalEditForm) {
             ((GlobalEditForm) oleSearchForm).setTotalRecords(totalRecCount);
+        }
+
+        for (SearchCondition searchCondition : oleSearchForm.getSearchConditions()) {
+            searchCondition.getSearchField().setDocType(oleSearchForm.getDocType());
+              if(DocType.ITEM.getCode().equals(oleSearchForm.getDocType()) && searchCondition.getSearchField().getFieldName().equalsIgnoreCase(ItemConstants.BIB_IDENTIFIER)){
+                if(DocumentUniqueIDPrefix.hasPrefix(searchCondition.getSearchField().getFieldValue())){
+                    searchCondition.getSearchField().setFieldValue(DocumentUniqueIDPrefix.getDocumentId(searchCondition.getSearchField().getFieldValue()));
+                }
+            }
         }
     }
 
@@ -945,7 +1038,7 @@ public class OLESearchController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=showBibList")
     public ModelAndView showBibList(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) {
+                                    HttpServletRequest request, HttpServletResponse response) {
         this.start = 0;
         LOG.debug("Inside the showBibList method");
         OLESearchForm oleSearchForm = (OLESearchForm) uifForm;
@@ -977,7 +1070,6 @@ public class OLESearchController extends UifControllerBase {
         oleSearchForm.setSearchResultDisplayRowList(null);
         oleSearchForm.setCallNumberBrowseText(null);
         oleSearchForm.setLocation(null);
-        oleSearchForm.setPageSize(10);
         GlobalVariables.getMessageMap().clearErrorMessages();
         boolean hasSearchPermission = canSearch(GlobalVariables.getUserSession().getPrincipalId());
         if (!hasSearchPermission && oleSearchForm.getDocType().equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
@@ -1050,7 +1142,7 @@ public class OLESearchController extends UifControllerBase {
         if (oleSearchForm.getSearchResultDisplayRowList() != null && oleSearchForm.getSearchResultDisplayRowList().size() > 0) {
             for (SearchResultDisplayRow searchResultDisplay : oleSearchForm.getSearchResultDisplayRowList()) {
                 if (searchResultDisplay.isSelect()) {
-                    BibTree bibTree = getDocstoreClientLocator().getDocstoreClient().retrieveBibTree(searchResultDisplay.getLocalId());
+                    BibTree bibTree = getDocstoreLocalClient().retrieveBibTree(searchResultDisplay.getLocalId());
                     List<HoldingsTree> holdingsTreeList = bibTree.getHoldingsTrees();
                     if (holdingsTreeList.size() > 0) {
                         oleSearchForm.setHoldingsFlag("true");
@@ -1090,7 +1182,7 @@ public class OLESearchController extends UifControllerBase {
         if (oleSearchForm.getSearchResultDisplayRowList() != null && oleSearchForm.getSearchResultDisplayRowList().size() > 0) {
             for (SearchResultDisplayRow searchResultDisplay : oleSearchForm.getSearchResultDisplayRowList()) {
                 if (searchResultDisplay.isSelect()) {
-                    BibTree bibTree = getDocstoreClientLocator().getDocstoreClient().retrieveBibTree(searchResultDisplay.getLocalId());
+                    BibTree bibTree = getDocstoreLocalClient().retrieveBibTree(searchResultDisplay.getLocalId());
                     if (bibTree.getHoldingsTrees().size() > 0) {
                         oleSearchForm.seteHoldingsFlag("true");
                         for (HoldingsTree holdingsTree : bibTree.getHoldingsTrees()) {
@@ -1134,7 +1226,7 @@ public class OLESearchController extends UifControllerBase {
             for (SearchResultDisplayRow searchResultDisplayRow : searchResultDisplayRowList) {
                 if (searchResultDisplayRow.isSelect()) {
                     processNewHoldingsResponse(searchResultDisplayRow, oleSearchForm.getTokenId());
-                    Holdings holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(searchResultDisplayRow.getHoldingsIdentifier());
+                    Holdings holdings =getDocstoreLocalClient().retrieveHoldings(searchResultDisplayRow.getHoldingsIdentifier());
                     if (holdings.getHoldingsType().equalsIgnoreCase("electronic")) {
                         saveRecordToDocstore(searchResultDisplayRow, eResourceId);
                     }
@@ -1185,12 +1277,138 @@ public class OLESearchController extends UifControllerBase {
     private void saveRecordToDocstore(SearchResultDisplayRow searchResultDisplayRow, String eResourceId) throws Exception {
         Holdings eHoldings = new org.kuali.ole.docstore.common.document.EHoldings();
         OleHoldings oleHoldings = new OleHoldings();
-        eHoldings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(searchResultDisplayRow.getHoldingsIdentifier());
+        eHoldings = getDocstoreLocalClient().retrieveHoldings(searchResultDisplayRow.getHoldingsIdentifier());
         oleHoldings = new HoldingOlemlRecordProcessor().fromXML(eHoldings.getContent());
         oleHoldings.setEResourceId(eResourceId);
         eHoldings.setContent(new HoldingOlemlRecordProcessor().toXML(oleHoldings));
-        getDocstoreClientLocator().getDocstoreClient().updateHoldings(eHoldings);
+        getDocstoreLocalClient().updateHoldings(eHoldings);
     }
+
+    @RequestMapping(params = "methodToCall=filterBibs")
+    public ModelAndView filterBibs(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) {
+        OLESearchForm oleSearchForm = (OLESearchForm) uifForm;
+        oleSearchForm.setDocType(DocType.BIB.getCode());
+        oleSearchForm.setShowTime(true);
+        oleSearchForm.setSearchTypeField("OLESearch");
+        String author = request.getParameter("author");
+        String isbn = request.getParameter("isbn");
+        String oclcNumber = request.getParameter("oclcNumber");
+        SearchParams searchParams = new SearchParams();
+        SearchCondition searchCondition = new SearchCondition();
+        SearchField searchField = new SearchField();
+        if (StringUtils.isNotBlank(author)) {
+            searchField.setFieldName("Author_search");
+            searchField.setFieldValue(author);
+            request.getSession().setAttribute("author", null);
+        } else if (StringUtils.isNotBlank(isbn)) {
+            searchField.setFieldName("ISBN_search");
+            searchField.setFieldValue(isbn);
+            request.getSession().setAttribute("isbn", null);
+        } else if (StringUtils.isNotBlank(oclcNumber)) {
+            searchField.setFieldName("mdf_035a");
+            searchField.setFieldValue(oclcNumber);
+            request.getSession().setAttribute("oclcNumber", null);
+        }
+        searchCondition.setOperator("AND");
+        searchCondition.setSearchScope("AND");
+        searchCondition.setSearchField(searchField);
+        searchParams.getSearchConditions().add(searchCondition);
+        oleSearchForm.getSearchConditions().add(searchCondition);
+        oleSearchForm.setSearchParams(searchParams);
+        if (StringUtils.isEmpty(oleSearchForm.getSearchType())) {
+            oleSearchForm.setSearchType("search");
+        }
+        if (StringUtils.isEmpty(oleSearchForm.getBrowseField())) {
+            oleSearchForm.setBrowseField("title");
+        }
+        oleSearchForm.setBrowseText(null);
+        oleSearchForm.setShowRequestXml(false);
+        oleSearchForm.setHoldingsList(null);
+        oleSearchForm.setItemList(null);
+        oleSearchForm.setSearchResultDisplayRowList(null);
+        oleSearchForm.setCallNumberBrowseText(null);
+        oleSearchForm.setLocation(null);
+        GlobalVariables.getMessageMap().clearErrorMessages();
+        oleSearchForm.setSearchResultDisplayFields(new SearchResultDisplayFields());
+        return search(oleSearchForm, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=openAll")
+    public ModelAndView openAll(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
+        OLESearchForm oleSearchForm = (OLESearchForm) form;
+        oleSearchForm.getSearchParams().setFacetOffset(0);
+        searchDocstoreForLocalIds(oleSearchForm, request);
+        return super.navigate(oleSearchForm, result, request, response);
+    }
+
+    public void searchDocstoreForLocalIds(OLESearchForm oleSearchForm,HttpServletRequest request) {
+        setShowPageSizeEntries(oleSearchForm);
+        SearchParams searchParams = oleSearchForm.getSearchParams();
+        oleSearchForm.getSearchParams().getSearchConditions().clear();
+        searchParams.getSearchConditions().addAll(oleSearchForm.getSearchConditions());
+        searchParams.getSearchResultFields().clear();
+        searchParams.setPageSize(totalRecCount);
+        searchParams.setStartIndex(0);
+        for (SearchCondition searchCondition : oleSearchForm.getSearchConditions()) {
+            searchCondition.getSearchField().setDocType(oleSearchForm.getDocType());
+            if(searchCondition.getSearchField().getFieldName().equalsIgnoreCase(BibConstants.ISBN_SEARCH)){
+                String fieldValue= searchCondition.getSearchField().getFieldValue().replaceAll("-","");
+                ISBNUtil isbnUtil = new ISBNUtil();
+                try {
+                    fieldValue = isbnUtil.normalizeISBN(fieldValue);
+                } catch (OleException e) {
+                    LOG.error("Exception "+e);
+                }
+                searchCondition.getSearchField().setFieldValue(fieldValue);
+                searchCondition.setSearchScope("phrase");
+            }
+            if(DocType.ITEM.getCode().equals(oleSearchForm.getDocType()) && searchCondition.getSearchField().getFieldName().equalsIgnoreCase(ItemConstants.BIB_IDENTIFIER)){
+                if(!DocumentUniqueIDPrefix.hasPrefix(searchCondition.getSearchField().getFieldValue())){
+                    searchCondition.getSearchField().setFieldValue(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC+"-"+searchCondition.getSearchField().getFieldValue());
+                }
+            }
+        }
+
+        if(CollectionUtils.isEmpty(searchParams.getSearchConditions())) {
+            searchParams.getSearchConditions().add(searchParams.buildSearchCondition("", searchParams.buildSearchField(oleSearchForm.getDocType(), "", ""), ""));
+        }
+        request.getSession().setAttribute("searchParams", searchParams);
+
+        SearchResponse searchResponse = null;
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(oleSearchForm.getDocType(), "LocalId_display"));
+        if(oleSearchForm.getDocType().equalsIgnoreCase("bibliographic")){
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(oleSearchForm.getDocType(), Bib.ID));
+        }else{
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(oleSearchForm.getDocType(), Bib.BIBIDENTIFIER));
+        }
+
+        if (oleSearchForm instanceof GlobalEditForm) {
+            if (((GlobalEditForm) oleSearchForm).isSelectAll()) {
+                searchParams.setStartIndex(0);
+            }
+        }
+        try {
+            if(oleSearchForm.getDocType().equalsIgnoreCase(DocType.BIB.getCode()) && searchParams.getSortConditions() != null && searchParams.getSortConditions().size() == 0) {
+                SortCondition sortCondition = new SortCondition();
+                sortCondition.setSortField("Title_sort");
+                sortCondition.setSortOrder("asc");
+                searchParams.getSortConditions().add(sortCondition);
+            }
+            searchResponse = getDocstoreLocalClient().search(searchParams);
+            StringBuilder ids = new StringBuilder();
+            for( SearchResult searchResult:searchResponse.getSearchResults()){
+               ids.append("," + searchResult.getSearchResultFields().get(0).getFieldValue() +"#"+ searchResult.getSearchResultFields().get(1).getFieldValue());
+            }
+            oleSearchForm.setIdsToBeOpened(ids.toString().replaceFirst(",",""));
+
+        } catch (Exception e) {
+            LOG.error("Exception : ", e);
+        }
+
+    }
+
 
 
 }

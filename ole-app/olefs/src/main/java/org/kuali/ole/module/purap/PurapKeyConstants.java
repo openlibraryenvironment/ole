@@ -386,4 +386,10 @@ public class PurapKeyConstants {
     public static final String ERROR_ERESOURCE_LINKED_TO_PLATFORM = "error.eresource.linked.to.platform";
     public static final String ERROR_PLATFORM_LINKED_TO_GOKB_ID = "error.platform.linked.to.gokb.id";
     public static final String ERROR_PLATFORM_SAME_NAME = "error.platform.same.name";
+	
+    public static final String ERROR_INVALID_FILE_FORMAT = "error.invalid.file.format";
+    public static final String SOURCE_FISCAL_YR_REQ = "error.source.year.required";
+    public static final String DEST_FISCAL_YR_REQ = "error.dest.year.required";
+    public static final String SELECT_FILE_TO_UPLOAD = "error.no.file.uploaded";
+    public static final String NO_BUDGET = "error.no.budget";	
 }

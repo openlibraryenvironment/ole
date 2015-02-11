@@ -223,10 +223,11 @@
                                 <para role="Table Cells">Chart Code</para>
                             </entry>
                             <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                <para role="Table Cells">A unique identifying code assigned to a
-                                    chart.  (Chart of Accounts is a reporting structure to group
-                                    accounts and financial activity together in one set of
+                                <para role="Table Cells">Required. A unique identifying code
+                                    assigned to a chart. (Chart of Accounts is a reporting structure
+                                    to group accounts and financial activity together in one set of
                                     workbooks, or documents, within OLE.) </para>
+                                <para>You cannot use a wildcard when searching on this field.</para>
                             </entry>
                         </row>
                         <row>

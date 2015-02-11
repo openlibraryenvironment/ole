@@ -28,6 +28,7 @@ import org.kuali.ole.select.lookup.DocLookupSearch;
 import org.kuali.ole.select.lookup.DocLookupServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.io.*;
@@ -139,7 +140,7 @@ public class PurchaseOrderEdi {
             lineCount++;
             String orderDate = "";
 
-            SimpleDateFormat sdf = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.KUALI_SIMPLE_DATE_FORMAT_2);
+            SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE, Locale.getDefault());
             if (po.getPurchaseOrderInitialOpenTimestamp() != null) {
                 orderDate = sdf.format(po.getPurchaseOrderInitialOpenTimestamp());
             } else {
@@ -147,7 +148,7 @@ public class PurchaseOrderEdi {
                 orderDate = sdf.format(getDateTimeService().getCurrentSqlDate());
             }
 
-            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE);
             Date date = formatter.parse(orderDate);
             String formattedDate = formatter.format(date);
 

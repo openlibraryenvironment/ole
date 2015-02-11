@@ -1,10 +1,12 @@
 package org.kuali.ole.deliver.batch;
 
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
@@ -13,21 +15,17 @@ import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
-import org.kuali.ole.docstore.common.document.Bib;
-import org.kuali.ole.docstore.common.document.Item;
-import org.kuali.ole.docstore.common.document.ItemOleml;
-import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
-import org.kuali.ole.docstore.common.search.SearchResponse;
-import org.kuali.ole.docstore.common.search.SearchResult;
-import org.kuali.ole.docstore.common.search.SearchResultField;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -45,8 +43,6 @@ import java.util.List;
 public class OleDeliverBatchServiceImpl {
 
     private LoanProcessor loanProcessor;
-    private Font boldFont = new Font(Font.TIMES_ROMAN, 15, Font.BOLD);
-    private Font ver_15_normal = FontFactory.getFont("VERDANA", 15, 0);
     private DocstoreClientLocator docstoreClientLocator;
     private OutputStream overdueOutPutStream=null;
     private Document overdueDocument=null;
@@ -92,6 +88,9 @@ public class OleDeliverBatchServiceImpl {
     }
 
     public Document getOverdueDocument() {
+        if(this.overdueDocument==null){
+            this.overdueDocument=new Document(PageSize.A4);
+        }
         return overdueDocument;
     }
 
@@ -138,7 +137,7 @@ public class OleDeliverBatchServiceImpl {
     }
 
     private void getTemplateFooter(OleNoticeBo noticeBo, StringBuffer stringBuffer) throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
         stringBuffer.append("<table>");
         if (!(noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_RECALL) || noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.CANCELLATION_NOTICE))) {
             stringBuffer.append("<TR><TD>Circulation Location/Library Name :</TD><TD>" + (noticeBo.getCirculationDeskName() != null ? noticeBo.getCirculationDeskName() : "") + "</TD></TR>");
@@ -164,7 +163,7 @@ public class OleDeliverBatchServiceImpl {
     }
 
     private void getTemplateFooterList(List<OleNoticeBo> noticeBoList, StringBuffer stringBuffer) throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
         for (int courtesy = 0; courtesy < noticeBoList.size(); courtesy++) {
             stringBuffer.append("<table>");
             if (courtesy == 0) {
@@ -189,7 +188,7 @@ public class OleDeliverBatchServiceImpl {
 
 
     private void getPickUpLocationTemplate(OleNoticeBo noticeBo, StringBuffer stringBuffer) throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
         stringBuffer.append("<table>");
         stringBuffer.append("<TR><TD>Pick up location :</TD><TD></TD></TR>");
         if (!noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_RECALL)) {
@@ -279,7 +278,7 @@ public class OleDeliverBatchServiceImpl {
     private Map getExpiredRequiredList(Map expReq, List expiredRequiredNoticeList) throws Exception {
         String smsExpiredReq = "";
         LoanProcessor loanProcessor = getLoanProcessor();
-        SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
         for (int exReq = 0; exReq < expiredRequiredNoticeList.size(); exReq++) {
             OleNoticeBo oleNoticeBo = (OleNoticeBo) expiredRequiredNoticeList.get(exReq);
             smsExpiredReq = loanProcessor.getParameter("EXP_REQ_TITLE") + "    " + "Circulation Location/Library Name :" + oleNoticeBo.getCirculationDeskName() + ",Address :" + oleNoticeBo.getCirculationDeskAddress() + ",Title :" + oleNoticeBo.getTitle() + ",Call Number :" + oleNoticeBo.getItemCallNumber() + ",Item was due :" + sdf.format(oleNoticeBo.getDueDate()).toString();
@@ -291,7 +290,7 @@ public class OleDeliverBatchServiceImpl {
     private Map getExpiredList(Map expire, List expiredNoticeList) throws Exception {
         String smsExpire = "";
         LoanProcessor loanProcessor = getLoanProcessor();
-        SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
         for (int exp = 0; exp < expiredNoticeList.size(); exp++) {
             OleNoticeBo oleNoticeBo = (OleNoticeBo) expiredNoticeList.get(exp);
             smsExpire = loanProcessor.getParameter(OLEParameterConstants.EXPIRED_TITLE) + "    " + "Circulation Location/Library Name :" + oleNoticeBo.getCirculationDeskName() + ",Address :" + oleNoticeBo.getCirculationDeskAddress() + ",Title :" + oleNoticeBo.getTitle() + ",Call Number :" + oleNoticeBo.getItemCallNumber() + ",Item was due :" + sdf.format(oleNoticeBo.getDueDate()).toString();
@@ -303,7 +302,7 @@ public class OleDeliverBatchServiceImpl {
     private Map getRecallList(Map rcall, List recallNoticeList) throws Exception {
         String smsRecall = "";
         LoanProcessor loanProcessor = getLoanProcessor();
-        SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
         for (int recall = 0; recall < recallNoticeList.size(); recall++) {
             OleNoticeBo oleNoticeBo = (OleNoticeBo) recallNoticeList.get(recall);
             smsRecall = loanProcessor.getParameter(OLEParameterConstants.RECALL_TITLE) + "    " + "Circulation Location/Library Name :" + oleNoticeBo.getCirculationDeskName() + ",Address :" + oleNoticeBo.getCirculationDeskAddress() + ",Title :" + oleNoticeBo.getTitle() + ",Call Number :" + oleNoticeBo.getItemCallNumber() + ",Original due date :" + sdf.format(oleNoticeBo.getDueDate()).toString() + ",New due date: " + sdf.format(oleNoticeBo.getNewDueDate());
@@ -315,7 +314,7 @@ public class OleDeliverBatchServiceImpl {
     private Map getHoldList(Map hod, List onHoldNoticeList) throws Exception {
         String smsHod = "";
         LoanProcessor loanProcessor = getLoanProcessor();
-        SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
         for (int hold = 0; hold < onHoldNoticeList.size(); hold++) {
             OleNoticeBo oleNoticeBo = (OleNoticeBo) onHoldNoticeList.get(hold);
             smsHod = loanProcessor.getParameter(OLEParameterConstants.ONHOLD_TITLE) + "    " + "Circulation Location/Library Name :" + oleNoticeBo.getCirculationDeskName() + ",Address :" + oleNoticeBo.getCirculationDeskAddress() + ",Title :" + oleNoticeBo.getTitle() + ",Call Number :" + oleNoticeBo.getItemCallNumber() + ",Item will be held until :" + sdf.format(oleNoticeBo.getDueDate()).toString() + ",Pick up location:" + oleNoticeBo.getCirculationDeskName() + ",Pick up location Address :" + oleNoticeBo.getCirculationDeskAddress();
@@ -328,7 +327,7 @@ public class OleDeliverBatchServiceImpl {
     private Map getOverDueList(Map overdue, List overDueNoticeList) throws Exception {
         String smsDue = "";
         LoanProcessor loanProcessor = getLoanProcessor();
-        SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
         for (int due = 0; due < overDueNoticeList.size(); due++) {
             OleNoticeBo oleNoticeBo = (OleNoticeBo) overDueNoticeList.get(due);
             smsDue = loanProcessor.getParameter(OLEParameterConstants.OVERDUE_TITLE) + "    " + "Circulation Location/Library Name :" + oleNoticeBo.getCirculationDeskName() + ",Address :" + oleNoticeBo.getCirculationDeskAddress() + ",Title :" + oleNoticeBo.getTitle() + ",Call Number :" + oleNoticeBo.getItemCallNumber() + ",Item was due :" + sdf.format(oleNoticeBo.getDueDate()).toString();
@@ -379,7 +378,7 @@ public class OleDeliverBatchServiceImpl {
         if (overDueNoticeList != null && overDueNoticeList.size() > 0) {
             getHTMLHeader(stringBuffer, loanProcessor.getParameter(OLEParameterConstants.OVERDUE_TITLE));
             getTemplateHeader(overDueNoticeList.get(0), stringBuffer);
-            getTemplateBody(stringBuffer, loanProcessor.getParameter(OLEParameterConstants.OVERDUE_TITLE), loanProcessor.getParameter(OLEParameterConstants.OVERDUE_BODY));
+            getTemplateBody(stringBuffer, loanProcessor.getParameter(OLEParameterConstants.OVERDUE_TITLE), loanProcessor.getParameter(OLEConstants.OleDeliverRequest.OVERDUE_NOTICE_CONTENT));
             getTemplateFooterList(overDueNoticeList, stringBuffer);
             getHTMLFooter(stringBuffer);
         }
@@ -408,7 +407,7 @@ public class OleDeliverBatchServiceImpl {
         if (expiredNoticeList != null && expiredNoticeList.size() > 0) {
             getHTMLHeader(stringBuffer, loanProcessor.getParameter(OLEParameterConstants.EXPIRED_TITLE));
             getTemplateHeader(expiredNoticeList.get(0), stringBuffer);
-            getTemplateBody(stringBuffer, loanProcessor.getParameter(OLEParameterConstants.EXPIRED_TITLE), loanProcessor.getParameter(OLEParameterConstants.EXPIRED_BODY));
+            getTemplateBody(stringBuffer, loanProcessor.getParameter(OLEParameterConstants.EXPIRED_TITLE), loanProcessor.getParameter(OLEConstants.OleDeliverRequest.EXP_HOLD_NOTICE_CONTENT));
 
             for (int exp = 0; exp < expiredNoticeList.size(); exp++) {
                 getTemplateFooter(noticeBo.get(exp), stringBuffer);
@@ -428,7 +427,7 @@ public class OleDeliverBatchServiceImpl {
         if (courtesyNoticeList != null && courtesyNoticeList.size() > 0) {
             getHTMLHeader(stringBuffer, loanProcessor.getParameter(OLEParameterConstants.COURTESY_TITLE));
             getTemplateHeader(courtesyNoticeList.get(0), stringBuffer);
-            getTemplateBody(stringBuffer, loanProcessor.getParameter(OLEParameterConstants.COURTESY_TITLE), loanProcessor.getParameter(OLEParameterConstants.COURTESY_BODY));
+            getTemplateBody(stringBuffer, loanProcessor.getParameter(OLEParameterConstants.COURTESY_TITLE), loanProcessor.getParameter(OLEConstants.OleDeliverRequest.COURTESY_NOTICE_CONTENT));
             getTemplateFooterList(courtesyNoticeList, stringBuffer);
             getHTMLFooter(stringBuffer);
         }
@@ -446,619 +445,6 @@ public class OleDeliverBatchServiceImpl {
         return templateForNoticeList;
     }
 
-    private OutputStream getPdfHeader(Document document, OutputStream outputStream, String title, String itemId) throws Exception {
-        StringBuffer stringBuffer = new StringBuffer();
-        String pdfLocationSystemParam = getLoanProcessor().getParameter(OLEParameterConstants.PDF_LOCATION);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("System Parameter for PDF_Location --> " + pdfLocationSystemParam);
-        }
-        if (pdfLocationSystemParam == null || pdfLocationSystemParam.trim().isEmpty()) {
-            pdfLocationSystemParam = ConfigContext.getCurrentContextConfig().getProperty("staging.directory") + "/";
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("System Parameter for PDF_Location staging dir--> " + pdfLocationSystemParam);
-            }
-        } else {
-            pdfLocationSystemParam = ConfigContext.getCurrentContextConfig().getProperty("homeDirectory") + "/" + pdfLocationSystemParam + "/";
-        }
-        boolean locationExist = new File(pdfLocationSystemParam).exists();
-        boolean fileCreated = false;
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Is directory Exist ::" + locationExist);
-        }
-        try {
-            if (!locationExist) {
-                fileCreated = new File(pdfLocationSystemParam).mkdirs();
-                if (!fileCreated) {
-                    throw new RuntimeException("Not Able to create directory :" + pdfLocationSystemParam);
-                }
-            }
-        } catch (Exception e) {
-            LOG.error("Exception occured while creating the directory : " + e.getMessage(), e);
-            throw e;
-        }
-
-        if (title == null || title.trim().isEmpty()) {
-            title = OLEConstants.ITEM_TITLE;
-        }
-        title = title.replaceAll(" ", "_");
-
-        if (itemId == null || itemId.trim().isEmpty()) {
-            itemId = OLEConstants.ITEM_ID;
-        }
-        String fileName = pdfLocationSystemParam + title + "_" + itemId + "_" + (new Date(System.currentTimeMillis())).toString().replaceAll(":","_") + ".pdf";
-        fileName = fileName.replace(" ","_");
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("File Created :" + title + "file name ::" + fileName + "::");
-        }
-        outputStream = new FileOutputStream(fileName);
-        PdfWriter writer = PdfWriter.getInstance(document, outputStream);
-        Font boldFont = new Font(Font.TIMES_ROMAN, 15, Font.BOLD);
-        Font ver_15_normal = FontFactory.getFont("VERDANA", 15, 0);
-        document.open();
-        document.newPage();
-        Paragraph paraGraph = new Paragraph();
-        paraGraph.setAlignment(Element.ALIGN_CENTER);
-        paraGraph.add(new Chunk(title, boldFont));
-        paraGraph.add(Chunk.NEWLINE);
-        document.add(paraGraph);
-        return outputStream;
-    }
-
-    public void createPdfForIntransitRequest(OleDeliverRequestBo oleDeliverRequestBo, HttpServletResponse response) {
-        LOG.debug("Creating pdf for intransit request");
-        String title = "InTransit Request";
-        OutputStream outputStream = null;
-        /*String pdfLocationSystemParam = getLoanProcessor().getParameter("PDF_LOCATION");
-        if (LOG.isInfoEnabled()) {
-            LOG.info("System Parameter for PDF_Location --> " + pdfLocationSystemParam);
-        }
-        if (pdfLocationSystemParam == null || pdfLocationSystemParam.trim().isEmpty()) {
-            pdfLocationSystemParam = ConfigContext.getCurrentContextConfig().getProperty("staging.directory") + "/";
-            if (LOG.isInfoEnabled()) {
-                LOG.info("System Parameter for PDF_Location staging dir--> " + pdfLocationSystemParam);
-            }
-        } else{
-            pdfLocationSystemParam = ConfigContext.getCurrentContextConfig().getProperty("homeDirectory")+ "/" + pdfLocationSystemParam +"/";
-        }
-        boolean locationExist = new File(pdfLocationSystemParam).exists();
-        boolean fileCreated = false;
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Is directory Exist ::" + locationExist);
-        }
-        try {
-            if (!locationExist) {
-                fileCreated = new File(pdfLocationSystemParam).mkdirs();
-                if (!fileCreated) {
-                    throw new RuntimeException("Not Able to create directory :" + pdfLocationSystemParam);
-                }
-            }
-        } catch (Exception e) {
-            LOG.error("Exception occured while creating the directory : " + e.getMessage(),e);
-
-        } */
-        String fileName = "IntransitRequestSlip" + "_" + oleDeliverRequestBo.getItemId() + "_" + new Date(System.currentTimeMillis()) + ".pdf";
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("File Created :" + title + "file name ::" + fileName + "::");
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
-        try {
-            String itemTitle = oleDeliverRequestBo.getTitle() != null ? oleDeliverRequestBo.getTitle() : "";
-            Date dateOfReq = oleDeliverRequestBo.getCreateDate()!=null?oleDeliverRequestBo.getCreateDate():null;
-            //String dateOfRequest = dateOfReq != null ? dateOfReq.toString() : "";
-            String circulationLocation = oleDeliverRequestBo.getCirculationLocationCode() != null ? oleDeliverRequestBo.getCirculationLocationCode() : "";
-            String itemBarcode = oleDeliverRequestBo.getItemId() != null ? oleDeliverRequestBo.getItemId() : "";
-            String patronBarcode = oleDeliverRequestBo.getBorrowerBarcode() != null ? oleDeliverRequestBo.getBorrowerBarcode() : "";
-            String requestType = oleDeliverRequestBo.getRequestTypeId() != null ? oleDeliverRequestBo.getRequestTypeId() : "";
-            boolean inTransitSlip = requestType.equalsIgnoreCase("8");
-
-            Document document = this.getDocument(0, 0, 5, 5);
-            //outputStream = new FileOutputStream(fileName);
-
-            response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
-            outputStream = response.getOutputStream();
-            PdfWriter.getInstance(document, outputStream);
-            Font boldFont = new Font(Font.TIMES_ROMAN, 15, Font.BOLD);
-            document.open();
-            document.newPage();
-            PdfPTable pdfTable = new PdfPTable(3);
-            pdfTable.setWidths(new int[]{20,2,30});
-            Paragraph paraGraph = new Paragraph();
-            if (inTransitSlip) {
-                paraGraph.setAlignment(Element.ALIGN_CENTER);
-                paraGraph.add(new Chunk("InTransit Request Slip", boldFont));
-            }
-            paraGraph.add(Chunk.NEWLINE);
-            paraGraph.add(Chunk.NEWLINE);
-            paraGraph.add(Chunk.NEWLINE);
-            document.add(paraGraph);
-            if (inTransitSlip) {
-                pdfTable.addCell(getPdfPCellInJustified("Date/Time "));
-                pdfTable.addCell(getPdfPCellInLeft(":"));
-                pdfTable.addCell(getPdfPCellInJustified(sdf.format(dateOfReq)));
-
-                pdfTable.addCell(getPdfPCellInJustified("Circulation Location"));
-                pdfTable.addCell(getPdfPCellInLeft(":"));
-                pdfTable.addCell(getPdfPCellInJustified(circulationLocation));
-
-                pdfTable.addCell(getPdfPCellInJustified("Item Barcode"));
-                pdfTable.addCell(getPdfPCellInLeft(":"));
-                pdfTable.addCell(getPdfPCellInJustified(itemBarcode));
-
-                pdfTable.addCell(getPdfPCellInJustified("Title"));
-                pdfTable.addCell(getPdfPCellInLeft(":"));
-                pdfTable.addCell(getPdfPCellInJustified(itemTitle));
-
-                pdfTable.addCell(getPdfPCellInJustified("Patron Barcode"));
-                pdfTable.addCell(getPdfPCellInLeft(":"));
-                pdfTable.addCell(getPdfPCellInJustified(patronBarcode));
-                document.add(pdfTable);
-            }
-            document.close();
-            outputStream.flush();
-            outputStream.close();
-        } catch (Exception e) {
-            LOG.error("Exception while creating Pdf For IntransitRequest", e);
-        }
-    }
-
-    private PdfPCell getPdfPCellInJustified(String chunk) {
-        PdfPCell pdfPCell = new PdfPCell(new Paragraph(new Chunk(chunk)));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        return pdfPCell;
-    }
-
-    private PdfPCell getPdfPCellInLeft(String chunk) {
-        PdfPCell pdfPCell = new PdfPCell(new Paragraph(new Chunk(chunk)));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        return pdfPCell;
-    }
-
-    public Document getDocument(float f1, float f2, float f3, float f4) {
-        Document document = new Document(PageSize.A4);
-        document.setMargins(f1, f2, f3, f4);
-        return document;
-    }
-
-    private void getPdfTemplateHeader(OleNoticeBo noticeBo, Document document) throws Exception {
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Header for the notice" + noticeBo.getNoticeName() + noticeBo.getItemId());
-        }
-          //PdfPTable pdfTable = new PdfPTable(3);
-//        PdfPCell pdfPCell = new PdfPCell(new Paragraph("Circulation Location / Library Name"));
-//        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-//        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-//        pdfTable.addCell(pdfPCell);
-//        pdfPCell = new PdfPCell(new Paragraph(":"));
-//        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-//        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-//        pdfTable.addCell(pdfPCell);
-//        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getCirculationDeskName() != null ? noticeBo.getCirculationDeskName() : "")));
-//        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-//        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-//        pdfTable.addCell(pdfPCell);
-//        pdfPCell = new PdfPCell(new Paragraph(new Chunk("Address")));
-//        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-//        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-//        pdfTable.addCell(pdfPCell);
-//        pdfPCell = new PdfPCell(new Paragraph(":"));
-//        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-//        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-//        pdfTable.addCell(pdfPCell);
-//        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getPatronAddress() != null ? noticeBo.getPatronAddress() : "")));
-//        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-//        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-//        pdfTable.addCell(pdfPCell);
-//        pdfPCell = new PdfPCell(new Paragraph(new Chunk("Email")));
-//        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-//        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-//        pdfTable.addCell(pdfPCell);
-//        pdfPCell = new PdfPCell(new Paragraph(":"));
-//        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-//        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-//        pdfTable.addCell(pdfPCell);
-//        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getPatronEmailAddress() != null ? noticeBo.getPatronEmailAddress() : "")));
-//        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-//        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-//        pdfTable.addCell(pdfPCell);
-//        pdfPCell = new PdfPCell(new Paragraph(new Chunk("Phone #")));
-//        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-//        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-//        pdfTable.addCell(pdfPCell);
-//        pdfPCell = new PdfPCell(new Paragraph(":"));
-//        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-//        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-//        pdfTable.addCell(pdfPCell);
-//        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getPatronPhoneNumber() != null ? noticeBo.getPatronPhoneNumber() : "")));
-//        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-//        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-//        pdfTable.addCell(pdfPCell);
-//        document.add(pdfTable);
-        Paragraph paraGraph = new Paragraph();
-        paraGraph.add(Chunk.NEWLINE);
-        document.add(paraGraph);
-        paraGraph = new Paragraph();
-        paraGraph.add(new Chunk("Patron information", boldFont));
-        paraGraph.add(Chunk.NEWLINE);
-        paraGraph.add(Chunk.NEWLINE);
-        document.add(paraGraph);
-
-        PdfPTable pdfTable = new PdfPTable(3);
-        pdfTable.setWidths(new int[]{20,2,30});
-        PdfPCell pdfPCell= new PdfPCell(new Paragraph("Patron Name"));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(":"));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getPatronName() != null ? noticeBo.getPatronName() : "")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk("Address")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(":"));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getPatronAddress() != null ? noticeBo.getPatronAddress() : "")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk("Email")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(":"));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getPatronEmailAddress() != null ? noticeBo.getPatronEmailAddress() : "")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk("Phone #")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(":"));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getPatronPhoneNumber() != null ? noticeBo.getPatronPhoneNumber() : "")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        document.add(pdfTable);
-        paraGraph = new Paragraph();
-        paraGraph.add(Chunk.NEWLINE);
-        document.add(paraGraph);
-
-
-    }
-
-    private void getPdfTemplateBody(Document document, String title, String body) throws Exception {
-        //Notice Type
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Body Content of the notice :" + title);
-        }
-        Paragraph paraGraph = new Paragraph();
-        paraGraph.add(new Chunk(title, boldFont));
-        paraGraph.setAlignment(Element.ALIGN_CENTER);
-        paraGraph.add(Chunk.NEWLINE);
-        paraGraph.add(Chunk.NEWLINE);
-        document.add(paraGraph);
-
-
-        //Notice-specific text
-        paraGraph = new Paragraph();
-        paraGraph.add(new Chunk(body, boldFont));
-        paraGraph.setAlignment(Element.ALIGN_CENTER);
-        paraGraph.add(Chunk.NEWLINE);
-        paraGraph.add(Chunk.NEWLINE);
-        document.add(paraGraph);
-    }
-
-    private void getPdfTemplateFooter(OleNoticeBo noticeBo, Document document) throws Exception {
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Footer for the notice : " + noticeBo.getNoticeName() + noticeBo.getItemId());
-        }
-        SimpleDateFormat dateFormat = new SimpleDateFormat(OLEConstants.DATEFORMAT);
-        SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
-        Paragraph paraGraph = new Paragraph();
-        paraGraph.add(new Chunk("Title/item information", boldFont));
-        paraGraph.add(Chunk.NEWLINE);
-        paraGraph.add(Chunk.NEWLINE);
-        document.add(paraGraph);
-        PdfPTable pdfTable = new PdfPTable(3);
-        pdfTable.setWidths(new int[]{20,2,30});
-        PdfPCell pdfPCell;
-        if (!noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_RECALL)) {
-            pdfPCell = new PdfPCell(new Paragraph("Circulation Location / Library Name"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getCirculationDeskName() != null ? noticeBo.getCirculationDeskName() : "")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-        }
-        pdfPCell = new PdfPCell(new Paragraph("Title "));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(":"));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getTitle() == null ? "" : noticeBo.getTitle())));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk("Author ")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(":"));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getAuthor() == null ? "" : noticeBo.getAuthor())));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk("Volume/Issue/Copy # ")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(":"));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-        if(!noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_RECALL)){
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getVolumeNumber() == null ? "" : noticeBo.getVolumeNumber())));
-        }else{
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getVolumeIssueCopyNumber() == null ? "" : noticeBo.getVolumeIssueCopyNumber())));
-        }
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk("Library shelving location ")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(":"));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getItemShelvingLocation() == null ? "" : noticeBo.getItemShelvingLocation())));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk("Call # ")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(":"));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getItemCallNumber() == null ? "" : noticeBo.getItemCallNumber())));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk("Item barcode")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(":"));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getItemId() == null ? "" : noticeBo.getItemId())));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-        pdfTable.addCell(pdfPCell);
-        if (noticeBo.getExpiredOnHoldDate() != null) {
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Expiration onHoldDate")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getExpiredOnHoldDate() == null ? "" : dateFormat.format(noticeBo.getExpiredOnHoldDate()))));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-        }
-        document.add(pdfTable);
-        paraGraph = new Paragraph();
-        paraGraph.add(Chunk.NEWLINE);
-        document.add(paraGraph);
-
-        //Information specific text
-  /*          paraGraph = new Paragraph();
-            paraGraph.add(new Chunk("Information specific text",boldFont));
-            paraGraph.add(Chunk.NEWLINE);
-            document.add(paraGraph);*/
-        if (noticeBo.getNoticeName().equals(OLEConstants.NOTICE_RECALL)) {
-            if (LOG.isDebugEnabled()){
-                LOG.debug("Recall Notice Footer Content : " + noticeBo.getNoticeName() + noticeBo.getItemId());
-            }
-            pdfTable = new PdfPTable(3);
-            pdfTable.setWidths(new int[]{20,2,30});
-            pdfPCell = new PdfPCell(new Paragraph("Original Due Date"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getOriginalDueDate() == null ? "" : sdf.format(noticeBo.getOriginalDueDate()))));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("New Due Date")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getNewDueDate() == null ? "" : sdf.format(noticeBo.getNewDueDate()))));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            document.add(pdfTable);
-            paraGraph = new Paragraph();
-            paraGraph.add(Chunk.NEWLINE);
-            document.add(paraGraph);
-        } else if (noticeBo.getNoticeName().equals("OnHold")) {
-            if (LOG.isDebugEnabled()){
-                LOG.debug("OnHold Notice Footer Content : " + noticeBo.getNoticeName() + noticeBo.getItemId());
-            }
-            pdfTable = new PdfPTable(3);
-            pdfTable.setWidths(new int[]{20,2,30});
-            pdfPCell = new PdfPCell(new Paragraph("Pick Up Location"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getPickUpLocation() != null ? noticeBo.getPickUpLocation() : "")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph("Circulation Location / Library Name"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getCirculationDeskName() != null ? noticeBo.getCirculationDeskName() : "")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Address")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getPatronAddress() != null ? noticeBo.getPatronAddress() : "")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Email")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getPatronEmailAddress() != null ? noticeBo.getPatronEmailAddress() : "")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Phone #")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getPatronPhoneNumber() != null ? noticeBo.getPatronPhoneNumber() : "")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            document.add(pdfTable);
-            paraGraph = new Paragraph();
-            paraGraph.add(Chunk.NEWLINE);
-            document.add(paraGraph);
-            pdfTable = new PdfPTable(3);
-            pdfTable.setWidths(new int[]{20,2,30});
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Item Will Be Held until")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getExpiredOnHoldDate() != null ? dateFormat.format(noticeBo.getExpiredOnHoldDate().toString()) : "")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            document.add(pdfTable);
-            paraGraph = new Paragraph();
-            paraGraph.add(Chunk.NEWLINE);
-            document.add(paraGraph);
-        } else if (noticeBo.getNoticeName().equals("OverdueNotice")) {
-            if (LOG.isDebugEnabled()){
-                LOG.debug("OverdueNotice Footer Content : " + noticeBo.getNoticeName() + noticeBo.getItemId());
-            }
-            pdfTable = new PdfPTable(3);
-            pdfTable.setWidths(new int[]{20,2,30});
-            pdfPCell = new PdfPCell(new Paragraph("Item was due"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getDueDate() == null ? "" : (sdf.format(noticeBo.getDueDate())))));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            document.add(pdfTable);
-            paraGraph = new Paragraph();
-            paraGraph.add(Chunk.NEWLINE);
-            document.add(paraGraph);
-        }
-
-    }
-
-    public void getPdfFooter(Document document, OutputStream outputStream) throws Exception {
-        String url = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
-        String myAccountURL = loanProcessor.getParameter(OLEConstants.MY_ACCOUNT_URL);
-        if(myAccountURL!=null && !myAccountURL.trim().isEmpty()){
-        ver_15_normal.setColor(Color.blue);
-        ver_15_normal.setStyle(Font.UNDERLINE);
-        Anchor anchor = new Anchor("MyAccount", ver_15_normal);
-        anchor.setName("My Account");
-        anchor.setReference(myAccountURL);
-        Paragraph paraGraph = new Paragraph();
-        paraGraph.add(anchor);
-        paraGraph.setAlignment(Element.ALIGN_CENTER);
-        document.add(paraGraph);
-        }
-        outputStream.flush();
-        document.close();
-        outputStream.close();
-    }
 
     public List getPdfNoticeForPatron(List<OleNoticeBo> noticeBoList) throws Exception {
         return getPdfTemplate(noticeBoList);
@@ -1068,7 +454,7 @@ public class OleDeliverBatchServiceImpl {
         List templateForNoticeList = new ArrayList();
         LOG.debug("In getPdfTemplate()");
         try {
-            Document document = new Document(PageSize.A4);
+            Document document = getOverdueDocument();
             OutputStream outputStream = null;
 
             List<OleNoticeBo> overDueNoticeList = new ArrayList<OleNoticeBo>();
@@ -1103,7 +489,7 @@ public class OleDeliverBatchServiceImpl {
             if (overDueNoticeList != null && overDueNoticeList.size() > 0) {
                 outputStream = getPdfHeader(document, outputStream, loanProcessor.getParameter(OLEParameterConstants.OVERDUE_TITLE), overDueNoticeList.get(0).getItemId());
                 getPdfTemplateHeader(overDueNoticeList.get(0), document);
-                getPdfTemplateBody(document, loanProcessor.getParameter(OLEParameterConstants.OVERDUE_TITLE), loanProcessor.getParameter(OLEParameterConstants.OVERDUE_BODY));
+                getPdfTemplateBody(document, loanProcessor.getParameter(OLEParameterConstants.OVERDUE_TITLE), loanProcessor.getParameter(OLEConstants.OleDeliverRequest.OVERDUE_NOTICE_CONTENT));
                 getPdfTemplateFooterList(overDueNoticeList, document);
                 getPdfFooter(document, outputStream);
             }
@@ -1132,7 +518,7 @@ public class OleDeliverBatchServiceImpl {
             if (expiredNoticeList != null && expiredNoticeList.size() > 0) {
                 outputStream = getPdfHeader(document, outputStream, loanProcessor.getParameter(OLEParameterConstants.EXPIRED_TITLE), expiredNoticeList.get(0).getItemId());
                 getPdfTemplateHeader(expiredNoticeList.get(0), document);
-                getPdfTemplateBody(document, loanProcessor.getParameter(OLEParameterConstants.EXPIRED_TITLE), loanProcessor.getParameter(OLEParameterConstants.EXPIRED_BODY));
+                getPdfTemplateBody(document, loanProcessor.getParameter(OLEConstants.OleDeliverRequest.EXP_HOLD_NOTICE_CONTENT), loanProcessor.getParameter(OLEConstants.OleDeliverRequest.EXP_HOLD_NOTICE_CONTENT));
                 for (int exp = 0; exp < expiredNoticeList.size(); exp++) {
                     getPdfTemplateFooter(noticeBoList.get(exp), document);
                 }
@@ -1151,7 +537,7 @@ public class OleDeliverBatchServiceImpl {
             if (courtesyNoticeList != null && courtesyNoticeList.size() > 0) {
                 outputStream = getPdfHeader(document, outputStream, loanProcessor.getParameter(OLEParameterConstants.COURTESY_TITLE), courtesyNoticeList.get(0).getItemId());
                 getPdfTemplateHeader(courtesyNoticeList.get(0), document);
-                getPdfTemplateBody(document, loanProcessor.getParameter(OLEParameterConstants.COURTESY_TITLE), loanProcessor.getParameter(OLEParameterConstants.COURTESY_BODY));
+                getPdfTemplateBody(document, loanProcessor.getParameter(OLEParameterConstants.COURTESY_TITLE), loanProcessor.getParameter(OLEConstants.OleDeliverRequest.COURTESY_NOTICE_CONTENT));
                 getPdfTemplateFooterList(courtesyNoticeList, document);
                 getPdfFooter(document, outputStream);
             }
@@ -1177,7 +563,7 @@ public class OleDeliverBatchServiceImpl {
 
     public String sendMissingNotice(OleNoticeBo oleNoticeBo) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
 
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("<HTML>");
@@ -1215,137 +601,7 @@ public class OleDeliverBatchServiceImpl {
         stringBuffer.append("</HTML>");
         return stringBuffer.toString();
     }
-    public void getPdfPickUpNotice(OleNoticeBo noticeBo) throws Exception{
-        if (LOG.isDebugEnabled()){
-            LOG.debug("PickUp notice : " + noticeBo.getNoticeName() + noticeBo.getItemId());
-        }
-        Document document = new Document(PageSize.A4);
-        OutputStream outputStream = null;
-        outputStream = getPdfHeader(document, outputStream,getLoanProcessor().getParameter(OLEParameterConstants.PICKUP_TITLE), noticeBo.getItemId());
-        document.setPageCount(3);
-        PdfPTable pdfTable = new PdfPTable(1);
 
-        PdfPCell pdfPCell = new PdfPCell(new Paragraph(Chunk.NEWLINE));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfTable.addCell(pdfPCell);
-
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk((noticeBo.getPatronName() != null) ? noticeBo.getPatronName().toString() : "")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk((noticeBo.getPatronAddress() != null) ? noticeBo.getPatronAddress().toString() : "")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk((noticeBo.getPatronEmailAddress() != null) ? noticeBo.getPatronEmailAddress().toString() : "")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk((noticeBo.getPatronPhoneNumber() != null) ? noticeBo.getPatronPhoneNumber().toString() : "")));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-
-        document.add(pdfTable);
-
-        pdfTable = new PdfPTable(1);
-        pdfTable.setWidths(new int[]{10});
-
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getNoticeName(),boldFont)));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_CENTER);
-        pdfTable.addCell(pdfPCell);
-
-        pdfPCell = new PdfPCell(new Paragraph(Chunk.NEWLINE));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfTable.addCell(pdfPCell);
-
-        pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getNoticeSpecificContent())));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-
-        pdfPCell = new PdfPCell(new Paragraph(Chunk.NEWLINE));
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfTable.addCell(pdfPCell);
-
-        pdfPCell = new PdfPCell(new Paragraph("Thank you."));
-
-        Paragraph paraGraph = new Paragraph();
-        paraGraph.add(Chunk.NEWLINE);
-        document.add(paraGraph);
-
-        pdfPCell.setBorder(pdfPCell.NO_BORDER);
-        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfTable.addCell(pdfPCell);
-
-        document.add(pdfTable);
-
-        paraGraph = new Paragraph();
-        paraGraph.add(Chunk.NEWLINE);
-        document.add(paraGraph);
-
-        PdfPTable pdfItemTable = new PdfPTable(3);
-        pdfItemTable.setWidths(new int[]{10,2,30});
-
-        String author=((noticeBo.getAuthor() != null) ? noticeBo.getAuthor().toString() : "");
-        String title=((noticeBo.getTitle() != null) ? noticeBo.getTitle().toString() : "");
-        String callNumber=((noticeBo.getItemCallNumber()!=null)?noticeBo.getItemCallNumber().toString():"");
-
-        PdfPCell pdfItemCell = new PdfPCell(new Paragraph(new Chunk("Title")));
-        pdfItemCell.setBorder(pdfPCell.NO_BORDER);
-        pdfItemCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfItemTable.addCell(pdfItemCell);
-
-        pdfItemCell = new PdfPCell(new Paragraph(new Chunk(":")));
-        pdfItemCell.setBorder(pdfPCell.NO_BORDER);
-        pdfItemCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfItemTable.addCell(pdfItemCell);
-
-        pdfItemCell = new PdfPCell(new Paragraph(new Chunk(title)));
-        pdfItemCell.setBorder(pdfPCell.NO_BORDER);
-        pdfItemCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfItemTable.addCell(pdfItemCell);
-
-        pdfItemCell = new PdfPCell(new Paragraph(new Chunk("Author")));
-        pdfItemCell.setBorder(pdfPCell.NO_BORDER);
-        pdfItemCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfItemTable.addCell(pdfItemCell);
-
-        pdfItemCell = new PdfPCell(new Paragraph(new Chunk(":")));
-        pdfItemCell.setBorder(pdfPCell.NO_BORDER);
-        pdfItemCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfItemTable.addCell(pdfItemCell);
-
-        pdfItemCell = new PdfPCell(new Paragraph(new Chunk(author)));
-        pdfItemCell.setBorder(pdfPCell.NO_BORDER);
-        pdfItemCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfItemTable.addCell(pdfItemCell);
-
-        pdfItemCell = new PdfPCell(new Paragraph(new Chunk("Call Number")));
-        pdfItemCell.setBorder(pdfPCell.NO_BORDER);
-        pdfItemCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfItemTable.addCell(pdfItemCell);
-
-        pdfItemCell = new PdfPCell(new Paragraph(new Chunk(":")));
-        pdfItemCell.setBorder(pdfPCell.NO_BORDER);
-        pdfItemCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfItemTable.addCell(pdfItemCell);
-
-        pdfItemCell = new PdfPCell(new Paragraph(new Chunk(callNumber)));
-        pdfItemCell.setBorder(pdfPCell.NO_BORDER);
-        pdfItemCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-        pdfItemTable.addCell(pdfItemCell);
-
-        document.add(pdfItemTable);
-
-        document.close();
-        outputStream.close();
-
-    }
     public String getEmailPickUpNotice(OleNoticeBo noticeBo) throws Exception {
         StringBuffer stringBuffer=new StringBuffer();
         stringBuffer.append("<TABLE>");
@@ -1398,7 +654,7 @@ public class OleDeliverBatchServiceImpl {
         }catch(Exception e){
             LOG.error("Exception while generating mail content from patron bill",e);
         }
-        SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
         contentForSendMail.append("<HTML>");
         contentForSendMail.append("<TITLE><CENTER><h2>"+ feeTypeName + " Bill </h2></CENTER></TITLE>");
         contentForSendMail.append("<HEAD><TR><TD><CENTER><h2>" + feeTypeName + "<h2></CENTER></TD></TR></HEAD>");
@@ -1420,7 +676,7 @@ public class OleDeliverBatchServiceImpl {
         contentForSendMail.append("<TABLE></BR></BR>");
         contentForSendMail.append("<TR><TD>Bill Number</TD><TD>:</TD><TD>" + patronBillPayment.getBillNumber() + "</TD></TR>");
         contentForSendMail.append("<TR><TD>Fee Type</TD><TD>:</TD><TD>" + feeTypeName + "</TD></TR>");
-        contentForSendMail.append("<TR><TD>Fee Amount</TD><TD>:</TD><TD>" +"$"+ fineAmount + "</TD></TR>");
+        contentForSendMail.append("<TR><TD>Fee Amount</TD><TD>:</TD><TD>" + CurrencyFormatter.getSymbolForCurrencyPattern() + fineAmount + "</TD></TR>");
         contentForSendMail.append("<TR><TD>Item Barcode</TD><TD>:</TD><TD>" + oleLoanDocument.getItemId() + "</TD></TR>");
     /*    try {
             org.kuali.ole.docstore.common.document.Item item = new ItemOleml();
@@ -1501,159 +757,10 @@ public class OleDeliverBatchServiceImpl {
         return contentForSendMail.toString();
     }
 
-    public void getPdfTemplateFooterList(List<OleNoticeBo> oleNoticeBoList, Document document) throws Exception {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(OLEConstants.DATEFORMAT);
-        SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
-        int count = 0;
-        for (OleNoticeBo noticeBo : oleNoticeBoList) {
-            if (LOG.isDebugEnabled()){
-                LOG.debug("Footer for the notice : " + noticeBo.getNoticeName() + noticeBo.getItemId());
-            }
-            Paragraph paraGraph = new Paragraph();
-            if (count == 0) {
-                paraGraph.add(new Chunk("Title/item information", boldFont));
-            }
-            paraGraph.add(Chunk.NEWLINE);
-            paraGraph.add(Chunk.NEWLINE);
-            document.add(paraGraph);
-            PdfPTable pdfTable = new PdfPTable(3);
-            pdfTable.setWidths(new int[]{20, 2, 30});
-            PdfPCell pdfPCell;
-            if (!noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_RECALL)) {
-                pdfPCell = new PdfPCell(new Paragraph("Circulation Location / Library Name"));
-                pdfPCell.setBorder(pdfPCell.NO_BORDER);
-                pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-                pdfTable.addCell(pdfPCell);
-                pdfPCell = new PdfPCell(new Paragraph(":"));
-                pdfPCell.setBorder(pdfPCell.NO_BORDER);
-                pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-                pdfTable.addCell(pdfPCell);
-                pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getCirculationDeskName() != null ? noticeBo.getCirculationDeskName() : "")));
-                pdfPCell.setBorder(pdfPCell.NO_BORDER);
-                pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-                pdfTable.addCell(pdfPCell);
-            }
-            pdfPCell = new PdfPCell(new Paragraph("Title "));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getTitle() == null ? "" : noticeBo.getTitle())));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Author ")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getAuthor() == null ? "" : noticeBo.getAuthor())));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Volume/Issue/Copy # ")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getVolumeNumber() == null ? "" : noticeBo.getVolumeNumber())));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Library shelving location ")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getItemShelvingLocation() == null ? "" : noticeBo.getItemShelvingLocation())));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Call # ")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getItemCallNumber() == null ? "" : noticeBo.getItemCallNumber())));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Item barcode")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getItemId() == null ? "" : noticeBo.getItemId())));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            if (noticeBo.getExpiredOnHoldDate() != null) {
-                pdfPCell = new PdfPCell(new Paragraph(new Chunk("Expiration onHoldDate")));
-                pdfPCell.setBorder(pdfPCell.NO_BORDER);
-                pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-                pdfTable.addCell(pdfPCell);
-                pdfPCell = new PdfPCell(new Paragraph(":"));
-                pdfPCell.setBorder(pdfPCell.NO_BORDER);
-                pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-                pdfTable.addCell(pdfPCell);
-                pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getExpiredOnHoldDate() == null ? "" : dateFormat.format(noticeBo.getExpiredOnHoldDate()))));
-                pdfPCell.setBorder(pdfPCell.NO_BORDER);
-                pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-                pdfTable.addCell(pdfPCell);
-            }
-            document.add(pdfTable);
-            paraGraph = new Paragraph();
-            paraGraph.add(Chunk.NEWLINE);
-            document.add(paraGraph);
-            if (noticeBo.getNoticeName().equals("OverdueNotice")) {
-                if (LOG.isDebugEnabled()){
-                    LOG.debug("OverdueNotice Footer Content : " + noticeBo.getNoticeName() + noticeBo.getItemId());
-                }
-                pdfTable = new PdfPTable(3);
-                pdfTable.setWidths(new int[]{20, 2, 30});
-
-                pdfPCell = new PdfPCell(new Paragraph("Item was due"));
-                pdfPCell.setBorder(pdfPCell.NO_BORDER);
-                pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-                pdfTable.addCell(pdfPCell);
-                pdfPCell = new PdfPCell(new Paragraph(":"));
-                pdfPCell.setBorder(pdfPCell.NO_BORDER);
-                pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-                pdfTable.addCell(pdfPCell);
-                pdfPCell = new PdfPCell(new Paragraph(new Chunk(noticeBo.getDueDate() == null ? "" : (sdf.format(noticeBo.getDueDate()).toString()))));
-                pdfPCell.setBorder(pdfPCell.NO_BORDER);
-                pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-                pdfTable.addCell(pdfPCell);
-                document.add(pdfTable);
-                paraGraph = new Paragraph();
-                paraGraph.add(Chunk.NEWLINE);
-                document.add(paraGraph);
-            }
-            count++;
-        }
-    }
 
     public  String getOverdueNoticeHTMLContent(OleLoanDocument  oleLoanDocument){
-        SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
         StringBuffer stringBuffer = new StringBuffer();
         try {
         stringBuffer.append("<table>");
@@ -1692,10 +799,10 @@ public class OleDeliverBatchServiceImpl {
         StringBuffer stringBuffer = new StringBuffer();
         try{
         String title = getLoanProcessor().getParameter(OLEParameterConstants.OVERDUE_TITLE);
-        String body = getLoanProcessor().getParameter(OLEParameterConstants.OVERDUE_BODY);
+        String body = getLoanProcessor().getParameter(OLEConstants.OleDeliverRequest.OVERDUE_NOTICE_CONTENT);
         if(!isOverdue){
             title=loanProcessor.getParameter(OLEParameterConstants.COURTESY_TITLE);
-            body=loanProcessor.getParameter(OLEParameterConstants.COURTESY_BODY);
+            body=loanProcessor.getParameter(OLEConstants.OleDeliverRequest.COURTESY_NOTICE_CONTENT);
         }
         OleDeliverRequestDocumentHelperServiceImpl deliverService = new OleDeliverRequestDocumentHelperServiceImpl();
         EntityTypeContactInfoBo entityTypeContactInfoBo = olePatronDocument.getEntity().getEntityTypeContactInfos().get(0);
@@ -1728,15 +835,635 @@ public class OleDeliverBatchServiceImpl {
         return stringBuffer.toString();
     }
 
+
+    /* This section is related  to generation of pdf notices */
+
+    public Font getDefaultFont(){
+        com.itextpdf.text.Font font = FontFactory.getFont(getFontFilePath("org/kuali/ole/deliver/batch/fonts/ARIALUNI.TTF"), BaseFont.IDENTITY_H,10);
+        return font;
+    }
+
+    public Font getFont(String data) {
+        String myData = new String(data);
+        List<Character.UnicodeBlock> unicodeBlocks = new ArrayList<>();
+        if (StringUtils.isNotBlank(myData)) {
+            unicodeBlocks = getListOfLanguage(myData);
+        }
+        if (unicodeBlocks.contains(Character.UnicodeBlock.ARABIC)) {
+            com.itextpdf.text.Font font = FontFactory.getFont(getFontFilePath("org/kuali/ole/deliver/batch/fonts/arial.ttf"), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            return font;
+        } else {
+            return getDefaultFont();
+        }
+    }
+
+    public Font getBoldFont(){
+        return FontFactory.getFont(FontFactory.TIMES_ROMAN, 15, Font.BOLD);
+    }
+
+    private PdfPCell getPdfPCellInJustified(String chunk) {
+        PdfPCell pdfPCell = new PdfPCell(new Paragraph(new Chunk(chunk, getFont(chunk))));
+        pdfPCell.setBorder(pdfPCell.NO_BORDER);
+        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
+        return pdfPCell;
+    }
+
+    private List<Character.UnicodeBlock> getListOfLanguage(String data){
+        Set<Character.UnicodeBlock> languageSet=new HashSet<Character.UnicodeBlock>();
+        char[] valueArray = data.toCharArray();
+        for(int counter=0;counter<valueArray.length;counter++){
+            languageSet.add(Character.UnicodeBlock.of(valueArray[counter]));
+        }
+        return (new ArrayList<Character.UnicodeBlock>(languageSet));
+    }
+
+    private PdfPCell getPdfPCellInLeft(String chunk) {
+        PdfPCell pdfPCell = new PdfPCell(new Paragraph(new Chunk(chunk, getDefaultFont())));
+        pdfPCell.setBorder(pdfPCell.NO_BORDER);
+        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
+        return pdfPCell;
+    }
+
+    private PdfPCell getPdfPCellInCenter(String chunk) {
+        PdfPCell pdfPCell = new PdfPCell(new Paragraph(new Chunk(chunk, getDefaultFont())));
+        pdfPCell.setBorder(pdfPCell.NO_BORDER);
+        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
+        return pdfPCell;
+    }
+
+    private PdfPCell getPdfPCellInCenter(String chunk,Font font) {
+        PdfPCell pdfPCell = new PdfPCell(new Paragraph(new Chunk(chunk,font)));
+        pdfPCell.setBorder(pdfPCell.NO_BORDER);
+        pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
+        return pdfPCell;
+    }
+
+    private PdfPCell getPdfPCellNewLine() {
+        PdfPCell pdfPCell = new PdfPCell(new Paragraph(Chunk.NEWLINE));
+        pdfPCell.setBorder(pdfPCell.NO_BORDER);
+        return pdfPCell;
+    }
+
+    private Paragraph getPdfParagraphNewLine() {
+        Paragraph paragraph = new Paragraph(new Paragraph(Chunk.NEWLINE));
+        return paragraph;
+    }
+
+    public String getFontFilePath(String classpathRelativePath)  {
+        try {
+            Resource rsrc = new ClassPathResource(classpathRelativePath);
+            return rsrc.getFile().getAbsolutePath();
+        } catch(Exception e){
+            LOG.error("Error : while accessing font file "+e);
+        }
+        return null;
+    }
+
+    private OutputStream getPdfHeader(Document document, OutputStream outputStream, String title, String itemId) throws Exception {
+        StringBuffer stringBuffer = new StringBuffer();
+        String pdfLocationSystemParam = getLoanProcessor().getParameter(OLEParameterConstants.PDF_LOCATION);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("System Parameter for PDF_Location --> " + pdfLocationSystemParam);
+        }
+        if (pdfLocationSystemParam == null || pdfLocationSystemParam.trim().isEmpty()) {
+            pdfLocationSystemParam = ConfigContext.getCurrentContextConfig().getProperty("staging.directory") + "/";
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("System Parameter for PDF_Location staging dir--> " + pdfLocationSystemParam);
+            }
+        } else {
+            pdfLocationSystemParam = ConfigContext.getCurrentContextConfig().getProperty("homeDirectory") + "/" + pdfLocationSystemParam + "/";
+        }
+        boolean locationExist = new File(pdfLocationSystemParam).exists();
+        boolean fileCreated = false;
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Is directory Exist ::" + locationExist);
+        }
+        try {
+            if (!locationExist) {
+                fileCreated = new File(pdfLocationSystemParam).mkdirs();
+                if (!fileCreated) {
+                    throw new RuntimeException("Not Able to create directory :" + pdfLocationSystemParam);
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception occured while creating the directory : " + e.getMessage(), e);
+            throw e;
+        }
+
+        if (title == null || title.trim().isEmpty()) {
+            title = OLEConstants.ITEM_TITLE;
+        }
+        title = title.replaceAll(" ", "_");
+
+        if (itemId == null || itemId.trim().isEmpty()) {
+            itemId = OLEConstants.ITEM_ID;
+        }
+        String fileName = pdfLocationSystemParam + title + "_" + itemId + "_" + (new Date(System.currentTimeMillis())).toString().replaceAll(":","_") + ".pdf";
+        fileName = fileName.replace(" ","_");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("File Created :" + title + "file name ::" + fileName + "::");
+        }
+        outputStream = new FileOutputStream(fileName);
+        PdfWriter writer = PdfWriter.getInstance(document, outputStream);
+        document.open();
+        document.newPage();
+        Paragraph paraGraph = new Paragraph();
+        paraGraph.setAlignment(Element.ALIGN_CENTER);
+        paraGraph.add(new Chunk(title, getBoldFont()));
+        paraGraph.add(Chunk.NEWLINE);
+        document.add(paraGraph);
+        return outputStream;
+    }
+
+    public void createPdfForIntransitRequest(OleDeliverRequestBo oleDeliverRequestBo, HttpServletResponse response) {
+        LOG.debug("Creating pdf for intransit request");
+        String title = "InTransit Request";
+        OutputStream outputStream = null;
+        String fileName = "IntransitRequestSlip" + "_" + oleDeliverRequestBo.getItemId() + "_" + new Date(System.currentTimeMillis()) + ".pdf";
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("File Created :" + title + "file name ::" + fileName + "::");
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
+        try {
+            String itemTitle = oleDeliverRequestBo.getTitle() != null ? oleDeliverRequestBo.getTitle() : "";
+            Date dateOfReq = oleDeliverRequestBo.getCreateDate()!=null?oleDeliverRequestBo.getCreateDate():null;
+            //String dateOfRequest = dateOfReq != null ? dateOfReq.toString() : "";
+            String circulationLocation = oleDeliverRequestBo.getCirculationLocationCode() != null ? oleDeliverRequestBo.getCirculationLocationCode() : "";
+            String itemBarcode = oleDeliverRequestBo.getItemId() != null ? oleDeliverRequestBo.getItemId() : "";
+            String patronBarcode = oleDeliverRequestBo.getBorrowerBarcode() != null ? oleDeliverRequestBo.getBorrowerBarcode() : "";
+            String requestType = oleDeliverRequestBo.getRequestTypeId() != null ? oleDeliverRequestBo.getRequestTypeId() : "";
+            boolean inTransitSlip = requestType.equalsIgnoreCase("8");
+            // Document document = this.getDocument(0, 0, 5, 5);
+            Document document = getOverdueDocument();
+            //outputStream = new FileOutputStream(fileName);
+
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+            outputStream = response.getOutputStream();
+            PdfWriter.getInstance(document, outputStream);
+            document.open();
+            document.newPage();
+            PdfPTable pdfTable = new PdfPTable(3);
+            pdfTable.setWidths(new int[]{20,2,30});
+            Paragraph paraGraph = new Paragraph();
+            if (inTransitSlip) {
+                paraGraph.setAlignment(Element.ALIGN_CENTER);
+                paraGraph.add(new Chunk("InTransit Request Slip", getBoldFont()));
+            }
+            paraGraph.add(Chunk.NEWLINE);
+            paraGraph.add(Chunk.NEWLINE);
+            paraGraph.add(Chunk.NEWLINE);
+            document.add(paraGraph);
+            if (inTransitSlip) {
+                pdfTable.addCell(getPdfPCellInJustified("Date/Time "));
+                pdfTable.addCell(getPdfPCellInLeft(":"));
+                pdfTable.addCell(getPdfPCellInJustified(sdf.format(dateOfReq)));
+
+                pdfTable.addCell(getPdfPCellInJustified("Circulation Location"));
+                pdfTable.addCell(getPdfPCellInLeft(":"));
+                pdfTable.addCell(getPdfPCellInJustified(circulationLocation));
+
+                pdfTable.addCell(getPdfPCellInJustified("Item Barcode"));
+                pdfTable.addCell(getPdfPCellInLeft(":"));
+                pdfTable.addCell(getPdfPCellInJustified(itemBarcode));
+
+                pdfTable.addCell(getPdfPCellInJustified("Title"));
+                pdfTable.addCell(getPdfPCellInLeft(":"));
+                pdfTable.addCell(getPdfPCellInJustified(itemTitle));
+
+                pdfTable.addCell(getPdfPCellInJustified("Patron Barcode"));
+                pdfTable.addCell(getPdfPCellInLeft(":"));
+                pdfTable.addCell(getPdfPCellInJustified(patronBarcode));
+                document.add(pdfTable);
+            }
+            document.close();
+            outputStream.flush();
+            outputStream.close();
+        } catch (Exception e) {
+            LOG.error("Exception while creating Pdf For IntransitRequest", e);
+        }
+    }
+
+
+
+    private void getPdfTemplateHeader(OleNoticeBo noticeBo, Document document) throws Exception {
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Header for the notice" + noticeBo.getNoticeName() + noticeBo.getItemId());
+        }
+        Paragraph paraGraph = new Paragraph();
+        paraGraph.add(Chunk.NEWLINE);
+        document.add(paraGraph);
+        paraGraph = new Paragraph();
+        paraGraph.add(new Chunk("Patron information", getBoldFont()));
+        paraGraph.add(Chunk.NEWLINE);
+        paraGraph.add(Chunk.NEWLINE);
+        document.add(paraGraph);
+
+        PdfPTable pdfTable = new PdfPTable(3);
+        pdfTable.setWidths(new int[]{20,2,30});
+
+
+        pdfTable.addCell(getPdfPCellInJustified("Patron Name"));
+        pdfTable.addCell(getPdfPCellInLeft(":"));
+        pdfTable.addCell(getPdfPCellInJustified(noticeBo.getPatronName() != null ? noticeBo.getPatronName() : ""));
+
+        pdfTable.addCell(getPdfPCellInJustified("Address"));
+        pdfTable.addCell(getPdfPCellInLeft(":"));
+        pdfTable.addCell(getPdfPCellInJustified((noticeBo.getPatronAddress() != null ? noticeBo.getPatronAddress() : "")));
+
+        pdfTable.addCell(getPdfPCellInJustified("Email"));
+        pdfTable.addCell(getPdfPCellInLeft(":"));
+        pdfTable.addCell(getPdfPCellInJustified((noticeBo.getPatronEmailAddress() != null ? noticeBo.getPatronEmailAddress() : "")));
+
+        pdfTable.addCell(getPdfPCellInJustified("Phone #"));
+        pdfTable.addCell(getPdfPCellInLeft(":"));
+        pdfTable.addCell(getPdfPCellInJustified((noticeBo.getPatronPhoneNumber() != null ? noticeBo.getPatronPhoneNumber() : "")));
+
+        document.add(pdfTable);
+        paraGraph = new Paragraph();
+        paraGraph.add(Chunk.NEWLINE);
+        document.add(paraGraph);
+    }
+
+    private void getPdfTemplateBody(Document document, String title, String body) throws Exception {
+        //Notice Type
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Body Content of the notice :" + title);
+        }
+        Paragraph paraGraph = new Paragraph();
+        paraGraph.add(new Chunk(title, getBoldFont()));
+        paraGraph.setAlignment(Element.ALIGN_CENTER);
+        paraGraph.add(Chunk.NEWLINE);
+        paraGraph.add(Chunk.NEWLINE);
+        document.add(paraGraph);
+
+
+        //Notice-specific text
+        paraGraph = new Paragraph();
+        paraGraph.add(new Chunk(body, getBoldFont()));
+        paraGraph.setAlignment(Element.ALIGN_CENTER);
+        paraGraph.add(Chunk.NEWLINE);
+        paraGraph.add(Chunk.NEWLINE);
+        document.add(paraGraph);
+    }
+
+    private void getPdfTemplateFooter(OleNoticeBo noticeBo, Document document) throws Exception {
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Footer for the notice : " + noticeBo.getNoticeName() + noticeBo.getItemId());
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat(OLEConstants.DATEFORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
+        Paragraph paraGraph = new Paragraph();
+        paraGraph.add(new Chunk("Title/item information", getBoldFont()));
+        paraGraph.add(Chunk.NEWLINE);
+        paraGraph.add(Chunk.NEWLINE);
+        document.add(paraGraph);
+        PdfPTable pdfTable = new PdfPTable(3);
+        pdfTable.setWidths(new int[]{20,2,30});
+        if (noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_RECALL) || noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.OleDeliverRequest.EXPIRED_REQUEST)) {
+            String circulationLocation = null;
+            String circulationReplyToEmail = null;
+            OleCirculationDesk oleCirculationDesk = getLoanProcessor().getCirculationDesk(noticeBo.getItemShelvingLocation());
+            if (oleCirculationDesk != null) {
+                circulationLocation = oleCirculationDesk.getCirculationDeskPublicName();
+                if (StringUtils.isNotBlank(oleCirculationDesk.getReplyToEmail())) {
+                    circulationReplyToEmail = oleCirculationDesk.getReplyToEmail();
+                } else {
+                    circulationReplyToEmail = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+                }
+            } else {
+                circulationLocation = getLoanProcessor().getParameter(OLEParameterConstants.DEFAULT_CIRCULATION_DESK);
+                circulationReplyToEmail = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+            }
+            pdfTable.addCell(getPdfPCellInJustified("Circulation Location / Library Name"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified(circulationLocation));
+
+            pdfTable.addCell(getPdfPCellInJustified("Circulation Reply-To Email"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified(circulationReplyToEmail));
+
+        } else if (noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_ONHOLD) || noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_HOLD_COURTESY)) {
+            pdfTable.addCell(getPdfPCellInJustified("Circulation Location / Library Name"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getCirculationDeskName() != null ? noticeBo.getCirculationDeskName() : "")));
+
+            pdfTable.addCell(getPdfPCellInJustified("Circulation Reply-To Email"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((StringUtils.isNotBlank(noticeBo.getCirculationDeskReplyToEmail()) ? noticeBo.getCirculationDeskReplyToEmail() : getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL))));
+        }
+        pdfTable.addCell(getPdfPCellInJustified("Title"));
+        pdfTable.addCell(getPdfPCellInLeft(":"));
+        pdfTable.addCell(getPdfPCellInJustified((noticeBo.getTitle() == null ? "" : noticeBo.getTitle())));
+
+        pdfTable.addCell(getPdfPCellInJustified("Author"));
+        pdfTable.addCell(getPdfPCellInLeft(":"));
+        pdfTable.addCell(getPdfPCellInJustified((noticeBo.getAuthor() == null ? "" : noticeBo.getAuthor())));
+
+
+        pdfTable.addCell(getPdfPCellInJustified("Volume/Issue/Copy # "));
+        pdfTable.addCell(getPdfPCellInLeft(":"));
+        if(!noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_RECALL)){
+            pdfTable.addCell(getPdfPCellInJustified(noticeBo.getVolumeNumber() == null ? "" : noticeBo.getVolumeNumber()));
+        }else{
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getVolumeIssueCopyNumber() == null ? "" : noticeBo.getVolumeIssueCopyNumber())));
+        }
+
+
+        pdfTable.addCell(getPdfPCellInJustified("Library shelving location "));
+        pdfTable.addCell(getPdfPCellInLeft(":"));
+        pdfTable.addCell(getPdfPCellInJustified((noticeBo.getItemShelvingLocation() == null ? "" : noticeBo.getItemShelvingLocation())));
+
+
+        pdfTable.addCell(getPdfPCellInJustified("Call #"));
+        pdfTable.addCell(getPdfPCellInLeft(":"));
+        pdfTable.addCell(getPdfPCellInJustified((noticeBo.getItemCallNumber() == null ? "" : noticeBo.getItemCallNumber())));
+
+
+        pdfTable.addCell(getPdfPCellInJustified("Item barcode"));
+        pdfTable.addCell(getPdfPCellInLeft(":"));
+        pdfTable.addCell(getPdfPCellInJustified((noticeBo.getItemId() == null ? "" : noticeBo.getItemId())));
+
+        if (noticeBo.getExpiredOnHoldDate() != null) {
+            pdfTable.addCell(getPdfPCellInJustified("Title"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getExpiredOnHoldDate() == null ? "" : dateFormat.format(noticeBo.getExpiredOnHoldDate()))));
+
+        }
+        document.add(pdfTable);
+        paraGraph = new Paragraph();
+        paraGraph.add(Chunk.NEWLINE);
+        document.add(paraGraph);
+
+        if (noticeBo.getNoticeName().equals(OLEConstants.NOTICE_RECALL)) {
+            if (LOG.isDebugEnabled()){
+                LOG.debug("Recall Notice Footer Content : " + noticeBo.getNoticeName() + noticeBo.getItemId());
+            }
+            pdfTable = new PdfPTable(3);
+            pdfTable.setWidths(new int[]{20,2,30});
+
+            pdfTable.addCell(getPdfPCellInJustified("Original Due Date"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getOriginalDueDate() == null ? "" : sdf.format(noticeBo.getOriginalDueDate()))));
+
+
+            pdfTable.addCell(getPdfPCellInJustified("New Due Date"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getNewDueDate() == null ? "" : sdf.format(noticeBo.getNewDueDate()))));
+
+            document.add(pdfTable);
+            paraGraph = new Paragraph();
+            paraGraph.add(Chunk.NEWLINE);
+            document.add(paraGraph);
+        } else if (noticeBo.getNoticeName().equals("OnHold")) {
+            if (LOG.isDebugEnabled()){
+                LOG.debug("OnHold Notice Footer Content : " + noticeBo.getNoticeName() + noticeBo.getItemId());
+            }
+            pdfTable = new PdfPTable(3);
+            pdfTable.setWidths(new int[]{20,2,30});
+
+            pdfTable.addCell(getPdfPCellInJustified("Pick Up Location"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getPickUpLocation() != null ? noticeBo.getPickUpLocation() : "")));
+
+            pdfTable.addCell(getPdfPCellInJustified("Circulation Location / Library Name"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getCirculationDeskName() != null ? noticeBo.getCirculationDeskName() : "")));
+
+
+            pdfTable.addCell(getPdfPCellInJustified("Address"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getPatronAddress() != null ? noticeBo.getPatronAddress() : "")));
+
+
+            pdfTable.addCell(getPdfPCellInJustified("Email"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getPatronEmailAddress() != null ? noticeBo.getPatronEmailAddress() : "")));
+
+
+            pdfTable.addCell(getPdfPCellInJustified("Phone #"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getPatronPhoneNumber() != null ? noticeBo.getPatronPhoneNumber() : "")));
+
+            document.add(pdfTable);
+            paraGraph = new Paragraph();
+            paraGraph.add(Chunk.NEWLINE);
+            document.add(paraGraph);
+            pdfTable = new PdfPTable(3);
+            pdfTable.setWidths(new int[]{20,2,30});
+
+            pdfTable.addCell(getPdfPCellInJustified("Item Will Be Held until"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getExpiredOnHoldDate() != null ? dateFormat.format(noticeBo.getExpiredOnHoldDate().toString()) : "")));
+
+            document.add(pdfTable);
+            paraGraph = new Paragraph();
+            paraGraph.add(Chunk.NEWLINE);
+            document.add(paraGraph);
+        } else if (noticeBo.getNoticeName().equals("OverdueNotice")) {
+            if (LOG.isDebugEnabled()){
+                LOG.debug("OverdueNotice Footer Content : " + noticeBo.getNoticeName() + noticeBo.getItemId());
+            }
+            pdfTable = new PdfPTable(3);
+            pdfTable.setWidths(new int[]{20,2,30});
+
+            pdfTable.addCell(getPdfPCellInJustified("Item was due"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getDueDate() == null ? "" : (sdf.format(noticeBo.getDueDate())))));
+
+            document.add(pdfTable);
+            paraGraph = new Paragraph();
+            paraGraph.add(Chunk.NEWLINE);
+            document.add(paraGraph);
+        }
+
+    }
+
+    public void getPdfFooter(Document document, OutputStream outputStream) throws Exception {
+        String url = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
+       // String myAccountURL = loanProcessor.getParameter(OLEConstants.MY_ACCOUNT_URL);
+        String myAccountURL = url+OLEConstants.OLE_MY_ACCOUNT_URL_CHANNEL+url+OLEConstants.OLE_MY_ACCOUNT_URL;
+        if(myAccountURL!=null && !myAccountURL.trim().isEmpty()){
+            Font ver_15_normal = FontFactory.getFont("Times-Roman", 15, Font.BOLD,BaseColor.BLUE);
+            ver_15_normal.setColor(BaseColor.BLUE);
+            ver_15_normal.setStyle(Font.UNDERLINE);
+            Anchor anchor = new Anchor("MyAccount", ver_15_normal);
+            anchor.setReference(myAccountURL);
+            Paragraph paraGraph = new Paragraph();
+            paraGraph.add(anchor);
+            paraGraph.setFont(ver_15_normal);
+            paraGraph.setAlignment(Element.ALIGN_CENTER);
+            document.add(paraGraph);
+        }
+        outputStream.flush();
+        document.close();
+        outputStream.close();
+    }
+
+    public void getPdfPickUpNotice(OleNoticeBo noticeBo) throws Exception{
+        if (LOG.isDebugEnabled()){
+            LOG.debug("PickUp notice : " + noticeBo.getNoticeName() + noticeBo.getItemId());
+        }
+        Document document = new Document(PageSize.A4);
+        OutputStream outputStream = null;
+        outputStream = getPdfHeader(document, outputStream,getLoanProcessor().getParameter(OLEParameterConstants.PICKUP_TITLE), noticeBo.getItemId());
+        document.setPageCount(3);
+        PdfPTable pdfTable = new PdfPTable(1);
+
+        pdfTable.addCell(getPdfPCellNewLine());
+        pdfTable.addCell(getPdfPCellInLeft((noticeBo.getPatronName() != null) ? noticeBo.getPatronName().toString() : ""));
+        pdfTable.addCell(getPdfPCellInLeft((noticeBo.getPatronAddress() != null) ? noticeBo.getPatronAddress().toString() : ""));
+        pdfTable.addCell(getPdfPCellInLeft((noticeBo.getPatronEmailAddress() != null) ? noticeBo.getPatronEmailAddress().toString() : ""));
+        pdfTable.addCell(getPdfPCellInLeft((noticeBo.getPatronPhoneNumber() != null) ? noticeBo.getPatronPhoneNumber().toString() : ""));
+
+        document.add(pdfTable);
+
+        pdfTable = new PdfPTable(1);
+        pdfTable.setWidths(new int[]{10});
+
+        pdfTable.addCell(getPdfPCellInCenter(noticeBo.getNoticeName(),getBoldFont()));
+        pdfTable.addCell(getPdfPCellNewLine());
+        pdfTable.addCell(getPdfPCellInLeft(noticeBo.getNoticeSpecificContent()));
+        pdfTable.addCell(getPdfPCellNewLine());
+        pdfTable.addCell(getPdfPCellInLeft("Thank you."));
+
+        document.add(pdfTable);
+
+
+        document.add(getPdfParagraphNewLine());
+
+        PdfPTable pdfItemTable = new PdfPTable(3);
+        pdfItemTable.setWidths(new int[]{10,2,30});
+
+        String author=((noticeBo.getAuthor() != null) ? noticeBo.getAuthor().toString() : "");
+        String title=((noticeBo.getTitle() != null) ? noticeBo.getTitle().toString() : "");
+        String callNumber=((noticeBo.getItemCallNumber()!=null)?noticeBo.getItemCallNumber().toString():"");
+
+        pdfItemTable.addCell(getPdfPCellInJustified("Circulation Location / Library Name"));
+        pdfItemTable.addCell(getPdfPCellInLeft(":"));
+        pdfItemTable.addCell(getPdfPCellInJustified((noticeBo.getCirculationDeskName() != null ? noticeBo.getCirculationDeskName() : "")));
+
+        pdfItemTable.addCell(getPdfPCellInJustified("Circulation Reply-To Email"));
+        pdfItemTable.addCell(getPdfPCellInLeft(":"));
+        pdfItemTable.addCell(getPdfPCellInJustified((StringUtils.isNotBlank(noticeBo.getCirculationDeskReplyToEmail()) ? noticeBo.getCirculationDeskReplyToEmail() : getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL))));
+
+        pdfItemTable.addCell(getPdfPCellInLeft("Title"));
+        pdfItemTable.addCell(getPdfPCellInLeft(":"));
+        pdfItemTable.addCell(getPdfPCellInJustified(title));
+
+        pdfItemTable.addCell(getPdfPCellInLeft("Author"));
+        pdfItemTable.addCell(getPdfPCellInLeft(":"));
+        pdfItemTable.addCell(getPdfPCellInJustified(author));
+
+        pdfItemTable.addCell(getPdfPCellInLeft("Call Number"));
+        pdfItemTable.addCell(getPdfPCellInLeft(":"));
+        pdfItemTable.addCell(getPdfPCellInJustified(callNumber));
+
+        document.add(pdfItemTable);
+
+        document.close();
+        outputStream.close();
+
+    }
+
+    public void getPdfTemplateFooterList(java.util.List<OleNoticeBo> oleNoticeBoList, Document document) throws Exception {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(OLEConstants.DATEFORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
+        int count = 0;
+        for (OleNoticeBo noticeBo : oleNoticeBoList) {
+            if (LOG.isDebugEnabled()){
+                LOG.debug("Footer for the notice : " + noticeBo.getNoticeName() + noticeBo.getItemId());
+            }
+            Paragraph paraGraph = new Paragraph();
+            if (count == 0) {
+                paraGraph.add(new Chunk("Title/item information", getBoldFont()));
+            }
+            paraGraph.add(Chunk.NEWLINE);
+            paraGraph.add(Chunk.NEWLINE);
+            document.add(paraGraph);
+            PdfPTable pdfTable = new PdfPTable(3);
+            pdfTable.setWidths(new int[]{20, 2, 30});
+            PdfPCell pdfPCell;
+            if (!noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_RECALL)) {
+
+                pdfTable.addCell(getPdfPCellInJustified("Circulation Location / Library Name"));
+                pdfTable.addCell(getPdfPCellInLeft(":"));
+                pdfTable.addCell(getPdfPCellInJustified((noticeBo.getCirculationDeskName() != null ? noticeBo.getCirculationDeskName() : "")));
+
+            }
+
+            pdfTable.addCell(getPdfPCellInJustified("Title"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getTitle() == null ? "" : noticeBo.getTitle())));
+
+
+            pdfTable.addCell(getPdfPCellInJustified("Author"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getAuthor() == null ? "" : noticeBo.getAuthor())));
+
+
+            pdfTable.addCell(getPdfPCellInJustified("Volume/Issue/Copy # "));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getVolumeNumber() == null ? "" : noticeBo.getVolumeNumber())));
+
+
+            pdfTable.addCell(getPdfPCellInJustified("Library shelving location"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getItemShelvingLocation() == null ? "" : noticeBo.getItemShelvingLocation())));
+
+
+
+            pdfTable.addCell(getPdfPCellInJustified("Call # "));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getItemCallNumber() == null ? "" : noticeBo.getItemCallNumber())));
+
+
+
+            pdfTable.addCell(getPdfPCellInJustified("Item barcode"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((noticeBo.getItemId() == null ? "" : noticeBo.getItemId())));
+
+            if (noticeBo.getExpiredOnHoldDate() != null) {
+
+                pdfTable.addCell(getPdfPCellInJustified("Expiration onHoldDate"));
+                pdfTable.addCell(getPdfPCellInLeft(":"));
+                pdfTable.addCell(getPdfPCellInJustified((noticeBo.getExpiredOnHoldDate() == null ? "" : dateFormat.format(noticeBo.getExpiredOnHoldDate()))));
+
+            }
+            document.add(pdfTable);
+            paraGraph = new Paragraph();
+            paraGraph.add(Chunk.NEWLINE);
+            document.add(paraGraph);
+            if (noticeBo.getNoticeName().equals("OverdueNotice")) {
+                if (LOG.isDebugEnabled()){
+                    LOG.debug("OverdueNotice Footer Content : " + noticeBo.getNoticeName() + noticeBo.getItemId());
+                }
+                pdfTable = new PdfPTable(3);
+                pdfTable.setWidths(new int[]{20, 2, 30});
+
+                pdfTable.addCell(getPdfPCellInJustified("Item was due"));
+                pdfTable.addCell(getPdfPCellInLeft(":"));
+                pdfTable.addCell(getPdfPCellInJustified((noticeBo.getDueDate() == null ? "" : (sdf.format(noticeBo.getDueDate()).toString()))));
+
+                document.add(pdfTable);
+                paraGraph = new Paragraph();
+                paraGraph.add(Chunk.NEWLINE);
+                document.add(paraGraph);
+            }
+            count++;
+        }
+    }
+
     public void getHeaderAndPatronPDFContent(OlePatronDocument olePatronDocument,boolean isOverdue){
         Document document = new Document(PageSize.A4);
         OutputStream outputStream=null;
         try {
             String title = getLoanProcessor().getParameter(OLEParameterConstants.OVERDUE_TITLE);
-            String body = getLoanProcessor().getParameter(OLEParameterConstants.OVERDUE_BODY);
+            String body = getLoanProcessor().getParameter(OLEConstants.OleDeliverRequest.OVERDUE_NOTICE_CONTENT);
             if(!isOverdue){
                 title=loanProcessor.getParameter(OLEParameterConstants.COURTESY_TITLE);
-                body=loanProcessor.getParameter(OLEParameterConstants.COURTESY_BODY);
+                body=loanProcessor.getParameter(OLEConstants.OleDeliverRequest.COURTESY_NOTICE_CONTENT);
             }
             outputStream = getPdfHeader(document, outputStream, title, olePatronDocument.getOlePatronId());
             OleDeliverRequestDocumentHelperServiceImpl deliverService = new OleDeliverRequestDocumentHelperServiceImpl();
@@ -1745,61 +1472,33 @@ public class OleDeliverBatchServiceImpl {
             paraGraph.add(Chunk.NEWLINE);
             document.add(paraGraph);
             paraGraph = new Paragraph();
-            paraGraph.add(new Chunk("Patron information", boldFont));
+            paraGraph.add(new Chunk("Patron information", getBoldFont()));
             paraGraph.add(Chunk.NEWLINE);
             paraGraph.add(Chunk.NEWLINE);
             document.add(paraGraph);
 
             PdfPTable pdfTable = new PdfPTable(3);
             pdfTable.setWidths(new int[]{20, 2, 30});
-            PdfPCell pdfPCell = new PdfPCell(new Paragraph("Patron Name"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(olePatronDocument.getEntity().getNames().get(0).getFirstName() + " " + olePatronDocument.getEntity().getNames().get(0).getLastName())));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Address")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(deliverService.getPatronPreferredAddress(entityTypeContactInfoBo) != null ? deliverService.getPatronPreferredAddress(entityTypeContactInfoBo) : "")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Email")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(deliverService.getPatronHomeEmailId(entityTypeContactInfoBo) != null ? deliverService.getPatronHomeEmailId(entityTypeContactInfoBo) : "")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Phone #")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(deliverService.getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? deliverService.getPatronHomePhoneNumber(entityTypeContactInfoBo) : "")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
+
+            pdfTable.addCell(getPdfPCellInJustified("Patron Name"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((olePatronDocument.getEntity().getNames().get(0).getFirstName() + " " + olePatronDocument.getEntity().getNames().get(0).getLastName())));
+
+
+            pdfTable.addCell(getPdfPCellInJustified("Address"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((deliverService.getPatronPreferredAddress(entityTypeContactInfoBo) != null ? deliverService.getPatronPreferredAddress(entityTypeContactInfoBo) : "")));
+
+
+
+            pdfTable.addCell(getPdfPCellInJustified("Email"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((deliverService.getPatronHomeEmailId(entityTypeContactInfoBo) != null ? deliverService.getPatronHomeEmailId(entityTypeContactInfoBo) : "")));
+
+            pdfTable.addCell(getPdfPCellInJustified("Phone #"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((deliverService.getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? deliverService.getPatronHomePhoneNumber(entityTypeContactInfoBo) : "")));
+
             document.add(pdfTable);
             paraGraph = new Paragraph();
             paraGraph.add(Chunk.NEWLINE);
@@ -1808,14 +1507,14 @@ public class OleDeliverBatchServiceImpl {
 
             getPdfTemplateBody(document, title, body);
             paraGraph = new Paragraph();
-            paraGraph.add(new Chunk("Title/item information", boldFont));
+            paraGraph.add(new Chunk("Title/item information", getBoldFont()));
             paraGraph.add(Chunk.NEWLINE);
             paraGraph.add(Chunk.NEWLINE);
             document.add(paraGraph);
             this.setOverdueDocument(document);
             this.setOverdueOutPutStream(outputStream);
         } catch (Exception e) {
-           LOG.error("Error---->While generating overdue notice pdf (Patron Information) "+e.getMessage()+e);
+            LOG.error("Error---->While generating overdue notice pdf (Patron Information) "+e.getMessage()+e);
         }
 
     }
@@ -1824,103 +1523,66 @@ public class OleDeliverBatchServiceImpl {
         try {
             Paragraph paraGraph = new Paragraph();
             OleDeliverRequestDocumentHelperServiceImpl deliverService = new OleDeliverRequestDocumentHelperServiceImpl();
-            SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
+            SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
             PdfPTable pdfTable = new PdfPTable(3);
             pdfTable.setWidths(new int[]{20, 2, 30});
-            PdfPCell pdfPCell = new PdfPCell(new Paragraph("Circulation Location / Library Name"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            OleCirculationDesk oleCirculationDesk = deliverService.getOleCirculationDesk(oleLoanDocument.getCirculationLocationId());
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(oleCirculationDesk.getCirculationDeskPublicName() != null ? oleCirculationDesk.getCirculationDeskPublicName() : "")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
 
-            pdfPCell = new PdfPCell(new Paragraph("Title "));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(oleLoanDocument.getTitle() == null ? "" : oleLoanDocument.getTitle())));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Author ")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(oleLoanDocument.getAuthor() == null ? "" : oleLoanDocument.getAuthor())));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Volume/Issue/Copy # ")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
+            String circulationLocation = null;
+            String circulationReplyToEmail = null;
+            OleCirculationDesk oleCirculationDesk = getLoanProcessor().getCirculationDesk(oleLoanDocument.getItemLocation());
+            if (oleCirculationDesk != null) {
+                circulationLocation = oleCirculationDesk.getCirculationDeskPublicName();
+                if (StringUtils.isNotBlank(oleCirculationDesk.getReplyToEmail())) {
+                    circulationReplyToEmail = oleCirculationDesk.getReplyToEmail();
+                } else {
+                    circulationReplyToEmail = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+                }
+            } else {
+                circulationLocation = getLoanProcessor().getParameter(OLEParameterConstants.DEFAULT_CIRCULATION_DESK);
+                circulationReplyToEmail = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+            }
+
+            pdfTable.addCell(getPdfPCellInJustified("Circulation Location / Library Name"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified(circulationLocation));
+
+            pdfTable.addCell(getPdfPCellInJustified("Circulation Reply-To Email"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified(circulationReplyToEmail));
+
+            pdfTable.addCell(getPdfPCellInJustified("Title"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((oleLoanDocument.getTitle() == null ? "" : oleLoanDocument.getTitle())));
+
+            pdfTable.addCell(getPdfPCellInJustified("Author"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((oleLoanDocument.getAuthor() == null ? "" : oleLoanDocument.getAuthor())));
+
             String volume = (String) oleLoanDocument.getEnumeration() != null && !oleLoanDocument.getEnumeration().equals("") ? oleLoanDocument.getEnumeration() : "";
             String issue = new String(" ");
             String copyNumber = (String) oleLoanDocument.getItemCopyNumber() != null && !oleLoanDocument.getItemCopyNumber().equals("") ? oleLoanDocument.getItemCopyNumber(): "";
             String volumeNumber = volume + "/" + issue + "/" + copyNumber;
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(volumeNumber == null ? "" : volumeNumber)));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Library shelving location ")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(oleLoanDocument.getItemLocation() == null ? "" : oleLoanDocument.getItemLocation())));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Call # ")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
+
+            pdfTable.addCell(getPdfPCellInJustified("Volume/Issue/Copy #"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((volumeNumber == null ? "" : volumeNumber)));
+
+            pdfTable.addCell(getPdfPCellInJustified("Library shelving location "));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((oleLoanDocument.getItemLocation() == null ? "" : oleLoanDocument.getItemLocation())));
+
             String callNumber = "";
             if (oleLoanDocument.getItemCallNumber() != null && !oleLoanDocument.getItemCallNumber().equals("")) {
                 callNumber = (String) (oleLoanDocument.getItemCallNumber() != null && !oleLoanDocument.getItemCallNumber().equals("") ? oleLoanDocument.getItemCallNumber() : "");
             }
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(callNumber == null ? "" : callNumber)));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk("Item barcode")));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(oleLoanDocument.getItemId() == null ? "" : oleLoanDocument.getItemId())));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
+            pdfTable.addCell(getPdfPCellInJustified("Call # "));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((callNumber == null ? "" : callNumber)));
+
+            pdfTable.addCell(getPdfPCellInJustified("Item barcode"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((oleLoanDocument.getItemId() == null ? "" : oleLoanDocument.getItemId())));
+
             document.add(pdfTable);
             paraGraph = new Paragraph();
             paraGraph.add(Chunk.NEWLINE);
@@ -1929,18 +1591,10 @@ public class OleDeliverBatchServiceImpl {
             pdfTable = new PdfPTable(3);
             pdfTable.setWidths(new int[]{20, 2, 30});
 
-            pdfPCell = new PdfPCell(new Paragraph("Item was due"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(":"));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
-            pdfTable.addCell(pdfPCell);
-            pdfPCell = new PdfPCell(new Paragraph(new Chunk(oleLoanDocument.getLoanDueDate() == null ? "" : (sdf.format(oleLoanDocument.getLoanDueDate()).toString()))));
-            pdfPCell.setBorder(pdfPCell.NO_BORDER);
-            pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_JUSTIFIED);
-            pdfTable.addCell(pdfPCell);
+            pdfTable.addCell(getPdfPCellInJustified("Item was due"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((oleLoanDocument.getLoanDueDate() == null ? "" : (sdf.format(oleLoanDocument.getLoanDueDate()).toString()))));
+
             document.add(pdfTable);
             paraGraph = new Paragraph();
             paraGraph.add(Chunk.NEWLINE);
@@ -1953,7 +1607,7 @@ public class OleDeliverBatchServiceImpl {
             }
             LOG.error(e.getMessage()+e);
         }
-       return document;
+        return document;
     }
 
     public boolean cleanZeroByteFiles() {

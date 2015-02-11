@@ -1,22 +1,20 @@
 package org.kuali.ole.deliver.printSlip;
 
 
-import com.lowagie.text.*;
-import com.lowagie.text.Font;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPageEventHelper;
-import com.lowagie.text.pdf.PdfWriter;
+
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.*;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.batch.OleDeliverBatchServiceImpl;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.describe.bo.OleLocation;
-import org.kuali.ole.docstore.common.client.DocstoreClient;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.document.ItemOleml;
@@ -26,6 +24,7 @@ import org.kuali.ole.docstore.common.search.SearchResponse;
 import org.kuali.ole.docstore.common.search.SearchResult;
 import org.kuali.ole.docstore.common.search.SearchResultField;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kim.impl.identity.address.EntityAddressBo;
 import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
@@ -33,7 +32,6 @@ import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.text.DateFormat;
@@ -47,13 +45,26 @@ import java.util.List;
 public class OlePrintSlip extends PdfPageEventHelper {
 
     private static final Logger LOG = Logger.getLogger(OlePrintSlip.class);
+    Font boldFont = FontFactory.getFont("Times-Roman", 12, Font.BOLD);
 
     private Map<String, Font> printFontMap = new HashMap<String, Font>();
 
     private Map<String, Font> fontMap = new HashMap<String, Font>();
-    private Map<String, Color> colorMap = new HashMap<String, Color>();
-    private Map<String, Color> printColorMap = new HashMap<String, Color>();
+    private Map<String, BaseColor> colorMap = new HashMap<String, BaseColor>();
+    private Map<String, BaseColor> printColorMap = new HashMap<String, BaseColor>();
     private DocstoreClientLocator docstoreClientLocator;
+    private OleDeliverBatchServiceImpl oleDeliverBatchService;
+
+    public OleDeliverBatchServiceImpl getOleDeliverBatchService() {
+        if(oleDeliverBatchService==null){
+            oleDeliverBatchService=SpringContext.getBean(OleDeliverBatchServiceImpl.class);
+        }
+        return oleDeliverBatchService;
+    }
+
+    public void setOleDeliverBatchService(OleDeliverBatchServiceImpl oleDeliverBatchService) {
+        this.oleDeliverBatchService = oleDeliverBatchService;
+    }
 
     public DocstoreClientLocator getDocstoreClientLocator() {
 
@@ -64,10 +75,32 @@ public class OlePrintSlip extends PdfPageEventHelper {
         return docstoreClientLocator;
     }
 
+    public com.itextpdf.text.Font getBoldFont(){
+        Font boldFont = FontFactory.getFont("Times-Roman", 15, Font.BOLD);
+        return boldFont;
+    }
 
+
+
+    public com.itextpdf.text.Font getDefaultFont(){
+        return getOleDeliverBatchService().getDefaultFont();
+    }
+
+    public com.itextpdf.text.Font getFont(String data){
+        return getOleDeliverBatchService().getFont(data);
+    }
 
     public void populateFontMap() {
-        fontMap.put("COURIER", new Font(Font.COURIER));
+
+        fontMap.put("COURIER", new Font(FontFactory.getFont("Times-Roman", Font.BOLD).getBaseFont()));
+        fontMap.put("COURIER", new Font(FontFactory.getFont("Times-Roman", Font.BOLDITALIC).getBaseFont()));
+        fontMap.put("COURIER", new Font(FontFactory.getFont("Times-Roman", Font.DEFAULTSIZE).getBaseFont()));
+        fontMap.put("COURIER", new Font(FontFactory.getFont("Times-Roman", Font.STRIKETHRU).getBaseFont()));
+        fontMap.put("COURIER", new Font(FontFactory.getFont("Times-Roman", Font.NORMAL).getBaseFont()));
+        fontMap.put("COURIER", new Font(FontFactory.getFont("Times-Roman", Font.UNDEFINED).getBaseFont()));
+        fontMap.put("COURIER", new Font(FontFactory.getFont("Times-Roman", Font.UNDERLINE).getBaseFont()));
+
+       /* fontMap.put("COURIER", new Font(Font.COURIER));
         fontMap.put("BOLD", new Font(Font.BOLD));
         fontMap.put("BOLDITALIC", new Font(Font.BOLDITALIC));
         fontMap.put("DEFAULTSIZE", new Font(Font.DEFAULTSIZE));
@@ -79,25 +112,25 @@ public class OlePrintSlip extends PdfPageEventHelper {
         fontMap.put("TIMES_ROMAN", new Font(Font.TIMES_ROMAN));
         fontMap.put("UNDEFINED", new Font(Font.UNDEFINED));
         fontMap.put("UNDERLINE", new Font(Font.UNDERLINE));
-        fontMap.put("ZAPFDINGBATS", new Font(Font.ZAPFDINGBATS));
+        fontMap.put("ZAPFDINGBATS", new Font(Font.ZAPFDINGBATS));*/
 
     }
 
     public void populateColorMap() {
-        colorMap.put("WHITE", Color.WHITE);
-        colorMap.put("YELLOW", Color.YELLOW);
-        colorMap.put("BLACK", Color.BLACK);
-        colorMap.put("BLUE", Color.BLUE);
-        colorMap.put("CYAN", Color.CYAN);
-        colorMap.put("DARK_GRAY", Color.DARK_GRAY);
-        colorMap.put("GRAY", Color.GRAY);
-        colorMap.put("GREEN", Color.GREEN);
-        colorMap.put("LIGHT_GRAY", Color.LIGHT_GRAY);
-        colorMap.put("MAGENTA", Color.MAGENTA);
-        colorMap.put("ORANGE", Color.ORANGE);
-        colorMap.put("PINK", Color.PINK);
-        colorMap.put("RED", Color.RED);
-        colorMap.put("PINK", Color.PINK);
+        colorMap.put("WHITE", BaseColor.WHITE);
+        colorMap.put("YELLOW", BaseColor.YELLOW);
+        colorMap.put("BLACK", BaseColor.BLACK);
+        colorMap.put("BLUE", BaseColor.BLUE);
+        colorMap.put("CYAN", BaseColor.CYAN);
+        colorMap.put("DARK_GRAY", BaseColor.DARK_GRAY);
+        colorMap.put("GRAY", BaseColor.GRAY);
+        colorMap.put("GREEN", BaseColor.GREEN);
+        colorMap.put("LIGHT_GRAY", BaseColor.LIGHT_GRAY);
+        colorMap.put("MAGENTA", BaseColor.MAGENTA);
+        colorMap.put("ORANGE", BaseColor.ORANGE);
+        colorMap.put("PINK", BaseColor.PINK);
+        colorMap.put("RED", BaseColor.RED);
+        colorMap.put("PINK", BaseColor.PINK);
     }
 
 
@@ -179,28 +212,28 @@ public class OlePrintSlip extends PdfPageEventHelper {
                 }
                 document.open();
                 document.newPage();
-                Font boldFont = new Font(Font.TIMES_ROMAN, 15, Font.BOLD);
+                //Font getBoldFont() = new Font(Font.TIMES_ROMAN, 15, Font.BOLD);
                 PdfPTable pdfTable = new PdfPTable(3);
                 Paragraph paraGraph = new Paragraph();
                 paraGraph.setAlignment(Element.ALIGN_CENTER);
                 if (holdSlip) {
-                    paraGraph.add(new Chunk("Hold Slip", boldFont));
+                    paraGraph.add(new Chunk("Hold Slip", getBoldFont()));
                 } else if (inTransitSlip) {
-                    paraGraph.add(new Chunk("Routing Slip In-Transit", boldFont));
+                    paraGraph.add(new Chunk("Routing Slip In-Transit", getBoldFont()));
                 } else if (inTransitForHold) {
-                    paraGraph.add(new Chunk("Routing Slip In-Transit For Hold", boldFont));
+                    paraGraph.add(new Chunk("Routing Slip In-Transit For Hold", getBoldFont()));
                 } else if (inTransitPerStaff) {
-                    paraGraph.add(new Chunk("Routing Slip In-Transit Per Staff Request", boldFont));
+                    paraGraph.add(new Chunk("Routing Slip In-Transit Per Staff Request", getBoldFont()));
                 } else if (missingPieceCheck) {
-                    paraGraph.add(new Chunk("Missing Pieces Notice", boldFont));
+                    paraGraph.add(new Chunk("Missing Pieces Notice", getBoldFont()));
                 } else if (returnedDamaged) {
-                    paraGraph.add(new Chunk("Returned Damaged", boldFont));
+                    paraGraph.add(new Chunk("Returned Damaged", getBoldFont()));
                 } else if (claimsReturned) {
-                    paraGraph.add(new Chunk("Claims Returned Notice", boldFont));
+                    paraGraph.add(new Chunk("Claims Returned Notice", getBoldFont()));
                 } else if (checkInNoteDisplay) {
-                    paraGraph.add(new Chunk("Routing Slip", boldFont));
+                    paraGraph.add(new Chunk("Routing Slip", getBoldFont()));
                 } else {
-                    paraGraph.add(new Chunk("Receipt(CheckIn) Slip", boldFont));
+                    paraGraph.add(new Chunk("Receipt(CheckIn) Slip", getBoldFont()));
                 }
                 paraGraph.add(Chunk.NEWLINE);
                 paraGraph.add(Chunk.NEWLINE);
@@ -283,7 +316,7 @@ public class OlePrintSlip extends PdfPageEventHelper {
 
                     //Patron
                     paraGraph = new Paragraph();
-                    paraGraph.add(new Chunk("Addressee", boldFont));
+                    paraGraph.add(new Chunk("Addressee", getBoldFont()));
                     paraGraph.add(Chunk.NEWLINE);
                     document.add(paraGraph);
 
@@ -307,7 +340,7 @@ public class OlePrintSlip extends PdfPageEventHelper {
                     document.add(pdfTable);
                     //Notice Type
                     paraGraph = new Paragraph();
-                    paraGraph.add(new Chunk("Return with Missing Piece(s) Notice", boldFont));
+                    paraGraph.add(new Chunk("Return with Missing Piece(s) Notice", getBoldFont()));
                     paraGraph.setAlignment(Element.ALIGN_CENTER);
                     paraGraph.add(Chunk.NEWLINE);
                     document.add(paraGraph);
@@ -315,14 +348,14 @@ public class OlePrintSlip extends PdfPageEventHelper {
 
                     //Notice-specific text
                     paraGraph = new Paragraph();
-                    paraGraph.add(new Chunk("The following item(s) returned by you is missing one or more of its pieces.Please return the missing piece(s) to the library shown above or contact the library about this matter to avoid incurring any penalties.", boldFont));
+                    paraGraph.add(new Chunk("The following item(s) returned by you is missing one or more of its pieces.Please return the missing piece(s) to the library shown above or contact the library about this matter to avoid incurring any penalties.", getBoldFont()));
                     paraGraph.setAlignment(Element.ALIGN_CENTER);
                     paraGraph.add(Chunk.NEWLINE);
                     document.add(paraGraph);
 
                     //Title/item information
                     paraGraph = new Paragraph();
-                    paraGraph.add(new Chunk("Title/item information", boldFont));
+                    paraGraph.add(new Chunk("Title/item information", getBoldFont()));
                     paraGraph.add(Chunk.NEWLINE);
                     document.add(paraGraph);
 
@@ -471,11 +504,11 @@ public class OlePrintSlip extends PdfPageEventHelper {
                 Document document = this.getDocument(0, 0, 5, 5);
                 document.open();
                 document.newPage();
-                Font boldFont = new Font(Font.TIMES_ROMAN, 15, Font.BOLD);
+                //Font getBoldFont() = new Font(Font.TIMES_ROMAN, 15, Font.BOLD);
                 PdfPTable pdfTable = new PdfPTable(1);
                 Paragraph paraGraph = new Paragraph();
                 paraGraph.setAlignment(Element.ALIGN_CENTER);
-                paraGraph.add(new Chunk("Mailing Label", boldFont));
+                paraGraph.add(new Chunk("Mailing Label", getBoldFont()));
                 paraGraph.add(Chunk.NEWLINE);
                 paraGraph.add(Chunk.NEWLINE);
                 paraGraph.add(Chunk.NEWLINE);
@@ -519,19 +552,19 @@ public class OlePrintSlip extends PdfPageEventHelper {
         try {
             populateColorMap();
             populateFontMap();
-            SimpleDateFormat dateFormat = new SimpleDateFormat(OLEConstants.DATEFORMAT);
-            SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE);
+            SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
             String date = dateFormat.format(System.currentTimeMillis());
             response.setContentType("application/pdf");
             Document document = this.getDocument(0, 0, 5, 5);
             PdfWriter writer = PdfWriter.getInstance(document, byteArrayOutputStream);
             document.open();
             document.newPage();
-            Font boldFont = new Font(Font.TIMES_ROMAN, 15, Font.BOLD);
+            //Font getBoldFont() = new Font(Font.TIMES_ROMAN, 15, Font.BOLD);
             PdfPTable pdfTable = new PdfPTable(3);
             Paragraph paraGraph = new Paragraph();
             paraGraph.setAlignment(Element.ALIGN_CENTER);
-            paraGraph.add(new Chunk("Due Date Slip", boldFont));
+            paraGraph.add(new Chunk("Due Date Slip", getBoldFont()));
             paraGraph.add(Chunk.NEWLINE);
             paraGraph.add(Chunk.NEWLINE);
             paraGraph.add(Chunk.NEWLINE);
@@ -624,7 +657,7 @@ public class OlePrintSlip extends PdfPageEventHelper {
     private PdfPCell getPdfPCellInJustified(String chunk) {
         PdfPCell pdfPCell=null;
         if(chunk!=null){
-             pdfPCell = new PdfPCell(new Paragraph(new Chunk(chunk)));
+             pdfPCell = new PdfPCell(new Paragraph(new Chunk(chunk, getFont(chunk))));
         }
         else{
             pdfPCell = new PdfPCell(new Paragraph());
@@ -642,7 +675,7 @@ public class OlePrintSlip extends PdfPageEventHelper {
     }
 
     private PdfPCell getPdfPCellInLeft(String chunk) {
-        PdfPCell pdfPCell = new PdfPCell(new Paragraph(new Chunk(chunk)));
+        PdfPCell pdfPCell = new PdfPCell(new Paragraph(new Chunk(chunk, getDefaultFont())));
         pdfPCell.setBorder(pdfPCell.NO_BORDER);
         pdfPCell.setHorizontalAlignment(pdfPCell.ALIGN_LEFT);
         return pdfPCell;
@@ -658,7 +691,8 @@ public class OlePrintSlip extends PdfPageEventHelper {
         SimpleDateFormat dateFormat = new SimpleDateFormat(OLEConstants.DATEFORMAT);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         OutputStream os = null;
-        Document document = new Document(new Rectangle(253, 430));
+        //Document document = new Document(new Rectangle(253, 430));
+        Document document = new Document(PageSize.A4);
         document.setMargins(0, 0, 5, 5);
         document.open();
         document.newPage();

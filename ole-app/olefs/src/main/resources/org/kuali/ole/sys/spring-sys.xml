@@ -65,6 +65,8 @@
                 <value>modulesLockJob</value>
 				<value>modulesUnlockJob</value>
 				<value>actionListBatchJob</value>
+				<value>reencumberRecurringOrdersJob</value>
+				<value>poRelinkJob</value>
             </list>
         </property>
         <property name="fiscalYearMakers">
@@ -403,6 +405,9 @@
 		<property name="autoDisapproveErrorReportWriterService">
 			<ref bean="autoDisapproveErrorReportWriterService" />
 		</property>
+        <property name="oleSelectDocumentService">
+            <ref bean="oleSelectDocumentService" />
+        </property>
 	</bean>
     <bean id="autoDisapproveErrorReportWriterService" parent="autoDisapproveErrorReportWriterService-parentBean"/>
 	
@@ -872,6 +877,17 @@
 
     <bean id="dailyEmailStep" class="org.kuali.ole.sys.batch.DailyEmailStep" parent="step" />
 
+
+    <bean id="reencumberRecurringOrdersJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="reencumberRecurringOrdersStep" />
+            </list>
+
+        </property>
+    </bean>
+
+    <bean id="reencumberRecurringOrdersStep" class="org.kuali.ole.sys.batch.OLEReEncumberRecurringOrdersJob" parent="step" />
     <!-- Create an unscheduled Weekly Mail job -->
     <bean id="weeklyEmailJob" parent="unscheduledJobDescriptor">
         <property name="steps">
@@ -1042,6 +1058,19 @@
     </bean>
 
     <bean id="actionListBatchJobStep" class="org.kuali.ole.sys.context.ActionListBatchProcessor" parent="step"/>
+
+
+	<bean id="poRelinkJob" parent="poRelinkJob-parentBean"/>
+	<bean id="poRelinkJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
+		<property name="steps">
+			<list>
+				<ref bean="poRelinkBatchJobStep"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="poRelinkBatchJobStep" class="org.kuali.ole.select.service.impl.OLECopyRecordProcessor" parent="step"/>
+
 
 	<bean id="lockModuleService" parent="lockModuleService-parentBean"/>
 	<bean id="lockModuleService-parentBean" class="org.kuali.ole.sys.batch.service.impl.LockModuleServiceImpl" abstract="true">

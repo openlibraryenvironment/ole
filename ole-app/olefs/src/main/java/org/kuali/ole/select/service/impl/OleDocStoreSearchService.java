@@ -15,6 +15,19 @@
  */
 package org.kuali.ole.select.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
+import org.kuali.ole.docstore.common.document.Bib;
+import org.kuali.ole.docstore.common.document.Holdings;
+import org.kuali.ole.docstore.common.document.Item;
+import org.kuali.ole.docstore.common.document.ItemOleml;
+import org.kuali.ole.docstore.common.document.content.enums.DocType;
+import org.kuali.ole.docstore.common.search.SearchResponse;
+import org.kuali.ole.docstore.common.search.SearchResult;
+import org.kuali.ole.docstore.common.search.SearchResultField;
+import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
+import org.kuali.ole.docstore.engine.service.index.solr.ItemConstants;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.businessobject.DocInfoBean;
 import org.kuali.ole.select.lookup.DocData;
@@ -25,6 +38,7 @@ import org.kuali.ole.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.*;
 
@@ -38,12 +52,22 @@ public class OleDocStoreSearchService extends PlatformAwareDaoBaseOjb implements
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OleDocStoreSearchService.class);
     static HashMap<String, String> cache = new HashMap<String, String>();
     private static transient BibInfoWrapperService bibInfoWrapperService;
+    private DocstoreClientLocator docstoreClientLocator;
 
     public static BibInfoWrapperService getBibInfoWrapperService() {
         if (bibInfoWrapperService == null) {
             bibInfoWrapperService = SpringContext.getBean(BibInfoWrapperService.class);
         }
         return bibInfoWrapperService;
+    }
+
+    public DocstoreClientLocator getDocstoreClientLocator() {
+
+        if (docstoreClientLocator == null) {
+            docstoreClientLocator = SpringContext.getBean(DocstoreClientLocator.class);
+
+        }
+        return docstoreClientLocator;
     }
     
 /*    public boolean createCriteria(Object arg0, String arg1, String arg2, Object arg3) {
@@ -74,6 +98,118 @@ public class OleDocStoreSearchService extends PlatformAwareDaoBaseOjb implements
         List<DocData> ress = new ArrayList<DocData>(0);
         ress = getDocResult(docStoreResult);
         return ress;
+    }
+
+
+
+    public List<DocData> getDocSearchResults(Map<String,String> criteria,String attr, List<Object> vals,boolean isMultiValuedSearch){
+        int maxLimit = Integer.parseInt(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(OLEConstants.DOCSEARCH_ORDERQUEUE_LIMIT_KEY));
+        String title="";
+        if (criteria != null) {
+            for (Map.Entry<String, String> entry : criteria.entrySet()) {
+                if (entry.getKey().equals("title")) {
+                    title = entry.getValue();
+                }
+            }
+        }
+        List<DocData> results=new ArrayList<DocData>();
+        try {
+            org.kuali.ole.docstore.common.document.Item item = new ItemOleml();
+            org.kuali.ole.docstore.common.search.SearchParams searchParams = new org.kuali.ole.docstore.common.search.SearchParams();
+            searchParams.setPageSize(maxLimit);
+            SearchResponse searchResponse = null;
+            HashMap titleIdMap = new HashMap();
+            //searchParams.getSearchConditions().add(searchParams.buildSearchCondition("", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "Title_display", title), ""));
+            if(isMultiValuedSearch){
+                boolean isTitleExist=false;
+                if (StringUtils.isNotBlank(title)) {
+                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition("AND", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(),BibConstants.TITLE_SEARCH, title), "AND"));
+                    isTitleExist=true;
+                }
+                if(CollectionUtils.isNotEmpty(vals)){
+                    int loop = 0;
+                    for (Object iv : vals) {
+                        String id = iv.toString();
+                        boolean isIdExists = titleIdMap.containsValue(id);
+                        if(isTitleExist){
+                            searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), ItemConstants.BIB_IDENTIFIER, id), "AND"));
+                        } else {
+                            searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), ItemConstants.BIB_IDENTIFIER, id), "OR"));
+                        }
+
+                        loop++;
+                        if (loop == maxLimit)
+                            break;
+                    }
+                }
+
+                //searchParams.getSearchConditions().add(searchParams.buildSearchCondition("", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), BibConstants.TITLE_SEARCH, title), ""));
+            } else {
+                if (StringUtils.isNotBlank(title)) {
+                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition("any", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(),BibConstants.TITLE_SEARCH, title), ""));
+                }
+            }
+
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.BIB_IDENTIFIER));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Bib.TITLE));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Bib.AUTHOR));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.PUBLICATIONDATE_DISPLAY));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.PUBLISHER_DISPLAY));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.ISBN_DISPLAY));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.LOCALID_DISPLAY));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.UNIQUE_ID));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.ID));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.FORMAT_DISPLAY));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.DOC_FORMAT));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.DOC_CATEGORY));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.DOC_TYPE));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), "format"));
+
+
+            searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+            for (SearchResult searchResult : searchResponse.getSearchResults()) {
+                DocData docData=new DocData();
+                docData=buildDocInfoBean(docData,searchResult);
+                results.add(docData);
+            }
+        } catch (Exception ex) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "Item Exists");
+            LOG.error(org.kuali.ole.OLEConstants.ITEM_EXIST + ex);
+        }
+        return results;
+    }
+
+    private DocData buildDocInfoBean(DocData data, SearchResult searchResult) {
+
+        if (CollectionUtils.isNotEmpty(searchResult.getSearchResultFields())) {
+            for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
+                if (StringUtils.isNotBlank(searchResultField.getFieldName())) {
+                    if (searchResultField.getFieldName().equalsIgnoreCase(Bib.BIBIDENTIFIER)) {
+                        data.setBibIdentifier(searchResultField.getFieldValue());
+                        data.setUniqueId(searchResultField.getFieldValue());
+                    } else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.TITLE)) {
+                        data.setTitle(searchResultField.getFieldValue());
+                    } else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.AUTHOR)) {
+                        data.setAuthor(searchResultField.getFieldValue());
+                    } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.ISBN_DISPLAY)) {
+                        data.setIsbn(searchResultField.getFieldValue());
+                    } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.LOCALID_DISPLAY)) {
+                        data.setLocalIdentifier(searchResultField.getFieldValue());
+                    } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.UNIQUE_ID)) {
+                        //data.setUniqueId(searchResultField.getFieldValue());
+                    } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.PUBLICATIONDATE_DISPLAY)) {
+                        data.setPublicationDate(searchResultField.getFieldValue());
+                    }else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.PUBLISHER_DISPLAY)) {
+                        data.setPublisher(searchResultField.getFieldValue());
+                    } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.FORMAT_DISPLAY)) {
+                        data.setFormat(searchResultField.getFieldValue());
+                    }else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.DOC_FORMAT)) {
+                        data.setFormat(searchResultField.getFieldValue());
+                    }
+                }
+            }
+        }
+        return data;
     }
 
     /**

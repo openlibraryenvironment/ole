@@ -1309,6 +1309,14 @@
                         submits or approves  the invoice, making the necessary ledger entries back on the individual invoice
                         lines.  (The “vendor invoice amount” is retained on the document, but nothing further is done with
                         it.) </para>
+                    <note>
+                        <para>There is a documented problem with rounding amounts on a foreign
+                            invoice.  If there is a discrepancy of a few cents, you will need to
+                            manually adjust the invoiced price on the Current Items tab.  For more
+                            information on the bug, please see <link
+                                xlink:href="https://jira.kuali.org/browse/OLE-6733"
+                            >OLE-6733</link>.</para>
+                    </note>
                 </listitem>
             </orderedlist>
             <section>
@@ -1352,6 +1360,28 @@
                         </mediaobject>
                     </screenshot>
                 </para>
+                <section>
+                    <title>Negative Invoices</title>
+                    <para>A negative charge against a PO line item will have a negative invoice
+                        amount for the line item. The total of all invoice amounts on line items
+                        must equal the value entered into Vendor Invoice Amount. The amount on the
+                        accounting lines will still appear as a positive number, but a negative
+                        amount for a PO will generate a Credit Memo instead of a Payment Request.
+                        The example below shows how the Invoice's Current Items tab will appear with
+                        negative amounts.</para>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Invoice Document: Sample of items with negative amounts</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-396.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </section>
             </section>
             <section>
                 <title>Cloning an Invoice</title>

@@ -832,5 +832,19 @@
             <artifactId>groovycsv</artifactId>
             <version>1.0</version>
         </dependency>
+
+        <!-- ole-sip2 dependency-->
+        <dependency>
+            <groupId>org.kuali.ole</groupId>
+            <artifactId>ole-sip2</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.0.6</version>
+        </dependency>
+
     </dependencies>
 </project>

@@ -263,7 +263,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
             parentCriterial.put("purapDocumentIdentifier", poDocNum);
             List<OlePurchaseOrderDocument> olePurchaseOrderDocument = (List<OlePurchaseOrderDocument>) getBusinessObjectService().findMatching(OlePurchaseOrderDocument.class, parentCriterial);
             if (olePurchaseOrderDocument != null)
-                oleSerialReceivingDocument.setPoIdLink(olePurchaseOrderDocument.get(0).getDocumentNumber());
+                oleSerialReceivingDocument.setPoIdLink(oleSerialReceivingDocument.formPoIdLinkUsingPoDocumentNumber(olePurchaseOrderDocument.get(0).getDocumentNumber()));
         }
         String principalName = GlobalVariables.getUserSession().getPrincipalName();
         oleSerialReceivingDocument.setOperatorId(principalName);
@@ -769,6 +769,14 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                 break;
             }
         }
+        return getUIFModelAndView(oleSerialReceivingForm);
+    }
+
+    @RequestMapping(params = "methodToCall=noLinkPO")
+    public ModelAndView noLinkPO(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                 HttpServletRequest request, HttpServletResponse response) {
+        OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
+        OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
         return getUIFModelAndView(oleSerialReceivingForm);
     }
 

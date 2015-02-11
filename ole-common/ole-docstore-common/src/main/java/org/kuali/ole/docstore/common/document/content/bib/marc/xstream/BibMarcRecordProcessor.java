@@ -47,34 +47,41 @@ public class BibMarcRecordProcessor {
         this.errBuilder = errBuilder;
     }
     private static XStream getXstream() {
-        XStream xStream = new XStream();
-        xStream.alias("collection", BibMarcRecords.class);
-        xStream.alias("record", BibMarcRecord.class);
-        xStream.alias("controlfield", ControlField.class);
-        xStream.alias("datafield", DataField.class);
-        xStream.alias("subfield", SubField.class);
-        xStream.addImplicitCollection(BibMarcRecord.class, "dataFields", DataField.class);
-        xStream.addImplicitCollection(BibMarcRecord.class, "controlFields", ControlField.class);
-        xStream.addImplicitCollection(BibMarcRecords.class, "records");
-        xStream.registerConverter(new DataFieldConverter());
-        xStream.registerConverter(new SubFieldConverter());
-        xStream.registerConverter(new ControlFieldConverter());
+        if(xStream == null){
+            XStream newXStream = new XStream();
+            newXStream.alias("collection", BibMarcRecords.class);
+            newXStream.alias("record", BibMarcRecord.class);
+            newXStream.alias("controlfield", ControlField.class);
+            newXStream.alias("datafield", DataField.class);
+            newXStream.alias("subfield", SubField.class);
+            newXStream.addImplicitCollection(BibMarcRecord.class, "dataFields", DataField.class);
+            newXStream.addImplicitCollection(BibMarcRecord.class, "controlFields", ControlField.class);
+            newXStream.addImplicitCollection(BibMarcRecords.class, "records");
+            newXStream.registerConverter(new DataFieldConverter());
+            newXStream.registerConverter(new SubFieldConverter());
+            newXStream.registerConverter(new ControlFieldConverter());
+            xStream = newXStream;
+        }
         return xStream;
     }
 
 
     private static XStream buildXstream() {
-        XStream xStream = new XStream();
-        xStream.alias(RECORD, BibMarcRecord.class);
-        xStream.alias(CONTROLFIELD, ControlField.class);
-        xStream.alias(DATAFIELD, DataField.class);
-        xStream.alias(SUBFIELD, SubField.class);
-        xStream.addImplicitCollection(BibMarcRecord.class, "dataFields", DataField.class);
-        xStream.addImplicitCollection(BibMarcRecord.class, "controlFields", ControlField.class);
-        xStream.addImplicitCollection(BibMarcRecords.class, "records");
-        xStream.registerConverter(new DataFieldConverter());
-        xStream.registerConverter(new ControlFieldConverter());
-        return xStream;
+        if(xStreamObj == null){
+            XStream newXStreamObj = new XStream();
+            newXStreamObj.alias(RECORD, BibMarcRecord.class);
+            newXStreamObj.alias(CONTROLFIELD, ControlField.class);
+            newXStreamObj.alias(DATAFIELD, DataField.class);
+            newXStreamObj.alias(SUBFIELD, SubField.class);
+            newXStreamObj.addImplicitCollection(BibMarcRecord.class, "dataFields", DataField.class);
+            newXStreamObj.addImplicitCollection(BibMarcRecord.class, "controlFields", ControlField.class);
+            newXStreamObj.addImplicitCollection(BibMarcRecords.class, "records");
+            newXStreamObj.registerConverter(new DataFieldConverter());
+            newXStreamObj.registerConverter(new ControlFieldConverter());
+            xStreamObj = newXStreamObj;
+        }
+
+        return xStreamObj;
     }
 
     public BibMarcRecords fromXML(String fileContent) {

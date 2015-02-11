@@ -39,6 +39,7 @@
                 <ref bean="OleCirculationDesk-printSlip"/>
                 <ref bean="OleCirculationDesk-holdFormat"/>
                 <ref bean="OleCirculationDesk-holdQueue"/>
+                <ref bean="OleCirculationDesk-replyToEmail"/>
             </list>
         </property>
     </bean>
@@ -290,6 +291,24 @@
         <property name="label" value="Hold Queue"/>
         <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
     </bean>
+
+    <bean id="OleCirculationDesk-replyToEmail" parent="OleCirculationDesk-replyToEmail-parentBean"/>
+    <bean id="OleCirculationDesk-replyToEmail-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="replyToEmail"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Reply-To Email"/>
+        <property name="maxLength" value="100"/>
+        <property name="validCharactersConstraint">
+            <bean parent="EmailAddressPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="summary" value="Reply-To Email"/>
+        <property name="label" value="Reply-To Email"/>
+        <property name="description" value="Reply-To Email"/>
+    </bean>
+
     <!-- Business Object Inquiry Definition -->
 
     <bean id="OleCirculationDesk-InquiryView" parent="Uif-OLEInquiryView">
@@ -316,10 +335,12 @@
                                         <bean id="inquiry_printSlip" parent="Uif-InputField" p:propertyName="printSlip"/>
                                         <bean id="inquiry_holdFormat" parent="Uif-InputField" p:propertyName="holdFormat"/>
                                         <bean id="inquiry_holdQueue" parent="Uif-InputField" p:propertyName="holdQueue"/>
+                                        <bean id="inquiry_replyToEmail" parent="Uif-InputField" p:propertyName="replyToEmail"/>
                                      </list>
                                 </property>
                             </bean>
                             <ref bean="OleCirculationDesk-inquiry-Locations" />
+                            <ref bean="OleCirculationDesk-PickUp-inquiry-Locations" />
                         </list>
                     </property>
                     <property name="headerText" value="Circulation Desk"/>
@@ -336,7 +357,23 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="location.fullLocationPath" p:label="Location">
+                <bean parent="Uif-InputField" p:propertyName="location.fullLocationPath" p:label="Location" p:render="@{#line?.circulationPickUpDeskLocation eq null}">
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleCirculationDesk-PickUp-inquiry-Locations" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:disclosure.defaultOpen="true">
+        <!--p:fieldBindingObjectPath="document.newMaintainableObject.dataObject"-->
+        <property name="headerText" value="Pick up location for" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleCirculationDeskLocation" />
+        <property name="propertyName" value="oleCirculationDeskLocations" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="circulationPickUpDeskLocation" p:label="Location" p:render="@{#line?.circulationPickUpDeskLocation ne null and #line?.circulationPickUpDeskLocation ne '' }">
                 </bean>
 
             </list>

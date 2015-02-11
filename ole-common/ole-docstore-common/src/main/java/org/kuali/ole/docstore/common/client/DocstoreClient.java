@@ -87,6 +87,8 @@ public interface DocstoreClient {
 
     public List<Bib> retrieveBibs(List<String> bibIds);
 
+    public List<Bib> acquisitionSearchRetrieveBibs(List<String> bibIds);
+
     public List<Item> retrieveItems(List<String> itemIds);
 
     public HashMap<String,Item> retrieveItemMap(List<String> itemIds);

@@ -1,6 +1,7 @@
 package org.kuali.ole.batch.bo;
 
 
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.ingest.BatchProcessBibImport;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecord;
@@ -34,7 +35,10 @@ public class OLEBatchBibImportDataObjects {
 
 
     public List<OrderBibMarcRecord> getResponseOrderRecord(List<OrderBibMarcRecord> orderBibMarcRecords) {
-
+        int createBibCount = 0;
+        int updateBibCount = 0;
+        int createHoldingsCount = 0;
+        int updateHoldingsCount = 0;
         for (int i = 0; i < getBibTrees().getBibTrees().size(); i++) {
             BibTree bibTree = getBibTrees().getBibTrees().get(i);
             OrderBibMarcRecord orderBibMarcRecord = orderBibMarcRecords.get(i);
@@ -45,6 +49,12 @@ public class OLEBatchBibImportDataObjects {
                 BibId bibId = new BibId();
                 bibId.setId(bibTree.getBib().getId());
                 orderBibMarcRecord.setBibId(bibId);
+            }
+            if(bibTree.getBib().getOperation().name().equalsIgnoreCase(OLEConstants.CREATE_BIB)){
+                createBibCount++;
+            }
+            else if(bibTree.getBib().getOperation().name().equalsIgnoreCase(OLEConstants.UPDATE_BIB)){
+                updateBibCount++;
             }
             for (int j = 0; j < bibTree.getHoldingsTrees().size(); j++) {
 
@@ -57,6 +67,12 @@ public class OLEBatchBibImportDataObjects {
                     holdingsId.setId(holdingsTree.getHoldings().getId());
                     orderBibMarcRecord.getBibId().getHoldingsIds().add(holdingsId);
                 }
+                if(holdingsTree.getHoldings().getOperation().name().equalsIgnoreCase(OLEConstants.CREATE_BIB)){
+                    createHoldingsCount++;
+                }
+                else if(holdingsTree.getHoldings().getOperation().name().equalsIgnoreCase(OLEConstants.UPDATE_BIB)){
+                    updateHoldingsCount++;
+                }
                 for (Item item : holdingsTree.getItems()) {
                     if (item.getResult().equals(DocstoreDocument.ResultType.FAILURE)) {
                         orderBibMarcRecord.setFailureReason(item.getMessage());
@@ -67,7 +83,10 @@ public class OLEBatchBibImportDataObjects {
                     }
                 }
             }
-
+            orderBibMarcRecord.setCreateBibCount(createBibCount);
+            orderBibMarcRecord.setUpdateBibCount(updateBibCount);
+            orderBibMarcRecord.setCreateHoldingsCount(createHoldingsCount);
+            orderBibMarcRecord.setUpdateHoldingsCount(updateHoldingsCount);
         }
 
         return orderBibMarcRecords;

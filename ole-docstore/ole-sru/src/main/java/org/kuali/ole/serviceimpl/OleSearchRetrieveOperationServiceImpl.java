@@ -5,6 +5,7 @@ import org.kuali.ole.bo.cql.CQLResponseBO;
 import org.kuali.ole.bo.diagnostics.OleSRUDiagnostics;
 import org.kuali.ole.bo.serachRetrieve.OleSRUData;
 import org.kuali.ole.bo.serachRetrieve.OleSRUSearchRetrieveResponse;
+import org.kuali.ole.docstore.OleException;
 import org.kuali.ole.docstore.common.client.DocstoreClient;
 import org.kuali.ole.docstore.common.document.BibTree;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
@@ -12,6 +13,7 @@ import org.kuali.ole.docstore.common.search.*;
 import org.kuali.ole.docstore.engine.client.DocstoreLocalClient;
 import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
 import org.kuali.ole.docstore.model.enums.DocType;
+import org.kuali.ole.docstore.utility.ISBNUtil;
 import org.kuali.ole.handler.OleSRUOpacXMLResponseHandler;
 import org.kuali.ole.service.OleCQLQueryParserService;
 import org.kuali.ole.service.OleDiagnosticsService;
@@ -316,7 +318,18 @@ public class OleSearchRetrieveOperationServiceImpl implements OleSearchRetrieveO
                 }
             }
             if (cqlResponseBO.getSearchClauseTag() != null && cqlResponseBO.getSearchClauseTag().getTerm() != null) {
-                searchField.setFieldValue(cqlResponseBO.getSearchClauseTag().getTerm());
+                String fieldValue=cqlResponseBO.getSearchClauseTag().getTerm().replaceAll("-","");
+                if (cqlResponseBO.getSearchClauseTag().getIndex().equalsIgnoreCase(OleSRUConstants.ISBN)){
+                    ISBNUtil isbnUtil = new ISBNUtil();
+                    try {
+                        fieldValue = isbnUtil.normalizeISBN(fieldValue);
+                    } catch (OleException e) {
+                        e.printStackTrace();
+                    }
+                    searchField.setFieldValue(fieldValue);
+                }else{
+                    searchField.setFieldValue(cqlResponseBO.getSearchClauseTag().getTerm());
+                }
             }
         }
         return searchField;
@@ -331,7 +344,7 @@ public class OleSearchRetrieveOperationServiceImpl implements OleSearchRetrieveO
         }else if (cqlResponseBO.getSearchClauseTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag().getValue() != null && cqlResponseBO.getSearchClauseTag().getRelationTag().getValue().equalsIgnoreCase("adj")) {
             searchCondition.setSearchScope("phrase");
         } else {
-            searchCondition.setSearchScope("and");
+            searchCondition.setSearchScope("phrase");
         }
         if (null != searchField)
             searchCondition.setSearchField(searchField);

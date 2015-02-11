@@ -79,7 +79,6 @@ public class Holdings
     public static final String BIB_TITLE = "BIBTITLE";
     public static final String HOLDINGSIDENTIFIER = "HOLDINGSIDENTIFIER";
     public static final String DESTINATION_FIELD_CALL_NUMBER = "Call Number";
-    public static final String LCC = "LCC";
     public static final String DESTINATION_FIELD_HOLDING_CALL_NUMBER_TYPE = "Call Number Type";
     public static final String DESTINATION_FIELD_CALL_NUMBER_TYPE_PREFIX = "Call Number Prefix";
     public static final String DESTINATION_FIELD_LOCATION_LEVEL_1 = "Location Level1";
@@ -480,7 +479,7 @@ public class Holdings
             oleHoldings.getCallNumber().setNumber(fieldValue);
             String callNumberType = oleHoldings.getCallNumber().getShelvingScheme().getCodeValue();
             if (StringUtils.isEmpty(callNumberType) || callNumberType.equals(NO_INFO_CALL_NUMBER_TYPE_CODE)) {
-                oleHoldings.getCallNumber().getShelvingScheme().setCodeValue(LCC);
+                oleHoldings.getCallNumber().getShelvingScheme().setCodeValue("NONE");
             }
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_HOLDING_CALL_NUMBER_TYPE)) {
             oleHoldings.getCallNumber().getShelvingScheme().setCodeValue(fieldValue);
@@ -511,11 +510,15 @@ public class Holdings
         if (docField.equalsIgnoreCase(DESTINATION_FIELD_CALL_NUMBER)) {
             if (oleHoldings.getCallNumber().getNumber() == null) {
                 oleHoldings.getCallNumber().setNumber(fieldValue);
+                String callNumberType = oleHoldings.getCallNumber().getShelvingScheme().getCodeValue();
+                if (StringUtils.isEmpty(callNumberType) || callNumberType.equals(NO_INFO_CALL_NUMBER_TYPE_CODE)) {
+                    oleHoldings.getCallNumber().getShelvingScheme().setCodeValue("NONE");
+                }
             }
 
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_HOLDING_CALL_NUMBER_TYPE)) {
 
-            if (oleHoldings.getCallNumber().getShelvingScheme().getCodeValue() == null) {
+            if (oleHoldings.getCallNumber().getShelvingScheme().getCodeValue() == null || "NONE".equalsIgnoreCase(oleHoldings.getCallNumber().getShelvingScheme().getCodeValue())) {
                 oleHoldings.getCallNumber().getShelvingScheme().setCodeValue(fieldValue);
             }
 

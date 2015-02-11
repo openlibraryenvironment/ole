@@ -57,6 +57,9 @@ public class OLEBatchProcessOrderImportSourceFieldValueFinder extends KeyValuesB
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.REQUEST_SRC,"Request Source"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.CAPTION,"Caption"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.VOLUME_NUMBER,"Volume Number"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_TYP,"Recurring Payment Type"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_BEGIN_DT,"Recurring Payment Begin Date"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.RECURRING_PAYMENT_END_DT,"Recurring Payment End Date"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.DELIVERY_BUILDING_ROOM_NUMBER,OLEConstants.OLEBatchProcess.BUILDING_ROOM_NUMBER));
         Collections.sort(keyValues,new Comparator<KeyValue>(){
             public int compare(KeyValue keyValue1,KeyValue keyValue2){

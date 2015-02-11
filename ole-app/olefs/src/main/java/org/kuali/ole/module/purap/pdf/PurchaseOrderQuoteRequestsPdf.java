@@ -27,6 +27,7 @@ import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
 import org.kuali.ole.module.purap.util.PurApDateFormatUtils;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.RiceConstants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -36,6 +37,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Locale;
 
 /**
  * Base class to handle pdf for purchase order quote request documents.
@@ -272,7 +274,7 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
         headerTable.addCell(cell);
 
         // Date format pattern: MM-dd-yyyy
-        SimpleDateFormat sdf = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.KUALI_SIMPLE_DATE_FORMAT_2);
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE, Locale.getDefault());
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         cell = new PdfPCell(new Paragraph("Printed: " + sdf.format(today), cellTextFont));
         cell.setBorderWidth(0);

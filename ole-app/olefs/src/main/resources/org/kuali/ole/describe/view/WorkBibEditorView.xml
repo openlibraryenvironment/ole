@@ -25,25 +25,9 @@
     <bean id="WorkBibEditorView" parent="WorkBibEditorView-parentBean"/>
 
     <bean id="WorkBibEditorView-parentBean" parent="Uif-OLEFormView">
-        <property name="headerText" value="Marc Editor"/>
-        <property name="help">
-            <bean parent="Uif-Help">
-                <property name="externalHelpUrl"
-                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s02.html"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
-            </bean>
-        </property>
         <property name="items">
             <list>
                 <bean id="WorkBibEditorViewPage" parent="Uif-Page" p:readOnly="@{editable eq 'false'}">
-                    <property name="headerText" value="@{headerText}"/>
-                    <property name="help">
-                        <bean parent="Uif-Help">
-                            <property name="externalHelpUrl"
-                                      value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s02.html"/>
-                            <property name="tooltipHelpContent" value="[Help] help"/>
-                        </bean>
-                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-SecondaryActionButton" p:actionLabel="Edit" p:actionScript="edit()"

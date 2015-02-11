@@ -1,5 +1,10 @@
 package org.kuali.ole.ncip.bo;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonMethod;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Created with IntelliJ IDEA.
  * User: maheswarang
@@ -7,20 +12,46 @@ package org.kuali.ole.ncip.bo;
  * Time: 7:53 PM
  * To change this template use File | Settings | File Templates.
  */
+@JsonAutoDetect(JsonMethod.FIELD)
 public class OLECheckInItem {
+
+    @JsonProperty("code")
     private String code;
+
+    @JsonProperty("message")
     private String message;
+
+    @JsonProperty("title")
     private  String title;
+
+    @JsonProperty("author")
     private  String author;
+
+    @JsonProperty("description")
     private  String description;
+
+    @JsonProperty("callNumber")
     private  String callNumber;
+
+    @JsonProperty("userId")
     private  String userId;
+
+    @JsonProperty("userType")
     private String userType;
+
+    @JsonProperty("itemType")
     private String itemType;
+
+    @JsonProperty("barcode")
     private String barcode;
 
+    /*This following fields are only for SIP2*/
+    @JsonIgnore
+    private String patronBarcode;
 
-
+    @JsonIgnore
+    private String itemLocation;
+    /*This above fields are only for SIP2*/
 
     public String getTitle() {
         return title;
@@ -101,5 +132,21 @@ public class OLECheckInItem {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getPatronBarcode() {
+        return patronBarcode;
+    }
+
+    public void setPatronBarcode(String patronBarcode) {
+        this.patronBarcode = patronBarcode;
+    }
+
+    public String getItemLocation() {
+        return itemLocation;
+    }
+
+    public void setItemLocation(String itemLocation) {
+        this.itemLocation = itemLocation;
     }
 }

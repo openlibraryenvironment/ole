@@ -27,6 +27,7 @@ import org.kuali.ole.select.document.OLEEResourceRecordDocument;
 import org.kuali.ole.service.OLEEResourceHelperService;
 import org.kuali.ole.service.OLEEResourceSearchService;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
@@ -265,8 +266,9 @@ public class WorkEInstanceOlemlEditor
         workEInstanceOlemlForm.setViewId("WorkEInstanceViewPage");
         workEInstanceOlemlForm.setIssn(bib.getIssn());
         editorForm.seteResourceTitle(workEInstanceOlemlForm.geteResourceTitle());
-//        editorForm.setHeaderText("EInstance Editor (EHoldings) - OLEML Format");
-        editorForm.setHeaderText("EHoldings");
+        String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(org.kuali.ole.sys.OLEConstants.EXTERNALIZABLE_HELP_URL_KEY);
+        editorForm.setExternalHelpUrl(directory+"/reference/webhelp/CG/content/ch01s04.html");
+        editorForm.setHeaderText("E-Holdings");
         if (workEInstanceOlemlForm.getTokenId() != null && !workEInstanceOlemlForm.getTokenId().isEmpty()) {
             editorForm.setTokenId(workEInstanceOlemlForm.getTokenId());
         }

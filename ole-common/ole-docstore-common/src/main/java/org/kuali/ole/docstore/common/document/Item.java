@@ -110,7 +110,6 @@ public class Item
     public static final String DESTINATION_FIELD_CALL_NUMBER_TYPE_PREFIX = "Call Number Prefix";
     public static final String DESTINATION_ITEM_TYPE = "Item Type";
     public static final String DESTINATION_ITEM_STATUS = "Item Status";
-    public static final String LCC = "LCC";
     public static final String DESTINATION_FIELD_ITEM_HOLDINGS_CALL_NUMBER = "Holdings Call Number";
     public static final String DESTINATION_FIELD_ITEM_HOLDINGS_CALL_NUMBER_TYPE = "Holdings Call Number Type";
     public static final String DESTINATION_FIELD_ITEM_HOLDINGS_COPY_NUMBER = "Holdings Copy Number";
@@ -669,12 +668,11 @@ public class Item
             itemPojo.getCallNumber().setNumber(fieldValue);
             String callNumberType = itemPojo.getCallNumber().getShelvingScheme().getCodeValue();
             if(StringUtils.isEmpty(callNumberType) || callNumberType.equals(NO_INFO_CALL_NUMBER_TYPE_CODE)) {
-                itemPojo.getCallNumber().getShelvingScheme().setCodeValue(LCC);
+                itemPojo.getCallNumber().getShelvingScheme().setCodeValue("NONE");
             }
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_CALL_NUMBER_TYPE)) {
             buildItemCallNumber(itemPojo);
             itemPojo.getCallNumber().getShelvingScheme().setCodeValue(fieldValue);
-
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_CALL_NUMBER_TYPE_PREFIX)) {
             buildItemCallNumber(itemPojo);
             itemPojo.getCallNumber().setPrefix(fieldValue);
@@ -997,11 +995,11 @@ public class Item
             itemPojo.getCallNumber().setNumber(fieldValue);
             String callNumberType = itemPojo.getCallNumber().getShelvingScheme().getCodeValue();
             if(StringUtils.isEmpty(callNumberType)) {
-                itemPojo.getCallNumber().getShelvingScheme().setCodeValue(LCC);
+                itemPojo.getCallNumber().getShelvingScheme().setCodeValue("NONE");
             }
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_CALL_NUMBER_TYPE)) {
             buildItemCallNumber(itemPojo);
-            if (itemPojo.getCallNumber().getShelvingScheme().getCodeValue() == null) {
+            if (itemPojo.getCallNumber().getShelvingScheme().getCodeValue() == null || "NONE".equalsIgnoreCase(itemPojo.getCallNumber().getShelvingScheme().getCodeValue())) {
                 itemPojo.getCallNumber().getShelvingScheme().setCodeValue(fieldValue);
             }
 
@@ -1061,9 +1059,11 @@ public class Item
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_ITEM_HOLDINGS_CALL_NUMBER_PREFIX)) {
             setHoldingsCallNumberPrefix(fieldValue);
         } else if (docField.equalsIgnoreCase(DESTINATION_ITEM_STATUS)) {
-            ItemStatus itemStatus1 = new ItemStatus();
-            itemStatus1.setCodeValue(fieldValue);
-            itemPojo.setItemStatus(itemStatus1);
+            if(itemPojo.getItemStatus() == null){
+                ItemStatus itemStatus1 = new ItemStatus();
+                itemStatus1.setCodeValue(fieldValue);
+                itemPojo.setItemStatus(itemStatus1);
+            }
         } else if (docField.equalsIgnoreCase(ENUMERATION)) {
             if (itemPojo.getEnumeration() == null) {
                 itemPojo.setEnumeration(fieldValue);

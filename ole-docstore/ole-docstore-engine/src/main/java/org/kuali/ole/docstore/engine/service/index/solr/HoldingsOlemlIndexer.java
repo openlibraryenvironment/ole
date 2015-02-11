@@ -446,7 +446,7 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
             HoldingsTree holdingsTree = docstoreService.retrieveHoldingsTree(holdings.getId());
             ItemOlemlIndexer itemOlemlIndexer = ItemOlemlIndexer.getInstance();
             for (Item item : holdingsTree.getItems()) {
-                itemOlemlIndexer.updateRecordInSolrForItem(item, solrInputDocuments, holdingsSolrDocument);
+                itemOlemlIndexer.updateRecordInSolrForItem(item, solrInputDocuments, solrDocForHolding);
             }
 
             solrDocForHolding.addField(BIB_IDENTIFIER, holdings.getBib().getId());
@@ -474,7 +474,7 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
                 HoldingsTree holdingsTree = docstoreService.retrieveHoldingsTree(holdings.getId());
                 ItemOlemlIndexer itemOlemlIndexer = ItemOlemlIndexer.getInstance();
                 for (Item item : holdingsTree.getItems()) {
-                    itemOlemlIndexer.updateRecordInSolrForItem(item, solrInputDocuments, holdingsSolrDocument);
+                    itemOlemlIndexer.updateRecordInSolrForItem(item, solrInputDocuments, solrDocForHolding);
                 }
 
                 solrDocForHolding.addField(BIB_IDENTIFIER, holdings.getBib().getId());

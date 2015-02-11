@@ -132,7 +132,7 @@
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch01s03.html"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
         <property name="dataObjectClassName" value="org.kuali.ole.batch.bo.OLEBatchProcessFilterCriteriaBo"/>

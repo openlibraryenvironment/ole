@@ -39,7 +39,7 @@ public class OleFundLookupDocument extends TransactionalDocumentBase {
     private String objectCode;
     private String organizationCode;
     private String keyword;
-    private Integer universityFiscalYear;
+    private String universityFiscalYear;
     private boolean active;
     private Chart chart;
     private Account account;
@@ -62,8 +62,7 @@ public class OleFundLookupDocument extends TransactionalDocumentBase {
 
     public OleFundLookupDocument() {
         Date fiscalYear = new Date();
-        String year = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
-        universityFiscalYear = Integer.parseInt(year);
+        universityFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
     }
 
     public String getAccountName() {
@@ -114,11 +113,11 @@ public class OleFundLookupDocument extends TransactionalDocumentBase {
         this.keyword = keyword;
     }
 
-    public Integer getUniversityFiscalYear() {
+    public String getUniversityFiscalYear() {
         return universityFiscalYear;
     }
 
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+    public void setUniversityFiscalYear(String universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }
 

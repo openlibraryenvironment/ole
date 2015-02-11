@@ -71,6 +71,8 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
     private boolean requestFlag;
     private boolean claimsReturnedFlag;
     private String message;
+    private String chronology;
+    private String enumeration;
 
     private OleCirculationDesk oleCirculationLocation = new OleCirculationDesk();
 
@@ -100,6 +102,8 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
     private boolean asrFlag;
     private boolean isASRItem;
     private boolean isValidToProcess;
+    private String bibId;
+    private String requestLevel;
 
     public String getItemInstitution() {
         return itemInstitution;
@@ -940,5 +944,37 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
 
     public void setValidToProcess(boolean isValidToProcess) {
         this.isValidToProcess = isValidToProcess;
+    }
+
+    public String getChronology() {
+        return chronology;
+    }
+
+    public void setChronology(String chronology) {
+        this.chronology = chronology;
+    }
+
+    public String getEnumeration() {
+        return enumeration;
+    }
+
+    public void setEnumeration(String enumeration) {
+        this.enumeration = enumeration;
+    }
+
+    public String getBibId() {
+        return bibId;
+    }
+
+    public void setBibId(String bibId) {
+        this.bibId = bibId;
+    }
+
+    public String getRequestLevel() {
+        return requestLevel;
+    }
+
+    public void setRequestLevel(String requestLevel) {
+        this.requestLevel = requestLevel;
     }
 }

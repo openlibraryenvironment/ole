@@ -42,6 +42,10 @@ public class OrderBibMarcRecord {
     protected BibId bibId;
     protected BibMarcRecord bibMarcRecord;
     protected String failureReason;
+    private Integer createBibCount;
+    private Integer updateBibCount;
+    private Integer createHoldingsCount;
+    private Integer updateHoldingsCount;
 
     public BibId getBibId() {
         return bibId;
@@ -66,4 +70,38 @@ public class OrderBibMarcRecord {
     public void setFailureReason(String failureReason) {
         this.failureReason = failureReason;
     }
+
+    public Integer getCreateBibCount() {
+        return createBibCount;
+    }
+
+    public void setCreateBibCount(Integer createBibCount) {
+        this.createBibCount = createBibCount;
+    }
+
+    public Integer getUpdateBibCount() {
+        return updateBibCount;
+    }
+
+    public void setUpdateBibCount(Integer updateBibCount) {
+        this.updateBibCount = updateBibCount;
+    }
+
+    public Integer getCreateHoldingsCount() {
+        return createHoldingsCount;
+    }
+
+    public void setCreateHoldingsCount(Integer createHoldingsCount) {
+        this.createHoldingsCount = createHoldingsCount;
+    }
+
+    public Integer getUpdateHoldingsCount() {
+        return updateHoldingsCount;
+    }
+
+    public void setUpdateHoldingsCount(Integer updateHoldingsCount) {
+        this.updateHoldingsCount = updateHoldingsCount;
+    }
 }
+
+

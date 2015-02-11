@@ -58,6 +58,8 @@
     <param name="invalid.record.packing">Record packing must be either XML or String.</param>
 
     <param name="organization.marc.code">OLE</param>
+    <param name="info.DateFormat">MM/dd/yyyy</param>
+
 
 
 

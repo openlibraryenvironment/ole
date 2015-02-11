@@ -32,5 +32,11 @@
             </list>
         </property>
       <!--  <property name="viewHelperServiceClass" value="org.kuali.ole.alert.lookupable.OleLookupableImpl"/>-->
+
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/sys/scripts/tabtitle.js</value>
+            </list>
+        </property>
     </bean>
 </beans>

@@ -13,7 +13,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/batch/script/batch.js</value>
             </list>
         </property>
@@ -49,7 +49,7 @@
         <bean parent="Uif-Help">
             <property name="externalHelpUrl"
                       value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch01s02.html"/>
-            <property name="tooltipHelpContent" value="[Help] help"/>
+            <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
         </bean>
     </property>
         <property name="cssClasses">
@@ -101,6 +101,12 @@
                 <ref bean="OLEBatchProcessDefinitionView-Buttons"/>
                 <ref bean="OLEBatchProcessDefinitionView-CloseButton"/>
                 <ref bean="MessagePopupSectionForInvoiceImport-HorizontalBoxSection"/>
+                <ref bean="hiddenButtonRefresh"/>
+                <ref bean="hiddenProfileId"/>
+                <ref bean="storeProfileId"/>
+                <ref bean="BatchProcessDefinition-batchProcessProfileName_processName"/>
+                <ref bean="BatchProcessDefinition-batchProcessProfileName_processType"/>
+
             </list>
         </property>
     </bean>
@@ -149,22 +155,31 @@
                                     <bean parent="Uif-TextControl" p:size="30" p:maxLength="40"/>
                                 </property>
                             </bean>
-                            <bean id="BatchProcessDefinition-batchProcessProfileName" parent="Uif-InputField"
-                                  p:propertyName="batchProcessProfileName" p:label="Batch Process Profile Name" p:readOnly="@{document.batchProcessId ne null}" p:render="@{permissionFlag}">
-                                <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.batch.bo.OLEBatchProcessProfileBo"
-                                          p:fieldConversions="batchProcessProfileId:batchProcessProfileId,batchProcessProfileName:batchProcessProfileName,batchProcessProfileType:batchProcessType,krmsProfileName:batchProcessKRMSProfile,marcOnly:marcOnly"/>
-                                </property>
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="30" p:maxLength="40" p:disabled="true"/>
-                                </property>
-                            </bean>
+
                             <bean id="BatchProcessDefinition-batchProcessType" parent="Uif-InputField"
-                                  p:propertyName="batchProcessType" p:label="Batch Process Type" p:readOnly="true">
+                                  p:propertyName="batchProcessType" p:label="Batch Process Type" >
+
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="30" p:maxLength="40"/>
+                                    <bean parent="Uif-DropdownControl"/>
                                 </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessProfileNameValueFinder"/>
+                                </property>
+
                             </bean>
+
+                            <ref bean="BatchProcessDefinition-batchProcessProfileName_orderImport"/>
+                            <ref bean="BatchProcessDefinition-batchProcessProfileName_invoiceImport"/>
+                            <ref bean="BatchProcessDefinition-batchProcessProfileName_batchDelete"/>
+                            <ref bean="BatchProcessDefinition-batchProcessProfileName_batchExport"/>
+                            <ref bean="BatchProcessDefinition-batchProcessProfileName_patronImport"/>
+                            <ref bean="BatchProcessDefinition-batchProcessProfileName_bibImport"/>
+                            <ref bean="BatchProcessDefinition-batchProcessProfileName_locationImport"/>
+                            <ref bean="BatchProcessDefinition-batchProcessProfileName_claimReport"/>
+                            <ref bean="BatchProcessDefinition-batchProcessProfileName_serialRecordImport"/>
+
+
+
                             <bean id="BatchProcessDefinition-batchProcessKRMSProfile" parent="Uif-InputField"
                                   p:propertyName="batchProcessKRMSProfile" p:label="Batch Process KRMS Profile"
                                   p:readOnly="true" p:render="@{document.batchProcessType eq 'Order Record Import'}">
@@ -654,6 +669,175 @@
             </list>
         </property>
     </bean>
+
+    <bean id ="hiddenButtonRefresh" parent="Uif-SecondaryActionButton" p:methodToCall="refreshPageView" p:hidden="true" />
+    <bean id ="hiddenProfileId" parent="Uif-SecondaryActionButton" p:methodToCall="profileId" p:hidden="true" />
+    <bean id ="storeProfileId" parent="Uif-SecondaryActionButton" p:methodToCall="populateField" p:hidden="true" />
+    <bean id="BatchProcessDefinition-batchProcessProfileName_processName" parent="Uif-InputField" p:propertyName="processNameHidden" p:hidden="true"/>
+    <bean id="BatchProcessDefinition-batchProcessProfileName_processType" parent="Uif-InputField" p:propertyName="processTypeHidden" p:hidden="true"/>
+
+    <bean id="BatchProcessDefinition-batchProcessProfileName_orderImport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+          p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Order Record Import'}"  p:instructionalText="Type * for all. Other Letters for matching" >
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="retrieveBatchProfileNamesForOrderImport"
+                          p:queryMethodInvokerConfig.targetClass="org.kuali.ole.batch.keyvalue.OLEBatchProcessOrderImportProfileValueFinder" />
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-batchProcessProfileName_invoiceImport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+          p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Invoice Import'}"  p:instructionalText="Type * for all. Other Letters for matching" >
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="retrieveBatchProfileNamesForInvoiceImport"
+                          p:queryMethodInvokerConfig.targetClass="org.kuali.ole.batch.keyvalue.OLEBatchProcessInvoiceImportProfileValueFinder"/>
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-batchProcessProfileName_batchDelete" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+          p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Batch Delete'}"  p:instructionalText="Type * for all. Other Letters for matching" >
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="retrieveBatchProfileNamesForBatchDelete"
+                          p:queryMethodInvokerConfig.targetClass="org.kuali.ole.batch.keyvalue.OLEBatchProcessBatchDeleteProfileValueFinder"/>
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-batchProcessProfileName_batchExport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+          p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Batch Export'}"  p:instructionalText="Type * for all. Other Letters for matching">
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="retrieveBatchProfileNamesForBatchExport"
+                          p:queryMethodInvokerConfig.targetClass="org.kuali.ole.batch.keyvalue.OLEBatchProcessBatchExportProfileValueFinder"/>
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-batchProcessProfileName_patronImport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+          p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Patron Import'}"  p:instructionalText="Type * for all. Other Letters for matching">
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="retrieveBatchProfileNamesForPatronImport"
+                          p:queryMethodInvokerConfig.targetClass="org.kuali.ole.batch.keyvalue.OLEBatchProcessPatronImportProfileValueFinder" />
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-batchProcessProfileName_bibImport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+          p:label="Batch Process Profile Name" p:render="@{(document.batchProcessType eq 'Bib Import')}" p:instructionalText="Type * for all. Other Letters for matching" >
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="retrieveBatchProfileNamesForBibImport"
+                          p:queryMethodInvokerConfig.targetClass="org.kuali.ole.batch.keyvalue.OLEBatchProcessBibImportProfileValueFinder"/>
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-batchProcessProfileName_locationImport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+          p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Location Import'}"  p:instructionalText="Type * for all. Other Letters for matching" >
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="retrieveBatchProfileNamesForLocationImport"
+                          p:queryMethodInvokerConfig.targetClass="org.kuali.ole.batch.keyvalue.OLEBatchProcessLocationImportProfileValueFinder"/>
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-batchProcessProfileName_claimReport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+          p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Claim Report'}"  p:instructionalText="Type * for all. Other Letters for matching">
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="retrieveBatchProfileNamesForClaimReport"
+                          p:queryMethodInvokerConfig.targetClass="org.kuali.ole.batch.keyvalue.OLEBatchProcessClaimImportProfileValueFinder"/>
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-batchProcessProfileName_serialRecordImport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+          p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Serial Record Import'}" p:instructionalText="Type * for all. Other Letters for matching">
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="retrieveBatchProfileNamesForSerialRecordImport"
+                          p:queryMethodInvokerConfig.targetClass="org.kuali.ole.batch.keyvalue.OLEBatchProcessSerialRecordProfileValueFinder"/>
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
 
 
 

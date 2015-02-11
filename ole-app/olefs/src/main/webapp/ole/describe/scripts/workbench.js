@@ -97,7 +97,7 @@ jq("#SearchPanel-docType-Section").live("change",function() {
         }
     });
     jq('#hdn_refresh_button').focus().click();
-    jq('#hidden_refresh_button').focus().click();
+    submitForm('start', null, null,null,null);
 });
 
 
@@ -160,21 +160,27 @@ jq(window).load(function () {
         //jq("#hdnSortOrder_control").val("");
         // jq("#hdnSortField_control").val("");
         jq("#hdn_search_button").focus().click();
-        jq("#hiddenRows_control").val(rows);
-        jq("#hiddenSortFlag_control").val("true");
-        jq("#hidden_search_button").focus().click();
+        jq("#hiddenSearchFields_h1").val(rows); //hiddenSearchFields_h1 is mapped to pageSize
+        jq("#hiddenSearchFields_h4").val("true"); //hiddenSearchFields_h4 is mapped to sortFlag
+        submitForm('search', null, null, true, function () {
+            searching();
+        });
     });
     jq(".paginate_enabled_next").live("click", function () {
         localStorage.localAscSort = true;
         localStorage.localDescSort = true;
         jq('#hdn_NextFlag_button').focus().click();
-        jq('#hidden_NextFlag_button').focus().click();
+        submitForm('nextSearch', null, null, true, function () {
+            searching();
+        });
     });
     jq(".paginate_enabled_previous").live("click", function () {
         localStorage.localAscSort = true;
         localStorage.localDescSort = true;
         jq('#hdn_PreviousFlag_button').focus().click();
-        jq('#hidden_PreviousFlag_button').focus().click();
+        submitForm('previousSearch', null, null, true, function () {
+            searching();
+        });
     });
     jq("#search_button").live("click",function(){
         localStorage.localAscSort = true;
@@ -198,15 +204,17 @@ jq(window).load(function () {
                 var sortAttr= jq(this).attr("aria-label").split(":");
                 jq("#hdnSortOrder_control").val("asc");
                 jq("#hdnSortField_control").val(sortAttr[0]);
-                jq("#hiddenSortOrder_control").val("asc");
-                jq("#hiddenSortField_control").val(sortAttr[0]);
+                jq("#hiddenSearchFields_h2").val("asc"); //hiddenSearchFields_h2 is mapped to sortOrder
+                jq("#hiddenSearchFields_h3").val(sortAttr[0]); //hiddenSearchFields_h3 is mapped to sortField
             }
             localStorage.indexOfTableSorting = jq(this).index();
             localStorage.classValueToReplace = "sorting_asc";
             jq("#hdnSortFlag_control").val("true");
             jq('#hdn_search_button').focus().click();
-            jq("#hiddenSortFlag_control").val("true");
-            jq('#hidden_search_button').focus().click();
+            jq("#hiddenSearchFields_h4").val("true"); //hiddenSearchFields_h4 is mapped to sortFlag
+            submitForm('search', null, null, true, function () {
+                searching();
+            });
         }
         else {
             localStorage.localAscSort = true;
@@ -221,15 +229,17 @@ jq(window).load(function () {
                 var sortAttr= jq(this).attr("aria-label").split(":");
                 jq("#hdnSortOrder_control").val("desc");
                 jq("#hdnSortField_control").val(sortAttr[0]);
-                jq("#hiddenSortOrder_control").val("desc");
-                jq("#hiddenSortField_control").val(sortAttr[0]);
+                jq("#hiddenSearchFields_h2").val("desc"); //hiddenSearchFields_h2 is mapped to sortOrder
+                jq("#hiddenSearchFields_h3").val(sortAttr[0]); //hiddenSearchFields_h3 is mapped to sortField
             }
             localStorage.indexOfTableSorting = jq(this).index();
             localStorage.classValueToReplace = "sorting_desc";
             jq("#hdnSortFlag_control").val("true");
             jq('#hdn_search_button').focus().click();
-            jq("#hiddenSortFlag_control").val("true");
-            jq('#hidden_search_button').focus().click();
+            jq("#hiddenSearchFields_h4").val("true"); //hiddenSearchFields_h4 is mapped to sortFlag
+            submitForm('search', null, null, true, function () {
+                searching();
+            });
 
         }
         else {
@@ -292,18 +302,18 @@ function searching() {
     var endTime = date.getMilliseconds();
     var timeTaken = (endTime - localStorage.startTime)/1000;
     jq("#totalTime_control").text(" "+timeTaken+" ");
-
+    selectCheckbox(jq("#DocumentAndSearchSelectionType_DocType_control").val());
 }
 
 
 function searchShowEntries(){
 
-    jq(".dataTables_length select").val(jq("#hiddenRows_control").val());
+    jq(".dataTables_length select").val(jq("#hiddenSearchFields_h1").val()); //hiddenSearchFields_h1 is mapped to pageSize
     window.setTimeout(function () {
         if (jq(".dataTables_info").text() != "") {
             jq(".dataTables_info").text(jq("#boundwithPageShowEntries_control").val());
             jq(".dataTables_info").text(jq("#workbenchPageShowEntries_control").val());
-            jq(".dataTables_info").text(jq("#searchPageShowEntries_control").val());
+            jq(".dataTables_info").text(jq("#hiddenSearchFields_h7").val());    //hiddenSearchFields_h7 is mapped to pageShowEntries
         }
 
         if (jq("#boundwithNextFlag_control").val() == "true") {
@@ -320,10 +330,12 @@ function searchShowEntries(){
             jq(".paginate_disabled_previous").removeClass("paginate_disabled_previous").addClass("paginate_enabled_previous");
         }
 
-        if (jq("#searchNextFlag_control").val() == "true") {
+        //hiddenSearchFields_h5 is mapped to nextFlag
+        if (jq("#hiddenSearchFields_h5").val() == "true") {
             jq(".paginate_disabled_next").removeClass("paginate_disabled_next").addClass("paginate_enabled_next");
         }
-        if (jq("#searchPreviousFlag_control").val() == "true") {
+        //hiddenSearchFields_h6 is mapped to previousFlag
+        if (jq("#hiddenSearchFields_h6").val() == "true") {
             jq(".paginate_disabled_previous").removeClass("paginate_disabled_previous").addClass("paginate_enabled_previous");
         }
         if (localStorage.classValueToReplace == "sorting_desc") {
@@ -354,7 +366,7 @@ function commonShowEntries(){
     if (jq(".dataTables_info").text() != "") {
         jq(".dataTables_info").text(jq("#boundwithPageShowEntries_control").val());
         jq(".dataTables_info").text(jq("#workbenchPageShowEntries_control").val());
-        jq(".dataTables_info").text(jq("#searchPageShowEntries_control").val());
+        jq(".dataTables_info").text(jq("#hiddenSearchFields_h7").val());    //hiddenSearchFields_h7 is mapped to pageShowEntries
     }
 
     if (jq("#boundwithNextFlag_control").val() == "true") {
@@ -371,10 +383,12 @@ function commonShowEntries(){
         jq(".paginate_disabled_previous").removeClass("paginate_disabled_previous").addClass("paginate_enabled_previous");
     }
 
-    if (jq("#searchNextFlag_control").val() == "true") {
+    //hiddenSearchFields_h5 is mapped to nextFlag
+    if (jq("#hiddenSearchFields_h5").val() == "true") {
         jq(".paginate_disabled_next").removeClass("paginate_disabled_next").addClass("paginate_enabled_next");
     }
-    if (jq("#searchPreviousFlag_control").val() == "true") {
+    //hiddenSearchFields_h6 is mapped to previousFlag
+    if (jq("#hiddenSearchFields_h6").val() == "true") {
         jq(".paginate_disabled_previous").removeClass("paginate_disabled_previous").addClass("paginate_enabled_previous");
     }
 
@@ -384,51 +398,103 @@ function globalEditInstance(docType){
     window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" +docType + "&docFormat=oleml&editable=true&fromSearch=true&pageId=WorkHoldingsViewPage");
 }
 
-function  openSelectAll(doctype) {
-    var checkedcount=0;
-    if (doctype == 'bibliographic'){
-        var length = jq("#BibSearchResults tbody tr").length;
-        for (var count = 0; count < length; count++) {
-            if (jq("#BibSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
-                window.open(jq("#BibSearchResults tbody tr:eq(" + count + ") td:eq(1) div a").attr("href") + "&pageId=WorkBibEditorViewPage");
-                checkedcount+=1;
+function selectCheckbox(doctype) {
+    //hiddenSearchFields_h9 is mapped to selectAllRecords
+    if (jq("#hiddenSearchFields_h9").val() == "true") {
+        if (doctype == 'bibliographic') {
+            var length = jq("#BibSearchResults tbody tr").length;
+            for (var count = 0; count < length; count++) {
+                jq("#BibSearchResults tbody tr:eq(" + count + ") td div input").prop("checked", true);
+            }
+        }
+        else if (doctype == 'holdings') {
+            var length = jq("#HoldingsSearchResults tbody tr").length;
+            for (var count = 0; count < length; count++) {
+                jq("#HoldingsSearchResults tbody tr:eq(" + count + ") td div input").prop("checked", true);
+            }
+        }
+        else if (doctype == 'item') {
+            var length = jq("#ItemSearchResults tbody tr").length;
+            for (var count = 0; count < length; count++) {
+                jq("#ItemSearchResults tbody tr:eq(" + count + ") td div input").prop("checked", true);
+            }
+        }
+        else if (doctype == 'eHoldings') {
+            var length = jq("#EHoldingsSearchResults tbody tr").length;
+            for (var count = 0; count < length; count++) {
+                jq("#EHoldingsSearchResults tbody tr:eq(" + count + ") td div input").prop("checked", true);
             }
         }
     }
-    else if (doctype == 'holdings'){
-        var length = jq("#HoldingsSearchResults tbody tr").length;
-        for (var count = 0; count < length; count++) {
-            if (jq("#HoldingsSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
-                window.open(jq("#HoldingsSearchResults tbody tr:eq(" + count + ") td:eq(2) div a").attr("href") + "&pageId=WorkHoldingsViewPage");
-                checkedcount+=1;
-            }
-        }
-    }
-    else if (doctype == 'item'){
-        var length = jq("#ItemSearchResults tbody tr").length;
-        for (var count = 0; count < length; count++) {
-            if (jq("#ItemSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
-                window.open(jq("#ItemSearchResults tbody tr:eq(" + count + ") td:eq(2) div a").attr("href") + "&pageId=WorkItemViewPage");
-                checkedcount+=1;
-            }
-        }
-    }
-    else if (doctype == 'eHoldings'){
-        var length = jq("#EHoldingsSearchResults tbody tr").length;
-        for (var count = 0; count < length; count++) {
-            if (jq("#EHoldingsSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
-                window.open(jq("#EHoldingsSearchResults tbody tr:eq(" + count + ") td:eq(1) div a").attr("href") + "&pageId=WorkEInstanceViewPage");
-                checkedcount+=1;
+}
+
+function openSelectAll(doctype) {
+    //hiddenSearchFields_h9 is mapped to selectAllRecords
+    if (jq("#hiddenSearchFields_h9").val() == "true") {
+        submitForm('openAll', null, null, true, function () {
+            var selectedRecords = jq("#hiddenSearchFields_h10").val();  //hiddenSearchFields_h10 is mapped to idsToBeOpened
+            var ids=selectedRecords.split(",");
+            var docFormat = "oleml";
+            var pageId= "&pageId=WorkBibEditorViewPage";
+            if (doctype == "bibliographic") {
+                docFormat = "marc";
             }
 
+            for (var i = 0; i < ids.length; i++) {
+                var id = ids[i].split("#");
+                var link = href = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=" +id[1] + "&editable=true";
+                window.open(link);
+            }
+        });
+
+
+
+    } else {
+        var checkedcount = 0;
+        if (doctype == 'bibliographic') {
+            var length = jq("#BibSearchResults tbody tr").length;
+            for (var count = 0; count < length; count++) {
+                if (jq("#BibSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
+                    window.open(jq("#BibSearchResults tbody tr:eq(" + count + ") td:eq(1) div a").attr("href") + "&pageId=WorkBibEditorViewPage");
+                    checkedcount += 1;
+                }
+            }
+        }
+        else if (doctype == 'holdings') {
+            var length = jq("#HoldingsSearchResults tbody tr").length;
+            for (var count = 0; count < length; count++) {
+                if (jq("#HoldingsSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
+                    window.open(jq("#HoldingsSearchResults tbody tr:eq(" + count + ") td:eq(2) div a").attr("href") + "&pageId=WorkHoldingsViewPage");
+                    checkedcount += 1;
+                }
+            }
+        }
+        else if (doctype == 'item') {
+            var length = jq("#ItemSearchResults tbody tr").length;
+            for (var count = 0; count < length; count++) {
+                if (jq("#ItemSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
+                    window.open(jq("#ItemSearchResults tbody tr:eq(" + count + ") td:eq(2) div a").attr("href") + "&pageId=WorkItemViewPage");
+                    checkedcount += 1;
+                }
+            }
+        }
+        else if (doctype == 'eHoldings') {
+            var length = jq("#EHoldingsSearchResults tbody tr").length;
+            for (var count = 0; count < length; count++) {
+                if (jq("#EHoldingsSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
+                    window.open(jq("#EHoldingsSearchResults tbody tr:eq(" + count + ") td:eq(1) div a").attr("href") + "&pageId=WorkEInstanceViewPage");
+                    checkedcount += 1;
+                }
+
+            }
         }
     }
-    else {
-        // alert("Undefined Doctype");
-    }
-    if(checkedcount == 0){
-        alert("Please select atleast one record");
-    }
+}
+
+//hiddenSearchFields_h9 is mapped to selectAllRecords
+function selectAll(doctype){
+    jq("#hiddenSearchFields_h9").val(true);
+    selectCheckbox(doctype);
 
 }
 function highLightNewSearch(id){
@@ -519,5 +585,38 @@ function openHelpWindow(url) {
 function search() {
     var date =new Date();
     localStorage.startTime = date.getMilliseconds();
-    jq("#hidden_search_button").focus().click();
+    submitForm('search', null, null, true, function () {
+        searching();
+    });
 }
+//hiddenSearchFields is mapped to pageNumber
+function oleSearchPager(linkElement, collectionId) {
+    var link = jQuery(linkElement);
+    if (link.parent().is(kradVariables.ACTIVE_CLASS)) return;
+    var pageNumber = link.data(kradVariables.PAGE_NUMBER_DATA);
+    if (pageNumber == 'next')
+        submitForm('nextSearch', null, null, true, function () {
+          searching();
+        });
+
+    else if (pageNumber == 'prev')
+        submitForm('previousSearch', null, null, true, function () {
+            searching();
+        });
+    else if (pageNumber == 'first') {
+    	jQuery('#hiddenSearchFields_control').val('1');
+        submitForm('pageNumberSearch', null, null, true, function () {
+            searching();
+        });
+    } else if (pageNumber == 'last')
+        submitForm('lastPageSearch', null, null, true, function () {
+            searching();
+        });
+    else {
+    	jQuery('#hiddenSearchFields_control').val(pageNumber);
+        submitForm('pageNumberSearch', null, null,  true, function () {
+            searching();
+        });
+    }
+}
+

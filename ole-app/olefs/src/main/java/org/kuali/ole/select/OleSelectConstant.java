@@ -15,6 +15,8 @@
  */
 package org.kuali.ole.select;
 
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -25,7 +27,7 @@ public class OleSelectConstant {
     public static final String FORM = "FORM";
 
     // added for jira - OLE-2203
-    public static final String USD = "US Dollar";
+    public static final String USD = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("config.base.currency");
     public static final String FILENAME = "filename";
     public static final String FILEPATH = "filePath";
     public static final String XML_FILE_TYPE_EXTENSION = ".xml";
@@ -90,7 +92,7 @@ public class OleSelectConstant {
     public static final String ITEM_TYPE_CODE_ITEM = "ITEM";
 
     public static final String CURRENCY_TYPE_ID = "currencyTypeId";
-    public static final String CURRENCY_TYPE_NAME = "US Dollar";
+    public static final String CURRENCY_TYPE_NAME = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("config.base.currency");
     public static final String VENDOR_HEADER_GENERATED_ID = "vendorHeaderGeneratedIdentifier";
     public static final String EXCHANGE_RATE_DATE = "exchangeRateDate";
     public static final String DISCOUNT_TYPE_PERCENTAGE = "%";
@@ -321,6 +323,7 @@ public class OleSelectConstant {
 
     //Invoice Section Ids
     public static final String PROCESS_ITEM_SECTION_ID = "OLEInvoiceView-processItems";
+    public static final String PO_ITEM_SECTION_ID = "OleInvoiceView-POItems";
     public static final String INVOICE_INFO_SECTION_ID = "OLEInvoiceView-invoiceInfo";
     public static final String INVOICE_ITEM_SECTION_ID = "OleInvoiceView-invoiceItems";
     public static final String INVOICE_ADDITIONAL_ITEM_SECTION_ID="OLEInvoiceView-ProcessItem-AdditionalCharges";
@@ -411,4 +414,6 @@ public class OleSelectConstant {
     public static final String DUPLICATE_INVOICE = "One or more potential duplicate invoices have been identified: " ;
     public static final String QUES_FOR_DUPLICATE_INVOICE = "Do you want to approve this INV anyway?";
     public static final String BUDGET_RECORDING_LEVEL_CODE = "O";
+    public static final String FILE_UPLOAD_SECTION = "FiscalYearRolloverFileUpload";
+    public static final String FISCAL_YR_ROLL_VIEW = "OLEFiscalYearRolloverView";
 }

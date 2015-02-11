@@ -42,6 +42,7 @@
                 <ref bean="OleRequestDocument-requestTypeCode"/>
                 <ref bean="OleRequestDocument-borrowerBarcode"/>
                 <ref bean="OleRequestDocument-proxyBorrowerBarcode"/>
+                <ref bean="OleRequestDocument-requestLevel"/>
 
             </list>
         </property>
@@ -539,13 +540,30 @@
         <property name="label" value="Recall Notice Sent Date"/>
     </bean>
 
+    <bean id="OleRequestDocument-requestLevel" parent="OleRequestDocument-requestLevel-parentBean"/>
+    <bean id="OleRequestDocument-requestLevel-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Request Level"/>
+        <property name="description" value="Request Level"/>
+        <property name="name" value="requestLevel"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Request Level"/>
+    </bean>
+
+
     <bean id="OleRequestDocument-LookupView" parent="Uif-OLELookupView">
         <property name="headerText" value="Request Lookup" />
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value=" @{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
         <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleDeliverRequestBo" />
@@ -571,7 +589,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/deliver/request/scripts/requestMaintenance.js</value>
             </list>
         </property>
@@ -749,6 +767,7 @@
                 <bean id="recallInquiryRequest-callNumber" parent="Uif-InputField" p:propertyName="callNumber"/>
                 <bean id="recallInquiryRequest-copyNumber" parent="Uif-InputField" p:propertyName="copyNumber"/>
                 <bean id="recallInquiryRequest-volumeNumber" parent="Uif-InputField" p:propertyName="volumeNumber"/>
+                <bean id="recallInquiryRequest-requestLevel" parent="Uif-InputField" p:propertyName="requestLevel"/>
                 <bean id="recallInquiryRequest-pickUpLocationId" parent="Uif-InputField" p:propertyName="pickUpLocationCode" p:label="Pickup Location"/>
                 <bean id="recallInquiryRequest-recallNoticeSentDate" parent="Uif-InputField" p:propertyName="recallNoticeSentDate">
                 </bean>
@@ -773,6 +792,7 @@
                 <bean id="onHoldInquiryRequest-callNumber" parent="Uif-InputField" p:propertyName="callNumber"/>
                 <bean id="onHoldInquiryRequest-copyNumber" parent="Uif-InputField" p:propertyName="copyNumber"/>
                 <bean id="onHoldInquiryRequest-volumeNumber" parent="Uif-InputField" p:propertyName="volumeNumber"/>
+                <bean id="onHoldInquiryRequest-requestLevel" parent="Uif-InputField" p:propertyName="requestLevel"/>
                 <bean  id="onHoldInquiryRequest-pickUpLocationId" parent="Uif-InputField" p:propertyName="pickUpLocationCode" p:label="Pickup Location"/>
                 <bean id="onHoldInquiryRequest-onHoldNoticeSentDate" parent="Uif-InputField" p:propertyName="onHoldNoticeSentDate">
                 </bean>
@@ -796,7 +816,7 @@
                 <bean id="pageRequest-inquiryItemDetails-callNumber"  parent="Uif-InputField" p:propertyName="callNumber"/>
                 <bean id="pageRequest-inquiryItemDetails-copyNumber"  parent="Uif-InputField" p:propertyName="copyNumber"/>
                 <bean id="pageRequest-inquiryItemDetails-volumeNumber" parent="Uif-InputField" p:propertyName="volumeNumber"/>
-
+                <bean id="pageRequest-requestLevel" parent="Uif-InputField" p:propertyName="requestLevel"/>
                 <bean  id="pageRequest-inquiryItemDetails-pickUpLocationId" parent="Uif-InputField" p:propertyName="pickUpLocationCode" p:label="Pickup Location"/>
                 <bean id="pageRequest-inquiryItemDetails-createDate"  parent="Uif-InputField" p:propertyName="createDate">
 
@@ -821,6 +841,7 @@
                 <bean id="copyInquiryRequest-shelvingLocation" parent="Uif-InputField" p:propertyName="shelvingLocation"/>
                 <bean id="copyInquiryRequest-callNumber" parent="Uif-InputField" p:propertyName="callNumber"/>
                 <bean id="copyInquiryRequest-copyNumber" parent="Uif-InputField" p:propertyName="copyNumber"/>
+                <bean id="copyInquiryRequest-requestLevel" parent="Uif-InputField" p:propertyName="requestLevel"/>
                 <bean id="copyInquiryRequest-date" parent="Uif-InputField" p:propertyName="createDate">
                 </bean>
                 <bean id="copyInquiryRequest-copyFormat" parent="Uif-InputField" p:propertyName="copyFormat"/>
@@ -844,6 +865,7 @@
                 <bean id="inTransitInquiryRequest-shelvingLocation" parent="Uif-InputField" p:propertyName="shelvingLocation"/>
                 <bean id="inTransitInquiryRequest-callNumber" parent="Uif-InputField" p:propertyName="callNumber"/>
                 <bean id="inTransitInquiryRequest-copyNumber" parent="Uif-InputField" p:propertyName="copyNumber"/>
+                <bean id="inTransitInquiryRequest-requestLevel" parent="Uif-InputField" p:propertyName="requestLevel"/>
               <bean id="inTransitInquiryRequest-circulationLocationId" parent="Uif-InputField" p:propertyName="circulationLocationCode"/>
                 <bean id="inTransitInquiryRequest-createDate" parent="Uif-InputField" p:propertyName="createDate">
                 </bean>

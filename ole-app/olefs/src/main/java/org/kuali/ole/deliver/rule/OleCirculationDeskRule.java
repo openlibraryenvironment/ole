@@ -1,6 +1,8 @@
 package org.kuali.ole.deliver.rule;
 
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleCirculationDeskDetail;
@@ -41,6 +43,17 @@ public class OleCirculationDeskRule extends MaintenanceDocumentRuleBase {
      * @return boolean
      */
     private boolean validateCirculationDeskCode(String circulationDeskAction, OleCirculationDesk circulationDesk) {
+        List<OleCirculationDeskLocation> oleCirculationDeskLocationList = new ArrayList<OleCirculationDeskLocation>();
+        List<OleCirculationDeskLocation> olePickupCirculationDeskLocations = new ArrayList<OleCirculationDeskLocation>();
+        if (CollectionUtils.isNotEmpty(circulationDesk.getOleCirculationDeskLocations())) {
+            for (OleCirculationDeskLocation oleCirculationDeskLocation : circulationDesk.getOleCirculationDeskLocations()) {
+                if (StringUtils.isNotBlank(oleCirculationDeskLocation.getCirculationPickUpDeskLocation())) {
+                    olePickupCirculationDeskLocations.add(oleCirculationDeskLocation);
+                } else {
+                    oleCirculationDeskLocationList.add(oleCirculationDeskLocation);
+                }
+            }
+        }
         if (circulationDesk.getCirculationDeskCode() != null) {
             Map<String, String> criteria = new HashMap<String, String>();
             criteria.put(OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_CD, circulationDesk.getCirculationDeskCode());
@@ -55,12 +68,12 @@ public class OleCirculationDeskRule extends MaintenanceDocumentRuleBase {
                 }
             }
         }
-        if (circulationDesk.getOleCirculationDeskLocations().size() == 0) {
+        if (oleCirculationDeskLocationList.size() == 0) {
             this.putFieldError(OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_LOCATION, OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_LOCATION_ERROR);
             return false;
         }
         List<String> locationCodes = new ArrayList<String>();
-        for (OleCirculationDeskLocation oleCirculationDeskLocation : circulationDesk.getOleCirculationDeskLocations()) {
+        for (OleCirculationDeskLocation oleCirculationDeskLocation : oleCirculationDeskLocationList) {
             if (oleCirculationDeskLocation.getCirculationDeskLocation() == null) {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put(OLEConstants.LOC_CD, oleCirculationDeskLocation.getCirculationLocationCode());
@@ -94,7 +107,7 @@ public class OleCirculationDeskRule extends MaintenanceDocumentRuleBase {
                 }
             }
         }
-        for (OleCirculationDeskLocation oleCirculationDeskLocation : circulationDesk.getOleCirculationDeskLocations()) {
+        for (OleCirculationDeskLocation oleCirculationDeskLocation : oleCirculationDeskLocationList) {
             Map<String, String> circDeskLocation = new HashMap<String, String>();
             circDeskLocation.put(OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_LOCATION, oleCirculationDeskLocation.getCirculationDeskLocation());
             List<OleCirculationDeskLocation> circulationDeskLocationInDatabase = (List<OleCirculationDeskLocation>) getBoService().findMatching(OleCirculationDeskLocation.class, circDeskLocation);
@@ -121,6 +134,17 @@ public class OleCirculationDeskRule extends MaintenanceDocumentRuleBase {
      * @return boolen
      */
     private boolean validateCirculationDeskBeforeEdit(String circulationDeskAction, OleCirculationDesk circulationDesk) {
+        List<OleCirculationDeskLocation> oleCirculationDeskLocationList = new ArrayList<OleCirculationDeskLocation>();
+        List<OleCirculationDeskLocation> olePickupCirculationDeskLocations = new ArrayList<OleCirculationDeskLocation>();
+        if (CollectionUtils.isNotEmpty(circulationDesk.getOleCirculationDeskLocations())) {
+            for (OleCirculationDeskLocation oleCirculationDeskLocation : circulationDesk.getOleCirculationDeskLocations()) {
+                    if (StringUtils.isNotBlank(oleCirculationDeskLocation.getCirculationPickUpDeskLocation())) {
+                        olePickupCirculationDeskLocations.add(oleCirculationDeskLocation);
+                    } else {
+                        oleCirculationDeskLocationList.add(oleCirculationDeskLocation);
+                    }
+            }
+        }
         if (circulationDeskAction.equalsIgnoreCase(OLEConstants.OleCirculationDesk.EDIT)) {
             Map<String, String> circulationDeskIdMap = new HashMap<String, String>();
             circulationDeskIdMap.put(OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_ID, circulationDesk.getCirculationDeskId());
@@ -132,19 +156,19 @@ public class OleCirculationDeskRule extends MaintenanceDocumentRuleBase {
                 }
             }
             List<String> locationCodes = new ArrayList<String>();
-            if (circulationDesk.getOleCirculationDeskLocations() != null && circulationDesk.getOleCirculationDeskLocations().size() > 0 && locationCodes.size() == 0) {
-                locationCodes.add(circulationDesk.getOleCirculationDeskLocations().get(0).getCirculationLocationCode());
+            if (oleCirculationDeskLocationList.size() > 0 && locationCodes.size() == 0) {
+                locationCodes.add(oleCirculationDeskLocationList.get(0).getCirculationLocationCode());
             }
 
-            for (int i = 1; i < circulationDesk.getOleCirculationDeskLocations().size(); i++) {
+            for (int i = 1; i < oleCirculationDeskLocationList.size(); i++) {
 
                 for (int j = 0; j < locationCodes.size() - 1; j++) {
 
-                    if (locationCodes.get(j).equals(circulationDesk.getOleCirculationDeskLocations().get(i).getCirculationLocationCode())) {
+                    if (locationCodes.get(j).equals(oleCirculationDeskLocationList.get(i).getCirculationLocationCode())) {
                         this.putFieldError(OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_LOCATION, OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_LOCATION_DUPLICATE_ERROR);
                         return false;
                     } else {
-                        locationCodes.add(circulationDesk.getOleCirculationDeskLocations().get(i).getCirculationLocationCode());
+                        locationCodes.add(oleCirculationDeskLocationList.get(i).getCirculationLocationCode());
                         j++;
                     }
                 }

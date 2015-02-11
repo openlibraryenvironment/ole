@@ -107,11 +107,12 @@ public class ItemBillHelperService {
 
                 feeType.setItemTitle(item.getHolding().getBib().getTitle());
                 feeType.setItemAuthor(item.getHolding().getBib().getAuthor());
-                if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
-                    feeType.setItemCallNumber(itemContent.getCallNumber().getNumber());
+               /* if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
+                    feeType.setItemCallNumber(loanProcessor.getItemCallNumber(itemContent.getCallNumber()));
                 }else {
                     feeType.setItemCallNumber(loanProcessor.getItemCallNumber(oleHoldings.getCallNumber()));
-                }
+                }*/
+                feeType.setItemCallNumber(loanProcessor.getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
                 feeType.setItemCopyNumber(itemContent.getCopyNumber());
                 feeType.setItemChronologyOwnLocation(itemContent.getChronology());
                 feeType.setItemEnumeration(itemContent.getEnumeration());

@@ -23,14 +23,6 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
     <bean id="MarcEditorView" parent="Uif-OLEFormView">
-        <property name="headerText" value="@{headerText}"/>
-        <property name="help">
-            <bean parent="Uif-Help">
-                <property name="externalHelpUrl"
-                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s02.html"/>
-                <property name="tooltipHelpContent" value="[Help] help"/>
-            </bean>
-        </property>
         <property name="items">
             <list>
 

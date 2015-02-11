@@ -74,9 +74,9 @@
     <property name="label" value="Requisition Note"/>
     <property name="shortLabel" value="Text"/>
     <property name="maxLength" value="2000"/>
-    <property name="validationPattern">
+    <!--<property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
+    </property>-->
     <property name="control">
       <bean parent="TextareaControlDefinition" p:rows="3" p:cols="50"/>
     </property>   

@@ -56,6 +56,7 @@ import org.kuali.ole.select.service.impl.OleExposedWebServiceImpl;
 import org.kuali.ole.service.OLEEResourceSearchService;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.tree.Node;
@@ -70,13 +71,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class for handling all editor operations for WorkBibMarc documents.
@@ -134,8 +129,9 @@ public class WorkBibMarcEditor extends AbstractEditor implements
         workBibMarcForm.setHideFooter(true);
         List<BibTree> bibTreeList = new ArrayList<>();
         BibTree bibTree = null;
-//        editorForm.setHeaderText("Bibliographic Editor - MARC Format");
-//        editorForm.setHeaderText("Bibliographic Editor");
+        String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(org.kuali.ole.sys.OLEConstants.EXTERNALIZABLE_HELP_URL_KEY);
+        editorForm.setExternalHelpUrl(directory+"/reference/webhelp/CG/content/ch01s02.html");
+        editorForm.setHeaderText("Bib");
         if (null != docId && StringUtils.isNotEmpty(docId)) {
             try {
                 bibTree = docstoreClient.retrieveBibTree(docId);
@@ -155,6 +151,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
 
                 List<BibMarcRecord> bibMarcRecordList = bibMarcRecords.getRecords();
                 BibMarcRecord bibMarcRecord = bibMarcRecordList.get(0);
+                Collections.sort(bibMarcRecord.getDataFields());
                 editorForm.setTitle(getMarcFormDataHandler().buildMarcEditorTitleField(bibMarcRecord.getDataFields()));
                 workBibMarcForm.setLeader(bibMarcRecord.getLeader());
                 workBibMarcForm.setControlFields(getMarcFormDataHandler().buildMarcEditorControlFields(workBibMarcForm, bibMarcRecord.getControlFields()));
@@ -294,7 +291,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                     catch (Exception e) {
                         DocstoreException docstoreException = (DocstoreException) e;
                         if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
-                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, docstoreException.getErrorCode());
+                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, docstoreException.getErrorCode(), bib.getId());
                         } else {
                             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
                         }
@@ -302,7 +299,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                     }
                     long endTime = System.currentTimeMillis();
                     editorForm.setSolrTime(String.valueOf((endTime-startTime)/1000));
-                    editorStatusMessage = "record.create.message";
+                    editorStatusMessage = OLEConstants.BIB_EDITOR_UPDATE_SUCCESS;
                     String bibStatusName = bib.getStatus();
                     editorForm.setCreatedBy(bib.getCreatedBy());
                     editorForm.setCreatedDate(bib.getCreatedOn());
@@ -390,7 +387,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                         List<BibTree> bibTreeList = new ArrayList<>();
                         bibTreeList.add(bibTree);
                         editorForm.setBibTreeList(bibTreeList);
-                        editorStatusMessage = "record.create.message";
+                        editorStatusMessage = OLEConstants.BIB_EDITOR_CREATE_SUCCESS;
                         //TODO:Edit the processResponse methods
                         //processResponse(responseFromDocstore, workBibMarcForm, uuid);
                         processResponse(bib,editorForm.getLinkToOrderOption());

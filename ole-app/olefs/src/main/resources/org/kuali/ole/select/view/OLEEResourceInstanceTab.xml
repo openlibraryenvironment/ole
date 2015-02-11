@@ -205,21 +205,7 @@
             <list>
                 <bean id="default-Coverage-Date" parent="Uif-InputField" p:propertyName="oleERSInstance.covStartDate" p:label="Start Date" p:render="@{coverageFlag}">
                     <property name="control">
-                        <bean parent="Uif-DateControl">
-                            <property name="datePicker.templateOptions">
-                                <map>
-                                    <entry key="showOn" value="button"/>
-                                    <entry key="constrainInput" value="false"/>
-                                    <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
-                                    <entry key="buttonImageOnly" value="true"/>
-                                    <entry key="showAnim" value="fadeIn"/>
-                                    <entry key="showButtonPanel" value="true"/>
-                                    <entry key="changeMonth" value="true"/>
-                                    <entry key="changeYear" value="true"/>
-                                    <entry key="numberOfMonths" value="1"/>
-                                </map>
-                            </property>
-                        </bean>
+                        <bean parent="Uif-DateControl-EResource"/>
                     </property>
                 </bean>
                 <bean id="default-coverageStartVolume" parent="Uif-InputField" p:propertyName="oleERSInstance.covStartVolume" p:label="Start Volume" p:render="@{coverageFlag}">
@@ -234,21 +220,7 @@
                 </bean>
                 <bean id="default-coverageEndDate" parent="Uif-InputField" p:propertyName="oleERSInstance.covEndDate" p:label="End Date" p:render="@{coverageFlag}">
                     <property name="control">
-                        <bean parent="Uif-DateControl">
-                            <property name="datePicker.templateOptions">
-                                <map>
-                                    <entry key="showOn" value="button"/>
-                                    <entry key="constrainInput" value="false"/>
-                                    <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
-                                    <entry key="buttonImageOnly" value="true"/>
-                                    <entry key="showAnim" value="fadeIn"/>
-                                    <entry key="showButtonPanel" value="true"/>
-                                    <entry key="changeMonth" value="true"/>
-                                    <entry key="changeYear" value="true"/>
-                                    <entry key="numberOfMonths" value="1"/>
-                                </map>
-                            </property>
-                        </bean>
+                        <bean parent="Uif-DateControl-EResource"/>
                     </property>
                 </bean>
                 <bean id="default-coverageEndVolume" parent="Uif-InputField" p:propertyName="oleERSInstance.covEndVolume" p:label="End Volume" p:render="@{coverageFlag}">
@@ -300,21 +272,7 @@
         </bean>
         <bean id="default-perpetualAccessEndDate" parent="Uif-InputField" p:propertyName="oleERSInstance.perpetualAccEndDate" p:label="End Date" p:render="@{perpetualAccessFlag}">
             <property name="control">
-                <bean parent="Uif-DateControl">
-                    <property name="datePicker.templateOptions">
-                        <map>
-                            <entry key="showOn" value="button"/>
-                            <entry key="constrainInput" value="false"/>
-                            <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
-                            <entry key="buttonImageOnly" value="true"/>
-                            <entry key="showAnim" value="fadeIn"/>
-                            <entry key="showButtonPanel" value="true"/>
-                            <entry key="changeMonth" value="true"/>
-                            <entry key="changeYear" value="true"/>
-                            <entry key="numberOfMonths" value="1"/>
-                        </map>
-                    </property>
-                </bean>
+                <bean parent="Uif-DateControl-EResource"/>
             </property>
         </bean>
         <bean id="default-perpetualAccessEndVolume" parent="Uif-InputField" p:propertyName="oleERSInstance.perpetualAccEndVolume" p:label="End Volume" p:render="@{perpetualAccessFlag}">
@@ -741,4 +699,21 @@
         </property>
     </bean>
 
+    <bean id="Uif-DateControl-EResource" parent="Uif-DateControl">
+        <property name="datePicker.templateOptions">
+            <map>
+                <entry key="showOn" value="button"/>
+                <entry key="constrainInput" value="false"/>
+                <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                <entry key="dateFormat" value="${Uif-DatePicker.dateFormat}"/>
+                <entry key="buttonImageOnly" value="true"/>
+                <entry key="showAnim" value="fadeIn"/>
+                <entry key="showButtonPanel" value="true"/>
+                <entry key="changeMonth" value="true"/>
+                <entry key="changeYear" value="true"/>
+                <entry key="numberOfMonths" value="1"/>
+            </map>
+        </property>
+    </bean>
+    
 </beans>

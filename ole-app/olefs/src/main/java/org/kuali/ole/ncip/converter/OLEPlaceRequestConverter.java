@@ -16,6 +16,13 @@ public class OLEPlaceRequestConverter {
     public String generatePlaceRequestXml(OLEPlaceRequest olePlaceRequest){
         XStream xStream = new XStream();
         xStream.alias("placeRequest",OLEPlaceRequest.class);
+        xStream.omitField(OLEPlaceRequest.class, "expirationDate");
+        return xStream.toXML(olePlaceRequest);
+    }
+
+    public String generatePlaceRequestXmlForSip2(OLEPlaceRequest olePlaceRequest){
+        XStream xStream = new XStream();
+        xStream.alias("placeRequest",OLEPlaceRequest.class);
         return xStream.toXML(olePlaceRequest);
     }
     public Object generatePlaceRequestObject(String xml){

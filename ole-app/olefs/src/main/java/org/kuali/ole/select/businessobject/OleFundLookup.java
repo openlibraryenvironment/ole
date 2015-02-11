@@ -18,11 +18,12 @@ package org.kuali.ole.select.businessobject;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.coa.businessobject.Chart;
 import org.kuali.ole.coa.businessobject.ObjectCode;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
 
 
-public class OleFundLookup implements Serializable {
+public class OleFundLookup extends PersistableBusinessObjectBase implements Serializable {
 
     private String chartOfAccountsCode;
     private String accountNumber;

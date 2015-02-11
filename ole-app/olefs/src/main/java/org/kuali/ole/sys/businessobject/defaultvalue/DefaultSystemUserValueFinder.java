@@ -15,6 +15,7 @@
  */
 package org.kuali.ole.sys.businessobject.defaultvalue;
 
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
@@ -29,14 +30,28 @@ public class DefaultSystemUserValueFinder implements ValueFinder {
     /**
      * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
+
+    private OleSelectDocumentService oleSelectDocumentService;
+
     public String getValue() {
-        Person defaultUser = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(OLEConstants.SYSTEM_USER);
+        Person defaultUser = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER));
         if (defaultUser != null) {
             return defaultUser.getPrincipalName();
         }
         else {
             return OLEConstants.EMPTY_STRING;
         }
+    }
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 
 }

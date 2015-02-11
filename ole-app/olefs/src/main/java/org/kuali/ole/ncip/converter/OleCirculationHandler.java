@@ -1,6 +1,6 @@
 package org.kuali.ole.ncip.converter;
 
-import groovy.json.JsonBuilder;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +10,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
+import java.io.IOException;
 import java.io.StringReader;
 
 /**
@@ -40,9 +41,14 @@ public class OleCirculationHandler {
         return unmarshaledObject;
     }
 
-    public String marshalToJSON(Object object) throws JAXBException {
+    /*public String marshalToJSON(Object object) throws JAXBException {
         JsonBuilder jsonBuilder = new JsonBuilder(object);
         return jsonBuilder.toPrettyString();
+    }*/
+
+    public String marshalToJSON(Object object) throws JAXBException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.defaultPrettyPrintingWriter().writeValueAsString(object);
     }
 
     private XMLInputFactory getXmlInputFactory() {

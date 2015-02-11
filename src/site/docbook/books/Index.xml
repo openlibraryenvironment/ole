@@ -14,11 +14,6 @@
         <title>User Documentation</title>
         <itemizedlist>
             <listitem>
-                <para><emphasis role="bold">Release Notes</emphasis>(<link
-                        xlink:href="../html/releaseNotes.html">HTML</link>/<link
-                        xlink:href="../pdf/releaseNotes.pdf">PDF</link>)</para>
-            </listitem>
-            <listitem>
                 <para>Module Overviews:</para>
                 <itemizedlist>
                     <listitem>
@@ -83,8 +78,8 @@
                 <para>Additional Resources</para>
                 <itemizedlist>
                     <listitem>
-                        <para><link xlink:href="../webhelp/BASICS/content/go01.html">OLE
-                                Glossary of Terms</link></para>
+                        <para><link xlink:href="../webhelp/BASICS/content/go01.html">OLE Glossary of
+                                Terms</link></para>
                     </listitem>
                     <listitem>
                         <para><link xlink:href="http://www.kuali.org/ole/roadmap">OLE
@@ -95,13 +90,30 @@
                                 xlink:href="https://wiki.kuali.org/display/OLE/OLE+Published+Documentation"
                                 >OLE Published Documentation wiki page</link></para>
                     </listitem>
+                    <listitem>
+                        <para>Release Notes - for each of the current release's notes (beginning
+                            1.5.0), see the linked pages on <link
+                                xlink:href="https://wiki.kuali.org/display/OLE/OLE+Current+Release+Status+Report"
+                                >OLE Current Release Status Report</link>.</para>
+                    </listitem>
                 </itemizedlist>
             </listitem>
         </itemizedlist>
         <para/>
     </section>
     <section>
+        <title>Technical Documentation</title>
+        <para><link xlink:href="TechnicalDocumentation.html">HTML</link></para>
+    </section>
+    <section>
         <title>Learn More and Get Involved</title>
+        <tip>
+            <para>If there is anything missing in the documentation, please let us know in <link
+                    xlink:href="https://jira.kuali.org/browse/OLEFDBK">OLEFDBK</link>.</para>
+            <para>For instructions on creating an issue, see <link
+                    xlink:href="https://wiki.kuali.org/display/OLE/Reporting+an+Issue+in+OLE"
+                    >Reporting an Issue in OLE</link>.</para>
+        </tip>
         <itemizedlist>
             <listitem>
                 <para><link xlink:href="https://kis.kuali.org/projectTeams/team/190">Technical User

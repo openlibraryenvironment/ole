@@ -21,12 +21,16 @@ import org.kuali.ole.docstore.discovery.solr.work.bib.marc.WorkBibMarcDocBuilder
 import org.kuali.ole.docstore.indexer.solr.DocumentLocalId;
 import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.kuali.ole.docstore.utility.XMLUtility;
+import org.kuali.ole.utility.Constants;
 import org.kuali.ole.utility.callnumber.CallNumberFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,7 +76,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         LOG.info("Solr Input Document " + solrInputDocument.toString());
     }
 
-    protected void updateRecordInSolrForItem(Object object, List<SolrInputDocument> solrInputDocuments, SolrDocument holdingsSolrDocument) {
+    protected void updateRecordInSolrForItem(Object object, List<SolrInputDocument> solrInputDocuments, SolrInputDocument holdingsSolrInputDocument) {
         LOG.info("Class - ItemOlemlIndexer");
         LOG.info("Method - updateRecordInSolrForItem");
         Item itemDocument = (Item) object;
@@ -89,7 +93,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         }
         solrInputDocument.addField(HOLDINGS_IDENTIFIER, holdingsId);
         solrInputDocument.addField(BIB_IDENTIFIER, bibId);
-        addBibInfoForHoldingsOrItems(solrInputDocument, holdingsSolrDocument);
+        addBibAndHoldingsInfoToItem(solrInputDocument, holdingsSolrInputDocument);
         solrInputDocuments.add(solrInputDocument);
         LOG.info("Solr Input Document " + solrInputDocument.toString());
     }
@@ -319,6 +323,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
             }  */
             if(item.getCallNumber() != null && item.getCallNumber().getShelvingScheme() != null && item.getCallNumber().getShelvingScheme().getCodeValue() != null) {
                 shelvingSchemeCode = item.getCallNumber().getShelvingScheme().getCodeValue();
+                shelvingSchemeValue = item.getCallNumber().getShelvingScheme().getFullValue();
                 if (StringUtils.isNotEmpty(shelvingSchemeCode)) {
                     solrInputDocument.addField(SHELVING_SCHEME_CODE_SEARCH, shelvingSchemeCode);
                     solrInputDocument.addField(SHELVING_SCHEME_CODE_DISPLAY, shelvingSchemeCode);
@@ -455,6 +460,25 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         solrInputDocument.addField(ITEM_DAMAGED_FLAG_DISPLAY, item.isItemDamagedStatus());
         solrInputDocument.addField(MISSING_PIECE_COUNT_DISPLAY,item.getMissingPiecesCount());
         solrInputDocument.addField(NUMBER_OF_PIECES_DISPLAY,item.getNumberOfPieces());
+        solrInputDocument.addField(BibConstants.CREATED_BY,itemDocument.getCreatedBy());
+        solrInputDocument.addField(BibConstants.UPDATED_BY,itemDocument.getUpdatedBy());
+        Date createdDate = null;
+        date = new Date();
+        if (StringUtils.isNotBlank(itemDocument.getUpdatedOn())) {
+            solrInputDocument.setField(DATE_UPDATED, getDate(itemDocument.getUpdatedOn()));
+        } else {
+            if (StringUtils.isNotBlank(itemDocument.getCreatedOn())) {
+                solrInputDocument.setField(DATE_UPDATED, createdDate);
+            } else {
+                solrInputDocument.setField(DATE_UPDATED, date);
+            }
+        }
+        if (StringUtils.isNotBlank(itemDocument.getCreatedOn())) {
+            createdDate = getDate(itemDocument.getCreatedOn());
+            solrInputDocument.setField(DATE_ENTERED, createdDate);
+        } else {
+            solrInputDocument.setField(DATE_ENTERED, date);
+        }
 
         for (DonorInfo donorInfo : item.getDonorInfo()) {
             solrInputDocument.addField(DONOR_CODE_SEARCH, donorInfo.getDonorCode());
@@ -477,6 +501,20 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         return solrInputDocument;
     }
 
+    private Date getDate(String dateStr) {
+        DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+        try {
+            if (StringUtils.isNotEmpty(dateStr)) {
+                return format.parse(dateStr);
+            } else {
+                return new Date();
+            }
+
+        } catch (ParseException e) {
+            LOG.info("Exception : " + dateStr + " for format:: " + Constants.DATE_FORMAT, e);
+            return new Date();
+        }
+    }
 
     protected boolean validateCallNumber(String callNumber, String codeValue) throws OleDocStoreException {
         boolean isValid = false;
@@ -707,6 +745,22 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         solrInputDocumentListFinal.add(destinationHoldingsDocument);
     }
 
+    protected void addBibAndHoldingsInfoToItem(SolrInputDocument solrInputDocument, SolrInputDocument holdingsSolrInputDocument) {
+        super.addBibInfoForHoldingsOrItems(solrInputDocument, holdingsSolrInputDocument);
+        solrInputDocument.addField(HOLDINGS_CALLNUMBER_SEARCH, holdingsSolrInputDocument.getFieldValue(CALL_NUMBER_SEARCH));
+        solrInputDocument.addField(HOLDINGS_LOCATION_SEARCH, holdingsSolrInputDocument.getFieldValue(LOCATION_LEVEL_SEARCH));
+        solrInputDocument.addField(HOLDINGS_CALLNUMBER_DISPLAY, holdingsSolrInputDocument.getFieldValue(CALL_NUMBER_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_LOCATION_DISPLAY, holdingsSolrInputDocument.getFieldValue(LOCATION_LEVEL_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_COPYNUMBER_SEARCH,holdingsSolrInputDocument.getFieldValue(COPY_NUMBER_SEARCH));
+        solrInputDocument.addField(HOLDINGS_COPYNUMBER_DISPLAY,holdingsSolrInputDocument.getFieldValue(COPY_NUMBER_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_CALLNUMBER_PREFIX_SEARCH, holdingsSolrInputDocument.getFieldValue(CALL_NUMBER_PREFIX_SEARCH));
+        solrInputDocument.addField(HOLDINGS_CALLNUMBER_PREFIX_DISPLAY, holdingsSolrInputDocument.getFieldValue(CALL_NUMBER_PREFIX_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_CODE_SEARCH, holdingsSolrInputDocument.getFieldValue(SHELVING_SCHEME_CODE_SEARCH));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_CODE_DISPLAY, holdingsSolrInputDocument.getFieldValue(SHELVING_SCHEME_CODE_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_VALUE_SEARCH, holdingsSolrInputDocument.getFieldValue(SHELVING_SCHEME_VALUE_SEARCH));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_VALUE_DISPLAY, holdingsSolrInputDocument.getFieldValue(SHELVING_SCHEME_VALUE_DISPLAY));
+    }
+
 
     protected void addBibInfoForHoldingsOrItems(SolrInputDocument solrInputDocument, SolrDocument sourceDocument) {
         super.addBibInfoForHoldingsOrItems(solrInputDocument, sourceDocument);
@@ -716,6 +770,12 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         solrInputDocument.addField(HOLDINGS_LOCATION_DISPLAY, sourceDocument.getFieldValue(LOCATION_LEVEL_DISPLAY));
         solrInputDocument.addField(HOLDINGS_COPYNUMBER_SEARCH,sourceDocument.getFieldValue(COPY_NUMBER_SEARCH));
         solrInputDocument.addField(HOLDINGS_COPYNUMBER_DISPLAY,sourceDocument.getFieldValue(COPY_NUMBER_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_CALLNUMBER_PREFIX_SEARCH, sourceDocument.getFieldValue(CALL_NUMBER_PREFIX_SEARCH));
+        solrInputDocument.addField(HOLDINGS_CALLNUMBER_PREFIX_DISPLAY, sourceDocument.getFieldValue(CALL_NUMBER_PREFIX_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_CODE_SEARCH, sourceDocument.getFieldValue(SHELVING_SCHEME_CODE_SEARCH));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_CODE_DISPLAY, sourceDocument.getFieldValue(SHELVING_SCHEME_CODE_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_VALUE_SEARCH, sourceDocument.getFieldValue(SHELVING_SCHEME_VALUE_SEARCH));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_VALUE_DISPLAY, sourceDocument.getFieldValue(SHELVING_SCHEME_VALUE_DISPLAY));
     }
 
     protected void addBibInfoForHoldingsOrItems1(SolrInputDocument solrInputDocument, SolrDocument sourceDocument) {
@@ -726,6 +786,12 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         solrInputDocument.addField(HOLDINGS_LOCATION_DISPLAY, sourceDocument.getFieldValue(HOLDINGS_LOCATION_DISPLAY));
         solrInputDocument.addField(HOLDINGS_COPYNUMBER_SEARCH, sourceDocument.getFieldValue(HOLDINGS_COPYNUMBER_SEARCH));
         solrInputDocument.addField(HOLDINGS_COPYNUMBER_DISPLAY,sourceDocument.getFieldValue(HOLDINGS_COPYNUMBER_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_CALLNUMBER_PREFIX_SEARCH, sourceDocument.getFieldValue(HOLDINGS_CALLNUMBER_PREFIX_SEARCH));
+        solrInputDocument.addField(HOLDINGS_CALLNUMBER_PREFIX_DISPLAY, sourceDocument.getFieldValue(HOLDINGS_CALLNUMBER_PREFIX_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_CODE_SEARCH, sourceDocument.getFieldValue(HOLDINGS_SHELVING_SCHEME_CODE_SEARCH));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_CODE_DISPLAY, sourceDocument.getFieldValue(HOLDINGS_SHELVING_SCHEME_CODE_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_VALUE_SEARCH, sourceDocument.getFieldValue(HOLDINGS_SHELVING_SCHEME_VALUE_SEARCH));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_VALUE_DISPLAY, sourceDocument.getFieldValue(HOLDINGS_SHELVING_SCHEME_VALUE_DISPLAY));
     }
 
 

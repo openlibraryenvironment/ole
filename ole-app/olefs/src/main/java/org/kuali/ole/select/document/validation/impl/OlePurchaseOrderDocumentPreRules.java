@@ -93,14 +93,14 @@ public class OlePurchaseOrderDocumentPreRules extends PurchaseOrderDocumentPreRu
                     OleCopy oleCopy = item.getCopyList().get(0);
                     if (oleCopy != null && oleCopy.getLocation() != null && item.getItemLocation() != null) {
                         if (!oleCopy.getLocation().equalsIgnoreCase(item.getItemLocation())) {
-                            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(
+                           /* String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(
                                     OLEConstants.ASK_LOCATION_CHANGE);
                             confirmOverride = super.askOrAnalyzeYesNoQuestion(OLEConstants.ITEM_LOCATION_CHANGE, questionText);
                             if (confirmOverride) {
                                 item.setItemLocationChangeFlag(true);
                             } else {
                                 item.setItemLocationChangeFlag(false);
-                            }
+                            }*/
                             preRulesOK = true;
                         }
                     }

@@ -9,6 +9,7 @@ import org.kuali.asr.service.ASRHelperServiceImpl;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.bo.ASRItem;
+import org.kuali.ole.deliver.bo.OLELoanIntransitRecordHistory;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.calendar.service.DateUtil;
@@ -35,6 +36,10 @@ import org.kuali.ole.docstore.engine.client.DocstoreLocalClient;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.bo.OLELinkPurapDonor;
 import org.kuali.ole.select.businessobject.OleCopy;
+import org.kuali.ole.select.document.OlePurchaseOrderDocument;
+import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -93,7 +98,8 @@ public class WorkItemOlemlEditor extends AbstractEditor {
     @Override
     public EditorForm loadDocument(EditorForm editorForm) {
         WorkInstanceOlemlForm workInstanceOlemlForm = new WorkInstanceOlemlForm();
-//        editorForm.setHeaderText("Instance Editor (Item)- OLEML Format");
+        String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(org.kuali.ole.sys.OLEConstants.EXTERNALIZABLE_HELP_URL_KEY);
+        editorForm.setExternalHelpUrl(directory+"/reference/webhelp/CG/content/ch01s03.html#_Item");
         editorForm.setHeaderText("Item");
         editorForm.setHasLink(true);
         String bibId = editorForm.getBibId();
@@ -103,7 +109,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
         String docStoreData = null;
         List<BibTree> bibTreeList = new ArrayList<>();
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" HH:mm:ss");
         String dateStr = sdf.format(date);
         BibTree bibTree = null;
         try {
@@ -188,6 +194,14 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                 workInstanceOlemlForm.setSelectedItem(item);
                 getInstanceEditorFormDataHandler().setLocationDetails(workInstanceOlemlForm);
                 workInstanceOlemlForm.setViewId("WorkItemViewPage");
+                if (item.getAccessInformation()!=null && StringUtils.isNotEmpty(item.getAccessInformation().getBarcode())) {
+                    Map map = new HashMap();
+                    map.put("itemBarcode", item.getAccessInformation().getBarcode());
+                    List<OLELoanIntransitRecordHistory> oleLoanIntransitRecordHistories = (List<OLELoanIntransitRecordHistory>) KRADServiceLocator.getBusinessObjectService().findMatching(OLELoanIntransitRecordHistory.class, map);
+                    if (CollectionUtils.isNotEmpty(oleLoanIntransitRecordHistories)) {
+                        editorForm.setOleLoanIntransitRecordHistories(oleLoanIntransitRecordHistories);
+                    }
+                }
                 //workInstanceOlemlForm.setMessage("Item record loaded successfully.");
                 if (editorForm.getEditable().equalsIgnoreCase("false")) {
                     GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "item.record.load.message");
@@ -269,7 +283,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
     public EditorForm saveDocument(EditorForm editorForm) {
         WorkInstanceOlemlForm workInstanceOlemlForm = (WorkInstanceOlemlForm) editorForm.getDocumentForm();
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" HH:mm:ss");
         String dateStr = sdf.format(date);
         String user = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
         String docId = editorForm.getDocId();
@@ -644,38 +658,42 @@ public class WorkItemOlemlEditor extends AbstractEditor {
             GlobalVariables.getMessageMap().clearErrorMessages();
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "record.submit.fail.message");
         }
-        if(workInstanceOlemlForm.getSelectedItem().getPurchaseOrderLineItemIdentifier()!=null){
-            String poId=workInstanceOlemlForm.getSelectedItem().getPurchaseOrderLineItemIdentifier();
-            Map<String,String> map=new HashMap<>();
-            map.put("poItemId",poId);
-            List<OLELinkPurapDonor> oleLinkPurapDonor= (List<OLELinkPurapDonor>)KRADServiceLocator.getBusinessObjectService().findMatching(OLELinkPurapDonor.class,map);
-            if(workInstanceOlemlForm.getSelectedItem().getDonorInfo().size()>0){
-                KRADServiceLocator.getBusinessObjectService().deleteMatching(OLELinkPurapDonor.class,map);
-                for(DonorInfo donorInfo:workInstanceOlemlForm.getSelectedItem().getDonorInfo()){
-                    if(donorInfo.getDonorCode()!=null&&!donorInfo.getDonorCode().isEmpty()){
-                        map.clear();
-                        map.put("donorCode",donorInfo.getDonorCode());
-                        OLELinkPurapDonor newOleLinkPurapDonor=new OLELinkPurapDonor();
-                        List<OLEDonor> oleDonors= (List<OLEDonor>)KRADServiceLocator.getBusinessObjectService().findMatching(OLEDonor.class, map);
-                        map.clear();
-                        map.put("poItemId",poId);
-                        List<OleCopy> oleCopy= (List<OleCopy>)KRADServiceLocator.getBusinessObjectService().findMatching(OleCopy.class, map);
-                        if (oleCopy!=null && oleCopy.size()>0){
-                            newOleLinkPurapDonor.setCorrectionItemId(oleCopy.get(0).getCorrectionItemId());
-                            newOleLinkPurapDonor.setReqItemId(oleCopy.get(0).getReqItemId());
-                            newOleLinkPurapDonor.setPoDocNum(oleCopy.get(0).getPoDocNum());
-                            newOleLinkPurapDonor.setReceivingItemId(oleCopy.get(0).getReceivingItemId());
-                            newOleLinkPurapDonor.setDonorId(oleDonors.get(0).getDonorId());
-                            newOleLinkPurapDonor.setDonorCode(donorInfo.getDonorCode());
-                            newOleLinkPurapDonor.setPoItemId(Integer.parseInt(poId));
-                            KRADServiceLocator.getBusinessObjectService().save(newOleLinkPurapDonor);
+        if (StringUtils.isNotBlank(workInstanceOlemlForm.getSelectedItem().getPurchaseOrderLineItemIdentifier())) {
+            Map poMap = new HashMap();
+            poMap.put(OLEConstants.PURAP_DOC_IDENTIFIER, workInstanceOlemlForm.getSelectedItem().getPurchaseOrderLineItemIdentifier());
+            OlePurchaseOrderDocument olePurchaseOrderDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePurchaseOrderDocument.class, poMap);
+            if (olePurchaseOrderDocument != null) {
+                String poId = olePurchaseOrderDocument.getDocumentNumber();
+                Map<String, String> map = new HashMap<>();
+                map.put(org.kuali.ole.sys.OLEConstants.OleCopy.PO_DOC_NUM, poId);
+                KRADServiceLocator.getBusinessObjectService().deleteMatching(OLELinkPurapDonor.class, map);
+                if (workInstanceOlemlForm.getSelectedItem().getDonorInfo().size() > 0) {
+                    for (DonorInfo donorInfo : workInstanceOlemlForm.getSelectedItem().getDonorInfo()) {
+                        if (donorInfo.getDonorCode() != null && !donorInfo.getDonorCode().isEmpty()) {
+                            map.clear();
+                            map.put(OLEConstants.DONOR_CODE, donorInfo.getDonorCode());
+                            OLELinkPurapDonor newOleLinkPurapDonor = new OLELinkPurapDonor();
+                            List<OLEDonor> oleDonors = (List<OLEDonor>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEDonor.class, map);
+                            map.clear();
+                            if (StringUtils.isNotBlank(workInstanceOlemlForm.getSelectedItem().getItemIdentifier())) {
+                                map.put(OLEConstants.OleDeliverRequest.ITEM_UUID, workInstanceOlemlForm.getSelectedItem().getItemIdentifier());
+                            }
+                            map.put(org.kuali.ole.sys.OLEConstants.OleCopy.PO_DOC_NUM, poId);
+                            List<OleCopy> oleCopy = (List<OleCopy>) KRADServiceLocator.getBusinessObjectService().findMatching(OleCopy.class, map);
+                            if (oleCopy != null && oleCopy.size() > 0) {
+                                newOleLinkPurapDonor.setCorrectionItemId(oleCopy.get(0).getCorrectionItemId());
+                                newOleLinkPurapDonor.setReqItemId(oleCopy.get(0).getReqItemId());
+                                newOleLinkPurapDonor.setPoDocNum(oleCopy.get(0).getPoDocNum());
+                                newOleLinkPurapDonor.setReceivingItemId(oleCopy.get(0).getReceivingItemId());
+                                newOleLinkPurapDonor.setDonorId(oleDonors.get(0).getDonorId());
+                                newOleLinkPurapDonor.setDonorCode(donorInfo.getDonorCode());
+                                newOleLinkPurapDonor.setPoItemId(oleCopy.get(0).getPoItemId());
+                                KRADServiceLocator.getBusinessObjectService().save(newOleLinkPurapDonor);
+                            }
+                            map.clear();
                         }
-                        map.clear();
                     }
                 }
-            }
-            else{
-                KRADServiceLocator.getBusinessObjectService().deleteMatching(OLELinkPurapDonor.class,map);
             }
         }
         // To remove existing item from bib tree
@@ -700,6 +718,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                             String selectedItemHoldingsId = selectedItemDocument.getHolding().getId();
                             if (null != holdingsId && null != selectedItemHoldingsId) {
                                 if (holdingsId.equals(selectedItemHoldingsId)) {
+                                    holdingsTree.setHoldings(selectedItemDocument.getHolding());
                                     holdingsTree.getItems().add(selectedItemDocument);
                                 }
                             }
@@ -1038,7 +1057,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
     public EditorForm bulkUpdate(EditorForm editorForm, List<String> ids) {
         WorkInstanceOlemlForm workInstanceOlemlForm = (WorkInstanceOlemlForm) editorForm.getDocumentForm();
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" HH:mm:ss");
         String dateStr = sdf.format(date);
         String user = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
         String docId = editorForm.getDocId();

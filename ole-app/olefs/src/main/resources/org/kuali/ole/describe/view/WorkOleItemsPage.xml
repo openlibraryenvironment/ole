@@ -22,9 +22,9 @@
                 <ref bean="oleClaimsReturn-Section"/>
                 <ref bean="OleItemDamaged-Section"/>
                 <ref bean="OleMissingItem-Section"/>
+                <ref bean="OLEIntransitLoanRecords"/>
                 <ref bean="OLEPatronFlaggedItemHistoryView-PatronRecords"/>
                 <ref bean="OleItemExtendedInformation"/>
-                <ref bean="hiddenButtonItem"/>
 
                 <ref bean="hiddenItemLocationEditFlag"/>
                 <ref bean="hiddenItemCallNumberPrefixEditFlag"/>
@@ -677,7 +677,7 @@
                 <bean id="oleItemDonorPublicDisplay" parent="Uif-InputField"
                       p:propertyName="donorPublicDisplay" p:label="Donor Public Display" p:required="false">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:disabled="@{#line?.donorCode ne null and #line?.donorCode ne ''}"/>
+                        <bean parent="Uif-TextControl" p:maxLength="4000" p:disabled="@{#line?.donorCode ne null and #line?.donorCode ne ''}"/>
                     </property>
                 </bean>
                 <bean id="oleItemDonorNote" parent="Uif-InputField" p:propertyName="donorNote"
@@ -804,6 +804,29 @@
                         </list>
                     </property>
                 </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean  id="OLEIntransitLoanRecords"  parent="Uif-Disclosure-TableCollectionSection"  p:layoutManager.numberOfColumns="10"
+           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
+        <property name="headerText" value="Intransit loan history" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLELoanIntransitRecordHistory" />
+        <property name="propertyName" value="oleLoanIntransitRecordHistories" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="true"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="items">
+            <list>
+                <!--<bean id="id" parent="Uif-DataField" p:readOnly="true" p:propertyName="id" p:label="id"/>-->
+                <bean id="itemBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="itemBarcode" p:label="Item Barcode"/>
+                <!--<bean id="itemUUID" parent="Uif-DataField" p:readOnly="true" p:propertyName="itemUUID" p:label="id"/>-->
+                <bean id="operator" parent="Uif-DataField" p:readOnly="true" p:propertyName="operator" p:label="Operator"/>
+                <bean id="homeCirculationDesk" parent="Uif-DataField" p:readOnly="true" p:propertyName="homeCirculationDesk" p:label="Routed From"/>
+                <bean id="routeCirculationDesk" parent="Uif-DataField" p:readOnly="true" p:propertyName="routeCirculationDesk" p:label="Routed To"/>
+                <bean id="returnedDateTime" parent="Uif-DataField" p:readOnly="true" p:propertyName="returnedDateTime" p:label="Transit Date"/>
             </list>
         </property>
     </bean>
@@ -1010,6 +1033,5 @@
             </list>
         </property>
     </bean>
-    <bean id="hiddenButtonItem" parent="Uif-SecondaryActionButton" p:hidden="true" p:methodToCall="load"
-          p:refreshId="WorkOleItemDetails"/>
+
 </beans>

@@ -20,7 +20,9 @@ import java.sql.Timestamp;
 import org.kuali.ole.module.purap.document.AccountsPayableDocument;
 import org.kuali.ole.module.purap.document.PaymentRequestDocument;
 import org.kuali.ole.module.purap.document.VendorCreditMemoDocument;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.OLEConstants;
+import org.kuali.ole.sys.context.SpringContext;
 
 
 public enum AccountsPayableDocumentFixture {
@@ -42,7 +44,7 @@ public enum AccountsPayableDocumentFixture {
             ),
      PREQ_FOR_PO_CLOSE_DOC(null,  // accountsPayableApprovalDate
             null,  // lastActionPerformedByPersonId
-            OLEConstants.SYSTEM_USER,    // accountsPayableProcessorIdentifier
+             getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER),    // accountsPayableProcessorIdentifier
             false, // holdIndicator
             null,  // extractedTimestamp
             1000,  // purchaseOrderIdentifier
@@ -142,6 +144,9 @@ public enum AccountsPayableDocumentFixture {
     public final boolean closePurchaseOrderIndicator;
     public final boolean reopenPurchaseOrderIndicator;
 
+
+    private static OleSelectDocumentService oleSelectDocumentService;
+
     // TODO: decide if we need to do anything for not persisted attributes
     /*
      * private boolean unmatchedOverride; // not persisted // NOT PERSISTED IN DB // BELOW USED BY ROUTING private String
@@ -191,6 +196,17 @@ public enum AccountsPayableDocumentFixture {
          * doc.setReopenPurchaseOrderIndicator(this.reopenPurchaseOrderIndicator);
          */
         return doc;
+    }
+
+    public static OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 
 }

@@ -20,6 +20,11 @@ import org.kuali.ole.select.businessobject.OlePatronDocuments;
 import org.kuali.ole.select.businessobject.OlePatronRecordHandler;
 import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.service.impl.OlePatronWebServiceImpl;
+import org.kuali.ole.sys.OLEConstants;
+import org.kuali.ole.sys.OLEKeyConstants;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +74,13 @@ public class OleSelectDocumentServiceImpl implements OleSelectDocumentService {
         }
         return olePatronRecordHandler;
     }
+
+    public String getSelectParameterValue(String parameterName){
+        ParameterKey parameterKey = ParameterKey.create(org.kuali.ole.OLEConstants.APPL_ID, org.kuali.ole.OLEConstants.SELECT_NMSPC, org.kuali.ole.OLEConstants.SELECT_CMPNT,parameterName);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        return parameter!=null?parameter.getValue():null;
+    }
+
 
     public void setOlePatronRecordHandler(OlePatronRecordHandler olePatronRecordHandler) {
         this.olePatronRecordHandler = olePatronRecordHandler;

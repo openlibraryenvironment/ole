@@ -32,6 +32,7 @@ import org.kuali.ole.module.purap.service.PurapAccountingService;
 import org.kuali.ole.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.ole.module.purap.util.ExpiredOrClosedAccount;
 import org.kuali.ole.module.purap.util.ExpiredOrClosedAccountEntry;
+import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
 import org.kuali.ole.sys.context.SpringContext;
@@ -69,6 +70,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     protected DateTimeService dateTimeService;
     protected PurchaseOrderService purchaseOrderService;
     protected AccountService accountService;
+    private OleSelectDocumentService oleSelectDocumentService;
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
@@ -512,7 +514,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 try {
                     // person canceling may not have an action requested on the document
                     Person userRequestedCancel = SpringContext.getBean(PersonService.class).getPerson(document.getLastActionPerformedByPersonId());
-                    GlobalVariables.setUserSession(new UserSession(OLEConstants.SYSTEM_USER));
+                    GlobalVariables.setUserSession(new UserSession(getOleSelectDocumentService().getSelectParameterValue(OLEConstants.SYSTEM_USER)));
 
                     WorkflowDocumentService workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
                     WorkflowDocument newWorkflowDocument = workflowDocumentService.loadWorkflowDocument(document.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
@@ -748,6 +750,17 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         }
 
         return canCopyLine;
+    }
+
+    public OleSelectDocumentService getOleSelectDocumentService() {
+        if(oleSelectDocumentService == null){
+            oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
+        }
+        return oleSelectDocumentService;
+    }
+
+    public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
+        this.oleSelectDocumentService = oleSelectDocumentService;
     }
 
 }

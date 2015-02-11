@@ -1,6 +1,11 @@
 package org.kuali.ole.ncip.bo;
 
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonMethod;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -10,18 +15,46 @@ import java.util.List;
  * Time: 3:14 PM
  * To change this template use File | Settings | File Templates.
  */
+@JsonAutoDetect(JsonMethod.FIELD)
 public class OLELookupUser {
+
+    @JsonProperty("code")
     private String code;
+
+    @JsonProperty("message")
     private String message;
+
+    @JsonProperty("patronId")
     private String patronId;
+
+    @JsonProperty("patronName")
     private OlePatronNameBo patronName;
+
+    @JsonProperty("patronEmail")
     private OlePatronEmailBo patronEmail;
+
+    @JsonProperty("patronAddress")
     private OlePatronAddressBo patronAddress;
+
+    @JsonProperty("patronPhone")
     private OlePatronPhoneBo patronPhone;
+
+    @JsonProperty("oleUserPrivileges")
     private List<OLEUserPrivilege> oleUserPrivileges;
+
+    @JsonProperty("oleHolds")
     private OLEHolds oleHolds;
+
+    @JsonProperty("oleCheckedOutItems")
     private OLECheckedOutItems oleCheckedOutItems;
+
+    @JsonProperty("oleItemFines")
     private OLEItemFines oleItemFines;
+
+    /*This following fields are only for SIP2*/
+    @JsonIgnore
+    private boolean validPatron;
+    /*This above fields are only for SIP2*/
 
     public String getCode() {
         return code;
@@ -109,5 +142,13 @@ public class OLELookupUser {
 
     public void setOleItemFines(OLEItemFines oleItemFines) {
         this.oleItemFines = oleItemFines;
+    }
+
+    public boolean isValidPatron() {
+        return validPatron;
+    }
+
+    public void setValidPatron(boolean isValidPatron) {
+        this.validPatron = isValidPatron;
     }
 }

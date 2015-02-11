@@ -1,0 +1,49 @@
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<config>
+
+    <!-- Date Format : MM/dd/yyy(Month-Date-Year)-->
+    <param name="STRING_TO_DATE_FORMATS" override="false">MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MM-dd-yyyy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss</param>
+    <param name="STRING_TO_TIMESTAMP_FORMATS" override="false">MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss</param>
+    <param name="DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE" override="false">MM/dd/yyyy</param>
+    <param name="TIMESTAMP_TO_STRING_FORMAT_FOR_USER_INTERFACE" override="false">MM/dd/yyyy hh:mm a</param>
+    <param name="Uif-DatePicker.dateFormat" override="false">mm/dd/yy</param>
+    <param name="allowedFormats.dateFormat1" override="false">MM/dd/yy</param>
+    <param name="allowedFormats.dateFormat2" override="false">MM/dd/yyyy</param>
+    <param name="allowedFormats.dateFormat3" override="false">MM-dd-yy</param>
+    <param name="allowedFormats.dateFormat4" override="false">MM-dd-yyyy</param>
+    <param name="dateFormat.tag.files" override="false">%m/%d/%Y</param>
+    <param name="info.DateFormat">MM/dd/yyyy</param>
+
+    <!-- Date Format : dd/MM/yyy (Date-Month-Year)-->
+    <!--<param name="STRING_TO_DATE_FORMATS" override="false">dd/MM/yyyy hh:mm a;dd/MM/yy;dd/MM/yyyy;dd-MM-yy;dd-MM-yyyy;ddMMyy;MMMM dd;yyyy;dd/MM/yy HH:mm:ss;dd/MM/yyyy HH:mm:ss;dd-MM-yy HH:mm:ss;ddMMyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss</param>
+    <param name="STRING_TO_TIMESTAMP_FORMATS" override="false">dd/MM/yyyy hh:mm a;dd/MM/yy;dd/MM/yyyy;dd-MM-yy;ddMMyy;MMMM dd;yyyy;dd/MM/yy HH:mm:ss;dd/MM/yyyy HH:mm:ss;dd-MM-yy HH:mm:ss;ddMMyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss</param>
+    <param name="DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE" override="false">dd/MM/yyyy</param>
+    <param name="TIMESTAMP_TO_STRING_FORMAT_FOR_USER_INTERFACE" override="false">dd/MM/yyyy hh:mm a</param>
+    <param name="Uif-DatePicker.dateFormat" override="false">dd/mm/yy</param>
+    <param name="allowedFormats.dateFormat1" override="false">dd/MM/yy</param>
+    <param name="allowedFormats.dateFormat2" override="false">dd/MM/yyyy</param>
+    <param name="allowedFormats.dateFormat3" override="false">dd-MM-yy</param>
+    <param name="allowedFormats.dateFormat4" override="false">dd-MM-yyyy</param>
+    <param name="dateFormat.tag.files" override="false">%d/%m/%Y</param>
+    <param name="info.DateFormat">dd/MM/yyyy</param>-->
+
+    <param name="config.base.currency">US Dollar</param>
+
+
+</config>
