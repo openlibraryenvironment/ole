@@ -3,7 +3,7 @@ TRUNCATE TABLE KRCR_STYLE_T DROP STORAGE
 INSERT INTO KRCR_STYLE_T (ACTV_IND,NM,OBJ_ID,STYLE_ID,VER_NBR,XML)
   VALUES (1,'widgets','78f41de9-d148-4e84-855c-b3359f726650','2020',1,EMPTY_CLOB())
 /
--- Length: 65850
+-- Length: 65847
 -- Chunks: 17
 DECLARE    data CLOB; buffer VARCHAR2(32000);
 BEGIN
@@ -1579,7 +1579,7 @@ BEGIN
 <xsl:value-of select="../../noteId"/>
 </xsl:attribute>
 																		</input>
-																		<xsl:choo';
+																		<xsl:choos';
     DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -1588,7 +1588,7 @@ BEGIN
     SELECT XML INTO data FROM KRCR_STYLE_T 
     WHERE 
  STYLE_ID = '2020'    FOR UPDATE;        
-    buffer := 'se>
+    buffer := 'e>
 																			<xsl:when test="$globalReadOnly = ''true''">
 																			</xsl:when>
 																			<xsl:otherwise>
@@ -1664,7 +1664,7 @@ BEGIN
 																	<img height="15" src="images/tinybutton-delete1-disabled.gif" vspace="3" width="40"/>
 																</div>
 															</xsl:otherwise>
-	';
+				';
     DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -1673,7 +1673,7 @@ BEGIN
     SELECT XML INTO data FROM KRCR_STYLE_T 
     WHERE 
  STYLE_ID = '2020'    FOR UPDATE;        
-    buffer := '													</xsl:choose>
+    buffer := '										</xsl:choose>
 													</xsl:otherwise>
 												</xsl:choose>
 											</td>
