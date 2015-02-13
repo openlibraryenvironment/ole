@@ -839,7 +839,7 @@ public class BoundwithController extends OLESearchController {
             request.getSession().setAttribute(OLEConstants.RIGHT_LIST, uuidRightList);
 
             DocumentSelectionTree documentSelectionTree = new DocumentSelectionTree();
-            Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(uuids, boundwithForm.getDocType(),true);
+            Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(uuids, boundwithForm.getDocType(),false);
             LOG.info("Tree id-->" + treeId);
             if (treeId != null) {
                 if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {

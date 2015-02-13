@@ -263,6 +263,9 @@ public class WorkEInstanceOlemlEditor
             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "record.load.fail.message ");
             return workEInstanceOlemlForm;
         }
+        if(workEInstanceOlemlForm.getSelectedEHoldings()!=null && workEInstanceOlemlForm.getSelectedEHoldings().getPlatform()==null){
+            workEInstanceOlemlForm.getSelectedEHoldings().setPlatform(new Platform());
+        }
         workEInstanceOlemlForm.setViewId("WorkEInstanceViewPage");
         workEInstanceOlemlForm.setIssn(bib.getIssn());
         editorForm.seteResourceTitle(workEInstanceOlemlForm.geteResourceTitle());

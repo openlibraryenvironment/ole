@@ -792,8 +792,17 @@ public class DocstoreRestClient implements DocstoreClient {
 
     @Override
     public void transferHoldings(List<String> holdingsIds, String bibId) {
-
-        RestResponse restResponse = postRequest(" ", BIB_URL + bibId + TRANSFER_URL + buildQueryString(holdingsIds, "holdingsId"));
+        List<String> filteredIds=new ArrayList<>();
+        for(String holdingId:holdingsIds){
+            if(holdingId.contains("eHoldings")){
+                String id=holdingId.replace("eHoldings","");
+                id=id.trim();
+                filteredIds.add(id);
+            }else {
+                filteredIds.add(holdingId);
+            }
+        }
+        RestResponse restResponse = postRequest(" ", BIB_URL + bibId + TRANSFER_URL + buildQueryString(filteredIds, "holdingsId"));
         if (restResponse.getResponse().getStatusLine().getStatusCode() == 200) {
             if (restResponse.getResponseBody().startsWith("<org.kuali.ole.docstore.common.exception")) {
                 throw DocstoreExceptionProcessor.fromXML(restResponse.getResponseBody());

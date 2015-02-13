@@ -1429,3 +1429,26 @@ function accessLocation(id){
 function statisticalCode(id){
     jq('#hiddenStatisticalCode_control').val("true");
 }
+
+function eInstanceAdminClickableLink(){ var link ;
+    link = jq('#OleEinstance-adminUrl_control').val();
+    if(link == null || link ==""){
+    }else{
+        if(validateUrl(link)==true){
+            window.open(link);
+        }
+    }
+
+}
+function eInstanceClickableLink(id){
+    var field ="OleEinstance-linkURL-editable_line";
+    var control = "_control";
+    var field = '#'.concat(field).concat(id).concat(control);
+    var link = jq(field).val();
+    if(link == null || link ==""){
+    }else{
+        if(validateUrl(link)==true){
+            window.open(link);
+        }
+    }
+}
