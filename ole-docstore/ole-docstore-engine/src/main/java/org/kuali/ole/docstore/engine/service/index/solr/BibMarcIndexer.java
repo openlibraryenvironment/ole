@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
 public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConstants {
 
 
-//    public static Map<String, String> FIELDS_TO_TAGS_2_INCLUDE_MAP = new HashMap<String, String>();
+    //    public static Map<String, String> FIELDS_TO_TAGS_2_INCLUDE_MAP = new HashMap<String, String>();
 //    public static Map<String, String> FIELDS_TO_TAGS_2_EXCLUDE_MAP = new HashMap<String, String>();
     private static final String SEPERATOR_DATA_FIELD = ", ";
     private static final String SEPERATOR_SUB_FIELD = " ";
@@ -54,9 +54,9 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
     private static final String SEPERATOR_HYPHEN = " - ";
     private static final String SEPERATOR_DOUBLE_HYPHEN = " -- ";
     private static final String DYNAMIC_FIELD_PREFIX = "mdf_";
-    private static final String BIB_IDENTIFIER  = "bibIdentifier";
-    private static final String HOLDINGS_IDENTIFIER  = "holdingsIdentifier";
-    private static final String ITEM_IDENTIFIER  = "itemIdentifier";
+    private static final String BIB_IDENTIFIER = "bibIdentifier";
+    private static final String HOLDINGS_IDENTIFIER = "holdingsIdentifier";
+    private static final String ITEM_IDENTIFIER = "itemIdentifier";
     private String publicationDateRegex = "[0-9]{4}";
     private static final Logger LOG = LoggerFactory
             .getLogger(BibMarcIndexer.class);
@@ -89,7 +89,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
     }
 
     /**
-     *  Build Solr input document for bib tree
+     * Build Solr input document for bib tree
      * @param bibTree
      * @param solrInputDocuments
      */
@@ -101,7 +101,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
             setCommonFields(bib, bibSolrDoc);
             solrInputDocuments.add(bibSolrDoc);
             for (HoldingsTree holdingsTree : bibTree.getHoldingsTrees()) {
-                if(holdingsTree.getHoldings() != null && holdingsTree.getHoldings().getOperation() != null && holdingsTree.getHoldings().getOperation().equals(DocstoreDocument.OperationType.NONE)) {
+                if (holdingsTree.getHoldings() != null && holdingsTree.getHoldings().getOperation() != null && holdingsTree.getHoldings().getOperation().equals(DocstoreDocument.OperationType.NONE)) {
                     continue;
                 }
                 buildSolrDocsForHoldingsTree(solrInputDocuments, bib, bibSolrDoc, holdingsTree);
@@ -123,12 +123,13 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
             HoldingsOlemlIndexer holdingsOlemlIndexer = HoldingsOlemlIndexer.getInstance();
             if (holdingsTree.getHoldings().getContent() != null || holdingsTree.getHoldings().getContentObject() != null) {
                 SolrInputDocument holdingsSolrInputDoc = holdingsOlemlIndexer.getSolrInputFieldsForHoldings(holdingsTree.getHoldings());
-                linkHoldingsWithBib(bibSolrDoc, holdingsSolrInputDoc,bib.getId(),solrInputDocuments,holdingsTree.getHoldings().getId());
+                linkHoldingsWithBib(bibSolrDoc, holdingsSolrInputDoc, bib.getId(), solrInputDocuments, holdingsTree.getHoldings().getId());
                 holdingsSolrInputDoc.addField(BIB_IDENTIFIER, bib.getId());
                 List<Item> itemDocuments = holdingsTree.getItems();
                 List<String> itemIds = new ArrayList<String>();
                 holdingsSolrInputDoc.addField(ITEM_IDENTIFIER, itemIds);
                 ItemOlemlIndexer itemOlemlIndexer = ItemOlemlIndexer.getInstance();
+                addHoldingsInfoToBib(holdingsSolrInputDoc,bibSolrDoc);
                 for (Item itemDocument : itemDocuments) {
                     itemIds.add(itemDocument.getId());
                     SolrInputDocument itemSolrInputDoc = itemOlemlIndexer.getSolrInputFieldsForItem(itemDocument);
@@ -136,6 +137,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
                     itemSolrInputDoc.addField(BIB_IDENTIFIER, bib.getId());
                     addBibInfoForHoldingsOrItems(itemSolrInputDoc, holdingsSolrInputDoc);
                     addHoldingsInfoToItem(itemSolrInputDoc, holdingsSolrInputDoc);
+                    addItemInfoToBib(itemSolrInputDoc,bibSolrDoc);
                     solrInputDocuments.add(itemSolrInputDoc);
                 }
 
@@ -146,7 +148,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
         }
     }
 
-    private void linkHoldingsWithBib(SolrInputDocument bibSolrDoc,SolrInputDocument holdingsSolrInputDoc,String bibId,List<SolrInputDocument> solrInputDocuments,String holdingsId ){
+    private void linkHoldingsWithBib(SolrInputDocument bibSolrDoc, SolrInputDocument holdingsSolrInputDoc, String bibId, List<SolrInputDocument> solrInputDocuments, String holdingsId) {
         if (bibSolrDoc == null) {
             SolrDocument bibSolrDocument = getSolrDocumentByUUID(bibId);
             bibSolrDoc = buildSolrInputDocFromSolrDoc(bibSolrDocument);
@@ -444,18 +446,17 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
 
     }
 
-    private void addBibInfoToHoldings(List<SolrInputDocument> solrInputDocuments, SolrInputDocument bibSolrDoc, SolrDocument solrDocument ) {
+    private void addBibInfoToHoldings(List<SolrInputDocument> solrInputDocuments, SolrInputDocument bibSolrDoc, SolrDocument solrDocument) {
         Object instanceIdentifier = solrDocument.getFieldValue(HOLDINGS_IDENTIFIER);
         bibSolrDoc.addField(HOLDINGS_IDENTIFIER, instanceIdentifier);
         List<String> holdinsgsIds = new ArrayList<>();
-        if(instanceIdentifier instanceof String) {
+        if (instanceIdentifier instanceof String) {
             holdinsgsIds.add((String) instanceIdentifier);
-        }
-        else {
+        } else {
             holdinsgsIds.addAll((List<String>) instanceIdentifier);
         }
 
-        for(String holdingsId : holdinsgsIds) {
+        for (String holdingsId : holdinsgsIds) {
             List<SolrDocument> solrDocumentList = getSolrDocumentBySolrId(holdingsId);
             if (CollectionUtils.isNotEmpty(solrDocumentList)) {
                 SolrDocument holdingsSolrDocument = solrDocumentList.get(0);
@@ -551,11 +552,11 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
      */
     public SolrInputDocument buildSolrInputDocument(BibMarcRecord record) {
         SolrInputDocument solrDoc = new SolrInputDocument();
-        buildSolrInputDocument(record,solrDoc);
+        buildSolrInputDocument(record, solrDoc);
         return solrDoc;
     }
 
-    public SolrInputDocument buildSolrInputDocument(BibMarcRecord record,SolrInputDocument solrDoc ) {
+    public SolrInputDocument buildSolrInputDocument(BibMarcRecord record, SolrInputDocument solrDoc) {
 
         solrDoc.addField(LEADER, record.getLeader());
 
@@ -570,14 +571,14 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
         solrDoc.addField(DOC_FORMAT, DocFormat.MARC.getDescription());
 
         for (String field : documentSearchConfig.FIELDS_TO_TAGS_2_INCLUDE_MAP.keySet()) {
-            if (!field.equalsIgnoreCase("mdf_035a") && !field.startsWith("Local")) {
+            if (!field.equalsIgnoreCase("mdf_035a") && !field.startsWith("Local") && !field.equalsIgnoreCase(ITEM_BARCODE_SEARCH) && !field.equalsIgnoreCase(URI_SEARCH) ) {
                 addFieldToSolrDoc(record, field, buildFieldValue(field, record), solrDoc);
             }
 
         }
         addFieldToSolrDoc(record, ALL_TEXT, getAllText(record), solrDoc);
         addGeneralFieldsToSolrDoc(record, solrDoc);
-        if(record.getLeader() == null || ((record.getLeader().length() >= 8) && (record.getLeader().charAt(7) != 's'))) {
+        if (record.getLeader() == null || ((record.getLeader().length() >= 8) && (record.getLeader().charAt(7) != 's'))) {
             solrDoc.removeField(JOURNAL_TITLE_SEARCH);
             solrDoc.removeField(JOURNAL_TITLE_DISPLAY);
             solrDoc.removeField(JOURNAL_TITLE_SORT);
@@ -621,8 +622,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
                     String fieldValue = value.toString();
                     try {
                         fieldValue = value.toString().substring(ind2Value);
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         LOG.error("Exception while getting value:" + value.toString() + " for field:" + fieldName + ". Exception:" + e.toString());
                         // TODO: log the exception trace here.
                     }
@@ -729,7 +729,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
             return langs;
         } else if (fieldName.equals(FORMAT_DISPLAY) || fieldName.equals(FORMAT_SEARCH) || fieldName.equals(FORMAT_FACET)) {
             return getRecordFormat(record);
-        } else if(fieldName.equals(DESCRIPTION_SEARCH)) {
+        } else if (fieldName.equals(DESCRIPTION_SEARCH)) {
             String excludeTags = documentSearchConfig.FIELDS_TO_TAGS_2_EXCLUDE_MAP.get(fieldName);
             if (excludeTags == null) {
                 excludeTags = "";
@@ -1031,7 +1031,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
                         try {
                             ((List<String>) result).add(isbnUtil.normalizeISBN(obj));
                         } catch (OleException e) {
-                           // LOG.error("Exception :", e);
+                            // LOG.error("Exception :", e);
                             ((List<String>) result).add((String) obj + " " + ISBN_NOT_NORMALIZED);
                         }
                     } else {
@@ -1043,7 +1043,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
                     try {
                         result = isbnUtil.normalizeISBN(isbnValue);
                     } catch (OleException e) {
-                      //  LOG.error("Exception :", e);
+                        //  LOG.error("Exception :", e);
                         result = isbnValue + " " + ISBN_NOT_NORMALIZED;
                     }
                 } else {
@@ -1265,7 +1265,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
 
     public void bind(String holdingsId, List<String> bibIds) throws SolrServerException, IOException {
         List<SolrInputDocument> solrInputDocumentList = new ArrayList<SolrInputDocument>();
-        updateInstanceDocument(holdingsId, bibIds, solrInputDocumentList);
+        updateHoldingsDocument(holdingsId, bibIds, solrInputDocumentList);
         updateBibDocument(holdingsId, bibIds, solrInputDocumentList);
         LOG.info("solrInputDocumentList-->" + solrInputDocumentList);
         SolrServer server = SolrServerManager.getInstance().getSolrServer();
@@ -1275,78 +1275,42 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
 
     private void updateBibDocument(String holdingsId, List<String> bibIds, List<SolrInputDocument> solrInputDocumentList) {
         for (String bibId : bibIds) {
-            SolrDocument bibSolrDocument = getSolrDocumentByUUID(bibId);
-            List<String> holdingsIdentifierList = new ArrayList<String>();
-            Object holdingsIdentifier = bibSolrDocument.getFieldValue(HOLDINGS_IDENTIFIER);
-            if (holdingsIdentifier instanceof List) {
-                holdingsIdentifierList = (List<String>) bibSolrDocument.getFieldValue(HOLDINGS_IDENTIFIER);
-            } else if (holdingsIdentifier instanceof String) {
-                holdingsIdentifierList.add((String) holdingsIdentifier);
+            SolrInputDocument bibSolrInputDocument = new SolrInputDocument();
+            bibSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, bibId);
+            Map<String, String> holdingsIdsMap = new HashMap<>();
+            holdingsIdsMap.put(AtomicUpdateConstants.ADD, holdingsId);
+            bibSolrInputDocument.setField(HoldingsConstants.HOLDINGS_IDENTIFIER, holdingsIdsMap);
+            solrInputDocumentList.add(bibSolrInputDocument);
         }
-            holdingsIdentifierList.add(holdingsId);
-            bibSolrDocument.setField(HOLDINGS_IDENTIFIER, holdingsIdentifierList);
-            solrInputDocumentList.add(buildSolrInputDocFromSolrDoc(bibSolrDocument));
-    }
     }
 
-    private void updateInstanceDocument(String holdingsId, List<String> bibIds, List<SolrInputDocument> solrInputDocumentList) throws SolrServerException {
-        SolrQuery solrQuery = new SolrQuery();
-        SolrServer server = SolrServerManager.getInstance().getSolrServer();
-        solrQuery.setQuery(("id:" + holdingsId + " AND DocType:" + DocType.HOLDINGS.getCode()));
-        QueryResponse response = server.query(solrQuery);
-        List<SolrDocument> solrDocumentList = response.getResults();
-        LOG.debug("response.getResults()-->" + response.getResults());
-        for (SolrDocument solrDocument : solrDocumentList) {
-            List<String> bibIdentifierList = new ArrayList<String>();
-
-            //Get the BibIdentifier list and update the bibIdentifier field with the linked doc uuid's.
-            Object bibIdentifier = solrDocument.getFieldValue(BIB_IDENTIFIER);
-            if (bibIdentifier instanceof List) {
-                bibIdentifierList = (List<String>) solrDocument.getFieldValue(BIB_IDENTIFIER);
-
-            } else if (bibIdentifier instanceof String) {
-                bibIdentifierList.add((String) bibIdentifier);
+    private void updateHoldingsDocument(String holdingsId, List<String> bibIds, List<SolrInputDocument> solrInputDocumentList) throws SolrServerException {
+        SolrInputDocument holdingsSolrInputDocument = new SolrInputDocument();
+        holdingsSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, holdingsId);
+        Map<String, List<String>> bibIdsMap = new HashMap<String, List<String>>();
+        bibIdsMap.put(AtomicUpdateConstants.ADD, bibIds);
+        holdingsSolrInputDocument.setField(BibConstants.BIB_ID, bibIdsMap);
+        holdingsSolrInputDocument.setField(HoldingsConstants.IS_BOUND_WITH, Boolean.TRUE);
+        solrInputDocumentList.add(holdingsSolrInputDocument);
+        updateItemDocsOfHoldings(holdingsId, solrInputDocumentList, bibIdsMap);
     }
-            LOG.info("bibIdentifierList-->" + bibIdentifierList);
-            //List<RequestDocument> linkedRequestDocuments = requestDocument.getLinkedRequestDocuments();
-            for (String bibId : bibIds) {
-                bibIdentifierList.add(bibId);
-            }
-            solrDocument.setField("isBoundwith", true);
-            solrDocument.setField(BIB_IDENTIFIER, bibIdentifierList);
-            solrInputDocumentList.add(buildSolrInputDocFromSolrDoc(solrDocument));
 
-            /*//Get the holdings identifier from the solrdoc and update bibIdentifier field in holding doc with the linked doc uuid's.
-            Object holdingsIdentifier = solrDocument.getFieldValue("holdingsIdentifier");
-            List<String> holdingIdentifierList = new ArrayList<String>();
-            if (holdingsIdentifier instanceof List) {
-                holdingIdentifierList = (List<String>) solrDocument.getFieldValue("holdingsIdentifier");
-
-            } else if (holdingsIdentifier instanceof String) {
-                holdingIdentifierList.add((String) holdingsIdentifier);
-
-            }
-            SolrDocument holdingSolrDocument = getSolrDocumentByUUID(holdingIdentifierList.get(0));
-            holdingSolrDocument.setField("bibIdentifier", bibIdentifierList);
-            solrInputDocumentList.add(buildSolrInputDocFromSolrDoc(holdingSolrDocument));*/
-
-            //Get the item identifier from the solrdoc and update bibIdentifier field in item doc with the linked doc uuid's.
-            Object itemIdentifier = solrDocument.getFieldValue(ITEM_IDENTIFIER);
-            List<String> itemIdentifierList = new ArrayList<String>();
+    private void updateItemDocsOfHoldings(String holdingsId, List<SolrInputDocument> solrInputDocumentList, Map<String, List<String>> bibIdsMap) {
+        SolrDocument holdingsSolrDocument = getSolrDocumentByUUID(holdingsId);
+        List<String> itemIdentifierList = null;
+        Object itemIdentifier = holdingsSolrDocument.getFieldValue(ITEM_IDENTIFIER);
         if (itemIdentifier instanceof List) {
-                itemIdentifierList = (List<String>) solrDocument.getFieldValue(ITEM_IDENTIFIER);
-
+            itemIdentifierList = (List<String>) itemIdentifier;
         } else if (itemIdentifier instanceof String) {
+            itemIdentifierList = new ArrayList<String>();
             itemIdentifierList.add((String) itemIdentifier);
         }
-
         for (String itemId : itemIdentifierList) {
-                SolrDocument itemSolrDocument = getSolrDocumentByUUID(itemId);
-                itemSolrDocument.setField(BIB_IDENTIFIER, bibIdentifierList);
-                solrInputDocumentList.add(buildSolrInputDocFromSolrDoc(itemSolrDocument));
-
+            SolrInputDocument itemSolrInputDocument = new SolrInputDocument();
+            itemSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, itemId);
+            itemSolrInputDocument.setField(BibConstants.BIB_ID, bibIdsMap);
+            solrInputDocumentList.add(itemSolrInputDocument);
         }
-    }
     }
 
     public void bindAnalytics(String seriesHoldingsId, List<String> itemIds, String createOrBreak) throws SolrServerException, IOException {
@@ -1359,116 +1323,104 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
         server.commit();
     }
 
-    private void updateHoldingsDocument(String seriesHoldingsId, List<String> itemIds, List<SolrInputDocument> solrInputDocumentList, String createOrBreak) throws SolrServerException {
-        SolrQuery solrQuery = new SolrQuery();
-        SolrServer server = SolrServerManager.getInstance().getSolrServer();
-        solrQuery.setQuery(("id:" + seriesHoldingsId + " AND DocType:" + DocType.HOLDINGS.getCode()));
-        QueryResponse response = server.query(solrQuery);
-        List<SolrDocument> solrDocumentList = response.getResults();
-        LOG.debug("response.getResults()-->" + response.getResults());
-        List<String> itemIdentifierList = new ArrayList<String>();
-        List<String> holdingsIdentifierList = new ArrayList<String>();
-        for (SolrDocument holdingsSolrDocument : solrDocumentList) {
-            Object itemIdentifier = holdingsSolrDocument.getFieldValue(ITEM_IDENTIFIER);
-            if (itemIdentifier instanceof List) {
-                itemIdentifierList = (List<String>) holdingsSolrDocument.getFieldValue(ITEM_IDENTIFIER);
-            } else if (itemIdentifier instanceof String) {
-                itemIdentifierList.add((String) itemIdentifier);
-            }
-            if (!CollectionUtils.isEmpty(itemIdentifierList) && createOrBreak.equalsIgnoreCase("CREATE")) {
-                itemIdentifierList.addAll(itemIds);
-                holdingsSolrDocument.setField(ITEM_IDENTIFIER, itemIdentifierList);
-                holdingsSolrDocument.setField("isSeries", Boolean.TRUE);
-                if (!CollectionUtils.isEmpty(itemIds)) {
-                    for (String itemId : itemIds) {
-                        SolrDocument itemSolrDocument = getSolrDocumentByUUID(itemId);
-
-                        Object holdingsIdentifier = itemSolrDocument.getFieldValue(HOLDINGS_IDENTIFIER);
-                        if (holdingsIdentifier instanceof List) {
-                            holdingsIdentifierList = (List<String>) itemSolrDocument.getFieldValue(HOLDINGS_IDENTIFIER);
-                        } else if (holdingsIdentifier instanceof String) {
-                            holdingsIdentifierList.add((String) holdingsIdentifier);
-        }
-                        if (!CollectionUtils.isEmpty(holdingsIdentifierList)) {
-                            for (String holdingId : holdingsIdentifierList) {
-                                SolrDocument holdingSolrDocument = getSolrDocumentByUUID(holdingId);
-                                holdingSolrDocument.setField("isAnalytic", Boolean.TRUE);
-                                solrInputDocumentList.add(buildSolrInputDocFromSolrDoc(holdingSolrDocument));
-    }
-                        }
-                    }
-                }
-
-                LOG.info("itemIdentifierList-->" + itemIdentifierList);
-            } else if (!CollectionUtils.isEmpty(itemIdentifierList) && createOrBreak.equalsIgnoreCase("BREAK")) {
-                itemIdentifierList.removeAll(itemIds);
-                holdingsSolrDocument.setField(ITEM_IDENTIFIER, itemIdentifierList);
-                boolean hasAnalytic = false;
-                if (!CollectionUtils.isEmpty(itemIdentifierList)) {
-                    for (String itemId : itemIdentifierList) {
-                        SolrDocument itemSolrDocument = getSolrDocumentByUUID(itemId);
-                        if (itemSolrDocument.getFieldValue("isAnalytic") instanceof Boolean) {
-                            hasAnalytic = (Boolean) itemSolrDocument.getFieldValue("isAnalytic");
-                            if (hasAnalytic) {
-                                break;
+    private void updateHoldingsDocument(String seriesHoldingsId, List<String> itemIds, List<SolrInputDocument> holdingsSolrInputDocumentList, String createOrBreak) {
+        SolrInputDocument holdingsSolrInputDocument = new SolrInputDocument();
+        holdingsSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, seriesHoldingsId);
+        Map<String, List<String>> itemIdsMap = new HashMap<String, List<String>>();
+        if (createOrBreak.equalsIgnoreCase(BibConstants.CREATE_RELATION)) {
+            itemIdsMap.put(AtomicUpdateConstants.ADD, itemIds);
+            holdingsSolrInputDocument.setField(ITEM_IDENTIFIER, itemIdsMap);
+            holdingsSolrInputDocument.setField(BibConstants.IS_SERIES, Boolean.TRUE);
+            holdingsSolrInputDocument.setField(BibConstants.IS_ANALYTIC, Boolean.TRUE);
+        } else if (createOrBreak.equalsIgnoreCase(BibConstants.BREAK_RELATION)) {
+            itemIdsMap.put(AtomicUpdateConstants.REMOVE, itemIds);
+            holdingsSolrInputDocument.addField(ITEM_IDENTIFIER, itemIdsMap);
+            if (!hasAnalyticItemInHoldings(seriesHoldingsId, itemIds)) {
+                Map analyticMap = new HashMap();
+                analyticMap.put(AtomicUpdateConstants.SET, null);
+                holdingsSolrInputDocument.setField(BibConstants.IS_SERIES, Boolean.FALSE);
+                holdingsSolrInputDocument.setField(BibConstants.IS_ANALYTIC, analyticMap);
             }
         }
+        holdingsSolrInputDocumentList.add(holdingsSolrInputDocument);
     }
-                    if (!hasAnalytic) {
-                        holdingsSolrDocument.setField("isSeries", Boolean.FALSE);
 
-                        if (!CollectionUtils.isEmpty(itemIds)) {
-                            for (String itemId : itemIds) {
+    private void updateItemDocument(String seriesHoldingsId, List<String> itemIds, List<SolrInputDocument> solrInputDocumentList, String createOrBreak) {
+        for (String itemId : itemIds) {
+            SolrInputDocument itemSolrInputDocument = new SolrInputDocument();
+            itemSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, itemId);
+            Map holdingsIdsMap = new HashMap();
+            if (createOrBreak.equalsIgnoreCase(BibConstants.CREATE_RELATION)) {
+                holdingsIdsMap.put(AtomicUpdateConstants.ADD, seriesHoldingsId);
+                itemSolrInputDocument.setField(HoldingsConstants.HOLDINGS_IDENTIFIER, holdingsIdsMap);
+                itemSolrInputDocument.setField(BibConstants.IS_ANALYTIC, Boolean.TRUE);
+                updateHoldingsDocsOfAnalyticItem(seriesHoldingsId, itemId, itemIds, solrInputDocumentList, BibConstants.CREATE_RELATION);
+            } else if (createOrBreak.equalsIgnoreCase(BibConstants.BREAK_RELATION)) {
+                holdingsIdsMap.put(AtomicUpdateConstants.REMOVE, seriesHoldingsId);
+                itemSolrInputDocument.addField(HoldingsConstants.HOLDINGS_IDENTIFIER, holdingsIdsMap);
+                itemSolrInputDocument.setField(BibConstants.IS_ANALYTIC, Boolean.FALSE);
+                updateHoldingsDocsOfAnalyticItem(seriesHoldingsId, itemId, itemIds, solrInputDocumentList, BibConstants.BREAK_RELATION);
+            }
+            solrInputDocumentList.add(itemSolrInputDocument);
+        }
+    }
+
+    private void updateHoldingsDocsOfAnalyticItem(String seriesHoldingsId, String itemId, List<String> itemIds, List<SolrInputDocument> solrInputDocumentList, String createOrBreak) {
+        List<String> holdingsIdentifierList = null;
         SolrDocument itemSolrDocument = getSolrDocumentByUUID(itemId);
-
-                                Object holdingsIdentifier = itemSolrDocument.getFieldValue(HOLDINGS_IDENTIFIER);
+        Object holdingsIdentifier = itemSolrDocument.getFieldValue(HoldingsConstants.HOLDINGS_IDENTIFIER);
         if (holdingsIdentifier instanceof List) {
-                                    holdingsIdentifierList = (List<String>) itemSolrDocument.getFieldValue(HOLDINGS_IDENTIFIER);
+            holdingsIdentifierList = (List<String>) holdingsIdentifier;
         } else if (holdingsIdentifier instanceof String) {
+            holdingsIdentifierList = new ArrayList<String>();
             holdingsIdentifierList.add((String) holdingsIdentifier);
         }
-                                if (!CollectionUtils.isEmpty(holdingsIdentifierList)) {
-                                    for (String holdingId : holdingsIdentifierList) {
-                                        SolrDocument holdingSolrDocument = getSolrDocumentByUUID(holdingId);
-                                        holdingSolrDocument.setField("isAnalytic", Boolean.FALSE);
-                                        solrInputDocumentList.add(buildSolrInputDocFromSolrDoc(holdingSolrDocument));
+        Map analyticMap = new HashMap();
+        if (CollectionUtils.isNotEmpty(holdingsIdentifierList)) {
+            for (String holdingsId : holdingsIdentifierList) {
+                if (!holdingsId.equalsIgnoreCase(seriesHoldingsId)) {
+                    if (createOrBreak.equalsIgnoreCase(BibConstants.CREATE_RELATION)) {
+                        analyticMap.put(AtomicUpdateConstants.SET, Boolean.TRUE);
+                        SolrInputDocument holdingsSolrInputDocument = new SolrInputDocument();
+                        holdingsSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, holdingsId);
+                        holdingsSolrInputDocument.addField(BibConstants.IS_ANALYTIC, analyticMap);
+                        solrInputDocumentList.add(holdingsSolrInputDocument);
+                    } else if (createOrBreak.equalsIgnoreCase(BibConstants.BREAK_RELATION)) {
+                        if (!hasAnalyticItemInHoldings(holdingsId, itemIds)) {
+                            analyticMap.put(AtomicUpdateConstants.SET, null);
+                            SolrInputDocument holdingsSolrInputDocument = new SolrInputDocument();
+                            holdingsSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, holdingsId);
+                            holdingsSolrInputDocument.addField(BibConstants.IS_ANALYTIC, analyticMap);
+                            solrInputDocumentList.add(holdingsSolrInputDocument);
                         }
                     }
                 }
             }
-//                        holdingsSolrDocument.setField("isAnalytic", Boolean.FALSE);
-        }
-    }
-                LOG.info("itemIdentifierList-->" + itemIdentifierList);
-            }
-            solrInputDocumentList.add(buildSolrInputDocFromSolrDoc(holdingsSolrDocument));
         }
     }
 
-    private void updateItemDocument(String seriesHoldingsId, List<String> itemIds, List<SolrInputDocument> solrInputDocumentList, String createOrBreak) throws SolrServerException {
-        for (String itemId : itemIds) {
+    private Boolean hasAnalyticItemInHoldings(String holdingsId, List<String> itemIds) {
+        SolrDocument holdingsSolrDocument = getSolrDocumentByUUID(holdingsId);
+        List<String> itemIdentifierList = null;
+        Object itemIdentifier = holdingsSolrDocument.getFieldValue(ITEM_IDENTIFIER);
+        if (itemIdentifier instanceof List) {
+            itemIdentifierList = (List<String>) itemIdentifier;
+        } else if (itemIdentifier instanceof String) {
+            itemIdentifierList = new ArrayList<String>();
+            itemIdentifierList.add((String) itemIdentifier);
+        }
+        boolean hasAnalytic = false;
+        for (String itemId : itemIdentifierList) {
+            if (!itemIds.contains(itemId)) {
                 SolrDocument itemSolrDocument = getSolrDocumentByUUID(itemId);
-            List<String> holdingsIdentifierList = new ArrayList<String>();
-            Object holdingsIdentifier = itemSolrDocument.getFieldValue(HOLDINGS_IDENTIFIER);
-            if (holdingsIdentifier instanceof List) {
-                holdingsIdentifierList = (List<String>) itemSolrDocument.getFieldValue(HOLDINGS_IDENTIFIER);
-            } else if (holdingsIdentifier instanceof String) {
-                holdingsIdentifierList.add((String) holdingsIdentifier);
+                if (itemSolrDocument.getFieldValue(BibConstants.IS_ANALYTIC) instanceof Boolean) {
+                    hasAnalytic = (Boolean) itemSolrDocument.getFieldValue(BibConstants.IS_ANALYTIC);
+                    if (hasAnalytic) {
+                        break;
                     }
-            if (!CollectionUtils.isEmpty(holdingsIdentifierList) && createOrBreak.equalsIgnoreCase("CREATE")) {
-                holdingsIdentifierList.add(seriesHoldingsId);
-                itemSolrDocument.setField(HOLDINGS_IDENTIFIER, holdingsIdentifierList);
-                itemSolrDocument.setField("isAnalytic", Boolean.TRUE);
-            } else if (!CollectionUtils.isEmpty(holdingsIdentifierList) && createOrBreak.equalsIgnoreCase("BREAK")) {
-                holdingsIdentifierList.remove(seriesHoldingsId);
-                itemSolrDocument.setField(HOLDINGS_IDENTIFIER, holdingsIdentifierList);
-                itemSolrDocument.setField("isAnalytic", Boolean.FALSE);
                 }
-            solrInputDocumentList.add(buildSolrInputDocFromSolrDoc(itemSolrDocument));
             }
         }
-
-
-
-
+        return hasAnalytic;
+    }
 }

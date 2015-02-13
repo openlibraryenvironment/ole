@@ -145,6 +145,18 @@ public class Item
     @XmlTransient
     private String holdingsLocationLevel5;
 
+
+    @XmlTransient
+    protected boolean dataMappingFlag;
+
+    public boolean isDataMappingFlag() {
+        return dataMappingFlag;
+    }
+
+    public void setDataMappingFlag(boolean dataMappingFlag) {
+        this.dataMappingFlag = dataMappingFlag;
+    }
+
     protected String callNumberType;
     protected String callNumberPrefix;
     protected String itemStatus;
@@ -673,6 +685,7 @@ public class Item
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_CALL_NUMBER_TYPE)) {
             buildItemCallNumber(itemPojo);
             itemPojo.getCallNumber().getShelvingScheme().setCodeValue(fieldValue);
+            setDataMappingFlag(true);
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_CALL_NUMBER_TYPE_PREFIX)) {
             buildItemCallNumber(itemPojo);
             itemPojo.getCallNumber().setPrefix(fieldValue);
@@ -997,9 +1010,9 @@ public class Item
             if(StringUtils.isEmpty(callNumberType)) {
                 itemPojo.getCallNumber().getShelvingScheme().setCodeValue("NONE");
             }
-        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_CALL_NUMBER_TYPE)) {
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_CALL_NUMBER_TYPE) ) {
             buildItemCallNumber(itemPojo);
-            if (itemPojo.getCallNumber().getShelvingScheme().getCodeValue() == null || "NONE".equalsIgnoreCase(itemPojo.getCallNumber().getShelvingScheme().getCodeValue())) {
+            if (itemPojo.getCallNumber().getShelvingScheme().getCodeValue() == null || !isDataMappingFlag()) {
                 itemPojo.getCallNumber().getShelvingScheme().setCodeValue(fieldValue);
             }
 

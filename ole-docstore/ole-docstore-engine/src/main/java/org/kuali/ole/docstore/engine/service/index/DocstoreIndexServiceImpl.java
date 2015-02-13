@@ -10,6 +10,7 @@ import org.kuali.ole.docstore.engine.service.index.solr.BibMarcIndexer;
 import org.kuali.ole.docstore.engine.service.index.solr.DocumentIndexer;
 import org.kuali.ole.docstore.engine.service.index.solr.HoldingsOlemlIndexer;
 import org.kuali.ole.docstore.engine.service.index.solr.ItemOlemlIndexer;
+import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -193,11 +194,11 @@ public class DocstoreIndexServiceImpl implements DocstoreIndexService {
     public void createAnalyticsRelation(String seriesHoldingsId, List<String> itemIds) {
         DocumentIndexer documentIndexer = BibMarcIndexer.getInstance();
         try {
-            documentIndexer.bindAnalytics(seriesHoldingsId, itemIds, "CREATE");
+            documentIndexer.bindAnalytics(seriesHoldingsId, itemIds, BibConstants.CREATE_RELATION);
         } catch (SolrServerException e) {
-            LOG.info("Exception :", e);
+            LOG.info("Exception occurred while creating analytic relation :", e);
         } catch (IOException e) {
-            LOG.info("Exception :", e);
+            LOG.info("Exception occurred while creating analytic relation :", e);
         }
     }
 
@@ -205,11 +206,11 @@ public class DocstoreIndexServiceImpl implements DocstoreIndexService {
     public void breakAnalyticsRelation(String seriesHoldingsId, List<String> itemIds) {
         DocumentIndexer documentIndexer = BibMarcIndexer.getInstance();
         try {
-            documentIndexer.bindAnalytics(seriesHoldingsId, itemIds, "BREAK");
+            documentIndexer.bindAnalytics(seriesHoldingsId, itemIds, BibConstants.BREAK_RELATION);
         } catch (SolrServerException e) {
-            LOG.info("Exception :", e);
+            LOG.info("Exception occurred while breaking analytic relation :", e);
         } catch (IOException e) {
-            LOG.info("Exception :", e);
+            LOG.info("Exception occurred while breaking analytic relation :", e);
         }
     }
 

@@ -1,9 +1,7 @@
 package org.kuali.ole.docstore.engine.service.index.solr;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -105,7 +103,7 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
         if(solrBibDocs != null && solrBibDocs.size() > 0) {
             SolrDocument bibSolrDoc = solrBibDocs.get(0);
             addBibInfoForHoldingsOrItems(holdingsSolrInputDoc, bibSolrDoc);
-
+            addHoldingsInfoToBib(holdingsSolrInputDoc,bibSolrDoc);
             //add holdings to bib
             addInstIdToBib(holdingsTree.getHoldings().getId(), solrInputDocuments, bibSolrDoc);
         }
@@ -122,7 +120,6 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
             addHoldingsInfoToItem(itemSolrInputDoc, holdingsSolrInputDoc);
             solrInputDocuments.add(itemSolrInputDoc);
         }
-
         indexSolrDocuments(solrInputDocuments, true);
     }
 
@@ -194,6 +191,7 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
             StringBuffer locationLevel = new StringBuffer();
             Location location = oleHoldings.getLocation();
             buildLocationNameAndLocationLevel(location, locationName, locationLevel);
+            buildLocationName(location, solrDocForHolding);
             solrDocForHolding.addField(LOCATION_LEVEL_SEARCH, locationName.toString());
             solrDocForHolding.addField(LOCATION_LEVEL_NAME_SEARCH, locationLevel.toString());
             solrDocForHolding.addField(LOCATION_LEVEL_DISPLAY, locationName.toString());
@@ -455,8 +453,22 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
             solrDocForHolding.addField(UPDATED_BY, holdings.getUpdatedBy());
             solrDocForHolding.addField(DATE_UPDATED, date);
             solrInputDocuments.add(solrDocForHolding);
+            addHoldingsDetailsToBib(solrInputDocuments,solrDocForHolding,holdings.getBib().getId());
         }
     }
+
+    private void addHoldingsDetailsToBib(List<SolrInputDocument> solrInputDocuments, SolrInputDocument solrInputDocument, Object bibs) {
+        String bibId = (String) bibs;
+        SolrDocument solrBibDocument = getSolrDocumentByUUID(bibId);
+        Collection<Object> bibValues = solrBibDocument.getFieldValues(URI_SEARCH);
+        Object holdigsValue = solrInputDocument.getFieldValue(URI_SEARCH);
+        for (Object bibValue : bibValues) {
+            if (!((String) bibValue).equalsIgnoreCase(((String) holdigsValue))) {
+                solrBibDocument.addField(URI_SEARCH, solrInputDocument.getFieldValue(URI_SEARCH));
+            }
+        }
+    }
+
 
     protected void processHoldingSolrDocumentForUpdate(Object object, List<SolrInputDocument> solrInputDocuments, SolrInputDocument solrDocForHolding) {
         LOG.info("HoldingsOlemlIndexer class");
@@ -483,6 +495,7 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
                 solrDocForHolding.addField(UPDATED_BY, holdings.getUpdatedBy());
                 solrDocForHolding.addField(DATE_UPDATED, date);
                 solrInputDocuments.add(solrDocForHolding);
+             //   addHoldingsDetailsToBib(solrInputDocuments,solrDocForHolding,holdings.getBib().getId());
             }
         }
     }
@@ -670,6 +683,7 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
                 List instIdList = (List) bibSolrDoc.getFieldValue("holdingsIdentifier");
                 instIdList.add(holdingsId);
                 bibSolrDoc.setField("holdingsIdentifier", instIdList);
+
             } else if (bibSolrDoc.getFieldValue("holdingsIdentifier") instanceof String) {
                 String instId = (String) bibSolrDoc.getFieldValue("holdingsIdentifier");
                 List<String> instIdList = new ArrayList<String>();

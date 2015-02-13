@@ -38,6 +38,7 @@ import javax.xml.transform.stream.StreamSource;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "searchParams", propOrder = {
+        "docType",
         "pageSize",
         "searchConditions",
         "facetConditions",
@@ -55,6 +56,7 @@ import javax.xml.transform.stream.StreamSource;
 public class SearchParams {
 
     private static final Logger LOG = Logger.getLogger(SearchParams.class);
+    protected String docType = "";
     protected int pageSize = 0;
     @XmlElementWrapper(name = "facetConditions")
     @XmlElement(name = "facetCondition")
@@ -114,6 +116,14 @@ public class SearchParams {
             facetConditions = new ArrayList<FacetCondition>();
         }
         return this.facetConditions;
+    }
+
+    public String getDocType() {
+        return docType;
+    }
+
+    public void setDocType(String docType) {
+        this.docType = docType;
     }
 
     /**
@@ -338,7 +348,8 @@ public class SearchParams {
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "staffOnlyFlag"));
         } else if(DocType.HOLDINGS.getCode().equalsIgnoreCase(docType)){
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "LocalId_display"));
-            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), "Title_sort"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Title_sort"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Title_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "CallNumber_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "CallNumberPrefix_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "ClassificationPart_display"));
@@ -366,7 +377,8 @@ public class SearchParams {
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "ExtentOfOwnership_Note_Type_display"));
         } else if(DocType.EHOLDINGS.getCode().equalsIgnoreCase(docType)){
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "LocalId_display"));
-            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), "Title_sort"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Title_sort"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Title_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "AccessStatus_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Platform_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Imprint_display"));
@@ -407,7 +419,8 @@ public class SearchParams {
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Url_display"));
         } else if(DocType.ITEM.getCode().equalsIgnoreCase(docType)){
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "LocalId_display"));
-            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), "Title_sort"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Title_sort"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Title_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Location_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "CallNumber_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "CallNumberPrefix_display"));

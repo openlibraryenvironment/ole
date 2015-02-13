@@ -123,6 +123,17 @@ public class Holdings
     protected Bibs bibs;
     protected boolean isSeries = false;
 
+    @XmlTransient
+    protected boolean dataMappingFlag;
+
+    public boolean isDataMappingFlag() {
+        return dataMappingFlag;
+    }
+
+    public void setDataMappingFlag(boolean dataMappingFlag) {
+        this.dataMappingFlag = dataMappingFlag;
+    }
+
     public Holdings() {
         category = DocCategory.WORK.getCode();
         type = DocType.HOLDINGS.getCode();
@@ -482,6 +493,7 @@ public class Holdings
                 oleHoldings.getCallNumber().getShelvingScheme().setCodeValue("NONE");
             }
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_HOLDING_CALL_NUMBER_TYPE)) {
+            setDataMappingFlag(true);
             oleHoldings.getCallNumber().getShelvingScheme().setCodeValue(fieldValue);
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_CALL_NUMBER_TYPE_PREFIX)) {
             oleHoldings.getCallNumber().setPrefix(fieldValue);
@@ -518,7 +530,7 @@ public class Holdings
 
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_HOLDING_CALL_NUMBER_TYPE)) {
 
-            if (oleHoldings.getCallNumber().getShelvingScheme().getCodeValue() == null || "NONE".equalsIgnoreCase(oleHoldings.getCallNumber().getShelvingScheme().getCodeValue())) {
+            if (oleHoldings.getCallNumber().getShelvingScheme().getCodeValue() == null || !isDataMappingFlag()) {
                 oleHoldings.getCallNumber().getShelvingScheme().setCodeValue(fieldValue);
             }
 

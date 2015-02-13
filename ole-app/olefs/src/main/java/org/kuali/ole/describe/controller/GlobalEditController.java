@@ -83,8 +83,12 @@ public class GlobalEditController extends OLESearchController {
         GlobalEditForm globalEditForm = (GlobalEditForm) form;
         globalEditForm.getSearchConditions().clear();
         boolean viewGlobalEditDispMessageFlag=false;
-
+        globalEditForm.setInDocType(null);
         SearchCondition searchCondition = new SearchCondition();
+        SearchField searchField = new SearchField();
+        searchField.setFieldName("any");
+        searchField.setDocType(globalEditForm.getDocType());
+        searchCondition.setSearchField(searchField);
         searchCondition.setOperator("AND");
         globalEditForm.getSearchConditions().add(searchCondition);
         GlobalVariables.getMessageMap().getInfoMessages().clear();

@@ -35,9 +35,19 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
 
     private static final Logger LOG = LoggerFactory.getLogger(DocstoreSolrSearchService.class);
 
-    private static Map<String, String> searchFieldsMap = new HashMap<>();
+
     private static Map<String, String> searchResultFieldsMap = new HashMap<>();
 
+    private static Map<String, String> searchFieldsMap = new HashMap<>();
+    private static Map<String, String> joinQueryMap = new HashMap<>();
+    private static final String BIB_HOLDINGS = "bibliographicholdings";
+    private static final String BIB_EHOLDINGS = "bibliographiceHoldings";
+    private static final String BIB_ITEM="bibliographicitem";
+    private static final String HOLDINGS_BIB = "holdingsbibliographic";
+    private static final String EHOLDINGS_BIB = "eHoldingsbibliographic";
+    private static final String HOLDINGS_ITEM = "holdingsitem";
+    private static final String ITEM_HOLDINGS = "itemholdings";
+    private static final String ITEM_BIB = "itembibliographic";
     static {
         searchFieldsMap.put(Bib.ID, "id");
         searchFieldsMap.put(Bib.AUTHOR, "Author_search");
@@ -71,6 +81,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
         searchFieldsMap.put(Item.ITEM_TYPE, "ItemTypeCodeValue_search");
         searchFieldsMap.put(Item.VOLUME_NUMBER, "VolumeNumber_search");
         searchFieldsMap.put(Item.ITEM_STATUS, "ItemStatus_search");
+        searchFieldsMap.put(Item.ITEMIDENTIFIER, "ItemIdentifier_search");
         searchFieldsMap.put(Item.DONOR_CODE, "DonorCode_search");
         searchFieldsMap.put(Item.DONOR_NOTE, "DonorNote_display");
         searchFieldsMap.put(Item.DONOR_PUBLIC, "DonorPublic_display");
@@ -147,6 +158,19 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
         searchResultFieldsMap.put(EHoldings.PUBLIC_DISPLAY_NOTE, "CoverageDate_display");
         searchResultFieldsMap.put(EHoldings.STATISTICAL_CODE, "StatisticalSearchingCodeValue_display");
         searchResultFieldsMap.put(EHoldings.PLATFORM, "Platform_display");
+        searchResultFieldsMap.put(Bib.BIBIDENTIFIER, "bibIdentifier");
+        searchResultFieldsMap.put(Holdings.HOLDINGSIDENTIFIER, "holdingsIdentifier");
+        searchResultFieldsMap.put(Item.ITEMIDENTIFIER, "itemIdentifier");
+
+
+        joinQueryMap.put(BIB_HOLDINGS, "{!join from=id to=holdingsIdentifier}");
+        joinQueryMap.put(HOLDINGS_BIB, "{!join from=id to=bibIdentifier}");
+        joinQueryMap.put(BIB_EHOLDINGS, "{!join from=id to=holdingsIdentifier}");
+        joinQueryMap.put(EHOLDINGS_BIB, "{!join from=id to=bibIdentifier}");
+        joinQueryMap.put(HOLDINGS_ITEM, "{!join from=id to=itemIdentifier}");
+        joinQueryMap.put(ITEM_BIB, "{!join from=id to=bibIdentifier}");
+        joinQueryMap.put(ITEM_HOLDINGS, "{!join from=id to=holdingsIdentifier}");
+        joinQueryMap.put(BIB_ITEM, "{!join from=id to=itemIdentifier}");
     }
 
     @Override
@@ -154,8 +178,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
         try {
             SolrQuery solrQuery = new SolrQuery();
             SolrServer server = SolrServerManager.getInstance().getSolrServer();
-            String query = buildQueryWithSearchParams(searchParams);
-            solrQuery.setQuery(query);
+            buildQueryWithSearchConditions(searchParams,solrQuery);
             if (!CollectionUtils.isEmpty(searchParams.getSortConditions())) {
                 buildQueryWithSortConditions(solrQuery, searchParams.getSortConditions());
             }
@@ -228,10 +251,10 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
     private SearchResponse buildSearchResponse(QueryResponse response, SearchParams searchParams) {
         SolrDocumentList results = response.getResults();
         List<org.apache.solr.client.solrj.response.FacetField> facetFields = response.getFacetFields();
-        String searchConditionDocType = null;
+        String searchConditionDocType = searchParams.getDocType();
         SearchResponse searchResponse = new SearchResponse();
         List<SearchResult> searchResults = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(searchParams.getSearchConditions())) {
+        if (StringUtils.isEmpty(searchConditionDocType) && !CollectionUtils.isEmpty(searchParams.getSearchConditions())) {
             for(SearchCondition searchCondition:searchParams.getSearchConditions()){
                 if(searchCondition.getSearchField()!=null){
                     searchConditionDocType = searchCondition.getSearchField().getDocType();
@@ -267,6 +290,9 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
                             || fieldValue.equalsIgnoreCase("ISSN_display")) {
                         newSearchResultFields.addAll(buildSearchResultsForIds(solrDocument, searchResultField));
                         continue;
+                    }
+                    if(fieldValue.equalsIgnoreCase("Title_sort")){
+                        fieldValue="Title_display";
                     }
                     String resultFieldValue = getSolrFieldValue(solrDocument, fieldValue);
                     if (StringUtils.isNotBlank(resultFieldValue)) {
@@ -666,7 +692,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
             searchParams.getSearchConditions().add(searchParams.buildSearchCondition("none", searchField, null));
             SolrQuery solrQuery = new SolrQuery();
             SolrServer server = SolrServerManager.getInstance().getSolrServer();
-            solrQuery.setQuery(buildQueryWithSearchConditions(searchParams.getSearchConditions()));
+            buildQueryWithSearchConditions(searchParams,solrQuery);
             QueryResponse response = server.query(solrQuery);
             if (response.getResults().size() > 0) {
                 itemSolrDocument = response.getResults().get(0);
@@ -686,7 +712,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
             searchParams.getSearchConditions().add(searchParams.buildSearchCondition("none", searchField, null));
             SolrQuery solrQuery = new SolrQuery();
             SolrServer server = SolrServerManager.getInstance().getSolrServer();
-            solrQuery.setQuery(buildQueryWithSearchConditions(searchParams.getSearchConditions()));
+            buildQueryWithSearchConditions(searchParams,solrQuery);
             QueryResponse response = server.query(solrQuery);
             if (response.getResults().size() > 0) {
                 bibSolrDocument = response.getResults().get(0);
@@ -706,7 +732,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
             searchParams.getSearchConditions().add(searchParams.buildSearchCondition("none", searchField, null));
             SolrQuery solrQuery = new SolrQuery();
             SolrServer server = SolrServerManager.getInstance().getSolrServer();
-            solrQuery.setQuery(buildQueryWithSearchConditions(searchParams.getSearchConditions()));
+            buildQueryWithSearchConditions(searchParams,solrQuery);
             QueryResponse response = server.query(solrQuery);
             if (response.getResults().size() > 0) {
                 holdingsSolrDocument = response.getResults().get(0);
@@ -719,9 +745,9 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
     }
 
     private String buildQueryWithResultFieldsLists(SearchParams searchParams) {
-        String docType = null;
+        String docType = searchParams.getDocType();
         List<SearchResultField> searchResultFields = searchParams.getSearchResultFields();
-        if (!CollectionUtils.isEmpty(searchParams.getSearchConditions())) {
+        if (StringUtils.isEmpty(docType) && !CollectionUtils.isEmpty(searchParams.getSearchConditions())) {
             for(SearchCondition searchCondition:searchParams.getSearchConditions()){
                 if(searchCondition.getSearchField()!=null){
                     docType = searchCondition.getSearchField().getDocType();
@@ -898,6 +924,57 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
             return query.toString();
         }
     }
+
+
+    public void buildQueryWithSearchConditions(SearchParams searchParams, SolrQuery solrQuery) {
+        String docType = searchParams.getDocType(); // second
+        String key = "";
+        String firstDocType = "";
+        String secondDocType = "";
+        String query = "";
+        List<SearchCondition> filterSearchConditions = new ArrayList<>();
+        List<SearchCondition> querySearchConditions = new ArrayList<>();
+        int size = searchParams.getSearchConditions().size();
+        for (int i = size - 1; i >= 0; i--) {
+            SearchCondition searchCondition = searchParams.getSearchConditions().get(i);
+            if (searchCondition.getSearchField() != null && searchCondition.getSearchField().getDocType() != null && docType.equals(searchCondition.getSearchField().getDocType())) {
+                filterSearchConditions.add(searchCondition);
+                firstDocType = searchCondition.getSearchField().getDocType();
+            } else {
+                querySearchConditions.add(searchCondition);
+                firstDocType = searchCondition.getSearchField().getDocType();
+            }
+        }
+        if (StringUtils.isEmpty(secondDocType)) {
+            secondDocType = docType;
+        }
+        if (StringUtils.isNotEmpty(firstDocType) && StringUtils.isNotEmpty(secondDocType)) {
+            key = secondDocType + firstDocType;
+            String crossDocumentJoinQuery=joinQueryMap.get(key);
+            if(StringUtils.isNotEmpty(crossDocumentJoinQuery)){
+                query = joinQueryMap.get(key) + buildQueryWithSearchConditions(querySearchConditions);
+            }else{
+                query =  buildQueryWithSearchConditions(querySearchConditions);
+            }
+
+            String filterQuery = "";
+            if (filterSearchConditions != null && filterSearchConditions.size() > 0) {
+                filterQuery = buildQueryWithSearchConditions(filterSearchConditions);
+            }
+            if (StringUtils.isEmpty(filterQuery)) {
+                filterQuery = "DocType:" + docType;
+            }
+            solrQuery.setQuery(query);
+            solrQuery.setFilterQueries(filterQuery);
+            LOG.info("join query = " + solrQuery.getQuery() + "\tfilter query = " + solrQuery.getFilterQueries()[0]);
+        } else {
+            String filterQuery = buildQueryWithSearchConditions(filterSearchConditions);
+            solrQuery.setQuery(filterQuery);
+            LOG.info("query = " + solrQuery.getQuery());
+        }
+
+    }
+
 
 //    public String buildQueryWithSearchConditions(List<SearchCondition> searchConditions) {
 //        boolean searchConditionCheck = false;

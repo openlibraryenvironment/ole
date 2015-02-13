@@ -620,3 +620,9 @@ function oleSearchPager(linkElement, collectionId) {
     }
 }
 
+
+function changeDoctype(event){
+ var doctype = jq('#'+event+'_control').val();
+    jq("#hiddenSearchFields_h11").val(doctype);
+submitForm('changeDocType', null, null, null);
+}

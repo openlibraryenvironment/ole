@@ -173,6 +173,7 @@ public class OLESearchController extends UifControllerBase {
         this.start = 0;
         LOG.debug("Inside the olesearchform start method");
         OLESearchForm oleSearchForm = (OLESearchForm) form;
+        oleSearchForm.setInDocType(null);
         oleSearchForm.setWorkBibDocumentList(null);
         oleSearchForm.setWorkHoldingsDocumentList(null);
         oleSearchForm.setWorkItemDocumentList(null);
@@ -191,9 +192,12 @@ public class OLESearchController extends UifControllerBase {
         }
 
         oleSearchForm.getSearchConditions().clear();
-
         SearchCondition searchCondition = new SearchCondition();
         searchCondition.setOperator("AND");
+        SearchField searchField = new SearchField();
+        searchField.setFieldName("any");
+        searchField.setDocType(oleSearchForm.getDocType());
+        searchCondition.setSearchField(searchField);
         oleSearchForm.getSearchConditions().add(searchCondition);
         String eInstance = request.getParameter(OLEConstants.E_INSTANCE);
         if (eInstance != null && eInstance.equalsIgnoreCase(OLEConstants.LINK_EXISTING_INSTANCE)) {
@@ -850,15 +854,22 @@ public class OLESearchController extends UifControllerBase {
             return getUIFModelAndView(uifForm);
         }
         List<SearchCondition> searchConditions = oleSearchForm.getSearchConditions();
+        String previousDocType =oleSearchForm.getSearchConditions().get(index).getSearchField().getDocType();
         index++;
         SearchCondition searchCondition=new SearchCondition();
         searchCondition.setOperator("AND");
+        SearchField searchField = new SearchField();
+        searchField.setDocType(previousDocType);
+        searchField.setFieldName("any");
+        searchCondition.setSearchField(searchField);
         searchConditions.add(index,searchCondition);
-
         return getUIFModelAndView(uifForm);
     }
 
     public void searchDocstoreData(OLESearchForm oleSearchForm,HttpServletRequest request) {
+
+        oleSearchForm.getSearchParams().setDocType(oleSearchForm.getDocType());
+
         boolean isRemoveSearchCondition = false;
         setShowPageSizeEntries(oleSearchForm);
         SearchParams searchParams = oleSearchForm.getSearchParams();
@@ -887,7 +898,6 @@ public class OLESearchController extends UifControllerBase {
         int startIndex = searchParams.getStartIndex();
         searchParams.setStartIndex(startIndex - startIndex % searchParams.getPageSize());
         for (SearchCondition searchCondition : oleSearchForm.getSearchConditions()) {
-            searchCondition.getSearchField().setDocType(oleSearchForm.getDocType());
             if(searchCondition.getSearchField().getFieldName().equalsIgnoreCase(BibConstants.ISBN_SEARCH)){
                String fieldValue= searchCondition.getSearchField().getFieldValue().replaceAll("-","");
                     ISBNUtil isbnUtil = new ISBNUtil();
@@ -949,6 +959,7 @@ public class OLESearchController extends UifControllerBase {
         List<SearchResultDisplayRow> searchResultDisplayRows = new ArrayList<>();
         List<SearchResultDisplayRow> bibSearchResultDisplayRows=new ArrayList<>();
         List<SearchResultDisplayRow> holdingsSearchResultDisplayRows=new ArrayList<>();
+        if(searchResponse!=null){
         for (SearchResult searchResult : searchResponse.getSearchResults()) {
             SearchResultDisplayRow searchResultDisplayRow = new SearchResultDisplayRow();
             if(DocType.BIB.getCode().equalsIgnoreCase(oleSearchForm.getDocType())){
@@ -964,6 +975,7 @@ public class OLESearchController extends UifControllerBase {
                 searchResultDisplayRow.buildItemSearchResultField(searchResult.getSearchResultFields());
             }
             searchResultDisplayRows.add(searchResultDisplayRow);
+        }
         }
         oleSearchForm.setSearchResultDisplayRowList(searchResultDisplayRows);
         oleSearchForm.setBibSearchResultDisplayRowList(bibSearchResultDisplayRows);
@@ -988,7 +1000,6 @@ public class OLESearchController extends UifControllerBase {
         }
 
         for (SearchCondition searchCondition : oleSearchForm.getSearchConditions()) {
-            searchCondition.getSearchField().setDocType(oleSearchForm.getDocType());
               if(DocType.ITEM.getCode().equals(oleSearchForm.getDocType()) && searchCondition.getSearchField().getFieldName().equalsIgnoreCase(ItemConstants.BIB_IDENTIFIER)){
                 if(DocumentUniqueIDPrefix.hasPrefix(searchCondition.getSearchField().getFieldValue())){
                     searchCondition.getSearchField().setFieldValue(DocumentUniqueIDPrefix.getDocumentId(searchCondition.getSearchField().getFieldValue()));
@@ -1410,5 +1421,30 @@ public class OLESearchController extends UifControllerBase {
     }
 
 
-
+    @RequestMapping(params = "methodToCall=changeDocType")
+    public ModelAndView changeDocType(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) {
+        OLESearchForm oleSearchForm = (OLESearchForm) form;
+        Set<String> docTypes = new HashSet<>();
+        docTypes.add(oleSearchForm.getDocType());
+        for (SearchCondition searchCondition : oleSearchForm.getSearchConditions()) {
+            if (searchCondition.getSearchField() != null) {
+                if (searchCondition.getSearchField().getDocType() != null && !searchCondition.getSearchField().getDocType().isEmpty()) {
+                    docTypes.add(searchCondition.getSearchField().getDocType());
+                }
+            }
+        }
+        if (docTypes != null && docTypes.size() > 2) {
+            String errorMessage = null;
+            if (oleSearchForm.getDocType().equalsIgnoreCase(OLEConstants.HOLDING_DOC_TYPE)) {
+                errorMessage = OLEConstants.DOCTYPE_HOLDING_COMBINATION;
+            } else if (oleSearchForm.getDocType().equalsIgnoreCase(OLEConstants.ITEM_DOC_TYPE)) {
+                errorMessage = OLEConstants.DOCTYPE_ITEM_COMBINATION;
+            } else if (oleSearchForm.getDocType().equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
+                errorMessage = OLEConstants.DOCTYPE_BIB_COMBINATION;
+            }
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.DOCTYPE_COMBINATION_ERROR, errorMessage);
+        }
+        return getUIFModelAndView(oleSearchForm);
+    }
 }

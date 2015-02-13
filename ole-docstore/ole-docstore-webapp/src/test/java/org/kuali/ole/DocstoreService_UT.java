@@ -2,8 +2,12 @@ package org.kuali.ole;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrRequest;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
@@ -22,7 +26,9 @@ import org.kuali.ole.docstore.common.exception.DocstoreValidationException;
 import org.kuali.ole.docstore.common.search.*;
 import org.kuali.ole.docstore.common.service.DocstoreService;
 import org.kuali.ole.docstore.common.util.ParseXml;
+import org.kuali.ole.docstore.discovery.service.SolrServerManager;
 import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
+import org.kuali.ole.docstore.engine.service.search.DocstoreSolrSearchService;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.RdbmsItemDocumentManager;
 import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.kuali.ole.docstore.model.enums.DocFormat;
@@ -41,8 +47,8 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 
-@Ignore
-@Deprecated
+
+
 public class DocstoreService_UT extends SpringBaseTestCase {
 
     DocstoreService docstoreService = BeanLocator.getDocstoreService();
@@ -1783,5 +1789,95 @@ public class DocstoreService_UT extends SpringBaseTestCase {
 
     }
 
+
+    @Test
+    public  void searchQuery() throws SolrServerException {
+        SearchParams searchParams = new SearchParams();
+        SolrQuery solrQuery = new SolrQuery();
+        DocstoreSolrSearchService docstoreSolrSearchService = new DocstoreSolrSearchService();
+        for(int bibCount = 0;bibCount<250;bibCount++){
+            SearchCondition searchCondition = searchParams.buildSearchCondition("",searchParams.buildSearchField("bibliographic","LocalId_search", "1000000"+String.valueOf(bibCount)),"OR");
+            searchParams.getSearchConditions().add(searchCondition);
+        }
+        SolrServer server = SolrServerManager.getInstance().getSolrServer();
+        String query = docstoreSolrSearchService.buildQueryWithSearchParams(searchParams);
+        solrQuery.setQuery(query);
+        System.out.println("Executing solr query :" + solrQuery.toString().length());
+        QueryResponse response = server.query(solrQuery, SolrRequest.METHOD.POST);
+
+
+    }
+
+    @Test
+    public void testCreateAnalytics() {
+
+        BibTree bibTree1 = getBibTree1();
+        Assert.assertNotNull(bibTree1);
+        docstoreService.createBibTree(bibTree1);
+
+        BibTree bibTree2 = getBibTree2();
+        Assert.assertNotNull(bibTree2);
+        docstoreService.createBibTree(bibTree2);
+
+        String seriesHoldingsId = bibTree1.getHoldingsTrees().get(0).getHoldings().getId();
+        Assert.assertNotNull(seriesHoldingsId);
+
+        List<String> itemIds = new ArrayList<String>();
+        List<Item> items = bibTree2.getHoldingsTrees().get(0).getItems();
+        Assert.assertNotNull(items);
+
+        for (Item item : items) {
+            itemIds.add(item.getId());
+        }
+        Assert.assertNotNull(itemIds);
+        docstoreService.createAnalyticsRelation(seriesHoldingsId, itemIds);
+        Assert.assertEquals(docstoreService.retrieveHoldings(seriesHoldingsId).isSeries(), Boolean.TRUE);
+        items = docstoreService.retrieveItems(itemIds);
+        for (Item item : items) {
+            Assert.assertEquals(item.isAnalytic(), Boolean.TRUE);
+        }
+    }
+
+    @Test
+    public void testBreakAnalytics() {
+
+        BibTree bibTree1 = getBibTree3();
+        Assert.assertNotNull(bibTree1);
+        docstoreService.createBibTree(bibTree1);
+
+        BibTree bibTree2 = getBibTree4();
+        Assert.assertNotNull(bibTree2);
+        docstoreService.createBibTree(bibTree2);
+
+        String seriesHoldingsId = bibTree1.getHoldingsTrees().get(0).getHoldings().getId();
+        Assert.assertNotNull(seriesHoldingsId);
+
+        List<String> itemIds = new ArrayList<String>();
+        List<Item> items = bibTree2.getHoldingsTrees().get(0).getItems();
+        Assert.assertNotNull(items);
+
+        for (Item item : items) {
+            itemIds.add(item.getId());
+        }
+        Assert.assertNotNull(itemIds);
+
+        docstoreService.createAnalyticsRelation(seriesHoldingsId, itemIds);
+        Assert.assertEquals(docstoreService.retrieveHoldings(seriesHoldingsId).isSeries(), Boolean.TRUE);
+        items = docstoreService.retrieveItems(itemIds);
+        for (Item item : items) {
+            Assert.assertEquals(item.isAnalytic(), Boolean.TRUE);
+        }
+        docstoreService.breakAnalyticsRelation(seriesHoldingsId, itemIds);
+        Assert.assertEquals(docstoreService.retrieveHoldings(seriesHoldingsId).isSeries(), Boolean.FALSE);
+        items = docstoreService.retrieveItems(itemIds);
+        for (Item item : items) {
+            Assert.assertEquals(item.isAnalytic(), Boolean.FALSE);
+        }
+    }
+
+    public BibTree getBibTree4() {
+        BibTree bibTree = new BibTree();
+        return (BibTree) bibTree.deserialize(getXmlAsString("/org/kuali/ole/search/BibTree4.xml"));
+    }
 
 }

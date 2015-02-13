@@ -228,7 +228,7 @@
         <property name="items">
             <list>
                 <bean id="DocumentAndSearchSelectionType_DocType" parent="Base-Uif-InputField"
-                      p:propertyName="docType" p:label="Document Type" p:onChangeScript="submitForm('start', null, null, null);" p:render="@{searchType eq 'search'}">
+                      p:propertyName="docType" p:label="Document Type of Search Results" p:onChangeScript="submitForm('start', null, null, null);" p:render="@{searchType eq 'search'}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
                     </property>
@@ -284,10 +284,17 @@
                                     </bean>
                                 </property>
                             </bean>
+                            <bean id="SearchConditions_DocType_search" parent="Base-Uif-InputField"
+                                  p:propertyName="searchField.docType" p:label="DocType"
+                                  p:optionsFinderClass="org.kuali.ole.describe.keyvalue.SearchDocTypeKeyvalueFinder" p:onChangeScript="changeDoctype(this.id)" >
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                            </bean>
                             <bean id="SearchConditions_DocField_id" parent="Base-Uif-InputField"
                                   p:propertyName="searchField.fieldName" p:label="In Field"
                                   p:optionsFinderClass="org.kuali.ole.describe.keyvalue.SearchFieldKeyValuefinder"
-                                  p:defaultValue="any">
+                                  p:defaultValue="any" >
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -553,7 +560,7 @@
     </bean>
 
 
-    <bean id="hiddenSearchFields" parent="Base-Uif-InputField" p:hidden="true" p:propertyName="pageNumber" p:additionalHiddenPropertyNames="start,pageSize,sortOrder,sortField,sortFlag,nextFlag,previousFlag,pageShowEntries,facetPageEntries,selectAllRecords,idsToBeOpened"/>
+    <bean id="hiddenSearchFields" parent="Base-Uif-InputField" p:hidden="true" p:propertyName="pageNumber" p:additionalHiddenPropertyNames="start,pageSize,sortOrder,sortField,sortFlag,nextFlag,previousFlag,pageShowEntries,facetPageEntries,selectAllRecords,idsToBeOpened,inDocType"/>
     <bean id="solrTime" parent="Uif-DataField" p:propertyName="solrTime" p:label="Time Taken By Solr (sec)" p:render="@{showTime}"/>
     <bean id="serverTime" parent="Uif-DataField" p:propertyName="serverTime" p:label="Time Taken By Server (sec)" p:render="@{showTime}"/>
     <bean id="totalTime" parent="Uif-DataField" p:propertyName="totalTime" p:label="Total Time (sec)" p:render="@{showTime}"/>
@@ -563,5 +570,4 @@
             <bean parent="Uif-HiddenControl"/>
         </property>
     </bean>
-
-</beans>
+  </beans>

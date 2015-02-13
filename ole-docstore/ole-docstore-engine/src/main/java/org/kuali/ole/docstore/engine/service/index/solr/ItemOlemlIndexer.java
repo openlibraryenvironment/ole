@@ -32,6 +32,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -64,14 +65,22 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         LOG.info("Incoming Item Document " + itemDocument.toString());
         SolrInputDocument solrInputDocument = getSolrInputFieldsForItem(itemDocument);
         SolrDocument solrDocument = getSolrDocumentByUUID(itemDocument.getId());
+        Object bibs=null;
         if (solrDocument != null && solrDocument.size() > 0) {
-            Object bibs = solrDocument.getFieldValue(BIB_IDENTIFIER);
+             bibs = solrDocument.getFieldValue(BIB_IDENTIFIER);
             Object holdingsIds = solrDocument.getFieldValue(HOLDINGS_IDENTIFIER);
             solrInputDocument.addField(HOLDINGS_IDENTIFIER, holdingsIds);
             solrInputDocument.addField(BIB_IDENTIFIER, bibs);
         }
 
         addBibInfoForHoldingsOrItems1(solrInputDocument, solrDocument);
+        List<String> bibIds= new ArrayList<>();
+        if (bibs instanceof String) {
+            bibIds.add((String) bibs);
+        } else if (bibs instanceof List) {
+            bibIds = (List) bibs;
+        }
+        addItemDetailsToBib(solrInputDocuments, solrInputDocument, bibs, bibIds);
         solrInputDocuments.add(solrInputDocument);
         LOG.info("Solr Input Document " + solrInputDocument.toString());
     }
@@ -126,6 +135,8 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         solrInputDocument.addField("bibIdentifier", bibIds);
         solrInputDocuments.add(solrInputDocument);
         solrInputDocuments.add(holdingsSolrInput);
+
+        addItemDetailsToBib(solrInputDocuments, solrInputDocument, bibs, bibIds);
     }
 
 
@@ -159,6 +170,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
 
         solrInputDocument.addField(BIB_IDENTIFIER, bibIds);
         solrInputDocuments.add(solrInputDocument);
+        addItemDetailsToBib(solrInputDocuments, solrInputDocument, bibs, bibIds);
 
     }
 
@@ -400,6 +412,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
             StringBuffer locationLevel = new StringBuffer();
             Location location = item.getLocation();
             buildLocationNameAndLocationLevel(location, locationName, locationLevel);
+            buildLocationName(location, solrInputDocument);
             solrInputDocument.addField(LOCATION_LEVEL_SEARCH, locationName.toString());
             solrInputDocument.addField(LOCATION_LEVEL_NAME_SEARCH, locationLevel.toString());
             solrInputDocument.addField(LOCATION_LEVEL_DISPLAY, locationName.toString());
@@ -565,18 +578,18 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         List<SolrDocument> solrDocumentList = response.getResults();
         for (SolrDocument instanceSolrDocument : solrDocumentList) {
             List<String> itemIdentifierList = new ArrayList<String>();
-            Object itemIdentifier = instanceSolrDocument.getFieldValue(ItemConstants.ITEM_IDENTIFIER);
+            Object itemIdentifier = instanceSolrDocument.getFieldValue(ITEM_IDENTIFIER);
             if (itemIdentifier instanceof List) {
                 itemIdentifierList = (List<String>) itemIdentifier;
                 if (itemIdentifierList.contains(id)) {
                     itemIdentifierList.remove(id);
-                    instanceSolrDocument.setField(ItemConstants.ITEM_IDENTIFIER, itemIdentifierList);
+                    instanceSolrDocument.setField(ITEM_IDENTIFIER, itemIdentifierList);
                 }
             } else if (itemIdentifier instanceof String) {
                 String itemId = (String) itemIdentifier;
                 if (itemId.equalsIgnoreCase(id)) {
                     itemIdentifier = null;
-                    instanceSolrDocument.setField(ItemConstants.ITEM_IDENTIFIER, itemIdentifier);
+                    instanceSolrDocument.setField(ITEM_IDENTIFIER, itemIdentifier);
                 }
             }
             solrInputDocumentList.add(new WorkBibMarcDocBuilder().buildSolrInputDocFromSolrDoc(instanceSolrDocument));
@@ -752,7 +765,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         solrInputDocument.addField(HOLDINGS_CALLNUMBER_DISPLAY, holdingsSolrInputDocument.getFieldValue(CALL_NUMBER_DISPLAY));
         solrInputDocument.addField(HOLDINGS_LOCATION_DISPLAY, holdingsSolrInputDocument.getFieldValue(LOCATION_LEVEL_DISPLAY));
         solrInputDocument.addField(HOLDINGS_COPYNUMBER_SEARCH,holdingsSolrInputDocument.getFieldValue(COPY_NUMBER_SEARCH));
-        solrInputDocument.addField(HOLDINGS_COPYNUMBER_DISPLAY,holdingsSolrInputDocument.getFieldValue(COPY_NUMBER_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_COPYNUMBER_DISPLAY, holdingsSolrInputDocument.getFieldValue(COPY_NUMBER_DISPLAY));
         solrInputDocument.addField(HOLDINGS_CALLNUMBER_PREFIX_SEARCH, holdingsSolrInputDocument.getFieldValue(CALL_NUMBER_PREFIX_SEARCH));
         solrInputDocument.addField(HOLDINGS_CALLNUMBER_PREFIX_DISPLAY, holdingsSolrInputDocument.getFieldValue(CALL_NUMBER_PREFIX_DISPLAY));
         solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_CODE_SEARCH, holdingsSolrInputDocument.getFieldValue(SHELVING_SCHEME_CODE_SEARCH));
@@ -1002,11 +1015,43 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
             appendData(sb, temporaryItemTypeCodeValue);
             appendData(sb, temporaryItemTypeFullValue);
         }
-
         buildLocationNameAndLocationLevel(item.getLocation(), sb, sb);
-
         return sb.toString();
 
     }
 
+    private void addItemDetailsToBib(List<SolrInputDocument> solrInputDocuments, SolrInputDocument solrInputDocument, Object bibs, List<String> bibIds) {
+        if (bibs != null && bibs instanceof List) {
+            for (String bibId : bibIds) {
+                SolrDocument solrBibDocument = getSolrDocumentByUUID(bibId);
+                addDetails(solrInputDocument, solrBibDocument, ITEM_BARCODE_SEARCH);
+                addDetails(solrInputDocument, solrBibDocument, ITEM_IDENTIFIER);
+                solrInputDocuments.add(buildSolrInputDocFromSolrDoc(solrBibDocument));
+            }
+        } else {
+            String bibId = (String) bibs;
+            SolrDocument solrBibDocument = getSolrDocumentByUUID(bibId);
+            addDetails(solrInputDocument, solrBibDocument, ITEM_BARCODE_SEARCH);
+            addDetails(solrInputDocument, solrBibDocument, ITEM_IDENTIFIER);
+            solrInputDocuments.add(buildSolrInputDocFromSolrDoc(solrBibDocument));
+        }
+    }
+
+    private void addDetails(SolrInputDocument solrInputDocument, SolrDocument solrBibDocument, String docfiled) {
+        Collection<Object> bibValues = solrBibDocument.getFieldValues(docfiled);
+        Object holdigsValue = solrInputDocument.getFieldValue(docfiled);
+        if (bibValues != null) {
+            for (Object bibValue : bibValues) {
+                if (holdigsValue != null && !((String) bibValue).equalsIgnoreCase(((String) holdigsValue))) {
+                    solrBibDocument.addField(docfiled, solrInputDocument.getFieldValue(docfiled));
+                }
+            }
+        } else {
+            solrBibDocument.addField(docfiled, solrInputDocument.getFieldValue(docfiled));
+        }
+
+    }
 }
+
+
+

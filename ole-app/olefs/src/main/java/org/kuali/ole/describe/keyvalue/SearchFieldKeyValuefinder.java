@@ -1,5 +1,6 @@
 package org.kuali.ole.describe.keyvalue;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.describe.form.BoundwithForm;
 import org.kuali.ole.describe.form.GlobalEditForm;
 import org.kuali.ole.describe.form.OLESearchForm;
@@ -9,6 +10,7 @@ import org.kuali.ole.docstore.common.document.config.DocTypeConfig;
 import org.kuali.ole.docstore.common.document.config.DocumentSearchConfig;
 import org.kuali.ole.docstore.engine.service.index.solr.ItemConstants;
 import org.kuali.ole.docstore.model.enums.DocType;
+import org.kuali.ole.util.StringUtil;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -36,15 +38,26 @@ public class SearchFieldKeyValuefinder extends UifKeyValuesFinderBase {
         String docType = null;
         if (viewModel instanceof OLESearchForm) {
             oleSearchForm = (OLESearchForm)  viewModel;
-            docType = oleSearchForm.getDocType();
+            docType =oleSearchForm.getInDocType();
+            if(StringUtils .isEmpty(docType)){
+                docType = oleSearchForm.getDocType();
+            }
+
         }
         else if (viewModel instanceof GlobalEditForm) {
             globalEditForm = (GlobalEditForm) viewModel;
-            docType = globalEditForm.getDocType();
+            docType =globalEditForm.getInDocType();
+            if(StringUtils .isEmpty(docType)){
+                docType = globalEditForm.getDocType();
+            }
         }
         else if (viewModel instanceof BoundwithForm) {
             boundwithForm = (BoundwithForm) viewModel;
-            docType = boundwithForm.getDocType();
+            docType =boundwithForm.getInDocType();
+            if(StringUtils .isEmpty(docType)){
+                docType = boundwithForm.getDocType();
+            }
+
         }
         List<KeyValue> options = new ArrayList<KeyValue>();
         Map<String, String> sortedMap = new TreeMap<>();
