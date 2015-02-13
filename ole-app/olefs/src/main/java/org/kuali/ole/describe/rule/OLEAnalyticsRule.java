@@ -143,7 +143,9 @@ public class OLEAnalyticsRule {
                             item.setId(itemNode.getNodeType());
                             item.setCallNumber(itemNode.getNodeLabel());
                             items.add(item);
+                            if (!setSelectedItemsFromTree2.contains(itemNode.getNodeType())) {
                             setSelectedItemsFromTree2.add(itemNode.getNodeType());
+                            }
                             selectedItems.add(itemNode.getNodeType());
                             selectedItemsList.add(itemNode.getNodeType());
                             documentTreeNode.setSelect(true);

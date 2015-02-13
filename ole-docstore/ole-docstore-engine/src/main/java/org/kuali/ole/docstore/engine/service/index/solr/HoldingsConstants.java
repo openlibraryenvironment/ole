@@ -4,7 +4,7 @@ package org.kuali.ole.docstore.engine.service.index.solr;
 public interface HoldingsConstants {
 
     public static final String GOKB_IDENTIFIER = "gokbIdentifier";
-    public static final String URI_SEARCH = "Uri_search";
+
     public static final String RECEIPT_STATUS_SEARCH = "ReceiptStatus_search";
     public static final String HOLDING_NOTE_SEARCH = "HoldingsNote_search";
     public static final String ITEM_PART_SEARCH = "ItemPart_search";
@@ -31,6 +31,7 @@ public interface HoldingsConstants {
     public static final String SHELVING_SCHEME_VALUE_DISPLAY = "ShelvingSchemeValue_display";
     public static final String SHELVING_SCHEME_CODE_DISPLAY = "ShelvingSchemeCode_display";
     public static final String SHELVING_ORDER_DISPLAY = "ShelvingOrder_display";
+
     public static final String LOCATION_LEVEL_SEARCH = "Location_search";
     public static final String LOCATION_LEVEL_NAME_SEARCH = "LocationLevelName_search";
     //Sort fields
@@ -42,7 +43,6 @@ public interface HoldingsConstants {
     public static final String LOCATION_LEVEL_SORT = "Location_sort";
     public static final String BIB_IDENTIFIER = "bibIdentifier";
     public static final String INSTANCE_IDENTIFIER = "instanceIdentifier";
-    public static final String ITEM_IDENTIFIER = "itemIdentifier";
     public static final String HOLDINGS_IDENTIFIER = "holdingsIdentifier";
 
 
@@ -105,4 +105,5 @@ public interface HoldingsConstants {
     public static final String PERSIST_LINK_SEARCH = "Persist_Link_search";
     public static final String ILL_DISPLAY = "ILL_display";
     public static final String ILL_SEARCH = "ILL_search";
+    public static final String IS_BOUND_WITH = "isBoundwith";
 }

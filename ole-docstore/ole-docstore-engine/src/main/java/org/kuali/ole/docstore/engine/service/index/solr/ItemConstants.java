@@ -16,7 +16,6 @@ public interface ItemConstants {
     public static final String FORMER_RESOURCE_IDENTIFIER_SOURCE_SEARCH = "Source_search";
     public static final String FORMER_RESOURCE_IDENTIFIER_SOURCE_DISPLAY = "Source_display";
     public static final String BIB_IDENTIFIER = "bibIdentifier";
-    public static final String ITEM_IDENTIFIER = "itemIdentifier";
     public static final String HOLDINGS_IDENTIFIER = "holdingsIdentifier";
     public static final String INSTANCE_IDENTIFIER = "instanceIdentifier";
 
@@ -82,7 +81,7 @@ public interface ItemConstants {
 
     public static final String ITEM_IDENTIFIER_SEARCH = "ItemIdentifier_search";
     public static final String ITEM_TYPE_SEARCH = "ItemType_search";
-    public static final String ITEM_BARCODE_SEARCH = "ItemBarcode_search";
+
     public static final String ITEM_URI_SEARCH = "ItemUri_search";
     public static final String PURCHASE_ORDER_LINE_ITEM_IDENTIFIER_SEARCH = "PurchaseOrderLineItemIdentifier_search";
     public static final String VENDOR_LINE_ITEM_IDENTIFIER_SEARCH = "VendorLineItemIdentifier_search";

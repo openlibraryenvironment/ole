@@ -107,4 +107,22 @@ public interface BibConstants {
     public static final String JOURNAL_TITLE_DISPLAY = "JournalTitle_display";
     public static final String JOURNAL_TITLE_SORT = "JournalTitle_sort";
 
+    public static final String CREATE_RELATION = "CREATE";
+    public static final String BREAK_RELATION = "BREAK";
+
+    public static final String LEVEL1LOCATION_SEARCH = "Level1Location_search";
+    public static final String LEVEL2LOCATION_SEARCH = "Level2Location_search";
+    public static final String LEVEL3LOCATION_SEARCH = "Level3Location_search";
+    public static final String LEVEL4LOCATION_SEARCH = "Level4Location_search";
+    public static final String LEVEL5LOCATION_SEARCH = "Level5Location_search";
+    public static final String LEVEL1LOCATION_DISPLAY = "Level1Location_display";
+    public static final String LEVEL2LOCATION_DISPLAY = "Level2Location_display";
+    public static final String LEVEL3LOCATION_DISPLAY = "Level3Location_display";
+    public static final String LEVEL4LOCATION_DISPLAY = "Level4Location_display";
+    public static final String LEVEL5LOCATION_DISPLAY = "Level5Location_display";
+    public static final String ITEM_BARCODE_SEARCH = "ItemBarcode_search";
+    public static final String URI_SEARCH = "Uri_search";
+    public static final String ITEM_IDENTIFIER = "itemIdentifier";
+
+
 }

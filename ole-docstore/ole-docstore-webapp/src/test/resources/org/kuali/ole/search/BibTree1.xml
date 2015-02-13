@@ -1,40 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<bibTree>
+<bibDocTree>
     <active>false</active>
     <fastAdd>false</fastAdd>
     <public>false</public>
     <staffOnly>false</staffOnly>
-    <holdingsTrees>
-        <holdingsTree>
+    <holdingsDocsTree>
+        <holdingsDocTree>
             <active>false</active>
             <fastAdd>false</fastAdd>
             <public>false</public>
             <staffOnly>false</staffOnly>
-            <items>
-                <active>false</active>
-                <category>work</category>
-                <content>&lt;item&gt;
-                    &lt;barcodeARSL&gt;BarcodeARSL Item Test2&lt;/barcodeARSL&gt;
-                    &lt;volumeNumber&gt;VN Item Test2&lt;/volumeNumber&gt;
-                    &lt;enumeration&gt;ENUM Item Test2&lt;/enumeration&gt;
-                    &lt;chronology&gt;CHN Item Test2&lt;/chronology&gt;
-                    &lt;callNumber&gt;
-                    &lt;number&gt;CN Item Test2&lt;/number&gt;
-                    &lt;shelvingScheme&gt;
-                    &lt;codeValue&gt;LCC&lt;/codeValue&gt;
-                    &lt;/shelvingScheme&gt;
-                    &lt;/callNumber&gt;
-                    &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
-                    &lt;fastAddFlag&gt;false&lt;/fastAddFlag&gt;
-                    &lt;claimsReturnedFlag&gt;false&lt;/claimsReturnedFlag&gt;
-                    &lt;/item&gt;</content>
-                <fastAdd>false</fastAdd>
-                <format>oleml</format>
-                <public>false</public>
-                <staffOnly>false</staffOnly>
-                <type>item</type>
-            </items>
-            <holdings>
+            <itemsDocs>
+                <itemsDoc>
+                    <active>false</active>
+                    <category>work</category>
+                    <content>&lt;item&gt;
+                        &lt;barcodeARSL&gt;BarcodeARSL Item Test2&lt;/barcodeARSL&gt;
+                        &lt;volumeNumber&gt;VN Item Test2&lt;/volumeNumber&gt;
+                        &lt;enumeration&gt;ENUM Item Test2&lt;/enumeration&gt;
+                        &lt;chronology&gt;CHN Item Test2&lt;/chronology&gt;
+                        &lt;callNumber&gt;
+                        &lt;number&gt;CN Item Test2&lt;/number&gt;
+                        &lt;shelvingScheme&gt;
+                        &lt;codeValue&gt;LCC&lt;/codeValue&gt;
+                        &lt;/shelvingScheme&gt;
+                        &lt;/callNumber&gt;
+                        &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
+                        &lt;fastAddFlag&gt;false&lt;/fastAddFlag&gt;
+                        &lt;claimsReturnedFlag&gt;false&lt;/claimsReturnedFlag&gt;
+                        &lt;/item&gt;</content>
+                    <fastAdd>false</fastAdd>
+                    <format>oleml</format>
+                    <public>false</public>
+                    <staffOnly>false</staffOnly>
+                    <type>item</type>
+                </itemsDoc>
+            </itemsDocs>
+            <holdingsDoc>
                 <active>false</active>
                 <category>work</category>
                 <content>&lt;oleHoldings&gt;
@@ -53,10 +55,10 @@
                 <staffOnly>false</staffOnly>
                 <type>holdings</type>
                 <holdingsType>print</holdingsType>
-            </holdings>
-        </holdingsTree>
-    </holdingsTrees>
-    <bib>
+            </holdingsDoc>
+        </holdingsDocTree>
+    </holdingsDocsTree>
+    <bibDoc>
         <active>false</active>
         <category>work</category>
         <content>&lt;collection xmlns="http://www.loc.gov/MARC21/slim"&gt;
@@ -182,5 +184,5 @@
         <public>false</public>
         <staffOnly>false</staffOnly>
         <type>bibliographic</type>
-    </bib>
-</bibTree>
+    </bibDoc>
+</bibDocTree>

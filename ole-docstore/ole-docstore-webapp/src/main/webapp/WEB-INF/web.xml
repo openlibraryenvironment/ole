@@ -368,10 +368,10 @@ This file contains custom application specific web.xml content.
         <servlet-class>org.kuali.ole.web.BulkIngestServlet</servlet-class>
     </servlet>
 
-    <servlet>
-        <servlet-name>getUUIDs</servlet-name>
-        <servlet-class>org.kuali.ole.web.GetUUIDServlet</servlet-class>
-    </servlet>
+    <!--<servlet>-->
+        <!--<servlet-name>getUUIDs</servlet-name>-->
+        <!--<servlet-class>org.kuali.ole.web.GetUUIDServlet</servlet-class>-->
+    <!--</servlet>-->
 
     <servlet>
         <servlet-name>updateNode</servlet-name>
@@ -384,30 +384,30 @@ This file contains custom application specific web.xml content.
         <!--<load-on-startup>1</load-on-startup>-->
     <!--</servlet>-->
 
-    <servlet>
+    <!--<servlet>
         <servlet-name>DocumentServlet</servlet-name>
         <servlet-class>org.kuali.ole.web.DocumentServlet</servlet-class>
-    </servlet>
+    </servlet>-->
 
     <servlet>
         <servlet-name>rebuildIndex</servlet-name>
         <servlet-class>org.kuali.ole.web.RebuildIndexServlet</servlet-class>
     </servlet>
 
-    <servlet>
+    <!--<servlet>
         <servlet-name>multiPartBagRequestClientServlet</servlet-name>
         <servlet-class>org.kuali.ole.web.MultiPartBagRequestClientServlet</servlet-class>
-    </servlet>
+    </servlet>-->
 
-    <servlet>
+    <!--<servlet>
         <servlet-name>linkingBibNInstanceAfterBulkIngest</servlet-name>
         <servlet-class>org.kuali.ole.web.LinkingBibNInstanceAfterBulkIngest</servlet-class>
-    </servlet>
+    </servlet>-->
 
-    <servlet-mapping>
+    <!--<servlet-mapping>
         <servlet-name>multiPartBagRequestClientServlet</servlet-name>
         <url-pattern>/multiPartBagRequestClientServlet</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
     <servlet-mapping>
         <servlet-name>bulkIngest</servlet-name>
@@ -415,20 +415,20 @@ This file contains custom application specific web.xml content.
     </servlet-mapping>
 
 
-    <servlet-mapping>
+<!--    <servlet-mapping>
         <servlet-name>getUUIDs</servlet-name>
         <url-pattern>/getUUIDs</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
     <servlet-mapping>
         <servlet-name>updateNode</servlet-name>
         <url-pattern>/updateNode</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
+    <!--<servlet-mapping>
         <servlet-name>DocumentServlet</servlet-name>
         <url-pattern>/document</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
     <servlet-mapping>
         <servlet-name>documentrest</servlet-name>
@@ -440,10 +440,10 @@ This file contains custom application specific web.xml content.
         <url-pattern>/rebuildIndex</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
+    <!--<servlet-mapping>
         <servlet-name>linkingBibNInstanceAfterBulkIngest</servlet-name>
         <url-pattern>/linkBibNInstance</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
     <!-- DISCOVERY & DOCSTORE-->
     <servlet>
