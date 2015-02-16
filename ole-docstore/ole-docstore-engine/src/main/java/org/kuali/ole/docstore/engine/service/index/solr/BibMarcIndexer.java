@@ -90,6 +90,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
 
     /**
      * Build Solr input document for bib tree
+     *
      * @param bibTree
      * @param solrInputDocuments
      */
@@ -129,7 +130,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
                 List<String> itemIds = new ArrayList<String>();
                 holdingsSolrInputDoc.addField(ITEM_IDENTIFIER, itemIds);
                 ItemOlemlIndexer itemOlemlIndexer = ItemOlemlIndexer.getInstance();
-                addHoldingsInfoToBib(holdingsSolrInputDoc,bibSolrDoc);
+                addHoldingsInfoToBib(holdingsSolrInputDoc, bibSolrDoc);
                 for (Item itemDocument : itemDocuments) {
                     itemIds.add(itemDocument.getId());
                     SolrInputDocument itemSolrInputDoc = itemOlemlIndexer.getSolrInputFieldsForItem(itemDocument);
@@ -137,7 +138,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
                     itemSolrInputDoc.addField(BIB_IDENTIFIER, bib.getId());
                     addBibInfoForHoldingsOrItems(itemSolrInputDoc, holdingsSolrInputDoc);
                     addHoldingsInfoToItem(itemSolrInputDoc, holdingsSolrInputDoc);
-                    addItemInfoToBib(itemSolrInputDoc,bibSolrDoc);
+                    addItemInfoToBib(itemSolrInputDoc, bibSolrDoc);
                     solrInputDocuments.add(itemSolrInputDoc);
                 }
 
@@ -189,6 +190,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
 
     /**
      * Process Bib tree
+     *
      * @param bibTree
      * @param solrInputDocuments
      * @param idsToDelete
@@ -215,7 +217,6 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
     }
 
     /**
-     *
      * @param bibTree
      * @param solrInputDocuments
      */
@@ -224,7 +225,6 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
     }
 
     /**
-     *
      * @param holdingsTrees
      * @param bibSolrInputDocument
      * @param solrInputDocuments
@@ -417,8 +417,8 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
     }
 
     /**
-     *
      * Updating Bib solr document with holding and other details
+     *
      * @param object
      * @param solrInputDocuments
      * @param solrbibInputDocument
@@ -571,7 +571,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
         solrDoc.addField(DOC_FORMAT, DocFormat.MARC.getDescription());
 
         for (String field : documentSearchConfig.FIELDS_TO_TAGS_2_INCLUDE_MAP.keySet()) {
-            if (!field.equalsIgnoreCase("mdf_035a") && !field.startsWith("Local") && !field.equalsIgnoreCase(ITEM_BARCODE_SEARCH) && !field.equalsIgnoreCase(URI_SEARCH) ) {
+            if (!field.equalsIgnoreCase("mdf_035a") && !field.startsWith("Local") && !field.equalsIgnoreCase(ITEM_BARCODE_SEARCH) && !field.equalsIgnoreCase(URI_SEARCH)) {
                 addFieldToSolrDoc(record, field, buildFieldValue(field, record), solrDoc);
             }
 
@@ -1423,4 +1423,95 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
         }
         return hasAnalytic;
     }
+
+
+    public void unbindOne(List<String> holdingsIds, String bibId) throws SolrServerException, IOException {
+        List<SolrInputDocument> solrInputDocumentList = new ArrayList<>();
+        updateBibToUnbindOneBib(holdingsIds, bibId, solrInputDocumentList);
+        SolrServer server = SolrServerManager.getInstance().getSolrServer();
+        server.add(solrInputDocumentList);
+        server.commit();
+    }
+
+    public void unbindAll(List<String> holdingsIds, String bibId) throws SolrServerException, IOException {
+        List<SolrInputDocument> solrInputDocumentList = new ArrayList<>();
+        updateBibToUnbindAllBib(holdingsIds, bibId, solrInputDocumentList);
+        SolrServer server = SolrServerManager.getInstance().getSolrServer();
+        server.add(solrInputDocumentList);
+        server.commit();
+    }
+
+    private void updateBibToUnbindOneBib(List<String> holdingsIds, String bibId, List<SolrInputDocument> solrInputDocumentList) throws SolrServerException {
+        SolrDocument bibSolrDocument = getSolrDocumentByUUID(bibId);
+        Object object = bibSolrDocument.getFieldValue(HOLDINGS_IDENTIFIER);
+        List<String> holdingsIdsSolr = new ArrayList<>();
+        if (object instanceof List) {
+            holdingsIdsSolr = (List<String>) object;
+        } else if (object instanceof String) {
+            holdingsIdsSolr.add((String) object);
+        }
+        for (String holdingsId : holdingsIds) {
+            holdingsIdsSolr.remove(holdingsId);
+            SolrDocument holdingsSolrDocument = getSolrDocumentByUUID(holdingsId);
+            object = holdingsSolrDocument.getFieldValue(BIB_IDENTIFIER);
+            List<String> bibIds = new ArrayList<>();
+            if (object instanceof List) {
+                bibIds = (List<String>) object;
+
+            } else if (object instanceof String) {
+                bibIds.add((String) object);
+            }
+            bibIds.remove(bibId);
+            holdingsSolrDocument.setField(BIB_IDENTIFIER, bibIds);
+            holdingsSolrDocument.setField("isBoundwith", false);
+            solrInputDocumentList.add(buildSolrInputDocFromSolrDoc(holdingsSolrDocument));
+        }
+        bibSolrDocument.setField(HOLDINGS_IDENTIFIER, holdingsIdsSolr);
+        solrInputDocumentList.add(buildSolrInputDocFromSolrDoc(bibSolrDocument));
+    }
+
+    private void updateBibToUnbindAllBib(List<String> holdingsIds, String bibId, List<SolrInputDocument> solrInputDocumentList) throws SolrServerException {
+        Object object;
+        Set<String> removedBibIdList = new HashSet<>();
+        for (String holdingsId : holdingsIds) {
+            SolrDocument holdingsSolrDocument = getSolrDocumentByUUID(holdingsId);
+            object = holdingsSolrDocument.getFieldValue(BIB_IDENTIFIER);
+            List<String> bidIds = new ArrayList<>();
+            Set<String> bidIdsToAdd = new HashSet<>();
+            if (object instanceof List) {
+                bidIds = (List<String>) object;
+            } else if (object instanceof String) {
+                bidIds.add((String) object);
+            }
+            bidIdsToAdd.addAll(bidIds);
+            for (String bibIdToRemove : bidIds) {
+                if (!bibIdToRemove.equals(bibId)) {
+                    bidIdsToAdd.remove(bibIdToRemove);
+                    removedBibIdList.add(bibIdToRemove);
+                }
+            }
+            holdingsSolrDocument.setField(BIB_IDENTIFIER, bidIdsToAdd);
+            holdingsSolrDocument.setField("isBoundwith", false);
+            solrInputDocumentList.add(buildSolrInputDocFromSolrDoc(holdingsSolrDocument));
+        }
+        for (String removedBibId : removedBibIdList) {
+            SolrDocument bibsSolrDocument = getSolrDocumentByUUID(removedBibId);
+            object = bibsSolrDocument.getFieldValue(HOLDINGS_IDENTIFIER);
+            List<String> holdingsIdList = new ArrayList<>();
+            Set<String> holdingsIdSet = new HashSet<>();
+            if (object instanceof List) {
+                holdingsIdList = (List<String>) object;
+            } else if (object instanceof String) {
+                holdingsIdList.add((String) object);
+            }
+            holdingsIdSet.addAll(holdingsIdList);
+            for (String holdingsId : holdingsIds) {
+                holdingsIdList.remove(holdingsId);
+            }
+            bibsSolrDocument.setField(HOLDINGS_IDENTIFIER, holdingsIdList);
+            solrInputDocumentList.add(buildSolrInputDocFromSolrDoc(bibsSolrDocument));
+        }
+    }
+
+
 }

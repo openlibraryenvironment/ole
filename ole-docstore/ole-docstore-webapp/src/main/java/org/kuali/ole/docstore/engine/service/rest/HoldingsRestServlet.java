@@ -77,6 +77,12 @@ public class HoldingsRestServlet extends HttpServlet {
             } else if (req.getPathInfo().contains("/bound")) {
                 String holdingsId = req.getPathInfo().split("/")[2];
                 boundWithBibs(holdingsId, req);
+            }else if (req.getPathInfo().contains("/unbind/one")) {
+                String bibId = req.getPathInfo().split("/")[2];
+                unbindWithOneBib(bibId, req);
+            }else if (req.getPathInfo().contains("/unbind/all")) {
+                String bibId = req.getPathInfo().split("/")[2];
+                unbindWithAllBibs(bibId, req);
             } else if (req.getPathInfo().contains("/analytic")) {
                 String holdingsId = req.getPathInfo().split("/")[2];
                 createAnalyticsRelation(holdingsId, req);
@@ -550,6 +556,46 @@ public class HoldingsRestServlet extends HttpServlet {
             return DocstoreExceptionProcessor.toXml(e);
         }
         return "Success";
+    }
+
+    public String unbindWithOneBib(String bibId, HttpServletRequest req) throws IOException {
+        DocstoreService ds = BeanLocator.getDocstoreService();
+        String requestBody = CharStreams.toString(req.getReader());
+        if (requestBody.contains("[")) {
+            requestBody = requestBody.substring(1, requestBody.length() - 1);
+        }
+        String[] splitHoldingsid = requestBody.split(",");
+        List<String> holdingsIds = new ArrayList<String>();
+        for (String holdingsId : splitHoldingsid) {
+            holdingsIds.add(holdingsId);
+        }
+        try {
+            ds.unbindWithOneBib(holdingsIds, bibId);
+        } catch (DocstoreException e) {
+            LOG.error("Exception occurred in unbindWithOneBib() :", e);
+            return DocstoreExceptionProcessor.toXml(e);
+        }
+        return responseUrl + holdingsIds + unbindUrl;
+    }
+
+    public String unbindWithAllBibs(String bibId, HttpServletRequest req) throws IOException {
+        DocstoreService ds = BeanLocator.getDocstoreService();
+        String requestBody = CharStreams.toString(req.getReader());
+        if (requestBody.contains("[")) {
+            requestBody = requestBody.substring(1, requestBody.length() - 1);
+        }
+        String[] splitHoldingsid = requestBody.split(",");
+        List<String> holdingsIds = new ArrayList<String>();
+        for (String holdingsId : splitHoldingsid) {
+            holdingsIds.add(holdingsId);
+        }
+        try {
+            ds.unbindWithAllBibs(holdingsIds, bibId);
+        } catch (DocstoreException e) {
+            LOG.error("Exception occurred in unbindWithAllBibs() :", e);
+            return DocstoreExceptionProcessor.toXml(e);
+        }
+        return responseUrl + holdingsIds + unbindUrl;
     }
 
 

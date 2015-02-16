@@ -128,4 +128,8 @@ public interface DocstoreClient {
     public void reloadConfiguration();
 
     public BibTrees processBibTrees(BibTrees bibTrees);
+
+    public void unbindWithOneBib(List<String> holdingsIds, String bibId);
+
+    public void unbindWithAllBibs(List<String> holdingsIds, String bibId);
 }

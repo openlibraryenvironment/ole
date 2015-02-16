@@ -568,5 +568,15 @@ public class DocstoreRDBMSStorageService implements DocstoreStorageService {
         }
     }
 
+    public void unbindWithOneBib(List<String> holdingsIds, String bibId) {
+        RdbmsHoldingsDocumentManager rdbmsHoldingsDocumentManager = RdbmsHoldingsDocumentManager.getInstance();
+        rdbmsHoldingsDocumentManager.unbindWithOneBib(holdingsIds, bibId);
+    }
+
+    public void unbindWithAllBibs(List<String> holdingsIds, String bibId) {
+        RdbmsHoldingsDocumentManager rdbmsHoldingsDocumentManager = RdbmsHoldingsDocumentManager.getInstance();
+        rdbmsHoldingsDocumentManager.unbindWithAllBibs(holdingsIds, bibId);
+    }
+
 }
 

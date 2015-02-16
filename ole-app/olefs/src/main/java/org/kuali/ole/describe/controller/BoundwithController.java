@@ -61,6 +61,7 @@ public class BoundwithController extends OLESearchController {
         }
         return docstoreClientLocator;
     }
+
     DocumentSearchConfig documentSearchConfig = DocumentSearchConfig.getDocumentSearchConfig();
     private static final Logger LOG = Logger.getLogger(BoundwithController.class);
     public int totalRecCount;
@@ -155,17 +156,17 @@ public class BoundwithController extends OLESearchController {
         boundwithForm.setPageSize(10);
         boundwithForm.setPreviousFlag(false);
         boundwithForm.setNextFlag(false);
-        for(SearchCondition searchCondition : boundwithForm.getSearchConditions()) {
+        for (SearchCondition searchCondition : boundwithForm.getSearchConditions()) {
             searchCondition.getSearchField().setFieldName("");
             searchCondition.getSearchField().setFieldValue("");
         }
         if (boundwithForm.getSearchResultDisplayRowList() != null && boundwithForm.getSearchResultDisplayRowList().size() > 0) {
             boundwithForm.getSearchResultDisplayRowList().clear();
         }
-        if(boundwithForm.getSearchParams() != null && boundwithForm.getSearchParams().getFacetFields() != null) {
+        if (boundwithForm.getSearchParams() != null && boundwithForm.getSearchParams().getFacetFields() != null) {
             boundwithForm.getSearchParams().getFacetFields().clear();
         }
-        if(boundwithForm.getFacetResultFields() != null) {
+        if (boundwithForm.getFacetResultFields() != null) {
             boundwithForm.getFacetResultFields().clear();
         }
 
@@ -190,23 +191,23 @@ public class BoundwithController extends OLESearchController {
 
 
         boundwithForm.setSearchTypeField("Boundwith");
-         if (boundwithForm.getSearchResultDisplayRowList() != null && boundwithForm.getSearchResultDisplayRowList().size() > 0) {
+        if (boundwithForm.getSearchResultDisplayRowList() != null && boundwithForm.getSearchResultDisplayRowList().size() > 0) {
             boundwithForm.getSearchResultDisplayRowList().clear();
         }
-        if(boundwithForm.getSearchParams() != null && boundwithForm.getSearchParams().getFacetFields() != null) {
+        if (boundwithForm.getSearchParams() != null && boundwithForm.getSearchParams().getFacetFields() != null) {
             boundwithForm.getSearchParams().getFacetFields().clear();
         }
 
-        if(boundwithForm.getFacetResultFields() != null) {
+        if (boundwithForm.getFacetResultFields() != null) {
             boundwithForm.getFacetResultFields().clear();
         }
-          if(boundwithForm.getSearchParams() != null) {
-                boundwithForm.getSearchParams().getSearchConditions().clear();
-                boundwithForm.getSearchParams().getSearchResultFields().clear();
-                boundwithForm.setStart(0);
+        if (boundwithForm.getSearchParams() != null) {
+            boundwithForm.getSearchParams().getSearchConditions().clear();
+            boundwithForm.getSearchParams().getSearchResultFields().clear();
+            boundwithForm.setStart(0);
         }
         request.getSession().setAttribute("selectedFacetResults", null);
-        if(StringUtils.isEmpty(boundwithForm.getSearchType())) {
+        if (StringUtils.isEmpty(boundwithForm.getSearchType())) {
             boundwithForm.setSearchType("search");
         }
         if (boundwithForm.getDocType() == null) {
@@ -235,7 +236,7 @@ public class BoundwithController extends OLESearchController {
         boundwithForm.setSearchResultDisplayRowList(null);
 //        boundwithForm.setPageSize(10);
         List<Integer> pageSizes = documentSearchConfig.getPageSizes();
-        if(!pageSizes.isEmpty() || pageSizes.size() > 0) {
+        if (!pageSizes.isEmpty() || pageSizes.size() > 0) {
             boundwithForm.setPageSize(pageSizes.get(0));
         }
         boundwithForm.setHoldingsList(null);
@@ -403,17 +404,17 @@ public class BoundwithController extends OLESearchController {
         boundwithForm.setPageSize(10);
         boundwithForm.setPreviousFlag(false);
         boundwithForm.setNextFlag(false);
-        for(SearchCondition searchCondition : boundwithForm.getSearchConditions()) {
+        for (SearchCondition searchCondition : boundwithForm.getSearchConditions()) {
             searchCondition.getSearchField().setFieldName("");
             searchCondition.getSearchField().setFieldValue("");
         }
         if (boundwithForm.getSearchResultDisplayRowList() != null && boundwithForm.getSearchResultDisplayRowList().size() > 0) {
             boundwithForm.getSearchResultDisplayRowList().clear();
         }
-        if(boundwithForm.getSearchParams() != null && boundwithForm.getSearchParams().getFacetFields() != null) {
+        if (boundwithForm.getSearchParams() != null && boundwithForm.getSearchParams().getFacetFields() != null) {
             boundwithForm.getSearchParams().getFacetFields().clear();
         }
-        if(boundwithForm.getFacetResultFields() != null) {
+        if (boundwithForm.getFacetResultFields() != null) {
             boundwithForm.getFacetResultFields().clear();
         }
 
@@ -456,8 +457,8 @@ public class BoundwithController extends OLESearchController {
             }
         }*/
         if (!CollectionUtils.isEmpty(boundwithForm.getSearchResultDisplayRowList())) {
-            for(SearchResultDisplayRow searchResultDisplayRow : boundwithForm.getSearchResultDisplayRowList()){
-                if(searchResultDisplayRow.isSelect()){
+            for (SearchResultDisplayRow searchResultDisplayRow : boundwithForm.getSearchResultDisplayRowList()) {
+                if (searchResultDisplayRow.isSelect()) {
                     searchResultDisplayRow.setSelect(false);
                 }
             }
@@ -709,7 +710,7 @@ public class BoundwithController extends OLESearchController {
         }
         if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
             if (!CollectionUtils.isEmpty(uuidLeftList)) {
-                if (boundwithForm.getViewId().equalsIgnoreCase("BoundwithView")){
+                if (boundwithForm.getViewId().equalsIgnoreCase("BoundwithView")) {
                     GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.LEFT_TREE_SECTION, OLEConstants.ERROR_BOUNDWITH_SELECT_BIBS);
                 } else {
                     GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_ONLY_ONE_BIB_SERIES);
@@ -718,7 +719,7 @@ public class BoundwithController extends OLESearchController {
             } else {
                 uuidLeftList = selectedRecordsUuids(boundwithForm.getActionParamaterValue(OLEConstants.TREE_ID), boundwithForm);
                 if (uuidLeftList.size() > 1) {
-                    if (boundwithForm.getViewId().equalsIgnoreCase("BoundwithView")){
+                    if (boundwithForm.getViewId().equalsIgnoreCase("BoundwithView")) {
                         GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.LEFT_TREE_SECTION, OLEConstants.ERROR_BOUNDWITH_SELECT_BIBS);
                     } else {
                         GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_ONLY_ONE_BIB_SERIES);
@@ -729,7 +730,7 @@ public class BoundwithController extends OLESearchController {
                     selectedRecordsUuidsList = selectedRecordsUuids(treeId, boundwithForm).values();
                     for (String uuid : selectedRecordsUuidsList) {
                         if (rightTreeUuids.contains(uuid)) {
-                            if (boundwithForm.getViewId().equalsIgnoreCase("BoundwithView")){
+                            if (boundwithForm.getViewId().equalsIgnoreCase("BoundwithView")) {
                                 GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.BOUNDWITH_SELECTION_SECTION, OLEConstants.ERROR_BOUNDWITH_SELECT_BIBS_TREE2);
                             } else {
                                 GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_BIB_IS_SERIES);
@@ -744,7 +745,7 @@ public class BoundwithController extends OLESearchController {
             selectedRecordsUuidsList = selectedRecordsUuids(treeId, boundwithForm).values();
             for (String uuid : selectedRecordsUuidsList) {
                 if (leftTreeUuids.contains(uuid)) {
-                    if (boundwithForm.getViewId().equalsIgnoreCase("BoundwithView")){
+                    if (boundwithForm.getViewId().equalsIgnoreCase("BoundwithView")) {
                         GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.BOUNDWITH_SELECTION_SECTION, OLEConstants.ERROR_BOUNDWITH_SELECT_BIBS_TREE1);
                     } else {
                         GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.ANALYTICS_SELECTION_SECTION, OLEConstants.ERROR_SELECT_BIB_IS_ANALYTIC);
@@ -794,7 +795,7 @@ public class BoundwithController extends OLESearchController {
         String treeId = boundwithForm.getActionParamaterValue(OLEConstants.TREE_ID);
         DocumentSelectionTree documentSelectionTree = new DocumentSelectionTree();
         Map<String, String> newMap = new HashMap<String, String>();
-        Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(newMap.values(), DocType.BIB.getDescription(),true);
+        Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(newMap.values(), DocType.BIB.getDescription(), true);
         if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
             request.getSession().setAttribute(OLEConstants.LEFT_LIST, newMap);
             boundwithForm.getLeftTree().setRootElement(rootNode);
@@ -839,7 +840,7 @@ public class BoundwithController extends OLESearchController {
             request.getSession().setAttribute(OLEConstants.RIGHT_LIST, uuidRightList);
 
             DocumentSelectionTree documentSelectionTree = new DocumentSelectionTree();
-            Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(uuids, boundwithForm.getDocType(),false);
+            Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(uuids, boundwithForm.getDocType(), false);
             LOG.info("Tree id-->" + treeId);
             if (treeId != null) {
                 if (treeId.equalsIgnoreCase(OLEConstants.LEFT_TREE)) {
@@ -907,7 +908,7 @@ public class BoundwithController extends OLESearchController {
                 boundwithBibs.add(holdings.getBib().getId());
             }
             DocumentSelectionTree documentSelectionTree = new DocumentSelectionTree();
-            Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(boundwithBibs, DocType.BIB.getDescription(),true);
+            Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(boundwithBibs, DocType.BIB.getDescription(), true);
             boundwithForm.getBoundwithTree().setRootElement(rootNode);
             boundwithForm.setShowBoundwithTree(true);
         } else {
@@ -1142,7 +1143,7 @@ public class BoundwithController extends OLESearchController {
         selectCheckedNodesForTree1(boundwithForm, rootElement);
         List<String> selectedInstancesList = boundwithForm.getSelectedHoldings();
 
-        if (selectedInstancesList!=null && selectedInstancesList.size() > 0) {
+        if (selectedInstancesList != null && selectedInstancesList.size() > 0) {
             boundwithForm.setDocCategory(DocCategory.WORK.getCode());
             boundwithForm.setDocType(DocType.HOLDINGS.getCode());
             boundwithForm.setDocFormat(DocFormat.OLEML.getCode());
@@ -1154,7 +1155,7 @@ public class BoundwithController extends OLESearchController {
                 if (boundwithForm.getDeleteVerifyResponse().equalsIgnoreCase("success")) {
                     boundwithForm.setInDelete("true");
                     DocumentSelectionTree documentSelectionTree = new DocumentSelectionTree();
-                    Node<DocumentTreeNode, String> docTree = documentSelectionTree.add(selectedInstancesList, boundwithForm.getDocType(),true);
+                    Node<DocumentTreeNode, String> docTree = documentSelectionTree.add(selectedInstancesList, boundwithForm.getDocType(), true);
                     boundwithForm.getDeleteConfirmationTree().setRootElement(docTree);
                 } else {
                     GlobalVariables.getMessageMap().putErrorForSectionId("BoundwithResultsSection", "error.boundwith.delete.instance");
@@ -1190,7 +1191,7 @@ public class BoundwithController extends OLESearchController {
             for (String id : selectedHoldings) {
                 getDocstoreClientLocator().getDocstoreClient().deleteHoldings(id);
             }
-            Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(boundwithForm.getSelectedBibs(), DocType.BIB.getDescription(),true);
+            Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(boundwithForm.getSelectedBibs(), DocType.BIB.getDescription(), true);
             boundwithForm.getBoundwithTree().setRootElement(rootNode);
             boundwithForm.setShowBoundwithTree(true);
             GlobalVariables.getMessageMap().putInfoForSectionId("BoundwithResultsSection", "info.boundwith.delete.success");
@@ -1225,15 +1226,14 @@ public class BoundwithController extends OLESearchController {
             uuidList = boundwithForm.getSelectedBibs();
             uuidList.add(boundwithForm.getTree1BibId());
             DocumentSelectionTree documentSelectionTree = new DocumentSelectionTree();
-            Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(uuidList, DocType.BIB.getDescription(),true);
+            Node<DocumentTreeNode, String> rootNode = documentSelectionTree.add(uuidList, DocType.BIB.getDescription(), true);
             boundwithForm.getBoundwithTree().setRootElement(rootNode);
             GlobalVariables.getMessageMap().putInfo("BoundwithResultsSection", "info.boundwith.success", boundwithForm.getMessage());
             boundwithForm.setBoundwithTreeLabelText("select");
         } catch (DocstoreException e) {
-            GlobalVariables.getMessageMap().putErrorForSectionId("BoundwithResultsSection",e.getErrorCode());
+            GlobalVariables.getMessageMap().putErrorForSectionId("BoundwithResultsSection", e.getErrorCode());
             boundwithForm.setShowBoundwithTree(false);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             GlobalVariables.getMessageMap().putErrorForSectionId("BoundwithResultsSection", "error.boundwith.failed", e.getMessage());
             boundwithForm.setShowBoundwithTree(false);
         }
@@ -1285,16 +1285,16 @@ public class BoundwithController extends OLESearchController {
     private String validateInput(BoundwithForm boundwithForm) {
         String validate = validate(boundwithForm);
         StringBuilder validateMsg = new StringBuilder();
-        if(validate.startsWith("failiure")){
+        if (validate.startsWith("failiure")) {
             boundwithForm.setShowBoundwithTree(false);
             validateMsg.append(validate);
             return validateMsg.toString();
-        }else if(validate.startsWith("success")){
+        } else if (validate.startsWith("success")) {
             GlobalVariables.getMessageMap().clearErrorMessages();
         }
         List<String> selectedHoldingsFromTree1 = boundwithForm.getSelectedHoldingsFromTree1();
         List<String> selectedBibs = boundwithForm.getSelectedBibsFromTree2();
-        if(selectedHoldingsFromTree1!=null && selectedBibs!=null){
+        if (selectedHoldingsFromTree1 != null && selectedBibs != null) {
             if ((selectedHoldingsFromTree1.size() > 0) && (selectedHoldingsFromTree1.size() == 1)) {
                 List<Item> items = boundwithForm.getBibTree().getHoldingsTrees().get(0).getItems();
                 if (items.size() > 1) {
@@ -1496,7 +1496,7 @@ public class BoundwithController extends OLESearchController {
         }
     }
 
-    private String validate(BoundwithForm boundwithForm){
+    private String validate(BoundwithForm boundwithForm) {
         String string = new String();
         Tree<DocumentTreeNode, String> leftTree = boundwithForm.getLeftTree();
         DocumentTreeNode documentTreeNode;
@@ -1509,12 +1509,12 @@ public class BoundwithController extends OLESearchController {
                 stringBuilder.append("failuire");
                 GlobalVariables.getMessageMap().putErrorForSectionId("BoundwithResultsSection", "error.select.instance");
             }else {*/
-                List<Node<DocumentTreeNode, String>> instanceList = bibNode.getChildren();
-                for (Node<DocumentTreeNode, String> instance : instanceList) {
-                    documentTreeNode = instance.getData();
-                    if(documentTreeNode.isSelect()){
-                        count++;
-                    }
+            List<Node<DocumentTreeNode, String>> instanceList = bibNode.getChildren();
+            for (Node<DocumentTreeNode, String> instance : instanceList) {
+                documentTreeNode = instance.getData();
+                if (documentTreeNode.isSelect()) {
+                    count++;
+                }
                     /*if (!documentTreeNode.isSelect()) {
                         *//*boundwithForm.setMessage(instance.getNodeLabel());
                         documentTreeNode.setSelect(true);
@@ -1532,8 +1532,8 @@ public class BoundwithController extends OLESearchController {
                         string = new String("failiure");
                         GlobalVariables.getMessageMap().putErrorForSectionId("BoundwithResultsSection", "error.select.instance");
                     }*/
-                }
-            if(count==0){
+            }
+            if (count == 0) {
                 GlobalVariables.getMessageMap().putErrorForSectionId("BoundwithResultsSection", "error.select.instance");
                 string = new String("failiure");
             }
@@ -1544,10 +1544,10 @@ public class BoundwithController extends OLESearchController {
         for (Node<DocumentTreeNode, String> bibNode : rightlist) {
             documentTreeNode = bibNode.getData();
             if (documentTreeNode.isSelect()) {
-                count ++;
+                count++;
             }
         }
-        if(count == 0) {
+        if (count == 0) {
             GlobalVariables.getMessageMap().putErrorForSectionId("BoundwithResultsSection", "error.boundwith.select.bib");
             string = new String("failiure");
         }
@@ -1562,7 +1562,7 @@ public class BoundwithController extends OLESearchController {
         Set<String> selectedBibsList = new HashSet<String>();
         ArrayList<String> setSelectedBibsFromTree2 = new ArrayList<String>();
         ArrayList<String> selectedBibs = new ArrayList<String>();
-        if(rootElement!=null){
+        if (rootElement != null) {
             List<Node<DocumentTreeNode, String>> list = rootElement.getChildren();
             for (Node<DocumentTreeNode, String> node : list) {
                 documentTreeNode = node.getData();
@@ -1660,7 +1660,7 @@ public class BoundwithController extends OLESearchController {
 
     public SearchResultDisplayFields getDisplayFields(BoundwithForm boundwithForm) {
         SearchResultDisplayFields searchResultDisplayFields = new SearchResultDisplayFields();
-        searchResultDisplayFields.buildSearchResultDisplayFields(documentSearchConfig.getDocTypeConfigs(),boundwithForm.getDocType());
+        searchResultDisplayFields.buildSearchResultDisplayFields(documentSearchConfig.getDocTypeConfigs(), boundwithForm.getDocType());
         return searchResultDisplayFields;
     }
 
@@ -1681,7 +1681,7 @@ public class BoundwithController extends OLESearchController {
         String selectedFacet = request.getParameter("selectedFacet");
         String selectedFacetName = request.getParameter("selectedFacetName");
         boundwithForm.setDocType(docType);
-        if(boundwithForm.getSearchParams() == null) {
+        if (boundwithForm.getSearchParams() == null) {
             SearchParams searchParams = (SearchParams) request.getSession().getAttribute("searchParams");
             boundwithForm.setSearchParams(searchParams);
         }
@@ -1696,13 +1696,14 @@ public class BoundwithController extends OLESearchController {
         GlobalVariables.getMessageMap().clearErrorMessages();
         return search(boundwithForm, result, request, response);
     }
+
     public Set<String> getFacetFields(String docType) {
         Set<String> facetFields = new TreeSet<String>();
-        for(DocTypeConfig docTypeConfig : documentSearchConfig.getDocTypeConfigs()) {
-            if(docTypeConfig.getName().equalsIgnoreCase(docType)) {
-                for( DocFormatConfig docFormatConfig : docTypeConfig.getDocFormatConfigList()) {
-                    if(docFormatConfig.getName().equalsIgnoreCase(org.kuali.ole.docstore.common.document.content.enums.DocFormat.MARC.getCode())) {
-                        for(DocFieldConfig docFieldConfig : docFormatConfig.getDocFieldConfigList()) {
+        for (DocTypeConfig docTypeConfig : documentSearchConfig.getDocTypeConfigs()) {
+            if (docTypeConfig.getName().equalsIgnoreCase(docType)) {
+                for (DocFormatConfig docFormatConfig : docTypeConfig.getDocFormatConfigList()) {
+                    if (docFormatConfig.getName().equalsIgnoreCase(org.kuali.ole.docstore.common.document.content.enums.DocFormat.MARC.getCode())) {
+                        for (DocFieldConfig docFieldConfig : docFormatConfig.getDocFieldConfigList()) {
                             if (docFieldConfig.getName().endsWith("_facet") && docFieldConfig.getDocType().getName().equalsIgnoreCase(docType)) {
                                 facetFields.add(docFieldConfig.getName());
                             }
@@ -1715,27 +1716,27 @@ public class BoundwithController extends OLESearchController {
     }
 
 
-@RequestMapping(params = "methodToCall=addLineField")
-public ModelAndView addLineField(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                 HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(params = "methodToCall=addLineField")
+    public ModelAndView addLineField(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) {
 
-    String selectedCollectionPath = uifForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-    if (StringUtils.isBlank(selectedCollectionPath)) {
-        throw new RuntimeException("Selected collection was not set for add line action, cannot add new line");
-    }
-    BoundwithForm boundwithForm = (BoundwithForm) uifForm;
-    int index = Integer.parseInt(boundwithForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-    if(boundwithForm.getSearchConditions().get(index).getSearchField().getFieldName().isEmpty()&&
-            boundwithForm.getSearchConditions().get(index).getSearchField().getFieldValue().isEmpty()){
+        String selectedCollectionPath = uifForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("Selected collection was not set for add line action, cannot add new line");
+        }
+        BoundwithForm boundwithForm = (BoundwithForm) uifForm;
+        int index = Integer.parseInt(boundwithForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+        if (boundwithForm.getSearchConditions().get(index).getSearchField().getFieldName().isEmpty() &&
+                boundwithForm.getSearchConditions().get(index).getSearchField().getFieldValue().isEmpty()) {
+            return getUIFModelAndView(uifForm);
+        }
+        List<SearchCondition> searchConditions = boundwithForm.getSearchConditions();
+        index++;
+        SearchCondition searchCondition = new SearchCondition();
+        searchCondition.setOperator("AND");
+        searchConditions.add(index, searchCondition);
         return getUIFModelAndView(uifForm);
     }
-    List<SearchCondition> searchConditions = boundwithForm.getSearchConditions();
-    index++;
-    SearchCondition searchCondition=new SearchCondition();
-    searchCondition.setOperator("AND");
-    searchConditions.add(index,searchCondition);
-    return getUIFModelAndView(uifForm);
-}
 
     @RequestMapping(params = "methodToCall=deleteLineField")
     public ModelAndView deleteLineField(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
@@ -1752,6 +1753,201 @@ public ModelAndView addLineField(@ModelAttribute("KualiForm") UifFormBase uifFor
             searchConditions.remove(index);
         }
         return getUIFModelAndView(uifForm);
+    }
+
+    @RequestMapping(params = "methodToCall=undoOneBoundwith")
+    public ModelAndView undoOneBoundwith(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                         HttpServletResponse httpResponse, HttpServletRequest httpServletRequest) throws Exception {
+        BoundwithForm boundwithForm = (BoundwithForm) form;
+        boolean selectFlag1 = false;
+        boolean selectFlag2 = false;
+        Tree<DocumentTreeNode, String> tree1 = boundwithForm.getLeftTree();
+        Node<DocumentTreeNode, String> rootElement = tree1.getRootElement();
+        Tree<DocumentTreeNode, String> tree2 = boundwithForm.getRightTree();
+        Node<DocumentTreeNode, String> tree2RootElement = tree2.getRootElement();
+        List<String> holdingsIds = new ArrayList<String>();
+        Set<String> holdingsIdsToDelete = new HashSet<>();
+        boundwithForm.getDocumentTreeNode().setReturnCheck(true);
+        String validateMsg = validateSelectedBibs(boundwithForm);
+        if (!validateMsg.contains("failure")) {
+            if (rootElement.getChildren().size() != 0) {
+                selectCheckedNodesForUnBound(boundwithForm, rootElement);
+                selectFlag1 = true;
+            } else if (tree2RootElement.getChildren().size() != 0) {
+                selectCheckedNodesForUnBound(boundwithForm, tree2RootElement);
+                selectFlag2 = true;
+            }
+            if (selectFlag1 || selectFlag2) {
+                BibTree bibTree = boundwithForm.getBibTree();
+                List<HoldingsTree> holdingsTrees = bibTree.getHoldingsTrees();
+                for (HoldingsTree holdingsTree : holdingsTrees) {
+                    Holdings holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(holdingsTree.getHoldings().getId());
+                    if (holdings.isBoundWithBib()) {
+                        holdingsIdsToDelete.add(holdings.getId());
+                    }
+                }
+                holdingsIds.addAll(holdingsIdsToDelete);
+                try {
+                    if (holdingsIds.size() > 0) {
+                        getDocstoreClientLocator().getDocstoreClient().unbindWithOneBib(holdingsIds, bibTree.getBib().getId());
+                        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "info.undooneboundwith.success");
+                    } else {
+                        GlobalVariables.getMessageMap().putErrorForSectionId(KRADConstants.GLOBAL_ERRORS, "error.holdings.not.bounded");
+                    }
+                } catch (DocstoreException e) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(KRADConstants.GLOBAL_ERRORS, e.getErrorCode());
+                    boundwithForm.setShowBoundwithTree(false);
+                } catch (Exception e) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(KRADConstants.GLOBAL_ERRORS, "error.unboundwith.failed", e.getMessage());
+                    boundwithForm.setShowBoundwithTree(false);
+                }
+            }
+        }
+        return navigate(boundwithForm, result, httpServletRequest, httpResponse);
+    }
+
+    @RequestMapping(params = "methodToCall=undoAllBoundwith")
+    public ModelAndView undoAllBoundwith(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                         HttpServletResponse httpResponse, HttpServletRequest httpServletRequest) throws Exception {
+        BoundwithForm boundwithForm = (BoundwithForm) form;
+        boolean selectFlag1 = false;
+        boolean selectFlag2 = false;
+        Tree<DocumentTreeNode, String> tree1 = boundwithForm.getLeftTree();
+        Node<DocumentTreeNode, String> rootElement = tree1.getRootElement();
+        Tree<DocumentTreeNode, String> tree2 = boundwithForm.getRightTree();
+        Node<DocumentTreeNode, String> tree2RootElement = tree2.getRootElement();
+        List<String> holdingsIds = new ArrayList<String>();
+        Set<String> holdingsIdsToDelete = new HashSet<>();
+        boundwithForm.getDocumentTreeNode().setReturnCheck(true);
+        String validateMsg = validateSelectedBibs(boundwithForm);
+        if (!validateMsg.contains("failure")) {
+            if (rootElement.getChildren().size() != 0) {
+                selectCheckedNodesForUnBound(boundwithForm, rootElement);
+                selectFlag1 = true;
+            } else if (tree2RootElement.getChildren().size() != 0) {
+                selectCheckedNodesForUnBound(boundwithForm, tree2RootElement);
+                selectFlag2 = true;
+            }
+            if (selectFlag1 || selectFlag2) {
+                BibTree bibTree = boundwithForm.getBibTree();
+                List<HoldingsTree> holdingsTrees = bibTree.getHoldingsTrees();
+                for (HoldingsTree holdingsTree : holdingsTrees) {
+                    Holdings holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(holdingsTree.getHoldings().getId());
+                    if (holdings.isBoundWithBib()) {
+                        holdingsIds.add(holdings.getId());
+                    }
+                }
+                holdingsIds.addAll(holdingsIdsToDelete);
+                try {
+                    if (holdingsIds.size() > 0) {
+                        getDocstoreClientLocator().getDocstoreClient().unbindWithAllBibs(holdingsIds, bibTree.getBib().getId());
+                        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "info.undoallboundwith.success");
+                    } else {
+                        GlobalVariables.getMessageMap().putErrorForSectionId(KRADConstants.GLOBAL_ERRORS, "error.holdings.not.bounded");
+                    }
+                } catch (DocstoreException e) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(KRADConstants.GLOBAL_ERRORS, e.getErrorCode());
+                    boundwithForm.setShowBoundwithTree(false);
+                } catch (Exception e) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(KRADConstants.GLOBAL_ERRORS, "error.unboundwith.failed", e.getMessage());
+                    boundwithForm.setShowBoundwithTree(false);
+                }
+            }
+        }
+
+        return navigate(boundwithForm, result, httpServletRequest, httpResponse);
+    }
+
+    public String validateSelectedBibs(BoundwithForm boundwithForm) {
+        String string = new String();
+        Tree<DocumentTreeNode, String> leftTree = boundwithForm.getLeftTree();
+        boolean selectedFlag1 = false;
+        boolean selectedFlag2 = false;
+        DocumentTreeNode documentTreeNode;
+        int count = 0;
+        List<Node<DocumentTreeNode, String>> list = leftTree.getRootElement().getChildren();
+        for (Node<DocumentTreeNode, String> bibNode : list) {
+            documentTreeNode = bibNode.getData();
+            if (documentTreeNode.isSelect()) {
+                selectedFlag1 = true;
+            }
+            List<Node<DocumentTreeNode, String>> instanceList = bibNode.getChildren();
+            for (Node<DocumentTreeNode, String> instance : instanceList) {
+                documentTreeNode = instance.getData();
+                if (documentTreeNode.isSelect()) {
+                    count++;
+                }
+            }
+            if (count != 0) {
+                GlobalVariables.getMessageMap().putErrorForSectionId(KRADConstants.GLOBAL_ERRORS, "error.select.only.bib");
+                string = new String("failure");
+            }
+        }
+        count = 0;
+        if (boundwithForm.getRightTree().getRootElement() != null) {
+            List<Node<DocumentTreeNode, String>> rightlist = boundwithForm.getRightTree().getRootElement().getChildren();
+            for (Node<DocumentTreeNode, String> bibNode : rightlist) {
+                documentTreeNode = bibNode.getData();
+                if (documentTreeNode.isSelect()) {
+                    selectedFlag2 = true;
+                }
+                List<Node<DocumentTreeNode, String>> instanceList = bibNode.getChildren();
+                for (Node<DocumentTreeNode, String> instance : instanceList) {
+                    documentTreeNode = instance.getData();
+                    if (documentTreeNode.isSelect()) {
+                        count++;
+                    }
+                }
+                if (count != 0) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(KRADConstants.GLOBAL_ERRORS, "error.select.only.bib");
+                    string = new String("failure");
+                }
+            }
+        }
+        if (selectedFlag1 && selectedFlag2) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(KRADConstants.GLOBAL_ERRORS, "error.select.one.bib");
+            string = new String("failure");
+        }
+        return string;
+    }
+
+    private void selectCheckedNodesForUnBound(BoundwithForm boundwithForm, Node<DocumentTreeNode, String> rootElement) {
+        DocumentTreeNode documentTreeNode;
+        BibTree bibTree = new BibTree();
+        List<HoldingsTree> holdingsTreeList = new ArrayList<>();
+        Bib bib = new Bib();
+        List<Item> items = new ArrayList<Item>();
+        List<Node<DocumentTreeNode, String>> list = rootElement.getChildren();
+        for (Node<DocumentTreeNode, String> bibNode : list) {
+            List<Node<DocumentTreeNode, String>> instanceList = bibNode.getChildren();
+            for (Node<DocumentTreeNode, String> instance : instanceList) {
+                HoldingsTree holdingsTree = new HoldingsTree();
+                Holdings holdings = new Holdings();
+                documentTreeNode = instance.getData();
+                bib.setId(bibNode.getNodeType());
+                bib.setTitle(bibNode.getNodeLabel());
+                holdings.setId(instance.getNodeType());
+                holdings.setLocationName(instance.getNodeLabel());
+                boundwithForm.setMessage(instance.getNodeLabel());
+                documentTreeNode.setSelect(true);
+                List<Node<DocumentTreeNode, String>> itemList = instance.getChildren();
+                for (Node<DocumentTreeNode, String> item : itemList) {
+                    Item itemDoc = new Item();
+                    documentTreeNode = item.getData();
+                    itemDoc.setId(item.getNodeType());
+                    itemDoc.setCallNumber(item.getNodeLabel());
+                    documentTreeNode.setSelect(true);
+                    items.add(itemDoc);
+                }
+                holdingsTree.getItems().addAll(items);
+                holdingsTree.setHoldings(holdings);
+                bibTree.setBib(bib);
+                holdingsTreeList.add(holdingsTree);
+            }
+            bibTree.getHoldingsTrees().addAll(holdingsTreeList);
+        }
+        boundwithForm.setBibTree(bibTree);
+
     }
 
 }

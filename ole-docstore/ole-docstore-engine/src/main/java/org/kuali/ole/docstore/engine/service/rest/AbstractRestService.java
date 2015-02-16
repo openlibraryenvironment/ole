@@ -220,4 +220,14 @@ public abstract class AbstractRestService implements RestService {
     public String patchItemWithContent(String requestBody) {
         return null;
     }
+
+    @Override
+    public String unbindWithOneBib(String bibId, String requestBody) {
+        return null;
+    }
+
+    @Override
+    public String unbindWithAllBibs(String bibId, String requestBody) {
+        return null;
+    }
 }

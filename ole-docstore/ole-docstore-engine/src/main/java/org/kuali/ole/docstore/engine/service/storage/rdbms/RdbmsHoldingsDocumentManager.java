@@ -111,7 +111,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         if (oleHoldings.getLink() != null) {
 //            holdingsRecord.setLink(oleHoldings.getLink().getUrl() != null ? oleHoldings.getLink().getUrl() : "");
 //            holdingsRecord.setLinkText(oleHoldings.getLink().getText() != null ? oleHoldings.getLink().getText() : "");
-             saveLink(oleHoldings.getLink(), holdingsRecord.getHoldingsId());
+            saveLink(oleHoldings.getLink(), holdingsRecord.getHoldingsId());
         }
         holdingsRecord.setImprint(oleHoldings.getImprint() != null ? oleHoldings.getImprint() : "");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
@@ -252,16 +252,15 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             StatisticalSearchRecord statisticalSearchRecord = saveStatisticalSearchRecord(statisticalSearchingCode);
             HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = null;
             List<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecords = (List<HoldingsStatisticalSearchRecord>) getBusinessObjectService().findMatching(HoldingsStatisticalSearchRecord.class, getHoldingsMap(holdingsId));
-            if(holdingsStatisticalSearchRecords != null && holdingsStatisticalSearchRecords.size() > 0) {
+            if (holdingsStatisticalSearchRecords != null && holdingsStatisticalSearchRecords.size() > 0) {
                 holdingsStatisticalSearchRecord = holdingsStatisticalSearchRecords.get(0);
-            }
-            else {
+            } else {
                 holdingsStatisticalSearchRecord = new HoldingsStatisticalSearchRecord();
                 holdingsStatisticalSearchRecord.setHoldingsId(holdingsId);
             }
 
             holdingsStatisticalSearchRecord.setHoldingsId(holdingsId);
-            if(statisticalSearchRecord!= null) {
+            if (statisticalSearchRecord != null) {
                 holdingsStatisticalSearchRecord.setStatisticalSearchId(statisticalSearchRecord.getStatisticalSearchId());
             }
             getBusinessObjectService().save(holdingsStatisticalSearchRecord);
@@ -287,14 +286,14 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         Map map = new HashMap();
         map.put("holdingsId", holdingsId);
         List<OLEHoldingsDonorRecord> holdingsDonorRecordList = (List<OLEHoldingsDonorRecord>) getBusinessObjectService().findMatching(OLEHoldingsDonorRecord.class, map);
-        if(holdingsDonorRecordList!=null && holdingsDonorRecordList.size() >= 0) {
+        if (holdingsDonorRecordList != null && holdingsDonorRecordList.size() >= 0) {
             getBusinessObjectService().delete(holdingsDonorRecordList);
         }
         if (donorslist.size() > 0) {
             List<OLEHoldingsDonorRecord> oleHoldingsDonorRecords = new ArrayList<OLEHoldingsDonorRecord>();
             for (int i = 0; i < donorslist.size(); i++) {
                 DonorInfo donorinfo = donorslist.get(i);
-                if (donorinfo.getDonorCode() != null ) {
+                if (donorinfo.getDonorCode() != null) {
                     OLEHoldingsDonorRecord oleHoldingsDonorRecord = new OLEHoldingsDonorRecord();
                     oleHoldingsDonorRecord.setDonorPublicDisplay(donorinfo.getDonorPublicDisplay());
                     oleHoldingsDonorRecord.setDonorCode(donorinfo.getDonorCode());
@@ -383,16 +382,16 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
                     || StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessEndVolume()) || StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessEndIssue())) {
                 EInstancePerpetualAccessRecord eInstancePerpetualAccess = new EInstancePerpetualAccessRecord();
                 eInstancePerpetualAccess.setHoldingsId(eHoldingsIdentifier);
-                if(StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessStartDateFormat()) || StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessStartDateString()) || StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessStartVolume())
-                        || StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessStartIssue()) ) {
+                if (StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessStartDateFormat()) || StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessStartDateString()) || StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessStartVolume())
+                        || StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessStartIssue())) {
                     if (StringUtils.isNotEmpty(perpetualAccess.getPerpetualAccessStartDate())) {
                         eInstancePerpetualAccess.setPerpetualAccessStartDate(perpetualAccess.getPerpetualAccessStartDate());
                     }
                     eInstancePerpetualAccess.setPerpetualAccessStartVolume(perpetualAccess.getPerpetualAccessStartVolume());
                     eInstancePerpetualAccess.setPerpetualAccessStartIssue(perpetualAccess.getPerpetualAccessStartIssue());
                 }
-                if(StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessEndDateFormat()) || StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessEndDateString())
-                        || StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessEndVolume()) || StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessEndIssue())){
+                if (StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessEndDateFormat()) || StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessEndDateString())
+                        || StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessEndVolume()) || StringUtils.isNotBlank(perpetualAccess.getPerpetualAccessEndIssue())) {
                     if (StringUtils.isNotEmpty(perpetualAccess.getPerpetualAccessEndDate())) {
                         eInstancePerpetualAccess.setPerpetualAccessEndDate(perpetualAccess.getPerpetualAccessEndDate());
                     }
@@ -410,9 +409,9 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
     public void update(Object object) {
         Holdings holdings = (Holdings) object;
         HoldingsRecord holdingsRecord = getExistingHoldings(holdings.getId());
-        if(holdingsRecord == null) {
+        if (holdingsRecord == null) {
             DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.HOLDING_ID_NOT_FOUND, DocstoreResources.HOLDING_ID_NOT_FOUND);
-            docstoreException.addErrorParams("holdingsId", holdings.getId() );
+            docstoreException.addErrorParams("holdingsId", holdings.getId());
             throw docstoreException;
         }
 
@@ -475,7 +474,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
 
     @Override
     public void delete(String holdingsId) {
-        HoldingsRecord  holdingsRecord = getBusinessObjectService().findByPrimaryKey(HoldingsRecord.class, getHoldingsMap(holdingsId));
+        HoldingsRecord holdingsRecord = getBusinessObjectService().findByPrimaryKey(HoldingsRecord.class, getHoldingsMap(holdingsId));
         List<ExtentOfOwnerShipRecord> extentOfOwnerShipRecords = (List<ExtentOfOwnerShipRecord>) getBusinessObjectService().findMatching(ExtentOfOwnerShipRecord.class, getHoldingsMap(holdingsId));
         if (extentOfOwnerShipRecords != null && extentOfOwnerShipRecords.size() > 0) {
 
@@ -498,16 +497,16 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             List<HoldingsUriRecord> accessUriRecords = holdingsRecord.getHoldingsUriRecords();
             getBusinessObjectService().delete(accessUriRecords);
         }
-        if (holdingsRecord.getDonorList()!=null && holdingsRecord.getDonorList().size()>0){
-            List<OLEHoldingsDonorRecord> oleHoldingsDonorRecordList=holdingsRecord.getDonorList();
+        if (holdingsRecord.getDonorList() != null && holdingsRecord.getDonorList().size() > 0) {
+            List<OLEHoldingsDonorRecord> oleHoldingsDonorRecordList = holdingsRecord.getDonorList();
             getBusinessObjectService().delete(oleHoldingsDonorRecordList);
         }
 
-        if(holdingsRecord.geteInstanceCoverageRecordList()!=null && holdingsRecord.geteInstanceCoverageRecordList().size()>0){
-            List<EInstanceCoverageRecord> eInstanceCoverageRecordList= holdingsRecord.geteInstanceCoverageRecordList();
+        if (holdingsRecord.geteInstanceCoverageRecordList() != null && holdingsRecord.geteInstanceCoverageRecordList().size() > 0) {
+            List<EInstanceCoverageRecord> eInstanceCoverageRecordList = holdingsRecord.geteInstanceCoverageRecordList();
             getBusinessObjectService().delete(eInstanceCoverageRecordList);
         }
-        if(holdingsRecord.geteInstancePerpetualAccessRecordList() !=null && holdingsRecord.geteInstancePerpetualAccessRecordList().size()>0){
+        if (holdingsRecord.geteInstancePerpetualAccessRecordList() != null && holdingsRecord.geteInstancePerpetualAccessRecordList().size() > 0) {
             List<EInstancePerpetualAccessRecord> eInstancePerpetualAccessRecords = holdingsRecord.geteInstancePerpetualAccessRecordList();
             getBusinessObjectService().delete(eInstancePerpetualAccessRecords);
         }
@@ -579,7 +578,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             holdingsTree.getItems().add(rdbmsItemDocumentManager.buildItemContent(itemRecord));
         }
         List<HoldingsItemRecord> holdingsItemRecords = (List<HoldingsItemRecord>) getBusinessObjectService().findMatching(HoldingsItemRecord.class, getHoldingsMap(id));
-        for(HoldingsItemRecord holdingsItemRecord : holdingsItemRecords) {
+        for (HoldingsItemRecord holdingsItemRecord : holdingsItemRecords) {
             holdingsTree.getItems().add((Item) rdbmsItemDocumentManager.retrieve(holdingsItemRecord.getItemId()));
         }
         return holdingsTree;
@@ -632,7 +631,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
     protected CallNumberTypeRecord saveCallNumberTypeRecord(ShelvingScheme scheme) {
 
         Map callMap = new HashMap();
-        if(scheme.getCodeValue() != null  && scheme.getCodeValue() .equalsIgnoreCase("none")){
+        if (scheme.getCodeValue() != null && scheme.getCodeValue().equalsIgnoreCase("none")) {
             scheme.setCodeValue("NOINFO");
         }
         callMap.put("code", scheme.getCodeValue());
@@ -689,7 +688,8 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
     }
 
     /**
-     *  Delete Extent  Note Record from dataBase
+     * Delete Extent  Note Record from dataBase
+     *
      * @param extentOfOwnerShipId
      */
     private void deleteExtentNoteRecords(String extentOfOwnerShipId) {
@@ -700,6 +700,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
 
     /**
      * Delete the existing note records and save the new record values coming from view
+     *
      * @param extOfOwnerShipID
      * @param notes
      */
@@ -727,7 +728,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         Map map = new HashMap();
         map.put("code", receiptStatus);
         List<ReceiptStatusRecord> receiptStatusRecords = (List<ReceiptStatusRecord>) getBusinessObjectService().findMatching(ReceiptStatusRecord.class, map);
-        if(receiptStatusRecords.size() == 0) {
+        if (receiptStatusRecords.size() == 0) {
             map = new HashMap();
             map.put("name", receiptStatus);
             receiptStatusRecords = (List<ReceiptStatusRecord>) getBusinessObjectService().findMatching(ReceiptStatusRecord.class, map);
@@ -870,7 +871,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
 
     protected Holdings buildHoldingsFromHoldingsRecord(HoldingsRecord holdingsRecord) {
         OleHoldings oleHoldings = new OleHoldings();
-        oleHoldings.setBibIdentifier(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC + "-" +  holdingsRecord.getBibId());
+        oleHoldings.setBibIdentifier(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC + "-" + holdingsRecord.getBibId());
         oleHoldings.setHoldingsIdentifier(DocumentUniqueIDPrefix.getPrefixedId(holdingsRecord.getUniqueIdPrefix(), holdingsRecord.getHoldingsId()));
         Holdings holdings = null;
 
@@ -903,7 +904,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             //callNumber.setCopyNumber(holdingsRecord.getCopyNumber());
             oleHoldings.setCallNumber(callNumber);
         }
-        if(holdingsRecord.getGokbIdentifier() != null) {
+        if (holdingsRecord.getGokbIdentifier() != null) {
             oleHoldings.setGokbIdentifier(holdingsRecord.getGokbIdentifier());
         }
 
@@ -922,10 +923,10 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         }
         holdings.setCreatedBy(holdingsRecord.getCreatedBy());
         holdings.setUpdatedBy(holdingsRecord.getUpdatedBy());
-        if(holdingsRecord.getCreatedDate()!=null) {
+        if (holdingsRecord.getCreatedDate() != null) {
             holdings.setCreatedOn(holdingsRecord.getCreatedDate().toString());
         }
-        if(holdingsRecord.getUpdatedDate() !=null) {
+        if (holdingsRecord.getUpdatedDate() != null) {
             holdings.setUpdatedOn(holdingsRecord.getUpdatedDate().toString());
         }
 
@@ -1099,8 +1100,8 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         oleHoldings.setHoldingsAccessInformation(accessInformation);
 
         List<Link> links = new ArrayList<>();
-        if(holdingsRecord.getHoldingsUriRecords() != null && holdingsRecord.getHoldingsUriRecords().size() > 0) {
-            for(HoldingsUriRecord holdingsUriRecord : holdingsRecord.getHoldingsUriRecords()){
+        if (holdingsRecord.getHoldingsUriRecords() != null && holdingsRecord.getHoldingsUriRecords().size() > 0) {
+            for (HoldingsUriRecord holdingsUriRecord : holdingsRecord.getHoldingsUriRecords()) {
                 Link link = new Link();
                 link.setUrl(holdingsUriRecord.getUri());
                 link.setText(holdingsUriRecord.getText());
@@ -1267,7 +1268,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
     }
 
     private void retrievePHoldingsExtentOfownership(String holdingsId, OleHoldings oleHoldings) {
-        List<ExtentOfOwnerShipRecord> extentOfOwnerShipRecords = (List<ExtentOfOwnerShipRecord>) getBusinessObjectService().findMatchingOrderBy(ExtentOfOwnerShipRecord.class, getHoldingsMap(holdingsId), "ORD" , true);
+        List<ExtentOfOwnerShipRecord> extentOfOwnerShipRecords = (List<ExtentOfOwnerShipRecord>) getBusinessObjectService().findMatchingOrderBy(ExtentOfOwnerShipRecord.class, getHoldingsMap(holdingsId), "ORD", true);
         if (extentOfOwnerShipRecords != null && extentOfOwnerShipRecords.size() > 0) {
             List<ExtentOfOwnership> extentOfOwnerships = new ArrayList<ExtentOfOwnership>();
             for (ExtentOfOwnerShipRecord extentOfOwnerShipRecord : extentOfOwnerShipRecords) {
@@ -1396,10 +1397,9 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
     }
 
 
-
     public void boundHoldingsWithBibs(String holdingsId, List<String> bibIds) {
         HoldingsRecord holdingsRecord = getBusinessObjectService().findByPrimaryKey(HoldingsRecord.class, getHoldingsMap(holdingsId));
-        try{
+        try {
             if (holdingsRecord != null) {
                 BibHoldingsRecord bibHoldingsRecord = new BibHoldingsRecord();
                 bibHoldingsRecord.setBibId(holdingsRecord.getBibId());
@@ -1412,7 +1412,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
                 bibHoldingsRecord.setBibId(DocumentUniqueIDPrefix.getDocumentId(bibId));
                 getBusinessObjectService().save(bibHoldingsRecord);
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.BOUNDWITH_FAILED, e.getMessage());
 
             throw docstoreException;
@@ -1441,7 +1441,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         List<HoldingsItemRecord> holdingsItemRecords = (List<HoldingsItemRecord>) getBusinessObjectService().findMatching(HoldingsItemRecord.class, getHoldingsMap(seriesHoldingsId));
         try {
             for (HoldingsItemRecord holdingsItemRecord : holdingsItemRecords) {
-                if (itemIds.contains(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML + "-"  + holdingsItemRecord.getItemId())) {
+                if (itemIds.contains(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML + "-" + holdingsItemRecord.getItemId())) {
                     getBusinessObjectService().delete(holdingsItemRecord);
                 }
             }
@@ -1519,9 +1519,9 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
     }
 
     protected Holdings retrieveHoldings(String id, Bib bib, HoldingsRecord holdingsRecord) {
-        if(holdingsRecord == null) {
+        if (holdingsRecord == null) {
             holdingsRecord = getBusinessObjectService().findByPrimaryKey(HoldingsRecord.class, getHoldingsMap(id));
-            if(holdingsRecord == null) {
+            if (holdingsRecord == null) {
                 DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.HOLDING_ID_NOT_FOUND, DocstoreResources.HOLDING_ID_NOT_FOUND);
                 docstoreException.addErrorParams("holdingsId", id);
                 throw docstoreException;
@@ -1530,21 +1530,21 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
 
         Holdings holdings = buildHoldingsFromHoldingsRecord(holdingsRecord);
 
-        if(bib == null) {
+        if (bib == null) {
             bib = RdbmsBibDocumentManager.getInstance().retrieveBib(holdingsRecord.getBibId());
         }
 
         holdings.setBib(bib);
 
         Bibs bibs = retrieveBibRecordsFromBoundwith(id);
-        if(bibs != null && bibs.getBibs() != null && bibs.getBibs().size() > 0) {
+        if (bibs != null && bibs.getBibs() != null && bibs.getBibs().size() > 0) {
             holdings.setBoundWithBib(true);
             holdings.setBibs(bibs);
         }
 
         List<HoldingsItemRecord> holdingsItemRecords = (List<HoldingsItemRecord>) getBusinessObjectService().findMatching(HoldingsItemRecord.class, getHoldingsMap(id));
 
-        if(holdingsItemRecords != null && holdingsItemRecords.size() > 0) {
+        if (holdingsItemRecords != null && holdingsItemRecords.size() > 0) {
             holdings.setSeries(true);
         }
 
@@ -1556,7 +1556,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         Bibs bibs = new Bibs();
         RdbmsBibDocumentManager rdbmsBibDocumentManager = RdbmsBibDocumentManager.getInstance();
         List<BibHoldingsRecord> bibHoldingsRecords = (List<BibHoldingsRecord>) getBusinessObjectService().findMatching(BibHoldingsRecord.class, getHoldingsMap(id));
-        for(BibHoldingsRecord bibHoldingsRecord : bibHoldingsRecords) {
+        for (BibHoldingsRecord bibHoldingsRecord : bibHoldingsRecords) {
             bibs.getBibs().add(rdbmsBibDocumentManager.retrieveBib(bibHoldingsRecord.getBibId()));
         }
         return bibs;
@@ -1569,14 +1569,14 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
 
         RdbmsItemDocumentManager rdbmsItemDocumentManager = RdbmsItemDocumentManager.getInstance();
         List<ItemRecord> itemRecords = (List<ItemRecord>) getBusinessObjectService().findMatching(ItemRecord.class, getHoldingsMap(id));
-        for(ItemRecord itemRecord : itemRecords) {
+        for (ItemRecord itemRecord : itemRecords) {
             Item item = rdbmsItemDocumentManager.buildItemContent(itemRecord);
             item.setHolding(holdingsTree.getHoldings());
             holdingsTree.getItems().add(item);
         }
 
         List<HoldingsItemRecord> holdingsItemRecords = (List<HoldingsItemRecord>) getBusinessObjectService().findMatching(HoldingsItemRecord.class, getHoldingsMap(id));
-        for(HoldingsItemRecord holdingsItemRecord : holdingsItemRecords) {
+        for (HoldingsItemRecord holdingsItemRecord : holdingsItemRecords) {
             holdingsTree.getItems().add(rdbmsItemDocumentManager.retrieveItem(holdingsItemRecord.getItemId(), null, null));
         }
 
@@ -1586,6 +1586,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
 
     /**
      * This method verifies the existence of linked documents to the holdings record. If exists throws exception with appropriate error message.
+     *
      * @param holdingsId
      */
     @Override
@@ -1602,7 +1603,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
                 throw docstoreException;
             }
             OleHoldings oleHoldings = workHoldingOlemlRecordProcessor.fromXML(deletingHoldingsTree.getHoldings().getContent());
-            if (oleHoldings.getGokbIdentifier() != null ) {
+            if (oleHoldings.getGokbIdentifier() != null) {
                 DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.HOLDINGS_GOKB_ID, "Holdings has imported from GOKB. So it cannot be deleted.");
                 throw docstoreException;
             }
@@ -1622,5 +1623,66 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             uuids = uuidsSB.substring(0, uuidsSB.length() - 1);
             checkUuidsToDelete(uuids, uuidCount);
         }
+    }
+
+    public void unbindWithOneBib(List<String> holdingsIds, String bibId) {
+
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        Set<String> holdingsIdList = new HashSet<>();
+        List<BibHoldingsRecord> bibHoldingsRecordList = new ArrayList<>();
+        criteria.put("bibId", DocumentUniqueIDPrefix.getDocumentId(bibId));
+        for (String holdingsId : holdingsIds) {
+            criteria.put("holdingsId", DocumentUniqueIDPrefix.getDocumentId(holdingsId));
+            bibHoldingsRecordList.addAll(getBusinessObjectService().findMatching(BibHoldingsRecord.class, criteria));
+        }
+        try {
+            if (bibHoldingsRecordList.size() > 0) {
+                getBusinessObjectService().delete(bibHoldingsRecordList);
+            }
+            holdingsIds.clear();
+            for (BibHoldingsRecord bibHoldingsRecord : bibHoldingsRecordList) {
+                holdingsIdList.add(DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML, bibHoldingsRecord.getHoldingsId()));
+            }
+            holdingsIds.addAll(holdingsIdList);
+        } catch (Exception e) {
+            DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.UN_BOUNDWITH_FAILED, e.getMessage());
+            throw docstoreException;
+        }
+
+    }
+
+    public void unbindWithAllBibs(List<String> holdingsIds, String bibId) {
+
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        Set<String> holdingsIdList = new HashSet<>();
+        List<BibHoldingsRecord> bibHoldingsRecordList = new ArrayList<>();
+        List<BibHoldingsRecord> bibHoldingsRecordsToDelete = new ArrayList<>();
+        for (String holdingsId : holdingsIds) {
+            criteria.put("holdingsId", DocumentUniqueIDPrefix.getDocumentId(holdingsId));
+            bibHoldingsRecordList.addAll(getBusinessObjectService().findMatching(BibHoldingsRecord.class, criteria));
+        }
+        if (bibHoldingsRecordList.size() > 0) {
+            for (BibHoldingsRecord bibHoldingsRecord : bibHoldingsRecordList) {
+                if (!bibHoldingsRecord.getBibId().equals(DocumentUniqueIDPrefix.getDocumentId(bibId))) {
+                    criteria.put("bibId", bibHoldingsRecord.getBibId());
+                    criteria.put("holdingsId", bibHoldingsRecord.getHoldingsId());
+                    bibHoldingsRecordsToDelete.addAll(getBusinessObjectService().findMatching(BibHoldingsRecord.class, criteria));
+                }
+            }
+            try {
+                if (bibHoldingsRecordsToDelete.size() > 0) {
+                    getBusinessObjectService().delete(bibHoldingsRecordsToDelete);
+                    holdingsIds.clear();
+                    for (BibHoldingsRecord bibHoldingsRecord : bibHoldingsRecordsToDelete) {
+                        holdingsIdList.add(DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML, bibHoldingsRecord.getHoldingsId()));
+                    }
+                    holdingsIds.addAll(holdingsIdList);
+                }
+            } catch (Exception e) {
+                DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.UN_BOUNDWITH_FAILED, e.getMessage());
+                throw docstoreException;
+            }
+        }
+
     }
 }

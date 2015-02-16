@@ -98,4 +98,8 @@ public interface RestService {
 
     String patchItemWithContent(String requestBody);
 
+    String unbindWithOneBib(String bibId, String requestBody);
+
+    String unbindWithAllBibs(String bibId, String requestBody);
+
 }

@@ -623,4 +623,13 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
         solrBibDocument.addField(URI_SEARCH,solrInputDocument.getFieldValue(URI_SEARCH));
     }
 
+    @Override
+    public void unbindOne(List<String> holdingsIds, String bibId) throws SolrServerException, IOException {
+
+    }
+
+    @Override
+    public void unbindAll(List<String> holdingsIds, String bibId) throws SolrServerException, IOException {
+
+    }
 }

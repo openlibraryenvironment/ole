@@ -1270,4 +1270,39 @@ public class DocstoreServiceImpl implements DocstoreService {
         return bibTrees;
     }
 
+    @Override
+    public void unbindWithOneBib(List<String> holdingsIds, String bibId) {
+        try {
+            getDocstoreStorageService().unbindWithOneBib(holdingsIds, bibId);
+        } catch (Exception e) {
+            LOG.error("Exception occurred in unbinding holdings with bibs ", e);
+            throw e;
+        }
+        try {
+            getDocstoreIndexService().unbindWithOneBib(holdingsIds, bibId);
+        } catch (Exception e) {
+            docstoreStorageService.rollback();
+            LOG.error("Exception occurred while indexing the unbinded holdings with bibs ", e);
+            throw e;
+        }
+
+    }
+
+    @Override
+    public void unbindWithAllBibs(List<String> holdingsIds, String bibId) {
+        try {
+            getDocstoreStorageService().unbindWithAllBibs(holdingsIds, bibId);
+        } catch (Exception e) {
+            LOG.error("Exception occurred in unbinding holdings with bibs ", e);
+            throw e;
+        }
+        try {
+            getDocstoreIndexService().unbindWithAllBibs(holdingsIds, bibId);
+        } catch (Exception e) {
+            docstoreStorageService.rollback();
+            LOG.error("Exception occurred while indexing the unbinded holdings with bibs ", e);
+            throw e;
+        }
+    }
+
 }

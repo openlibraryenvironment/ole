@@ -336,8 +336,10 @@
         <property name="items">
             <list>
                 <bean id="boundwith_button" parent="Uif-SecondaryActionButton"
-                      p:style="float:left;margin-left:40em"
+                      p:style="float:left;margin-left:20em"
                       p:actionLabel="Bound-with" p:actionScript="showTabs('performBoundwith');"/>
+                <bean id="undo_all_boundwith_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:20em" p:actionLabel="Undo All Bound-with" p:methodToCall="undoAllBoundwith"/>
+                <bean id="undo_one_boundwith_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:20em" p:actionLabel="Undo One Bound-with" p:methodToCall="undoOneBoundwith"/>
             </list>
         </property>
     </bean>

@@ -71,6 +71,8 @@ public class DocstoreRestClient implements DocstoreClient {
     private static String FIND_URL = "/doc/find";
     private static String BROWSE_URL = "browse/";
     private static String BOUND_URL = "/bound";
+    private static String UN_BIND_ONE_URL = "/unbind/one";
+    private static String UN_BIND_ALL_URL = "/unbind/all";
     private static String ANALYTIC_URL = "/analytic";
     private static String BREAK_ANALYTIC_URL = "/breakAnalytic";
     private static String TRANSFER_URL = "/transfer/";
@@ -1100,6 +1102,28 @@ public class DocstoreRestClient implements DocstoreClient {
         response.setResponseBody(postResponse);
         response.setResponse(httpResponse);
         return response;
+    }
+
+    @Override
+    public void unbindWithOneBib(List<String> holdingsIds, String bibId) {
+        String requestBody = buildIds(holdingsIds, "");
+        RestResponse restResponse = postRequest(requestBody, HOLDINGS_URL + bibId + UN_BIND_ONE_URL);
+        if (restResponse.getResponse().getStatusLine().getStatusCode() == 200) {
+            if (restResponse.getResponseBody().startsWith("<org.kuali.ole.docstore.common.exception")) {
+                throw DocstoreExceptionProcessor.fromXML(restResponse.getResponseBody());
+            }
+        }
+    }
+
+    @Override
+    public void unbindWithAllBibs(List<String> holdingsIds, String bibId) {
+        String requestBody = buildIds(holdingsIds, "");
+        RestResponse restResponse = postRequest(requestBody, HOLDINGS_URL + bibId + UN_BIND_ALL_URL);
+        if (restResponse.getResponse().getStatusLine().getStatusCode() == 200) {
+            if (restResponse.getResponseBody().startsWith("<org.kuali.ole.docstore.common.exception")) {
+                throw DocstoreExceptionProcessor.fromXML(restResponse.getResponseBody());
+            }
+        }
     }
 
 }

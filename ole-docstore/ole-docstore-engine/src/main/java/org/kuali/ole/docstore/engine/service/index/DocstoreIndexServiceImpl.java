@@ -220,4 +220,28 @@ public class DocstoreIndexServiceImpl implements DocstoreIndexService {
         documentIndexer.processBibTrees(bibTrees);
     }
 
+    @Override
+    public void unbindWithOneBib(List<String> holdingsIds, String bibId) {
+        DocumentIndexer documentIndexer = BibMarcIndexer.getInstance();
+        try {
+            documentIndexer.unbindOne(holdingsIds, bibId);
+        } catch (SolrServerException e) {
+            LOG.info("Exception :", e);
+        } catch (IOException e) {
+            LOG.info("Exception :", e);
+        }
+    }
+
+    @Override
+    public void unbindWithAllBibs(List<String> holdingsIds, String bibId) {
+        DocumentIndexer documentIndexer = BibMarcIndexer.getInstance();
+        try {
+            documentIndexer.unbindAll(holdingsIds, bibId);
+        } catch (SolrServerException e) {
+            LOG.info("Exception :", e);
+        } catch (IOException e) {
+            LOG.info("Exception :", e);
+        }
+    }
+
 }

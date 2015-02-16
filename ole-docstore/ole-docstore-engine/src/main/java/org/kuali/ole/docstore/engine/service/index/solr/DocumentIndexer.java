@@ -33,4 +33,8 @@ public interface DocumentIndexer {
 
     public void processBibTrees(BibTrees bibTrees);
 
+    public void unbindOne(List<String> holdingsIds, String bibId) throws SolrServerException, IOException;
+
+    public void unbindAll(List<String> holdingsIds, String bibId) throws SolrServerException, IOException;
+
 }

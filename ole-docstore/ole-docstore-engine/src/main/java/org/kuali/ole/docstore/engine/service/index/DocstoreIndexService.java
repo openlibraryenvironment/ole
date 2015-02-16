@@ -63,4 +63,8 @@ public interface DocstoreIndexService {
     public void breakAnalyticsRelation(String seriesHoldingsId, List<String> itemIds);
 
     public void processBibTrees(BibTrees bibTrees);
+
+    public void unbindWithOneBib(List<String> holdingsIds, String bibId);
+
+    public void unbindWithAllBibs(List<String> holdingsIds, String bibId);
 }

@@ -39,6 +39,7 @@ public class DocstoreResources {
     public static final String NO_PIECE_FLAG_BASED_ERROR_GREATER = "ds.error.no.piece.greater.error";
     public static final String NO_PIECE_FLAG_BASED_ERROR_VALIDATION = "ds.error.no.piece.blank";
     public static final String BOUNDWITH_FAILED = "error.boundwith.failed";
+    public static final String UN_BOUNDWITH_FAILED = "error.unboundwith.failed";
     public static final String ANALYTICS_FAILED = "error.analytics.failed";
     public static final String LICENSE_ID_NOT_FOUND = "ds.error.license.notfound";
 

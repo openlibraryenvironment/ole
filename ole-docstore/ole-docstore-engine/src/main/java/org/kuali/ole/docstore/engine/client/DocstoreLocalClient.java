@@ -294,4 +294,15 @@ public class DocstoreLocalClient implements DocstoreClient {
     public List<Bib> acquisitionSearchRetrieveBibs(List<String> bibIds) {
         return ds.retrieveBibs(bibIds);
     }
+
+    @Override
+    public void unbindWithOneBib(List<String> holdingsIds, String bibId) {
+        ds.unbindWithOneBib(holdingsIds,bibId);
+    }
+
+    @Override
+    public void unbindWithAllBibs(List<String> holdingsIds, String bibId) {
+        ds.unbindWithAllBibs(holdingsIds,bibId);
+    }
+
 }
