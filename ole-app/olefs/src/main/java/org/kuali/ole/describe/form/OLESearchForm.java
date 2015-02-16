@@ -24,7 +24,6 @@ public class OLESearchForm extends UifFormBase {
     private SearchParams searchParams;
     private SearchResponse searchResponse;
     private String docType;
-    private String inDocType;
     private String searchType;
     private int pageSize = 10;
     private String browseField;
@@ -108,13 +107,6 @@ public class OLESearchForm extends UifFormBase {
         return this.searchConditions;
     }
 
-    public String getInDocType() {
-        return inDocType;
-    }
-
-    public void setInDocType(String inDocType) {
-        this.inDocType = inDocType;
-    }
 
     public String getHoldings() {
         return holdings;

@@ -173,7 +173,6 @@ public class OLESearchController extends UifControllerBase {
         this.start = 0;
         LOG.debug("Inside the olesearchform start method");
         OLESearchForm oleSearchForm = (OLESearchForm) form;
-        oleSearchForm.setInDocType(null);
         oleSearchForm.setWorkBibDocumentList(null);
         oleSearchForm.setWorkHoldingsDocumentList(null);
         oleSearchForm.setWorkItemDocumentList(null);
