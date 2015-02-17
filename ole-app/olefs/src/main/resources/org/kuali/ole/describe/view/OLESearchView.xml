@@ -285,7 +285,7 @@
                                 </property>
                             </bean>
                             <bean id="SearchConditions_DocType_search" parent="Base-Uif-InputField"
-                                  p:propertyName="searchField.docType" p:label="DocType"
+                                  p:propertyName="searchField.docType" p:label="In DocType"
                                   p:optionsFinderClass="org.kuali.ole.describe.keyvalue.SearchDocTypeKeyvalueFinder" p:onChangeScript="submitForm('changeDocType', null, null, null);" >
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
