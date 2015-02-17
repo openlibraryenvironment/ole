@@ -584,6 +584,7 @@ function openHelpWindow(url) {
 }
 function search() {
     var date =new Date();
+    jq("#hiddenSearchFields_h9").val("false")
     localStorage.startTime = date.getMilliseconds();
     submitForm('search', null, null, true, function () {
         searching();
