@@ -779,9 +779,9 @@
 			itemColSpan="${accountColumnCount}" count="${ctr}"
 			isInvoice="true" />
 		<!-- End of Notes Tag  -->
-					<purap:purapGeneralAccounting
+					<purap:purapGeneralAccounting itemAttributes="${itemAttributes}"
 									accountPrefix="document.item[${ctr}]."
-									itemColSpan="${accountColumnCount}" />
+									itemColSpan="${accountColumnCount}" count="${ctr}"/>
 
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>

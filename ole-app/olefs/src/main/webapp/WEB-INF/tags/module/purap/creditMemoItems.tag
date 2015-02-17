@@ -251,9 +251,9 @@
 			</td>			
 		</tr>
 
-		<purap:purapGeneralAccounting
+		<purap:purapGeneralAccounting itemAttributes="${itemAttributes}"
 			accountPrefix="document.item[${ctr}]." 
-			itemColSpan="${mainColumnCount-1}"/>	
+			itemColSpan="${mainColumnCount-1}" count="${ctr}"/>
 		<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 			</tbody>
 		</c:if>

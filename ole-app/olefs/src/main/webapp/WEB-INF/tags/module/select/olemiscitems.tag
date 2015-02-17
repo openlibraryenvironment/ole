@@ -450,16 +450,16 @@
 </tr>
 
 <c:if test="${amendmentEntry}">
-    <purap:purapGeneralAccounting
+    <purap:purapGeneralAccounting itemAttributes="${itemAttributes}"
             accountPrefix="document.item[${ctr}]."
-            itemColSpan="${mainColumnCount+colSpanUSD-6}"/>
+            itemColSpan="${mainColumnCount+colSpanUSD-6}" count="${ctr}"/>
 </c:if>
 
 <c:if test="${!empty KualiForm.editingMode['allowItemEntry'] && !empty itemLine.itemUnitPrice || empty KualiForm.editingMode['allowItemEntry']}">
     <c:if test="${!amendmentEntry && KualiForm.document.statusCode!='AFOA' || KualiForm.document.statusCode=='AFOA' && !empty KualiForm.document.items[ctr].itemUnitPrice}">
-        <purap:purapGeneralAccounting
+        <purap:purapGeneralAccounting itemAttributes="${itemAttributes}"
                 accountPrefix="document.item[${ctr}]."
-                itemColSpan="${mainColumnCount+colSpanUSD-6}" />
+                itemColSpan="${mainColumnCount+colSpanUSD-6}" count="${ctr}"/>
     </c:if>
 </c:if>
 </c:if>

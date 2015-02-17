@@ -1008,9 +1008,9 @@
                  itemColSpan="${accountColumnCount}" count="${ctr}"
                  isPaymentRequest="true" />
 <!-- End of Notes Tag  -->
-<purap:purapGeneralAccounting
+<purap:purapGeneralAccounting itemAttributes="${itemAttributes}"
         accountPrefix="document.item[${ctr}]."
-        itemColSpan="${accountColumnCount}" />
+        itemColSpan="${accountColumnCount}"  count="${ctr}"/>
 <select:oleDonor itemAttributes="${itemAttributes}"
                  accountPrefix="document.item[${ctr}]."
                  itemColSpan="${accountColumnCount}" count="${ctr}"

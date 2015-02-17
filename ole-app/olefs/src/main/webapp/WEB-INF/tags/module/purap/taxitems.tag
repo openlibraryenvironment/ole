@@ -106,9 +106,9 @@
 			</c:if>								
 		</tr>	
 		<c:if test="${empty KualiForm.editingMode['allowItemEntry'] || !empty itemLine.itemExtendedPrice}">
-		    <purap:purapGeneralAccounting 
+		    <purap:purapGeneralAccounting itemAttributes="${itemAttributes}"
 			    accountPrefix="document.item[${ctr}]."
-			    itemColSpan="${mainColumnCount}" />
+			    itemColSpan="${mainColumnCount}" count="${ctr}"/>
 		</c:if>
 	</c:if>
 </logic:iterate>

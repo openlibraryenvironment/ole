@@ -762,9 +762,9 @@
     <c:set target="${KualiForm.editingMode}" property="viewOnly" value="true" />
 
 </c:if>
-<purap:purapGeneralAccounting
+<purap:purapGeneralAccounting itemAttributes="${itemAttributes}"
         accountPrefix="document.item[${ctr}]."
-        itemColSpan="${accountColumnCount}" />
+        itemColSpan="${accountColumnCount}" count="${ctr}"/>
 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
     </tbody>
 </c:if>

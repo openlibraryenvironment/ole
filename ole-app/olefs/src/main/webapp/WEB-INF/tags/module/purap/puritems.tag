@@ -802,9 +802,9 @@
 							accountPrefix="document.item[${ctr}]." 
 							itemColSpan="${accountColumnCount}" count="${ctr}"/>
 						<!-- End of Notes Tag -->
-						<purap:purapGeneralAccounting
+						<purap:purapGeneralAccounting itemAttributes="${itemAttributes}"
 							accountPrefix="document.item[${ctr}]." 
-							itemColSpan="${accountColumnCount}" />
+							itemColSpan="${accountColumnCount}" count="${ctr}"/>
 						
     				</c:when>
 	        		<c:otherwise>
@@ -814,9 +814,9 @@
 							accountPrefix="document.item[${ctr}]." 
 							itemColSpan="${accountColumnCount}" count="${ctr}"/>
 						<!-- End of Notes Tag -->
-						<purap:purapGeneralAccounting 
+						<purap:purapGeneralAccounting itemAttributes="${itemAttributes}"
 							accountPrefix="document.item[${ctr}]." 
-							itemColSpan="${accountColumnCount}" />
+							itemColSpan="${accountColumnCount}" count="${ctr}"/>
 						
 				    </c:otherwise>
 				    </c:choose>
@@ -828,9 +828,9 @@
 							accountPrefix="document.item[${ctr}]." 
 							itemColSpan="${accountColumnCount}" count="${ctr}"/>
 					<!-- End of Notes Tag -->
-					<purap:purapGeneralAccounting
+					<purap:purapGeneralAccounting itemAttributes="${itemAttributes}"
 						accountPrefix="document.item[${ctr}]." 
-						itemColSpan="${accountColumnCount}" />
+						itemColSpan="${accountColumnCount}" count="${ctr}"/>
 										
 				</c:when>
 				<c:when test="${(!amendmentEntry)}">
@@ -842,9 +842,9 @@
 							accountPrefix="document.item[${ctr}]." 
 							itemColSpan="${accountColumnCount}" count="${ctr}"/>
 					<!-- End of Notes Tag -->
-					<purap:purapGeneralAccounting 
+					<purap:purapGeneralAccounting itemAttributes="${itemAttributes}"
 						accountPrefix="document.item[${ctr}]." 
-						itemColSpan="${accountColumnCount}" />
+						itemColSpan="${accountColumnCount}" count="${ctr}"/>
 						
 				</c:when>
 				</c:choose>
