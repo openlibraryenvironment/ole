@@ -210,12 +210,13 @@ public class OLEAnnualStewardshipReportController extends UifControllerBase {
 
     private boolean getSearchResultDisplayRowBasedOnDate(String poLineItemId, Date fromDate, Date toDate) {
         Map map = new HashMap();
-        map.put(OLEConstants.BIB_ITEM_ID, poLineItemId);
-        OlePurchaseOrderItem olePurchaseOrderItem = boService.findByPrimaryKey(OlePurchaseOrderItem.class, map);
+        map.put(OLEConstants.PURAP_DOC_IDENTIFIER, poLineItemId);
+       /* OlePurchaseOrderItem olePurchaseOrderItem = boService.findByPrimaryKey(OlePurchaseOrderItem.class, map);
         if (olePurchaseOrderItem != null && olePurchaseOrderItem.getDocumentNumber() != null) {
             map.clear();
-            map.put(OLEConstants.DOC_NUM, olePurchaseOrderItem.getDocumentNumber());
+            map.put(OLEConstants.DOC_NUM, olePurchaseOrderItem.getDocumentNumber());*/
             OlePurchaseOrderDocument olePurchaseOrderDocument = boService.findByPrimaryKey(OlePurchaseOrderDocument.class, map);
+            if(olePurchaseOrderDocument != null){
             Date purchaseOrderDate = olePurchaseOrderDocument.getPurchaseOrderCreateTimestamp();
             try {
                 String begin = null;
@@ -257,7 +258,9 @@ public class OLEAnnualStewardshipReportController extends UifControllerBase {
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.HOLDINGS.getCode(), OLEConstants.LOACTION_LEVEL_DISPLAY));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.HOLDINGS.getCode(), OLEConstants.CALL_NUM_PREFIX_DISPLAY));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.HOLDINGS.getCode(), OLEConstants.CALL_NUM_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.HOLDINGS.getCode(), OLEConstants.OVERLAY_HOLDINGS_IDENTIFIER));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), Bib.TITLE));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), Bib.BIBIDENTIFIER));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), Bib.AUTHOR));
         searchParams.setPageSize(10000);
         if (LOG.isDebugEnabled()){
@@ -313,6 +316,11 @@ public class OLEAnnualStewardshipReportController extends UifControllerBase {
                                 searchResultDisplayRow.setTitle(searchResultField.getFieldValue());
                             } else if (searchResultField.getDocType().equalsIgnoreCase(DocType.BIB.getCode()) && searchResultField.getFieldName().equalsIgnoreCase(Bib.AUTHOR)) {
                                 searchResultDisplayRow.setAuthor(searchResultField.getFieldValue());
+                            }
+                            else if (searchResultField.getDocType().equalsIgnoreCase(DocType.BIB.getCode()) && searchResultField.getFieldName().equalsIgnoreCase(Bib.BIBIDENTIFIER)) {
+                                searchResultDisplayRow.setBibIdentifier(searchResultField.getFieldValue());
+                            }else if (searchResultField.getDocType().equalsIgnoreCase(DocType.HOLDINGS.getCode()) && searchResultField.getFieldName().equalsIgnoreCase(OLEConstants.OVERLAY_HOLDINGS_IDENTIFIER)) {
+                                searchResultDisplayRow.setHoldingsIdentifier(searchResultField.getFieldValue());
                             }
                         }
                         if (StringUtils.isEmpty(itemLocation)) {
@@ -411,8 +419,12 @@ public class OLEAnnualStewardshipReportController extends UifControllerBase {
                                 searchResultDisplayRow.setPoLineItemIds(poLineItemIds);
                             } else if (searchResultField.getDocType().equalsIgnoreCase(DocType.BIB.getCode()) && searchResultField.getFieldName().equalsIgnoreCase(Bib.TITLE)) {
                                 searchResultDisplayRow.setTitle(searchResultField.getFieldValue());
+                            }else if (searchResultField.getDocType().equalsIgnoreCase(DocType.BIB.getCode()) && searchResultField.getFieldName().equalsIgnoreCase(Bib.BIBIDENTIFIER)) {
+                                searchResultDisplayRow.setBibIdentifier(searchResultField.getFieldValue());
                             } else if (searchResultField.getDocType().equalsIgnoreCase(DocType.BIB.getCode()) && searchResultField.getFieldName().equalsIgnoreCase(Bib.AUTHOR)) {
                                 searchResultDisplayRow.setAuthor(searchResultField.getFieldValue());
+                            }else if (searchResultField.getDocType().equalsIgnoreCase(DocType.EHOLDINGS.getCode()) && searchResultField.getFieldName().equalsIgnoreCase(OLEConstants.OVERLAY_HOLDINGS_IDENTIFIER)) {
+                                searchResultDisplayRow.setHoldingsIdentifier(searchResultField.getFieldValue());
                             }
                         }
                         if (StringUtils.isNotEmpty(callNumberPrefix) && StringUtils.isNotEmpty(callNumber)) {

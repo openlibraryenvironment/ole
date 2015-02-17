@@ -122,10 +122,14 @@
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="Donor Code" p:propertyName="donorCode"/>
-                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{#line.bibIdentifier}&amp;editable=true"
+                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank"/>
                 <bean parent="Uif-DataField" p:label="Author" p:propertyName="author"/>
                 <bean parent="Uif-DataField" p:label="Imprint" p:propertyName="imprint"/>
-                <bean parent="Uif-DataField" p:label="Location" p:propertyName="locationName"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=@{#line.itemIdentifier}&amp;bibId=@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}&amp;editable=true"
+                      p:label="Location" p:linkText="@{#line.locationName}" p:target="_blank"/>
                 <bean parent="Uif-DataField" p:label="Prefix+CallNumber" p:propertyName="prefixAndCallnumber"/>
                 <bean parent="Uif-DataField" p:label="Enumeration" p:propertyName="enumeration"/>
                 <bean parent="Uif-DataField" p:label="Chronology" p:propertyName="chronology"/>
