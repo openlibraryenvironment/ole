@@ -194,38 +194,42 @@ public class OLEEResourceHelperService {
     }
 
     private void addInvoiceVendors(Map<String, VendorDetail> vendorDetailMap, List<OLEEResourceInvoices> oleERSInvoices) {
-
-        for (OLEEResourceInvoices oleeResourceInvoices : oleERSInvoices) {
-
-            Map map = new HashMap();
-            map.put("purapDocumentIdentifier", oleeResourceInvoices.getInvoiceId());
-            List<OleInvoiceDocument> oleInvoiceDocuments = (List<OleInvoiceDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleInvoiceDocument.class, map);
-
-            Map fieldValues = new HashMap();
-            fieldValues.put(OleSelectConstant.VENDOR_HEADER_GENERATED_ID, oleInvoiceDocuments.get(0).getVendorId());
-            List<VendorDetail> vendorDetails = new ArrayList<>(KRADServiceLocator.getBusinessObjectService().findMatching(VendorDetail.class, fieldValues));
-            for (VendorDetail vd : vendorDetails) {
-                vendorDetailMap.put(vd.getVendorNumber(), vd);
+        if (oleERSInvoices != null) {
+            for (OLEEResourceInvoices oleeResourceInvoices : oleERSInvoices) {
+                Map map = new HashMap();
+                map.put(OLEConstants.PURAP_DOC_IDENTIFIER, oleeResourceInvoices.getInvoiceId());
+                List<OleInvoiceDocument> oleInvoiceDocuments = (List<OleInvoiceDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleInvoiceDocument.class, map);
+                if (oleInvoiceDocuments != null && oleInvoiceDocuments.size() > 0) {
+                    Map fieldValues = new HashMap();
+                    fieldValues.put(OleSelectConstant.VENDOR_HEADER_GENERATED_ID, oleInvoiceDocuments.get(0).getVendorId());
+                    List<VendorDetail> vendorDetails = new ArrayList<>(KRADServiceLocator.getBusinessObjectService().findMatching(VendorDetail.class, fieldValues));
+                    if (vendorDetails != null) {
+                        for (VendorDetail vd : vendorDetails) {
+                            vendorDetailMap.put(vd.getVendorNumber(), vd);
+                        }
+                    }
+                }
             }
-
         }
     }
 
     private void addPOItemVendors(Map<String, VendorDetail> vendorDetailMap, List<OLEEResourcePO> oleeResourcePOs) {
-        for (OLEEResourcePO oleeResourcePO : oleeResourcePOs) {
-
-            Map map = new HashMap();
-            map.put("purapDocumentIdentifier", oleeResourcePO.getOlePOItemId());
-            List<OlePurchaseOrderDocument> olePurchaseOrderDocuments = (List<OlePurchaseOrderDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePurchaseOrderDocument.class, map);
-
-            Map fieldValues = new HashMap();
-            fieldValues.put(OleSelectConstant.VENDOR_HEADER_GENERATED_ID, olePurchaseOrderDocuments.get(0).getVendorHeaderGeneratedIdentifier());
-            List<VendorDetail> vendorDetails = new ArrayList<>(KRADServiceLocator.getBusinessObjectService().findMatching(VendorDetail.class, fieldValues));
-
-            for (VendorDetail vd : vendorDetails) {
-                vendorDetailMap.put(vd.getVendorNumber(), vd);
+        if (oleeResourcePOs != null) {
+            for (OLEEResourcePO oleeResourcePO : oleeResourcePOs) {
+                Map map = new HashMap();
+                map.put(OLEConstants.PURAP_DOC_IDENTIFIER, oleeResourcePO.getOlePOItemId());
+                List<OlePurchaseOrderDocument> olePurchaseOrderDocuments = (List<OlePurchaseOrderDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePurchaseOrderDocument.class, map);
+                if (olePurchaseOrderDocuments != null && olePurchaseOrderDocuments.size() > 0) {
+                    Map fieldValues = new HashMap();
+                    fieldValues.put(OleSelectConstant.VENDOR_HEADER_GENERATED_ID, olePurchaseOrderDocuments.get(0).getVendorHeaderGeneratedIdentifier());
+                    List<VendorDetail> vendorDetails = new ArrayList<>(KRADServiceLocator.getBusinessObjectService().findMatching(VendorDetail.class, fieldValues));
+                    if (vendorDetails != null) {
+                        for (VendorDetail vd : vendorDetails) {
+                            vendorDetailMap.put(vd.getVendorNumber(), vd);
+                        }
+                    }
+                }
             }
-
         }
     }
 

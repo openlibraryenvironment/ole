@@ -462,9 +462,11 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
         SolrDocument solrBibDocument = getSolrDocumentByUUID(bibId);
         Collection<Object> bibValues = solrBibDocument.getFieldValues(URI_SEARCH);
         Object holdigsValue = solrInputDocument.getFieldValue(URI_SEARCH);
-        for (Object bibValue : bibValues) {
-            if (!((String) bibValue).equalsIgnoreCase(((String) holdigsValue))) {
-                solrBibDocument.addField(URI_SEARCH, solrInputDocument.getFieldValue(URI_SEARCH));
+        if (bibValues != null) {
+            for (Object bibValue : bibValues) {
+                if (holdigsValue!=null && !((String) bibValue).equalsIgnoreCase(((String) holdigsValue))) {
+                    solrBibDocument.addField(URI_SEARCH, solrInputDocument.getFieldValue(URI_SEARCH));
+                }
             }
         }
     }
