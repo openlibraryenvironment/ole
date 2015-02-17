@@ -185,8 +185,15 @@ public class BoundwithController extends OLESearchController {
         }
         BoundwithForm boundwithForm = (BoundwithForm) form;
         boundwithForm.getSearchConditions().clear();
+        if (boundwithForm.getDocType() == null) {
+            boundwithForm.setDocType(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode());
+        }
         SearchCondition searchCondition = new SearchCondition();
         searchCondition.setOperator("AND");
+        SearchField searchField = new SearchField();
+        searchField.setFieldName("any");
+        searchField.setDocType(boundwithForm.getDocType());
+        searchCondition.setSearchField(searchField);
         boundwithForm.getSearchConditions().add(searchCondition);
 
 
