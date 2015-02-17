@@ -1594,7 +1594,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         String uuids = null;
         int uuidCount = 0;
         HoldingsTree deletingHoldingsTree = retrieveHoldingsTree(holdingsId, null, null);
-        if (null != deletingHoldingsTree && null != deletingHoldingsTree.getHoldings()) {
+        if (null != deletingHoldingsTree && null != deletingHoldingsTree.getHoldings() && null != deletingHoldingsTree.getItems() &&  deletingHoldingsTree.getItems().size() > 0) {
             if (deletingHoldingsTree.getHoldings().isBoundWithBib()) {
                 DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.BOUND_WITH_DELETE_MESSAGE, DocstoreResources.BOUND_WITH_DELETE_MESSAGE);
                 throw docstoreException;

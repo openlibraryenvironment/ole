@@ -401,7 +401,13 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
             StringBuilder uuidsSB = new StringBuilder();
             uuidsSB.append(bibId).append(DocStoreConstants.COMMA);
             uuidCount++;
-            for (HoldingsTree holdingsTree : deletingBibTree.getHoldingsTrees()) {
+            List<HoldingsTree> holdingsTrees = deletingBibTree.getHoldingsTrees();
+            if (holdingsTrees.size() == 1) {
+                if (holdingsTrees.get(0).getItems().size() == 0) {
+                       return;
+                }
+            }
+            for (HoldingsTree holdingsTree : holdingsTrees) {
                 if (null != holdingsTree.getHoldings() && null != holdingsTree.getHoldings().getId()) {
                     if (holdingsTree.getHoldings().isBoundWithBib()) {
                         DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.BOUND_WITH_DELETE_MESSAGE, DocstoreResources.BOUND_WITH_DELETE_MESSAGE);
