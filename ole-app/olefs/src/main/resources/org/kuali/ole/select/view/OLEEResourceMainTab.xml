@@ -88,7 +88,7 @@
                                   p:fieldLabel.colSpan="2"
                                   p:width="60%" p:fieldLabel.width="40%">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="50" p:maxLength="100" p:textExpand="true"/>
+                                    <bean parent="Uif-TextControl" p:size="50" p:maxLength="200" p:textExpand="true"/>
                                 </property>
                             </bean>
 
