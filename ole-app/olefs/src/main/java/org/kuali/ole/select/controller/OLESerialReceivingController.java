@@ -20,6 +20,7 @@ import org.kuali.ole.service.impl.OLESerialReceivingService;
 import org.kuali.ole.service.impl.OLESerialReceivingServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.util.DocstoreUtil;
+import org.kuali.ole.util.StringUtil;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -86,6 +87,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                 HttpServletRequest request, HttpServletResponse response) {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         try {
             String statusCode = oleSerialReceivingDocument.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
             if (statusCode.equalsIgnoreCase(DocumentStatus.INITIATED.getCode()) || statusCode.equalsIgnoreCase(DocumentStatus.SAVED.getCode())) {
@@ -136,6 +138,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
+        oleSerialReceivingDocument.setCurrentActionPerformed("receive");
         return getUIFModelAndView(oleSerialReceivingForm);
     }
     @Override
@@ -144,6 +147,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                    HttpServletRequest request, HttpServletResponse response){
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         Note note = documentService.createNoteFromDocument(oleSerialReceivingDocument, OLEConstants.SRR_ROUTE_NOTES);;
         oleSerialReceivingDocument.addNote(note);
         ModelAndView modelAndView = super.route(oleSerialReceivingForm, result, request, response);
@@ -158,6 +162,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         ModelAndView modelAndView = super.docHandler(oleSerialReceivingForm, result, request, response);
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         String vendorId = oleSerialReceivingDocument.getVendorId();
         oleSerialReceivingDocument.getDocumentHeader().setDocumentDescription(OLEConstants.SERIAL_REC_DESC + oleSerialReceivingForm.getDocument().getDocumentNumber());
         if (oleSerialReceivingDocument.getUrgentNote() != null) {
@@ -316,6 +321,9 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                        HttpServletRequest request, HttpServletResponse response) {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        if(!StringUtils.isNotBlank(oleSerialReceivingDocument.getCurrentActionPerformed())&& oleSerialReceivingDocument.getCurrentActionPerformed().equals("recieve")){
+            oleSerialReceivingDocument.setCurrentActionPerformed("");
+        }
         return getUIFModelAndView(oleSerialReceivingForm);
     }
 
@@ -324,6 +332,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                               HttpServletRequest request, HttpServletResponse response) {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         oleSerialReceivingDocument.setConfirmMessage(OLEConstants.CONFIRM_MSG_RETURN_TO_SEARCH);
         oleSerialReceivingDocument.setReturnToSearch(true);
         return getUIFModelAndView(oleSerialReceivingForm);
@@ -335,6 +344,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                      HttpServletRequest request, HttpServletResponse response) {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         String statusCode = oleSerialReceivingDocument.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
         if (oleSerialReceivingDocument.getUnboundLocation() != null && !isValidLocation(oleSerialReceivingDocument.getUnboundLocation())) {
             GlobalVariables.getMessageMap().putError(OLEKeyConstants.SERIAL_UNBOUND_LOCATION_FIELD, OLEKeyConstants.SERIAL_UNBOUND_LOCATION);
@@ -354,6 +364,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                               HttpServletRequest request, HttpServletResponse response) {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         try {
             String statusCode = oleSerialReceivingDocument.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
             if (statusCode.equalsIgnoreCase(DocumentStatus.INITIATED.getCode()) || statusCode.equalsIgnoreCase(DocumentStatus.SAVED.getCode())) {
@@ -380,6 +391,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         List<OLESerialReceivingHistory> oleSerialReceivingHistoryLists = oleSerialReceivingDocument.getOleSerialReceivingHistoryList();
         if (oleSerialReceivingHistoryLists != null) {
             for(int serialReceivingHistory=0; serialReceivingHistory<oleSerialReceivingHistoryLists.size(); serialReceivingHistory++) {
@@ -460,6 +472,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         String spclIssueNote = oleSerialReceivingDocument.getSpecialIssueNote();
         if (spclIssueNote != null && !spclIssueNote.isEmpty()) {
             oleSerialReceivingDocument.setEnumerationCaptionLevel1(spclIssueNote);
@@ -476,6 +489,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         try {
             String statusCode = oleSerialReceivingDocument.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
             if (statusCode.equalsIgnoreCase(DocumentStatus.INITIATED.getCode()) || statusCode.equalsIgnoreCase(DocumentStatus.SAVED.getCode())) {
@@ -523,6 +537,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                         HttpServletRequest request, HttpServletResponse response) {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         try {
             OLESerialReceivingService oleSerialReceivingService = new OLESerialReceivingServiceImpl();
             oleSerialReceivingService.updateEnumValues(oleSerialReceivingDocument);
@@ -548,6 +563,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                               HttpServletRequest request, HttpServletResponse response) {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         oleSerialReceivingDocument.setUrgentNote(oleSerialReceivingDocument.getUrgentDialogNote());
         return getUIFModelAndView(oleSerialReceivingForm);
     }
@@ -558,6 +574,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         try {
             OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+            oleSerialReceivingDocument.setCurrentActionPerformed("");
             String statusCode = oleSerialReceivingDocument.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
             if (statusCode.equalsIgnoreCase(DocumentStatus.SAVED.getCode())) {
                 Date date = new Date(System.currentTimeMillis());
@@ -587,6 +604,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
         try {
             Date date = new Date(System.currentTimeMillis());
             OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+            oleSerialReceivingDocument.setCurrentActionPerformed("");
             String statusCode = oleSerialReceivingDocument.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
             if (statusCode.equalsIgnoreCase(DocumentStatus.SAVED.getCode())) {
                 for (OLESerialReceivingHistory oleSerialReceivingHistory : oleSerialReceivingDocument.getOleSerialReceivingHistoryList()) {
@@ -623,6 +641,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         try {
             OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+            oleSerialReceivingDocument.setCurrentActionPerformed("");
             String statusCode = oleSerialReceivingDocument.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
             if (statusCode.equalsIgnoreCase(DocumentStatus.SAVED.getCode())) {
                 for (OLESerialReceivingHistory oleSerialReceivingHistory : oleSerialReceivingDocument.getOleSerialReceivingHistoryList()) {
@@ -650,6 +669,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         try {
             OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+            oleSerialReceivingDocument.setCurrentActionPerformed("");
             String statusCode = oleSerialReceivingDocument.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
             if (statusCode.equalsIgnoreCase(DocumentStatus.SAVED.getCode())) {
                 for (OLESerialReceivingHistory oleSerialReceivingHistory : oleSerialReceivingDocument.getOleSerialReceivingHistoryList()) {
@@ -678,6 +698,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         try {
             OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+            oleSerialReceivingDocument.setCurrentActionPerformed("");
             String statusCode = oleSerialReceivingDocument.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
             if (statusCode.equalsIgnoreCase(DocumentStatus.SAVED.getCode())) {
                 for (OLESerialReceivingHistory oleSerialReceivingHistory : oleSerialReceivingDocument.getOleSerialReceivingHistoryList()) {
@@ -703,6 +724,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                      HttpServletRequest request, HttpServletResponse response) {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         if (oleSerialReceivingDocument.getVendorAliasName() != null && oleSerialReceivingDocument.getVendorAliasName().length() > 0) {
             OLESerialReceivingService oleSerialReceivingService = new OLESerialReceivingServiceImpl();
             oleSerialReceivingService.validateVendorDetailsForSelect(oleSerialReceivingDocument);
@@ -718,6 +740,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                      HttpServletRequest request, HttpServletResponse response) {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         OLESerialReceivingService oleSerialReceivingService = new OLESerialReceivingServiceImpl();
         oleSerialReceivingService.populateVendorAliasNameFromVendorName(oleSerialReceivingDocument);
         return getUIFModelAndView(oleSerialReceivingForm);
@@ -735,6 +758,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oldSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oldSerialReceivingDocument.setCurrentActionPerformed("");
         ModelAndView modelAndView = super.disapprove(form, result, request, response);
         form.setDocId(null);
         form.setCommand(KewApiConstants.INITIATE_COMMAND);
@@ -757,6 +781,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                HttpServletRequest request, HttpServletResponse response) {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         List<OLESerialRelatedPODocument> oleSerialRelatedPODocuments = oleSerialReceivingDocument.getOleSerialRelatedPODocuments();
         for (OLESerialRelatedPODocument oleSerialRelatedPODocument : oleSerialRelatedPODocuments) {
             if (oleSerialRelatedPODocument.isSelectPO()) {
@@ -777,6 +802,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                  HttpServletRequest request, HttpServletResponse response) {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         return getUIFModelAndView(oleSerialReceivingForm);
     }
 
@@ -785,6 +811,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                      HttpServletRequest request, HttpServletResponse response) {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         oleSerialReceivingDocument.setSerialPOErrMsg("Select At least One PO");
         return getUIFModelAndView(oleSerialReceivingForm);
     }
@@ -794,6 +821,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                                                    HttpServletRequest request, HttpServletResponse response) {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         OLESerialReceivingService oleSerialReceivingService = new OLESerialReceivingServiceImpl();
         oleSerialReceivingService.readReceivingRecordType(oleSerialReceivingDocument);
         oleSerialReceivingService.updateEnumCaptionValues(oleSerialReceivingDocument, null);
@@ -836,6 +864,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingService oleSerialReceivingService = new OLESerialReceivingServiceImpl();
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         for (OLESerialReceivingHistory oleSerialReceivingHistory : oleSerialReceivingDocument.getOleSerialReceivingHistoryList()) {
             if (StringUtils.isNotBlank(oleSerialReceivingHistory.getSerialReceivingRecordHistoryId())
                     && StringUtils.isNotBlank(oleSerialReceivingDocument.getSerialReceiptHistoryId()) ) {
@@ -860,6 +889,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingService oleSerialReceivingService = new OLESerialReceivingServiceImpl();
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         for (OLESerialReceivingHistory oleSerialReceivingHistory : oleSerialReceivingDocument.getOleSerialReceivingHistoryList()) {
             if (StringUtils.isNotBlank(oleSerialReceivingHistory.getSerialReceivingRecordHistoryId())
                     && StringUtils.isNotBlank(oleSerialReceivingDocument.getSerialReceiptHistoryId()) ) {
@@ -886,6 +916,8 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
     public ModelAndView loadHistoryRecords(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                 HttpServletRequest request, HttpServletResponse response) {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
+        OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
+        oleSerialReceivingDocument.setCurrentActionPerformed("");
         return getUIFModelAndView(oleSerialReceivingForm);
     }
 

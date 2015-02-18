@@ -159,6 +159,8 @@ public class OLESerialReceivingDocument extends TransactionalDocumentBase {
 
     private boolean displayIndexHistory = false;
 
+    private String currentActionPerformed;
+
     public boolean isDisplayMainHistory() {
         return displayMainHistory;
     }
@@ -1256,5 +1258,13 @@ public class OLESerialReceivingDocument extends TransactionalDocumentBase {
         String serverName = docHandlerUrl.substring(0, endSubString);
         String handler = docHandlerUrl.substring(endSubString + 1, docHandlerUrl.lastIndexOf("?"));
         return serverName + "/" + KRADConstants.PORTAL_ACTION + "?channelTitle=" + docType.getName() + "&channelUrl=" + handler + "?" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=" + KRADConstants.DOC_HANDLER_METHOD + "&" + KRADConstants.PARAMETER_DOC_ID + "=" + poDocNumber + "&" + KRADConstants.PARAMETER_COMMAND + "=" + KewApiConstants.DOCSEARCH_COMMAND;
+    }
+
+    public String getCurrentActionPerformed() {
+        return currentActionPerformed;
+    }
+
+    public void setCurrentActionPerformed(String currentActionPerformed) {
+        this.currentActionPerformed = currentActionPerformed;
     }
 }

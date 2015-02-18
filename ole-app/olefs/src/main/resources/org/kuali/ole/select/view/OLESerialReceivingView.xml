@@ -150,6 +150,7 @@
                 <ref bean="hdnClaimAgainNote_button"/>
                 <ref bean="hdnCancelClaim_button"/>
                 <ref bean="hdnUnReceiveHistory_button"/>
+                <ref bean="hdnCurrentActionPerformed"/>
               <!--  <ref bean="serialReceiptHistoryId"/>-->
                 <ref bean="instanceIdField"/>
                 <ref bean="pIdField"/>
@@ -1177,6 +1178,7 @@
     </bean>-->
 
     <bean id="refreshReceivingRecordTypeBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="refreshReceivingRecordType"  p:hidden="true"  p:refreshId="OLESerialReceiving-receive"/>
+    <bean id="hdnCurrentActionPerformed" parent="Uif-InputField" p:propertyName="CurrentActionPerformed" p:hidden="true"/>
 
 <!--    <bean id="bibIdField" parent="Uif-InputField" p:propertyName="bibId" p:required="true"
           p:readOnly="true" p:hidden="true"/>-->

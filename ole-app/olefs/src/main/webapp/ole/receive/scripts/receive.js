@@ -8,7 +8,13 @@ jq(document).ready(function(){
     });
     function unloadPage(){
         if(unsaved){
-            return confirm( getMessage(kradVariables.MESSAGE_KEY_DIRTY_FIELDS));
+            var val=jq("input#hdnCurrentActionPerformed_control").val();
+            if(val==="receive"){
+                unsaved=false;
+            }
+            if (unsaved) {
+                return confirm(getMessage(kradVariables.MESSAGE_KEY_DIRTY_FIELDS));
+            }
         }
     }
     jq('form').bind('submit', function() { unsaved = false; });
