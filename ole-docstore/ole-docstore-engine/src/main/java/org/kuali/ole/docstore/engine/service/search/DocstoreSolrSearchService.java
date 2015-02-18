@@ -879,6 +879,9 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
             if(isInsert) {
                 query.append(previousOperator);
             }
+            if (StringUtils.isNotBlank(searchCondition.getOperator())&&searchCondition.getOperator().equalsIgnoreCase("not")) {
+                query.append("!");
+            }
             query.append("(");
             if (StringUtils.isNotBlank(searchCondition.getSearchField().getFieldName())) {
                 if (searchCondition.getSearchField().getFieldName().equalsIgnoreCase("all") || searchCondition.getSearchField().getFieldName().equalsIgnoreCase("any")) {
@@ -913,7 +916,11 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
                 query.append("(*:*)");
                 query.append(")");
             }
-            previousOperator = searchCondition.getOperator();
+            if(StringUtils.isNotBlank(searchCondition.getOperator())&&searchCondition.getOperator().equalsIgnoreCase("not")){
+                previousOperator="AND";
+            } else {
+                previousOperator = searchCondition.getOperator();
+            }
             if(isInsert) {
                 query.append(")");
             }
@@ -947,6 +954,13 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
         }
         if (StringUtils.isEmpty(secondDocType)) {
             secondDocType = docType;
+        }
+
+        if (StringUtils.isEmpty(secondDocType)) {
+            secondDocType = firstDocType;
+        }
+        if(StringUtils.isEmpty(docType)){
+            docType=firstDocType;
         }
         if (StringUtils.isNotEmpty(firstDocType) && StringUtils.isNotEmpty(secondDocType)) {
             key = secondDocType + firstDocType;

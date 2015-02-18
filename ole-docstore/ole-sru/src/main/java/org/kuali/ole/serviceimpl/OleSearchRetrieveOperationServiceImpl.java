@@ -1,5 +1,6 @@
 package org.kuali.ole.serviceimpl;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.kuali.ole.OleSRUConstants;
 import org.kuali.ole.bo.cql.CQLResponseBO;
 import org.kuali.ole.bo.diagnostics.OleSRUDiagnostics;
@@ -10,6 +11,9 @@ import org.kuali.ole.docstore.common.client.DocstoreClient;
 import org.kuali.ole.docstore.common.document.BibTree;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
 import org.kuali.ole.docstore.common.search.*;
+import org.kuali.ole.docstore.common.search.SearchCondition;
+import org.kuali.ole.docstore.common.search.SearchParams;
+import org.kuali.ole.docstore.discovery.model.*;
 import org.kuali.ole.docstore.engine.client.DocstoreLocalClient;
 import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
 import org.kuali.ole.docstore.model.enums.DocType;
@@ -64,6 +68,44 @@ public class OleSearchRetrieveOperationServiceImpl implements OleSearchRetrieveO
 
         SearchParams searchParams = createSearchParams(cqlParseBO, true);
         buildSearchConditions(searchParams);
+        List<SearchCondition> searchConditions = new ArrayList<SearchCondition>();
+        for (SearchCondition condition:searchParams.getSearchConditions()){
+            if(condition.getSearchField().getFieldName().equals(OleSRUConstants.PUBLICATION_DATE_SEARCH) && StringUtils.isNotBlank(condition.getSearchScope())){
+                if((condition.getSearchScope().equalsIgnoreCase("GREATER THAN EQUALS") || condition.getSearchScope().equalsIgnoreCase("LESS THAN EQUALS"))){
+                    condition.setSearchScope("none");
+                    condition.setOperator("AND");
+                    searchConditions.add(condition);
+                } else if(condition.getSearchScope().equalsIgnoreCase("LESS THAN") ||condition.getSearchScope().equalsIgnoreCase("GREATER THAN")) {
+                    SearchCondition newCondition=new SearchCondition();
+                    String textData=condition.getSearchField().getFieldValue();
+                    if(StringUtils.isNotBlank(textData)&& textData.contains("[")&&textData.contains("]")){
+                        textData=textData.replace("[","");
+                        textData=textData.replace("]","");
+                        textData=textData.replace("TO *","");
+                        textData=textData.replace("* TO","");
+                        textData=textData.trim();
+                    }
+                    SearchField newField=new SearchField();
+                    newField.setDocType(condition.getSearchField().getDocType());
+                    newField.setFieldName(condition.getSearchField().getFieldName());
+                    newField.setFieldValue(textData);
+                    newCondition.setSearchField(newField);
+                    newCondition.setOperator("NOT");
+                    newCondition.setSearchScope("none");
+                    condition.setOperator("AND");
+                    condition.setSearchScope("none");
+                    searchConditions.add(condition);
+                    searchConditions.add(newCondition);
+                } else {
+                    searchConditions.add(condition);
+                }
+            } else {
+                searchConditions.add(condition);
+            }
+
+        }
+        searchParams.getSearchConditions().clear();
+        searchParams.getSearchConditions().addAll(searchConditions);
         /*SearchCondition condition = new SearchCondition();
         condition.setOperator("AND");
         SearchField field = new SearchField();
@@ -316,6 +358,7 @@ public class OleSearchRetrieveOperationServiceImpl implements OleSearchRetrieveO
                 		cqlResponseBO.getSearchClauseTag().getIndex().equalsIgnoreCase(OleSRUConstants.CS_CHOICE)) {
                     searchField.setFieldName(OleSRUConstants.ALL_TEXT);
                 }
+                searchField.setDocType(OleSRUConstants.BIBLIOGRAPHIC);
             }
             if (cqlResponseBO.getSearchClauseTag() != null && cqlResponseBO.getSearchClauseTag().getTerm() != null) {
                 String fieldValue=cqlResponseBO.getSearchClauseTag().getTerm().replaceAll("-","");
@@ -327,7 +370,15 @@ public class OleSearchRetrieveOperationServiceImpl implements OleSearchRetrieveO
                         e.printStackTrace();
                     }
                     searchField.setFieldValue(fieldValue);
-                }else{
+                } else if(cqlResponseBO.getSearchClauseTag().getIndex().equalsIgnoreCase(OleSRUConstants.PUBLICATION_DATE)){
+                    if(cqlResponseBO.getSearchClauseTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag().getValue() != null && (cqlResponseBO.getSearchClauseTag().getRelationTag().getValue().equalsIgnoreCase("<=")||cqlResponseBO.getSearchClauseTag().getRelationTag().getValue().equalsIgnoreCase("<"))){
+                        searchField.setFieldValue("[ * TO "+cqlResponseBO.getSearchClauseTag().getTerm()+" ]");
+                    } else if(cqlResponseBO.getSearchClauseTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag().getValue() != null && (cqlResponseBO.getSearchClauseTag().getRelationTag().getValue().equalsIgnoreCase(">=")||cqlResponseBO.getSearchClauseTag().getRelationTag().getValue().equalsIgnoreCase(">"))){
+                        searchField.setFieldValue("[ "+cqlResponseBO.getSearchClauseTag().getTerm()+" TO * ]");
+                    } else{
+                        searchField.setFieldValue(cqlResponseBO.getSearchClauseTag().getTerm());
+                    }
+                } else{
                     searchField.setFieldValue(cqlResponseBO.getSearchClauseTag().getTerm());
                 }
             }
@@ -350,6 +401,19 @@ public class OleSearchRetrieveOperationServiceImpl implements OleSearchRetrieveO
             searchCondition.setSearchField(searchField);
         if (null != cqlResponseBO && null != cqlResponseBO.getBooleanTagValue()) {
             searchCondition.setOperator(cqlResponseBO.getBooleanTagValue().getValue());
+        } else {
+            searchCondition.setOperator("AND");
+        }
+        if (cqlResponseBO.getSearchClauseTag().getIndex().equalsIgnoreCase(OleSRUConstants.PUBLICATION_DATE)) {
+            if (cqlResponseBO.getSearchClauseTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag().getValue() != null && (cqlResponseBO.getSearchClauseTag().getRelationTag().getValue().equalsIgnoreCase("<="))) {
+                searchCondition.setSearchScope("LESS THAN EQUALS");
+            } else if (cqlResponseBO.getSearchClauseTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag().getValue() != null && (cqlResponseBO.getSearchClauseTag().getRelationTag().getValue().equalsIgnoreCase(">="))) {
+                searchCondition.setSearchScope("GREATER THAN EQUALS");
+            } else if (cqlResponseBO.getSearchClauseTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag().getValue() != null && (cqlResponseBO.getSearchClauseTag().getRelationTag().getValue().equalsIgnoreCase("<"))) {
+                searchCondition.setSearchScope("LESS THAN");
+            } else if (cqlResponseBO.getSearchClauseTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag() != null && cqlResponseBO.getSearchClauseTag().getRelationTag().getValue() != null && (cqlResponseBO.getSearchClauseTag().getRelationTag().getValue().equalsIgnoreCase(">"))) {
+                searchCondition.setSearchScope("GREATER THAN");
+            }
         }
         return searchCondition;
     }
