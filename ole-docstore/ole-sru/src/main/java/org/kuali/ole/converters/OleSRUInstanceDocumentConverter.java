@@ -24,6 +24,7 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public class OleSRUInstanceDocumentConverter implements Converter {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OleSRUInstanceDocumentConverter.class);
 
     @Override
     public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
@@ -72,7 +73,7 @@ public class OleSRUInstanceDocumentConverter implements Converter {
                     value= StringEscapeUtils.unescapeXml(value);
                     method.invoke(obj,value);
                 }  catch (Exception e){
-
+                     LOG.error("Error :while converting to unescapeXml "+e);
                 }
             }
 

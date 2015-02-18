@@ -29,6 +29,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class OleSRUOpacXMLResponseHandler {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OleSRUOpacXMLResponseHandler.class);
 
     /**
      * this method converts xml to  OleSRUResponseDocuments object
@@ -160,7 +161,7 @@ public class OleSRUOpacXMLResponseHandler {
                         }
 
                     } catch (Exception e) {
-
+                        LOG.error("Error :while converting to unescapeXml "+e);
                     }
                 }
             }
