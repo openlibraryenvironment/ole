@@ -5889,7 +5889,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="brandingNote" column="BRANDING_NOTE" jdbc-type="VARCHAR"/>
+        <!--<field-descriptor name="brandingNote" column="BRANDING_NOTE" jdbc-type="VARCHAR"/>-->
     </class-descriptor>
 
     <class-descriptor class="org.kuali.ole.select.bo.OLEClaimNoticeBo" table="OLE_CLM_NTCE_T">
