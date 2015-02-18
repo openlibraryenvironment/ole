@@ -227,7 +227,7 @@
     <bean id="DocumentAndSearchSelectionType" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="DocumentAndSearchSelectionType_DocType" parent="Base-Uif-InputField"
+                <bean id="DocumentAndSearchSelectionType_DocType" parent="Base-Uif-InputField-LabelTop"
                       p:propertyName="docType" p:label="Document Type of Search Results" p:onChangeScript="submitForm('start', null, null, null);" p:render="@{searchType eq 'search'}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
@@ -236,7 +236,7 @@
                         <bean class="org.kuali.ole.describe.keyvalue.DocTypeKeyValueFinder"/>
                     </property>
                 </bean>
-                <bean id="DocumentAndSearchSelectionType_SearchType" parent="Base-Uif-InputField"
+                <bean id="DocumentAndSearchSelectionType_SearchType" parent="Base-Uif-InputField-LabelTop"
                       p:propertyName="searchType" p:label="Select Records By" p:style="float:left;margin-left:39.3em" p:onChangeScript="submitForm('start', null, null, null);" p:render="@{searchTypeField eq 'OLESearch'}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl">
@@ -267,11 +267,11 @@
                 <bean id="items" parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean id="SearchConditions_SearchText_id" parent="Base-Uif-InputField" p:label="Search For"
+                            <bean id="SearchConditions_SearchText_id" parent="Base-Uif-InputField-LabelTop" p:label="Search For"
                                   p:propertyName="searchField.fieldValue" p:required="false">
                             </bean>
-                            <bean id="SearchConditions_Operator_id" parent="Base-Uif-InputField" p:propertyName="searchScope"
-                                  p:label="">
+                            <bean id="SearchConditions_Operator_id" parent="Base-Uif-InputField-LabelTop" p:propertyName="searchScope"
+                                  p:style="margin-top:1.5em" >
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -284,14 +284,14 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean id="SearchConditions_DocType_search" parent="Base-Uif-InputField"
-                                  p:propertyName="searchField.docType" p:label="In DocType"
+                            <bean id="SearchConditions_DocType_search" parent="Base-Uif-InputField-LabelTop"
+                                  p:propertyName="searchField.docType" p:label="In Doc Type"
                                   p:optionsFinderClass="org.kuali.ole.describe.keyvalue.SearchDocTypeKeyvalueFinder" p:onChangeScript="submitForm('changeDocType', null, null, null);" >
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
                             </bean>
-                            <bean id="SearchConditions_DocField_id" parent="Base-Uif-InputField"
+                            <bean id="SearchConditions_DocField_id" parent="Base-Uif-InputField-LabelTop"
                                   p:propertyName="searchField.fieldName" p:label="In Field"
                                   p:optionsFinderClass="org.kuali.ole.describe.keyvalue.BibSearchFieldKeyValuefinder"
                                   p:defaultValue="any"   p:render="@{#line.searchField.docType eq 'bibliographic'}" p:refreshWhenChangedPropertyNames="searchField.docType">
@@ -299,7 +299,7 @@
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
                             </bean>
-                            <bean id="holdings_SearchConditions_DocField_id" parent="Base-Uif-InputField"
+                            <bean id="holdings_SearchConditions_DocField_id" parent="Base-Uif-InputField-LabelTop"
                                   p:propertyName="searchField.fieldName" p:label="In Field"
                                   p:optionsFinderClass="org.kuali.ole.describe.keyvalue.HoldingsSearchFieldKeyValuefinder"
                                   p:defaultValue="any"   p:render="@{#line.searchField.docType eq 'holdings'}" p:refreshWhenChangedPropertyNames="searchField.docType">
@@ -307,7 +307,7 @@
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
                             </bean>
-                            <bean id="item_SearchConditions_DocField_id" parent="Base-Uif-InputField"
+                            <bean id="item_SearchConditions_DocField_id" parent="Base-Uif-InputField-LabelTop"
                                   p:propertyName="searchField.fieldName" p:label="In Field"
                                   p:optionsFinderClass="org.kuali.ole.describe.keyvalue.ItemSearchFieldKeyValuefinder"
                                   p:defaultValue="any"   p:render="@{#line.searchField.docType eq 'item'}" p:refreshWhenChangedPropertyNames="searchField.docType">
@@ -315,7 +315,7 @@
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
                             </bean>
-                            <bean id="eholdings_SearchConditions_DocField_id" parent="Base-Uif-InputField"
+                            <bean id="eholdings_SearchConditions_DocField_id" parent="Base-Uif-InputField-LabelTop"
                                   p:propertyName="searchField.fieldName" p:label="In Field"
                                   p:optionsFinderClass="org.kuali.ole.describe.keyvalue.EHoldingsSearchFieldKeyValuefinder"
                                   p:defaultValue="any"   p:render="@{#line.searchField.docType eq 'eHoldings'}" p:refreshWhenChangedPropertyNames="searchField.docType">
@@ -325,7 +325,7 @@
                             </bean>
 
 
-                            <bean id="SearchConditions_SearchScope_id" parent="Base-Uif-InputField" p:propertyName="operator" p:label="" p:defaultValue="OR">
+                            <bean id="SearchConditions_SearchScope_id" parent="Base-Uif-InputField-LabelTop" p:propertyName="operator" p:label="" p:defaultValue="OR">
                                 <property name="control">
                                     <bean parent="Uif-HorizontalRadioControl">
                                         <property name="options">
@@ -596,4 +596,11 @@
             <bean parent="Uif-HiddenControl"/>
         </property>
     </bean>
-  </beans>
+
+    <bean id="Base-Uif-InputField-LabelTop" parent="Uif-InputField-LabelTop">
+        <property name="quickfinder">
+            <null/>
+        </property>
+    </bean>
+
+</beans>

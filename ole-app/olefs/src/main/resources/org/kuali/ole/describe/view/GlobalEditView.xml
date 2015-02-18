@@ -275,8 +275,8 @@
     <bean id="GlobaEdit_DocumentAndSearchSelectionType" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="global_docType" parent="Base-Uif-InputField"
-                      p:propertyName="docType" p:label="Document Type"
+                <bean id="global_docType" parent="Base-Uif-InputField-LabelTop"
+                      p:propertyName="docType" p:label="Document Type of Search Results"
                       p:onChangeScript="submitForm('start', null, null, null);">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
@@ -286,7 +286,7 @@
                     </property>
                 </bean>
 
-                <bean id="global_searchType" parent="Base-Uif-InputField"
+                <bean id="global_searchType" parent="Base-Uif-InputField-LabelTop"
                       p:propertyName="searchType" p:label="Select Records By" p:style="float:left;margin-left:39.3em"
                       p:onChangeScript="submitForm('start', null, null, null);">
                     <property name="control">
