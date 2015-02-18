@@ -28,6 +28,7 @@ import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.docstore.model.xstream.ingest.ResponseHandler;
 import org.kuali.ole.pojo.bib.BibliographicRecord;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.utility.Constants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -124,7 +125,7 @@ public class FastAddItemController extends UifControllerBase {
         oleLoanForm.setReturnInformation("");
         LoanProcessor loanProcessor = new LoanProcessor();
         if (!oleLoanForm.getOleLoanFastAdd().getBarcode().isEmpty() && !oleLoanForm.getOleLoanFastAdd().getCallNumberType().isEmpty() && !oleLoanForm.getOleLoanFastAdd().getCallNumberType().equalsIgnoreCase("#") && !oleLoanForm.getOleLoanFastAdd().getCallNumber().isEmpty() && !oleLoanForm.getOleLoanFastAdd().getCheckinNote().isEmpty() && !oleLoanForm.getOleLoanFastAdd().getLocationName().isEmpty() && !oleLoanForm.getOleLoanFastAdd().getItemType().isEmpty()&&!oleLoanForm.getOleLoanFastAdd().getTitle().isEmpty()) {
-            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
             Item item = loanProcessor.getItemRecord(oleLoanForm.getOleLoanFastAdd());
             OleHoldings oleHoldings = loanProcessor.getHoldingRecord(oleLoanForm.getOleLoanFastAdd());
             oleHoldings.setHoldingsType("print");
