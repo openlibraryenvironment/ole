@@ -312,14 +312,9 @@ public class OleValidationRuleBase extends AccountingRuleEngineRuleBase implemen
         boolean result = true;
         if (item.getItemForeignListPrice() == null) {
             item.setItemUnitPrice(BigDecimal.ZERO);
-            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, OleSelectPropertyConstants.ERROR_ITEM_FOREIGN_LIST_PRICE, new String[]{"Foreign List Price"});
+            item.setItemForeignListPrice(KualiDecimal.ZERO);
             LOG.debug("***Inside ForeignCurrencyRequisitionBusinessRules ItemForeignListPrice is null***");
-            result = false;
-        } else if ((item.getItemForeignListPrice()).isLessEqual(KualiDecimal.ZERO)) {
-            item.setItemUnitPrice(BigDecimal.ZERO);
-            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, OleSelectPropertyConstants.ERROR_ITEM_LIST_PRICE_NON_ZERO, new String[]{"Foreign List Price"});
-            LOG.debug("***Inside DiscountPaymentRequestBusinessRules ItemListPrice is non-zero and positive***");
-            result = false;
+            result = true;
         }
         if (item.getItemForeignDiscount() != null && item.getItemForeignDiscountType() != null) {
             if (item.getItemForeignDiscountType().equalsIgnoreCase(OleSelectConstant.DISCOUNT_TYPE_PERCENTAGE)) {
