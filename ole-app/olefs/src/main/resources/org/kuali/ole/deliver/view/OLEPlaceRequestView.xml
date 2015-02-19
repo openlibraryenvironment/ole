@@ -88,7 +88,7 @@
 
     <bean id="OLEPlaceRequestView_successMessage" parent="Uif-VerticalBoxSection"
           p:render="@{errorMessage ne null and (successMessage ne null and successMessage ne '')}"
-          p:style="font-weight:normal;">
+          p:style="font-weight:normal;color: blue;">
         <property name="header.headerText" value="Success Message"/>
         <property name="items">
             <list>
