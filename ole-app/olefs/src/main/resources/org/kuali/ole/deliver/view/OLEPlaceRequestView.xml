@@ -45,9 +45,9 @@
                             <ref bean="OLEPlaceRequestView_RequestType"/>
                             <ref bean="OLEPlaceRequestView_request_details"/>
                             <bean id="request_submit_button" parent="Uif-SecondaryActionButton-Small"
-                                  p:methodToCall="submit" p:actionLabel="Submit"/>
+                                  p:methodToCall="submit" p:actionLabel="Submit" p:render="@{successMessage eq null or (successMessage ne null and successMessage eq '')}"/>
                             <bean id="item_level_request_button" parent="Uif-SecondaryActionButton-Small"
-                                  p:methodToCall="getItemsForTitleLevelRequest" p:actionLabel="Submit" p:hidden="true" p:successCallback="showItemsDialog()"/>
+                                  p:methodToCall="getItemsForTitleLevelRequest" p:actionLabel="Submit" p:hidden="true" p:successCallback="showItemsDialog()" p:render="@{successMessage eq null or (successMessage ne null and successMessage eq '')}"/>
                             <bean id="item_level_request_Clear_button" parent="Uif-SecondaryActionButton-Small"
                                   p:methodToCall="clearItemsForTitleLevelRequest" p:actionLabel="clear" p:hidden="true"/>
                             <ref bean="OLEPlaceRequestView_MultipleItem_details"/>
