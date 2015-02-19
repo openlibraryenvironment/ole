@@ -99,7 +99,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorFederalWithholdingTaxEndDate"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorDebarredIndicator"/>
         <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Detail Information"/>
-        <!--<bean parent="MaintainableFieldDefinition" p:name="currencyTypeId" p:required="true"/>-->
+        <bean parent="MaintainableFieldDefinition" p:name="currencyTypeId" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorPaymentTermsCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="paymentMethodId" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorPrepaymentIndicator"/>
