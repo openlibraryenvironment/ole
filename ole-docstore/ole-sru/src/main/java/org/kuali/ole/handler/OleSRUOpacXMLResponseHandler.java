@@ -161,7 +161,7 @@ public class OleSRUOpacXMLResponseHandler {
                         }
 
                     } catch (Exception e) {
-                        LOG.error("Error :while converting to unescapeXml "+e);
+                        LOG.error("Error :while converting data to unescapeXml "+e);
                     }
                 }
             }

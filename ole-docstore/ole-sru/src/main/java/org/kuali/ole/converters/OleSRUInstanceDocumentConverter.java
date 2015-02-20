@@ -7,6 +7,7 @@ import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.bo.serachRetrieve.OleSRUCirculationDocument;
 import org.kuali.ole.bo.serachRetrieve.OleSRUInstanceDocument;
 import org.kuali.ole.bo.serachRetrieve.OleSRUInstanceVolume;
@@ -55,30 +56,30 @@ public class OleSRUInstanceDocumentConverter implements Converter {
         return type.equals(OleSRUInstanceDocument.class);
     }
 
-    public boolean isSetter(Method method) {
-        return Modifier.isPublic(method.getModifiers()) &&
-                method.getReturnType().equals(String.class) &&
-                method.getParameterTypes().length == 1 &&
-                method.getName().matches("^set[A-Z].*");
-    }
+     public void convertToEscape(Object obj) {
+         Class clazz=obj.getClass();
+         Method[] methods = clazz.getDeclaredMethods();
+         for (Method method : methods) {
+             boolean isSetter= Modifier.isPublic(method.getModifiers()) &&
+                     method.getReturnType()!=null && StringUtils.isNotEmpty(method.getReturnType().getName()) && method.getReturnType().getName().equalsIgnoreCase("void") &&
+                     method.getName().matches("^set[A-Z].*");
+             Class<?>[] parameterTypes=method.getParameterTypes();
 
-     public ArrayList<Method> convertToEscape(Object obj) {
-        Class clazz=obj.getClass();
-        ArrayList<Method> list = new ArrayList<Method>();
-        Method[] methods = clazz.getDeclaredMethods();
-        for (Method method : methods) {
-            if (isSetter(method)){
-                try {
-                    String value=(String)method.getDefaultValue();
-                    value= StringEscapeUtils.unescapeXml(value);
-                    method.invoke(obj,value);
-                }  catch (Exception e){
-                     LOG.error("Error :while converting to unescapeXml "+e);
-                }
-            }
+             if (isSetter) {
+                 if (parameterTypes.length == 1 && parameterTypes[0].getName().equalsIgnoreCase("java.lang.String")) {
+                     try {
+                         String value = (String) method.getDefaultValue();
+                         if(StringUtils.isNotBlank(value)){
+                             value = StringEscapeUtils.unescapeXml(value);
+                             method.invoke(obj, value);
+                         }
 
-        }
+                     } catch (Exception e) {
+                         LOG.error("Error :while converting data to unescapeXml "+e);
+                     }
+                 }
+             }
 
-        return list;
-    }
+         }
+     }
 }
