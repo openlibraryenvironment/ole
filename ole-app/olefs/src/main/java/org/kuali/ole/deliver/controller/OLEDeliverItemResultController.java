@@ -160,6 +160,7 @@ public class OLEDeliverItemResultController extends UifControllerBase {
             getOleDeliverItemSearchService().setDeliverRequestInfo(itemIdMap, oleSingleItemResultDisplayRow);
             getOleDeliverItemSearchService().setOutstandingFineInfo(itemIdMap, oleSingleItemResultDisplayRow);
             getOleDeliverItemSearchService().setRequestHistoryInfo(oleSingleItemResultDisplayRow);
+            getOleDeliverItemSearchService().setInTransitHistoryInfo(oleSingleItemResultDisplayRow);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1182,6 +1182,9 @@ public class BatchBibImportHelper {
                         continue;
                     }
 
+                    if (EHoldings.DESTINATION_FIELD_LINK_TEXT.equalsIgnoreCase(docField))
+                        continue;
+
                     if (eHoldings != null) {
                         eHoldings.setField(docField, bibFieldValue);
                     }
@@ -1194,46 +1197,48 @@ public class BatchBibImportHelper {
      * Apply data mapping for eHoldings records for overlay
      *
      * @param holdingsTreeList
-     * @param OleBatchProcessProfileDataMappingOptionsBoList
+     * @param oleBatchProcessProfileDataMappingOptionsBoList
      */
 
-    private void applyDataMappingOverlay(List<HoldingsTree> holdingsTreeList, List<OLEBatchProcessProfileDataMappingOptionsBo> OleBatchProcessProfileDataMappingOptionsBoList) {
+    private void applyDataMappingOverlay(List<HoldingsTree> holdingsTreeList, List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBoList) {
         String docType = null;
         String docField = null;
 
         String bibFieldValue = null;
-        for (OLEBatchProcessProfileDataMappingOptionsBo oleBatchProcessProfileDataMappingOptionsBo : OleBatchProcessProfileDataMappingOptionsBoList) {
-            docType = oleBatchProcessProfileDataMappingOptionsBo.getDataTypeDestinationField();
-            docField = oleBatchProcessProfileDataMappingOptionsBo.getDestinationField();
+        if (!oleBatchProcessProfileDataMappingOptionsBoList.isEmpty()) {
+            for (OLEBatchProcessProfileDataMappingOptionsBo oleBatchProcessProfileDataMappingOptionsBo : oleBatchProcessProfileDataMappingOptionsBoList) {
+                docType = oleBatchProcessProfileDataMappingOptionsBo.getDataTypeDestinationField();
+                docField = oleBatchProcessProfileDataMappingOptionsBo.getDestinationField();
 
-            bibFieldValue = oleBatchProcessProfileDataMappingOptionsBo.getSourceFieldValue();
-            if (docType.equalsIgnoreCase(DocType.EHOLDINGS.getCode())) {
-                for (HoldingsTree holdingsTree : holdingsTreeList) {
-                    EHoldings eHoldings = (EHoldings) BatchBibImportUtil.getHoldings(holdingsTree, DocType.EHOLDINGS.getCode());
+                bibFieldValue = oleBatchProcessProfileDataMappingOptionsBo.getSourceFieldValue();
+                if (docType.equalsIgnoreCase(DocType.EHOLDINGS.getCode())) {
+                    if (!holdingsTreeList.isEmpty()) {
+                        for (HoldingsTree holdingsTree : holdingsTreeList) {
+                            EHoldings eHoldings = (EHoldings) BatchBibImportUtil.getHoldings(holdingsTree, DocType.EHOLDINGS.getCode());
 
 //                    if (EHoldings.DESTINATION_FIELD_LINK_URL.equalsIgnoreCase(docField)) {
 //                        continue;
 //                    }
-                    if (eHoldings != null) {
-                        if(EHoldings.DESTINATION_FIELD_ERESOURCE_NAME.equals(docField)) {
+                            if (eHoldings != null) {
+                                if (EHoldings.DESTINATION_FIELD_ERESOURCE_NAME.equals(docField)) {
 
-                            //set the eResource name if exists in OLE
-                            validateAndSetEResource(bibFieldValue, eHoldings);
+                                    //set the eResource name if exists in OLE
+                                    validateAndSetEResource(bibFieldValue, eHoldings);
 
-                        }
-                        if(EHoldings.DESTINATION_FIELD_ERESOURCE_ID.equals(docField)) {
+                                }
+                                if (EHoldings.DESTINATION_FIELD_ERESOURCE_ID.equals(docField)) {
 
-                            //set the eResource name if exists in OLE
-                            validateAndSetEResourceId(bibFieldValue, eHoldings);
+                                    //set the eResource name if exists in OLE
+                                    validateAndSetEResourceId(bibFieldValue, eHoldings);
 
-                        }
-                        else if(EHoldings.DESTINATION_FIELD_PLATFORM.equals(docField)) {
+                                } else if (EHoldings.DESTINATION_FIELD_PLATFORM.equals(docField)) {
 
-                            //set the platform name if exists in OLE
-                            validateAndSetPlatform(bibFieldValue, eHoldings);
-                        }
-                        else {
-                            eHoldings.setField(docField, bibFieldValue);
+                                    //set the platform name if exists in OLE
+                                    validateAndSetPlatform(bibFieldValue, eHoldings);
+                                } else {
+                                    eHoldings.setField(docField, bibFieldValue);
+                                }
+                            }
                         }
                     }
                 }
@@ -1702,7 +1707,7 @@ public class BatchBibImportHelper {
 
 
                 docField = oleBatchProcessProfileDataMappingOptionsBo.getDestinationField();
-                bibFieldValue = BatchBibImportUtil.getSubFieldValue(oleBatchProcessProfileDataMappingOptionsBo.getSourceField(), dataField);
+                bibFieldValue =  oleBatchProcessProfileDataMappingOptionsBo.getSourceFieldValue();
                 if (docType.equalsIgnoreCase(DocType.ITEM.getCode())) {
                     if (item != null) {
                         item.setField(docField, bibFieldValue);

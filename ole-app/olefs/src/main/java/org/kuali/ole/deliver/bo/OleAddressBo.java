@@ -23,6 +23,7 @@ public class OleAddressBo extends PersistableBusinessObjectBase implements OleAd
     private OleAddressSourceBo addressSourceBo = new OleAddressSourceBo();
     private EntityAddressBo entityAddress;
     private OlePatronDocument olePatronDocument;
+    private boolean deliverAddress;
 
     public OleAddressBo() {
         this.setAddressVerified(true);
@@ -263,5 +264,13 @@ public class OleAddressBo extends PersistableBusinessObjectBase implements OleAd
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    public boolean isDeliverAddress() {
+        return deliverAddress;
+    }
+
+    public void setDeliverAddress(boolean deliverAddress) {
+        this.deliverAddress = deliverAddress;
     }
 }

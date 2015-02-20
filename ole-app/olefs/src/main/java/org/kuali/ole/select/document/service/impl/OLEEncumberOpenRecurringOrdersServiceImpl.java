@@ -5,6 +5,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.gl.GeneralLedgerConstants;
 import org.kuali.ole.gl.businessobject.OriginEntryFull;
 import org.kuali.ole.select.document.service.OLEEncumberOpenRecurringOrdersService;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kns.lookup.LookupResults;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -46,5 +47,14 @@ public class OLEEncumberOpenRecurringOrdersServiceImpl implements OLEEncumberOpe
 
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
+    }
+
+    public void createRolloverDirectory() {
+        String stagingDirectory = ConfigContext.getCurrentContextConfig().getProperty(org.kuali.ole.sys.OLEConstants.STAGING_DIRECTORY_KEY);
+        String fileLocation = stagingDirectory + org.kuali.ole.sys.OLEConstants.ROLLOVER_DIRECTORY;
+        File fileLocationDir = new File(fileLocation);
+        if (!(fileLocationDir.exists())) {
+            fileLocationDir.mkdir();
+        }
     }
 }

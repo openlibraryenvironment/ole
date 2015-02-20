@@ -1996,4 +1996,5 @@ public class OLEConstants {
     public static final String OLE_COPY_SCHEMA = "OleCopyFiscalYearData.groovy";
     public static final String INVALID_FILE = "invalid.file";
     public static final String REENCUM_RECURR = "ReEncumberRecuring";
+    public static final String ROLLOVER_DIRECTORY = "/rollover";
 }

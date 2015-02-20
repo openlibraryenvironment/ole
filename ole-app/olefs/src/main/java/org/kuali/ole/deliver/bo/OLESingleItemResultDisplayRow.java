@@ -70,6 +70,7 @@ public class OLESingleItemResultDisplayRow {
     private List<OLEFeeTypeResultDisplayRow> oleFeeTypeResultDisplayRowList = new ArrayList<>();
     private List<OLEItemNoteResultDisplayRow> oleItemNoteResultDisplayRowList = new ArrayList<>();
     private List<OLEHoldingsSearchResultDisplayRow> oleHoldingsSearchResultDisplayRowList = new ArrayList<>();
+    private List<OLELoanIntransitRecordHistory> oleIntransitRecordHistories = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -501,5 +502,13 @@ public class OLESingleItemResultDisplayRow {
 
     public void setOleHoldingsSearchResultDisplayRowList(List<OLEHoldingsSearchResultDisplayRow> oleHoldingsSearchResultDisplayRowList) {
         this.oleHoldingsSearchResultDisplayRowList = oleHoldingsSearchResultDisplayRowList;
+    }
+
+    public List<OLELoanIntransitRecordHistory> getOleIntransitRecordHistories() {
+        return oleIntransitRecordHistories;
+    }
+
+    public void setOleIntransitRecordHistories(List<OLELoanIntransitRecordHistory> oleIntransitRecordHistories) {
+        this.oleIntransitRecordHistories = oleIntransitRecordHistories;
     }
 }

@@ -544,27 +544,6 @@ INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED
 /
 
 -- Changeset bootstrap_krim_role_perm_data.xml::OLE_LOAD_KRIM_ROLE_MBR_T::ole
-INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD) VALUES ('OLE11751', 'OLE11751', 'OLE16', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD) VALUES ('OLE9661', 'OLE9661', 'OLE16', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD) VALUES ('OLE11761', 'OLE11761', 'OLE36', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD) VALUES ('OLE10421', 'OLE10421', 'OLE38', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD) VALUES ('OLE11631', 'OLE11631', 'OLE45', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD) VALUES ('OLE11701', 'OLE11701', 'OLE49', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD) VALUES ('OLE6541', 'OLE6541', 'OLE54', 'olequickstart', 'P')
-/
-
 INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD) VALUES ('OLE1308', 'OLE1308', 'OLE17', 'OLE45', 'R')
 /
 
@@ -682,7 +661,7 @@ INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD) V
 INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD) VALUES ('OLE1611', 'OLE1611', 'OLE84', 'OLE32', 'R')
 /
 
-INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRIM_ROLE_MBR_T', 'ole', 'bootstrap_krim_role_perm_data.xml', SYSTIMESTAMP, 5, '7:d5126b4ffe5a96246e36cce53ecea13c', 'loadData', '', 'EXECUTED', '3.2.0')
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRIM_ROLE_MBR_T', 'ole', 'bootstrap_krim_role_perm_data.xml', SYSTIMESTAMP, 5, '7:c2a54c690321b11b1a716f05f4e719e1', 'loadData', '', 'EXECUTED', '3.2.0')
 /
 
 -- Changeset bootstrap_krim_role_perm_data.xml::OLE_LOAD_KRIM_ROLE_MBR_ATTR_DATA_T::ole
@@ -10816,148 +10795,7 @@ INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED
 /
 
 -- Changeset bootstrap_krim_role_perm_data.xml::OLE_KRIM_ROLE_MBR_T::ole
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100431', 'OLE100431', 'OLE10000', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100441', 'OLE100441', 'OLE10001', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100451', 'OLE100451', 'OLE10002', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100461', 'OLE100461', 'OLE10003', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100471', 'OLE100471', 'OLE10004', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100481', 'OLE100481', 'OLE10005', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100491', 'OLE100491', 'OLE10006', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100501', 'OLE100501', 'OLE10012', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100511', 'OLE100511', 'OLE10013', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100521', 'OLE100521', 'OLE10014', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100531', 'OLE100531', 'OLE10016', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100541', 'OLE100541', 'OLE10017', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100551', 'OLE100551', 'OLE10018', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100951', 'OLE100951', 'OLE10020', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100961', 'OLE100961', 'OLE10021', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100971', 'OLE100971', 'OLE10019', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100981', 'OLE100981', 'OLE26', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE100991', 'OLE100991', 'OLE56', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101001', 'OLE101001', 'OLE25', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101041', 'OLE101041', 'OLE10029', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101071', 'OLE101071', 'OLE10032', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101091', 'OLE101091', 'OLE10033', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101141', 'OLE101141', 'OLE10044', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101161', 'OLE101161', 'OLE10045', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101181', 'OLE101181', 'OLE10027', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101191', 'OLE101191', 'OLE10028', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101201', 'OLE101201', 'OLE10030', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101211', 'OLE101211', 'OLE10034', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101221', 'OLE101221', 'OLE10042', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101231', 'OLE101231', 'OLE10043', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101241', 'OLE101241', 'OLE10026', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101251', 'OLE101251', 'OLE10031', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101261', 'OLE101261', 'OLE10035', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101271', 'OLE101271', 'OLE10036', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101281', 'OLE101281', 'OLE10037', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101291', 'OLE101291', 'OLE10038', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101301', 'OLE101301', 'OLE10039', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101311', 'OLE101311', 'OLE10040', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE101321', 'OLE101321', 'OLE10041', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE102151', 'OLE1000431', 'OLE10073', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE102241', 'OLE10001091', 'OLE10077', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE102261', '100401', 'OLE10064', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE102281', '100421', 'OLE10065', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE102301', '100441', 'OLE10066', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE102321', '100461', 'OLE10067', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE102341', '100481', 'OLE10068', 'olequickstart', 'P')
-/
-
-INSERT INTO KRIM_ROLE_MBR_T (role_mbr_id, obj_id, role_id, mbr_id, mbr_typ_cd) VALUES ('OLE102361', '100501', 'OLE10072', 'olequickstart', 'P')
-/
-
-INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_KRIM_ROLE_MBR_T', 'ole', 'bootstrap_krim_role_perm_data.xml', SYSTIMESTAMP, 23, '7:1ea361675fb7b65b82a1bf3feec1dfae', 'loadData', '', 'EXECUTED', '3.2.0')
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_KRIM_ROLE_MBR_T', 'ole', 'bootstrap_krim_role_perm_data.xml', SYSTIMESTAMP, 23, '7:baf090ef58a6e8d594b6ad51b2808196', 'loadData', '', 'EXECUTED', '3.2.0')
 /
 
 -- Release Database Lock

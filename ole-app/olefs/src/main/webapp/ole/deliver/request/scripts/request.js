@@ -170,6 +170,43 @@ jq(document).ready(function(){
 });
 
 
+/*
+
+function displayDialogWindow(divID){
+    jq(divID).fadeIn(300);
+    jq(divID).fadeIn(300);
+    var popMargTop = (jq(divID).height() + 24) / 2;
+    var popMargLeft = (jq(divID).width() + 24) / 2;
+    var left=(jq(document).width()/2)-(jq(divID).width()/2)
+    var top='300px';
+
+    if(jq(divID).height()>300){
+        top='250px';
+    }
+    if(jq(divID).height()>500){
+        top='210px';
+    }
+    if(jq(divID).height()<300){
+        top='100px';
+    }
+    jq(divID).css({
+        */
+/* 'margin-top' : '100px',
+         'margin-left' : '100px',*//*
+
+        'top': top,
+        'left':left+"px",
+        'position':'fixed',
+        'align':'center'
+    })
+    jq(divID).draggable();
+    jq('body').append('<div id="mask"></div>');
+    jq('#mask').fadeIn(300);
+    jq('body').scrollTop(0);
+    jq(window.parent).scrollTop(0);
+}
+*/
+
 
 function draggable(){
     jq("#RequestSearchSection-HorizontalBoxSection > table > tbody").addClass("draggable");
@@ -263,6 +300,24 @@ function displayDialogWindow(divID){
 function showItemsDialog() {
      jq("div#OLEPlaceRequestView_MultipleItem_details").show();
      displayDialogWindow("div#OLEPlaceRequestView_MultipleItem-parentBean");
+}
+
+function showRequestErrorMessage(){
+
+    if(jq("#OLEPlaceRequestView_errorMessage").val() != null) {
+        jq('body').scrollTop(0);
+        jq(window.parent).scrollTop(0);
+        displayDialogWindow("div#OLEPlaceRequestView_errorMessage");
+        jq('body').scrollTop(0);
+        jq(window).scrollTop(0);
+    }
+}
+
+
+
+function cancelOverride(){
+    jq( "div#OLEPlaceRequestView_errorMessage" ).fadeOut('fast');
+    jq('#mask').fadeOut(300);
 }
 
 function closeItemsDialog(){

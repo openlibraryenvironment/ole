@@ -256,7 +256,7 @@
         <property name="items">
             <list>
                 <ref bean="ItemReturnedList-HorizontalBoxSection"/>
-                <bean id="endSessionButton" parent="Uif-SecondaryActionButton" p:methodToCall="endCheckInSession" p:actionLabel="End Session" p:style="float:middle;" p:successCallback="closeMessageBoxForReturn();printHoldSlips();setCheckinItemFocus();" p:focusOnIdAfterSubmit="CheckInItem-parentBean" p:render="@{loanLoginUserInfo eq null OR loanLoginUserInfo eq ''}" />
+                <bean id="endSessionButton" parent="Uif-SecondaryActionButton" p:methodToCall="endCheckInSession" p:actionLabel="End Session" p:style="float:middle;" p:successCallback="closeMessageBoxForReturn();printHoldSlips();setCheckinItemFocus();" p:focusOnIdAfterSubmit="CheckInItem-parentBean" p:render="@{loanLoginUserInfo eq null OR loanLoginUserInfo eq ''}" p:jumpToIdAfterSubmit="TOP"/>
             </list>
         </property>
     </bean>

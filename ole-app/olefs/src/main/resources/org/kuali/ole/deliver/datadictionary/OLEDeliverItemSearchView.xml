@@ -49,7 +49,7 @@
                         <bean parent="Uif-TextControl" p:size="30"/>
                     </property>
                 </bean>
-                <bean id="OLEDeliverItemSearch_BarCode" parent="Uif-InputField" p:label="BarCode"
+                <bean id="OLEDeliverItemSearch_BarCode" parent="Uif-InputField" p:label="Barcode"
                       p:propertyName="itemBarCode" p:maxLength="100">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30"/>
@@ -227,7 +227,7 @@
         </property>
     </bean>
 
-    <bean id="OLEDeliverItemSearchResult-BibInfo" parent="Uif-GridSection" p:layoutManager.numberOfColumns="2">
+    <bean id="OLEDeliverItemSearchResult-BibInfo" parent="Uif-GridSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="true">
         <property name="items">
             <list>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
@@ -243,7 +243,7 @@
         </property>
     </bean>
 
-    <bean id="OLEDeliverItemSearchResult-ItemInfo" parent="Uif-GridSection" p:layoutManager.numberOfColumns="6">
+    <bean id="OLEDeliverItemSearchResult-ItemInfo" parent="Uif-GridSection" p:layoutManager.numberOfColumns="6" p:disclosure.defaultOpen="true">
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="Item Status"
@@ -273,7 +273,7 @@
     </bean>
 
     <bean id="OLEDeliverItemSearchResult-Borrower" parent="Uif-Disclosure-VerticalBoxSection"
-          p:disclosure.defaultOpen="false">
+          p:disclosure.defaultOpen="@{oleSingleItemResultDisplayRow.patronBarcode ne null}">
         <property name="headerText" value="Borrower"/>
         <property name="items">
             <list>
@@ -325,7 +325,7 @@
     </bean>
 
     <bean id="OLEDeliverItemSearchResult-AdditionalCopies" parent="Uif-Disclosure-TableCollectionSection"
-          p:disclosure.defaultOpen="false"
+          p:disclosure.defaultOpen="true"
           p:layoutManager.applyDefaultCellWidths="false">
         <property name="headerText" value="Additional Copies"/>
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEHoldingsSearchResultDisplayRow"/>
@@ -362,7 +362,7 @@
     </bean>
 
     <bean id="OLEDeliverItemSearchResult-Request" parent="Uif-Disclosure-VerticalBoxSection"
-          p:disclosure.defaultOpen="false">
+          p:disclosure.defaultOpen="@{oleSingleItemResultDisplayRow.oleDeliverRequestResultDisplayRowList.size()>0}">
         <property name="headerText" value="Requests"/>
         <property name="items">
             <list>
@@ -390,7 +390,7 @@
     </bean>
 
     <bean id="OLEDeliverItemSearchResult-Requests" parent="Uif-TableCollectionSection"
-          p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="false">
+          p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="true">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEDeliverRequestResultDisplayRow"/>
         <property name="propertyName" value="oleSingleItemResultDisplayRow.oleDeliverRequestResultDisplayRowList"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -414,7 +414,7 @@
     </bean>
 
     <bean id="OLEDeliverItemSearchResult-ItemFlags" parent="Uif-Disclosure-VerticalBoxSection"
-          p:disclosure.defaultOpen="false">
+          p:disclosure.defaultOpen="@{oleSingleItemResultDisplayRow.claimsReturnedFlag ne null and oleSingleItemResultDisplayRow.claimsReturnedFlag eq 'true' or oleSingleItemResultDisplayRow.itemDamagedStatusFlag ne null and oleSingleItemResultDisplayRow.itemDamagedStatusFlag eq 'true' or oleSingleItemResultDisplayRow.missingPieceFlag ne null and oleSingleItemResultDisplayRow.missingPieceFlag eq 'true'}">
         <property name="headerText" value="Item Flags"/>
         <property name="items">
             <list>
@@ -474,7 +474,7 @@
     </bean>
 
     <bean id="OLEDeliverItemSearchResult-Notes" parent="Uif-Disclosure-TableCollectionSection"
-          p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="false">
+          p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="true">
         <property name="headerText" value="Notes"/>
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEItemNoteResultDisplayRow"/>
         <property name="propertyName" value="oleSingleItemResultDisplayRow.oleItemNoteResultDisplayRowList"/>
@@ -492,7 +492,7 @@
     </bean>
 
     <bean id="OLEDeliverItemSearchResult-OutstandingFines" parent="Uif-Disclosure-TableCollectionSection"
-          p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="false">
+          p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="true">
         <property name="headerText" value="Outstanding Fines"/>
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEFeeTypeResultDisplayRow"/>
         <property name="propertyName" value="oleSingleItemResultDisplayRow.oleFeeTypeResultDisplayRowList"/>
@@ -517,7 +517,7 @@
     </bean>
 
     <bean id="OLEDeliverItemSearchResult-IDNumbers" parent="Uif-Disclosure-VerticalBoxSection"
-          p:disclosure.defaultOpen="false">
+          p:disclosure.defaultOpen="true">
         <property name="headerText" value="ID Numbers"/>
         <property name="items">
             <list>
@@ -549,10 +549,13 @@
     </bean>
 
     <bean id="OLEDeliverItemSearchResult-ItemHistory" parent="Uif-Disclosure-VerticalBoxSection"
-          p:disclosure.defaultOpen="false">
+          p:disclosure.defaultOpen="true">
         <property name="headerText" value="Item History"/>
         <property name="items">
             <list>
+                <bean parent="Uif-MessageField" p:messageText="In Transit History"
+                      p:render="@{oleSingleItemResultDisplayRow.oleIntransitRecordHistories.size() > 0}"/>
+                <ref bean="OLEDeliverItemSearchResult-IntransitLoanRecords"/>
                 <bean parent="Uif-MessageField" p:messageText="Item Record History"/>
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
                     <property name="items">
@@ -583,6 +586,28 @@
                         </list>
                     </property>
                 </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-IntransitLoanRecords" parent="Uif-TableCollectionSection"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLELoanIntransitRecordHistory"/>
+        <property name="propertyName" value="oleSingleItemResultDisplayRow.oleIntransitRecordHistories"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="operator" parent="Uif-DataField" p:propertyName="operator" p:label="Operator"/>
+                <bean id="homeCirculationDesk" parent="Uif-DataField" p:propertyName="homeCirculationDesk"
+                      p:label="Routed From"/>
+                <bean id="routeCirculationDesk" parent="Uif-DataField" p:propertyName="routeCirculationDesk"
+                      p:label="Routed To"/>
+                <bean id="returnedDateTime" parent="Uif-DataField" p:propertyName="returnedDateTime"
+                      p:label="Transit Date"/>
             </list>
         </property>
     </bean>

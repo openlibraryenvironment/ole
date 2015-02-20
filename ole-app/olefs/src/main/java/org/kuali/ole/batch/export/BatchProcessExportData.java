@@ -631,7 +631,9 @@ public class BatchProcessExportData extends AbstractBatchProcess {
                     if (response.getSearchResults().size() == 0) {
                         job.setTotalNoOfRecords("0");
                     } else {
-                        job.setTotalNoOfRecords(String.valueOf(response.getTotalRecordCount()));
+                        List<SearchResult> searchResults = response.getSearchResults();
+                        int totalRecordCount = getTotalRecordCount(searchResults);
+                        job.setTotalNoOfRecords(String.valueOf(totalRecordCount));
                     }
                 } else {
                     response = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
@@ -650,6 +652,22 @@ public class BatchProcessExportData extends AbstractBatchProcess {
             LOG.error("Error while performing solr query :: ", e);
             throw e;
         }
+    }
+
+    private int getTotalRecordCount(List<SearchResult> searchResults){
+        Set<String> bibIds = new TreeSet<>();
+        if (searchResults.size() > 0) {
+            for (SearchResult searchResult : searchResults) {
+                for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
+                    if (searchResultField.getDocType().equalsIgnoreCase("bibliographic") && searchResultField.getFieldName().equalsIgnoreCase("bibIdentifier")) {
+                        String bibId = searchResultField.getFieldValue();
+                        bibIds.add(bibId);
+                    }
+
+                }
+            }
+        }
+        return bibIds.size();
     }
 
     /**

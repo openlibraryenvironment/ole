@@ -251,13 +251,41 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
         String responseString = null;
         OLECirculationService oleCirculationService = new OLECirculationServiceImpl();
 
-        responseString = oleCirculationService.checkOutItem(sip2CheckOutRequestParser.getPatronIdentifier(),
-                operatorId,
-                sip2CheckOutRequestParser.getItemIdentifier(), true);
-        if (responseString != null && !responseString.equalsIgnoreCase("")) {
-            OLECheckOutItem oleCheckOutItem = (OLECheckOutItem) new OLECheckOutItemConverter().generateCheckoutItemObject(responseString);
-            OLESIP2CheckOutResponse sip2CheckOutResponseParser = new OLESIP2CheckOutResponse();
-            responseString = sip2CheckOutResponseParser.getSIP2CheckOutResponse(oleCheckOutItem, sip2CheckOutRequestParser);
+
+        Map patronMap = new HashMap();
+        patronMap.put("barcode", sip2CheckOutRequestParser.getPatronIdentifier());
+        List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>) getBusinessObjectService()
+                .findMatching(OlePatronDocument.class, patronMap);
+
+        if (olePatronDocumentList != null && olePatronDocumentList.size() > 0) {
+            Map barMap = new HashMap();
+            barMap.put("itemId", sip2CheckOutRequestParser.getItemIdentifier());
+            barMap.put("patronId", olePatronDocumentList.get(0).getOlePatronId());
+            List<OleLoanDocument> oleLoanDocuments = (List<OleLoanDocument>) getBusinessObjectService().findMatchingOrderBy(OleLoanDocument.class, barMap, "loanId", true);
+            if (oleLoanDocuments != null && oleLoanDocuments.size() > 0) {
+
+                responseString = oleCirculationService.renewItem(sip2CheckOutRequestParser.getPatronIdentifier(),
+                        operatorId,
+                        sip2CheckOutRequestParser.getItemIdentifier(), true);
+
+                if (responseString != null && !responseString.equalsIgnoreCase("")) {
+                    OLERenewItem oleRenewItem = (OLERenewItem) new OLERenewItemConverter().generateRenewItemObject(responseString);
+                    OLESIP2CheckOutResponse sip2CheckOutResponseParser = new OLESIP2CheckOutResponse();
+                    responseString = sip2CheckOutResponseParser.getSIP2CheckOutResponse(oleRenewItem, sip2CheckOutRequestParser);
+                }
+            } else {
+                responseString = oleCirculationService.checkOutItem(sip2CheckOutRequestParser.getPatronIdentifier(),
+                        operatorId,
+                        sip2CheckOutRequestParser.getItemIdentifier(), true);
+
+                if (responseString != null && !responseString.equalsIgnoreCase("")) {
+                    OLECheckOutItem oleCheckOutItem = (OLECheckOutItem) new OLECheckOutItemConverter().generateCheckoutItemObject(responseString);
+                    OLESIP2CheckOutResponse sip2CheckOutResponseParser = new OLESIP2CheckOutResponse();
+                    responseString = sip2CheckOutResponseParser.getSIP2CheckOutResponse(oleCheckOutItem, sip2CheckOutRequestParser);
+                }
+
+            }
+
         }
         if (responseString == null || responseString.equalsIgnoreCase("")) {
             OLENCIPErrorResponse olencipErrorResponse = new OLENCIPErrorResponse();
@@ -376,7 +404,7 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
         OleItemSearch oleItemSearch = new OleItemSearch();
         List<OleItemSearch> oleItemSearches = new ArrayList<>();
         SearchParams item_search_Params = new SearchParams();
-        item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), Item.ITEM_BARCODE, sip2ItemInformationRequestParser.getItemIdentifier()), "AND"));
+        item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("phrase", item_search_Params.buildSearchField(DocType.ITEM.getCode(), Item.ITEM_BARCODE, sip2ItemInformationRequestParser.getItemIdentifier()), "AND"));
         getDocstoreUtil().getSearchResultFields(item_search_Params);
         SearchResponse searchResponse = null;
 
@@ -530,7 +558,7 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
                     (sip2HoldRequestParser.getPickupLocation() != null
                             && !sip2HoldRequestParser.getPickupLocation().equalsIgnoreCase("")) ?
                             sip2HoldRequestParser.getPickupLocation() : "",null,null,
-                    null);
+                    null,null);
             if (responseString != null && !responseString.equalsIgnoreCase("")) {
                 OLEPlaceRequest olePlaceRequest = (OLEPlaceRequest) new OLEPlaceRequestConverter().generatePlaceRequestObject(responseString);
 

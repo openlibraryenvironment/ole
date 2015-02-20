@@ -67,6 +67,7 @@ public class OlePatronDefintionHelper {
 
     private static final String PATRON_ADDRESS_ID = "1";
     private static final boolean PATRON_ADDRESS_VERIFIED = true;
+    private static final boolean DELIVER_ADDRESS = true;
     private static final Date PATRON_ADDRESS_VALID_FROM = new java.sql.Date((new Timestamp(System.currentTimeMillis())).getTime());
     private static final Date PATRON_ADDRESS_VALID_TO = new java.sql.Date((new Timestamp(System.currentTimeMillis())).getTime());
     private static final Long PATRON_ADDRESS_VERSION_NUMBER = new Long(1);
@@ -295,6 +296,8 @@ public class OlePatronDefintionHelper {
                             public String getAddressSource() {
                                 return PATRON_ADDRESS_SOURCE_ID;
                             }
+                            @Override
+                            public boolean isDeliverAddress(){ return PATRON_ADDRESS_VERIFIED; }
 
                             @Override
                             public OleAddressSourceContract getAddressSourceBo() {
@@ -557,6 +560,11 @@ public class OlePatronDefintionHelper {
                                     return PATRON_ADDRESS_SOURCE_VERSION_NUMBER;
                                 }
                             }).build();
+                        }
+
+                        @Override
+                        public boolean isDeliverAddress() {
+                            return DELIVER_ADDRESS;
                         }
 
                        /* @Override

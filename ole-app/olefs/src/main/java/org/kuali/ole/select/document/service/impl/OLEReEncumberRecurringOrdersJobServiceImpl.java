@@ -38,6 +38,7 @@ public class OLEReEncumberRecurringOrdersJobServiceImpl extends PlatformAwareDao
     public void retrieveReEncumberRecuringOrders() {
 
         String paramaterValue = getParameter(OLEConstants.REENCUMBER_RECURRING_ORDERS);
+        java.sql.Date today = new java.sql.Date(getDateTimeService().getCurrentTimestamp().getTime());
         String[] value = paramaterValue.split(",");
         List<String> entriesList = new ArrayList<>();
         List<Map<String, Object>> poItemData = new ArrayList<Map<String, Object>>();
@@ -51,7 +52,12 @@ public class OLEReEncumberRecurringOrdersJobServiceImpl extends PlatformAwareDao
                     for (Map<String, Object> poDataMap : poItemData) {
 
                         Entry entry = new Entry();
-                        entry.setUniversityFiscalYear(Integer.parseInt(poDataMap.get(OLEConstants.GL_UNIV_FIS_YR).toString()));
+                        String poId = (String)poDataMap.get(OLEConstants.DOC_NBR);
+                        String er =  "SELECT OLE_EXCHANGE_RT FROM OLE_EXCHANGE_RT_T where OLE_CURR_TYP_ID = (select OLE_CURR_TYP_ID from PUR_VNDR_DTL_T where VNDR_HDR_GNRTD_ID = (select VNDR_HDR_GNRTD_ID from PUR_PO_T where PO_ID ="+ poId+"))";
+                        List<Map<String, Object>> vendorMap = new ArrayList<Map<String, Object>>();
+                        vendorMap =  getSimpleJdbcTemplate().queryForList(er);
+                        BigDecimal exchangeRate = (BigDecimal)vendorMap.get(0).get(OLEConstants.EXC_RATE);
+                       entry.setUniversityFiscalYear(Integer.parseInt(poDataMap.get(OLEConstants.GL_UNIV_FIS_YR).toString()));
                         entry.setChartOfAccountsCode(poDataMap.get(OLEConstants.GL_CHART_CD).toString());
                         entry.setAccountNumber(poDataMap.get(OLEConstants.GL_ACCOUNT_NBR).toString());
                         entry.setSubAccountNumber(poDataMap.get(OLEConstants.GL_SUB_ACCT_NBR).toString());
@@ -66,6 +72,7 @@ public class OLEReEncumberRecurringOrdersJobServiceImpl extends PlatformAwareDao
                         entry.setTransactionLedgerEntrySequenceNumber(Integer.parseInt(poDataMap.get(OLEConstants.TRANS_LED_SEQ_NO).toString()));
                         entry.setTransactionLedgerEntryDescription(poDataMap.get(OLEConstants.GL_TRANS_LED_ENTRY_DESC).toString());
                         KualiDecimal transactionLedgerEntryAmount = new KualiDecimal((BigDecimal) poDataMap.get(OLEConstants.GL_TRANS_LED_ENTRY_AMT));
+                        transactionLedgerEntryAmount = transactionLedgerEntryAmount.multiply(new KualiDecimal(exchangeRate));
                         if (paramaterValue.contains("+")) {
                             String amount = paramaterValue.replaceAll("[^0-9]", "");
                             KualiDecimalAdapter kualiDecimalAdapter = new KualiDecimalAdapter();
@@ -87,7 +94,7 @@ public class OLEReEncumberRecurringOrdersJobServiceImpl extends PlatformAwareDao
                         }
                         entry.setTransactionLedgerEntryAmount(transactionLedgerEntryAmount);
                         entry.setTransactionDebitCreditCode(poDataMap.get(OLEConstants.GL_TRANS_DEB_CRE_CD).toString());
-                        entry.setTransactionDate(new java.sql.Date(((Timestamp) poDataMap.get(OLEConstants.GL_TRANS_DT)).getTime()));
+                        entry.setTransactionDate(today);
                         OriginEntryFull originEntryFullentry = new OriginEntryFull(entry);
                         entriesList.add(originEntryFullentry.getLine());
                     }
@@ -113,7 +120,16 @@ public class OLEReEncumberRecurringOrdersJobServiceImpl extends PlatformAwareDao
 
         } else if (value.length > 0 && value[0].equalsIgnoreCase(OLEConstants.INVOICE)) {
             List<Map<String, Object>> invoiceItemData = new ArrayList<Map<String, Object>>();
-            String query = "select ge1.UNIV_FISCAL_YR,ge1.FIN_COA_CD,ge1.ACCOUNT_NBR,ge1.SUB_ACCT_NBR,ge1.FIN_OBJECT_CD,ge1.FIN_SUB_OBJ_CD,ge1.FIN_BALANCE_TYP_CD,ge1.FIN_OBJ_TYP_CD,ge1.UNIV_FISCAL_PRD_CD,ge1.FDOC_TYP_CD,ge1.FS_ORIGIN_CD,ge1.FDOC_NBR,ge1.TRN_ENTR_SEQ_NBR,ge1.TRN_LDGR_ENTR_DESC,ge1.TRN_DEBIT_CRDT_CD,ge1.TRANSACTION_DT,ge2.amt from GL_ENTRY_T ge1,(select (select fdoc_nbr from pur_po_t pot where pot.po_id=ge.fdoc_ref_nbr) as gefdoc_ref_nbr, sum(trn_ldgr_entr_amt) amt from GL_ENTRY_T GE,AP_PMT_RQST_T PREQ,PUR_PO_T PO WHERE GE.FIN_BALANCE_TYP_CD='AC' and GE.TRN_DEBIT_CRDT_CD='D' and GE.FDOC_NBR=PREQ.FDOC_NBR AND PO.PO_ID=PREQ.PO_ID AND PO.RECUR_PMT_TYP_CD is not null group by PREQ.PO_ID,GE.account_nbr) ge2 where ge1.fdoc_nbr=ge2.gefdoc_ref_nbr group by ge1.fdoc_nbr,ge1.account_nbr,ge1.fin_object_cd;";
+            String query = "SELECT GE1.FDOC_REF_NBR,GE1.UNIV_FISCAL_YR,GE1.FIN_COA_CD,GE1.ACCOUNT_NBR,GE1.SUB_ACCT_NBR,GE1.FIN_OBJECT_CD,GE1.FIN_SUB_OBJ_CD,GE1.FIN_BALANCE_TYP_CD,\n" +
+                    "GE1.FIN_OBJ_TYP_CD,GE1.UNIV_FISCAL_PRD_CD,GE1.FDOC_TYP_CD,GE1.FS_ORIGIN_CD,GE1.TRN_ENTR_SEQ_NBR,GE1.TRN_LDGR_ENTR_DESC,GE1.TRN_DEBIT_CRDT_CD,\n" +
+                    "SUM(GE2.AMT) amt FROM GL_ENTRY_T GE1,(SELECT (SELECT FDOC_NBR FROM PUR_PO_T POT WHERE POT.PO_ID=GE.FDOC_REF_NBR) AS GEFDOC_REF_NBR,\n" +
+                    "SUM(TRN_LDGR_ENTR_AMT) AS AMT,GE.ACCOUNT_NBR AS ACCNBR,GE.SUB_ACCT_NBR AS SUBACCNBR,GE.FIN_OBJECT_CD AS OBJCD FROM GL_ENTRY_T GE,AP_PMT_RQST_T PREQ,PUR_PO_T PO WHERE GE.FIN_BALANCE_TYP_CD='AC' AND GE.TRN_DEBIT_CRDT_CD='D' \n" +
+                    "AND GE.FDOC_NBR=PREQ.FDOC_NBR AND PO.PO_ID=PREQ.PO_ID AND PO.RECUR_PMT_TYP_CD IS NOT NULL GROUP BY PREQ.PO_ID,GE.FDOC_REF_NBR,GE.ACCOUNT_NBR,GE.SUB_ACCT_NBR,GE.FIN_OBJECT_CD) GE2 \n" +
+                    "WHERE GE1.FDOC_NBR=GE2.GEFDOC_REF_NBR AND GE1.ACCOUNT_NBR=GE2.ACCNBR \n" +
+                    "GROUP BY\n" +
+                    "GE1.FDOC_REF_NBR,GE1.UNIV_FISCAL_YR,GE1.FIN_COA_CD,GE1.ACCOUNT_NBR,GE1.SUB_ACCT_NBR,GE1.FIN_OBJECT_CD,GE1.FIN_SUB_OBJ_CD,GE1.FIN_BALANCE_TYP_CD,\n" +
+                    "GE1.FIN_OBJ_TYP_CD,GE1.UNIV_FISCAL_PRD_CD,GE1.FDOC_TYP_CD,GE1.FS_ORIGIN_CD,GE1.TRN_ENTR_SEQ_NBR,GE1.TRN_LDGR_ENTR_DESC,GE1.TRN_DEBIT_CRDT_CD\n" +
+                    "ORDER BY GE1.ACCOUNT_NBR,GE1.SUB_ACCT_NBR,GE1.FIN_OBJECT_CD";
 
 
             invoiceItemData = getSimpleJdbcTemplate().queryForList(query);
@@ -123,6 +139,11 @@ public class OLEReEncumberRecurringOrdersJobServiceImpl extends PlatformAwareDao
                     for (Map<String, Object> invoiceDataMap : invoiceItemData) {
 
                         Entry entry = new Entry();
+                        String poId = (String)invoiceDataMap.get(OLEConstants.DOC_NBR);
+                        String er =  "SELECT OLE_EXCHANGE_RT FROM OLE_EXCHANGE_RT_T where OLE_CURR_TYP_ID = (select OLE_CURR_TYP_ID from PUR_VNDR_DTL_T where VNDR_HDR_GNRTD_ID = (select distinct VNDR_HDR_GNRTD_ID from AP_PMT_RQST_T where PO_ID ="+ poId+"))";
+                        List<Map<String, Object>> vendorMap = new ArrayList<Map<String, Object>>();
+                        vendorMap =  getSimpleJdbcTemplate().queryForList(er);
+                        BigDecimal exchangeRate = (BigDecimal)vendorMap.get(0).get(OLEConstants.EXC_RATE);
                         entry.setUniversityFiscalYear(Integer.parseInt(invoiceDataMap.get(OLEConstants.GL_UNIV_FIS_YR).toString()));
                         entry.setChartOfAccountsCode(invoiceDataMap.get(OLEConstants.GL_CHART_CD).toString());
                         entry.setAccountNumber(invoiceDataMap.get(OLEConstants.GL_ACCOUNT_NBR).toString());
@@ -134,10 +155,11 @@ public class OLEReEncumberRecurringOrdersJobServiceImpl extends PlatformAwareDao
                         entry.setUniversityFiscalPeriodCode(invoiceDataMap.get(OLEConstants.GL_UNIV_FISC_PERIOD_CD).toString());
                         entry.setFinancialDocumentTypeCode(invoiceDataMap.get(OLEConstants.GL_FIN_DOC_TYP_CD).toString());
                         entry.setFinancialSystemOriginationCode(invoiceDataMap.get(OLEConstants.GL_FIN_SYS_ORG_CD).toString());
-                        entry.setDocumentNumber(invoiceDataMap.get(OLEConstants.GL_DOC_NBR).toString());
+                        //entry.setDocumentNumber(invoiceDataMap.get(OLEConstants.GL_DOC_NBR).toString());
                         entry.setTransactionLedgerEntrySequenceNumber(Integer.parseInt(invoiceDataMap.get(OLEConstants.TRANS_LED_SEQ_NO).toString()));
                         entry.setTransactionLedgerEntryDescription(invoiceDataMap.get(OLEConstants.GL_TRANS_LED_ENTRY_DESC).toString());
                         KualiDecimal transactionLedgerEntryAmount = new KualiDecimal((BigDecimal) invoiceDataMap.get(OLEConstants.GL_TOTAL_INV_AMT));
+                        transactionLedgerEntryAmount = transactionLedgerEntryAmount.multiply(new KualiDecimal(exchangeRate));
                         if (paramaterValue.contains("+")) {
                             String amount = paramaterValue.replaceAll("[^0-9]", "");
                             KualiDecimalAdapter kualiDecimalAdapter = new KualiDecimalAdapter();
@@ -160,7 +182,8 @@ public class OLEReEncumberRecurringOrdersJobServiceImpl extends PlatformAwareDao
 
                         entry.setTransactionLedgerEntryAmount(transactionLedgerEntryAmount);
                         entry.setTransactionDebitCreditCode(invoiceDataMap.get(OLEConstants.GL_TRANS_DEB_CRE_CD).toString());
-                        entry.setTransactionDate(new java.sql.Date(((Timestamp) invoiceDataMap.get(OLEConstants.GL_TRANS_DT)).getTime()));
+                        entry.setTransactionDate(today);
+                       // entry.setTransactionDate(new java.sql.Date(((Timestamp) invoiceDataMap.get(OLEConstants.GL_TRANS_DT)).getTime()));
                         OriginEntryFull originEntryFullentry = new OriginEntryFull(entry);
                         entriesList.add(originEntryFullentry.getLine());
 

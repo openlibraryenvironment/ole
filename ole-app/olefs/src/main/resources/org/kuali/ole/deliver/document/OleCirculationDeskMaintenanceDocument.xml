@@ -54,6 +54,7 @@
                             <bean id="create_circulationDeskPublicName" parent="Uif-InputField" p:propertyName="circulationDeskPublicName"/>
                             <bean id="create_circulationDeskStaffName" parent="Uif-InputField" p:propertyName="circulationDeskStaffName"/>
                             <bean id="create_onHoldDays" parent="Uif-InputField" p:propertyName="onHoldDays" p:required="true"/>
+                            <bean id="create_requestExpirationDays" parent="Uif-InputField" p:propertyName="requestExpirationDays" p:required="true"/>
                             <bean id="create_shelvingLagTime" parent="Uif-InputField" p:propertyName="shelvingLagTime" p:required="true"/>
                             <bean id="create_isPickUpLocation" parent="Uif-InputField" p:propertyName="pickUpLocation"/>
                             <bean id="create_asrPickupLocation" parent="Uif-InputField" p:propertyName="asrPickupLocation"/>
@@ -165,7 +166,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="CKDSK_deleteLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteCirculationLine" p:actionLabel="Delete"  />
+                <bean id="CKDSK_deleteLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="Delete"  />
             </list>
         </property>
     </bean>
@@ -205,7 +206,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="Pickup-CKDSK_deleteLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deletePickupCirculationLine" p:actionLabel="Delete"  />
+                <bean id="Pickup-CKDSK_deleteLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="Delete"  />
             </list>
         </property>
     </bean>

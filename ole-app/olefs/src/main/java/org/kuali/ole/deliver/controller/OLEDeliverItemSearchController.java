@@ -106,7 +106,7 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                     searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.AND_SEARCH_SCOPE, searchParams.buildSearchField(DocType.ITEM.getCode(), Item.ITEM_TYPE, itemType), OLEConstants.AND_SEARCH_SCOPE));
                 }
                 if (StringUtils.isNotBlank(itemLocation)) {
-                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.AND_SEARCH_SCOPE, searchParams.buildSearchField(DocType.ITEM.getCode(), ItemConstants.LOCATION_LEVEL_SEARCH, itemLocation), OLEConstants.AND_SEARCH_SCOPE));
+                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.PHRASE, searchParams.buildSearchField(DocType.ITEM.getCode(), ItemConstants.LOCATION_LEVEL_SEARCH, itemLocation), OLEConstants.AND_SEARCH_SCOPE));
                 }
                 searchParams.setPageSize(100000);
                 getSearchResultFields(searchParams);
@@ -131,7 +131,7 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.LOCATION_LEVEL_DISPLAY));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.CALL_NUMBER));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.ITEM_STATUS));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.ITEM_TYPE));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), OLEConstants.ITEM_TYPE_FULL_VALUE));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.HOLDINGS_IDENTIFIER));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.HOLDINGS_CALLNUMBER_DISPLAY));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.ID));
@@ -198,7 +198,7 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Item.ITEM_STATUS)) {
                             singleItemResultDisplayRow.setItemStatus(searchResultField.getFieldValue());
                             itemSearchResultDisplayRow.setItemStatus(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(Item.ITEM_TYPE)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(OLEConstants.ITEM_TYPE_FULL_VALUE)) {
                             singleItemResultDisplayRow.setItemType(searchResultField.getFieldValue());
                             itemSearchResultDisplayRow.setItemType(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Holdings.HOLDINGSIDENTIFIER)) {
@@ -347,6 +347,7 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                 //additional copies
                 getOleDeliverItemSearchService().setAdditionalCopiesInfo(singleItemResultDisplayRow);
                 //item history
+                getOleDeliverItemSearchService().setInTransitHistoryInfo(singleItemResultDisplayRow);
                 getOleDeliverItemSearchService().setRequestHistoryInfo(singleItemResultDisplayRow);
                 oleDeliverItemSearchForm.setOleSingleItemResultDisplayRow(singleItemResultDisplayRow);
                 oleDeliverItemSearchForm.setSingleItemFlag(true);

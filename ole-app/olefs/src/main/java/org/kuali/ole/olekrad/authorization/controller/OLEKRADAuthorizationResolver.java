@@ -2,6 +2,8 @@ package org.kuali.ole.olekrad.authorization.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.form.OleLoanForm;
 import org.kuali.ole.olekrad.authorization.form.OLEKRADAuthorizationForm;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -105,6 +107,30 @@ public class OLEKRADAuthorizationResolver extends UifHandlerExceptionResolver {
             }
 
             return modelAndView;
+        }else if(ex!=null && ex.getMessage()!=null &&((UifFormBase)request.getAttribute(UifConstants.REQUEST_FORM)).getClass().getName().equals("org.kuali.ole.deliver.form.OleLoanForm")){
+            UifFormBase form = (UifFormBase)request.getAttribute(UifConstants.REQUEST_FORM);
+            OleLoanForm oleLoanForm = (OleLoanForm) form;
+            if(StringUtils.isNotBlank(oleLoanForm.getInformation()) && (oleLoanForm.getInformation().contains("for key 'ITM_ID_UNIQUE'")|| oleLoanForm.getInformation().contains("The Item is already loaned."))){
+                oleLoanForm.setInformation(OLEConstants.ITEM_ALREADY_LOANED);
+                oleLoanForm.setMessage(null);
+                oleLoanForm.setSuccess(true);
+                oleLoanForm.setNonCirculatingFlag(false);
+                oleLoanForm.setCurrentDate(null);
+                oleLoanForm.setRequestUrl(oleLoanForm.getRequestUrl() + OLEConstants.ITEM_ALREADY_LOANED_REDIRECT_URL + oleLoanForm.getFormKey());
+                oleLoanForm.setFormPostUrl(oleLoanForm.getFormPostUrl() + OLEConstants.ITEM_ALREADY_LOANED_REDIRECT_URL + oleLoanForm.getFormKey());
+                GlobalVariables.getUifFormManager().addSessionForm(oleLoanForm);
+                HistoryEntry entry = new HistoryEntry("", "", "is not a valid date", "", "");
+                ModelAndView modelAndView = UifControllerHelper.getUIFModelAndView(oleLoanForm, "PatronItemViewPage");
+                try {
+                    UifControllerHelper.postControllerHandle(request, response, handler, modelAndView);
+                } catch (Exception e) {
+                    LOG.error("An error stopped the incident form from loading", e);
+                }
+                return modelAndView;
+            }else{
+                return super.resolveException(request,response,handler,ex);
+            }
+         
         }
         else {
             return super.resolveException(request,response,handler,ex);

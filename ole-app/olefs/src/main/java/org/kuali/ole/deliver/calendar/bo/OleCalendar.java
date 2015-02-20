@@ -1,12 +1,10 @@
 package org.kuali.ole.deliver.calendar.bo;
 
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -248,5 +246,14 @@ public class OleCalendar extends PersistableBusinessObjectBase {
 
     public void setCancelOperationEndDateFlag(boolean cancelOperationEndDateFlag) {
         this.cancelOperationEndDateFlag = cancelOperationEndDateFlag;
+    }
+
+    @Override
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+        List<Collection<PersistableBusinessObject>> collectionList = new ArrayList<>();
+        collectionList.add((Collection)getOleCalendarExceptionDateList());
+        collectionList.add((Collection)getOleCalendarExceptionPeriodList());
+        collectionList.add((Collection)getOleCalendarWeekList());
+        return collectionList;
     }
 }

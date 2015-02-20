@@ -65,7 +65,7 @@
   <param name="rice.server.krad.lookup.url">${application.url}/ole-kr-krad/lookup</param>
   <param name="rice.server.krad.url">${application.url}/ole-kr-krad</param>
   <param name="http.service.url">${application.url}/remoting/</param>
-  <param name="documentation.url">http://site.origin.kuali.org/ole/1.5.0-M2-SNAPSHOT/reference/html/Index.html</param>
+  <param name="documentation.url">https://wiki.kuali.org/display/OLE/OLE+Published+Documentation</param>
 
 
   <!--KFS B2B Urls -->

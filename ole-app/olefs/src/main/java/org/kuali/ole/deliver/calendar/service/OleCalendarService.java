@@ -32,6 +32,4 @@ public interface OleCalendarService {
     public void validateCalendarDocument(OleCalendar oleCalendar);
 
     public void deleteCalendarDocument(OleCalendar oleCalendar);
-
-    public void deleteCalendarCollections(OleCalendar oleCalendar);
 }

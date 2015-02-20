@@ -17,4 +17,6 @@ public interface OLEEncumberOpenRecurringOrdersService {
 
     public File[] getAllFileInBatchDirectory();
 
+    public void createRolloverDirectory();
+
 }

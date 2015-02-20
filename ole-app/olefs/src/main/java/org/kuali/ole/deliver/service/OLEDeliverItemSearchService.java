@@ -21,4 +21,6 @@ public interface OLEDeliverItemSearchService {
 
     public void setRequestHistoryInfo(OLESingleItemResultDisplayRow singleItemResultDisplayRow);
 
+    public void setInTransitHistoryInfo(OLESingleItemResultDisplayRow singleItemResultDisplayRow);
+
 }

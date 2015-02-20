@@ -118,14 +118,14 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
                         if (olePatronDocumentList.size() > 0) {
                             olePatronDocument = olePatronDocumentList.get(0);
                             proxyPatronDocument = new OleProxyPatronDocument();
-                            if (olePatronDocument.isActiveIndicator()) {
+                           // if (olePatronDocument.isActiveIndicator()) {
                                 proxyPatronDocument.setOlePatronId(olePatronDocument.getOlePatronId());
                                 proxyPatronDocument.setProxyForPatronFirstName(olePatronDocument.getEntity().getNames().get(0).getFirstName());
                                 proxyPatronDocument.setProxyForPatronLastName(olePatronDocument.getEntity().getNames().get(0).getLastName());
                                 proxyPatronDocument.setProxyPatronActivationDate(oleProxyPatronDocument.getProxyPatronActivationDate());
                                 proxyPatronDocument.setProxyPatronExpirationDate(oleProxyPatronDocument.getProxyPatronExpirationDate());
 
-                            }
+                         //   }
                             proxyPatronDocuments.add(proxyPatronDocument);
                         }
                     }

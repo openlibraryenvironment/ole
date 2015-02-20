@@ -24,6 +24,7 @@ import org.kuali.ole.deliver.defaultload.LoadDefaultEResourceBean;
 import org.kuali.ole.deliver.defaultload.LoadDefaultLicensesBean;
 import org.kuali.ole.deliver.defaultload.LoadDefaultPatronsBean;
 import org.kuali.ole.ingest.LoadDefaultIngestProfileBean;
+import org.kuali.ole.select.document.service.OLEEncumberOpenRecurringOrdersService;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.web.listener.KualiInitializeListener;
@@ -53,6 +54,8 @@ public class OLEInitializeListener extends KualiInitializeListener {
         SpringContext.initMonitoringThread();
         SpringContext.initScheduler();
 
+        OLEEncumberOpenRecurringOrdersService encumberOpenRecurringOrdersService =  SpringContext.getBean(OLEEncumberOpenRecurringOrdersService.class);
+        encumberOpenRecurringOrdersService.createRolloverDirectory();
         DocumentServiceImpl documentService = (DocumentServiceImpl) SpringContext.getBean("documentService");
         documentService.setDocumentDao((DocumentDao) SpringContext.getBean("documentDao"));
         //documentService.setWorkflowDocumentService((WorkflowDocumentService)SpringContext.getBean("workflowDocumentService"));

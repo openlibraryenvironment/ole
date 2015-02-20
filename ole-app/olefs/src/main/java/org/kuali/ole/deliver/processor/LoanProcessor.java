@@ -835,6 +835,70 @@ public class LoanProcessor {
         LOG.info("The time taken for Docstore call :"+total);
         return sortLoanDocumentByDueDate(matchingLoan);
     }
+
+
+    public org.kuali.ole.docstore.common.document.content.instance.Item checkItemStatusForItemBarcode(String itemBarcode)throws Exception{
+        SearchResponse searchResponse = new SearchResponse();
+        SearchParams searchParams = new SearchParams();
+        List<SearchCondition> searchConditions = new ArrayList<>();
+        searchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", "AVAILABLE"), "AND"));
+        searchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", "RECENTLY-RETURNED"), "OR"));
+        searchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", "UNAVAILABLE"), "OR"));
+        searchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", "INPROCESS"), "OR"));
+        searchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", "ONORDER"), "OR"));
+        searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField("item", "ItemBarcode_search", itemBarcode), "AND"));
+        buildSearchParams(searchParams);
+        searchParams.getSearchConditions().addAll(searchConditions);
+        searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+        String itemUUID = null;
+        if(searchResponse!=null) {
+            for (SearchResult searchResult : searchResponse.getSearchResults()) {
+                for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
+                    if (searchResultField.getFieldValue() != null) {
+                        if (searchResultField.getFieldName().equalsIgnoreCase("id")) {
+                            itemUUID = searchResultField.getFieldValue();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        org.kuali.ole.docstore.common.document.content.instance.Item oleItem = null;
+        String itemXml = null;
+        org.kuali.ole.docstore.common.document.Item item = null;
+        item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemUUID);
+        itemXml = item.getContent()!=null ? item.getContent() : getItemXML(itemUUID);
+        oleItem = getItemPojo(itemXml);
+        return oleItem;
+    }
+
+    public void rollbackItemStatus(org.kuali.ole.docstore.common.document.content.instance.Item oleItem,String itemStatus,String itemBarcode) throws Exception{
+        Map barMap = new HashMap();
+        barMap.put("itemId", itemBarcode);
+        List<OleLoanDocument> matchingLoan = (List<OleLoanDocument>) getBusinessObjectService().findMatching(OleLoanDocument.class, barMap);
+        if(matchingLoan != null && matchingLoan.size()>0){
+            //oleItem.setCheckOutDateTime(convertToString());
+            oleItem.setDueDateTime(convertToString(matchingLoan.get(0).getLoanDueDate()));
+            if(StringUtils.isNotBlank(matchingLoan.get(0).getPatronId())) {
+                oleItem.setCurrentBorrower(matchingLoan.get(0).getPatronId());
+            }
+            if(StringUtils.isNotBlank(matchingLoan.get(0).getProxyPatronId())) {
+                oleItem.setProxyBorrower(matchingLoan.get(0).getProxyPatronId());
+            }
+        }
+        updateItemStatus(oleItem,itemStatus);
+    }
+
+    private String getPatronBarcodeByPatronId(String patronId) throws Exception{
+        Map barMap = new HashMap();
+        barMap.put("olePatronId", patronId);
+        List<OlePatronDocument> patronDocument = (List<OlePatronDocument>) getBusinessObjectService().findMatching(OlePatronDocument.class, barMap);
+        if(patronDocument != null && patronDocument.size()>0){
+            return patronDocument.get(0).getBarcode();
+        }
+        return null;
+    }
     /**
      * This method returns PatronTemporaryCirculationHistoryRecord using patronId
      *
@@ -1488,9 +1552,7 @@ public class LoanProcessor {
 
         if(dateToString != null && dateToString.equalsIgnoreCase("null")){
             if(oleLoanDocument.isRenewalItemFlag() || (oleLoanDocument.isVuFindFlag() && oleLoanDocument.isRenewalItemFlag())) {
-                if (failures.length() > 1) {
-                    failures.delete(0, failures.length() - 1);
-                }
+                failures.delete(0,failures.length()-1);
                 failures.append(OLEConstants.RENEWAL_INDEFINITE_INFO);
                 oleLoanDocument.setIndefiniteCheckFlag(true);
             }else{
@@ -1502,13 +1564,12 @@ public class LoanProcessor {
         if (item.getItemType().getCodeValue().equalsIgnoreCase(OLEConstants.NONCIRC) || circulationPolicySetId == null) {
             oleLoanDocument.setNonCirculatingItem(true);
         }
+        Timestamp  oldDueDate = oleLoanDocument.getLoanDueDate();
         if ((!oleLoanDocument.isRenewalItemFlag() || (oleLoanDocument.isRenewalItemFlag() && failures.toString().isEmpty()))) {
             oleLoanDocument.setLoanDueDate(dueDate != null ? dueDate : null);
         }
-        if(oleLoanDocument.isRenewalItemFlag() && !oleLoanDocument.isIndefiniteCheckFlag() && oleLoanDocument.getLoanDueDate().equals(dueDate)){
-            if (failures.length() > 1) {
-                failures.delete(0, failures.length() - 1);
-            }
+        if(oleLoanDocument.isRenewalItemFlag() && !oleLoanDocument.isIndefiniteCheckFlag() && oldDueDate.equals(dueDate)){
+            failures.delete(0,failures.length()-1);
             oleLoanDocument.setRenewNotFlag(true);
             failures.append(OLEConstants.RENEWAL_DUEDATE_SAME_INFO);
         }else{
@@ -2118,27 +2179,29 @@ public class LoanProcessor {
                     oleLoanDocument.setSuccessMessage(OLEConstants.DUE_DATE_INFO);
                 }
             }
-            org.kuali.ole.docstore.common.document.content.instance.Item oleItem = oleLoanDocument.getOleItem();
-            if(oleItem!=null){
-                oleItem.setCurrentBorrower(oleLoanDocument.getPatronId());
-                oleItem.setProxyBorrower(oleLoanDocument.getProxyPatronId());
-        oleItem.setCheckOutDateTime(convertDateToString(oleLoanDocument.getCreateDate(),"MM/dd/yyyy HH:mm:ss"));
-                if (oleLoanDocument.getLoanDueDate() != null) {
-                    oleItem.setDueDateTime(convertToString(oleLoanDocument.getLoanDueDate()));
-                }else{
-                    oleItem.setDueDateTime("");
+            if(oleLoanDocument.getLoanId()!=null) {
+                org.kuali.ole.docstore.common.document.content.instance.Item oleItem = oleLoanDocument.getOleItem();
+                if (oleItem != null) {
+                    oleItem.setCurrentBorrower(oleLoanDocument.getPatronId());
+                    oleItem.setProxyBorrower(oleLoanDocument.getProxyPatronId());
+                    oleItem.setCheckOutDateTime(convertDateToString(oleLoanDocument.getCreateDate(), "MM/dd/yyyy HH:mm:ss"));
+                    if (oleLoanDocument.getLoanDueDate() != null) {
+                        oleItem.setDueDateTime(convertToString(oleLoanDocument.getLoanDueDate()));
+                    } else {
+                        oleItem.setDueDateTime("");
+                    }
+                    oleItem.setNumberOfRenew(Integer.parseInt(oleLoanDocument.getNumberOfRenewals()));
+                    postLoan(oleItem);
                 }
-                oleItem.setNumberOfRenew(Integer.parseInt(oleLoanDocument.getNumberOfRenewals()));
-                postLoan(oleItem);
+                if (getItemStatus() != null) {
+                    oleLoanDocument.setItemStatus(getItemStatus());
+                }
+                if (oleLoanDocument.isRenewalItemFlag()) {
+                    oleLoanDocument.setRenewalItemFlag(false);
+                    getOleDeliverNoticeHelperService().deleteDeliverNotices(oleLoanDocument.getLoanId());
+                }
+                getOleDeliverNoticeHelperService().generateDeliverNotices(oleLoanDocument);
             }
-            if (getItemStatus() != null) {
-                oleLoanDocument.setItemStatus(getItemStatus());
-            }
-            if(oleLoanDocument.isRenewalItemFlag()){
-                oleLoanDocument.setRenewalItemFlag(false);
-                getOleDeliverNoticeHelperService().deleteDeliverNotices(oleLoanDocument.getLoanId());
-            }
-            getOleDeliverNoticeHelperService().generateDeliverNotices(oleLoanDocument);
         }
     }
 
@@ -2442,6 +2505,15 @@ public class LoanProcessor {
         return itemContent;
     }
 
+    private void RollBackLoanRecord(org.kuali.ole.docstore.common.document.content.instance.Item oleItem) throws Exception{
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("itemId", oleItem.getAccessInformation().getBarcode());
+        List<OleLoanDocument> oleLoanDocument = (List<OleLoanDocument>)  KRADServiceLocator.getBusinessObjectService().findMatching(OleLoanDocument.class,criteria);
+        if(oleLoanDocument.size()>0) {
+            KRADServiceLocator.getBusinessObjectService().delete(oleLoanDocument.get(0));
+        }
+    }
+
     /**
      * This method invokes docStore to store item and returns itemRecordUpdateResponse.
      *
@@ -2462,6 +2534,7 @@ public class LoanProcessor {
             item.setStaffOnly(oleItem.isStaffOnlyFlag());
             getDocstoreClientLocator().getDocstoreClient().updateItem(item);
         } catch (Exception e) {
+            RollBackLoanRecord(oleItem);
             LOG.error(OLEConstants.ITM_STS_TO_DOC_FAIL + e, e);
             throw new Exception(OLEConstants.ITM_STS_TO_DOC_FAIL);
         }
@@ -3347,43 +3420,48 @@ public class LoanProcessor {
         getOleDeliverRequestDocumentHelperService().cancelDocument(oleDeliverRequestBo);
     }
 
-    public void createCirculationHistoryAndTemporaryHistoryRecords(OleLoanDocument oleLoanDocument) {
+    public void createCirculationHistoryAndTemporaryHistoryRecords(OleLoanDocument oleLoanDocument) throws Exception{
         LOG.debug("Inside the createCirculationHistoryAndTemporaryHistoryRecords method");
-        OlePatronDocument olePatronDocument = oleLoanDocument.getOlePatron();
-        OleCirculationHistory oleCirculationHistory = new OleCirculationHistory();
-        oleCirculationHistory.setLoanId(oleLoanDocument.getLoanId());
-        oleCirculationHistory.setCirculationPolicyId(oleLoanDocument.getCirculationPolicyId());
-        oleCirculationHistory.setBibAuthor(oleLoanDocument.getAuthor());
-        oleCirculationHistory.setBibTitle(oleLoanDocument.getTitle());
-        oleCirculationHistory.setCheckInDate(oleLoanDocument.getCheckInDate() != null ? oleLoanDocument.getCheckInDate() : new Timestamp(System.currentTimeMillis()));
-        //oleCirculationHistory.setCheckInMachineId(oleLoanDocument.getMachineId());  //commented for jira OLE-5675
-        oleCirculationHistory.setCreateDate(oleLoanDocument.getCreateDate());
-        oleCirculationHistory.setCirculationLocationId(oleLoanDocument.getCirculationLocationId());
-        oleCirculationHistory.setDueDate(oleLoanDocument.getLoanDueDate());
-        oleCirculationHistory.setItemId(oleLoanDocument.getItemId());
-        //oleCirculationHistory.setMachineId(oleLoanDocument.getMachineId());      //commented for jira OLE-5675
-        oleCirculationHistory.setNumberOfOverdueNoticesSent(oleLoanDocument.getNumberOfOverdueNoticesSent());
-        oleCirculationHistory.setNumberOfRenewals(oleLoanDocument.getNumberOfRenewals());
-        oleCirculationHistory.setStatisticalCategory(olePatronDocument.getStatisticalCategory());
-        oleCirculationHistory.setRepaymentFeePatronBillId(oleLoanDocument.getRepaymentFeePatronBillId());
-        oleCirculationHistory.setProxyPatronId(olePatronDocument.getProxyPatronId());
-        oleCirculationHistory.setPatronTypeId(oleLoanDocument.getBorrowerTypeId());
-        oleCirculationHistory.setPatronId(oleLoanDocument.getPatronId());
-        oleCirculationHistory.setPastDueDate(oleLoanDocument.getPastDueDate());
-        oleCirculationHistory.setOverdueNoticeDate(oleLoanDocument.getOverDueNoticeDate());
-        oleCirculationHistory.setOleRequestId(oleLoanDocument.getOleRequestId());
-        oleCirculationHistory.setItemUuid(oleLoanDocument.getItemUuid());
-        getBusinessObjectService().save(oleCirculationHistory);
+        try {
+            OlePatronDocument olePatronDocument = oleLoanDocument.getOlePatron();
+            OleCirculationHistory oleCirculationHistory = new OleCirculationHistory();
+            oleCirculationHistory.setLoanId(oleLoanDocument.getLoanId());
+            oleCirculationHistory.setCirculationPolicyId(oleLoanDocument.getCirculationPolicyId());
+            oleCirculationHistory.setBibAuthor(oleLoanDocument.getAuthor());
+            oleCirculationHistory.setBibTitle(oleLoanDocument.getTitle());
+            oleCirculationHistory.setCheckInDate(oleLoanDocument.getCheckInDate() != null ? oleLoanDocument.getCheckInDate() : new Timestamp(System.currentTimeMillis()));
+            //oleCirculationHistory.setCheckInMachineId(oleLoanDocument.getMachineId());  //commented for jira OLE-5675
+            oleCirculationHistory.setCreateDate(oleLoanDocument.getCreateDate());
+            oleCirculationHistory.setCirculationLocationId(oleLoanDocument.getCirculationLocationId());
+            oleCirculationHistory.setDueDate(oleLoanDocument.getLoanDueDate());
+            oleCirculationHistory.setItemId(oleLoanDocument.getItemId());
+            //oleCirculationHistory.setMachineId(oleLoanDocument.getMachineId());      //commented for jira OLE-5675
+            oleCirculationHistory.setNumberOfOverdueNoticesSent(oleLoanDocument.getNumberOfOverdueNoticesSent());
+            oleCirculationHistory.setNumberOfRenewals(oleLoanDocument.getNumberOfRenewals());
+            oleCirculationHistory.setStatisticalCategory(olePatronDocument.getStatisticalCategory());
+            oleCirculationHistory.setRepaymentFeePatronBillId(oleLoanDocument.getRepaymentFeePatronBillId());
+            oleCirculationHistory.setProxyPatronId(olePatronDocument.getProxyPatronId());
+            oleCirculationHistory.setPatronTypeId(oleLoanDocument.getBorrowerTypeId());
+            oleCirculationHistory.setPatronId(oleLoanDocument.getPatronId());
+            oleCirculationHistory.setPastDueDate(oleLoanDocument.getPastDueDate());
+            oleCirculationHistory.setOverdueNoticeDate(oleLoanDocument.getOverDueNoticeDate());
+            oleCirculationHistory.setOleRequestId(oleLoanDocument.getOleRequestId());
+            oleCirculationHistory.setItemUuid(oleLoanDocument.getItemUuid());
+            getBusinessObjectService().save(oleCirculationHistory);
 
-        OleTemporaryCirculationHistory oleTemporaryCirculationHistory = new OleTemporaryCirculationHistory();
-        oleTemporaryCirculationHistory.setCirculationLocationId(oleLoanDocument.getCirculationLocationId());
-        oleTemporaryCirculationHistory.setOlePatronId(oleLoanDocument.getPatronId());
-        oleTemporaryCirculationHistory.setItemId(oleLoanDocument.getItemId());
-        oleTemporaryCirculationHistory.setCheckInDate(oleLoanDocument.getCheckInDate() != null ? oleLoanDocument.getCheckInDate() : new Timestamp(System.currentTimeMillis()));
-        oleTemporaryCirculationHistory.setItemUuid(oleLoanDocument.getItemUuid());
-        oleTemporaryCirculationHistory.setDueDate(oleLoanDocument.getLoanDueDate());
-        oleTemporaryCirculationHistory.setCheckOutDate(oleLoanDocument.getCreateDate());
-        getBusinessObjectService().save(oleTemporaryCirculationHistory);
+            OleTemporaryCirculationHistory oleTemporaryCirculationHistory = new OleTemporaryCirculationHistory();
+            oleTemporaryCirculationHistory.setCirculationLocationId(oleLoanDocument.getCirculationLocationId());
+            oleTemporaryCirculationHistory.setOlePatronId(oleLoanDocument.getPatronId());
+            oleTemporaryCirculationHistory.setItemId(oleLoanDocument.getItemId());
+            oleTemporaryCirculationHistory.setCheckInDate(oleLoanDocument.getCheckInDate() != null ? oleLoanDocument.getCheckInDate() : new Timestamp(System.currentTimeMillis()));
+            oleTemporaryCirculationHistory.setItemUuid(oleLoanDocument.getItemUuid());
+            oleTemporaryCirculationHistory.setDueDate(oleLoanDocument.getLoanDueDate());
+            oleTemporaryCirculationHistory.setCheckOutDate(oleLoanDocument.getCreateDate());
+            getBusinessObjectService().save(oleTemporaryCirculationHistory);
+        }catch (Exception tempHistoryException){
+            LOG.error(tempHistoryException.getMessage());
+            throw new Exception("Unable to record the transaction in temporary circulation history.");
+        }
 
     }
 

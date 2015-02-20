@@ -72,12 +72,6 @@ public class OleCirculationDeskMaintenanceController extends MaintenanceDocument
         if(CollectionUtils.isNotEmpty(oleCirculationDesk.getOlePickupCirculationDeskLocations())){
             oleCirculationDesk.getOleCirculationDeskLocations().addAll(oleCirculationDesk.getOlePickupCirculationDeskLocations());
         }
-        List<OleCirculationDeskLocation> oleCirculationDeskLocationList = oleCirculationDesk.getDeleteoleCirculationDeskLocations();
-        for (OleCirculationDeskLocation oleCirculationDeskLocation : oleCirculationDeskLocationList) {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("circulationDeskId", oleCirculationDeskLocation.getCirculationDeskId());
-            KRADServiceLocator.getBusinessObjectService().deleteMatching(OleCirculationDeskLocation.class, map);
-        }
         return super.route(form, result, request, response);
     }
 
@@ -145,19 +139,6 @@ public class OleCirculationDeskMaintenanceController extends MaintenanceDocument
         view.getViewHelperService().processCollectionAddLine(view, form, selectedCollectionPath);
         return getUIFModelAndView(form);
     }
-
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteCirculationLine")
-    public ModelAndView deleteCirculationLine(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response) {
-        LOG.debug("Initialized deleteLine method");
-        MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
-        String selectedLineIndex = form.getActionParamaterValue("selectedLineIndex");
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
-        OleCirculationDesk oleCirculationDesk = (OleCirculationDesk) document.getNewMaintainableObject().getDataObject();
-        oleCirculationDesk.getDeleteoleCirculationDeskLocations().add(oleCirculationDesk.getOleCirculationDeskLocationList().get(Integer.parseInt(selectedLineIndex)));
-        return deleteLine(uifForm, result, request, response);
-    }
-
     @RequestMapping(params = "methodToCall=addPickupCirculationLine")
     public ModelAndView addPickupCirculationLine(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -213,18 +194,6 @@ public class OleCirculationDeskMaintenanceController extends MaintenanceDocument
         View view = form.getPostedView();
         view.getViewHelperService().processCollectionAddLine(view, form, selectedCollectionPath);
         return getUIFModelAndView(form);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deletePickupCirculationLine")
-    public ModelAndView deletePickupCirculationLine(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                              HttpServletRequest request, HttpServletResponse response) {
-        LOG.debug("Initialized deleteLine method");
-        MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
-        String selectedLineIndex = form.getActionParamaterValue("selectedLineIndex");
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
-        OleCirculationDesk oleCirculationDesk = (OleCirculationDesk) document.getNewMaintainableObject().getDataObject();
-        oleCirculationDesk.getDeleteOlePickupCirculationDeskLocations().add(oleCirculationDesk.getOlePickupCirculationDeskLocations().get(Integer.parseInt(selectedLineIndex)));
-        return deleteLine(uifForm, result, request, response);
     }
 
 }

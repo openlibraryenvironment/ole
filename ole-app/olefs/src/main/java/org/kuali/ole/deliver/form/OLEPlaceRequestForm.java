@@ -33,6 +33,7 @@ public class OLEPlaceRequestForm extends UifFormBase {
     private String holdRequestType;
     private String pageRequestType;
     private String copyRequestType;
+    private boolean blockOverride=false;
 
     private boolean recallRequest;
     private boolean holdRequest;
@@ -52,7 +53,16 @@ public class OLEPlaceRequestForm extends UifFormBase {
     private boolean itemLevelRequest = true;
     private boolean itemEligible=true;
     private List<OleTitleLevelRequestItem> titleLevelRequestItems;
+    private boolean patronFound;
+    private String itemType;
 
+    public boolean isBlockOverride() {
+        return blockOverride;
+    }
+
+    public void setBlockOverride(boolean blockOverride) {
+        this.blockOverride = blockOverride;
+    }
 
     public String getCreateDate() {
         return createDate;
@@ -119,6 +129,13 @@ public class OLEPlaceRequestForm extends UifFormBase {
     }
 
     public String getPatronName() {
+        if(olePatronDocument!=null ){
+            if( olePatronDocument.getRealPatronFirstName()!=null ){
+            patronName = olePatronDocument.getRealPatronFirstName();}
+            if(olePatronDocument.getRealPatronLastName()!=null){
+                patronName = patronName + " " + olePatronDocument.getRealPatronLastName();
+            }
+        }
         return patronName;
     }
 
@@ -333,5 +350,21 @@ public class OLEPlaceRequestForm extends UifFormBase {
 
     public void setItemEligible(boolean itemEligible) {
         this.itemEligible = itemEligible;
+    }
+
+    public boolean isPatronFound() {
+        return patronFound;
+    }
+
+    public void setPatronFound(boolean patronFound) {
+        this.patronFound = patronFound;
+    }
+
+    public String getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
     }
 }

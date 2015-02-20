@@ -324,7 +324,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="CalendarWeek-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="calendarWeekDelete" p:actionLabel="Delete"/>
+                <bean id="CalendarWeek-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="Delete"/>
             </list>
         </property>
     </bean>
@@ -444,7 +444,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="exceptionDay-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="exceptionDayDelete" p:actionLabel="Delete"/>
+                <bean id="exceptionDay-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="Delete"/>
             </list>
         </property>
     </bean>
@@ -522,7 +522,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="ExceptionPeriodList-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="exceptionPeriodListDelete" p:actionLabel="Delete"/>
+                <bean id="ExceptionPeriodList-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="Delete"/>
             </list>
         </property>
         <property name="subCollections">
@@ -662,7 +662,7 @@
         </property>-->
         <property name="lineActions">
             <list>
-                <bean id="ExceptionPeriodWeekList-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="exceptionPeriodWeekListDelete" p:actionLabel="Delete"/>
+                <bean id="ExceptionPeriodWeekList-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="Delete"/>
             </list>
         </property>
     </bean>

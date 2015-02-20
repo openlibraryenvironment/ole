@@ -35,6 +35,19 @@ public class OLEPlaceRequest {
     private String expirationDate;
     /*This above fields are only for SIP2*/
 
+    /*This following field is only for overriding concept.*/
+    @JsonIgnore
+    private boolean blockOverride=false;
+    /*This above field is only for overriding concept.*/
+
+    public boolean isBlockOverride() {
+        return blockOverride;
+    }
+
+    public void setBlockOverride(boolean blockOverride) {
+        this.blockOverride = blockOverride;
+    }
+
     public String getCode() {
         return code;
     }

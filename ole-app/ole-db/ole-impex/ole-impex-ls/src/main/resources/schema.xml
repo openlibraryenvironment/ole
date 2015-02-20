@@ -561,7 +561,8 @@
     </table>
 
     <table name="OLE_CRCL_DSK_LOCN_T">
-        <column default="0" name="OLE_CRCL_DSK_LOCN_ID" primaryKey="true" size="40" type="VARCHAR"/>
+        <column default="0" name="OLE_CRCL_DSK_LOCN_ID"
+                primaryKey="true" size="40" type="VARCHAR"/>
         <column name="OLE_CRCL_DSK_ID" required="true" size="40" type="VARCHAR"/>
         <column name="OLE_CRCL_DSK_LOCN" required="true" size="40" type="VARCHAR"/>
         <column name="OLE_CRCL_PICKUP_DSK_LOCN"  size="40" type="VARCHAR"/>
@@ -588,6 +589,7 @@
         <column name="PK_UP_LOCN_IND" required="true" size="1" type="VARCHAR"/>
         <column name="ASR_PK_UP_LOCN_IND" required="true" size="1" type="VARCHAR"/>
         <column name="HLD_DAYS" size="8" type="DECIMAL"/>
+        <column name="RQST_EXPIRTIN_DAYS" size="8" type="DECIMAL"/>
         <column name="SLVNG_LAG_TIM" size="8" type="DECIMAL"/>
         <column name="PRNT_SLP_IND" required="true" size="1" type="VARCHAR"/>
         <column name="OLE_CRCL_DSK_ID" primaryKey="true" size="40" type="VARCHAR"/>
@@ -698,6 +700,7 @@
         <column name="OLE_PTRN_ID" size="36" type="VARCHAR"/>
         <column name="ENTITY_ADDR_ID" size="36" type="VARCHAR"/>
         <column name="DLVR_PTRN_ADD_VER" size="1" type="VARCHAR"/>
+        <column name="PTRN_DLVR_ADD" size="1" type="VARCHAR"/>
         <column name="ADD_VALID_FROM" type="DATE"/>
         <column name="ADD_VALID_TO" type="DATE"/>
         <column name="OLE_ADDR_SRC" size="40" type="VARCHAR"/>
@@ -872,11 +875,11 @@
         <foreign-key foreignTable="OLE_PTRN_T" name="new_fk_constraint2">
             <reference foreign="OLE_PTRN_ID" local="OLE_PTRN_ID"/>
         </foreign-key>
+        <unique name="itm_id_const">
+            <unique-column name="ITM_ID"/>
+        </unique>
         <index name="new_fk_constraint2">
             <index-column name="OLE_PTRN_ID"/>
-        </index>
-        <index name="loan_itm_index">
-            <index-column name="ITM_ID"/>
         </index>
         <index name="loan_curr_due_date_index">
             <index-column name="CURR_DUE_DT_TIME"/>
@@ -1004,7 +1007,7 @@
         <column name="OLE_PCK_LOC_CD" size="80" type="VARCHAR"/>
         <column name="OLE_OPRT_ID" required="true" size="80" type="VARCHAR"/>
         <column name="OLE_MACH_ID" size="80" type="VARCHAR"/>
-        <column name="ARCH_DT_TIME" required="true" size="80" type="VARCHAR"/>
+        <column name="ARCH_DT_TIME" required="true" type="DATE"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
     </table>
@@ -1344,6 +1347,8 @@
         <column name="ISBN" size="100" type="VARCHAR"/>
         <column name="STAT_ID" size="40" type="VARCHAR"/>
         <column name="STAT_DT" size="40" type="VARCHAR"/>
+        <column name="PLTFRM_PROV" size="250" type="VARCHAR"/>
+        <column name="FD_CD" size="10" type="VARCHAR"/>
         <!--<column name="VNDR_HDR_GNRTD_ID" size="10" type="DECIMAL"/>
         <column name="VNDR_DTL_ASND_ID" size="10" type="DECIMAL"/>-->
         <column name="VNDR_NM" size="40" type="VARCHAR"/>
@@ -2750,7 +2755,7 @@
         <column name="DONOR_CODE" size="10" type="VARCHAR"/>
         <column name="DONOR_NAME" size="255" type="VARCHAR"/>
         <column name="DONOR_NOTE" size="40" type="VARCHAR"/>
-        <column name="DONOR_PUBLIC_DISPLAY" size="100" type="VARCHAR"/>
+        <column name="DONOR_PUBLIC_DISPLAY" size="4000" type="VARCHAR"/>
         <column name="DONOR_AMT" scale="2" size="19" type="DECIMAL" />
         <column name="DONOR_BOOKPLATE_URL" size="40" type="VARCHAR"/>
         <column name="DONOR_PUBLIC_URL" size="40" type="VARCHAR"/>

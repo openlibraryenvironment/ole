@@ -784,6 +784,7 @@
         <field-descriptor name="circulationDeskPublicName" column="OLE_CRCL_DSK_PUB_NAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="circulationDeskStaffName" column="OLE_CRCL_DSK_STAFF_NAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="onHoldDays" column="HLD_DAYS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="requestExpirationDays" column="RQST_EXPIRTIN_DAYS" jdbc-type="VARCHAR"/>
         <field-descriptor name="shelvingLagTime" column="SLVNG_LAG_TIM" jdbc-type="VARCHAR"/>
         <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -1124,6 +1125,8 @@
         <field-descriptor name="id" column="ENTITY_ADDR_ID" jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="addressSource" column="OLE_ADDR_SRC" jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="addressVerified" column="DLVR_PTRN_ADD_VER" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="deliverAddress" column="PTRN_DLVR_ADD" jdbc-type="VARCHAR"
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="addressValidFrom" column="ADD_VALID_FROM" jdbc-type="DATE"/>
         <field-descriptor name="addressValidTo" column="ADD_VALID_TO" jdbc-type="DATE"/>

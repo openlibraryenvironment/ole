@@ -3079,5 +3079,23 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         return performRedirect(form, url, props);
     }
 
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteNotes")
+    public ModelAndView deleteNotes(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("Inside deleteNotes()");
+        OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) uifForm;
+        OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
+        String focusId = oleInvoiceForm.getFocusId();
+        String s = focusId.substring(focusId.indexOf("_line"),focusId.length()).replace("_line","");
+        String lineArray[] = (focusId.substring(focusId.indexOf("_line")).split("_"));
+        int itemLevel = Integer.parseInt(lineArray[1].replace("line",""));
+        int noteLevel = Integer.parseInt(lineArray[2].replace("line",""));
+        List<OleInvoiceItem> oleInvoiceItems = oleInvoiceDocument.getItems();
+        OleInvoiceItem oleInvoiceItem = oleInvoiceItems.get(itemLevel);
+        List<OleInvoiceNote> notes = oleInvoiceItem.getNotes();
+        OleInvoiceNote oleInvoiceNote =  oleInvoiceItem.getNotes().remove(noteLevel);
+        getBusinessObjectService().delete(oleInvoiceNote);
+        return getUIFModelAndView(oleInvoiceForm);
+    }
 
 }

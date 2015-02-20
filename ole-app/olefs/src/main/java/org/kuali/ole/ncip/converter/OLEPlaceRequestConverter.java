@@ -17,12 +17,14 @@ public class OLEPlaceRequestConverter {
         XStream xStream = new XStream();
         xStream.alias("placeRequest",OLEPlaceRequest.class);
         xStream.omitField(OLEPlaceRequest.class, "expirationDate");
+       // xStream.omitField(OLEPlaceRequest.class, "blockOverride");
         return xStream.toXML(olePlaceRequest);
     }
 
     public String generatePlaceRequestXmlForSip2(OLEPlaceRequest olePlaceRequest){
         XStream xStream = new XStream();
         xStream.alias("placeRequest",OLEPlaceRequest.class);
+        xStream.omitField(OLEPlaceRequest.class, "blockOverride");
         return xStream.toXML(olePlaceRequest);
     }
     public Object generatePlaceRequestObject(String xml){

@@ -1834,6 +1834,7 @@ public class LoanController extends UifControllerBase {
         oleLoanForm.setNewPrincipalId("");
         oleLoanForm.setAddressVerified(false);
         oleLoanForm.setOverrideRenewItemFlag(false);
+        oleLoanForm.setCurrentDate(null);
         oleLoanForm.setInformation("");
         oleLoanForm.setSuccessInfo("");
         oleLoanForm.setReturnInformation("");
@@ -2582,7 +2583,7 @@ public class LoanController extends UifControllerBase {
                             if (loanDocument.isRenewCheckNo()) {
                                 loanDocument.setRenewCheckNo(false);
                                 //if (currentDate.after(loanDocument.getLoanDueDate())) {
-                                if(loanDocument.isNonCirculatingItem() && loanDocument.getLoanDueDate() == null && loanDocument.getRenewalDateMap() != null){
+                                if(loanDocument.isNonCirculatingItem() && loanDocument.getRenewalDateMap() != null){
                                     Timestamp timestamp;
                                     Pattern pattern;
                                     Matcher matcher;
@@ -2857,6 +2858,16 @@ public class LoanController extends UifControllerBase {
             LOG.error("Exception in validate Item " + e);
             oleLoanForm.setReturnInformation(e.getMessage());
             oleLoanForm.setBillAvailability(false);
+            try {
+                org.kuali.ole.docstore.common.document.content.instance.Item oleItem = getLoanProcessor().checkItemStatusForItemBarcode(oleLoanForm.getCheckInItem());
+                if(oleItem != null && oleItem.getItemStatus() != null && !oleItem.getItemStatus().getCodeValue().equalsIgnoreCase(OLEConstants.ITEM_STATUS_CHECKEDOUT)){
+                    getLoanProcessor().rollbackItemStatus(oleItem,OLEConstants.ITEM_STATUS_CHECKEDOUT,oleLoanForm.getCheckInItem());
+                    oleLoanForm.setReturnInformation(OLEConstants.RETURN_PROCESS_FAILURE);
+                }
+
+            }catch (Exception rollback){
+                LOG.error("Exception occured during rollback item records " + rollback.getMessage());
+            }
             return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
         }
         if (!oleLoanForm.isCheckInNoteExists() && oleLoanForm.getCheckInNote() != null && oleLoanForm.getReturnMessage() == null) {

@@ -178,9 +178,6 @@ public class OleCalendarController extends MaintenanceDocumentController {
         getOleCalendarService().assignEndDate(oleCalendar);
         OleCalendar oldCalendar = (OleCalendar) document.getNewMaintainableObject().getDataObject();
         getOleCalendarService().convert12HrsFormat(oldCalendar);
-
-        getOleCalendarService().deleteCalendarCollections(oldCalendar);//added for OLE-5386
-
         return modelAndView1;
     }
 

@@ -34,6 +34,7 @@ import java.util.Date;
         //OleAddressDefinition.Elements.ENTITY_ADDRESS,
         org.kuali.ole.deliver.api.OleAddressDefinition.Elements.ADDRESS_SOURCE,
         org.kuali.ole.deliver.api.OleAddressDefinition.Elements.ADDRESS_SOURCE_BO,
+        org.kuali.ole.deliver.api.OleAddressDefinition.Elements.DELIVER_ADDRESS,
         //OlePatronDefinition.Elements.OLE_BORROWER_TYPE,
         //OlePatronDefinition.Elements.ENTITY,
 
@@ -81,6 +82,11 @@ public class OleAddressDefinition extends AbstractDataTransferObject implements 
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
     private final Long versionNumber;
 
+    @XmlElement(name = Elements.DELIVER_ADDRESS, required = false)
+    private final boolean deliverAddress;
+
+
+
     /*@XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
     private final String objectId;*/
     @SuppressWarnings("unused")
@@ -98,6 +104,7 @@ public class OleAddressDefinition extends AbstractDataTransferObject implements 
         this.addressSource = null;
         this.addressSourceBo = null;
         this.versionNumber = null;
+        this.deliverAddress=false;
 
         //this.objectId = null;
     }
@@ -117,6 +124,7 @@ public class OleAddressDefinition extends AbstractDataTransferObject implements 
         else
             this.addressSourceBo = new OleAddressSourceDefinition();
         this.versionNumber = builder.getVersionNumber();
+        this.deliverAddress=builder.isDeliverAddress();
         //this.objectId = builder.getObjectId();
     }
 
@@ -171,6 +179,10 @@ public class OleAddressDefinition extends AbstractDataTransferObject implements 
     public String getId() {
         return this.id;
     }
+    @Override
+    public boolean isDeliverAddress() {
+        return deliverAddress;
+    }
 
 
     //@Override
@@ -191,6 +203,7 @@ public class OleAddressDefinition extends AbstractDataTransferObject implements 
         private EntityAddress.Builder entityAddress;
         private Long versionNumber;
         private String objectId;
+        private  boolean deliverAddress;
 
         private Builder() {
         }
@@ -231,6 +244,7 @@ public class OleAddressDefinition extends AbstractDataTransferObject implements 
            /* if (contract.getEntityAddress() != null) {
                 builder.setEntityAddress(EntityAddress.Builder.create(contract.getEntityAddress()));
             }*/
+            builder.setDeliverAddress(contract.isDeliverAddress());
             builder.setVersionNumber(contract.getVersionNumber());
             /*builder.setObjectId(contract.getObjectId());
             builder.setActive(contract.isActive());*/
@@ -337,6 +351,14 @@ public class OleAddressDefinition extends AbstractDataTransferObject implements 
             }
             this.id = id;
         }
+
+        public boolean isDeliverAddress() {
+            return deliverAddress;
+        }
+
+        public void setDeliverAddress(boolean deliverAddress) {
+            this.deliverAddress = deliverAddress;
+        }
     }
 
     static class Constants {
@@ -357,6 +379,7 @@ public class OleAddressDefinition extends AbstractDataTransferObject implements 
         final static String ADDRESS_SOURCE = "addressSource";
         //final static String ENTITY_ADDRESS = "entityAddress";
         final static String ADDRESS_SOURCE_BO = "addressSourceBo";
+        final static String DELIVER_ADDRESS = "deliverAddress";
     }
 
     public static class Cache {

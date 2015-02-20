@@ -207,4 +207,15 @@ public class OLEDeliverItemSearchServiceImpl implements OLEDeliverItemSearchServ
             }
         }
     }
+
+    public void setInTransitHistoryInfo(OLESingleItemResultDisplayRow singleItemResultDisplayRow) {
+        if (StringUtils.isNotBlank(singleItemResultDisplayRow.getId())) {
+            Map map = new HashMap();
+            map.put(OLEConstants.OVERLAY_ITEMUUID, singleItemResultDisplayRow.getId());
+            List<OLELoanIntransitRecordHistory> oleIntransitRecordHistories = (List<OLELoanIntransitRecordHistory>) KRADServiceLocator.getBusinessObjectService().findMatching(OLELoanIntransitRecordHistory.class, map);
+            if (CollectionUtils.isNotEmpty(oleIntransitRecordHistories)) {
+                singleItemResultDisplayRow.setOleIntransitRecordHistories(oleIntransitRecordHistories);
+            }
+        }
+    }
 }

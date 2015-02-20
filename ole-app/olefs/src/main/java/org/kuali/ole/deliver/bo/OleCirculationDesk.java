@@ -1,9 +1,11 @@
 package org.kuali.ole.deliver.bo;
 
 import org.kuali.ole.deliver.calendar.bo.OleCalendarGroup;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,6 +21,7 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
     private boolean asrPickupLocation;
     private boolean active;
     private String onHoldDays;
+    private String requestExpirationDays;
     private String shelvingLagTime;
     private List<OleCirculationDeskLocation> oleCirculationDeskLocations = new ArrayList<OleCirculationDeskLocation>();
     private List<OleCirculationDeskLocation> oleCirculationDeskLocationList = new ArrayList<OleCirculationDeskLocation>();
@@ -264,5 +267,21 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
 
     public void setOleCirculationDeskLocationList(List<OleCirculationDeskLocation> oleCirculationDeskLocationList) {
         this.oleCirculationDeskLocationList = oleCirculationDeskLocationList;
+    }
+
+    @Override
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+        List<Collection<PersistableBusinessObject>> collectionList = new ArrayList<>();
+        collectionList.add((Collection)getOleCirculationDeskLocations());
+        collectionList.add((Collection)getDeleteOlePickupCirculationDeskLocations());
+        return collectionList;
+    }
+
+    public String getRequestExpirationDays() {
+        return requestExpirationDays;
+    }
+
+    public void setRequestExpirationDays(String requestExpirationDays) {
+        this.requestExpirationDays = requestExpirationDays;
     }
 }

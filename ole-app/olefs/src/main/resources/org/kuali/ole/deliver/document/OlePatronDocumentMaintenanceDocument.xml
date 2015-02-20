@@ -1261,6 +1261,14 @@
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
+
+                <bean id="deliverAddress" parent="OlePatron-InputField"
+                      p:propertyName="oleAddressBo.deliverAddress" p:label="Deliver Address">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+
                 <bean id="defaultValue" parent="OlePatron-InputField"
                       p:propertyName="entityAddressBo.defaultValue" p:label="Preferred Address">
                     <property name="control">

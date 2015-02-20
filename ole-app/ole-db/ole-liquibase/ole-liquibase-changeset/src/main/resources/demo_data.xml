@@ -540,9 +540,9 @@
         <loadData tableName="krim_role_mbr_t" file="ole-demo/roles/ole_krim_role_mbr_t.csv"/>
     </changeSet>
 
-    <changeSet context="demo" author="ole" id="ole_krms_typ_t">
+    <!--<changeSet context="demo" author="ole" id="ole_krms_typ_t">
         <loadData tableName="krms_typ_t" file="ole-demo/ole_krms_typ_t.csv"/>
-    </changeSet>
+    </changeSet>-->
 
     <changeSet context="demo" author="ole" id="ole_lic_doc_locn_t">
         <loadData tableName="ole_lic_doc_locn_t" file="ole-demo/ole_lic_doc_locn_t.csv"/>

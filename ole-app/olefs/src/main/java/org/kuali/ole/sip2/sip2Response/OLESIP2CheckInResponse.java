@@ -51,7 +51,7 @@ public class OLESIP2CheckInResponse extends OLESIP2Response {
         if (StringUtils.isNotBlank(oleCheckInItem.getTitle())) {
             oleCheckInBuilder.append(OLESIP2Constants.SPLIT+
                     OLESIP2Constants.TITLE_IDENTIFIER_CODE);
-            oleCheckInBuilder.append(oleCheckInItem.getTitle());
+            oleCheckInBuilder.append(oleCheckInItem.getTitle().replaceAll(OLESIP2Constants.NON_ROMAN_REGEX,""));
         }
         if (StringUtils.isNotBlank(oleCheckInItem.getPatronBarcode())) {
             oleCheckInBuilder.append(OLESIP2Constants.SPLIT+
@@ -69,7 +69,7 @@ public class OLESIP2CheckInResponse extends OLESIP2Response {
         if (StringUtils.isNotBlank(oleCheckInItem.getAuthor())) {
             oleCheckInBuilder.append(OLESIP2Constants.SPLIT+
                     OLESIP2Constants.ITEM_PROPERTIES_CODE);
-            oleCheckInBuilder.append("Author  :  " + oleCheckInItem.getAuthor());
+            oleCheckInBuilder.append("Author  :  " + oleCheckInItem.getAuthor().replaceAll(OLESIP2Constants.NON_ROMAN_REGEX,""));
         }
 
         if (StringUtils.isNotBlank(oleCheckInItem.getMessage())) {

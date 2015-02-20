@@ -36,7 +36,16 @@ INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'DEFAULT_CIRCULATION_DESK', 'OLE6583', '1', 'CONFG', 'BL_EDUC', 'This parameter value wil be used as the default circulation desk value if the item owning location is not mapped to any circulation desk', 'A', 'OLE')
 /
 
-INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_mysql', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 1, '7:4b6d43641a7131f7dbfe32aacb00ce2b', 'sql, loadData', '', 'EXECUTED', '3.2.0')
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'SIP2_INSTITUTION_NAME', 'OLE6584', '1', 'CONFG', 'OLE', 'This parameter hold the Institution name for 3M machine', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'SIP2_REQUEST_TYPE', 'OLE6585', '1', 'CONFG', 'Hold/Hold Request', 'This parameter hold the request type for 3M machine', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'SIP2_OPERATOR_ID', 'OLE6586', '1', 'CONFG', 'olequickstart', 'This parameter hold the operator id for 3M machine to perform checking/checkout operation', 'A', 'OLE')
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_mysql', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 1, '7:06b6f632931f9a87fe42c2ebf640b574', 'sql, loadData', '', 'EXECUTED', '3.2.0')
 /
 
 --  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_LOAD_KRIM_ENTITY_T_mysql::ole
@@ -263,6 +272,41 @@ ALTER TABLE ole.OLE_CRCL_DSK_LOCN_T ADD OLE_CRCL_PICKUP_DSK_LOCN VARCHAR(40) NUL
 /
 
 INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_CRCL_PICKUP_DSK_LOCN', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 23, '7:9a86ff36f768521300e16babc3196acb', 'addColumn', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DLVR_RQST_HSTRY_REC_T_ARCH_DT_TIME::ole
+ALTER TABLE ole.OLE_DLVR_RQST_HSTRY_REC_T MODIFY ARCH_DT_TIME date
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DLVR_RQST_HSTRY_REC_T_ARCH_DT_TIME', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 24, '7:992d1bd4848aff4a05ab2e67dd15acf1', 'modifyDataType', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::ole_dlvr_loan_t_dropIndex::ole
+DROP INDEX loan_itm_index ON ole.ole_dlvr_loan_t
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('ole_dlvr_loan_t_dropIndex', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 25, '7:3f21021d193a26da8c15767110521929', 'dropIndex', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::ole_dlvr_loan_t::ole
+ALTER TABLE ole.ole_dlvr_loan_t ADD CONSTRAINT itm_id_const UNIQUE (itm_id)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('ole_dlvr_loan_t', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 26, '7:87bbf9c63e36f4de6238f2e70f9a56be', 'addUniqueConstraint', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DLVR_ADD_T::ole
+ALTER TABLE ole.OLE_DLVR_ADD_T ADD PTRN_DLVR_ADD VARCHAR(1) NULL
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DLVR_ADD_T', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 27, '7:5d253b0650f8b4fbd898b6e909370505', 'addColumn', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_CRCL_DSK_T::ole
+ALTER TABLE ole.OLE_CRCL_DSK_T ADD RQST_EXPIRTIN_DAYS DECIMAL(8) NULL
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_CRCL_DSK_T', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 28, '7:a421ca771b016ca9dbbd19d2b326adbf', 'addColumn', '', 'EXECUTED', '3.2.0')
 /
 
 --  Release Database Lock

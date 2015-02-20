@@ -13,6 +13,7 @@ public class OLESIP2Constants {
 
     public static OLENettyServer olesip2Server = null;
 
+    public static final String NON_ROMAN_REGEX="[^\\w\\s\\-_,:\\(\\)\\[\\]\\/\\!]";
     public static final String SIP2_FORMAT = "sip";
     public static final String SIP_SERVICE = "sipService";
     public static final String REQUEST_DATA = "requestData";
@@ -144,6 +145,7 @@ public class OLESIP2Constants {
     public static final String UPDATE_HOLD="updateHold";
 
     public static final String CHECK_IN_SUCCESS="SuccessFully Checked-in";
+    public static final String RENEW_SUCCESS="Item successFully renewed";
     public static final String CHECK_OUT_SUCCESS="Successfully loaned";
     public static final String CHECK_OUT_SUCCESSFULLY="Item Successfully loaned";
     public static final String CHECK_OUT_FAILED="Item cannot be loaned : any query see help desk";

@@ -143,8 +143,7 @@ public class OleInquiryController extends InquiryController {
 					OlePatronDocument tempDocument = (OlePatronDocument) KRADServiceLocator
 							.getBusinessObjectService().findByPrimaryKey(
 									OlePatronDocument.class, proxyMap);
-					if (tempDocument != null
-							&& tempDocument.isActiveIndicator()) {
+					if (tempDocument != null) {
 						oleProxyPatronDocument
 								.setProxyPatronBarcode(tempDocument
 										.getBarcode());
@@ -182,7 +181,7 @@ public class OleInquiryController extends InquiryController {
 					if (olePatronDocumentList.size() > 0) {
 						olePatronDocument = olePatronDocumentList.get(0);
 						proxyPatronDocument = new OleProxyPatronDocument();
-						if (olePatronDocument.isActiveIndicator()) {
+					//	if (olePatronDocument.isActiveIndicator()) {
 							proxyPatronDocument
 									.setOlePatronId(olePatronDocument
 											.getOlePatronId());
@@ -217,7 +216,7 @@ public class OleInquiryController extends InquiryController {
 							 * .setProxyPatronExpirationDate(proxyPatron
 							 * .getProxyPatronExpirationDate()); } } }
 							 */
-						}
+						//}
 						proxyPatronDocuments.add(proxyPatronDocument);
 					}
 				}

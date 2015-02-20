@@ -30,5 +30,7 @@ public interface OleAddressContract extends Versioned, Identifiable {
 
     public OleAddressSourceContract getAddressSourceBo();
 
+    public boolean isDeliverAddress();
+
     //public EntityAddressContract getEntityAddress();
 }

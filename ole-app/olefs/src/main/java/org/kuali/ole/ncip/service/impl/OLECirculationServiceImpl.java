@@ -260,8 +260,14 @@ public class OLECirculationServiceImpl implements OLECirculationService {
     }
 
     @Override
-    public String placeRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemLocation,String bibId,String requestLevel) {
-        String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operatorId, itemBarcode, requestType, pickUpLocation, null, itemLocation, null, null, null, null, false,bibId,requestLevel);
+    public String placeRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemLocation,String bibId,String requestLevel,java.sql.Date requestExpiryDate) {
+        String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operatorId, itemBarcode, requestType, pickUpLocation, null, itemLocation, null, null, null, null, false,bibId,requestLevel,requestExpiryDate);
+        return responseMessage;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String overridePlaceRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemLocation,String bibId,String requestLevel,java.sql.Date requestExpiryDate) {
+        String responseMessage = oleDeliverRequestDocumentHelperService.overridePlaceRequest(patronBarcode, operatorId, itemBarcode, requestType, pickUpLocation, null, itemLocation, null, null, null, null, false,bibId,requestLevel,requestExpiryDate);
         return responseMessage;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -408,7 +414,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
             if ("".equals(itemIdentifier)) {
                 itemIdentifier = null;
             }
-                String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operator, itemBarcode, requestType, pickUpLocation, itemIdentifier, itemLocation, itemType, title, author, callNumber, true,null,null);
+                String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operator, itemBarcode, requestType, pickUpLocation, itemIdentifier, itemLocation, itemType, title, author, callNumber, true,null,null,null);
                 responseMessage = responseMessage.replaceAll("&lt;br/&gt;", "");
                 responseMessage = responseMessage.replaceAll("<br/>", "");
                 OLEPlaceRequestConverter olePlaceRequestConverter = new OLEPlaceRequestConverter();

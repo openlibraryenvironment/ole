@@ -48,6 +48,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -910,6 +911,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         List<OleDeliverRequestBo> titleLevelRequestBoList = null;
         requestMap.put(OLEConstants.OleDeliverRequest.REQUEST_ID, requestId);
         OleDeliverRequestBo oleDeliverRequestBo = createRequestHistoryRecord(requestId, operatorId, loanTransactionNumber);
+        if(oleDeliverRequestBo!=null){
         if(oleDeliverRequestBo.getRequestLevel().equalsIgnoreCase("Item Level")){
         Map<String, String> itemMap = new HashMap<String, String>();
         itemMap.put(OLEConstants.ITEM_UUID, itemUUID);
@@ -939,6 +941,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                    getBusinessObjectService().save(titleLevelRequestBoList);
                }
            }
+        }
         }
 
     }
@@ -1750,8 +1753,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         Map<String, String> requestMap = new HashMap<String, String>();
         requestMap.put(OLEConstants.OleDeliverRequest.REQUEST_ID, requestId);
         List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) businessObjectService.findMatching(OleDeliverRequestBo.class, requestMap);
+        OleDeliverRequestBo oleDeliverRequestBo = null;
         if (oleDeliverRequestBoList.size() > 0) {
-            OleDeliverRequestBo oleDeliverRequestBo = oleDeliverRequestBoList.get(0);
+             oleDeliverRequestBo = oleDeliverRequestBoList.get(0);
             OleDeliverRequestHistoryRecord oleDeliverRequestHistoryRecord = new OleDeliverRequestHistoryRecord();
             oleDeliverRequestHistoryRecord.setRequestId(oleDeliverRequestBo.getRequestId());
             oleDeliverRequestHistoryRecord.setItemId(oleDeliverRequestBo.getItemId());
@@ -1763,9 +1767,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             oleDeliverRequestHistoryRecord.setLoanTransactionId(loanTransactionNumber);
             //oleDeliverRequestHistoryRecord.setMachineId(""); //commented for jira OLE-5675
             getBusinessObjectService().save(oleDeliverRequestHistoryRecord);
+            getBusinessObjectService().delete(oleDeliverRequestBoList);
         }
-        getBusinessObjectService().delete(oleDeliverRequestBoList);
-        return oleDeliverRequestBoList.get(0);
+       return oleDeliverRequestBo;
     }
 
     public OleDeliverRequestBo getOleDeliverRequestBo(String itemUUID) {
@@ -2334,7 +2338,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         return null;
     }
 
-    public String placeRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemIdentifier,String itemLocation,String itemType,String title,String author,String callNumber,boolean externalItem,String bibId,String requestLevel) {
+    public String placeRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemIdentifier,String itemLocation,String itemType,String title,String author,String callNumber,boolean externalItem,String bibId,String requestLevel,java.sql.Date requestExpiryDate) {
         OLEPlaceRequest olePlaceRequest = new OLEPlaceRequest();
         OLEPlaceRequestConverter olePlaceRequestConverter = new OLEPlaceRequestConverter();
         ASRHelperServiceImpl asrHelperService = new ASRHelperServiceImpl();
@@ -2350,6 +2354,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 newDocument = (MaintenanceDocument) documentService.getNewDocument(OLEConstants.REQUEST_DOC_TYPE);
             } catch (WorkflowException e) {
                 e.printStackTrace();
+                olePlaceRequest.setBlockOverride(true);
                 olePlaceRequest.setMessage("Cannot create");
                 return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
             }
@@ -2358,6 +2363,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             oleDeliverRequestBo.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
             oleDeliverRequestBo.setRequestLevel(requestLevel);
             oleDeliverRequestBo.setBibId(bibId);
+            if(requestExpiryDate!=null){
+                oleDeliverRequestBo.setRequestExpiryDate(requestExpiryDate);
+            }
             OlePatronDocument olePatronDocument = null;
             Map<String, String> patronMap = new HashMap<String, String>();
             patronMap.put(OLEConstants.BARCODE, patronBarcode);
@@ -2376,11 +2384,13 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     oleNoticeBo.setPatronPhoneNumber(getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? getPatronHomePhoneNumber(entityTypeContactInfoBo) : "");
                 } catch (Exception e) {
                     LOG.error("Exception", e);
+                    olePlaceRequest.setBlockOverride(true);
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Exception Occured while setting the patron information for the patron . Patron Barcode : " + oleDeliverRequestBo.getBorrowerBarcode());
                     }
                 }
             } else {
+                olePlaceRequest.setBlockOverride(true);
                 olePlaceRequest.setCode("002");
                 olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
                 return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
@@ -2393,6 +2403,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     oleDeliverRequestBo.setRequestTypeId(oleDeliverRequestTypeList.get(0).getRequestTypeId());
                     oleDeliverRequestBo.setOleDeliverRequestType(oleDeliverRequestTypeList.get(0));
                 } else {
+                    olePlaceRequest.setBlockOverride(true);
                     olePlaceRequest.setCode("012");
                     olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INVALID_RQST_TYP));
                     return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
@@ -2407,6 +2418,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                     oleDeliverRequestBo.setPickUpLocationCode(oleCirculationDeskList.get(0).getCirculationDeskCode());
                     oleDeliverRequestBo.setOlePickUpLocation(oleCirculationDeskList.get(0));
                 } else {
+                    olePlaceRequest.setBlockOverride(true);
                     olePlaceRequest.setCode("013");
                     olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INVALID_PK_UP_LOCN));
                     return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
@@ -2415,6 +2427,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             }
             try {
                 if (itemBarcode == null || (itemBarcode != null && itemBarcode.isEmpty())) {
+                    olePlaceRequest.setBlockOverride(true);
                     olePlaceRequest.setCode("014");
                     olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
                     return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
@@ -2456,10 +2469,392 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         }
                     }
                     if (itemUUID == null) {
+                        olePlaceRequest.setBlockOverride(true);
                         olePlaceRequest.setCode("014");
                         olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
                         return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
                     }
+                    if (itemType == null || itemLocation == null) {
+                        Map<String, Object> detailMap = retrieveBIbItemHoldingData(itemUUID);
+                        Bib bib = (Bib) detailMap.get(OLEConstants.BIB);
+                        Item item = (Item) detailMap.get(OLEConstants.ITEM);
+                        OleHoldings oleHoldings = (OleHoldings) detailMap.get(OLEConstants.HOLDING);
+                        org.kuali.ole.docstore.common.document.Item item1 = (org.kuali.ole.docstore.common.document.Item) detailMap.get("documentItem");
+                        if (item != null) {
+                            oleDeliverRequestBo.setOleItem(item);
+                            if (item.getCallNumber() != null && item.getCallNumber().getNumber() != null) {
+                                oleDeliverRequestBo.setCallNumber(item.getCallNumber().getNumber());
+                            }
+                            if (item.getCopyNumber() != null) {
+                                oleDeliverRequestBo.setCopyNumber(item.getCopyNumber());
+                            }
+                            oleDeliverRequestBo.setVolumeNumber(item.getEnumeration() != null ? item.getEnumeration() : "");
+                        }
+                        if (oleHoldings != null) {
+                            if (oleDeliverRequestBo.getCallNumber() == null && oleHoldings.getCallNumber() != null && oleHoldings.getCallNumber().getNumber() != null) {
+                                oleDeliverRequestBo.setCallNumber(oleHoldings.getCallNumber().getNumber());
+                            }
+                            if (oleDeliverRequestBo.getCopyNumber() == null && oleHoldings.getCopyNumber() != null) {
+                                oleDeliverRequestBo.setCopyNumber(oleHoldings.getCopyNumber());
+                            }
+                        }
+                        if (itemLocation == null) {
+                            if (item1.getLocation() == null || (item1.getLocation() != null && item1.getLocation().trim().isEmpty())) {
+                                itemLocation = getDocstoreUtil().getLocation(oleHoldings.getLocation(), new StringBuffer(""));
+                            } else {
+                                itemLocation = item1.getLocation();
+                            }
+                            oleDeliverRequestBo.setItemLocation(itemLocation);
+                        }
+                        if (item.getItemType() != null) {
+                            oleDeliverRequestBo.setItemType(item.getItemType().getCodeValue());
+                        }
+                        if (item.getItemStatus() != null) {
+                            oleDeliverRequestBo.setItemStatus(item.getItemStatus().getCodeValue());
+                        }
+
+                        if (bib != null) {
+                            oleDeliverRequestBo.setTitle(bib.getTitle());
+                            oleDeliverRequestBo.setAuthor(bib.getAuthor());
+                        }
+                    }
+                }
+
+                if (itemLocation != null) {
+                    if (asrHelperService.isAnASRItem(itemLocation) && oleDeliverRequestBo.getItemStatus().equals(getLoanProcessor().getParameter(ASRConstants.ASR_REQUEST_ITEM_STATUS)) && !oleDeliverRequestBo.getRequestTypeCode().equals(getLoanProcessor().getParameter(ASRConstants.ASR_TYP_RQST))) {
+                        olePlaceRequest.setCode("700");
+                        olePlaceRequest.setBlockOverride(true);
+                        olePlaceRequest.setMessage("Cannot create " + oleDeliverRequestBo.getRequestTypeCode() + " for this item");
+                        return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                    } else if (asrHelperService.isAnASRItem(itemLocation) && !oleDeliverRequestBo.getItemStatus().equals(getLoanProcessor().getParameter(ASRConstants.ASR_REQUEST_ITEM_STATUS)) && oleDeliverRequestBo.getRequestTypeCode().equals(getLoanProcessor().getParameter(ASRConstants.ASR_TYP_RQST))) {
+                        olePlaceRequest.setCode("701");
+                        olePlaceRequest.setBlockOverride(true);
+                        olePlaceRequest.setMessage("Cannot create " + oleDeliverRequestBo.getRequestTypeCode() + " for this item");
+                        return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                    }
+                    Map<String, String> locationMap = getLocationMap(itemLocation);
+                    oleDeliverRequestBo.setItemLibrary(locationMap.get(OLEConstants.ITEM_LIBRARY));
+                    oleDeliverRequestBo.setItemInstitution(locationMap.get(OLEConstants.ITEM_INSTITUTION));
+                    oleDeliverRequestBo.setItemCampus(locationMap.get(OLEConstants.ITEM_CAMPUS));
+                    oleDeliverRequestBo.setItemCollection(locationMap.get(OLEConstants.ITEM_COLLECTION));
+                    oleDeliverRequestBo.setShelvingLocation(locationMap.get(OLEConstants.ITEM_SHELVING));
+                }
+                oleDeliverRequestBo.setRequestCreator(OLEConstants.OleDeliverRequest.REQUESTER_OPERATOR);
+                oleDeliverRequestBo.setOperatorCreateId(operatorId);
+                oleDeliverRequestBo.setItemId(itemBarcode);
+                if (!processOperator(operatorId)) {
+                    olePlaceRequest.setCode("001");
+                    olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INVALID_OPRTR_ID));
+                    return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                }
+                processRequestTypeByPickUpLocation(oleDeliverRequestBo);
+                String message = this.patronRecordExpired(oleDeliverRequestBo);
+                if (message != null) {
+                    olePlaceRequest.setCode("015");
+                    olePlaceRequest.setMessage(message);
+                    return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                }
+                boolean requestRaised = this.isRequestAlreadyRaisedByPatron(oleDeliverRequestBo);
+                if (requestRaised) {
+                    {
+                        olePlaceRequest.setBlockOverride(true);
+                        olePlaceRequest.setCode("016");
+                        olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.RQST_ALRDY_RAISD));
+                        return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                    }
+                }
+                boolean itemEligible = this.isItemEligible(oleDeliverRequestBo);
+                if (!itemEligible) {
+                    {
+                        olePlaceRequest.setBlockOverride(true);
+                        olePlaceRequest.setCode("017");
+                        olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITM_NOT_LOAN));
+                        return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                    }
+                }
+                boolean alreadyLoaned = this.isAlreadyLoaned(oleDeliverRequestBo);
+                if (alreadyLoaned) {
+                    olePlaceRequest.setBlockOverride(true);
+                    olePlaceRequest.setCode("018");
+                    olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITM_LOAN_BY_PTRN));
+                    return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                }
+                boolean valid = false;
+                EngineResults engineResult = this.executeEngineResults(oleDeliverRequestBo);
+                if (engineResult != null) {
+                    List<ResultEvent> allResults = engineResult.getAllResults();
+                    if (allResults.size() > 0) {
+                        for (Iterator<ResultEvent> resultEventIterator = allResults.iterator(); resultEventIterator.hasNext(); ) {
+                            ResultEvent resultEvent = resultEventIterator.next();
+                            if (resultEvent.getType().equals(RULE_EVALUATED))
+                                valid |= resultEvent.getResult();
+                        }
+                        if ((oleDeliverRequestBo.getMessage() != null && !oleDeliverRequestBo.getMessage().isEmpty())) {
+                            olePlaceRequest.setCode("500");
+                            olePlaceRequest.setMessage(oleDeliverRequestBo.getMessage().replaceAll("<br/>", ""));
+                            return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                        }
+
+                    }
+                }
+
+                OleDeliverRequestBo oleDeliverRequestBo1 = null;
+                boolean asrItem = false;
+                try {
+                    oleDeliverRequestBo1 = oleDeliverRequestBo;
+                    if (isItemAvailable(oleDeliverRequestBo1)) {
+                        olePlaceRequest.setBlockOverride(true);
+                        olePlaceRequest.setCode("019");
+                        olePlaceRequest.setMessage(oleDeliverRequestBo1.getRequestTypeCode() + OLEConstants.RQST_CONDITION + oleDeliverRequestBo1.getItemStatus());
+                        return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                    }
+                    oleDeliverRequestBo.setOleItem(null);
+                    asrItem = asrHelperService.isAnASRItem(oleDeliverRequestBo.getItemLocation());
+                    if (asrItem && oleDeliverRequestBo.getItemStatus().equals(getLoanProcessor().getParameter(ASRConstants.ASR_REQUEST_ITEM_STATUS))) {
+                        oleDeliverRequestBo.setAsrFlag(true);
+                        oleDeliverRequestBo.setRequestStatus("1");
+                    }
+                    newDocument.getDocumentHeader().setDocumentDescription(OLEConstants.NEW_REQUEST_DOC);
+                    newDocument.getNewMaintainableObject().setDataObject(oleDeliverRequestBo1);
+
+                    newDocument = (MaintenanceDocument) documentService.routeDocument(newDocument, null, null);
+                    oleDeliverRequestBo = (OleDeliverRequestBo) newDocument.getNewMaintainableObject().getDataObject();
+                } catch (WorkflowException e) {
+                    e.printStackTrace();
+                }
+
+
+                String requestId = "";
+                try {
+                    requestId = ":" + OLEConstants.OleDeliverRequest.REQUEST_ID + ":" + oleDeliverRequestBo.getRequestId();
+
+                    if (!oleDeliverRequestBo.getRequestTypeId().equals("8")) {
+                        oleDeliverRequestBo = updateLoanDocument(oleDeliverRequestBo);
+                        oleDeliverRequestBo.setOlePatron(null);
+                        oleDeliverRequestBo.setOleProxyPatron(null);
+                    }
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Request Raised Succesfully" + requestId);
+                    }
+                    if (externalItem) {
+                        String noticeSendParameter = getLoanProcessor().getParameter(OLEParameterConstants.NCIP_ACCEPT_ITEM_NOTICE_INDICATOR);
+                        if (noticeSendParameter != null && (noticeSendParameter.trim().isEmpty() || noticeSendParameter.equalsIgnoreCase("Y"))) {
+                            oleNoticeBo.setNoticeName(OLEConstants.PICKUP_NOTICE);
+                            Date pickupDate = new java.sql.Date(System.currentTimeMillis());
+                            if (oleDeliverRequestBo.getOlePickUpLocation().getOnHoldDays() != null) {
+                                pickupDate = addDate(new java.sql.Date(System.currentTimeMillis()), new Integer(oleDeliverRequestBo.getOlePickUpLocation().getOnHoldDays()));
+                            }
+                            oleNoticeBo.setNoticeSpecificContent(OLEConstants.PICKUP_NOTICE_START_CONTENT + oleDeliverRequestBo.getOlePickUpLocation().getCirculationDeskPublicName() + OLEConstants.PICKUP_NOTICE_MIDDLE_CONTENT + pickupDate + OLEConstants.PICKUP_NOTICE_FINAL_CONTENT);
+                            oleNoticeBo.setAuthor(author);
+                            oleNoticeBo.setItemCallNumber(callNumber);
+                            oleNoticeBo.setItemId(itemBarcode);
+                            oleNoticeBo.setTitle(title);
+                            oleNoticeBo.setCirculationDeskName(oleDeliverRequestBo.getOlePickUpLocation().getCirculationDeskPublicName());
+                            oleNoticeBo.setCirculationDeskReplyToEmail(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail());
+                            OleDeliverBatchServiceImpl oleDeliverBatchService = new OleDeliverBatchServiceImpl();
+                            String content = oleDeliverBatchService.getEmailPickUpNotice(oleNoticeBo);
+                            try {
+                                if (!content.trim().equals("")) {
+                                    OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
+                                    if (oleDeliverRequestBo.getOlePickUpLocation() != null && StringUtils.isNotBlank(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail())) {
+                                        oleMailer.sendEmail(new EmailFrom(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail()), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(content), true);
+                                    } else {
+                                        String fromAddress = getLoanProcessor().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+                                        if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
+                                            fromAddress = OLEConstants.KUALI_MAIL;
+                                        }
+                                        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(content), true);
+                                    }
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug("Mail send Successfully to " + oleNoticeBo.getPatronEmailAddress());
+                                    }
+                                    oleDeliverBatchService.getPdfPickUpNotice(oleNoticeBo);
+                                } else {
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug("Notice Type :" + oleNoticeBo.getNoticeName() + "  " + "Item Barcode : " + oleNoticeBo.getItemId() + " " + "Patron Name :" + oleNoticeBo.getPatronName());
+                                    }
+                                }
+                            } catch (Exception e) {
+                                LOG.error("Exception", e);
+                                olePlaceRequest.setCode("020");
+                                olePlaceRequest.setQueuePosition(String.valueOf(oleDeliverRequestBo.getBorrowerQueuePosition()));
+                                olePlaceRequest.setMessage(OLEConstants.RQST_SUCCESS + requestId + OLEConstants.NTCE_PRBLM);
+                                olePlaceRequest.setRequestId(oleDeliverRequestBo.getRequestId());
+                                olePlaceRequest.setAvailableDate(getAvailableDate(itemBarcode));
+                                olePlaceRequest.setBlockOverride(true);
+                                return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                            }
+                        }
+                    }
+
+                } catch (Exception e) {
+                    LOG.error("Exception", e);
+                    olePlaceRequest.setCode("020");
+                    olePlaceRequest.setQueuePosition(String.valueOf(oleDeliverRequestBo.getBorrowerQueuePosition()));
+                    olePlaceRequest.setMessage(OLEConstants.RQST_SUCCESS + requestId + OLEConstants.RQST_PRBLM);
+                    olePlaceRequest.setRequestId(oleDeliverRequestBo.getRequestId());
+                    olePlaceRequest.setAvailableDate(getAvailableDate(itemBarcode));
+                    olePlaceRequest.setBlockOverride(true);
+                    return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+
+                }
+                olePlaceRequest.setCode("021");
+                olePlaceRequest.setRequestId(oleDeliverRequestBo.getRequestId());
+                olePlaceRequest.setAvailableDate(getAvailableDate(itemBarcode));
+                olePlaceRequest.setQueuePosition(String.valueOf(oleDeliverRequestBo.getBorrowerQueuePosition()));
+                olePlaceRequest.setMessage(OLEConstants.RQST_SUCCESS + requestId);
+                return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+            } catch (Exception e) {
+                LOG.error("Exception", e);
+                olePlaceRequest.setBlockOverride(true);
+                if (e.getMessage() != null && e.getMessage().equalsIgnoreCase("Item barcode does not exist.")) {
+                    olePlaceRequest.setCode("014");
+                    olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
+                    return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                }
+                olePlaceRequest.setCode("023");
+                olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.RQST_FAIL));
+                return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+            }
+        } catch (Exception e) {
+            LOG.error("Exception", e);
+            olePlaceRequest.setBlockOverride(true);
+            olePlaceRequest.setCode("023");
+            olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.RQST_FAIL));
+            return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+        }
+    }
+
+
+    public String overridePlaceRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemIdentifier,String itemLocation,String itemType,String title,String author,String callNumber,boolean externalItem,String bibId,String requestLevel,java.sql.Date requestExpiryDate) {
+        OLEPlaceRequest olePlaceRequest = new OLEPlaceRequest();
+        OLEPlaceRequestConverter olePlaceRequestConverter = new OLEPlaceRequestConverter();
+        ASRHelperServiceImpl asrHelperService = new ASRHelperServiceImpl();
+        MaintenanceDocument newDocument = null;
+        try {
+            try {
+                if (null == GlobalVariables.getUserSession()) {
+                    Person person = personService.getPerson(operatorId);
+                    String principalName = person.getPrincipalName();
+                    UserSession userSession = new UserSession(principalName);
+                    GlobalVariables.setUserSession(userSession);
+                }
+                newDocument = (MaintenanceDocument) documentService.getNewDocument(OLEConstants.REQUEST_DOC_TYPE);
+            } catch (WorkflowException e) {
+                e.printStackTrace();
+                olePlaceRequest.setMessage("Cannot create");
+                return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+            }
+            OleDeliverRequestBo oleDeliverRequestBo = null;
+            oleDeliverRequestBo = (OleDeliverRequestBo) newDocument.getNewMaintainableObject().getDataObject();
+            oleDeliverRequestBo.setCreateDate(new java.sql.Date(System.currentTimeMillis()));
+            oleDeliverRequestBo.setRequestLevel(requestLevel);
+            oleDeliverRequestBo.setBibId(bibId);
+            if(requestExpiryDate!=null){
+                oleDeliverRequestBo.setRequestExpiryDate(requestExpiryDate);
+            }
+            OlePatronDocument olePatronDocument = null;
+            Map<String, String> patronMap = new HashMap<String, String>();
+            patronMap.put(OLEConstants.BARCODE, patronBarcode);
+            OleNoticeBo oleNoticeBo = new OleNoticeBo();
+            List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>) getBusinessObjectService().findMatching(OlePatronDocument.class, patronMap);
+            if (olePatronDocumentList.size() > 0) {
+                olePatronDocument = olePatronDocumentList.get(0);
+                oleDeliverRequestBo.setBorrowerId(olePatronDocument.getOlePatronId());
+                oleDeliverRequestBo.setBorrowerBarcode(olePatronDocument.getBarcode());
+                oleDeliverRequestBo.setOlePatron(olePatronDocument);
+                EntityTypeContactInfoBo entityTypeContactInfoBo = olePatronDocument.getEntity().getEntityTypeContactInfos().get(0);
+                try {
+                    oleNoticeBo.setPatronName(olePatronDocument.getEntity().getNames().get(0).getFirstName() + " " + oleDeliverRequestBo.getOlePatron().getEntity().getNames().get(0).getLastName());
+                    oleNoticeBo.setPatronAddress(getPatronPreferredAddress(entityTypeContactInfoBo) != null ? getPatronPreferredAddress(entityTypeContactInfoBo) : "");
+                    oleNoticeBo.setPatronEmailAddress(getPatronHomeEmailId(entityTypeContactInfoBo) != null ? getPatronHomeEmailId(entityTypeContactInfoBo) : "");
+                    oleNoticeBo.setPatronPhoneNumber(getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? getPatronHomePhoneNumber(entityTypeContactInfoBo) : "");
+                } catch (Exception e) {
+                    LOG.error("Exception", e);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Exception Occured while setting the patron information for the patron . Patron Barcode : " + oleDeliverRequestBo.getBorrowerBarcode());
+                    }
+                }
+            } /*else {
+                olePlaceRequest.setCode("002");
+                olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
+                return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+            }*/
+            if (requestType != null) {
+                Map<String, String> requestTypeMap = new HashMap<String, String>();
+                requestTypeMap.put(OLEConstants.OleDeliverRequest.REQUEST_TYPE_CD, requestType);
+                List<OleDeliverRequestType> oleDeliverRequestTypeList = (List<OleDeliverRequestType>) getBusinessObjectService().findMatching(OleDeliverRequestType.class, requestTypeMap);
+                if (oleDeliverRequestTypeList != null && (oleDeliverRequestTypeList.size() > 0)) {
+                    oleDeliverRequestBo.setRequestTypeId(oleDeliverRequestTypeList.get(0).getRequestTypeId());
+                    oleDeliverRequestBo.setOleDeliverRequestType(oleDeliverRequestTypeList.get(0));
+                } /*else {
+                    olePlaceRequest.setCode("012");
+                    olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INVALID_RQST_TYP));
+                    return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                }*/
+            }
+            if (pickUpLocation != null) {
+                Map<String, String> circulationDeskMap = new HashMap<String, String>();
+                circulationDeskMap.put(OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_CD, pickUpLocation);
+                List<OleCirculationDesk> oleCirculationDeskList = (List<OleCirculationDesk>) getBusinessObjectService().findMatching(OleCirculationDesk.class, circulationDeskMap);
+                if (oleCirculationDeskList != null && oleCirculationDeskList.size() > 0) {
+                    oleDeliverRequestBo.setPickUpLocationId(oleCirculationDeskList.get(0).getCirculationDeskId());
+                    oleDeliverRequestBo.setPickUpLocationCode(oleCirculationDeskList.get(0).getCirculationDeskCode());
+                    oleDeliverRequestBo.setOlePickUpLocation(oleCirculationDeskList.get(0));
+                } /*else {
+                    olePlaceRequest.setCode("013");
+                    olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INVALID_PK_UP_LOCN));
+                    return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                }*/
+
+            }
+            try {
+               /* if (itemBarcode == null || (itemBarcode != null && itemBarcode.isEmpty())) {
+                    olePlaceRequest.setCode("014");
+                    olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
+                    return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+
+                }*/
+                oleDeliverRequestBo.setItemId(itemBarcode);
+                oleDeliverRequestBo.setItemUuid(itemIdentifier);
+                oleDeliverRequestBo.setItemStatus(OLEConstants.AVAILABLE);
+                oleDeliverRequestBo.setItemType(itemType);
+                oleDeliverRequestBo.setItemLocation(itemLocation);
+                if (itemIdentifier == null || itemLocation == null || itemType == null) {
+                    Thread.sleep(500);
+                    String itemUUID = null;
+                    String holdingsId = null;
+                    if (itemIdentifier == null) {
+                        try {
+                            org.kuali.ole.docstore.common.document.Item item = new ItemOleml();
+                            org.kuali.ole.docstore.common.search.SearchParams search_Params = new org.kuali.ole.docstore.common.search.SearchParams();
+                            SearchResponse searchResponse = null;
+                            search_Params.getSearchConditions().add(search_Params.buildSearchCondition("phrase", search_Params.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), item.ITEM_BARCODE, oleDeliverRequestBo.getItemId()), ""));
+                            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "id"));
+                            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.HOLDINGS.getCode(), "id"));
+                            searchResponse = getDocstoreClientLocator().getDocstoreClient().search(search_Params);
+                            for (SearchResult searchResult : searchResponse.getSearchResults()) {
+                                for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
+                                    String fieldName = searchResultField.getFieldName();
+                                    String fieldValue = searchResultField.getFieldValue() != null ? searchResultField.getFieldValue() : "";
+                                    if (fieldName.equalsIgnoreCase("id") && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase("holdings")) {
+                                        holdingsId = fieldValue;
+                                    } else {
+                                        oleDeliverRequestBo.setItemUuid(fieldValue);
+                                        itemUUID = fieldValue;
+                                    }
+                                }
+                            }
+                        } catch (Exception ex) {
+                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_EXIST));
+                            LOG.error(OLEConstants.ITEM_EXIST + ex);
+                        }
+                    }
+                   /* if (itemUUID == null) {
+                        olePlaceRequest.setCode("014");
+                        olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
+                        return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
+                    }*/
                     if (itemType == null || itemLocation == null) {
                         Map<String, Object> detailMap = retrieveBIbItemHoldingData(itemUUID);
                         Bib bib = (Bib) detailMap.get(OLEConstants.BIB);
@@ -2526,68 +2921,53 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 oleDeliverRequestBo.setRequestCreator(OLEConstants.OleDeliverRequest.REQUESTER_OPERATOR);
                 oleDeliverRequestBo.setOperatorCreateId(operatorId);
                 oleDeliverRequestBo.setItemId(itemBarcode);
-                if (!processOperator(operatorId)) {
+                /*if (!processOperator(operatorId)) {
                     olePlaceRequest.setCode("001");
                     olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INVALID_OPRTR_ID));
                     return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
-                }
+                }*/
                 processRequestTypeByPickUpLocation(oleDeliverRequestBo);
-                String message = this.patronRecordExpired(oleDeliverRequestBo);
-                if (message != null) {
+                //String message = this.patronRecordExpired(oleDeliverRequestBo);
+               /* if (message != null) {
                     olePlaceRequest.setCode("015");
                     olePlaceRequest.setMessage(message);
                     return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
-                }
-                boolean requestRaised = this.isRequestAlreadyRaisedByPatron(oleDeliverRequestBo);
+                }*/
+
+              /*  boolean requestRaised = this.isRequestAlreadyRaisedByPatron(oleDeliverRequestBo);
                 if (requestRaised) {
                     {
                         olePlaceRequest.setCode("016");
                         olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.RQST_ALRDY_RAISD));
                         return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
                     }
-                }
-                boolean itemEligible = this.isItemEligible(oleDeliverRequestBo);
+                }*/
+               /* boolean itemEligible = this.isItemEligible(oleDeliverRequestBo);
                 if (!itemEligible) {
                     {
                         olePlaceRequest.setCode("017");
                         olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITM_NOT_LOAN));
                         return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
                     }
-                }
-                boolean alreadyLoaned = this.isAlreadyLoaned(oleDeliverRequestBo);
+                }*/
+              /*  boolean alreadyLoaned = this.isAlreadyLoaned(oleDeliverRequestBo);
                 if (alreadyLoaned) {
                     olePlaceRequest.setCode("018");
                     olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITM_LOAN_BY_PTRN));
                     return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
-                }
-                boolean valid = false;
-                EngineResults engineResult = this.executeEngineResults(oleDeliverRequestBo);
-                if (engineResult != null) {
-                    List<ResultEvent> allResults = engineResult.getAllResults();
-                    if (allResults.size() > 0) {
-                        for (Iterator<ResultEvent> resultEventIterator = allResults.iterator(); resultEventIterator.hasNext(); ) {
-                            ResultEvent resultEvent = resultEventIterator.next();
-                            if (resultEvent.getType().equals(RULE_EVALUATED))
-                                valid |= resultEvent.getResult();
-                        }
-                        if ((oleDeliverRequestBo.getMessage() != null && !oleDeliverRequestBo.getMessage().isEmpty())) {
-                            olePlaceRequest.setCode("500");
-                            olePlaceRequest.setMessage(oleDeliverRequestBo.getMessage().replaceAll("<br/>", ""));
-                            return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
-                        }
-
-                    }
-                }
+                }*/
+               // Removed KRMS Rules
 
                 OleDeliverRequestBo oleDeliverRequestBo1 = null;
                 boolean asrItem = false;
                 try {
                     oleDeliverRequestBo1 = oleDeliverRequestBo;
-                    if (isItemAvailable(oleDeliverRequestBo1)) {
+                    /*if (isItemAvailable(oleDeliverRequestBo1)) {
                         olePlaceRequest.setCode("019");
+                        block
                         olePlaceRequest.setMessage(oleDeliverRequestBo1.getRequestTypeCode() + OLEConstants.RQST_CONDITION + oleDeliverRequestBo1.getItemStatus());
                         return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
-                    }
+                    }*/
                     oleDeliverRequestBo.setOleItem(null);
                     asrItem = asrHelperService.isAnASRItem(oleDeliverRequestBo.getItemLocation());
                     if (asrItem && oleDeliverRequestBo.getItemStatus().equals(getLoanProcessor().getParameter(ASRConstants.ASR_REQUEST_ITEM_STATUS))) {
@@ -2684,11 +3064,11 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
             } catch (Exception e) {
                 LOG.error("Exception", e);
-                if (e.getMessage() != null && e.getMessage().equalsIgnoreCase("Item barcode does not exist.")) {
+               /* if (e.getMessage() != null && e.getMessage().equalsIgnoreCase("Item barcode does not exist.")) {
                     olePlaceRequest.setCode("014");
                     olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
                     return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
-                }
+                }*/
                 olePlaceRequest.setCode("023");
                 olePlaceRequest.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.RQST_FAIL));
                 return olePlaceRequestConverter.generatePlaceRequestXml(olePlaceRequest);
@@ -2845,8 +3225,9 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             Timestamp recallDueDate = (Timestamp) engineResult.getAttribute(OLEConstants.RECALL_DUE_DATE);
             String notice = (String) engineResult.getAttribute(OLEConstants.NOTICE);
             oleDeliverRequestBo.setNoticeType(notice);
-
+            if(oleDeliverRequestBo.getRequestExpiryDate()==null){
             oleDeliverRequestBo.setRequestExpiryDate(d);
+            }
             StringBuffer failures = new StringBuffer();
             if (errorMessage != null && errorMessage.size() > 0) {
                 int i = 1;
@@ -3106,18 +3487,17 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
         HoldingOlemlRecordProcessor holdingsOlemlRecordProcessor = new HoldingOlemlRecordProcessor();
         try{
-            item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemUUID);
+            item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemUUID); // retrieving item object using itemUUID.
             bibMap.put(OLEConstants.DOCUMENT_ITEM,item);
-            bibMap.put(OLEConstants.BIB,item.getHolding().getBib());
+            bibMap.put(OLEConstants.BIB,item.getHolding().getBib()); // retrieving bib object from holding.
             Item item1 = itemOlemlRecordProcessor.fromXML(item.getContent());
             bibMap.put(OLEConstants.ITEM,item1);
             OleHoldings oleHoldings = holdingsOlemlRecordProcessor.fromXML(item.getHolding().getContent());
-            bibMap.put(OLEConstants.HOLDING,oleHoldings);
+            bibMap.put(OLEConstants.HOLDING,oleHoldings); // retrieving holding object.
         }catch (Exception e){
             LOG.error(e);
         }
-        return bibMap;
-
+        return bibMap; // set all the objects in Map.
     }
 
     private void getNoticeList(List<OleLoanDocument> oleLoanDocuments, OlePatronDocument olePatronDocument, boolean overdue,List<String> itemUUIDS) {
@@ -3797,6 +4177,25 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     }
 
 
+    public boolean deliverAddressExist(String patronId) throws Exception {
+        boolean found=false;
+        Map<String, String> criteria = new HashMap<String, String>();
+        Map<String, String> addressCriteria = new HashMap<String, String>();
+        criteria.put("olePatronId", patronId);
+        List<OlePatronDocument> olePatronDocument = (List<OlePatronDocument>)  KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class,criteria);
+        if(olePatronDocument != null && olePatronDocument.size() >0){
+            List<OleAddressBo> oleAddressBos   = olePatronDocument.get(0).getOleAddresses();
+            if(oleAddressBos != null && oleAddressBos.size() >0){
+                for(int address=0;address<oleAddressBos.size();address ++ ){
+                    if(oleAddressBos != null && oleAddressBos.size() > 0 && oleAddressBos.get(address).isDeliverAddress()){
+                        found = true;
+                    }
+                }
+            }
+
+        }
+        return found;
+    }
 
 }
 

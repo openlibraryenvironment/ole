@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.rule;
 
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.bo.OleAddressBo;
 import org.kuali.ole.deliver.bo.OleEntityAddressBo;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -140,6 +141,11 @@ public class OlePatronDocumentRule extends MaintenanceDocumentRuleBase {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OlePatron.ADDRESS_SECTION_ID, OLEConstants.OlePatron.ERROR_SELECTION_PREFERRED_ADDRESS);
             valid &= false;
         }
+        if (!checkAddressMultipleDeliverAddress(patronDoc.getOleEntityAddressBo(), "oleEntityAddressBo")) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OlePatron.ADDRESS_SECTION_ID, OLEConstants.OlePatron.ERROR_SELECTION_PREFERRED_DELIVER_ADDRESS);
+            valid &= false;
+        }
+
         if (!checkEmailMultipleDefault(patronDoc.getEmails(), "emails")) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OlePatron.EMAIL_SECTION_ID, OLEConstants.OlePatron.ERROR_SELECTION_PREFERRED_EMAIL);
             valid &= false;
@@ -256,6 +262,29 @@ public class OlePatronDocumentRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
+
+    protected boolean checkAddressMultipleDeliverAddress(List<OleEntityAddressBo> addrBoList, String listName) {
+        boolean valid = true;
+        boolean isDefaultSet = false;
+        int i = 0;
+        for (OleEntityAddressBo addr : addrBoList) {
+            OleAddressBo oleAddressBo = addr.getOleAddressBo();
+            if (oleAddressBo.isDeliverAddress()) {
+                if (isDefaultSet) {
+                    this.putFieldError("dataObject." + listName + "[" + i + "].defaultValue", OLEConstants.OlePatron.ERROR_PATRON_MULIT_DELIVER_ADDRESS);
+                    valid = false;
+                } else {
+                    isDefaultSet = true;
+                }
+            }
+            i++;
+        }
+        if (!addrBoList.isEmpty() && !isDefaultSet) {
+            //this.putFieldError("dataObject."+listName+"[0].defaultValue",RiceKeyConstants.ERROR_NO_DEFAULT_SELETION);
+            valid = false;
+        }
+        return valid;
+    }
     /**
      * this method validates the email object for default value
      *

@@ -16,7 +16,7 @@ public class OLECheckInItemConverter {
 
     public String generateCheckInItemXml(OLECheckInItem oleCheckInItem){
         XStream xStream = new XStream();
-        xStream.alias("renewItem",OLECheckInItem.class);
+        xStream.alias("checkInItem",OLECheckInItem.class);
         xStream.omitField(OLECheckInItem.class, "patronBarcode");
         xStream.omitField(OLECheckInItem.class, "itemLocation");
         return xStream.toXML(oleCheckInItem);

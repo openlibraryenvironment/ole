@@ -1,6 +1,7 @@
 package org.kuali.ole.sip2.sip2Response;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.ncip.bo.OLERenewItem;
 import org.kuali.ole.sip2.common.MessageUtil;
 import org.kuali.ole.sip2.common.OLESIP2Util;
@@ -18,7 +19,7 @@ public class OLESIP2RenewResponse extends OLESIP2Response {
     public String getSIP2RenewResponse(OLERenewItem oleRenewItem, OLESIP2RenewRequestParser sip2RenewRequestParser) {
         StringBuilder renewResponseBuilder = new StringBuilder();
         renewResponseBuilder.append(code);
-        if (oleRenewItem.getCode().equalsIgnoreCase("030") || oleRenewItem.getMessage().equalsIgnoreCase(OLESIP2Constants.CHECK_OUT_SUCCESS)) {
+        if (oleRenewItem.getCode().equalsIgnoreCase("030") || oleRenewItem.getMessage().equalsIgnoreCase(OLESIP2Constants.RENEW_SUCCESS)) {
             renewResponseBuilder.append(OLESIP2Util.bool2Int(true));
             renewResponseBuilder.append(OLESIP2Util.bool2Char(false));
             renewResponseBuilder.append("U");

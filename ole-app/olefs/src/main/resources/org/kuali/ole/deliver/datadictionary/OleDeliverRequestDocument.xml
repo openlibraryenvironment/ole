@@ -558,7 +558,7 @@
 
 
     <bean id="OleRequestDocument-LookupView" parent="Uif-OLELookupView">
-        <property name="headerText" value="Request Lookup" />
+        <property name="headerText" value="Request Search" />
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"

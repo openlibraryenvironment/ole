@@ -48,6 +48,9 @@ public class OLEConstants {
     public static final String POSTING_YEAR = "postingYear";
     public static final String TOTAL_DOLLAR_AMOUNT = "financialDocumentTotalAmount";
 
+    public static final String ITEM_ALREADY_LOANED = "Item is already loaned.";
+    public static final String ITEM_ALREADY_LOANED_REDIRECT_URL = "?viewId=PatronItemView&methodToCall=start&formKey=";
+
     public static final String SERIAL_SINGLE_SEC_LIMIT = "SERIAL_SINGLE_SEC_LIMIT";
     public static final String SERIAL_MULTI_SEC_LIMIT = "SERIAL_MULTI_SEC_LIMIT";
     public static final String SERIAL_SEARCH_LIMIT = "SERIAL_SEARCH_LIMIT";
@@ -162,7 +165,7 @@ public class OLEConstants {
     public static final String INVAL_ITEM_STATUS = "Invalid Item Status";
     public static final String ITEM_STATUS_CODE = "itemAvailableStatusCode";
     public static final String OPTR_ID = "operatorId";
-    public static final String VALID_FILE_FORMAT = "validFileFormat";
+    public static final String VALID_FILE_FORMAT = "VALID_FILE_FORMAT";
     public static final String APPL_ID = "KUALI";
     public static final String APPL_ID_OLE = "OLE";
     public static final String SELECT_NMSPC = "OLE-SELECT";
@@ -423,7 +426,7 @@ public class OLEConstants {
     public static final String ITEM = "item";
     public static final String HOLDING = "holding";
     public static final String DOCUMENT_ITEM = "documentItem";
-    public static final String GREGORIAN_PATTERN="yyyy-mm-dd hh:mm:ss";
+    public static final String GREGORIAN_PATTERN = "yyyy-mm-dd hh:mm:ss";
     public static final String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
 
 
@@ -993,6 +996,7 @@ public class OLEConstants {
         public static final String ERROR_PATRON_ADDRESS_SINGLE_DATE = "error.patron.address.singleDate";
         public static final String ERROR_PATRON_MULIT_PREFERRED_EMAIL = "error.patron.multi.defaultEmail";
         public static final String ERROR_PATRON_MULIT_PREFERRED_ADDRESS = "error.patron.multi.defaultAddress";
+        public static final String ERROR_PATRON_MULIT_DELIVER_ADDRESS = "error.patron.multi.deliverAddress";
         public static final String ERROR_PATRON_REQUIRED_DEFAULT_FIELD_CONTACT = "error.patron.required.default.field.contact";
         public static final String ERROR_PATRON_REQUIRED_ADDRESS = "error.patron.required.address";
         public static final String ERROR_PATRON_REQUIRED_AFFILIATION = "error.patron.required.affiliation";
@@ -1002,7 +1006,7 @@ public class OLEConstants {
         public static final String ERROR_PATRON_LAST_NAME = "error.patron.last.name";
         public static final String PATRON_NAME_VALIDATION = "PATRON_NAME_VALIDATION";
         public static final String PATRON_BILL_REVIEW_PRINT = "PATRON_BILL_REVIEW_PRINT";
-        public static final String PATRON_SUCCESS_MAIL ="error.message.mail.patron.sent";
+        public static final String PATRON_SUCCESS_MAIL = "error.message.mail.patron.sent";
         public static final String ERROR_PATRON_MAIL = "error.message.mail.patron";
         public static final String FIRST_NAME = "dataObject.name.firstName";
         public static final String MIDDLE_NAME = "dataObject.name.middleName";
@@ -1042,6 +1046,7 @@ public class OLEConstants {
         public static final String PATRON = "Patron";
         public static final String ERROR_REQUIRED = "error.required";
         public static final String ERROR_SELECTION_PREFERRED_ADDRESS = "error.selection.preferred.address";
+        public static final String ERROR_SELECTION_PREFERRED_DELIVER_ADDRESS = "error.selection.preferred.deliver.address";
         public static final String ERROR_SELECTION_PREFERRED_EMAIL = "error.selection.preferred.email";
         public static final String ERROR_SELECTION_PREFERRED_PHONE = "error.selection.preferred.phone";
         public static final String ERROR_SELECTION_PREFERRED_ADDRESS_ACTIVE = "error.selection.preferred.address.active";
@@ -1157,6 +1162,7 @@ public class OLEConstants {
     //Loan
     public static final String ITM_ALRDY_CHECKED_OUT = "Item already checked out by another patron.";
     public static final String ITEM_STATUS_CHECKEDOUT = "LOANED";
+    public static final String RETURN_PROCESS_FAILURE = "Return process for this Item failed.";
     public static final String ITEM_STATUS_LOANED_ANOTHER_PATRON_PERMISSION = "Item currently loaned to another patron";
     public static final String ITEM_STATUS_RETURNED_DAMAGED = "RETURNED-DAMAGED";
     public static final String ITEM_STATUS_RETURNED_MISSING = "RETURNED-WITH-MISSING-ITEMS";
@@ -1567,7 +1573,7 @@ public class OLEConstants {
     public static final String DAT_FORMAT_EFFECTIVE_PRINT = "MM/dd/yyyy hh:mm a";
     public static final String DAT_FORMAT_EFFECTIVE_NOTICE = "MM/dd/yyyy hh:mm:ss";
     public static final String INVAL_LOC = "error.invalid.location";
-    public static final String ITEM_NOT_AVAILABLE="item.not.available";
+    public static final String ITEM_NOT_AVAILABLE = "item.not.available";
     public static final String INVAL_ITEM = "Either item type or item status or both are empty";
     public static final String GENERAL_BLOCK = "generalBlock";
     public static final String LOST_BARCODE = "lostBarcode";
@@ -1635,7 +1641,7 @@ public class OLEConstants {
     public static final String FEE_TYPE_CODE_OVERDUE = "OVR_DUE";
     public static final String FEE_TYPE_CODE_REPL_FEE = "REPL_FEE";
     public static final String LOANED_ITEM_COUNT = "loanedItemCount";
-    public  static final String FEE_TYPE_PATRON_ID="patronBillPayment.patronId";
+    public static final String FEE_TYPE_PATRON_ID = "patronBillPayment.patronId";
     public static final String ITEM_LOCATION = "itemLocation";
     public static final String IS_ITEM_PRICE = "isItemPrice";
     public static final String DELIVERY_PRIVILEGES = "deliveryPrivileges";
@@ -2630,8 +2636,8 @@ public class OLEConstants {
     public static final String SMTP_HOST = "mail.smtp.host";
     public static final String SMTP_AUTH = "mail.smtps.auth";
     public static final String SMTP_STARTTLS = "mail.smtp.starttls.enable";
-    public static final String TRANSPORT_PROTOCOL = "smtps";
-    public static final String RQST_PRBLM=" .Problem occured while retrieving item information";
+    public static final String TRANSPORT_PROTOCOL = "mail.transport.protocol";
+    public static final String RQST_PRBLM = " .Problem occured while retrieving item information";
 
     //Boundwith
     public static final String LEFT_TREE_SECTION = "LeftTreeSection";
@@ -3368,4 +3374,6 @@ public class OLEConstants {
     public static final String NEW_ALERT_DESCRIPTION = "New Alert Document";
     public static final String EDIT_ALERT_DESCRIPTION = "Edited Alert Document";
     public static final String COPY_ALERT_DESCRIPTION = "Saved Alert Document";
+
+    public static final String PHRASE = "phrase";
 }

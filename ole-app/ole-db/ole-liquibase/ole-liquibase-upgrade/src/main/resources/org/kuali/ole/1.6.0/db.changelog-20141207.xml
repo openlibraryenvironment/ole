@@ -369,4 +369,49 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_RQST_HSTRY_REC_T_ARCH_DT_TIME">
+        <modifyDataType catalogName="ole"
+                        columnName="ARCH_DT_TIME"
+                        newDataType="DATE"
+                        schemaName="ole"
+                        tableName="OLE_DLVR_RQST_HSTRY_REC_T"/>
+    </changeSet>
+
+
+    <changeSet context="bootstrap"  author="ole" id="ole_dlvr_loan_t_dropIndex">
+        <dropIndex catalogName="ole"
+                   indexName="loan_itm_index"
+                   schemaName="ole"
+                   tableName="ole_dlvr_loan_t"/>
+    </changeSet>
+
+    <changeSet context="bootstrap"  author="ole" id="ole_dlvr_loan_t">
+        <addUniqueConstraint catalogName="ole"
+                             columnNames="itm_id"
+                             constraintName="itm_id_const"
+                             deferrable="true"
+                             disabled="true"
+                             initiallyDeferred="true"
+                             schemaName="ole"
+                             tableName="ole_dlvr_loan_t"/>
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_ADD_T">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_ADD_T">
+            <column name="PTRN_DLVR_ADD" type="varchar(1)"/>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CRCL_DSK_T">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_CRCL_DSK_T">
+            <column name="RQST_EXPIRTIN_DAYS" type="DECIMAL(8)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

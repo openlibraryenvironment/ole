@@ -35,6 +35,7 @@
                 <ref bean="OleCirculationDesk-isPickUpLocation"/>
                 <ref bean="OleCirculationDesk-asrPickupLocation"/>
                 <ref bean="OleCirculationDesk-onHoldDays"/>
+                <ref bean="OleCirculationDesk-requestExpirationDays"/>
                 <ref bean="OleCirculationDesk-shelvingLagTime"/>
                 <ref bean="OleCirculationDesk-printSlip"/>
                 <ref bean="OleCirculationDesk-holdFormat"/>
@@ -215,6 +216,27 @@
         <property name="label" value="On-Hold Days"/>
         <property name="description" value="On-Hold Days"/>
     </bean>
+
+
+    <bean id="OleCirculationDesk-requestExpirationDays" parent="OleCirculationDesk-requestExpirationDays-parentBean"/>
+
+    <bean id="OleCirculationDesk-requestExpirationDays-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Request Expiration Days"/>
+        <property name="maxLength" value="8"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="8"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+        <property name="name" value="requestExpirationDays"/>
+        <property name="label" value="Request Expiration Days"/>
+        <property name="description" value="Request Expiration Days"/>
+    </bean>
     <bean id="OleCirculationDesk-shelvingLagTime" parent="OleCirculationDesk-shelvingLagTime-parentBean"/>
 
     <bean id="OleCirculationDesk-shelvingLagTime-parentBean" abstract="true" parent="AttributeDefinition">
@@ -331,6 +353,7 @@
                                         <bean id="inquiry_isPickUpLocation" parent="Uif-InputField" p:propertyName="pickUpLocation"/>
                                         <bean id="inquiry_asrPickUpLocation" parent="Uif-InputField" p:propertyName="asrPickupLocation"/>
                                         <bean id="inquiry_onHoldDays" parent="Uif-InputField" p:propertyName="onHoldDays"/>
+                                        <bean id="inquiry_requestExpirationDays" parent="Uif-InputField" p:propertyName="requestExpirationDays"/>
                                         <bean id="inquiry_shelvingLagTime" parent="Uif-InputField" p:propertyName="shelvingLagTime"/>
                                         <bean id="inquiry_printSlip" parent="Uif-InputField" p:propertyName="printSlip"/>
                                         <bean id="inquiry_holdFormat" parent="Uif-InputField" p:propertyName="holdFormat"/>

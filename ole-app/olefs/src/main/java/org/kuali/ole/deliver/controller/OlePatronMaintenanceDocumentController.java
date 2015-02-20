@@ -1640,12 +1640,12 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         			ProcessLogger.trace("patron:proxy:"
         					+ oleProxyPatronDocument.getProxyPatronId());
                     OlePatronDocument olePatronDocument = (OlePatronDocument) getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, map);
-                    if (olePatronDocument.isActiveIndicator()) {
+                   // if (olePatronDocument.isActiveIndicator()) {
                         oleProxyPatronDocument.setProxyPatronBarcode(olePatronDocument.getBarcode());
                         oleProxyPatronDocument.setProxyPatronFirstName(olePatronDocument.getEntity().getNames().get(0).getFirstName());
                         oleProxyPatronDocument.setProxyPatronLastName(olePatronDocument.getEntity().getNames().get(0).getLastName());
                         proxyPatronDocumentList.add(oleProxyPatronDocument);
-                    }
+                   // }
                 }
                 olePatron.setOleProxyPatronDocuments(proxyPatronDocumentList);
                 ProcessLogger.trace("patron:proxy:end");

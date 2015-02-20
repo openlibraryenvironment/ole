@@ -349,5 +349,72 @@ INSERT INTO ALRT_DOC_TYP_T (ALRT_DOC_TYP_ID, ALRT_DOC_TYP_NAME, ALRT_DOC_TYP_DES
 INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('ALRT_DOC_TYP_T', 'ole', 'bootstrap_other_data.xml', SYSTIMESTAMP, 8, '7:ea47c1595715e146fd16ad599353e9c8', 'loadData', '', 'EXECUTED', '3.2.0')
 /
 
+-- Changeset bootstrap_other_data.xml::KRMS_TYP_T::ole
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('2000', 'errorAction', 'OLE', 'errorActionTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('2001', 'loanPeriod', 'OLE', 'loanPeriodTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('2002', 'overdueFine', 'OLE', 'overdueFineTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('2003', 'overdueDay', 'OLE', 'overdueDayTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('2004', 'maxFine', 'OLE', 'maxFineTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('2005', 'recallOverdueDay', 'OLE', 'recallOverdueDayTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('2006', 'replacementBill', 'OLE', 'replacementBillTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('2007', 'requestExpirationDay', 'OLE', 'requestExpirationDayTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('2008', 'generateNotice', 'OLE', 'generateNoticeTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('2009', 'deleteTemporaryHistoryRecord', 'OLE', 'deleteTemporaryHistoryRecordTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('2010', 'circulationPolicyFound', 'OLE', 'circulationPolicyFoundTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('2011', 'updateItemStatus', 'OLE', 'updateItemStatusTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('2012', 'recallDueDate', 'OLE', 'recallDueDateTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('T1001', 'CAMPUS', 'KR-RULE-TEST', 'myCampusService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('T1002', 'KrmsActionResolverType', 'KR-RULE-TEST', 'testActionTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('T1004', 'AGENDA', 'KR-RULE-TEST', '\N', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('OLE2013', 'permissionAction', 'OLE', 'permissionActionTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('OLE2014', 'errorsAndPermission', 'OLE', 'errorsAndPermissionActionTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('OLE2015', 'MaxNumberByItemType', 'OLE', 'maxNumberItemTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('OLE2016', 'DeliverNotice', 'OLE', 'deliverNoticeTypeService', 'Y', '1')
+/
+
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES ('OLE2017', 'NoticeFormat', 'OLE', 'noticeFormatTypeService', 'Y', '1')
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('KRMS_TYP_T', 'ole', 'bootstrap_other_data.xml', SYSTIMESTAMP, 9, '7:0fac0553d6c286344f04b0d210f862ac', 'loadData', '', 'EXECUTED', '3.2.0')
+/
+
 -- Release Database Lock
 -- Release Database Lock

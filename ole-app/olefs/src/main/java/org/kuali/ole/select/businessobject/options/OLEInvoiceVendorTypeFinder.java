@@ -46,8 +46,9 @@ public class OLEInvoiceVendorTypeFinder extends KeyValuesBase {
 
         for (VendorDetail acctType : codes) {
 
-            labels.add(new ConcreteKeyValue(acctType.getVendorHeaderGeneratedIdentifier().toString() + "-" + acctType.getVendorDetailAssignedIdentifier().toString(), acctType.getVendorName()));
-
+           if(acctType.isActiveIndicator()){
+              labels.add(new ConcreteKeyValue(acctType.getVendorHeaderGeneratedIdentifier().toString() + "-" + acctType.getVendorDetailAssignedIdentifier().toString(), acctType.getVendorName()));
+           }
         }
 
         return labels;

@@ -21,6 +21,7 @@ public class OLESIP2ItemInformationResponse extends OLESIP2Response {
     public String getSIP2ItemInfoResponse(OleItemSearch oleItemSearch, OLESIP2ItemInformationRequestParser sip2ItemInformationRequestParser) {
 
         StringBuilder builder = new StringBuilder();
+
         builder.append(code);
         builder.append("08");
         builder.append("00");
@@ -30,7 +31,7 @@ public class OLESIP2ItemInformationResponse extends OLESIP2Response {
         builder.append(oleItemSearch.getItemBarCode() != null ? oleItemSearch.getItemBarCode() : sip2ItemInformationRequestParser.getItemIdentifier());
         builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.TITLE_IDENTIFIER_CODE);
-        builder.append(oleItemSearch.getTitle() != null ? oleItemSearch.getTitle() : " ");
+        builder.append(oleItemSearch.getTitle() != null ? oleItemSearch.getTitle().replaceAll(OLESIP2Constants.NON_ROMAN_REGEX,""): "");
         builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.CURRENCY_TYPE_CODE);
         builder.append(OLESIP2Util.getDefaultCurrency().getCurrencyCode());
@@ -47,7 +48,7 @@ public class OLESIP2ItemInformationResponse extends OLESIP2Response {
         }
         builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.ITEM_PROPERTIES_CODE);
-        builder.append((StringUtils.isNotBlank(oleItemSearch.getAuthor()) ? "Author : " + oleItemSearch.getAuthor() : " ") + (StringUtils.isNotBlank(oleItemSearch.getItemStatus()) ? " Status : " + oleItemSearch.getItemStatus() : " "));
+        builder.append((StringUtils.isNotBlank(oleItemSearch.getAuthor()) ? "Author : " + oleItemSearch.getAuthor().replaceAll(OLESIP2Constants.NON_ROMAN_REGEX,"") : " ") + (StringUtils.isNotBlank(oleItemSearch.getItemStatus()) ? " Status : " + oleItemSearch.getItemStatus() : " "));
         if(StringUtils.isBlank(oleItemSearch.getItemBarCode()) && StringUtils.isBlank(oleItemSearch.getItemStatus())){
             builder.append(OLESIP2Constants.SPLIT+
                     OLESIP2Constants.SCREEN_MSG_CODE);

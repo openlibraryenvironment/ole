@@ -481,7 +481,7 @@
                 <bean id="oleItemAccessInformationBarcode" parent="Uif-InputField"
                       p:propertyName="accessInformation.barcode"
                       p:label="Barcode"
-                      p:required="false">
+                      p:required="false" p:readOnly="@{documentForm.itemStatusNonEditable}">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="18" p:maxLength="20"/>
                     </property>

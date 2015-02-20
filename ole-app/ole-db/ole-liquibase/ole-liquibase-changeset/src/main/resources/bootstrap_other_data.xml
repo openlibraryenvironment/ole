@@ -38,5 +38,9 @@
     <changeSet context="demo" author="ole" id="ALRT_DOC_TYP_T">
         <loadData tableName="ALRT_DOC_TYP_T" file="ole-bootstrap/ALRT_DOC_TYP_T.csv"/>
     </changeSet>
+    
+    <changeSet context="demo" author="ole" id="KRMS_TYP_T">
+        <loadData tableName="KRMS_TYP_T" file="ole-bootstrap/ole_krms_typ_t.csv"/>
+    </changeSet>
 
 </databaseChangeLog>

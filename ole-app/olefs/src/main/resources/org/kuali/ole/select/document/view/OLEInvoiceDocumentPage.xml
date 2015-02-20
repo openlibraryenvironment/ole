@@ -498,9 +498,15 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="true"/>
         <property name="renderLineActions" value="true"/>
+        <property name="subCollectionSuffix" value="@{#lineSuffix}" />
         <property name="items">
             <list>
                 <bean id="OLEInvoiceView-invoice-note"  parent="Uif-InputField" p:label="Invoice Note" p:propertyName="note" p:required="false" />
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="deletePO_Note" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteNotes" p:actionLabel="Delete" />
             </list>
         </property>
     </bean>

@@ -34,7 +34,7 @@
         </property>
         <property name="items">
             <list>
-                <bean id="OLEPlaceRequestViewPage" parent="Uif-Page">
+                <bean id="OLEPlaceRequestViewPage" parent="Uif-Page" p:style="float:left;margin-left:20em">
                     <property name="items">
                         <list>
                             <ref bean="OLEPlaceRequestView_errorMessage"/>
@@ -45,7 +45,7 @@
                             <ref bean="OLEPlaceRequestView_RequestType"/>
                             <ref bean="OLEPlaceRequestView_request_details"/>
                             <bean id="request_submit_button" parent="Uif-SecondaryActionButton-Small"
-                                  p:methodToCall="submit" p:actionLabel="Submit" p:render="@{successMessage eq null or (successMessage ne null and successMessage eq '')}"/>
+                                  p:methodToCall="submit" p:actionLabel="Submit" p:successCallback="showRequestErrorMessage()" p:render="@{successMessage eq null or (successMessage ne null and successMessage eq '')}"/>
                             <bean id="item_level_request_button" parent="Uif-SecondaryActionButton-Small"
                                   p:methodToCall="getItemsForTitleLevelRequest" p:actionLabel="Submit" p:hidden="true" p:successCallback="showItemsDialog()" p:render="@{successMessage eq null or (successMessage ne null and successMessage eq '')}"/>
                             <bean id="item_level_request_Clear_button" parent="Uif-SecondaryActionButton-Small"
@@ -63,6 +63,7 @@
         <property name="additionalCssFiles">
             <list>
                 <value>ole/ingest/css/circulationDesk.css</value>
+                <value>ole/deliver/request/css/request.css</value>
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -81,7 +82,17 @@
             <list>
                 <bean id="OLEPlaceRequestView_messageFields" parent="Uif-MessageField"
                       p:messageText="@{errorMessage}" />
+                <ref bean="OLEOverrideButtons"/>
 
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEOverrideButtons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="OLEPlaceRequestOverrideButton" parent="Uif-SecondaryActionButton-Small" p:methodToCall="overrideRequest" p:actionLabel="Override" p:successCallback="cancelOverride();" p:render="@{!blockOverride}"/>
+                <bean id="OLEPlaceRequestCancelButton" parent="Uif-SecondaryActionButton-Small" p:actionScript="cancelOverride();" p:actionLabel="cancel"/>
             </list>
         </property>
     </bean>
@@ -107,12 +118,11 @@
         <property name="items">
             <list>
                 <bean id="place_request_itm_title" parent="Uif-LinkField"
-                      p:style="font-weight:bold;font-size:16px;border:2px;"
-
-                      p:label="Title: " p:linkText="@{title}" p:target="_blank"
+                      p:label="Title" p:linkText="@{title}" p:target="_blank"
                       p:href="@{#ConfigProperties['ole.editor.url']}editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=@{itemId}&amp;bibId=@{bibId}&amp;instanceId=@{holdingId}"/>
-                <bean parent="Uif-DataField" p:propertyName="author" p:label="Author: "
-                      p:style="font-weight:bold;font-size:16px;border:2px;"/>
+                <bean parent="Uif-DataField" p:propertyName="author" p:label="Author"/>
+                <bean parent="Uif-DataField" p:propertyName="itemType" p:label="Item Type"/>
+                <bean parent="Uif-DataField" p:propertyName="itemLocation" p:label="Item Location"/>
             </list>
         </property>
     </bean>
@@ -137,16 +147,16 @@
                 </bean>
                 <bean id="ptr_pl" parent="Uif-DataField" p:propertyName="patronName" p:label="Patron Name"
                       p:style="font-weight:bold;font-size:16px;border:2px;"
-                      p:render="@{patronBarcode ne null and patronBarcode ne ''}"/>
+                      p:render="@{patronFound or (patronName ne null and patronName ne '')}"/>
 
                 <bean parent="Uif-DataField" p:propertyName="patronType" p:label="Patron Type"
                       p:style="font-weight:bold;font-size:16px;border:2px;"
-                      p:render="@{patronBarcode ne null and patronBarcode ne ''}"/>
+                      p:render="@{patronFound or (patronType ne null and patronType ne '')}"/>
 
                 <bean parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:15em"
                       p:methodToCall="confirmPatron" p:actionLabel="Confirm patron and Continue with Request"
 
-                      p:render="@{!processRequest and patronBarcode ne null and patronBarcode ne ''}"/>
+                      p:render="@{!processRequest and patronType ne null and patronType ne ''}"/>
 
                 <bean id="plc_searchPatron" parent="Uif-SecondaryActionButton-Small" p:methodToCall="searchPatron" p:actionLabel="Search" p:hidden="true" />
 
@@ -157,8 +167,8 @@
 
     <bean id="OLEPlaceRequestView_RequestLevel" parent="OLEPlaceRequestView_RequestLevel-parentBean"/>
 
-    <bean id="OLEPlaceRequestView_RequestLevel-parentBean" parent="Uif-Disclosure-HorizontalBoxSection"
-          p:render="@{processRequest}">
+    <bean id="OLEPlaceRequestView_RequestLevel-parentBean" parent="Uif-Disclosure-VerticalBoxSection"
+          p:render="@{processRequest}" p:style="font-weight:bold;font-size:13px;border:2px;">
         <property name="headerText" value="Request Level"/>
         <property name="items">
             <list>
@@ -190,8 +200,8 @@
 
     <bean id="OLEPlaceRequestView_RequestType" parent="OLEPlaceRequestView_RequestType-parentBean"/>
 
-    <bean id="OLEPlaceRequestView_RequestType-parentBean" parent="Uif-Disclosure-HorizontalBoxSection"
-          p:render="@{processRequest}">
+    <bean id="OLEPlaceRequestView_RequestType-parentBean" parent="Uif-Disclosure-VerticalBoxSection"
+          p:render="@{processRequest}"  p:style="font-weight:bold;font-size:13px;border:2px;">
         <property name="headerText" value="Request Type"/>
         <property name="items">
             <list>
@@ -271,7 +281,7 @@
           p:render="@{processRequest}">
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
                             <bean id="placeRequest_deliver" parent="Uif-InputField" p:propertyName="address"
@@ -377,6 +387,8 @@
         <bean id="multiple_item_cancel_button" parent="Uif-SecondaryActionButton-Small"
                p:actionLabel="Cancel" p:methodToCall="clearItemsForTitleLevelRequest" p:render="@{titleLevelRequestItems ne null and titleLevelRequestItems.size() > 0}" p:successCallback="closeItemsDialog()"/>
 
+        <bean id="searchButtonSelectRequestBorrower" parent="Uif-PrimaryActionButton"
+              p:methodToCall="searchPatron" p:actionLabel="Search" p:hidden="true"/>
         <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Select All" p:actionScript="selectAllItem();" p:render="@{titleLevelRequestItems ne null and titleLevelRequestItems.size() > 0}"/>
         <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Deselect All" p:actionScript="deSelectAllItem();" p:render="@{titleLevelRequestItems ne null and titleLevelRequestItems.size() > 0}"/>
             </list>

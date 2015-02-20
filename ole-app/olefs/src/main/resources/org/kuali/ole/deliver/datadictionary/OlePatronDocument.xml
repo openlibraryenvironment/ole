@@ -605,6 +605,7 @@
                 <bean id="address_countryCode" parent="Uif-InputField" p:propertyName="entityAddressBo.countryCode" p:label="Country"/>
                 <bean id="address_addressSource" parent="Uif-InputField" p:propertyName="oleAddressBo.oleAddressSourceName" p:label="Address Source"/>
                 <bean id="address_addressVerified" parent="Uif-InputField" p:propertyName="oleAddressBo.addressVerified" p:label="Address Verified"/>
+                <bean id="address_deliverAddress" parent="Uif-InputField" p:propertyName="oleAddressBo.deliverAddress" p:label="Deliver Address"/>
                 <bean id="address_addressValidFrom" parent="Uif-InputField" p:propertyName="oleAddressBo.addressValidFrom" p:label="Address Valid from"/>
                 <bean id="address_addressValidTo" parent="Uif-InputField" p:propertyName="oleAddressBo.addressValidTo" p:label="Address Valid To"/>
                 <bean id="address_defaultValue" parent="Uif-InputField" p:propertyName="entityAddressBo.defaultValue" p:label="Default"/>

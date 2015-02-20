@@ -544,6 +544,10 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
 
     private void performUpdateForPODocuments(String poNumber, BibTree bibTree, String documentTypeName, String poLineItemId, String note, OlePurchaseOrderItem singleItem, List<OleCopy> oleCopyList, List<OleCopy> copyList, List<OleCopy> newCopyList, List<OLELinkPurapDonor> oleDonors, String itemTypeDescription, String itemStatusValue) throws Exception {
         boolean isLocationAvailable = false;
+        if (bibTree.getHoldingsTrees().size() > 0 && documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT)) {
+          //  updateRecordForPODocument(poNumber, bibTree, poLineItemId, note, oleCopyList, singleItem);
+            isLocationAvailable = true;
+        }
         if (bibTree.getHoldingsTrees().size() > 0 && documentTypeName.equalsIgnoreCase(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT)) {
             updateRecordForPOVoidDocument(poNumber, bibTree, poLineItemId, note, oleCopyList, singleItem);
             isLocationAvailable = true;

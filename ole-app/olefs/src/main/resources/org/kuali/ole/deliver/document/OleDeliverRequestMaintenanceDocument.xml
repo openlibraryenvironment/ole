@@ -27,6 +27,7 @@
         <property name="documentAuthorizerClass"
                   value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
         <property name="businessRulesClass" value="org.kuali.ole.deliver.rule.OleDeliverRequestDocumentRule"/>
+        <property name="allowsNewOrCopy" value="false"/>
         <property name="lockingKeys">
             <list>
                 <value>requestId</value>
