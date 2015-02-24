@@ -2123,7 +2123,9 @@ public class LoanProcessor {
         //  oleLoanDocument.setCirculationPolicyId(circPolciyId!=null?circPolciyId :OLEConstants.NO_CIRC_POLICY_FOUND);
         //commented for jira OLE-5675
         //oleLoanDocument.setMachineId("MACH12233");  // TODO: Need to fetch machine IP.
-        oleLoanDocument.setCreateDate(new Timestamp(new Date().getTime()));
+        if (!oleLoanDocument.isRenewalItemFlag()) {
+            oleLoanDocument.setCreateDate(new Timestamp(new Date().getTime()));
+        }
         String principalId = "";
         if (oleLoanDocument.getLoanOperatorId() == null) {
             oleLoanDocument.setLoanOperatorId(principalId);
