@@ -971,6 +971,7 @@
         <field-descriptor name="operatorId" column="OLE_OPRT_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="machineId" column="OLE_MACH_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="archiveDate" column="ARCH_DT_TIME" jdbc-type="DATE"/>
+        <field-descriptor name="createDate" column="CRTE_DT_TIME" jdbc-type="DATE"/>
 
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

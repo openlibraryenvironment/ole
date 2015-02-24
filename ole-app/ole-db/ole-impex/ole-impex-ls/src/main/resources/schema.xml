@@ -1008,6 +1008,7 @@
         <column name="OLE_OPRT_ID" required="true" size="80" type="VARCHAR"/>
         <column name="OLE_MACH_ID" size="80" type="VARCHAR"/>
         <column name="ARCH_DT_TIME" required="true" type="DATE"/>
+        <column name="CRTE_DT_TIME" required="true" type="DATE"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
     </table>

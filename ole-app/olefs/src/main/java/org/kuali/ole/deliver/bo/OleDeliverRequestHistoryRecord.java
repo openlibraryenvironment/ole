@@ -22,6 +22,7 @@ public class OleDeliverRequestHistoryRecord extends PersistableBusinessObjectBas
     private String operatorId;
     private String machineId;
     private Date archiveDate;
+    private Date createDate;
 
     public String getRequestHistoryId() {
         return requestHistoryId;
@@ -103,5 +104,11 @@ public class OleDeliverRequestHistoryRecord extends PersistableBusinessObjectBas
         this.archiveDate = archiveDate;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
 
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 }

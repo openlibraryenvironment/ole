@@ -286,4 +286,20 @@
         <sql>ALTER TABLE OLE_E_RES_REC_T MODIFY TITLE varchar2(200)</sql>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_RQST_HSTRY_REC_T_CRTE_DT_TIME">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_RQST_HSTRY_REC_T">
+            <column name="CRTE_DT_TIME" type="DATE"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_RQST_HSTRY_REC_T_CRTE_DT_TIME_NOT_NULL_CONSTRAINT">
+        <addNotNullConstraint catalogName="ole"
+                              columnDataType="DATE"
+                              columnName="CRTE_DT_TIME"
+                              schemaName="ole"
+                              tableName="OLE_DLVR_RQST_HSTRY_REC_T"/>
+    </changeSet>
+
 </databaseChangeLog>

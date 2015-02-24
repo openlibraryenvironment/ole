@@ -1760,6 +1760,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             oleDeliverRequestHistoryRecord.setRequestId(oleDeliverRequestBo.getRequestId());
             oleDeliverRequestHistoryRecord.setItemId(oleDeliverRequestBo.getItemId());
             oleDeliverRequestHistoryRecord.setArchiveDate(new java.sql.Date(System.currentTimeMillis()));
+            oleDeliverRequestHistoryRecord.setCreateDate(oleDeliverRequestBo.getCreateDate());
             oleDeliverRequestHistoryRecord.setPickUpLocationCode(oleDeliverRequestBo.getPickUpLocationCode());
             oleDeliverRequestHistoryRecord.setOperatorId(OperatorId);
             oleDeliverRequestHistoryRecord.setDeliverRequestTypeCode(oleDeliverRequestBo.getRequestTypeCode());
