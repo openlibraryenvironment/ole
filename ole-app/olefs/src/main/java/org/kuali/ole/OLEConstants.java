@@ -2528,6 +2528,7 @@ public class OLEConstants {
     public static final String ERROR_BIB_EDIT_AUTHORIZATION = "error.bib.edit.authorization";
     public static final String INGEST_BIB_LOCAL = "INGEST_BIB_LOCAL";
     public static final String INGEST_BIB_EXTERNAL = "INGEST_BIB_EXTERNAL";
+    public static final String ERROR_INFIELD = "error.search.infield";
     public static final String ERROR_AUTHORIZATION = "error.permission.authorization";
     public static final String DESC_WORKBENCH_EXPORT_XML = "DESC_WORKBENCH_EXPORT_XML";
     public static final String TRANSFER_HOLDING_OR_ITEM = "TRANSFER_HOLDING_OR_ITEM";

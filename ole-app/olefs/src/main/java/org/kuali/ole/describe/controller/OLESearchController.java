@@ -959,21 +959,26 @@ public class OLESearchController extends UifControllerBase {
         List<SearchResultDisplayRow> bibSearchResultDisplayRows=new ArrayList<>();
         List<SearchResultDisplayRow> holdingsSearchResultDisplayRows=new ArrayList<>();
         if(searchResponse!=null){
-        for (SearchResult searchResult : searchResponse.getSearchResults()) {
-            SearchResultDisplayRow searchResultDisplayRow = new SearchResultDisplayRow();
-            if(DocType.BIB.getCode().equalsIgnoreCase(oleSearchForm.getDocType())){
-                searchResultDisplayRow.buildBibSearchResultField(searchResult.getSearchResultFields(), eResourceId);
-                bibSearchResultDisplayRows.add(searchResultDisplayRow);
-            } else if(DocType.HOLDINGS.getCode().equals(oleSearchForm.getDocType())){
-                searchResultDisplayRow.buildHoldingSearchResultField(searchResult.getSearchResultFields());
-                holdingsSearchResultDisplayRows.add(searchResultDisplayRow);
-            } else if(DocType.EHOLDINGS.getCode().equals(oleSearchForm.getDocType())){
-                searchResultDisplayRow.buildEHoldingSearchResultField(searchResult.getSearchResultFields());
-                holdingsSearchResultDisplayRows.add(searchResultDisplayRow);
-            } else if(DocType.ITEM.getCode().equals(oleSearchForm.getDocType())){
-                searchResultDisplayRow.buildItemSearchResultField(searchResult.getSearchResultFields());
+        if (searchResponse != null) {
+            for (SearchResult searchResult : searchResponse.getSearchResults()) {
+                SearchResultDisplayRow searchResultDisplayRow = new SearchResultDisplayRow();
+                if (DocType.BIB.getCode().equalsIgnoreCase(oleSearchForm.getDocType())) {
+                    searchResultDisplayRow.buildBibSearchResultField(searchResult.getSearchResultFields(), eResourceId);
+                    bibSearchResultDisplayRows.add(searchResultDisplayRow);
+                } else if (DocType.HOLDINGS.getCode().equals(oleSearchForm.getDocType())) {
+                    searchResultDisplayRow.buildHoldingSearchResultField(searchResult.getSearchResultFields());
+                    holdingsSearchResultDisplayRows.add(searchResultDisplayRow);
+                } else if (DocType.EHOLDINGS.getCode().equals(oleSearchForm.getDocType())) {
+                    searchResultDisplayRow.buildEHoldingSearchResultField(searchResult.getSearchResultFields());
+                    holdingsSearchResultDisplayRows.add(searchResultDisplayRow);
+                } else if (DocType.ITEM.getCode().equals(oleSearchForm.getDocType())) {
+                    searchResultDisplayRow.buildItemSearchResultField(searchResult.getSearchResultFields());
+                }
+                searchResultDisplayRows.add(searchResultDisplayRow);
             }
-            searchResultDisplayRows.add(searchResultDisplayRow);
+        } else {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_INFIELD);
+            return;
         }
         }
         oleSearchForm.setSearchResultDisplayRowList(searchResultDisplayRows);
