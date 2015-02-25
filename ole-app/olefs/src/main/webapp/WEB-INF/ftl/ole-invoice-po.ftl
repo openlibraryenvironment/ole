@@ -249,7 +249,7 @@
                 </td>
 				<#if !manager.foreignCurrency>
                     <td><#if container.readOnly>${line.item.itemDiscount!}<#else>
-						<@text_control line 'itemDiscount' container "Discount" false "5" "25" />
+						<@text_control line 'itemDiscount' container "Discount" false "5" "25" "onChangePriceScript();" />
 					</#if></td>
                     <td><#if container.readOnly>${line.item.itemDiscountType!"%"}<#else>
 						<@select_control line 'itemDiscountType' container "Discount Type" manager.discountKeyValues />
