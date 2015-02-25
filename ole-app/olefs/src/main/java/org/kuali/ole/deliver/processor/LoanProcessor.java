@@ -2863,6 +2863,7 @@ public class LoanProcessor {
                         } else if (fieldName.equalsIgnoreCase(Bib.AUTHOR) && !fieldValue.isEmpty()) {
                             oleLoanDocument.setAuthor(fieldValue);
                         } else if (fieldName.equalsIgnoreCase(Item.LOCATION) && !fieldValue.isEmpty()) {
+                            oleLoanDocument.setItemLevelLocationExist(true);
                             isItemLevelLocationExist = true;
                             oleLoanDocument.setLocation(fieldValue);
                         } else if (fieldName.equalsIgnoreCase(Holdings.DESTINATION_FIELD_LOCATION_LEVEL_1) && !fieldValue.isEmpty()) {
@@ -2912,6 +2913,7 @@ public class LoanProcessor {
                 oleLoanDocument.setItemCallNumber(getItemCallNumber(oleHoldings.getCallNumber()));
             }*/
             oleLoanDocument.setItemCallNumber(getItemCallNumber(oleItem.getCallNumber(),oleHoldings.getCallNumber()));
+            oleLoanDocument.setHoldingsLocation(getLocations(oleHoldings.getLocation()));
             getCopyNumber(oleItem,oleHoldings,oleLoanDocument);
             oleLoanDocument.setEnumeration(oleItem.getEnumeration());
             oleLoanDocument.setChronology(oleItem.getChronology());
@@ -3449,6 +3451,11 @@ public class LoanProcessor {
             oleCirculationHistory.setOverdueNoticeDate(oleLoanDocument.getOverDueNoticeDate());
             oleCirculationHistory.setOleRequestId(oleLoanDocument.getOleRequestId());
             oleCirculationHistory.setItemUuid(oleLoanDocument.getItemUuid());
+            if(oleLoanDocument.isItemLevelLocationExist()){
+
+            oleCirculationHistory.setItemLocation(getLocationId(oleLoanDocument.getItemFullPathLocation()));
+            }
+            oleCirculationHistory.setHoldingsLocation(getLocationId(oleLoanDocument.getHoldingsLocation()));
             getBusinessObjectService().save(oleCirculationHistory);
 
             OleTemporaryCirculationHistory oleTemporaryCirculationHistory = new OleTemporaryCirculationHistory();
@@ -4596,6 +4603,46 @@ public class LoanProcessor {
             return oleCirculationDesk;
         }
         return null;
+    }
+
+
+    private String getLocations(Location location) {
+        String locationName = "";
+        String locationLevelName = "";
+        LocationLevel locationLevel = location.getLocationLevel();
+        if (locationLevel != null) {
+            while (locationLevel!=null) {
+                if (locationName.equalsIgnoreCase("") || (locationLevel.getLevel()!=null && !locationLevel.getName().equalsIgnoreCase(locationLevelName))) {
+                    locationLevelName = locationLevel.getName();
+                    locationName += locationLevel.getName()+"/";
+                } else {
+                    locationLevel = locationLevel.getLocationLevel();
+                }
+
+            }
+        }
+        if(locationName.length()>0){
+            locationName = locationName.substring(0,locationName.length()-1);
+        }
+        return locationName;
+    }
+
+
+    private String getLocationId(String itemFullLocationPath){
+        String[] locations = itemFullLocationPath.split("/");
+        String locationId = null;
+        List<OleLocation> oleLocationList ;
+        Map<String,String> locationMap;
+        if(locations.length>0){
+            locationMap = new HashMap<String,String>();
+            String locationCode = locations[locations.length-1];
+            locationMap.put("locationCode",locationCode);
+            oleLocationList = (List<OleLocation>)getBusinessObjectService().findMatching(OleLocation.class,locationMap);
+            if(oleLocationList!=null && oleLocationList.size()>0){
+                locationId = oleLocationList.get(0).getLocationId();
+            }
+        }
+        return locationId;
     }
 }
 

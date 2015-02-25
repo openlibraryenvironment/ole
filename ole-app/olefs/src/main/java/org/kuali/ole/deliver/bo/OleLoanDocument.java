@@ -165,6 +165,8 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private OLEDeliverNotice oleDeliverNotice;
     private String oleLocationCode;
     private boolean indefiniteCheckFlag= false;
+    private String holdingsLocation;
+    private boolean itemLevelLocationExist;
 
     public boolean isIndefiniteCheckFlag() {
         return indefiniteCheckFlag;
@@ -1821,5 +1823,21 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
 
     public void setOleLocationCode(String oleLocationCode) {
         this.oleLocationCode = oleLocationCode;
+    }
+
+    public String getHoldingsLocation() {
+        return holdingsLocation;
+    }
+
+    public void setHoldingsLocation(String holdingsLocation) {
+        this.holdingsLocation = holdingsLocation;
+    }
+
+    public boolean isItemLevelLocationExist() {
+        return itemLevelLocationExist;
+    }
+
+    public void setItemLevelLocationExist(boolean itemLevelLocationExist) {
+        this.itemLevelLocationExist = itemLevelLocationExist;
     }
 }

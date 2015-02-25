@@ -48,6 +48,8 @@ public class OleCirculationHistory extends PersistableBusinessObjectBase {
     private String checkInOperatorId;
     private String checkInMachineId;
     private String itemUuid;
+    private String itemLocation;
+    private String holdingsLocation;
 
     public String getItemUuid() {
         return itemUuid;
@@ -327,5 +329,21 @@ public class OleCirculationHistory extends PersistableBusinessObjectBase {
 
     public void setCheckInMachineId(String checkInMachineId) {
         this.checkInMachineId = checkInMachineId;
+    }
+
+    public String getItemLocation() {
+        return itemLocation;
+    }
+
+    public void setItemLocation(String itemLocation) {
+        this.itemLocation = itemLocation;
+    }
+
+    public String getHoldingsLocation() {
+        return holdingsLocation;
+    }
+
+    public void setHoldingsLocation(String holdingsLocation) {
+        this.holdingsLocation = holdingsLocation;
     }
 }

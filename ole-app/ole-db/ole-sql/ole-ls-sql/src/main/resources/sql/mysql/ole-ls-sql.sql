@@ -1564,6 +1564,8 @@ CREATE TABLE OLE_DLVR_CIRC_RECORD
         , OTHER_AFFILIATION VARCHAR(40)
         , STATISTICAL_CATEGORY VARCHAR(40)
         , ITM_ID VARCHAR(40) NOT NULL
+        , ITM_LOCN VARCHAR(100)
+        , HLDNG_LOCN VARCHAR(100)
         , BIB_TIT VARCHAR(4000) NOT NULL
         , BIB_AUTH VARCHAR(500)
         , BIB_EDITION VARCHAR(500)
@@ -1597,15 +1599,15 @@ CREATE TABLE OLE_DLVR_CIRC_RECORD
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                                     
 , INDEX fk_OLE_DLVR_CIRC_RECORD_FK1 (OLE_PTRN_ID )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                                     
 , INDEX fk_OLE_DLVR_CIRC_RECORD_FK2 (PROXY_PTRN_ID )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                                     
 , INDEX OLE_DLVR_CIRC_RECORD_TI1 (LOAN_TRAN_ID )
 

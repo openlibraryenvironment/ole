@@ -302,4 +302,21 @@
                               tableName="OLE_DLVR_RQST_HSTRY_REC_T"/>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_RECORDS">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_CIRC_RECORD">
+            <column name="ITM_LOCN" type="varchar(100)"/>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_RECORDT">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_CIRC_RECORD">
+            <column name="HLDNG_LOCN" type="varchar(100)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

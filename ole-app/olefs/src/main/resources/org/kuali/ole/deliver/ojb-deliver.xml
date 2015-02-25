@@ -851,6 +851,8 @@
         <field-descriptor name="otherAffiliation" column="OTHER_AFFILIATION" jdbc-type="VARCHAR"/>
         <field-descriptor name="statisticalCategory" column="STATISTICAL_CATEGORY" jdbc-type="VARCHAR"/>
         <field-descriptor name="itemId" column="ITM_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemLocation" column="ITM_LOCN" jdbc-type="VARCHAR"/>
+        <field-descriptor name="holdingsLocation" column="HLDNG_LOCN" jdbc-type="VARCHAR"/>
         <field-descriptor name="bibTitle" column="BIB_TIT" jdbc-type="VARCHAR"/>
         <field-descriptor name="bibAuthor" column="BIB_AUTH" jdbc-type="VARCHAR"/>
         <field-descriptor name="bibEdition" column="BIB_EDITION" jdbc-type="VARCHAR"/>

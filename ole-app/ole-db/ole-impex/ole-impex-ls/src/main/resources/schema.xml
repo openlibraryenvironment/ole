@@ -763,6 +763,8 @@
         <column name="OTHER_AFFILIATION" size="40" type="VARCHAR"/>
         <column name="STATISTICAL_CATEGORY" size="40" type="VARCHAR"/>
         <column name="ITM_ID" required="true" size="40" type="VARCHAR"/>
+        <column name="ITM_LOCN"  size="100" type="VARCHAR"/>
+        <column name="HLDNG_LOCN"  size="100" type="VARCHAR"/>
         <column name="BIB_TIT" required="true" size="4000" type="VARCHAR"/>
         <column name="BIB_AUTH" size="500" type="VARCHAR"/>
         <column name="BIB_EDITION" size="500" type="VARCHAR"/>
