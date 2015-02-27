@@ -291,9 +291,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
                         newSearchResultFields.addAll(buildSearchResultsForIds(solrDocument, searchResultField));
                         continue;
                     }
-                    if(fieldValue.equalsIgnoreCase("Title_sort")){
-                        fieldValue="Title_display";
-                    }
+
                     String resultFieldValue = getSolrFieldValue(solrDocument, fieldValue);
                     if (StringUtils.isNotBlank(resultFieldValue)) {
                         newSearchResultField.setFieldValue(resultFieldValue);
