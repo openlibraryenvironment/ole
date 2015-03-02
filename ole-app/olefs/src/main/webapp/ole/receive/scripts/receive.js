@@ -5,6 +5,7 @@ jq(document).ready(function(){
     }
     jq(":input").live("keypress",function(){
         unsaved = true;
+        jq("input#hdnCurrentActionPerformed_control").attr('value','');
     });
     function unloadPage(){
         if(unsaved){
