@@ -29,6 +29,7 @@ public class BibSearchFieldKeyValuefinder extends UifKeyValuesFinderBase {
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel viewModel) {
+        setAddBlankOption(false);
         OLESearchForm oleSearchForm = null;
         GlobalEditForm globalEditForm = null;
         BoundwithForm boundwithForm = null;
