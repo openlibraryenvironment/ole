@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.4.1.v201408290142 Build &lt;4.4.1.v20140916-1320></property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/chart_listing.gif</property>
+    <property name="cheatSheet">org.eclipse.birt.report.designer.ui.cheatsheet.chartlisting</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">72</property>
+    <data-sources>
+        <script-data-source name="circData" id="39"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="srcCricData" id="41">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">firstName</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">lastName</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">patronType</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">checkoutDate</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">itemId</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">itemType</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">itemBarcode</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">itemLocation</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">firstName</property>
+                    <text-property name="displayName">First Name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">lastName</property>
+                    <text-property name="displayName">Last Name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">patronType</property>
+                    <text-property name="displayName">Patron Type</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">checkoutDate</property>
+                    <text-property name="displayName">Checkout Date</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">itemId</property>
+                    <text-property name="displayName">Item UUID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">itemType</property>
+                    <text-property name="displayName">Item Type</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">itemBarcode</property>
+                    <text-property name="displayName">Item Barcode</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">itemLocation</property>
+                    <text-property name="displayName">Item Location</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">firstName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">lastName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">patronType</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">checkoutDate</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">itemId</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">itemType</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">itemBarcode</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">itemLocation</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">circData</property>
+            <method name="open"><![CDATA[count = 0;
+
+circReport = new Packages.org.kuali.ole.circ.CircReport();
+
+circReportData = circReport.getReportData();
+
+]]></method>
+            <method name="fetch"><![CDATA[if (count < circReportData.size()){
+
+	row["firstName"] = circReportData.get(count).getFirstName();
+	row["lastName"] = circReportData.get(count).getLastName();
+	row["patronType"] = circReportData.get(count).getPatronType();
+	row["checkoutDate"] = circReportData.get(count).getCheckoutDate();
+	row["itemId"] = circReportData.get(count).getItemId();
+	row["itemBarcode"] = circReportData.get(count).getItemBarcode();
+	row["itemType"] = circReportData.get(count).getItemType();
+	row["itemLocation"] = circReportData.get(count).getItemLocation();
+	count++;
+
+	return true;
+}
+
+return false;]]></method>
+        </script-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="33">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="37">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="38">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="4">
+            <property name="height">0.322in</property>
+            <property name="width">5.968in</property>
+            <column id="5"/>
+            <row id="6">
+                <property name="verticalAlign">text-bottom</property>
+                <property name="height">0.322in</property>
+                <cell id="7">
+                    <property name="verticalAlign">top</property>
+                    <label id="8">
+                        <property name="fontWeight">bold</property>
+                        <property name="textUnderline">underline</property>
+                        <property name="textAlign">center</property>
+                        <text-property name="text">KOLE Circulation Report</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+        <table id="42">
+            <property name="verticalAlign">middle</property>
+            <property name="whiteSpace">normal</property>
+            <property name="display">block</property>
+            <property name="dataSet">srcCricData</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">checkoutDate</property>
+                    <text-property name="displayName">Checkout Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["checkoutDate"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">itemBarcode</property>
+                    <text-property name="displayName">Barcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["itemBarcode"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">firstName</property>
+                    <text-property name="displayName">First Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["firstName"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">lastName</property>
+                    <text-property name="displayName">Last Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["lastName"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">patronType</property>
+                    <text-property name="displayName">Patron Type</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["patronType"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">itemId</property>
+                    <text-property name="displayName">Item UUID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["itemId"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">itemType</property>
+                    <text-property name="displayName">Item Type</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["itemType"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">itemLocation</property>
+                    <text-property name="displayName">Item Location</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["itemLocation"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="52"/>
+            <column id="53"/>
+            <column id="78"/>
+            <column id="84"/>
+            <column id="88"/>
+            <column id="96"/>
+            <column id="100"/>
+            <column id="104"/>
+            <header>
+                <row id="43">
+                    <property name="backgroundColor">white</property>
+                    <property name="verticalAlign">middle</property>
+                    <cell id="44">
+                        <label id="70">
+                            <text-property name="text">First Name</text-property>
+                        </label>
+                    </cell>
+                    <cell id="45">
+                        <label id="72">
+                            <text-property name="text">Last Name</text-property>
+                        </label>
+                    </cell>
+                    <cell id="75">
+                        <label id="79">
+                            <text-property name="text">Patron Type</text-property>
+                        </label>
+                    </cell>
+                    <cell id="81">
+                        <label id="89">
+                            <text-property name="text">Checkout Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="85">
+                        <label id="90">
+                            <text-property name="text">Item UUID</text-property>
+                        </label>
+                    </cell>
+                    <cell id="93">
+                        <label id="109">
+                            <text-property name="text">Type</text-property>
+                        </label>
+                    </cell>
+                    <cell id="97">
+                        <label id="110">
+                            <text-property name="text">Location</text-property>
+                        </label>
+                    </cell>
+                    <cell id="101">
+                        <label id="111">
+                            <text-property name="text">Barcode</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="46">
+                    <property name="verticalAlign">middle</property>
+                    <property name="whiteSpace">normal</property>
+                    <cell id="47">
+                        <data id="112">
+                            <property name="resultSetColumn">firstName</property>
+                        </data>
+                    </cell>
+                    <cell id="48">
+                        <data id="113">
+                            <property name="resultSetColumn">lastName</property>
+                        </data>
+                    </cell>
+                    <cell id="76">
+                        <data id="114">
+                            <property name="resultSetColumn">patronType</property>
+                        </data>
+                    </cell>
+                    <cell id="82">
+                        <data id="115">
+                            <property name="resultSetColumn">checkoutDate</property>
+                        </data>
+                    </cell>
+                    <cell id="86">
+                        <data id="116">
+                            <property name="resultSetColumn">itemId</property>
+                        </data>
+                    </cell>
+                    <cell id="94">
+                        <data id="117">
+                            <property name="resultSetColumn">itemType</property>
+                        </data>
+                    </cell>
+                    <cell id="98">
+                        <data id="118">
+                            <property name="resultSetColumn">itemLocation</property>
+                        </data>
+                    </cell>
+                    <cell id="102">
+                        <data id="119">
+                            <property name="resultSetColumn">itemBarcode</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="49">
+                    <cell id="50"/>
+                    <cell id="51"/>
+                    <cell id="77"/>
+                    <cell id="83"/>
+                    <cell id="87"/>
+                    <cell id="95"/>
+                    <cell id="99"/>
+                    <cell id="103"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

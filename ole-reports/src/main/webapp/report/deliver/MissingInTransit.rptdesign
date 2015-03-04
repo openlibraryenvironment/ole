@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.4.1.v201408290142 Build &lt;4.4.1.v20140916-1320></property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="MissingInTransit" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost/ole_16_new</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">cm9vdA==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="MissingInTransit" id="8">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">CIR_DESK_LOC</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Source Location</text-property>
+                    <text-property name="heading">Source Location</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CIR_DESK_ROUTE_TO</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Target Location</text-property>
+                    <text-property name="heading">Target Location</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ITEM_ID</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Item Id</text-property>
+                    <text-property name="heading">Item Id</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Call Number</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Call Number</text-property>
+                    <text-property name="heading">Call Number</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">TITLE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Title</text-property>
+                    <text-property name="heading">Title</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ITEM_RETURNED_DT</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">In Transit Date</text-property>
+                    <text-property name="heading">In Transit Date</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CIR_DESK_LOC</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CIR_DESK_ROUTE_TO</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">ITEM_ID</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">Call Number</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">TITLE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">ITEM_RETURNED_DT</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">MissingInTransit</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">CIR_DESK_LOC</property>
+                    <property name="nativeName">CIR_DESK_LOC</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CIR_DESK_ROUTE_TO</property>
+                    <property name="nativeName">CIR_DESK_ROUTE_TO</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">ITEM_ID</property>
+                    <property name="nativeName">ITEM_ID</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">Call Number</property>
+                    <property name="nativeName">Call Number</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">TITLE</property>
+                    <property name="nativeName">TITLE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">ITEM_RETURNED_DT</property>
+                    <property name="nativeName">ITEM_RETURNED_DT</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select 
+OLIH.CIR_DESK_LOC as 'Source Location',
+OLIH.CIR_DESK_ROUTE_TO as 'Target Location',
+ODI.ITEM_ID as 'Item Id',
+IF(ODI.CALL_NUMBER IS NULL OR ODI.CALL_NUMBER = '', IF(ODH.CALL_NUMBER IS NULL,'',ODH.CALL_NUMBER), ODI.CALL_NUMBER) as 'Call Number',
+ODBI.TITLE as 'Title',
+OLIH.ITEM_RETURNED_DT as 'In Transit Date'
+from 
+OLE_DS_ITEM_T as ODI,
+OLE_DLVR_ITEM_AVAIL_STAT_T as ODIAS,
+OLE_DS_HOLDINGS_T as ODH,
+OLE_DS_BIB_INFO_T as ODBI,
+OLE_LOAN_INTRANSIT_HISTORY_T as OLIH
+where 
+ODI.MISSING_PIECES = 'Y'
+and
+ODI.ITEM_STATUS_ID = ODIAS.ITEM_AVAIL_STAT_ID
+and
+ODIAS.ITEM_AVAIL_STAT_CD = 'INTRANSIT'
+and 
+ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID
+and
+ODBI.BIB_ID = ODH.BIB_ID
+and
+OLIH.ITEM_BARCODE = ODI.BARCODE
+and
+OLIH.ITEM_RETURNED_DT IN (select MAX(ITEM_RETURNED_DT) from
+OLE_LOAN_INTRANSIT_HISTORY_T as OLIH
+group by OLIH.ITEM_BARCODE)]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="9">
+            <property name="fontWeight">bold</property>
+            <property name="textAlign">center</property>
+            <text-property name="text">Missing In Transit</text-property>
+        </label>
+        <table id="10">
+            <property name="dataSet">MissingInTransit</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CIR_DESK_LOC</property>
+                    <text-property name="displayName">Source Location</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CIR_DESK_LOC"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CIR_DESK_ROUTE_TO</property>
+                    <text-property name="displayName">Target Location</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CIR_DESK_ROUTE_TO"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ITEM_ID</property>
+                    <text-property name="displayName">Item Id</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ITEM_ID"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Call Number</property>
+                    <text-property name="displayName">Call Number</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Call Number"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">TITLE</property>
+                    <text-property name="displayName">Title</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ITEM_RETURNED_DT</property>
+                    <text-property name="displayName">In Transit Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ITEM_RETURNED_DT"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+            </list-property>
+            <column id="32"/>
+            <column id="33"/>
+            <column id="34"/>
+            <column id="35"/>
+            <column id="36"/>
+            <column id="37"/>
+            <header>
+                <row id="11">
+                    <cell id="12">
+                        <label id="38">
+                            <text-property name="text">Source Location</text-property>
+                        </label>
+                    </cell>
+                    <cell id="13">
+                        <label id="40">
+                            <text-property name="text">Target Location</text-property>
+                        </label>
+                    </cell>
+                    <cell id="14">
+                        <label id="42">
+                            <text-property name="text">Item Id</text-property>
+                        </label>
+                    </cell>
+                    <cell id="15">
+                        <label id="44">
+                            <text-property name="text">Call Number</text-property>
+                        </label>
+                    </cell>
+                    <cell id="16">
+                        <label id="46">
+                            <text-property name="text">Title</text-property>
+                        </label>
+                    </cell>
+                    <cell id="17">
+                        <label id="48">
+                            <text-property name="text">In Transit Date</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="18">
+                    <cell id="19">
+                        <data id="39">
+                            <property name="resultSetColumn">CIR_DESK_LOC</property>
+                        </data>
+                    </cell>
+                    <cell id="20">
+                        <data id="41">
+                            <property name="resultSetColumn">CIR_DESK_ROUTE_TO</property>
+                        </data>
+                    </cell>
+                    <cell id="21">
+                        <data id="43">
+                            <property name="resultSetColumn">ITEM_ID</property>
+                        </data>
+                    </cell>
+                    <cell id="22">
+                        <data id="45">
+                            <property name="resultSetColumn">Call Number</property>
+                        </data>
+                    </cell>
+                    <cell id="23">
+                        <data id="47">
+                            <property name="resultSetColumn">TITLE</property>
+                        </data>
+                    </cell>
+                    <cell id="24">
+                        <data id="49">
+                            <property name="resultSetColumn">ITEM_RETURNED_DT</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="25">
+                    <cell id="26"/>
+                    <cell id="27"/>
+                    <cell id="28"/>
+                    <cell id="29"/>
+                    <cell id="30"/>
+                    <cell id="31"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

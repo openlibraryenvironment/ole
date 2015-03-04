@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.4.1.v201408290142 Build &lt;4.4.1.v20140916-1320></property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="AvailableHoldPickupNoticeForCustomer" id="8">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost/ole_16_new</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">cm9vdA==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="AvailableHoldPickupNoticeForCustomer" id="9">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">OLE_CRCL_DSK_PUB_NAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Pickup Location</text-property>
+                    <text-property name="heading">Pickup Location</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Call Number</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Call Number</text-property>
+                    <text-property name="heading">Call Number</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BARCODE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Barcode</text-property>
+                    <text-property name="heading">Barcode</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">TITLE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Title</text-property>
+                    <text-property name="heading">Title</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Patron Name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Patron Name</text-property>
+                    <text-property name="heading">Patron Name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">RQST_EXPIR_DT_TIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Expiration Date</text-property>
+                    <text-property name="heading">Expiration Date</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">OLE_CRCL_DSK_PUB_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">Call Number</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">BARCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">TITLE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">Patron Name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">RQST_EXPIR_DT_TIME</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">AvailableHoldPickupNoticeForCustomer</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">OLE_CRCL_DSK_PUB_NAME</property>
+                    <property name="nativeName">OLE_CRCL_DSK_PUB_NAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">Call Number</property>
+                    <property name="nativeName">Call Number</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">BARCODE</property>
+                    <property name="nativeName">BARCODE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">TITLE</property>
+                    <property name="nativeName">TITLE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">Patron Name</property>
+                    <property name="nativeName">Patron Name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">RQST_EXPIR_DT_TIME</property>
+                    <property name="nativeName">RQST_EXPIR_DT_TIME</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select 
+OCD.OLE_CRCL_DSK_PUB_NAME as 'Pickup Location',
+IF(ODI.CALL_NUMBER IS NULL OR ODI.CALL_NUMBER = '', IF(ODH.CALL_NUMBER IS NULL,'',ODH.CALL_NUMBER), ODI.CALL_NUMBER) as 'Call Number',
+ODI.BARCODE as 'Barcode',
+ODBI.TITLE as 'Title',
+concat(OPEV.FIRST_NM,' ',OPEV.LAST_NM) as 'Patron Name',
+ODR.RQST_EXPIR_DT_TIME as 'Expiration Date'
+from
+OLE_DLVR_RQST_T as ODR,
+OLE_DS_ITEM_T as ODI,
+OLE_DS_HOLDINGS_T as ODH,
+OLE_DLVR_ITEM_AVAIL_STAT_T as ODIAS,
+OLE_PTRN_ENTITY_V as OPEV,
+OLE_DS_BIB_INFO_T as ODBI,
+OLE_CRCL_DSK_T as OCD
+where
+(ODR.OLE_RQST_TYP_ID = 2 or ODR.OLE_RQST_TYP_ID = 4 or ODR.OLE_RQST_TYP_ID = 2 = 6)
+and
+ODR.ITM_ID = ODI.BARCODE
+and
+ODI.ITEM_STATUS_ID = ODIAS.ITEM_AVAIL_STAT_ID
+and
+ODIAS.ITEM_AVAIL_STAT_CD = 'ONHOLD'
+and 
+ODR.OLE_PTRN_ID = OPEV.OLE_PTRN_ID
+and
+(OPEV.EMAIL = null or OPEV.EMAIL = '')
+and
+ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID
+and
+ODBI.BIB_ID = ODH.BIB_ID
+and
+ODR.PCKUP_LOC_ID = OCD.OLE_CRCL_DSK_ID;
+]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="10">
+            <property name="fontWeight">bold</property>
+            <property name="textAlign">center</property>
+            <text-property name="text">Available Hold Pickup Notice For Customer</text-property>
+        </label>
+        <table id="11">
+            <property name="dataSet">AvailableHoldPickupNoticeForCustomer</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">OLE_CRCL_DSK_PUB_NAME</property>
+                    <text-property name="displayName">Pickup Location</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["OLE_CRCL_DSK_PUB_NAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Call Number</property>
+                    <text-property name="displayName">Call Number</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Call Number"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">BARCODE</property>
+                    <text-property name="displayName">Barcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["BARCODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">TITLE</property>
+                    <text-property name="displayName">Title</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Patron Name</property>
+                    <text-property name="displayName">Patron Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Patron Name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">RQST_EXPIR_DT_TIME</property>
+                    <text-property name="displayName">Expiration Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["RQST_EXPIR_DT_TIME"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+            </list-property>
+            <column id="33"/>
+            <column id="34"/>
+            <column id="35"/>
+            <column id="36"/>
+            <column id="37"/>
+            <column id="38"/>
+            <header>
+                <row id="12">
+                    <cell id="13">
+                        <label id="39">
+                            <text-property name="text">Pickup Location</text-property>
+                        </label>
+                    </cell>
+                    <cell id="14">
+                        <label id="41">
+                            <text-property name="text">Call Number</text-property>
+                        </label>
+                    </cell>
+                    <cell id="15">
+                        <label id="43">
+                            <text-property name="text">Barcode</text-property>
+                        </label>
+                    </cell>
+                    <cell id="16">
+                        <label id="45">
+                            <text-property name="text">Title</text-property>
+                        </label>
+                    </cell>
+                    <cell id="17">
+                        <label id="47">
+                            <text-property name="text">Patron Name</text-property>
+                        </label>
+                    </cell>
+                    <cell id="18">
+                        <label id="49">
+                            <text-property name="text">Expiration Date</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="19">
+                    <cell id="20">
+                        <data id="40">
+                            <property name="resultSetColumn">OLE_CRCL_DSK_PUB_NAME</property>
+                        </data>
+                    </cell>
+                    <cell id="21">
+                        <data id="42">
+                            <property name="resultSetColumn">Call Number</property>
+                        </data>
+                    </cell>
+                    <cell id="22">
+                        <data id="44">
+                            <property name="resultSetColumn">BARCODE</property>
+                        </data>
+                    </cell>
+                    <cell id="23">
+                        <data id="46">
+                            <property name="resultSetColumn">TITLE</property>
+                        </data>
+                    </cell>
+                    <cell id="24">
+                        <data id="48">
+                            <property name="resultSetColumn">Patron Name</property>
+                        </data>
+                    </cell>
+                    <cell id="25">
+                        <data id="50">
+                            <property name="resultSetColumn">RQST_EXPIR_DT_TIME</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="26">
+                    <cell id="27"/>
+                    <cell id="28"/>
+                    <cell id="29"/>
+                    <cell id="30"/>
+                    <cell id="31"/>
+                    <cell id="32"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

@@ -20,6 +20,7 @@
         <module>ole-docstore</module>
         <module>ole-common</module>
         <module>ole-sip2</module>
+        <module>ole-reports</module>
     </modules>
     <scm>
         <connection>scm:svn:https://svn.kuali.org/repos/ole/trunk</connection>
