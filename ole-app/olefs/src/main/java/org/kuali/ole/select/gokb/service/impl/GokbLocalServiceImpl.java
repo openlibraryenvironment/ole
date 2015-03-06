@@ -491,7 +491,7 @@ public class GokbLocalServiceImpl implements GokbLocalService {
      * @param updatedDate
      * @return
      */
-    private OleGokbPackage buildPackageFromPackageNode(Node packageNode, String updatedDate) {
+    public OleGokbPackage buildPackageFromPackageNode(Node packageNode, String updatedDate) {
         OleGokbPackage oleGokbPackage = new OleGokbPackage();
         String packageId = ((DeferredElementImpl) packageNode).getAttribute(OLEConstants.OleGokb.ID);
         if (!packageId.isEmpty()) {
@@ -536,7 +536,7 @@ public class GokbLocalServiceImpl implements GokbLocalService {
      * @param noOfTippRecordsInserted
      * @return
      */
-    private int processTipps(int updateId, OleGokbPackage oleGokbPackage, NodeList packageChildNodeList, int noOfTippRecordsInserted) {
+    public int processTipps(int updateId, OleGokbPackage oleGokbPackage, NodeList packageChildNodeList, int noOfTippRecordsInserted) {
         List<OleGokbTipp> oleGokbTippList = new ArrayList<>();
         for (int i = 0; i < packageChildNodeList.getLength(); i++) {
             if (!packageChildNodeList.item(i).getNodeName().equalsIgnoreCase(OLEConstants.OleGokb.TIPPS))
@@ -655,7 +655,7 @@ public class GokbLocalServiceImpl implements GokbLocalService {
      * @param updatedDate
      * @return
      */
-    private OleGokbTitle buildTitleFromTitleNode(Node titleNode, String updatedDate) {
+    public OleGokbTitle buildTitleFromTitleNode(Node titleNode, String updatedDate) {
         OleGokbTitle oleGokbTitle = new OleGokbTitle();
         String titleId = ((DeferredElementImpl) titleNode).getAttribute(OLEConstants.OleGokb.ID);
         if (!titleId.isEmpty()) {
@@ -741,7 +741,7 @@ public class GokbLocalServiceImpl implements GokbLocalService {
      * @param updatedDate
      * @return
      */
-    private OleGokbPlatform buildPlatformFromPlatformNode(Node platformNode, String updatedDate) {
+    public OleGokbPlatform buildPlatformFromPlatformNode(Node platformNode, String updatedDate) {
         OleGokbPlatform oleGokbPlatform = new OleGokbPlatform();
         String platformId = ((DeferredElementImpl) platformNode).getAttribute(OLEConstants.OleGokb.ID);
         if (!platformId.isEmpty()) {
@@ -778,7 +778,7 @@ public class GokbLocalServiceImpl implements GokbLocalService {
      * @param updatedDate
      * @return
      */
-    private OleGokbOrganization buildOrgFromOrgNode(Node orgNode, String updatedDate) {
+    public OleGokbOrganization buildOrgFromOrgNode(Node orgNode, String updatedDate) {
         OleGokbOrganization oleGokbOrganization = new OleGokbOrganization();
         String orgId = ((DeferredElementImpl) orgNode).getAttribute(OLEConstants.OleGokb.ID);
         if (!orgId.isEmpty()) {
