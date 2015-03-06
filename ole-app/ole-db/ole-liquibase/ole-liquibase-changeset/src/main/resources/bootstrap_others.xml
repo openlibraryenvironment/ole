@@ -1,0 +1,40 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+    <changeSet context="bootstrap" author="ole" id="KRIM_ORACLE_TRIGGERS" dbms="oracle" >
+        <sql endDelimiter=";/">CREATE OR REPLACE TRIGGER KRIM_ENTITY_TR BEFORE  UPDATE ON KRIM_ENTITY_T FOR EACH ROW DECLARE BEGIN :new.LAST_UPDT_DT := sysdate; END</sql>
+        <sql endDelimiter=";/">CREATE OR REPLACE TRIGGER KRIM_ENTITY_ENT_TYP_TR BEFORE  UPDATE ON KRIM_ENTITY_ENT_TYP_T FOR EACH ROW DECLARE BEGIN :new.LAST_UPDT_DT := sysdate; END</sql>
+        <sql endDelimiter=";/">CREATE OR REPLACE TRIGGER KRIM_ENTITY_NM_TR BEFORE  UPDATE ON KRIM_ENTITY_NM_T FOR EACH ROW DECLARE BEGIN :new.LAST_UPDT_DT := sysdate; END</sql>
+        <sql endDelimiter=";/">CREATE OR REPLACE TRIGGER KRIM_ENTITY_EMAIL_TR BEFORE  UPDATE ON KRIM_ENTITY_EMAIL_T FOR EACH ROW DECLARE BEGIN :new.LAST_UPDT_DT := sysdate; END</sql>
+        <sql endDelimiter=";/">CREATE OR REPLACE TRIGGER KRIM_ENTITY_PHONE_TR BEFORE  UPDATE ON KRIM_ENTITY_PHONE_T FOR EACH ROW DECLARE BEGIN :new.LAST_UPDT_DT := sysdate; END</sql>
+        <sql endDelimiter=";/">CREATE OR REPLACE TRIGGER KRIM_ENTITY_ADDR_TR BEFORE  UPDATE ON KRIM_ENTITY_ADDR_T FOR EACH ROW DECLARE BEGIN :new.LAST_UPDT_DT := sysdate; END</sql>
+        <sql endDelimiter=";/">CREATE OR REPLACE TRIGGER KRIM_ENTITY_AFLTN_TR BEFORE  UPDATE ON KRIM_ENTITY_ADDR_T FOR EACH ROW DECLARE BEGIN :new.LAST_UPDT_DT := sysdate; END</sql>
+        <sql endDelimiter=";/">CREATE OR REPLACE TRIGGER KRIM_ENTITY_EMP_INFO_TR BEFORE  UPDATE ON KRIM_ENTITY_EMP_INFO_TFOR EACH ROW DECLARE BEGIN :new.LAST_UPDT_DT := sysdate; END</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="KRIM_MYSQL_TRIGGERS_DROP" dbms="mysql">
+        <sql>DROP TRIGGER IF EXISTS KRIM_ENTITY_TR</sql>
+        <sql>DROP TRIGGER IF EXISTS KRIM_ENTITY_ENT_TYP_TR</sql>
+        <sql>DROP TRIGGER IF EXISTS KRIM_ENTITY_NM_TR</sql>
+        <sql>DROP TRIGGER IF EXISTS KRIM_ENTITY_EMAIL_TR</sql>
+        <sql>DROP TRIGGER IF EXISTS KRIM_ENTITY_PHONE_T</sql>
+        <sql>DROP TRIGGER IF EXISTS KRIM_ENTITY_ADDR_T</sql>
+        <sql>DROP TRIGGER IF EXISTS KRIM_ENTITY_AFLTN_T</sql>
+        <sql>DROP TRIGGER IF EXISTS KRIM_ENTITY_EMP_INFO_T</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="KRIM_MYSQL_TRIGGERS" dbms="mysql">
+        <sql>CREATE TRIGGER KRIM_ENTITY_TR BEFORE  UPDATE ON KRIM_ENTITY_T FOR EACH ROW SET NEW.LAST_UPDT_DT = CURRENT_TIMESTAMP;</sql>
+        <sql>CREATE TRIGGER KRIM_ENTITY_ENT_TYP_TR BEFORE  UPDATE ON KRIM_ENTITY_ENT_TYP_T FOR EACH ROW SET NEW.LAST_UPDT_DT = CURRENT_TIMESTAMP;</sql>
+        <sql>CREATE TRIGGER KRIM_ENTITY_NM_TR BEFORE  UPDATE ON KRIM_ENTITY_NM_T FOR EACH ROW SET NEW.LAST_UPDT_DT = CURRENT_TIMESTAMP;</sql>
+        <sql>CREATE TRIGGER KRIM_ENTITY_EMAIL_TR BEFORE  UPDATE ON KRIM_ENTITY_EMAIL_T FOR EACH ROW SET NEW.LAST_UPDT_DT = CURRENT_TIMESTAMP;</sql>
+        <sql>CREATE TRIGGER KRIM_ENTITY_PHONE_TR BEFORE  UPDATE ON KRIM_ENTITY_PHONE_T FOR EACH ROW SET NEW.LAST_UPDT_DT = CURRENT_TIMESTAMP;</sql>
+        <sql>CREATE TRIGGER KRIM_ENTITY_ADDR_TR BEFORE  UPDATE ON KRIM_ENTITY_ADDR_T FOR EACH ROW SET NEW.LAST_UPDT_DT = CURRENT_TIMESTAMP;</sql>
+        <sql>CREATE TRIGGER KRIM_ENTITY_AFLTN_TR BEFORE  UPDATE ON KRIM_ENTITY_AFLTN_T FOR EACH ROW SET NEW.LAST_UPDT_DT = CURRENT_TIMESTAMP;</sql>
+        <sql>CREATE TRIGGER KRIM_ENTITY_EMP_INFO_TR BEFORE  UPDATE ON KRIM_ENTITY_EMP_INFO_T FOR EACH ROW SET NEW.LAST_UPDT_DT = CURRENT_TIMESTAMP;</sql>
+    </changeSet>
+</databaseChangeLog>

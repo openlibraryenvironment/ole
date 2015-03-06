@@ -282,6 +282,18 @@
                                         </migrationSqlOutputFile>
                                     </configuration>
                                 </execution>
+                                <execution>
+                                    <id>bootstrap-others</id>
+                                    <phase>${lb.phase}</phase>
+                                    <goals>
+                                        <goal>updateSQL</goal>
+                                    </goals>
+                                    <configuration>
+                                        <changeLogFile>bootstrap_others.xml</changeLogFile>
+                                        <migrationSqlOutputFile>${lb.sql.dir}/bootstrap_others.sql
+                                        </migrationSqlOutputFile>
+                                    </configuration>
+                                </execution>
                             </executions>
                             <dependencies>
                                 <dependency>
@@ -602,6 +614,18 @@
                                         </migrationSqlOutputFile>
                                     </configuration>
                                 </execution>
+                                <execution>
+                                    <id>bootstrap-others</id>
+                                    <phase>${lb.phase}</phase>
+                                    <goals>
+                                        <goal>updateSQL</goal>
+                                    </goals>
+                                    <configuration>
+                                        <changeLogFile>bootstrap_others.xml</changeLogFile>
+                                        <migrationSqlOutputFile>${lb.sql.dir}/bootstrap_others.sql
+                                        </migrationSqlOutputFile>
+                                    </configuration>
+                                </execution>
 
                             </executions>
                             <dependencies>
@@ -885,6 +909,18 @@
                                         </migrationSqlOutputFile>
                                     </configuration>
                                 </execution>
+                                <execution>
+                                    <id>bootstrap-others</id>
+                                    <phase>${lb.phase}</phase>
+                                    <goals>
+                                        <goal>updateSQL</goal>
+                                    </goals>
+                                    <configuration>
+                                        <changeLogFile>bootstrap_others.xml</changeLogFile>
+                                        <migrationSqlOutputFile>${lb.sql.dir}/bootstrap_others.sql
+                                        </migrationSqlOutputFile>
+                                    </configuration>
+                                </execution>
 
                             </executions>
                             <dependencies>
@@ -1149,6 +1185,18 @@
                                     <configuration>
                                         <changeLogFile>bootstrap_other_data.xml</changeLogFile>
                                         <migrationSqlOutputFile>${lb.sql.dir}/bootstrap_other_data.sql
+                                        </migrationSqlOutputFile>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>bootstrap-others</id>
+                                    <phase>${lb.phase}</phase>
+                                    <goals>
+                                        <goal>updateSQL</goal>
+                                    </goals>
+                                    <configuration>
+                                        <changeLogFile>bootstrap_others.xml</changeLogFile>
+                                        <migrationSqlOutputFile>${lb.sql.dir}/bootstrap_others.sql
                                         </migrationSqlOutputFile>
                                     </configuration>
                                 </execution>

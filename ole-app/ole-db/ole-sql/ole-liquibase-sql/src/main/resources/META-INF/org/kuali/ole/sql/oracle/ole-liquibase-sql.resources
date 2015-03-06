@@ -2,4 +2,5 @@ classpath:org/kuali/ole/sql/oracle/bootstrap_krcr_data.sql
 classpath:org/kuali/ole/sql/oracle/bootstrap_krim_entity_data.sql
 classpath:org/kuali/ole/sql/oracle/bootstrap_krim_role_perm_data.sql
 classpath:org/kuali/ole/sql/oracle/bootstrap_other_data.sql
+classpath:org/kuali/ole/sql/oracle/bootstrap_others.sql
 classpath:org/kuali/ole/sql/oracle/demo_data.sql
