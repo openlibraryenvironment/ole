@@ -21,9 +21,11 @@ import static junit.framework.Assert.assertNotNull;
  */
 public class GokbLocalService_UT {
 
+   private static String  URL="https://test-gokb.kuali.org/gokb/oai/";
     @Test
     public void initPackages() throws Exception {
         GokbLocalServiceImpl gokbLocalService = new GokbLocalServiceImpl();
+        OleGokbXmlUtil.setGokbUrl(URL);
         List<OleGokbPackage> oleGokbPackageList = new ArrayList<>();
         String responseXml = OleGokbXmlUtil.getPackageResponseXmlFromGokb(0);
         NodeList packageNodeList = OleGokbXmlUtil.getElementNodeList(responseXml, OLEConstants.OleGokb.PACKAGE_XPATH_EXP);
@@ -72,6 +74,7 @@ public class GokbLocalService_UT {
     @Test
     public void initTitles() throws Exception {
         GokbLocalServiceImpl gokbLocalService = new GokbLocalServiceImpl();
+        OleGokbXmlUtil.setGokbUrl(URL);
         List<OleGokbTitle> oleGokbTitleList = new ArrayList<>();
         String responseXml = OleGokbXmlUtil.getTitleResponseXmlFromGokb(0);
         NodeList titleNodeList = OleGokbXmlUtil.getElementNodeList(responseXml, OLEConstants.OleGokb.TITLE_XPATH_EXP);
@@ -112,6 +115,7 @@ public class GokbLocalService_UT {
     @Test
     public void initPlatform() throws Exception {
         GokbLocalServiceImpl gokbLocalService = new GokbLocalServiceImpl();
+        OleGokbXmlUtil.setGokbUrl(URL);
         List<OleGokbPlatform> oleGokbPlatformList = new ArrayList<>();
         String responseXml = OleGokbXmlUtil.getPlatformResponseXmlFromGokb(0);
         NodeList platformNodeList = OleGokbXmlUtil.getElementNodeList(responseXml, OLEConstants.OleGokb.PLATFORM_XPATH_EXP);
@@ -137,6 +141,7 @@ public class GokbLocalService_UT {
     @Test
     public void initVendors() throws Exception {
         List<OleGokbOrganization> oleGokbOrganizationList = new ArrayList<>();
+        OleGokbXmlUtil.setGokbUrl(URL);
         GokbLocalServiceImpl gokbLocalService = new GokbLocalServiceImpl();
         String responseXml = OleGokbXmlUtil.getOrgsResponseXmlFromGokb(0);
         NodeList orgsNodeList = OleGokbXmlUtil.getElementNodeList(responseXml, OLEConstants.OleGokb.ORG_XPATH_EXP);

@@ -32,7 +32,7 @@ public class OleGokbXmlUtil {
     private static final Logger LOG = LoggerFactory.getLogger(OleGokbXmlUtil.class);
     //private static final String COMMON_URL = "https://gokb.k-int.com/gokb/oai/";
     //private static final String COMMON_URL = "https://test-gokb.kuali.org/gokb/oai/";
-    private static final String COMMON_URL=ConfigContext.getCurrentContextConfig().getProperty("gokb.url");
+    private static String COMMON_URL=getGokbUrl();
     private static final String PACKAGE_URL = "packages?verb=";
     private static final String TITLE_URL = "titles?verb=";
     private static final String PLATFORM_URL = "platforms?verb=";
@@ -396,6 +396,17 @@ public class OleGokbXmlUtil {
      */
     public static String getIdentifierFromHeader(Node headerNode) {
         return headerNode.getChildNodes().item(0).getTextContent();
+    }
+
+    public static String getGokbUrl(){
+        if(ConfigContext.getCurrentContextConfig() != null){
+           return ConfigContext.getCurrentContextConfig().getProperty("gokb.url");
+        }else
+            return null;
+    }
+
+    public static void setGokbUrl(String url){
+          COMMON_URL=url;
     }
 
 }
