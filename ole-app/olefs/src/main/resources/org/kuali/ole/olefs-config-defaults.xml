@@ -480,4 +480,8 @@
     <param name="solr.max.page.size.for.update.item.status.job">100000</param>
 
 
+    <!-- Gokb url-->
+    <param name="gokb.url">https://test-gokb.kuali.org/gokb/oai/</param>
+
+
 </config>

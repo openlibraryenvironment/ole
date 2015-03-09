@@ -3,6 +3,7 @@ package org.kuali.ole.select.gokb.util;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.GOKBConnectionReader;
 import org.kuali.ole.OLEConstants;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.slf4j.Logger;
@@ -30,7 +31,8 @@ public class OleGokbXmlUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(OleGokbXmlUtil.class);
     //private static final String COMMON_URL = "https://gokb.k-int.com/gokb/oai/";
-    private static final String COMMON_URL = "https://test-gokb.kuali.org/gokb/oai/";
+    //private static final String COMMON_URL = "https://test-gokb.kuali.org/gokb/oai/";
+    private static final String COMMON_URL=ConfigContext.getCurrentContextConfig().getProperty("gokb.url");
     private static final String PACKAGE_URL = "packages?verb=";
     private static final String TITLE_URL = "titles?verb=";
     private static final String PLATFORM_URL = "platforms?verb=";
