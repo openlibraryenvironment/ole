@@ -803,10 +803,31 @@ public class GokbRdbmsServiceImpl implements GokbRdbmsService {
      */
     private void buildTipp(PreparedStatement pstmt, OleGokbTipp oleGokbTipp) {
         try {
-            pstmt.setInt(1, oleGokbTipp.getGokbTippId());
-            pstmt.setInt(2, oleGokbTipp.getGokbPackageId());
-            pstmt.setInt(3, oleGokbTipp.getGokbTitleId());
-            pstmt.setInt(4, oleGokbTipp.getGokbPlatformId());
+
+            Integer gokbTippId=0;
+            Integer gokbPackageId=0;
+            Integer gokbTitleId=0;
+            Integer gokbPlatformId=0;
+
+
+            if(oleGokbTipp.getGokbTippId() !=null){
+                gokbTippId =oleGokbTipp.getGokbTippId();
+            }
+            if(oleGokbTipp.getGokbPackageId() !=null){
+                gokbPackageId =oleGokbTipp.getGokbPackageId();
+            }
+            if(oleGokbTipp.getGokbTitleId() !=null){
+                gokbTitleId =oleGokbTipp.getGokbTitleId();
+            }
+            if(oleGokbTipp.getGokbPlatformId() !=null){
+                gokbPlatformId =oleGokbTipp.getGokbPlatformId();
+            }
+
+
+            pstmt.setInt(1, gokbTippId);
+            pstmt.setInt(2, gokbPackageId);
+            pstmt.setInt(3, gokbTitleId);
+            pstmt.setInt(4, gokbPlatformId);
             pstmt.setString(5, oleGokbTipp.getStatus());
             pstmt.setString(6, oleGokbTipp.getStatusReason());
             pstmt.setTimestamp(7, oleGokbTipp.getStartdate());
