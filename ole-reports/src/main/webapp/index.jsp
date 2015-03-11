@@ -50,6 +50,11 @@
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/AvailableHoldPickupNoticeForCustomer.rptdesign"%>" target="_blank">Available Hold Pickup Notice For Customer</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/HoldsThatHaveBeenExpiredOrClosedButWereUnfilledForStaff.rptdesign"%>" target="_blank">Holds That Have Been Expired/Closed But Were Unfilled For Staff</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/HoldsThatWereReadyToBePickedUpForStaff.rptdesign"%>" target="_blank">Holds That Were Trapped Since Report Last Ran And Need To Be Checked To Make Sure They Are On The Hold Shelf Ready To Be PickedUp For Staff</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/RecallNoticeForCustomer.rptdesign"%>" target="_blank">Recall Notice For Customer</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/OverdueRecallNoticeForCustomer.rptdesign"%>" target="_blank">Overdue Recall Notice For Customer</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/BillNoticeForCustomer.rptdesign"%>" target="_blank">Bill Notice For Customer</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CourtesyNotices.rptdesign"%>" target="_blank">Courtesy Notices</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/MissingOrLostItems.rptdesign"%>" target="_blank">Missing/Lost Items</a></li>
         </ul>
     </ul>
 </div>
