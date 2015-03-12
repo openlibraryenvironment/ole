@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "description" : "Location levels as output by OLE server.",
+  "type" : "object",
+  "allOf" : [{ "$ref" : "baseObject.json" }],
+  "properties" : {
+
+    "code" : {
+      "type" : "string"
+    },
+    "name" : {
+      "type" : "string"
+    }
+  },
+  "required" : [ "@context", "@id", "name" ]
+}

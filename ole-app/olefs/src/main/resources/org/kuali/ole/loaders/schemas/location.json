@@ -1,0 +1,41 @@
+{
+  "id" : "#location.json",
+  "title" : "JSON Schema for OLE responses for Locations",
+  "$schema": "http://json-schema.org/schema#",
+  "description" : "Constrains OLE Locations output by the OLE server; input restrictions are more limited",
+  "allOf" : [ {"$ref" : "baseObject.json"} ],
+  "definitions" : {
+    "locationLevel" : {
+      "description" : "Specialization of the locationLevel to eliminate the need to specify 'code'",
+      "type" : "object",
+      "properties" : {
+        "@context" : {
+          "type" : "string",
+          "format" : "uri",
+          "pattern" : "http:\/\/ole.kuali.org/standards/api/locationLevel.jsonld"
+        },
+        "@id" : {
+          "type" : "string",
+          "format" : "uri"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "code" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "@context", "@id", "name" ]
+    }
+  },
+
+  "properties" : {
+    "@context" : {
+        "pattern" : "http:\/\/ole.kuali.org/standards/api/location.jsonld"
+      },
+
+    "level" : {
+      "$ref" : "#/definitions/locationLevel"
+    }
+  }
+}

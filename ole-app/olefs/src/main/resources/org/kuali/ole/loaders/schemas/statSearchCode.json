@@ -1,0 +1,11 @@
+{
+  "id" : "statSearchCode.json#",
+  "$schema": "http://json-schema.org/schema#",
+  "description" : "OLE Statistical Search Code output by the OLE server.",
+  "allOf" : [ {"$ref" : "baseVocabularyObject.json"} ],
+  "properties" : {
+    "@context": {
+      "pattern": "http:\/\/ole.kuali.org\/standards\/api\/statSearchCode.json"
+    }
+  }
+}

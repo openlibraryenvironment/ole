@@ -1,0 +1,14 @@
+{
+  "locationLevels" : [
+    {
+      "levelCode": "CAMPUS",
+      "levelName": "Campus.",
+      "parentLevelId": "1"
+    },
+    {
+      "levelCode": "CAMPUS",
+      "levelName": "Campus.",
+      "parentLevelId": "1"
+    }
+  ]
+}

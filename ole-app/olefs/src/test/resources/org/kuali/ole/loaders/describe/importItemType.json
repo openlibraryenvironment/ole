@@ -1,0 +1,12 @@
+{
+  "itemTypes" : [
+    {
+      "itemTypeCode": "_BMABROW-B-3",
+      "itemTypeName": "B-WELLS bookable browsing collection",
+      "itemTypeDesc": null,
+      "source": "IU SIRSI",
+      "sourceDate": "2012-04-05",
+      "active": true
+    }
+  ]
+}

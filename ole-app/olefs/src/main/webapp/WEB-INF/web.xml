@@ -525,5 +525,23 @@ This file contains custom application specific web.xml content.
         <url-pattern>/oleSip2</url-pattern>
     </servlet-mapping>
 
+
+    <!-- Ole loader servlet configuration-->
+    <servlet>
+        <servlet-name>oleLoaderServlet</servlet-name>
+        <servlet-class>
+            com.sun.jersey.spi.container.servlet.ServletContainer
+        </servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>org.kuali.ole.loaders</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>oleLoaderServlet</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+
 </web-app>
 

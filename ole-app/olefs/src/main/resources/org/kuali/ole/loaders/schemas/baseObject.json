@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "description" : "Base definition for maintenance object objects in the API.",
+  "properties": {
+    "@id": {
+      "type": "string",
+      "description" : "This is the resource URI for the specific object",
+      "format": "uri"
+    },
+    "@context": {
+      "type": "string",
+      "description" : "Indicates the type of object; individual extending types may use 'pattern' to match a specific URI",
+      "format": "uri"
+    },
+    "code" : {
+      "description" : "A short(-ish) code used as an alternate (contextual) reference for the object",
+      "type" : "string"
+    },
+    "name" : {
+      "description" : "A human readable name for the object",
+      "type" : "string"
+    }
+  },
+  "required" : [ "@id", "code", "name" ]
+}

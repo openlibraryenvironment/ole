@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "description": "Base type for maintenance objects with a 'source' vocabulary",
+  "allOf": [{"$ref": "baseObject.json"}],
+  "properties": {
+    "source": {
+      "description": "A description or URI for the source vocabulary",
+      "type": "string"
+    },
+    "active": {
+      "description": "Whether this item type is currently in use",
+      "type": "boolean"
+    },
+    "source_date": {
+      "description": "Date the value was retrieved from the source",
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
+

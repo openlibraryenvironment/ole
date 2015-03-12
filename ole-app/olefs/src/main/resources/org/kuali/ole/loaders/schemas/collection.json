@@ -1,0 +1,83 @@
+{
+  "description" : "Generic schema constraining response for a GET request to a collection URL",
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+
+  "definitions": {
+    "link": {
+      "type": "object",
+      "description": "In-line link representation for paging responses",
+      "properties": {
+        "rel": {
+          "description": "Relation of the link to the current page",
+          "type": "string",
+          "enum": [
+            "next",
+            "prev",
+            "first",
+            "self"
+          ]
+        },
+        "href": {
+          "description": "The link URI",
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "bibStatus": {
+      "anyOf": [{"$ref": "bibStatus.json"}]
+    },
+    "callNumberType": {
+      "anyOf": [{"$ref": "callNumberType"}]
+    },
+    "itemAvailabilityStatus": {
+      "anyOf": [{"$ref": "itemAvailabilityStatus.json"}]
+    },
+    "itemType": {
+      "anyOf": [{"$ref": "itemType.json"}]
+    },
+    "location": {
+      "allOf": [{"$ref": "location.json"}]
+    },
+    "locationLevel": {
+      "anyOf": [{"$ref": "locationLevel.json"}]
+    },
+    "statSearchCode": {
+      "anyOf": [{"$ref": "statSearchCode.json"}]
+    },
+    "links": {
+      "type": "array",
+      "anyOf": [{"$ref": "#/definitions/link"}]
+    }
+  },
+  "properties": {
+      "@context": {
+        "type": "string"
+      },
+      "items": {
+        "type": "array",
+        "items": {
+          "anyOf": [
+            { "$ref" : "bibStatus.json"},
+            { "$ref" : "callNumberType.json"},
+            { "$ref" : "itemAvailabilityStatus.json"},
+            { "$ref" : "itemType.json"},
+            { "$ref" : "location.json" },
+            { "$ref" : "locationLevel.json"},
+            { "$ref" : "statSearchCode.json" }
+          ]
+        }
+      },
+      "links" : {
+        "description" : "Paging links",
+        "$ref" : "#/definitions/links"
+      }
+    },
+
+
+    "required": [
+      "items",
+      "@context"
+    ]
+}

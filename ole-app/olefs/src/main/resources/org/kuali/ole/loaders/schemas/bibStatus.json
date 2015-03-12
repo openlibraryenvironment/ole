@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "description" : "OLE Bibliographic Record  status output by the OLE server.",
+
+  "allOf" : [ {"$ref" : "baseVocabularyObject.json"} ],
+
+  "properties" : {
+    "code" : {
+      "type" : "string"
+    },
+    "name" : {
+      "type" : "string"
+    },
+    "active" : {
+      "type" : "boolean"
+    }
+  },
+  "required" : [ "@id", "code", "name" ]
+}
