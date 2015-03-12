@@ -1653,7 +1653,7 @@
         <field-descriptor name="alertUserId" column="ALRT_USR_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="alertDate" column="ALRT_DT" jdbc-type="DATE"/>
         <field-descriptor name="alertInitiatorId" column="ALRT_INIT_ID" jdbc-type="VARCHAR"/>
-        <field-descriptor name="alertApproverId" column="ALRT_APRVR_Id" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertApproverId" column="ALRT_APRVR_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="alertApprovedDate" column="ALRT_APROVD_DT" jdbc-type="DATE"/>
         <field-descriptor name="alertId" column="ALRT_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

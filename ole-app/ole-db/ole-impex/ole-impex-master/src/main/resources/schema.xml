@@ -11851,6 +11851,12 @@
         <column name="REC_TYP" size="40" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <foreign-key foreignTable="GOKB_DATA_ELMNT_T" name="OLE_GOKB_MAP_VAL_T_FK">
+            <reference foreign="DATA_ELMNT_ID" local="DATA_ELMNT_ID"/>
+        </foreign-key>
+        <index name="OLE_GOKB_MAP_VAL_T_I">
+            <index-column name="DATA_ELMNT_ID"/>
+        </index>
     </table>
 
     <table name="VNDR_EVNT_LOG_T">
@@ -12238,7 +12244,7 @@
     <sequence name="OLE_GOKB_MAP_VAL_S" nextval="1"/>
     <sequence name="OLE_MOB_ACC_S" nextval="4"/>
     <sequence name="OLE_MARC_REC_SRC_TYPE_S" nextval="7"/>
-    <sequence name="OLE_E_RES_PLTFRM_EVNT_TYPE_S" nextval="3"/>
+    <sequence name="OLE_E_RES_PLTFRM_EVNT_TYPE_S" nextval="4"/>
     <sequence name="OLE_PRBLM_TYPE_S" nextval="4"/>
     <sequence name="OLE_LOG_TYPE_S" nextval="4"/>
     <sequence name="OLE_PO_PURP_S" nextval="5"/>

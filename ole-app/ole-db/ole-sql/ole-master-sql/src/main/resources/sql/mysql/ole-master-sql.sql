@@ -17563,6 +17563,10 @@ CREATE TABLE OLE_GOKB_MAP_VAL_T
 
 
 
+    
+                                                                                                                                                                                                                                                        
+                                    
+, INDEX OLE_GOKB_MAP_VAL_T_I (DATA_ELMNT_ID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
@@ -20776,7 +20780,7 @@ CREATE TABLE OLE_E_RES_PLTFRM_EVNT_TYPE_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE OLE_E_RES_PLTFRM_EVNT_TYPE_S auto_increment = 3
+ALTER TABLE OLE_E_RES_PLTFRM_EVNT_TYPE_S auto_increment = 4
 /
 
 # -----------------------------------------------------------------------

@@ -1,0 +1,7 @@
+MARC_REC_SRC_TYPE_ID,NAME,DESCRIPTION,ROW_ACT_IND,OBJ_ID,VER_NBR
+"1","Serials Solutions","Serials Solutions","Y","MARCRECSRCTYP1","1"
+"2","Publisher","Publisher","Y","MARCRECSRCTYP2","1"
+"3","Vendor Website","Vendor Website","Y","MARCRECSRCTYP3","1"
+"4","N/A","N/A","Y","MARCRECSRCTYP4","1"
+"5","OCLC","OCLC","Y","MARCRECSRCTYP5","1"
+"6","Provisional","Provisional","Y","MARCRECSRCTYP6","1"
