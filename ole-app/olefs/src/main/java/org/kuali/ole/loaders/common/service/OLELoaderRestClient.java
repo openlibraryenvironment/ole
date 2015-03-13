@@ -30,15 +30,18 @@ public class OLELoaderRestClient {
         return null;
     }
 
-    public static String jerseryClientPost(String url, String requestContent) {
+    public static Map<String,Object> jerseryClientPost(String url, String requestContent) {
         try {
+            Map<String,Object> objectMap = new HashMap<>();
             Client client = Client.create();
             WebResource webResource = client
                     .resource(url);
             ClientResponse response = webResource.type("application/json")
                     .post(ClientResponse.class, requestContent);
-            String output = response.getEntity(String.class);
-            return  output;
+            objectMap.put("status", response.getStatus());
+            objectMap.put("content", response.getEntity(String.class));
+            objectMap.put("header", response.getHeaders());
+            return  objectMap;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,15 +49,17 @@ public class OLELoaderRestClient {
         return null;
     }
 
-    public static String jerseryClientPut(String url, String requestContent) {
+    public static Map<String,Object> jerseryClientPut(String url, String requestContent) {
         try {
+            Map<String,Object> objectMap = new HashMap<>();
             Client client = Client.create();
             WebResource webResource = client
                     .resource(url);
             ClientResponse response = webResource.type("application/json")
                     .put(ClientResponse.class, requestContent);
-            String output = response.getEntity(String.class);
-            return  output;
+            objectMap.put("status", response.getStatus());
+            objectMap.put("content", response.getEntity(String.class));
+            return  objectMap;
 
         } catch (Exception e) {
             e.printStackTrace();

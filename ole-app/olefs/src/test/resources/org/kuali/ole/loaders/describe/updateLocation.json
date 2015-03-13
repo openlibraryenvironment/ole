@@ -1,6 +1,5 @@
 {
   "@context": "http;//ole.kuali.org/standards/api/location.jsonld",
-  "@id": "http://192.168.55.223:8080/olefs/api/location/921",
   "code": "BLI-ELLI",
   "name": "Blmgtn - Lilly Library - Ellison Room 101",
   "parent": {
