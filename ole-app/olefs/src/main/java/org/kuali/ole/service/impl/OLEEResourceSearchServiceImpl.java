@@ -1362,6 +1362,149 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
         }
     }
 
+    public void getNewInstance(OLEEResourceRecordDocument oleERSDoc, String documentNumber,Holdings holdings) throws Exception {
+
+        if (OleDocstoreResponse.getInstance().getEditorResponse() != null) {
+            HashMap<String, OLEEditorResponse> oleEditorResponses = OleDocstoreResponse.getInstance().getEditorResponse();
+            OLEEditorResponse oleEditorResponse = oleEditorResponses.get(documentNumber);
+            String separator = getParameter(OLEConstants.OLEEResourceRecord.COMMA_SEPARATOR);
+            String isbnAndissn = "";
+            List<String> instanceId = new ArrayList<String>();
+            List<OLEEResourceInstance> oleeResourceInstances = oleERSDoc.getOleERSInstances();
+            if (oleeResourceInstances.size() == 0) {
+                oleeResourceInstances = new ArrayList<OLEEResourceInstance>();
+            }
+            // List<OleCopy> copyList = new ArrayList<>();
+            //getDocstoreClientLocator().getDocstoreClient().retrieveBibTree(oleEditorResponse.getBib().getId());
+
+            if (oleEditorResponse != null && StringUtils.isNotEmpty(oleEditorResponse.getLinkedInstanceId())) {
+                instanceId.add(oleEditorResponse.getLinkedInstanceId());
+            }
+            //Holdings holdings = null;
+/*            if (oleEditorResponse != null && oleERSDoc.getSelectInstance() != null && (oleERSDoc.getSelectInstance().equals(OLEConstants.OLEEResourceRecord.LINK_EXIST_INSTANCE)) || oleERSDoc.getSelectInstance().equals(OLEConstants.OLEEResourceRecord.CREATE_NEW_INSTANCE)) {
+                holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(oleEditorResponse.getLinkedInstanceId());
+
+            }*/
+            int index = -1;
+            if (holdings != null && holdings.getId() != null) {
+                HoldingOlemlRecordProcessor holdingOlemlRecordProcessor = new HoldingOlemlRecordProcessor();
+                OleHoldings oleHoldings = holdingOlemlRecordProcessor.fromXML(holdings.getContent());
+                if (holdings instanceof org.kuali.ole.docstore.common.document.EHoldings) {
+                    if (oleEditorResponse != null && oleEditorResponse.getLinkedInstanceId().equalsIgnoreCase(holdings.getId())) {
+                        OLEEResourceInstance oleeResourceInstance = new OLEEResourceInstance();
+                        if (oleERSDoc.getOleERSInstances() != null && oleERSDoc.getOleERSInstances().size() > 0) {
+                            for (OLEEResourceInstance eResourceInstance : oleeResourceInstances) {
+                                if (eResourceInstance.getInstanceId().equals(oleEditorResponse.getLinkedInstanceId())) {
+                                    index = oleeResourceInstances.indexOf(eResourceInstance);
+                                    oleeResourceInstance = eResourceInstance;
+                                }
+                            }
+                        }
+                        if (StringUtils.isNotBlank(oleHoldings.getSubscriptionStatus())) {
+                            OleSubscriptionStatus oleSubscriptionStatus = getBusinessObjectService().findBySinglePrimaryKey(OleSubscriptionStatus.class, oleHoldings.getSubscriptionStatus());
+                            if (oleSubscriptionStatus != null) {
+                                oleeResourceInstance.setSubscriptionStatus(oleSubscriptionStatus.getSubscriptionStatusCode());
+                            }
+                        }
+                        oleeResourceInstance.setInstanceTitle(holdings.getBib().getTitle());
+                        getHoldingsField(oleeResourceInstance, oleHoldings);
+                        oleeResourceInstance.setInstancePublisher(oleHoldings.getPublisher());
+                        oleeResourceInstance.setPlatformId(oleHoldings.getPlatform().getPlatformName());
+                        // oleeResourceInstance.setPublicDisplayNote(workEInstanceDocument.getPublicDisplayNote());
+                        StringBuffer urls = new StringBuffer();
+                        for(Link link :oleHoldings.getLink()){
+                            urls.append(link.getUrl());
+                            urls.append(",");
+                        }
+                        if(urls.toString().contains(",")){
+                            String url = urls.substring(0,urls.lastIndexOf(","));
+                            oleeResourceInstance.setUrl(url);
+                        }
+
+                        SearchParams searchParams = new SearchParams();
+                        searchParams.getSearchConditions().add(searchParams.buildSearchCondition(null, searchParams.buildSearchField(OLEConstants.BIB_DOC_TYPE, OLEConstants.BIB_SEARCH, holdings.getBib().getId()), null));
+                        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(OLEConstants.BIB_DOC_TYPE, OLEConstants.OLEEResourceRecord.ERESOURCE_ISBN));
+                        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(OLEConstants.BIB_DOC_TYPE, OLEConstants.OLEEResourceRecord.ERESOURCE_ISSN));
+                        SearchResponse searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+                        SearchResult searchResult;
+                        if (searchResponse.getSearchResults().size() > 0) {
+                            searchResult = searchResponse.getSearchResults().get(0);
+                            searchResult.getSearchResultFields();
+                            for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
+                                isbnAndissn += searchResultField.getFieldValue();
+                                isbnAndissn += separator;
+                            }
+                        }
+                        if (StringUtils.isNotEmpty(isbnAndissn)) {
+                            isbnAndissn = isbnAndissn.substring(0, isbnAndissn.lastIndexOf(separator));
+                        }
+                        oleeResourceInstance.setIsbn(isbnAndissn);
+                        oleeResourceInstance.setStatus(oleHoldings.getAccessStatus());
+                        oleeResourceInstance.setSubscriptionStatus(oleHoldings.getSubscriptionStatus());
+                        oleeResourceInstance.setBibId(holdings.getBib().getId());
+                        oleeResourceInstance.setInstanceId(holdings.getId());
+                        oleeResourceInstance.setInstanceFlag("false");
+                        if (index >= 0) {
+                            oleeResourceInstances.add(index, oleeResourceInstance);
+                        } else {
+                            oleeResourceInstances.add(oleeResourceInstance);
+                        }
+                        updateEResInOleCopy(holdings, oleERSDoc);
+                    }
+                }
+                if (holdings instanceof org.kuali.ole.docstore.common.document.PHoldings) {
+                    if (oleEditorResponse != null && oleEditorResponse.getLinkedInstanceId().equalsIgnoreCase(holdings.getId())) {
+                        OLEEResourceInstance oleeResourceInstance = new OLEEResourceInstance();
+                        if (oleERSDoc.getOleERSInstances() != null && oleERSDoc.getOleERSInstances().size() > 0) {
+                            for (OLEEResourceInstance eResourceInstance : oleeResourceInstances) {
+                                if (eResourceInstance.getInstanceId().equals(oleEditorResponse.getLinkedInstanceId())) {
+                                    index = oleeResourceInstances.indexOf(eResourceInstance);
+                                    oleeResourceInstance = eResourceInstance;
+                                }
+                            }
+                        }
+                        if (StringUtils.isNotBlank(oleHoldings.getSubscriptionStatus())) {
+                            OleSubscriptionStatus oleSubscriptionStatus = getBusinessObjectService().findBySinglePrimaryKey(OleSubscriptionStatus.class, oleHoldings.getSubscriptionStatus());
+                            oleeResourceInstance.setSubscriptionStatus(oleSubscriptionStatus.getSubscriptionStatusCode());
+                        }
+                        oleeResourceInstance.setInstanceTitle(holdings.getBib().getTitle());
+                        oleeResourceInstance.setInstancePublisher(holdings.getBib().getPublisher());
+                        SearchParams searchParams = new SearchParams();
+                        searchParams.getSearchConditions().add(searchParams.buildSearchCondition(null, searchParams.buildSearchField(OLEConstants.BIB_DOC_TYPE, OLEConstants.BIB_SEARCH, holdings.getBib().getId()), null));
+                        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(OLEConstants.BIB_DOC_TYPE, OLEConstants.OLEEResourceRecord.ERESOURCE_ISBN));
+                        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(OLEConstants.BIB_DOC_TYPE, OLEConstants.OLEEResourceRecord.ERESOURCE_ISSN));
+                        SearchResponse searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+                        SearchResult searchResult;
+                        if (searchResponse.getSearchResults().size() > 0) {
+                            searchResult = searchResponse.getSearchResults().get(0);
+                            searchResult.getSearchResultFields();
+                            for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
+                                isbnAndissn += searchResultField.getFieldValue();
+                                isbnAndissn += separator;
+                            }
+                        }
+                        if (StringUtils.isNotEmpty(isbnAndissn)) {
+                            isbnAndissn = isbnAndissn.substring(0, isbnAndissn.lastIndexOf(separator));
+                        }
+                        oleeResourceInstance.setIsbn(isbnAndissn);
+                        oleeResourceInstance.setBibId(holdings.getBib().getId());
+                        oleeResourceInstance.setInstanceId(holdings.getId());
+                        oleeResourceInstance.setHoldingsId(oleHoldings.getHoldingsIdentifier());
+                        oleeResourceInstance.setInstanceFlag("true");
+                        if (index >= 0) {
+                            oleeResourceInstances.add(index, oleeResourceInstance);
+                        } else {
+                            oleeResourceInstances.add(oleeResourceInstance);
+                        }
+                        updateEResInOleCopy(holdings, oleERSDoc);
+                    }
+                }
+            }
+            oleERSDoc.setOleERSInstances(oleeResourceInstances);
+            OleDocstoreResponse.getInstance().setEditorResponse(null);
+        }
+    }
+
     public void getPOInvoiceForERS(OLEEResourceRecordDocument oleERSDoc) {
         try {
             Holdings holdings = null;

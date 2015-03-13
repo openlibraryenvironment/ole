@@ -311,6 +311,7 @@ public class WorkEInstanceOlemlEditor
         String editorStatusMessage = "";
         List<BibTree> bibTreeList = null;
         BibTree bibTree = null;
+        Holdings holdingsDoc = null;
         String user = GlobalVariables.getUserSession().getPrincipalName();
         if (StringUtils.isNotEmpty(bibId)) {
             try {
@@ -397,7 +398,7 @@ public class WorkEInstanceOlemlEditor
                 }
             }
             if(editorForm.getDocId()!=null){
-            Holdings holdingsDoc = docstoreClient.retrieveHoldings(editorForm.getDocId());
+            holdingsDoc = docstoreClient.retrieveHoldings(editorForm.getDocId());
             editorForm.setHoldingUpdatedDate(holdingsDoc.getUpdatedOn());
             editorForm.setHoldingUpdatedBy(holdingsDoc.getUpdatedBy());
             editorForm.setHoldingCreatedDate(holdingsDoc.getCreatedOn());
@@ -448,7 +449,9 @@ public class WorkEInstanceOlemlEditor
                                 processResponse(editorForm.getDocId(), editorForm.getBibId(), tempDocument.getDocumentNumber(), editorForm.getLinkToOrderOption());
                             }
                         }
-                        getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber());
+
+                        //getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber());
+                        getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber(),holdingsDoc);
                         for (OLEEResourceInstance oleeResourceInstance : tempDocument.getOleERSInstances()) {
                             if (oleeResourceInstance.getInstanceId() != null && workEInstanceOlemlForm.getSelectedEHoldings() != null
                                     && oleeResourceInstance.getInstanceId().equals(workEInstanceOlemlForm.getSelectedEHoldings().getHoldingsIdentifier())) {

@@ -2,6 +2,7 @@ package org.kuali.ole.service;
 
 import org.kuali.ole.coa.businessobject.OLECretePOAccountingLine;
 import org.kuali.ole.describe.form.WorkEInstanceOlemlForm;
+import org.kuali.ole.docstore.common.document.Holdings;
 import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
 import org.kuali.ole.module.purap.businessobject.RequisitionItem;
 import org.kuali.ole.module.purap.document.RequisitionDocument;
@@ -58,6 +59,8 @@ public interface OLEEResourceSearchService {
     public OLEEResourceRecordDocument saveDefaultPerpetualAccessDate(OLEEResourceRecordDocument oleeResourceRecordDocument);
 
     public void getNewInstance(OLEEResourceRecordDocument oleERSDoc, String documentNumber) throws Exception;
+
+    public void getNewInstance(OLEEResourceRecordDocument oleERSDoc, String documentNumber, Holdings holdings) throws Exception;
 
     public void getAccessLocationFromEInstance(OleHoldings OleHoldings, WorkEInstanceOlemlForm workEInstanceOlemlForm);
 
