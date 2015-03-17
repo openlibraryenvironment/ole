@@ -931,6 +931,7 @@
 				<ref bean="VendorDetail-inquirySectionDefinition-vendorPhoneNumber" />
 				<ref bean="VendorDetail-inquirySectionDefinition-vendorCustomerNumber" />
 				<ref bean="VendorDetail-inquirySectionDefinition-contracts" />
+				<ref bean="VendorDetail-inquirySectionDefinition-eventLogs" />
 				<!-- RICE20 : boNotes is no longer part of the main class - this will need to be replaced somehow
 				<ref bean="VendorDetail-inquirySectionDefinition-notes" />
 				-->
@@ -954,6 +955,8 @@
 				<bean parent="FieldDefinition" p:attributeName="vendorName" />
 				<bean parent="FieldDefinition" p:attributeName="vendorParentIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="vendorParentName" />
+				<bean parent="FieldDefinition" p:attributeName="gokbId" />
+				<bean parent="FieldDefinition" p:attributeName="nonBillable" />
 				<bean parent="InquirySubSectionHeaderDefinition"
 					p:attributeName="Corporate Information" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode" />
@@ -993,6 +996,7 @@
 				<bean parent="FieldDefinition" p:attributeName="vendorInactiveReasonCode" />
 				<bean parent="FieldDefinition" p:attributeName="paymentMethodId" />
                 		<bean parent="FieldDefinition" p:attributeName="claimInterval" />
+                		<bean parent="FieldDefinition" p:attributeName="linkedToEHoldings" />
 			</list>
 		</property>
 	</bean>
@@ -1434,6 +1438,19 @@
 		</property>
 	</bean>
 
+    <bean id="VendorDetail-inquirySectionDefinition-eventLogs"
+		parent="VendorDetail-inquirySectionDefinition-eventLogs-parentBean" />
+	<bean id="VendorDetail-inquirySectionDefinition-eventLogs-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Event Logs" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<ref bean="VendorDetail-inquiryCollectionDefinition-eventLogs" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="VendorDetail-inquiryCollectionDefinition-vendorContracts"
 		parent="VendorDetail-inquiryCollectionDefinition-vendorContracts-parentBean" />
 	<bean
@@ -1500,6 +1517,28 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
 				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
+			</list>
+		</property>
+	</bean>
+
+    <bean
+		id="VendorDetail-inquiryCollectionDefinition-eventLogs"
+		parent="VendorDetail-inquiryCollectionDefinition-eventLogs-parentBean" />
+	<bean
+		id="VendorDetail-inquiryCollectionDefinition-eventLogs-parentBean"
+		parent="InquiryCollectionDefinition" abstract="true">
+		<property name="attributeName" value="eventLogs" />
+		<property name="businessObjectClass"
+			value="org.kuali.ole.vnd.businessobject.VendorEventLog" />
+		<property name="numberOfColumns" value="1" />
+		<property name="summaryTitle" value="Event Logs" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="logType" />
+				<bean parent="FieldDefinition" p:attributeName="eventType" />
+                <bean parent="FieldDefinition" p:attributeName="eventNote" />
+                <bean parent="FieldDefinition" p:attributeName="eventUser" />
+                <bean parent="FieldDefinition" p:attributeName="eventDate" />
 			</list>
 		</property>
 	</bean>
