@@ -15422,7 +15422,7 @@ CREATE TABLE PUR_VNDR_CNTCT_T
         , DOBJ_MAINT_CD_ACTV_IND VARCHAR(1) NOT NULL
         , VNDR_ACCOUNT_NBR VARCHAR(7)
         , VNDR_FIN_COA_CD VARCHAR(2)
-        , VNDR_CNTCT_TITLE VARCHAR(20)
+        , VNDR_CNTCT_TITLE VARCHAR(200)
         , LAST_VERIFIED_DATE VARCHAR(20)
         , FORMAT VARCHAR(20)
     
@@ -20262,7 +20262,7 @@ CREATE TABLE VNDR_CNTCT_GNRTD_ID
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE VNDR_CNTCT_GNRTD_ID auto_increment = 12005
+ALTER TABLE VNDR_CNTCT_GNRTD_ID auto_increment = 13000
 /
 
 # -----------------------------------------------------------------------

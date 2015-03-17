@@ -10470,7 +10470,7 @@
         <column name="DOBJ_MAINT_CD_ACTV_IND" required="true" size="1" type="VARCHAR" zz_comment="Indicates if the Contact is active."/>
         <column name="VNDR_ACCOUNT_NBR" size="7" type="VARCHAR"/>
         <column name="VNDR_FIN_COA_CD" size="2" type="VARCHAR"/>
-        <column name="VNDR_CNTCT_TITLE" size="20" type="VARCHAR" />
+        <column name="VNDR_CNTCT_TITLE" size="200" type="VARCHAR" />
         <column name="LAST_VERIFIED_DATE" size="20" type="VARCHAR" />
         <column name="FORMAT" size="20" type="VARCHAR" />
         <foreign-key foreignTable="PUR_VNDR_DTL_T" name="PUR_VNDR_CNTCT_TR1">
@@ -12207,7 +12207,7 @@
     <sequence name="REQS_STAT_HIST_ID" nextval="1006"/>
     <sequence name="SHPMNT_RCVNG_ID" nextval="1002"/>
     <sequence name="VNDR_ADDR_GNRTD_ID" nextval="12111"/>
-    <sequence name="VNDR_CNTCT_GNRTD_ID" nextval="12005"/>
+    <sequence name="VNDR_CNTCT_GNRTD_ID" nextval="13000"/>
     <sequence name="VNDR_CNTCT_PHN_GNRTD_ID" nextval="12005"/>
     <sequence name="VNDR_CONTR_GNRTD_ID" nextval="12105"/>
     <sequence name="VNDR_CUST_NBR_GNRTD_ID" nextval="12005"/>
