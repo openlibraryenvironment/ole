@@ -142,9 +142,9 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addGeneralNote" p:actionLabel="Add Note"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addGeneralNote" p:actionLabel="Add"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteGeneralNote"
-                      p:actionLabel="Remove Note"
+                      p:actionLabel="Remove"
                       p:render="@{document.generalNotes.size() ne 1}"/>
             </list>
         </property>
