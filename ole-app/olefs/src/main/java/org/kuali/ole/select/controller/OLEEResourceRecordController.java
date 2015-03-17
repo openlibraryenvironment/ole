@@ -2704,16 +2704,13 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         oleeResourceAccess.setOleERSIdentifier(oleeResourceRecordDocument.getOleERSIdentifier());
         Map<String,String> accessConfigMap = new HashMap<String,String>();
         accessConfigMap.put("accessActivationConfigurationId",oleeResourceRecordDocument.getWorkflowConfigurationId());
-        List<OLEAccessActivationConfiguration> oleAccessActivationConfigurations = (List<OLEAccessActivationConfiguration>)KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(OLEAccessActivationConfiguration.class,accessConfigMap,"orderNo",true);
-        List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows = null;
-        if(oleAccessActivationConfigurations!=null && oleAccessActivationConfigurations.size()>0){
-            oleAccessActivationWorkFlows = oleAccessActivationConfigurations.get(0).getAccessActivationWorkflowList();
-       if(oleAccessActivationWorkFlows!=null && oleAccessActivationWorkFlows.size()>0){
+        List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows  = (List<OLEAccessActivationWorkFlow>)KRADServiceLocator.getBusinessObjectService().findMatching(OLEAccessActivationWorkFlow.class,accessConfigMap);
+        if(oleAccessActivationWorkFlows!=null && oleAccessActivationWorkFlows.size()>0){
            accessActivationWorkFlow  = oleAccessActivationWorkFlows.get(0);
            status = accessActivationWorkFlow.getStatus();
            roleId = accessActivationWorkFlow.getRoleId();
        }
-        }else{
+        else{
            GlobalVariables.getMessageMap().putError("accessActivationConfigurationId", "Invalid workflow");
            return getUIFModelAndView(form);
        }
