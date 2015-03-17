@@ -16,6 +16,7 @@
 
 package org.kuali.ole.vnd.businessobject;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +74,7 @@ public class VendorContact extends PersistableBusinessObjectBase implements Muta
     protected String title;
     private List<String> formats;
     private String format;
-    private String lastVerifiedDate;
+    private Date lastVerifiedDate;
     //protected String vendorCustomerNumbers;
     //protected List<VendorCustomerNumber> vendorCustomerNumberList;
 
@@ -408,11 +409,11 @@ public class VendorContact extends PersistableBusinessObjectBase implements Muta
         this.title = title;
     }
 
-    public String getLastVerifiedDate() {
+    public Date getLastVerifiedDate() {
         return lastVerifiedDate;
     }
 
-    public void setLastVerifiedDate(String lastVerifiedDate) {
+    public void setLastVerifiedDate(Date lastVerifiedDate) {
         this.lastVerifiedDate = lastVerifiedDate;
     }
 
