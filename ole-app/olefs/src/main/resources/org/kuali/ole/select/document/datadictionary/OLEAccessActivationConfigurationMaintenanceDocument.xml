@@ -19,7 +19,7 @@
     </bean>
     <bean id="OLEAccessActivationConfigurationMaintenanceDocument-MaintenanceView" parent="Uif-OLEMaintenanceView">
         <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEAccessActivationConfiguration"/>
-        <property name="headerText" value="Alert Activation Workflow Configuration"/>
+        <property name="headerText" value="Access Activation Workflow Configuration"/>
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
@@ -36,7 +36,7 @@
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-MaintenanceGridSection">
-                    <property name="headerText" value="Add/Edit Access Activation Workflow COnfiguration"/>
+                    <property name="headerText" value="Add/Edit Access Activation Workflow Configuration"/>
                     <property name="items">
                         <list>
                             <bean id="create_workflowName" parent="Uif-InputField" p:propertyName="workflowName" p:required="true"/>

@@ -15,6 +15,7 @@ import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -43,6 +44,22 @@ public class OLEAccessActivationConfigurationController extends MaintenanceDocum
 
     OLEAccessActivationConfiguration accessConfiguration = new OLEAccessActivationConfiguration();
     boolean isValid = true;
+
+    @Override
+    public ModelAndView maintenanceEdit(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
+
+        OLEAccessActivationConfiguration oleAccessActivationConfiguration = (OLEAccessActivationConfiguration) form.getDocument().getNewMaintainableObject().getDataObject();
+        List<OLEAccessActivationWorkFlow> accessActivationWorkFlowList = oleAccessActivationConfiguration.getAccessActivationWorkflowList();
+        for(OLEAccessActivationWorkFlow oleAccessActivationWorkFlow : accessActivationWorkFlowList){
+            Map<String,Object> oleBoMap = new HashMap<>();
+            oleBoMap.put("id",oleAccessActivationWorkFlow.getRoleId());
+            OLERoleBo oleRoleBo = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLERoleBo.class,oleBoMap);
+            oleAccessActivationWorkFlow.setRoleName(oleRoleBo.getName());
+        }
+        return getUIFModelAndView(form);
+    }
+
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addWorkflow")
     public ModelAndView addWorkflow(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) {
