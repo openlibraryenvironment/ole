@@ -3,6 +3,7 @@ package org.kuali.ole.select.gokb.service.impl;
 import org.kuali.ole.docstore.common.util.DataSource;
 import org.kuali.ole.select.gokb.*;
 import org.kuali.ole.select.gokb.service.GokbRdbmsService;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +23,7 @@ public class GokbRdbmsServiceImpl implements GokbRdbmsService {
     private static final Logger LOG = LoggerFactory.getLogger(GokbLocalServiceImpl.class);
 
     private Connection connection = null;
+    private final static String dbVendor = ConfigContext.getCurrentContextConfig().getProperty("db.vendor");
 
     private static Connection getConnection() throws SQLException {
         DataSource dataSource = null;
@@ -226,9 +228,10 @@ public class GokbRdbmsServiceImpl implements GokbRdbmsService {
             Statement stmt = connection.createStatement();
             PreparedStatement pstmt = connection.prepareStatement(INSERT_ORG_ROLE_PREPARED_STMT);
 
-            ResultSet  rs1 = stmt.executeQuery("SELECT GOKB_ORG_ROLE_ID FROM OLE_GOKB_ORG_ROLE_T ORDER BY GOKB_ORG_ROLE_ID DESC LIMIT 1");
+            ResultSet  rs1 = stmt.executeQuery("SELECT GOKB_ORG_ROLE_ID FROM OLE_GOKB_ORG_ROLE_T ORDER BY GOKB_ORG_ROLE_ID DESC");
             while (rs1.next()) {
                 lastInsertedId = rs1.getInt(1);
+                break;
             }
 
 
@@ -443,12 +446,12 @@ public class GokbRdbmsServiceImpl implements GokbRdbmsService {
                 connection = getConnection();
             }
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate("TRUNCATE OLE_GOKB_PKG_T");
-            stmt.executeUpdate("TRUNCATE OLE_GOKB_TIPP_T");
-            stmt.executeUpdate("TRUNCATE OLE_GOKB_TITLE_T");
-            stmt.executeUpdate("TRUNCATE OLE_GOKB_PLTFRM_T");
-            stmt.executeUpdate("TRUNCATE OLE_GOKB_ORG_T");
-            stmt.executeUpdate("TRUNCATE OLE_GOKB_ORG_ROLE_T");
+            stmt.executeUpdate("TRUNCATE TABLE OLE_GOKB_PKG_T");
+            stmt.executeUpdate("TRUNCATE TABLE OLE_GOKB_TIPP_T");
+            stmt.executeUpdate("TRUNCATE TABLE OLE_GOKB_TITLE_T");
+            stmt.executeUpdate("TRUNCATE TABLE OLE_GOKB_PLTFRM_T");
+            stmt.executeUpdate("TRUNCATE TABLE OLE_GOKB_ORG_T");
+            stmt.executeUpdate("TRUNCATE TABLE OLE_GOKB_ORG_ROLE_T");
             connection.commit();
             stmt.close();
         } catch (SQLException ex) {
@@ -476,9 +479,10 @@ public class GokbRdbmsServiceImpl implements GokbRdbmsService {
 
             Statement selectStmt = connection.createStatement();
             ResultSet rs = null;
-            rs = selectStmt.executeQuery("SELECT START_TIME FROM OLE_GOKB_UPDATE_LOG_T ORDER BY ID DESC LIMIT 1");
-            if (rs.next()) {
+            rs = selectStmt.executeQuery("SELECT START_TIME FROM OLE_GOKB_UPDATE_LOG_T ORDER BY ID DESC");
+            while (rs.next()) {
                 startTime = rs.getTimestamp(1);
+                break;
             }
             connection.commit();
             selectStmt.close();
@@ -509,15 +513,16 @@ public class GokbRdbmsServiceImpl implements GokbRdbmsService {
                 connection = getConnection();
             }
             Date localTime = new Date();
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Statement stmt = connection.createStatement();
             ResultSet rs = null;
-            rs = stmt.executeQuery("SELECT ID FROM OLE_GOKB_UPDATE_LOG_T ORDER BY ID DESC LIMIT 1");
+            rs = stmt.executeQuery("SELECT ID FROM OLE_GOKB_UPDATE_LOG_T ORDER BY ID DESC");
             while (rs.next()) {
                 lastInsertedId = rs.getInt(1);
+                break;
             }
             lastInsertedId = lastInsertedId + 1;
-            String sqlStmt = "INSERT INTO OLE_GOKB_UPDATE_LOG_T (ID,START_TIME, STATUS) VALUES(" + lastInsertedId + ",'" + df.format(localTime).toString() + "', 'Running')";
+            String sqlStmt = "INSERT INTO OLE_GOKB_UPDATE_LOG_T (ID,START_TIME, STATUS) VALUES(" + lastInsertedId + "," + getDateStringForOracle(df.format(localTime).toString()) + ", 'Running')";
             stmt.execute(sqlStmt);
             connection.commit();
             stmt.close();
@@ -541,9 +546,9 @@ public class GokbRdbmsServiceImpl implements GokbRdbmsService {
                 connection = getConnection();
             }
             Date localTime = new Date();
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Statement stmt = connection.createStatement();
-            String sqlStmt = "UPDATE OLE_GOKB_UPDATE_LOG_T SET STATUS='Completed', END_TIME='" + df.format(localTime).toString() + "' where ID=" + updatedId;
+            String sqlStmt = "UPDATE OLE_GOKB_UPDATE_LOG_T SET STATUS='Completed', END_TIME=" + getDateStringForOracle(df.format(localTime).toString()) + " where ID=" + updatedId;
             stmt.execute(sqlStmt);
             connection.commit();
             stmt.close();
@@ -747,9 +752,10 @@ public class GokbRdbmsServiceImpl implements GokbRdbmsService {
             }
             Statement stmt = connection.createStatement();
             ResultSet rs = null;
-            rs = stmt.executeQuery("SELECT ID FROM OLE_GOKB_ORG_ROLE_T ORDER BY ID DESC LIMIT 1");
+            rs = stmt.executeQuery("SELECT ID FROM OLE_GOKB_ORG_ROLE_T ORDER BY ID DESC");
             while (rs.next()) {
                 lastInsertedId = rs.getInt(1);
+                break;
             }
             PreparedStatement pstmt = connection.prepareStatement(INSERT_ORG_ROLE_PREPARED_STMT);
             for (OleGokbOrganizationRole oleGokbOrganizationRole : oleGokbOrganizationRoles) {
@@ -936,5 +942,13 @@ public class GokbRdbmsServiceImpl implements GokbRdbmsService {
         if (connection != null) {
             connection.close();
         }
+    }
+
+
+    private String getDateStringForOracle(String updateDate) {
+        if (dbVendor.equalsIgnoreCase("oracle")) {
+            updateDate = "TO_DATE('" + updateDate + "', 'yyyy-mm-dd hh24:mi:ss')";
+        }
+        return updateDate;
     }
 }
