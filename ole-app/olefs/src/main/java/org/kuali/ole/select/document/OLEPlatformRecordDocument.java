@@ -125,9 +125,7 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
     }
 
     public String getStatusName() {
-        if (olePlatformStatus != null) {
-            return olePlatformStatus.getPlatformStatusName();
-        } else if (getStatusId() != null) {
+        if (getStatusId() != null) {
             OLEPlatformStatus platformStatus = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OLEPlatformStatus.class, statusId);
             if (platformStatus != null) {
                 return platformStatus.getPlatformStatusName();
