@@ -948,6 +948,8 @@ public class GokbRdbmsServiceImpl implements GokbRdbmsService {
     private String getDateStringForOracle(String updateDate) {
         if (dbVendor.equalsIgnoreCase("oracle")) {
             updateDate = "TO_DATE('" + updateDate + "', 'yyyy-mm-dd hh24:mi:ss')";
+        }else{
+            updateDate="'"+updateDate+"'";
         }
         return updateDate;
     }
