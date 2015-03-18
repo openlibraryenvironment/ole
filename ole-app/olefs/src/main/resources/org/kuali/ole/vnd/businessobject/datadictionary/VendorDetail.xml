@@ -1536,7 +1536,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="logType" />
 				<bean parent="FieldDefinition" p:attributeName="eventType" />
-                <bean parent="FieldDefinition" p:attributeName="eventNote" />
+                <bean parent="FieldDefinition" p:attributeName="note" />
                 <bean parent="FieldDefinition" p:attributeName="eventUser" />
                 <bean parent="FieldDefinition" p:attributeName="eventDate" />
 			</list>

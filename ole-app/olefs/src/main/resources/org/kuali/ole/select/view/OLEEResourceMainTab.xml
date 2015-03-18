@@ -851,6 +851,7 @@
                             <bean id="numOfSimultaneousUsers" parent="Uif-DataField" p:propertyName="numOfSimultaneousUsers" p:label="No. of Simultaneous User" />
                             <bean id="accessLocation" parent="Uif-DataField" p:propertyName="accessLocationName" p:label="Access Location"/>
                             <bean parent="Uif-DataField" p:propertyName="techRequirements"/>
+                            <bean parent="Uif-LinkField" p:target="_blank" p:linkText="@{document.oleAccessActivationDocumentNumber}" p:href="oleEEResourceAccessMaintenance?methodToCall=docHandler&amp;docId=@{document.oleAccessActivationDocumentNumber}&amp;command=displayDocSearchView" p:label="Access Document Number"/>
                         </list>
                     </property>
                 </bean>

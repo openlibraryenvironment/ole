@@ -2704,7 +2704,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         oleeResourceAccess.setOleERSIdentifier(oleeResourceRecordDocument.getOleERSIdentifier());
         Map<String,String> accessConfigMap = new HashMap<String,String>();
         accessConfigMap.put("accessActivationConfigurationId",oleeResourceRecordDocument.getWorkflowConfigurationId());
-        List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows  = (List<OLEAccessActivationWorkFlow>)KRADServiceLocator.getBusinessObjectService().findMatching(OLEAccessActivationWorkFlow.class,accessConfigMap);
+        List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows  = (List<OLEAccessActivationWorkFlow>)KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(OLEAccessActivationWorkFlow.class,accessConfigMap,"orderNo",true);
         if(oleAccessActivationWorkFlows!=null && oleAccessActivationWorkFlows.size()>0){
            accessActivationWorkFlow  = oleAccessActivationWorkFlows.get(0);
            status = accessActivationWorkFlow.getStatus();

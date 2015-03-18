@@ -278,7 +278,7 @@
     <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="title" column="VNDR_CNTCT_TITLE" jdbc-type="VARCHAR"/>
     <field-descriptor name="lastVerifiedDate" column="LAST_VERIFIED_DATE" jdbc-type="DATE"/>
-    <!--<field-descriptor name="format" column="FORMAT" jdbc-type="VARCHAR"/>-->
+    <field-descriptor name="format" column="FORMAT" jdbc-type="VARCHAR"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.ole.vnd.businessobject.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />

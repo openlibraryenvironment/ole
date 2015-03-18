@@ -3197,12 +3197,12 @@
         <addColumn catalogName="ole"
                    schemaName="ole"
                    tableName="PUR_VNDR_CNTCT_T">
-            <column name="VNDR_CNTCT_TITLE" type="VARCHAR(20)"/>
+            <column name="VNDR_CNTCT_TITLE" type="VARCHAR(200)"/>
         </addColumn>
         <addColumn catalogName="ole"
                    schemaName="ole"
                    tableName="PUR_VNDR_CNTCT_T">
-            <column name="LAST_VERIFIED_DATE" type="VARCHAR(20)"/>
+            <column name="LAST_VERIFIED_DATE" type="DATE"/>
         </addColumn>
         <addColumn catalogName="ole"
                    schemaName="ole"

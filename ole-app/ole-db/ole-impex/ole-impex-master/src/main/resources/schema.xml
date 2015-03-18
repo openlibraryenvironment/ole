@@ -10471,7 +10471,7 @@
         <column name="VNDR_ACCOUNT_NBR" size="7" type="VARCHAR"/>
         <column name="VNDR_FIN_COA_CD" size="2" type="VARCHAR"/>
         <column name="VNDR_CNTCT_TITLE" size="200" type="VARCHAR" />
-        <column name="LAST_VERIFIED_DATE" size="20" type="VARCHAR" />
+        <column name="LAST_VERIFIED_DATE" type="DATE" />
         <column name="FORMAT" size="20" type="VARCHAR" />
         <foreign-key foreignTable="PUR_VNDR_DTL_T" name="PUR_VNDR_CNTCT_TR1">
             <reference foreign="VNDR_HDR_GNRTD_ID" local="VNDR_HDR_GNRTD_ID"/>

@@ -270,11 +270,11 @@
 
     <bean id="VendorContact-format" parent="VendorContact-format-parentBean"/>
     <bean id="VendorContact-format-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="formats"/>
+        <property name="name" value="format"/>
         <property name="label" value="Format"/>
         <property name="shortLabel" value="Format"/>
         <property name="control">
-        <bean parent="MultiselectControlDefinition" p:valuesFinderClass="org.kuali.ole.vnd.keyvalue.OLEFormatKeyValueFinder" p:includeKeyInLabel="false"/>
+        <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.vnd.keyvalue.OLEFormatKeyValueFinder" p:includeKeyInLabel="false"/>
         </property>
     </bean>
 
