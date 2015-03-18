@@ -6,7 +6,7 @@
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="HoldsThatWereTrappedSinceReportLastRanAndNeedToBeCheckedToMakeSureTheyAreOnTheHoldShelfReadyToBePickedUpForStaff" id="7">
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="HoldsThatWereReadyToBePickedUpForStaff" id="7">
             <list-property name="privateDriverProperties">
                 <ex-property>
                     <name>metadataBidiFormatStr</name>
@@ -30,7 +30,7 @@
         </oda-data-source>
     </data-sources>
     <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="HoldsThatWereTrappedSinceReportLastRanAndNeedToBeCheckedToMakeSureTheyAreOnTheHoldShelfReadyToBePickedUpForStaff" id="8">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="HoldsThatWereReadyToBePickedUpForStaff" id="8">
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">Location</property>
@@ -45,13 +45,13 @@
                     <text-property name="heading">Call Number</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">BARCODE</property>
+                    <property name="columnName">Barcode</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">Barcode</text-property>
                     <text-property name="heading">Barcode</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">TITLE</property>
+                    <property name="columnName">Title</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">Title</text-property>
                     <text-property name="heading">Title</text-property>
@@ -63,7 +63,7 @@
                     <text-property name="heading">Patron Name</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">PTRN_BRCD</property>
+                    <property name="columnName">Patron Barcode</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">Patron Barcode</text-property>
                     <text-property name="heading">Patron Barcode</text-property>
@@ -84,12 +84,12 @@
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">BARCODE</property>
+                        <property name="name">Barcode</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">4</property>
-                        <property name="name">TITLE</property>
+                        <property name="name">Title</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -99,12 +99,12 @@
                     </structure>
                     <structure>
                         <property name="position">6</property>
-                        <property name="name">PTRN_BRCD</property>
+                        <property name="name">Patron Barcode</property>
                         <property name="dataType">string</property>
                     </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">HoldsThatWereTrappedSinceReportLastRanAndNeedToBeCheckedToMakeSureTheyAreOnTheHoldShelfReadyToBePickedUpForStaff</property>
+            <property name="dataSource">HoldsThatWereReadyToBePickedUpForStaff</property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
@@ -122,15 +122,15 @@
                 </structure>
                 <structure>
                     <property name="position">3</property>
-                    <property name="name">BARCODE</property>
-                    <property name="nativeName">BARCODE</property>
+                    <property name="name">Barcode</property>
+                    <property name="nativeName">Barcode</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
-                    <property name="name">TITLE</property>
-                    <property name="nativeName">TITLE</property>
+                    <property name="name">Title</property>
+                    <property name="nativeName">Title</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
@@ -143,27 +143,33 @@
                 </structure>
                 <structure>
                     <property name="position">6</property>
-                    <property name="name">PTRN_BRCD</property>
-                    <property name="nativeName">PTRN_BRCD</property>
+                    <property name="name">Patron Barcode</property>
+                    <property name="nativeName">Patron Barcode</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select 
-IF(ODI.LOCATION IS NULL OR ODI.LOCATION = '', IF(ODH.LOCATION IS NULL,'',ODH.LOCATION ), ODI.LOCATION) as 'Location',
-IF(ODI.CALL_NUMBER IS NULL OR ODI.CALL_NUMBER = '', IF(ODH.CALL_NUMBER IS NULL,'',ODH.CALL_NUMBER), ODI.CALL_NUMBER) as 'Call Number',
-ODI.BARCODE as 'Barcode',
-ODBI.TITLE as 'Title',
-concat(OPEV.FIRST_NM,' ',OPEV.LAST_NM) as 'Patron Name',
-OPEV.PTRN_BRCD as 'Patron Barcode'
+CASE WHEN ODI.LOCATION IS NOT NULL AND ODI.LOCATION != ' ' THEN ODI.LOCATION
+	WHEN ODH.LOCATION IS NOT NULL AND ODH.LOCATION != ' ' THEN ODH.LOCATION
+	ELSE ' ' 
+END as "Location",
+CASE WHEN ODI.CALL_NUMBER IS NOT NULL AND ODI.CALL_NUMBER != ' ' THEN ODI.CALL_NUMBER 
+	WHEN ODH.CALL_NUMBER IS NOT NULL AND ODH.CALL_NUMBER != ' ' THEN ODH.CALL_NUMBER 
+	ELSE ' ' 
+END as "Call Number",
+ODI.BARCODE as "Barcode",
+ODBI.TITLE as "Title",
+CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM)) as "Patron Name",
+OPEV.PTRN_BRCD as "Patron Barcode"
 from
-OLE_DLVR_RQST_T as ODR,
-OLE_DS_ITEM_T as ODI,
-OLE_DS_HOLDINGS_T as ODH,
-OLE_DLVR_ITEM_AVAIL_STAT_T as ODIAS,
-OLE_PTRN_ENTITY_V as OPEV,
-OLE_DS_BIB_INFO_T as ODBI,
-OLE_CRCL_DSK_T as OCD
+OLE_DLVR_RQST_T ODR,
+OLE_DS_ITEM_T ODI,
+OLE_DS_HOLDINGS_T ODH,
+OLE_DLVR_ITEM_AVAIL_STAT_T ODIAS,
+OLE_PTRN_ENTITY_V OPEV,
+OLE_DS_BIB_INFO_T ODBI,
+OLE_CRCL_DSK_T OCD
 where
 (ODR.OLE_RQST_TYP_ID = 2 or ODR.OLE_RQST_TYP_ID = 4 or ODR.OLE_RQST_TYP_ID = 6)
 and
@@ -179,8 +185,7 @@ ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID
 and
 ODBI.BIB_ID = ODH.BIB_ID
 and
-ODR.PCKUP_LOC_ID = OCD.OLE_CRCL_DSK_ID;
-]]></xml-property>
+ODR.PCKUP_LOC_ID = OCD.OLE_CRCL_DSK_ID]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -228,13 +233,13 @@ ODR.PCKUP_LOC_ID = OCD.OLE_CRCL_DSK_ID;
         </simple-master-page>
     </page-setup>
     <body>
-        <label id="10">
+        <label id="9">
             <property name="fontWeight">bold</property>
             <property name="textAlign">center</property>
             <text-property name="text">Holds That Were Trapped Since Report Last Ran And Need To Be Checked To Make Sure They Are On The Hold Shelf Ready To Be PickedUp For Staff</text-property>
         </label>
-        <table id="11">
-            <property name="dataSet">HoldsThatWereTrappedSinceReportLastRanAndNeedToBeCheckedToMakeSureTheyAreOnTheHoldShelfReadyToBePickedUpForStaff</property>
+        <table id="10">
+            <property name="dataSet">HoldsThatWereReadyToBePickedUpForStaff</property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">Location</property>
@@ -249,15 +254,15 @@ ODR.PCKUP_LOC_ID = OCD.OLE_CRCL_DSK_ID;
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">PTRN_BRCD</property>
+                    <property name="name">Barcode</property>
                     <text-property name="displayName">Barcode</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["PTRN_BRCD"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["Barcode"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">TITLE</property>
+                    <property name="name">Title</property>
                     <text-property name="displayName">Title</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["Title"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -266,41 +271,47 @@ ODR.PCKUP_LOC_ID = OCD.OLE_CRCL_DSK_ID;
                     <expression name="expression" type="javascript">dataSetRow["Patron Name"]</expression>
                     <property name="dataType">string</property>
                 </structure>
+                <structure>
+                    <property name="name">Patron Barcode</property>
+                    <text-property name="displayName">Patron Barcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Patron Barcode"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
             </list-property>
+            <column id="32"/>
             <column id="33"/>
             <column id="34"/>
             <column id="35"/>
             <column id="36"/>
             <column id="37"/>
-            <column id="38"/>
             <header>
-                <row id="12">
-                    <cell id="13">
-                        <label id="39">
+                <row id="11">
+                    <cell id="12">
+                        <label id="38">
                             <text-property name="text">Location</text-property>
                         </label>
                     </cell>
-                    <cell id="14">
-                        <label id="41">
+                    <cell id="13">
+                        <label id="40">
                             <text-property name="text">Call Number</text-property>
                         </label>
                     </cell>
-                    <cell id="15">
-                        <label id="43">
+                    <cell id="14">
+                        <label id="42">
                             <text-property name="text">Barcode</text-property>
                         </label>
                     </cell>
-                    <cell id="16">
-                        <label id="45">
+                    <cell id="15">
+                        <label id="44">
                             <text-property name="text">Title</text-property>
                         </label>
                     </cell>
-                    <cell id="17">
-                        <label id="50">
+                    <cell id="16">
+                        <label id="46">
                             <text-property name="text">Patron Name</text-property>
                         </label>
                     </cell>
-                    <cell id="18">
+                    <cell id="17">
                         <label id="48">
                             <text-property name="text">Patron Barcode</text-property>
                         </label>
@@ -308,47 +319,47 @@ ODR.PCKUP_LOC_ID = OCD.OLE_CRCL_DSK_ID;
                 </row>
             </header>
             <detail>
-                <row id="19">
-                    <cell id="20">
-                        <data id="40">
+                <row id="18">
+                    <cell id="19">
+                        <data id="39">
                             <property name="resultSetColumn">Location</property>
                         </data>
                     </cell>
-                    <cell id="21">
-                        <data id="42">
+                    <cell id="20">
+                        <data id="41">
                             <property name="resultSetColumn">Call Number</property>
                         </data>
                     </cell>
+                    <cell id="21">
+                        <data id="43">
+                            <property name="resultSetColumn">Barcode</property>
+                        </data>
+                    </cell>
                     <cell id="22">
-                        <data id="44">
-                            <property name="resultSetColumn">PTRN_BRCD</property>
+                        <data id="45">
+                            <property name="resultSetColumn">Title</property>
                         </data>
                     </cell>
                     <cell id="23">
-                        <data id="46">
-                            <property name="resultSetColumn">TITLE</property>
-                        </data>
-                    </cell>
-                    <cell id="24">
-                        <data id="51">
+                        <data id="47">
                             <property name="resultSetColumn">Patron Name</property>
                         </data>
                     </cell>
-                    <cell id="25">
+                    <cell id="24">
                         <data id="49">
-                            <property name="resultSetColumn">PTRN_BRCD</property>
+                            <property name="resultSetColumn">Patron Barcode</property>
                         </data>
                     </cell>
                 </row>
             </detail>
             <footer>
-                <row id="26">
+                <row id="25">
+                    <cell id="26"/>
                     <cell id="27"/>
                     <cell id="28"/>
                     <cell id="29"/>
                     <cell id="30"/>
                     <cell id="31"/>
-                    <cell id="32"/>
                 </row>
             </footer>
         </table>

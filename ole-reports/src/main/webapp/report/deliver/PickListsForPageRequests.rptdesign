@@ -45,13 +45,13 @@
                     <text-property name="heading">Call Number</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">BARCODE</property>
+                    <property name="columnName">Barcode</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">Barcode</text-property>
                     <text-property name="heading">Barcode</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">TITLE</property>
+                    <property name="columnName">Title</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">Title</text-property>
                     <text-property name="heading">Title</text-property>
@@ -63,7 +63,7 @@
                     <text-property name="heading">Patron Name</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">OLE_PTRN_BARCD</property>
+                    <property name="columnName">Patron Barcode</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">Patron Barcode</text-property>
                     <text-property name="heading">Patron Barcode</text-property>
@@ -84,12 +84,12 @@
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">BARCODE</property>
+                        <property name="name">Barcode</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">4</property>
-                        <property name="name">TITLE</property>
+                        <property name="name">Title</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -99,7 +99,7 @@
                     </structure>
                     <structure>
                         <property name="position">6</property>
-                        <property name="name">OLE_PTRN_BARCD</property>
+                        <property name="name">Patron Barcode</property>
                         <property name="dataType">string</property>
                     </structure>
                 </list-property>
@@ -122,15 +122,15 @@
                 </structure>
                 <structure>
                     <property name="position">3</property>
-                    <property name="name">BARCODE</property>
-                    <property name="nativeName">BARCODE</property>
+                    <property name="name">Barcode</property>
+                    <property name="nativeName">Barcode</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
-                    <property name="name">TITLE</property>
-                    <property name="nativeName">TITLE</property>
+                    <property name="name">Title</property>
+                    <property name="nativeName">Title</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
@@ -143,25 +143,31 @@
                 </structure>
                 <structure>
                     <property name="position">6</property>
-                    <property name="name">OLE_PTRN_BARCD</property>
-                    <property name="nativeName">OLE_PTRN_BARCD</property>
+                    <property name="name">Patron Barcode</property>
+                    <property name="nativeName">Patron Barcode</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select 
-IF(ODI.LOCATION IS NULL OR ODI.LOCATION = '', IF(ODH.LOCATION IS NULL,'',ODH.LOCATION ), ODI.LOCATION) as 'Location',
-IF(ODI.CALL_NUMBER IS NULL OR ODI.CALL_NUMBER = '', IF(ODH.CALL_NUMBER IS NULL,'',ODH.CALL_NUMBER), ODI.CALL_NUMBER) as 'Call Number',
-ODI.BARCODE as 'Barcode',
-ODBI.TITLE as 'Title',
-concat(OPEV.FIRST_NM,' ',OPEV.LAST_NM) as 'Patron Name',
-ODR.OLE_PTRN_BARCD as 'Patron Barcode'
+CASE WHEN ODI.LOCATION IS NOT NULL AND ODI.LOCATION != ' ' THEN ODI.LOCATION
+	WHEN ODH.LOCATION IS NOT NULL AND ODH.LOCATION != ' ' THEN ODH.LOCATION
+	ELSE ' ' 
+END as "Location",
+CASE WHEN ODI.CALL_NUMBER IS NOT NULL AND ODI.CALL_NUMBER != ' ' THEN ODI.CALL_NUMBER
+	WHEN ODH.CALL_NUMBER IS NOT NULL AND ODH.CALL_NUMBER != ' ' THEN ODH.CALL_NUMBER
+	ELSE ' ' 
+END as "Call Number",
+ODI.BARCODE as "Barcode",
+ODBI.TITLE as "Title",
+CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM)) as "Patron Name",
+ODR.OLE_PTRN_BARCD as "Patron Barcode"
 from 
-OLE_DLVR_RQST_T as ODR,
-OLE_DS_ITEM_T as ODI,
-OLE_DS_HOLDINGS_T as ODH,
-OLE_DS_BIB_INFO_T as ODBI,
-OLE_PTRN_ENTITY_V as OPEV
+OLE_DLVR_RQST_T ODR,
+OLE_DS_ITEM_T ODI,
+OLE_DS_HOLDINGS_T ODH,
+OLE_DS_BIB_INFO_T ODBI,
+OLE_PTRN_ENTITY_V OPEV
 where
 (ODR.OLE_RQST_TYP_ID = 5 or ODR.OLE_RQST_TYP_ID = 6)
 and
@@ -240,15 +246,15 @@ ODR.OLE_PTRN_ID = OPEV.OLE_PTRN_ID]]></xml-property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">BARCODE</property>
+                    <property name="name">Barcode</property>
                     <text-property name="displayName">Barcode</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["BARCODE"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["Barcode"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">TITLE</property>
+                    <property name="name">Title</property>
                     <text-property name="displayName">Title</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["Title"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -258,9 +264,9 @@ ODR.OLE_PTRN_ID = OPEV.OLE_PTRN_ID]]></xml-property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">OLE_PTRN_BARCD</property>
+                    <property name="name">Patron Barcode</property>
                     <text-property name="displayName">Patron Barcode</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["OLE_PTRN_BARCD"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["Patron Barcode"]</expression>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
@@ -318,12 +324,12 @@ ODR.OLE_PTRN_ID = OPEV.OLE_PTRN_ID]]></xml-property>
                     </cell>
                     <cell id="21">
                         <data id="43">
-                            <property name="resultSetColumn">BARCODE</property>
+                            <property name="resultSetColumn">Barcode</property>
                         </data>
                     </cell>
                     <cell id="22">
                         <data id="45">
-                            <property name="resultSetColumn">TITLE</property>
+                            <property name="resultSetColumn">Title</property>
                         </data>
                     </cell>
                     <cell id="23">
@@ -333,7 +339,7 @@ ODR.OLE_PTRN_ID = OPEV.OLE_PTRN_ID]]></xml-property>
                     </cell>
                     <cell id="24">
                         <data id="49">
-                            <property name="resultSetColumn">OLE_PTRN_BARCD</property>
+                            <property name="resultSetColumn">Patron Barcode</property>
                         </data>
                     </cell>
                 </row>

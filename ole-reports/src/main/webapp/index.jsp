@@ -31,7 +31,7 @@
 
     <p>This is the home page for the OLE Reporting Framework Application. </p>
     <ul>
-        <li style="color: blue"><u>Deliver</u></li>
+        <h3>Deliver</h3>
         <ul>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/Hold.rptdesign"%>" target="_blank">Hold Slip</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/InTransit.rptdesign"%>" target="_blank">In Transit Slip</a></li>
@@ -41,20 +41,22 @@
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/PickListsForPageRequests.rptdesign"%>" target="_blank">Pick Lists For Page Requests</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/MissingInTransit.rptdesign"%>" target="_blank">Missing In Transit</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/MissingItems.rptdesign"%>" target="_blank">Items Marked Missing That Need Searched For Staff</a></li>
+
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ShelfList.rptdesign"%>" target="_blank">Shelf List</a></li>
-            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/HoldsPassedPickupPeriod.rptdesign"%>" target="_blank">Holds That Have Passed The Pickup Period And Need Removed From The Hold Shelf For Staff</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/PatronChargedItems.rptdesign"%>" target="_blank">Patron Charged Items</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ClaimsReturnedItems.rptdesign"%>" target="_blank">Items Marked Claims Returned For Staff</a></li>
-            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/OverdueItems.rptdesign"%>" target="_blank">Overdue Item Report</a></li>
-            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ExpiredPatronRecordsWithLoans.rptdesign"%>" target="_blank">Expired Patron Records With Loans</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/AvailableHoldPickupNoticeForCustomer.rptdesign"%>" target="_blank">Available Hold Pickup Notice For Customer</a></li>
-            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/HoldsThatHaveBeenExpiredOrClosedButWereUnfilledForStaff.rptdesign"%>" target="_blank">Holds That Have Been Expired/Closed But Were Unfilled For Staff</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/HoldsThatWereReadyToBePickedUpForStaff.rptdesign"%>" target="_blank">Holds That Were Trapped Since Report Last Ran And Need To Be Checked To Make Sure They Are On The Hold Shelf Ready To Be PickedUp For Staff</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/RecallNoticeForCustomer.rptdesign"%>" target="_blank">Recall Notice For Customer</a></li>
-            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/OverdueRecallNoticeForCustomer.rptdesign"%>" target="_blank">Overdue Recall Notice For Customer</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/BillNoticeForCustomer.rptdesign"%>" target="_blank">Bill Notice For Customer</a></li>
-            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CourtesyNotices.rptdesign"%>" target="_blank">Courtesy Notices</a></li>
             <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/MissingOrLostItems.rptdesign"%>" target="_blank">Missing/Lost Items</a></li>
+
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/HoldsPassedPickupPeriod.rptdesign"%>" target="_blank">Holds That Have Passed The Pickup Period And Need Removed From The Hold Shelf For Staff</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/OverdueItems.rptdesign"%>" target="_blank">Overdue Item Report</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ExpiredPatronRecordsWithLoans.rptdesign"%>" target="_blank">Expired Patron Records With Loans</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/HoldsThatHaveBeenExpiredOrClosedButWereUnfilledForStaff.rptdesign"%>" target="_blank">Holds That Have Been Expired/Closed But Were Unfilled For Staff</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CourtesyNotices.rptdesign"%>" target="_blank">Courtesy Notices</a></li>
+            <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/OverdueRecallNoticeForCustomer.rptdesign"%>" target="_blank">Overdue Recall Notice For Customer</a></li>
         </ul>
     </ul>
 </div>

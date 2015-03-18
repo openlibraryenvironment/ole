@@ -23,7 +23,7 @@ import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 import com.ibm.icu.util.ULocale;
-import org.kuali.ole.config.OLEBirtDBConfig;
+import org.kuali.ole.config.OLEReportDBConfig;
 
 /**
  * Connection implements IConnection interface of ODA. It is a wrapper of JDBC
@@ -46,7 +46,7 @@ public class Connection implements IConnection
     private Boolean autoCommit;
     private int isolationMode = Constants.TRANSCATION_ISOLATION_DEFAULT;
 
-    OLEBirtDBConfig oleBirtDBConfig = new OLEBirtDBConfig();
+    OLEReportDBConfig oleReportDBConfig = new OLEReportDBConfig();
     /*
      * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
      */
@@ -133,7 +133,7 @@ public class Connection implements IConnection
             if (hasBidiProperties (connProperties)){
                 connProperties = bidiTransform (connProperties);
             }
-            String url = oleBirtDBConfig.getPropertyByKey(Constants.JDBC_URL);
+            String url = oleReportDBConfig.getPropertyByKey(Constants.REPORT_DBA_URL);
             String jndiName = connProperties.getProperty( Constants.ODAJndiName );
 
             String autoCommit = connProperties.getProperty( Constants.CONNECTION_AUTO_COMMIT );
@@ -194,12 +194,12 @@ public class Connection implements IConnection
         }
 
         // Read user name and password
-        String user = oleBirtDBConfig.getPropertyByKey(Constants.JDBC_USERNAME);
-        String pwd = oleBirtDBConfig.getPropertyByKey(Constants.JDBC_PASSWORD);
+        String user = oleReportDBConfig.getPropertyByKey(Constants.REPORT_DBA_USERNAME);
+        String pwd = oleReportDBConfig.getPropertyByKey(Constants.REPORT_DBA_PASSWORD);
         props = JDBCDriverManager.addUserAuthenticationProperties(
                 props, user, pwd );
 
-        String driverClass = oleBirtDBConfig.getPropertyByKey(Constants.JDBC_DRIVER);
+        String driverClass = oleReportDBConfig.getPropertyByKey(Constants.REPORT_DBA_DRIVER);
         String jndiNameUrl = connProperties.getProperty( Constants.ODAJndiName );
 
         try
@@ -577,10 +577,10 @@ public class Connection implements IConnection
      */
     public static class Constants
     {
-        public static final String JDBC_USERNAME = "jdbc.username";
-        public static final String JDBC_PASSWORD = "jdbc.password";
-        public static final String JDBC_DRIVER = "jdbc.driver";
-        public static final String JDBC_URL = "jdbc.url";
+        public static final String REPORT_DBA_USERNAME = "report.dba.username";
+        public static final String REPORT_DBA_PASSWORD = "report.dba.password";
+        public static final String REPORT_DBA_DRIVER = "report.dba.driver";
+        public static final String REPORT_DBA_URL = "report.dba.url";
         public static final String ODAURL = "odaURL";
         public static final String ODAPassword = "odaPassword";
         public static final String ODAUser = "odaUser";

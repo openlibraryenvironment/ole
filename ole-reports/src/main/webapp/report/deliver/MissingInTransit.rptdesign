@@ -33,19 +33,19 @@
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="MissingInTransit" id="8">
             <list-property name="columnHints">
                 <structure>
-                    <property name="columnName">CIR_DESK_LOC</property>
+                    <property name="columnName">Source Location</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">Source Location</text-property>
                     <text-property name="heading">Source Location</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">CIR_DESK_ROUTE_TO</property>
+                    <property name="columnName">Target Location</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">Target Location</text-property>
                     <text-property name="heading">Target Location</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">ITEM_ID</property>
+                    <property name="columnName">Item Id</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">Item Id</text-property>
                     <text-property name="heading">Item Id</text-property>
@@ -57,13 +57,13 @@
                     <text-property name="heading">Call Number</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">TITLE</property>
+                    <property name="columnName">Title</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">Title</text-property>
                     <text-property name="heading">Title</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">ITEM_RETURNED_DT</property>
+                    <property name="columnName">In Transit Date</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">In Transit Date</text-property>
                     <text-property name="heading">In Transit Date</text-property>
@@ -74,18 +74,18 @@
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">CIR_DESK_LOC</property>
+                        <property name="name">Source Location</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">CIR_DESK_ROUTE_TO</property>
+                        <property name="name">Target Location</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">ITEM_ID</property>
-                        <property name="dataType">integer</property>
+                        <property name="name">Item Id</property>
+                        <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">4</property>
@@ -94,12 +94,12 @@
                     </structure>
                     <structure>
                         <property name="position">5</property>
-                        <property name="name">TITLE</property>
+                        <property name="name">Title</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">6</property>
-                        <property name="name">ITEM_RETURNED_DT</property>
+                        <property name="name">In Transit Date</property>
                         <property name="dataType">date-time</property>
                     </structure>
                 </list-property>
@@ -108,24 +108,24 @@
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">CIR_DESK_LOC</property>
-                    <property name="nativeName">CIR_DESK_LOC</property>
+                    <property name="name">Source Location</property>
+                    <property name="nativeName">Source Location</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">CIR_DESK_ROUTE_TO</property>
-                    <property name="nativeName">CIR_DESK_ROUTE_TO</property>
+                    <property name="name">Target Location</property>
+                    <property name="nativeName">Target Location</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
-                    <property name="name">ITEM_ID</property>
-                    <property name="nativeName">ITEM_ID</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
+                    <property name="name">Item Id</property>
+                    <property name="nativeName">Item Id</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
@@ -136,32 +136,35 @@
                 </structure>
                 <structure>
                     <property name="position">5</property>
-                    <property name="name">TITLE</property>
-                    <property name="nativeName">TITLE</property>
+                    <property name="name">Title</property>
+                    <property name="nativeName">Title</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
-                    <property name="name">ITEM_RETURNED_DT</property>
-                    <property name="nativeName">ITEM_RETURNED_DT</property>
+                    <property name="name">In Transit Date</property>
+                    <property name="nativeName">In Transit Date</property>
                     <property name="dataType">date-time</property>
                     <property name="nativeDataType">93</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select 
-OLIH.CIR_DESK_LOC as 'Source Location',
-OLIH.CIR_DESK_ROUTE_TO as 'Target Location',
-ODI.ITEM_ID as 'Item Id',
-IF(ODI.CALL_NUMBER IS NULL OR ODI.CALL_NUMBER = '', IF(ODH.CALL_NUMBER IS NULL,'',ODH.CALL_NUMBER), ODI.CALL_NUMBER) as 'Call Number',
-ODBI.TITLE as 'Title',
-OLIH.ITEM_RETURNED_DT as 'In Transit Date'
+OLIH.CIR_DESK_LOC as "Source Location",
+OLIH.CIR_DESK_ROUTE_TO as "Target Location",
+ODI.ITEM_ID as "Item Id",
+CASE WHEN ODI.CALL_NUMBER IS NOT NULL AND ODI.CALL_NUMBER != ' ' THEN ODI.CALL_NUMBER 
+	WHEN ODH.CALL_NUMBER IS NOT NULL AND ODH.CALL_NUMBER != ' ' THEN ODH.CALL_NUMBER 
+	ELSE ' ' 
+END as "Call Number",
+ODBI.TITLE as "Title",
+OLIH.ITEM_RETURNED_DT as "In Transit Date"
 from 
-OLE_DS_ITEM_T as ODI,
-OLE_DLVR_ITEM_AVAIL_STAT_T as ODIAS,
-OLE_DS_HOLDINGS_T as ODH,
-OLE_DS_BIB_INFO_T as ODBI,
-OLE_LOAN_INTRANSIT_HISTORY_T as OLIH
+OLE_DS_ITEM_T ODI,
+OLE_DLVR_ITEM_AVAIL_STAT_T ODIAS,
+OLE_DS_HOLDINGS_T ODH,
+OLE_DS_BIB_INFO_T ODBI,
+OLE_LOAN_INTRANSIT_HISTORY_T OLIH
 where 
 ODI.MISSING_PIECES = 'Y'
 and
@@ -176,7 +179,7 @@ and
 OLIH.ITEM_BARCODE = ODI.BARCODE
 and
 OLIH.ITEM_RETURNED_DT IN (select MAX(ITEM_RETURNED_DT) from
-OLE_LOAN_INTRANSIT_HISTORY_T as OLIH
+OLE_LOAN_INTRANSIT_HISTORY_T OLIH
 group by OLIH.ITEM_BARCODE)]]></xml-property>
         </oda-data-set>
     </data-sets>
@@ -234,22 +237,22 @@ group by OLIH.ITEM_BARCODE)]]></xml-property>
             <property name="dataSet">MissingInTransit</property>
             <list-property name="boundDataColumns">
                 <structure>
-                    <property name="name">CIR_DESK_LOC</property>
+                    <property name="name">Source Location</property>
                     <text-property name="displayName">Source Location</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["CIR_DESK_LOC"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["Source Location"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">CIR_DESK_ROUTE_TO</property>
+                    <property name="name">Target Location</property>
                     <text-property name="displayName">Target Location</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["CIR_DESK_ROUTE_TO"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["Target Location"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">ITEM_ID</property>
+                    <property name="name">Item Id</property>
                     <text-property name="displayName">Item Id</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["ITEM_ID"]</expression>
-                    <property name="dataType">integer</property>
+                    <expression name="expression" type="javascript">dataSetRow["Item Id"]</expression>
+                    <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="name">Call Number</property>
@@ -258,15 +261,15 @@ group by OLIH.ITEM_BARCODE)]]></xml-property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">TITLE</property>
+                    <property name="name">Title</property>
                     <text-property name="displayName">Title</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["Title"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">ITEM_RETURNED_DT</property>
+                    <property name="name">In Transit Date</property>
                     <text-property name="displayName">In Transit Date</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["ITEM_RETURNED_DT"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["In Transit Date"]</expression>
                     <property name="dataType">date-time</property>
                 </structure>
             </list-property>
@@ -314,17 +317,17 @@ group by OLIH.ITEM_BARCODE)]]></xml-property>
                 <row id="18">
                     <cell id="19">
                         <data id="39">
-                            <property name="resultSetColumn">CIR_DESK_LOC</property>
+                            <property name="resultSetColumn">Source Location</property>
                         </data>
                     </cell>
                     <cell id="20">
                         <data id="41">
-                            <property name="resultSetColumn">CIR_DESK_ROUTE_TO</property>
+                            <property name="resultSetColumn">Target Location</property>
                         </data>
                     </cell>
                     <cell id="21">
                         <data id="43">
-                            <property name="resultSetColumn">ITEM_ID</property>
+                            <property name="resultSetColumn">Item Id</property>
                         </data>
                     </cell>
                     <cell id="22">
@@ -334,12 +337,12 @@ group by OLIH.ITEM_BARCODE)]]></xml-property>
                     </cell>
                     <cell id="23">
                         <data id="47">
-                            <property name="resultSetColumn">TITLE</property>
+                            <property name="resultSetColumn">Title</property>
                         </data>
                     </cell>
                     <cell id="24">
                         <data id="49">
-                            <property name="resultSetColumn">ITEM_RETURNED_DT</property>
+                            <property name="resultSetColumn">In Transit Date</property>
                         </data>
                     </cell>
                 </row>

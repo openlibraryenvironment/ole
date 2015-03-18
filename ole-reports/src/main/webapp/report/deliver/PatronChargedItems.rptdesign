@@ -39,19 +39,19 @@
                     <text-property name="heading">Patron Name</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">CRTE_DT_TIME</property>
+                    <property name="columnName">Charge Date</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">Charge Date</text-property>
                     <text-property name="heading">Charge Date</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">CURR_DUE_DT_TIME</property>
+                    <property name="columnName">Due Date</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">Due Date</text-property>
                     <text-property name="heading">Due Date</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">TITLE</property>
+                    <property name="columnName">Title</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">Title</text-property>
                     <text-property name="heading">Title</text-property>
@@ -79,17 +79,17 @@
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">CRTE_DT_TIME</property>
+                        <property name="name">Charge Date</property>
                         <property name="dataType">date-time</property>
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">CURR_DUE_DT_TIME</property>
+                        <property name="name">Due Date</property>
                         <property name="dataType">date-time</property>
                     </structure>
                     <structure>
                         <property name="position">4</property>
-                        <property name="name">TITLE</property>
+                        <property name="name">Title</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -115,22 +115,22 @@
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">CRTE_DT_TIME</property>
-                    <property name="nativeName">CRTE_DT_TIME</property>
+                    <property name="name">Charge Date</property>
+                    <property name="nativeName">Charge Date</property>
                     <property name="dataType">date-time</property>
                     <property name="nativeDataType">93</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
-                    <property name="name">CURR_DUE_DT_TIME</property>
-                    <property name="nativeName">CURR_DUE_DT_TIME</property>
+                    <property name="name">Due Date</property>
+                    <property name="nativeName">Due Date</property>
                     <property name="dataType">date-time</property>
                     <property name="nativeDataType">93</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
-                    <property name="name">TITLE</property>
-                    <property name="nativeName">TITLE</property>
+                    <property name="name">Title</property>
+                    <property name="nativeName">Title</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
@@ -150,18 +150,24 @@
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select 
-concat(OPEV.FIRST_NM,' ',OPEV.LAST_NM) as 'Patron Name',
-ODL.CRTE_DT_TIME as 'Charge Date',
-ODL.CURR_DUE_DT_TIME as 'Due Date',
-ODBI.TITLE as 'Title',
-IF(ODI.CALL_NUMBER IS NULL OR ODI.CALL_NUMBER = '', IF(ODH.CALL_NUMBER IS NULL,'',ODH.CALL_NUMBER), ODI.CALL_NUMBER) as 'Call Number',
-IF(ODI.LOCATION IS NULL OR ODI.LOCATION = '', IF(ODH.LOCATION IS NULL,'',ODH.LOCATION ), ODI.LOCATION) as 'Location'
+CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM)) as "Patron Name",
+ODL.CRTE_DT_TIME as "Charge Date",
+ODL.CURR_DUE_DT_TIME as "Due Date",
+ODBI.TITLE as "Title",
+CASE WHEN ODI.CALL_NUMBER IS NOT NULL AND ODI.CALL_NUMBER != ' ' THEN ODI.CALL_NUMBER 
+	WHEN ODH.CALL_NUMBER IS NOT NULL AND ODH.CALL_NUMBER != ' ' THEN ODH.CALL_NUMBER 
+	ELSE ' ' 
+END as "Call Number",
+CASE WHEN ODI.LOCATION IS NOT NULL AND ODI.LOCATION != ' ' THEN ODI.LOCATION
+	WHEN ODH.LOCATION IS NOT NULL AND ODH.LOCATION != ' ' THEN ODH.LOCATION
+	ELSE ' ' 
+END as "Location"
 from 
-OLE_DLVR_LOAN_T as ODL,
-OLE_PTRN_ENTITY_V as OPEV,
-OLE_DS_ITEM_T as ODI,
-OLE_DS_HOLDINGS_T as ODH,
-OLE_DS_BIB_INFO_T as ODBI
+OLE_DLVR_LOAN_T ODL,
+OLE_PTRN_ENTITY_V OPEV,
+OLE_DS_ITEM_T ODI,
+OLE_DS_HOLDINGS_T ODH,
+OLE_DS_BIB_INFO_T ODBI
 where
 ODL.OLE_PTRN_ID = OPEV.OLE_PTRN_ID
 and
@@ -169,501 +175,7 @@ ODL.ITM_ID = ODI.BARCODE
 and 
 ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID
 and
-ODBI.BIB_ID = ODH.BIB_ID;]]></xml-property>
-            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
-  <Version>2.0</Version>
-  <design:ResultSets derivedMetaData="true">
-    <design:resultSetDefinitions>
-      <design:resultSetColumns>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>LOAN_TRAN_ID</design:name>
-              <design:position>1</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>LOAN_TRAN_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>LOAN_TRAN_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>CIR_POLICY_ID</design:name>
-              <design:position>2</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>CIR_POLICY_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>CIR_POLICY_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>OLE_PTRN_ID</design:name>
-              <design:position>3</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>OLE_PTRN_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>OLE_PTRN_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>ITM_ID</design:name>
-              <design:position>4</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>ITM_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>ITM_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>OLE_PROXY_BORROWER_NM</design:name>
-              <design:position>5</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>60</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>OLE_PROXY_BORROWER_NM</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>OLE_PROXY_BORROWER_NM</design:label>
-            <design:formattingHints>
-              <design:displaySize>60</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>PROXY_PTRN_ID</design:name>
-              <design:position>6</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>PROXY_PTRN_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>PROXY_PTRN_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>CURR_DUE_DT_TIME</design:name>
-              <design:position>7</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
-            <design:precision>19</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>CURR_DUE_DT_TIME</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>CURR_DUE_DT_TIME</design:label>
-            <design:formattingHints>
-              <design:displaySize>19</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>PAST_DUE_DT_TIME</design:name>
-              <design:position>8</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
-            <design:precision>19</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>PAST_DUE_DT_TIME</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>PAST_DUE_DT_TIME</design:label>
-            <design:formattingHints>
-              <design:displaySize>19</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>CRTE_DT_TIME</design:name>
-              <design:position>9</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
-            <design:precision>19</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>CRTE_DT_TIME</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>CRTE_DT_TIME</design:label>
-            <design:formattingHints>
-              <design:displaySize>19</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>CIRC_LOC_ID</design:name>
-              <design:position>10</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>CIRC_LOC_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>CIRC_LOC_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>OPTR_CRTE_ID</design:name>
-              <design:position>11</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>OPTR_CRTE_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>OPTR_CRTE_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>MACH_ID</design:name>
-              <design:position>12</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>100</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>MACH_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>MACH_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>100</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>OVRR_OPTR_ID</design:name>
-              <design:position>13</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>OVRR_OPTR_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>OVRR_OPTR_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>NUM_RENEWALS</design:name>
-              <design:position>14</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>3</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>NUM_RENEWALS</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>NUM_RENEWALS</design:label>
-            <design:formattingHints>
-              <design:displaySize>3</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>NUM_OVERDUE_NOTICES_SENT</design:name>
-              <design:position>15</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>3</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>NUM_OVERDUE_NOTICES_SENT</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>NUM_OVERDUE_NOTICES_SENT</design:label>
-            <design:formattingHints>
-              <design:displaySize>3</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>N_OVERDUE_NOTICE</design:name>
-              <design:position>16</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>3</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>N_OVERDUE_NOTICE</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>N_OVERDUE_NOTICE</design:label>
-            <design:formattingHints>
-              <design:displaySize>3</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>OVERDUE_NOTICE_DATE</design:name>
-              <design:position>17</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
-            <design:precision>19</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>OVERDUE_NOTICE_DATE</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>OVERDUE_NOTICE_DATE</design:label>
-            <design:formattingHints>
-              <design:displaySize>19</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>OLE_RQST_ID</design:name>
-              <design:position>18</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>OLE_RQST_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>OLE_RQST_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>REPMNT_FEE_PTRN_BILL_ID</design:name>
-              <design:position>19</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>REPMNT_FEE_PTRN_BILL_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>REPMNT_FEE_PTRN_BILL_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>CRTSY_NTCE</design:name>
-              <design:position>20</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>1</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>CRTSY_NTCE</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>CRTSY_NTCE</design:label>
-            <design:formattingHints>
-              <design:displaySize>1</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>OBJ_ID</design:name>
-              <design:position>21</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>36</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>OBJ_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>OBJ_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>36</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>VER_NBR</design:name>
-              <design:position>22</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
-            <design:precision>8</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>VER_NBR</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>VER_NBR</design:label>
-            <design:formattingHints>
-              <design:displaySize>9</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>ITEM_UUID</design:name>
-              <design:position>23</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>100</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>ITEM_UUID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>ITEM_UUID</design:label>
-            <design:formattingHints>
-              <design:displaySize>100</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-      </design:resultSetColumns>
-      <design:criteria/>
-    </design:resultSetDefinitions>
-  </design:ResultSets>
-</model:DesignValues>]]></xml-property>
+ODBI.BIB_ID = ODH.BIB_ID]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -726,21 +238,21 @@ ODBI.BIB_ID = ODH.BIB_ID;]]></xml-property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">CRTE_DT_TIME</property>
+                    <property name="name">Charge Date</property>
                     <text-property name="displayName">Charge Date</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["CRTE_DT_TIME"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["Charge Date"]</expression>
                     <property name="dataType">date-time</property>
                 </structure>
                 <structure>
-                    <property name="name">CURR_DUE_DT_TIME</property>
+                    <property name="name">Due Date</property>
                     <text-property name="displayName">Due Date</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["CURR_DUE_DT_TIME"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["Due Date"]</expression>
                     <property name="dataType">date-time</property>
                 </structure>
                 <structure>
-                    <property name="name">TITLE</property>
+                    <property name="name">Title</property>
                     <text-property name="displayName">Title</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["Title"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -805,17 +317,17 @@ ODBI.BIB_ID = ODH.BIB_ID;]]></xml-property>
                     </cell>
                     <cell id="20">
                         <data id="41">
-                            <property name="resultSetColumn">CRTE_DT_TIME</property>
+                            <property name="resultSetColumn">Charge Date</property>
                         </data>
                     </cell>
                     <cell id="21">
                         <data id="43">
-                            <property name="resultSetColumn">CURR_DUE_DT_TIME</property>
+                            <property name="resultSetColumn">Due Date</property>
                         </data>
                     </cell>
                     <cell id="22">
                         <data id="45">
-                            <property name="resultSetColumn">TITLE</property>
+                            <property name="resultSetColumn">Title</property>
                         </data>
                     </cell>
                     <cell id="23">
