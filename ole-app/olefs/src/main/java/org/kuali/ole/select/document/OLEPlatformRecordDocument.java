@@ -1,5 +1,6 @@
 package org.kuali.ole.select.document;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.alert.document.OleTransactionalDocumentBase;
 import org.kuali.ole.select.bo.*;
@@ -147,9 +148,9 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
     }
 
     public String getPlatformProviderName() {
-        if (vendorDetail != null) {
+        /*if (vendorDetail != null) {
             return vendorDetail.getVendorName();
-        }
+        }*/
         return platformProviderName;
     }
 
@@ -167,7 +168,7 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
 
     public String getVendorLink() {
         String oleurl = ConfigContext.getCurrentContextConfig().getProperty("ole.url");
-        String url = oleurl + "/ole-kr-krad/inquiry?methodToCall=start&amp;dataObjectClassName=org.kuali.ole.vnd.businessobject.VendorDetail&amp;vendorHeaderGeneratedIdentifier=" + vendorHeaderGeneratedIdentifier + "&amp;vendorDetailAssignedIdentifier="
+        String url = oleurl + "/kr/inquiry.do?methodToCall=start&amp;businessObjectClassName=org.kuali.ole.vnd.businessobject.VendorDetail&amp;vendorHeaderGeneratedIdentifier=" + vendorHeaderGeneratedIdentifier + "&amp;vendorDetailAssignedIdentifier="
                 + vendorDetailAssignedIdentifier;
         return url;
     }
@@ -381,7 +382,13 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
         super.processAfterRetrieve();
         LOG.debug("Inside OLEPlatformRecordDocument processAfterRetrieve");
         if (this.getVendorHeaderGeneratedIdentifier() != null && this.getVendorDetailAssignedIdentifier() != null) {
-            this.setVendorId(this.getVendorHeaderGeneratedIdentifier().toString() + "-" + this.getVendorDetailAssignedIdentifier().toString());
+            Map vendorMap = new HashMap();
+            vendorMap.put(OLEConstants.VENDOR_HEADER_GENERATED_ID, this.getVendorHeaderGeneratedIdentifier());
+            vendorMap.put(OLEConstants.VENDOR_DETAILED_ASSIGNED_ID, this.getVendorDetailAssignedIdentifier());
+            List<VendorDetail> vendorDetails = (List<VendorDetail>) KRADServiceLocator.getBusinessObjectService().findMatching(VendorDetail.class, vendorMap);
+            if (CollectionUtils.isNotEmpty(vendorDetails)) {
+                this.setPlatformProviderName(vendorDetails.get(0).getVendorName());
+            }
         }
         if (this.getOlePlatformId() != null) {
             Map<String, String> platformMap = new HashMap<String, String>();

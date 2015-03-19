@@ -137,6 +137,17 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
                 }
             }
         }
+        if (StringUtils.isNotBlank(olePlatformRecordDocument.getPlatformProviderName())) {
+            Map vendorMap = new HashMap();
+            vendorMap.put(OLEConstants.VENDOR_NAME, olePlatformRecordDocument.getPlatformProviderName());
+            List<VendorDetail> vendorDetails = (List<VendorDetail>) getBusinessObjectService().findMatching(VendorDetail.class, vendorMap);
+            if (vendorDetails != null && vendorDetails.size() > 0) {
+                olePlatformRecordDocument.setVendorId(vendorDetails.get(0).getVendorNumber());
+            } else {
+                errorMessage.append("Invalid Platform Provider " + olePlatformRecordDocument.getPlatformProviderName());
+                errorMessage.append(OLEConstants.BREAK);
+            }
+        }
         if (StringUtils.isNotBlank(errorMessage)) {
             olePlatformRecordForm.setMessage(errorMessage.toString());
             olePlatformRecordDocument.setSaveValidationFlag(true);
