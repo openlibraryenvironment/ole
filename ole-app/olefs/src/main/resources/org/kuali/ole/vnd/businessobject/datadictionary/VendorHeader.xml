@@ -98,7 +98,7 @@
   <bean id="VendorHeader-vendorOwnershipCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="vendorOwnershipCode" />
     <property name="forceUppercase" value="true" />
-    <property name="label" value="Ownership Type" />
+    <property name="label" value="*  Ownership Type" />
     <property name="shortLabel" value="Ownership" />
     <property name="maxLength" value="2" />
     <property name="validationPattern" >

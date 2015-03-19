@@ -31,6 +31,16 @@ public class OleVendorRule extends VendorRule {
         VendorDetail vendorDetail =  (VendorDetail)document.getNewMaintainableObject().getDataObject();
         List<VendorTransmissionFormatDetail> vendorTransmissionFormatDetailList = vendorDetail.getVendorTransmissionFormat();
         List formatId = new ArrayList();
+        if(!vendorDetail.isNonBillable()){
+            if(vendorDetail.getCurrencyTypeId() == null || vendorDetail.getCurrencyTypeId().equals("")){
+                putFieldError(VendorPropertyConstants.CURRENCY_TYPE,VendorKeyConstants.CURRENCY_TYPE_REQUIRED);
+                valid &=false;
+            }
+            if(vendorDetail.getVendorHeader()!=null && (vendorDetail.getVendorHeader().getVendorOwnershipCode() == null || vendorDetail.getVendorHeader().getVendorOwnershipCode().equals(""))){
+                putFieldError(VendorPropertyConstants.VENDOR_OWNERSHIP_CODE,VendorKeyConstants.OWNERSHIP_TYPE_CODE_REQUIRED);
+                valid &=false;
+            }
+        }
         for(VendorTransmissionFormatDetail vendorTransmissionFormatDetail : vendorTransmissionFormatDetailList) {
             if (formatId.contains(vendorTransmissionFormatDetail.getVendorTransmissionFormatId())) {
                 putFieldError(VendorPropertyConstants.VENDOR_TRANSMISSION_FORMAT, VendorKeyConstants.OLE_VENDOR_DUPLICATE_TRANS_FORMAT);

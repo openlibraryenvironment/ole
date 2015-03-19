@@ -2,7 +2,7 @@ var lookupSrc;
 var datePickerSrc;
 jq(window).load(function() {
     if(sessionStorage.getItem("lookupSrc") == null){
-        lookupSrc=jq("input[title='Search Ownership Type']").attr("src");
+        lookupSrc=jq("input[title='Search Payment Method']").attr("src");
         sessionStorage.setItem("lookupSrc", lookupSrc);
     }
     if(sessionStorage.getItem("datePickerSrc") == null){
@@ -32,7 +32,7 @@ jq(window).load(function() {
 
 jq(document).ready(function(){
     if(sessionStorage.getItem("lookupSrc") == null){
-        lookupSrc=jq("input[title='Search Ownership Type']").attr("src");
+        lookupSrc=jq("input[title='Search Payment Method']").attr("src");
         sessionStorage.setItem("lookupSrc", lookupSrc);
     }
     if(sessionStorage.getItem("datePickerSrc") == null){
@@ -57,8 +57,8 @@ function nonBillingVendor(){
         jq("input[id='document.newMaintainableObject.vendorHeader.vendorTaxTypeCodeSSN']").attr('style','display:none');
         jq("input[id='document.newMaintainableObject.vendorHeader.vendorTaxTypeCodeNONE']").attr('style','display:none');
         jq("select[id='document.newMaintainableObject.vendorHeader.vendorOwnershipCode']").attr('style','display:none');
-        jq("input[title='Search Ownership Type']").attr('src','');
-        jq("input[title='Search Ownership Type']").attr('alt','');
+        jq("input[title='Search *  Ownership Type']").attr('src','');
+        jq("input[title='Search *  Ownership Type']").attr('alt','');
         jq("select[id='document.newMaintainableObject.vendorHeader.vendorOwnershipCategoryCode']").attr('style','display:none');
         jq("input[title='Search Ownership Type Category']").attr('src','');
         jq("input[title='Search Ownership Type Category']").attr('alt','');
@@ -72,8 +72,8 @@ function nonBillingVendor(){
         jq("img[id='document.newMaintainableObject.vendorHeader.vendorFederalWithholdingTaxEndDate_datepicker']").attr('alt','');
         jq("select[id='document.newMaintainableObject.vendorHeader.vendorDebarredIndicator']").attr('style','display:none');
         jq("select[id='document.newMaintainableObject.currencyTypeId']").attr('style','display:none');
-        jq("input[title='Search Currency Type']").attr('src','');
-        jq("input[title='Search Currency Type']").attr('alt','');
+        jq("input[title='Search *  Currency Type']").attr('src','');
+        jq("input[title='Search *  Currency Type']").attr('alt','');
         jq("select[id='document.newMaintainableObject.vendorPaymentTermsCode']").attr('style','display:none');
         jq("input[title='Search Payment Terms']").attr('src','');
         jq("input[title='Search Payment Terms']").attr('alt','');
@@ -151,8 +151,8 @@ function nonBillingVendor(){
         jq("input[id='document.newMaintainableObject.vendorHeader.vendorTaxTypeCodeSSN']").attr('style','display:inline');
         jq("input[id='document.newMaintainableObject.vendorHeader.vendorTaxTypeCodeNONE']").attr('style','display:inline');
         jq("select[id='document.newMaintainableObject.vendorHeader.vendorOwnershipCode']").attr('style','display:inline');
-        jq("input[title='Search Ownership Type']").attr('src',sessionStorage.getItem("lookupSrc"));
-        jq("input[title='Search Ownership Type']").attr('alt','Search Ownership Type');
+        jq("input[title='Search *  Ownership Type']").attr('src',sessionStorage.getItem("lookupSrc"));
+        jq("input[title='Search *  Ownership Type']").attr('alt','Search *  Ownership Type');
         jq("select[id='document.newMaintainableObject.vendorHeader.vendorOwnershipCategoryCode']").attr('style','display:inline');
         jq("input[title='Search Ownership Type Category']").attr('src',sessionStorage.getItem("lookupSrc"));
         jq("input[title='Search Ownership Type Category']").attr('alt','Search Ownership Type Category');
@@ -166,8 +166,8 @@ function nonBillingVendor(){
         jq("img[id='document.newMaintainableObject.vendorHeader.vendorFederalWithholdingTaxEndDate_datepicker']").attr('alt','Date selector');
         jq("select[id='document.newMaintainableObject.vendorHeader.vendorDebarredIndicator']").attr('style','display:inline');
         jq("select[id='document.newMaintainableObject.currencyTypeId']").attr('style','display:inline');
-        jq("input[title='Search Currency Type']").attr('src',sessionStorage.getItem("lookupSrc"));
-        jq("input[title='Search Currency Type']").attr('alt','Search Currency Type');
+        jq("input[title='Search *  Currency Type']").attr('src',sessionStorage.getItem("lookupSrc"));
+        jq("input[title='Search *  Currency Type']").attr('alt','Search *  Currency Type');
         jq("select[id='document.newMaintainableObject.vendorPaymentTermsCode']").attr('style','display:inline');
         jq("input[title='Search Payment Terms']").attr('src',sessionStorage.getItem("lookupSrc"));
         jq("input[title='Search Payment Terms']").attr('alt','Search Payment Terms');

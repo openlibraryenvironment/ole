@@ -130,4 +130,6 @@ public class VendorPropertyConstants {
 
     public static final String VENDOR_GOKB_ID = "gokbId";
 
+    public static final String CURRENCY_TYPE = "currencyTypeId";
+
 }

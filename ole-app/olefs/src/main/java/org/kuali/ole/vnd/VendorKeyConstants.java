@@ -45,6 +45,8 @@ public class VendorKeyConstants {
     public static final String ERROR_VENDOR_W9_AND_W8_RECEIVED_INDICATOR_BOTH_TRUE = "error.vendor.w9Andw8.receivedIndicator.BothTrue";
     public static final String MESSAGE_VENDOR_PARENT_TO_DIVISION = "message.vendorMaint.parent.to.division";
     public static final String CONFIRM_VENDOR_CHANGE_TO_PARENT = "message.vendorMaint.confirm.change.to.parent";
+    public static final String CURRENCY_TYPE_REQUIRED = "error.currency.type.required";
+    public static final String OWNERSHIP_TYPE_CODE_REQUIRED = "error.ownership.type.code.required";
 
     // Vendor Lookup
     public static final String ERROR_VENDOR_LOOKUP_NAME_TOO_SHORT = "error.vendorLookup.name.too.short";
