@@ -120,7 +120,7 @@ public class OlePatronHelperServiceImpl extends LookupableImpl implements OlePat
         entityTypes.add(entityType);
         kimEntity.setEntityTypeContactInfos(entityTypes);
         try {
-          patronDocument.getIdentityService().updateEntity(EntityBo.to(kimEntity));
+            patronDocument.getIdentityService().updateEntity(EntityBo.to(kimEntity));
         } catch (Exception e) {
             LOG.error("Unable to save edited patron Record" + e);
         }
@@ -477,6 +477,40 @@ public class OlePatronHelperServiceImpl extends LookupableImpl implements OlePat
         if (!checkEmailMultipleDefault(patronDoc.getEmails())) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OlePatron.EMAIL_SECTION_ID, OLEConstants.OlePatron.ERROR_SELECTION_PREFERRED_EMAIL);
             valid &= false;
+        }
+        if (!checkAddressMultipleDeliverAddress(patronDoc.getOleEntityAddressBo(), "oleEntityAddressBo")) {
+            // GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OlePatron.ADDRESS_SECTION_ID, OLEConstants.OlePatron.ERROR_SELECTION_PREFERRED_DELIVER_ADDRESS);
+            valid &= false;
+        }
+        return valid;
+    }
+
+    protected boolean checkAddressMultipleDeliverAddress(List<OleEntityAddressBo> addrBoList, String listName) {
+        boolean valid = true;
+        boolean isDefaultSet = false;
+        boolean isAtleastOneChecked=false;
+        int i = 0;
+        for (OleEntityAddressBo addr : addrBoList) {
+            OleAddressBo oleAddressBo = addr.getOleAddressBo();
+            if (oleAddressBo.isDeliverAddress()) {
+                isAtleastOneChecked=true;
+                if (isDefaultSet) {
+                    //this.putFieldError("dataObject." + listName + "[" + i + "].defaultValue", OLEConstants.OlePatron.ERROR_PATRON_MULIT_DELIVER_ADDRESS);
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PATRON_MULIT_DELIVER_ADDRESS);
+                    valid = false;
+                } else {
+                    isDefaultSet = true;
+                }
+            }
+            i++;
+        }
+        if(!isAtleastOneChecked){
+            valid=true;
+        } else {
+            if (!addrBoList.isEmpty() && !isDefaultSet) {
+                //this.putFieldError("dataObject."+listName+"[0].defaultValue",RiceKeyConstants.ERROR_NO_DEFAULT_SELETION);
+                valid = false;
+            }
         }
         return valid;
     }

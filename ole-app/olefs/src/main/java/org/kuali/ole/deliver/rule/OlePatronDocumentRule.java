@@ -141,8 +141,9 @@ public class OlePatronDocumentRule extends MaintenanceDocumentRuleBase {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OlePatron.ADDRESS_SECTION_ID, OLEConstants.OlePatron.ERROR_SELECTION_PREFERRED_ADDRESS);
             valid &= false;
         }
+
         if (!checkAddressMultipleDeliverAddress(patronDoc.getOleEntityAddressBo(), "oleEntityAddressBo")) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OlePatron.ADDRESS_SECTION_ID, OLEConstants.OlePatron.ERROR_SELECTION_PREFERRED_DELIVER_ADDRESS);
+            // GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OlePatron.ADDRESS_SECTION_ID, OLEConstants.OlePatron.ERROR_SELECTION_PREFERRED_DELIVER_ADDRESS);
             valid &= false;
         }
 
@@ -267,9 +268,11 @@ public class OlePatronDocumentRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         boolean isDefaultSet = false;
         int i = 0;
+        boolean isAtleastOneChecked=false;
         for (OleEntityAddressBo addr : addrBoList) {
             OleAddressBo oleAddressBo = addr.getOleAddressBo();
             if (oleAddressBo.isDeliverAddress()) {
+                isAtleastOneChecked=true;
                 if (isDefaultSet) {
                     this.putFieldError("dataObject." + listName + "[" + i + "].defaultValue", OLEConstants.OlePatron.ERROR_PATRON_MULIT_DELIVER_ADDRESS);
                     valid = false;
@@ -279,9 +282,13 @@ public class OlePatronDocumentRule extends MaintenanceDocumentRuleBase {
             }
             i++;
         }
-        if (!addrBoList.isEmpty() && !isDefaultSet) {
-            //this.putFieldError("dataObject."+listName+"[0].defaultValue",RiceKeyConstants.ERROR_NO_DEFAULT_SELETION);
-            valid = false;
+        if(!isAtleastOneChecked){
+            valid=true;
+        } else {
+            if (!addrBoList.isEmpty() && !isDefaultSet) {
+                //this.putFieldError("dataObject."+listName+"[0].defaultValue",RiceKeyConstants.ERROR_NO_DEFAULT_SELETION);
+                valid = false;
+            }
         }
         return valid;
     }
@@ -358,16 +365,16 @@ public class OlePatronDocumentRule extends MaintenanceDocumentRuleBase {
                 }
                 for(Map.Entry<Date,Date> entry:map.entrySet()){
                     if(entry.getKey()!=null&&entry.getValue()!=null&&oleEntityAddressBo.getOleAddressBo().getAddressValidFrom()!=null&&oleEntityAddressBo.getOleAddressBo().getAddressValidTo()!=null){
-                    if(oleEntityAddressBo.getOleAddressBo().getAddressValidFrom().compareTo(entry.getKey())>=0 && oleEntityAddressBo.getOleAddressBo().getAddressValidFrom().compareTo(entry.getValue())<=0
-                            || oleEntityAddressBo.getOleAddressBo().getAddressValidTo().compareTo(entry.getKey())>=0 && oleEntityAddressBo.getOleAddressBo().getAddressValidTo().compareTo(entry.getValue())<=0){
-                        GlobalVariables.getMessageMap().putError("dataObject." + addressBos + "[0].defaultValue",OLEConstants.OlePatron.ERROR_PATRON_ADDRESS_FROM_TO_DATE_OVERLAP);
-                        flag= false;
-                    }
-                    if(entry.getKey().compareTo(oleEntityAddressBo.getOleAddressBo().getAddressValidFrom())>=0 && entry.getKey().compareTo(oleEntityAddressBo.getOleAddressBo().getAddressValidTo())<=0
-                            || entry.getValue().compareTo(oleEntityAddressBo.getOleAddressBo().getAddressValidFrom())>=0 && entry.getValue().compareTo(oleEntityAddressBo.getOleAddressBo().getAddressValidTo())<=0){
-                        GlobalVariables.getMessageMap().putError("dataObject." + addressBos + "[0].defaultValue", OLEConstants.OlePatron.ERROR_PATRON_ADDRESS_FROM_TO_DATE_OVERLAP);
-                        flag= false;
-                    }
+                        if(oleEntityAddressBo.getOleAddressBo().getAddressValidFrom().compareTo(entry.getKey())>=0 && oleEntityAddressBo.getOleAddressBo().getAddressValidFrom().compareTo(entry.getValue())<=0
+                                || oleEntityAddressBo.getOleAddressBo().getAddressValidTo().compareTo(entry.getKey())>=0 && oleEntityAddressBo.getOleAddressBo().getAddressValidTo().compareTo(entry.getValue())<=0){
+                            GlobalVariables.getMessageMap().putError("dataObject." + addressBos + "[0].defaultValue",OLEConstants.OlePatron.ERROR_PATRON_ADDRESS_FROM_TO_DATE_OVERLAP);
+                            flag= false;
+                        }
+                        if(entry.getKey().compareTo(oleEntityAddressBo.getOleAddressBo().getAddressValidFrom())>=0 && entry.getKey().compareTo(oleEntityAddressBo.getOleAddressBo().getAddressValidTo())<=0
+                                || entry.getValue().compareTo(oleEntityAddressBo.getOleAddressBo().getAddressValidFrom())>=0 && entry.getValue().compareTo(oleEntityAddressBo.getOleAddressBo().getAddressValidTo())<=0){
+                            GlobalVariables.getMessageMap().putError("dataObject." + addressBos + "[0].defaultValue", OLEConstants.OlePatron.ERROR_PATRON_ADDRESS_FROM_TO_DATE_OVERLAP);
+                            flag= false;
+                        }
                     }
                 }
             }else if (oleEntityAddressBo.getOleAddressBo().getAddressValidFrom() != null || oleEntityAddressBo.getOleAddressBo().getAddressValidTo() != null) {
