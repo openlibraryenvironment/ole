@@ -2274,6 +2274,8 @@ public class OLEConstants {
         public static final String MATERIAL_TYPE_REQUIRED = "error.material.type.required";
         public static final String CONTENT_TYPE_REQUIRED = "error.content.type.required";
         public static final String FORMAT_TYPE_REQUIRED = "error.format.type.required";
+        public static final String INVALID_VENDOR = "invalid.vendor";
+        public static final String OLEERMAINTAB_OVERVIEW = "OLEEResourceMainTab-OverviewSection";
         public static final String ERESOURCE_TITLE = "title";
         public static final String ERESOURCE_ISBN = "ISBN";
         public static final String ERESOURCE_ISSN = "ISSN";

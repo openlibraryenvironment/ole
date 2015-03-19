@@ -75,10 +75,11 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private String statusDate;
     private String fundCode;
     private String fundId;
-    private Integer vendorDetailAssignedIdentifier;
-    private Integer vendorHeaderGeneratedIdentifier;
+    /*private Integer vendorDetailAssignedIdentifier;
+    private Integer vendorHeaderGeneratedIdentifier;*/
     private String vendorName;
     private String vendorId;
+    private String vendorLink;
     private String estimatedPrice;
     private BigDecimal orderTypeId;
     private String paymentTypeId;
@@ -560,6 +561,23 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
 
     public void setVendorId(String vendorId) {
         this.vendorId = vendorId;
+    }
+
+    public String getVendorLink() {
+        if (StringUtils.isNotBlank(this.getVendorId())){
+            String[] vendorDetails = this.getVendorId().split("-");
+            Integer vendorHeaderGeneratedIdentifier = vendorDetails.length > 0 ? Integer.parseInt(vendorDetails[0]) : 0;
+            Integer vendorDetailAssignedIdentifier = vendorDetails.length > 1 ? Integer.parseInt(vendorDetails[1]) : 0;
+            String oleurl = ConfigContext.getCurrentContextConfig().getProperty("ole.url");
+            String url = oleurl + "/kr/inquiry.do?methodToCall=start&amp;businessObjectClassName=org.kuali.ole.vnd.businessobject.VendorDetail&amp;vendorHeaderGeneratedIdentifier=" + vendorHeaderGeneratedIdentifier + "&amp;vendorDetailAssignedIdentifier="
+                    + vendorDetailAssignedIdentifier;
+            return url;
+        }
+        return vendorLink;
+    }
+
+    public void setVendorLink(String vendorLink) {
+        this.vendorLink = vendorLink;
     }
 
     public String getStatisticalSearchingCode() {
@@ -1111,22 +1129,6 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
         this.vendorName = vendorName;
     }
 
-    public Integer getVendorDetailAssignedIdentifier() {
-        return vendorDetailAssignedIdentifier;
-    }
-
-    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
-        this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
-    }
-
-    public Integer getVendorHeaderGeneratedIdentifier() {
-        return vendorHeaderGeneratedIdentifier;
-    }
-
-    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
-        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
-    }
-
     public OleStatisticalSearchingCodes getOleStatisticalCode() {
         return oleStatisticalCode;
     }
@@ -1306,11 +1308,11 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
             String vendorId = this.getVendorId();
             if (vendorId != null && !vendorId.isEmpty()) {
                 String[] vendorDetails = vendorId.split("-");
-                this.setVendorHeaderGeneratedIdentifier(vendorDetails.length > 0 ? Integer.parseInt(vendorDetails[0]) : 0);
-                this.setVendorDetailAssignedIdentifier(vendorDetails.length > 1 ? Integer.parseInt(vendorDetails[1]) : 0);
+                Integer vendorHeaderGeneratedIdentifier = vendorDetails.length > 0 ? Integer.parseInt(vendorDetails[0]) : 0;
+                Integer vendorDetailAssignedIdentifier = vendorDetails.length > 1 ? Integer.parseInt(vendorDetails[1]) : 0;
                 Map vendorMap = new HashMap<>();
-                vendorMap.put(OLEConstants.OLEEResourceRecord.VENDOR_HEADER_GEN_ID, this.getVendorHeaderGeneratedIdentifier());
-                vendorMap.put(OLEConstants.OLEEResourceRecord.VENDOR_DETAILED_ASSIGNED_ID, this.getVendorDetailAssignedIdentifier());
+                vendorMap.put(OLEConstants.OLEEResourceRecord.VENDOR_HEADER_GEN_ID, vendorHeaderGeneratedIdentifier);
+                vendorMap.put(OLEConstants.OLEEResourceRecord.VENDOR_DETAILED_ASSIGNED_ID, vendorDetailAssignedIdentifier);
                 VendorDetail vendorDetailDoc = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorDetail.class, vendorMap);
                 if (vendorDetailDoc != null) {
                     this.setVendorName(vendorDetailDoc.getVendorName());

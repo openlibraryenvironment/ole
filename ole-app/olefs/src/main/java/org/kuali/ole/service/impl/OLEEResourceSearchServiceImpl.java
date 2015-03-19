@@ -1819,6 +1819,19 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(OLEConstants.OLEEResourceRecord.DOCUMENT_CONTENT_TYPES, OLEConstants.OLEEResourceRecord.CONTENT_TYPE_REQUIRED, new String[]{"Content Type"});
             flag = true;
         }
+        if (StringUtils.isNotBlank(oleeResourceRecordDocument.getVendorName())) {
+            Map vendorMap = new HashMap();
+            vendorMap.put(OLEConstants.VENDOR_NAME, oleeResourceRecordDocument.getVendorName());
+            List<VendorDetail> vendorDetails = (List<VendorDetail>) getBusinessObjectService().findMatching(VendorDetail.class, vendorMap);
+            if (vendorDetails != null && vendorDetails.size() > 0) {
+                oleeResourceRecordDocument.setVendorId(vendorDetails.get(0).getVendorNumber());
+            } else {
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(OLEConstants.OLEEResourceRecord.OLEERMAINTAB_OVERVIEW, OLEConstants.OLEEResourceRecord.INVALID_VENDOR);
+                flag = true;
+            }
+        }else {
+            oleeResourceRecordDocument.setVendorId(null);
+        }
         if (oleeResourceRecordDocument.getRequestors().size() > 0) {
             for (OLEEResourceRequestor oleeResourceRequestor : oleeResourceRecordDocument.getRequestors()) {
                 if (oleeResourceRequestor.getRequestorId() == null || oleeResourceRequestor.getRequestorId().equalsIgnoreCase("")) {
