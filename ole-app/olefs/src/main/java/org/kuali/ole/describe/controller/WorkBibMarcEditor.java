@@ -234,6 +234,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
         tokenId = editorForm.getTokenId();
         String eResourceID = editorForm.geteResourceId();
         String holdingsId = "";
+        HoldingsTree holdingsTree = null;
         buildControlFieldList(workBibMarcForm);
         buildDataFieldList(workBibMarcForm);
         boolean valid = validateMarcEditorData(workBibMarcForm);
@@ -333,7 +334,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                         bib.setStatus("");
                     }
                     bibTree.setBib(bib);
-                    HoldingsTree holdingsTree = getHoldingsTree(eResourceID);
+                    holdingsTree = getHoldingsTree(eResourceID);
                     if (holdingsTree != null && holdingsTree.getHoldings() != null) {
                         holdingsTree.getHoldings().setCreatedBy(user);
                         holdingsTree.getHoldings().setCreatedOn(dateStr);
@@ -440,7 +441,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                                                     processResponseForEResource(oleERSInstance.getInstanceId(), bib.getId(), tempDocument.getDocumentNumber());
                                                 }
                                             }
-                                            getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber());
+                                            getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber(), holdingsTree.getHoldings());
                                             getDocumentService().updateDocument(tempDocument);
                                         } catch (Exception e) {
                                             LOG.error("Exception :", e);
@@ -465,8 +466,8 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                                     tempDocument.setSelectInstance(OLEConstants.OLEEResourceRecord.CREATE_NEW_INSTANCE);
                                     tempDocument.seteInstanceFlag(true);
                                     processResponseForEResource(holdingsId, bib.getId(), tempDocument.getDocumentNumber());
-                                    getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber());
-                                    getDocumentService().saveDocument(tempDocument);
+                                    getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber(), holdingsTree.getHoldings());
+                                    getDocumentService().updateDocument(tempDocument);
                                 } catch (Exception e) {
                                     LOG.error("Exception :", e);
                                     throw new RiceRuntimeException(

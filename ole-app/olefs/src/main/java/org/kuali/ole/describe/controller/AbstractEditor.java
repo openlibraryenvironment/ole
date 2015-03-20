@@ -11,6 +11,7 @@ import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
 import org.kuali.ole.docstore.common.document.content.instance.CallNumber;
 import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
+import org.kuali.ole.docstore.common.document.content.instance.ShelvingScheme;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
@@ -302,7 +303,11 @@ public class AbstractEditor implements DocumentEditor {
             holdings = new EHoldings();
             oleHoldings = new OleHoldings();
             callNumber = new CallNumber();
+            ShelvingScheme shelvingScheme = new ShelvingScheme();
+            shelvingScheme.setCodeValue("none");
+            callNumber.setShelvingScheme(shelvingScheme);
             oleHoldings.setCallNumber(callNumber);
+            oleHoldings.setEResourceId(eResourceID);
         } /*else {
             holdings = new PHoldings();
             oleHoldings = new OleHoldings();

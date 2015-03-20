@@ -1266,7 +1266,9 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                         oleeResourceInstance.setInstanceTitle(holdings.getBib().getTitle());
                         getHoldingsField(oleeResourceInstance, oleHoldings);
                         oleeResourceInstance.setInstancePublisher(oleHoldings.getPublisher());
-                        oleeResourceInstance.setPlatformId(oleHoldings.getPlatform().getPlatformName());
+                        if (oleHoldings.getPlatform() != null && StringUtils.isNotBlank(oleHoldings.getPlatform().getPlatformName())) {
+                            oleeResourceInstance.setPlatformId(oleHoldings.getPlatform().getPlatformName());
+                        }
                         // oleeResourceInstance.setPublicDisplayNote(workEInstanceDocument.getPublicDisplayNote());
                         StringBuffer urls = new StringBuffer();
                         for(Link link :oleHoldings.getLink()){
@@ -1409,7 +1411,9 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                         oleeResourceInstance.setInstanceTitle(holdings.getBib().getTitle());
                         getHoldingsField(oleeResourceInstance, oleHoldings);
                         oleeResourceInstance.setInstancePublisher(oleHoldings.getPublisher());
-                        oleeResourceInstance.setPlatformId(oleHoldings.getPlatform().getPlatformName());
+                        if (oleHoldings.getPlatform() != null && StringUtils.isNotBlank(oleHoldings.getPlatform().getPlatformName())) {
+                            oleeResourceInstance.setPlatformId(oleHoldings.getPlatform().getPlatformName());
+                        }
                         // oleeResourceInstance.setPublicDisplayNote(workEInstanceDocument.getPublicDisplayNote());
                         StringBuffer urls = new StringBuffer();
                         for(Link link :oleHoldings.getLink()){
