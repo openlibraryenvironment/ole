@@ -116,16 +116,16 @@ public class OLELoaderConstants {
 
     public static final class OLELoaderContext {
 
-        public static String LOCATION = "http;//ole.kuali.org/standards/api/location.jsonld";
-        public static String LOCATION_LEVEL = "http;//ole.kuali.org/standards/api/locationLevel.jsonld";
-        public static String ITEM_TYPE = "http;//ole.kuali.org/standards/api/itemType.jsonld";
-        public static String ITEM_STATUS = "http;//ole.kuali.org/standards/api/itemAvailabilityStatus.jsonld";
-        public static String SCHELVING_SCHEME = "http;//ole.kuali.org/standards/api/callNumberType.jsonld";
-        public static String STATISTICAL_SEARCH = "http;//ole.kuali.org/standards/api/statSearchCode.jsonld";
-       /* public static String BIBLIOGRAPHIC_RECORD_STATUS = "http;//ole.kuali.org/standards/api/location.jsonld";*/
-        public static String BORROWER_TYPE = "http;//ole.kuali.org/standards/api/borrowerType.jsonld";
-        public static String PATRON = "http;//ole.kuali.org/standards/api/patron.jsonld";
-        public static String CIRCULATION_DESK = "http;//ole.kuali.org/standards/api/circulationDesk.jsonld";
+        public static String LOCATION = "http://ole.kuali.org/standards/api/location.jsonld";
+        public static String LOCATION_LEVEL = "http://ole.kuali.org/standards/api/locationLevel.jsonld";
+        public static String ITEM_TYPE = "http://ole.kuali.org/standards/api/itemType.jsonld";
+        public static String ITEM_STATUS = "http://ole.kuali.org/standards/api/itemAvailabilityStatus.jsonld";
+        public static String SCHELVING_SCHEME = "http://ole.kuali.org/standards/api/callNumberType.jsonld";
+        public static String STATISTICAL_SEARCH = "http://ole.kuali.org/standards/api/statSearchCode.jsonld";
+       /* public static String BIBLIOGRAPHIC_RECORD_STATUS = "http://ole.kuali.org/standards/api/location.jsonld";*/
+        public static String BORROWER_TYPE = "http://ole.kuali.org/standards/api/borrowerType.jsonld";
+        public static String PATRON = "http://ole.kuali.org/standards/api/patron.jsonld";
+        public static String CIRCULATION_DESK = "http://ole.kuali.org/standards/api/circulationDesk.jsonld";
     }
 
 

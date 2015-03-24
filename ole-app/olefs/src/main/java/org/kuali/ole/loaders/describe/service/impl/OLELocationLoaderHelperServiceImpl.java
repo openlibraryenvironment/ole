@@ -129,6 +129,7 @@ public class OLELocationLoaderHelperServiceImpl implements OLELocationLoaderHelp
         List<OleLocationLevel> levelList = (List<OleLocationLevel>)getBusinessObjectService().findMatching(OleLocationLevel.class,localtionLevelCd);
         if(levelList.size()>0){
             oleLocationLevel =  levelList.get(0);
+            oleLocation.setOleLocationLevel(oleLocationLevel);
             oleLocation.setLevelId(oleLocationLevel.getLevelId());
         } else{
             throw new RuntimeException();
@@ -189,7 +190,7 @@ public class OLELocationLoaderHelperServiceImpl implements OLELocationLoaderHelp
         }
         try{
             if(getOleLocationService().updateLocation(oleLocation)){
-                String details = formLocationExportResponse(oleLocation,OLELoaderConstants.OLELoaderContext.LOCATION,context.getRequest().getRequestUri().toASCIIString()).toString();
+                String details = formLocationExportResponse(oleLocation,OLELoaderConstants.OLELoaderContext.LOCATION,context.getRequest().getRequestUri().toASCIIString(),true).toString();
                 return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_SUCCESS,OLELoaderConstants.OLEloaderMessage.LOCATION_SUCCESS, OLELoaderConstants.OLEloaderStatus.LOCATION_SUCCESS,details);
             }else{
                 return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_FAILED,OLELoaderConstants.OLEloaderMessage.LOCATION_FAILED, OLELoaderConstants.OLEloaderStatus.LOCATION_FAILED);
@@ -219,11 +220,12 @@ public class OLELocationLoaderHelperServiceImpl implements OLELocationLoaderHelp
         return (List<OleLocation>) getBusinessObjectService().findAll(OleLocation.class);
     }
 
-    public Object formLocationExportResponse(Object object, String locationContext, String uri){
+    public Object formLocationExportResponse(Object object, String locationContext, String uri, boolean importContext){
         OleLocation oleLocation = (OleLocation) object;
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("@context",locationContext);
+            if(importContext)
+                jsonObject.put("@context",locationContext);
             jsonObject.put("@id",OLELoaderConstants.LOCATION_URI + OLELoaderConstants.SLASH + oleLocation.getLocationId());
             jsonObject.put("code",oleLocation.getLocationCode());
             jsonObject.put("name",oleLocation.getLocationName());

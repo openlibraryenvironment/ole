@@ -151,7 +151,8 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
                             }
                             if(oleLocationBo != null && validObject){
                                 if (!oleLocationLoaderHelperService.isLocationExistByCode(oleLocationBo.getLocationCode())) {
-                                    if (oleLocationLoaderHelperService.isLocationLevelExistById(oleLocationBo.getLocationLevelId())) {
+                                    OleLocationLevel oleLocationLevel = oleLocationLoaderHelperService.getLocationLevelById(oleLocationBo.getLocationLevelId());
+                                    if (oleLocationLevel == null) {
                                         rejectLocationList.add(index+1);
                                     } else if (oleLocationLoaderHelperService.isParentLocationExist(oleLocationBo.getParentLocationId())) {
                                         rejectLocationList.add(index + 1);
@@ -159,7 +160,7 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
                                         try {
                                             OleLocation oleLocation = oleLocationLoaderHelperService.createOleLocation(oleLocationBo);
                                             createdLocationObject.add((JSONObject)oleLocationLoaderHelperService.formLocationExportResponse(oleLocation, OLELoaderConstants.OLELoaderContext.LOCATION,
-                                                    context.getRequest().getRequestUri().toASCIIString()));
+                                                    context.getRequest().getRequestUri().toASCIIString(),false));
                                         } catch (Exception e) {
                                             rejectLocationList.add(index+1);
                                         }

@@ -49,15 +49,10 @@ public class OLELoaderApiProcessor {
             object = oleLocationLoaderService.exportLocationByCode(id);
         }
         if(object instanceof OleLocation){
-            object = oleLocationLoaderHelperService.formLocationExportResponse(object,OLELoaderConstants.OLELoaderContext.LOCATION,context.getRequest().getRequestUri().toASCIIString());
+            object = oleLocationLoaderHelperService.formLocationExportResponse(object,OLELoaderConstants.OLELoaderContext.LOCATION,context.getRequest().getRequestUri().toASCIIString(),true);
             return  Response.status(200).entity(object).build();
-        }else if(object instanceof  OLELoaderResponseBo){JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("error",((OLELoaderResponseBo) object).getMessage());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return Response.status(((OLELoaderResponseBo) object).getStatusCode()).entity(jsonObject).build();
+        }else if(object instanceof  OLELoaderResponseBo){
+            return Response.status(((OLELoaderResponseBo) object).getStatusCode()).entity(((OLELoaderResponseBo) object).getMessage()).type(MediaType.TEXT_PLAIN).build();
         }
         return null;
     }
@@ -95,11 +90,16 @@ public class OLELoaderApiProcessor {
                 }
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put("createdItems",((OLELoaderImportResponseBo) object).getOleCreatedBos());
+                    jsonObject.put("@context",OLELoaderConstants.OLELoaderContext.LOCATION);
+                    jsonObject.put("items",((OLELoaderImportResponseBo) object).getOleCreatedBos());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                return Response.status(204).entity(jsonObject).header("X-OLE-Rejected", rejectedBosIndexs).build();
+                if(CollectionUtils.isNotEmpty(((OLELoaderImportResponseBo) object).getOleRejectedBos()) && CollectionUtils.isEmpty(((OLELoaderImportResponseBo) object).getOleCreatedBos())){
+                    return Response.status(400).entity("").build();
+                }else{
+                    return Response.status(200).entity(jsonObject).header("X-OLE-Rejected", rejectedBosIndexs).build();
+                }
             }else{
                 JSONObject jsonObject = new JSONObject();
                 try {
@@ -122,13 +122,7 @@ public class OLELoaderApiProcessor {
         if(object.getStatusCode() == 200){
             return  Response.status(object.getStatusCode()).entity(object.getDetails()).build();
         }else{
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("error",object.getMessage());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return  Response.status(object.getStatusCode()).entity(jsonObject).build();
+            return  Response.status(400).entity(object.getMessage()).type(MediaType.TEXT_PLAIN).build();
         }
 
     }
@@ -146,13 +140,8 @@ public class OLELoaderApiProcessor {
         if(object instanceof OleLocationLevel){
             object = oleLocationLoaderHelperService.formLocationLevelExportResponse(object, OLELoaderConstants.OLELoaderContext.LOCATION_LEVEL, context.getRequest().getRequestUri().toASCIIString());
             return  Response.status(200).entity(object).build();
-        }else if(object instanceof  OLELoaderResponseBo){JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("error",((OLELoaderResponseBo) object).getMessage());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return Response.status(((OLELoaderResponseBo) object).getStatusCode()).entity(jsonObject).build();
+        }else if(object instanceof  OLELoaderResponseBo){
+            return Response.status(((OLELoaderResponseBo) object).getStatusCode()).entity(((OLELoaderResponseBo) object).getMessage()).type(MediaType.TEXT_PLAIN).build();
         }
         return null;
     }

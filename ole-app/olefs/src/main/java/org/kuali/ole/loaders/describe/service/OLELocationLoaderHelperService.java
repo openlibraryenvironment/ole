@@ -31,7 +31,7 @@ public interface OLELocationLoaderHelperService {
 
     public List<OleLocation> getAllLocation();
 
-    public Object formLocationExportResponse(Object object, String locationContext, String uri);
+    public Object formLocationExportResponse(Object object, String locationContext, String uri, boolean importContext);
 
     public Object formAllLocationExportResponse(HttpContext context, List<OleLocation> oleLocationList, String locationContext, String uri);
 
