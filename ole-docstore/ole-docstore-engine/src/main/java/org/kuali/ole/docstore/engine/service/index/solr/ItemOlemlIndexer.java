@@ -1041,7 +1041,9 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         Collection<Object> bibValues = solrBibDocument.getFieldValues(docfiled);
         Object holdigsValue = solrInputDocument.getFieldValue(docfiled);
         if (bibValues != null) {
-            for (Object bibValue : bibValues) {
+            List<Object> valueObject = new ArrayList();
+            valueObject.addAll(bibValues);
+            for (Object bibValue : valueObject) {
                 if (holdigsValue != null && !((String) bibValue).equalsIgnoreCase(((String) holdigsValue))) {
                     solrBibDocument.addField(docfiled, solrInputDocument.getFieldValue(docfiled));
                 }
