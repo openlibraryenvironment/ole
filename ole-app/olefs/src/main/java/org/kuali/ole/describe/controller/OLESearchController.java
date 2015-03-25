@@ -173,12 +173,7 @@ public class OLESearchController extends UifControllerBase {
         this.start = 0;
         LOG.debug("Inside the olesearchform start method");
         OLESearchForm oleSearchForm = (OLESearchForm) form;
-        oleSearchForm.setWorkBibDocumentList(null);
-        oleSearchForm.setWorkHoldingsDocumentList(null);
-        oleSearchForm.setWorkItemDocumentList(null);
-        oleSearchForm.setWorkEHoldingsDocumentList(null);
-        oleSearchForm.setSearchTypeField("OLESearch");
-        oleSearchForm.setSelectAllRecords(false);
+
         request.getSession().setAttribute("selectedFacetResults", null);
         if (oleSearchForm.getDocType() == null) {
             oleSearchForm.setDocType(DocType.BIB.getCode());
@@ -1116,7 +1111,23 @@ public class OLESearchController extends UifControllerBase {
         oleSearchForm.setCallNumberBrowseText(null);
         oleSearchForm.setLocation(null);
         oleSearchForm.setClassificationScheme("LCC");
+        oleSearchForm.setFacetLimit(0);
+        oleSearchForm.setTotalRecordCount(0);
+        oleSearchForm.setSearchParams(new SearchParams());
+        oleSearchForm.setPageShowEntries(null);
+        oleSearchForm.setShowPageSize(null);
+        oleSearchForm.setShowFieldSort(null);
+        oleSearchForm.setBibSearchResultDisplayRowList(null);
+        oleSearchForm.setHoldingSearchResultDisplayRowList(null);
+        oleSearchForm.setSearchResponse(null);
+        oleSearchForm.setFacetResultFields(null);
 
+        oleSearchForm.setWorkBibDocumentList(null);
+        oleSearchForm.setWorkHoldingsDocumentList(null);
+        oleSearchForm.setWorkItemDocumentList(null);
+        oleSearchForm.setWorkEHoldingsDocumentList(null);
+        oleSearchForm.setSearchTypeField("OLESearch");
+        oleSearchForm.setSelectAllRecords(false);
 
         if (oleSearchForm.getSearchParams() != null) {
             for (SearchCondition searchCondition : oleSearchForm.getSearchConditions()) {
