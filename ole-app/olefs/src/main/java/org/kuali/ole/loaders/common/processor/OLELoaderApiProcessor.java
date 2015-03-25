@@ -103,7 +103,8 @@ public class OLELoaderApiProcessor {
             }else{
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put("createdItems",((OLELoaderImportResponseBo) object).getOleCreatedBos());
+                    jsonObject.put("@context",OLELoaderConstants.OLELoaderContext.LOCATION);
+                    jsonObject.put("items",((OLELoaderImportResponseBo) object).getOleCreatedBos());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

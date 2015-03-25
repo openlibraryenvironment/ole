@@ -101,14 +101,12 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
                                                         validObject = true;
                                                     }
                                                 }else{
-                                                    return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_LEVEL_NOT_EXIST,
-                                                            OLELoaderConstants.OLEloaderMessage.LOCATION_LEVEL_NOT_EXIST,
-                                                            OLELoaderConstants.OLEloaderStatus.LOCATION_LEVEL_NOT_EXIST);
+                                                    rejectLocationList.add(index+1);
+                                                    continue;
                                                 }
                                             }else{
-                                                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_LEVEL_NOT_EXIST,
-                                                        OLELoaderConstants.OLEloaderMessage.LOCATION_LEVEL_NOT_EXIST,
-                                                        OLELoaderConstants.OLEloaderStatus.LOCATION_LEVEL_NOT_EXIST);
+                                                rejectLocationList.add(index+1);
+                                                continue;
                                             }
 
 
@@ -134,14 +132,12 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
                                                         validObject = true;
                                                     }
                                                 }else{
-                                                    return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.PARENT_LOCATION_NOT_EXIST,
-                                                            OLELoaderConstants.OLEloaderMessage.PARENT_LOCATION_NOT_EXIST,
-                                                            OLELoaderConstants.OLEloaderStatus.PARENT_LOCATION_NOT_EXIST);
+                                                    rejectLocationList.add(index+1);
+                                                    continue;
                                                 }
                                             }else{
-                                                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.PARENT_LOCATION_NOT_EXIST,
-                                                        OLELoaderConstants.OLEloaderMessage.PARENT_LOCATION_NOT_EXIST,
-                                                        OLELoaderConstants.OLEloaderStatus.PARENT_LOCATION_NOT_EXIST);
+                                                rejectLocationList.add(index+1);
+                                                continue;
                                             }
 
 
