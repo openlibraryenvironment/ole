@@ -248,26 +248,30 @@ public class OLESearchController extends UifControllerBase {
         List<Integer> resultList = new ArrayList<>();
         for (SearchResultDisplayRow searchResultDisplayRow : oleSearchForm.getSearchResultDisplayRowList()) {
             if (searchResultDisplayRow.isSelect()) {
-                map.put(OLEConstants.BIB_ID, DocumentUniqueIDPrefix.getPrefixedId("wbm",searchResultDisplayRow.getLocalId()));
+                map.put(OLEConstants.BIB_ID, DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC, searchResultDisplayRow.getLocalId()));
                 List<OleCopy> listOfValues = (List<OleCopy>) boService.findMatching(OleCopy.class, map);
                 if (listOfValues.size() > 0 && (oleSearchForm.getMessage() == null || oleSearchForm.getMessage().equals(""))) {
                     for (OleCopy oleCopy : listOfValues) {
-                        resultList.add(oleCopy.getReqDocNum());
-                    }
-                    Set<Integer> resultSet = new HashSet<>(resultList);
-                    resultList = new ArrayList<>(resultSet);
-                    StringBuffer reqIds = new StringBuffer("");
-                    if (resultList.size() > 0) {
-                        int count = 0;
-                        for (; count < resultList.size() - 1; count++) {
-                            reqIds.append(resultList.get(count) + ",");
+                        if (oleCopy.getReqDocNum() != null) {
+                            resultList.add(oleCopy.getReqDocNum());
                         }
-                        reqIds.append(resultList.get(count));
                     }
-                    oleSearchForm.setMessage(OLEConstants.POPUP_MESSAGE + reqIds.toString() + OLEConstants.PROCEED_MESSAGE);
-                    return getUIFModelAndView(oleSearchForm);
+                    if (resultList.size() > 0) {
+                        Set<Integer> resultSet = new HashSet<>(resultList);
+                        resultList = new ArrayList<>(resultSet);
+                        StringBuffer reqIds = new StringBuffer();
+                        if (resultList.size() > 0) {
+                            int count = 0;
+                            for (; count < resultList.size() - 1; count++) {
+                                reqIds.append(resultList.get(count) + OLEConstants.COMMA);
+                            }
+                            reqIds.append(resultList.get(count));
+                        }
+                        oleSearchForm.setMessage(OLEConstants.POPUP_MESSAGE + reqIds.toString() + OLEConstants.PROCEED_MESSAGE);
+                        return getUIFModelAndView(oleSearchForm);
+                    }
                 }
-                oleSearchForm.setMessage("");
+                oleSearchForm.setMessage(OLEConstants.OLEEResourceRecord.SPACE);
                 processNewRecordResponseForOLE(searchResultDisplayRow.getLocalId(), oleSearchForm.getTokenId(), oleSearchForm.getLinkToOrderOption());
                 oleSearchForm.setSuccessMessage(OLEConstants.LINK_SUCCESS_MESSAGE);
                 isValid = true;
