@@ -120,6 +120,14 @@ public interface BibConstants {
     public static final String LEVEL3LOCATION_DISPLAY = "Level3Location_display";
     public static final String LEVEL4LOCATION_DISPLAY = "Level4Location_display";
     public static final String LEVEL5LOCATION_DISPLAY = "Level5Location_display";
+
+
+    public static final String LOCATION_LEVEL_SHELVING = "Shelving Location";
+    public static final String LOCATION_LEVEL_COLLECTION = "Collection";
+    public static final String LOCATION_LEVEL_LIBRARY = "Library";
+    public static final String LOCATION_LEVEL_INSTITUTION = "Institution";
+    public static final String LOCATION_LEVEL_CAMPUS = "Campus";
+
     public static final String ITEM_BARCODE_SEARCH = "ItemBarcode_search";
     public static final String URI_SEARCH = "Uri_search";
     public static final String ITEM_IDENTIFIER = "itemIdentifier";

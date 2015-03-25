@@ -14,6 +14,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.kuali.ole.docstore.common.document.BibTrees;
 import org.kuali.ole.docstore.common.document.content.instance.Location;
+import org.kuali.ole.docstore.common.document.content.instance.LocationLevel;
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.ole.docstore.discovery.service.SolrServerManager;
 import org.kuali.ole.utility.callnumber.CallNumberFactory;
@@ -588,35 +589,42 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
     }
 
     protected void buildLocationName(Location location, SolrInputDocument solrInputDocument) {
-        if(location != null && location.getLocationLevel() != null) {
-            solrInputDocument.addField(LEVEL1LOCATION_DISPLAY, location.getLocationLevel().getName());
-            solrInputDocument.addField(LEVEL1LOCATION_SEARCH, location.getLocationLevel().getName());
-            if (location.getLocationLevel().getLocationLevel() != null) {
-                solrInputDocument.addField(LEVEL2LOCATION_DISPLAY, location.getLocationLevel().getLocationLevel().getName());
-                solrInputDocument.addField(LEVEL2LOCATION_SEARCH, location.getLocationLevel().getLocationLevel().getName());
-                if (location.getLocationLevel().getLocationLevel().getLocationLevel() != null) {
-                    solrInputDocument.addField(LEVEL3LOCATION_DISPLAY, location.getLocationLevel().getLocationLevel().getLocationLevel().getName());
-                    solrInputDocument.addField(LEVEL3LOCATION_SEARCH, location.getLocationLevel().getLocationLevel().getLocationLevel().getName());
-                    if (location.getLocationLevel().getLocationLevel().getLocationLevel().getLocationLevel() != null) {
-                        solrInputDocument.addField(LEVEL4LOCATION_DISPLAY, location.getLocationLevel().getLocationLevel().getLocationLevel().getLocationLevel().getName());
-                        solrInputDocument.addField(LEVEL4LOCATION_SEARCH, location.getLocationLevel().getLocationLevel().getLocationLevel().getLocationLevel().getName());
-                        if (location.getLocationLevel().getLocationLevel().getLocationLevel().getLocationLevel().getLocationLevel() != null) {
-                            solrInputDocument.addField(LEVEL5LOCATION_DISPLAY, location.getLocationLevel().getLocationLevel().getLocationLevel().getLocationLevel().getLocationLevel().getName());
-                            solrInputDocument.addField(LEVEL5LOCATION_SEARCH, location.getLocationLevel().getLocationLevel().getLocationLevel().getLocationLevel().getLocationLevel().getName());
-                        }
-                    }
-                }
-            }
+        if (location != null) {
+            buildLocation(location.getLocationLevel(), solrInputDocument);
         }
     }
 
-    protected void addItemInfoToBib( SolrInputDocument solrInputDocument,SolrInputDocument solrBibDocument) {
-            solrBibDocument.addField(ITEM_BARCODE_SEARCH,solrInputDocument.getFieldValue(ITEM_BARCODE_SEARCH));
-            solrBibDocument.addField(ITEM_IDENTIFIER,solrInputDocument.getFieldValue(ITEM_IDENTIFIER));
+    private void buildLocation(LocationLevel locationLevel, SolrInputDocument solrInputDocument) {
+        if (locationLevel != null) {
+            String locationName = locationLevel.getName();
+            if (BibConstants.LOCATION_LEVEL_INSTITUTION.equalsIgnoreCase(locationLevel.getLevel())) {
+                solrInputDocument.addField(LEVEL1LOCATION_DISPLAY, locationName);
+                solrInputDocument.addField(LEVEL1LOCATION_SEARCH, locationName);
+            } else if (BibConstants.LOCATION_LEVEL_CAMPUS.equalsIgnoreCase(locationLevel.getLevel())) {
+                solrInputDocument.addField(LEVEL2LOCATION_DISPLAY, locationName);
+                solrInputDocument.addField(LEVEL2LOCATION_SEARCH, locationName);
+            } else if (BibConstants.LOCATION_LEVEL_LIBRARY.equalsIgnoreCase(locationLevel.getLevel())) {
+                solrInputDocument.addField(LEVEL3LOCATION_DISPLAY, locationName);
+                solrInputDocument.addField(LEVEL3LOCATION_SEARCH, locationName);
+            } else if (BibConstants.LOCATION_LEVEL_COLLECTION.equalsIgnoreCase(locationLevel.getLevel())) {
+                solrInputDocument.addField(LEVEL4LOCATION_DISPLAY, locationName);
+                solrInputDocument.addField(LEVEL4LOCATION_SEARCH, locationName);
+            } else if (BibConstants.LOCATION_LEVEL_SHELVING.equalsIgnoreCase(locationLevel.getLevel())) {
+                solrInputDocument.addField(LEVEL5LOCATION_DISPLAY, locationName);
+                solrInputDocument.addField(LEVEL5LOCATION_SEARCH, locationName);
+            }
+            buildLocation(locationLevel.getLocationLevel(), solrInputDocument);
         }
+    }
 
-    protected void addHoldingsInfoToBib(SolrInputDocument solrInputDocument, SolrInputDocument solrBibInputDocument)  {
-        solrBibInputDocument.addField(URI_SEARCH,solrInputDocument.getFieldValue(URI_SEARCH));
+
+    protected void addItemInfoToBib(SolrInputDocument solrInputDocument, SolrInputDocument solrBibDocument) {
+        solrBibDocument.addField(ITEM_BARCODE_SEARCH, solrInputDocument.getFieldValue(ITEM_BARCODE_SEARCH));
+        solrBibDocument.addField(ITEM_IDENTIFIER, solrInputDocument.getFieldValue(ITEM_IDENTIFIER));
+    }
+
+    protected void addHoldingsInfoToBib(SolrInputDocument solrInputDocument, SolrInputDocument solrBibInputDocument) {
+        solrBibInputDocument.addField(URI_SEARCH, solrInputDocument.getFieldValue(URI_SEARCH));
     }
 
     protected void addHoldingsInfoToBib(SolrInputDocument solrInputDocument, SolrDocument solrBibDocument)  {
