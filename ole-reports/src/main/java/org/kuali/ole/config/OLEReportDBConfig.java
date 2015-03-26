@@ -43,8 +43,10 @@ public class OLEReportDBConfig {
                             Element element = (Element) nNode;
                             if (element != null) {
                                 String key = element.getAttribute("name");
-                                String value = element.getFirstChild().getNodeValue();
-                                prop.setProperty(key, value);
+                                if (element.getFirstChild() != null) {
+                                    String value = element.getFirstChild().getNodeValue();
+                                    prop.setProperty(key, value);
+                                }
                             }
                         }
                     }
