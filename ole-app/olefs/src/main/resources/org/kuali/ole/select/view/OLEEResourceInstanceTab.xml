@@ -77,7 +77,7 @@
                             <bean id="SaveInstance-button" parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="true"
                                   p:methodToCall="save"
-                                  p:actionLabel="save" p:performClientSideValidation="true" p:successCallback="displayLink();"
+                                  p:actionLabel="save" p:performClientSideValidation="true" p:successCallback="displayLink(true);"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
                             <bean id="DeleteInstance-Button" parent="Uif-PrimaryActionButton"
                                   p:style="float:left;margin-left:3em"
