@@ -51,7 +51,7 @@ public class GokbLocalService_UT {
                 for (OleGokbTipp oleGokbTipp : oleGokbTipps) {
                     assertNotNull(oleGokbTipp.getGokbTippId());
                     assertNotNull(oleGokbTipp.getGokbPackageId());
-//                    assertNotNull(oleGokbTipp.getGokbTitleId());
+                    assertNotNull(oleGokbTipp.getGokbTitleId());
                     assertNotNull(oleGokbTipp.getGokbPlatformId());
                     assertNotNull(oleGokbTipp.getStatus());
 //                    assertNotNull(oleGokbTipp.getStatusReason());
@@ -189,7 +189,7 @@ public class GokbLocalService_UT {
                     if (nodeName.equalsIgnoreCase(OLEConstants.OleGokb.STATUS)) {
                         oleGokbTipp.setStatus(tippChildNode.getTextContent());
                     } else if (nodeName.equalsIgnoreCase(OLEConstants.OleGokb.TITLE)) {
-                        String titleId = StringUtils.substringAfter(((DeferredElementImpl) tippChildNode).getAttribute(OLEConstants.OleGokb.ID), OLEConstants.OleGokb.TITLE + OLEConstants.SLASH);
+                        String titleId = ((DeferredElementImpl) tippChildNode).getAttribute("id");//StringUtils.substringAfter(((DeferredElementImpl) tippChildNode).getAttribute(OLEConstants.OleGokb.ID), OLEConstants.OleGokb.TITLE + OLEConstants.SLASH);
                         if (!titleId.isEmpty()) {
                             try {
                                 oleGokbTipp.setGokbTitleId(Integer.parseInt(titleId));
