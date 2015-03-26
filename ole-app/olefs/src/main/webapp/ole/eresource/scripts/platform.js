@@ -1,6 +1,8 @@
+var unsaved = false;
+
 jq(document).ready(function () {
     /*var gokbFlag = false;*/
-    var unsaved = false;
+    unsaved = false;
 
     /*jq("#gokbIdd_quickfinder_act").live("click", function () {
         gokbFlag = true;
@@ -26,7 +28,10 @@ jq(document).ready(function () {
             return message;
         }
     }
-    jq('form').bind('submit', function() { unsaved = false; /*gokbFlag = false*/; });
+    jq('form').bind('submit', function() {
+        unsaved = false;
+        /*gokbFlag = false*/;
+    });
     window.onbeforeunload = unloadPage;
 });
 
@@ -36,6 +41,7 @@ function closeDisplayLinkedRecordsPopup(){
 }
 
 function save(){
+    unsaved = false;
     if(jq("#hdnsaveValidationFlag_control").val() == 'true') {
         displayDialogWindow("div#popupToDisplayLinkedRecords");
     }else if(jq("#hdnPlatformProviderFlag_control").val() == 'true') {
