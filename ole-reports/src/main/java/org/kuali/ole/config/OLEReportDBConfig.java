@@ -3,6 +3,7 @@ package org.kuali.ole.config;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.apache.log4j.Logger;
 import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -18,6 +19,7 @@ import java.util.Properties;
  */
 public class OLEReportDBConfig {
 
+    private static final Logger LOG = Logger.getLogger(OLEReportDBConfig.class);
     Properties prop;
 
     public Properties getProp() {
@@ -25,23 +27,29 @@ public class OLEReportDBConfig {
             prop = new Properties();
             try {
                 String environment = System.getProperty("environment");
+                LOG.info(" Environment : " + environment);
                 String path = System.getProperty("user.home") + File.separator + "kuali" + File.separator + "main" + File.separator + environment;
+                LOG.info(" Path for common-config.xml file  : " + path);
                 File file = new File(path + File.separator + "common-config.xml");
-                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder dBuilder = null;
-                dBuilder = dbFactory.newDocumentBuilder();
-                Document doc = dBuilder.parse(file);
-                NodeList nList = doc.getElementsByTagName("param");
-                for (int i = 0; i < nList.getLength(); i++) {
-                    Node nNode = nList.item(i);
-                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                        Element element = (Element) nNode;
-                        String key = element.getAttribute("name");
-                        String value = element.getFirstChild().getNodeValue();
-                        prop.setProperty(key, value);
+                if (file.exists() && file.isFile()) {
+                    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder dBuilder = null;
+                    dBuilder = dbFactory.newDocumentBuilder();
+                    Document doc = dBuilder.parse(file);
+                    NodeList nList = doc.getElementsByTagName("param");
+                    for (int i = 0; i < nList.getLength(); i++) {
+                        Node nNode = nList.item(i);
+                        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                            Element element = (Element) nNode;
+                            if (element != null) {
+                                String key = element.getAttribute("name");
+                                String value = element.getFirstChild().getNodeValue();
+                                prop.setProperty(key, value);
+                            }
+                        }
                     }
+                    setAdditionalPropeties();
                 }
-                setAdditionalPropeties();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
