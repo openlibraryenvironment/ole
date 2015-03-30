@@ -13,6 +13,7 @@ import org.kuali.ole.loaders.common.constants.OLELoaderConstants;
 import org.kuali.ole.loaders.common.service.OLELoaderService;
 import org.kuali.ole.loaders.common.service.impl.OLELoaderServiceImpl;
 import org.kuali.ole.loaders.describe.bo.OLELocationBo;
+import org.kuali.ole.loaders.describe.bo.OLELocationLevelBo;
 import org.kuali.ole.loaders.describe.service.OLELocationLoaderHelperService;
 import org.kuali.ole.service.OleLocationService;
 import org.kuali.ole.sys.context.SpringContext;
@@ -172,7 +173,7 @@ public class OLELocationLoaderHelperServiceImpl implements OLELocationLoaderHelp
                 oleLocation.setLevelId(oleLocationLevel.getLevelId());
                 oleLocation.setOleLocationLevel(oleLocationLevel);
             } else{
-                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_LEVEL_NOT_EXIST,OLELoaderConstants.OLEloaderMessage.LOCATION_LEVEL_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.LOCATION_LEVEL_NOT_EXIST);
+                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.LOCATION_LEVEL_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.LOCATION_LEVEL_NOT_EXIST);
             }
         }
 
@@ -185,18 +186,18 @@ public class OLELocationLoaderHelperServiceImpl implements OLELocationLoaderHelp
                 oleLocation.setParentLocationId(parentList.get(0).getLocationId());
                 oleLocation.setOleLocation(parentList.get(0));
             }else {
-                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.PARENT_LOCATION_NOT_EXIST,OLELoaderConstants.OLEloaderMessage.PARENT_LOCATION_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.PARENT_LOCATION_NOT_EXIST);
+                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.PARENT_LOCATION_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.PARENT_LOCATION_NOT_EXIST);
             }
         }
         try{
             if(getOleLocationService().updateLocation(oleLocation)){
                 String details = formLocationExportResponse(oleLocation,OLELoaderConstants.OLELoaderContext.LOCATION,context.getRequest().getRequestUri().toASCIIString(),true).toString();
-                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_SUCCESS,OLELoaderConstants.OLEloaderMessage.LOCATION_SUCCESS, OLELoaderConstants.OLEloaderStatus.LOCATION_SUCCESS,details);
+                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.LOCATION_SUCCESS, OLELoaderConstants.OLEloaderStatus.LOCATION_SUCCESS,details);
             }else{
-                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_FAILED,OLELoaderConstants.OLEloaderMessage.LOCATION_FAILED, OLELoaderConstants.OLEloaderStatus.LOCATION_FAILED);
+                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.LOCATION_FAILED, OLELoaderConstants.OLEloaderStatus.LOCATION_FAILED);
             }
         }catch(Exception e){
-            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_FAILED,OLELoaderConstants.OLEloaderMessage.LOCATION_FAILED, OLELoaderConstants.OLEloaderStatus.LOCATION_FAILED);
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.LOCATION_FAILED, OLELoaderConstants.OLEloaderStatus.LOCATION_FAILED);
         }
     }
 
@@ -353,11 +354,12 @@ public class OLELocationLoaderHelperServiceImpl implements OLELocationLoaderHelp
     }
 
     @Override
-    public Object formLocationLevelExportResponse(Object object, String locationLevelContext, String uri) {
+    public Object formLocationLevelExportResponse(Object object, String locationLevelContext, String uri, boolean addContext) {
         OleLocationLevel oleLocationLevel = (OleLocationLevel) object;
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("@context",locationLevelContext);
+            if(addContext)
+                jsonObject.put("@context",locationLevelContext);
             jsonObject.put("@id",OLELoaderConstants.LOCATION_LEVEL_URI + OLELoaderConstants.SLASH + oleLocationLevel.getLevelId());
             jsonObject.put("code",oleLocationLevel.getLevelCode());
             jsonObject.put("name",oleLocationLevel.getLevelName());
@@ -371,5 +373,23 @@ public class OLELocationLoaderHelperServiceImpl implements OLELocationLoaderHelp
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    @Override
+    public OLELoaderResponseBo updateOleLocationLevel(OleLocationLevel oleLocationLevel, OLELocationLevelBo oleLocationLevelBo,HttpContext context) {
+        LOG.info("Inside update OleLocationLevel. LocationLevel Id : " + oleLocationLevelBo.getLevelId());
+        /*if(StringUtils.isNotBlank(oleLocationLevelBo.getLevelCode()))
+            oleLocationLevel.setLevelCode(oleLocationLevelBo.getLevelCode());*/
+        if(StringUtils.isNotBlank(oleLocationLevelBo.getLevelName()))
+            oleLocationLevel.setLevelName(oleLocationLevelBo.getLevelName());
+        try{
+            oleLocationLevel = getBusinessObjectService().save(oleLocationLevel);
+            String details = formLocationLevelExportResponse(oleLocationLevel, OLELoaderConstants.OLELoaderContext.LOCATION_LEVEL, context.getRequest().getRequestUri().toASCIIString(), true).toString();
+            return getOleLoaderService().generateResponse(
+                    OLELoaderConstants.OLEloaderMessage.LOCATION_LEVEL_SUCCESS,
+                    OLELoaderConstants.OLEloaderStatus.LOCATION_LEVEL_SUCCESS,details);
+        }catch(Exception e){
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.LOCATION_LEVEL_FAILED, OLELoaderConstants.OLEloaderStatus.LOCATION_LEVEL_FAILED);
+        }
     }
 }

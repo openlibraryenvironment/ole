@@ -5,6 +5,7 @@ import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
 import org.kuali.ole.loaders.common.bo.OLELoaderResponseBo;
 import org.kuali.ole.loaders.describe.bo.OLELocationBo;
+import org.kuali.ole.loaders.describe.bo.OLELocationLevelBo;
 
 import java.util.List;
 
@@ -39,7 +40,9 @@ public interface OLELocationLoaderHelperService {
 
     public OleLocationLevel getLocationLevelByCode(String locationLevelCode);
 
-    public Object formLocationLevelExportResponse(Object object, String locationContext, String uri);
+    public Object formLocationLevelExportResponse(Object object, String locationContext, String uri,boolean addContext);
+
+    public OLELoaderResponseBo updateOleLocationLevel(OleLocationLevel oleLocationLevel, OLELocationLevelBo oleLocationLevelBo,HttpContext context);
 
 
 }

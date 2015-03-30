@@ -29,6 +29,10 @@ public interface OLELocationLoaderService {
 
     public Object exportLocationLevelByCode(String locationLevelCode);
 
+    public Object importLocationLevels(String bodyContent, HttpContext context);
+
+    public OLELoaderResponseBo updateLocationLevelById(String locationId, String bodyContent, HttpContext context);
+
 
 
 }

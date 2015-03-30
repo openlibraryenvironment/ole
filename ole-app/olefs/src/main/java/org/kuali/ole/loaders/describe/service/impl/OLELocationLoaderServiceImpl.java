@@ -19,6 +19,8 @@ import org.kuali.ole.loaders.common.service.impl.OLELoaderServiceImpl;
 import org.kuali.ole.loaders.describe.bo.*;
 import org.kuali.ole.loaders.describe.service.OLELocationLoaderHelperService;
 import org.kuali.ole.loaders.describe.service.OLELocationLoaderService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.util.*;
 
@@ -31,6 +33,18 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
 
     OLELocationLoaderHelperService oleLocationLoaderHelperService = new OLELocationLoaderHelperServiceImpl();
     private OLELoaderService oleLoaderService;
+    private BusinessObjectService businessObjectService;
+
+    public BusinessObjectService getBusinessObjectService() {
+        if(businessObjectService == null){
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+        }
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
     
     public OLELoaderService getOleLoaderService() {
         if(oleLoaderService == null ){
@@ -57,13 +71,13 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
         OLELoaderImportResponseBo oleLoaderImportResponseBo = new OLELoaderImportResponseBo();
         List<Integer> rejectLocationList = new ArrayList<Integer>();
         List<JSONObject> createdLocationObject = new ArrayList<JSONObject>();
-        JSONObject requestJsonObject = getJsonObjectFromString(bodyContent);
+        JSONObject requestJsonObject = getOleLoaderService().getJsonObjectFromString(bodyContent);
         boolean validObject = false;
         if(requestJsonObject != null) {
             if (requestJsonObject.has("items")) {
-                String items = getStringValueFromJsonObject(requestJsonObject, "items");
+                String items = getOleLoaderService().getStringValueFromJsonObject(requestJsonObject, "items");
                 if (StringUtils.isNotBlank(items)) {
-                    JSONArray locationJsonArray = getJsonArrayFromString(items);
+                    JSONArray locationJsonArray = getOleLoaderService().getJsonArrayFromString(items);
                     for (int index = 0; index < locationJsonArray.length(); index ++) {
                         JSONObject jsonObject = null;
                         OLELocationBo oleLocationBo = new OLELocationBo();
@@ -71,30 +85,30 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
                             jsonObject = (JSONObject)locationJsonArray.get(index);
                             if(jsonObject != null){
                                 if(jsonObject.has("name")){
-                                    String name = getStringValueFromJsonObject(jsonObject,"name");
+                                    String name = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"name");
                                     if(StringUtils.isNotBlank(name)){
                                         oleLocationBo.setLocationName(name);
                                         validObject = true;
                                     }
                                 }
                                 if(jsonObject.has("code")){
-                                    String code = getStringValueFromJsonObject(jsonObject,"code");
+                                    String code = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"code");
                                     if(StringUtils.isNotBlank(code)){
                                         oleLocationBo.setLocationCode(code);
                                         validObject = true;
                                     }
                                 }
                                 if(jsonObject.has("level")){
-                                    JSONObject levelJsonObject = getJsonObjectFromString(getStringValueFromJsonObject(jsonObject,"level"));
+                                    JSONObject levelJsonObject = getOleLoaderService().getJsonObjectFromString(getOleLoaderService().getStringValueFromJsonObject(jsonObject,"level"));
                                     if(levelJsonObject != null){
-                                        String levelUrl = getStringValueFromJsonObject(levelJsonObject, "@id");
+                                        String levelUrl = getOleLoaderService().getStringValueFromJsonObject(levelJsonObject, "@id");
                                         if(StringUtils.isNotBlank(levelUrl)){
                                             Map<String,Object> restResponseMap = OLELoaderRestClient.jerseryClientGet(levelUrl);
                                             if((Integer)restResponseMap.get("status")== 200){
                                                 String levelResponseContent = (String)restResponseMap.get("content");
-                                                JSONObject levelResponseObject = getJsonObjectFromString(levelResponseContent);
+                                                JSONObject levelResponseObject = getOleLoaderService().getJsonObjectFromString(levelResponseContent);
                                                 if(levelResponseObject != null){
-                                                    String urlId = getStringValueFromJsonObject(levelResponseObject, "@id");
+                                                    String urlId = getOleLoaderService().getStringValueFromJsonObject(levelResponseObject, "@id");
                                                     if(StringUtils.isNotBlank(urlId)){
                                                         String levelId = urlId.substring(urlId.indexOf("/api/locationLevel/")+19);
                                                         oleLocationBo.setLocationLevelId(levelId);
@@ -116,16 +130,16 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
 
                                 }
                                 if(jsonObject.has("parent")){
-                                    JSONObject parentJsonObject = getJsonObjectFromString(getStringValueFromJsonObject(jsonObject,"parent"));
+                                    JSONObject parentJsonObject = getOleLoaderService().getJsonObjectFromString(getOleLoaderService().getStringValueFromJsonObject(jsonObject,"parent"));
                                     if(parentJsonObject != null){
-                                        String parentUrl = getStringValueFromJsonObject(parentJsonObject,"@id");
+                                        String parentUrl = getOleLoaderService().getStringValueFromJsonObject(parentJsonObject,"@id");
                                         if(StringUtils.isNotBlank(parentUrl)){
                                             Map<String,Object> restResponseMap = OLELoaderRestClient.jerseryClientGet(parentUrl);
                                             if((Integer)restResponseMap.get("status")== 200){
                                                 String parentResponseContent = (String)restResponseMap.get("content");
-                                                JSONObject parentResponseObject = getJsonObjectFromString(parentResponseContent);
+                                                JSONObject parentResponseObject = getOleLoaderService().getJsonObjectFromString(parentResponseContent);
                                                 if(parentResponseObject != null){
-                                                    String urlId = getStringValueFromJsonObject(parentResponseObject,"@id");
+                                                    String urlId = getOleLoaderService().getStringValueFromJsonObject(parentResponseObject,"@id");
                                                     if(StringUtils.isNotBlank(urlId)){
                                                         String parentId = urlId.substring(urlId.indexOf("/api/location/")+14);
                                                         oleLocationBo.setParentLocationId(parentId);
@@ -166,7 +180,7 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
                                 }
 
                             }else{
-                                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.BAD_REQUEST,OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
+                                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -174,12 +188,12 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
                         }
                     }
                 }else{
-                    return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.BAD_REQUEST,OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
+                    return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
                 }
 
             }
         }else{
-            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.BAD_REQUEST,OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
         }
         oleLoaderImportResponseBo.setOleRejectedBos(rejectLocationList);
         oleLoaderImportResponseBo.setOleCreatedBos(createdLocationObject);
@@ -190,46 +204,46 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
     public OLELoaderResponseBo updateLocationById(String locationId, String bodyContent,HttpContext context) {
         LOG.info("Inside updateLocationById method.");
         OLELocationBo oleLocationBo = new OLELocationBo();
-        JSONObject jsonObject = getJsonObjectFromString(bodyContent);
+        JSONObject jsonObject = getOleLoaderService().getJsonObjectFromString(bodyContent);
         boolean validObject = false;
         if(jsonObject != null){
             if(jsonObject.has("name")){
-                String name = getStringValueFromJsonObject(jsonObject,"name");
+                String name = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"name");
                 if(StringUtils.isNotBlank(name)){
                     oleLocationBo.setLocationName(name);
                     validObject = true;
                 }
             }
             if(jsonObject.has("code")){
-                String code = getStringValueFromJsonObject(jsonObject,"code");
+                String code = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"code");
                 if(StringUtils.isNotBlank(code)){
                     oleLocationBo.setLocationCode(code);
                     validObject = true;
                 }
             }
             if(jsonObject.has("level")){
-                JSONObject levelJsonObject = getJsonObjectFromString(getStringValueFromJsonObject(jsonObject,"level"));
+                JSONObject levelJsonObject = getOleLoaderService().getJsonObjectFromString(getOleLoaderService().getStringValueFromJsonObject(jsonObject,"level"));
                 if(levelJsonObject != null){
-                    String levelUrl = getStringValueFromJsonObject(levelJsonObject, "@id");
+                    String levelUrl = getOleLoaderService().getStringValueFromJsonObject(levelJsonObject, "@id");
                     if(StringUtils.isNotBlank(levelUrl)){
                         Map<String,Object> restResponseMap = OLELoaderRestClient.jerseryClientGet(levelUrl);
                         if((Integer)restResponseMap.get("status")== 200){
                             String levelResponseContent = (String)restResponseMap.get("content");
-                            JSONObject levelResponseObject = getJsonObjectFromString(levelResponseContent);
+                            JSONObject levelResponseObject = getOleLoaderService().getJsonObjectFromString(levelResponseContent);
                             if(levelResponseObject != null){
-                                String urlId = getStringValueFromJsonObject(levelResponseObject, "@id");
+                                String urlId = getOleLoaderService().getStringValueFromJsonObject(levelResponseObject, "@id");
                                 if(StringUtils.isNotBlank(urlId)){
                                     String levelId = urlId.substring(urlId.indexOf("/api/locationLevel/")+19);
                                     oleLocationBo.setLocationLevelId(levelId);
                                     validObject = true;
                                 }
                             }else{
-                                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_LEVEL_NOT_EXIST,
+                                return getOleLoaderService().generateResponse(
                                         OLELoaderConstants.OLEloaderMessage.LOCATION_LEVEL_NOT_EXIST,
                                         OLELoaderConstants.OLEloaderStatus.LOCATION_LEVEL_NOT_EXIST);
                             }
                         }else{
-                            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_LEVEL_NOT_EXIST,
+                            return getOleLoaderService().generateResponse(
                                     OLELoaderConstants.OLEloaderMessage.LOCATION_LEVEL_NOT_EXIST,
                                     OLELoaderConstants.OLEloaderStatus.LOCATION_LEVEL_NOT_EXIST);
                         }
@@ -241,28 +255,28 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
 
             }
             if(jsonObject.has("parent")){
-                JSONObject parentJsonObject = getJsonObjectFromString(getStringValueFromJsonObject(jsonObject,"parent"));
+                JSONObject parentJsonObject = getOleLoaderService().getJsonObjectFromString(getOleLoaderService().getStringValueFromJsonObject(jsonObject,"parent"));
                 if(parentJsonObject != null){
-                    String parentUrl = getStringValueFromJsonObject(parentJsonObject,"@id");
+                    String parentUrl = getOleLoaderService().getStringValueFromJsonObject(parentJsonObject,"@id");
                     if(StringUtils.isNotBlank(parentUrl)){
                         Map<String,Object> restResponseMap = OLELoaderRestClient.jerseryClientGet(parentUrl);
                         if((Integer)restResponseMap.get("status")== 200){
                             String parentResponseContent = (String)restResponseMap.get("content");
-                            JSONObject parentResponseObject = getJsonObjectFromString(parentResponseContent);
+                            JSONObject parentResponseObject = getOleLoaderService().getJsonObjectFromString(parentResponseContent);
                             if(parentResponseObject != null){
-                                String urlId = getStringValueFromJsonObject(parentResponseObject,"@id");
+                                String urlId = getOleLoaderService().getStringValueFromJsonObject(parentResponseObject,"@id");
                                 if(StringUtils.isNotBlank(urlId)){
                                     String parentId = urlId.substring(urlId.indexOf("/api/location/")+14);
                                     oleLocationBo.setParentLocationId(parentId);
                                     validObject = true;
                                 }
                             }else{
-                                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.PARENT_LOCATION_NOT_EXIST,
+                                return getOleLoaderService().generateResponse(
                                         OLELoaderConstants.OLEloaderMessage.PARENT_LOCATION_NOT_EXIST,
                                         OLELoaderConstants.OLEloaderStatus.PARENT_LOCATION_NOT_EXIST);
                             }
                         }else{
-                            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.PARENT_LOCATION_NOT_EXIST,
+                            return getOleLoaderService().generateResponse(
                                     OLELoaderConstants.OLEloaderMessage.PARENT_LOCATION_NOT_EXIST,
                                     OLELoaderConstants.OLEloaderStatus.PARENT_LOCATION_NOT_EXIST);
                         }
@@ -274,11 +288,11 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
         }
         if(oleLocationBo != null && validObject){
             if(StringUtils.isNotBlank(oleLocationBo.getLocationLevelId()) && oleLocationLoaderHelperService.isLocationLevelExistById(oleLocationBo.getLocationLevelId()))    {
-                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_LEVEL_NOT_EXIST,
+                return getOleLoaderService().generateResponse(
                         OLELoaderConstants.OLEloaderMessage.LOCATION_LEVEL_NOT_EXIST,
                         OLELoaderConstants.OLEloaderStatus.LOCATION_LEVEL_NOT_EXIST);
             }else if(StringUtils.isNotBlank(oleLocationBo.getParentLocationId()) && oleLocationLoaderHelperService.isParentLocationExist(oleLocationBo.getParentLocationId())) {
-                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.PARENT_LOCATION_NOT_EXIST,
+                return getOleLoaderService().generateResponse(
                         OLELoaderConstants.OLEloaderMessage.PARENT_LOCATION_NOT_EXIST,
                         OLELoaderConstants.OLEloaderStatus.PARENT_LOCATION_NOT_EXIST);
             }else{
@@ -286,12 +300,12 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
                 if(oleLocation != null){
                     return oleLocationLoaderHelperService.updateOleLocation(oleLocation, oleLocationBo,context);
                 }else{
-                    return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_NOT_EXIST,OLELoaderConstants.OLEloaderMessage.LOCATION_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.LOCATION_NOT_EXIST);
+                    return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.LOCATION_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.LOCATION_NOT_EXIST);
                 }
             }
 
         }else{
-            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.BAD_REQUEST,OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
         }
     }
 
@@ -302,7 +316,7 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
         if(oleLocation != null){
             return oleLocation;
         }else{
-            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_NOT_EXIST,OLELoaderConstants.OLEloaderMessage.LOCATION_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.LOCATION_NOT_EXIST);
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.LOCATION_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.LOCATION_NOT_EXIST);
         }
     }
 
@@ -313,7 +327,7 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
         if(oleLocation != null){
             return oleLocation;
         }else{
-            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_NOT_EXIST,OLELoaderConstants.OLEloaderMessage.LOCATION_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.LOCATION_NOT_EXIST);
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.LOCATION_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.LOCATION_NOT_EXIST);
         }
     }
 
@@ -342,7 +356,7 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
         if(oleLocationLevel != null){
             return oleLocationLevel;
         }else{
-            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_LEVEL_NOT_EXIST,OLELoaderConstants.OLEloaderMessage.LOCATION_LEVEL_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.LOCATION_LEVEL_NOT_EXIST);
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.LOCATION_LEVEL_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.LOCATION_LEVEL_NOT_EXIST);
         }
     }
 
@@ -353,37 +367,195 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
         if(oleLocationLevel != null){
             return oleLocationLevel;
         }else{
-            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderCode.LOCATION_LEVEL_NOT_EXIST,OLELoaderConstants.OLEloaderMessage.LOCATION_LEVEL_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.LOCATION_LEVEL_NOT_EXIST);
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.LOCATION_LEVEL_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.LOCATION_LEVEL_NOT_EXIST);
         }
     }
 
-    public JSONObject getJsonObjectFromString(String body){
-        JSONObject jsonObject = null;
-        try {
-            jsonObject = new JSONObject(body);
-        } catch (JSONException e) {
-            e.printStackTrace();
+    @Override
+    public Object importLocationLevels(String bodyContent, HttpContext context) {
+        LOG.info("Inside importLocations method.");
+        OLELoaderImportResponseBo oleLoaderImportResponseBo = new OLELoaderImportResponseBo();
+        List<Integer> rejectLocationLevelList = new ArrayList<Integer>();
+        List<JSONObject> createdLocationLevelObject = new ArrayList<JSONObject>();
+        JSONObject requestJsonObject = getOleLoaderService().getJsonObjectFromString(bodyContent);
+        boolean validObject = false;
+        if(requestJsonObject != null) {
+            if (requestJsonObject.has("items")) {
+                String items = getOleLoaderService().getStringValueFromJsonObject(requestJsonObject, "items");
+                if (StringUtils.isNotBlank(items)) {
+                    JSONArray locationJsonArray = getOleLoaderService().getJsonArrayFromString(items);
+                    for (int index = 0; index < locationJsonArray.length(); index ++) {
+                        JSONObject jsonObject = null;
+                        OleLocationLevel oleLocationLevel = new OleLocationLevel();
+                        try {
+                            jsonObject = (JSONObject)locationJsonArray.get(index);
+                            if(jsonObject != null){
+                                if(jsonObject.has("name")){
+                                    String name = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"name");
+                                    if(StringUtils.isNotBlank(name)){
+                                        oleLocationLevel.setLevelName(name);
+                                        validObject = true;
+                                    }
+                                }
+                                if(jsonObject.has("code")){
+                                    String code = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"code");
+                                    if(StringUtils.isNotBlank(code)){
+                                        oleLocationLevel.setLevelCode(code);
+                                        validObject = true;
+                                    }
+                                }
+                                if(jsonObject.has("parent")){
+                                    JSONObject parentJsonObject = getOleLoaderService().getJsonObjectFromString(getOleLoaderService().getStringValueFromJsonObject(jsonObject,"parent"));
+                                    if(parentJsonObject != null){
+                                        String parentUrl = getOleLoaderService().getStringValueFromJsonObject(parentJsonObject,"@id");
+                                        if(StringUtils.isNotBlank(parentUrl)){
+                                            Map<String,Object> restResponseMap = OLELoaderRestClient.jerseryClientGet(parentUrl);
+                                            if((Integer)restResponseMap.get("status")== 200){
+                                                String parentResponseContent = (String)restResponseMap.get("content");
+                                                JSONObject parentResponseObject = getOleLoaderService().getJsonObjectFromString(parentResponseContent);
+                                                if(parentResponseObject != null){
+                                                    String urlId = getOleLoaderService().getStringValueFromJsonObject(parentResponseObject,"@id");
+                                                    if(StringUtils.isNotBlank(urlId)){
+                                                        String parentId = urlId.substring(urlId.indexOf("/api/locationLevel/")+19);
+                                                        oleLocationLevel.setParentLevelId(parentId);
+                                                        validObject = true;
+                                                    }
+                                                }else{
+                                                    rejectLocationLevelList.add(index+1);
+                                                    continue;
+                                                }
+                                            }else{
+                                                rejectLocationLevelList.add(index+1);
+                                                continue;
+                                            }
+
+
+                                        }
+                                    }
+                                }
+                            }
+                            if(oleLocationLevel != null && validObject){
+                                if(oleLocationLoaderHelperService.getLocationLevelByCode(oleLocationLevel.getLevelCode()) == null){
+                                    OleLocationLevel parentLocationLevel = oleLocationLoaderHelperService.getLocationLevelById(oleLocationLevel.getParentLevelId());
+                                    if (parentLocationLevel == null) {
+                                        rejectLocationLevelList.add(index+1);
+                                        continue;
+                                    }else {
+                                        try {
+                                            oleLocationLevel.setOleLocationLevel(oleLocationLevel);
+                                            oleLocationLevel = getBusinessObjectService().save(oleLocationLevel);
+                                            createdLocationLevelObject.add((JSONObject)oleLocationLoaderHelperService.formLocationLevelExportResponse(oleLocationLevel, OLELoaderConstants.OLELoaderContext.LOCATION_LEVEL,
+                                                    context.getRequest().getRequestUri().toASCIIString(), false));
+                                        } catch (Exception e) {
+                                            rejectLocationLevelList.add(index+1);
+                                            continue;
+                                        }
+                                    }
+                                }else{
+                                    rejectLocationLevelList.add(index+1);
+                                    continue;
+                                }
+
+
+                            }else{
+                                rejectLocationLevelList.add(index+1);
+                                continue;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            rejectLocationLevelList.add(index+1);
+                            continue;
+                        }
+                    }
+                }else{
+                    return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
+                }
+
+            }
+        }else{
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
         }
-        return jsonObject;
+        oleLoaderImportResponseBo.setOleRejectedBos(rejectLocationLevelList);
+        oleLoaderImportResponseBo.setOleCreatedBos(createdLocationLevelObject);
+        return oleLoaderImportResponseBo;
     }
 
-    public JSONArray getJsonArrayFromString(String body){
-        JSONArray jsonArray = null;
-        try {
-            jsonArray = new JSONArray(body);
-        } catch (JSONException e) {
-            e.printStackTrace();
+    @Override
+    public OLELoaderResponseBo updateLocationLevelById(String locationLevelId, String bodyContent, HttpContext context) {
+        LOG.info("Inside updateLocationLevelById method.");
+        OLELocationLevelBo oleLocationLevelBo = new OLELocationLevelBo();
+        JSONObject jsonObject = getOleLoaderService().getJsonObjectFromString(bodyContent);
+        boolean validObject = false;
+        if (jsonObject != null) {
+            if (jsonObject.has("name")) {
+                String name = getOleLoaderService().getStringValueFromJsonObject(jsonObject, "name");
+                if (StringUtils.isNotBlank(name)) {
+                    oleLocationLevelBo.setLevelName(name);
+                    validObject = true;
+                }
+            }
+           /* if (jsonObject.has("code")) {
+                String code = getOleLoaderService().getStringValueFromJsonObject(jsonObject, "code");
+                if (StringUtils.isNotBlank(code)) {
+                    oleLocationLevelBo.setLevelCode(code);
+                    validObject = true;
+                }
+            }*/
+            if (jsonObject.has("parent")) {
+                JSONObject levelJsonObject = getOleLoaderService().getJsonObjectFromString(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "parent"));
+                if (levelJsonObject != null) {
+                    String levelUrl = getOleLoaderService().getStringValueFromJsonObject(levelJsonObject, "@id");
+                    if (StringUtils.isNotBlank(levelUrl)) {
+                        Map<String, Object> restResponseMap = OLELoaderRestClient.jerseryClientGet(levelUrl);
+                        if ((Integer) restResponseMap.get("status") == 200) {
+                            String parentLevelResponseContent = (String) restResponseMap.get("content");
+                            JSONObject parentLevelResponseObject = getOleLoaderService().getJsonObjectFromString(parentLevelResponseContent);
+                            if (parentLevelResponseObject != null) {
+                                String urlId = getOleLoaderService().getStringValueFromJsonObject(parentLevelResponseObject, "@id");
+                                if (StringUtils.isNotBlank(urlId)) {
+                                    String levelId = urlId.substring(urlId.indexOf("/api/locationLevel/") + 19);
+                                    oleLocationLevelBo.setParentLevelId(levelId);
+                                    validObject = true;
+                                }
+                            } else {
+                                return getOleLoaderService().generateResponse(
+                                        OLELoaderConstants.OLEloaderMessage.PARENT_LOCATION_LEVEL_NOT_EXIST,
+                                        OLELoaderConstants.OLEloaderStatus.PARENT_LOCATION_LEVEL_NOT_EXIST);
+                            }
+                        } else {
+                            return getOleLoaderService().generateResponse(
+                                    OLELoaderConstants.OLEloaderMessage.PARENT_LOCATION_LEVEL_NOT_EXIST,
+                                    OLELoaderConstants.OLEloaderStatus.PARENT_LOCATION_LEVEL_NOT_EXIST);
+                        }
+                    }
+                }
+
+            }
+
+            if (oleLocationLevelBo != null && validObject) {
+                OleLocationLevel oleLocationLevel = oleLocationLoaderHelperService.getLocationLevelById(locationLevelId);
+                if (oleLocationLevel != null) {
+                    if (StringUtils.isNotBlank(oleLocationLevelBo.getParentLevelId())) {
+                        OleLocationLevel parentLocationLevel = oleLocationLoaderHelperService.getLocationLevelById(oleLocationLevelBo.getParentLevelId());
+                        if (parentLocationLevel != null) {
+                            oleLocationLevel.setOleLocationLevel(parentLocationLevel);
+                            oleLocationLevel.setParentLevelId(oleLocationLevelBo.getParentLevelId());
+                        } else {
+                            return getOleLoaderService().generateResponse(
+                                    OLELoaderConstants.OLEloaderMessage.PARENT_LOCATION_LEVEL_NOT_EXIST,
+                                    OLELoaderConstants.OLEloaderStatus.PARENT_LOCATION_LEVEL_NOT_EXIST);
+                        }
+                    }
+                    return oleLocationLoaderHelperService.updateOleLocationLevel(oleLocationLevel, oleLocationLevelBo, context);
+                } else {
+                    return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.LOCATION_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.LOCATION_NOT_EXIST);
+                }
+            } else {
+                return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
+            }
+        }else {
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
         }
-        return jsonArray;
     }
 
-    public String getStringValueFromJsonObject(JSONObject jsonObject, String key){
-        String returnValue = null;
-        try {
-            returnValue = jsonObject.getString(key);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return  returnValue;
-    }
 }

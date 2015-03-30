@@ -15,10 +15,6 @@ import javax.xml.bind.annotation.*;
 @JsonAutoDetect(JsonMethod.FIELD)
 public class OLELoaderResponseBo {
 
-    @XmlElement(name = "code")
-    @JsonProperty("code")
-    private String code;
-
     @XmlElement(name = "message")
     @JsonProperty("message")
     private String message;
@@ -30,14 +26,6 @@ public class OLELoaderResponseBo {
     @XmlElement(name = "details")
     @JsonProperty("details")
     private String details;
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public String getMessage() {
         return message;
