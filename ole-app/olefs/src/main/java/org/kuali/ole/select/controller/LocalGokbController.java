@@ -94,6 +94,7 @@ public class LocalGokbController extends UifControllerBase {
         LocalGokbForm localGokbForm = (LocalGokbForm)form;
         List<OleGokbUpdateLog> oleGokbUpdateLogList = new ArrayList<OleGokbUpdateLog>();
         List<OleGokbUpdateLog> oleGokbUpdateLogs =  (List<OleGokbUpdateLog>) KRADServiceLocator.getBusinessObjectService().findAll(OleGokbUpdateLog.class);
+        Collections.reverse(oleGokbUpdateLogs);
         for (OleGokbUpdateLog oleGokbUpdateLog : oleGokbUpdateLogs) {
             if(oleGokbUpdateLog.getId() != null) {
                 localGokbForm.setId(oleGokbUpdateLog.getId().toString());
@@ -122,9 +123,9 @@ public class LocalGokbController extends UifControllerBase {
             if(oleGokbUpdateLog.getEndTime() != null) {
                 localGokbForm.setEndTime(oleGokbUpdateLog.getEndTime());
             }
-            oleGokbUpdateLogList.add(oleGokbUpdateLog);
+           break;
         }
-        Collections.reverse(oleGokbUpdateLogList);
+        oleGokbUpdateLogList.addAll(oleGokbUpdateLogs);
         localGokbForm.setOleGokbUpdateLogList(oleGokbUpdateLogList);
         return localGokbForm;
     }
