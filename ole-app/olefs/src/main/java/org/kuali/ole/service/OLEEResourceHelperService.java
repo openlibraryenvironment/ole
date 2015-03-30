@@ -999,100 +999,101 @@ public class OLEEResourceHelperService {
             oleeResourceRecordDocuments = (List<OLEEResourceRecordDocument>) getBusinessObjectService().findAll(OLEEResourceRecordDocument.class);
         }
         for (OLEEResourceRecordDocument oleeResourceRecordDocument : oleeResourceRecordDocuments) {
-            Map packageMap = new HashMap();
-            packageMap.put("gokbPackageId", oleeResourceRecordDocument.getGokbIdentifier());
-            OleGokbPackage oleGokbPackage = (OleGokbPackage) getBusinessObjectService().findBySinglePrimaryKey(OleGokbPackage.class, oleeResourceRecordDocument.getGokbIdentifier());
-            if (oleGokbPackage != null) {
-                //if (oleeResourceRecordDocument.getGokbLastUpdatedDate() == null || oleGokbPackage.getDateUpdated().after(oleeResourceRecordDocument.getGokbLastUpdatedDate())) {
+            if (oleeResourceRecordDocument.getGokbIdentifier() != null) {
+                Map packageMap = new HashMap();
+                packageMap.put("gokbPackageId", oleeResourceRecordDocument.getGokbIdentifier());
+                OleGokbPackage oleGokbPackage = (OleGokbPackage) getBusinessObjectService().findBySinglePrimaryKey(OleGokbPackage.class, oleeResourceRecordDocument.getGokbIdentifier());
+                if (oleGokbPackage != null) {
+                    //if (oleeResourceRecordDocument.getGokbLastUpdatedDate() == null || oleGokbPackage.getDateUpdated().after(oleeResourceRecordDocument.getGokbLastUpdatedDate())) {
                     overwriteEresourceWithPackage(oleeResourceRecordDocument, oleGokbPackage, logId);
-                //}
-            }
-            //List<String> gokbIds = new ArrayList<>();
-            Map eholdingsMap = new HashMap();
-            for (OLEEResourceInstance oleeResourceInstance : oleeResourceRecordDocument.getOleERSInstances()) {
-                //gokbIds.add(oleeResourceInstance.getGokbId().toString());
-                eholdingsMap.put(oleeResourceInstance.getGokbId(), oleeResourceInstance);
-            }
-            Map map = new HashMap();
-            map.put("gokbPackageId", oleGokbPackage.getGokbPackageId());
-            List<OleGokbTipp> oleGokbTipps = (List<OleGokbTipp>) getBusinessObjectService().findMatching(OleGokbTipp.class, map);
-            List<OleGokbTipp> oleGokbTippTobeCreated = new ArrayList<>();
-            for (OleGokbTipp tipp : oleGokbTipps) {
-                if (!eholdingsMap.containsKey(tipp.getGokbTippId())) {
-                    oleGokbTippTobeCreated.add(tipp);
+                    //}
+                }
+                //List<String> gokbIds = new ArrayList<>();
+                Map eholdingsMap = new HashMap();
+                for (OLEEResourceInstance oleeResourceInstance : oleeResourceRecordDocument.getOleERSInstances()) {
+                    //gokbIds.add(oleeResourceInstance.getGokbId().toString());
+                    eholdingsMap.put(oleeResourceInstance.getGokbId(), oleeResourceInstance);
+                }
+                Map map = new HashMap();
+                map.put("gokbPackageId", oleGokbPackage.getGokbPackageId());
+                List<OleGokbTipp> oleGokbTipps = (List<OleGokbTipp>) getBusinessObjectService().findMatching(OleGokbTipp.class, map);
+                List<OleGokbTipp> oleGokbTippTobeCreated = new ArrayList<>();
+                for (OleGokbTipp tipp : oleGokbTipps) {
+                    if (!eholdingsMap.containsKey(tipp.getGokbTippId())) {
+                        oleGokbTippTobeCreated.add(tipp);
 //                    addTippToEresource(oleeResourceRecordDocument, tipp);
-                } else {
-                    if (tipp.getStatus().equalsIgnoreCase("Retired")) {
-                        SearchParams searchParams = new SearchParams();
-                        searchParams.buildSearchCondition("", searchParams.buildSearchField("Biblographic", "mdf_035a", "(GOKbUID)" + tipp.getGokbTitleId()), "AND");
-                        SearchResponse searchResponse = null;
-                        try {
-                            searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        String bibId = "";
-                        for (SearchResult searchResult : searchResponse.getSearchResults()) {
-                            for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
-                                if (searchResultField.getFieldName().equalsIgnoreCase("bibIdentifier")) {
-                                    bibId = searchResultField.getFieldValue();
-                                }
-                            }
-                        }
-                        Bib bib = null;
-                        try {
-                            bib = getDocstoreClientLocator().getDocstoreClient().retrieveBib(bibId);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        Holdings eHoldings = null;
-                        OLEEResourceInstance oleeResourceInstance = (OLEEResourceInstance) eholdingsMap.get(tipp.getGokbTippId());
-                        try {
-                            eHoldings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(oleeResourceInstance.getInstanceId());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        retireTippFromEresource(eHoldings, tipp, bib, oleeResourceRecordDocument, logId);
-                    } else if (tipp.getStatus().equalsIgnoreCase("Deleted")) {
-                        SearchParams searchParams = new SearchParams();
-                        searchParams.buildSearchCondition("", searchParams.buildSearchField("Biblographic", "mdf_035a", "(GOKbUID)" + tipp.getGokbTitleId()), "AND");
-                        SearchResponse searchResponse = null;
-                        try {
-                            searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        String bibId = "";
-                        for (SearchResult searchResult : searchResponse.getSearchResults()) {
-                            for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
-                                if (searchResultField.getFieldName().equalsIgnoreCase("bibIdentifier")) {
-                                    bibId = searchResultField.getFieldValue();
-                                }
-                            }
-                        }
-                        Bib bib = null;
-                        try {
-                            bib = getDocstoreClientLocator().getDocstoreClient().retrieveBib(bibId);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        Holdings eHoldings = null;
-                        OLEEResourceInstance oleeResourceInstance = (OLEEResourceInstance) eholdingsMap.get(tipp.getGokbTippId());
-                        try {
-                            eHoldings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(oleeResourceInstance.getInstanceId());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        deleteTippFromEresource(eHoldings, tipp, bib, oleeResourceRecordDocument, logId);
                     } else {
-                        SearchParams searchParams = new SearchParams();
-                        searchParams.buildSearchCondition("", searchParams.buildSearchField("Biblographic", "mdf_035a", "(GOKbUID)" + tipp.getGokbTitleId()), "AND");
-                        SearchResponse searchResponse = null;
-                        try {
-                            searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        if (tipp.getStatus().equalsIgnoreCase("Retired")) {
+                            SearchParams searchParams = new SearchParams();
+                            searchParams.buildSearchCondition("", searchParams.buildSearchField("Biblographic", "mdf_035a", "(GOKbUID)" + tipp.getGokbTitleId()), "AND");
+                            SearchResponse searchResponse = null;
+                            try {
+                                searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            String bibId = "";
+                            for (SearchResult searchResult : searchResponse.getSearchResults()) {
+                                for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
+                                    if (searchResultField.getFieldName().equalsIgnoreCase("bibIdentifier")) {
+                                        bibId = searchResultField.getFieldValue();
+                                    }
+                                }
+                            }
+                            Bib bib = null;
+                            try {
+                                bib = getDocstoreClientLocator().getDocstoreClient().retrieveBib(bibId);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            Holdings eHoldings = null;
+                            OLEEResourceInstance oleeResourceInstance = (OLEEResourceInstance) eholdingsMap.get(tipp.getGokbTippId());
+                            try {
+                                eHoldings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(oleeResourceInstance.getInstanceId());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            retireTippFromEresource(eHoldings, tipp, bib, oleeResourceRecordDocument, logId);
+                        } else if (tipp.getStatus().equalsIgnoreCase("Deleted")) {
+                            SearchParams searchParams = new SearchParams();
+                            searchParams.buildSearchCondition("", searchParams.buildSearchField("Biblographic", "mdf_035a", "(GOKbUID)" + tipp.getGokbTitleId()), "AND");
+                            SearchResponse searchResponse = null;
+                            try {
+                                searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            String bibId = "";
+                            for (SearchResult searchResult : searchResponse.getSearchResults()) {
+                                for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
+                                    if (searchResultField.getFieldName().equalsIgnoreCase("bibIdentifier")) {
+                                        bibId = searchResultField.getFieldValue();
+                                    }
+                                }
+                            }
+                            Bib bib = null;
+                            try {
+                                bib = getDocstoreClientLocator().getDocstoreClient().retrieveBib(bibId);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            Holdings eHoldings = null;
+                            OLEEResourceInstance oleeResourceInstance = (OLEEResourceInstance) eholdingsMap.get(tipp.getGokbTippId());
+                            try {
+                                eHoldings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(oleeResourceInstance.getInstanceId());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            deleteTippFromEresource(eHoldings, tipp, bib, oleeResourceRecordDocument, logId);
+                        } else {
+                            SearchParams searchParams = new SearchParams();
+                            searchParams.buildSearchCondition("", searchParams.buildSearchField("Biblographic", "mdf_035a", "(GOKbUID)" + tipp.getGokbTitleId()), "AND");
+                            SearchResponse searchResponse = null;
+                            try {
+                                searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         /*String bibId = "";
                         for (SearchResult searchResult : searchResponse.getSearchResults()) {
                             for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
@@ -1107,20 +1108,21 @@ public class OLEEResourceHelperService {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }*/
-                        Holdings eHoldings = null;
-                        OLEEResourceInstance oleeResourceInstance = (OLEEResourceInstance) eholdingsMap.get(tipp.getGokbTippId());
-                        try {
-                            eHoldings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(oleeResourceInstance.getInstanceId());
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            Holdings eHoldings = null;
+                            OLEEResourceInstance oleeResourceInstance = (OLEEResourceInstance) eholdingsMap.get(tipp.getGokbTippId());
+                            try {
+                                eHoldings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(oleeResourceInstance.getInstanceId());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            //if(tipp.getDateUpdated().after(eHoldings.))
+                            overwriteEholdingsWithTipp(eHoldings, tipp, oleeResourceRecordDocument, logId);
                         }
-                        //if(tipp.getDateUpdated().after(eHoldings.))
-                        overwriteEholdingsWithTipp(eHoldings, tipp, oleeResourceRecordDocument, logId);
                     }
                 }
-            }
-            if(oleGokbTippTobeCreated.size()>0){
-                addTippToEresource(oleeResourceRecordDocument, oleGokbTippTobeCreated, logId);
+                if (oleGokbTippTobeCreated.size() > 0) {
+                    addTippToEresource(oleeResourceRecordDocument, oleGokbTippTobeCreated, logId);
+                }
             }
         }
     }
