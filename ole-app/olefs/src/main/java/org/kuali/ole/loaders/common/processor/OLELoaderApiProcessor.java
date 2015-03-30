@@ -460,6 +460,66 @@ public class OLELoaderApiProcessor {
         }
     }
 
+    @GET
+    @Path("/bibliographicRecordStatus/{pk}")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response exportBibliographicRecordStatus(@Context HttpContext context, @PathParam("pk") String id){
+        Object object  = null;
+        OLEBibliographicRecordStatusLoaderService oleBibliographicRecordStatusLoaderService = (OLEBibliographicRecordStatusLoaderService) getOleLoaderService().getLoaderService("bibliographicRecordStatus");
+        OLEBibliographicRecordStatusLoaderHelperService oleBibliographicRecordStatusLoaderHelperService = (OLEBibliographicRecordStatusLoaderHelperService) getOleLoaderService().getLoaderHelperService("bibliographicRecordStatus");
+        if(id.matches("^([\\d]*)?$")){
+            object = oleBibliographicRecordStatusLoaderService.exportBibliographicRecordStatusById(id);
+        }else{
+            object = oleBibliographicRecordStatusLoaderService.exportBibliographicRecordStatusByCode(id);
+        }
+        if(object instanceof OleBibliographicRecordStatus){
+            object = oleBibliographicRecordStatusLoaderHelperService.formBibliographicRecordStatusExportResponse(object, OLELoaderConstants.OLELoaderContext.BORROWER_TYPE, context.getRequest().getRequestUri().toASCIIString(), true);
+            return  Response.status(200).entity(object).build();
+        }else if(object instanceof OLELoaderResponseBo){
+            return Response.status(((OLELoaderResponseBo) object).getStatusCode()).entity(((OLELoaderResponseBo) object).getMessage()).type(MediaType.TEXT_PLAIN).build();
+        }
+        return null;
+    }
+
+    @GET
+    @Path("/bibliographicRecordStatus")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response exportAllBibliographicRecordStatus(@Context HttpContext context){
+        OLEBibliographicRecordStatusLoaderService oleBibliographicRecordStatusLoaderService = (OLEBibliographicRecordStatusLoaderService) getOleLoaderService().getLoaderService("bibliographicRecordStatus");
+        OLEBibliographicRecordStatusLoaderHelperService oleBibliographicRecordStatusLoaderHelperService = (OLEBibliographicRecordStatusLoaderHelperService) getOleLoaderService().getLoaderHelperService("bibliographicRecordStatus");
+        List<OleBibliographicRecordStatus> oleInstanceBibliographicRecordStatus= oleBibliographicRecordStatusLoaderService.exportAllBibliographicRecordStatus();
+        if(CollectionUtils.isNotEmpty(oleInstanceBibliographicRecordStatus)){
+            Object object = oleBibliographicRecordStatusLoaderHelperService.formAllBibliographicRecordStatusExportResponse(context, oleInstanceBibliographicRecordStatus, OLELoaderConstants.OLELoaderContext.BORROWER_TYPE,
+                    context.getRequest().getRequestUri().toASCIIString());
+            return Response.status(200).entity(object).build();
+        }
+        return Response.status(500).entity(null).build();
+    }
+
+    @POST
+    @Path("/bibliographicRecordStatus")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response importBibliographicRecordStatus(@Context HttpContext context, String bodyContent){
+        LOG.info("Incoming request for Import Locations Level.");
+        OLEBibliographicRecordStatusLoaderService oleBibliographicRecordStatusLoaderService = (OLEBibliographicRecordStatusLoaderService) getOleLoaderService().getLoaderService("bibliographicRecordStatus");
+        Object object = oleBibliographicRecordStatusLoaderService.importBibliographicRecordStatus(bodyContent, context);
+        return getOleLoaderService().formResponseForImport(object,OLELoaderConstants.OLELoaderContext.BORROWER_TYPE);
+    }
+
+    @PUT
+    @Path("/bibliographicRecordStatus/{bibliographicRecordStatusId}")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response updateBibliographicRecordStatus(@Context HttpContext context, @PathParam("bibliographicRecordStatusId") String bibliographicRecordStatusId, String body){
+        LOG.info("Incoming request for update Location.");
+        OLEBibliographicRecordStatusLoaderService oleBibliographicRecordStatusLoaderService = (OLEBibliographicRecordStatusLoaderService) getOleLoaderService().getLoaderService("bibliographicRecordStatus");
+        OLELoaderResponseBo object = oleBibliographicRecordStatusLoaderService.updateBibliographicRecordStatusById(bibliographicRecordStatusId, body, context);
+        if(object.getStatusCode() == 200){
+            return  Response.status(object.getStatusCode()).entity(object.getDetails()).build();
+        }else{
+            return  Response.status(400).entity(object.getMessage()).type(MediaType.TEXT_PLAIN).build();
+        }
+    }
+
 
 
 }

@@ -6,15 +6,15 @@ import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.describe.bo.OleStatisticalSearchingCodes;
+import org.kuali.ole.describe.bo.OleBibliographicRecordStatus;
 import org.kuali.ole.loaders.common.bo.OLELoaderImportResponseBo;
 import org.kuali.ole.loaders.common.bo.OLELoaderResponseBo;
 import org.kuali.ole.loaders.common.constants.OLELoaderConstants;
 import org.kuali.ole.loaders.common.service.OLELoaderService;
 import org.kuali.ole.loaders.common.service.impl.OLELoaderServiceImpl;
-import org.kuali.ole.loaders.describe.bo.OLEStatisticalSearchingCodeBo;
-import org.kuali.ole.loaders.describe.service.OLEStatisticalSearchingCodeLoaderHelperService;
-import org.kuali.ole.loaders.describe.service.OLEStatisticalSearchingCodeLoaderService;
+import org.kuali.ole.loaders.describe.bo.OLEBibliographicRecordStatusBo;
+import org.kuali.ole.loaders.describe.service.OLEBibliographicRecordStatusLoaderHelperService;
+import org.kuali.ole.loaders.describe.service.OLEBibliographicRecordStatusLoaderService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -25,22 +25,22 @@ import java.util.List;
 /**
  * Created by sheiksalahudeenm on 27/3/15.
  */
-public class OLEStatisticalSearchingCodeLoaderServiceImpl implements OLEStatisticalSearchingCodeLoaderService {
+public class OLEBibliographicRecordStatusLoaderServiceImpl implements OLEBibliographicRecordStatusLoaderService {
 
-    private static final Logger LOG = Logger.getLogger(OLEStatisticalSearchingCodeLoaderServiceImpl.class);
-    private OLEStatisticalSearchingCodeLoaderHelperService oleStatisticalSearchingCodeLoaderHelperService;
+    private static final Logger LOG = Logger.getLogger(OLEBibliographicRecordStatusLoaderServiceImpl.class);
+    private OLEBibliographicRecordStatusLoaderHelperService oleBibliographicRecordStatusLoaderHelperService;
     private OLELoaderService oleLoaderService;
     private BusinessObjectService businessObjectService;
 
-    public OLEStatisticalSearchingCodeLoaderHelperService getOleStatisticalSearchingCodeLoaderHelperService() {
-        if(oleStatisticalSearchingCodeLoaderHelperService == null){
-            oleStatisticalSearchingCodeLoaderHelperService = new OLEStatisticalSearchingCodeLoaderHelperServiceImpl();
+    public OLEBibliographicRecordStatusLoaderHelperService getOleBibliographicRecordStatusLoaderHelperService() {
+        if(oleBibliographicRecordStatusLoaderHelperService == null){
+            oleBibliographicRecordStatusLoaderHelperService = new OLEBibliographicRecordStatusLoaderHelperServiceImpl();
         }
-        return oleStatisticalSearchingCodeLoaderHelperService;
+        return oleBibliographicRecordStatusLoaderHelperService;
     }
 
-    public void setOleStatisticalSearchingCodeLoaderHelperService(OLEStatisticalSearchingCodeLoaderHelperService oleStatisticalSearchingCodeLoaderHelperService) {
-        this.oleStatisticalSearchingCodeLoaderHelperService = oleStatisticalSearchingCodeLoaderHelperService;
+    public void setOleBibliographicRecordStatusLoaderHelperService(OLEBibliographicRecordStatusLoaderHelperService oleBibliographicRecordStatusLoaderHelperService) {
+        this.oleBibliographicRecordStatusLoaderHelperService = oleBibliographicRecordStatusLoaderHelperService;
     }
 
     public OLELoaderService getOleLoaderService() {
@@ -66,35 +66,35 @@ public class OLEStatisticalSearchingCodeLoaderServiceImpl implements OLEStatisti
     }
 
     @Override
-    public Object importStatisticalSearchingCode(String bodyContent, HttpContext context) {
-        LOG.info("Inside importStatisticalSearchingCode method.");
+    public Object importBibliographicRecordStatus(String bodyContent, HttpContext context) {
+        LOG.info("Inside importBibliographicRecordStatus method.");
         OLELoaderImportResponseBo oleLoaderImportResponseBo = new OLELoaderImportResponseBo();
-        List<Integer> rejectStatisticalSearchingCodeList = new ArrayList<Integer>();
-        List<JSONObject> createdStatisticalSearchingCodeObject = new ArrayList<JSONObject>();
+        List<Integer> rejectBibliographicRecordStatusList = new ArrayList<Integer>();
+        List<JSONObject> createdBibliographicRecordStatusObject = new ArrayList<JSONObject>();
         JSONObject requestJsonObject = getOleLoaderService().getJsonObjectFromString(bodyContent);
         boolean validObject = false;
         if(requestJsonObject != null) {
             if (requestJsonObject.has("items")) {
                 String items = getOleLoaderService().getStringValueFromJsonObject(requestJsonObject, "items");
                 if (StringUtils.isNotBlank(items)) {
-                    JSONArray statisticalSearchingCodeJsonArray = getOleLoaderService().getJsonArrayFromString(items);
-                    for (int index = 0; index < statisticalSearchingCodeJsonArray.length(); index ++) {
+                    JSONArray bibliographicRecordStatusJsonArray = getOleLoaderService().getJsonArrayFromString(items);
+                    for (int index = 0; index < bibliographicRecordStatusJsonArray.length(); index ++) {
                         JSONObject jsonObject = null;
-                        OleStatisticalSearchingCodes statisticalSearchingCode = new OleStatisticalSearchingCodes();
+                        OleBibliographicRecordStatus bibliographicRecordStatus = new OleBibliographicRecordStatus();
                         try {
-                            jsonObject = (JSONObject)statisticalSearchingCodeJsonArray.get(index);
+                            jsonObject = (JSONObject)bibliographicRecordStatusJsonArray.get(index);
                             if(jsonObject != null){
                                 if(jsonObject.has("name")){
                                     String name = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"name");
                                     if(StringUtils.isNotBlank(name)){
-                                        statisticalSearchingCode.setStatisticalSearchingName(name);
+                                        bibliographicRecordStatus.setBibliographicRecordStatusName(name);
                                         validObject = true;
                                     }
                                 }
                                 if(jsonObject.has("code")){
                                     String code = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"code");
                                     if(StringUtils.isNotBlank(code)){
-                                        statisticalSearchingCode.setStatisticalSearchingCode(code);
+                                        bibliographicRecordStatus.setBibliographicRecordStatusCode(code);
                                         validObject = true;
                                     }
                                 }
@@ -102,18 +102,18 @@ public class OLEStatisticalSearchingCodeLoaderServiceImpl implements OLEStatisti
                                 if(jsonObject.has("source")){
                                     String source = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"source");
                                     if(StringUtils.isNotBlank(source)){
-                                        statisticalSearchingCode.setSource(source);
+                                        bibliographicRecordStatus.setSource(source);
                                         validObject = true;
                                     }
                                 }
                                 if(jsonObject.has("active")){
                                     try{
                                         boolean active = Boolean.getBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
-                                        statisticalSearchingCode.setActive(active);
+                                        bibliographicRecordStatus.setActive(active);
                                         validObject = true;
                                     }catch(Exception e){
                                         e.printStackTrace();
-                                        rejectStatisticalSearchingCodeList.add(index+1);
+                                        rejectBibliographicRecordStatusList.add(index+1);
                                         continue;
                                     }
 
@@ -124,40 +124,40 @@ public class OLEStatisticalSearchingCodeLoaderServiceImpl implements OLEStatisti
                                     if(StringUtils.isNotBlank(sourceDate)){
                                         try{
                                             Date date = OLELoaderConstants.DATE_FORMAT.parse(sourceDate);
-                                            statisticalSearchingCode.setSourceDate(new java.sql.Date(date.getTime()));
+                                            bibliographicRecordStatus.setSourceDate(new java.sql.Date(date.getTime()));
                                             validObject = true;
                                         }catch(Exception e){
                                             e.printStackTrace();
-                                            rejectStatisticalSearchingCodeList.add(index+1);
+                                            rejectBibliographicRecordStatusList.add(index+1);
                                             continue;
                                         }
                                     }
                                 }
 
                             }
-                            if(statisticalSearchingCode != null && validObject){
-                                if(getOleStatisticalSearchingCodeLoaderHelperService().getStatisticalSearchingCodeByCode(statisticalSearchingCode.getStatisticalSearchingCode()) == null){
+                            if(bibliographicRecordStatus != null && validObject){
+                                if(getOleBibliographicRecordStatusLoaderHelperService().getBibliographicRecordStatusByCode(bibliographicRecordStatus.getBibliographicRecordStatusCode()) == null){
                                     try {
-                                        statisticalSearchingCode = getBusinessObjectService().save(statisticalSearchingCode);
-                                        createdStatisticalSearchingCodeObject.add((JSONObject)getOleStatisticalSearchingCodeLoaderHelperService().formStatisticalSearchingCodeExportResponse(statisticalSearchingCode, OLELoaderConstants.OLELoaderContext.STAT_SEARCH_CODE,
+                                        bibliographicRecordStatus = getBusinessObjectService().save(bibliographicRecordStatus);
+                                        createdBibliographicRecordStatusObject.add((JSONObject)getOleBibliographicRecordStatusLoaderHelperService().formBibliographicRecordStatusExportResponse(bibliographicRecordStatus, OLELoaderConstants.OLELoaderContext.BIB_RECORD_STATUS,
                                                 context.getRequest().getRequestUri().toASCIIString(), false));
                                     } catch (Exception e) {
-                                        rejectStatisticalSearchingCodeList.add(index+1);
+                                        rejectBibliographicRecordStatusList.add(index+1);
                                         continue;
                                     }
                                 }else{
-                                    rejectStatisticalSearchingCodeList.add(index+1);
+                                    rejectBibliographicRecordStatusList.add(index+1);
                                     continue;
                                 }
 
 
                             }else{
-                                rejectStatisticalSearchingCodeList.add(index+1);
+                                rejectBibliographicRecordStatusList.add(index+1);
                                 continue;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            rejectStatisticalSearchingCodeList.add(index+1);
+                            rejectBibliographicRecordStatusList.add(index+1);
                             continue;
                         }
                     }
@@ -169,22 +169,22 @@ public class OLEStatisticalSearchingCodeLoaderServiceImpl implements OLEStatisti
         }else{
             return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
         }
-        oleLoaderImportResponseBo.setOleRejectedBos(rejectStatisticalSearchingCodeList);
-        oleLoaderImportResponseBo.setOleCreatedBos(createdStatisticalSearchingCodeObject);
+        oleLoaderImportResponseBo.setOleRejectedBos(rejectBibliographicRecordStatusList);
+        oleLoaderImportResponseBo.setOleCreatedBos(createdBibliographicRecordStatusObject);
         return oleLoaderImportResponseBo;
     }
 
     @Override
-    public OLELoaderResponseBo updateStatisticalSearchingCodeById(String statisticalSearchingCodeId, String bodyContent, HttpContext context) {
-        LOG.info("Inside updateStatisticalSearchingCodeById method.");
-        OLEStatisticalSearchingCodeBo oleStatisticalSearchingCodeBo = new OLEStatisticalSearchingCodeBo();
+    public OLELoaderResponseBo updateBibliographicRecordStatusById(String bibliographicRecordStatusId, String bodyContent, HttpContext context) {
+        LOG.info("Inside updateBibliographicRecordStatusById method.");
+        OLEBibliographicRecordStatusBo oleBibliographicRecordStatusBo = new OLEBibliographicRecordStatusBo();
         JSONObject jsonObject = getOleLoaderService().getJsonObjectFromString(bodyContent);
         boolean validObject = false;
         if (jsonObject != null) {
             if (jsonObject.has("name")) {
                 String name = getOleLoaderService().getStringValueFromJsonObject(jsonObject, "name");
                 if (StringUtils.isNotBlank(name)) {
-                    oleStatisticalSearchingCodeBo.setStatisticalSearchingName(name);
+                    oleBibliographicRecordStatusBo.setBibliographicRecordStatusName(name);
                     validObject = true;
                 }
             }
@@ -192,7 +192,7 @@ public class OLEStatisticalSearchingCodeLoaderServiceImpl implements OLEStatisti
             if(jsonObject.has("source")){
                 String source = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"source");
                 if(StringUtils.isNotBlank(source)){
-                    oleStatisticalSearchingCodeBo.setSource(source);
+                    oleBibliographicRecordStatusBo.setSource(source);
                     validObject = true;
                 }
             }
@@ -200,7 +200,7 @@ public class OLEStatisticalSearchingCodeLoaderServiceImpl implements OLEStatisti
             if(jsonObject.has("active")){
                 try{
                     boolean active = Boolean.getBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
-                    oleStatisticalSearchingCodeBo.setActive(active);
+                    oleBibliographicRecordStatusBo.setActive(active);
                     validObject = true;
                 }catch(Exception e){
                     e.printStackTrace();
@@ -214,7 +214,7 @@ public class OLEStatisticalSearchingCodeLoaderServiceImpl implements OLEStatisti
                 if(StringUtils.isNotBlank(sourceDate)){
                     try{
                         Date date = OLELoaderConstants.DATE_FORMAT.parse(sourceDate);
-                        oleStatisticalSearchingCodeBo.setSourceDate(new java.sql.Date(date.getTime()));
+                        oleBibliographicRecordStatusBo.setSourceDate(new java.sql.Date(date.getTime()));
                         validObject = true;
                     }catch(Exception e){
                         e.printStackTrace();
@@ -222,12 +222,13 @@ public class OLEStatisticalSearchingCodeLoaderServiceImpl implements OLEStatisti
                     }
                 }
             }
-            if (oleStatisticalSearchingCodeBo != null && validObject) {
-                OleStatisticalSearchingCodes oleStatisticalSearchingCode = getOleStatisticalSearchingCodeLoaderHelperService().getStatisticalSearchingCodeById(statisticalSearchingCodeId);
-                if (oleStatisticalSearchingCode != null) {
-                    return getOleStatisticalSearchingCodeLoaderHelperService().updateOleStatisticalSearchingCode(oleStatisticalSearchingCode, oleStatisticalSearchingCodeBo, context);
+
+            if (oleBibliographicRecordStatusBo != null && validObject) {
+                OleBibliographicRecordStatus oleBibliographicRecordStatus = getOleBibliographicRecordStatusLoaderHelperService().getBibliographicRecordStatusById(bibliographicRecordStatusId);
+                if (oleBibliographicRecordStatus != null) {
+                    return getOleBibliographicRecordStatusLoaderHelperService().updateOleBibliographicRecordStatus(oleBibliographicRecordStatus, oleBibliographicRecordStatusBo, context);
                 } else {
-                    return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.STAT_SEARCH_CODE_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.STAT_SEARCH_CODE_NOT_EXIST);
+                    return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BIB_RECORD_STATUS_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.BIB_RECORD_STATUS_NOT_EXIST);
                 }
             } else {
                 return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
@@ -238,31 +239,31 @@ public class OLEStatisticalSearchingCodeLoaderServiceImpl implements OLEStatisti
     }
 
     @Override
-    public Object exportStatisticalSearchingCodeById(String statisticalSearchingCodeId) {
-        LOG.info("Inside exportStatisticalSearchingCodeById method.");
-        OleStatisticalSearchingCodes oleStatisticalSearchingCode = getOleStatisticalSearchingCodeLoaderHelperService().getStatisticalSearchingCodeById(statisticalSearchingCodeId);
-        if(oleStatisticalSearchingCode != null){
-            return oleStatisticalSearchingCode;
+    public Object exportBibliographicRecordStatusById(String bibliographicRecordStatusId) {
+        LOG.info("Inside exportBibliographicRecordStatusById method.");
+        OleBibliographicRecordStatus oleBibliographicRecordStatus = getOleBibliographicRecordStatusLoaderHelperService().getBibliographicRecordStatusById(bibliographicRecordStatusId);
+        if(oleBibliographicRecordStatus != null){
+            return oleBibliographicRecordStatus;
         }else{
-            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.STAT_SEARCH_CODE_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.STAT_SEARCH_CODE_NOT_EXIST);
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BIB_RECORD_STATUS_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.BIB_RECORD_STATUS_NOT_EXIST);
         }
     }
 
     @Override
-    public Object exportStatisticalSearchingCodeByCode(String statisticalSearchingCodeCode) {
-        LOG.info("Inside exportStatisticalSearchingCodeByCode method.");
-        OleStatisticalSearchingCodes oleStatisticalSearchingCode = getOleStatisticalSearchingCodeLoaderHelperService().getStatisticalSearchingCodeByCode(statisticalSearchingCodeCode);
-        if(oleStatisticalSearchingCode != null){
-            return oleStatisticalSearchingCode;
+    public Object exportBibliographicRecordStatusByCode(String bibliographicRecordStatusCode) {
+        LOG.info("Inside exportBibliographicRecordStatusByCode method.");
+        OleBibliographicRecordStatus oleBibliographicRecordStatus = getOleBibliographicRecordStatusLoaderHelperService().getBibliographicRecordStatusByCode(bibliographicRecordStatusCode);
+        if(oleBibliographicRecordStatus != null){
+            return oleBibliographicRecordStatus;
         }else{
-            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.STAT_SEARCH_CODE_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.STAT_SEARCH_CODE_NOT_EXIST);
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BIB_RECORD_STATUS_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.BIB_RECORD_STATUS_NOT_EXIST);
         }
     }
 
     @Override
-    public List<OleStatisticalSearchingCodes> exportAllStatisticalSearchingCode() {
-        LOG.info("Inside exportAllStatisticalSearchingCode method.");
-        List<OleStatisticalSearchingCodes> oleStatisticalSearchingCode = getOleStatisticalSearchingCodeLoaderHelperService().getAllStatisticalSearchingCode();
-        return oleStatisticalSearchingCode;
+    public List<OleBibliographicRecordStatus> exportAllBibliographicRecordStatus() {
+        LOG.info("Inside exportAllBibliographicRecordStatus method.");
+        List<OleBibliographicRecordStatus> oleBibliographicRecordStatus = getOleBibliographicRecordStatusLoaderHelperService().getAllBibliographicRecordStatus();
+        return oleBibliographicRecordStatus;
     }
 }

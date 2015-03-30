@@ -45,6 +45,9 @@ public class OLELoaderServiceImpl implements OLELoaderService {
     private OLEItemAvailableStatusLoaderService oleItemAvailableStatusLoaderService;
     private OLEItemAvailableStatusLoaderHelperService oleItemAvailableStatusLoaderHelperService;
 
+    private OLEBibliographicRecordStatusLoaderService oleBibliographicRecordStatusLoaderService;
+    private OLEBibliographicRecordStatusLoaderHelperService oleBibliographicRecordStatusLoaderHelperService;
+
     @Override
     public OLELoaderResponseBo generateResponse(String message, int statusCode) {
         OLELoaderResponseBo oleLoaderResponseBo=new OLELoaderResponseBo();
@@ -150,6 +153,11 @@ public class OLELoaderServiceImpl implements OLELoaderService {
                 oleItemAvailableStatusLoaderService = new OLEItemAvailableStatusLoaderServiceImpl();
             }
             return oleItemAvailableStatusLoaderService;
+        }else if(serviceName.equals("bibliographicRecordStatus")){
+            if(oleBibliographicRecordStatusLoaderService == null){
+                oleBibliographicRecordStatusLoaderService = new OLEBibliographicRecordStatusLoaderServiceImpl();
+            }
+            return oleBibliographicRecordStatusLoaderService;
         }
         return null;
     }
@@ -186,6 +194,11 @@ public class OLELoaderServiceImpl implements OLELoaderService {
                 oleItemAvailableStatusLoaderHelperService = new OLEItemAvailableStatusLoaderHelperServiceImpl();
             }
             return oleItemAvailableStatusLoaderHelperService;
+        }else if(serviceName.equals("bibliographicRecordStatus")){
+            if(oleBibliographicRecordStatusLoaderHelperService == null){
+                oleBibliographicRecordStatusLoaderHelperService = new OLEBibliographicRecordStatusLoaderHelperServiceImpl();
+            }
+            return oleBibliographicRecordStatusLoaderHelperService;
         }
         return null;
     }

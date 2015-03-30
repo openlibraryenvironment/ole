@@ -19,6 +19,7 @@ public class OLELoaderConstants {
     public static final String BORROWER_TYPE_URI = API_ROOT + "/borrowerType";
     public static final String ITEM_STATUS_URI = API_ROOT + "/itemAvailableStatus";
     public static final String STAT_SEARCH_CODE_URI = API_ROOT + "/statisticalSearchingCode";
+    public static final String BIB_RECORD_STATUS_URI = API_ROOT + "/bibliographicRecordStatus";
     /*OleShelvingScheme*/
     public static final String SLASH = "/";
 
@@ -58,6 +59,11 @@ public class OLELoaderConstants {
         public static final int STAT_SEARCH_CODE_SUCCESS = 200;
         public static final int STAT_SEARCH_CODE_FAILED = 500;
         public static final int STAT_SEARCH_CODE_INVALID_CONTENT = 500;
+
+        public static final int BIB_RECORD_STATUS_NOT_EXIST = 200;
+        public static final int BIB_RECORD_STATUS_SUCCESS = 200;
+        public static final int BIB_RECORD_STATUS_FAILED = 500;
+        public static final int BIB_RECORD_STATUS_INVALID_CONTENT = 500;
 
         public static final int ITEM_TYPE_NOT_EXIST = 200;
         public static final int ITEM_TYPE_SUCCESS = 200;
@@ -110,6 +116,11 @@ public class OLELoaderConstants {
         public static final String STAT_SEARCH_CODE_FAILED = "Statistical Search Code update failed.";
         public static final String STAT_SEARCH_CODE_INVALID_CONTENT = "Invalid input content for Statistical Search Code";
 
+        public static final String BIB_RECORD_STATUS_NOT_EXIST = "Bibliographic Record Status does not exits.";
+        public static final String BIB_RECORD_STATUS_SUCCESS = "Successfully Updated the bibliographic record status.";
+        public static final String BIB_RECORD_STATUS_FAILED = "Bibliographic record status update failed.";
+        public static final String BIB_RECORD_STATUS_INVALID_CONTENT = "Invalid input content for bibliographic record status";
+
         public static final String BAD_REQUEST = "Bad Request";
         public static final String INVALID_BOOLEAN = "Invalid content for boolean field";
         public static final String INVALID_DATE = "Invalid content/format for date field";
@@ -123,7 +134,7 @@ public class OLELoaderConstants {
         public static String ITEM_STATUS = "http://ole.kuali.org/standards/api/itemAvailabilityStatus.jsonld";
         public static String SHELVING_SCHEME = "http://ole.kuali.org/standards/api/callNumberType.jsonld";
         public static String STAT_SEARCH_CODE = "http://ole.kuali.org/standards/api/statSearchCode.jsonld";
-       /* public static String BIBLIOGRAPHIC_RECORD_STATUS = "http://ole.kuali.org/standards/api/location.jsonld";*/
+        public static String BIB_RECORD_STATUS = "http://ole.kuali.org/standards/api/bibRecordStatus.jsonld";
         public static String BORROWER_TYPE = "http://ole.kuali.org/standards/api/borrowerType.jsonld";
         public static String PATRON = "http://ole.kuali.org/standards/api/patron.jsonld";
         public static String CIRCULATION_DESK = "http://ole.kuali.org/standards/api/circulationDesk.jsonld";
