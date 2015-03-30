@@ -6,6 +6,8 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.deliver.bo.OleBorrowerType;
+import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
 import org.kuali.ole.describe.bo.OleShelvingScheme;
@@ -15,11 +17,10 @@ import org.kuali.ole.loaders.common.bo.OLELoaderResponseBo;
 import org.kuali.ole.loaders.common.constants.OLELoaderConstants;
 import org.kuali.ole.loaders.common.service.OLELoaderService;
 import org.kuali.ole.loaders.common.service.impl.OLELoaderServiceImpl;
+import org.kuali.ole.loaders.deliver.service.OLEBorrowerTypeLoaderHelperService;
+import org.kuali.ole.loaders.deliver.service.OLEBorrowerTypeLoaderService;
 import org.kuali.ole.loaders.describe.bo.*;
-import org.kuali.ole.loaders.describe.service.OLELocationLoaderHelperService;
-import org.kuali.ole.loaders.describe.service.OLELocationLoaderService;
-import org.kuali.ole.loaders.describe.service.OLEShelvingSchemeLoaderHelperService;
-import org.kuali.ole.loaders.describe.service.OLEShelvingSchemeLoaderService;
+import org.kuali.ole.loaders.describe.service.*;
 import org.kuali.ole.loaders.describe.service.impl.OLELocationLoaderHelperServiceImpl;
 import org.kuali.ole.loaders.describe.service.impl.OLELocationLoaderServiceImpl;
 
@@ -164,7 +165,7 @@ public class OLELoaderApiProcessor {
             object = oleShelvingSchemeLoaderService.exportShelvingSchemeById(id);
         }
         if(object instanceof OleShelvingScheme){
-            object = oleShelvingSchemeLoaderHelperService.formOleShelvingSchemeExportResponse(object, OLELoaderConstants.OLELoaderContext.LOCATION_LEVEL, context.getRequest().getRequestUri().toASCIIString(), true);
+            object = oleShelvingSchemeLoaderHelperService.formOleShelvingSchemeExportResponse(object, OLELoaderConstants.OLELoaderContext.SHELVING_SCHEME, context.getRequest().getRequestUri().toASCIIString(), true);
             return  Response.status(200).entity(object).build();
         }else if(object instanceof  OLELoaderResponseBo){
             return Response.status(((OLELoaderResponseBo) object).getStatusCode()).entity(((OLELoaderResponseBo) object).getMessage()).type(MediaType.TEXT_PLAIN).build();
@@ -210,8 +211,128 @@ public class OLELoaderApiProcessor {
         }else{
             return  Response.status(400).entity(object.getMessage()).type(MediaType.TEXT_PLAIN).build();
         }
-
     }
+
+    @GET
+    @Path("/itemType/{pk}")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response exportItemType(@Context HttpContext context, @PathParam("pk") String id){
+        Object object  = null;
+        OLEItemTypeLoaderService oleItemTypeLoaderService = (OLEItemTypeLoaderService) getOleLoaderService().getLoaderService("itemType");
+        OLEItemTypeLoaderHelperService oleItemTypeLoaderHelperService = (OLEItemTypeLoaderHelperService) getOleLoaderService().getLoaderHelperService("itemType");
+        if(id.matches("^([\\d]*)?$")){
+            object = oleItemTypeLoaderService.exportItemTypeById(id);
+        }else{
+            object = oleItemTypeLoaderService.exportItemTypeByCode(id);
+        }
+        if(object instanceof OleInstanceItemType){
+            object = oleItemTypeLoaderHelperService.formOleInstanceItemTypeExportResponse(object, OLELoaderConstants.OLELoaderContext.ITEM_TYPE, context.getRequest().getRequestUri().toASCIIString(), true);
+            return  Response.status(200).entity(object).build();
+        }else if(object instanceof  OLELoaderResponseBo){
+            return Response.status(((OLELoaderResponseBo) object).getStatusCode()).entity(((OLELoaderResponseBo) object).getMessage()).type(MediaType.TEXT_PLAIN).build();
+        }
+        return null;
+    }
+
+    @GET
+    @Path("/itemType")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response exportAllitemTypes(@Context HttpContext context){
+        OLEItemTypeLoaderService oleItemTypeLoaderService = (OLEItemTypeLoaderService) getOleLoaderService().getLoaderService("itemType");
+        OLEItemTypeLoaderHelperService oleItemTypeLoaderHelperService = (OLEItemTypeLoaderHelperService) getOleLoaderService().getLoaderHelperService("itemType");
+        List<OleInstanceItemType> oleInstanceItemTypes= oleItemTypeLoaderService.exportAllItemTypes();
+        if(CollectionUtils.isNotEmpty(oleInstanceItemTypes)){
+            Object object = oleItemTypeLoaderHelperService.formAllItemTypeExportResponse(context, oleInstanceItemTypes, OLELoaderConstants.OLELoaderContext.ITEM_TYPE,
+                    context.getRequest().getRequestUri().toASCIIString());
+            return Response.status(200).entity(object).build();
+        }
+        return Response.status(500).entity(null).build();
+    }
+
+    @POST
+    @Path("/itemType")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response importIitemTypeS(@Context HttpContext context, String bodyContent){
+        LOG.info("Incoming request for Import Locations Level.");
+        OLEItemTypeLoaderService oleItemTypeLoaderService = (OLEItemTypeLoaderService) getOleLoaderService().getLoaderService("itemType");
+        Object object = oleItemTypeLoaderService.importItemTypes(bodyContent, context);
+        return getOleLoaderService().formResponseForImport(object,OLELoaderConstants.OLELoaderContext.ITEM_TYPE);
+    }
+
+    @PUT
+    @Path("/itemType/{itemTypeId}")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response updateItemType(@Context HttpContext context, @PathParam("itemTypeId") String itemTypeId, String body){
+        LOG.info("Incoming request for update Location.");
+        OLEItemTypeLoaderService oleItemTypeLoaderService = (OLEItemTypeLoaderService) getOleLoaderService().getLoaderService("itemType");
+        OLELoaderResponseBo object = oleItemTypeLoaderService.updateItemTypeById(itemTypeId, body, context);
+        if(object.getStatusCode() == 200){
+            return  Response.status(object.getStatusCode()).entity(object.getDetails()).build();
+        }else{
+            return  Response.status(400).entity(object.getMessage()).type(MediaType.TEXT_PLAIN).build();
+        }
+    }
+
+    @GET
+    @Path("/borrowerType/{pk}")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response exportBorrowerType(@Context HttpContext context, @PathParam("pk") String id){
+        Object object  = null;
+        OLEBorrowerTypeLoaderService oleBorrowerTypeLoaderService = (OLEBorrowerTypeLoaderService) getOleLoaderService().getLoaderService("borrowerType");
+        OLEBorrowerTypeLoaderHelperService oleBorrowerTypeLoaderHelperService = (OLEBorrowerTypeLoaderHelperService) getOleLoaderService().getLoaderHelperService("borrowerType");
+        if(id.matches("^([\\d]*)?$")){
+            object = oleBorrowerTypeLoaderService.exportBorrowerTypeById(id);
+        }else{
+            object = oleBorrowerTypeLoaderService.exportBorrowerTypeByCode(id);
+        }
+        if(object instanceof OleBorrowerType){
+            object = oleBorrowerTypeLoaderHelperService.formOleBorrowerTypeExportResponse(object, OLELoaderConstants.OLELoaderContext.BORROWER_TYPE, context.getRequest().getRequestUri().toASCIIString(), true);
+            return  Response.status(200).entity(object).build();
+        }else if(object instanceof OLELoaderResponseBo){
+            return Response.status(((OLELoaderResponseBo) object).getStatusCode()).entity(((OLELoaderResponseBo) object).getMessage()).type(MediaType.TEXT_PLAIN).build();
+        }
+        return null;
+    }
+
+    @GET
+    @Path("/borrowerType")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response exportAllBorrowerTypes(@Context HttpContext context){
+        OLEBorrowerTypeLoaderService oleBorrowerTypeLoaderService = (OLEBorrowerTypeLoaderService) getOleLoaderService().getLoaderService("borrowerType");
+        OLEBorrowerTypeLoaderHelperService oleBorrowerTypeLoaderHelperService = (OLEBorrowerTypeLoaderHelperService) getOleLoaderService().getLoaderHelperService("borrowerType");
+        List<OleBorrowerType> oleInstanceBorrowerTypes= oleBorrowerTypeLoaderService.exportAllBorrowerTypes();
+        if(CollectionUtils.isNotEmpty(oleInstanceBorrowerTypes)){
+            Object object = oleBorrowerTypeLoaderHelperService.formAllBorrowerTypeExportResponse(context, oleInstanceBorrowerTypes, OLELoaderConstants.OLELoaderContext.BORROWER_TYPE,
+                    context.getRequest().getRequestUri().toASCIIString());
+            return Response.status(200).entity(object).build();
+        }
+        return Response.status(500).entity(null).build();
+    }
+
+    @POST
+    @Path("/borrowerType")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response importBorrowerType(@Context HttpContext context, String bodyContent){
+        LOG.info("Incoming request for Import Locations Level.");
+        OLEBorrowerTypeLoaderService oleBorrowerTypeLoaderService = (OLEBorrowerTypeLoaderService) getOleLoaderService().getLoaderService("borrowerType");
+        Object object = oleBorrowerTypeLoaderService.importBorrowerTypes(bodyContent, context);
+        return getOleLoaderService().formResponseForImport(object,OLELoaderConstants.OLELoaderContext.BORROWER_TYPE);
+    }
+
+    @PUT
+    @Path("/borrowerType/{borrowerTypeId}")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response updateBorrowerType(@Context HttpContext context, @PathParam("borrowerTypeId") String borrowerTypeId, String body){
+        LOG.info("Incoming request for update Location.");
+        OLEBorrowerTypeLoaderService oleBorrowerTypeLoaderService = (OLEBorrowerTypeLoaderService) getOleLoaderService().getLoaderService("borrowerType");
+        OLELoaderResponseBo object = oleBorrowerTypeLoaderService.updateBorrowerTypeById(borrowerTypeId, body, context);
+        if(object.getStatusCode() == 200){
+            return  Response.status(object.getStatusCode()).entity(object.getDetails()).build();
+        }else{
+            return  Response.status(400).entity(object.getMessage()).type(MediaType.TEXT_PLAIN).build();
+        }
+    }
+
 
 
 }

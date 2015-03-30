@@ -6,43 +6,42 @@ import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.describe.bo.OleShelvingScheme;
+import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.loaders.common.bo.OLELoaderImportResponseBo;
 import org.kuali.ole.loaders.common.bo.OLELoaderResponseBo;
 import org.kuali.ole.loaders.common.constants.OLELoaderConstants;
-import org.kuali.ole.loaders.common.service.OLELoaderRestClient;
 import org.kuali.ole.loaders.common.service.OLELoaderService;
 import org.kuali.ole.loaders.common.service.impl.OLELoaderServiceImpl;
-import org.kuali.ole.loaders.describe.bo.OLEShelvingSchemeBo;
-import org.kuali.ole.loaders.describe.service.OLEShelvingSchemeLoaderHelperService;
-import org.kuali.ole.loaders.describe.service.OLEShelvingSchemeLoaderService;
+import org.kuali.ole.loaders.describe.bo.OLEItemTypeBo;
+import org.kuali.ole.loaders.describe.service.OLEItemTypeLoaderService;
+import org.kuali.ole.loaders.describe.service.OLEItemTypeLoaderHelperService;
+import org.kuali.ole.loaders.describe.service.OLEItemTypeLoaderService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by sheiksalahudeenm on 27/3/15.
  */
-public class OLEShelvingSchemeLoaderServiceImpl implements OLEShelvingSchemeLoaderService {
+public class OLEItemTypeLoaderServiceImpl implements OLEItemTypeLoaderService {
 
-    private static final Logger LOG = Logger.getLogger(OLEShelvingSchemeLoaderServiceImpl.class);
-    private OLEShelvingSchemeLoaderHelperService oleShelvingSchemeLoaderHelperService;
+    private static final Logger LOG = Logger.getLogger(OLEItemTypeLoaderServiceImpl.class);
+    private OLEItemTypeLoaderHelperService oleItemTypeLoaderHelperService;
     private OLELoaderService oleLoaderService;
     private BusinessObjectService businessObjectService;
 
-    public OLEShelvingSchemeLoaderHelperService getOleShelvingSchemeLoaderHelperService() {
-        if(oleShelvingSchemeLoaderHelperService == null){
-            oleShelvingSchemeLoaderHelperService = new OLEShelvingSchemeLoaderHelperServiceImpl();
+    public OLEItemTypeLoaderHelperService getOleInstanceItemTypeLoaderHelperService() {
+        if(oleItemTypeLoaderHelperService == null){
+            oleItemTypeLoaderHelperService = new OLEItemTypeLoaderHelperServiceImpl();
         }
-        return oleShelvingSchemeLoaderHelperService;
+        return oleItemTypeLoaderHelperService;
     }
 
-    public void setOleShelvingSchemeLoaderHelperService(OLEShelvingSchemeLoaderHelperService oleShelvingSchemeLoaderHelperService) {
-        this.oleShelvingSchemeLoaderHelperService = oleShelvingSchemeLoaderHelperService;
+    public void setOleInstanceItemTypeLoaderHelperService(OLEItemTypeLoaderHelperService oleItemTypeLoaderHelperService) {
+        this.oleItemTypeLoaderHelperService = oleItemTypeLoaderHelperService;
     }
 
     public OLELoaderService getOleLoaderService() {
@@ -68,35 +67,35 @@ public class OLEShelvingSchemeLoaderServiceImpl implements OLEShelvingSchemeLoad
     }
 
     @Override
-    public Object importShelvingSchemes(String bodyContent, HttpContext context) {
-        LOG.info("Inside importShelvingSchemes method.");
+    public Object importItemTypes(String bodyContent, HttpContext context) {
+        LOG.info("Inside importItemTypes method.");
         OLELoaderImportResponseBo oleLoaderImportResponseBo = new OLELoaderImportResponseBo();
-        List<Integer> rejectShelvingSchemeList = new ArrayList<Integer>();
-        List<JSONObject> createdShelvingSchemeObject = new ArrayList<JSONObject>();
+        List<Integer> rejectItemTypeList = new ArrayList<Integer>();
+        List<JSONObject> createdItemTypeObject = new ArrayList<JSONObject>();
         JSONObject requestJsonObject = getOleLoaderService().getJsonObjectFromString(bodyContent);
         boolean validObject = false;
         if(requestJsonObject != null) {
             if (requestJsonObject.has("items")) {
                 String items = getOleLoaderService().getStringValueFromJsonObject(requestJsonObject, "items");
                 if (StringUtils.isNotBlank(items)) {
-                    JSONArray shelvingSchemeJsonArray = getOleLoaderService().getJsonArrayFromString(items);
-                    for (int index = 0; index < shelvingSchemeJsonArray.length(); index ++) {
+                    JSONArray itemTypeJsonArray = getOleLoaderService().getJsonArrayFromString(items);
+                    for (int index = 0; index < itemTypeJsonArray.length(); index ++) {
                         JSONObject jsonObject = null;
-                        OleShelvingScheme shelvingScheme = new OleShelvingScheme();
+                        OleInstanceItemType itemType = new OleInstanceItemType();
                         try {
-                            jsonObject = (JSONObject)shelvingSchemeJsonArray.get(index);
+                            jsonObject = (JSONObject)itemTypeJsonArray.get(index);
                             if(jsonObject != null){
                                 if(jsonObject.has("name")){
                                     String name = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"name");
                                     if(StringUtils.isNotBlank(name)){
-                                        shelvingScheme.setShelvingSchemeName(name);
+                                        itemType.setInstanceItemTypeName(name);
                                         validObject = true;
                                     }
                                 }
                                 if(jsonObject.has("code")){
                                     String code = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"code");
                                     if(StringUtils.isNotBlank(code)){
-                                        shelvingScheme.setShelvingSchemeCode(code);
+                                        itemType.setInstanceItemTypeCode(code);
                                         validObject = true;
                                     }
                                 }
@@ -104,18 +103,27 @@ public class OLEShelvingSchemeLoaderServiceImpl implements OLEShelvingSchemeLoad
                                 if(jsonObject.has("source")){
                                     String source = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"source");
                                     if(StringUtils.isNotBlank(source)){
-                                        shelvingScheme.setSource(source);
+                                        itemType.setSource(source);
                                         validObject = true;
                                     }
                                 }
+
+                                if(jsonObject.has("description")){
+                                    String description = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"description");
+                                    if(StringUtils.isNotBlank(description)){
+                                        itemType.setInstanceItemTypeDesc(description);
+                                        validObject = true;
+                                    }
+                                }
+
                                 if(jsonObject.has("active")){
                                     try{
                                         boolean active = Boolean.getBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
-                                        shelvingScheme.setActive(active);
+                                        itemType.setActive(active);
                                         validObject = true;
                                     }catch(Exception e){
                                         e.printStackTrace();
-                                        rejectShelvingSchemeList.add(index+1);
+                                        rejectItemTypeList.add(index+1);
                                         continue;
                                     }
 
@@ -126,40 +134,40 @@ public class OLEShelvingSchemeLoaderServiceImpl implements OLEShelvingSchemeLoad
                                     if(StringUtils.isNotBlank(sourceDate)){
                                         try{
                                             Date date = OLELoaderConstants.DATE_FORMAT.parse(sourceDate);
-                                            shelvingScheme.setSourceDate(new java.sql.Date(date.getTime()));
+                                            itemType.setSourceDate(new java.sql.Date(date.getTime()));
                                             validObject = true;
                                         }catch(Exception e){
                                             e.printStackTrace();
-                                            rejectShelvingSchemeList.add(index+1);
+                                            rejectItemTypeList.add(index+1);
                                             continue;
                                         }
                                     }
                                 }
 
                             }
-                            if(shelvingScheme != null && validObject){
-                                if(getOleShelvingSchemeLoaderHelperService().getShelvingSchemeByCode(shelvingScheme.getShelvingSchemeCode()) == null){
+                            if(itemType != null && validObject){
+                                if(getOleInstanceItemTypeLoaderHelperService().getItemTypeByCode(itemType.getInstanceItemTypeCode()) == null){
                                     try {
-                                        shelvingScheme = getBusinessObjectService().save(shelvingScheme);
-                                        createdShelvingSchemeObject.add((JSONObject)getOleShelvingSchemeLoaderHelperService().formOleShelvingSchemeExportResponse(shelvingScheme, OLELoaderConstants.OLELoaderContext.SHELVING_SCHEME,
+                                        itemType = getBusinessObjectService().save(itemType);
+                                        createdItemTypeObject.add((JSONObject)getOleInstanceItemTypeLoaderHelperService().formOleInstanceItemTypeExportResponse(itemType, OLELoaderConstants.OLELoaderContext.ITEM_TYPE,
                                                 context.getRequest().getRequestUri().toASCIIString(), false));
                                     } catch (Exception e) {
-                                        rejectShelvingSchemeList.add(index+1);
+                                        rejectItemTypeList.add(index+1);
                                         continue;
                                     }
                                 }else{
-                                    rejectShelvingSchemeList.add(index+1);
+                                    rejectItemTypeList.add(index+1);
                                     continue;
                                 }
 
 
                             }else{
-                                rejectShelvingSchemeList.add(index+1);
+                                rejectItemTypeList.add(index+1);
                                 continue;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            rejectShelvingSchemeList.add(index+1);
+                            rejectItemTypeList.add(index+1);
                             continue;
                         }
                     }
@@ -171,22 +179,22 @@ public class OLEShelvingSchemeLoaderServiceImpl implements OLEShelvingSchemeLoad
         }else{
             return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
         }
-        oleLoaderImportResponseBo.setOleRejectedBos(rejectShelvingSchemeList);
-        oleLoaderImportResponseBo.setOleCreatedBos(createdShelvingSchemeObject);
+        oleLoaderImportResponseBo.setOleRejectedBos(rejectItemTypeList);
+        oleLoaderImportResponseBo.setOleCreatedBos(createdItemTypeObject);
         return oleLoaderImportResponseBo;
     }
 
     @Override
-    public OLELoaderResponseBo updateShelvingSchemeById(String shelvingSchemeId, String bodyContent, HttpContext context) {
-        LOG.info("Inside updateShelvingSchemeById method.");
-        OLEShelvingSchemeBo oleShelvingSchemeBo = new OLEShelvingSchemeBo();
+    public OLELoaderResponseBo updateItemTypeById(String itemTypeId, String bodyContent, HttpContext context) {
+        LOG.info("Inside updateItemTypeById method.");
+        OLEItemTypeBo oleItemTypeBo = new OLEItemTypeBo();
         JSONObject jsonObject = getOleLoaderService().getJsonObjectFromString(bodyContent);
         boolean validObject = false;
         if (jsonObject != null) {
             if (jsonObject.has("name")) {
                 String name = getOleLoaderService().getStringValueFromJsonObject(jsonObject, "name");
                 if (StringUtils.isNotBlank(name)) {
-                    oleShelvingSchemeBo.setShelvingSchemeName(name);
+                    oleItemTypeBo.setItemTypeName(name);
                     validObject = true;
                 }
             }
@@ -194,7 +202,15 @@ public class OLEShelvingSchemeLoaderServiceImpl implements OLEShelvingSchemeLoad
             if(jsonObject.has("source")){
                 String source = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"source");
                 if(StringUtils.isNotBlank(source)){
-                    oleShelvingSchemeBo.setSource(source);
+                    oleItemTypeBo.setSource(source);
+                    validObject = true;
+                }
+            }
+
+            if(jsonObject.has("description")){
+                String description = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"description");
+                if(StringUtils.isNotBlank(description)){
+                    oleItemTypeBo.setItemTypeDesc(description);
                     validObject = true;
                 }
             }
@@ -202,7 +218,7 @@ public class OLEShelvingSchemeLoaderServiceImpl implements OLEShelvingSchemeLoad
             if(jsonObject.has("active")){
                 try{
                     boolean active = Boolean.getBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
-                    oleShelvingSchemeBo.setActive(active);
+                    oleItemTypeBo.setActive(active);
                     validObject = true;
                 }catch(Exception e){
                     e.printStackTrace();
@@ -216,7 +232,7 @@ public class OLEShelvingSchemeLoaderServiceImpl implements OLEShelvingSchemeLoad
                 if(StringUtils.isNotBlank(sourceDate)){
                     try{
                         Date date = OLELoaderConstants.DATE_FORMAT.parse(sourceDate);
-                        oleShelvingSchemeBo.setSourceDate(new java.sql.Date(date.getTime()));
+                        oleItemTypeBo.setSourceDate(new java.sql.Date(date.getTime()));
                         validObject = true;
                     }catch(Exception e){
                         e.printStackTrace();
@@ -226,12 +242,12 @@ public class OLEShelvingSchemeLoaderServiceImpl implements OLEShelvingSchemeLoad
             }
 
 
-            if (oleShelvingSchemeBo != null && validObject) {
-                OleShelvingScheme oleShelvingScheme = getOleShelvingSchemeLoaderHelperService().getShelvingSchemeById(shelvingSchemeId);
-                if (oleShelvingScheme != null) {
-                    return getOleShelvingSchemeLoaderHelperService().updateOleShelvingScheme(oleShelvingScheme,oleShelvingSchemeBo,context);
+            if (oleItemTypeBo != null && validObject) {
+                OleInstanceItemType oleItemType = getOleInstanceItemTypeLoaderHelperService().getItemTypeById(itemTypeId);
+                if (oleItemType != null) {
+                    return getOleInstanceItemTypeLoaderHelperService().updateOleInstanceItemType(oleItemType,oleItemTypeBo,context);
                 } else {
-                    return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.SHELVING_SCHEME_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.SHELVING_SCHEME_NOT_EXIST);
+                    return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.ITEM_TYPE_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.ITEM_TYPE_NOT_EXIST);
                 }
             } else {
                 return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
@@ -242,31 +258,31 @@ public class OLEShelvingSchemeLoaderServiceImpl implements OLEShelvingSchemeLoad
     }
 
     @Override
-    public Object exportShelvingSchemeById(String shelvingSchemeId) {
-        LOG.info("Inside exportShelvingSchemeById method.");
-        OleShelvingScheme oleShelvingScheme = getOleShelvingSchemeLoaderHelperService().getShelvingSchemeById(shelvingSchemeId);
-        if(oleShelvingScheme != null){
-            return oleShelvingScheme;
+    public Object exportItemTypeById(String itemTypeId) {
+        LOG.info("Inside exportItemTypeById method.");
+        OleInstanceItemType oleItemType = getOleInstanceItemTypeLoaderHelperService().getItemTypeById(itemTypeId);
+        if(oleItemType != null){
+            return oleItemType;
         }else{
-            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.SHELVING_SCHEME_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.SHELVING_SCHEME_NOT_EXIST);
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.ITEM_TYPE_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.ITEM_TYPE_NOT_EXIST);
         }
     }
 
     @Override
-    public Object exportShelvingSchemeByCode(String shelvingSchemeCode) {
-        LOG.info("Inside exportShelvingSchemeByCode method.");
-        OleShelvingScheme oleShelvingScheme = getOleShelvingSchemeLoaderHelperService().getShelvingSchemeByCode(shelvingSchemeCode);
-        if(oleShelvingScheme != null){
-            return oleShelvingScheme;
+    public Object exportItemTypeByCode(String itemTypeCode) {
+        LOG.info("Inside exportItemTypeByCode method.");
+        OleInstanceItemType oleItemType = getOleInstanceItemTypeLoaderHelperService().getItemTypeByCode(itemTypeCode);
+        if(oleItemType != null){
+            return oleItemType;
         }else{
-            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.SHELVING_SCHEME_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.SHELVING_SCHEME_NOT_EXIST);
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.ITEM_TYPE_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.ITEM_TYPE_NOT_EXIST);
         }
     }
 
     @Override
-    public List<OleShelvingScheme> exportAllShelvingSchemes() {
-        LOG.info("Inside exportAllShelvingSchemes method.");
-        List<OleShelvingScheme> oleShelvingSchemes = getOleShelvingSchemeLoaderHelperService().getAllShelvingSchemes();
-        return oleShelvingSchemes;
+    public List<OleInstanceItemType> exportAllItemTypes() {
+        LOG.info("Inside exportAllItemTypes method.");
+        List<OleInstanceItemType> oleItemTypes = getOleInstanceItemTypeLoaderHelperService().getAllItemTypes();
+        return oleItemTypes;
     }
 }

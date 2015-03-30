@@ -15,6 +15,8 @@ public class OLELoaderConstants {
     public static final String LOCATION_URI = API_ROOT + "/location";
     public static final String LOCATION_LEVEL_URI = API_ROOT + "/locationLevel";
     public static final String SHELVING_SCHEME_URI = API_ROOT + "/shelvingScheme";
+    public static final String ITEM_TYPE_URI = API_ROOT + "/itemType";
+    public static final String BORROWER_TYPE_URI = API_ROOT + "/borrowerType";
     /*OleShelvingScheme*/
     public static final String SLASH = "/";
 

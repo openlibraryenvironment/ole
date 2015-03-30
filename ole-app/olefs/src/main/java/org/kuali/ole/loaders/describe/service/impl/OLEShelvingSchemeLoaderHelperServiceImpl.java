@@ -1,6 +1,7 @@
 package org.kuali.ole.loaders.describe.service.impl;
 
 import com.sun.jersey.api.core.HttpContext;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -8,6 +9,8 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.describe.bo.OleShelvingScheme;
 import org.kuali.ole.loaders.common.bo.OLELoaderResponseBo;
 import org.kuali.ole.loaders.common.constants.OLELoaderConstants;
+import org.kuali.ole.loaders.common.service.OLELoaderService;
+import org.kuali.ole.loaders.common.service.impl.OLELoaderServiceImpl;
 import org.kuali.ole.loaders.describe.bo.OLEShelvingSchemeBo;
 import org.kuali.ole.loaders.describe.service.OLEShelvingSchemeLoaderHelperService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -24,6 +27,7 @@ public class OLEShelvingSchemeLoaderHelperServiceImpl implements OLEShelvingSche
 
     private static final Logger LOG = Logger.getLogger(OLEShelvingSchemeLoaderHelperServiceImpl.class);
     private BusinessObjectService businessObjectService;
+    private OLELoaderService oleLoaderService;
 
 
     public BusinessObjectService getBusinessObjectService() {
@@ -35,6 +39,17 @@ public class OLEShelvingSchemeLoaderHelperServiceImpl implements OLEShelvingSche
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public OLELoaderService getOleLoaderService() {
+        if(oleLoaderService == null){
+            oleLoaderService = new OLELoaderServiceImpl();
+        }
+        return oleLoaderService;
+    }
+
+    public void setOleLoaderService(OLELoaderService oleLoaderService) {
+        this.oleLoaderService = oleLoaderService;
     }
 
     @Override
@@ -157,6 +172,24 @@ public class OLEShelvingSchemeLoaderHelperServiceImpl implements OLEShelvingSche
 
     @Override
     public OLELoaderResponseBo updateOleShelvingScheme(OleShelvingScheme oleShelvingScheme, OLEShelvingSchemeBo oleShelvingSchemeBo, HttpContext context) {
-        return null;
+        if(StringUtils.isNotBlank(oleShelvingSchemeBo.getShelvingSchemeCode()))
+            oleShelvingScheme.setShelvingSchemeCode(oleShelvingSchemeBo.getShelvingSchemeCode());
+        if(StringUtils.isNotBlank(oleShelvingSchemeBo.getShelvingSchemeName()))
+            oleShelvingScheme.setShelvingSchemeName(oleShelvingSchemeBo.getShelvingSchemeName());
+        if(StringUtils.isNotBlank(oleShelvingSchemeBo.getSource()))
+            oleShelvingScheme.setSource(oleShelvingSchemeBo.getSource());
+        if(oleShelvingSchemeBo.getSourceDate() != null)
+            oleShelvingScheme.setSourceDate(new java.sql.Date(oleShelvingSchemeBo.getSourceDate().getTime()));
+        oleShelvingScheme.setActive(oleShelvingSchemeBo.isActive());
+        try{
+            oleShelvingScheme = KRADServiceLocator.getBusinessObjectService().save(oleShelvingScheme);
+            String details = formOleShelvingSchemeExportResponse(oleShelvingScheme, OLELoaderConstants.OLELoaderContext.SHELVING_SCHEME,
+                    context.getRequest().getRequestUri().toASCIIString(), true).toString();
+            return getOleLoaderService().generateResponse(
+                    OLELoaderConstants.OLEloaderMessage.SHELVING_SCHEME_SUCCESS,
+                    OLELoaderConstants.OLEloaderStatus.SHELVING_SCHEME_SUCCESS,details);
+        }catch(Exception e){
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.SHELVING_SCHEME_FAILED, OLELoaderConstants.OLEloaderStatus.SHELVING_SCHEME_FAILED);
+        }
     }
 }

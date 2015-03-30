@@ -9,14 +9,12 @@ import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.loaders.common.bo.OLELoaderImportResponseBo;
 import org.kuali.ole.loaders.common.bo.OLELoaderResponseBo;
 import org.kuali.ole.loaders.common.service.OLELoaderService;
-import org.kuali.ole.loaders.describe.service.OLELocationLoaderHelperService;
-import org.kuali.ole.loaders.describe.service.OLELocationLoaderService;
-import org.kuali.ole.loaders.describe.service.OLEShelvingSchemeLoaderHelperService;
-import org.kuali.ole.loaders.describe.service.OLEShelvingSchemeLoaderService;
-import org.kuali.ole.loaders.describe.service.impl.OLELocationLoaderHelperServiceImpl;
-import org.kuali.ole.loaders.describe.service.impl.OLELocationLoaderServiceImpl;
-import org.kuali.ole.loaders.describe.service.impl.OLEShelvingSchemeLoaderHelperServiceImpl;
-import org.kuali.ole.loaders.describe.service.impl.OLEShelvingSchemeLoaderServiceImpl;
+import org.kuali.ole.loaders.deliver.service.OLEBorrowerTypeLoaderHelperService;
+import org.kuali.ole.loaders.deliver.service.OLEBorrowerTypeLoaderService;
+import org.kuali.ole.loaders.deliver.service.impl.OLEBorrowerTypeLoaderHelperServiceImpl;
+import org.kuali.ole.loaders.deliver.service.impl.OLEBorrowerTypeLoaderServiceImpl;
+import org.kuali.ole.loaders.describe.service.*;
+import org.kuali.ole.loaders.describe.service.impl.*;
 
 import javax.ws.rs.core.Response;
 import java.util.Iterator;
@@ -33,6 +31,13 @@ public class OLELoaderServiceImpl implements OLELoaderService {
 
     private OLELocationLoaderService oleLocationLoaderService;
     private OLELocationLoaderHelperService oleLocationLoaderHelperService;
+
+    private OLEBorrowerTypeLoaderService oleBorrowerTypeLoaderService;
+    private OLEBorrowerTypeLoaderHelperService oleBorrowerTypeLoaderHelperService;
+
+
+    private OLEItemTypeLoaderService oleItemTypeLoaderService;
+    private OLEItemTypeLoaderHelperService oleItemTypeLoaderHelperService;
 
     @Override
     public OLELoaderResponseBo generateResponse(String message, int statusCode) {
@@ -119,6 +124,16 @@ public class OLELoaderServiceImpl implements OLELoaderService {
                 oleShelvingSchemeLoaderService = new OLEShelvingSchemeLoaderServiceImpl();
             }
             return oleShelvingSchemeLoaderService;
+        }else if(serviceName.equals("borrowerType")){
+            if(oleBorrowerTypeLoaderService == null){
+                oleBorrowerTypeLoaderService = new OLEBorrowerTypeLoaderServiceImpl();
+            }
+            return oleBorrowerTypeLoaderService;
+        }else if(serviceName.equals("itemType")){
+            if(oleItemTypeLoaderService == null){
+                oleItemTypeLoaderService = new OLEItemTypeLoaderServiceImpl();
+            }
+            return oleItemTypeLoaderService;
         }
         return null;
     }
@@ -135,6 +150,16 @@ public class OLELoaderServiceImpl implements OLELoaderService {
                 oleShelvingSchemeLoaderHelperService = new OLEShelvingSchemeLoaderHelperServiceImpl();
             }
             return oleShelvingSchemeLoaderHelperService;
+        } else if(serviceName.equals("borrowerType")){
+            if(oleBorrowerTypeLoaderHelperService == null){
+                oleBorrowerTypeLoaderHelperService = new OLEBorrowerTypeLoaderHelperServiceImpl();
+            }
+            return oleBorrowerTypeLoaderHelperService;
+        }else if(serviceName.equals("itemType")){
+            if(oleItemTypeLoaderHelperService == null){
+                oleItemTypeLoaderHelperService = new OLEItemTypeLoaderHelperServiceImpl();
+            }
+            return oleItemTypeLoaderHelperService;
         }
         return null;
     }
