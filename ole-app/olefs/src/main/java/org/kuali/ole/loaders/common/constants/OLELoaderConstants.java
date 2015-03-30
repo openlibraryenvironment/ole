@@ -17,6 +17,7 @@ public class OLELoaderConstants {
     public static final String SHELVING_SCHEME_URI = API_ROOT + "/shelvingScheme";
     public static final String ITEM_TYPE_URI = API_ROOT + "/itemType";
     public static final String BORROWER_TYPE_URI = API_ROOT + "/borrowerType";
+    public static final String ITEM_STATUS_URI = API_ROOT + "/itemAvailableStatus";
     /*OleShelvingScheme*/
     public static final String SLASH = "/";
 
@@ -46,6 +47,11 @@ public class OLELoaderConstants {
         public static final int BORROWER_TYPE_SUCCESS = 200;
         public static final int BORROWER_TYPE_FAILED = 500;
         public static final int BORROWER_TYPE_INVALID_CONTENT = 500;
+
+        public static final int ITEM_STATUS_NOT_EXIST = 200;
+        public static final int ITEM_STATUS_SUCCESS = 200;
+        public static final int ITEM_STATUS_FAILED = 500;
+        public static final int ITEM_STATUS_INVALID_CONTENT = 500;
 
         public static final int ITEM_TYPE_NOT_EXIST = 200;
         public static final int ITEM_TYPE_SUCCESS = 200;
@@ -82,6 +88,11 @@ public class OLELoaderConstants {
         public static final String BORROWER_TYPE_SUCCESS = "Successfully Updated the Borrower type.";
         public static final String BORROWER_TYPE_FAILED = "Borrower type update failed.";
         public static final String BORROWER_TYPE_INVALID_CONTENT = "Invalid input content for Borrower type import";
+
+        public static final String ITEM_STATUS_NOT_EXIST = "Item available status does not exits.";
+        public static final String ITEM_STATUS_SUCCESS = "Successfully Updated the item available status.";
+        public static final String ITEM_STATUS_FAILED = "Item available status update failed.";
+        public static final String ITEM_STATUS_INVALID_CONTENT = "Invalid input content for item available status import";
 
         public static final String ITEM_TYPE_NOT_EXIST = "Item type does not exits.";
         public static final String ITEM_TYPE_SUCCESS = "Successfully Updated the Item type.";

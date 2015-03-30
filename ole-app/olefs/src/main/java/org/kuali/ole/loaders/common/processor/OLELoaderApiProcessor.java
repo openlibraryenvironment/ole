@@ -7,10 +7,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.deliver.bo.OleBorrowerType;
-import org.kuali.ole.describe.bo.OleInstanceItemType;
-import org.kuali.ole.describe.bo.OleLocation;
-import org.kuali.ole.describe.bo.OleLocationLevel;
-import org.kuali.ole.describe.bo.OleShelvingScheme;
+import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.docstore.common.document.content.bib.marc.Collection;
 import org.kuali.ole.loaders.common.bo.OLELoaderImportResponseBo;
 import org.kuali.ole.loaders.common.bo.OLELoaderResponseBo;
@@ -326,6 +323,66 @@ public class OLELoaderApiProcessor {
         LOG.info("Incoming request for update Location.");
         OLEBorrowerTypeLoaderService oleBorrowerTypeLoaderService = (OLEBorrowerTypeLoaderService) getOleLoaderService().getLoaderService("borrowerType");
         OLELoaderResponseBo object = oleBorrowerTypeLoaderService.updateBorrowerTypeById(borrowerTypeId, body, context);
+        if(object.getStatusCode() == 200){
+            return  Response.status(object.getStatusCode()).entity(object.getDetails()).build();
+        }else{
+            return  Response.status(400).entity(object.getMessage()).type(MediaType.TEXT_PLAIN).build();
+        }
+    }
+
+    @GET
+    @Path("/itemAvailableStatus/{pk}")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response exportItemAvailableStatus(@Context HttpContext context, @PathParam("pk") String id){
+        Object object  = null;
+        OLEItemAvailableStatusLoaderService oleItemAvailableStatusLoaderService = (OLEItemAvailableStatusLoaderService) getOleLoaderService().getLoaderService("itemAvailableStatus");
+        OLEItemAvailableStatusLoaderHelperService oleItemAvailableStatusLoaderHelperService = (OLEItemAvailableStatusLoaderHelperService) getOleLoaderService().getLoaderHelperService("itemAvailableStatus");
+        if(id.matches("^([\\d]*)?$")){
+            object = oleItemAvailableStatusLoaderService.exportItemAvailableStatusById(id);
+        }else{
+            object = oleItemAvailableStatusLoaderService.exportItemAvailableStatusByCode(id);
+        }
+        if(object instanceof OleItemAvailableStatus){
+            object = oleItemAvailableStatusLoaderHelperService.formItemAvailableStatusExportResponse(object, OLELoaderConstants.OLELoaderContext.BORROWER_TYPE, context.getRequest().getRequestUri().toASCIIString(), true);
+            return  Response.status(200).entity(object).build();
+        }else if(object instanceof OLELoaderResponseBo){
+            return Response.status(((OLELoaderResponseBo) object).getStatusCode()).entity(((OLELoaderResponseBo) object).getMessage()).type(MediaType.TEXT_PLAIN).build();
+        }
+        return null;
+    }
+
+    @GET
+    @Path("/itemAvailableStatus")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response exportAllItemAvailableStatus(@Context HttpContext context){
+        OLEItemAvailableStatusLoaderService oleItemAvailableStatusLoaderService = (OLEItemAvailableStatusLoaderService) getOleLoaderService().getLoaderService("itemAvailableStatus");
+        OLEItemAvailableStatusLoaderHelperService oleItemAvailableStatusLoaderHelperService = (OLEItemAvailableStatusLoaderHelperService) getOleLoaderService().getLoaderHelperService("itemAvailableStatus");
+        List<OleItemAvailableStatus> oleInstanceItemAvailableStatus= oleItemAvailableStatusLoaderService.exportAllItemAvailableStatus();
+        if(CollectionUtils.isNotEmpty(oleInstanceItemAvailableStatus)){
+            Object object = oleItemAvailableStatusLoaderHelperService.formAllItemAvailableStatusExportResponse(context, oleInstanceItemAvailableStatus, OLELoaderConstants.OLELoaderContext.BORROWER_TYPE,
+                    context.getRequest().getRequestUri().toASCIIString());
+            return Response.status(200).entity(object).build();
+        }
+        return Response.status(500).entity(null).build();
+    }
+
+    @POST
+    @Path("/itemAvailableStatus")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response importItemAvailableStatus(@Context HttpContext context, String bodyContent){
+        LOG.info("Incoming request for Import Locations Level.");
+        OLEItemAvailableStatusLoaderService oleItemAvailableStatusLoaderService = (OLEItemAvailableStatusLoaderService) getOleLoaderService().getLoaderService("itemAvailableStatus");
+        Object object = oleItemAvailableStatusLoaderService.importItemAvailableStatus(bodyContent, context);
+        return getOleLoaderService().formResponseForImport(object,OLELoaderConstants.OLELoaderContext.BORROWER_TYPE);
+    }
+
+    @PUT
+    @Path("/itemAvailableStatus/{itemAvailableStatusId}")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response updateItemAvailableStatus(@Context HttpContext context, @PathParam("itemAvailableStatusId") String itemAvailableStatusId, String body){
+        LOG.info("Incoming request for update Location.");
+        OLEItemAvailableStatusLoaderService oleItemAvailableStatusLoaderService = (OLEItemAvailableStatusLoaderService) getOleLoaderService().getLoaderService("itemAvailableStatus");
+        OLELoaderResponseBo object = oleItemAvailableStatusLoaderService.updateItemAvailableStatusById(itemAvailableStatusId, body, context);
         if(object.getStatusCode() == 200){
             return  Response.status(object.getStatusCode()).entity(object.getDetails()).build();
         }else{
