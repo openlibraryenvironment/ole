@@ -39,6 +39,12 @@ public class OLELoaderServiceImpl implements OLELoaderService {
     private OLEItemTypeLoaderService oleItemTypeLoaderService;
     private OLEItemTypeLoaderHelperService oleItemTypeLoaderHelperService;
 
+    private OLEStatisticalSearchingCodeLoaderService oleStatisticalSearchingCodeLoaderService;
+    private OLEStatisticalSearchingCodeLoaderHelperService oleStatisticalSearchingCodeLoaderHelperService;
+
+    private OLEItemAvailableStatusLoaderService oleItemAvailableStatusLoaderService;
+    private OLEItemAvailableStatusLoaderHelperService oleItemAvailableStatusLoaderHelperService;
+
     @Override
     public OLELoaderResponseBo generateResponse(String message, int statusCode) {
         OLELoaderResponseBo oleLoaderResponseBo=new OLELoaderResponseBo();
@@ -134,6 +140,16 @@ public class OLELoaderServiceImpl implements OLELoaderService {
                 oleItemTypeLoaderService = new OLEItemTypeLoaderServiceImpl();
             }
             return oleItemTypeLoaderService;
+        }else if(serviceName.equals("statisticalSearchingCode")){
+            if(oleStatisticalSearchingCodeLoaderService == null){
+                oleStatisticalSearchingCodeLoaderService = new OLEStatisticalSearchingCodeLoaderServiceImpl();
+            }
+            return oleStatisticalSearchingCodeLoaderService;
+        }else if(serviceName.equals("itemAvailableStatus")){
+            if(oleItemAvailableStatusLoaderService == null){
+                oleItemAvailableStatusLoaderService = new OLEItemAvailableStatusLoaderServiceImpl();
+            }
+            return oleItemAvailableStatusLoaderService;
         }
         return null;
     }
@@ -160,6 +176,16 @@ public class OLELoaderServiceImpl implements OLELoaderService {
                 oleItemTypeLoaderHelperService = new OLEItemTypeLoaderHelperServiceImpl();
             }
             return oleItemTypeLoaderHelperService;
+        }else if(serviceName.equals("statisticalSearchingCode")){
+            if(oleStatisticalSearchingCodeLoaderHelperService == null){
+                oleStatisticalSearchingCodeLoaderHelperService = new OLEStatisticalSearchingCodeLoaderHelperServiceImpl();
+            }
+            return oleStatisticalSearchingCodeLoaderHelperService;
+        }else if(serviceName.equals("itemAvailableStatus")){
+            if(oleItemAvailableStatusLoaderHelperService == null){
+                oleItemAvailableStatusLoaderHelperService = new OLEItemAvailableStatusLoaderHelperServiceImpl();
+            }
+            return oleItemAvailableStatusLoaderHelperService;
         }
         return null;
     }
