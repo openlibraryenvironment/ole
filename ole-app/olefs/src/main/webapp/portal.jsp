@@ -39,6 +39,7 @@
 
     String feedbackUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.provide.feedback.link");
     String feedbackUrlText = ConfigContext.getCurrentContextConfig().getProperty("ole.provide.feedback.link.text");
+    String reportsUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.reports.url");
     String user = "";
     if (GlobalVariables.getUserSession() != null) {
         user = GlobalVariables.getUserSession().getPrincipalName();
@@ -51,6 +52,7 @@
     request.setAttribute("user", user);
     request.setAttribute("feedbackUrl", feedbackUrl);
     request.setAttribute("feedbackUrlText", feedbackUrlText);
+    request.setAttribute("reportsUrl", reportsUrl);
 
 %>
 

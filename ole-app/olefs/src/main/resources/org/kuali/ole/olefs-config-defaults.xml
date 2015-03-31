@@ -483,5 +483,6 @@
     <!-- Gokb url-->
     <param name="gokb.url">https://test-gokb.kuali.org/gokb/oai/</param>
 
+    <param name="ole.reports.url">${ole.reports.url.base}</param>
 
 </config>
