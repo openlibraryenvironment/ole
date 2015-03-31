@@ -421,6 +421,16 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
         this.setGokbId(null);
         this.setGokbFlag(false);
         this.setLinkedEResources(new ArrayList<OLEEResourceRecordDocument>());
+        for (OLEPlatformGeneralNote olePlatformGeneralNote : this.getGeneralNotes()) {
+            olePlatformGeneralNote.setGeneralNoteId(null);
+        }
+        for (OLEPlatformVariantTitle olePlatformVariantTitle : this.getVariantTitles()) {
+            olePlatformVariantTitle.setVariantTitleId(null);
+        }
+        for (OLEPlatformAdminUrl olePlatformAdminUrl : this.getAdminUrls()) {
+            olePlatformAdminUrl.setPlatformAdminUrlId(null);
+        }
+        this.setEventLogs(new ArrayList<OLEPlatformEventLog>());
         this.setObjectId(null);
         this.setVersionNumber(null);
     }
