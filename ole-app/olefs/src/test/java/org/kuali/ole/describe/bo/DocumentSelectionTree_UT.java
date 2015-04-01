@@ -97,7 +97,7 @@ public class DocumentSelectionTree_UT {
         holdings.setContent(new HoldingOlemlRecordProcessor().toXML(oleHoldings));
         holdingsTree.setHoldings(holdings);
         holdingsTree.getItems().add(item);
-        holdingsTree.setId("Instance-1");
+        holdingsTree.getHoldings().setId("Instance-1");
         holdingsTreeList.add(holdingsTree);
         bibTree.getHoldingsTrees().add(holdingsTree);
         Bib bib=new Bib();
@@ -105,7 +105,7 @@ public class DocumentSelectionTree_UT {
         bib.setTitle("History of Computers");
         bibTree.setBib(bib);
         //bibTree.getBib().setTitle("History of Computers");
-        bibTree.setId("Bib-1");
+        bibTree.getBib().setId("Bib-1");
         //bibTree.getBib().setId("Bib-1");
         bibTreeList.add(bibTree);
         return bibTree;

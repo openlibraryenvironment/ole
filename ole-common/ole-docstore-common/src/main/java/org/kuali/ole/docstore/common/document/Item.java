@@ -8,8 +8,8 @@ import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
 import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -584,11 +584,10 @@ public class Item
     @Override
     public String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
         Item item = (Item) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Item.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(Item.class);
             jaxbMarshaller.marshal(item, sw);
             result = sw.toString();
         } catch (Exception e) {
@@ -599,17 +598,16 @@ public class Item
 
     @Override
     public Object deserialize(String content) {
-
-        JAXBElement<Item> itemElement = null;
+        Item item = new Item();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Item.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(Item.class);
             ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
-            itemElement = jaxbUnmarshaller.unmarshal(new StreamSource(input), Item.class);
+            JAXBElement<Item> itemElement = unmarshaller.unmarshal(new StreamSource(input), Item.class);
+            item = itemElement.getValue();
         } catch (Exception e) {
             LOG.error("Exception ", e);
         }
-        return itemElement.getValue();
+        return item;
     }
 
     @Override

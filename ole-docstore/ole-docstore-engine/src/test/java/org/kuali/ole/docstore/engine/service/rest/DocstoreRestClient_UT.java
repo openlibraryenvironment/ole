@@ -234,7 +234,7 @@ public class DocstoreRestClient_UT extends BaseTestCase {
     @Test
     public void retrieveBibTree() {
         BibTree bibTree = restClient.retrieveBibTree("wbm-10000003");
-        Assert.assertEquals(bibTree.getId(), "wbm-10000003");
+        Assert.assertEquals(bibTree.getBib().getId(), "wbm-10000003");
     }
 
     @Ignore

@@ -1,17 +1,17 @@
 package org.kuali.ole.docstore.common.document;
 
 import org.apache.log4j.Logger;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import java.io.ByteArrayInputStream;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
 import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayInputStream;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -45,11 +45,10 @@ public class Bibs {
 
     public static String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
         Bibs bibs = (Bibs) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Bibs.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(Bibs.class);
             jaxbMarshaller.marshal(bibs, sw);
             result = sw.toString();
         } catch (Exception e) {
@@ -59,17 +58,16 @@ public class Bibs {
     }
 
     public static Object deserialize(String bibsXml) {
-
-        JAXBElement<Bibs> bibsElement = null;
+        Bibs bibs = new Bibs();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Bibs.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(Bibs.class);
             ByteArrayInputStream input = new ByteArrayInputStream(bibsXml.getBytes("UTF-8"));
-            bibsElement = jaxbUnmarshaller.unmarshal(new StreamSource(input), Bibs.class);
+            JAXBElement<Bibs> bibsElement = unmarshaller.unmarshal(new StreamSource(input), Bibs.class);
+            bibs = bibsElement.getValue();
         } catch (Exception e) {
             LOG.error("Exception :", e);
         }
-        return bibsElement.getValue();
+        return bibs;
     }
 
     /**

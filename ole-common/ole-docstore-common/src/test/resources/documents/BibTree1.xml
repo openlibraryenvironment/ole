@@ -1,236 +1,224 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<bibTree>
+<bibDocTree>
     <active>false</active>
     <fastAdd>false</fastAdd>
     <public>false</public>
     <staffOnly>false</staffOnly>
-    <holdingsTrees>
-        <holdingsTree>
+    <message></message>
+    <holdingsDocsTree>
+        <holdingsDocTree>
             <active>false</active>
             <fastAdd>false</fastAdd>
             <public>false</public>
             <staffOnly>false</staffOnly>
-            <items>
-                <active>false</active>
-                <category>work</category>
-                <content>&lt;item&gt;
-                    &lt;barcodeARSL&gt;bararsl&lt;/barcodeARSL&gt;
-                    &lt;volumeNumber&gt;123&lt;/volumeNumber&gt;
-                    &lt;enumeration&gt;en&lt;/enumeration&gt;
-                    &lt;chronology&gt;123&lt;/chronology&gt;
-                    &lt;callNumber&gt;
-                    &lt;number&gt;123&lt;/number&gt;
-                    &lt;shelvingScheme&gt;
-                    &lt;codeValue&gt;LCC&lt;/codeValue&gt;
-                    &lt;/shelvingScheme&gt;
-                    &lt;/callNumber&gt;
-                    &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
-                    &lt;fastAddFlag&gt;false&lt;/fastAddFlag&gt;
-                    &lt;claimsReturnedFlag&gt;false&lt;/claimsReturnedFlag&gt;
-                    &lt;/item&gt;</content>
-                <fastAdd>false</fastAdd>
-                <format>oleml</format>
-                <public>false</public>
-                <staffOnly>false</staffOnly>
-                <type>item</type>
-            </items>
-            <holdings>
+            <message></message>
+            <itemsDocs>
+                <itemsDoc>
+                    <active>false</active>
+                    <category>work</category>
+                    <content>&lt;item&gt;
+                        &lt;itemIdentifier&gt;wio-6868529&lt;/itemIdentifier&gt;
+                        &lt;accessInformation&gt;
+                        &lt;barcode&gt;56272309&lt;/barcode&gt;
+                        &lt;uri/&gt;
+                        &lt;/accessInformation&gt;
+                        &lt;statisticalSearchingCode&gt;
+                        &lt;codeValue&gt;books&lt;/codeValue&gt;
+                        &lt;fullValue&gt;Books, print (books)&lt;/fullValue&gt;
+                        &lt;/statisticalSearchingCode&gt;
+                        &lt;itemType&gt;
+                        &lt;codeValue&gt;stks&lt;/codeValue&gt;
+                        &lt;fullValue&gt;stks - Regular loan&lt;/fullValue&gt;
+                        &lt;/itemType&gt;
+                        &lt;location/&gt;
+                        &lt;donorInfo/&gt;
+                        &lt;copyNumber&gt;c.1&lt;/copyNumber&gt;
+                        &lt;highDensityStorage/&gt;
+                        &lt;callNumber&gt;
+                        &lt;shelvingOrder/&gt;
+                        &lt;/callNumber&gt;
+                        &lt;itemStatus&gt;
+                        &lt;codeValue&gt;AVAILABLE&lt;/codeValue&gt;
+                        &lt;fullValue&gt;Available&lt;/fullValue&gt;
+                        &lt;/itemStatus&gt;
+                        &lt;itemStatusEffectiveDate&gt;08/09/2014 02:40:39&lt;/itemStatusEffectiveDate&gt;
+                        &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
+                        &lt;fastAddFlag&gt;false&lt;/fastAddFlag&gt;
+                        &lt;currentBorrower&gt;&lt;/currentBorrower&gt;
+                        &lt;proxyBorrower&gt;&lt;/proxyBorrower&gt;
+                        &lt;claimsReturnedFlag&gt;false&lt;/claimsReturnedFlag&gt;
+                        &lt;itemDamagedStatus&gt;false&lt;/itemDamagedStatus&gt;
+                        &lt;missingPieceFlag&gt;false&lt;/missingPieceFlag&gt;
+                        &lt;damagedItemNote&gt;&lt;/damagedItemNote&gt;
+                        &lt;missingPieceEffectiveDate&gt;09/13/2014&lt;/missingPieceEffectiveDate&gt;
+                        &lt;numberOfRenew&gt;0&lt;/numberOfRenew&gt;
+                        &lt;/item&gt;</content>
+                    <createdBy>bulk loader</createdBy>
+                    <createdOn>2014-08-09 02:40:39.0</createdOn>
+                    <fastAdd>false</fastAdd>
+                    <format>oleml</format>
+                    <id>wio-6868529</id>
+                    <public>false</public>
+                    <staffOnly>false</staffOnly>
+                    <type>item</type>
+                    <updatedBy>bulk loader</updatedBy>
+                    <updatedOn>2014-08-09 02:40:39.0</updatedOn>
+                    <displayLabel>c&amp;#046;1&amp;#045;56272309</displayLabel>
+                    <sortedValue>c.00001</sortedValue>
+                    <message></message>
+                    <isAnalytic>false</isAnalytic>
+                </itemsDoc>
+            </itemsDocs>
+            <holdingsDoc>
                 <active>false</active>
                 <category>work</category>
                 <content>&lt;oleHoldings&gt;
+                    &lt;holdingsIdentifier&gt;who-6373776&lt;/holdingsIdentifier&gt;
+                    &lt;bibIdentifier&gt;wbm-4290447&lt;/bibIdentifier&gt;
+                    &lt;location&gt;
+                    &lt;locationLevel&gt;
+                    &lt;name&gt;UC&lt;/name&gt;
+                    &lt;level&gt;Institution&lt;/level&gt;
+                    &lt;locationLevel&gt;
+                    &lt;name&gt;JRL&lt;/name&gt;
+                    &lt;level&gt;Library&lt;/level&gt;
+                    &lt;locationLevel&gt;
+                    &lt;name&gt;Gen&lt;/name&gt;
+                    &lt;level&gt;Shelving&lt;/level&gt;
+                    &lt;/locationLevel&gt;
+                    &lt;/locationLevel&gt;
+                    &lt;/locationLevel&gt;
+                    &lt;/location&gt;
                     &lt;callNumber&gt;
-                    &lt;number&gt;1234&lt;/number&gt;
+                    &lt;number&gt;DS481.G325T35 1999&lt;/number&gt;
                     &lt;shelvingScheme&gt;
                     &lt;codeValue&gt;LCC&lt;/codeValue&gt;
+                    &lt;fullValue&gt;LCC - Library of Congress classification&lt;/fullValue&gt;
                     &lt;/shelvingScheme&gt;
+                    &lt;shelvingOrder/&gt;
                     &lt;/callNumber&gt;
                     &lt;interLibraryLoanAllowed&gt;false&lt;/interLibraryLoanAllowed&gt;
                     &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
                     &lt;/oleHoldings&gt;</content>
+                <createdBy>bulk loader</createdBy>
+                <createdOn>2014-08-09 02:40:39.0</createdOn>
                 <fastAdd>false</fastAdd>
                 <format>oleml</format>
+                <id>who-6373776</id>
                 <public>false</public>
                 <staffOnly>false</staffOnly>
                 <type>holdings</type>
+                <updatedBy>bulk loader</updatedBy>
+                <updatedOn>2014-08-09 02:40:39.0</updatedOn>
+                <displayLabel>UC&amp;#047;JRL&amp;#047;Gen&amp;#045;DS481&amp;#046;G325T35 1999</displayLabel>
+                <sortedValue>UC/JRL/Gen</sortedValue>
+                <message></message>
                 <holdingsType>print</holdingsType>
-            </holdings>
-        </holdingsTree>
-        <holdingsTree>
-            <active>false</active>
-            <fastAdd>false</fastAdd>
-            <public>false</public>
-            <staffOnly>false</staffOnly>
-            <items>
-                <active>false</active>
-                <category>work</category>
-                <content>&lt;item&gt;
-                    &lt;barcodeARSL&gt;bararsl&lt;/barcodeARSL&gt;
-                    &lt;volumeNumber&gt;1234&lt;/volumeNumber&gt;
-                    &lt;enumeration&gt;en&lt;/enumeration&gt;
-                    &lt;chronology&gt;1234&lt;/chronology&gt;
-                    &lt;callNumber&gt;
-                    &lt;number&gt;1234&lt;/number&gt;
-                    &lt;shelvingScheme&gt;
-                    &lt;codeValue&gt;LCC&lt;/codeValue&gt;
-                    &lt;/shelvingScheme&gt;
-                    &lt;/callNumber&gt;
-                    &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
-                    &lt;fastAddFlag&gt;false&lt;/fastAddFlag&gt;
-                    &lt;claimsReturnedFlag&gt;false&lt;/claimsReturnedFlag&gt;
-                    &lt;/item&gt;</content>
-                <fastAdd>false</fastAdd>
-                <format>oleml</format>
-                <public>false</public>
-                <staffOnly>false</staffOnly>
-                <type>item</type>
-            </items>
-            <holdings>
-                <active>false</active>
-                <category>work</category>
-                <content>&lt;oleHoldings&gt;
-                    &lt;callNumber&gt;
-                    &lt;number&gt;12345&lt;/number&gt;
-                    &lt;shelvingScheme&gt;
-                    &lt;codeValue&gt;LCC&lt;/codeValue&gt;
-                    &lt;/shelvingScheme&gt;
-                    &lt;/callNumber&gt;
-                    &lt;interLibraryLoanAllowed&gt;false&lt;/interLibraryLoanAllowed&gt;
-                    &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
-                    &lt;/oleHoldings&gt;</content>
-                <fastAdd>false</fastAdd>
-                <format>oleml</format>
-                <public>false</public>
-                <staffOnly>false</staffOnly>
-                <type>holdings</type>
-                <holdingsType>print</holdingsType>
-            </holdings>
-        </holdingsTree>
-    </holdingsTrees>
-    <bib>
+                <isBoundWithBib>false</isBoundWithBib>
+                <isSeries>false</isSeries>
+            </holdingsDoc>
+        </holdingsDocTree>
+    </holdingsDocsTree>
+    <bibDoc>
         <active>false</active>
         <category>work</category>
         <content>&lt;collection xmlns="http://www.loc.gov/MARC21/slim"&gt;
             &lt;record&gt;
-            &lt;leader&gt;#####nam#a22######a#4500&lt;/leader&gt;
-            &lt;controlfield tag="001"&gt;&lt;/controlfield&gt;
-            &lt;controlfield tag="003"&gt;OCoLC&lt;/controlfield&gt;
-            &lt;controlfield tag="005"&gt;20090213152530.7&lt;/controlfield&gt;
-            &lt;controlfield tag="008"&gt;131031s########xxu###########000#0#eng#d&lt;/controlfield&gt;
+            &lt;leader&gt;00910aam a2200289 a 4500&lt;/leader&gt;
+            &lt;controlfield tag="001"&gt;4290447&lt;/controlfield&gt;
+            &lt;controlfield tag="005"&gt;20030530094800.0&lt;/controlfield&gt;
+            &lt;controlfield tag="008"&gt;990922s1999 ii 000 0 eng &lt;/controlfield&gt;
+            &lt;datafield tag="010" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt; 99939097 &lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="025" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;I-E-99-939097; 63-90&lt;/subfield&gt;
+            &lt;/datafield&gt;
             &lt;datafield tag="035" ind1=" " ind2=" "&gt;
-            &lt;subfield code="a"&gt;(OCoLC)ocm62378465&lt;/subfield&gt;
+            &lt;subfield code="a"&gt;(OCoLC)42753278&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="037" ind1=" " ind2=" "&gt;
+            &lt;subfield code="b"&gt;Library of Congress -- New Delhi Field Office&lt;/subfield&gt;
+            &lt;subfield code="c"&gt;Rs20.00&lt;/subfield&gt;
             &lt;/datafield&gt;
             &lt;datafield tag="040" ind1=" " ind2=" "&gt;
             &lt;subfield code="a"&gt;DLC&lt;/subfield&gt;
             &lt;subfield code="c"&gt;DLC&lt;/subfield&gt;
-            &lt;subfield code="d"&gt;DLC&lt;/subfield&gt;
-            &lt;subfield code="d"&gt;HLS&lt;/subfield&gt;
-            &lt;subfield code="d"&gt;IUL&lt;/subfield&gt;
-            &lt;/datafield&gt;
-            &lt;datafield tag="022" ind1=" " ind2=" "&gt;
-            &lt;subfield code="a"&gt;1729-1070|20&lt;/subfield&gt;
-            &lt;/datafield&gt;
-            &lt;datafield tag="029" ind1="1" ind2=" "&gt;
-            &lt;subfield code="a"&gt;AU@|b000040176476&lt;/subfield&gt;
-            &lt;subfield code="b"&gt;000040176476&lt;/subfield&gt;
-            &lt;/datafield&gt;
-            &lt;datafield tag="037" ind1=" " ind2=" "&gt;
-            &lt;subfield code="b"&gt;The Managing Editor, BIAC Journal, P.O. Box 10026, Gaborone, Botswana&lt;/subfield&gt;
+            &lt;subfield code="d"&gt;OCoLC&lt;/subfield&gt;
             &lt;/datafield&gt;
             &lt;datafield tag="042" ind1=" " ind2=" "&gt;
-            &lt;subfield code="a"&gt;lc&lt;/subfield&gt;
+            &lt;subfield code="a"&gt;lcode&lt;/subfield&gt;
             &lt;/datafield&gt;
-            &lt;datafield tag="043" ind1="1" ind2="0"&gt;
-            &lt;subfield code="a"&gt;f-bs---&lt;/subfield&gt;
-            &lt;/datafield&gt;
-            &lt;datafield tag="050" ind1="0" ind2="0"&gt;
-            &lt;subfield code="a"&gt;HD70.B55|bB53&lt;/subfield&gt;
+            &lt;datafield tag="043" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;a-ii---&lt;/subfield&gt;
             &lt;/datafield&gt;
             &lt;datafield tag="049" ind1=" " ind2=" "&gt;
-            &lt;subfield code="a"&gt;IULA&lt;/subfield&gt;
+            &lt;subfield code="a"&gt;CGUA&lt;/subfield&gt;
             &lt;/datafield&gt;
-            &lt;datafield tag="210" ind1="1" ind2=" "&gt;
-            &lt;subfield code="a"&gt;BIAC j.&lt;/subfield&gt;
+            &lt;datafield tag="050" ind1="0" ind2="0"&gt;
+            &lt;subfield code="a"&gt;DS481.G325&lt;/subfield&gt;
+            &lt;subfield code="b"&gt;T35 1999&lt;/subfield&gt;
             &lt;/datafield&gt;
-            &lt;datafield tag="222" ind1=" " ind2="0"&gt;
-            &lt;subfield code="a"&gt;BIAC journal&lt;/subfield&gt;
+            &lt;datafield tag="100" ind1="1" ind2=" "&gt;
+            &lt;subfield code="a"&gt;Talrejā, Kanaʼiyālālu Manghandāsu.&lt;/subfield&gt;
             &lt;/datafield&gt;
-            &lt;datafield tag="245" ind1="0" ind2="0"&gt;
-            &lt;subfield code="a"&gt;BIAC journal&lt;/subfield&gt;
+            &lt;datafield tag="245" ind1="1" ind2="0"&gt;
+            &lt;subfield code="a"&gt;100 questions about Ms. Sonia Gandhi /&lt;/subfield&gt;
+            &lt;subfield code="c"&gt;Kanayalal M. Talreja.&lt;/subfield&gt;
             &lt;/datafield&gt;
-            &lt;datafield tag="246" ind1="1" ind2="3"&gt;
-            &lt;subfield code="a"&gt;Botswana Institute of Administration and Commerce journal&lt;/subfield&gt;
+            &lt;datafield tag="246" ind1="3" ind2=" "&gt;
+            &lt;subfield code="a"&gt;One hundred questions about Ms. Sonia Gandhi&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="250" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;1st ed.&lt;/subfield&gt;
             &lt;/datafield&gt;
             &lt;datafield tag="260" ind1=" " ind2=" "&gt;
-            &lt;subfield code="a"&gt;Gaborone, Botswana :|bBotswana Institute of Administration and Commerce&lt;/subfield&gt;
-            &lt;subfield code="b"&gt;Botswana Institute of Administration and Commerce&lt;/subfield&gt;
+            &lt;subfield code="a"&gt;New Delhi :&lt;/subfield&gt;
+            &lt;subfield code="b"&gt;Rashtriya Chetana Sangathan,&lt;/subfield&gt;
+            &lt;subfield code="c"&gt;1999.&lt;/subfield&gt;
             &lt;/datafield&gt;
             &lt;datafield tag="300" ind1=" " ind2=" "&gt;
-            &lt;subfield code="a"&gt;v. ;&lt;/subfield&gt;
-            &lt;subfield code="c"&gt;24 cm.&lt;/subfield&gt;
-            &lt;/datafield&gt;
-            &lt;datafield tag="300" ind1=" " ind2=" "&gt;
-            &lt;subfield code="a"&gt;v. ;&lt;/subfield&gt;
-            &lt;subfield code="c"&gt;24 cm.&lt;/subfield&gt;
-            &lt;/datafield&gt;
-            &lt;datafield tag="300" ind1=" " ind2=" "&gt;
-            &lt;subfield code="a"&gt;v. ;&lt;/subfield&gt;
-            &lt;subfield code="c"&gt;24 cm.&lt;/subfield&gt;
-            &lt;/datafield&gt;
-            &lt;datafield tag="310" ind1=" " ind2=" "&gt;
-            &lt;subfield code="a"&gt;Semiannual&lt;/subfield&gt;
-            &lt;/datafield&gt;
-            &lt;datafield tag="362" ind1="1" ind2=" "&gt;
-            &lt;subfield code="a"&gt;Began in 2004.&lt;/subfield&gt;
+            &lt;subfield code="a"&gt;53 p. ;&lt;/subfield&gt;
+            &lt;subfield code="c"&gt;23 cm.&lt;/subfield&gt;
             &lt;/datafield&gt;
             &lt;datafield tag="500" ind1=" " ind2=" "&gt;
-            &lt;subfield code="a"&gt;Description based on: Vol. 1, no. 1 (May. 2004); title from cover.&lt;/subfield&gt;
+            &lt;subfield code="a"&gt;Cover title.&lt;/subfield&gt;
             &lt;/datafield&gt;
-            &lt;datafield tag="500" ind1=" " ind2=" "&gt;
-            &lt;subfield code="a"&gt;Latest issue consulted: Vol. 3, no. 1 (May 2006).&lt;/subfield&gt;
+            &lt;datafield tag="600" ind1="1" ind2="0"&gt;
+            &lt;subfield code="a"&gt;Gandhi, Sonia,&lt;/subfield&gt;
+            &lt;subfield code="d"&gt;1946-&lt;/subfield&gt;
+            &lt;subfield code="x"&gt;Public opinion.&lt;/subfield&gt;
             &lt;/datafield&gt;
-            &lt;datafield tag="650" ind1="0" ind2=" "&gt;
-            &lt;subfield code="a"&gt;Industrial management&lt;/subfield&gt;
-            &lt;subfield code="z"&gt;Botswana&lt;/subfield&gt;
-            &lt;subfield code="v"&gt;Periodicals.&lt;/subfield&gt;
+            &lt;datafield tag="650" ind1=" " ind2="0"&gt;
+            &lt;subfield code="a"&gt;Politicians&lt;/subfield&gt;
+            &lt;subfield code="z"&gt;India&lt;/subfield&gt;
+            &lt;subfield code="x"&gt;Public opinion.&lt;/subfield&gt;
             &lt;/datafield&gt;
-            &lt;datafield tag="650" ind1="0" ind2=" "&gt;
-            &lt;subfield code="a"&gt;Occupational training&lt;/subfield&gt;
-            &lt;subfield code="z"&gt;Botswana&lt;/subfield&gt;
-            &lt;subfield code="v"&gt;Periodicals.&lt;/subfield&gt;
-            &lt;/datafield&gt;
-            &lt;datafield tag="710" ind1="2" ind2=" "&gt;
-            &lt;subfield code="a"&gt;Botswana Institute of Administration and Commerce.&lt;/subfield&gt;
-            &lt;/datafield&gt;
-            &lt;datafield tag="850" ind1=" " ind2=" "&gt;
-            &lt;subfield code="a"&gt;DLC&lt;/subfield&gt;
-            &lt;/datafield&gt;
-            &lt;datafield tag="891" ind1="2" ind2="0"&gt;
-            &lt;subfield code="a"&gt;9853|81.1&lt;/subfield&gt;
-            &lt;subfield code="a"&gt;v.&lt;/subfield&gt;
-            &lt;subfield code="b"&gt;no&lt;/subfield&gt;
-            &lt;subfield code="u"&gt;2&lt;/subfield&gt;
-            &lt;subfield code="v"&gt;r&lt;/subfield&gt;
-            &lt;subfield code="i"&gt;(year)&lt;/subfield&gt;
-            &lt;subfield code="j"&gt;(month)&lt;/subfield&gt;
-            &lt;subfield code="w"&gt;f&lt;/subfield&gt;
-            &lt;subfield code="x"&gt;05&lt;/subfield&gt;
-            &lt;/datafield&gt;
-            &lt;datafield tag="891" ind1="4" ind2="1"&gt;
-            &lt;subfield code="a"&gt;9863|81.1&lt;/subfield&gt;
-            &lt;subfield code="a"&gt;1&lt;/subfield&gt;
-            &lt;subfield code="b"&gt;1&lt;/subfield&gt;
-            &lt;subfield code="i"&gt;2004&lt;/subfield&gt;
-            &lt;subfield code="j"&gt;05&lt;/subfield&gt;
-            &lt;/datafield&gt;
-            &lt;datafield tag="596" ind1=" " ind2=" "&gt;
-            &lt;subfield code="a"&gt;1&lt;/subfield&gt;
+            &lt;datafield tag="903" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;MARS&lt;/subfield&gt;
             &lt;/datafield&gt;
             &lt;/record&gt;
-            &lt;/collection&gt;</content>
+            &lt;/collection&gt;
+        </content>
+        <createdBy>boozer2</createdBy>
+        <createdOn>2000-07-10 19:00:00.0</createdOn>
         <fastAdd>false</fastAdd>
         <format>marc</format>
+        <id>wbm-4290447</id>
         <public>false</public>
         <staffOnly>false</staffOnly>
+        <status>Cataloging complete</status>
+        <statusUpdatedBy>taylorg</statusUpdatedBy>
+        <statusUpdatedOn>2000-09-19 08:54:00.0</statusUpdatedOn>
         <type>bibliographic</type>
-    </bib>
-</bibTree>
+        <updatedBy>mcb</updatedBy>
+        <updatedOn>2003-05-30 04:48:00.0</updatedOn>
+        <message></message>
+        <issn></issn>
+        <isbn></isbn>
+        <publicationDate>1999</publicationDate>
+        <publisher>New Delhi :Rashtriya Chetana Sangathan,</publisher>
+        <author>Talrejā, Kanaʼiyālālu Manghandāsu.</author>
+        <title>100 questions about Ms. Sonia Gandhi /</title>
+    </bibDoc>
+</bibDocTree>

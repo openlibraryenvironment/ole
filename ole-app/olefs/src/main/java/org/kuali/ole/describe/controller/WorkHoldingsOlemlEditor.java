@@ -404,7 +404,6 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
                 if (workInstanceOlemlForm.getBibTreeList() == null && workInstanceOlemlForm.getBibTreeList().size() == 0) {
                     bibTreeList = new ArrayList<>();
                     bibTree = new BibTree();
-                    bibTree.setId(bib.getId());
                     bibTree.setBib(bib);
                     bibTreeList.add(bibTree);
                     workInstanceOlemlForm.setBibTreeList(bibTreeList);

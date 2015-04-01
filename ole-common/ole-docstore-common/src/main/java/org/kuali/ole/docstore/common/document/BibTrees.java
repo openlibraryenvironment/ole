@@ -1,21 +1,14 @@
 package org.kuali.ole.docstore.common.document;
 
 import org.apache.log4j.Logger;
-import org.kuali.ole.docstore.common.util.ParseXml;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.StringReader;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +44,11 @@ public class BibTrees {
 
     public static String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
-        BibTrees bibsTrees = (BibTrees) object;
+        BibTrees bibTrees = (BibTrees) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(BibTrees.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.marshal(bibsTrees, sw);
+            StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(BibTrees.class);
+            jaxbMarshaller.marshal(bibTrees, sw);
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception :", e);
@@ -68,26 +60,15 @@ public class BibTrees {
 
         BibTrees bibTrees = new BibTrees();
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(bibTreesXml)));
-            NodeList root = doc.getChildNodes();
-            Node bibTreesNode = ParseXml.getNode("bibDocsTree", root);
-            BibTree bibTree = new BibTree();
-            NodeList nodeList = doc.getElementsByTagName("bibDocTree");
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node bibTreeNode = ParseXml.getNodeXml(bibTreesNode.getChildNodes(), i);
-                bibTrees.getBibTrees().add((BibTree) bibTree.deserialize(ParseXml.nodeToString(bibTreeNode)));
-            }
-        } catch (SAXException e) {
-            LOG.error("Exception :", e);
-        } catch (IOException e) {
-            LOG.error("Exception :", e);
-        } catch (ParserConfigurationException e) {
+            ByteArrayInputStream bibTreeInputStream = new ByteArrayInputStream(bibTreesXml.getBytes());
+            StreamSource streamSource = new StreamSource(bibTreeInputStream);
+            XMLStreamReader xmlStreamReader = JAXBContextFactory.getInstance().getXmlInputFactory().createXMLStreamReader(streamSource);
+
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(BibTrees.class);
+            bibTrees = unmarshaller.unmarshal(xmlStreamReader, BibTrees.class).getValue();
+        } catch (Exception e) {
             LOG.error("Exception :", e);
         }
-
-
         return bibTrees;
     }
 

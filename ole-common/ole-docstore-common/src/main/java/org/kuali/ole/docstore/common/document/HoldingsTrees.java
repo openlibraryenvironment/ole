@@ -1,24 +1,17 @@
 package org.kuali.ole.docstore.common.document;
 
 import org.apache.log4j.Logger;
-import org.kuali.ole.docstore.common.util.ParseXml;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.stream.StreamSource;
 
 
 /**
@@ -84,12 +77,11 @@ public class HoldingsTrees {
 
     public static String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
-        HoldingsTrees bibsTrees = (HoldingsTrees) object;
+        HoldingsTrees holdingsTrees = (HoldingsTrees) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(HoldingsTrees.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.marshal(bibsTrees, sw);
+            StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(HoldingsTrees.class);
+            jaxbMarshaller.marshal(holdingsTrees, sw);
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception ", e);
@@ -98,25 +90,15 @@ public class HoldingsTrees {
     }
 
     public static Object deserialize(String holdingsTreesXml) {
-
         HoldingsTrees holdingsTrees = new HoldingsTrees();
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(holdingsTreesXml)));
-            NodeList root = doc.getChildNodes();
-            Node holdingsTreesNode = ParseXml.getNode("holdingsDocsTree", root);
-            HoldingsTree holdingsTree = new HoldingsTree();
-            NodeList nodeList = doc.getElementsByTagName("holdingsDocTree");
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node bibTreeNode = ParseXml.getNodeXml(holdingsTreesNode.getChildNodes(),i);
-                holdingsTrees.getHoldingsTrees().add((HoldingsTree) holdingsTree.deserialize(ParseXml.nodeToString(bibTreeNode)));
-            }
-        } catch (SAXException e) {
-            LOG.error("Exception ", e);
-        } catch (IOException e) {
-            LOG.error("Exception ", e);
-        } catch (ParserConfigurationException e) {
+            ByteArrayInputStream bibTreeInputStream = new ByteArrayInputStream(holdingsTreesXml.getBytes());
+            StreamSource streamSource = new StreamSource(bibTreeInputStream);
+            XMLStreamReader xmlStreamReader = JAXBContextFactory.getInstance().getXmlInputFactory().createXMLStreamReader(streamSource);
+
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(HoldingsTrees.class);
+            holdingsTrees = unmarshaller.unmarshal(xmlStreamReader, HoldingsTrees.class).getValue();
+        } catch (Exception e) {
             LOG.error("Exception ", e);
         }
         return holdingsTrees;

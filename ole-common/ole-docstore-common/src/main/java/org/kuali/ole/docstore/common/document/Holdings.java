@@ -8,9 +8,9 @@ import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
 import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
+
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
@@ -420,11 +420,10 @@ public class Holdings
     @Override
     public String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
         Holdings holdings = (Holdings) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Holdings.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(Holdings.class);
             jaxbMarshaller.marshal(holdings, sw);
             result = sw.toString();
         } catch (Exception e) {
@@ -435,17 +434,15 @@ public class Holdings
 
     @Override
     public Object deserialize(String content) {
-
-        JAXBElement<Holdings> holdingsElement = null;
+        Holdings holdings = new Holdings();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Holdings.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(Holdings.class);
             ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
-            holdingsElement = jaxbUnmarshaller.unmarshal(new StreamSource(input), Holdings.class);
+            holdings = unmarshaller.unmarshal(new StreamSource(input), Holdings.class).getValue();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Exception ", e);
         }
-        return holdingsElement.getValue();
+        return holdings;
     }
 
     public Object deserializeContent(Object object) {

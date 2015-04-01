@@ -90,13 +90,13 @@ public class EditorFormDataHandler {
             sb.append("<ul id='navigation'>");
             for (BibTree bibTree : bibTreeList) {
                 sb.append("&nbsp;&nbsp;");
-                if (editable.equals("true") && bibTree.getId() != null) {
+                if (editable.equals("true") && bibTree.getBib().getId() != null) {
                     sb.append(
                             "<img src='../krms/images/add.png' alt='Add Holdings' title='Add Holdings' class='addInstance' id='")
-                            .append(bibTree.getId() + "_work_instance_oleml").append("'></img>&nbsp;");
+                            .append(bibTree.getBib().getId() + "_work_instance_oleml").append("'></img>&nbsp;");
                     sb.append(
                             "<img src='../krad/images/cancel.png' alt='Delete Bib' title='Delete Bib' class='deleteBib' id='")
-                            .append(bibTree.getId() + "_work_bibliographic_marc").append("'></img>");
+                            .append(bibTree.getBib().getId() + "_work_bibliographic_marc").append("'></img>");
                 }
                 if (bibTree != null) {
                     List<HoldingsTree> holdingsTreeList = bibTree.getHoldingsTrees();
@@ -108,7 +108,7 @@ public class EditorFormDataHandler {
                             holdings = holdingsTree.getHoldings();
                             if (holdings != null) {
                                 String holdingIdentifier = holdings.getId()
-                                        + "_work_holdings_oleml_" + bibTree.getId();
+                                        + "_work_holdings_oleml_" + bibTree.getBib().getId();
                                 //String holdingData = getHoldingsLabel(workHoldingsDocument);
 
                                 sb.append("<li><div align='left' title='View/Edit Holdings' class='holdingIdentifierClass' id='")
@@ -123,11 +123,11 @@ public class EditorFormDataHandler {
                                     sb.append(
                                             "<img src='../krms/images/add.png' alt='Add Item' title='Add Item' class='addItem' id='")
                                             .append(holdingsTree.getHoldings().getId() + "_work_item_oleml_"
-                                                    + bibTree.getId()).append("'></img>");
+                                                    + bibTree.getBib().getId()).append("'></img>");
                                     sb.append(
                                             "<img src='../krad/images/cancel.png' alt='Delete Instance' title='Delete Instance' class='deleteBib' id='")
                                             .append(holdingsTree.getHoldings().getId() + "_work_instance_oleml" + "_"
-                                                    + bibTree.getId()).append("'></img>");
+                                                    + bibTree.getBib().getId()).append("'></img>");
                                 }
                                 sb.append("</div>");
                                 sb.append("<ul>");
@@ -139,7 +139,7 @@ public class EditorFormDataHandler {
                                     if (item != null) {
                                         String itemIdentifier = item.getId() + "_work_item_oleml_"
                                                 + holdingsTree.getHoldings().getId() + "_"
-                                                + bibTree.getId();
+                                                + bibTree.getBib().getId();
                                         //  String itemLevelContent = getItemLabel(holdings, workItemDocument);
 
                                         sb.append("<li><div align='left' title='View/Edit Item' class='itemIdentifierClass' id='")

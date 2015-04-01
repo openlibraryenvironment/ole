@@ -1,22 +1,13 @@
 package org.kuali.ole.docstore.common.document;
 
 import org.apache.log4j.Logger;
-import org.kuali.ole.docstore.common.util.ParseXml;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
 import javax.xml.bind.*;
 import javax.xml.bind.annotation.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +39,7 @@ import java.util.List;
 
 @XmlRootElement(name = "holdingsDocTree")
 public class HoldingsTree
-        extends DocstoreDocument implements Comparable<HoldingsTree>{
+        implements Comparable<HoldingsTree> {
 
     private static final Logger LOG = Logger.getLogger(HoldingsTree.class);
     @XmlElementWrapper(name = "itemsDocs")
@@ -104,14 +95,12 @@ public class HoldingsTree
         this.holdings = value;
     }
 
-    @Override
     public String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
         HoldingsTree holdingsTree = (HoldingsTree) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(HoldingsTree.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(HoldingsTree.class);
             jaxbMarshaller.marshal(holdingsTree, sw);
             result = sw.toString();
         } catch (Exception e) {
@@ -120,67 +109,22 @@ public class HoldingsTree
         return result;
     }
 
-    @Override
     public Object deserialize(String holdingsTreeXml) {
-        JAXBElement<HoldingsTree> holdingsTreeElement = null;
+        HoldingsTree holdingsTree = new HoldingsTree();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(HoldingsTree.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            ByteArrayInputStream input = new ByteArrayInputStream(holdingsTreeXml.getBytes("UTF-8"));
-            holdingsTreeElement = jaxbUnmarshaller.unmarshal(new StreamSource(input), HoldingsTree.class);
+            ByteArrayInputStream bibTreeInputStream = new ByteArrayInputStream(holdingsTreeXml.getBytes());
+            StreamSource streamSource = new StreamSource(bibTreeInputStream);
+            XMLStreamReader xmlStreamReader = JAXBContextFactory.getInstance().getXmlInputFactory().createXMLStreamReader(streamSource);
+
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(HoldingsTree.class);
+            holdingsTree = unmarshaller.unmarshal(xmlStreamReader, HoldingsTree.class).getValue();
         } catch (Exception e) {
             LOG.error("Exception ", e);
         }
-        HoldingsTree holdingsTrees = holdingsTreeElement.getValue();
-
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(holdingsTreeXml)));
-            NodeList root = doc.getChildNodes();
-            Node holdingsTree = ParseXml.getNode("holdingsDocTree", root);
-            Node holdings = ParseXml.getNode("holdingsDoc", holdingsTree.getChildNodes());
-            NodeList nodes = holdings.getChildNodes();
-            String holdingsXml = ParseXml.nodeToString(holdings);
-            if (ParseXml.getNodeValue("holdingsType", nodes).equals("print")) {
-                JAXBContext jc = JAXBContext.newInstance(PHoldings.class);
-                Unmarshaller unmarshaller1 = jc.createUnmarshaller();
-                StreamSource xmlSource = new StreamSource(new StringReader(holdingsXml));
-                JAXBElement<PHoldings> je1 = unmarshaller1.unmarshal(xmlSource, PHoldings.class);
-                PHoldings pHoldings = je1.getValue();
-                holdingsTrees.setHoldings(pHoldings);
-            } else {
-                JAXBContext jc = JAXBContext.newInstance(EHoldings.class);
-                Unmarshaller unmarshaller = jc.createUnmarshaller();
-                StreamSource xmlSource1 = new StreamSource(new StringReader(holdingsXml));
-                JAXBElement<EHoldings> je = unmarshaller.unmarshal(xmlSource1, EHoldings.class);
-                EHoldings eHoldings = je.getValue();
-                holdingsTrees.setHoldings(eHoldings);
-            }
-        } catch (SAXException e) {
-            LOG.error("Exception ", e);
-        } catch (IOException e) {
-            LOG.error("Exception ", e);
-        } catch (ParserConfigurationException e) {
-            LOG.error("Exception ", e);
-        } catch (JAXBException e) {
-            LOG.error("Exception ", e);
-        }
-
-        return holdingsTrees;
+        return holdingsTree;
     }
 
     public Object deserializeContent(Object object) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public Object deserializeContent(String content) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public String serializeContent(Object object) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

@@ -529,9 +529,6 @@ public class RebuildIndexesHandler
                         while (resultSet.next()) {
 
                                 BibTree bibTree = new BibTree();
-                                bibTree.setCategory(docCategory);
-                                bibTree.setType(docType);
-                                bibTree.setFormat(docFormat);
                                 Bib bib = new BibMarc();
                                 bib.setCategory(docCategory);
                                 bib.setType(docType);

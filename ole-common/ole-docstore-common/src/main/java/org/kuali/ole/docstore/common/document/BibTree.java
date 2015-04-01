@@ -1,22 +1,14 @@
 package org.kuali.ole.docstore.common.document;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.ole.docstore.common.util.ParseXml;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.StringReader;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +39,7 @@ import java.util.List;
 })
 
 @XmlRootElement(name = "bibDocTree")
-public class BibTree
-        extends DocstoreDocument {
+public class BibTree {
 
     private static final Logger LOG = Logger.getLogger(BibTree.class);
     // XmLElementWrapper generates a wrapper element around XML representation
@@ -107,14 +98,12 @@ public class BibTree
         this.bib = value;
     }
 
-    @Override
     public String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
         BibTree bibTree = (BibTree) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(BibTree.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(BibTree.class);
             jaxbMarshaller.marshal(bibTree, sw);
             result = sw.toString();
         } catch (Exception e) {
@@ -123,54 +112,19 @@ public class BibTree
         return result;
     }
 
-    @Override
     public Object deserialize(String bibTreeXml) {
-
         BibTree bibTree = new BibTree();
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(bibTreeXml)));
-            NodeList root = doc.getChildNodes();
-            Node bibTreeNode = ParseXml.getNode("bibDocTree", root);
-            Node bibNode = ParseXml.getNode("bibDoc", bibTreeNode.getChildNodes());
-            String BibXml = ParseXml.nodeToString(bibNode);
-            Bib bib = new Bib();
-            bib = (Bib) bib.deserialize(BibXml);
-            bibTree.setBib(bib);
-            Node holdingsTreesNode = ParseXml.getNode("holdingsDocsTree", bibTreeNode.getChildNodes());
-            String holdingsTreeXml = null;
-            HoldingsTree holdingsTree = new HoldingsTree();
-            NodeList nodeList = doc.getElementsByTagName("holdingsDocTree");
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node holdingsTreeNode = ParseXml.getNode("holdingsDocTree", holdingsTreesNode.getChildNodes(), i);
-                holdingsTreeXml = ParseXml.nodeToString(holdingsTreeNode);
-                bibTree.getHoldingsTrees().add((HoldingsTree) holdingsTree.deserialize(holdingsTreeXml));
-            }
-        } catch (SAXException e) {
-            LOG.error("Exception :", e);
-        } catch (IOException e) {
-            LOG.error("Exception :", e);
-        } catch (ParserConfigurationException e) {
+            ByteArrayInputStream bibTreeInputStream = new ByteArrayInputStream(bibTreeXml.getBytes());
+            StreamSource streamSource = new StreamSource(bibTreeInputStream);
+            XMLStreamReader xmlStreamReader = JAXBContextFactory.getInstance().getXmlInputFactory().createXMLStreamReader(streamSource);
+
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(BibTree.class);
+            bibTree = unmarshaller.unmarshal(xmlStreamReader, BibTree.class).getValue();
+        } catch (Exception e) {
             LOG.error("Exception :", e);
         }
-
-
         return bibTree;
     }
 
-    @Override
-    public Object deserializeContent(Object object) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public Object deserializeContent(String content) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public String serializeContent(Object object) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
 }

@@ -312,7 +312,7 @@ public class OLESearchController extends UifControllerBase {
         BibTree bibTree = getDocstoreLocalClient().retrieveBibTree(bibId);
         OLEEditorResponse oleEditorResponse = new OLEEditorResponse();
         if (bibTree.getHoldingsTrees() != null && bibTree.getHoldingsTrees().size() > 0) {
-            instanceUUID = bibTree.getHoldingsTrees().get(0).getId();
+            instanceUUID = bibTree.getHoldingsTrees().get(0).getHoldings().getId();
         }
         oleEditorResponse.setLinkedInstanceId(instanceUUID);
         oleEditorResponse.setBib(bibTree.getBib());
