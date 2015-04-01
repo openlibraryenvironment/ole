@@ -448,6 +448,7 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
     protected void addBibInfoForHoldingsOrItems(SolrInputDocument solrInputDocument, SolrDocument sourceDocument) {
 
         solrInputDocument.addField(TITLE_SEARCH, sourceDocument.getFieldValues(TITLE_SEARCH));
+        solrInputDocument.addField(TITLE_SORT, sourceDocument.getFieldValues(TITLE_SORT));
         solrInputDocument.addField(AUTHOR_SEARCH, sourceDocument.getFieldValues(AUTHOR_SEARCH));
         solrInputDocument.addField(PUBLISHER_SEARCH, sourceDocument.getFieldValues(PUBLISHER_SEARCH));
         solrInputDocument.addField(ISSN_SEARCH, sourceDocument.getFieldValues(ISSN_SEARCH));
