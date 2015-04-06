@@ -108,7 +108,7 @@ public class OLEStatisticalSearchingCodeLoaderServiceImpl implements OLEStatisti
                                 }
                                 if(jsonObject.has("active")){
                                     try{
-                                        boolean active = Boolean.getBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
+                                        boolean active = Boolean.parseBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
                                         statisticalSearchingCode.setActive(active);
                                         validObject = true;
                                     }catch(Exception e){
@@ -199,7 +199,7 @@ public class OLEStatisticalSearchingCodeLoaderServiceImpl implements OLEStatisti
 
             if(jsonObject.has("active")){
                 try{
-                    boolean active = Boolean.getBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
+                    boolean active = Boolean.parseBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
                     oleStatisticalSearchingCodeBo.setActive(active);
                     validObject = true;
                 }catch(Exception e){

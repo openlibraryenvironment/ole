@@ -78,7 +78,7 @@ public class OLEBibliographicRecordStatusLoaderHelperServiceImpl implements OLEB
         try {
             if(addContext)
                 jsonObject.put("@context",bibliographicRecordStatusContext);
-            jsonObject.put("@id", OLELoaderConstants.STAT_SEARCH_CODE_URI + OLELoaderConstants.SLASH + oleBibliographicRecordStatus.getBibliographicRecordStatusId());
+            jsonObject.put("@id", OLELoaderConstants.BIB_RECORD_STATUS_URI + OLELoaderConstants.SLASH + oleBibliographicRecordStatus.getBibliographicRecordStatusId());
             jsonObject.put("code",oleBibliographicRecordStatus.getBibliographicRecordStatusCode());
             jsonObject.put("name",oleBibliographicRecordStatus.getBibliographicRecordStatusName());
             jsonObject.put("source",oleBibliographicRecordStatus.getSource());
@@ -136,13 +136,13 @@ public class OLEBibliographicRecordStatusLoaderHelperServiceImpl implements OLEB
             if(validStartIndex){
                 if(startIndex != 0){
                     paginationObject.put("rel","prev");
-                    paginationObject.put("href",OLELoaderConstants.STAT_SEARCH_CODE_URI + "?start="+((startIndex-1)-maxResults < 0 ? 0 : (startIndex-1)-maxResults)+"&maxResults="+maxResults);
+                    paginationObject.put("href",OLELoaderConstants.BIB_RECORD_STATUS_URI + "?start="+((startIndex-1)-maxResults < 0 ? 0 : (startIndex-1)-maxResults)+"&maxResults="+maxResults);
                     paginationArray.put(paginationObject);
                 }
                 if(loopIterationEnd != oleBibliographicRecordStatusList.size()){
                     paginationObject = new JSONObject();
                     paginationObject.put("rel","next");
-                    paginationObject.put("href",OLELoaderConstants.STAT_SEARCH_CODE_URI + "?start="+(loopIterationEnd+1)+"&maxResults="+maxResults);
+                    paginationObject.put("href",OLELoaderConstants.BIB_RECORD_STATUS_URI + "?start="+(loopIterationEnd+1)+"&maxResults="+maxResults);
                     paginationArray.put(paginationObject);
                 }
 
@@ -151,7 +151,7 @@ public class OLEBibliographicRecordStatusLoaderHelperServiceImpl implements OLEB
                     OleBibliographicRecordStatus oleBibliographicRecordStatus = oleBibliographicRecordStatusList.get(index);
                     JSONObject jsonObject = new JSONObject();
                     try {
-                        jsonObject.put("@id", OLELoaderConstants.STAT_SEARCH_CODE_URI + OLELoaderConstants.SLASH + oleBibliographicRecordStatus.getBibliographicRecordStatusId());
+                        jsonObject.put("@id", OLELoaderConstants.BIB_RECORD_STATUS_URI + OLELoaderConstants.SLASH + oleBibliographicRecordStatus.getBibliographicRecordStatusId());
                         jsonObject.put("code",oleBibliographicRecordStatus.getBibliographicRecordStatusCode());
                         jsonObject.put("name",oleBibliographicRecordStatus.getBibliographicRecordStatusName());
                         jsonObject.put("source",oleBibliographicRecordStatus.getSource());

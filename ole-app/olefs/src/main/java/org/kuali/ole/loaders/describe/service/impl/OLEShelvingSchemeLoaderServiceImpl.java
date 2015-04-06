@@ -110,7 +110,7 @@ public class OLEShelvingSchemeLoaderServiceImpl implements OLEShelvingSchemeLoad
                                 }
                                 if(jsonObject.has("active")){
                                     try{
-                                        boolean active = Boolean.getBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
+                                        boolean active = Boolean.parseBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
                                         shelvingScheme.setActive(active);
                                         validObject = true;
                                     }catch(Exception e){
@@ -201,7 +201,7 @@ public class OLEShelvingSchemeLoaderServiceImpl implements OLEShelvingSchemeLoad
 
             if(jsonObject.has("active")){
                 try{
-                    boolean active = Boolean.getBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
+                    boolean active = Boolean.parseBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
                     oleShelvingSchemeBo.setActive(active);
                     validObject = true;
                 }catch(Exception e){

@@ -101,7 +101,7 @@ public class OLEItemAvailableStatusLoaderServiceImpl implements OLEItemAvailable
 
                                 if(jsonObject.has("active")){
                                     try{
-                                        boolean active = Boolean.getBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
+                                        boolean active = Boolean.parseBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
                                         itemAvailableStatus.setActive(active);
                                         validObject = true;
                                     }catch(Exception e){
@@ -169,7 +169,7 @@ public class OLEItemAvailableStatusLoaderServiceImpl implements OLEItemAvailable
 
             if(jsonObject.has("active")){
                 try{
-                    boolean active = Boolean.getBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
+                    boolean active = Boolean.parseBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
                     oleItemAvailableStatusBo.setActive(active);
                     validObject = true;
                 }catch(Exception e){
@@ -184,7 +184,7 @@ public class OLEItemAvailableStatusLoaderServiceImpl implements OLEItemAvailable
                 if (oleItemAvailableStatus != null) {
                     return getOleItemAvailableStatusLoaderHelperService().updateOleItemAvailableStatus(oleItemAvailableStatus,oleItemAvailableStatusBo,context);
                 } else {
-                    return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.ITEM_TYPE_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.ITEM_TYPE_NOT_EXIST);
+                    return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.ITEM_STATUS_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.ITEM_STATUS_NOT_EXIST);
                 }
             } else {
                 return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
@@ -201,7 +201,7 @@ public class OLEItemAvailableStatusLoaderServiceImpl implements OLEItemAvailable
         if(oleItemAvailableStatus != null){
             return oleItemAvailableStatus;
         }else{
-            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.ITEM_TYPE_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.ITEM_TYPE_NOT_EXIST);
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.ITEM_STATUS_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.ITEM_STATUS_NOT_EXIST);
         }
     }
 
@@ -212,7 +212,7 @@ public class OLEItemAvailableStatusLoaderServiceImpl implements OLEItemAvailable
         if(oleItemAvailableStatus != null){
             return oleItemAvailableStatus;
         }else{
-            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.ITEM_TYPE_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.ITEM_TYPE_NOT_EXIST);
+            return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.ITEM_STATUS_NOT_EXIST, OLELoaderConstants.OLEloaderStatus.ITEM_STATUS_NOT_EXIST);
         }
     }
 

@@ -3,6 +3,7 @@ package org.kuali.ole.loaders.describe.service;
 
 import com.sun.jersey.api.core.HttpContext;
 import org.kuali.ole.describe.bo.OleLocation;
+import org.kuali.ole.describe.bo.OleLocationLevel;
 import org.kuali.ole.loaders.common.bo.OLELoaderResponseBo;
 import org.kuali.ole.loaders.describe.bo.OLELocationBo;
 
@@ -30,6 +31,8 @@ public interface OLELocationLoaderService {
     public Object exportLocationLevelByCode(String locationLevelCode);
 
     public Object importLocationLevels(String bodyContent, HttpContext context);
+
+    public List<OleLocationLevel> exportAllLocationLevels(HttpContext context);
 
     public OLELoaderResponseBo updateLocationLevelById(String locationId, String bodyContent, HttpContext context);
 

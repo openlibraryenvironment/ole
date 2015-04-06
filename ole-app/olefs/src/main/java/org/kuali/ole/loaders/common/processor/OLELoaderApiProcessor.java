@@ -124,6 +124,19 @@ public class OLELoaderApiProcessor {
         return null;
     }
 
+    @GET
+    @Path("/locationLevel")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response exportAllLocationLevels(@Context HttpContext context){
+        List<OleLocationLevel> oleLocationLevelList= oleLocationLoaderService.exportAllLocationLevels(context);
+        if(CollectionUtils.isNotEmpty(oleLocationLevelList)){
+            Object object = oleLocationLoaderHelperService.formAllLocationLevelExportResponse(context, oleLocationLevelList, OLELoaderConstants.OLELoaderContext.LOCATION_LEVEL,
+                    context.getRequest().getRequestUri().toASCIIString());
+            return Response.status(200).entity(object).build();
+        }
+        return Response.status(500).entity(null).build();
+    }
+
     @POST
     @Path("/locationLevel")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
@@ -150,17 +163,17 @@ public class OLELoaderApiProcessor {
 
 
     @GET
-    @Path("/shelvingScheme/{pk}")
+    @Path("/callNumberType/{pk}")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response exportShelvingScheme(@Context HttpContext context, @PathParam("pk") String id){
         LOG.info("Incoming request for exportShelvingScheme.");
         Object object  = null;
-        OLEShelvingSchemeLoaderService oleShelvingSchemeLoaderService = (OLEShelvingSchemeLoaderService) getOleLoaderService().getLoaderService("schelingScheme");
+        OLEShelvingSchemeLoaderService oleShelvingSchemeLoaderService = (OLEShelvingSchemeLoaderService) getOleLoaderService().getLoaderService("shelvingScheme");
         OLEShelvingSchemeLoaderHelperService oleShelvingSchemeLoaderHelperService = (OLEShelvingSchemeLoaderHelperService) getOleLoaderService().getLoaderHelperService("shelvingScheme");
         if(id.matches("^([\\d]*)?$")){
             object = oleShelvingSchemeLoaderService.exportShelvingSchemeById(id);
         }else{
-            object = oleShelvingSchemeLoaderService.exportShelvingSchemeById(id);
+            object = oleShelvingSchemeLoaderService.exportShelvingSchemeByCode(id);
         }
         if(object instanceof OleShelvingScheme){
             object = oleShelvingSchemeLoaderHelperService.formOleShelvingSchemeExportResponse(object, OLELoaderConstants.OLELoaderContext.SHELVING_SCHEME, context.getRequest().getRequestUri().toASCIIString(), true);
@@ -172,11 +185,11 @@ public class OLELoaderApiProcessor {
     }
 
     @GET
-    @Path("/shelvingScheme")
+    @Path("/callNumberType")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response exportAllShelvingSchemes(@Context HttpContext context){
         LOG.info("Incoming request for exportAllShelvingSchemes.");
-        OLEShelvingSchemeLoaderService oleShelvingSchemeLoaderService = (OLEShelvingSchemeLoaderService) getOleLoaderService().getLoaderService("schelingScheme");
+        OLEShelvingSchemeLoaderService oleShelvingSchemeLoaderService = (OLEShelvingSchemeLoaderService) getOleLoaderService().getLoaderService("shelvingScheme");
         OLEShelvingSchemeLoaderHelperService oleShelvingSchemeLoaderHelperService = (OLEShelvingSchemeLoaderHelperService) getOleLoaderService().getLoaderHelperService("shelvingScheme");
         List<OleShelvingScheme> oleShelvingSchemeList = oleShelvingSchemeLoaderService.exportAllShelvingSchemes();
         if(CollectionUtils.isNotEmpty(oleShelvingSchemeList)){
@@ -188,22 +201,22 @@ public class OLELoaderApiProcessor {
     }
 
     @POST
-    @Path("/shelvingScheme")
+    @Path("/callNumberType")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response importShelvingSchemes(@Context HttpContext context, String bodyContent){
         LOG.info("Incoming request for importShelvingSchemes.");
-        OLEShelvingSchemeLoaderService oleShelvingSchemeLoaderService = (OLEShelvingSchemeLoaderService) getOleLoaderService().getLoaderService("schelingScheme");
+        OLEShelvingSchemeLoaderService oleShelvingSchemeLoaderService = (OLEShelvingSchemeLoaderService) getOleLoaderService().getLoaderService("shelvingScheme");
         OLEShelvingSchemeLoaderHelperService oleShelvingSchemeLoaderHelperService = (OLEShelvingSchemeLoaderHelperService) getOleLoaderService().getLoaderHelperService("shelvingScheme");
         Object object = oleShelvingSchemeLoaderService.importShelvingSchemes(bodyContent, context);
         return getOleLoaderService().formResponseForImport(object,OLELoaderConstants.OLELoaderContext.SHELVING_SCHEME);
     }
 
     @PUT
-    @Path("/shelvingScheme/{shelvingSchemeId}")
+    @Path("/callNumberType/{shelvingSchemeId}")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response updateShelvingScheme(@Context HttpContext context, @PathParam("shelvingSchemeId") String shelvingSchemeId, String body){
         LOG.info("Incoming request for updateShelvingScheme.");
-        OLEShelvingSchemeLoaderService oleShelvingSchemeLoaderService = (OLEShelvingSchemeLoaderService) getOleLoaderService().getLoaderService("schelingScheme");
+        OLEShelvingSchemeLoaderService oleShelvingSchemeLoaderService = (OLEShelvingSchemeLoaderService) getOleLoaderService().getLoaderService("shelvingScheme");
         OLELoaderResponseBo object = oleShelvingSchemeLoaderService.updateShelvingSchemeById(shelvingSchemeId, body, context);
         if(object.getStatusCode() == 200){
             return  Response.status(object.getStatusCode()).entity(object.getDetails()).build();
@@ -337,7 +350,7 @@ public class OLELoaderApiProcessor {
     }
 
     @GET
-    @Path("/itemAvailableStatus/{pk}")
+    @Path("/itemAvailabilityStatus/{pk}")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response exportItemAvailableStatus(@Context HttpContext context, @PathParam("pk") String id){
         LOG.info("Incoming request for exportItemAvailableStatus.");
@@ -350,7 +363,7 @@ public class OLELoaderApiProcessor {
             object = oleItemAvailableStatusLoaderService.exportItemAvailableStatusByCode(id);
         }
         if(object instanceof OleItemAvailableStatus){
-            object = oleItemAvailableStatusLoaderHelperService.formItemAvailableStatusExportResponse(object, OLELoaderConstants.OLELoaderContext.BORROWER_TYPE, context.getRequest().getRequestUri().toASCIIString(), true);
+            object = oleItemAvailableStatusLoaderHelperService.formItemAvailableStatusExportResponse(object, OLELoaderConstants.OLELoaderContext.ITEM_STATUS, context.getRequest().getRequestUri().toASCIIString(), true);
             return  Response.status(200).entity(object).build();
         }else if(object instanceof OLELoaderResponseBo){
             return Response.status(((OLELoaderResponseBo) object).getStatusCode()).entity(((OLELoaderResponseBo) object).getMessage()).type(MediaType.TEXT_PLAIN).build();
@@ -359,7 +372,7 @@ public class OLELoaderApiProcessor {
     }
 
     @GET
-    @Path("/itemAvailableStatus")
+    @Path("/itemAvailabilityStatus")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response exportAllItemAvailableStatus(@Context HttpContext context){
         LOG.info("Incoming request for exportAllItemAvailableStatus.");
@@ -367,7 +380,7 @@ public class OLELoaderApiProcessor {
         OLEItemAvailableStatusLoaderHelperService oleItemAvailableStatusLoaderHelperService = (OLEItemAvailableStatusLoaderHelperService) getOleLoaderService().getLoaderHelperService("itemAvailableStatus");
         List<OleItemAvailableStatus> oleInstanceItemAvailableStatus= oleItemAvailableStatusLoaderService.exportAllItemAvailableStatus();
         if(CollectionUtils.isNotEmpty(oleInstanceItemAvailableStatus)){
-            Object object = oleItemAvailableStatusLoaderHelperService.formAllItemAvailableStatusExportResponse(context, oleInstanceItemAvailableStatus, OLELoaderConstants.OLELoaderContext.BORROWER_TYPE,
+            Object object = oleItemAvailableStatusLoaderHelperService.formAllItemAvailableStatusExportResponse(context, oleInstanceItemAvailableStatus, OLELoaderConstants.OLELoaderContext.ITEM_STATUS,
                     context.getRequest().getRequestUri().toASCIIString());
             return Response.status(200).entity(object).build();
         }
@@ -375,17 +388,17 @@ public class OLELoaderApiProcessor {
     }
 
     @POST
-    @Path("/itemAvailableStatus")
+    @Path("/itemAvailabilityStatus")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response importItemAvailableStatus(@Context HttpContext context, String bodyContent){
         LOG.info("Incoming request for importItemAvailableStatus.");
         OLEItemAvailableStatusLoaderService oleItemAvailableStatusLoaderService = (OLEItemAvailableStatusLoaderService) getOleLoaderService().getLoaderService("itemAvailableStatus");
         Object object = oleItemAvailableStatusLoaderService.importItemAvailableStatus(bodyContent, context);
-        return getOleLoaderService().formResponseForImport(object,OLELoaderConstants.OLELoaderContext.BORROWER_TYPE);
+        return getOleLoaderService().formResponseForImport(object,OLELoaderConstants.OLELoaderContext.ITEM_STATUS);
     }
 
     @PUT
-    @Path("/itemAvailableStatus/{itemAvailableStatusId}")
+    @Path("/itemAvailabilityStatus/{itemAvailableStatusId}")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response updateItemAvailableStatus(@Context HttpContext context, @PathParam("itemAvailableStatusId") String itemAvailableStatusId, String body){
         LOG.info("Incoming request for updateItemAvailableStatus.");
@@ -399,7 +412,7 @@ public class OLELoaderApiProcessor {
     }
 
     @GET
-    @Path("/statisticalSearchingCode/{pk}")
+    @Path("/statSearchCode/{pk}")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response exportStatisticalSearchingCode(@Context HttpContext context, @PathParam("pk") String id){
         LOG.info("Incoming request for exportStatisticalSearchingCode.");
@@ -412,7 +425,7 @@ public class OLELoaderApiProcessor {
             object = oleStatisticalSearchingCodeLoaderService.exportStatisticalSearchingCodeByCode(id);
         }
         if(object instanceof OleStatisticalSearchingCodes){
-            object = oleStatisticalSearchingCodeLoaderHelperService.formStatisticalSearchingCodeExportResponse(object, OLELoaderConstants.OLELoaderContext.BORROWER_TYPE, context.getRequest().getRequestUri().toASCIIString(), true);
+            object = oleStatisticalSearchingCodeLoaderHelperService.formStatisticalSearchingCodeExportResponse(object, OLELoaderConstants.OLELoaderContext.STAT_SEARCH_CODE, context.getRequest().getRequestUri().toASCIIString(), true);
             return  Response.status(200).entity(object).build();
         }else if(object instanceof OLELoaderResponseBo){
             return Response.status(((OLELoaderResponseBo) object).getStatusCode()).entity(((OLELoaderResponseBo) object).getMessage()).type(MediaType.TEXT_PLAIN).build();
@@ -421,7 +434,7 @@ public class OLELoaderApiProcessor {
     }
 
     @GET
-    @Path("/statisticalSearchingCode")
+    @Path("/statSearchCode")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response exportAllStatisticalSearchingCode(@Context HttpContext context){
         LOG.info("Incoming request for exportAllStatisticalSearchingCode.");
@@ -429,7 +442,7 @@ public class OLELoaderApiProcessor {
         OLEStatisticalSearchingCodeLoaderHelperService oleStatisticalSearchingCodeLoaderHelperService = (OLEStatisticalSearchingCodeLoaderHelperService) getOleLoaderService().getLoaderHelperService("statisticalSearchingCode");
         List<OleStatisticalSearchingCodes> oleInstanceStatisticalSearchingCode= oleStatisticalSearchingCodeLoaderService.exportAllStatisticalSearchingCode();
         if(CollectionUtils.isNotEmpty(oleInstanceStatisticalSearchingCode)){
-            Object object = oleStatisticalSearchingCodeLoaderHelperService.formAllStatisticalSearchingCodeExportResponse(context, oleInstanceStatisticalSearchingCode, OLELoaderConstants.OLELoaderContext.BORROWER_TYPE,
+            Object object = oleStatisticalSearchingCodeLoaderHelperService.formAllStatisticalSearchingCodeExportResponse(context, oleInstanceStatisticalSearchingCode, OLELoaderConstants.OLELoaderContext.STAT_SEARCH_CODE,
                     context.getRequest().getRequestUri().toASCIIString());
             return Response.status(200).entity(object).build();
         }
@@ -437,17 +450,17 @@ public class OLELoaderApiProcessor {
     }
 
     @POST
-    @Path("/statisticalSearchingCode")
+    @Path("/statSearchCode")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response importStatisticalSearchingCode(@Context HttpContext context, String bodyContent){
         LOG.info("Incoming request for importStatisticalSearchingCode.");
         OLEStatisticalSearchingCodeLoaderService oleStatisticalSearchingCodeLoaderService = (OLEStatisticalSearchingCodeLoaderService) getOleLoaderService().getLoaderService("statisticalSearchingCode");
         Object object = oleStatisticalSearchingCodeLoaderService.importStatisticalSearchingCode(bodyContent, context);
-        return getOleLoaderService().formResponseForImport(object,OLELoaderConstants.OLELoaderContext.BORROWER_TYPE);
+        return getOleLoaderService().formResponseForImport(object,OLELoaderConstants.OLELoaderContext.STAT_SEARCH_CODE);
     }
 
     @PUT
-    @Path("/statisticalSearchingCode/{statisticalSearchingCodeId}")
+    @Path("/statSearchCode/{statisticalSearchingCodeId}")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response updateStatisticalSearchingCode(@Context HttpContext context, @PathParam("statisticalSearchingCodeId") String statisticalSearchingCodeId, String body){
         LOG.info("Incoming request for updateStatisticalSearchingCode.");
@@ -461,7 +474,7 @@ public class OLELoaderApiProcessor {
     }
 
     @GET
-    @Path("/bibliographicRecordStatus/{pk}")
+    @Path("/bibStatus/{pk}")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response exportBibliographicRecordStatus(@Context HttpContext context, @PathParam("pk") String id){
         Object object  = null;
@@ -473,7 +486,7 @@ public class OLELoaderApiProcessor {
             object = oleBibliographicRecordStatusLoaderService.exportBibliographicRecordStatusByCode(id);
         }
         if(object instanceof OleBibliographicRecordStatus){
-            object = oleBibliographicRecordStatusLoaderHelperService.formBibliographicRecordStatusExportResponse(object, OLELoaderConstants.OLELoaderContext.BORROWER_TYPE, context.getRequest().getRequestUri().toASCIIString(), true);
+            object = oleBibliographicRecordStatusLoaderHelperService.formBibliographicRecordStatusExportResponse(object, OLELoaderConstants.OLELoaderContext.BIB_RECORD_STATUS, context.getRequest().getRequestUri().toASCIIString(), true);
             return  Response.status(200).entity(object).build();
         }else if(object instanceof OLELoaderResponseBo){
             return Response.status(((OLELoaderResponseBo) object).getStatusCode()).entity(((OLELoaderResponseBo) object).getMessage()).type(MediaType.TEXT_PLAIN).build();
@@ -482,14 +495,14 @@ public class OLELoaderApiProcessor {
     }
 
     @GET
-    @Path("/bibliographicRecordStatus")
+    @Path("/bibStatus")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response exportAllBibliographicRecordStatus(@Context HttpContext context){
         OLEBibliographicRecordStatusLoaderService oleBibliographicRecordStatusLoaderService = (OLEBibliographicRecordStatusLoaderService) getOleLoaderService().getLoaderService("bibliographicRecordStatus");
         OLEBibliographicRecordStatusLoaderHelperService oleBibliographicRecordStatusLoaderHelperService = (OLEBibliographicRecordStatusLoaderHelperService) getOleLoaderService().getLoaderHelperService("bibliographicRecordStatus");
         List<OleBibliographicRecordStatus> oleInstanceBibliographicRecordStatus= oleBibliographicRecordStatusLoaderService.exportAllBibliographicRecordStatus();
         if(CollectionUtils.isNotEmpty(oleInstanceBibliographicRecordStatus)){
-            Object object = oleBibliographicRecordStatusLoaderHelperService.formAllBibliographicRecordStatusExportResponse(context, oleInstanceBibliographicRecordStatus, OLELoaderConstants.OLELoaderContext.BORROWER_TYPE,
+            Object object = oleBibliographicRecordStatusLoaderHelperService.formAllBibliographicRecordStatusExportResponse(context, oleInstanceBibliographicRecordStatus, OLELoaderConstants.OLELoaderContext.BIB_RECORD_STATUS,
                     context.getRequest().getRequestUri().toASCIIString());
             return Response.status(200).entity(object).build();
         }
@@ -497,17 +510,17 @@ public class OLELoaderApiProcessor {
     }
 
     @POST
-    @Path("/bibliographicRecordStatus")
+    @Path("/bibStatus")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response importBibliographicRecordStatus(@Context HttpContext context, String bodyContent){
         LOG.info("Incoming request for Import Locations Level.");
         OLEBibliographicRecordStatusLoaderService oleBibliographicRecordStatusLoaderService = (OLEBibliographicRecordStatusLoaderService) getOleLoaderService().getLoaderService("bibliographicRecordStatus");
         Object object = oleBibliographicRecordStatusLoaderService.importBibliographicRecordStatus(bodyContent, context);
-        return getOleLoaderService().formResponseForImport(object,OLELoaderConstants.OLELoaderContext.BORROWER_TYPE);
+        return getOleLoaderService().formResponseForImport(object,OLELoaderConstants.OLELoaderContext.BIB_RECORD_STATUS);
     }
 
     @PUT
-    @Path("/bibliographicRecordStatus/{bibliographicRecordStatusId}")
+    @Path("/bibStatus/{bibliographicRecordStatusId}")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response updateBibliographicRecordStatus(@Context HttpContext context, @PathParam("bibliographicRecordStatusId") String bibliographicRecordStatusId, String body){
         LOG.info("Incoming request for update Location.");

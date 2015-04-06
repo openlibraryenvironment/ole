@@ -56,14 +56,14 @@ public class OLEItemTypeLoaderHelperServiceImpl implements OLEItemTypeLoaderHelp
     @Override
     public OleInstanceItemType getItemTypeById(String itemTypeId) {
         Map itemTypeMap = new HashMap();
-        itemTypeMap.put("itemTypeId", itemTypeId);
+        itemTypeMap.put("instanceItemTypeId", itemTypeId);
         return getBusinessObjectService().findByPrimaryKey(OleInstanceItemType.class, itemTypeMap);
     }
 
     @Override
     public OleInstanceItemType getItemTypeByCode(String itemTypeCode) {
         Map itemTypeMap = new HashMap();
-        itemTypeMap.put("itemTypeCode", itemTypeCode);
+        itemTypeMap.put("instanceItemTypeCode", itemTypeCode);
         return getBusinessObjectService().findByPrimaryKey(OleInstanceItemType.class, itemTypeMap);
     }
 

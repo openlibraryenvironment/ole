@@ -62,7 +62,7 @@ public class OLEStatisticalSearchingCodeLoaderHelperServiceImpl implements OLESt
     @Override
     public OleStatisticalSearchingCodes getStatisticalSearchingCodeByCode(String statisticalSearchingCodeCode) {
         Map statisticalSearchingCodeMap = new HashMap();
-        statisticalSearchingCodeMap.put("statisticalSearchingCodeCode", statisticalSearchingCodeCode);
+        statisticalSearchingCodeMap.put("statisticalSearchingCode", statisticalSearchingCodeCode);
         return getBusinessObjectService().findByPrimaryKey(OleStatisticalSearchingCodes.class, statisticalSearchingCodeMap);
     }
 

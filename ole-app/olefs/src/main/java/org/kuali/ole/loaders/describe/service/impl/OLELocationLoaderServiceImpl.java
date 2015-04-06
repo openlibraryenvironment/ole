@@ -372,6 +372,12 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
     }
 
     @Override
+    public List<OleLocationLevel> exportAllLocationLevels(HttpContext context) {
+        List<OleLocationLevel> oleLocationLevelList = oleLocationLoaderHelperService.getAllLocationLevel();
+        return oleLocationLevelList;
+    }
+
+    @Override
     public Object importLocationLevels(String bodyContent, HttpContext context) {
         LOG.info("Inside importLocations method.");
         OLELoaderImportResponseBo oleLoaderImportResponseBo = new OLELoaderImportResponseBo();
@@ -442,7 +448,7 @@ public class OLELocationLoaderServiceImpl implements OLELocationLoaderService {
                                         continue;
                                     }else {
                                         try {
-                                            oleLocationLevel.setOleLocationLevel(oleLocationLevel);
+                                            oleLocationLevel.setOleLocationLevel(parentLocationLevel);
                                             oleLocationLevel = getBusinessObjectService().save(oleLocationLevel);
                                             createdLocationLevelObject.add((JSONObject)oleLocationLoaderHelperService.formLocationLevelExportResponse(oleLocationLevel, OLELoaderConstants.OLELoaderContext.LOCATION_LEVEL,
                                                     context.getRequest().getRequestUri().toASCIIString(), false));

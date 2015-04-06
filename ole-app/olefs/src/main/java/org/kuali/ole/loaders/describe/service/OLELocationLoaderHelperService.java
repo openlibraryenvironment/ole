@@ -40,7 +40,11 @@ public interface OLELocationLoaderHelperService {
 
     public OleLocationLevel getLocationLevelByCode(String locationLevelCode);
 
+    public List<OleLocationLevel> getAllLocationLevel();
+
     public Object formLocationLevelExportResponse(Object object, String locationContext, String uri,boolean addContext);
+
+    public Object formAllLocationLevelExportResponse(HttpContext context, List<OleLocationLevel> oleLocationLevelList, String locationContext, String uri);
 
     public OLELoaderResponseBo updateOleLocationLevel(OleLocationLevel oleLocationLevel, OLELocationLevelBo oleLocationLevelBo,HttpContext context);
 

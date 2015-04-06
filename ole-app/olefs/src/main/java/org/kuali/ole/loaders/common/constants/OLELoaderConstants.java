@@ -14,12 +14,12 @@ public class OLELoaderConstants {
     public static final String API_ROOT = ConfigContext.getCurrentContextConfig().getProperty(OLEPropertyConstants.OLE_URL_BASE) + "/api";
     public static final String LOCATION_URI = API_ROOT + "/location";
     public static final String LOCATION_LEVEL_URI = API_ROOT + "/locationLevel";
-    public static final String SHELVING_SCHEME_URI = API_ROOT + "/shelvingScheme";
+    public static final String SHELVING_SCHEME_URI = API_ROOT + "/callNumberType";
     public static final String ITEM_TYPE_URI = API_ROOT + "/itemType";
     public static final String BORROWER_TYPE_URI = API_ROOT + "/borrowerType";
-    public static final String ITEM_STATUS_URI = API_ROOT + "/itemAvailableStatus";
-    public static final String STAT_SEARCH_CODE_URI = API_ROOT + "/statisticalSearchingCode";
-    public static final String BIB_RECORD_STATUS_URI = API_ROOT + "/bibliographicRecordStatus";
+    public static final String ITEM_STATUS_URI = API_ROOT + "/itemAvailabilityStatus";
+    public static final String STAT_SEARCH_CODE_URI = API_ROOT + "/statSearchCode";
+    public static final String BIB_RECORD_STATUS_URI = API_ROOT + "/bibStatus";
     /*OleShelvingScheme*/
     public static final String SLASH = "/";
 
@@ -40,32 +40,32 @@ public class OLELoaderConstants {
         public static final int SHELVING_SCHEME_FAILED = 500;
         public static final int SHELVING_SCHEME_INVALID_CONTENT = 400;
 
-        public static final int PATRON_NOT_EXIST = 200;
+        public static final int PATRON_NOT_EXIST = 404;
         public static final int PATRON_SUCCESS = 200;
         public static final int PATRON_FAILED = 500;
         public static final int PATRON_INVALID_CONTENT = 500;
 
-        public static final int BORROWER_TYPE_NOT_EXIST = 200;
+        public static final int BORROWER_TYPE_NOT_EXIST = 404;
         public static final int BORROWER_TYPE_SUCCESS = 200;
         public static final int BORROWER_TYPE_FAILED = 500;
         public static final int BORROWER_TYPE_INVALID_CONTENT = 500;
 
-        public static final int ITEM_STATUS_NOT_EXIST = 200;
+        public static final int ITEM_STATUS_NOT_EXIST = 404;
         public static final int ITEM_STATUS_SUCCESS = 200;
         public static final int ITEM_STATUS_FAILED = 500;
         public static final int ITEM_STATUS_INVALID_CONTENT = 500;
 
-        public static final int STAT_SEARCH_CODE_NOT_EXIST = 200;
+        public static final int STAT_SEARCH_CODE_NOT_EXIST = 404;
         public static final int STAT_SEARCH_CODE_SUCCESS = 200;
         public static final int STAT_SEARCH_CODE_FAILED = 500;
         public static final int STAT_SEARCH_CODE_INVALID_CONTENT = 500;
 
-        public static final int BIB_RECORD_STATUS_NOT_EXIST = 200;
+        public static final int BIB_RECORD_STATUS_NOT_EXIST = 404;
         public static final int BIB_RECORD_STATUS_SUCCESS = 200;
         public static final int BIB_RECORD_STATUS_FAILED = 500;
         public static final int BIB_RECORD_STATUS_INVALID_CONTENT = 500;
 
-        public static final int ITEM_TYPE_NOT_EXIST = 200;
+        public static final int ITEM_TYPE_NOT_EXIST = 404;
         public static final int ITEM_TYPE_SUCCESS = 200;
         public static final int ITEM_TYPE_FAILED = 500;
         public static final int ITEM_TYPE_INVALID_CONTENT = 500;
@@ -134,7 +134,7 @@ public class OLELoaderConstants {
         public static String ITEM_STATUS = "http://ole.kuali.org/standards/api/itemAvailabilityStatus.jsonld";
         public static String SHELVING_SCHEME = "http://ole.kuali.org/standards/api/callNumberType.jsonld";
         public static String STAT_SEARCH_CODE = "http://ole.kuali.org/standards/api/statSearchCode.jsonld";
-        public static String BIB_RECORD_STATUS = "http://ole.kuali.org/standards/api/bibRecordStatus.jsonld";
+        public static String BIB_RECORD_STATUS = "http://ole.kuali.org/standards/api/bibStatus.jsonld";
         public static String BORROWER_TYPE = "http://ole.kuali.org/standards/api/borrowerType.jsonld";
         public static String PATRON = "http://ole.kuali.org/standards/api/patron.jsonld";
         public static String CIRCULATION_DESK = "http://ole.kuali.org/standards/api/circulationDesk.jsonld";

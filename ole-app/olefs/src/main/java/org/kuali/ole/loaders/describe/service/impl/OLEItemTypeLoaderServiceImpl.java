@@ -118,7 +118,7 @@ public class OLEItemTypeLoaderServiceImpl implements OLEItemTypeLoaderService {
 
                                 if(jsonObject.has("active")){
                                     try{
-                                        boolean active = Boolean.getBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
+                                        boolean active = Boolean.parseBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
                                         itemType.setActive(active);
                                         validObject = true;
                                     }catch(Exception e){
@@ -217,7 +217,7 @@ public class OLEItemTypeLoaderServiceImpl implements OLEItemTypeLoaderService {
 
             if(jsonObject.has("active")){
                 try{
-                    boolean active = Boolean.getBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
+                    boolean active = Boolean.parseBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
                     oleItemTypeBo.setActive(active);
                     validObject = true;
                 }catch(Exception e){

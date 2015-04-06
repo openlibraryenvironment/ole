@@ -128,7 +128,7 @@ public class OLELoaderServiceImpl implements OLELoaderService {
                 oleLocationLoaderService = new OLELocationLoaderServiceImpl();
             }
             return oleLocationLoaderService;
-        }else if(serviceName.equals("schelvingScheme")){
+        }else if(serviceName.equals("shelvingScheme")){
             if(oleShelvingSchemeLoaderService == null){
                 oleShelvingSchemeLoaderService = new OLEShelvingSchemeLoaderServiceImpl();
             }
@@ -169,7 +169,7 @@ public class OLELoaderServiceImpl implements OLELoaderService {
                 oleLocationLoaderHelperService = new OLELocationLoaderHelperServiceImpl();
             }
             return oleLocationLoaderHelperService;
-        }else if(serviceName.equals("schelvingScheme")){
+        }else if(serviceName.equals("shelvingScheme")){
             if(oleShelvingSchemeLoaderHelperService == null){
                 oleShelvingSchemeLoaderHelperService = new OLEShelvingSchemeLoaderHelperServiceImpl();
             }

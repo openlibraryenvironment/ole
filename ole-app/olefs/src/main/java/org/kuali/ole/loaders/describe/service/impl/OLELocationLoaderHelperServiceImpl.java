@@ -354,6 +354,11 @@ public class OLELocationLoaderHelperServiceImpl implements OLELocationLoaderHelp
     }
 
     @Override
+    public List<OleLocationLevel> getAllLocationLevel() {
+        return (List<OleLocationLevel>) getBusinessObjectService().findAll(OleLocationLevel.class);
+    }
+
+    @Override
     public Object formLocationLevelExportResponse(Object object, String locationLevelContext, String uri, boolean addContext) {
         OleLocationLevel oleLocationLevel = (OleLocationLevel) object;
         JSONObject jsonObject = new JSONObject();
@@ -373,6 +378,89 @@ public class OLELocationLoaderHelperServiceImpl implements OLELocationLoaderHelp
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    @Override
+    public Object formAllLocationLevelExportResponse(HttpContext context, List<OleLocationLevel> oleLocationLevelList, String locationContext, String uri) {
+        JSONObject jsonResponseObject = new JSONObject();
+        JSONArray paginationArray = new JSONArray();
+        JSONObject paginationObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        try{
+            jsonResponseObject.put("@context",locationContext);
+            int startIndex = 0;
+            int maxResults = 50;
+            boolean validStartIndex = true;
+            if(context.getRequest().getQueryParameters().containsKey("start")){
+                try{
+                    String start = context.getRequest().getQueryParameters().getFirst("start");
+                    startIndex = Integer.parseInt(start);
+                    if(startIndex < 0)
+                        startIndex =0;
+                    if(startIndex > oleLocationLevelList.size()){
+                        validStartIndex = false;
+                    }
+                }catch (Exception e){
+                    LOG.info("Invalid Start Index : " + e.getMessage());
+                    startIndex = 0;
+                }
+            }
+            if(context.getRequest().getQueryParameters().containsKey("maxResults")){
+                try{
+                    String maxCount = context.getRequest().getQueryParameters().getFirst("maxResults");
+                    maxResults = Integer.parseInt(maxCount);
+                    if(maxResults < 0)
+                        maxResults =50;
+                }catch (Exception e){
+                    LOG.info("Invalid Max Result count : " + e.getMessage());
+                    maxResults = 50;
+                }
+            }
+            int loopIterationEnd = 0;
+            if(startIndex+maxResults > oleLocationLevelList.size())
+                loopIterationEnd = oleLocationLevelList.size();
+            else{
+                loopIterationEnd = startIndex+maxResults;
+            }
+
+            if(validStartIndex){
+                if(startIndex != 0){
+                    paginationObject.put("rel","prev");
+                    paginationObject.put("href",OLELoaderConstants.LOCATION_LEVEL_URI + "?start="+((startIndex-1)-maxResults < 0 ? 0 : (startIndex-1)-maxResults)+"&maxResults="+maxResults);
+                    paginationArray.put(paginationObject);
+                }
+                if(loopIterationEnd != oleLocationLevelList.size()){
+                    paginationObject = new JSONObject();
+                    paginationObject.put("rel","next");
+                    paginationObject.put("href",OLELoaderConstants.LOCATION_LEVEL_URI + "?start="+(loopIterationEnd+1)+"&maxResults="+maxResults);
+                    paginationArray.put(paginationObject);
+                }
+
+                jsonResponseObject.put("links",paginationArray);
+                for(int index = (startIndex == 0 ? 0 : startIndex-1) ; index < loopIterationEnd-1 ; index++){
+                    OleLocationLevel oleLocationLevel = oleLocationLevelList.get(index);
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("@id",OLELoaderConstants.LOCATION_LEVEL_URI + OLELoaderConstants.SLASH + oleLocationLevel.getLevelId());
+                        jsonObject.put("code",oleLocationLevel.getLevelCode());
+                        jsonObject.put("name",oleLocationLevel.getLevelName());
+                        JSONObject parentJsonObject = new JSONObject();
+                        if(oleLocationLevel.getOleLocationLevel() != null){
+                            parentJsonObject.put("@id",OLELoaderConstants.LOCATION_LEVEL_URI + OLELoaderConstants.SLASH + oleLocationLevel.getOleLocationLevel().getLevelId());
+                            parentJsonObject.put("name",oleLocationLevel.getOleLocationLevel().getLevelName());
+                        }
+                        jsonObject.put("parent",parentJsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    jsonArray.put(jsonObject);
+                }
+                jsonResponseObject.put("items",jsonArray);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return jsonResponseObject;
     }
 
     @Override
