@@ -13,6 +13,8 @@ import org.kuali.ole.loaders.deliver.service.OLEBorrowerTypeLoaderHelperService;
 import org.kuali.ole.loaders.deliver.service.OLEBorrowerTypeLoaderService;
 import org.kuali.ole.loaders.deliver.service.impl.OLEBorrowerTypeLoaderHelperServiceImpl;
 import org.kuali.ole.loaders.deliver.service.impl.OLEBorrowerTypeLoaderServiceImpl;
+import org.kuali.ole.loaders.deliver.service.impl.OLEPatronLoaderHelperServiceImpl;
+import org.kuali.ole.loaders.deliver.service.impl.OLEPatronLoaderServiceImpl;
 import org.kuali.ole.loaders.describe.service.*;
 import org.kuali.ole.loaders.describe.service.impl.*;
 
@@ -47,6 +49,9 @@ public class OLELoaderServiceImpl implements OLELoaderService {
 
     private OLEBibliographicRecordStatusLoaderService oleBibliographicRecordStatusLoaderService;
     private OLEBibliographicRecordStatusLoaderHelperService oleBibliographicRecordStatusLoaderHelperService;
+
+    private OLEPatronLoaderServiceImpl olePatronLoaderService;
+    private OLEPatronLoaderHelperServiceImpl olePatronLoaderHelperService;
 
     @Override
     public OLELoaderResponseBo generateResponse(String message, int statusCode) {
@@ -158,6 +163,11 @@ public class OLELoaderServiceImpl implements OLELoaderService {
                 oleBibliographicRecordStatusLoaderService = new OLEBibliographicRecordStatusLoaderServiceImpl();
             }
             return oleBibliographicRecordStatusLoaderService;
+        }else if(serviceName.equals("patron")){
+            if(olePatronLoaderService == null){
+                olePatronLoaderService = new OLEPatronLoaderServiceImpl();
+            }
+            return olePatronLoaderService;
         }
         return null;
     }
@@ -199,6 +209,11 @@ public class OLELoaderServiceImpl implements OLELoaderService {
                 oleBibliographicRecordStatusLoaderHelperService = new OLEBibliographicRecordStatusLoaderHelperServiceImpl();
             }
             return oleBibliographicRecordStatusLoaderHelperService;
+        }else if(serviceName.equals("patron")){
+            if(olePatronLoaderHelperService == null){
+                olePatronLoaderHelperService = new OLEPatronLoaderHelperServiceImpl();
+            }
+            return olePatronLoaderHelperService;
         }
         return null;
     }

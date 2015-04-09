@@ -7,6 +7,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.deliver.bo.OleBorrowerType;
+import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.docstore.common.document.content.bib.marc.Collection;
 import org.kuali.ole.loaders.common.bo.OLELoaderImportResponseBo;
@@ -16,6 +17,8 @@ import org.kuali.ole.loaders.common.service.OLELoaderService;
 import org.kuali.ole.loaders.common.service.impl.OLELoaderServiceImpl;
 import org.kuali.ole.loaders.deliver.service.OLEBorrowerTypeLoaderHelperService;
 import org.kuali.ole.loaders.deliver.service.OLEBorrowerTypeLoaderService;
+import org.kuali.ole.loaders.deliver.service.OLEPatronLoaderHelperService;
+import org.kuali.ole.loaders.deliver.service.OLEPatronLoaderService;
 import org.kuali.ole.loaders.describe.bo.*;
 import org.kuali.ole.loaders.describe.service.*;
 import org.kuali.ole.loaders.describe.service.impl.OLELocationLoaderHelperServiceImpl;
@@ -533,6 +536,62 @@ public class OLELoaderApiProcessor {
         }
     }
 
+
+    @GET
+    @Path("/patron/{pk}")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response exportPatron(@Context HttpContext context, @PathParam("pk") String id){
+        Object object  = null;
+        OLEPatronLoaderService olePatronLoaderService = (OLEPatronLoaderService) getOleLoaderService().getLoaderService("patron");
+        OLEPatronLoaderHelperService olePatronLoaderHelperService = (OLEPatronLoaderHelperService) getOleLoaderService().getLoaderHelperService("patron");
+        object = olePatronLoaderService.exportPatronById(id);
+        if(object instanceof OlePatronDocument){
+            object = olePatronLoaderHelperService.formPatronExportResponse(object, OLELoaderConstants.OLELoaderContext.PATRON, context.getRequest().getRequestUri().toASCIIString(), true);
+            return  Response.status(200).entity(object).build();
+        }else if(object instanceof OLELoaderResponseBo){
+            return Response.status(((OLELoaderResponseBo) object).getStatusCode()).entity(((OLELoaderResponseBo) object).getMessage()).type(MediaType.TEXT_PLAIN).build();
+        }
+        return null;
+    }
+
+    @GET
+    @Path("/patron")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response exportAllPatron(@Context HttpContext context){
+        OLEPatronLoaderService olePatronLoaderService = (OLEPatronLoaderService) getOleLoaderService().getLoaderService("patron");
+        OLEPatronLoaderHelperService olePatronLoaderHelperService = (OLEPatronLoaderHelperService) getOleLoaderService().getLoaderHelperService("patron");
+        List<OlePatronDocument> oleInstancePatron= olePatronLoaderService.exportAllPatrons();
+        if(CollectionUtils.isNotEmpty(oleInstancePatron)){
+            Object object = olePatronLoaderHelperService.formAllPatronExportResponse(context, oleInstancePatron, OLELoaderConstants.OLELoaderContext.PATRON,
+                    context.getRequest().getRequestUri().toASCIIString());
+            return Response.status(200).entity(object).build();
+        }
+        return Response.status(500).entity(null).build();
+    }
+
+    /*@POST
+    @Path("/patron")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response importPatron(@Context HttpContext context, String bodyContent){
+        LOG.info("Incoming request for Import Locations Level.");
+        OLEPatronLoaderService olePatronLoaderService = (OLEPatronLoaderService) getOleLoaderService().getLoaderService("patron");
+        Object object = olePatronLoaderService.importPatron(bodyContent, context);
+        return getOleLoaderService().formResponseForImport(object,OLELoaderConstants.OLELoaderContext.PATRON);
+    }
+
+    @PUT
+    @Path("/patron/{patronId}")
+    @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
+    public Response updatePatron(@Context HttpContext context, @PathParam("patronId") String patronId, String body){
+        LOG.info("Incoming request for update Location.");
+        OLEPatronLoaderService olePatronLoaderService = (OLEPatronLoaderService) getOleLoaderService().getLoaderService("patron");
+        OLELoaderResponseBo object = olePatronLoaderService.updatePatronById(patronId, body, context);
+        if(object.getStatusCode() == 200){
+            return  Response.status(object.getStatusCode()).entity(object.getDetails()).build();
+        }else{
+            return  Response.status(400).entity(object.getMessage()).type(MediaType.TEXT_PLAIN).build();
+        }
+    }*/
 
 
 }

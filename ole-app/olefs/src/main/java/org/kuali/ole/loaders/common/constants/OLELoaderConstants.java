@@ -20,6 +20,7 @@ public class OLELoaderConstants {
     public static final String ITEM_STATUS_URI = API_ROOT + "/itemAvailabilityStatus";
     public static final String STAT_SEARCH_CODE_URI = API_ROOT + "/statSearchCode";
     public static final String BIB_RECORD_STATUS_URI = API_ROOT + "/bibStatus";
+    public static final String PATRON_URI = API_ROOT + "/patron";
     /*OleShelvingScheme*/
     public static final String SLASH = "/";
 
