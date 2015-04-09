@@ -59,6 +59,8 @@
         <ul>
             <p>Deliver</p>
             <ul>
+                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/itemTypeDropDown.rptdesign"%>" target="_blank">Item Type Drop Down</a></li>
+
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/Hold.rptdesign"%>" target="_blank">Hold Slip</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/InTransit.rptdesign"%>" target="_blank">In Transit Slip</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/InTransitOnHold.rptdesign"%>" target="_blank">In Transit On Hold Slip</a></li>
