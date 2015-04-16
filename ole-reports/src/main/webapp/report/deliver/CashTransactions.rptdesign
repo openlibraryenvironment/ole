@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.4.1.v201408290142 Build &lt;4.4.1.v20140916-1320></property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="CashTransactions" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost/ole_16_new</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">cm9vdA==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="CashTransactions" id="8">
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">Library</property>
+                    <expression name="expression">toString()</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">Patron Name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Patron Name</text-property>
+                    <text-property name="heading">Patron Name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Patron Id</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Patron Id</text-property>
+                    <text-property name="heading">Patron Id</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Patron Status</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Patron Status</text-property>
+                    <text-property name="heading">Patron Status</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Date Of Cash Transaction</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Date Of Cash Transaction</text-property>
+                    <text-property name="heading">Date Of Cash Transaction</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Description</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Description</text-property>
+                    <text-property name="heading">Description</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Amount</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Amount</text-property>
+                    <text-property name="heading">Amount</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Item Barcode</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Item Barcode</text-property>
+                    <text-property name="heading">Item Barcode</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Location</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Location</text-property>
+                    <text-property name="heading">Location</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Location Level</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Location Level</text-property>
+                    <text-property name="heading">Location Level</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Library Location Level Name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Library Location Level Name</text-property>
+                    <text-property name="heading">Library Location Level Name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Item Title</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Item Title</text-property>
+                    <text-property name="heading">Item Title</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Patron Name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">Patron Id</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">Patron Status</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">Date Of Cash Transaction</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">Description</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">Amount</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">Item Barcode</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">Location</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">Location Level</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">Library Location Level Name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">Item Title</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">Library</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="beforeOpen"><![CDATA[deliverReport = new Packages.org.kuali.ole.OLEDeliverReportHelper();]]></method>
+            <method name="onFetch"><![CDATA[dataSetRow["Library"] = deliverReport.getLibraryLocation(dataSetRow["Location"],dataSetRow["Location Level"]);]]></method>
+            <property name="dataSource">CashTransactions</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">Patron Name</property>
+                    <property name="nativeName">Patron Name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">Patron Id</property>
+                    <property name="nativeName">Patron Id</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">Patron Status</property>
+                    <property name="nativeName">Patron Status</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">Date Of Cash Transaction</property>
+                    <property name="nativeName">Date Of Cash Transaction</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">Description</property>
+                    <property name="nativeName">Description</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">Amount</property>
+                    <property name="nativeName">Amount</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">Item Barcode</property>
+                    <property name="nativeName">Item Barcode</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">Location</property>
+                    <property name="nativeName">Location</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">Location Level</property>
+                    <property name="nativeName">Location Level</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">Library Location Level Name</property>
+                    <property name="nativeName">Library Location Level Name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">Item Title</property>
+                    <property name="nativeName">Item Title</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select
+CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM)) as "Patron Name",
+ODPB.OLE_PTRN_ID as "Patron Id",
+OPEV.ACTV_IND as "Patron Status",
+ODPBP.CRTE_DT_TIME as "Date Of Cash Transaction",
+ODPBP.TRNS_NOTE as "Description",
+ODPBP.BILL_PAY_AMT as "Amount",
+ODPBFT.ITM_BARCODE as "Item Barcode",
+(select 
+CASE WHEN ODI.LOCATION IS NOT NULL AND ODI.LOCATION != ' ' THEN ODI.LOCATION
+	WHEN ODH.LOCATION IS NOT NULL AND ODH.LOCATION != ' ' THEN ODH.LOCATION
+	ELSE ' ' 
+END
+from 
+OLE_DS_ITEM_T ODI, 
+OLE_DS_HOLDINGS_T ODH
+where
+ODPBFT.ITM_BARCODE = ODI.BARCODE
+and 
+ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID) as "Location",
+(select 
+CASE WHEN ODI.LOCATION_LEVEL IS NOT NULL AND ODI.LOCATION_LEVEL != ' ' THEN ODI.LOCATION_LEVEL
+	WHEN ODH.LOCATION_LEVEL IS NOT NULL AND ODH.LOCATION_LEVEL != ' ' THEN ODH.LOCATION_LEVEL
+	ELSE ' ' 
+END
+from 
+OLE_DS_ITEM_T ODI, 
+OLE_DS_HOLDINGS_T ODH
+where
+ODPBFT.ITM_BARCODE = ODI.BARCODE
+and 
+ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID) as "Location Level",
+(select OLL.LEVEL_NAME from OLE_LOCN_LEVEL_T OLL
+where OLL.LEVEL_CD = 'LIBRARY') as "Library Location Level Name",
+(select 
+ODBI.TITLE as "Title"
+from 
+OLE_DS_ITEM_T ODI, 
+OLE_DS_HOLDINGS_T ODH, OLE_DS_BIB_INFO_T ODBI
+where
+ODPBFT.ITM_BARCODE = ODI.BARCODE
+and 
+ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID
+and
+ODBI.BIB_ID = ODH.BIB_ID) as "Item Title"
+from 
+OLE_DLVR_PTRN_BILL_PAY_T ODPBP,
+OLE_DLVR_PTRN_BILL_FEE_TYP_T ODPBFT,
+OLE_DLVR_PTRN_BILL_T ODPB,
+OLE_PTRN_ENTITY_V OPEV
+where
+ODPBFT.ID = ODPBP.ITM_LINE_ID
+and
+ODPBFT.PTRN_BILL_ID = ODPB.PTRN_BILL_ID
+and
+ODPB.OLE_PTRN_ID = OPEV.OLE_PTRN_ID]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="9">
+            <property name="fontSize">14pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="textAlign">center</property>
+            <structure name="toc"/>
+            <text-property name="text">Cash Transactions</text-property>
+        </label>
+        <label id="10"/>
+        <table id="11">
+            <property name="dataSet">CashTransactions</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Patron Name</property>
+                    <text-property name="displayName">Patron Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Patron Name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Patron Id</property>
+                    <text-property name="displayName">Patron Id</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Patron Id"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Patron Status</property>
+                    <text-property name="displayName">Patron Status</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Patron Status"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Date Of Cash Transaction</property>
+                    <text-property name="displayName">Date Of Cash Transaction</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Date Of Cash Transaction"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">Description</property>
+                    <text-property name="displayName">Description</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Description"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Amount</property>
+                    <text-property name="displayName">Amount</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Amount"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">Item Barcode</property>
+                    <text-property name="displayName">Item Barcode</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Item Barcode"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Library</property>
+                    <text-property name="displayName">Library</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Library"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Item Title</property>
+                    <text-property name="displayName">Item Title</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Item Title"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="42"/>
+            <column id="43"/>
+            <column id="44"/>
+            <column id="45"/>
+            <column id="46"/>
+            <column id="47"/>
+            <column id="48"/>
+            <column id="49"/>
+            <column id="50"/>
+            <header>
+                <row id="12">
+                    <cell id="13">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="52">
+                            <text-property name="text">Patron Name</text-property>
+                        </label>
+                    </cell>
+                    <cell id="14">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="54">
+                            <text-property name="text">Patron Id</text-property>
+                        </label>
+                    </cell>
+                    <cell id="15">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="56">
+                            <text-property name="text">Patron Status</text-property>
+                        </label>
+                    </cell>
+                    <cell id="16">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="58">
+                            <text-property name="text">Date Of Cash Transaction</text-property>
+                        </label>
+                    </cell>
+                    <cell id="17">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="60">
+                            <text-property name="text">Description</text-property>
+                        </label>
+                    </cell>
+                    <cell id="18">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="62">
+                            <text-property name="text">Amount</text-property>
+                        </label>
+                    </cell>
+                    <cell id="19">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="64">
+                            <text-property name="text">Item Barcode</text-property>
+                        </label>
+                    </cell>
+                    <cell id="20">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="66">
+                            <text-property name="text">Library</text-property>
+                        </label>
+                    </cell>
+                    <cell id="21">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="68">
+                            <text-property name="text">Item Title</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="22">
+                    <cell id="23">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="53">
+                            <property name="resultSetColumn">Patron Name</property>
+                        </data>
+                    </cell>
+                    <cell id="24">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="55">
+                            <property name="resultSetColumn">Patron Id</property>
+                        </data>
+                    </cell>
+                    <cell id="25">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="57">
+                            <property name="resultSetColumn">Patron Status</property>
+                        </data>
+                    </cell>
+                    <cell id="26">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="59">
+                            <property name="resultSetColumn">Date Of Cash Transaction</property>
+                        </data>
+                    </cell>
+                    <cell id="27">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="61">
+                            <property name="resultSetColumn">Description</property>
+                        </data>
+                    </cell>
+                    <cell id="28">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="63">
+                            <property name="resultSetColumn">Amount</property>
+                        </data>
+                    </cell>
+                    <cell id="29">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="65">
+                            <property name="resultSetColumn">Item Barcode</property>
+                        </data>
+                    </cell>
+                    <cell id="30">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="67">
+                            <property name="resultSetColumn">Library</property>
+                        </data>
+                    </cell>
+                    <cell id="31">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="69">
+                            <property name="resultSetColumn">Item Title</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+        <label id="51"/>
+    </body>
+</report>

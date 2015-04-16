@@ -59,7 +59,7 @@
         <ul>
             <p>Deliver</p>
             <ul>
-                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/itemTypeDropDown.rptdesign"%>" target="_blank">Item Type Drop Down</a></li>
+                <%--<li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/itemTypeDropDown.rptdesign"%>" target="_blank">Item Type Drop Down</a></li>
 
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/Hold.rptdesign"%>" target="_blank">Hold Slip</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/InTransit.rptdesign"%>" target="_blank">In Transit Slip</a></li>
@@ -84,7 +84,15 @@
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ExpiredPatronRecordsWithLoans.rptdesign"%>" target="_blank">Expired Patron Records With Loans</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/HoldsThatHaveBeenExpiredOrClosedButWereUnfilledForStaff.rptdesign"%>" target="_blank">Holds That Have Been Expired/Closed But Were Unfilled For Staff</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CourtesyNotices.rptdesign"%>" target="_blank">Courtesy Notices</a></li>
-                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/OverdueRecallNoticeForCustomer.rptdesign"%>" target="_blank">Overdue Recall Notice For Customer</a></li>
+                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/OverdueRecallNoticeForCustomer.rptdesign"%>" target="_blank">Overdue Recall Notice For Customer</a></li>--%>
+
+                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/OutstandingHolds.rptdesign"%>" target="_blank">Outstanding Holds</a></li>
+                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CashTransactions.rptdesign"%>" target="_blank">Cash Transactions</a></li>
+                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/LostOrMissingItems.rptdesign"%>" target="_blank">Lost/Missing Items</a></li>
+                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ItemTypeStatistics.rptdesign"%>" target="_blank">Item Type Statistics</a></li>
+                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CollectionStatistics.rptdesign"%>" target="_blank">Collection Statistics</a></li>
+                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/LostItems.rptdesign"%>" target="_blank">Lost Items</a></li>
+
             </ul>
         </ul>
     </div>
