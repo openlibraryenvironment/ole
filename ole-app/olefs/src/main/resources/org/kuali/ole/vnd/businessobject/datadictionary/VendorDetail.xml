@@ -1534,11 +1534,11 @@
 		<property name="summaryTitle" value="Event Logs" />
 		<property name="inquiryFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="logType" />
-				<bean parent="FieldDefinition" p:attributeName="eventType" />
+				<bean parent="FieldDefinition" p:attributeName="logTypeName" />
+				<bean parent="FieldDefinition" p:attributeName="eventTypeName" />
                 <bean parent="FieldDefinition" p:attributeName="note" />
-                <bean parent="FieldDefinition" p:attributeName="eventUser" />
-                <bean parent="FieldDefinition" p:attributeName="eventDate" />
+                <bean parent="FieldDefinition" p:attributeName="userId" />
+                <bean parent="FieldDefinition" p:attributeName="date" />
 			</list>
 		</property>
 	</bean>

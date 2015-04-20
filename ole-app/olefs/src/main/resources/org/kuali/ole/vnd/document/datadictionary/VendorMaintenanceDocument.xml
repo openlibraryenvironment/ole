@@ -188,7 +188,6 @@
                     </property>
                     <property name="maintainableFields">
                         <list>
-                            <bean parent="MaintainableFieldDefinition" p:name="logTypeId" p:unconditionallyReadOnly="true"/>
                             <bean parent="MaintainableFieldDefinition" p:name="logTypeName" p:unconditionallyReadOnly="true"/>
                             <bean parent="MaintainableFieldDefinition" p:name="eventTypeName" p:unconditionallyReadOnly="true"/>
                             <bean parent="MaintainableFieldDefinition" p:name="note" p:unconditionallyReadOnly="true"/>
