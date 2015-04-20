@@ -1229,69 +1229,25 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
     @RequestMapping(params = "methodToCall=getPlatformForEResource")
     public ModelAndView getPlatformForEResource(@ModelAttribute("KualiForm") UifFormBase uifForm,BindingResult result,
                                                 HttpServletRequest request, HttpServletResponse response) {
-
-
-//      String oleERSIdentifier = request.getParameter("oleERSIdentifier");
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
-        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument)form.getDocument();
-        String oleERSIdentifier = oleeResourceRecordDocument.getOleERSIdentifier();
-        List<OLEPlatformAdminUrl> olePlatformAdminUrlList1 = new ArrayList<OLEPlatformAdminUrl>();
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
+        List<OLEPlatformAdminUrl> olePlatformAdminUrlList = new ArrayList<OLEPlatformAdminUrl>();
         List<String> olePlatformIdList = new ArrayList<>();
-
-        if (oleERSIdentifier!=null)
-        {
-            Map map = new HashMap();
-            map.put("oleERSIdentifier", oleERSIdentifier);
-
-            oleeResourceRecordDocument = getBusinessObjectService().findByPrimaryKey(OLEEResourceRecordDocument.class, map);
-            List<OLEEResourceInstance> oleERSInstances = oleeResourceRecordDocument.getOleERSInstances();
-
-            if (oleERSInstances!=null)
-            {
-                for(OLEEResourceInstance oleeResourceInstance : oleERSInstances) {
-
-                    String olePlatformId = oleeResourceInstance.getPlatformId();
-                    Map platformMap = new HashMap();
-                    if(olePlatformId!=null)
-                    {
-                        platformMap.put("olePlatformId", olePlatformId);
-                        OLEPlatformRecordDocument olePlatformRecordDocument = (OLEPlatformRecordDocument)getBusinessObjectService().findByPrimaryKey(OLEPlatformRecordDocument.class, platformMap);
-                        List<OLEPlatformAdminUrl> olePlatformAdminUrlList = olePlatformRecordDocument.getAdminUrls();
-                        ((OLEEResourceRecordDocument) form.getDocument()).setOlePlatformAdminUrlList(olePlatformAdminUrlList1);
-
-                        if (olePlatformAdminUrlList.size()>0)
-                        {
-                            //We are only with unique platform records in this table,so we ignore if more than 1 adminUrls associated with same platform
-                            olePlatformAdminUrlList1.add(olePlatformAdminUrlList.get(0));
-                        }
-                        else{
-                            OLEPlatformAdminUrl olePlatformAdminUrl = new OLEPlatformAdminUrl();
-                            olePlatformAdminUrl.setOlePlatformRecordDocument(olePlatformRecordDocument);
-
-                            if (!olePlatformIdList.contains(olePlatformRecordDocument.getOlePlatformId()))
-                            {
-                                olePlatformAdminUrlList1.add(olePlatformAdminUrl);
-                                olePlatformIdList.add(olePlatformRecordDocument.getOlePlatformId());
-                            }
-
-                        }
-                        HashSet hs = new HashSet();
-                        hs.addAll(olePlatformAdminUrlList1);
-                        olePlatformAdminUrlList1.clear();
-                        olePlatformAdminUrlList1.addAll(hs);
-                        ((OLEEResourceRecordDocument) form.getDocument()).setOlePlatformAdminUrlList(olePlatformAdminUrlList1);
-                    }
-
-                    else
-                    {
-                        LOG.error("No platforms associated with this e-holding");
-                    }
+        List<OLEEResourceInstance> oleERSInstances = oleeResourceRecordDocument.getOleERSInstances();
+        for (OLEEResourceInstance oleeResourceInstance : oleERSInstances) {
+            String olePlatformId = oleeResourceInstance.getPlatformId();
+            if (olePlatformId != null && !olePlatformIdList.contains(olePlatformId)) {
+                olePlatformIdList.add(olePlatformId);
+                Map platformMap = new HashMap();
+                platformMap.put(OLEConstants.OLE_PLATFORM_ID, olePlatformId);
+                OLEPlatformRecordDocument olePlatformRecordDocument = (OLEPlatformRecordDocument) getBusinessObjectService().findByPrimaryKey(OLEPlatformRecordDocument.class, platformMap);
+                List<OLEPlatformAdminUrl> platformAdminUrlList = olePlatformRecordDocument.getAdminUrls();
+                if (platformAdminUrlList.size() > 0) {
+                    olePlatformAdminUrlList.addAll(platformAdminUrlList);
                 }
             }
-            else{
-                LOG.error("No holdings associated with this e-resource");
-            }
         }
+        oleeResourceRecordDocument.setOlePlatformAdminUrlList(olePlatformAdminUrlList);
         return super.navigate(form, result, request, response);
     }
 
