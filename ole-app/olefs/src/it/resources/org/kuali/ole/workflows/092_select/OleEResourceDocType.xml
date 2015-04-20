@@ -381,7 +381,7 @@
             <description>E-Resource</description>
             <label>E-Resource</label>
             <docHandler>
-                ${kr.krad.url}/oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler
+                ${ole.eresource.url}/oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler
             </docHandler>
             <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
             <attributes>

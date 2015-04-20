@@ -184,8 +184,6 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private String removeOrRelinkToParent;
     private DocstoreClientLocator docstoreClientLocator;
     private String phone;
-    private String channelUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.editor.url");
-    private String createPOUrl = channelUrl + "/oleERSController?viewId=EResourcePOView&methodToCall=getInstanceForPO";
     private double fiscalYearCost;
     private double yearPriceQuote;
     private double costIncrease;
@@ -1578,14 +1576,6 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
         getOleeResourceHelperService().updateVendorInfo(this);
         getOleEResourceSearchService().updatePlatformProvider(this);
 
-    }
-
-    public String getChannelUrl() {
-        return channelUrl;
-    }
-
-    public void setChannelUrl(String channelUrl) {
-        this.channelUrl = channelUrl;
     }
 
     public String getPhone() {

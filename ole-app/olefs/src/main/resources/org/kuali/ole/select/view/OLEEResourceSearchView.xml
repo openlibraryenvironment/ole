@@ -222,7 +222,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-LinkField" p:label="Name" p:linkText="@{#line.title}" p:target="_blank"
-                      p:href="oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.documentNumber}&amp;command=displayDocSearchView"/>
+                      p:href="@{#ConfigProperties['ole.eresource.url']}oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.documentNumber}&amp;command=displayDocSearchView"/>
                 <bean parent="Uif-DataField" p:label="DocID" p:propertyName="documentNumber"/>
                 <bean parent="Uif-DataField" p:label="Identifier" p:propertyName="oleERSIdentifier"/>
                 <bean parent="Uif-DataField" p:label="Gokb Identifier" p:propertyName="gokbIdentifier"/>
@@ -256,7 +256,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-LinkField" p:label="Name" p:linkText="@{#line.title}" p:target="_blank"
-                      p:href="oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.documentNumber}&amp;command=displayDocSearchView"/>
+                      p:href="@{#ConfigProperties['ole.eresource.url']}oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.documentNumber}&amp;command=displayDocSearchView"/>
                 <bean parent="Uif-DataField" p:label="Identifier" p:propertyName="oleERSIdentifier"/>
                 <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher"/>
                 <bean parent="Uif-DataField" p:label="Platform Provider" p:propertyName="platformProvider"/>

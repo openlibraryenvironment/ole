@@ -43,7 +43,7 @@
             <list>
                 <!--<bean parent="Uif-DataField" p:label="Name"
                       p:propertyName="oleeResourceRecordDocument.title"/>-->
-                <bean parent="Uif-LinkField" p:href="oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.oleeResourceRecordDocument.documentNumber}&amp;command=displayDocSearchView" p:linkText="@{#line.oleeResourceRecordDocument.title}" p:target="_blank" p:label="Name"/>
+                <bean parent="Uif-LinkField" p:href="@{#ConfigProperties['ole.eresource.url']}oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.oleeResourceRecordDocument.documentNumber}&amp;command=displayDocSearchView" p:linkText="@{#line.oleeResourceRecordDocument.title}" p:target="_blank" p:label="Name"/>
                 <bean parent="Uif-DataField" p:label="Status"
                       p:propertyName="oleeResourceRecordDocument.statusName"/>
                 <bean parent="Uif-DataField" p:label="Relationship type" p:propertyName="relationShipType"/>

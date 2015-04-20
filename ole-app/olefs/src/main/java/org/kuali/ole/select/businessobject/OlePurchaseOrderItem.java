@@ -1709,8 +1709,8 @@ public class OlePurchaseOrderItem extends PurchaseOrderItem implements OlePurcha
         if (this.getOleERSIdentifier() != null) {
             OLEEResourceRecordDocument oleeResourceRecordDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OLEEResourceRecordDocument.class, this.getOleERSIdentifier());
             if (oleeResourceRecordDocument != null) {
-                String oleurl = ConfigContext.getCurrentContextConfig().getProperty("ole.url");
-                String url = oleurl + "/ole-kr-krad/" + "oleERSController?viewId=OLEEResourceRecordView&amp;" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=" + KRADConstants.DOC_HANDLER_METHOD + "&" + KRADConstants.PARAMETER_DOC_ID + "=" + oleeResourceRecordDocument.getDocumentNumber() + "&" + KRADConstants.PARAMETER_COMMAND + "=" + KewApiConstants.DOCSEARCH_COMMAND;
+                String eResourceurl = ConfigContext.getCurrentContextConfig().getProperty("ole.eresource.url");
+                String url = eResourceurl + "oleERSController?viewId=OLEEResourceRecordView&amp;" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=" + KRADConstants.DOC_HANDLER_METHOD + "&" + KRADConstants.PARAMETER_DOC_ID + "=" + oleeResourceRecordDocument.getDocumentNumber() + "&" + KRADConstants.PARAMETER_COMMAND + "=" + KewApiConstants.DOCSEARCH_COMMAND;
                 return url;
 
             }

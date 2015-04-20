@@ -427,7 +427,7 @@
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
                       p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=holdings&amp;docId=@{#line.holdingsId}&amp;instanceId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
                       p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'true'}"/>
-                <bean id="eResource-Name-Url" parent="Uif-LinkField" p:href="oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.eResourceDocNum}&amp;command=displayDocSearchView" p:linkText="@{#line.eResourceName}" p:label="EResource Name"/>
+                <bean id="eResource-Name-Url" parent="Uif-LinkField" p:href="@{#ConfigProperties['ole.eresource.url']}oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.eResourceDocNum}&amp;command=displayDocSearchView" p:linkText="@{#line.eResourceName}" p:label="EResource Name" p:target="_blank"/>
                 <bean id="eResource-ISBN" parent="Uif-DataField" p:propertyName="isbn" p:label="ISBN/ISSN"/>
                 <bean id="eResource-Holdings" parent="Uif-DataField" p:propertyName="instanceHoldings" p:label="Holdings"/>
                 <!--<bean id="eResource-url" parent="Uif-DataField" p:propertyName="url" p:label="URL"/>-->

@@ -25,7 +25,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-LinkField" p:label="Name" p:linkText="@{#line.title}" p:target="_blank"
-                      p:href="oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.documentNumber}&amp;command=displayDocSearchView"/>
+                      p:href="@{#ConfigProperties['ole.eresource.url']}oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.documentNumber}&amp;command=displayDocSearchView"/>
                 <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher"/>
                 <bean parent="Uif-DataField" p:label="Status" p:propertyName="statusName"/>
                 <bean parent="Uif-DataField" p:label="Status Date" p:propertyName="statusDate"/>
