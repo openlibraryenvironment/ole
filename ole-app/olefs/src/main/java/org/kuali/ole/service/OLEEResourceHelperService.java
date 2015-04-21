@@ -32,6 +32,9 @@ import org.kuali.ole.service.impl.OLEEResourceSearchServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.vnd.businessobject.*;
 import org.kuali.ole.vnd.document.service.impl.VendorServiceImpl;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -1781,4 +1784,11 @@ public class OLEEResourceHelperService {
         }
     }
 
+
+    public String getParameter(String applicationId, String namespace, String componentId, String parameterName) {
+        ParameterKey parameterKey = ParameterKey.create(applicationId, namespace, componentId,parameterName);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+
+        return parameter!=null?parameter.getValue():null;
+    }
 }

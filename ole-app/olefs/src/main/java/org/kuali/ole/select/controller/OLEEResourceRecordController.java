@@ -2216,8 +2216,14 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         for(OLEGOKbPlatform gokbPlatform : oleeResourceRecordDocument.getGoKbPlatformList()) {
             if(gokbPlatform.isSelect()) {
                 OLEGOKBSearchDaoOjb olegokbSearchDaoOjb = (OLEGOKBSearchDaoOjb) SpringContext.getBean("oleGOKBSearchDaoOjb");
+                 String resultSetSize = (String)getOleeResourceHelperService().getParameter("OLE","OLE-PDP","Lookup","RESULTS_LIMIT");
                 List<OleGokbTipp> oleGokbTippList = olegokbSearchDaoOjb.getTippsByPlatform(gokbPlatform.getPlatformId());
-                    gokbPlatform.setGoKbTIPPList(getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList));
+                List<OLEGOKbTIPP> olegoKbTIPP =getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList);
+                if(olegoKbTIPP!=null &&  resultSetSize !=null && olegoKbTIPP.size()> Integer.valueOf(resultSetSize)){
+                    gokbPlatform.setGoKbTIPPList(olegoKbTIPP.subList(0,Integer.valueOf(resultSetSize)));
+                }else{
+                    gokbPlatform.setGoKbTIPPList(olegoKbTIPP);
+                }
                 goKbPlatformList.add(gokbPlatform);
                /* gokbPlatform.setSelect(Boolean.FALSE);*/
             }
@@ -2291,9 +2297,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                                     HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
-        Map<String,String> platformMap = new HashMap<String,String>();
-        platformMap.put("gokbPlatformId","111");
-        List<OleGokbPlatform> olegoKbPlatforms = (List<OleGokbPlatform>)KRADServiceLocator.getBusinessObjectService().findMatching(OleGokbPlatform.class,platformMap);
         if(oleeResourceRecordDocument.getTitle() !=null && StringUtils.isNotEmpty(oleeResourceRecordDocument.getTitle())){
             oleEResourceRecordForm.setPackageName(oleeResourceRecordDocument.getTitle());
         }
