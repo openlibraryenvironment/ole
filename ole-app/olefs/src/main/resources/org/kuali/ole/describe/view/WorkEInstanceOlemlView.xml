@@ -794,11 +794,19 @@
                                           p:onChangeScript="noOfUser(this.id)"/>
                                 </property>
                             </bean>
-                            <bean id="OleEinstance_localPersistentLink_id" parent="Base-Uif-InputField" p:propertyName="documentForm.selectedEHoldings.localPersistentLink"
-                                  p:label="Persistent Link">
-                                <property name="control">
-                                    <bean id="oleEinstance_localPersistentLink_len_id" parent="Uif-TextAreaControl"
-                                          p:maxLength="400" p:rows="1" p:cols="20"/>
+                            <bean id="OleEinstance_localPersistentLink" parent="Uif-HorizontalFieldGroup" p:label="Persistent Link">
+                                <property name="items">
+                                    <list>
+                                        <bean id="OleEinstance_localPersistentLink_id" parent="Base-Uif-InputField" p:propertyName="documentForm.selectedEHoldings.localPersistentLink"
+                                              p:render="@{editable eq 'true'}">
+                                            <property name="control">
+                                                <bean id="oleEinstance_localPersistentLink_len_id" parent="Uif-TextAreaControl"
+                                                      p:maxLength="400" p:rows="1" p:cols="20"/>
+                                            </property>
+                                        </bean>
+                                        <bean id="localPersistentClickableLink" parent="Uif-ActionLink" p:actionScript="eInstancelocalPersistentClickableLink();" p:actionLabel="Test Link" p:render="@{editable eq 'true'}"/>
+                                        <bean id="localPersistentClickableLink_readOnly" parent="Uif-LinkField" p:width="10%" p:href="@{documentForm.selectedEHoldings.localPersistentLink}" p:linkText="@{documentForm.selectedEHoldings.localPersistentLink}" p:target="_blank" p:render="@{editable eq 'false' and documentForm.selectedEHoldings ne null and documentForm.selectedEHoldings.localPersistentLink ne null}"/>
+                                    </list>
                                 </property>
                             </bean>
                             <bean id="OleEinstance-accessLocation" parent="Uif-InputField" p:propertyName="documentForm.extendedEHoldingFields.accessLocation"

@@ -1440,6 +1440,16 @@ function eInstanceAdminClickableLink(){ var link ;
     }
 
 }
+function eInstancelocalPersistentClickableLink() {
+    var link;
+    link = jq('#OleEinstance_localPersistentLink_id_control').val();
+    if (link == null || link == "") {
+    } else {
+        if (validateUrl(link) == true) {
+            window.open(link);
+        }
+    }
+}
 function eInstanceClickableLink(id){
     var field ="OleEinstance-linkURL-editable_line";
     var control = "_control";
