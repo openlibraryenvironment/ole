@@ -27,6 +27,9 @@ public class OleGokbTipp extends PersistableBusinessObjectBase {
     private Timestamp dateCreated;
     private Timestamp dateUpdated;
 
+    private OleGokbTitle oleGokbTitle;
+    private OleGokbPackage oleGokbPackage;
+    private OleGokbPlatform oleGokbPlatform;
 
     public Integer getGokbTippId() {
         return gokbTippId;
@@ -156,4 +159,27 @@ public class OleGokbTipp extends PersistableBusinessObjectBase {
         this.dateUpdated = dateUpdated;
     }
 
+    public OleGokbTitle getOleGokbTitle() {
+        return oleGokbTitle;
+    }
+
+    public void setOleGokbTitle(OleGokbTitle oleGokbTitle) {
+        this.oleGokbTitle = oleGokbTitle;
+    }
+
+    public OleGokbPackage getOleGokbPackage() {
+        return oleGokbPackage;
+    }
+
+    public void setOleGokbPackage(OleGokbPackage oleGokbPackage) {
+        this.oleGokbPackage = oleGokbPackage;
+    }
+
+    public OleGokbPlatform getOleGokbPlatform() {
+        return oleGokbPlatform;
+    }
+
+    public void setOleGokbPlatform(OleGokbPlatform oleGokbPlatform) {
+        this.oleGokbPlatform = oleGokbPlatform;
+    }
 }

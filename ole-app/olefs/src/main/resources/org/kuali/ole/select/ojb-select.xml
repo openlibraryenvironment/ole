@@ -6388,6 +6388,22 @@
         <field-descriptor name="platformHostUrl" column="PLTFRM_HOST_URL" jdbc-type="VARCHAR" />
         <field-descriptor name="dateCreated" column="DATE_CREATED" jdbc-type="TIMESTAMP" />
         <field-descriptor name="dateUpdated" column="DATE_UPDATED" jdbc-type="TIMESTAMP" />
+
+        <reference-descriptor name="oleGokbTitle"
+                              class-ref="org.kuali.ole.select.gokb.OleGokbTitle"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="gokbTitleId" target-field-ref="gokbTitleId"/>
+        </reference-descriptor>
+        <reference-descriptor name="oleGokbPackage"
+                              class-ref="org.kuali.ole.select.gokb.OleGokbPackage"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="gokbPackageId" target-field-ref="gokbPackageId"/>
+        </reference-descriptor>
+        <reference-descriptor name="oleGokbPlatform"
+                              class-ref="org.kuali.ole.select.gokb.OleGokbPlatform"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="gokbPlatformId" target-field-ref="gokbPlatformId"/>
+        </reference-descriptor>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.ole.select.gokb.OleGokbTitle" table="OLE_GOKB_TITLE_T">
@@ -6423,6 +6439,12 @@
         <field-descriptor name="softwarePlatform" column="SOFTWARE_PLTFRM" jdbc-type="VARCHAR"/>
         <field-descriptor name="dateCreated" column="DATE_CREATED" jdbc-type="TIMESTAMP" />
         <field-descriptor name="dateUpdated" column="DATE_UPDATED" jdbc-type="TIMESTAMP" />
+
+        <reference-descriptor name="oleGokbOrganization"
+                              class-ref="org.kuali.ole.select.gokb.OleGokbOrganization"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="platformProviderId" target-field-ref="gokbOrganizationId"/>
+        </reference-descriptor>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.ole.select.gokb.OleGokbOrganization" table="OLE_GOKB_ORG_T">

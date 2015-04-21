@@ -300,6 +300,56 @@ public class OLEEResourceHelperService {
         return null;
     }
 
+
+
+
+    public List<OLEGOKbPackage> searchGokbForPackagess(List<OleGokbTipp> oleGokbTipps, OLEEResourceRecordForm oleEResourceRecordForm) {
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
+        List<OLEGOKbPackage> olegoKbPackages = new ArrayList<>();
+        OLEGOKbPackage olegoKbPackage;
+       Map<Integer,OLEGOKbPackage> packageMaps = new HashMap<>();
+       Map<Integer,Integer> platformMap = new HashMap<Integer,Integer>();
+        if(oleGokbTipps != null && oleGokbTipps.size() > 0 ){
+            for(OleGokbTipp oleGokbTipp : oleGokbTipps){
+                if(oleGokbTipp.getOleGokbPackage()!=null){
+                    if(!packageMaps.containsKey(oleGokbTipp.getOleGokbPackage().getGokbPackageId())){
+                        olegoKbPackage = buildOLEGOKBPackage(oleGokbTipp.getOleGokbPackage());
+                        packageMaps.put(oleGokbTipp.getOleGokbPackage().getGokbPackageId(),olegoKbPackage);
+                        platformMap.put(oleGokbTipp.getOleGokbPackage().getGokbPackageId(), oleGokbTipp.getOleGokbPlatform().getGokbPlatformId());
+                        olegoKbPackages.add(olegoKbPackage) ;
+                    }else{
+                       if(platformMap.containsKey(oleGokbTipp.getOleGokbPackage().getGokbPackageId())){
+                           packageMaps.get(oleGokbTipp.getOleGokbPackage().getGokbPackageId()).setMultiplePlatform(true);
+                       }
+                    }
+                }
+            }
+
+        }
+
+        return olegoKbPackages;
+    }
+
+
+    private OLEGOKbPackage buildOLEGOKBPackage(OleGokbPackage oleGokbPackage){
+        OLEGOKbPackage olegoKbPackage = new OLEGOKbPackage();
+        if(oleGokbPackage.getDateCreated()!=null)
+        olegoKbPackage.setDateCreated(oleGokbPackage.getDateCreated().toString());
+        if(oleGokbPackage.getDateUpdated()!=null)
+        olegoKbPackage.setDateEntered(oleGokbPackage.getDateUpdated().toString());
+        olegoKbPackage.setGokbStatus(oleGokbPackage.getStatus());
+       /* olegoKbPackage.setMultiplePlatform();*/
+       /* olegoKbPackage.setOleStatus();*/
+        olegoKbPackage.setPackageId(oleGokbPackage.getGokbPackageId());
+        olegoKbPackage.setPackageName(oleGokbPackage.getPackageName());
+/*        olegoKbPackage.setPrimaryPlatform();
+        olegoKbPackage.setPrimaryPlatformProvider();*/
+        olegoKbPackage.setTiips(0);
+        return olegoKbPackage;
+    }
+
+
+
     public List<OLEGOKbPackage> searchGokbForPackages(List<OleGokbView> oleGokbViews, OLEEResourceRecordForm oleEResourceRecordForm) {
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
         List<OLEGOKbPackage> olegoKbPackages = new ArrayList<>();
@@ -326,7 +376,9 @@ public class OLEEResourceHelperService {
                 map.put("gokbPackageId", packageId);
                 OleGokbPackage oleGokbPackage = getBusinessObjectService().findByPrimaryKey(OleGokbPackage.class, map);
                 olegoKbPackage.setPackageId(packageId);
+                if(oleGokbPackage.getDateCreated() != null)
                 olegoKbPackage.setDateCreated(oleGokbPackage.getDateCreated().toString());
+                if(oleGokbPackage.getDateUpdated() != null)
                 olegoKbPackage.setDateEntered(oleGokbPackage.getDateUpdated().toString());
                 olegoKbPackage.setPackageName(oleGokbPackage.getPackageName());
                 olegoKbPackage.setPrimaryPlatformProvider(oleGokbView.getOrgName());
@@ -375,13 +427,16 @@ public class OLEEResourceHelperService {
                 boolean isTippExists = verifyTippExistsInOle(oleGokbTipp.getGokbTippId());
                 olegoKbTIPP.setTippExists(isTippExists);
                 olegoKbTIPP.setPublisherId(publisherId);
+                if(oleGokbTipp.getDateCreated()!=null)
                 olegoKbTIPP.setDateCreated(oleGokbTipp.getDateCreated().toString());
+                if(oleGokbTipp.getDateUpdated() != null)
                 olegoKbTIPP.setDateUpdated(oleGokbTipp.getDateUpdated().toString());
                 olegoKbTIPP.setGokbStatus(oleGokbTipp.getStatus());
                 olegoKbTIPP.setUrl(oleGokbTipp.getPlatformHostUrl());
                 if (oleGokbTipp.getEndDate() != null) {
                     olegoKbTIPP.setEndDate(oleGokbTipp.getEndDate().toString());
                 }
+                if(olegoKbTIPP.getStartDate()!=null)
                 olegoKbTIPP.setStartDate(oleGokbTipp.getStartdate().toString());
                 olegoKbTIPP.setOleGokbTipp(oleGokbTipp);
                 olegoKbTIPPs.add(olegoKbTIPP);
@@ -439,13 +494,19 @@ public class OLEEResourceHelperService {
             OleGokbTitle oleGokbTitle = getBusinessObjectService().findByPrimaryKey(OleGokbTitle.class, map);
             boolean isTippExists = verifyTippExistsInOle(gokbTipp.getGokbTippId());
             olegoKbTIPP.setTippExists(isTippExists);
+            if(oleGokbTitle!=null){
             olegoKbTIPP.setTitle(oleGokbTitle.getTitleName());
             olegoKbTIPP.setPublisherId(oleGokbTitle.getPublisherId());
+            }
+                if(gokbTipp.getDateCreated()!=null)
             olegoKbTIPP.setDateCreated(gokbTipp.getDateCreated().toString());
+            if(gokbTipp.getDateUpdated()!=null)
             olegoKbTIPP.setDateUpdated(gokbTipp.getDateUpdated().toString());
             olegoKbTIPP.setGokbStatus(gokbTipp.getStatus());
             olegoKbTIPP.setUrl(gokbTipp.getPlatformHostUrl());
+            if(gokbTipp.getEndDate()!=null)
             olegoKbTIPP.setEndDate(gokbTipp.getEndDate().toString());
+            if(gokbTipp.getStartdate()!=null)
             olegoKbTIPP.setStartDate(gokbTipp.getStartdate().toString());
             olegoKbTIPP.setOleGokbTipp(gokbTipp);
 
@@ -455,6 +516,39 @@ public class OLEEResourceHelperService {
         return olegoKbTIPPs;
 
     }
+
+
+    public List<OLEGOKbTIPP> buildOLEGOKBTIPP(List<OleGokbTipp> oleGokbTippList){
+        List<OLEGOKbTIPP> olegoKbTIPPs = new ArrayList<>();
+        OLEGOKbTIPP olegoKbTIPP ;
+        for(OleGokbTipp gokbTipp : oleGokbTippList){
+            olegoKbTIPP = new OLEGOKbTIPP();
+            boolean isTippExists = verifyTippExistsInOle(gokbTipp.getGokbTippId());
+            olegoKbTIPP.setTippExists(isTippExists);
+            olegoKbTIPP.setTitle("Test");
+            if(gokbTipp.getOleGokbTitle()!=null){
+                olegoKbTIPP.setTitle(gokbTipp.getOleGokbTitle().getTitleName());
+                olegoKbTIPP.setPublisherId(gokbTipp.getOleGokbTitle().getPublisherId());
+            }
+            if(gokbTipp.getDateCreated()!=null)
+                olegoKbTIPP.setDateCreated(gokbTipp.getDateCreated().toString());
+            if(gokbTipp.getDateUpdated()!=null)
+                olegoKbTIPP.setDateUpdated(gokbTipp.getDateUpdated().toString());
+            olegoKbTIPP.setGokbStatus(gokbTipp.getStatus());
+            olegoKbTIPP.setUrl(gokbTipp.getPlatformHostUrl());
+            if(gokbTipp.getEndDate()!=null)
+                olegoKbTIPP.setEndDate(gokbTipp.getEndDate().toString());
+            if(gokbTipp.getStartdate()!=null)
+                olegoKbTIPP.setStartDate(gokbTipp.getStartdate().toString());
+            olegoKbTIPP.setOleGokbTipp(gokbTipp);
+
+            olegoKbTIPPs.add(olegoKbTIPP);
+        }
+
+
+        return olegoKbTIPPs;
+    }
+
 
     private boolean verifyTippExistsInOle(Integer gokbTippId) {
         Map map = new HashMap();
@@ -493,7 +587,9 @@ public class OLEEResourceHelperService {
                 map.clear();
                 map.put("gokbOrganizationId", gokbPlatform.getPlatformProviderId());
                 OleGokbOrganization oleGokbOrganization = getBusinessObjectService().findByPrimaryKey(OleGokbOrganization.class, map);
+                if(oleGokbOrganization!=null){
                 olegoKbPlatform.setPlatformProvider(oleGokbOrganization.getOrganizationName());
+                }
                 olegoKbPlatform.setPlatformProviderId(gokbPlatform.getPlatformProviderId());
                 olegoKbPlatform.setSoftwarePlatform(gokbPlatform.getSoftwarePlatform());
                 olegoKbPlatform.setNoOfTiips(1);
@@ -531,6 +627,7 @@ public class OLEEResourceHelperService {
                         bibMarcRecord.getDataFields().add(dataField);
                     } else {
                         OleGokbTitle oleGokbTitle = getOleGokbTitle(titleId);
+                        if(oleGokbTitle !=null){
                         BibMarcRecord bibMarcRecord = buildBibMarcRecord(oleGokbTitle);
                         bibMarcRecords.add(bibMarcRecord);
 
@@ -540,6 +637,7 @@ public class OLEEResourceHelperService {
                         DataField dataField = addEHoldingsFields(olegoKbTIPP, platformName, eResourceId, imprint, publisher);
                         bibMarcRecord.getDataFields().add(dataField);
                         bibMarcRecordMap.put(titleId, bibMarcRecord);
+                        }
                     }
                 }
             }

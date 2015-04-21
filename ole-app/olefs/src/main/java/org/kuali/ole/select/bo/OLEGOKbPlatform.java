@@ -1,12 +1,14 @@
 package org.kuali.ole.select.bo;
 
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This class is used to hold the Platform detail from GOKb service for displaying in UI.
  */
-public class OLEGOKbPlatform {
+public class OLEGOKbPlatform extends PersistableBusinessObjectBase {
 
     private List<OLEGOKbTIPP> goKbTIPPList = new ArrayList<>();
     private String platformName;

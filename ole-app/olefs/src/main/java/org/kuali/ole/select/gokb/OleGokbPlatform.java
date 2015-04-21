@@ -25,6 +25,7 @@ public class OleGokbPlatform extends PersistableBusinessObjectBase {
     private String softwarePlatform;
     private Timestamp dateCreated;
     private Timestamp dateUpdated;
+    private OleGokbOrganization oleGokbOrganization;
 
 
 
@@ -106,5 +107,13 @@ public class OleGokbPlatform extends PersistableBusinessObjectBase {
 
     public void setDateUpdated(Timestamp dateUpdated) {
         this.dateUpdated = dateUpdated;
+    }
+
+    public OleGokbOrganization getOleGokbOrganization() {
+        return oleGokbOrganization;
+    }
+
+    public void setOleGokbOrganization(OleGokbOrganization oleGokbOrganization) {
+        this.oleGokbOrganization = oleGokbOrganization;
     }
 }

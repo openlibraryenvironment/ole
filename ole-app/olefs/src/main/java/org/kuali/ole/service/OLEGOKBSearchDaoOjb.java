@@ -2,112 +2,82 @@ package org.kuali.ole.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.ole.deliver.bo.OleLoanDocument;
+import org.kuali.ole.select.bo.OLEGOKbPlatform;
+import org.kuali.ole.select.bo.OLEGOKbTIPP;
+import org.kuali.ole.select.gokb.OleGokbPlatform;
+import org.kuali.ole.select.gokb.OleGokbTipp;
 import org.kuali.ole.select.gokb.OleGokbView;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by sambasivam on 23/12/14.
  */
 public class OLEGOKBSearchDaoOjb extends PlatformAwareDaoBaseOjb {
 
-    public List<OleGokbView> packageSearch(String packageName, String platformName, List<String> platformProviders, String title, List<String> issnList, String titleInstanceType, List<String> platformStatusList, List<String> packageStatusList, List<String> tippStatusList) {
+    public List<OleGokbTipp> packageSearch(String packageName, String platformName, List<String> platformProviders, String title, List<String> issnList, String titleInstanceType, List<String> platformStatusList, List<String> packageStatusList, List<String> tippStatusList) {
 
-        Criteria searchCriteria = new Criteria();
-        boolean addSearch = false;
-        if(StringUtils.isNotEmpty(packageName)) {
-            Criteria packageCriteria = new Criteria();
-            packageCriteria.addColumnEqualTo("PKG_NAME", packageName);
-            searchCriteria.addAndCriteria(packageCriteria);
-            addSearch = true;
-        }
+     List<OleGokbTipp> oleGokbTipps ;
+    Criteria goKbSearchCriteria = new Criteria();
+       if(StringUtils.isNotEmpty(packageName)){
+           goKbSearchCriteria.addEqualTo("oleGokbPackage.packageName",packageName);
+       }
 
-        if(StringUtils.isNotEmpty(platformName)) {
-            Criteria platformCriteria = new Criteria();
-            platformCriteria.addColumnEqualTo("PLTFRM_NAME", platformName);
-            searchCriteria.addAndCriteria(platformCriteria);
-            addSearch = true;
-
-        }
-
-        if(platformProviders != null && platformProviders.size() > 0) {
-            Criteria platformProviderCriteria = new Criteria();
-            platformProviderCriteria.addColumnIn("ORG_NAME", platformProviders);
-            searchCriteria.addAndCriteria(platformProviderCriteria);
-            addSearch = true;
-
-        }
-
-        if(packageStatusList != null && packageStatusList.size() > 0) {
-            Criteria packageStatusCriteria = new Criteria();
-            packageStatusCriteria.addColumnIn("PKG_STATUS", packageStatusList);
-            searchCriteria.addAndCriteria(packageStatusCriteria);
-            addSearch = true;
-        }
-
-        if(platformStatusList != null && platformStatusList.size() > 0) {
-            Criteria platformStatusCriteria = new Criteria();
-            platformStatusCriteria.addColumnIn("PLTFRM_STATUS", packageStatusList);
-            searchCriteria.addAndCriteria(platformStatusCriteria);
-            addSearch = true;
-        }
-
-        if(tippStatusList != null && tippStatusList.size() > 0) {
-            Criteria tippStatusCriteria = new Criteria();
-            tippStatusCriteria.addColumnIn("TIPP_STATUS", packageStatusList);
-            searchCriteria.addAndCriteria(tippStatusCriteria);
-            addSearch = true;
-
-        }
-
-        if(StringUtils.isNotEmpty(title)) {
-            Criteria titleCriteria = new Criteria();
-            titleCriteria.addColumnEqualTo("TITLE_NAME", title);
-            searchCriteria.addAndCriteria(titleCriteria);
-            addSearch = true;
-
-        }
-        if(StringUtils.isNotEmpty(titleInstanceType)) {
-            Criteria titleInstanceTypeCriteria = new Criteria();
-            titleInstanceTypeCriteria.addColumnEqualTo("MEDIUM", titleInstanceType);
-            searchCriteria.addAndCriteria(titleInstanceTypeCriteria);
-            addSearch = true;
+        if(StringUtils.isNotEmpty(platformName)){
+            goKbSearchCriteria.addEqualTo("oleGokbPlatform.platformName",packageName);
         }
 
 
-        if(issnList != null && issnList.size() > 0) {
+        if(StringUtils.isNotEmpty(title)){
+            goKbSearchCriteria.addEqualTo("oleGokbTitle.titleName",packageName);
+        }
 
-            Criteria issnOnline = new Criteria();
-            issnOnline.addColumnIn("TI_ISSN_ONLINE", issnList);
 
-            Criteria issnPrint = new Criteria();
-            issnPrint.addColumnIn("TI_ISSN_PRNT", issnList);
+        if(StringUtils.isNotEmpty(titleInstanceType)){
+            goKbSearchCriteria.addEqualTo("oleGokbTitle.medium",titleInstanceType);
+        }
 
-            Criteria issnL = new Criteria();
-            issnL.addColumnIn("TI_ISSN_L", issnList);
+        if(platformProviders.size()>0 && platformProviders.size()>0){
+            goKbSearchCriteria.addIn("oleGokbPlatform.oleGokbOrganization.organizationName", platformProviders);
+        }
 
-            Criteria issnOrClause = new Criteria();
+        if(platformStatusList.size()>0 && platformStatusList.size()>0){
+            goKbSearchCriteria.addIn("oleGokbPlatform.status",platformStatusList);
+        }
 
-            issnOrClause.addOrCriteria(issnOnline);
-            issnOrClause.addOrCriteria(issnPrint);
-            issnOrClause.addOrCriteria(issnL);
-
-            if(addSearch) {
-                searchCriteria.addAndCriteria(issnOrClause);
-            }
-            else {
-                searchCriteria = issnOrClause;
-            }
+        if(packageStatusList.size()>0 && packageStatusList.size()>0){
+            goKbSearchCriteria.addIn("oleGokbPackage.status",packageStatusList);
 
         }
 
-        List<OleGokbView> oleGokbViews = (List<OleGokbView>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(OleGokbView.class, searchCriteria));
+        if(issnList.size()>0 && issnList.size()>0){
+            goKbSearchCriteria.addIn("oleGokbTitle.issnOnline",issnList);
+            goKbSearchCriteria.addIn("oleGokbTitle.issnPrint",issnList);
+            goKbSearchCriteria.addIn("oleGokbTitle.issnL",issnList);
+        }
 
-        return oleGokbViews;
+        if(tippStatusList.size()>0 && tippStatusList.size()>0){
+            goKbSearchCriteria.addIn("status",tippStatusList);
+        } 
+
+        QueryByCriteria query = QueryFactory.newQuery(OleGokbTipp.class, goKbSearchCriteria);
+        Collection results=  getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return (List<OleGokbTipp>)results;
     }
 
 
+
+    public List<OleGokbTipp> getTippsByPlatform(Integer platformId) {
+        Criteria goKbSearchCriteria = new Criteria();
+            goKbSearchCriteria.addEqualTo("gokbPlatformId",platformId);
+        QueryByCriteria query = QueryFactory.newQuery(OleGokbTipp.class, goKbSearchCriteria);
+        Collection results=  getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    return ( List<OleGokbTipp>)results;
+    }
 
 }

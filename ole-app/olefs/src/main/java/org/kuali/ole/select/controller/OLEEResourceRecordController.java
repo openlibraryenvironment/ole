@@ -2126,7 +2126,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         stringBuilder.append(titleInstanceType);
 
         List<OleGokbView> oleGokbViews = null;
-
+       List<OleGokbTipp> oleGokbTipps = new ArrayList<>() ;
         List<String> isbnList = new ArrayList<>();
         for (OLEStandardIdentifier oleStandardIdentifier : oleeResourceRecordDocument.getStandardIdentifiers()) {
             if(oleStandardIdentifier.getIdentifier() != null && oleStandardIdentifier.getIdentifierType() != null && oleStandardIdentifier.getIdentifierType().equalsIgnoreCase("issn") && StringUtils.isNotEmpty(oleStandardIdentifier.getIdentifier())) {
@@ -2137,7 +2137,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         if (stringBuilder != null && stringBuilder.length() > 0 || isbnList.size() > 0 || platformProviderList.size() > 0) {
 
             OLEGOKBSearchDaoOjb olegokbSearchDaoOjb = (OLEGOKBSearchDaoOjb) SpringContext.getBean("oleGOKBSearchDaoOjb");
-            oleGokbViews = olegokbSearchDaoOjb.packageSearch(packageName, platformName, platformProviderList, title, isbnList, titleInstanceType, packageStatusList, platformStatusList, tippStatus);
+            oleGokbTipps = olegokbSearchDaoOjb.packageSearch(packageName, platformName, platformProviderList, title, isbnList, titleInstanceType, packageStatusList, platformStatusList, tippStatus);
 
         }
         else {
@@ -2145,7 +2145,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         }
 
         //search by publisher if given in search params
-        if (StringUtils.isNotEmpty(publisher)) {
+/*        if (StringUtils.isNotEmpty(publisher)) {
 
             Map publisherMap = new HashMap();
             publisherMap.put("organizationName", publisher);
@@ -2174,9 +2174,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                     oleGokbViews.add(getBusinessObjectService().findBySinglePrimaryKey(OleGokbView.class, id));
                 }
             }
-        }
+        }*/
 
-        List<OLEGOKbPackage> olegoKbPackages = getOleeResourceHelperService().searchGokbForPackages(oleGokbViews, oleEResourceRecordForm);
+        List<OLEGOKbPackage> olegoKbPackages = getOleeResourceHelperService().searchGokbForPackagess(oleGokbTipps, oleEResourceRecordForm);
         oleeResourceRecordDocument.setGoKbPackageList(olegoKbPackages);
 
         return getUIFModelAndView(oleEResourceRecordForm);
@@ -2215,9 +2215,11 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         List<OLEGOKbPlatform> goKbPlatformList = new ArrayList<>();
         for(OLEGOKbPlatform gokbPlatform : oleeResourceRecordDocument.getGoKbPlatformList()) {
             if(gokbPlatform.isSelect()) {
-                gokbPlatform.setGoKbTIPPList(getOleeResourceHelperService().getTippsByPlatform(gokbPlatform.getPlatformId()));
+                OLEGOKBSearchDaoOjb olegokbSearchDaoOjb = (OLEGOKBSearchDaoOjb) SpringContext.getBean("oleGOKBSearchDaoOjb");
+                List<OleGokbTipp> oleGokbTippList = olegokbSearchDaoOjb.getTippsByPlatform(gokbPlatform.getPlatformId());
+                    gokbPlatform.setGoKbTIPPList(getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList));
                 goKbPlatformList.add(gokbPlatform);
-                gokbPlatform.setSelect(Boolean.FALSE);
+               /* gokbPlatform.setSelect(Boolean.FALSE);*/
             }
         }
 
@@ -2257,15 +2259,17 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
         KRADServiceLocatorWeb.getDocumentService().updateDocument(oleeResourceRecordDocument);
-
+        Map<String,String> platformMap = new HashMap<String,String>();
+        platformMap.put("gokbPlatformId","111");
+        List<OleGokbPlatform> olegoKbPlatforms = (List<OleGokbPlatform>)KRADServiceLocator.getBusinessObjectService().findMatching(OleGokbPlatform.class,platformMap);
 
         OLEBatchProcessProfileBo gokbImportProfile = getOleeResourceHelperService().getGOKBImportProfile(oleeResourceRecordDocument.getProfile());
 
         List<BibMarcRecord> bibMarcRecords = getOleeResourceHelperService().buildBibMarcRecords(oleeResourceRecordDocument.getGoKbPlatformList(), oleeResourceRecordDocument.getOleERSIdentifier());
-
-        if(bibMarcRecords != null && bibMarcRecords.size() > 0 && gokbImportProfile == null) {
+//need to provide validation
+/*        if(bibMarcRecords != null && bibMarcRecords.size() > 0 && gokbImportProfile == null) {
             return getUIFModelAndView(oleEResourceRecordForm);
-        }
+        }*/
 
         if(oleEResourceRecordForm.isImportPackageMetaDataOnly() || (bibMarcRecords != null && bibMarcRecords.size() > 0)) {
 
@@ -2287,6 +2291,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                                     HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
+        Map<String,String> platformMap = new HashMap<String,String>();
+        platformMap.put("gokbPlatformId","111");
+        List<OleGokbPlatform> olegoKbPlatforms = (List<OleGokbPlatform>)KRADServiceLocator.getBusinessObjectService().findMatching(OleGokbPlatform.class,platformMap);
         if(oleeResourceRecordDocument.getTitle() !=null && StringUtils.isNotEmpty(oleeResourceRecordDocument.getTitle())){
             oleEResourceRecordForm.setPackageName(oleeResourceRecordDocument.getTitle());
         }
