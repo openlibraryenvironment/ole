@@ -106,7 +106,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
     private RequisitionCreateDocumentService requisitionCreateDocumentService;
 
     public OLEEResourceHelperService getOleeResourceHelperService() {
-        if(oleeResourceHelperService == null) {
+        if (oleeResourceHelperService == null) {
             oleeResourceHelperService = new OLEEResourceHelperService();
         }
         return oleeResourceHelperService;
@@ -150,21 +150,21 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @Override
     public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-                                   HttpServletRequest request, HttpServletResponse response)throws Exception{
+                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
         OLEEResourceRecordForm oleeResourceRecordForm = (OLEEResourceRecordForm) form;
         oleeResourceRecordForm.setSearchUrl(ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base") + "/ole-kr-krad/oleERSController?viewId=OLEEResourceSearchView&methodToCall=start");
         request.getSession().setAttribute("formKeyValue", oleeResourceRecordForm.getFormKey());
-        ModelAndView  modelAndView = super.docHandler(oleeResourceRecordForm,result,request,response);
+        ModelAndView modelAndView = super.docHandler(oleeResourceRecordForm, result, request, response);
         OLEEResourceRecordForm kualiForm = (OLEEResourceRecordForm) modelAndView.getModel().get("KualiForm");
         HttpSession session = request.getSession();
         //session.removeAttribute("createChildEResource");
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) kualiForm.getDocument();
-        if(session.getAttribute("createChildEResource") != null){
+        if (session.getAttribute("createChildEResource") != null) {
             String oleeResourceInstancesIdentifier = (String) session.getAttribute("oleeResourceInstancesIdentifier");
             String[] identifiers = oleeResourceInstancesIdentifier.split(",");
             Map ids = new HashMap();
-            for(String identifier : identifiers){
-                ids.put("oleEResourceInstanceId",identifier);
+            for (String identifier : identifiers) {
+                ids.put("oleEResourceInstanceId", identifier);
             }
             List<OLEEResourceInstance> oleeResourceInstances = (List<OLEEResourceInstance>) getBusinessObjectService().findMatching(OLEEResourceInstance.class, ids);
             oleeResourceRecordDocument.setOleERSInstances(oleeResourceInstances);
@@ -184,7 +184,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         getOleEResourceSearchService().getPOInvoiceForERS(oleeResourceRecordDocument);
         /*Displaying the child EResource Po's and invoice in parent E-Resource.*/
         //oleEResourceSearchService = new OLO
-        if(oleEResourceSearchService != null){
+        if (oleEResourceSearchService != null) {
             oleEResourceSearchService.getPOInvoiceForERS(oleeResourceRecordDocument);
         }
         if (oleeResourceRecordDocument.getOleERSIdentifier() == null) {
@@ -250,12 +250,12 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             return super.navigate(form, result, request, response);
         }
         //oleERSEventLog.setEventType(OLEConstants.OleLicenseRequest.USER);
-        if(oleERSEventLog.getLogTypeName().equalsIgnoreCase("Event")){
+        if (oleERSEventLog.getLogTypeName().equalsIgnoreCase("Event")) {
             oleERSEventLog.setProblemTypeId(null);
             oleERSEventLog.setEventStatus(null);
             oleERSEventLog.setEventResolvedDate(null);
             oleERSEventLog.setEventResolution(null);
-        }else if(oleERSEventLog.getLogTypeName().equalsIgnoreCase("Problem")){
+        } else if (oleERSEventLog.getLogTypeName().equalsIgnoreCase("Problem")) {
             oleERSEventLog.setEventTypeId(null);
         }
         oleERSEventLog.setCurrentTimeStamp();
@@ -292,7 +292,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         OLEEResourceEventLog oleERSEventLog = oleeResourceRecordDocument.getOleERSEventLogs().get(Integer.parseInt(selectedLineIndex));
         oleERSEventLog.setSaveFlag(false);
-        return super.navigate(form,result,request,response);
+        return super.navigate(form, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=saveEvent")
@@ -302,8 +302,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         OLEEResourceEventLog oleERSEventLog = oleeResourceRecordDocument.getOleERSEventLogs().get(Integer.parseInt(selectedLineIndex));
-        return super.navigate(form,result,request,response);
+        return super.navigate(form, result, request, response);
     }
+
     /**
      * This method Creates the License Request Document and link to the E-Resource document
      *
@@ -459,10 +460,10 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         boolean flag = false;
         boolean datesFlag = true;
         flag = getOleEResourceSearchService().validateEResourceDocument(oleeResourceRecordDocument);
-        datesFlag &= getOleEResourceSearchService().validateCoverageStartDates(oleeResourceRecordDocument,oleERSform);
-        datesFlag &= getOleEResourceSearchService().validateCoverageEndDates(oleeResourceRecordDocument,oleERSform);
-        datesFlag &= getOleEResourceSearchService().validatePerpetualAccessStartDates(oleeResourceRecordDocument,oleERSform);
-        datesFlag &= getOleEResourceSearchService().validatePerpetualAccessEndDates(oleeResourceRecordDocument,oleERSform);
+        datesFlag &= getOleEResourceSearchService().validateCoverageStartDates(oleeResourceRecordDocument, oleERSform);
+        datesFlag &= getOleEResourceSearchService().validateCoverageEndDates(oleeResourceRecordDocument, oleERSform);
+        datesFlag &= getOleEResourceSearchService().validatePerpetualAccessStartDates(oleeResourceRecordDocument, oleERSform);
+        datesFlag &= getOleEResourceSearchService().validatePerpetualAccessEndDates(oleeResourceRecordDocument, oleERSform);
         if (flag) {
             return getUIFModelAndView(oleERSform);
         }
@@ -498,15 +499,15 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             oleERSform.setDefaultDatesFlag(false);
         }
         getOleEResourceSearchService().processEventAttachments(oleeResourceRecordDocument.getOleERSEventLogs());
-        if(oleeResourceRecordDocument.getCurrentSubscriptionEndDate()!=null){
-            if(oleeResourceRecordDocument.isRenewalAlertEnabled()){
-                if(oleeResourceRecordDocument.getRecipientId()==null){
+        if (oleeResourceRecordDocument.getCurrentSubscriptionEndDate() != null) {
+            if (oleeResourceRecordDocument.isRenewalAlertEnabled()) {
+                if (oleeResourceRecordDocument.getRecipientId() == null) {
                     GlobalVariables.getMessageMap().putError(OLEConstants.OLEEResourceRecord.RECIPIENT_ID, OLEConstants.OLEEResourceRecord.ERROR_RECIPIENT_ID);
                     return getUIFModelAndView(oleERSform);
                 }
             }
         }
-        ModelAndView  modelAndView = super.save(oleERSform, result, request, response);
+        ModelAndView modelAndView = super.save(oleERSform, result, request, response);
         OLEEResourceRecordForm kualiForm = (OLEEResourceRecordForm) modelAndView.getModel().get("KualiForm");
         OLEEResourceRecordDocument resourceRecordDocument = (OLEEResourceRecordDocument) kualiForm.getDocument();
         resourceRecordDocument.geteRSInstances().clear();
@@ -563,11 +564,11 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         }*/
         boolean flag = false;
         boolean datesFlag = true;
-        flag=getOleEResourceSearchService().validateEResourceDocument(oleeResourceRecordDocument);
-        datesFlag &= getOleEResourceSearchService().validateCoverageStartDates(oleeResourceRecordDocument,oleERSform);
-        datesFlag &= getOleEResourceSearchService().validateCoverageEndDates(oleeResourceRecordDocument,oleERSform);
-        datesFlag &= getOleEResourceSearchService().validatePerpetualAccessStartDates(oleeResourceRecordDocument,oleERSform);
-        datesFlag &= getOleEResourceSearchService().validatePerpetualAccessEndDates(oleeResourceRecordDocument,oleERSform);
+        flag = getOleEResourceSearchService().validateEResourceDocument(oleeResourceRecordDocument);
+        datesFlag &= getOleEResourceSearchService().validateCoverageStartDates(oleeResourceRecordDocument, oleERSform);
+        datesFlag &= getOleEResourceSearchService().validateCoverageEndDates(oleeResourceRecordDocument, oleERSform);
+        datesFlag &= getOleEResourceSearchService().validatePerpetualAccessStartDates(oleeResourceRecordDocument, oleERSform);
+        datesFlag &= getOleEResourceSearchService().validatePerpetualAccessEndDates(oleeResourceRecordDocument, oleERSform);
         if (flag) {
             return getUIFModelAndView(oleERSform);
         }
@@ -597,7 +598,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 try {
                     super.reload(oleERSform, result, request, response);
                 } catch (Exception e) {
-                    LOG.error("Exception while reloading the e-resource document"+e.getMessage());
+                    LOG.error("Exception while reloading the e-resource document" + e.getMessage());
                 }
             }
             oleERSform.setRemoveInstanceFlag(false);
@@ -637,11 +638,11 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         }*/
         boolean flag = false;
         boolean datesFlag = true;
-        flag=getOleEResourceSearchService().validateEResourceDocument(oleeResourceRecordDocument);
-        datesFlag &= getOleEResourceSearchService().validateCoverageStartDates(oleeResourceRecordDocument,oleERSform);
-        datesFlag &= getOleEResourceSearchService().validateCoverageEndDates(oleeResourceRecordDocument,oleERSform);
-        datesFlag &= getOleEResourceSearchService().validatePerpetualAccessStartDates(oleeResourceRecordDocument,oleERSform);
-        datesFlag &= getOleEResourceSearchService().validatePerpetualAccessEndDates(oleeResourceRecordDocument,oleERSform);
+        flag = getOleEResourceSearchService().validateEResourceDocument(oleeResourceRecordDocument);
+        datesFlag &= getOleEResourceSearchService().validateCoverageStartDates(oleeResourceRecordDocument, oleERSform);
+        datesFlag &= getOleEResourceSearchService().validateCoverageEndDates(oleeResourceRecordDocument, oleERSform);
+        datesFlag &= getOleEResourceSearchService().validatePerpetualAccessStartDates(oleeResourceRecordDocument, oleERSform);
+        datesFlag &= getOleEResourceSearchService().validatePerpetualAccessEndDates(oleeResourceRecordDocument, oleERSform);
         if (flag) {
             return getUIFModelAndView(oleERSform);
         }
@@ -667,7 +668,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 try {
                     super.reload(oleERSform, result, request, response);
                 } catch (Exception e) {
-                    LOG.error("Exception while reloading the e-resource document"+e.getMessage());
+                    LOG.error("Exception while reloading the e-resource document" + e.getMessage());
                 }
             }
             oleERSform.setRemoveInstanceFlag(false);
@@ -863,9 +864,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         oleERSform.setDefaultDatesFlag(true);
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleERSform.getDocument();
         String defaultCov = oleeResourceRecordDocument.getDummyDefaultCoverage();
-        if(defaultCov != null && !defaultCov.isEmpty()) {
+        if (defaultCov != null && !defaultCov.isEmpty()) {
             oleeResourceRecordDocument.setCovEdited(true);
-            getOleEResourceSearchService().getDefaultCovDatesToPopup(oleeResourceRecordDocument,defaultCov);
+            getOleEResourceSearchService().getDefaultCovDatesToPopup(oleeResourceRecordDocument, defaultCov);
         }
         return getUIFModelAndView(oleERSform, OLEConstants.OLEEResourceRecord.E_RES_INSTANCE_TAB);
     }
@@ -885,9 +886,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         oleERSform.setDefaultDatesFlag(true);
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleERSform.getDocument();
         String defaultPerAcc = oleeResourceRecordDocument.getDummyDefaultPerpetualAccess();
-        if(defaultPerAcc != null && !defaultPerAcc.isEmpty()) {
+        if (defaultPerAcc != null && !defaultPerAcc.isEmpty()) {
             oleeResourceRecordDocument.setPerAccEdited(true);
-            getOleEResourceSearchService().getDefaultPerAccDatesToPopup(oleeResourceRecordDocument,defaultPerAcc);
+            getOleEResourceSearchService().getDefaultPerAccDatesToPopup(oleeResourceRecordDocument, defaultPerAcc);
         }
         return getUIFModelAndView(oleERSform, OLEConstants.OLEEResourceRecord.E_RES_INSTANCE_TAB);
     }
@@ -921,11 +922,11 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                                            HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm oleERSform = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleERSform.getDocument();
-        if(oleERSform.isCoverageFlag()) {
+        if (oleERSform.isCoverageFlag()) {
             getOleEResourceSearchService().getDefaultCovergeDate(oleeResourceRecordDocument);
             oleERSform.setCoverageFlag(false);
         }
-        if(oleERSform.isPerpetualAccessFlag()) {
+        if (oleERSform.isPerpetualAccessFlag()) {
             getOleEResourceSearchService().getDefaultPerpetualAccessDate(oleeResourceRecordDocument);
             oleERSform.setPerpetualAccessFlag(false);
         }
@@ -934,12 +935,12 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=addMaterialType")
     public ModelAndView addMaterialType(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                           HttpServletRequest request, HttpServletResponse response) {
+                                        HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         index++;
-        List<OLEMaterialTypeList> oleMaterialTypeLists=oleeResourceRecordDocument.getOleMaterialTypes();
+        List<OLEMaterialTypeList> oleMaterialTypeLists = oleeResourceRecordDocument.getOleMaterialTypes();
         oleeResourceRecordDocument.getOleMaterialTypes().add(index, new OLEMaterialTypeList());
         oleeResourceRecordDocument.setOleMaterialTypes(oleMaterialTypeLists);
         form.setDocument(oleeResourceRecordDocument);
@@ -952,7 +953,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        List<OLEMaterialTypeList> oleMaterialTypeLists=oleeResourceRecordDocument.getOleMaterialTypes();
+        List<OLEMaterialTypeList> oleMaterialTypeLists = oleeResourceRecordDocument.getOleMaterialTypes();
         if (oleMaterialTypeLists.size() > 1) {
             oleMaterialTypeLists.remove(index);
         }
@@ -962,12 +963,12 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=addFormatType")
     public ModelAndView addFormatType(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) {
+                                      HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         index++;
-        List<OLEFormatTypeList> oleFormatTypeLists=oleeResourceRecordDocument.getOleFormatTypes();
+        List<OLEFormatTypeList> oleFormatTypeLists = oleeResourceRecordDocument.getOleFormatTypes();
         oleeResourceRecordDocument.getOleFormatTypes().add(index, new OLEFormatTypeList());
         oleeResourceRecordDocument.setOleFormatTypes(oleFormatTypeLists);
         form.setDocument(oleeResourceRecordDocument);
@@ -976,11 +977,11 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=removeFormatType")
     public ModelAndView removeFormatType(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                           HttpServletRequest request, HttpServletResponse response) {
+                                         HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        List<OLEFormatTypeList> oleFormatTypeLists=oleeResourceRecordDocument.getOleFormatTypes();
+        List<OLEFormatTypeList> oleFormatTypeLists = oleeResourceRecordDocument.getOleFormatTypes();
         if (oleFormatTypeLists.size() > 1) {
             oleFormatTypeLists.remove(index);
         }
@@ -990,12 +991,12 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=addContentType")
     public ModelAndView addContentType(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) {
+                                       HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         index++;
-        List<OLEContentTypes> oleContentTypes=oleeResourceRecordDocument.getOleContentTypes();
+        List<OLEContentTypes> oleContentTypes = oleeResourceRecordDocument.getOleContentTypes();
         oleeResourceRecordDocument.getOleContentTypes().add(index, new OLEContentTypes());
         oleeResourceRecordDocument.setOleContentTypes(oleContentTypes);
         form.setDocument(oleeResourceRecordDocument);
@@ -1004,11 +1005,11 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=removeContentType")
     public ModelAndView removeContentType(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                           HttpServletRequest request, HttpServletResponse response) {
+                                          HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        List<OLEContentTypes> oleContentTypes=oleeResourceRecordDocument.getOleContentTypes();
+        List<OLEContentTypes> oleContentTypes = oleeResourceRecordDocument.getOleContentTypes();
         if (oleContentTypes.size() > 1) {
             oleContentTypes.remove(index);
         }
@@ -1019,12 +1020,12 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=addSelectorType")
     public ModelAndView addSelectorType(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response) {
+                                        HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         index++;
-        List<OLEEResourceSelector> oleeResourceSelectors=oleeResourceRecordDocument.getSelectors();
+        List<OLEEResourceSelector> oleeResourceSelectors = oleeResourceRecordDocument.getSelectors();
         oleeResourceRecordDocument.getSelectors().add(index, new OLEEResourceSelector());
         oleeResourceRecordDocument.setSelectors(oleeResourceSelectors);
         form.setDocument(oleeResourceRecordDocument);
@@ -1033,11 +1034,11 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=removeSelectorType")
     public ModelAndView removeSelectorType(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                          HttpServletRequest request, HttpServletResponse response) {
+                                           HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        List<OLEEResourceSelector> oleeResourceSelectors=oleeResourceRecordDocument.getSelectors();
+        List<OLEEResourceSelector> oleeResourceSelectors = oleeResourceRecordDocument.getSelectors();
         if (oleeResourceSelectors.size() > 1) {
             oleeResourceSelectors.remove(index);
         }
@@ -1047,12 +1048,12 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=addRequestorType")
     public ModelAndView addRequestorType(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response) {
+                                         HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         index++;
-        List<OLEEResourceRequestor> oleeResourceRequestors=oleeResourceRecordDocument.getRequestors();
+        List<OLEEResourceRequestor> oleeResourceRequestors = oleeResourceRecordDocument.getRequestors();
         oleeResourceRecordDocument.getRequestors().add(index, new OLEEResourceRequestor());
         oleeResourceRecordDocument.setRequestors(oleeResourceRequestors);
         form.setDocument(oleeResourceRecordDocument);
@@ -1061,11 +1062,11 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=removeRequestorType")
     public ModelAndView removeRequestorType(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                          HttpServletRequest request, HttpServletResponse response) {
+                                            HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        List<OLEEResourceRequestor> oleeResourceRequestors=oleeResourceRecordDocument.getRequestors();
+        List<OLEEResourceRequestor> oleeResourceRequestors = oleeResourceRecordDocument.getRequestors();
         if (oleeResourceRequestors.size() > 1) {
             oleeResourceRequestors.remove(index);
         }
@@ -1080,7 +1081,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         index++;
-        List<OLEEResourceVariantTitle> oleEResourceVariantTitleList=oleeResourceRecordDocument.getOleEResourceVariantTitleList();
+        List<OLEEResourceVariantTitle> oleEResourceVariantTitleList = oleeResourceRecordDocument.getOleEResourceVariantTitleList();
         oleeResourceRecordDocument.getOleEResourceVariantTitleList().add(index, new OLEEResourceVariantTitle());
         oleeResourceRecordDocument.setOleEResourceVariantTitleList(oleEResourceVariantTitleList);
         form.setDocument(oleeResourceRecordDocument);
@@ -1093,7 +1094,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        List<OLEEResourceVariantTitle> oleEResourceVariantTitleList=oleeResourceRecordDocument.getOleEResourceVariantTitleList();
+        List<OLEEResourceVariantTitle> oleEResourceVariantTitleList = oleeResourceRecordDocument.getOleEResourceVariantTitleList();
         if (oleEResourceVariantTitleList.size() > 1) {
             oleEResourceVariantTitleList.remove(index);
         }
@@ -1103,12 +1104,12 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=addRequestorSelectorType")
     public ModelAndView addRequestorSelectorType(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response) {
+                                                 HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         index++;
-        List<OLEEResourceReqSelComments> oleeResourceReqSelCommentses=oleeResourceRecordDocument.getReqSelComments();
+        List<OLEEResourceReqSelComments> oleeResourceReqSelCommentses = oleeResourceRecordDocument.getReqSelComments();
         oleeResourceRecordDocument.getReqSelComments().add(index, new OLEEResourceReqSelComments());
         oleeResourceRecordDocument.setReqSelComments(oleeResourceReqSelCommentses);
         form.setDocument(oleeResourceRecordDocument);
@@ -1117,11 +1118,11 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=removeRequestorSelectorType")
     public ModelAndView removeRequestorSelectorType(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                          HttpServletRequest request, HttpServletResponse response) {
+                                                    HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        List<OLEEResourceReqSelComments> oleeResourceReqSelCommentses=oleeResourceRecordDocument.getReqSelComments();
+        List<OLEEResourceReqSelComments> oleeResourceReqSelCommentses = oleeResourceRecordDocument.getReqSelComments();
         if (oleeResourceReqSelCommentses.size() > 1) {
             oleeResourceReqSelCommentses.remove(index);
         }
@@ -1131,12 +1132,12 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=addNoteTextSection")
     public ModelAndView addNoteTextSection(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                                 HttpServletRequest request, HttpServletResponse response) {
+                                           HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         index++;
-        List<OLEEResourceNotes> oleeResourceNoteses=oleeResourceRecordDocument.getEresNotes();
+        List<OLEEResourceNotes> oleeResourceNoteses = oleeResourceRecordDocument.getEresNotes();
         oleeResourceRecordDocument.getEresNotes().add(index, new OLEEResourceNotes());
         oleeResourceRecordDocument.setEresNotes(oleeResourceNoteses);
         form.setDocument(oleeResourceRecordDocument);
@@ -1145,11 +1146,11 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=removeNoteTextSection")
     public ModelAndView removeNoteTextSection(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
-                                                    HttpServletRequest request, HttpServletResponse response) {
+                                              HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        List<OLEEResourceNotes> oleeResourceNoteses=oleeResourceRecordDocument.getEresNotes();
+        List<OLEEResourceNotes> oleeResourceNoteses = oleeResourceRecordDocument.getEresNotes();
         if (oleeResourceNoteses.size() > 1) {
             oleeResourceNoteses.remove(index);
         }
@@ -1214,8 +1215,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
     }
 
 
-
-
     /**
      * This method will fetch the eresource and its instance to create PO(s).
      *
@@ -1227,7 +1226,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
 
     @RequestMapping(params = "methodToCall=getPlatformForEResource")
-    public ModelAndView getPlatformForEResource(@ModelAttribute("KualiForm") UifFormBase uifForm,BindingResult result,
+    public ModelAndView getPlatformForEResource(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
                                                 HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
@@ -1251,8 +1250,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         return super.navigate(form, result, request, response);
     }
 
-    private String getMask()
-    {
+    private String getMask() {
         return "******";
     }
 
@@ -1300,7 +1298,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
     public ModelAndView synchronizeWithGokb(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
-        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument)form.getDocument();
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         return super.navigate(form, result, request, response);
     }
 
@@ -1509,12 +1507,12 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 }
             }
         }
-        if (selectFlag){
+        if (selectFlag) {
             oleeResourceRecordForm.setPoSuccessMessage("Changes have been saved successfully");
-        }else {
+        } else {
             oleeResourceRecordForm.setPoErrorMessage("Atleast one E-Resource/Instance should be selected");
         }
-        return super.navigate(oleeResourceRecordForm,result,request,response);
+        return super.navigate(oleeResourceRecordForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=next")
@@ -1531,7 +1529,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         ListIterator<OLELinkedEresource> oleLinkedEresourceListIterator = oleeResourceRecordDocument.getOleLinkedEresources().listIterator();
-        while(oleLinkedEresourceListIterator.hasNext()){
+        while (oleLinkedEresourceListIterator.hasNext()) {
             OLELinkedEresource linkedEresource = oleLinkedEresourceListIterator.next();
             Map<String, String> tempId = new HashMap<String, String>();
             tempId.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, linkedEresource.getLinkedERSIdentifier());
@@ -1542,21 +1540,21 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             } catch (WorkflowException e) {
                 e.printStackTrace();
             }
-            String removeChild= form.getActionParamaterValue("removeChild");
-            if(removeChild.equalsIgnoreCase("no")){
+            String removeChild = form.getActionParamaterValue("removeChild");
+            if (removeChild.equalsIgnoreCase("no")) {
                 linkedEresource.setRemoveRelationShip(false);
                 return getUIFModelAndView(form);
             }
-            if(linkedEresource.getRelationShipType().equalsIgnoreCase("child") && linkedEresource.isRemoveRelationShip()) {
-                if(oleeResourceRecordDocument.getRemoveOrRelinkToParent() !=null && oleeResourceRecordDocument.getRemoveOrRelinkToParent().equalsIgnoreCase("relinkToParent")){
-                    for(OLEEResourceInstance instance : linkedEresource.getOleeResourceRecordDocument().getOleERSInstances()){
+            if (linkedEresource.getRelationShipType().equalsIgnoreCase("child") && linkedEresource.isRemoveRelationShip()) {
+                if (oleeResourceRecordDocument.getRemoveOrRelinkToParent() != null && oleeResourceRecordDocument.getRemoveOrRelinkToParent().equalsIgnoreCase("relinkToParent")) {
+                    for (OLEEResourceInstance instance : linkedEresource.getOleeResourceRecordDocument().getOleERSInstances()) {
                         Map criteriaMap = new HashMap();
                         criteriaMap.put("oleEResourceInstanceId", instance.getOleEResourceInstanceId());
                         OLEEResourceInstance oleeResourceInstance = getBusinessObjectService().findByPrimaryKey(OLEEResourceInstance.class, criteriaMap);
                         oleeResourceInstance.setOleERSIdentifier(oleeResourceRecordDocument.getOleERSIdentifier());
                         oleLinkedEresourceListIterator.remove();
                     }
-                } else if(oleeResourceRecordDocument.getRemoveOrRelinkToParent() !=null && oleeResourceRecordDocument.getRemoveOrRelinkToParent().equalsIgnoreCase("removelink")) {
+                } else if (oleeResourceRecordDocument.getRemoveOrRelinkToParent() != null && oleeResourceRecordDocument.getRemoveOrRelinkToParent().equalsIgnoreCase("removelink")) {
                     Map criteriaMap = new HashMap();
                     criteriaMap.put("linkedERSIdentifier", linkedEresource.getLinkedERSIdentifier());
                     criteriaMap.put("oleERSIdentifier", linkedEresource.getOleERSIdentifier());
@@ -1567,9 +1565,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                     getBusinessObjectService().deleteMatching(OLELinkedEresource.class, criteriaMap);
                     oleLinkedEresourceListIterator.remove();
                 }
-            }else if(linkedEresource.getRelationShipType().equalsIgnoreCase("parent")) {
+            } else if (linkedEresource.getRelationShipType().equalsIgnoreCase("parent")) {
                 String removeParent = form.getActionParamaterValue("removeParent");
-                if(removeParent.equalsIgnoreCase("yes")){
+                if (removeParent.equalsIgnoreCase("yes")) {
                     Map criteriaMap = new HashMap();
                     criteriaMap.put("linkedERSIdentifier", linkedEresource.getLinkedERSIdentifier());
                     criteriaMap.put("oleERSIdentifier", linkedEresource.getOleERSIdentifier());
@@ -1599,7 +1597,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         oleERSEventLog.setLogTypeId("3");
         oleERSEventLog.setCurrentTimeStamp();
         oleERSEventLog.setOleERSIdentifier(oleeResourceRecordDocument.getDocumentNumber());
-        oleERSEventLog.setEventNote("Price Increase Analysis: Last year's cost was "+oleeResourceRecordDocument.getFiscalYearCost() + ". This year's price quote is " + oleeResourceRecordDocument.getYearPriceQuote() + ". This is a price increase of " + oleeResourceRecordDocument.getCostIncrease() + " or " + oleeResourceRecordDocument.getPercentageIncrease());
+        oleERSEventLog.setEventNote("Price Increase Analysis: Last year's cost was " + oleeResourceRecordDocument.getFiscalYearCost() + ". This year's price quote is " + oleeResourceRecordDocument.getYearPriceQuote() + ". This is a price increase of " + oleeResourceRecordDocument.getCostIncrease() + " or " + oleeResourceRecordDocument.getPercentageIncrease());
         oleeResourceRecordDocument.getOleERSEventLogs().add(oleERSEventLog);
         return super.navigate(form, result, request, response);
     }
@@ -1634,7 +1632,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         sb.append(oleeResourceRecordDocument.getPercentageIncrease());
         sb.append("\n");
 
-        byte [] txt = sb.toString().getBytes();
+        byte[] txt = sb.toString().getBytes();
         OutputStream out;
         try {
             out = response.getOutputStream();
@@ -1666,7 +1664,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         List<OLEEResourceInvoices> oleERSInvoices = oleeResourceRecordDocument.getOleERSInvoices();
         int fiscalYearCost = 0;
-        for(OLEEResourceInvoices oleeResourceInvoices : oleERSInvoices){
+        for (OLEEResourceInvoices oleeResourceInvoices : oleERSInvoices) {
             fiscalYearCost = fiscalYearCost + Integer.valueOf(oleeResourceInvoices.getInvoicedAmount());
         }
         double cost = oleeResourceRecordDocument.getYearPriceQuote() - oleeResourceRecordDocument.getFiscalYearCost();
@@ -1709,7 +1707,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         } catch (Exception e) {
             LOG.error("Exception while hitting the performSearch()" + e.getMessage());
         }
-        if (oleEResIdentifiers != null && oleEResIdentifiers.size()>0) {
+        if (oleEResIdentifiers != null && oleEResIdentifiers.size() > 0) {
             List<OLEEResourceRecordDocument> oleeResourceRecordDocumentList = new ArrayList<OLEEResourceRecordDocument>();
             for (OLEEResourceRecordDocument oleeResourceRecordDocument : eresourceList) {
                 if (!oleEResIdentifiers.contains(oleeResourceRecordDocument.getOleERSIdentifier())) {
@@ -1729,18 +1727,17 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             eresourceList = oleEResourceSearchService.statusNotNull(eresourceList, oleeResourceRecordForm.getStatus());
         }
         if (oleeResourceRecordForm.iseResStatusDate()) {
-            eresourceDocumentList = oleEResourceSearchService.filterEResRecBystatusDate(oleeResourceRecordForm.getBeginDate(),oleeResourceRecordForm.getEndDate(),eresourceList);
+            eresourceDocumentList = oleEResourceSearchService.filterEResRecBystatusDate(oleeResourceRecordForm.getBeginDate(), oleeResourceRecordForm.getEndDate(), eresourceList);
             oleeResourceRecordForm.setEresourceDocumentList(eresourceDocumentList);
         } else {
             oleeResourceRecordForm.setEresourceDocumentList(eresourceList);
         }
         List<OLEEResourceRecordDocument> eresDocumentList = oleeResourceRecordForm.getEresourceDocumentList();
         oleEResourceSearchService.removeDuplicateEresDocumentsFromList(eresDocumentList);
-        if (!GlobalVariables.getMessageMap().hasMessages()){
-            if (oleeResourceRecordForm.getEresourceDocumentList().size()==0)
+        if (!GlobalVariables.getMessageMap().hasMessages()) {
+            if (oleeResourceRecordForm.getEresourceDocumentList().size() == 0)
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.NO_RECORD_FOUND);
-        }
-        else {
+        } else {
             oleeResourceRecordForm.setEresourceDocumentList(null);
         }
         return getUIFModelAndView(oleeResourceRecordForm);
@@ -1749,7 +1746,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=linkEResource")
     public ModelAndView linkEResource(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response)throws Exception{
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         OLEEResourceRecordForm oleeResourceRecordForm = (OLEEResourceRecordForm) form;
         oleeResourceRecordForm.setMessage(null);
         List<OLEEResourceRecordDocument> oleeResourceRecordDocumentList = oleeResourceRecordForm.getEresourceDocumentList();
@@ -1772,11 +1769,10 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                     }
                 }
             }
-            if (selectCount == 0){
+            if (selectCount == 0) {
                 oleeResourceRecordForm.setMessage(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.ERROR_SELECT_ERESOURCE));
                 return getUIFModelAndView(oleeResourceRecordForm);
-            }
-            else if (parentCount > 1) {
+            } else if (parentCount > 1) {
                 oleeResourceRecordForm.setMessage(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.ERROR_ERESOURCE_ONLY_ONE_PARENT));
                 return getUIFModelAndView(oleeResourceRecordForm);
             }
@@ -1795,7 +1791,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             boolean messageText = false;
             for (OLEEResourceRecordDocument selectedeResourceRecordDocument : oleeResourceRecordDocumentList) {
                 if (selectedeResourceRecordDocument.isSelectEResFlag()) {
-                    for(OLELinkedEresource linkedEresource : selectedeResourceRecordDocument.getOleLinkedEresources()){
+                    for (OLELinkedEresource linkedEresource : selectedeResourceRecordDocument.getOleLinkedEresources()) {
                         if (linkedEresource.getRelationShipType().equalsIgnoreCase("parent")) {
                             message.append(selectedeResourceRecordDocument.getTitle());
                             message.append(", ");
@@ -1807,7 +1803,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                             List<OLELinkedEresource> eResource = (List<OLELinkedEresource>) getBusinessObjectService().findMatching(OLELinkedEresource.class, map);
                             OLELinkedEresource oleLinkedEresource = eResource.get(0);
                             String chain = oleLinkedEresource.getChainString();
-                            if(chain.contains(selectedeResourceRecordDocument.getOleERSIdentifier())){
+                            if (chain.contains(selectedeResourceRecordDocument.getOleERSIdentifier())) {
                                 message.append(selectedeResourceRecordDocument.getTitle());
                                 message.append(", ");
                                 messageText = true;
@@ -1818,9 +1814,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 }
             }
             Iterator<OLEEResourceRecordDocument> iterator = oleeResourceRecordDocumentList.iterator();
-            for(String id : ids){
-                while(iterator.hasNext()){
-                    if(id.equalsIgnoreCase(iterator.next().getOleERSIdentifier())){
+            for (String id : ids) {
+                while (iterator.hasNext()) {
+                    if (id.equalsIgnoreCase(iterator.next().getOleERSIdentifier())) {
                         iterator.remove();
                         break;
                     }
@@ -1833,75 +1829,75 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                     map.put("linkedERSIdentifier", oleeResourceRecordDocument.getOleERSIdentifier());
                     map.put("relationShipType", "child");
                     List<OLELinkedEresource> eResource1 = (List<OLELinkedEresource>) getBusinessObjectService().findMatching(OLELinkedEresource.class, map);
-                    if(eResource1.size()>0){
+                    if (eResource1.size() > 0) {
                         OLELinkedEresource oleLinkedEresource1 = eResource1.get(0);
                         String chain = oleLinkedEresource1.getChainString();
-                        if(!chain.contains(selectedeResourceRecordDocument.getOleERSIdentifier())){
+                        if (!chain.contains(selectedeResourceRecordDocument.getOleERSIdentifier())) {
                             OLELinkedEresource oleLinkedEresource = new OLELinkedEresource();
                             oleLinkedEresource.setLinkedERSIdentifier(selectedeResourceRecordDocument.getOleERSIdentifier());
                             oleLinkedEresource.setRelationShipType(selectedeResourceRecordDocument.getRelationshipType());
-                            if(selectedeResourceRecordDocument.getRelationshipType().equalsIgnoreCase("child")){
+                            if (selectedeResourceRecordDocument.getRelationshipType().equalsIgnoreCase("child")) {
                                 Map linkedEresourceMap = new HashMap();
                                 linkedEresourceMap.put("linkedERSIdentifier", oleeResourceRecordDocument.getOleERSIdentifier());
                                 linkedEresourceMap.put("relationShipType", "child");
                                 List<OLELinkedEresource> eResource = (List<OLELinkedEresource>) getBusinessObjectService().findMatching(OLELinkedEresource.class, linkedEresourceMap);
-                                if(eResource.size()>0 && StringUtils.isNotEmpty(eResource.get(0).getChainString())){
-                                    oleLinkedEresource.setChainString(eResource.get(0).getChainString() + ":" +selectedeResourceRecordDocument.getOleERSIdentifier());
-                                }else{
-                                    oleLinkedEresource.setChainString(oleeResourceRecordDocument.getOleERSIdentifier() + ":" +selectedeResourceRecordDocument.getOleERSIdentifier());
+                                if (eResource.size() > 0 && StringUtils.isNotEmpty(eResource.get(0).getChainString())) {
+                                    oleLinkedEresource.setChainString(eResource.get(0).getChainString() + ":" + selectedeResourceRecordDocument.getOleERSIdentifier());
+                                } else {
+                                    oleLinkedEresource.setChainString(oleeResourceRecordDocument.getOleERSIdentifier() + ":" + selectedeResourceRecordDocument.getOleERSIdentifier());
                                 }
                             }
                             oleLinkedEresources.add(oleLinkedEresource);
                             OLELinkedEresource linkedEresource = new OLELinkedEresource();
                             linkedEresource.setLinkedERSIdentifier(oleeResourceRecordDocument.getOleERSIdentifier());
                             linkedEresource.setOleERSIdentifier(selectedeResourceRecordDocument.getOleERSIdentifier());
-                            if(selectedeResourceRecordDocument.getRelationshipType().equalsIgnoreCase("parent")){
+                            if (selectedeResourceRecordDocument.getRelationshipType().equalsIgnoreCase("parent")) {
                                 linkedEresource.setRelationShipType("child");
                                 Map eResourceMap = new HashMap();
                                 eResourceMap.put("oleERSIdentifier", selectedeResourceRecordDocument.getOleERSIdentifier());
                                 eResourceMap.put("relationShipType", "child");
                                 List<OLELinkedEresource> eResource = (List<OLELinkedEresource>) getBusinessObjectService().findMatching(OLELinkedEresource.class, eResourceMap);
-                                if(eResource.size()>0 && StringUtils.isNotEmpty(eResource.get(0).getChainString())){
-                                    oleLinkedEresource.setChainString(eResource.get(0).getChainString() + ":" +selectedeResourceRecordDocument.getOleERSIdentifier());
-                                }else{
-                                    oleLinkedEresource.setChainString(oleeResourceRecordDocument.getOleERSIdentifier() + ":" +selectedeResourceRecordDocument.getOleERSIdentifier());
+                                if (eResource.size() > 0 && StringUtils.isNotEmpty(eResource.get(0).getChainString())) {
+                                    oleLinkedEresource.setChainString(eResource.get(0).getChainString() + ":" + selectedeResourceRecordDocument.getOleERSIdentifier());
+                                } else {
+                                    oleLinkedEresource.setChainString(oleeResourceRecordDocument.getOleERSIdentifier() + ":" + selectedeResourceRecordDocument.getOleERSIdentifier());
                                 }
-                            }else{
+                            } else {
                                 linkedEresource.setRelationShipType("parent");
                             }
                             getBusinessObjectService().save(linkedEresource);
                         }
-                    }else{
+                    } else {
                         OLELinkedEresource oleLinkedEresource = new OLELinkedEresource();
                         oleLinkedEresource.setLinkedERSIdentifier(selectedeResourceRecordDocument.getOleERSIdentifier());
                         oleLinkedEresource.setRelationShipType(selectedeResourceRecordDocument.getRelationshipType());
-                        if(selectedeResourceRecordDocument.getRelationshipType().equalsIgnoreCase("child")){
+                        if (selectedeResourceRecordDocument.getRelationshipType().equalsIgnoreCase("child")) {
                             Map linkedEresourceMap = new HashMap();
                             linkedEresourceMap.put("oleERSIdentifier", oleeResourceRecordDocument.getOleERSIdentifier());
                             linkedEresourceMap.put("relationShipType", "child");
                             List<OLELinkedEresource> eResource = (List<OLELinkedEresource>) getBusinessObjectService().findMatching(OLELinkedEresource.class, linkedEresourceMap);
-                            if(eResource.size()>0 && StringUtils.isNotEmpty(eResource.get(0).getChainString())){
-                                oleLinkedEresource.setChainString(eResource.get(0).getChainString() + ":" +selectedeResourceRecordDocument.getOleERSIdentifier());
-                            }else{
-                                oleLinkedEresource.setChainString(oleeResourceRecordDocument.getOleERSIdentifier() + ":" +selectedeResourceRecordDocument.getOleERSIdentifier());
+                            if (eResource.size() > 0 && StringUtils.isNotEmpty(eResource.get(0).getChainString())) {
+                                oleLinkedEresource.setChainString(eResource.get(0).getChainString() + ":" + selectedeResourceRecordDocument.getOleERSIdentifier());
+                            } else {
+                                oleLinkedEresource.setChainString(oleeResourceRecordDocument.getOleERSIdentifier() + ":" + selectedeResourceRecordDocument.getOleERSIdentifier());
                             }
                         }
                         oleLinkedEresources.add(oleLinkedEresource);
                         OLELinkedEresource linkedEresource = new OLELinkedEresource();
                         linkedEresource.setLinkedERSIdentifier(oleeResourceRecordDocument.getOleERSIdentifier());
                         linkedEresource.setOleERSIdentifier(selectedeResourceRecordDocument.getOleERSIdentifier());
-                        if(selectedeResourceRecordDocument.getRelationshipType().equalsIgnoreCase("parent")){
+                        if (selectedeResourceRecordDocument.getRelationshipType().equalsIgnoreCase("parent")) {
                             linkedEresource.setRelationShipType("child");
                             Map eResourceMap = new HashMap();
                             eResourceMap.put("oleERSIdentifier", selectedeResourceRecordDocument.getOleERSIdentifier());
                             eResourceMap.put("relationShipType", "child");
                             List<OLELinkedEresource> eResource = (List<OLELinkedEresource>) getBusinessObjectService().findMatching(OLELinkedEresource.class, eResourceMap);
-                            if(eResource.size()>0 && StringUtils.isNotEmpty(eResource.get(0).getChainString())){
-                                oleLinkedEresource.setChainString(eResource.get(0).getChainString() + ":" +selectedeResourceRecordDocument.getOleERSIdentifier());
-                            }else{
-                                oleLinkedEresource.setChainString(oleeResourceRecordDocument.getOleERSIdentifier() + ":" +selectedeResourceRecordDocument.getOleERSIdentifier());
+                            if (eResource.size() > 0 && StringUtils.isNotEmpty(eResource.get(0).getChainString())) {
+                                oleLinkedEresource.setChainString(eResource.get(0).getChainString() + ":" + selectedeResourceRecordDocument.getOleERSIdentifier());
+                            } else {
+                                oleLinkedEresource.setChainString(oleeResourceRecordDocument.getOleERSIdentifier() + ":" + selectedeResourceRecordDocument.getOleERSIdentifier());
                             }
-                        }else{
+                        } else {
                             linkedEresource.setRelationShipType("parent");
                         }
                         getBusinessObjectService().save(linkedEresource);
@@ -1912,7 +1908,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             if (message.length() > 0 && !messageText) {
                 String format = String.format("The following documents (%s) can not be linked, since it already has parent. ", message.substring(0, message.lastIndexOf(",")));
                 oleeResourceRecordForm.setMessage(format);
-            }else if(message.length() > 0 && messageText) {
+            } else if (message.length() > 0 && messageText) {
                 String format = String.format("The following documents (%s) can not be linked,  since it is already a parent in the hierarchy. ", message.substring(0, message.lastIndexOf(",")));
                 oleeResourceRecordForm.setMessage(format);
             }
@@ -1925,17 +1921,15 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
     public ModelAndView delete(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
-        OLEEResourceRecordDocument document = (OLEEResourceRecordDocument)form.getDocument();
-        List<OLEEResourceInstance>  oleeResourceInstances = document.getOleERSInstances();
+        OLEEResourceRecordDocument document = (OLEEResourceRecordDocument) form.getDocument();
+        List<OLEEResourceInstance> oleeResourceInstances = document.getOleERSInstances();
         List<OLEEResourceLicense> oleERSLicenses = document.getOleERSLicenseRequests();
         List<OLELinkedEresource> oleLikedEResources = document.getOleLinkedEresources();
         List<OLEEResourcePO> oleEResourcePOList = document.getOleERSPOItems();
 
-        if (oleeResourceInstances.size()>0 || oleERSLicenses.size()>0 || oleLikedEResources.size()>0 || oleEResourcePOList.size()>0)
-        {
+        if (oleeResourceInstances.size() > 0 || oleERSLicenses.size() > 0 || oleLikedEResources.size() > 0 || oleEResourcePOList.size() > 0) {
             document.setAccessStatus("Active");
-        }
-        else{
+        } else {
             document.setAccessStatus("Inactive");
             getBusinessObjectService().save(document);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, OLEConstants.OLEEResourceRecord.ERESOURCE_HAS_BEEN_DELETED);
@@ -1949,28 +1943,27 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                                        HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
 
-        OLEEResourceRecordDocument document = (OLEEResourceRecordDocument)form.getDocument();
+        OLEEResourceRecordDocument document = (OLEEResourceRecordDocument) form.getDocument();
         List<OLEEResourceInstance> oleInstancesDeleteList = new ArrayList<>();
         List<OLEEResourceInstance> oleInstancesAddList = new ArrayList<>();
         List<OLEEResourceInstance> oleERSInstances = document.getOleERSInstances();
-        if (oleERSInstances!=null) {
-            for(OLEEResourceInstance oleeResourceInstance : oleERSInstances) {
+        if (oleERSInstances != null) {
+            for (OLEEResourceInstance oleeResourceInstance : oleERSInstances) {
                 int purchaseOrderCount = 0;
                 if (oleeResourceInstance.isSelect()) {
                     String instanceId = oleeResourceInstance.getInstanceId();
                     Map instanceMap = new HashMap();
                     instanceMap.put("instanceId", instanceId);
-                    List<OleCopy> oleCopyList = (List<OleCopy>)getBusinessObjectService().findMatching(OleCopy.class, instanceMap);
-                    for(OleCopy oleCopy : oleCopyList){
-                        if(oleCopy.getPoItemId()!=null){
+                    List<OleCopy> oleCopyList = (List<OleCopy>) getBusinessObjectService().findMatching(OleCopy.class, instanceMap);
+                    for (OleCopy oleCopy : oleCopyList) {
+                        if (oleCopy.getPoItemId() != null) {
                             purchaseOrderCount++;
                         }
                     }
 
                     if (purchaseOrderCount == 0) {
                         oleInstancesDeleteList.add(oleeResourceInstance);
-                    }
-                    else {
+                    } else {
                         oleInstancesAddList.add(oleeResourceInstance);
                     }
                 }
@@ -1981,7 +1974,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         //form.setDeletedInstance(oleInstancesDeleteList.size());
         BibTrees bibTrees = new BibTrees();
         //StringBuffer deletdInfo  = new StringBuffer();
-        for(OLEEResourceInstance oleeResourceInstance : oleInstancesDeleteList){
+        for (OLEEResourceInstance oleeResourceInstance : oleInstancesDeleteList) {
             //deletdInfo.append(oleeResourceInstance.getInstanceTitle());
             //deletdInfo.append(",");
             BibTree bibTree = new BibTree();
@@ -1998,11 +1991,11 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             getBusinessObjectService().delete(oleeResourceInstance);
             Map<String, String> criteriaMap = new HashMap<>();
             criteriaMap.put(OLEConstants.INSTANCE_ID, oleeResourceInstance.getInstanceId());
-            getBusinessObjectService().deleteMatching(OleCopy.class,criteriaMap);
+            getBusinessObjectService().deleteMatching(OleCopy.class, criteriaMap);
         }
-        try{
+        try {
             getDocstoreClientLocator().getDocstoreClient().processBibTrees(bibTrees);
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
        /* if (deletdInfo.length() > 0) {
@@ -2010,7 +2003,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             form.setDeletedInstanceInfo(info);
         }*/
 
-       return getUIFModelAndView(form);
+        return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=addSearchCriteria")
@@ -2068,10 +2061,10 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
         HttpSession session = request.getSession();
         session.setAttribute("oleERSIdentifier", oleeResourceRecordDocument.getOleERSIdentifier());
-        session.setAttribute("createChildEResource",Boolean.TRUE);
+        session.setAttribute("createChildEResource", Boolean.TRUE);
         StringBuffer instanceIds = new StringBuffer();
-        for(OLEEResourceInstance oleeResourceInstance : oleeResourceInstanceList) {
-            if(oleeResourceInstance.isSelect()) {
+        for (OLEEResourceInstance oleeResourceInstance : oleeResourceInstanceList) {
+            if (oleeResourceInstance.isSelect()) {
                 instanceIds.append(oleeResourceInstance.getInstanceId());
                 instanceIds.append(",");
             }
@@ -2085,7 +2078,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         return performRedirect(form, url);
 
     }
-
 
 
     @RequestMapping(params = "methodToCall=packageSearch")
@@ -2116,7 +2108,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
 
         List<String> platformProviderList = oleEResourceRecordForm.getPlatformProviderList();
-        if(StringUtils.isNotEmpty(platformProvider)) {
+        if (StringUtils.isNotEmpty(platformProvider)) {
             platformProviderList.add(platformProvider);
         }
         StringBuilder stringBuilder = new StringBuilder();
@@ -2126,10 +2118,10 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         stringBuilder.append(titleInstanceType);
 
         List<OleGokbView> oleGokbViews = null;
-       List<OleGokbTipp> oleGokbTipps = new ArrayList<>() ;
+        List<OleGokbTipp> oleGokbTipps = new ArrayList<>();
         List<String> isbnList = new ArrayList<>();
         for (OLEStandardIdentifier oleStandardIdentifier : oleeResourceRecordDocument.getStandardIdentifiers()) {
-            if(oleStandardIdentifier.getIdentifier() != null && oleStandardIdentifier.getIdentifierType() != null && oleStandardIdentifier.getIdentifierType().equalsIgnoreCase("issn") && StringUtils.isNotEmpty(oleStandardIdentifier.getIdentifier())) {
+            if (oleStandardIdentifier.getIdentifier() != null && oleStandardIdentifier.getIdentifierType() != null && oleStandardIdentifier.getIdentifierType().equalsIgnoreCase("issn") && StringUtils.isNotEmpty(oleStandardIdentifier.getIdentifier())) {
                 isbnList.add(oleStandardIdentifier.getIdentifier());
             }
         }
@@ -2139,8 +2131,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             OLEGOKBSearchDaoOjb olegokbSearchDaoOjb = (OLEGOKBSearchDaoOjb) SpringContext.getBean("oleGOKBSearchDaoOjb");
             oleGokbTipps = olegokbSearchDaoOjb.packageSearch(packageName, platformName, platformProviderList, title, isbnList, titleInstanceType, packageStatusList, platformStatusList, tippStatus);
 
-        }
-        else {
+        } else {
             oleGokbViews = (List<OleGokbView>) getBusinessObjectService().findAll(OleGokbView.class);
         }
 
@@ -2184,9 +2175,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=showTipps")
     public ModelAndView showTipps(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response) {
-
-
+                                  HttpServletRequest request, HttpServletResponse response) {
 
 
         return super.navigate(form, result, request, response);
@@ -2213,15 +2202,15 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
 
         List<OLEGOKbPlatform> goKbPlatformList = new ArrayList<>();
-        for(OLEGOKbPlatform gokbPlatform : oleeResourceRecordDocument.getGoKbPlatformList()) {
-            if(gokbPlatform.isSelect()) {
+        for (OLEGOKbPlatform gokbPlatform : oleeResourceRecordDocument.getGoKbPlatformList()) {
+            if (gokbPlatform.isSelect()) {
                 OLEGOKBSearchDaoOjb olegokbSearchDaoOjb = (OLEGOKBSearchDaoOjb) SpringContext.getBean("oleGOKBSearchDaoOjb");
-                 String resultSetSize = (String)getOleeResourceHelperService().getParameter("OLE","OLE-PDP","Lookup","RESULTS_LIMIT");
+                String resultSetSize = (String) getOleeResourceHelperService().getParameter("OLE", "OLE-PDP", "Lookup", "RESULTS_LIMIT");
                 List<OleGokbTipp> oleGokbTippList = olegokbSearchDaoOjb.getTippsByPlatform(gokbPlatform.getPlatformId());
-                List<OLEGOKbTIPP> olegoKbTIPP =getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList);
-                if(olegoKbTIPP!=null &&  resultSetSize !=null && olegoKbTIPP.size()> Integer.valueOf(resultSetSize)){
-                    gokbPlatform.setGoKbTIPPList(olegoKbTIPP.subList(0,Integer.valueOf(resultSetSize)));
-                }else{
+                List<OLEGOKbTIPP> olegoKbTIPP = getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList);
+                if (olegoKbTIPP != null && resultSetSize != null && olegoKbTIPP.size() > Integer.valueOf(resultSetSize)) {
+                    gokbPlatform.setGoKbTIPPList(olegoKbTIPP.subList(0, Integer.valueOf(resultSetSize)));
+                } else {
                     gokbPlatform.setGoKbTIPPList(olegoKbTIPP);
                 }
                 goKbPlatformList.add(gokbPlatform);
@@ -2265,9 +2254,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
         KRADServiceLocatorWeb.getDocumentService().updateDocument(oleeResourceRecordDocument);
-        Map<String,String> platformMap = new HashMap<String,String>();
-        platformMap.put("gokbPlatformId","111");
-        List<OleGokbPlatform> olegoKbPlatforms = (List<OleGokbPlatform>)KRADServiceLocator.getBusinessObjectService().findMatching(OleGokbPlatform.class,platformMap);
+        Map<String, String> platformMap = new HashMap<String, String>();
+        platformMap.put("gokbPlatformId", "111");
+        List<OleGokbPlatform> olegoKbPlatforms = (List<OleGokbPlatform>) KRADServiceLocator.getBusinessObjectService().findMatching(OleGokbPlatform.class, platformMap);
 
         OLEBatchProcessProfileBo gokbImportProfile = getOleeResourceHelperService().getGOKBImportProfile(oleeResourceRecordDocument.getProfile());
 
@@ -2277,15 +2266,15 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             return getUIFModelAndView(oleEResourceRecordForm);
         }*/
 
-        if(oleEResourceRecordForm.isImportPackageMetaDataOnly() || (bibMarcRecords != null && bibMarcRecords.size() > 0)) {
+        if (oleEResourceRecordForm.isImportPackageMetaDataOnly() || (bibMarcRecords != null && bibMarcRecords.size() > 0)) {
 
             OleGokbPackage oleGokbPackage = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OleGokbPackage.class, oleEResourceRecordForm.getPackageId());
-            getOleeResourceHelperService().overwriteEresourceWithPackage(oleeResourceRecordDocument, oleGokbPackage,"");
+            getOleeResourceHelperService().overwriteEresourceWithPackage(oleeResourceRecordDocument, oleGokbPackage, "");
             getOleeResourceHelperService().insertOrUpdateGokbElementsForEResource(oleeResourceRecordDocument, false);
             getOleeResourceHelperService().createOrUpdateVendorAndPlatform(oleeResourceRecordDocument);
         }
 
-        if(bibMarcRecords != null && bibMarcRecords.size() > 0) {
+        if (bibMarcRecords != null && bibMarcRecords.size() > 0) {
             getOleeResourceHelperService().importTipps(gokbImportProfile, bibMarcRecords);
         }
         return getUIFModelAndView(oleEResourceRecordForm);
@@ -2297,7 +2286,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                                     HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
-        if(oleeResourceRecordDocument.getTitle() !=null && StringUtils.isNotEmpty(oleeResourceRecordDocument.getTitle())){
+        if (oleeResourceRecordDocument.getTitle() != null && StringUtils.isNotEmpty(oleeResourceRecordDocument.getTitle())) {
             oleEResourceRecordForm.setPackageName(oleeResourceRecordDocument.getTitle());
         }
 //        if(oleeResourceRecordDocument.getPlatformProvider() !=null && StringUtils.isNotEmpty(oleeResourceRecordDocument.getPlatformProvider())){
@@ -2308,7 +2297,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
         oleEResourceRecordForm.setPlatformProviderList(platformProviderList);
 
-        if(oleeResourceRecordDocument.getIsbn() != null && StringUtils.isNotEmpty(oleeResourceRecordDocument.getIsbn())){
+        if (oleeResourceRecordDocument.getIsbn() != null && StringUtils.isNotEmpty(oleeResourceRecordDocument.getIsbn())) {
             oleeResourceRecordDocument.getStandardIdentifiers().get(0).setIdentifier(oleeResourceRecordDocument.getIsbn());
         }
         this.packageSearch(oleEResourceRecordForm, result, request, response);
@@ -2343,10 +2332,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             List<OLEGOKbMappingValue> goKbMappingValueList = (List<OLEGOKbMappingValue>) getBusinessObjectService().findMatching(OLEGOKbMappingValue.class, map);
             if (goKbMappingValueList != null && goKbMappingValueList.size() > 0) {
                 for (OLEGOKbMappingValue olegoKbMappingValue : goKbMappingValueList) {
-                    if(StringUtils.isNotEmpty(olegoKbMappingValue.getLocalValue())) {
+                    if (StringUtils.isNotEmpty(olegoKbMappingValue.getLocalValue())) {
                         olegoKbMappingValue.setGokbFlag(false);
-                    }
-                    else {
+                    } else {
                         olegoKbMappingValue.setGokbFlag(true);
                     }
                     oleEResourceRecordForm.getOleGOKbMappingValueList().add(olegoKbMappingValue);
@@ -2379,10 +2367,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         List<OLEGOKbMappingValue> goKbMappingValueList = (List<OLEGOKbMappingValue>) getBusinessObjectService().findMatching(OLEGOKbMappingValue.class, map);
         if (goKbMappingValueList != null && goKbMappingValueList.size() > 0) {
             for (OLEGOKbMappingValue olegoKbMappingValue : goKbMappingValueList) {
-                if(StringUtils.isNotEmpty(olegoKbMappingValue.getLocalValue())) {
+                if (StringUtils.isNotEmpty(olegoKbMappingValue.getLocalValue())) {
                     olegoKbMappingValue.setGokbFlag(false);
-                }
-                else {
+                } else {
                     olegoKbMappingValue.setGokbFlag(true);
                 }
                 oleeResourceRecordDocument.getOleGOKbMappingValueList().add(olegoKbMappingValue);
@@ -2411,12 +2398,12 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         map.put("oleERSIdentifier", eResourceId);
         List<OLEEResourceRecordDocument> oleeResourceRecordDocuments = (List<OLEEResourceRecordDocument>) getBusinessObjectService().findMatching(OLEEResourceRecordDocument.class, map);
         OLEEResourceRecordDocument oleeResourceRecordDocument = null;
-        if(oleeResourceRecordDocuments != null && oleeResourceRecordDocuments.size() > 0) {
+        if (oleeResourceRecordDocuments != null && oleeResourceRecordDocuments.size() > 0) {
             oleeResourceRecordDocument = oleeResourceRecordDocuments.get(0);
             int index = Integer.parseInt(request.getParameter("index"));
             getOleeResourceHelperService().updateVendorInfo(oleeResourceRecordDocument);
 
-            if(oleeResourceRecordDocument.getOleERSContacts() != null && oleeResourceRecordDocument.getOleERSContacts().size() >= index) {
+            if (oleeResourceRecordDocument.getOleERSContacts() != null && oleeResourceRecordDocument.getOleERSContacts().size() >= index) {
                 OLEEResourceContacts oleeResourceContacts = oleeResourceRecordDocument.getOleERSContacts().get(index);
                 oleEResourceRecordForm.setVendorNameForContacts(oleeResourceContacts.getOrganization());
                 oleEResourceRecordForm.setPhoneNos(oleeResourceContacts.getOlePhoneNumbers());
@@ -2431,11 +2418,11 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
     public ModelAndView deleteEresource(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
-        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument)oleEResourceRecordForm.getDocument();
-        if(oleeResourceRecordDocument.geteRSInstances().size()==0 && oleeResourceRecordDocument.getOleLinkedEresources().size() ==0 && oleeResourceRecordDocument.getOleERSPOItems().size()==0 && oleeResourceRecordDocument.getOleERSLicenseRequests().size()==0){
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
+        if (oleeResourceRecordDocument.geteRSInstances().size() == 0 && oleeResourceRecordDocument.getOleLinkedEresources().size() == 0 && oleeResourceRecordDocument.getOleERSPOItems().size() == 0 && oleeResourceRecordDocument.getOleERSLicenseRequests().size() == 0) {
             getBusinessObjectService().delete(oleeResourceRecordDocument);
-        }else{
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO,OLEConstants.OLEEResourceRecord.ERROR_LINKED_RECORD);
+        } else {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, OLEConstants.OLEEResourceRecord.ERROR_LINKED_RECORD);
             return getUIFModelAndView(oleEResourceRecordForm);
         }
         String url = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base") + "?selectedTab=oleSelectAcquire";
@@ -2587,7 +2574,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 return getUIFModelAndView(oleEResourceRecordForm);
             }
         }
-        return addLine(oleEResourceRecordForm,result,request,response);
+        return addLine(oleEResourceRecordForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=addEResAccountingLine")
@@ -2604,11 +2591,11 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             GlobalVariables.getMessageMap().putErrorForSectionId("OLEEResourceMainTab-AccountingLines", OLEConstants.OLEEResourceRecord.ERROR_FILL_MANDATORY_FIELDS);
             return getUIFModelAndView(oleEResourceRecordForm);
         } else {
-            if (getOleEResourceSearchService().validateAccountingLines(accountingLine,"OLEEResourceMainTab-AccountingLines")) {
+            if (getOleEResourceSearchService().validateAccountingLines(accountingLine, "OLEEResourceMainTab-AccountingLines")) {
                 return getUIFModelAndView(oleEResourceRecordForm);
             }
         }
-        return addLine(oleEResourceRecordForm,result,request,response);
+        return addLine(oleEResourceRecordForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=populateAccountingLines")
@@ -2646,45 +2633,41 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
     @RequestMapping(params = "methodToCall=startAccessWorkflow")
     public ModelAndView startAccessWorkflow(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                                HttpServletRequest request, HttpServletResponse response)  {
-
+                                            HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
         OLEAccessActivationWorkFlow accessActivationWorkFlow = null;
-        String status=null;
-        String roleId=null;
-        String namespaceCode = null;
+        String status = null;
+        String roleId = null;
         MaintenanceDocument newDocument = null;
         deleteMaintenanceLock();
-        org.kuali.rice.krad.service.DocumentService documentService =  GlobalResourceLoader.getService(OLEConstants.DOCUMENT_HEADER_SERVICE);
-        try{
-        newDocument = (MaintenanceDocument) documentService.getNewDocument("OLE_ERES_ACCESS_MD");
-        }catch(Exception e)
-        {
+        org.kuali.rice.krad.service.DocumentService documentService = GlobalResourceLoader.getService(OLEConstants.DOCUMENT_HEADER_SERVICE);
+        try {
+            newDocument = (MaintenanceDocument) documentService.getNewDocument("OLE_ERES_ACCESS_MD");
+        } catch (Exception e) {
             e.printStackTrace();
         }
         newDocument.getDocumentHeader().setDocumentDescription(OLEConstants.ACCESS_ACTIVATION_DESCRIPTION);
-        OLEEResourceAccessActivation oleeResourceAccess = (OLEEResourceAccessActivation)newDocument.getNewMaintainableObject().getDataObject();
+        OLEEResourceAccessActivation oleeResourceAccess = (OLEEResourceAccessActivation) newDocument.getNewMaintainableObject().getDataObject();
         oleeResourceAccess.setDateAccessConfirmed(oleeResourceRecordDocument.getDateAccessConfirmed());
         oleeResourceAccess.setWorkflowId(oleeResourceRecordDocument.getWorkflowConfigurationId());
         oleeResourceAccess.setOleERSIdentifier(oleeResourceRecordDocument.getOleERSIdentifier());
-        Map<String,String> accessConfigMap = new HashMap<String,String>();
-        accessConfigMap.put("accessActivationConfigurationId",oleeResourceRecordDocument.getWorkflowConfigurationId());
-        List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows  = (List<OLEAccessActivationWorkFlow>)KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(OLEAccessActivationWorkFlow.class,accessConfigMap,"orderNo",true);
-        if(oleAccessActivationWorkFlows!=null && oleAccessActivationWorkFlows.size()>0){
-           accessActivationWorkFlow  = oleAccessActivationWorkFlows.get(0);
-           status = accessActivationWorkFlow.getStatus();
-           roleId = accessActivationWorkFlow.getRoleId();
-       }
-        else{
-           GlobalVariables.getMessageMap().putError("accessActivationConfigurationId", "Invalid workflow");
-           return getUIFModelAndView(form);
-       }
+        Map<String, String> accessConfigMap = new HashMap<String, String>();
+        accessConfigMap.put("accessActivationConfigurationId", oleeResourceRecordDocument.getWorkflowConfigurationId());
+        List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows = (List<OLEAccessActivationWorkFlow>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(OLEAccessActivationWorkFlow.class, accessConfigMap, "orderNo", true);
+        if (oleAccessActivationWorkFlows != null && oleAccessActivationWorkFlows.size() > 0) {
+            accessActivationWorkFlow = oleAccessActivationWorkFlows.get(0);
+            status = accessActivationWorkFlow.getStatus();
+            roleId = accessActivationWorkFlow.getRoleId();
+        } else {
+            GlobalVariables.getMessageMap().putError("accessActivationConfigurationId", "Invalid workflow");
+            return getUIFModelAndView(form);
+        }
         oleeResourceAccess.setAccessStatus(status);
         List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
         org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
         Role role = roleService.getRole(roleId);
-        Collection<String> principalIds = (Collection<String>) roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(),role.getName(),new HashMap<String, String>());
+        Collection<String> principalIds = (Collection<String>) roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(), role.getName(), new HashMap<String, String>());
         IdentityService identityService = KimApiServiceLocator.getIdentityService();
         List<String> principalList = new ArrayList<String>();
         principalList.addAll(principalIds);
@@ -2692,14 +2675,14 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         AdHocRoutePerson adHocRoutePerson;
         OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = new OLEEResourceAccessWorkflow();
         oleeResourceAccessWorkflow.setStatus(status);
-        if(principals!=null && principals.size()>0){
-        oleeResourceAccessWorkflow.setCurrentOwner(principals.get(0).getPrincipalName());
+        if (principals != null && principals.size() > 0) {
+            oleeResourceAccessWorkflow.setCurrentOwner(principals.get(0).getPrincipalName());
         }
         oleeResourceAccessWorkflow.setDescription(oleeResourceRecordDocument.getAccessDescription());
         oleeResourceAccessWorkflow.setLastApproved(new Timestamp(System.currentTimeMillis()));
         oleeResourceAccess.getOleERSAccessWorkflows().add(oleeResourceAccessWorkflow);
-        if(principals!=null && principals.size()>0){
-            for(Principal principal : principals){
+        if (principals != null && principals.size() > 0) {
+            for (Principal principal : principals) {
                 adHocRoutePerson = new AdHocRoutePerson();
                 adHocRoutePerson.setId(principal.getPrincipalId());
                 adHocRoutePerson.setName(principal.getPrincipalName());
@@ -2709,36 +2692,34 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 adHocRouteRecipients.add(adHocRoutePerson);
             }
         }
-        List<AdHocRouteRecipient>  adHocRouteRecipientList = new ArrayList<AdHocRouteRecipient>();
+        List<AdHocRouteRecipient> adHocRouteRecipientList = new ArrayList<AdHocRouteRecipient>();
         adHocRouteRecipientList.addAll(adHocRouteRecipients);
-        try{
-            getDocumentService().routeDocument(newDocument, "Needed Approval for the status : " + status + " from the members of the Role : " + role.getName()  , adHocRouteRecipientList);
-            List<ActionTakenValue>  actionTakenList = (List<ActionTakenValue>)KEWServiceLocator.getActionTakenService().getActionsTaken(newDocument.getDocumentNumber());
-            ActionTakenValue actionTakenValue = (ActionTakenValue)actionTakenList.get(actionTakenList.size()-1);
+        try {
+            getDocumentService().routeDocument(newDocument, "Needed Approval for the status : " + status + " from the members of the Role : " + role.getName(), adHocRouteRecipientList);
+            List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(newDocument.getDocumentNumber());
+            ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
             actionTakenValue.setAnnotation("Initiated the access activation workflow");
             KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
             oleeResourceRecordDocument.setOleAccessActivationDocumentNumber(newDocument.getDocumentNumber());
             deleteMaintenanceLock();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-   return  getUIFModelAndView(form);
+        return getUIFModelAndView(form);
     }
 
 
-
-
-    public void deleteMaintenanceLock(){
-        List<MaintenanceLock> maintenanceLocks = (List<MaintenanceLock>)getBusinessObjectService().findAll(MaintenanceLock.class);
+    public void deleteMaintenanceLock() {
+        List<MaintenanceLock> maintenanceLocks = (List<MaintenanceLock>) getBusinessObjectService().findAll(MaintenanceLock.class);
         List<MaintenanceLock> deleteMaintenanceLockList = new ArrayList<MaintenanceLock>();
-        if(maintenanceLocks!=null && maintenanceLocks.size()>0){
-            for(MaintenanceLock maintenanceLock : maintenanceLocks){
-                if(maintenanceLock.getLockingRepresentation().contains("org.kuali.ole.select.bo.OLEEResourceAccessActivation")){
+        if (maintenanceLocks != null && maintenanceLocks.size() > 0) {
+            for (MaintenanceLock maintenanceLock : maintenanceLocks) {
+                if (maintenanceLock.getLockingRepresentation().contains("org.kuali.ole.select.bo.OLEEResourceAccessActivation")) {
                     deleteMaintenanceLockList.add(maintenanceLock);
                 }
             }
         }
-        if(deleteMaintenanceLockList.size()>0){
+        if (deleteMaintenanceLockList.size() > 0) {
             getBusinessObjectService().delete(deleteMaintenanceLockList);
         }
     }
