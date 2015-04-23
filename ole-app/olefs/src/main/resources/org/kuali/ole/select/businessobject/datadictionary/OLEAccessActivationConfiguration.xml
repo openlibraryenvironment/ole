@@ -29,7 +29,7 @@
         <property name="maxLength" value="50"/>
         <property name="required" value="false"/>
         <property name="validCharactersConstraint">
-            <bean  parent="AnyCharacterPatternConstraint"/>
+            <bean  parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
         </property>
         <property name="controlField">
             <bean parent="Uif-TextControl" p:size="30"/>
@@ -47,7 +47,7 @@
         <property name="maxLength" value="50"/>
         <property name="required" value="false"/>
         <property name="validCharactersConstraint">
-            <bean  parent="AnyCharacterPatternConstraint"/>
+            <bean  parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
         </property>
         <property name="controlField">
             <bean parent="Uif-TextControl" p:size="30"/>

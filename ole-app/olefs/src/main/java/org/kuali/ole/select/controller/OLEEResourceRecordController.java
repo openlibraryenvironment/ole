@@ -2169,7 +2169,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         }*/
 
         List<OLEGOKbPackage> olegoKbPackages = getOleeResourceHelperService().searchGokbForPackagess(oleGokbTipps, oleEResourceRecordForm);
-        if(olegoKbPackages.size()==0){
+        if (olegoKbPackages.size() == 0) {
             oleEResourceRecordForm.setShowMultiplePlatforms(false);
             oleeResourceRecordDocument.setGoKbPlatformList(null);
             oleeResourceRecordDocument.setGoKbTIPPList(null);
@@ -2214,28 +2214,28 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         for (OLEGOKbPlatform gokbPlatform : oleeResourceRecordDocument.getGoKbPlatformList()) {
             if (gokbPlatform.isSelect()) {
                 OLEGOKBSearchDaoOjb olegokbSearchDaoOjb = (OLEGOKBSearchDaoOjb) SpringContext.getBean("oleGOKBSearchDaoOjb");
-                 Integer resultSetSize = OJBUtility.getResultLimit();
-                Integer packageId =0;
-                if(StringUtils.isEmpty(oleEResourceRecordForm.getPackageId())){
-                    if(oleeResourceRecordDocument.getGoKbPackageList()!= null && oleeResourceRecordDocument.getGoKbPackageList().size()>0){
-                    packageId =  oleeResourceRecordDocument.getGoKbPackageList().get(0).getPackageId();
-                    }else{
+                Integer resultSetSize = OJBUtility.getResultLimit();
+                Integer packageId = 0;
+                if (StringUtils.isEmpty(oleEResourceRecordForm.getPackageId())) {
+                    if (oleeResourceRecordDocument.getGoKbPackageList() != null && oleeResourceRecordDocument.getGoKbPackageList().size() > 0) {
+                        packageId = oleeResourceRecordDocument.getGoKbPackageList().get(0).getPackageId();
+                    } else {
                         packageId = Integer.valueOf(oleEResourceRecordForm.getPackageId());
                     }
                 }
                 oleeResourceRecordDocument.setGokbPackageId(packageId);
-                List<OleGokbTipp> oleGokbTippList = olegokbSearchDaoOjb.getTippsByPlatform(gokbPlatform.getPlatformId(),null);
+                List<OleGokbTipp> oleGokbTippList = olegokbSearchDaoOjb.getTippsByPlatform(gokbPlatform.getPlatformId(), null);
                 List<OLEGOKbTIPP> olegoKbTIPP;
-                if(oleGokbTippList!=null &&  resultSetSize !=null && oleGokbTippList.size()>resultSetSize){
-                    olegoKbTIPP =getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList.subList(0,resultSetSize));
-                }else{
-                    olegoKbTIPP =getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList);
+                if (oleGokbTippList != null && resultSetSize != null && oleGokbTippList.size() > resultSetSize) {
+                    olegoKbTIPP = getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList.subList(0, resultSetSize));
+                } else {
+                    olegoKbTIPP = getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList);
                 }
-                    gokbPlatform.setGoKbTIPPList(olegoKbTIPP);
-                }
-                goKbPlatformList.add(gokbPlatform);
-               /* gokbPlatform.setSelect(Boolean.FALSE);*/
+                gokbPlatform.setGoKbTIPPList(olegoKbTIPP);
             }
+            goKbPlatformList.add(gokbPlatform);
+               /* gokbPlatform.setSelect(Boolean.FALSE);*/
+        }
 
         oleeResourceRecordDocument.setSelectedGoKbPlatforms(goKbPlatformList);
         oleEResourceRecordForm.setShowTippsWithMorePlatform(true);
@@ -2651,10 +2651,8 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
         OLEAccessActivationWorkFlow accessActivationWorkFlow = null;
-        String status = null;
-        String roleId = null;
         MaintenanceDocument newDocument = null;
-        deleteMaintenanceLock();
+        getOleeResourceHelperService().deleteMaintenanceLock();
         org.kuali.rice.krad.service.DocumentService documentService = GlobalResourceLoader.getService(OLEConstants.DOCUMENT_HEADER_SERVICE);
         try {
             newDocument = (MaintenanceDocument) documentService.getNewDocument("OLE_ERES_ACCESS_MD");
@@ -2670,72 +2668,70 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         accessConfigMap.put("accessActivationConfigurationId", oleeResourceRecordDocument.getWorkflowConfigurationId());
         List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows = (List<OLEAccessActivationWorkFlow>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(OLEAccessActivationWorkFlow.class, accessConfigMap, "orderNo", true);
         if (oleAccessActivationWorkFlows != null && oleAccessActivationWorkFlows.size() > 0) {
-            accessActivationWorkFlow = oleAccessActivationWorkFlows.get(0);
-            status = accessActivationWorkFlow.getStatus();
-            roleId = accessActivationWorkFlow.getRoleId();
+            boolean found = false;
+            for (int i = 0; i < oleAccessActivationWorkFlows.size(); i++) {
+                accessActivationWorkFlow = oleAccessActivationWorkFlows.get(i);
+                oleeResourceAccess.setAccessStatus(accessActivationWorkFlow.getStatus());
+                List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
+                org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
+                Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
+                Collection<String> principalIds = (Collection<String>) roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(), role.getName(), new HashMap<String, String>());
+                IdentityService identityService = KimApiServiceLocator.getIdentityService();
+                List<String> principalList = new ArrayList<String>();
+                principalList.addAll(principalIds);
+                List<Principal> principals = identityService.getPrincipals(principalList);
+                AdHocRoutePerson adHocRoutePerson;
+                OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = new OLEEResourceAccessWorkflow();
+                oleeResourceAccessWorkflow.setDescription(oleeResourceRecordDocument.getAccessDescription());
+                oleeResourceAccessWorkflow.setLastApproved(new Timestamp(System.currentTimeMillis()));
+                oleeResourceAccess.getOleERSAccessWorkflows().add(oleeResourceAccessWorkflow);
+                StringBuffer currentOwnerBuffer = new StringBuffer();
+                if (principals != null && principals.size() > 0) {
+                    oleeResourceAccessWorkflow.setStatus(accessActivationWorkFlow.getStatus());
+                    found = true;
+                    for (Principal principal : principals) {
+                        currentOwnerBuffer.append(principal.getPrincipalName() + ",");
+                        adHocRoutePerson = new AdHocRoutePerson();
+                        adHocRoutePerson.setId(principal.getPrincipalId());
+                        adHocRoutePerson.setName(principal.getPrincipalName());
+                        adHocRoutePerson.setActionRequested("A");
+                        adHocRoutePerson.setdocumentNumber(newDocument.getDocumentNumber());
+                        adHocRoutePerson.setType(0);
+                        adHocRouteRecipients.add(adHocRoutePerson);
+                    }
+                    if (currentOwnerBuffer.length() > 0) {
+                        oleeResourceAccessWorkflow.setCurrentOwner(currentOwnerBuffer.substring(0, currentOwnerBuffer.length() - 1));
+                    }
+                    List<AdHocRouteRecipient> adHocRouteRecipientList = new ArrayList<AdHocRouteRecipient>();
+                    adHocRouteRecipientList.addAll(adHocRouteRecipients);
+                    try {
+                        getDocumentService().routeDocument(newDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + role.getName(), adHocRouteRecipientList);
+                        List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(newDocument.getDocumentNumber());
+                        ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
+                        actionTakenValue.setAnnotation("Initiated the access activation workflow");
+                        KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
+                        oleeResourceRecordDocument.setOleAccessActivationDocumentNumber(newDocument.getDocumentNumber());
+                        getOleeResourceHelperService().deleteMaintenanceLock();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
+            if (!found) {
+                try {
+                    getOleeResourceHelperService().setWorkflowCompletedStatus(oleeResourceAccess, newDocument, true);
+                    oleeResourceRecordDocument.setOleAccessActivationDocumentNumber(newDocument.getDocumentNumber());
+                    return getUIFModelAndView(form);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         } else {
             GlobalVariables.getMessageMap().putError("accessActivationConfigurationId", "Invalid workflow");
             return getUIFModelAndView(form);
         }
-        oleeResourceAccess.setAccessStatus(status);
-        List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
-        org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
-        Role role = roleService.getRole(roleId);
-        Collection<String> principalIds = (Collection<String>) roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(), role.getName(), new HashMap<String, String>());
-        IdentityService identityService = KimApiServiceLocator.getIdentityService();
-        List<String> principalList = new ArrayList<String>();
-        principalList.addAll(principalIds);
-        List<Principal> principals = identityService.getPrincipals(principalList);
-        AdHocRoutePerson adHocRoutePerson;
-        OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = new OLEEResourceAccessWorkflow();
-        oleeResourceAccessWorkflow.setStatus(status);
-        if (principals != null && principals.size() > 0) {
-            oleeResourceAccessWorkflow.setCurrentOwner(principals.get(0).getPrincipalName());
-        }
-        oleeResourceAccessWorkflow.setDescription(oleeResourceRecordDocument.getAccessDescription());
-        oleeResourceAccessWorkflow.setLastApproved(new Timestamp(System.currentTimeMillis()));
-        oleeResourceAccess.getOleERSAccessWorkflows().add(oleeResourceAccessWorkflow);
-        if (principals != null && principals.size() > 0) {
-            for (Principal principal : principals) {
-                adHocRoutePerson = new AdHocRoutePerson();
-                adHocRoutePerson.setId(principal.getPrincipalId());
-                adHocRoutePerson.setName(principal.getPrincipalName());
-                adHocRoutePerson.setActionRequested("A");
-                adHocRoutePerson.setdocumentNumber(newDocument.getDocumentNumber());
-                adHocRoutePerson.setType(0);
-                adHocRouteRecipients.add(adHocRoutePerson);
-            }
-        }
-        List<AdHocRouteRecipient> adHocRouteRecipientList = new ArrayList<AdHocRouteRecipient>();
-        adHocRouteRecipientList.addAll(adHocRouteRecipients);
-        try {
-            getDocumentService().routeDocument(newDocument, "Needed Approval for the status : " + status + " from the members of the Role : " + role.getName(), adHocRouteRecipientList);
-            List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(newDocument.getDocumentNumber());
-            ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
-            actionTakenValue.setAnnotation("Initiated the access activation workflow");
-            KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
-            oleeResourceRecordDocument.setOleAccessActivationDocumentNumber(newDocument.getDocumentNumber());
-            deleteMaintenanceLock();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return getUIFModelAndView(form);
-    }
-
-
-    public void deleteMaintenanceLock() {
-        List<MaintenanceLock> maintenanceLocks = (List<MaintenanceLock>) getBusinessObjectService().findAll(MaintenanceLock.class);
-        List<MaintenanceLock> deleteMaintenanceLockList = new ArrayList<MaintenanceLock>();
-        if (maintenanceLocks != null && maintenanceLocks.size() > 0) {
-            for (MaintenanceLock maintenanceLock : maintenanceLocks) {
-                if (maintenanceLock.getLockingRepresentation().contains("org.kuali.ole.select.bo.OLEEResourceAccessActivation")) {
-                    deleteMaintenanceLockList.add(maintenanceLock);
-                }
-            }
-        }
-        if (deleteMaintenanceLockList.size() > 0) {
-            getBusinessObjectService().delete(deleteMaintenanceLockList);
-        }
     }
 
     @RequestMapping(params = "methodToCall=downloadEventAttachment1")

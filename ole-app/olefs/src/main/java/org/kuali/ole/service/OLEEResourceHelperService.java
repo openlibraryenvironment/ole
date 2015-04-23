@@ -35,9 +35,18 @@ import org.kuali.ole.vnd.document.service.impl.VendorServiceImpl;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.api.parameter.ParameterKey;
+import org.kuali.rice.kew.actionrequest.ActionRequestValue;
+import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
+import org.kuali.rice.kew.actiontaken.ActionTakenValue;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -55,6 +64,7 @@ public class OLEEResourceHelperService {
     private DocstoreClientLocator docstoreClientLocator;
     private static final Logger LOG = Logger.getLogger(OLEEResourceHelperService.class);
     private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
 
     private GokbRdbmsService gokbRdbmsService;
     private GokbLocalService gokbLocalService;
@@ -94,6 +104,13 @@ public class OLEEResourceHelperService {
         }
 
         return vendorService;
+    }
+
+    public DocumentService getDocumentService() {
+        if (this.documentService == null) {
+            this.documentService = KRADServiceLocatorWeb.getDocumentService();
+        }
+        return this.documentService;
     }
 
     /**
@@ -1793,5 +1810,71 @@ public class OLEEResourceHelperService {
         Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
 
         return parameter!=null?parameter.getValue():null;
+    }
+
+    public void setWorkflowCompletedStatus(OLEEResourceAccessActivation oleeResourceAccess, MaintenanceDocument maintenanceDocument,boolean newDocument) throws Exception {
+        oleeResourceAccess.setWorkflowName(null);
+        oleeResourceAccess.setWorkflowId(null);
+        oleeResourceAccess.setWorkflowDescription(null);
+        oleeResourceAccess.setAccessStatus("Workflow Completed");
+        List<OLEEResourceAccessWorkflow> accessWorkflowList = oleeResourceAccess.getOleERSAccessWorkflows();
+        OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = accessWorkflowList.get(accessWorkflowList.size() - 1);
+        oleeResourceAccessWorkflow.setStatus("Workflow Completed");
+        oleeResourceAccessWorkflow.setCurrentOwner(maintenanceDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        if (newDocument){
+            getDocumentService().saveDocument(maintenanceDocument);
+        }else{
+            DocumentRouteHeaderValue documentBo = KEWServiceLocator.getRouteHeaderService().getRouteHeader(maintenanceDocument.getDocumentNumber());
+            documentBo.setDocRouteStatus("S");
+            getBusinessObjectService().save(documentBo);
+        }
+        deleteMaintenanceLock();
+    }
+
+    public void setWorkflowCompletedStatusAfterApproval(OLEEResourceAccessActivation oleeResourceAccess, MaintenanceDocument maintenanceDocument) throws Exception {
+        ActionRequestService actionRequestService = KEWServiceLocator.getActionRequestService();
+        DocumentRouteHeaderValue documentBo = KEWServiceLocator.getRouteHeaderService().getRouteHeader(maintenanceDocument.getDocumentNumber());
+        documentBo.setDocRouteStatus("S");
+        KEWServiceLocator.getRouteHeaderService().saveRouteHeader(documentBo);
+        oleeResourceAccess.setWorkflowName(null);
+        oleeResourceAccess.setWorkflowId(null);
+        oleeResourceAccess.setWorkflowDescription(null);
+        oleeResourceAccess.setAccessStatus("Workflow Completed");
+        List<OLEEResourceAccessWorkflow> accessWorkflowList = oleeResourceAccess.getOleERSAccessWorkflows();
+        OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = accessWorkflowList.get(accessWorkflowList.size() - 1);
+        oleeResourceAccessWorkflow.setStatus("Workflow Completed");
+        oleeResourceAccessWorkflow.setCurrentOwner(maintenanceDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        getDocumentService().saveDocument(maintenanceDocument);
+        List<ActionRequestValue> actionRequestValueList = actionRequestService.findAllPendingRequests(maintenanceDocument.getDocumentNumber());
+        KEWServiceLocator.getActionRequestService().deleteByDocumentId(maintenanceDocument.getDocumentNumber());
+        ActionTakenValue actionTakenValue;
+        for (ActionRequestValue actionRequestValue : actionRequestValueList) {
+            if (actionRequestValue.getPrincipalId().equalsIgnoreCase(GlobalVariables.getUserSession().getPrincipalId())) {
+                actionTakenValue = new ActionTakenValue();
+                actionTakenValue.setAnnotation("Approved status : " + oleeResourceAccess.getAccessStatus());
+                actionTakenValue.setActionDate(new Timestamp(System.currentTimeMillis()));
+                actionTakenValue.setActionTaken("A");
+                actionTakenValue.setDocumentId(actionRequestValue.getDocumentId());
+                actionTakenValue.setPrincipalId(actionRequestValue.getPrincipalId());
+                actionTakenValue.setDocVersion(1);
+                KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
+            }
+        }
+        deleteMaintenanceLock();
+    }
+
+    public void deleteMaintenanceLock() {
+        List<MaintenanceLock> maintenanceLocks = (List<MaintenanceLock>) getBusinessObjectService().findAll(MaintenanceLock.class);
+        List<MaintenanceLock> deleteMaintenanceLockList = new ArrayList<MaintenanceLock>();
+        if (maintenanceLocks != null && maintenanceLocks.size() > 0) {
+            for (MaintenanceLock maintenanceLock : maintenanceLocks) {
+                if (maintenanceLock.getLockingRepresentation().contains("org.kuali.ole.select.bo.OLEEResourceAccessActivation")) {
+                    deleteMaintenanceLockList.add(maintenanceLock);
+                }
+            }
+        }
+        if (deleteMaintenanceLockList.size() > 0) {
+            getBusinessObjectService().delete(deleteMaintenanceLockList);
+        }
     }
 }

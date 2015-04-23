@@ -2086,6 +2086,7 @@ public class OLEConstants {
 
     public static final String ERROR_DUPLICATE_CODE = "error.duplicate.code";
     public static final String ERROR_DUPLICATE_ORDER_NO="error.order.no";
+    public static final String ERROR_DUPLICATE_ORDER_NO_FOUND="error.duplicate.order.no";
     public static final String ERROR_EMPTY_ORDER_NO="empty.order.no";
     public static final String ERROR_EMPTY_STATUS="empty.status";
     public static final String ERROR_EMPTY_ROLE_NAME="empty.role.name";
@@ -2094,7 +2095,9 @@ public class OLEConstants {
     public static final String ERROR_EMPTY_GROUP="empty.group";
     public static final String ERROR_INVALID_ORDER_NO="invalid.order.no";
     public static final String ERROR_DUPLICATE_WORKFLOW_NAME="error.workflow.name";
+    public static final String ERROR_ATLEAST_ONE_WORKFLOW = "error.atleast.one.workflow";
     public static final String ERROR_DUPLICATE_STATUS="error.status";
+    public static final String ERROR_DUPLICATE_STATUS_FOUND="error.duplicate.status";
     public static final String ERROR_INVALID_ID_NAME="error.id.name";
     public static final String ERROR_INVALID_PERSON_ID_NAME="error.person.id.name";
     public static final String ERROR_INVALID_GROUP_ID_NAME="error.group.id.name";
