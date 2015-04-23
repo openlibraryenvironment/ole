@@ -49,7 +49,7 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
 
     public DocstoreClientLocator getDocstoreClientLocator() {
         if (docstoreClientLocator == null) {
-            docstoreClientLocator = SpringContext.getBean(DocstoreClientLocator.class);
+            docstoreClientLocator = (DocstoreClientLocator)SpringContext.getService("docstoreClientLocator");
         }
         return docstoreClientLocator;
     }

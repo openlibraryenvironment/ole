@@ -152,7 +152,7 @@
         </property>
     </bean>
 
-    <bean id="GOKbPackages" parent="Uif-TableCollectionSection" p:render="@{document.goKbPackageList.size()>0}">
+    <bean id="GOKbPackages" parent="Uif-TableCollectionSection" p:render="@{document.goKbPackageList ne null  and document.goKbPackageList.size()>0}">
         <property name="collectionObjectClass"
                   value="org.kuali.ole.select.bo.OLEGOKbPackage"/>
         <property name="headerText" value="Package Search Result"/>
@@ -279,14 +279,14 @@
                     </property>
                     <property name="bindingInfo.bindToForm" value="true"/>
                 </bean>
-                <!--<bean parent="Uif-InputField" p:label="Show Deleted/Retired TIPPs"-->
-                      <!--p:propertyName="showDeletedTipps"-->
-                      <!--p:defaultValue="false" p:style="float:right;margin-left:10em">-->
-                    <!--<property name="control">-->
-                        <!--<bean parent="Uif-CheckboxControl"  p:onClickScript="showAllTipps();"/>-->
-                    <!--</property>-->
-                    <!--<property name="bindingInfo.bindToForm" value="true"/>-->
-                <!--</bean>-->
+             <!--   <bean parent="Uif-InputField" p:label="Show Deleted/Retired TIPPs"
+                      p:propertyName="showDeletedTipps"
+                      p:defaultValue="false" p:style="float:right;margin-left:10em">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"  p:onClickScript="showAllTipps();"/>
+                    </property>
+                    <property name="bindingInfo.bindToForm" value="true"/>
+                </bean>-->
             </list>
         </property>
     </bean>
@@ -297,7 +297,7 @@
                 <ref bean="platFormSearchResults"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="getTipps"
                       p:actionLabel="Get TIPPs" p:successCallback="showTippPopup('PLATFORM')"
-                      p:render="@{document.goKbPlatformList.size()>0}"/>
+                      p:render="@{document.goKbPlatformList ne null and  document.goKbPlatformList.size()>0}"/>
             </list>
         </property>
     </bean>
@@ -338,7 +338,7 @@
     <bean id="platFormSearchResults1" parent="Uif-TableCollectionSection">
         <property name="collectionObjectClass"
                   value="org.kuali.ole.select.bo.OLEGOKbPlatform"/>
-        <property name="propertyName" value="goKbPlatformList"/>
+        <property name="propertyName" value="selectedGoKbPlatforms"/>
         <property name="renderLineActions" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.richTable.render" value="false"/>
@@ -350,10 +350,10 @@
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <!--<bean parent="Uif-DataField" p:propertyName="platformName" p:label="Platform Name"/>-->
-                <!--<bean parent="Uif-DataField" p:propertyName="platformProvider" p:label="Platform Provider"/>
+                <bean parent="Uif-DataField" p:propertyName="platformName" p:label="Platform Name"/>
+                <bean parent="Uif-DataField" p:propertyName="platformProvider" p:label="Platform Provider"/>
                 <bean parent="Uif-DataField" p:propertyName="softwarePlatform" p:label="Software Platform"/>
-                <bean parent="Uif-DataField" p:propertyName="noOfTiips" p:label="Tiips"/>-->
+                <bean parent="Uif-DataField" p:propertyName="noOfTiips" p:label="Tiips"/>
             </list>
         </property>
         <property name="subCollections">
@@ -367,7 +367,7 @@
           p:layoutManager.numberOfColumns="9" p:layoutManager.style="border:1px solid;">
         <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEGOKbTIPP"/>
         <property name="propertyName" value="goKbTIPPList"/>
-       <!-- <property name="headerText" value="@{#parentLine.platformName}"/>-->
+        <property name="headerText" value="@{#parentLine.platformName}"/>
         <property name="renderLineActions" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="renderAddLine" value="false"/>

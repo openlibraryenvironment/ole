@@ -56,7 +56,7 @@ import java.util.Map;
 public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OLEEResourceRecordDocument.class);
-    private BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
+    private BusinessObjectService boService;
     private OLEEResourceSearchService oleEResourceSearchService = null;
     private OLEEResourceHelperService oleeResourceHelperService = null;
     private String accessDescription;
@@ -189,6 +189,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private double costIncrease;
     private double percentageIncrease;
     private String emailText;
+    private Integer gokbPackageId;
 
     private List<OLEPhoneNumber> phoneNos = new ArrayList<>();
     public boolean selectEResFlag;
@@ -226,7 +227,34 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private Timestamp gokbLastUpdatedDate;
     private String workflowConfigurationId;
     private String oleAccessActivationDocumentNumber;
+    private List<OLEGOKbPlatform> selectedGoKbPlatforms = new ArrayList<>();
 
+    public List<OLEGOKbPlatform> getSelectedGoKbPlatforms() {
+        return selectedGoKbPlatforms;
+    }
+
+    public void setSelectedGoKbPlatforms(List<OLEGOKbPlatform> selectedGoKbPlatforms) {
+        this.selectedGoKbPlatforms = selectedGoKbPlatforms;
+    }
+
+    public BusinessObjectService getBoService() {
+        if(null == boService){
+            boService = KRADServiceLocator.getBusinessObjectService();
+        }
+        return boService;
+    }
+
+    public Integer getGokbPackageId() {
+        return gokbPackageId;
+    }
+
+    public void setGokbPackageId(Integer gokbPackageId) {
+        this.gokbPackageId = gokbPackageId;
+    }
+
+    public void setBoService(BusinessObjectService boService) {
+        this.boService = boService;
+    }
 
     public DateTimeService getDateTimeService() {
         return (DateTimeService)SpringContext.getService("dateTimeService");
@@ -406,7 +434,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
 
     public String getStatusName() {
         if (getStatusId() != null) {
-            oleeResourceStatus = boService.findBySinglePrimaryKey(OLEEResourceStatus.class, statusId);
+            oleeResourceStatus = getBoService().findBySinglePrimaryKey(OLEEResourceStatus.class, statusId);
             statusName = oleeResourceStatus.getOleEResourceStatusName();
         }
         return statusName;

@@ -11,6 +11,7 @@ import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecord;
 import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
+import org.kuali.ole.gl.OJBUtility;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.PurapKeyConstants;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
@@ -2168,6 +2169,14 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         }*/
 
         List<OLEGOKbPackage> olegoKbPackages = getOleeResourceHelperService().searchGokbForPackagess(oleGokbTipps, oleEResourceRecordForm);
+        if(olegoKbPackages.size()==0){
+            oleEResourceRecordForm.setShowMultiplePlatforms(false);
+            oleeResourceRecordDocument.setGoKbPlatformList(null);
+            oleeResourceRecordDocument.setGoKbTIPPList(null);
+            oleeResourceRecordDocument.setGoKbPlatforms(null);
+            oleeResourceRecordDocument.setGoKbPackageList(null);
+
+        }
         oleeResourceRecordDocument.setGoKbPackageList(olegoKbPackages);
 
         return getUIFModelAndView(oleEResourceRecordForm);
@@ -2205,20 +2214,30 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         for (OLEGOKbPlatform gokbPlatform : oleeResourceRecordDocument.getGoKbPlatformList()) {
             if (gokbPlatform.isSelect()) {
                 OLEGOKBSearchDaoOjb olegokbSearchDaoOjb = (OLEGOKBSearchDaoOjb) SpringContext.getBean("oleGOKBSearchDaoOjb");
-                String resultSetSize = (String) getOleeResourceHelperService().getParameter("OLE", "OLE-PDP", "Lookup", "RESULTS_LIMIT");
-                List<OleGokbTipp> oleGokbTippList = olegokbSearchDaoOjb.getTippsByPlatform(gokbPlatform.getPlatformId());
-                List<OLEGOKbTIPP> olegoKbTIPP = getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList);
-                if (olegoKbTIPP != null && resultSetSize != null && olegoKbTIPP.size() > Integer.valueOf(resultSetSize)) {
-                    gokbPlatform.setGoKbTIPPList(olegoKbTIPP.subList(0, Integer.valueOf(resultSetSize)));
-                } else {
+                 Integer resultSetSize = OJBUtility.getResultLimit();
+                Integer packageId =0;
+                if(StringUtils.isEmpty(oleEResourceRecordForm.getPackageId())){
+                    if(oleeResourceRecordDocument.getGoKbPackageList()!= null && oleeResourceRecordDocument.getGoKbPackageList().size()>0){
+                    packageId =  oleeResourceRecordDocument.getGoKbPackageList().get(0).getPackageId();
+                    }else{
+                        packageId = Integer.valueOf(oleEResourceRecordForm.getPackageId());
+                    }
+                }
+                oleeResourceRecordDocument.setGokbPackageId(packageId);
+                List<OleGokbTipp> oleGokbTippList = olegokbSearchDaoOjb.getTippsByPlatform(gokbPlatform.getPlatformId(),null);
+                List<OLEGOKbTIPP> olegoKbTIPP;
+                if(oleGokbTippList!=null &&  resultSetSize !=null && oleGokbTippList.size()>resultSetSize){
+                    olegoKbTIPP =getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList.subList(0,resultSetSize));
+                }else{
+                    olegoKbTIPP =getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList);
+                }
                     gokbPlatform.setGoKbTIPPList(olegoKbTIPP);
                 }
                 goKbPlatformList.add(gokbPlatform);
                /* gokbPlatform.setSelect(Boolean.FALSE);*/
             }
-        }
 
-        oleeResourceRecordDocument.setGoKbPlatformList(goKbPlatformList);
+        oleeResourceRecordDocument.setSelectedGoKbPlatforms(goKbPlatformList);
         oleEResourceRecordForm.setShowTippsWithMorePlatform(true);
         return super.navigate(form, result, request, response);
     }
@@ -2254,12 +2273,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
         KRADServiceLocatorWeb.getDocumentService().updateDocument(oleeResourceRecordDocument);
-        Map<String, String> platformMap = new HashMap<String, String>();
-        platformMap.put("gokbPlatformId", "111");
-        List<OleGokbPlatform> olegoKbPlatforms = (List<OleGokbPlatform>) KRADServiceLocator.getBusinessObjectService().findMatching(OleGokbPlatform.class, platformMap);
-
         OLEBatchProcessProfileBo gokbImportProfile = getOleeResourceHelperService().getGOKBImportProfile(oleeResourceRecordDocument.getProfile());
-
         List<BibMarcRecord> bibMarcRecords = getOleeResourceHelperService().buildBibMarcRecords(oleeResourceRecordDocument.getGoKbPlatformList(), oleeResourceRecordDocument.getOleERSIdentifier());
 //need to provide validation
 /*        if(bibMarcRecords != null && bibMarcRecords.size() > 0 && gokbImportProfile == null) {

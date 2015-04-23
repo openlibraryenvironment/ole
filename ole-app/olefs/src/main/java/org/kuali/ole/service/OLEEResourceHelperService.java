@@ -527,8 +527,10 @@ public class OLEEResourceHelperService {
         for(OleGokbTipp gokbTipp : oleGokbTippList){
             olegoKbTIPP = new OLEGOKbTIPP();
             boolean isTippExists = verifyTippExistsInOle(gokbTipp.getGokbTippId());
+
+            if(!isTippExists){
             olegoKbTIPP.setTippExists(isTippExists);
-            olegoKbTIPP.setTitle("Test");
+
             if(gokbTipp.getOleGokbTitle()!=null){
                 olegoKbTIPP.setTitle(gokbTipp.getOleGokbTitle().getTitleName());
                 olegoKbTIPP.setPublisherId(gokbTipp.getOleGokbTitle().getPublisherId());
@@ -544,8 +546,9 @@ public class OLEEResourceHelperService {
             if(gokbTipp.getStartdate()!=null)
                 olegoKbTIPP.setStartDate(gokbTipp.getStartdate().toString());
             olegoKbTIPP.setOleGokbTipp(gokbTipp);
+                olegoKbTIPPs.add(olegoKbTIPP);
+            }
 
-            olegoKbTIPPs.add(olegoKbTIPP);
         }
 
 
