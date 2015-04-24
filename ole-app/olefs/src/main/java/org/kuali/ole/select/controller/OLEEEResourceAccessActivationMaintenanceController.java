@@ -6,6 +6,7 @@ import org.kuali.ole.select.bo.OLEEResourceAccessActivation;
 import org.kuali.ole.select.bo.OLEEResourceNotes;
 import org.kuali.ole.select.document.OLEEResourceAccessWorkflow;
 import org.kuali.ole.service.OLEEResourceHelperService;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -18,6 +19,7 @@ import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -216,11 +218,13 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
                         }
                     } else {
                         getOleeResourceHelperService().setWorkflowCompletedStatusAfterApproval(oleeResourceAccess, maintenanceDocument);
+                        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_ROUTE_APPROVED);
                         return getUIFModelAndView(form);
                     }
                 }
             }
         }
+        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_ROUTE_APPROVED);
         return super.navigate(form, result, request, response);
         /*}*/
     }
@@ -231,13 +235,17 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
         org.kuali.rice.krad.maintenance.MaintenanceDocument maintenanceDocument = ((MaintenanceDocumentForm) form).getDocument();
         OLEEResourceAccessActivation oleeResourceAccess = (OLEEResourceAccessActivation) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
+        boolean flag = false;
         if (oleeResourceAccess.getWorkflowId() == null || (oleeResourceAccess.getWorkflowId() != null && oleeResourceAccess.getWorkflowId().trim().isEmpty())) {
             GlobalVariables.getMessageMap().putError("workflowId", OLEConstants.NO_WORKFLOW);
             oleeResourceAccess.setWorkflowId(null);
-            return getUIFModelAndView(form);
+            flag = true;
         }
         if (oleeResourceAccess.getWorkflowDescription() == null || (oleeResourceAccess.getWorkflowDescription() != null && oleeResourceAccess.getWorkflowDescription().trim().isEmpty())) {
             GlobalVariables.getMessageMap().putError("workflowDescription", OLEConstants.NO_DESCRIPTION);
+            flag = true;
+        }
+        if (flag) {
             return getUIFModelAndView(form);
         }
         OLEAccessActivationWorkFlow accessActivationWorkFlow = null;
@@ -247,6 +255,10 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
         List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows = (List<OLEAccessActivationWorkFlow>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(OLEAccessActivationWorkFlow.class, accessConfigMap, "orderNo", true);
         if (oleAccessActivationWorkFlows != null && oleAccessActivationWorkFlows.size() > 0) {
             boolean found = false;
+            OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = new OLEEResourceAccessWorkflow();
+            oleeResourceAccessWorkflow.setDescription(oleeResourceAccess.getWorkflowDescription());
+            oleeResourceAccessWorkflow.setLastApproved(new Timestamp(System.currentTimeMillis()));
+            oleeResourceAccess.getOleERSAccessWorkflows().add(oleeResourceAccessWorkflow);
             for (int i = 0; i < oleAccessActivationWorkFlows.size(); i++) {
                 accessActivationWorkFlow = oleAccessActivationWorkFlows.get(i);
                 oleeResourceAccess.setAccessStatus(accessActivationWorkFlow.getStatus());
@@ -258,11 +270,7 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
                 List<String> principalList = new ArrayList<String>();
                 principalList.addAll(principalIds);
                 List<Principal> principals = identityService.getPrincipals(principalList);
-                OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = new OLEEResourceAccessWorkflow();
                 StringBuffer currentOwnerBuffer = new StringBuffer();
-                oleeResourceAccessWorkflow.setDescription(oleeResourceAccess.getWorkflowDescription());
-                oleeResourceAccessWorkflow.setLastApproved(new Timestamp(System.currentTimeMillis()));
-                oleeResourceAccess.getOleERSAccessWorkflows().add(oleeResourceAccessWorkflow);
                 AdHocRoutePerson adHocRoutePerson;
                 if (principals != null && principals.size() > 0) {
                     oleeResourceAccessWorkflow.setStatus(accessActivationWorkFlow.getStatus());
@@ -297,9 +305,11 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
             }
             if (!found) {
                 getOleeResourceHelperService().setWorkflowCompletedStatus(oleeResourceAccess, maintenanceDocument, false);
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL);
                 return getUIFModelAndView(form);
             }
         }
+        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL);
         return getUIFModelAndView(form);
     }
 

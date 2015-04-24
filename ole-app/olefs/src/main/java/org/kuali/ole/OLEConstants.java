@@ -24,7 +24,7 @@ import java.util.*;
 public class OLEConstants {
 
 	public static final String EMPTY_ITEM_BARCODE ="empty.item.barcode";
-    public static final String ERES_ACCESS_MAINTENANCE_ACTION_LINK = "oleAccessActivationConfiguration";
+    public static final String ERES_ACCESS_ACTIVATION_CONFIG_ACTION_LINK = "oleAccessActivationConfiguration";
     public static final String OLE_ACCESS_ACTIVATION = "OLEAccessActivationConfigurationMaintenanceDocument-AccessActivationWorkflow";
     public static final String ACCESS_ACTIVATION_CONFIGURATION_CONTROLLER = "oleAccessActivationConfiguration";
     public static final String ACCESS_ROLE_ID="id";
@@ -3365,7 +3365,7 @@ public class OLEConstants {
     public static final String PACKAGE_TYPE = "PackageType";
     public static final String E_RESOURCE_GOKBID = "eResourceGokbId";
 
-    //public static final String ERES_ACCESS_MAINTENANCE_ACTION_LINK = "oleEEResourceAccessMaintenance";
+    public static final String ERES_ACCESS_MAINTENANCE_ACTION_LINK = "oleEEResourceAccessMaintenance";
     public static final String OLE_MAINTENANCE_ACTION_LINK="oleMaintenance";
     public static final String ALERT_EVENT_NAME="alertEventName";
     public static final String ALERT_DOC_CLASS_NAME="alertDocumentClass";

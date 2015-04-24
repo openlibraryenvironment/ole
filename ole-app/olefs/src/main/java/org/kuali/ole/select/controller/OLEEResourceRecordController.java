@@ -2668,6 +2668,10 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         accessConfigMap.put("accessActivationConfigurationId", oleeResourceRecordDocument.getWorkflowConfigurationId());
         List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows = (List<OLEAccessActivationWorkFlow>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(OLEAccessActivationWorkFlow.class, accessConfigMap, "orderNo", true);
         if (oleAccessActivationWorkFlows != null && oleAccessActivationWorkFlows.size() > 0) {
+            OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = new OLEEResourceAccessWorkflow();
+            oleeResourceAccessWorkflow.setDescription(oleeResourceRecordDocument.getAccessDescription());
+            oleeResourceAccessWorkflow.setLastApproved(new Timestamp(System.currentTimeMillis()));
+            oleeResourceAccess.getOleERSAccessWorkflows().add(oleeResourceAccessWorkflow);
             boolean found = false;
             for (int i = 0; i < oleAccessActivationWorkFlows.size(); i++) {
                 accessActivationWorkFlow = oleAccessActivationWorkFlows.get(i);
@@ -2681,10 +2685,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 principalList.addAll(principalIds);
                 List<Principal> principals = identityService.getPrincipals(principalList);
                 AdHocRoutePerson adHocRoutePerson;
-                OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = new OLEEResourceAccessWorkflow();
-                oleeResourceAccessWorkflow.setDescription(oleeResourceRecordDocument.getAccessDescription());
-                oleeResourceAccessWorkflow.setLastApproved(new Timestamp(System.currentTimeMillis()));
-                oleeResourceAccess.getOleERSAccessWorkflows().add(oleeResourceAccessWorkflow);
                 StringBuffer currentOwnerBuffer = new StringBuffer();
                 if (principals != null && principals.size() > 0) {
                     oleeResourceAccessWorkflow.setStatus(accessActivationWorkFlow.getStatus());

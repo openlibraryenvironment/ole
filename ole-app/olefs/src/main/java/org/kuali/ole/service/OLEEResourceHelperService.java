@@ -1847,6 +1847,7 @@ public class OLEEResourceHelperService {
         getDocumentService().saveDocument(maintenanceDocument);
         List<ActionRequestValue> actionRequestValueList = actionRequestService.findAllPendingRequests(maintenanceDocument.getDocumentNumber());
         KEWServiceLocator.getActionRequestService().deleteByDocumentId(maintenanceDocument.getDocumentNumber());
+        KEWServiceLocator.getActionListService().deleteByDocumentId(maintenanceDocument.getDocumentNumber());
         ActionTakenValue actionTakenValue;
         for (ActionRequestValue actionRequestValue : actionRequestValueList) {
             if (actionRequestValue.getPrincipalId().equalsIgnoreCase(GlobalVariables.getUserSession().getPrincipalId())) {
