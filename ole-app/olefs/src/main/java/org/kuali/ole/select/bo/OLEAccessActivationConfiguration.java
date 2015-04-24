@@ -1,8 +1,10 @@
 package org.kuali.ole.select.bo;
 
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -63,5 +65,12 @@ public class OLEAccessActivationConfiguration extends PersistableBusinessObjectB
 
     public void setWorkflowCompletionStatus(String workflowCompletionStatus) {
         this.workflowCompletionStatus = workflowCompletionStatus;
+    }
+
+    @Override
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+        List<Collection<PersistableBusinessObject>> collectionList = new ArrayList<>();
+        collectionList.add((Collection)getAccessActivationWorkflowList());
+        return collectionList;
     }
 }
