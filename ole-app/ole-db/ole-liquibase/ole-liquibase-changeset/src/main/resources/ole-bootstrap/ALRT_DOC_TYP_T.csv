@@ -43,7 +43,6 @@
 "42","OLE_PACK_TYPE","Package Type Document","org.kuali.ole.select.bo.OLEPackageType","Y","2","42","1"
 "43","OLE_PAYMENT_TYPE","Payment Type Document","org.kuali.ole.select.bo.OLEPaymentType","Y","2","43","1"
 "44","OLE_REQUEST_PRIORITY","Request Priority Document","org.kuali.ole.select.bo.OLERequestPriority","Y","2","44","1"
-"45","OLE_SUBSCRIPTION_STATUS","Ole Subscription Status Document","org.kuali.ole.select.bo.OleSubscriptionStatus","Y","2","45","1"
 "46","OLE_MOB_ACC","Ole Mobile Access Document","org.kuali.ole.select.bo.OLEMobileAccess","Y","2","46","1"
 "47","OLE_MARC_REC_SRC_TYP","Marc Record Source Type Document","org.kuali.ole.select.bo.OLEMarcRecordSourceType","Y","2","47","1"
 "48","OLE_PRBLM_TYP","Problem Type Document","org.kuali.ole.select.bo.OLEProblemType","Y","2","48","1"
