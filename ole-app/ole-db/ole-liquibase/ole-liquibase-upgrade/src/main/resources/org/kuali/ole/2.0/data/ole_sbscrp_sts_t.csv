@@ -1,5 +1,0 @@
-OLE_SBSCRP_STS_ID,OLE_SBSCRP_STS_NM,OLE_SBSCRP_STS_CD,OLE_SBSCRP_STS_DESC,OBJ_ID,VER_NBR,ROW_ACT_IND
-1,Active,Active,Active Subsription Status,OLEERS179,1,Y
-2,Cancelled,Cancelled,Cancelled Subsription Status,OLEERS180,1,Y
-3,Ceased,Ceased,Ceased Subsription Status,OLEERS181,1,Y
-4,Inactive,Inactive,Inactive Subsription Status,OLEERS182,1,Y

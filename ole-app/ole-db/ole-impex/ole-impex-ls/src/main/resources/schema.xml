@@ -2919,21 +2919,6 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
     </table>
 
-    <table name="OLE_SBSCRP_STS_T">
-        <column name="OLE_SBSCRP_STS_ID" primaryKey="true" size="10" type="VARCHAR"/>
-        <column name="OLE_SBSCRP_STS_NM" size="10" type="VARCHAR"/>
-        <column name="OLE_SBSCRP_STS_CD" size="40" type="VARCHAR"/>
-        <column name="OLE_SBSCRP_STS_DESC" size="200" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" required=
-                "true" size="8" type="DECIMAL"/>
-        <column default="Y" name="ROW_ACT_IND" size="1" type="VARCHAR"/>
-        <unique name="OLE_SBSCRP_STS_CD_UNIQ">
-            <unique-column name="OLE_SBSCRP_STS_CD"/>
-        </unique>
-    </table>
-
-
     <table name="ALRT_T">
         <column name="ALRT_ID" primaryKey="true" size="10" type="VARCHAR"/>
         <column name="DCMNT_ID" size="40" type="VARCHAR"/>
@@ -3439,7 +3424,6 @@ AND ENT.ENTITY_ID = ENT_NM.ENTITY_ID)&#xa;&#xa;&#xa;&#xa;"/>
     <sequence name="OLE_DS_DOC_FIELD_S" nextval="1000"/>
     <sequence name="OLE_DS_SEARCH_RESULT_PAGE_S" nextval="20"/>
     <sequence name="OLE_DS_SEARCH_FACET_SIZE_S" nextval="2"/>
-    <sequence name="OLE_SBSCRP_STS_S" nextval="5"/>
     <sequence name="OLE_DLVR_LOAN_NOTICE_S" nextval="1"/>
     <sequence name="OLE_DLVR_LOAN_NOTICE_HSTRY_S" nextval="1"/>
     <sequence name="OLE_LOAN_INTRANSIT_HISTORY_S" nextval="1"/>

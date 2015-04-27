@@ -1411,17 +1411,8 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
         List<OLEEResourceInstance> oleERSInstances = this.getOleERSInstances();
         if (oleERSInstances.size() > 0) {
             for (OLEEResourceInstance oleERSInstance : oleERSInstances) {
-                if (oleERSInstance.getSubscriptionStatus()==null)
-                {
-                    if(this.getSubscriptionStatus()!=null)
-                    {
-                        Map subscriptionMap = new HashMap();
-                        subscriptionMap.put("subscriptionStatusId", this.getSubscriptionStatus());
-                        OleSubscriptionStatus oleSubscriptionStatus = (OleSubscriptionStatus)KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OleSubscriptionStatus.class, subscriptionMap);
-                        if (oleSubscriptionStatus!=null){
-                            oleERSInstance.setSubscriptionStatus(oleSubscriptionStatus.getSubscriptionStatusCode());
-                        }
-                    }
+                if (StringUtils.isBlank(oleERSInstance.getSubscriptionStatus()) && StringUtils.isNotBlank(this.getSubscriptionStatus())) {
+                    oleERSInstance.setSubscriptionStatus(this.getSubscriptionStatus());
                 }
             }
         }

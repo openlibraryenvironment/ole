@@ -6876,42 +6876,6 @@ PRIMARY KEY (ID)
 
 
 -----------------------------------------------------------------------------
--- OLE_SBSCRP_STS_T
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'OLE_SBSCRP_STS_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE OLE_SBSCRP_STS_T CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-CREATE TABLE OLE_SBSCRP_STS_T
-(
-      OLE_SBSCRP_STS_ID VARCHAR2(10)
-        , OLE_SBSCRP_STS_NM VARCHAR2(10)
-        , OLE_SBSCRP_STS_CD VARCHAR2(40)
-        , OLE_SBSCRP_STS_DESC VARCHAR2(200)
-        , OBJ_ID VARCHAR2(36) NOT NULL
-        , VER_NBR NUMBER(8) NOT NULL
-        , ROW_ACT_IND VARCHAR2(1) default 'Y'
-    
-    , CONSTRAINT OLE_SBSCRP_STS_CD_UNIQ UNIQUE (OLE_SBSCRP_STS_CD)
-
-)
-/
-
-ALTER TABLE OLE_SBSCRP_STS_T
-    ADD CONSTRAINT OLE_SBSCRP_STS_TP1
-PRIMARY KEY (OLE_SBSCRP_STS_ID)
-/
-
-
-
-
-
-
-
------------------------------------------------------------------------------
 -- ALRT_T
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
@@ -9250,16 +9214,6 @@ END;
 /
 
 CREATE SEQUENCE OLE_DS_SEARCH_FACET_SIZE_S INCREMENT BY 1 START WITH 2 NOMAXVALUE NOCYCLE NOCACHE ORDER
-/
-
-DECLARE temp NUMBER;
-BEGIN
-	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'OLE_SBSCRP_STS_S';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE OLE_SBSCRP_STS_S'; END IF;
-END;
-/
-
-CREATE SEQUENCE OLE_SBSCRP_STS_S INCREMENT BY 1 START WITH 5 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
 DECLARE temp NUMBER;

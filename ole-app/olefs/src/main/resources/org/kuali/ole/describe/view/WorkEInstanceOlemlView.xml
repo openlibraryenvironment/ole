@@ -675,10 +675,17 @@
                                   p:propertyName="documentForm.selectedEHoldings.subscriptionStatus"
                                   p:label="Subscription Status">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
-                                </property>
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.ole.module.purap.businessobject.options.OLESubscriptionStatusKeyValueFinder"/>
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropdown">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="Active" p:value="Active"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="Cancelled" p:value="Cancelled"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="Ceased" p:value="Ceased"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="Inactive" p:value="Inactive"/>
+                                            </list>
+                                        </property>
+                                    </bean>
                                 </property>
                             </bean>
                             <bean id="eInstance_cancellation_decision_date" parent="Uif-InputField" p:propertyName="documentForm.selectedEHoldings.cancellationDecisionDate" p:label="Cancellation Decision Date">

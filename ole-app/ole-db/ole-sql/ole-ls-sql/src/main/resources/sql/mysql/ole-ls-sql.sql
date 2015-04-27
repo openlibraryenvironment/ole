@@ -5500,34 +5500,6 @@ CREATE TABLE OLE_LOAN_INTRANSIT_HISTORY_T
 
 
 # -----------------------------------------------------------------------
-# OLE_SBSCRP_STS_T
-# -----------------------------------------------------------------------
-drop table if exists OLE_SBSCRP_STS_T
-/
-
-CREATE TABLE OLE_SBSCRP_STS_T
-(
-      OLE_SBSCRP_STS_ID VARCHAR(10)
-        , OLE_SBSCRP_STS_NM VARCHAR(10)
-        , OLE_SBSCRP_STS_CD VARCHAR(40)
-        , OLE_SBSCRP_STS_DESC VARCHAR(200)
-        , OBJ_ID VARCHAR(36) NOT NULL
-        , VER_NBR DECIMAL(8) NOT NULL
-        , ROW_ACT_IND VARCHAR(1) default 'Y'
-    
-    , CONSTRAINT OLE_SBSCRP_STS_TP1 PRIMARY KEY(OLE_SBSCRP_STS_ID)
-
-    , CONSTRAINT OLE_SBSCRP_STS_CD_UNIQ UNIQUE (OLE_SBSCRP_STS_CD)
-
-
-
-
-
-) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
-/
-
-
-# -----------------------------------------------------------------------
 # ALRT_T
 # -----------------------------------------------------------------------
 drop table if exists ALRT_T
@@ -8385,20 +8357,6 @@ CREATE TABLE OLE_DS_SEARCH_FACET_SIZE_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_DS_SEARCH_FACET_SIZE_S auto_increment = 2
-/
-
-# -----------------------------------------------------------------------
-# OLE_SBSCRP_STS_S
-# -----------------------------------------------------------------------
-drop table if exists OLE_SBSCRP_STS_S
-/
-
-CREATE TABLE OLE_SBSCRP_STS_S
-(
-	id bigint(19) not null auto_increment, primary key (id) 
-) ENGINE MyISAM
-/
-ALTER TABLE OLE_SBSCRP_STS_S auto_increment = 5
 /
 
 # -----------------------------------------------------------------------

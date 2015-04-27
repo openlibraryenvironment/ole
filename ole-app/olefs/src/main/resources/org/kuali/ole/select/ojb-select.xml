@@ -6239,16 +6239,6 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.ole.select.bo.OleSubscriptionStatus" table="OLE_SBSCRP_STS_T">
-        <field-descriptor name="subscriptionStatusId" column="OLE_SBSCRP_STS_ID" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" sequence-name="OLE_SBSCRP_STS_S"/>
-        <field-descriptor name="subscriptionStatusCode" column="OLE_SBSCRP_STS_CD" jdbc-type="VARCHAR"/>
-        <field-descriptor name="subscriptionStatusName" column="OLE_SBSCRP_STS_NM" jdbc-type="VARCHAR"/>
-        <field-descriptor name="subscriptionStatusDescription" column="OLE_SBSCRP_STS_DESC" jdbc-type="VARCHAR"/>
-        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    </class-descriptor>
-
     <class-descriptor class="org.kuali.ole.select.bo.OlePurchaseOrderPurpose" table="OLE_PO_PURP_T">
         <field-descriptor name="purchaseOrderPurposeId" column="OLE_PO_PURP_ID" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" sequence-name="OLE_PO_PURP_S"/>
         <field-descriptor name="purchaseOrderPurposeCode" column="OLE_PO_PURP_CD" jdbc-type="VARCHAR"/>

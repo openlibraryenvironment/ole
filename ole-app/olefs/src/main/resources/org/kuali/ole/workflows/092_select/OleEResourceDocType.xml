@@ -280,30 +280,6 @@
         </documentType>
 
         <documentType>
-            <name>OLE_SUBSCRIPTION_STATUS</name>
-            <parent>RiceDocument</parent>
-            <description>Subscription Status</description>
-            <label>Subscription Status</label>
-            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
-            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
-            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
-            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
-            <active>true</active>
-            <routingVersion>2</routingVersion>
-            <routePaths>
-                <routePath>
-                    <start name="Initiated" />
-                </routePath>
-            </routePaths>
-            <routeNodes>
-                <start name="Initiated">
-                    <activationType>P</activationType>
-                </start>
-            </routeNodes>
-        </documentType>
-
-        <documentType>
             <name>OLE_ERES_PLTFRM_EVNT_TYP</name>
             <parent>RiceDocument</parent>
             <description>Event Type</description>

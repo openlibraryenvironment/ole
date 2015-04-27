@@ -588,10 +588,6 @@
         <loadData tableName="ole_pltfrm_admin_url_type_t" file="ole-demo/ole_pltfrm_admin_url_type_t.csv" />
     </changeSet>
 
-    <changeSet context="demo" author="ole" id="ole_sbscrp_sts_t">
-        <loadData tableName="ole_sbscrp_sts_t" file="ole-demo/ole_sbscrp_sts_t.csv" />
-    </changeSet>
-
     <changeSet context="demo" author="ole" id="ole_po_purp_t">
         <loadData tableName="ole_po_purp_t" file="ole-demo/ole_po_purp_t.csv" />
     </changeSet>

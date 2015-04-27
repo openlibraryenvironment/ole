@@ -1257,12 +1257,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                                 }
                             }
                         }
-                        if (StringUtils.isNotBlank(oleHoldings.getSubscriptionStatus())) {
-                            OleSubscriptionStatus oleSubscriptionStatus = getBusinessObjectService().findBySinglePrimaryKey(OleSubscriptionStatus.class, oleHoldings.getSubscriptionStatus());
-                            if (oleSubscriptionStatus != null) {
-                                oleeResourceInstance.setSubscriptionStatus(oleSubscriptionStatus.getSubscriptionStatusCode());
-                            }
-                        }
+                        oleeResourceInstance.setSubscriptionStatus(oleHoldings.getSubscriptionStatus());
                         oleeResourceInstance.setInstanceTitle(holdings.getBib().getTitle());
                         getHoldingsField(oleeResourceInstance, oleHoldings);
                         oleeResourceInstance.setInstancePublisher(oleHoldings.getPublisher());
@@ -1322,10 +1317,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                                 }
                             }
                         }
-                        if (StringUtils.isNotBlank(oleHoldings.getSubscriptionStatus())) {
-                            OleSubscriptionStatus oleSubscriptionStatus = getBusinessObjectService().findBySinglePrimaryKey(OleSubscriptionStatus.class, oleHoldings.getSubscriptionStatus());
-                            oleeResourceInstance.setSubscriptionStatus(oleSubscriptionStatus.getSubscriptionStatusCode());
-                        }
+                        oleeResourceInstance.setSubscriptionStatus(oleHoldings.getSubscriptionStatus());
                         oleeResourceInstance.setInstanceTitle(holdings.getBib().getTitle());
                         oleeResourceInstance.setInstancePublisher(holdings.getBib().getPublisher());
                         SearchParams searchParams = new SearchParams();
@@ -1402,12 +1394,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                                 }
                             }
                         }
-                        if (StringUtils.isNotBlank(oleHoldings.getSubscriptionStatus())) {
-                            OleSubscriptionStatus oleSubscriptionStatus = getBusinessObjectService().findBySinglePrimaryKey(OleSubscriptionStatus.class, oleHoldings.getSubscriptionStatus());
-                            if (oleSubscriptionStatus != null) {
-                                oleeResourceInstance.setSubscriptionStatus(oleSubscriptionStatus.getSubscriptionStatusCode());
-                            }
-                        }
+                        oleeResourceInstance.setSubscriptionStatus(oleHoldings.getSubscriptionStatus());
                         oleeResourceInstance.setInstanceTitle(holdings.getBib().getTitle());
                         getHoldingsField(oleeResourceInstance, oleHoldings);
                         oleeResourceInstance.setInstancePublisher(oleHoldings.getPublisher());
@@ -1467,10 +1454,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                                 }
                             }
                         }
-                        if (StringUtils.isNotBlank(oleHoldings.getSubscriptionStatus())) {
-                            OleSubscriptionStatus oleSubscriptionStatus = getBusinessObjectService().findBySinglePrimaryKey(OleSubscriptionStatus.class, oleHoldings.getSubscriptionStatus());
-                            oleeResourceInstance.setSubscriptionStatus(oleSubscriptionStatus.getSubscriptionStatusCode());
-                        }
+                        oleeResourceInstance.setSubscriptionStatus(oleHoldings.getSubscriptionStatus());
                         oleeResourceInstance.setInstanceTitle(holdings.getBib().getTitle());
                         oleeResourceInstance.setInstancePublisher(holdings.getBib().getPublisher());
                         SearchParams searchParams = new SearchParams();

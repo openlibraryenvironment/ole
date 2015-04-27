@@ -2981,13 +2981,6 @@ public class OLEConstants {
         public static final String ERROR_PURCHASE_ORDER_PURPOSE_CODE = "error.duplicate.purchase.order.purpose.code";
     }
 
-    public static final class OleSubscriptionStatus {
-        public static final String SUBSCRIPTION_STATUS_CODE_FIELD = "dataObject.subscriptionStatusCode";
-        public static final String SUBSCRIPTION_STATUS_CODE = "subscriptionStatusCode";
-        public static final String SUBSCRIPTION_STATUS_ID = "subscriptionStatusId";
-        public static final String ERROR_SUBSCRIPTION_STATUS_CODE = "error.duplicate.subscription.status.code";
-    }
-
     //Order Import and Invoice Ingest Constants
 
     public static final String ONE_REQUISITION_PER_TITLE = "One Requisition Per Title";
