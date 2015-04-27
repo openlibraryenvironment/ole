@@ -339,6 +339,7 @@ public class OLEEResourceHelperService {
                         olegoKbPackages.add(olegoKbPackage) ;
                     }else{
                        if(platformMap.containsKey(oleGokbTipp.getOleGokbPackage().getGokbPackageId())){
+                           oleeResourceRecordDocument.setSinglePlatform(false);
                            packageMaps.get(oleGokbTipp.getOleGokbPackage().getGokbPackageId()).setMultiplePlatform(true);
                        }
                     }
@@ -364,6 +365,7 @@ public class OLEEResourceHelperService {
         olegoKbPackage.setPackageName(oleGokbPackage.getPackageName());
 /*        olegoKbPackage.setPrimaryPlatform();
         olegoKbPackage.setPrimaryPlatformProvider();*/
+        olegoKbPackage.setMultiplePlatform(true);
         olegoKbPackage.setTiips(0);
         return olegoKbPackage;
     }

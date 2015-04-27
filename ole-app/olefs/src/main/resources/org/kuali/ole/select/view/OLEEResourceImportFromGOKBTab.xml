@@ -167,9 +167,9 @@
                 <bean parent="Uif-HorizontalFieldGroup" p:label="Package Name">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-ActionLink"
+<!--                            <bean parent="Uif-ActionLink"
                                   p:actionScript="showTippPopup('@{#line.packageName}', '@{#line.packageId}')"
-                                  p:actionLabel="@{#line.packageName}" p:render="@{#line.multiplePlatform eq false}"/>
+                                  p:actionLabel="@{#line.packageName}" p:render="@{#line.multiplePlatform eq false}"/>-->
                             <bean parent="Uif-ActionLink"
                                   p:actionScript="showPlatform('@{#line.packageName}', '@{#line.packageId}')"
                                   p:actionLabel="@{#line.packageName}" p:render="@{#line.multiplePlatform eq true}"/>
@@ -224,7 +224,7 @@
         <property name="items">
             <list>
                 <ref bean="importPackageMetaData"/>
-                <!--<ref bean="TIIPSearchResults"/>-->
+                <ref bean="TIIPSearchResults"/>
                 <ref bean="platFormSearchResults1"/>
                 <ref bean="GokbButton"/>
             </list>
@@ -237,6 +237,8 @@
             <ref bean="GokbTippProileSection"/>
             <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="importData"
                   p:actionLabel="Import Data" p:style="float:left;margin-left:10em" p:successCallback="displayDialogWindow('div#tiipResults')"/>
+            <bean parent="Uif-SecondaryActionButton-Small"
+                  p:actionLabel="close" p:successCallback="closeLightBoxComponentTipp('tiipResults')" p:style="margin-left:0;"/>
             <bean parent="Uif-SecondaryActionButton-Small" p:actionScript="closeLightBoxComponentTipp('div#tiipResults')"
                   p:actionLabel="Cancel" p:style="float:left;margin-left:30em"/>
         </list>
@@ -295,9 +297,11 @@
         <property name="items">
             <list>
                 <ref bean="platFormSearchResults"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="getTipps"
+                <bean id="getTipps_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="getTipps"
                       p:actionLabel="Get TIPPs" p:successCallback="showTippPopup('PLATFORM')"
-                      p:render="@{document.goKbPlatformList ne null and  document.goKbPlatformList.size()>0}"/>
+                      />
+
+                <!--p:render="@{document.goKbPlatformList ne null and  document.goKbPlatformList.size()>0}"-->
             </list>
         </property>
     </bean>

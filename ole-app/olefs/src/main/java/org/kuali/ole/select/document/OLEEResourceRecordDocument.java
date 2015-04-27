@@ -233,6 +233,26 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
         return selectedGoKbPlatforms;
     }
 
+    private boolean singlePlatform=true;
+    private Integer singlePaltformId;
+
+
+    public boolean isSinglePlatform() {
+        return singlePlatform;
+    }
+
+    public void setSinglePlatform(boolean singlePlatform) {
+        this.singlePlatform = singlePlatform;
+    }
+
+    public Integer getSinglePaltformId() {
+        return singlePaltformId;
+    }
+
+    public void setSinglePaltformId(Integer singlePaltformId) {
+        this.singlePaltformId = singlePaltformId;
+    }
+
     public void setSelectedGoKbPlatforms(List<OLEGOKbPlatform> selectedGoKbPlatforms) {
         this.selectedGoKbPlatforms = selectedGoKbPlatforms;
     }

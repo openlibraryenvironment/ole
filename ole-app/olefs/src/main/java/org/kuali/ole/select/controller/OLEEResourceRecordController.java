@@ -2185,8 +2185,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
     @RequestMapping(params = "methodToCall=showTipps")
     public ModelAndView showTipps(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) {
-
-
         return super.navigate(form, result, request, response);
     }
 
@@ -2196,7 +2194,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                                      HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
-
         List<OLEGOKbPlatform> olegoKbPlatforms = getOleeResourceHelperService().getPlatformByPlackage(oleEResourceRecordForm.getPackageId());
         oleEResourceRecordForm.setShowMultiplePlatforms(true);
         oleeResourceRecordDocument.setGoKbPlatformList(olegoKbPlatforms);
@@ -2212,7 +2209,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
         List<OLEGOKbPlatform> goKbPlatformList = new ArrayList<>();
         for (OLEGOKbPlatform gokbPlatform : oleeResourceRecordDocument.getGoKbPlatformList()) {
-            if (gokbPlatform.isSelect()) {
+            if (gokbPlatform.isSelect() || goKbPlatformList.size()==1) {
                 OLEGOKBSearchDaoOjb olegokbSearchDaoOjb = (OLEGOKBSearchDaoOjb) SpringContext.getBean("oleGOKBSearchDaoOjb");
                 Integer resultSetSize = OJBUtility.getResultLimit();
                 Integer packageId = 0;
@@ -2282,7 +2279,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
         if (oleEResourceRecordForm.isImportPackageMetaDataOnly() || (bibMarcRecords != null && bibMarcRecords.size() > 0)) {
 
-            OleGokbPackage oleGokbPackage = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OleGokbPackage.class, oleEResourceRecordForm.getPackageId());
+            OleGokbPackage oleGokbPackage = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OleGokbPackage.class, oleeResourceRecordDocument.getGoKbPackageList().get(0).getPackageId());
             getOleeResourceHelperService().overwriteEresourceWithPackage(oleeResourceRecordDocument, oleGokbPackage, "");
             getOleeResourceHelperService().insertOrUpdateGokbElementsForEResource(oleeResourceRecordDocument, false);
             getOleeResourceHelperService().createOrUpdateVendorAndPlatform(oleeResourceRecordDocument);
