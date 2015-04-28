@@ -1369,13 +1369,7 @@
          <column name="SELTR" size="40" type="VARCHAR"/>-->
         <column name="REQ_SEL_COMM" size="800" type="VARCHAR"/>
         <column name="REQ_PRTY_ID" size="40" type="VARCHAR"/>
-        <column name="TECH_REQ" size="800" type="VARCHAR"/>
-        <column name="ACC_TYP_ID" size="40" type="VARCHAR"/>
-        <column name="ACC_STS" size="40" type="VARCHAR"/>
-        <column name="NUM_SIMULT_USER" size="25" type="VARCHAR"/>
-        <column name="AUTHCAT_TYP_ID" size="40" type="VARCHAR"/>
         <column name="STAT_SRCH_CD_ID" size="8" type="DECIMAL"/>
-        <column name="ACC_LOC_ID" size="40" type="VARCHAR"/>
         <column name="TRL_ND" size="1" type="VARCHAR"/>
         <column name="TRL_STAT" size="40" type="VARCHAR"/>
         <column name="LIC_ND" size="1" type="VARCHAR"/>
@@ -1436,21 +1430,9 @@
         <foreign-key foreignTable="OLE_PYMT_TYP_T" name="OLE_E_RES_REC_FK10">
             <reference foreign="PYMT_TYP_ID" local="PYMT_TYP_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="OLE_AUTHCAT_TYP_T" name="OLE_E_RES_REC_FK3">
-            <reference foreign="AUTHCAT_TYP_ID" local="AUTHCAT_TYP_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="OLE_ACC_TYP_T" name="OLE_E_RES_REC_FK2">
-            <reference foreign="ACC_TYP_ID" local="ACC_TYP_ID"/>
-        </foreign-key>
         <foreign-key foreignTable="OLE_CAT_STAT_SRCH_CD_T" name="OLE_E_RES_REC_FK11">
             <reference foreign="STAT_SRCH_CD_ID" local="STAT_SRCH_CD_ID"/>
         </foreign-key>
-        <index name="OLE_E_RES_REC_FK2">
-            <index-column name="ACC_TYP_ID"/>
-        </index>
-        <index name="OLE_E_RES_REC_FK3">
-            <index-column name="AUTHCAT_TYP_ID"/>
-        </index>
         <index name="OLE_E_RES_REC_FK6">
             <index-column name="PCKG_SCP_ID"/>
         </index>

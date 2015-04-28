@@ -23,6 +23,7 @@ public class OLEAccessTypeKeyValues extends KeyValuesBase {
     public List getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         Collection<OLEAccessType> oleAccessTypes = KRADServiceLocator.getBusinessObjectService().findAll(OLEAccessType.class);
+        keyValues.add(new ConcreteKeyValue("", ""));
         for (OLEAccessType oleAccessType : oleAccessTypes) {
             if (oleAccessType.isActive()) {
                 keyValues.add(new ConcreteKeyValue(oleAccessType.getOleAccessTypeId(), oleAccessType.getOleAccessTypeName()));

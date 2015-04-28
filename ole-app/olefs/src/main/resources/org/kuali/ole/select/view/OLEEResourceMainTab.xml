@@ -870,7 +870,7 @@
                     <property name="items">
                         <list>
 
-                            <bean id="accessStatus" parent="Uif-InputField" p:propertyName="accessStatus"
+                            <!--<bean id="accessStatus" parent="Uif-InputField" p:propertyName="accessStatus"
                                   p:label="Access Status" >
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
@@ -882,13 +882,45 @@
                                         </property>
                                     </bean>
                                 </property>
+                            </bean>-->
+                            <bean parent="Uif-DataField" p:propertyName="accessStatus" p:label="Access Status"/>
+                            <!--<bean parent="Uif-DataField" p:propertyName="accessType" p:label="Type of Access" />-->
+                            <bean id="accessTypeId" parent="Uif-InputField" p:propertyName="accessTypeId" p:label="Type of Access" p:enableAutoQuickfinder="false" p:readOnly="@{document.accessReadOnly}">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.keyvalue.OLEAccessTypeKeyValues" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                                </property>
                             </bean>
-
-                            <bean parent="Uif-DataField" p:propertyName="accessType" p:label="Type of Access" />
-                            <bean id="authenticationTypeId" parent="Uif-DataField" p:propertyName="authenticationType" p:label="Authentication Type"/>
-                            <bean id="numOfSimultaneousUsers" parent="Uif-DataField" p:propertyName="numOfSimultaneousUsers" p:label="No. of Simultaneous User" />
-                            <bean id="accessLocation" parent="Uif-DataField" p:propertyName="accessLocationName" p:label="Access Location"/>
-                            <bean parent="Uif-DataField" p:propertyName="techRequirements"/>
+                            <!--<bean id="authenticationTypeId" parent="Uif-DataField" p:propertyName="authenticationType" p:label="Authentication Type"/>-->
+                            <bean id="authenticationTypeId" parent="Uif-InputField" p:propertyName="authenticationTypeId" p:label="Authentication Type" p:enableAutoQuickfinder="false" p:readOnly="@{document.accessReadOnly}">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.keyvalue.OLEAuthenticationTypeKeyValues" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                                </property>
+                            </bean>
+                            <!--<bean id="numOfSimultaneousUsers" parent="Uif-DataField" p:propertyName="numOfSimultaneousUsers" p:label="No. of Simultaneous User" />-->
+                            <bean id="numOfSimultaneousUsers" parent="Uif-InputField" p:propertyName="numOfSimultaneousUsers" p:label="No. of Simultaneous User" p:readOnly="@{document.accessReadOnly}">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="25"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="NumericPatternConstraint" />
+                                </property>
+                            </bean>
+                            <!--<bean id="accessLocation" parent="Uif-DataField" p:propertyName="accessLocationName" p:label="Access Location"/>-->
+                            <bean id="accessLocation" parent="Uif-InputField" p:propertyName="accessLocation" p:label="Access Location" p:enableAutoQuickfinder="false" p:readOnly="@{document.accessReadOnly}">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.keyvalue.OLEAccessLocationKeyValues" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-MultiSelectControl" p:size="3"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="techRequirements" p:readOnly="@{document.accessReadOnly}"/>
                             <bean parent="Uif-LinkField" p:target="_blank" p:linkText="@{document.oleAccessActivationDocumentNumber}" p:href="oleEEResourceAccessMaintenance?methodToCall=docHandler&amp;docId=@{document.oleAccessActivationDocumentNumber}&amp;command=displayDocSearchView" p:label="Access Document Number"/>
                         </list>
                     </property>

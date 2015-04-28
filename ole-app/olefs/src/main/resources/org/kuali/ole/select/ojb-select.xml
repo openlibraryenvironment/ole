@@ -5326,13 +5326,7 @@
         <field-descriptor name="selector" column="SELTR" jdbc-type="VARCHAR" />-->
         <field-descriptor name="reqSelComment" column="REQ_SEL_COMM" jdbc-type="VARCHAR" />
         <field-descriptor name="reqPriority" column="REQ_PRTY_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="techRequirements" column="TECH_REQ" jdbc-type="VARCHAR" />
-        <field-descriptor name="accessTypeId" column="ACC_TYP_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="accessStatus" column="ACC_STS" jdbc-type="VARCHAR" />
-        <field-descriptor name="numOfSimultaneousUsers" column="NUM_SIMULT_USER" jdbc-type="VARCHAR" />
-        <field-descriptor name="authenticationTypeId" column="AUTHCAT_TYP_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="statisticalSearchingCodeId" column="STAT_SRCH_CD_ID" jdbc-type="INTEGER" />
-        <field-descriptor name="accessLocationId" column="ACC_LOC_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="trialNeeded" column="TRL_ND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="trialStatus" column="TRL_STAT" jdbc-type="VARCHAR" />
         <field-descriptor name="licenseNeeded" column="LIC_ND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -5387,10 +5381,6 @@
             <foreignkey field-ref="vendorDetailAssignedIdentifier" />
         </reference-descriptor>-->
 
-        <reference-descriptor name="oleAccessType" class-ref="org.kuali.ole.select.bo.OLEAccessType"
-                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
-            <foreignkey field-ref="accessTypeId" target-field-ref="oleAccessTypeId"/>
-        </reference-descriptor>
         <reference-descriptor name="orderType" class-ref="org.kuali.ole.module.purap.businessobject.PurchaseOrderType"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="orderTypeId" target-field-ref="purchaseOrderTypeId"/>
@@ -5414,10 +5404,6 @@
         <reference-descriptor name="oleRequestPriority" class-ref="org.kuali.ole.select.bo.OLERequestPriority"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="reqPriority" target-field-ref="oleRequestPriorityId"/>
-        </reference-descriptor>
-        <reference-descriptor name="oleAuthenticationType" class-ref="org.kuali.ole.select.bo.OLEAuthenticationType"
-                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
-            <foreignkey field-ref="authenticationTypeId" target-field-ref="oleAuthenticationTypeId"/>
         </reference-descriptor>
         <reference-descriptor name="oleeResourceStatus" class-ref="org.kuali.ole.select.bo.OLEEResourceStatus"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">

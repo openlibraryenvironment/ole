@@ -3,7 +3,6 @@ package org.kuali.ole.select.document;
 import org.joda.time.DateTime;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.alert.document.OleTransactionalDocumentBase;
-import org.kuali.ole.coa.businessobject.OleFundCode;
 import org.kuali.ole.describe.bo.OleStatisticalSearchingCodes;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.EHoldings;
@@ -228,6 +227,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private String workflowConfigurationId;
     private String oleAccessActivationDocumentNumber;
     private List<OLEGOKbPlatform> selectedGoKbPlatforms = new ArrayList<>();
+    private boolean accessReadOnly = false;
 
     public List<OLEGOKbPlatform> getSelectedGoKbPlatforms() {
         return selectedGoKbPlatforms;
@@ -1364,7 +1364,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
                     this.setVendorName(vendorDetailDoc.getVendorName());
                 }
             }
-            String accessId = "";
+            /*String accessId = "";
             if (this.getAccessLocation() != null  && this.getAccessLocation().size() > 0) {
                 List<String> accessLocationId = this.getAccessLocation();
                 if (accessLocationId.size() > 0) {
@@ -1374,7 +1374,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
                     }
                     this.setAccessLocationId(accessId.substring(0, (accessId.lastIndexOf(OLEConstants.OLEEResourceRecord.ACCESS_LOCATION_SEPARATOR))));
                 }
-            }
+            }*/
             String MobAccessId = "";
             if (this.getMobileAccess() != null  && this.getMobileAccess().size() > 0) {
                 List<String> mobileAccessId = this.getMobileAccess();
@@ -1484,7 +1484,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
         if (this.getStatisticalSearchingCodeId() != null) {
             this.setStatisticalSearchingCode(this.getStatisticalSearchingCodeId().toString());
         }
-        String accessLocationId = this.getAccessLocationId();
+        /*String accessLocationId = this.getAccessLocationId();
         if (accessLocationId != null && !accessLocationId.isEmpty()) {
             String[] accessLocation = accessLocationId.split(OLEConstants.OLEEResourceRecord.ACCESS_LOCATION_SEPARATOR);
             List<String> accessLocations = new ArrayList<>();
@@ -1502,7 +1502,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
             }
             this.setAccessLocation(accessLocations);
             this.setAccessLocationName(accessLocationNames);
-        }
+        }*/
         String mobileAccessId = this.getMobileAccessId();
         if (mobileAccessId != null && !mobileAccessId.isEmpty()) {
             String[] mobileAccess = mobileAccessId.split(OLEConstants.OLEEResourceRecord.ACCESS_LOCATION_SEPARATOR);
@@ -1614,6 +1614,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
         getOleEResourceSearchService().getBannerMessage(this);
         getOleeResourceHelperService().updateVendorInfo(this);
         getOleEResourceSearchService().updatePlatformProvider(this);
+        getOleeResourceHelperService().setAccessInfo(this);
 
     }
 
@@ -2031,5 +2032,13 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
 
     public void setGokbPackageStatus(String gokbPackageStatus) {
         this.gokbPackageStatus = gokbPackageStatus;
+    }
+
+    public boolean isAccessReadOnly() {
+        return accessReadOnly;
+    }
+
+    public void setAccessReadOnly(boolean accessReadOnly) {
+        this.accessReadOnly = accessReadOnly;
     }
 }

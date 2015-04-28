@@ -32,15 +32,20 @@ import org.kuali.ole.service.impl.OLEEResourceSearchServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.vnd.businessobject.*;
 import org.kuali.ole.vnd.document.service.impl.VendorServiceImpl;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
 import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
 import org.kuali.rice.krad.maintenance.MaintenanceLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -1883,5 +1888,81 @@ public class OLEEResourceHelperService {
         if (deleteMaintenanceLockList.size() > 0) {
             getBusinessObjectService().delete(deleteMaintenanceLockList);
         }
+    }
+
+    public void setAccessInfo(OLEEResourceRecordDocument oleeResourceRecordDocument) {
+        if (StringUtils.isNotBlank(oleeResourceRecordDocument.getOleAccessActivationDocumentNumber())) {
+            DocumentService documentService = GlobalResourceLoader.getService(OLEConstants.DOCUMENT_HEADER_SERVICE);
+            try {
+                boolean hasPermission = false;
+                PermissionService service = KimApiServiceLocator.getPermissionService();
+                if (GlobalVariables.getUserSession() != null && StringUtils.isNotBlank(GlobalVariables.getUserSession().getPrincipalId())) {
+                    hasPermission = service.hasPermission(GlobalVariables.getUserSession().getPrincipalId(), OLEConstants.SELECT_NMSPC, "Edit E-Resource Record");
+                }
+                MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(oleeResourceRecordDocument.getOleAccessActivationDocumentNumber());
+                String accessActivationDocumentStatus = maintenanceDocumentBase.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+                if (!(hasPermission && accessActivationDocumentStatus.equalsIgnoreCase("s"))) {
+                    oleeResourceRecordDocument.setAccessReadOnly(true);
+                }
+                OLEEResourceAccessActivation oleeResourceAccessActivation = (OLEEResourceAccessActivation) maintenanceDocumentBase.getNewMaintainableObject().getDataObject();
+                if (oleeResourceAccessActivation != null) {
+                    oleeResourceRecordDocument.setAccessStatus(oleeResourceAccessActivation.getAccessStatus());
+                    oleeResourceRecordDocument.setAuthenticationTypeId(oleeResourceAccessActivation.getAuthenticationTypeId());
+                    oleeResourceRecordDocument.setAccessLocation(oleeResourceAccessActivation.getAccessLocation());
+                    oleeResourceRecordDocument.setAccessTypeId(oleeResourceAccessActivation.getAccessTypeId());
+                    oleeResourceRecordDocument.setNumOfSimultaneousUsers(oleeResourceAccessActivation.getNumOfSimultaneousUsers());
+                    oleeResourceRecordDocument.setTechRequirements(oleeResourceAccessActivation.getTechRequirements());
+                }
+            } catch (WorkflowException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void createOrUpdateAccessWorkflow(OLEEResourceRecordDocument oleeResourceRecordDocument) {
+        if (StringUtils.isNotBlank(oleeResourceRecordDocument.getOleAccessActivationDocumentNumber())) {
+            try {
+                MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(oleeResourceRecordDocument.getOleAccessActivationDocumentNumber());
+                String accessActivationDocumentStatus = maintenanceDocumentBase.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+                if (accessActivationDocumentStatus.equalsIgnoreCase("s")) {
+                    OLEEResourceAccessActivation oleeResourceAccessActivation = (OLEEResourceAccessActivation) maintenanceDocumentBase.getNewMaintainableObject().getDataObject();
+                    if (oleeResourceAccessActivation != null) {
+                        oleeResourceAccessActivation.setAccessStatus(oleeResourceRecordDocument.getAccessStatus());
+                        oleeResourceAccessActivation.setAuthenticationTypeId(oleeResourceRecordDocument.getAuthenticationTypeId());
+                        oleeResourceAccessActivation.setAccessLocation(oleeResourceRecordDocument.getAccessLocation());
+                        oleeResourceAccessActivation.setAccessTypeId(oleeResourceRecordDocument.getAccessTypeId());
+                        oleeResourceAccessActivation.setNumOfSimultaneousUsers(oleeResourceRecordDocument.getNumOfSimultaneousUsers());
+                        oleeResourceAccessActivation.setTechRequirements(oleeResourceRecordDocument.getTechRequirements());
+                        getDocumentService().saveDocument(maintenanceDocumentBase);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            if (StringUtils.isNotBlank(oleeResourceRecordDocument.getAccessStatus()) || StringUtils.isNotBlank(oleeResourceRecordDocument.getAuthenticationTypeId())
+                    || oleeResourceRecordDocument.getAccessLocation().size() > 0 || StringUtils.isNotBlank(oleeResourceRecordDocument.getAccessTypeId())
+                    || StringUtils.isNotBlank(oleeResourceRecordDocument.getNumOfSimultaneousUsers()) || StringUtils.isNotBlank(oleeResourceRecordDocument.getTechRequirements())) {
+                deleteMaintenanceLock();
+                DocumentService documentService = GlobalResourceLoader.getService(OLEConstants.DOCUMENT_HEADER_SERVICE);
+                try {
+                    MaintenanceDocument newDocument = (MaintenanceDocument) documentService.getNewDocument("OLE_ERES_ACCESS_MD");
+                    newDocument.getDocumentHeader().setDocumentDescription(OLEConstants.ACCESS_ACTIVATION_DESCRIPTION);
+                    OLEEResourceAccessActivation oleeResourceAccessActivation = (OLEEResourceAccessActivation) newDocument.getNewMaintainableObject().getDataObject();
+                    oleeResourceAccessActivation.setAccessStatus(oleeResourceRecordDocument.getAccessStatus());
+                    oleeResourceAccessActivation.setAuthenticationTypeId(oleeResourceRecordDocument.getAuthenticationTypeId());
+                    oleeResourceAccessActivation.setAccessLocation(oleeResourceRecordDocument.getAccessLocation());
+                    oleeResourceAccessActivation.setAccessTypeId(oleeResourceRecordDocument.getAccessTypeId());
+                    oleeResourceAccessActivation.setNumOfSimultaneousUsers(oleeResourceRecordDocument.getNumOfSimultaneousUsers());
+                    oleeResourceAccessActivation.setTechRequirements(oleeResourceRecordDocument.getTechRequirements());
+                    oleeResourceAccessActivation.setOleERSIdentifier(oleeResourceRecordDocument.getOleERSIdentifier());
+                    getDocumentService().saveDocument(newDocument);
+                    oleeResourceRecordDocument.setOleAccessActivationDocumentNumber(newDocument.getDocumentNumber());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 }

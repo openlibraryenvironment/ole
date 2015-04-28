@@ -4772,4 +4772,35 @@
                           tableName="OLE_PLTFRM_ALERT_S"/>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_E_RES_REC_T_DROP">
+        <dropColumn catalogName="ole"
+                    columnName="TECH_REQ"
+                    schemaName="ole"
+                    tableName="OLE_E_RES_REC_T"/>
+        <dropForeignKeyConstraint baseTableName="OLE_E_RES_REC_T"
+                                  constraintName="OLE_E_RES_REC_FK2"/>
+        <dropColumn catalogName="ole"
+                    columnName="ACC_TYP_ID"
+                    schemaName="ole"
+                    tableName="OLE_E_RES_REC_T"/>
+        <dropColumn catalogName="ole"
+                    columnName="ACC_STS"
+                    schemaName="ole"
+                    tableName="OLE_E_RES_REC_T"/>
+        <dropColumn catalogName="ole"
+                    columnName="NUM_SIMULT_USER"
+                    schemaName="ole"
+                    tableName="OLE_E_RES_REC_T"/>
+        <dropForeignKeyConstraint baseTableName="OLE_E_RES_REC_T"
+                                  constraintName="OLE_E_RES_REC_FK3"/>
+        <dropColumn catalogName="ole"
+                    columnName="AUTHCAT_TYP_ID"
+                    schemaName="ole"
+                    tableName="OLE_E_RES_REC_T"/>
+        <dropColumn catalogName="ole"
+                    columnName="ACC_LOC_ID"
+                    schemaName="ole"
+                    tableName="OLE_E_RES_REC_T"/>
+    </changeSet>
+
 </databaseChangeLog>

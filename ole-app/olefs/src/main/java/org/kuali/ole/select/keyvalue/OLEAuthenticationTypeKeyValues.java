@@ -23,6 +23,7 @@ public class OLEAuthenticationTypeKeyValues extends KeyValuesBase {
     public List getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         Collection<OLEAuthenticationType> oleAuthenticationTypes = KRADServiceLocator.getBusinessObjectService().findAll(OLEAuthenticationType.class);
+        keyValues.add(new ConcreteKeyValue("", ""));
         for (OLEAuthenticationType oleAuthenticationType : oleAuthenticationTypes) {
             if (oleAuthenticationType.isActive()) {
                 keyValues.add(new ConcreteKeyValue(oleAuthenticationType.getOleAuthenticationTypeId(), oleAuthenticationType.getOleAuthenticationTypeName()));

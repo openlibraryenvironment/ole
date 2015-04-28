@@ -525,6 +525,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             }
         }
         getOleEResourceSearchService().getPOInvoiceForERS(oleeResourceRecordDocument);
+        getOleeResourceHelperService().createOrUpdateAccessWorkflow(oleeResourceRecordDocument);
         /*if(StringUtils.isNotEmpty(eResId)) {
             getOleeResourceHelperService().insertOrUpdateGokbElementsForEResource(oleeResourceRecordDocument, true);
         }
@@ -605,6 +606,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             oleERSform.setRemoveInstanceFlag(false);
         }
         getOleEResourceSearchService().processEventAttachments(oleeResourceRecordDocument.getOleERSEventLogs());
+        getOleeResourceHelperService().createOrUpdateAccessWorkflow(oleeResourceRecordDocument);
         return super.route(oleERSform, result, request, response);
     }
 
@@ -675,6 +677,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             oleERSform.setRemoveInstanceFlag(false);
         }
         getOleEResourceSearchService().processEventAttachments(oleeResourceRecordDocument.getOleERSEventLogs());
+        getOleeResourceHelperService().createOrUpdateAccessWorkflow(oleeResourceRecordDocument);
         return super.approve(oleERSform, result, request, response);
     }
 
