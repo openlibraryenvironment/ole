@@ -766,6 +766,8 @@ public class GokbLocalServiceImpl implements GokbLocalService {
                 oleGokbPlatform.setSoftwarePlatform(platformChildNode.getTextContent());
             } else if (nodeName.equalsIgnoreCase(OLEConstants.OleGokb.DATE_CREATED)) {
                 oleGokbPlatform.setDateCreated(OleGokbXmlUtil.getTimeStampFromString(platformChildNode.getTextContent()));
+            } else if (nodeName.equalsIgnoreCase(OLEConstants.OleGokb.STATUS)) {
+                oleGokbPlatform.setStatus(platformChildNode.getTextContent());
             }
         }
         return oleGokbPlatform;

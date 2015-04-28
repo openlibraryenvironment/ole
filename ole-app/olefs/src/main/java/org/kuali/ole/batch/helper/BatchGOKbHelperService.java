@@ -68,7 +68,7 @@ public class BatchGOKbHelperService extends BatchBibImportHelper {
         while(iterator.hasNext()) {
 
             DataField dataField = iterator.next();
-            if(!tags.contains(dataField.getTag())) {
+            if(!dataField.getTag().equals("856") && !tags.contains(dataField.getTag())) {
                 iterator.remove();
             }
         }

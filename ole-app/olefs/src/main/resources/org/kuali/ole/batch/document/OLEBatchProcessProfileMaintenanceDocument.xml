@@ -1035,7 +1035,7 @@
 
 
     <bean id="OLEBatchProcessProfileBo-MaintenanceView-dataMappingSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false"
-          p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Export' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Order Record Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Invoice Import'}" p:readOnly="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'}" >
+          p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Export' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Order Record Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Invoice Import'}" p:readOnly="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'}" >
         <property name="headerText" value="Data Mapping" />
         <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileMappingOptionsBo" />
         <property name="propertyName" value="oleBatchProcessProfileMappingOptionsList" />

@@ -128,7 +128,7 @@ public class GokbLocalService_UT {
                 oleGokbPlatform = gokbLocalService.buildPlatformFromPlatformNode(platformNode, updatedDates.get(i));
                 assertNotNull(oleGokbPlatform.getGokbPlatformId());
                 assertNotNull(oleGokbPlatform.getPlatformName());
-//                assertNotNull(oleGokbPlatform.getStatus());
+                assertNotNull(oleGokbPlatform.getStatus());
                 assertNotNull(oleGokbPlatform.getPlatformProviderId());
                 assertNotNull(oleGokbPlatform.getAuthentication());
                 assertNotNull(oleGokbPlatform.getSoftwarePlatform());

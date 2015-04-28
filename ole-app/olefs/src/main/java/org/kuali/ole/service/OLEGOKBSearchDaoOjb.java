@@ -29,7 +29,7 @@ public class OLEGOKBSearchDaoOjb extends PlatformAwareDaoBaseOjb {
        }
 
      if(StringUtils.isNotEmpty(platformName)){
-            goKbSearchCriteria.addEqualTo("oleGokbPlatform.platformName",packageName);
+            goKbSearchCriteria.addEqualTo("oleGokbPlatform.platformName",platformName);
         }
 
 
