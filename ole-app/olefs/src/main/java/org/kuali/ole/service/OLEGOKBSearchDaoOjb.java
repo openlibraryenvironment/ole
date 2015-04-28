@@ -28,13 +28,13 @@ public class OLEGOKBSearchDaoOjb extends PlatformAwareDaoBaseOjb {
            goKbSearchCriteria.addEqualTo("oleGokbPackage.packageName",packageName);
        }
 
-      /*  if(StringUtils.isNotEmpty(platformName)){
+     if(StringUtils.isNotEmpty(platformName)){
             goKbSearchCriteria.addEqualTo("oleGokbPlatform.platformName",packageName);
         }
 
 
         if(StringUtils.isNotEmpty(title)){
-            goKbSearchCriteria.addEqualTo("oleGokbTitle.titleName",packageName);
+            goKbSearchCriteria.addEqualTo("oleGokbTitle.titleName",title);
         }
 
 
@@ -64,7 +64,7 @@ public class OLEGOKBSearchDaoOjb extends PlatformAwareDaoBaseOjb {
         if(tippStatusList.size()>0 && tippStatusList.size()>0){
             goKbSearchCriteria.addIn("status",tippStatusList);
         }
-*/
+
 
         QueryByCriteria query = QueryFactory.newQuery(OleGokbTipp.class, goKbSearchCriteria);
         Collection results=  getPersistenceBrokerTemplate().getCollectionByQuery(query);

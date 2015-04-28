@@ -640,6 +640,7 @@ public class OLEEResourceHelperService {
 
             String imprint = "";
             String publisher = "";
+            List<OLEGOKbTIPP> olegoKbTIPPList = new ArrayList<>();
             for (OLEGOKbTIPP olegoKbTIPP : olegoKbPlatform.getGoKbTIPPList()) {
 
                 if (olegoKbTIPP.isSelect() && olegoKbTIPP.getOleGokbTipp() != null) {
@@ -664,7 +665,10 @@ public class OLEEResourceHelperService {
                         bibMarcRecordMap.put(titleId, bibMarcRecord);
                         }
                     }
+                }else{
+                    olegoKbTIPPList.add(olegoKbTIPP);
                 }
+                olegoKbPlatform.setGoKbTIPPList(olegoKbTIPPList);
             }
         }
         return bibMarcRecords;

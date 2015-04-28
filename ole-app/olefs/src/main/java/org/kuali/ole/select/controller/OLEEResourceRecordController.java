@@ -2221,7 +2221,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                     }
                 }
                 oleeResourceRecordDocument.setGokbPackageId(packageId);
-                List<OleGokbTipp> oleGokbTippList = olegokbSearchDaoOjb.getTippsByPlatform(gokbPlatform.getPlatformId(), null);
+                List<OleGokbTipp> oleGokbTippList = olegokbSearchDaoOjb.getTippsByPlatform(gokbPlatform.getPlatformId(), packageId);
                 List<OLEGOKbTIPP> olegoKbTIPP;
                 if (oleGokbTippList != null && resultSetSize != null && oleGokbTippList.size() > resultSetSize) {
                     olegoKbTIPP = getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList.subList(0, resultSetSize));

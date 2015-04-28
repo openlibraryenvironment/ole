@@ -109,6 +109,7 @@
                                             <list>
                                                 <!--<bean parent="Uif-KeyLabelPair" p:key="dataBase" p:value="Database"/>-->
                                                 <!--<bean parent="Uif-KeyLabelPair" p:key="book" p:value="Book"/>-->
+                                                <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
                                                 <bean parent="Uif-KeyLabelPair" p:key="Journal" p:value="Journal"/>
                                             </list>
                                         </property>
@@ -236,10 +237,8 @@
         <list>
             <ref bean="GokbTippProileSection"/>
             <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="importData"
-                  p:actionLabel="Import Data" p:style="float:left;margin-left:10em" p:successCallback="displayDialogWindow('div#tiipResults')"/>
-            <bean parent="Uif-SecondaryActionButton-Small"
-                  p:actionLabel="close" p:successCallback="closeLightBoxComponentTipp('tiipResults')" p:style="margin-left:0;"/>
-            <bean parent="Uif-SecondaryActionButton-Small" p:actionScript="closeLightBoxComponentTipp('div#tiipResults')"
+                  p:actionLabel="Import Data" p:style="float:left;margin-left:10em" p:successCallback="closeLightBoxComponentTipp('div#tiipResults')"/>
+             <bean parent="Uif-SecondaryActionButton-Small" p:actionScript="closeLightBoxComponentTipp('div#tiipResults')"
                   p:actionLabel="Cancel" p:style="float:left;margin-left:30em"/>
         </list>
         </property>
