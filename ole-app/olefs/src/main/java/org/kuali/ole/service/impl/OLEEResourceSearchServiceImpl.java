@@ -3,6 +3,7 @@ package org.kuali.ole.service.impl;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.coa.businessobject.*;
@@ -1626,23 +1627,36 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                 if (olePaymentRequestItem != null) {
                     oleEResInvoice.setPaidDate(olePaymentRequestItem.getPaymentRequestDocument().getPaymentRequestPayDate());
                 }
-                StringBuffer fundCode = new StringBuffer();
-                if (oleInvoiceItem.getSourceAccountingLines() != null && oleInvoiceItem.getSourceAccountingLines().size() > 0) {
-                    for (PurApAccountingLine accountingLine : oleInvoiceItem.getSourceAccountingLines()) {
-                        map.clear();
-                        map.put(OLEConstants.ACCOUNT_NUMBER, accountingLine.getAccountNumber());
-                        map.put(OLEConstants.OBJECT_CODE, accountingLine.getFinancialObjectCode());
-                        OleVendorAccountInfo oleVendorAccountInfo = getBusinessObjectService().findByPrimaryKey(OleVendorAccountInfo.class, map);
-                        if (oleVendorAccountInfo != null) {
-                            fundCode.append(oleVendorAccountInfo.getVendorRefNumber());
-                            fundCode.append(OLEConstants.COMMA);
-                            fundCode.append(' ');
-                        }
+                //invoice note
+                if (CollectionUtils.isNotEmpty(oleInvoiceItem.getNotes())) {
+                    StringBuffer invoiceNotes = new StringBuffer();
+                    for (OleInvoiceNote oleInvoiceNote : oleInvoiceItem.getNotes()) {
+                        invoiceNotes.append(oleInvoiceNote.getNote());
+                        invoiceNotes.append(OLEConstants.COMMA);
+                        invoiceNotes.append(' ');
+                    }
+                    if (invoiceNotes.length() > 0) {
+                        invoiceNotes.deleteCharAt(invoiceNotes.length() - 2);
+                        oleEResInvoice.setInvoiceNote(invoiceNotes.toString());
                     }
                 }
-                if (fundCode.length() > 0) {
-                    fundCode.deleteCharAt(fundCode.length() - 2);
-                    oleEResInvoice.setFundCode(fundCode.toString());
+                //accounting lines
+                if (oleInvoiceItem.getSourceAccountingLines() != null && oleInvoiceItem.getSourceAccountingLines().size() > 0) {
+                    List<OLEEResourceInvoiceAccountingLine> oleeResourceInvoiceAccountingLineList = new ArrayList<>();
+                    for (PurApAccountingLine accountingLine : oleInvoiceItem.getSourceAccountingLines()) {
+                        OLEEResourceInvoiceAccountingLine oleeResourceInvoiceAccountingLine = new OLEEResourceInvoiceAccountingLine();
+                        oleeResourceInvoiceAccountingLine.setChartOfAccountsCode(accountingLine.getChartOfAccountsCode());
+                        oleeResourceInvoiceAccountingLine.setAccountNumber(accountingLine.getAccountNumber());
+                        oleeResourceInvoiceAccountingLine.setSubAccountNumber(accountingLine.getSubAccountNumber());
+                        oleeResourceInvoiceAccountingLine.setFinancialObjectCode(accountingLine.getFinancialObjectCode());
+                        oleeResourceInvoiceAccountingLine.setFinancialSubObjectCode(accountingLine.getFinancialSubObjectCode());
+                        oleeResourceInvoiceAccountingLine.setProjectCode(accountingLine.getProjectCode());
+                        oleeResourceInvoiceAccountingLine.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
+                        oleeResourceInvoiceAccountingLine.setAmount(accountingLine.getAmount());
+                        oleeResourceInvoiceAccountingLine.setAccountLinePercent(accountingLine.getAccountLinePercent());
+                        oleeResourceInvoiceAccountingLineList.add(oleeResourceInvoiceAccountingLine);
+                    }
+                    oleEResInvoice.setAccountingLines(oleeResourceInvoiceAccountingLineList);
                 }
                 oleeResourceInvoiceses.add(oleEResInvoice);
             }

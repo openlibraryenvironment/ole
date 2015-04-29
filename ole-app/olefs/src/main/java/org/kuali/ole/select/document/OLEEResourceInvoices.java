@@ -1,13 +1,14 @@
 package org.kuali.ole.select.document;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.ole.select.bo.OLEEResourceInvoiceAccountingLine;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +29,7 @@ public class OLEEResourceInvoices extends PersistableBusinessObjectBase {
     private String invoicedAmount;
     private Date paidDate;
     private String invoiceNote;
-    private String fundCode;
+    /*private String fundCode;*/
     private Date checkClearedDate;
     private String checkNumber;
     private String invoiceStatus;
@@ -36,6 +37,7 @@ public class OLEEResourceInvoices extends PersistableBusinessObjectBase {
     private OLEEResourceRecordDocument oleERSDocument;
     private OLEEResourcePO oleEResPO;
     private String redirectUrl;
+    private List<OLEEResourceInvoiceAccountingLine> accountingLines = new ArrayList<>();
 
     public String getOleEResInvoiceId() {
         return oleEResInvoiceId;
@@ -125,13 +127,13 @@ public class OLEEResourceInvoices extends PersistableBusinessObjectBase {
         this.invoiceNote = invoiceNote;
     }
 
-    public String getFundCode() {
+    /*public String getFundCode() {
         return fundCode;
     }
 
     public void setFundCode(String fundCode) {
         this.fundCode = fundCode;
-    }
+    }*/
 
     public Date getCheckClearedDate() {
         return checkClearedDate;
@@ -191,5 +193,13 @@ public class OLEEResourceInvoices extends PersistableBusinessObjectBase {
 
     public void setRedirectUrl(String redirectUrl) {
         this.redirectUrl = redirectUrl;
+    }
+
+    public List<OLEEResourceInvoiceAccountingLine> getAccountingLines() {
+        return accountingLines;
+    }
+
+    public void setAccountingLines(List<OLEEResourceInvoiceAccountingLine> accountingLines) {
+        this.accountingLines = accountingLines;
     }
 }

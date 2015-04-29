@@ -17,8 +17,16 @@
         <property name="propertyName" value="oleERSInvoices" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="renderAddLine" value="false"/>
-        <property name="layoutManager.richTable.render" value="false"/>
-        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxSection">
+                <property name="items">
+                    <list>
+                        <ref bean="InvoiceDetails-AccountingLines"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
        <!-- <property name="layoutManager.columnCalculations">
             <list>
                 <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="paidAmountCurrentFY"/>
@@ -34,7 +42,7 @@
                 <bean id="vendorName-invoice" parent="Uif-DataField" p:propertyName="vendorName" p:label="Vendor"/>
                 <bean id="invoiceAmount-invoice" parent="Uif-DataField" p:propertyName="invoicedAmount" p:label="Amount"/>
                 <bean id="invoiceNote-invoice" parent="Uif-DataField" p:propertyName="invoiceNote" p:label="Note"/>
-                <bean id="invoice-fundCode" parent="Uif-DataField" p:propertyName="fundCode" p:label="Fund Code(invoice)"/>
+                <!--<bean id="invoice-fundCode" parent="Uif-DataField" p:propertyName="fundCode" p:label="Fund Code(invoice)"/>-->
                 <bean id="invoiceStatus-invoice" parent="Uif-DataField" p:propertyName="invoiceStatus" p:label="Invoice Status"/>
                 <bean id="paidDate-invoice" parent="Uif-DataField" p:propertyName="paidDate" p:label="Paid Date"/>
                 <bean id="checkClearedDate-invoice" parent="Uif-DataField" p:propertyName="checkClearedDate" p:label="Date Check Cleared"/>
@@ -43,6 +51,31 @@
             </list>
         </property>
         <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="InvoiceDetails-AccountingLines" parent="Uif-Disclosure-TableSubCollection-WithinSection"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;" p:disclosure.defaultOpen="true">
+        <property name="headerText" value="Accounting Lines"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEEResourceInvoiceAccountingLine"/>
+        <property name="propertyName" value="accountingLines"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="chartOfAccountsCode" p:label="Chart"/>
+                <bean parent="Uif-DataField" p:propertyName="accountNumber" p:label="Account Number"/>
+                <bean parent="Uif-DataField" p:propertyName="subAccountNumber" p:label="Sub Account Number"/>
+                <bean parent="Uif-DataField" p:propertyName="financialObjectCode" p:label="Object Code"/>
+                <bean parent="Uif-DataField" p:propertyName="financialSubObjectCode" p:label="Sub Object Code"/>
+                <bean parent="Uif-DataField" p:propertyName="projectCode" p:label="Project"/>
+                <bean parent="Uif-DataField" p:propertyName="organizationReferenceId" p:label="Org Ref Id"/>
+                <bean parent="Uif-DataField" p:propertyName="amount" p:label="Dollar"/>
+                <bean parent="Uif-DataField" p:propertyName="accountLinePercent" p:label="Percentage"/>
+            </list>
+        </property>
     </bean>
 
 </beans>
