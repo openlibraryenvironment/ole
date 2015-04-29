@@ -572,8 +572,8 @@
             <list>
                 <bean id="olePatronBarcode" parent="Uif-LookupCriteriaInputField" p:propertyName="borrowerBarcode" p:label="Patron Barcode" p:enableAutoDirectInquiry="false">
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
-                              p:fieldConversions="patronBarcode:borrowerBarcode,firstName:firstName,lastName:lastName" p:lookupParameters="borrowerBarcode:patronBarcode,firstName:firstName,lastName:lastName"/>
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              p:fieldConversions="barcode:borrowerBarcode,firstName:firstName,lastName:lastName" p:lookupParameters="borrowerBarcode:barcode,firstName:firstName,lastName:lastName"/>
                     </property>
                 </bean>
                 <!--<bean id="olePatronBarcode" parent="Uif-LookupCriteriaInputField" p:propertyName="borrowerBarcode" p:label="Patron Barcode"/>-->

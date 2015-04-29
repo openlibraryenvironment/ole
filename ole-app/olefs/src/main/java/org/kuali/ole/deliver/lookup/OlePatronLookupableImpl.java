@@ -1,15 +1,19 @@
 package org.kuali.ole.deliver.lookup;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OleLookupableImpl;
 import org.kuali.ole.deliver.bo.*;
+import org.kuali.ole.deliver.service.OLEDeliverService;
 import org.kuali.ole.service.OlePatronHelperService;
 import org.kuali.ole.service.OlePatronHelperServiceImpl;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
+import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
 import org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo;
+import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -35,175 +39,6 @@ public class OlePatronLookupableImpl extends OleLookupableImpl {
     List<?> searchResults;
     OlePatronHelperService olePatronHelperService = new OlePatronHelperServiceImpl();
     public static int count = 0;
-
-    /**
-     * This method will populate the search criteria and return the search results
-     *
-     * @param form
-     * @param searchCriteria
-     * @param bounded
-     * @return displayList(Collection)
-     */
-    //@Override
-  /*  public Collection<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
-        LOG.debug("Inside performSearch()");
-        List<OlePatronDocument> olePatronDocuments=new ArrayList<OlePatronDocument>();
-        List<OlePatronDocument> finalResult=new ArrayList<OlePatronDocument>();
-        List<String> olePatronIdList=new ArrayList<String>();
-        List<String> olePatronPatronIdList=new ArrayList<String>();
-        List<String> olePatronCommonIdList=new ArrayList<String>();
-        List<String> olePatronEntityNameList=new ArrayList<String>();
-        List<String> olePatronEntityPhoneList=new ArrayList<String>();
-        List<String> olePatronEntityEmailList=new ArrayList<String>();
-        Map<String,String> searchEntityMap=new HashMap<String,String>();
-        Map<String,String> tempMap=new HashMap<String,String>();
-        Map<String,String> searchEntityPhoneMap=new HashMap<String,String>();
-        Map<String,String> searchEntityEmailMap=new HashMap<String,String>();
-        LookupUtils.preprocessDateFields(searchCriteria);
-        String firstName = searchCriteria.get(OLEConstants.OlePatron.PATRON_FIRST_NAME);
-        String middleName = searchCriteria.get("middleName");
-        String lastName = searchCriteria.get(OLEConstants.OlePatron.PATRON_LAST_NAME);
-        String email = searchCriteria.get("emailAddress");
-        String phoneNumber = searchCriteria.get("phoneNumber");
-        if(StringUtils.isNotEmpty(searchCriteria.get("barcode"))){
-            Map<String, String> map = new HashMap<String, String>();
-            map.put(OLEConstants.OlePatron.PATRON_LOST_BARCODE_FLD, searchCriteria.get("barcode"));
-            List<OlePatronLostBarcode> olePatronLostBarcodes = (List<OlePatronLostBarcode>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronLostBarcode.class, map);
-            if(olePatronLostBarcodes!=null && olePatronLostBarcodes.size()>0){
-                  for(Map.Entry<String,String> entry:searchCriteria.entrySet()){
-                      if(entry.getKey().equalsIgnoreCase("barcode")){
-                          String patronId=olePatronLostBarcodes.get(0).getOlePatronId();
-                          Map patronMap = new HashMap();
-                          patronMap.put(OLEConstants.OleDeliverRequest.PATRON_ID, patronId);
-                          List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class, patronMap);
-                          if (olePatronDocumentList != null && olePatronDocumentList.size() > 0) {
-                              entry.setValue(olePatronDocumentList.get(0).getBarcode());
-                          }
-                      }
-                  }
-            }
-            searchCriteria.remove("activeIndicator");
-        }
-        searchCriteria.remove("emailAddress");
-        searchCriteria.remove("firstName");
-        searchCriteria.remove("middleName");
-        searchCriteria.remove("lastName");
-        searchCriteria.remove("phoneNumber");
-
-
-        if(StringUtils.isNotEmpty(firstName)){
-            searchEntityMap.put("firstName",firstName);
-        }
-        if(StringUtils.isNotEmpty(lastName)){
-            searchEntityMap.put("lastName",lastName);
-        }
-        if(StringUtils.isNotEmpty(middleName)){
-            searchEntityMap.put("middleName",middleName);
-        }
-        if(StringUtils.isNotEmpty(phoneNumber)){
-            searchEntityPhoneMap.put("phoneNumber",phoneNumber);
-        }
-        if(StringUtils.isNotEmpty(email)){
-            searchEntityEmailMap.put("emailAddress",email);
-        }
-
-        if (StringUtils.isNotBlank(phoneNumber)) {
-            if (!validatePhoneNumber(phoneNumber)) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.INVALID_PHONE_NUMBER_FORMAT);
-                return new ArrayList<Object>();
-            }
-            phoneNumber = buildPhoneNumber(phoneNumber);
-        }
-
-        Collection<?> displayList;
-
-        // TODO: force uppercase will be done in binding at some point
-        displayList = getSearchResults(form, LookupUtils.forceUppercase(getDataObjectClass(), searchCriteria),
-                !bounded);
-
-        try {
-            //By firstName,lastName,middleName
-            if (searchEntityMap.size() > 0) {
-                try {
-                    Map<String,String> searchEntityCriteria=new HashMap<String,String>();
-                    for(Map.Entry<String,String> entry:searchEntityMap.entrySet()){
-                        int counter=0;
-                        for( int i=0; i<entry.getValue().length(); i++ ) {
-                            if( entry.getValue().charAt(i) == '*' ) {
-                                counter++;
-                            }
-                        }
-                        if (counter==0 || (counter!=entry.getValue().length())) {
-                            searchEntityCriteria.put(entry.getKey(), entry.getValue());
-                        }
-                    }
-                    if (searchEntityCriteria.size()>0) {
-                        Class entityNameBoClass = Class.forName("org.kuali.ole.deliver.bo.OLEPatronEntityViewBo");
-                        if (LookupUtils.hasExternalBusinessObjectProperty(entityNameBoClass, searchEntityCriteria)) {
-                            Map<String, String> eboSearchCriteria = adjustCriteriaForNestedEBOs(searchEntityCriteria, bounded);
-                            searchResults = (List<EntityNameBo>) getLookupService().findCollectionBySearchUnbounded(entityNameBoClass, eboSearchCriteria);
-                        } else {
-                            searchResults = (List<EntityNameBo>) getLookupService().findCollectionBySearchUnbounded(entityNameBoClass, searchEntityCriteria);
-                        }
-                    } else {
-                        searchResults=(List<EntityNameBo>)KRADServiceLocator.getBusinessObjectService().findAll(EntityNameBo.class);
-                    }
-                    Iterator iterator = searchResults.iterator();
-                    while (iterator.hasNext()) {
-                        EntityNameBo entityNameBo=(EntityNameBo)iterator.next();
-                        if(!olePatronEntityNameList.contains(entityNameBo.getEntityId()))
-                            olePatronEntityNameList.add(entityNameBo.getEntityId());
-                        if(!olePatronIdList.contains(entityNameBo.getEntityId()))
-                            olePatronIdList.add(entityNameBo.getEntityId());
-                    }
-
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException("Error trying to perform search", e);
-                } catch (InstantiationException e1) {
-                    throw new RuntimeException("Error trying to perform search", e1);
-                }
-
-            }
-
-            // TODO delyea - is this the best way to set that the entire set has a returnable row?
-            for (Object object : displayList) {
-                if(object instanceof OlePatronDocument){
-                    OlePatronDocument patronBo = (OlePatronDocument) object;
-                    OLEPatronEntityViewBo olePatronEntityViewBo = patronBo.getOlePatronEntityViewBo();
-                    patronBo.setFirstName(olePatronEntityViewBo.getFirstName());
-                    patronBo.setMiddleName(olePatronEntityViewBo.getMiddleName());
-                    patronBo.setLastName(olePatronEntityViewBo.getLastName());
-                    patronBo.setEmailAddress(olePatronEntityViewBo.getEmailAddress());
-                    patronBo.setPhoneNumber(olePatronEntityViewBo.getPhoneNumber());
-                    patronBo.setCreateBillUrl(getPatronBillUrl(patronBo.getOlePatronId(),patronBo.getFirstName(),patronBo.getLastName()));
-                    if(olePatronEntityViewBo.getBillCount()>0){
-                        patronBo.setPatronBillFileName("Patron Bill");
-                        patronBo.setViewBillUrl("patronbill?viewId=BillView&amp;methodToCall=start&amp;patronId=" + patronBo.getOlePatronId());
-                    }
-                }
-                if (isResultReturnable(object)) {
-                    form.setAtLeastOneRowReturnable(true);
-                }
-            }
-        }
-            catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-       *//* for (int i = 0; i < finalResult.size(); i++) {
-            String patronId = ((OlePatronDocument) finalResult.get(i)).getOlePatronId();
-            Map patronIdAvailable = new HashMap();
-            patronIdAvailable.put("patronId", patronId);
-            List<PatronBillPayment> patronBillPaymentList = (List<PatronBillPayment>) KRADServiceLocator.getBusinessObjectService().findMatching(PatronBillPayment.class, patronIdAvailable);
-            if (patronBillPaymentList != null && !patronBillPaymentList.isEmpty()) {
-                ((OlePatronDocument) finalResult.get(i)).setPatronBillFlag(true);
-            } else {
-                ((OlePatronDocument) finalResult.get(i)).setPatronBillFlag(false);
-            }
-        }*//*
-        finalResult = (List<OlePatronDocument>) displayList;
-        searchResults=finalResult;
-        return finalResult;
-    }*/
 
     @Override
     public Collection<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
@@ -276,34 +111,31 @@ public class OlePatronLookupableImpl extends OleLookupableImpl {
         // TODO: force uppercase will be done in binding at some point
         displayList = getSearchResults(form, LookupUtils.forceUppercase(getDataObjectClass(), searchCriteria),
                 !bounded);
-
-        try {
-                // TODO delyea - is this the best way to set that the entire set has a returnable row?
-                for (Object object : displayList) {
-                    if(object instanceof OlePatronDocument){
-                        OlePatronDocument patronBo = (OlePatronDocument) object;
-                        OLEPatronEntityViewBo olePatronEntityViewBo = patronBo.getOlePatronEntityViewBo();
-                        patronBo.setFirstName(olePatronEntityViewBo.getFirstName());
-                        patronBo.setMiddleName(olePatronEntityViewBo.getMiddleName());
-                        patronBo.setLastName(olePatronEntityViewBo.getLastName());
-                        patronBo.setEmailAddress(olePatronEntityViewBo.getEmailAddress());
-                        patronBo.setPhoneNumber(olePatronEntityViewBo.getPhoneNumber());
-                        patronBo.setCreateBillUrl(getPatronBillUrl(patronBo.getOlePatronId(),patronBo.getFirstName(),patronBo.getLastName()));
-                        if(olePatronEntityViewBo.getBillCount()>0){
-                            patronBo.setPatronBillFileName(OLEConstants.OlePatron.PATRON_BILL);
-                            patronBo.setViewBillUrl(OLEConstants.OlePatron.PATRON_VIEW_BILL_URL + patronBo.getOlePatronId());
-                        }
+        // TODO delyea - is this the best way to set that the entire set has a returnable row?
+        for (Object object : displayList) {
+            if (object instanceof OlePatronDocument) {
+                String patronId="";
+                try {
+                    OlePatronDocument patronBo = (OlePatronDocument) object;
+                    patronId=patronBo.getOlePatronId();
+                    patronBo = OLEDeliverService.populatePatronName(patronBo);
+                    patronBo = OLEDeliverService.populatePatronEmailAndPhone(patronBo);
+                    patronBo.setCreateBillUrl(getPatronBillUrl(patronBo.getOlePatronId(), patronBo.getFirstName(), patronBo.getLastName()));
+                    List<PatronBillPayment> patronBillPaymentList = patronBo.getPatronBillPayments();
+                    if (CollectionUtils.isNotEmpty(patronBillPaymentList)) {
+                        patronBo.setPatronBillFileName(OLEConstants.OlePatron.PATRON_BILL);
+                        patronBo.setViewBillUrl(OLEConstants.OlePatron.PATRON_VIEW_BILL_URL + patronBo.getOlePatronId());
                     }
-                    if (isResultReturnable(object)) {
-                        form.setAtLeastOneRowReturnable(true);
-                    }
+                } catch (Exception e) {
+                    LOG.error("Error occurred while patron Lookup (patron Id -"+patronId+"):"+e);  //To change body of catch statement use File | Settings | File Templates.
                 }
-                finalResult = (List<OlePatronDocument>)displayList;
+            }
+            if (isResultReturnable(object)) {
+                form.setAtLeastOneRowReturnable(true);
+            }
         }
-        catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        searchResults=finalResult;
+        finalResult = (List<OlePatronDocument>) displayList;
+        searchResults = finalResult;
         return finalResult;
     }
 

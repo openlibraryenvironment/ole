@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.inquiry;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEPropertyConstants;
 import org.kuali.ole.deliver.bo.*;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * OlePatronInquirableImpl supports to get the data object and patron document.
+ * OlePatronInquirableImpl supports to get the data object and patron document  .
  */
 public class OlePatronInquirableImpl extends InquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OlePatronInquirableImpl.class);
@@ -154,6 +155,33 @@ public class OlePatronInquirableImpl extends InquirableImpl {
 
 
         }
+        List<String> propertyName = new ArrayList<>();
+        propertyName.add("oleBorrowerType");
+        propertyName.add("sourceBo");
+        propertyName.add("statisticalCategoryBo");
+        propertyName.add("olePatronEntityViewBo");
+        propertyName.add("notes");
+        propertyName.add("lostBarcodes");
+        propertyName.add("oleProxyPatronDocuments");
+        propertyName.add("oleProxyPatronDocumentList");
+        propertyName.add("oleAddresses");
+        propertyName.add("oleLoanDocuments");
+        propertyName.add("oleDeliverRequestBos");
+        propertyName.add("oleTemporaryCirculationHistoryRecords");
+        propertyName.add("olePatronLocalIds");
+        propertyName.add("patronBillPayments");
+        LoanProcessor.retrieveReferenceListOfObject(patronDocument,propertyName);
+        if(patronDocument.getOleLoanDocuments()!=null){
+            patronDocument.setLoanCount(patronDocument.getOleLoanDocuments().size());
+        }
+        if(patronDocument.getOleTemporaryCirculationHistoryRecords()!=null){
+            patronDocument.setTempCirculationHistoryCount(patronDocument.getOleTemporaryCirculationHistoryRecords().size());
+        }
+        if(patronDocument.getOleDeliverRequestBos()!=null){
+            patronDocument.setRequestedItemRecordsCount(patronDocument.getOleDeliverRequestBos().size());
+        }
+
+
 
         return patronDocument;
     }

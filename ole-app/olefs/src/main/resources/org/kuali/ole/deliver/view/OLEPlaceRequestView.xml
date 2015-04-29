@@ -140,9 +140,9 @@
 
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder"
-                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
-                              p:fieldConversions="patronBarcode:patronBarcode,patronType:patronType,firstName:patronName,patronId:patronId"
-                              p:lookupParameters="patronBarcode:patronBarcode"/>
+                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              p:fieldConversions="barcode:patronBarcode,borrowerType:patronType,firstName:patronName,olePatronId:patronId"
+                              p:lookupParameters="patronBarcode:barcode"/>
                     </property>
                 </bean>
                 <bean id="ptr_pl" parent="Uif-DataField" p:propertyName="patronName" p:label="Patron Name"

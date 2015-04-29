@@ -84,6 +84,9 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private String realPatronFirstName;
 
     private String realPatronLastName;
+    private int loanCount;
+    private int requestedItemRecordsCount;
+    private int tempCirculationHistoryCount;
 
     private transient IdentityService identityService;
 
@@ -1471,5 +1474,29 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
 
     public void setRealPatronLastName(String realPatronLastName) {
         this.realPatronLastName = realPatronLastName;
+    }
+
+    public int getLoanCount() {
+        return loanCount;
+    }
+
+    public void setLoanCount(int loanCount) {
+        this.loanCount = loanCount;
+    }
+
+    public int getRequestedItemRecordsCount() {
+        return requestedItemRecordsCount;
+    }
+
+    public void setRequestedItemRecordsCount(int requestedItemRecordsCount) {
+        this.requestedItemRecordsCount = requestedItemRecordsCount;
+    }
+
+    public int getTempCirculationHistoryCount() {
+        return tempCirculationHistoryCount;
+    }
+
+    public void setTempCirculationHistoryCount(int tempCirculationHistoryCount) {
+        this.tempCirculationHistoryCount = tempCirculationHistoryCount;
     }
 }

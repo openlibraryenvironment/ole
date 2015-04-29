@@ -196,9 +196,9 @@
                       p:enableAutoDirectInquiry="false" p:readOnly="@{maintenanceAction ne 'New'}">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder"
-                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
-                              p:fieldConversions="patronId:borrowerId,patronBarcode:borrowerBarcode,firstName:borrowerName"
-                              p:lookupParameters="borrowerId:patronId,borrowerBarcode:patronBarcode"/>
+                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              p:fieldConversions="olePatronId:borrowerId,barcode:borrowerBarcode,firstName:borrowerName"
+                              p:lookupParameters="borrowerId:olePatronId,borrowerBarcode:barcode"/>
                     </property>
 
                 </bean>
@@ -371,9 +371,9 @@
 
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder"
-                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
-                              p:fieldConversions="patronId:borrowerId,patronBarcode:borrowerBarcode,firstName:borrowerName"
-                              p:lookupParameters="borrowerId:patronId,borrowerBarcode:patronBarcode"/>
+                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              p:fieldConversions="olePatronId:borrowerId,barcode:borrowerBarcode,firstName:borrowerName"
+                              p:lookupParameters="borrowerId:olePatronId,borrowerBarcode:barcode"/>
                     </property>
                 </bean>
 
@@ -383,9 +383,9 @@
                       p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron'}">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder"
-                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
-                              p:fieldConversions="patronId:borrowerId,patronBarcode:borrowerBarcode,firstName:borrowerName"
-                              p:lookupParameters="borrowerId:patronId,borrowerBarcode:patronBarcode"/>
+                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              p:fieldConversions="olePatronId:borrowerId,barcode:borrowerBarcode,firstName:borrowerName"
+                              p:lookupParameters="borrowerId:olePatronId,borrowerBarcode:barcode"/>
                     </property>
                 </bean>
 
@@ -396,9 +396,9 @@
 
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder"
-                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
-                              p:fieldConversions="patronId:borrowerId,patronBarcode:borrowerBarcode,firstName:borrowerName"
-                              p:lookupParameters="borrowerId:patronId,borrowerBarcode:patronBarcode"/>
+                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              p:fieldConversions="olePatronId:borrowerId,barcode:borrowerBarcode,firstName:borrowerName"
+                              p:lookupParameters="borrowerId:olePatronId,borrowerBarcode:barcode"/>
                     </property>
                 </bean>
 
@@ -421,9 +421,9 @@
                       p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron' }">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder"
-                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
-                              p:fieldConversions="patronId:proxyBorrowerId,patronBarcode:proxyBorrowerBarcode,firstName:proxyBorrowerName"
-                              p:lookupParameters="proxyBorrowerId:patronId,proxyBorrowerBarcode:patronBarcode"/>
+                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              p:fieldConversions="olePatronId:proxyBorrowerId,barcode:proxyBorrowerBarcode,firstName:proxyBorrowerName"
+                              p:lookupParameters="proxyBorrowerId:olePatronId,proxyBorrowerBarcode:barcode"/>
                     </property>
                 </bean>
                 <bean id="selectReque-proxyBorrowerNames" parent="Uif-InputField" p:propertyName="proxyBorrowerName"

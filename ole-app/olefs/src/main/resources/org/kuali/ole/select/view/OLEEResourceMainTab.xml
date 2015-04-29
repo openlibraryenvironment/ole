@@ -743,7 +743,7 @@
             <list>
                 <bean id="requestor" parent="Uif-InputField" p:propertyName="requestorId" p:label="Requestor">
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument"
                               p:fieldConversions="lastName:requestorId"/>
                     </property>
                     <property name="control">

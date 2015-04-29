@@ -3,10 +3,10 @@ package org.kuali.ole.deliver.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OLEFlaggedItems;
-import org.kuali.ole.deliver.bo.OLEPatronEntityViewBo;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.bo.OlePatronNotes;
 import org.kuali.ole.deliver.form.OLEPatronFlaggedItemHistoryForm;
+import org.kuali.ole.deliver.service.OLEDeliverService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -80,8 +80,9 @@ public class OLEPatronFlaggedItemHistoryController extends UifControllerBase {
                     if(notes.getOlePatronId()!=null){
                         Map<String, String> patronId = new HashMap<String, String>();
                         patronId.put(OLEConstants.OlePatron.PAY_BILL_PATRON_ID, notes.getOlePatronId());
-                        OLEPatronEntityViewBo document = (OLEPatronEntityViewBo) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEPatronEntityViewBo.class, patronId);
+                        OlePatronDocument document = (OlePatronDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronId);
                         if (document != null) {
+                            document = OLEDeliverService.populatePatronName(document);
                             if (document.getFirstName() != null && !document.getFirstName().equalsIgnoreCase("")) {
                                 name = name + document.getFirstName();
                             }

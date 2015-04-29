@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.maintenance;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
@@ -9,6 +10,7 @@ import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.krad.OleComponentUtils;
 import org.kuali.ole.service.OlePatronService;
 import org.kuali.ole.service.OlePatronServiceImpl;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.impl.identity.address.EntityAddressBo;
 import org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationBo;
@@ -131,6 +133,31 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
                     }
                     olePatron.setOleProxyPatronDocumentList(proxyPatronDocuments);
                 }
+                List<String> propertyName = new ArrayList<>();
+                propertyName.add("oleBorrowerType");
+                propertyName.add("sourceBo");
+                propertyName.add("statisticalCategoryBo");
+                propertyName.add("olePatronEntityViewBo");
+                propertyName.add("notes");
+                propertyName.add("lostBarcodes");
+                propertyName.add("oleProxyPatronDocuments");
+                propertyName.add("oleProxyPatronDocumentList");
+                propertyName.add("oleAddresses");
+                propertyName.add("oleLoanDocuments");
+                propertyName.add("oleDeliverRequestBos");
+                propertyName.add("oleTemporaryCirculationHistoryRecords");
+                propertyName.add("olePatronLocalIds");
+                propertyName.add("patronBillPayments");
+                LoanProcessor.retrieveReferenceListOfObject(olePatron,propertyName);
+                if(olePatron.getOleLoanDocuments()!=null){
+                    olePatron.setLoanCount(olePatron.getOleLoanDocuments().size());
+                }
+                if(olePatron.getOleTemporaryCirculationHistoryRecords()!=null){
+                    olePatron.setTempCirculationHistoryCount(olePatron.getOleTemporaryCirculationHistoryRecords().size());
+                }
+                if(olePatron.getOleDeliverRequestBos()!=null){
+                    olePatron.setRequestedItemRecordsCount(olePatron.getOleDeliverRequestBos().size());
+                }
             }
         } catch (ClassNotPersistenceCapableException ex) {
             if (!document.getOldMaintainableObject().isExternalBusinessObject()) {
@@ -142,7 +169,6 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
                         + " is not persistable and is not externalizable - configuration error");
             }
         }
-
         return olePatron;
     }
 

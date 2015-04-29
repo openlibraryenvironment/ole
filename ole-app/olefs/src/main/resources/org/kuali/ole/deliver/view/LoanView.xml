@@ -1413,10 +1413,10 @@
 
     <bean id="Patron-barcode-parentBean" parent="Uif-InputField" p:maxLength="24" p:propertyName="patronBarcode"  p:label="Patron" p:render="@{loanLoginUserInfo eq null OR loanLoginUserInfo eq ''}">
         <property name="quickfinder">
-            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument">
                 <property name="fieldConversions">
                     <map>
-                        <entry key="patronBarcode" value="patronBarcode"/>
+                        <entry key="barcode" value="patronBarcode"/>
                         <entry key="firstName" value="patronFirstName"/>
                     </map>
                 </property>

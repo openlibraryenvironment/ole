@@ -414,4 +414,30 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="PATRON_VIEW_ALTER" >
+        <createView viewName="OLE_PTRN_ENTITY_V" schemaName="ole" catalogName="ole" replaceIfExists="true">
+            (SELECT
+            P.OLE_PTRN_ID,
+            P.BARCODE AS PTRN_BRCD,
+            P.BORR_TYP AS PTRN_TYP_ID,
+            ENT.ENTITY_ID,
+            ENT_NM.FIRST_NM,
+            ENT_NM.MIDDLE_NM,
+            ENT_NM.LAST_NM,
+            ENT_NM.SUFFIX_NM,
+            ENT_NM.PREFIX_NM,
+            (SELECT ENT_EM.EMAIL_ADDR FROM KRIM_ENTITY_EMAIL_T ENT_EM WHERE ENT.ENTITY_ID = ENT_EM.ENTITY_ID AND DFLT_IND='Y') AS EMAIL,
+            (SELECT ENT_PH.PHONE_NBR FROM KRIM_ENTITY_PHONE_T ENT_PH WHERE ENT.ENTITY_ID = ENT_PH.ENTITY_ID AND DFLT_IND='Y') AS PHONE,
+            concat(concat(ENT_NM.LAST_NM,', '),ENT_NM.FIRST_NM) AS NAME,
+            P.ACTV_IND AS ACTV_IND
+            FROM OLE_PTRN_T P,
+            KRIM_ENTITY_T ENT,
+            KRIM_ENTITY_NM_T ENT_NM
+            WHERE
+            P.OLE_PTRN_ID = ENT.ENTITY_ID
+            AND
+            ENT.ENTITY_ID = ENT_NM.ENTITY_ID)
+        </createView>
+    </changeSet>
+
 </databaseChangeLog>

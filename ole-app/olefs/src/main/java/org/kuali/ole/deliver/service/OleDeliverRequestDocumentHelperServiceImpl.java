@@ -51,6 +51,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.dao.impl.PersistenceDaoOjb;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -2374,6 +2375,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>) getBusinessObjectService().findMatching(OlePatronDocument.class, patronMap);
             if (olePatronDocumentList.size() > 0) {
                 olePatronDocument = olePatronDocumentList.get(0);
+                olePatronDocument.setOleBorrowerType((OleBorrowerType) SpringContext.getBean(PersistenceDaoOjb.class).resolveProxy(olePatronDocument.getOleBorrowerType()));
                 oleDeliverRequestBo.setBorrowerId(olePatronDocument.getOlePatronId());
                 oleDeliverRequestBo.setBorrowerBarcode(olePatronDocument.getBarcode());
                 oleDeliverRequestBo.setOlePatron(olePatronDocument);

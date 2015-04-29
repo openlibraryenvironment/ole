@@ -72,6 +72,7 @@ import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.kim.impl.role.RoleServiceImpl;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
@@ -106,6 +107,7 @@ public class LoanProcessor {
     private String circDeskId;
     private static final String NAMESPACE_CODE_SELECTOR = "namespaceCode";
     private static final String NAME_SELECTOR = "name";
+    private static PersistenceService persistenceService;
     private String lostDescription;
     private String lostStatus;
     private String lostPatronId;
@@ -4643,6 +4645,20 @@ public class LoanProcessor {
             }
         }
         return locationId;
+    }
+
+    public static void retrieveReferenceObject(Object object, String attributeName){
+        if(persistenceService == null){
+            persistenceService = ((PersistenceService)SpringContext.getBean("persistenceService"));
+        }
+        persistenceService.retrieveReferenceObject(object, attributeName);
+    }
+
+    public static void retrieveReferenceListOfObject(Object object, List<String> attributeList){
+        if(persistenceService == null){
+            persistenceService = ((PersistenceService)SpringContext.getBean("persistenceService"));
+        }
+        persistenceService.retrieveReferenceObjects(object, attributeList);
     }
 }
 
