@@ -2650,8 +2650,8 @@
             <column name="GOKB_MAP_ID"   type="VARCHAR(10)"/>
             <column name="REC_ID" type="VARCHAR(40)"/>
             <column name="DATA_ELMNT_ID" type="VARCHAR(40)"/>
-            <column name="GOKB_VAL" type="VARCHAR(40)"/>
-            <column name="LOCAL_VAL" type="VARCHAR(40)"/>
+            <column name="GOKB_VAL" type="VARCHAR(4000)"/>
+            <column name="LOCAL_VAL" type="VARCHAR(4000)"/>
             <column name="REC_TYP" type="VARCHAR(40)"/>
             <column name="OBJ_ID"  type="VARCHAR(36)"/>
             <column name="VER_NBR" type="DECIMAL(8)"/>
@@ -4771,6 +4771,64 @@
                           startWith="1"
                           tableName="OLE_PLTFRM_ALERT_S"/>
     </changeSet>
+
+
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_RNWL_HISTORY_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_RNWL_HISTORY_T ">
+            <column name="RNWL_HSTRY_ID"   type="VARCHAR(40)"/>
+            <column name="LOAN_ID"   type="VARCHAR(40)" />
+            <column name="PTRN_BARCODE"   type="VARCHAR(100)"/>
+            <column name="ITEM_BARCODE"  type="VARCHAR(100)"/>
+            <column name="ITEM_UUID"   type="VARCHAR(100)"/>
+            <column name="OPRTR_ID"  type="VARCHAR(100)"/>
+            <column name="RNWD_DT"  type="TIMESTAMP"/>
+            <column name="RNWL_DUE_DT"  type="TIMESTAMP"/>
+            <column name="VER_NBR"  type="DECIMAL(8)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_RNWL_HISTORY_T_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="ID"
+                       constraintName="OLE_RNWL_HISTORY_PK"
+                       schemaName="ole"
+                       tableName="OLE_RNWL_HISTORY_T"/>
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_RNWL_HISTORY_S" dbms="oracle" >
+        <createSequence catalogName="ole"
+                        incrementBy="1"
+                        ordered="true"
+                        schemaName="ole"
+                        sequenceName="OLE_RNWL_HISTORY_S"
+                        startValue="1"/>
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_RNWL_HISTORY_S" dbms="mysql">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_RNWL_HISTORY_S ">
+            <column name="RNWL_HSTRY_ID"   type="VARCHAR(40)"/>
+        </createTable>
+    </changeSet>
+
+
+
+    <changeSet context="bootstrap" author="ole" id="PUR_VNDR_ALIAS_T" dbms="mysql">
+        <sql>ALTER TABLE PUR_VNDR_ALIAS_T MODIFY VNDR_ALIAS_NM varchar(4000)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="PUR_VNDR_ALIAS_T" dbms="oracle">
+        <sql>ALTER TABLE PUR_VNDR_ALIAS_T MODIFY VNDR_ALIAS_NM varchar2(4000)</sql>
+    </changeSet>
+
 
     <changeSet context="bootstrap" author="ole" id="OLE_E_RES_REC_T_DROP">
         <dropColumn catalogName="ole"

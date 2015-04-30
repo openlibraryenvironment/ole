@@ -22,6 +22,16 @@ public class OLEGOKbPlatform extends PersistableBusinessObjectBase {
 
     private boolean select;
 
+    private List<OLEGOKbTIPP> selectedGokbTippList;
+
+    public List<OLEGOKbTIPP> getSelectedGokbTippList() {
+        return selectedGokbTippList;
+    }
+
+    public void setSelectedGokbTippList(List<OLEGOKbTIPP> selectedGokbTippList) {
+        this.selectedGokbTippList = selectedGokbTippList;
+    }
+
     public List<OLEGOKbTIPP> getGoKbTIPPList() {
         return goKbTIPPList;
     }

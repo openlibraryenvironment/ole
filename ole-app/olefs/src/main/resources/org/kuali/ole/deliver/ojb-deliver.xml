@@ -1717,6 +1717,22 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     </class-descriptor>
 
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleRenewalHistory" table="OLE_RNWL_HISTORY_T">
+        <field-descriptor name="oleRenewalHistoryId" column="RNWL_HSTRY_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_RNWL_HISTORY_S" />
+        <field-descriptor name="loanId" column="LOAN_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="patronBarcode" column="PTRN_BARCODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="itemBarcode" column="ITEM_BARCODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="itemId" column="ITEM_UUID" jdbc-type="VARCHAR" />
+        <field-descriptor name="renewedDate" column="RNWD_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="renewalDueDate" column="RNWL_DUE_DT" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="operatorId" column="OPRTR_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+
+
 </descriptor-repository>
 
 

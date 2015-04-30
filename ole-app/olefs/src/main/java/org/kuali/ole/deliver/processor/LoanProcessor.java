@@ -2170,7 +2170,8 @@ public class LoanProcessor {
                     generatePatronBillPayment(oleLoanDocument, OLEConstants.OVERDUE_FINE, oleLoanDocument.getFineRate());
             }
             compareExpirationDateWithDueDate(oleLoanDocument);
-            getBusinessObjectService().save(oleLoanDocument);
+            OleLoanDocument oleLoanDocument1 = oleLoanDocument;
+            getBusinessObjectService().save(oleLoanDocument1);
             if (oleLoanDocument.isRequestPatron() || (!oleLoanDocument.isRequestPatron() && oleLoanDocument.getOleRequestId() != null && !"".equalsIgnoreCase(oleLoanDocument.getOleRequestId()))) {
                 String operatorId = (oleLoanDocument.getLoanApproverId() != null && !oleLoanDocument.getLoanApproverId().isEmpty()) ? oleLoanDocument.getLoanApproverId() : oleLoanDocument.getLoanOperatorId();
                 getOleDeliverRequestDocumentHelperService().deleteRequest(oleLoanDocument.getOleRequestId(), oleLoanDocument.getItemUuid(), operatorId, oleLoanDocument.getLoanId());

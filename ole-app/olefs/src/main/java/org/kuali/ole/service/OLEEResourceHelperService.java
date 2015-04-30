@@ -646,6 +646,7 @@ public class OLEEResourceHelperService {
             String imprint = "";
             String publisher = "";
             List<OLEGOKbTIPP> olegoKbTIPPList = new ArrayList<>();
+            List<OLEGOKbTIPP> slecetdOlegoKbTIPPList = new ArrayList<>();
             for (OLEGOKbTIPP olegoKbTIPP : olegoKbPlatform.getGoKbTIPPList()) {
 
                 if (olegoKbTIPP.isSelect() && olegoKbTIPP.getOleGokbTipp() != null) {
@@ -670,11 +671,14 @@ public class OLEEResourceHelperService {
                         bibMarcRecordMap.put(titleId, bibMarcRecord);
                         }
                     }
+                    slecetdOlegoKbTIPPList.add(olegoKbTIPP);
                 }else{
                     olegoKbTIPPList.add(olegoKbTIPP);
                 }
-                olegoKbPlatform.setGoKbTIPPList(olegoKbTIPPList);
+
             }
+            olegoKbPlatform.setSelectedGokbTippList(slecetdOlegoKbTIPPList);
+            olegoKbPlatform.setGoKbTIPPList(olegoKbTIPPList);
         }
         return bibMarcRecords;
     }
@@ -827,13 +831,14 @@ public class OLEEResourceHelperService {
             if (oleGoKbPlatform.getPlatformProviderId() != null) {
                 createOrUpdateVendor(oleGoKbPlatform.getPlatformProviderId(), "");
             }
-            for (OLEGOKbTIPP oleGoKbTIPP : oleGoKbPlatform.getGoKbTIPPList()) {
-                if (oleGoKbTIPP.getPublisherId() != null) {
+            Set<Integer> publisherIds = new HashSet<>();
+            for (OLEGOKbTIPP oleGoKbTIPP : oleGoKbPlatform.getSelectedGokbTippList()) {
+                if (oleGoKbTIPP.getPublisherId() != null && publisherIds.add(oleGoKbTIPP.getPublisherId())) {
                     createOrUpdateVendor(oleGoKbTIPP.getPublisherId(), "");
                 }
             }
             //update publisher in E-Resource
-            oleeResourceSearchService.updatePublisher(oleGoKbPlatform.getGoKbTIPPList(), oleeResourceRecordDocument);
+            oleeResourceSearchService.updatePublisher(oleGoKbPlatform.getSelectedGokbTippList(), oleeResourceRecordDocument);
 
             //create/update platform
             if (oleGoKbPlatform.getPlatformId() != null) {
@@ -1019,9 +1024,12 @@ public class OLEEResourceHelperService {
         List<OLEGOKbMappingValue> locallyModifiedElements = (List<OLEGOKbMappingValue>) getBusinessObjectService().findMatching(OLEGOKbMappingValue.class, dataMapping);
         if (locallyModifiedElements.size() == 0) {
             oleeResourceRecordDocument.setTitle(oleGokbPackage.getPackageName());
-            OLEEResourceVariantTitle variantTitle = new OLEEResourceVariantTitle();
-            variantTitle.setOleVariantTitle(oleGokbPackage.getVariantName());
-            oleeResourceRecordDocument.getOleEResourceVariantTitleList().add(variantTitle);
+            String variantName = oleGokbPackage.getVariantName();
+            if (StringUtils.isNotBlank(variantName)){
+                OLEEResourceVariantTitle variantTitle = new OLEEResourceVariantTitle();
+                variantTitle.setOleVariantTitle(variantName);
+                oleeResourceRecordDocument.getOleEResourceVariantTitleList().add(variantTitle);
+            }
             getPublisherIdFromPackageId(oleeResourceRecordDocument, oleGokbPackage.getGokbPackageId().toString());
             String packId = getOlePackageScopeId(oleGokbPackage.getPackageScope());
             if(packId != null) {
@@ -1039,9 +1047,12 @@ public class OLEEResourceHelperService {
                     }
                 } else if (localMappingValue.getDataElementId().equalsIgnoreCase(variantDataElement.getDataElementId())) {
                     if (StringUtils.isEmpty(localMappingValue.getLocalValue())) {
-                        OLEEResourceVariantTitle variantTitle = new OLEEResourceVariantTitle();
-                        variantTitle.setOleVariantTitle(oleGokbPackage.getVariantName());
-                        oleeResourceRecordDocument.getOleEResourceVariantTitleList().add(variantTitle);
+                        String variantName = oleGokbPackage.getVariantName();
+                        if (StringUtils.isNotBlank(variantName)) {
+                            OLEEResourceVariantTitle variantTitle = new OLEEResourceVariantTitle();
+                            variantTitle.setOleVariantTitle(variantName);
+                            oleeResourceRecordDocument.getOleEResourceVariantTitleList().add(variantTitle);
+                        }
                     }
                 } else if (localMappingValue.getDataElementId().equalsIgnoreCase(publisherDataElement.getDataElementId())) {
                     if (StringUtils.isEmpty(localMappingValue.getLocalValue())) {

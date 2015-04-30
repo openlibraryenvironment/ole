@@ -2377,6 +2377,19 @@ public class LoanController extends UifControllerBase {
                 }
                 // } else
                 //   oleLoanForm.setMessage(OLEConstants.RENEWAL_ITM_AFTER_FIXED_DUEDATE);
+
+                if(oleLoanForm.getSuccessInfo().contains(OLEConstants.RENEWAL_ITM_SUCCESS_INFO)){
+                    OleRenewalHistory oleRenewalHistory = new OleRenewalHistory();
+                    oleRenewalHistory.setItemBarcode(oleLoanDocument.getItemId());
+                    oleRenewalHistory.setItemId(oleLoanDocument.getItemUuid());
+                    oleRenewalHistory.setLoanId(oleLoanDocument.getLoanId());
+                    oleRenewalHistory.setOperatorId(oleLoanDocument.getLoanOperatorId());
+                    oleRenewalHistory.setPatronBarcode(oleLoanDocument.getPatronBarcode());
+                    oleRenewalHistory.setRenewalDueDate(oleLoanDocument.getLoanDueDate());
+                    oleRenewalHistory.setRenewedDate(new Timestamp(System.currentTimeMillis()));
+                    KRADServiceLocator.getBusinessObjectService().save(oleRenewalHistory);
+                }
+
             } catch (Exception e) {
                 LOG.error("Exception", e);
                 oleLoanForm.setInformation(e.getMessage());
@@ -2654,6 +2667,17 @@ public class LoanController extends UifControllerBase {
                             }
                      //   }
                         oleLoanForm.setOverrideRenewItemFlag(false);
+                        if(info.contains(OLEConstants.RENEWAL_ITM_SUCCESS_INFO)){
+                            OleRenewalHistory oleRenewalHistory = new OleRenewalHistory();
+                            oleRenewalHistory.setItemBarcode(loanDocument.getItemId());
+                            oleRenewalHistory.setItemId(loanDocument.getItemUuid());
+                            oleRenewalHistory.setLoanId(loanDocument.getLoanId());
+                            oleRenewalHistory.setOperatorId(loanDocument.getLoanOperatorId());
+                            oleRenewalHistory.setPatronBarcode(loanDocument.getPatronBarcode());
+                            oleRenewalHistory.setRenewalDueDate(loanDocument.getLoanDueDate());
+                            oleRenewalHistory.setRenewedDate(new Timestamp(System.currentTimeMillis()));
+                            KRADServiceLocator.getBusinessObjectService().save(oleRenewalHistory);
+                        }
                     }
 
                 }
