@@ -6,9 +6,8 @@ import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
 import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
@@ -108,12 +107,13 @@ public class EHoldingsOleml extends EHoldings {
     @Override
     public String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
         EHoldingsOleml holdings = (EHoldingsOleml) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(EHoldingsOleml.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(EHoldingsOleml.class);
+            synchronized (jaxbMarshaller) {
             jaxbMarshaller.marshal(holdings, sw);
+            }
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception ", e);
@@ -123,17 +123,19 @@ public class EHoldingsOleml extends EHoldings {
 
     @Override
     public Object deserialize(String content) {
-        JAXBElement<EHoldingsOleml> holdingsElement = null;
+        EHoldingsOleml holdings = new EHoldingsOleml();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(EHoldingsOleml.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(EHoldingsOleml.class);
             ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
-            holdingsElement = jaxbUnmarshaller.unmarshal(new StreamSource(input), EHoldingsOleml.class);
+            synchronized (unmarshaller) {
+                holdings = unmarshaller.unmarshal(new StreamSource(input), EHoldingsOleml.class).getValue();
+            }
         } catch (Exception e) {
             LOG.error("Exception ", e);
         }
-        return holdingsElement.getValue();
+        return holdings;
     }
+
 
     @Override
     public Object deserializeContent(String content) {

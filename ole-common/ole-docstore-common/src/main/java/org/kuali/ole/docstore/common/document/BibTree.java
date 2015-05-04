@@ -104,7 +104,9 @@ public class BibTree {
         try {
             StringWriter sw = new StringWriter();
             Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(BibTree.class);
+            synchronized (jaxbMarshaller) {
             jaxbMarshaller.marshal(bibTree, sw);
+            }
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception :", e);
@@ -118,9 +120,10 @@ public class BibTree {
             ByteArrayInputStream bibTreeInputStream = new ByteArrayInputStream(bibTreeXml.getBytes());
             StreamSource streamSource = new StreamSource(bibTreeInputStream);
             XMLStreamReader xmlStreamReader = JAXBContextFactory.getInstance().getXmlInputFactory().createXMLStreamReader(streamSource);
-
             Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(BibTree.class);
+            synchronized (unmarshaller) {
             bibTree = unmarshaller.unmarshal(xmlStreamReader, BibTree.class).getValue();
+            }
         } catch (Exception e) {
             LOG.error("Exception :", e);
         }

@@ -1,9 +1,8 @@
 package org.kuali.ole.docstore.common.document;
 
 import org.apache.log4j.Logger;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
@@ -41,14 +40,17 @@ public class ItemMap {
     @XmlElement(name = "itemsDoc")
     protected HashMap<String, Item> itemMap;
 
+
+
     public static String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
-        ItemMap items = (ItemMap) object;
+        ItemMap itemMap = (ItemMap) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(ItemMap.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.marshal(items, sw);
+            StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(ItemMap.class);
+            synchronized (jaxbMarshaller) {
+                jaxbMarshaller.marshal(itemMap, sw);
+            }
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception ", e);
@@ -56,18 +58,19 @@ public class ItemMap {
         return result;
     }
 
-    public static Object deserialize(String itemsXml) {
 
-        JAXBElement<ItemMap> itemsElement = null;
+    public static Object deserialize(String content) {
+        ItemMap itemMap = new ItemMap();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(ItemMap.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            ByteArrayInputStream input = new ByteArrayInputStream(itemsXml.getBytes("UTF-8"));
-            itemsElement = jaxbUnmarshaller.unmarshal(new StreamSource(input), ItemMap.class);
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(ItemMap.class);
+            ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
+            synchronized (unmarshaller) {
+                itemMap = unmarshaller.unmarshal(new StreamSource(input), ItemMap.class).getValue();
+            }
         } catch (Exception e) {
             LOG.error("Exception ", e);
         }
-        return itemsElement.getValue();
+        return itemMap;
     }
 
     /**

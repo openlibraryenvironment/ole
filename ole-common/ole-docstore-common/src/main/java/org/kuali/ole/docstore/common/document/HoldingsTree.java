@@ -3,7 +3,8 @@ package org.kuali.ole.docstore.common.document;
 import org.apache.log4j.Logger;
 import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import javax.xml.bind.*;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.stream.StreamSource;
@@ -101,7 +102,9 @@ public class HoldingsTree
         try {
             StringWriter sw = new StringWriter();
             Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(HoldingsTree.class);
+            synchronized (jaxbMarshaller) {
             jaxbMarshaller.marshal(holdingsTree, sw);
+            }
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception ", e);
@@ -115,9 +118,10 @@ public class HoldingsTree
             ByteArrayInputStream bibTreeInputStream = new ByteArrayInputStream(holdingsTreeXml.getBytes());
             StreamSource streamSource = new StreamSource(bibTreeInputStream);
             XMLStreamReader xmlStreamReader = JAXBContextFactory.getInstance().getXmlInputFactory().createXMLStreamReader(streamSource);
-
             Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(HoldingsTree.class);
+            synchronized (unmarshaller) {
             holdingsTree = unmarshaller.unmarshal(xmlStreamReader, HoldingsTree.class).getValue();
+            }
         } catch (Exception e) {
             LOG.error("Exception ", e);
         }

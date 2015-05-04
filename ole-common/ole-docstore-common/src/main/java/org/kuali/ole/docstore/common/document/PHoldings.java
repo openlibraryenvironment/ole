@@ -4,9 +4,8 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.docstore.common.document.content.enums.DocCategory;
 import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -54,12 +53,13 @@ public class PHoldings
     @Override
     public String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
-        PHoldings pHoldings = (PHoldings) object;
+        PHoldings holdings = (PHoldings) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(PHoldings.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.marshal(pHoldings, sw);
+        StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(PHoldings.class);
+            synchronized (jaxbMarshaller) {
+                jaxbMarshaller.marshal(holdings, sw);
+            }
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception ", e);
@@ -69,18 +69,19 @@ public class PHoldings
 
     @Override
     public Object deserialize(String content) {
-
-        JAXBElement<PHoldings> pHoldingsElement = null;
+        PHoldings holdings = new PHoldings();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(PHoldings.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(PHoldings.class);
             ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
-            pHoldingsElement = jaxbUnmarshaller.unmarshal(new StreamSource(input), PHoldings.class);
+            synchronized (unmarshaller) {
+                holdings = unmarshaller.unmarshal(new StreamSource(input), PHoldings.class).getValue();
+            }
         } catch (Exception e) {
             LOG.error("Exception ", e);
         }
-        return pHoldingsElement.getValue();
+        return holdings;
     }
+
 
     @Override
     public Object deserializeContent(Object object) {

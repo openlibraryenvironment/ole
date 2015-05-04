@@ -4,9 +4,10 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.docstore.common.document.content.enums.DocCategory;
 import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
+import org.kuali.ole.docstore.common.exception.DocstoreDeserializeException;
+import org.kuali.ole.docstore.common.exception.DocstoreResources;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,13 +35,13 @@ public class BibDc extends Bib {
     @Override
     public String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
         BibDc bib = (BibDc) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(BibDc.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+            StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(BibDc.class);
+            synchronized (jaxbMarshaller) {
             jaxbMarshaller.marshal(bib, sw);
+            }
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception :", e);
@@ -50,16 +51,18 @@ public class BibDc extends Bib {
 
     @Override
     public Object deserialize(String content) {
-
-        JAXBElement<BibDc> bibElement = null;
+        BibDc bib = new BibDc();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(BibDc.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(BibDc.class);
             ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
-            bibElement = jaxbUnmarshaller.unmarshal(new StreamSource(input), BibDc.class);
+            synchronized (unmarshaller) {
+                bib = unmarshaller.unmarshal(new StreamSource(input), BibDc.class).getValue();
+            }
         } catch (Exception e) {
             LOG.error("Exception :", e);
+            throw new DocstoreDeserializeException(DocstoreResources.BIB_CREATION_FAILED, DocstoreResources.BIB_CREATION_FAILED);
         }
-        return bibElement.getValue();
+        return bib;
     }
+
 }

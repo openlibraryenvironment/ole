@@ -10,7 +10,6 @@ import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
@@ -588,7 +587,9 @@ public class Item
         try {
             StringWriter sw = new StringWriter();
             Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(Item.class);
+            synchronized (jaxbMarshaller) {
             jaxbMarshaller.marshal(item, sw);
+            }
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception ", e);
@@ -602,8 +603,9 @@ public class Item
         try {
             Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(Item.class);
             ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
-            JAXBElement<Item> itemElement = unmarshaller.unmarshal(new StreamSource(input), Item.class);
-            item = itemElement.getValue();
+            synchronized (unmarshaller) {
+                item = unmarshaller.unmarshal(new StreamSource(input), Item.class).getValue();
+            }
         } catch (Exception e) {
             LOG.error("Exception ", e);
         }

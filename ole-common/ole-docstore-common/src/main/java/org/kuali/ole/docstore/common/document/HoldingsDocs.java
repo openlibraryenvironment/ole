@@ -1,9 +1,8 @@
 package org.kuali.ole.docstore.common.document;
 
 import org.apache.log4j.Logger;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
@@ -32,35 +31,38 @@ public class HoldingsDocs {
     @XmlElement(name = "holdingsDoc")
     protected List<Holdings> holdingsDocs;
 
+
     public static String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
         HoldingsDocs holdingsDocs = (HoldingsDocs) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(HoldingsDocs.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.marshal(holdingsDocs, sw);
+            StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(HoldingsDocs.class);
+            synchronized (jaxbMarshaller) {
+                jaxbMarshaller.marshal(holdingsDocs, sw);
+            }
             result = sw.toString();
         } catch (Exception e) {
-            LOG.error("Exception :", e);
+            LOG.error("Exception ", e);
         }
         return result;
     }
 
-    public static Object deserialize(String holdingsDocsXml) {
 
-        JAXBElement<HoldingsDocs> holdingsDocsElement = null;
+    public static Object deserialize(String content) {
+        HoldingsDocs holdings = new HoldingsDocs();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(HoldingsDocs.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            ByteArrayInputStream input = new ByteArrayInputStream(holdingsDocsXml.getBytes("UTF-8"));
-            holdingsDocsElement = jaxbUnmarshaller.unmarshal(new StreamSource(input), HoldingsDocs.class);
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(HoldingsDocs.class);
+            ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
+            synchronized (unmarshaller) {
+                holdings = unmarshaller.unmarshal(new StreamSource(input), HoldingsDocs.class).getValue();
+            }
         } catch (Exception e) {
-            LOG.error("Exception :", e);
+            LOG.error("Exception ", e);
         }
-        return holdingsDocsElement.getValue();
+        return holdings;
     }
-    
+
     /**
      * Gets the value of the holdingsDocs property.
      * <p/>

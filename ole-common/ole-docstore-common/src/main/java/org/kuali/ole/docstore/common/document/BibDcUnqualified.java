@@ -6,9 +6,10 @@ import org.kuali.ole.docstore.common.document.content.bib.dc.unqualified.xstream
 import org.kuali.ole.docstore.common.document.content.enums.DocCategory;
 import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
+import org.kuali.ole.docstore.common.exception.DocstoreDeserializeException;
+import org.kuali.ole.docstore.common.exception.DocstoreResources;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -37,13 +38,13 @@ public class BibDcUnqualified extends Bib {
     @Override
     public String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
         BibDcUnqualified bib = (BibDcUnqualified) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(BibDcUnqualified.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+            StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(BibDcUnqualified.class);
+            synchronized (jaxbMarshaller) {
             jaxbMarshaller.marshal(bib, sw);
+            }
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception :", e);
@@ -53,18 +54,21 @@ public class BibDcUnqualified extends Bib {
 
     @Override
     public Object deserialize(String content) {
-
-        JAXBElement<BibDcUnqualified> bibElement = null;
+        BibDcUnqualified bib = new BibDcUnqualified();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(BibDcUnqualified.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(BibDcUnqualified.class);
             ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
-            bibElement = jaxbUnmarshaller.unmarshal(new StreamSource(input), BibDcUnqualified.class);
+            synchronized (unmarshaller) {
+                bib = unmarshaller.unmarshal(new StreamSource(input), BibDcUnqualified.class).getValue();
+            }
         } catch (Exception e) {
             LOG.error("Exception :", e);
+            throw new DocstoreDeserializeException(DocstoreResources.BIB_CREATION_FAILED, DocstoreResources.BIB_CREATION_FAILED);
         }
-        return bibElement.getValue();
+        return bib;
     }
+
+
     @Override
     public Object deserializeContent(Object object) {
         BibDcUnqualified bibDcUnqualified= (BibDcUnqualified)object;

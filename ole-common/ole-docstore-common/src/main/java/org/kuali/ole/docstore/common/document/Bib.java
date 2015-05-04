@@ -8,7 +8,6 @@ import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 import org.kuali.ole.docstore.common.exception.DocstoreDeserializeException;
 import org.kuali.ole.docstore.common.exception.DocstoreResources;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -253,8 +252,12 @@ public class Bib
         Bib bib = (Bib) object;
         try {
             StringWriter sw = new StringWriter();
-            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(Bib.class);
+            JAXBContextFactory jaxbContextFactory = JAXBContextFactory.getInstance();
+            Marshaller jaxbMarshaller = jaxbContextFactory.getMarshaller(Bib.class);
+            synchronized (jaxbMarshaller) {
             jaxbMarshaller.marshal(bib, sw);
+            }
+
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception :", e);
@@ -268,8 +271,10 @@ public class Bib
         try {
             Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(Bib.class);
             ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
-            JAXBElement<Bib> bibElement = unmarshaller.unmarshal(new StreamSource(input), Bib.class);
-            bib = bibElement.getValue();
+            synchronized (unmarshaller) {
+                bib = unmarshaller.unmarshal(new StreamSource(input), Bib.class).getValue();
+            }
+
         } catch (Exception e) {
             LOG.error("Exception :", e);
             throw new DocstoreDeserializeException(DocstoreResources.BIB_CREATION_FAILED,DocstoreResources.BIB_CREATION_FAILED);

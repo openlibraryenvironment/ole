@@ -3,7 +3,6 @@ package org.kuali.ole.docstore.common.document;
 import org.apache.log4j.Logger;
 import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
@@ -49,7 +48,9 @@ public class Bibs {
         try {
             StringWriter sw = new StringWriter();
             Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(Bibs.class);
-            jaxbMarshaller.marshal(bibs, sw);
+            synchronized (jaxbMarshaller) {
+                jaxbMarshaller.marshal(bibs, sw);
+               } 
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception :", e);
@@ -62,8 +63,9 @@ public class Bibs {
         try {
             Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(Bibs.class);
             ByteArrayInputStream input = new ByteArrayInputStream(bibsXml.getBytes("UTF-8"));
-            JAXBElement<Bibs> bibsElement = unmarshaller.unmarshal(new StreamSource(input), Bibs.class);
-            bibs = bibsElement.getValue();
+            synchronized (unmarshaller) {
+                bibs = unmarshaller.unmarshal(new StreamSource(input), Bibs.class).getValue();
+            }
         } catch (Exception e) {
             LOG.error("Exception :", e);
         }

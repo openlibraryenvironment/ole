@@ -1,17 +1,16 @@
 package org.kuali.ole.docstore.common.document;
 
 import org.apache.log4j.Logger;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import java.io.ByteArrayInputStream;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
 import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayInputStream;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -42,14 +41,16 @@ public class Items {
     @XmlElement(name = "itemsDoc")
     protected List<Item> items;
 
+
     public static String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
         Items items = (Items) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Items.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.marshal(items, sw);
+            StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(Items.class);
+            synchronized (jaxbMarshaller) {
+                jaxbMarshaller.marshal(items, sw);
+            }
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception ", e);
@@ -57,19 +58,21 @@ public class Items {
         return result;
     }
 
-    public static Object deserialize(String itemsXml) {
 
-        JAXBElement<Items> itemsElement = null;
+    public static Object deserialize(String content) {
+        Items items = new Items();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Items.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            ByteArrayInputStream input = new ByteArrayInputStream(itemsXml.getBytes("UTF-8"));
-            itemsElement = jaxbUnmarshaller.unmarshal(new StreamSource(input), Items.class);
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(Items.class);
+            ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
+            synchronized (unmarshaller) {
+                items = unmarshaller.unmarshal(new StreamSource(input), Items.class).getValue();
+            }
         } catch (Exception e) {
             LOG.error("Exception ", e);
         }
-        return itemsElement.getValue();
+        return items;
     }
+
 
     /**
      * Gets the value of the items property.

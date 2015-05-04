@@ -10,7 +10,6 @@ import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
@@ -424,7 +423,9 @@ public class Holdings
         try {
             StringWriter sw = new StringWriter();
             Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(Holdings.class);
+            synchronized (jaxbMarshaller) {
             jaxbMarshaller.marshal(holdings, sw);
+            }
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception ", e);
@@ -438,7 +439,9 @@ public class Holdings
         try {
             Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(Holdings.class);
             ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
+            synchronized (unmarshaller) {
             holdings = unmarshaller.unmarshal(new StreamSource(input), Holdings.class).getValue();
+            }
         } catch (Exception e) {
             LOG.error("Exception ", e);
         }
