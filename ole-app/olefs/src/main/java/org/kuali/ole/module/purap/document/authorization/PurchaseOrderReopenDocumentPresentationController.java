@@ -20,9 +20,9 @@ import org.kuali.rice.krad.document.Document;
 
 public class PurchaseOrderReopenDocumentPresentationController extends PurchaseOrderDocumentPresentationController {
 
-    @Override
+   /* @Override
     public boolean canSave(Document document) {
         return false;
-    }
+    }*/
 
 }

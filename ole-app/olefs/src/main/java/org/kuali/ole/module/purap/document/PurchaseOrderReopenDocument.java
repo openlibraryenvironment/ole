@@ -52,8 +52,9 @@ public class PurchaseOrderReopenDocument extends PurchaseOrderDocument {
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         LOG.info("prepareForSave(KualiDocumentEvent) do not create gl entries");
-        setSourceAccountingLines(new ArrayList());
-        setGeneralLedgerPendingEntries(new ArrayList());
+     //   setSourceAccountingLines(new ArrayList());
+     //   setGeneralLedgerPendingEntries(new ArrayList());
+        super.prepareForSave(event);
     }
 
     /**
