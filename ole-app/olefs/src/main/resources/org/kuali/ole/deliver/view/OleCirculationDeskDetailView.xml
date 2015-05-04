@@ -126,6 +126,7 @@
         <property name="items">
             <list>
                 <bean id="deskSaveButton" parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:style="float:left;margin-left:2em" p:render="@{operatorId ne null}"/>
+                <bean id="deskClearCircDeskButton" parent="Uif-SecondaryActionButton" p:methodToCall="clearCircDeskMap" p:actionLabel="Clear All Circulation Desk Mapping" p:style="float:left;margin-left:2em" p:render="@{operatorId ne null}"/>
                 <bean id="deskClearButton" parent="Uif-SecondaryActionButton" p:methodToCall="start" p:actionLabel="Clear" p:style="float:left;margin-left:2em" p:render="@{operatorId ne null}"/>
             </list>
         </property>

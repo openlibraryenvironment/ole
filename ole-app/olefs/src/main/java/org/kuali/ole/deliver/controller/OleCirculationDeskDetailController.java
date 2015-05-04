@@ -1,6 +1,7 @@
 package org.kuali.ole.deliver.controller;
 
 import org.apache.log4j.Logger;
+import org.kuali.ole.deliver.bo.OleCirculationDeskDetail;
 import org.kuali.ole.deliver.form.OleCirculationDeskDetailForm;
 import org.kuali.ole.deliver.service.OleCirculationDeskDetailServiceImpl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -18,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -111,6 +114,20 @@ public class OleCirculationDeskDetailController extends UifControllerBase {
 
 
         OleCirculationDeskDetailForm oleCirculationDeskDetailForm = (OleCirculationDeskDetailForm) form;
+        OleCirculationDeskDetailForm deskDetailForm = getCirculationDeskDetailService().performSave(oleCirculationDeskDetailForm);
+        return getUIFModelAndView(deskDetailForm, "OleCirculationDeskDetailViewPage");
+    }
+
+
+    @RequestMapping(params = "methodToCall=clearCircDeskMap")
+    public ModelAndView clearCirculationDeskMap(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        OleCirculationDeskDetailForm oleCirculationDeskDetailForm = (OleCirculationDeskDetailForm) form;
+        List clearList = oleCirculationDeskDetailForm.getOleCirculationDetailsCreateList();
+        oleCirculationDeskDetailService = getCirculationDeskDetailService();
+        List circDeskMapRemoved = oleCirculationDeskDetailService.clearAllCirulationMapping(clearList);
+        oleCirculationDeskDetailForm.setOleCirculationDetailsCreateList(circDeskMapRemoved);
         OleCirculationDeskDetailForm deskDetailForm = getCirculationDeskDetailService().performSave(oleCirculationDeskDetailForm);
         return getUIFModelAndView(deskDetailForm, "OleCirculationDeskDetailViewPage");
     }

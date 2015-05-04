@@ -78,13 +78,13 @@ public class OleCirculationDeskDetailServiceImpl {
             return oleCirculationDeskDetailForm;
         } else {
             List<OleCirculationDeskDetail> oleCirculationDeskDetails = oleCirculationDeskDetailForm.getOleCirculationDetailsCreateList();
-            int count = 0;
+           /* int count = 0;
             for (int k = 0; k < oleCirculationDeskDetails.size(); k++) {
                 if (oleCirculationDeskDetails.get(k).isDefaultLocation()) {
                     count++;
                 }
-            }
-            if (count == 1 && !oleCirculationDeskDetailForm.getOperatorId().isEmpty()) {
+            }*/
+            if (!oleCirculationDeskDetailForm.getOperatorId().isEmpty()) {
                 List<OleCirculationDeskDetail> newOleCirculationDeskDetails = new ArrayList<OleCirculationDeskDetail>();
 
                 for (int i = 0; i < oleCirculationDeskDetails.size(); i++) {
@@ -105,14 +105,14 @@ public class OleCirculationDeskDetailServiceImpl {
                 oleCirculationDeskDetailForm.setMessage(selectBuffer.toString());
                 LOG.error(selectBuffer);
                 return oleCirculationDeskDetailForm;
-            } else {
+            } /*else {
                 if (count == 0) {
                     StringBuffer defaultBuffer = new StringBuffer(OLEConstants.CRCL_DSK_NO_LOC_ERR);
                     oleCirculationDeskDetailForm.setMessage(defaultBuffer.toString());
                     LOG.error(defaultBuffer);
                     return oleCirculationDeskDetailForm;
                 }
-            }
+            }*/
             oleCirculationDeskDetailForm.setOleCirculationDetailsCreateList(populateCreateList());
             oleCirculationDeskDetailForm.setOperatorId(null);
             return oleCirculationDeskDetailForm;
@@ -171,6 +171,17 @@ public class OleCirculationDeskDetailServiceImpl {
             oleCirculationDeskDetailForm.setOleCirculationDetailsCreateList(mergedList);
             return oleCirculationDeskDetailForm;
         }
+    }
+
+    public List<OleCirculationDeskDetail> clearAllCirulationMapping(List<OleCirculationDeskDetail> oleCirculationDeskDetailList)throws Exception{
+        ArrayList<OleCirculationDeskDetail> list = new ArrayList<OleCirculationDeskDetail>();
+        for(int i=0;i<oleCirculationDeskDetailList.size();i++){
+            OleCirculationDeskDetail oleCirculationDeskDetail= (OleCirculationDeskDetail)oleCirculationDeskDetailList.get(i);
+            oleCirculationDeskDetail.setAllowedLocation(false);
+            oleCirculationDeskDetail.setDefaultLocation(false);
+            list.add(oleCirculationDeskDetail);
+        }
+        return list;
     }
 
 }
