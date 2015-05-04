@@ -731,7 +731,7 @@ public class OlePurchaseOrderAction extends PurchaseOrderAction {
                     message = StringUtils.replace(key, "{0}", operation);
 
                     if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT))  {
-                        if (reasons == null || reasons[0].trim().equalsIgnoreCase("null")) {
+                        if (reasons == null || (reasons[0].trim().equalsIgnoreCase("null") && (reasons[1].trim().equalsIgnoreCase("null")))) {
                             reason = "";
                             return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, questionType, message, OLEConstants.CONFIRMATION_QUESTION, questionType, "", reason, OLEConstants.ERROR_CANCELLATION_REASON_REQUIRED, OLEConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
                         } else if (!reasons[1].equalsIgnoreCase(null) && (noteTextLength > noteTextMaxLength)) {
