@@ -5,8 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.ole.deliver.bo.OleCirculationDeskDetail;
 import org.kuali.ole.deliver.service.OleCirculationDeskDetailServiceImpl;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import static junit.framework.Assert.assertFalse;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +17,7 @@ public class OleCirculationDeskMapping_UT {
 
     private OleCirculationDeskDetailServiceImpl oleCirculationDeskDetailService;
 
-    @Before
-    public void setup() throws Exception{
-        MockitoAnnotations.initMocks(this);
-    }
+
 
     @Test
     public void clearAllCirulationMappingTest() throws Exception{
