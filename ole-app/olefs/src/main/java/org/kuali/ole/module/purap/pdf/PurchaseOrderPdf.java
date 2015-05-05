@@ -366,8 +366,9 @@ public class PurchaseOrderPdf extends PurapPdf {
         if (StringUtils.isNotBlank(po.getVendorName())) {
             vendorInfo.append("     " + po.getVendorName() + "\n");
         }
-
-        vendorInfo.append("     ATTN: " + po.getVendorAttentionName() + "\n");
+        if (StringUtils.isNotBlank(po.getVendorAttentionName())) {
+            vendorInfo.append("     ATTN: " + po.getVendorAttentionName() + "\n");
+        }
 
         if (StringUtils.isNotBlank(po.getVendorLine1Address())) {
             vendorInfo.append("     " + po.getVendorLine1Address() + "\n");
@@ -412,7 +413,9 @@ public class PurchaseOrderPdf extends PurapPdf {
             }
             shipToInfo.append("     " + po.getReceivingCityName() + ", " + po.getReceivingStateCode() + " " + po.getReceivingPostalCode() + "\n");
             if (StringUtils.isNotBlank(po.getReceivingCountryCode()) && !OLEConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(po.getReceivingCountryCode())) {
-                shipToInfo.append("     " + po.getReceivingCountryName() + "\n");
+                if (StringUtils.isNotBlank(po.getReceivingCountryName())) {
+                    shipToInfo.append("     " + po.getReceivingCountryName() + "\n");
+                }
             }
         } else { // use delivery address
             shipToInfo.append("     " + po.getDeliveryToName() + "\n");
@@ -428,11 +431,15 @@ public class PurchaseOrderPdf extends PurapPdf {
             }
             shipToInfo.append("     " + po.getDeliveryCityName() + ", " + po.getDeliveryStateCode() + " " + po.getDeliveryPostalCode() + "\n");
             if (StringUtils.isNotBlank(po.getDeliveryCountryCode()) && !OLEConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(po.getDeliveryCountryCode())) {
-                shipToInfo.append("     " + po.getDeliveryCountryName() + "\n");
+                if (StringUtils.isNotBlank(po.getDeliveryCountryName())) {
+                    shipToInfo.append("     " + po.getDeliveryCountryName() + "\n");
+                }
             }
         }
         // display deliveryToPhoneNumber disregard of whether receiving or delivery address is used
-        shipToInfo.append("     " + po.getDeliveryToPhoneNumber());
+        if (StringUtils.isNotBlank(po.getDeliveryToPhoneNumber())) {
+            shipToInfo.append("     " + po.getDeliveryToPhoneNumber());
+        }
         /*
         // display deliveryToPhoneNumber based on the parameter indicator, disregard of whether receiving or delivery address is used
         boolean displayDeliveryPhoneNumber = SpringContext.getBean(ParameterService.class).getIndicatorParameter(PurchaseOrderDocument.class, PurapParameterConstants.DISPLAY_DELIVERY_PHONE_NUMBER_ON_PDF_IND);
@@ -861,12 +868,22 @@ public class PurchaseOrderPdf extends PurapPdf {
             //boolean displayRequestorEmail = true; //SpringContext.getBean(ParameterService.class).getIndicatorParameter(PurchaseOrderDocument.class, PurapParameterConstants.DISPLAY_REQUESTOR_EMAIL_ADDRESS_ON_PDF_IND);
             if (StringUtils.isBlank(po.getInstitutionContactName()) || StringUtils.isBlank(po.getInstitutionContactPhoneNumber()) || StringUtils.isBlank(po.getInstitutionContactEmailAddress())) {
                 //String emailAddress = displayRequestorEmail ? "  " + po.getRequestorPersonEmailAddress() : "";
-                //p = new Paragraph("For more information contact: " + po.getRequestorPersonName() + "  " + po.getRequestorPersonPhoneNumber() + emailAddress, cour_7_normal);
-                p = new Paragraph("For more information contact: " + po.getRequestorPersonName() + "  " + po.getRequestorPersonPhoneNumber() + "  " + po.getRequestorPersonEmailAddress(), cour_7_normal);
+                p = new Paragraph("For more information contact: " + po.getRequestorPersonName() + "  ", cour_7_normal);
+                if(StringUtils.isNotBlank(po.getRequestorPersonPhoneNumber())) {
+                    p.add(po.getRequestorPersonPhoneNumber() + "  ");
+                }
+                if(StringUtils.isNotBlank(po.getRequestorPersonEmailAddress())) {
+                  p.add(po.getRequestorPersonEmailAddress());
+                }
             } else {
                 //String emailAddress = displayRequestorEmail ? "  " + po.getInstitutionContactEmailAddress() : "";
-                //p = new Paragraph("For more information contact: " + po.getInstitutionContactName() + "  " + po.getInstitutionContactPhoneNumber() + emailAddress, cour_7_normal);
-                p = new Paragraph("For more information contact: " + po.getInstitutionContactName() + "  " + po.getInstitutionContactPhoneNumber() + "  " + po.getInstitutionContactEmailAddress(), cour_7_normal);
+                p = new Paragraph("For more information contact: " + po.getInstitutionContactName() + "  ", cour_7_normal);
+                if(StringUtils.isNotBlank(po.getInstitutionContactPhoneNumber())) {
+                    p.add(po.getInstitutionContactPhoneNumber() + "  ");
+                }
+                if(StringUtils.isNotBlank(po.getInstitutionContactEmailAddress())) {
+                    p.add(po.getInstitutionContactEmailAddress());
+                }
             }
             cell = new PdfPCell(p);
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
