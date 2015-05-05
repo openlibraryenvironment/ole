@@ -221,7 +221,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             throw new PurError("IO Exception when trying to save a Purchase Order PDF", i);
         } catch (Exception t) {
             LOG.error("generatePdf() EXCEPTION: " + t.getMessage(), t);
-            throw new PurError("Exception when trying to save a Purchase Order PDF", t);
+            throw new PurError("Unable to generate PDF for purchase order.  Please confirm that PDF service is running on OLE server.", t);
         }
     }
 
@@ -271,7 +271,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             throw new PurError("IO Exception when trying to save a Purchase Order PDF", i);
         } catch (Exception t) {
             LOG.error("savePdf() EXCEPTION: " + t.getMessage(), t);
-            throw new PurError("Exception when trying to save a Purchase Order PDF", t);
+            throw new PurError("Unable to generate PDF for purchase order.  Please confirm that PDF service is running on OLE server.", t);
         }
     }
 
