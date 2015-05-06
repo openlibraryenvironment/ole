@@ -6,6 +6,23 @@
     <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="Library" id="81">
+            <property name="valueType">dynamic</property>
+            <property name="dataSetName">Library</property>
+            <expression name="valueExpr" type="javascript">dataSetRow["Library"]</expression>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">list-box</property>
+            <property name="mustMatch">true</property>
+            <property name="fixedOrder">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="OutstandingHolds" id="7">
             <list-property name="privateDriverProperties">
@@ -139,7 +156,9 @@
                     </structure>
                 </list-property>
             </structure>
-            <method name="beforeOpen"><![CDATA[deliverReport = new Packages.org.kuali.ole.OLEDeliverReportHelper();]]></method>
+            <method name="beforeOpen"><![CDATA[deliverReport = new Packages.org.kuali.ole.OLEDeliverReportHelper();
+this.queryText = this.queryText+" and (ODI.LOCATION LIKE CONCAT('%',CONCAT('?','%')) or ODH.LOCATION LIKE CONCAT('%',CONCAT('?','%')))";
+this.queryText = this.queryText.replace("?",params["Library"].value);]]></method>
             <method name="onFetch"><![CDATA[dataSetRow["Library"] = deliverReport.getLibraryLocation(dataSetRow["Location"],dataSetRow["Location Level"]);]]></method>
             <property name="dataSource">OutstandingHolds</property>
             <list-property name="resultSet">
@@ -221,11 +240,16 @@ CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM)) as "Patron Name",
 ODR.OLE_PTRN_ID as "Patron Id"
 from
 OLE_DLVR_RQST_T ODR,
+OLE_DLVR_ITEM_AVAIL_STAT_T ODIAS,
 OLE_DS_ITEM_T ODI,
 OLE_DS_HOLDINGS_T ODH,
 OLE_DS_BIB_INFO_T ODBI,
 OLE_PTRN_ENTITY_V OPEV
 where
+ODI.ITEM_STATUS_ID = ODIAS.ITEM_AVAIL_STAT_ID
+and
+ODIAS.ITEM_AVAIL_STAT_CD = 'ONHOLD'
+and
 ODR.ITM_ID = ODI.BARCODE
 and
 ODR.OLE_PTRN_ID = OPEV.OLE_PTRN_ID
@@ -233,6 +257,44 @@ and
 ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID
 and
 ODBI.BIB_ID = ODH.BIB_ID]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Library" id="80">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">Library</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Library</text-property>
+                    <text-property name="heading">Library</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Library</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">OutstandingHolds</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">Library</property>
+                    <property name="nativeName">Library</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select OL.LOCN_CD as "Library"
+from
+OLE_LOCN_LEVEL_T OLL,
+OLE_LOCN_T OL
+where
+OLL.LEVEL_CD = 'LIBRARY'
+and
+OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -281,7 +343,7 @@ ODBI.BIB_ID = ODH.BIB_ID]]></xml-property>
     </page-setup>
     <body>
         <label id="37">
-            <property name="fontSize">14</property>
+            <property name="fontSize">12pt</property>
             <property name="fontWeight">bold</property>
             <property name="textAlign">center</property>
             <text-property name="text">Outstanding Holds</text-property>

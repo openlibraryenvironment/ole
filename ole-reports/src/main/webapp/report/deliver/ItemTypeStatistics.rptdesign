@@ -22,6 +22,21 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="Library" id="55">
+            <property name="valueType">dynamic</property>
+            <property name="dataSetName">Library</property>
+            <expression name="valueExpr" type="javascript">dataSetRow["Library"]</expression>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">list-box</property>
+            <property name="mustMatch">true</property>
+            <property name="fixedOrder">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="ItemTypeStatistics" id="7">
@@ -122,7 +137,10 @@
                     </structure>
                 </list-property>
             </structure>
-            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText.replace("?",params["Item Type"].value);]]></method>
+            <method name="beforeOpen"><![CDATA[deliverReport = new Packages.org.kuali.ole.OLEDeliverReportHelper();
+this.queryText = this.queryText.replace("?",params["Item Type"].value);
+this.queryText = this.queryText+" and (ODI.LOCATION LIKE CONCAT('%',CONCAT('??','%')) or ODH.LOCATION LIKE CONCAT('%',CONCAT('??','%')))";
+this.queryText = this.queryText.replace("??",params["Library"].value);]]></method>
             <property name="dataSource">ItemTypeStatistics</property>
             <list-property name="resultSet">
                 <structure>
@@ -137,7 +155,7 @@
                     <property name="name"># Of Loans</property>
                     <property name="nativeName"># Of Loans</property>
                     <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
+                    <property name="nativeDataType">2</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
@@ -228,6 +246,44 @@ ODBI.BIB_ID = ODH.BIB_ID]]></xml-property>
             <xml-property name="queryText"><![CDATA[select ITM_TYP_NM
 from 
 OLE_CAT_ITM_TYP_T]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Library" id="54">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">Library</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Library</text-property>
+                    <text-property name="heading">Library</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Library</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">ItemTypeStatistics</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">Library</property>
+                    <property name="nativeName">Library</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select OL.LOCN_CD as "Library"
+from
+OLE_LOCN_LEVEL_T OLL,
+OLE_LOCN_T OL
+where
+OLL.LEVEL_CD = 'LIBRARY'
+and
+OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>

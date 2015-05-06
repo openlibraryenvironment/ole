@@ -32,4 +32,16 @@ public class OLEDeliverReportHelper {
         }
         return null;
     }
+
+    public String getItemAvailabilityStatus(String missingPiece){
+        if (StringUtils.isNotBlank(missingPiece)) {
+            if (missingPiece.equalsIgnoreCase("Y")){
+                return "Missing";
+            }
+            else {
+                return "Lost";
+            }
+        }
+        return "";
+    }
 }
