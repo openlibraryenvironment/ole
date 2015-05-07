@@ -2000,14 +2000,16 @@ CREATE TABLE OLE_DLVR_RQST_HSTRY_REC_T
 (
       OLE_RQST_HSTRY_ID VARCHAR(40)
         , OLE_RQST_ID VARCHAR(80) NOT NULL
+        , OLE_PTRN_ID VARCHAR(40) NOT NULL
         , OLE_ITEM_ID VARCHAR(80) NOT NULL
-        , OLE_LOAN_ID VARCHAR(80) NOT NULL
+        , OLE_LOAN_ID VARCHAR(80)
         , OLE_LN_ITM_NUM VARCHAR(80)
         , OLE_RQST_TYP_CD VARCHAR(80) NOT NULL
         , OLE_PCK_LOC_CD VARCHAR(80)
         , OLE_OPRT_ID VARCHAR(80) NOT NULL
         , OLE_MACH_ID VARCHAR(80)
         , ARCH_DT_TIME DATETIME NOT NULL
+        , OLE_REQ_OUTCOME_STATUS VARCHAR(80)
         , CRTE_DT_TIME DATETIME NOT NULL
         , OBJ_ID VARCHAR(36) NOT NULL
         , VER_NBR DECIMAL(8) NOT NULL
@@ -2060,6 +2062,7 @@ CREATE TABLE OLE_DLVR_RQST_T
         , RQST_LVL VARCHAR(40)
         , BIB_ID VARCHAR(40)
         , ASR_FLAG VARCHAR(1)
+        , HOLD_EXP_DATE DATETIME
     
     , CONSTRAINT OLE_DLVR_RQST_TP1 PRIMARY KEY(OLE_RQST_ID)
 
@@ -2068,27 +2071,27 @@ CREATE TABLE OLE_DLVR_RQST_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX flk1 (OLE_RQST_TYP_ID )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX flk2 (PCKUP_LOC_ID )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX flk3 (CIRC_LOC_ID )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX flk4 (OLE_PTRN_ID )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX flk5 (PROXY_PTRN_ID )
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_DLVR_RQST_TI1 (LOAN_TRAN_ID )
 
@@ -5442,6 +5445,7 @@ CREATE TABLE OLE_DLVR_LOAN_NOTICE_HSTRY_T
         , NTC_SNT_DT DATETIME
         , NTC_TYP VARCHAR(37)
         , NTC_SND_TYP VARCHAR(37)
+        , NTC_CNTNT LONGBLOB
         , VER_NBR DECIMAL(8)
         , OBJ_ID VARCHAR(36)
     
