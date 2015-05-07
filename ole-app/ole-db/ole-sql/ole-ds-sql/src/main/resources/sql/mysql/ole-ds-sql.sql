@@ -690,6 +690,117 @@ CREATE TABLE OLE_DS_LICENSE_T
 
 
 # -----------------------------------------------------------------------
+# OLE_ITM_CLM_RTND_HSTRY_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_ITM_CLM_RTND_HSTRY_T
+/
+
+CREATE TABLE OLE_ITM_CLM_RTND_HSTRY_T
+(
+      CLAIMS_RETURNED_ID INTEGER
+        , CLAIMS_RETURNED_DATE_CREATED DATETIME
+        , CLAIMS_RETURNED_NOTE VARCHAR(400)
+        , CLAIMS_RETURNED_PATRON_BARCODE VARCHAR(100)
+        , CLAIMS_RETURNED_OPERATOR_ID VARCHAR(40)
+        , ITEM_ID INTEGER
+    
+    , CONSTRAINT OLE_ITM_CLM_RTND_HSTRY_TP1 PRIMARY KEY(CLAIMS_RETURNED_ID)
+
+
+
+
+
+    
+                                                                                                                                                                                                                
+                                    
+                                                                                                                                                                                                                
+                                    
+, INDEX OLE_ITM_CLM_RTND_HSTRY_T_I (CLAIMS_RETURNED_PATRON_BARCODE , CLAIMS_RETURNED_OPERATOR_ID )
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_DS_DMGD_ITM_HSTRY_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_DS_DMGD_ITM_HSTRY_T
+/
+
+CREATE TABLE OLE_DS_DMGD_ITM_HSTRY_T
+(
+      ITM_DMGD_ID INTEGER
+        , DMGD_ITM_DATE DATETIME
+        , DMGD_ITM_NOTE VARCHAR(400)
+        , PATRON_BARCODE VARCHAR(100)
+        , OPERATOR_ID VARCHAR(40)
+        , ITEM_ID INTEGER
+    
+    , CONSTRAINT OLE_DS_DMGD_ITM_HSTRY_TP1 PRIMARY KEY(ITM_DMGD_ID)
+
+
+
+
+
+    
+                                                                                                                                                                                                                
+                                    
+                                                                                                                                                                                                                
+                                    
+, INDEX OLE_DS_DMGD_ITM_HSTRY_T_I (OPERATOR_ID , PATRON_BARCODE )
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_MISS_PCE_ITM_HSTRY_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_MISS_PCE_ITM_HSTRY_T
+/
+
+CREATE TABLE OLE_MISS_PCE_ITM_HSTRY_T
+(
+      MISSING_PIECE_ID INTEGER
+        , ITEM_ID INTEGER
+        , OPERATOR_ID VARCHAR(40)
+        , PATRON_BARCODE VARCHAR(100)
+        , MISSING_PIECE_NOTE VARCHAR(400)
+        , MISSING_PIECE_COUNT INTEGER
+        , MISSING_PIECE_DATE DATETIME
+    
+    , CONSTRAINT OLE_MISS_PCE_ITM_HSTRY_TP1 PRIMARY KEY(MISSING_PIECE_ID)
+
+
+
+
+
+    
+                                                                                                                                                                                                                                    
+                                    
+                                                                                                                                                                                                                                    
+                                    
+, INDEX OLE_MISS_PCE_ITM_HSTRY_I (OPERATOR_ID , PATRON_BARCODE )
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_MISS_PCE_ITM_HSTRY_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_MISS_PCE_ITM_HSTRY_S
+/
+
+CREATE TABLE OLE_MISS_PCE_ITM_HSTRY_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_MISS_PCE_ITM_HSTRY_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
 # OLE_DS_ACCESS_LOCATION_S
 # -----------------------------------------------------------------------
 drop table if exists OLE_DS_ACCESS_LOCATION_S
@@ -1023,4 +1134,32 @@ CREATE TABLE OLE_DS_LICENSE_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_DS_LICENSE_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_ITM_CLM_RTND_HSTRY_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_ITM_CLM_RTND_HSTRY_S
+/
+
+CREATE TABLE OLE_ITM_CLM_RTND_HSTRY_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_ITM_CLM_RTND_HSTRY_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_DS_DMGD_ITM_HSTRY_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_DS_DMGD_ITM_HSTRY_S
+/
+
+CREATE TABLE OLE_DS_DMGD_ITM_HSTRY_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_DS_DMGD_ITM_HSTRY_S auto_increment = 1
 /
