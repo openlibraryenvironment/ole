@@ -41,19 +41,21 @@
                             <ref bean="OLEPlaceRequestView_successMessage"/>
                             <ref bean="OLEPlaceRequestView_ItemDetails"/>
                             <ref bean="OLEPlaceRequestView_PatronDetails"/>
+                            <ref bean="OLEPlaceRequestView_PatronConfirm"/>
                             <ref bean="OLEPlaceRequestView_RequestLevel"/>
                             <ref bean="OLEPlaceRequestView_RequestType"/>
                             <ref bean="OLEPlaceRequestView_request_details"/>
-                            <bean id="request_submit_button" parent="Uif-SecondaryActionButton-Small"
-                                  p:methodToCall="submit" p:actionLabel="Submit" p:successCallback="showRequestErrorMessage()" p:render="@{successMessage eq null or (successMessage ne null and successMessage eq '')}"/>
+                            <bean id="request_submit_button" parent="Uif-SecondaryActionButton"
+                                  p:methodToCall="submit" p:actionLabel="Submit" p:style="" p:successCallback="showRequestErrorMessage()" p:render="@{patronFound and processRequest and !blockSubmit and (successMessage eq null or (successMessage ne null and successMessage eq ''))}"/>
                             <bean id="item_level_request_button" parent="Uif-SecondaryActionButton-Small"
-                                  p:methodToCall="getItemsForTitleLevelRequest" p:actionLabel="Submit" p:hidden="true" p:successCallback="showItemsDialog()" p:render="@{successMessage eq null or (successMessage ne null and successMessage eq '')}"/>
+                                  p:methodToCall="getItemsForTitleLevelRequest" p:actionLabel="Submit" p:hidden="true" p:successCallback="showItemsDialog()" p:render="@{patronFound and processRequest and  successMessage eq null or (successMessage ne null and successMessage eq '')}"/>
                             <bean id="item_level_request_Clear_button" parent="Uif-SecondaryActionButton-Small"
                                   p:methodToCall="clearItemsForTitleLevelRequest" p:actionLabel="clear" p:hidden="true"/>
                             <ref bean="OLEPlaceRequestView_MultipleItem_details"/>
 
                             <ref bean="plc_rqst_process_request"/>
                             <ref bean="tit_lvl_rqst"/>
+                            <ref bean="fetchPatronAddressButton"/>
                         </list>
                     </property>
                 </bean>
@@ -67,15 +69,19 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/deliver/request/scripts/request.js</value>
             </list>
         </property>
         <property name="formClass" value="org.kuali.ole.deliver.form.OLEPlaceRequestForm"/>
     </bean>
 
+    <bean id="fetchPatronAddressButton" parent="fetchPatronAddressButton-parentBean" />
+    <bean id="fetchPatronAddressButton-parentBean" parent="Uif-SecondaryActionButton-Small" p:methodToCall="retrievePatronDetails" p:actionLabel="Search" p:hidden="true" p:ajaxSubmit="true" />
+
+
     <bean id="OLEPlaceRequestView_errorMessage" parent="Uif-VerticalBoxSection"
-          p:render="@{errorMessage ne null and (errorMessage ne null and errorMessage ne '')}"
+          p:render="@{errorMessage ne null and errorMessage ne ''}"
           p:style="font-weight:normal;" p:cssClasses="messageClass">
         <property name="header.headerText" value="Error Message"/>
         <property name="items">
@@ -111,8 +117,7 @@
 
 
     <bean id="OLEPlaceRequestView_ItemDetails" parent="OLEPlaceRequestView_ItemDetails-parentBean"/>
-
-    <bean id="OLEPlaceRequestView_ItemDetails-parentBean" parent="Uif-Disclosure-VerticalBoxSection"
+    <bean id="OLEPlaceRequestView_ItemDetails-parentBean" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="4"
           p:render="@{title ne null and title ne ''}">
         <property name="headerText" value="Item Information"/>
         <property name="items">
@@ -123,21 +128,20 @@
                 <bean parent="Uif-DataField" p:propertyName="author" p:label="Author"/>
                 <bean parent="Uif-DataField" p:propertyName="itemType" p:label="Item Type"/>
                 <bean parent="Uif-DataField" p:propertyName="itemLocation" p:label="Item Location"/>
+                <bean parent="Uif-DataField" p:propertyName="itemStatus" p:label="Item Status"/>
             </list>
         </property>
     </bean>
 
 
     <bean id="OLEPlaceRequestView_PatronDetails" parent="OLEPlaceRequestView_PatronDetails-parentBean" p:render="@{itemEligible}"/>
-    <bean id="OLEPlaceRequestView_PatronDetails-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean id="OLEPlaceRequestView_PatronDetails-parentBean" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="4">
         <property name="headerText" value="Patron details"/>
         <property name="items">
             <list>
                 <bean id="pl_req_pat" parent="Uif-InputField"
                       p:propertyName="patronBarcode" p:label="Patron Barcode"
-                      p:render="@{title ne null and title ne ''}">
-
-
+                      p:render="@{title ne null and title ne ''}" p:colSpan="3">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder"
                               p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument"
@@ -145,30 +149,108 @@
                               p:lookupParameters="patronBarcode:barcode"/>
                     </property>
                 </bean>
-                <bean id="ptr_pl" parent="Uif-DataField" p:propertyName="patronName" p:label="Patron Name"
-                      p:style="font-weight:bold;font-size:16px;border:2px;"
+                <bean id="ptr_pl" parent="Uif-DataField"  p:propertyName="patronName" p:label="Patron Name"
+                      p:style="font-weight:bold;text-align:left;"
                       p:render="@{patronFound or (patronName ne null and patronName ne '')}"/>
 
-                <bean parent="Uif-DataField" p:propertyName="patronType" p:label="Patron Type"
-                      p:style="font-weight:bold;font-size:16px;border:2px;"
+                <bean parent="Uif-DataField" p:propertyName="patronType"  p:label="Patron Type"
+                      p:style="text-align:left;"
                       p:render="@{patronFound or (patronType ne null and patronType ne '')}"/>
 
-                <bean parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:15em"
-                      p:methodToCall="confirmPatron" p:actionLabel="Confirm patron and Continue with Request"
+                <bean id="OLEPlaceRequest_addressTypeCode" parent="OlePatron-InputField"
+                      p:propertyName="oleEntityAddressBo.addressTypeCode" p:label="Delivery Address Type" p:readOnly="@{oleEntityAddressBo.Id ne null}" p:render="@{patronFound or (patronName ne null and patronName ne '')}" >
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleAddressTypeKeyValues"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                    </property>
+                </bean>
 
+                <bean id="OLEPlaceRequest_line1" parent="OlePatron-InputField" p:propertyName="oleEntityAddressBo.line1"
+                      p:label="Delivery Address Line 1" p:render="@{patronFound or (patronName ne null and patronName ne '')}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="45" p:maxLength="45"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+                    </property>
+                </bean>
+
+
+                <bean id="OLEPlaceRequest_line2" parent="OlePatron-InputField" p:propertyName="oleEntityAddressBo.line2"
+                      p:label="Delivery Address Line 2" p:render="@{patronFound or (patronName ne null and patronName ne '')}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="45" p:maxLength="45"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+                    </property>
+                </bean>
+                <bean id="OLEPlaceRequest_line3" parent="OlePatron-InputField" p:propertyName="oleEntityAddressBo.line3"
+                      p:label="Delivery Address Line 3" p:render="@{patronFound or (patronName ne null and patronName ne '')}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="45" p:maxLength="45"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+                    </property>
+                </bean>
+                <bean id="OLEPlaceRequest_city" parent="OlePatron-InputField" p:propertyName="oleEntityAddressBo.city"
+                      p:label="City" p:render="@{patronFound or (patronName ne null and patronName ne '')}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="30"/>
+                    </property>
+                </bean>
+                <bean id="OLEPlaceRequest_state" parent="OlePatron-InputField" p:propertyName="oleEntityAddressBo.stateProvinceCode"
+                      p:label="State" p:render="@{patronFound or (patronName ne null and patronName ne '')}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.rice.location.framework.state.StateValuesFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="OLEPlaceRequest_postalCode" parent="OlePatron-InputField" p:propertyName="oleEntityAddressBo.postalCode"
+                      p:label="Postal Code" p:render="@{patronFound or (patronName ne null and patronName ne '')}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20" p:maxLength="20"/>
+                    </property>
+                </bean>
+                <bean id="OLEPlaceRequest_country" parent="OlePatron-InputField" p:propertyName="oleEntityAddressBo.countryCode"
+                      p:label="Country" p:render="@{patronFound or (patronName ne null and patronName ne '')}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.rice.location.framework.country.CountryValuesFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+
+    <bean id="OLEPlaceRequestView_PatronConfirm" parent="OLEPlaceRequestView_PatronConfirm-parentBean" p:render="@{itemEligible}"/>
+    <bean id="OLEPlaceRequestView_PatronConfirm-parentBean" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:style="font-weight:bold;float:left;margin-left:15em"
+                      p:methodToCall="confirmPatron" p:actionLabel="Confirm patron and Continue with Request"
+                      p:successCallback="showRequestErrorMessage()"
                       p:render="@{!processRequest and patronType ne null and patronType ne ''}"/>
 
                 <bean id="plc_searchPatron" parent="Uif-SecondaryActionButton-Small" p:methodToCall="searchPatron" p:actionLabel="Search" p:hidden="true" />
-
             </list>
         </property>
     </bean>
 
 
     <bean id="OLEPlaceRequestView_RequestLevel" parent="OLEPlaceRequestView_RequestLevel-parentBean"/>
-
-    <bean id="OLEPlaceRequestView_RequestLevel-parentBean" parent="Uif-Disclosure-VerticalBoxSection"
-          p:render="@{processRequest}" p:style="font-weight:bold;font-size:13px;border:2px;">
+    <bean id="OLEPlaceRequestView_RequestLevel-parentBean" parent="Uif-Disclosure-HorizontalBoxSection"
+          p:render="@{processRequest}" p:style="margin-top:1em;font-size:13px;">
         <property name="headerText" value="Request Level"/>
         <property name="items">
             <list>
@@ -199,9 +281,8 @@
     </bean>
 
     <bean id="OLEPlaceRequestView_RequestType" parent="OLEPlaceRequestView_RequestType-parentBean"/>
-
     <bean id="OLEPlaceRequestView_RequestType-parentBean" parent="Uif-Disclosure-VerticalBoxSection"
-          p:render="@{processRequest}"  p:style="font-weight:bold;font-size:13px;border:2px;">
+          p:render="@{processRequest}"  p:style="margin-top:1em;font-size:13px;">
         <property name="headerText" value="Request Type"/>
         <property name="items">
             <list>
@@ -276,22 +357,19 @@
 
 
     <bean id="OLEPlaceRequestView_request_details" parent="OLEPlaceRequestView_request_details-parentBean"/>
-
-    <bean id="OLEPlaceRequestView_request_details-parentBean" parent="Uif-Disclosure-VerticalBoxSection"
+    <bean id="OLEPlaceRequestView_request_details-parentBean" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="2"
           p:render="@{processRequest}">
         <property name="items">
             <list>
-                <bean parent="Uif-VerticalBoxSection">
+                <!--<bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
-                        <list>
+                        <list>-->
                             <bean id="placeRequest_deliver" parent="Uif-InputField" p:propertyName="address"
                                   p:label="Deliver to patron" p:render="@{address}">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl" p:cssClasses="publicDisplaySupplementClass" p:disabled="false"/>
                                 </property>
                             </bean>
-
-
                             <bean id="placeRequest-pickupLocation" parent="Uif-InputField"
                                   p:propertyName="pickUpLocationId" p:label="Pickup Location">
                                 <property name="optionsFinder">
@@ -301,9 +379,9 @@
                                     <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
                                 </property>
                             </bean>
-                        </list>
+                     <!--  </list>
                     </property>
-                </bean>
+                </bean>-->
                 <bean id="placeRequest-expirationDate" parent="Uif-InputField"
                       p:propertyName="requestExpiryDate" p:label="Request Expiration Date">
                     <property name="control">
@@ -358,6 +436,9 @@
 
                 </bean>
                 <bean id="itemStatus" parent="Uif-DataField" p:label="Item Status" p:propertyName="itemStatus">
+
+                </bean>
+                <bean id="placeRequest_volumeNumber" parent="Uif-DataField" p:label="Volume Number" p:propertyName="volumeNumber">
 
                 </bean>
             </list>

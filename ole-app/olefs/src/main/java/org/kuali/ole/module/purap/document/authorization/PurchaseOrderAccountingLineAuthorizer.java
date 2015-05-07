@@ -16,23 +16,28 @@
 package org.kuali.ole.module.purap.document.authorization;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.PurapPropertyConstants;
 import org.kuali.ole.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
 import org.kuali.ole.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
 import org.kuali.ole.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.ole.sys.businessobject.AccountingLine;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.AccountingDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
-import java.util.List;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * Accounting line authorizer for Requisition document which allows adding accounting lines at specified nodes
@@ -89,13 +94,13 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
             }
 
             // if total amount has a value and is non-zero
-            if (poItem.getItemInvoicedTotalAmount() != null && poItem.getItemInvoicedTotalAmount().compareTo(new KualiDecimal(0)) != 0) {
+            if (poItem.getItemInvoicedTotalAmount() != null && poItem.getItemInvoicedTotalAmount().isGreaterThan(KualiDecimal.ZERO) && getOrderType(po.getPurchaseOrderTypeId())) {
                 return false;
             }
 
-            if (po.getContainsUnpaidPaymentRequestsOrCreditMemos() && !poItem.isNewItemForAmendment()) {
+           /* if (po.getContainsUnpaidPaymentRequestsOrCreditMemos() && !poItem.isNewItemForAmendment()) {
                 return false;
-            }
+            }*/
 
         }
         return super.allowAccountingLinesAreEditable(accountingDocument, accountingLine);
@@ -137,5 +142,16 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
         unviewableBlocks.remove(OLEPropertyConstants.AMOUNT);
 
         return unviewableBlocks;
+    }
+
+    public boolean getOrderType(BigDecimal purchaseOrderTypeId) {
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        Map map = new HashMap();
+        map.put("purchaseOrderTypeId",purchaseOrderTypeId);
+        PurchaseOrderType purchaseOrderType = businessObjectService.findByPrimaryKey(PurchaseOrderType.class,map);
+        if(purchaseOrderType != null && purchaseOrderType.getPurchaseOrderType().equals(OLEConstants.ORDER_TYPE_VALUE)) {
+            return true;
+        }
+        return false;
     }
 }

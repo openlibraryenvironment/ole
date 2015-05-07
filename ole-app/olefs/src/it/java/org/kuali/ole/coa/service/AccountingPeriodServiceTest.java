@@ -23,7 +23,9 @@ import java.util.Map;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.coa.businessobject.AccountingPeriod;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -38,7 +40,7 @@ import static org.junit.Assert.assertNull;
 /**
  * This class tests the AccountingPeriod business object from a persistence standpoint using the BusinessObjectService.
  */
-public class AccountingPeriodServiceTest extends KualiTestBase {
+public class AccountingPeriodServiceTest extends KFSTestCaseBase {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingPeriodServiceTest.class);
 

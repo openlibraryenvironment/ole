@@ -207,6 +207,10 @@ public class BibRestServlet extends HttpServlet {
         String requestBody = CharStreams.toString(req.getReader());
         Bib bib = new BibMarc();
         Bib bibObj = (Bib) bib.deserialize(requestBody);
+        String [] reqString= req.getPathInfo().split("/");
+        if(reqString.length == 3 ){
+            bibObj.setId(reqString[2]);
+        }
         ds.createBib(bibObj);
         String responseStr = responseUrl + bibObj.getId();
         return responseStr;
@@ -235,8 +239,8 @@ public class BibRestServlet extends HttpServlet {
         List<Bib> bibs = null;
         bibs = ds.retrieveBibs(bibIdList);
         if (bibs.size() == 1) {
-            Bib bib = new Bib();
-            return bib.serialize(bibs.get(0));
+            Bib bib = bibs.get(0);
+            return bib.serialize(bib);
         }
         Bibs bibsObj = new Bibs();
         bibsObj.getBibs().addAll(bibs);

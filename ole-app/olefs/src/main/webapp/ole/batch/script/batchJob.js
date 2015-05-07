@@ -25,6 +25,11 @@ function stop(line){
     jq("#hdnStop_button").focus().click();
 }
 
+function refresh(line){
+    jq("#jobId_control").val(line);
+    jq("#BatchProcessJobDetail_Refresh_Hidden").focus().click();
+}
+
 function start(line){
     jq("#jobId_control").val(line);
     jq("#hdnStart_button").focus().click();

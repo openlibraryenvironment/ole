@@ -23,7 +23,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.context.SpringContext;
@@ -40,7 +42,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
-public class DelegateGlobalTest extends KualiTestBase {
+public class DelegateGlobalTest extends KFSTestCaseBase {
 
     private static final String GLOBAL_DELEGATE_TYPENAME = "OLE_GDLG";
 

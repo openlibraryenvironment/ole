@@ -950,7 +950,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 }else if(lineItems.size()>0 && item.getPurchaseOrderIdentifier()!=null &&
                         lineItems.get(0).getPurchaseOrderIdentifier().compareTo(item.getPurchaseOrderIdentifier())==0){
                     lineItems.add(item);
-                    firstPOTotalUnitPrice = firstPOTotalUnitPrice.add(item.getItemUnitPrice());
+                    firstPOTotalUnitPrice = firstPOTotalUnitPrice.subtract(item.getItemUnitPrice());
                 }
 
                 if(item.getItemType().isQuantityBasedGeneralLedgerIndicator()){
@@ -2225,7 +2225,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
         if(invoiceDocument.getInvoiceNumber()!=null && !invoiceDocument.getInvoiceNumber().equalsIgnoreCase("")){
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(OLEConstants.InvoiceDocument.INVOICE_NUMBER, invoiceDocument.getInvoiceNumber().toString());
-            map.put(OLEConstants.InvoiceDocument.INVOICE_DATE, invoiceDocument.getInvoiceDate());
+            //map.put(OLEConstants.InvoiceDocument.INVOICE_DATE, invoiceDocument.getInvoiceDate());
             map.put(OLEConstants.InvoiceDocument.VENDOR_GENERATED_IDENTIFIER, invoiceDocument.getVendorHeaderGeneratedIdentifier().toString());
             map.put(OLEConstants.InvoiceDocument.VENDOR_DETAIL_ASSIGNED_GENERATED_IDENTIFIER, invoiceDocument.getVendorDetailAssignedIdentifier().toString());
             List<OleInvoiceDocument> documents = (List<OleInvoiceDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleInvoiceDocument.class, map);
@@ -2237,8 +2237,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 for (OleInvoiceDocument invDoc : documents) {
                     if (invDoc.getDocumentNumber() != null &&
                             invoiceDocument.getDocumentNumber() != null &&
-                            !invDoc.getDocumentNumber().equalsIgnoreCase(invoiceDocument.getDocumentNumber()) &&
-                            !invDoc.getApplicationDocumentStatus().equalsIgnoreCase(OLEConstants.InvoiceDocument.INVOICE_DOCUMENT_INITIATED)) {
+                            !invDoc.getDocumentNumber().equalsIgnoreCase(invoiceDocument.getDocumentNumber())) {
                         String docNum = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(OLEKeyConstants.LOAD_DUPLICATE_INVOICE);
                         docNum =  StringUtils.replace(docNum, "{0}", invDoc.getDocumentNumber());
                         duplicationMessage.append(docNum + " ");
@@ -2805,6 +2804,12 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
             Map<String,Integer> invoiceAccountMap=new HashMap<String,Integer>();
             invoiceAccountMap.put("itemIdentifier",oleInvoiceItem.getItemIdentifier());
             KRADServiceLocator.getBusinessObjectService().deleteMatching(InvoiceAccount.class,invoiceAccountMap);
+            List<OleInvoiceNote> oleDeletedNotesList = oleInvoiceItem.getNotes();
+            for(OleInvoiceNote oleInvoiceNote:oleDeletedNotesList) {
+                Map<String,Integer> invoiceNoteMap=new HashMap<String,Integer>();
+                invoiceNoteMap.put("itemNoteIdentifier",oleInvoiceNote.getItemNoteIdentifier());
+                KRADServiceLocator.getBusinessObjectService().deleteMatching(OleInvoiceNote.class,invoiceNoteMap);
+            }
             Map<String,Integer> invoiceItemMap=new HashMap<String,Integer>();
             invoiceItemMap.put("itemIdentifier",oleInvoiceItem.getItemIdentifier());
             KRADServiceLocator.getBusinessObjectService().deleteMatching(OleInvoiceItem.class,invoiceItemMap);

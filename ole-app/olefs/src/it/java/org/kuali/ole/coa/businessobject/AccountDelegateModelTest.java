@@ -21,7 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.coa.businessobject.AccountDelegateGlobalDetail;
 import org.kuali.ole.coa.businessobject.AccountDelegateModelDetail;
 import org.kuali.ole.sys.OLEConstants;
@@ -31,7 +33,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
-public class AccountDelegateModelTest extends KualiTestBase {
+public class AccountDelegateModelTest extends KFSTestCaseBase {
 
     AccountDelegateModelDetail model;
 

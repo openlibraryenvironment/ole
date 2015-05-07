@@ -18,7 +18,7 @@ package org.kuali.ole.coa.service;
 import java.util.HashMap;
 
 import org.junit.Test;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.coa.businessobject.BalanceType;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -30,7 +30,7 @@ import static org.junit.Assert.assertNull;
 /**
  * This class tests the BalanceType service.
  */
-public class BalanceTypServiceTest extends KualiTestBase {
+public class BalanceTypServiceTest extends KFSTestCaseBase {
     private static final boolean ACTIVE = true;
     private static final boolean BAL_TYPE_ENCUMB = true;
     private static final String BAL_TYPE_CODE = "ZZ";

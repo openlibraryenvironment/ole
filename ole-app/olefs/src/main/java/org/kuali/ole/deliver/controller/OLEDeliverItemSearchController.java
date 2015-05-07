@@ -10,15 +10,13 @@ import org.kuali.ole.deliver.service.OLEDeliverItemSearchService;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
-import org.kuali.ole.docstore.common.search.SearchParams;
-import org.kuali.ole.docstore.common.search.SearchResponse;
-import org.kuali.ole.docstore.common.search.SearchResult;
-import org.kuali.ole.docstore.common.search.SearchResultField;
+import org.kuali.ole.docstore.common.search.*;
 import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
 import org.kuali.ole.docstore.engine.service.index.solr.ItemConstants;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -97,7 +95,8 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                     searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.AND_SEARCH_SCOPE, searchParams.buildSearchField(DocType.ITEM.getCode(), Item.ITEM_BARCODE, itemBarcode), OLEConstants.AND_SEARCH_SCOPE));
                 }
                 if (StringUtils.isNotBlank(callNumber)) {
-                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.AND_SEARCH_SCOPE, searchParams.buildSearchField(DocType.ITEM.getCode(), Item.CALL_NUMBER, callNumber), OLEConstants.AND_SEARCH_SCOPE));
+                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.AND_SEARCH_SCOPE, searchParams.buildSearchField(DocType.ITEM.getCode(), Item.CALL_NUMBER, callNumber),OLEConstants.OR_SEARCH_SCOPE));
+                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.AND_SEARCH_SCOPE, searchParams.buildSearchField(DocType.ITEM.getCode(), ItemConstants.HOLDINGS_CALLNUMBER_SEARCH, callNumber), OLEConstants.AND_SEARCH_SCOPE));
                 }
                 if (StringUtils.isNotBlank(itemUUID)) {
                     searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.AND_SEARCH_SCOPE, searchParams.buildSearchField(DocType.ITEM.getCode(), Item.ITEMIDENTIFIER, itemUUID), OLEConstants.AND_SEARCH_SCOPE));
@@ -106,15 +105,20 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                     searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.AND_SEARCH_SCOPE, searchParams.buildSearchField(DocType.ITEM.getCode(), Item.ITEM_TYPE, itemType), OLEConstants.AND_SEARCH_SCOPE));
                 }
                 if (StringUtils.isNotBlank(itemLocation)) {
-                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.PHRASE, searchParams.buildSearchField(DocType.ITEM.getCode(), ItemConstants.LOCATION_LEVEL_SEARCH, itemLocation), OLEConstants.AND_SEARCH_SCOPE));
+                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.PHRASE, searchParams.buildSearchField(DocType.ITEM.getCode(), ItemConstants.LOCATION_LEVEL_SEARCH, itemLocation), OLEConstants.OR_SEARCH_SCOPE));
+                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.PHRASE, searchParams.buildSearchField(DocType.ITEM.getCode(),ItemConstants.HOLDINGS_LOCATION_SEARCH, itemLocation), OLEConstants.OR_SEARCH_SCOPE));
                 }
                 searchParams.setPageSize(100000);
                 getSearchResultFields(searchParams);
                 SearchResponse searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
                 getSearchResults(searchResponse, oleDeliverItemSearchForm);
+                if(oleDeliverItemSearchForm.getOleBibSearchResultDisplayRowList()!=null && oleDeliverItemSearchForm.getOleBibSearchResultDisplayRowList().size()>0){
+                    oleDeliverItemSearchForm.setMultipleItemFlag(true);
+                }
             } else {
+                oleDeliverItemSearchForm.setSingleItemFlag(false);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ITM_BLANK_SEARCH_ERROR_MSG);
-                return getUIFModelAndView(oleDeliverItemSearchForm);
+                return getUIFModelAndView(oleDeliverItemSearchForm,"OLEDeliverItemSearchPage");
             }
         } catch (Exception e) {
             LOG.error("Exception " + e);
@@ -124,7 +128,7 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
 
     private void getSearchResultFields(SearchParams searchParams) {
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.BIB_IDENTIFIER));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Bib.TITLE));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.TITLE_SORT));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Bib.AUTHOR));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Bib.PUBLISHER));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.HOLDINGS_LOCATION_DISPLAY));
@@ -160,10 +164,18 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.DATE_ENTERED));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.UPDATED_BY));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.DATE_UPDATED));
+        buildSortCondition(searchParams);
+    }
+
+    private void buildSortCondition(SearchParams searchParams) {
+        SortCondition sortCondition = new SortCondition();
+        sortCondition.setSortField(BibConstants.TITLE_SORT);
+        sortCondition.setSortOrder("asc");
+        searchParams.getSortConditions().add(sortCondition);
     }
 
     private void getSearchResults(SearchResponse searchResponse, OLEDeliverItemSearchForm oleDeliverItemSearchForm) {
-        Map<String, OLEBibSearchResultDisplayRow> bibSearchResultDisplayRowMap = new HashMap<>();
+        Map<String, OLEBibSearchResultDisplayRow> bibSearchResultDisplayRowMap = new TreeMap<>();
         Map<String, OLEHoldingsSearchResultDisplayRow> holdingsSearchResultDisplayRowMap = new HashMap<>();
         List<OLEBibSearchResultDisplayRow> bibSearchResultDisplayRowList = new ArrayList<>();
         OLESingleItemResultDisplayRow singleItemResultDisplayRow = new OLESingleItemResultDisplayRow();
@@ -180,7 +192,7 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                             holdingsSearchResultDisplayRow.setBibIdentifier(searchResultField.getFieldValue());
                             singleItemResultDisplayRow.setBibIdentifier(searchResultField.getFieldValue());
                             itemSearchResultDisplayRow.setBibIdentifier(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.TITLE)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase( BibConstants.TITLE_SORT)) {
                             singleItemResultDisplayRow.setTitle(searchResultField.getFieldValue());
                             bibSearchResultDisplayRow.setTitle(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.AUTHOR)) {
@@ -207,6 +219,10 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                             itemSearchResultDisplayRow.setHoldingsIdentifier(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.HOLDINGS_CALLNUMBER_DISPLAY)) {
                             holdingsSearchResultDisplayRow.setCallNumber(searchResultField.getFieldValue());
+                            if(StringUtils.isEmpty(itemSearchResultDisplayRow.getCallNumber())){
+                                singleItemResultDisplayRow.setCallNumber(searchResultField.getFieldValue());
+                                itemSearchResultDisplayRow.setCallNumber(searchResultField.getFieldValue());
+                            }
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Item.ID)) {
                             singleItemResultDisplayRow.setId(searchResultField.getFieldValue());
                             itemSearchResultDisplayRow.setId(searchResultField.getFieldValue());
@@ -225,10 +241,12 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                             singleItemResultDisplayRow.setDueDate(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.NUMBER_OF_PIECES_DISPLAY)) {
                             singleItemResultDisplayRow.setNoOfPieces(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.PUBLICATIONDATE_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.PUBLISHER)) {
                             singleItemResultDisplayRow.setPublication(searchResultField.getFieldValue());
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.PUBLICATIONDATE_DISPLAY)) {
                             bibSearchResultDisplayRow.setPublicationYear(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.CURRENT_BORROWER)) {
+                        }
+                        else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.CURRENT_BORROWER)) {
                             singleItemResultDisplayRow.setCurrentBorrowerId(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.PROXY_BORROWER)) {
                             singleItemResultDisplayRow.setProxyBorrowerId(searchResultField.getFieldValue());
@@ -266,7 +284,19 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                             singleItemResultDisplayRow.setUpdatedDate(searchResultField.getFieldValue());
                         }
                     }
+                    if(StringUtils.isNotEmpty(singleItemResultDisplayRow.getPublication()) && StringUtils.isNotEmpty( bibSearchResultDisplayRow.getPublicationYear())){
+                        singleItemResultDisplayRow.setPublication(singleItemResultDisplayRow.getPublication()+" "+bibSearchResultDisplayRow.getPublicationYear());
+                    }else if(StringUtils.isEmpty(singleItemResultDisplayRow.getPublication())&& StringUtils.isNotEmpty( bibSearchResultDisplayRow.getPublicationYear())){
+                        singleItemResultDisplayRow.setPublication(bibSearchResultDisplayRow.getPublicationYear());
+                    }
+
                     if (searchResponse.getSearchResults().size() > 1) {
+                        Map itemMap = new HashMap();
+                        itemMap.put(OLEConstants.OleDeliverRequest.ITEM_ID, itemSearchResultDisplayRow.getItemBarCode());
+                        List<OleDeliverRequestBo> deliverRequestBos = (List<OleDeliverRequestBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleDeliverRequestBo.class, itemMap);
+                        if (CollectionUtils.isNotEmpty(deliverRequestBos)) {
+                            itemSearchResultDisplayRow.setRequestExists(true);
+                        }
                         if (!holdingsSearchResultDisplayRowMap.containsKey(holdingsSearchResultDisplayRow.getId())) {
                             List<OLEItemSearchResultDisplayRow> itemSearchResultDisplayRowList = new ArrayList<>();
                             itemSearchResultDisplayRowList.add(itemSearchResultDisplayRow);
@@ -348,6 +378,9 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                 getOleDeliverItemSearchService().setAdditionalCopiesInfo(singleItemResultDisplayRow);
                 //item history
                 getOleDeliverItemSearchService().setInTransitHistoryInfo(singleItemResultDisplayRow);
+                getOleDeliverItemSearchService().setMissingPieceItemInfo(singleItemResultDisplayRow);
+                getOleDeliverItemSearchService().setClaimsReturnedInfo(singleItemResultDisplayRow);
+                getOleDeliverItemSearchService().setDamagedInfo(singleItemResultDisplayRow);
                 getOleDeliverItemSearchService().setRequestHistoryInfo(singleItemResultDisplayRow);
                 oleDeliverItemSearchForm.setOleSingleItemResultDisplayRow(singleItemResultDisplayRow);
                 oleDeliverItemSearchForm.setSingleItemFlag(true);

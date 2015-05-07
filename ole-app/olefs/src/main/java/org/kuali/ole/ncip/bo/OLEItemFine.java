@@ -15,6 +15,8 @@ import java.math.BigDecimal;
  * To change this template use File | Settings | File Templates.
  */
 public class OLEItemFine {
+
+    private String patronBillId;
     private String itemId;
     private String catalogueId;
     private BigDecimal amount;
@@ -30,6 +32,14 @@ public class OLEItemFine {
     private String author;
    // private List<FeeType> feeType;
 
+
+    public String getPatronBillId() {
+        return patronBillId;
+    }
+
+    public void setPatronBillId(String patronBillId) {
+        this.patronBillId = patronBillId;
+    }
 
     public String getItemId() {
         return itemId;

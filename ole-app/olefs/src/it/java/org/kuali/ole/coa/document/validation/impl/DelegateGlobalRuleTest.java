@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.coa.businessobject.AccountDelegateGlobalDetail;
 import org.kuali.ole.coa.document.validation.impl.DelegateGlobalRule;
 import org.kuali.ole.sys.OLEConstants;
@@ -26,7 +27,7 @@ import org.kuali.ole.sys.OLEConstants;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNull;
 
-public class DelegateGlobalRuleTest extends ChartRuleTestBase {
+public class DelegateGlobalRuleTest extends KFSTestCaseBase {
 
     private AccountDelegateGlobalDetail delegateGlobal;
     private List<AccountDelegateGlobalDetail> delegateGlobals;

@@ -69,9 +69,9 @@ public class OLEEncumberedReportController extends UifControllerBase {
         } else {
             Map map = new HashMap();
             map.put(OLEConstants.DONOR_CODE, oleEncumberedReportForm.getDonorCode());
-            List<OLEDonor> donorList = (List<OLEDonor>) getLookupService().findCollectionBySearch(OLEDonor.class, map);
-            if (donorList != null && donorList.size() > 0l) {
-                oleLinkPurapDonors = (List<OLELinkPurapDonor>) getLookupService().findCollectionBySearch(OLELinkPurapDonor.class, map);
+            List<OLEDonor> donorList = (List<OLEDonor>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEDonor.class, map);
+            if (donorList != null && donorList.size() > 0) {
+                oleLinkPurapDonors = (List<OLELinkPurapDonor>) KRADServiceLocator.getBusinessObjectService().findMatching(OLELinkPurapDonor.class, map);
             } else {
                 oleEncumberedReportForm.setEncumberedReportDocumentList(null);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, org.kuali.ole.OLEConstants.DONOR_NOT_FOUND);

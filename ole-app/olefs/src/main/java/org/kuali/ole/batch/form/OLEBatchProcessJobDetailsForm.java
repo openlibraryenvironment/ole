@@ -6,6 +6,7 @@ import org.kuali.ole.batch.document.OLEBatchProcessDefinitionDocument;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,7 +23,10 @@ public class OLEBatchProcessJobDetailsForm extends  TransactionalDocumentFormBas
     private String scheduleId;
     private List<OLEBatchProcessDefinitionDocument>  oleBatchProcessDefinitionDocument;
     private OLEBatchProcessJobDetailsBo oleBatchProcessJobDetailsBo;
-    private List<OLEBatchProcessJobDetailsBo> oLEBatchProcessJobDetailsBoList = new ArrayList<OLEBatchProcessJobDetailsBo>();
+    private List<OLEBatchProcessJobDetailsBo> oleBatchProcessJobDetailsBoList = new ArrayList<OLEBatchProcessJobDetailsBo>();
+    private Date jobFromDate;
+    private Date jobToDate;
+    private boolean singleJobView;
 
     public OLEBatchProcessJobDetailsBo getOleBatchProcessJobDetailsBo() {
         return oleBatchProcessJobDetailsBo;
@@ -56,17 +60,17 @@ public class OLEBatchProcessJobDetailsForm extends  TransactionalDocumentFormBas
         this.jobId = jobId;
     }
 
-    public List<OLEBatchProcessJobDetailsBo> getoLEBatchProcessJobDetailsBoList() {
-        return oLEBatchProcessJobDetailsBoList;
+    public List<OLEBatchProcessJobDetailsBo> getOleBatchProcessJobDetailsBoList() {
+        return oleBatchProcessJobDetailsBoList;
     }
 
-    public void setoLEBatchProcessJobDetailsBoList(List<OLEBatchProcessJobDetailsBo> oLEBatchProcessJobDetailsBoList) {
-        this.oLEBatchProcessJobDetailsBoList = oLEBatchProcessJobDetailsBoList;
+    public void setOleBatchProcessJobDetailsBoList(List<OLEBatchProcessJobDetailsBo> oleBatchProcessJobDetailsBoList) {
+        this.oleBatchProcessJobDetailsBoList = oleBatchProcessJobDetailsBoList;
     }
 
     public OLEBatchProcessJobDetailsForm() {
         super();
-        oLEBatchProcessJobDetailsBoList.add(new OLEBatchProcessJobDetailsBo());
+        oleBatchProcessJobDetailsBoList.add(new OLEBatchProcessJobDetailsBo());
     }
 
     private List<OLEBatchProcessDefinitionDocument> oleBatchProcessDefinitionDocumentList;
@@ -97,4 +101,27 @@ public class OLEBatchProcessJobDetailsForm extends  TransactionalDocumentFormBas
         this.oleBatchProcessScheduleBoList = oleBatchProcessScheduleBoList;
     }
 
+    public Date getJobFromDate() {
+        return jobFromDate;
+    }
+
+    public void setJobFromDate(Date jobFromDate) {
+        this.jobFromDate = jobFromDate;
+    }
+
+    public Date getJobToDate() {
+        return jobToDate;
+    }
+
+    public void setJobToDate(Date jobToDate) {
+        this.jobToDate = jobToDate;
+    }
+
+    public boolean isSingleJobView() {
+        return singleJobView;
+    }
+
+    public void setSingleJobView(boolean singleJobView) {
+        this.singleJobView = singleJobView;
+    }
 }

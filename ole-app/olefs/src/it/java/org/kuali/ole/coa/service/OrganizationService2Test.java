@@ -19,7 +19,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.coa.service.OrganizationService;
 import org.kuali.ole.sys.context.SpringContext;
 
@@ -27,7 +29,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
-public class OrganizationService2Test extends KualiTestBase {
+public class OrganizationService2Test extends KFSTestCaseBase {
 
     private static final String GOOD_CHART = "BL";
     private static final String GOOD_ORG = "PSY";

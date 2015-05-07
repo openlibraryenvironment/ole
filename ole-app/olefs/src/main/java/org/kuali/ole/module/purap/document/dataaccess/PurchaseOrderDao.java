@@ -75,6 +75,19 @@ public interface PurchaseOrderDao {
 
     /**
      * This method gets all the PurchaseOrderView objects that relate to POs
+     * with no recurring payment type, status of 'OPEN', and total encumbrance
+     * of 0 that do not have any of the excluded vendor choice codes.
+     *
+     * @param excludedVendorChoiceCodes - list of strings of excluded vendor choice codes
+     * @param poCloseFromDate - start date
+     * @param poCloseToDate - end date
+     * @return List of PurchaseOrderAutoClose objects
+     */
+    public List<AutoClosePurchaseOrderView> getAllOpenPurchaseOrders(List<String> excludedVendorChoiceCodes, java.sql.Date poCloseFromDate, java.sql.Date poCloseToDate);
+
+
+    /**
+     * This method gets all the PurchaseOrderView objects that relate to POs
      * with a recurring payment type, status of 'OPEN', and that do not have any
      * of the excluded vendor choice codes.
      *

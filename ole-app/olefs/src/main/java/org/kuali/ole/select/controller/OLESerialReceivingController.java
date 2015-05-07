@@ -1,5 +1,6 @@
 package org.kuali.ole.select.controller;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
@@ -874,6 +875,14 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                 }
             }
         }
+        try {
+           if(CollectionUtils.isNotEmpty(oleSerialReceivingDocument.getOleSerialReceivingHistoryList())){
+               getBusinessObjectService().save(oleSerialReceivingDocument.getOleSerialReceivingHistoryList());
+           }
+        } catch (Exception ex){
+            throw ex;
+        }
+
         return getUIFModelAndView(oleSerialReceivingForm);
     }
 

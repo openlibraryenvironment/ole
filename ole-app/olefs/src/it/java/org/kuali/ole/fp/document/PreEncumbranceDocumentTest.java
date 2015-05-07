@@ -24,7 +24,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.ole.DocumentTestUtils;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.coa.service.AccountingPeriodService;
 
 import org.kuali.ole.fixture.AccountingLineFixture;
@@ -41,7 +43,7 @@ import org.kuali.rice.krad.service.DocumentService;
 /**
  * This class is used to test PreEncumbranceDocument.
  */
-public class PreEncumbranceDocumentTest extends KualiTestBase {
+public class PreEncumbranceDocumentTest extends KFSTestCaseBase {
 
     public static final Class<PreEncumbranceDocument> DOCUMENT_CLASS = PreEncumbranceDocument.class;
 

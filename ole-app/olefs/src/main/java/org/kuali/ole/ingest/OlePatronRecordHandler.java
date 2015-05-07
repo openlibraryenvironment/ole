@@ -184,6 +184,14 @@ public class OlePatronRecordHandler {
         xStream.omitField(OlePatronDocument.class, "showLoanedRecords");
         xStream.omitField(OlePatronDocument.class, "showRequestedItems");
         xStream.omitField(OlePatronDocument.class, "showTemporaryCirculationHistoryRecords");
+        xStream.omitField(OlePatronDocument.class, "realPatronLastName");
+        xStream.omitField(OlePatronDocument.class, "realPatronFirstName");
+        xStream.omitField(OlePatronDocument.class, "errorMessage");
+        xStream.omitField(OlePatronDocument.class, "blockPatron");
+        xStream.omitField(OlePatronDocument.class, "errorsAndPermission");
+        xStream.omitField(OlePatronDocument.class, "loanCount");
+        xStream.omitField(OlePatronDocument.class, "requestedItemRecordsCount");
+        xStream.omitField(OlePatronDocument.class, "tempCirculationHistoryCount");
         String xml = xStream.toXML(olePatronDocuments);
         stringBuffer.append(xml);
         stringBuffer.append("\n");

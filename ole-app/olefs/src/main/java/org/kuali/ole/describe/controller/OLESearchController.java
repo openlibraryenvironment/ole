@@ -358,10 +358,14 @@ public class OLESearchController extends UifControllerBase {
         OLESearchForm oleSearchForm = (OLESearchForm) form;
         SearchParams searchParams = oleSearchForm.getSearchParams();
         try {
-            int totalLines = oleSearchForm.getTotalRecordCount();
+            int totalcount = oleSearchForm.getTotalRecordCount();
             int pageSize = searchParams.getPageSize();
-            int lastPage = totalLines / pageSize
-                    + (totalLines % pageSize == 0 ? 0 : 1);
+            int totlaPages = totalcount/pageSize;
+            int lastNumber= pageSize*totlaPages;
+            int lastPage = totalcount - pageSize;
+            if(lastNumber < totalcount){
+                lastPage = lastNumber;
+            }
             int start = Math.max(0, lastPage);
             searchParams.setStartIndex(start);
         } catch (NumberFormatException e) {

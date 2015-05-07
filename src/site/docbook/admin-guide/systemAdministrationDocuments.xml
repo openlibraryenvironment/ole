@@ -176,7 +176,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Overview tab
                     definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -281,7 +281,7 @@
                         role. The search definitions are explained below.</para>
                     <para role="TableHeading"><emphasis role="bold">KIM Type Lookup
                             definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="c1" colnum="1"/>
                             <colspec colname="c1" colnum="1"/>
@@ -394,7 +394,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Assignees tab
                     definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -540,7 +540,7 @@
         </para>
         <para role="TableHeading"><emphasis role="bold">Permission Lookup search
             criteria</emphasis></para>
-        <informaltable frame="top">
+        <informaltable frame="topbot">
             <tgroup cols="2">
                 <colspec colname="c1" colnum="1"/>
                 <colspec colname="c1" colnum="1"/>
@@ -678,7 +678,7 @@
             table below.</para>
         <para role="TableHeading"><emphasis role="bold">Permission Lookup results
             fields</emphasis></para>
-        <informaltable frame="top">
+        <informaltable frame="topbot">
             <tgroup cols="2">
                 <colspec colname="c1" colnum="1"/>
                 <colspec colname="c1" colnum="1"/>
@@ -834,7 +834,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Permission Info tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -933,7 +933,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Permission Details tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -1066,7 +1066,7 @@
                             >Overview</emphasis> section.</para>
                     <para role="TableHeading"><emphasis role="bold">Overview section
                             Definitions</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="c1" colnum="1"/>
                             <colspec colname="c1" colnum="1"/>
@@ -1146,7 +1146,7 @@
                         you may need to complete additional fields.</para>
                     <para role="TableHeading"><emphasis role="bold">Affiliations section
                             definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="c1" colnum="1"/>
                             <colspec colname="c1" colnum="1"/>
@@ -1229,7 +1229,7 @@
                     <para/>
                     <para role="TableHeading"><emphasis role="bold">Employment Information fields
                             definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="c1" colnum="1"/>
                             <colspec colname="c1" colnum="1"/>
@@ -1363,7 +1363,7 @@
                     <para/>
                     <para role="TableHeading"><emphasis role="bold">Names section
                             definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="c1" colnum="1"/>
                             <colspec colname="c1" colnum="1"/>
@@ -1476,7 +1476,7 @@
                     <para/>
                     <para role="TableHeading"><emphasis role="bold">Addresses section
                             definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="c1" colnum="1"/>
                             <colspec colname="c1" colnum="1"/>
@@ -1597,7 +1597,7 @@
                     <para/>
                     <para role="TableHeading"><emphasis role="bold">Phone Numbers section
                             definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="c1" colnum="1"/>
                             <colspec colname="c1" colnum="1"/>
@@ -1698,7 +1698,7 @@
                     <para/>
                     <para role="TableHeading"><emphasis role="bold">Email Address section
                             definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="c1" colnum="1"/>
                             <colspec colname="c1" colnum="1"/>
@@ -1793,7 +1793,7 @@
                 <para/>
                 <para role="TableHeading"><emphasis role="bold">Privacy Preferences tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -1887,7 +1887,7 @@
                 <section>
                     <title>Groups Section</title>
                     <para role="TableHeading">Groups section definition</para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="c1" colnum="1"/>
                             <colspec colname="c1" colnum="1"/>
@@ -1989,7 +1989,7 @@
                     <title>Roles Section</title>
                     <para role="TableHeading"><anchor xml:id="_Toc232319160"/><anchor
                             xml:id="_d2h_bmk__Toc232319160_19"/>Roles section definition</para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="c1" colnum="1"/>
                             <colspec colname="c1" colnum="1"/>
@@ -2099,7 +2099,7 @@
                         permissions as the role member and is able to act on action requests
                         generated for the role member by KIM.</para>
                     <para role="TableHeading">Delegations section definition</para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="c1" colnum="1"/>
                             <colspec colname="c1" colnum="1"/>
@@ -2200,12 +2200,12 @@
                 <listitem>
                     <para>Save or submit the Person document.</para>
                     <note>
-                        <para>In OLE 1.5 after clicking <emphasis role="bold">Submit</emphasis> and
+                        <para>In OLE 1.6 after clicking <emphasis role="bold">Submit</emphasis> and
                             receiving the system response "Document was successfully submitted", if
                             you click <emphasis role="bold">Close</emphasis> OLE will ask "Would you
-                            like to save this document before you close it?"  Select <emphasis
-                                role="bold">No</emphasis>.  If you select Yes, the system will give
-                            you a stack trace error.  Your changes will be saved in the
+                            like to save this document before you close it?" Select <emphasis
+                                role="bold">No</emphasis>. If you select Yes, the system will give
+                            you a stack trace error. Your changes will be saved in the
                             system.</para>
                         <para>Additionally, after clicking <emphasis role="bold">Save</emphasis> and
                             receiving the system response "Document was successfully submitted", if
@@ -2213,7 +2213,8 @@
                             like to save this document before you close it?" Select <emphasis
                                 role="bold">No</emphasis>.  Your changes will be saved in the
                             system.</para>
-                        <para>See OLE-5972 for additional details.</para>
+                        <para>See <link xlink:href="https://jira.kuali.org/browse/OLE-7432"
+                                >OLE-7432</link> for additional details.</para>
                     </note>
                 </listitem>
             </orderedlist>
@@ -2319,7 +2320,7 @@
         </para>
         <para role="TableHeading"><emphasis role="bold">Responsibility Lookup search
                 criteria</emphasis></para>
-        <informaltable frame="top">
+        <informaltable frame="topbot">
             <tgroup cols="2">
                 <colspec colname="c1" colnum="1"/>
                 <colspec colname="c1" colnum="1"/>
@@ -2450,7 +2451,7 @@
             the table below.</para>
         <para role="TableHeading"><emphasis role="bold">Responsibility Lookup results
                 fields</emphasis></para>
-        <informaltable frame="top">
+        <informaltable frame="topbot">
             <tgroup cols="2">
                 <colspec colname="c1" colnum="1"/>
                 <colspec colname="c1" colnum="1"/>
@@ -2617,7 +2618,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Responsibility Info tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -2708,7 +2709,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Responsibility Details tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -2877,7 +2878,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Overview tab
                     definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -3002,7 +3003,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Permissions tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -3059,7 +3060,7 @@
                 </screenshot>
                 <para role="TableHeading"><emphasis role="bold">Permissions tab definition,
                         continued</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -3161,7 +3162,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Responsibilities tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -3223,7 +3224,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Responsibilities tab definition,
                         continued</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -3358,7 +3359,7 @@
                     </para>
                     <para role="TableHeading"><emphasis role="bold">Responsibility Action subsection
                             definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="c1" colnum="1"/>
                             <colspec colname="c1" colnum="1"/>
@@ -3474,7 +3475,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Assignees tab
                     definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -3515,6 +3516,14 @@
                                             >Role</emphasis> lookup based on your <phrase
                                             role="Strong">Member Type Code</phrase>
                                         selection.</para>
+                                    <note>
+                                        <para>There is a reported bug that will not allow you to add
+                                            anything other than a <emphasis role="bold"
+                                                >Principal</emphasis>.  If you try to add a Role or
+                                            a Group, the screen never finishes loading (<link
+                                                xlink:href="https://jira.kuali.org/browse/OLE-6771"
+                                                >OLE-6771</link>).</para>
+                                    </note>
                                 </entry>
                             </row>
                             <row>
@@ -3623,7 +3632,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Delegations tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -3818,7 +3827,7 @@
             </para>
             <para role="TableHeading"><emphasis role="bold">Kim Type Lookup results
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="c1" colnum="1"/>
                     <colspec colname="c1" colnum="1"/>

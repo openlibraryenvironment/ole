@@ -116,6 +116,7 @@ jq("#OLEERSSearchPanel-docType-Section").live("change", function () {
 });
 
 jq(window).load(function () {
+    parent.document.title="Single Record Import";
     jq(".dataTables_length select").live("change", function () {
         var rows = jq(".dataTables_length select").val();
         jq("#req_hdnRows_control").val(rows);

@@ -11,6 +11,7 @@
                 <bean id="OLEDeliverItemSearchPage" parent="Uif-Page">
                     <property name="items">
                         <list>
+                            <ref bean="ExpandCollapse_buttons"/>
                             <ref bean="OLEDeliverItemSearchPanel"/>
                             <ref bean="OLEDeliverItemSearchButtons"/>
                             <ref bean="OLEDeliverBibSearchResults"/>
@@ -24,6 +25,20 @@
         <property name="additionalCssFiles">
             <list>
                 <value>ole/deliver/deliverItemSearch/css/deliverItemSearch.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ole/deliver/deliverItemSearch/script/deliverItemSearch.js</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ExpandCollapse_buttons" parent="Uif-HorizontalBoxSection" p:render="@{singleItemFlag}" p:style="float:right;margin-top:0%;margin-right:13%">
+        <property name="items">
+            <list>
+                <bean id="Expand_All" parent="Uif-SecondaryActionButton-Small"  p:actionLabel="expand all" p:actionScript="expandAll();"/>
+                <bean id="Collapse_All" parent="Uif-SecondaryActionButton-Small"  p:actionLabel="collapse all" p:actionScript="collapseAll();"/>
             </list>
         </property>
     </bean>
@@ -89,12 +104,12 @@
         </property>
     </bean>
 
-    <bean id="OLEDeliverItemSearchButtons" parent="Uif-HorizontalBoxSection">
+    <bean id="OLEDeliverItemSearchButtons" parent="Uif-HorizontalBoxSection" >
         <property name="items">
             <list>
                 <bean id="itemSearch_search_button" parent="Uif-SecondaryActionButton-Small"
                       p:style="float:left;margin-left:70em"
-                      p:methodToCall="search" p:actionLabel="Search"/>
+                      p:methodToCall="search" p:actionLabel="Search" p:successCallback="disableLink()"/>
                 <bean id="itemSearch_clear_button" parent="Uif-SecondaryActionButton-Small"
                       p:methodToCall="clearSearch" p:actionLabel="Clear"/>
             </list>
@@ -102,7 +117,7 @@
     </bean>
 
     <bean id="OLEDeliverBibSearchResults" parent="Uif-TableCollectionSection"
-          p:layoutManager.applyDefaultCellWidths="false">
+          p:layoutManager.applyDefaultCellWidths="false" p:render="@{multipleItemFlag}">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEBibSearchResultDisplayRow"/>
         <property name="propertyName" value="oleBibSearchResultDisplayRowList"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -190,20 +205,18 @@
                 <bean parent="Uif-DataField" p:label="Barcode" p:propertyName="itemBarCode"/>
                 <bean parent="Uif-DataField" p:label="Enum" p:propertyName="enumeration"/>
                 <bean parent="Uif-DataField" p:label="Chron" p:propertyName="chronology"/>
-                <bean id="placeRequest" parent="Uif-LinkField"
+                <bean id="placeRequest" parent="Uif-LinkField" p:label="Place"
                       p:linkText="Place Request"
-                      p:href="placeRequestController?viewId=OLEPlaceRequestView&amp;methodToCall=start&amp;itemId=@{#line.id}&amp;bibId=@{#line.bibIdentifier}"
+                      p:href="@{#ConfigProperties['ole.fs.url.base']}/portal.do?channelTitle=Place Request&amp;channelUrl=@{#ConfigProperties['ole.fs.url.base']}/ole-kr-krad/placeRequestController?viewId=OLEPlaceRequestView&amp;methodToCall=start&amp;itemId=@{#line.id}&amp;bibId=@{#line.bibIdentifier}"
                       p:target="_blank">
                     <property name="cssClasses" value="buttonForLink"/>
                 </bean>
-                <bean parent="Uif-LinkField" p:render="@{singleItemFlag and #line.requestExists}" p:label="Requests"
+                <bean parent="Uif-LinkField" p:hidden="@{!#line.requestExists}" p:label="View"
                       p:target="_blank"
                       p:linkText="View Requests"
                       p:href="@{#ConfigProperties['ole.fs.url.base']}/portal.do?channelTitle=Requests&amp;channelUrl=@{#ConfigProperties['ole.fs.url.base']}/ole-kr-krad/itemRequestedRecord?viewId=OLEItemRequestedRecordView&amp;methodToCall=viewRequestedRecords&amp;itemBarCode=@{#line.itemBarCode}">
                     <property name="cssClasses" value="buttonForLink"/>
                 </bean>
-                <bean parent="Uif-MessageField" p:label="Requests"
-                      p:render="@{singleItemFlag and !#line.requestExists}"/>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>
@@ -325,7 +338,7 @@
     </bean>
 
     <bean id="OLEDeliverItemSearchResult-AdditionalCopies" parent="Uif-Disclosure-TableCollectionSection"
-          p:disclosure.defaultOpen="true"
+          p:disclosure.defaultOpen="false"
           p:layoutManager.applyDefaultCellWidths="false">
         <property name="headerText" value="Additional Copies"/>
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEHoldingsSearchResultDisplayRow"/>
@@ -372,7 +385,7 @@
                         <list>
                             <bean id="placeRequest_button" parent="Uif-LinkField"
                                   p:linkText="Place Request"
-                                  p:href="placeRequestController?viewId=OLEPlaceRequestView&amp;methodToCall=start&amp;itemId=@{oleSingleItemResultDisplayRow.id}&amp;bibId=@{oleSingleItemResultDisplayRow.bibIdentifier}"
+                                  p:href="@{#ConfigProperties['ole.fs.url.base']}/portal.do?channelTitle=Place Request&amp;channelUrl=@{#ConfigProperties['ole.fs.url.base']}/ole-kr-krad/placeRequestController?viewId=OLEPlaceRequestView&amp;methodToCall=start&amp;itemId=@{oleSingleItemResultDisplayRow.id}&amp;bibId=@{oleSingleItemResultDisplayRow.bibIdentifier}"
                                   p:target="_blank">
                                 <property name="cssClasses" value="buttonForLink"/>
                             </bean>
@@ -399,15 +412,15 @@
         <property name="layoutManager.richTable.render" value="true"/>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:label="Queue Pos." p:propertyName="borrowerQueuePosition"/>
+                <bean id="queuePositionItemPlaceRequest" parent="Uif-DataField" p:label="Queue Pos." p:propertyName="borrowerQueuePosition"/>
                 <bean parent="Uif-LinkField"
                       p:href="inquiry?methodToCall=start&amp;docCategory=work&amp;requestId=@{#line.requestId}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo"
                       p:target="_blank" p:label="Request Type" p:linkText="@{#line.requestTypeCode}"/>
-                <bean parent="Uif-DataField" p:label="First Name" p:propertyName="borrowerFirstName"/>
-                <bean parent="Uif-DataField" p:label="Last Name" p:propertyName="borrowerLastName"/>
-                <bean parent="Uif-DataField" p:label="Barcode" p:propertyName="borrowerBarcode"/>
-                <bean parent="Uif-DataField" p:label="Create Date" p:propertyName="createDate"/>
-                <bean parent="Uif-DataField" p:label="Exp. Date" p:propertyName="expiryDate"/>
+                <bean id="firstNameItemPlaceRequest" parent="Uif-DataField" p:label="First Name" p:propertyName="borrowerFirstName"/>
+                <bean id="lastNameItemPlaceRequest" parent="Uif-DataField" p:label="Last Name" p:propertyName="borrowerLastName"/>
+                <bean id="barcodeItemPlaceRequest" parent="Uif-DataField" p:label="Barcode" p:propertyName="borrowerBarcode"/>
+                <bean id="createDateItemPlaceRequest" parent="Uif-DataField" p:label="Create Date" p:propertyName="createDate"/>
+                <bean id="expirationDateItemPlaceRequest" parent="Uif-DataField" p:label="Exp. Date" p:propertyName="expiryDate"/>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>
@@ -435,6 +448,7 @@
                         </list>
                     </property>
                 </bean>
+                <ref bean="OLEDeliverItemSearchResult-ItemClaimsReturnedHistory"/>
                 <bean parent="Uif-InputField" p:label="Damaged Flag"
                       p:propertyName="oleSingleItemResultDisplayRow.itemDamagedStatusFlag">
                     <property name="control">
@@ -450,6 +464,7 @@
                         </list>
                     </property>
                 </bean>
+                <ref bean = "OLEDeliverItemSearchResult-ItemDamagedHistory"/>
                 <bean parent="Uif-InputField" p:label="Missing Pieces Flag"
                       p:propertyName="oleSingleItemResultDisplayRow.missingPieceFlag">
                     <property name="control">
@@ -469,12 +484,33 @@
                         </list>
                     </property>
                 </bean>
+                <ref bean="OLEMissingPieceItem-History"/>
             </list>
         </property>
     </bean>
 
+    <bean id="OLEMissingPieceItem-History" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Missing Piece Item History"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord"/>
+        <property name="propertyName" value="oleSingleItemResultDisplayRow.missingPieceItemRecordList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="items">
+                <list>
+                    <bean id="missingPieceDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceDate" p:label="Missing Piece Item Date"/>
+                    <bean id="missingPieceCount" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceCount" p:label="Missing Piece Item Count"/>
+                    <bean id="missingPieceFlagNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceFlagNote" p:label="Missing Piece Item Note"/>
+                    <bean id="operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
+                    <bean id="patronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="patronBarcode" p:label="Associated Patron Barcode"/>
+                </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
     <bean id="OLEDeliverItemSearchResult-Notes" parent="Uif-Disclosure-TableCollectionSection"
-          p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="true">
+          p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="false">
         <property name="headerText" value="Notes"/>
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEItemNoteResultDisplayRow"/>
         <property name="propertyName" value="oleSingleItemResultDisplayRow.oleItemNoteResultDisplayRowList"/>
@@ -492,7 +528,7 @@
     </bean>
 
     <bean id="OLEDeliverItemSearchResult-OutstandingFines" parent="Uif-Disclosure-TableCollectionSection"
-          p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="true">
+          p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="false">
         <property name="headerText" value="Outstanding Fines"/>
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEFeeTypeResultDisplayRow"/>
         <property name="propertyName" value="oleSingleItemResultDisplayRow.oleFeeTypeResultDisplayRowList"/>
@@ -506,7 +542,7 @@
                       p:href="patronbill?viewId=BillView&amp;methodToCall=start&amp;patronId=@{#line.borrowerId}"
                       p:label="Patron ID" p:linkText="@{#line.borrowerId}"
                       p:target="_blank"/>
-                <bean parent="Uif-DataField" p:label="Patron First Name" p:propertyName="borrowerFirstName"/>
+                <bean id="firstNameFinePlaceRequest" parent="Uif-DataField" p:label="Patron First Name" p:propertyName="borrowerFirstName"/>
                 <bean parent="Uif-DataField" p:label="Patron Last Name" p:propertyName="borrowerLastName"/>
                 <bean parent="Uif-DataField" p:label="Patron Barcode" p:propertyName="borrowerBarcode"/>
                 <bean parent="Uif-DataField" p:label="Fee Type" p:propertyName="feeType"/>
@@ -517,14 +553,14 @@
     </bean>
 
     <bean id="OLEDeliverItemSearchResult-IDNumbers" parent="Uif-Disclosure-VerticalBoxSection"
-          p:disclosure.defaultOpen="true">
+          p:disclosure.defaultOpen="false">
         <property name="headerText" value="ID Numbers"/>
         <property name="items">
             <list>
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="6">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-LinkField"
+                            <bean id="bidIDNumberPlaceRequest" parent="Uif-LinkField"
                                   p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{oleSingleItemResultDisplayRow.bibIdentifier}&amp;editable=false"
                                   p:label="Bib ID" p:linkText="@{oleSingleItemResultDisplayRow.bibIdentifier}"
                                   p:target="_blank"/>
@@ -549,7 +585,7 @@
     </bean>
 
     <bean id="OLEDeliverItemSearchResult-ItemHistory" parent="Uif-Disclosure-VerticalBoxSection"
-          p:disclosure.defaultOpen="true">
+          p:disclosure.defaultOpen="false">
         <property name="headerText" value="Item History"/>
         <property name="items">
             <list>
@@ -560,7 +596,7 @@
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Created Date"
+                            <bean id="createdDateItemPlaceRequest" parent="Uif-DataField" p:label="Created Date"
                                   p:propertyName="oleSingleItemResultDisplayRow.createdDate"/>
                             <bean parent="Uif-DataField" p:label="Created By"
                                   p:propertyName="oleSingleItemResultDisplayRow.createdBy"/>
@@ -591,7 +627,7 @@
     </bean>
 
     <bean id="OLEDeliverItemSearchResult-IntransitLoanRecords" parent="Uif-TableCollectionSection"
-          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
+          p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="false" p:style="width:auto">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLELoanIntransitRecordHistory"/>
         <property name="propertyName" value="oleSingleItemResultDisplayRow.oleIntransitRecordHistories"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -608,6 +644,56 @@
                       p:label="Routed To"/>
                 <bean id="returnedDateTime" parent="Uif-DataField" p:propertyName="returnedDateTime"
                       p:label="Transit Date"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-ItemClaimsReturnedHistory" parent="Uif-Disclosure-TableCollectionSection"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
+        <property name="headerText" value="Claims Returned History" />
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord"/>
+        <property name="propertyName" value="oleSingleItemResultDisplayRow.itemClaimsReturnedRecords"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aaSorting" value="[[0,'desc']]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="claimsReturnedFlagCreateDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedFlagCreateDate" p:label="Claims Returned Create Date"/>
+                <bean id="claimsReturnedNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedNote" p:label="Claims Returned Note"/>
+                <bean id="claimsReturnedPatronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedPatronBarcode" p:label="Associated Patron Barcode"/>
+                <bean id="claimsReturnedOperatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedOperatorId" p:label="Operator Id"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverItemSearchResult-ItemDamagedHistory" parent="Uif-Disclosure-TableCollectionSection"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
+        <property name="headerText" value="Damaged History" />
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord"/>
+        <property name="propertyName" value="oleSingleItemResultDisplayRow.itemDamagedRecords"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aaSorting" value="[[0,'desc']]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="damagedItemDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="damagedItemDate" p:label="Damaged Date"/>
+                <bean id="damagedItemNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="damagedItemNote" p:label="Damaged Note"/>
+                <bean id="patronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="patronBarcode" p:label="Associated Patron Barcode"/>
+                <bean id="operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
             </list>
         </property>
     </bean>

@@ -55,7 +55,14 @@ public class OLESIP2PatronInformationResponse extends OLESIP2Response {
 
         builder.append(code);
         //TODO
-        builder.append("              ");
+
+
+        if(oleLookupUser.isValidPatron()==true){
+            builder.append(" ");
+        }else{
+            builder.append(OLESIP2Constants.Y);
+        }
+        builder.append("             ");
         builder.append(StringUtils.isNotBlank(sip2PatronInformationRequestParser.getLanguage())?
                 sip2PatronInformationRequestParser.getLanguage():"001");
         builder.append(MessageUtil.getSipDateTime());
@@ -102,7 +109,7 @@ public class OLESIP2PatronInformationResponse extends OLESIP2Response {
         builder.append(OLESIP2Util.intToFixedLengthString(0, 4));
         builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.VALID_PATRON_CODE);
-        builder.append(OLESIP2Util.bool2CharEmpty(oleLookupUser.isValidPatron()));
+        builder.append(oleLookupUser.isValidPatron()==true?OLESIP2Constants.Y:OLESIP2Constants.N);
         builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.CURRENCY_TYPE_CODE);
         builder.append(OLESIP2Util.getDefaultCurrency().getCurrencyCode());

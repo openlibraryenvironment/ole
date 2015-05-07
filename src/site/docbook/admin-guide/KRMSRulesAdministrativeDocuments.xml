@@ -99,7 +99,7 @@ the Agenda itself and where the Agenda will be applied.</para>
                     </screenshot>
                 </para>
 <para role="TableHeading"><emphasis role="bold">Agenda tab definition</emphasis></para>
-<informaltable frame="top">
+<informaltable frame="topbot">
 <tgroup cols="2">
 <colspec colname="col1" colnum="1"/>
 <colspec colname="col2" colnum="2"/>
@@ -198,7 +198,7 @@ Rule Editor will open.  The Rule Editor includes two unique tabs—<emphasis rol
 <para>Fill in the descriptive information for the rule in the <emphasis role="bold">Rule</emphasis>
 tab</para>
 <para role="TableHeading"><emphasis role="bold">Rule tab definition</emphasis></para>
-<informaltable frame="top">
+<informaltable frame="topbot">
 <tgroup cols="2">
 <colspec colname="col1" colnum="1"/>
 <colspec colname="col2" colnum="2"/>
@@ -251,13 +251,13 @@ unique to the namespace selected.</para>
 </entry>
 </row>
 <row>
-<entry colname="col1" colsep="1" rowsep="1" valign="top">Description</entry>
-<entry colname="col2" colsep="1" rowsep="1" valign="top">Enter a description for the
-rule.  To expand the description field, click the expand icon <inlinemediaobject>
+    <entry colname="col1" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Description</para></entry>
+    <entry colname="col2" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Enter a description for the
+rule.  To expand the description field, click the expand icon<inlinemediaobject>
 <imageobject>
 <imagedata fileref="../images/expandIcon.png"/>
 </imageobject>
-</inlinemediaobject>. </entry>
+</inlinemediaobject>. </para></entry>
 </row>
 <row>
 <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -485,7 +485,7 @@ inherited across contexts within any sort of hierarchy. </para>
 >Old</emphasis> and <emphasis role="bold">New</emphasis> sections. Selected data fields are
 available for editing.</para>
 <para role="TableHeading"><emphasis role="bold">Context tab definition</emphasis></para>
-<informaltable frame="top">
+<informaltable frame="topbot">
 <tgroup cols="2">
 <colspec colname="col1" colnum="1"/>
 <colspec colname="col2" colnum="2"/>
@@ -508,19 +508,19 @@ the namespace selected.</para>
 </entry>
 </row>
 <row>
-<entry colname="col1" colsep="1" rowsep="1" valign="top">Namespace</entry>
-<entry colname="col2" colsep="1" rowsep="1" valign="top">The Namespace to which this
-Context will belong.  Select the namespace from the drop down list.</entry>
+    <entry colname="col1" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Namespace</para></entry>
+    <entry colname="col2" colsep="1" rowsep="1" valign="top"><para role="Table Cells">The Namespace to which this
+Context will belong.  Select the namespace from the drop down list.</para></entry>
 </row>
 <row>
-<entry colname="col1" colsep="1" rowsep="1" valign="top">Type</entry>
-<entry colname="col2" colsep="1" rowsep="1" valign="top">Select a type from the
-drop down list to assign the context to more specific attributes.</entry>
+    <entry colname="col1" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Type</para></entry>
+    <entry colname="col2" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Select a type from the
+drop down list to assign the context to more specific attributes.</para></entry>
 </row>
 <row>
-<entry colname="col1" colsep="1" rowsep="1" valign="top">Description</entry>
-<entry colname="col2" colsep="1" rowsep="1" valign="top">Enter a description of the
-context.</entry>
+    <entry colname="col1" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Description</para></entry>
+    <entry colname="col2" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Enter a description of the
+context.</para></entry>
 </row>
 <row>
 <entry colname="col1" colsep="1" rowsep="1" valign="top">

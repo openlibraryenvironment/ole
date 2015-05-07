@@ -84,4 +84,4 @@ OLE10083,OLE100007,1,Batch Cataloging,OLE-CAT,Authorized to do batch imports and
 OLE10084,OLE100008,1,Describe Read only,OLE-CAT,Authorized only to view records in Describe,1,Y
 OLE10085,OLE100009,1,Cataloger,OLE-CAT,Authorized to perform Global Edit of Holdings/Items/EHoldings and Analytics,1,Y
 OLE10086,OLE100010,1,OLE_Serial-Receiving,OLE-SELECT,Authorized to edit Serial Receiving record.,1,Y
-OLE10087,OLE100676,1,OLE-ROLL-OVER,OLE-SELECT,Fiscal Year Roll Over.,1,Y
+

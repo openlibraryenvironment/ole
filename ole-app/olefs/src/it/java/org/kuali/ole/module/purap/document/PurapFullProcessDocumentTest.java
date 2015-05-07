@@ -17,7 +17,9 @@ package org.kuali.ole.module.purap.document;
 
 import org.junit.Test;
 import org.kuali.ole.ConfigureContext;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.ole.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -36,7 +38,7 @@ import static org.kuali.ole.fixture.UserNameFixture.*;
 /**
  * Used to create and test populated Purchase Order Documents of various kinds. 
  */
-public class PurapFullProcessDocumentTest extends KualiTestBase {
+public class PurapFullProcessDocumentTest extends KFSTestCaseBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DocumentServiceImpl.class);
 
     private static final String SUB_ACCOUNT_REVIEW = "SubAccount";
@@ -115,7 +117,7 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
     public final PaymentRequestDocument routePREQDocumentToFinal(PurchaseOrderDocument POdoc) throws Exception {
 //        purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
         PaymentRequestDocumentTest preqDocTest = new PaymentRequestDocumentTest();
-        PaymentRequestDocument paymentRequestDocument = preqDocTest.createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED, 
+        PaymentRequestDocument paymentRequestDocument = preqDocTest.createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED,
                 POdoc, true, new KualiDecimal[] {new KualiDecimal(100)});
         
         final String docId = paymentRequestDocument.getDocumentNumber();

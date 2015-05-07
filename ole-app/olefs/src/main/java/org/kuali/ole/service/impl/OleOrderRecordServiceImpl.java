@@ -748,19 +748,21 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
                         }
                         else if (OLEConstants.DONOR_CODE.equals(destinationField)) {
                             String donorCode = setDataMappingValuesForDonorAndNotesSection(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
-                            if (donorCode != null) {
+                            if (donorCode != null && !donorCode.isEmpty()) {
                                 Map<String, String> donorCodeMap = new HashMap<>();
                                 donorCodeMap.put(OLEConstants.DONOR_CODE, donorCode);
-                                List<OLEDonor> donorCodeList = (List) getLookupService().findCollectionBySearch(OLEDonor.class, donorCodeMap);
+                                List<OLEDonor> donorCodeList = (List) KRADServiceLocator.getBusinessObjectService().findMatching(OLEDonor.class, donorCodeMap);
                                 if (donorCodeList != null && donorCodeList.size() > 0) {
                                     donors.add(donorCodeList.get(0).getDonorCode());
                                 } else {
                                     mappingFailures.put(OLEConstants.DONOR_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_DONOR_CODE + "  " + dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField + " " + donorCode);
                                 }
                             }
+                            //Commented for jira OLE-7587
+                            /*
                             else{
                                 mappingFailures.put(OLEConstants.DONOR_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition + 1) + "  " + OLEConstants.REQUIRED_DONOR_CD + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
-                            }
+                            }*/
                         }
                         else if (OLEConstants.OLEBatchProcess.REQUESTOR_NAME.equals(destinationField)) {
                             String requestorName = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);

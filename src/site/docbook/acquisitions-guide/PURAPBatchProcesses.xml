@@ -11,9 +11,6 @@
         Payable batch processes. These processes, which are run according to a predetermined
         schedule, not only keep your database up to date but, in some cases, generate new e-docs as
         needed to make certain types of adjustments. </para>
-    <note>
-        <para role="Body Text"> These batch processes continue to be reviewed into the 2.0 release. </para>
-    </note>
     <para role="TableHeading"><emphasis role="bold">Purchasing and Accounts Payable Batch
         Jobs</emphasis></para>
     <informaltable frame="topbot">

@@ -1,3 +1,4 @@
+/*
 jq(document).ready(function(){
     window.alert = function() {};
     jq("div#DetailedView-BillSection .dataTables_filter").live("keypress",function(e){
@@ -109,3 +110,4 @@ function prepareInnerTransactionTableSortable(){
         }
     })
 }
+*/

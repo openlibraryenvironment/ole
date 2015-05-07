@@ -66,7 +66,6 @@ public class DocumentSelectionTree_UT {
             assertEquals("History of Computers", bibTree.getBib().getTitle());
         }
 
-
     }
 
 
@@ -96,6 +95,7 @@ public class DocumentSelectionTree_UT {
         holdings.setHoldingsType("print");
         holdings.setContent(new HoldingOlemlRecordProcessor().toXML(oleHoldings));
         holdingsTree.setHoldings(holdings);
+        item.setHolding(holdings);
         holdingsTree.getItems().add(item);
         holdingsTree.getHoldings().setId("Instance-1");
         holdingsTreeList.add(holdingsTree);

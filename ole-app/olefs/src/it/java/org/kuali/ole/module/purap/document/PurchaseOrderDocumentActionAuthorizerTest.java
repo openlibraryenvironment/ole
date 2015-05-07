@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.kuali.ole.ConfigureContext;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.module.purap.PurapAuthorizationConstants;
 import org.kuali.ole.module.purap.PurapConstants;
@@ -47,7 +47,7 @@ import static junit.framework.TestCase.assertTrue;
  * test whether certain buttons could be displayed.
  */
 
-public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
+public class PurchaseOrderDocumentActionAuthorizerTest extends KFSTestCaseBase {
 
     //TODO: This test passes. But there is issues with discovery service. Needs to be fixed
 

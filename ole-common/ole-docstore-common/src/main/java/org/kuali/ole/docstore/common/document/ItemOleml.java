@@ -5,9 +5,8 @@ import org.kuali.ole.docstore.common.document.content.enums.DocCategory;
 import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -47,17 +46,16 @@ public class ItemOleml
         type=DocType.ITEM.getCode();
         format=DocFormat.OLEML.getCode();
     }
-
     @Override
     public String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
-        ItemOleml itemOleml = (ItemOleml) object;
+        ItemOleml item = (ItemOleml) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(ItemOleml.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-            jaxbMarshaller.marshal(itemOleml, sw);
+            StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(ItemOleml.class);
+            synchronized (jaxbMarshaller) {
+                jaxbMarshaller.marshal(item, sw);
+            }
             result = sw.toString();
         } catch (Exception e) {
             LOG.error("Exception ", e);
@@ -67,17 +65,17 @@ public class ItemOleml
 
     @Override
     public Object deserialize(String content) {
-
-        JAXBElement<ItemOleml> ItemOlemlElement = null;
+        ItemOleml item = new ItemOleml();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(ItemOleml.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(ItemOleml.class);
             ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
-            ItemOlemlElement = jaxbUnmarshaller.unmarshal(new StreamSource(input), ItemOleml.class);
+            synchronized (unmarshaller) {
+                item = unmarshaller.unmarshal(new StreamSource(input), ItemOleml.class).getValue();
+            }
         } catch (Exception e) {
             LOG.error("Exception ", e);
         }
-        return ItemOlemlElement.getValue();
+        return item;
     }
 
     @Override

@@ -14,5 +14,8 @@ jq(document).ready(function(){
             jq("#"+allowedId).removeAttr("checked");
         }
     });
+    jq("#notice_btn_clk").live("click",function(){
+        jq("button#notice_btn_clk").attr('disabled','disabled');
+    });
 
 });

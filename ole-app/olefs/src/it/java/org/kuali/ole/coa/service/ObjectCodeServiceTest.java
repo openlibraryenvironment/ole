@@ -21,8 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Test;
-import org.kuali.ole.KualiTestBase;
-import org.kuali.ole.TestUtils;
+import org.kuali.ole.*;
 import org.kuali.ole.coa.businessobject.ObjectCode;
 import org.kuali.ole.coa.service.ObjectCodeService;
 import org.kuali.ole.sys.context.SpringContext;
@@ -36,7 +35,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * This class tests the ObjectCode service.
  */
-public class ObjectCodeServiceTest extends KualiTestBase {
+public class ObjectCodeServiceTest extends KFSTestCaseBase implements KualiTestConstants {
     public static final String CHART_CODE = TestConstants.Data4.CHART_CODE;
 
     @Test

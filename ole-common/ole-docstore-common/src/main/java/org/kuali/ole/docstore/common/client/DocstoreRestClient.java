@@ -52,7 +52,7 @@ import java.util.zip.ZipOutputStream;
 public class DocstoreRestClient implements DocstoreClient {
 
     //    static String DOCSTORE_URL = "http://localhost:8080/oledocstore/documentrest/";
-    private static String DOCSTORE_URL = ConfigContext.getCurrentContextConfig().getProperty("ole.docstore.Documentrest.url");
+    private static String DOCSTORE_URL =getDocstoreUrl();
     private static String BIB_URL = "bib/doc/";
     private static String RELOAD_URL = "config/reload";
     private static String BIB_CONTENT_URL = "bib/";
@@ -82,6 +82,17 @@ public class DocstoreRestClient implements DocstoreClient {
     private static String PROCESS_BIB_TREES = "bib/process";
 
     private Logger logger = LoggerFactory.getLogger(DocstoreRestClient.class);
+
+    public static String getDocstoreUrl() {
+        if(ConfigContext.getCurrentContextConfig() != null){
+            DOCSTORE_URL = ConfigContext.getCurrentContextConfig().getProperty("ole.docstore.Documentrest.url");
+        }
+        return DOCSTORE_URL;
+    }
+
+    public static void setDocstoreUrl(String url) {
+        DOCSTORE_URL = url;
+    }
 
     @Override
     public void createBib(Bib bib) {
@@ -213,6 +224,11 @@ public class DocstoreRestClient implements DocstoreClient {
             if (restResponse.getResponseBody().startsWith("<org.kuali.ole.docstore.common.exception")) {
                 throw DocstoreExceptionProcessor.fromXML(restResponse.getResponseBody());
             } else {
+                if (itemIds.size() == 1) {
+                    Item item = new Item();
+                    itemsObj.getItems().add((Item) item.deserialize(restResponse.getResponseBody()));
+                    return itemsObj.getItems();
+                }
                 itemsObj = (Items) Items.deserialize(restResponse.getResponseBody());
             }
         }

@@ -15,6 +15,7 @@ public class OleDeliverRequestHistoryRecord extends PersistableBusinessObjectBas
     private String requestHistoryId;
     private String requestId;
     private String itemId;
+    private String patronId;
     private String loanTransactionId;
     private String poLineItemNumber;
     private String deliverRequestTypeCode;
@@ -23,6 +24,17 @@ public class OleDeliverRequestHistoryRecord extends PersistableBusinessObjectBas
     private String machineId;
     private Date archiveDate;
     private Date createDate;
+    private String requestStatus;
+	
+    private String requestOutComeStatus;
+
+    public String getPatronId() {
+        return patronId;
+    }
+
+    public void setPatronId(String patronId) {
+        this.patronId = patronId;
+    }
 
     public String getRequestHistoryId() {
         return requestHistoryId;
@@ -110,5 +122,20 @@ public class OleDeliverRequestHistoryRecord extends PersistableBusinessObjectBas
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+    public String getRequestStatus() {
+        return requestStatus;
+    }
+
+    public void setRequestStatus(String requestStatus) {
+        this.requestStatus = requestStatus;
+    }
+
+    public String getRequestOutComeStatus() {
+        return requestOutComeStatus;
+    }
+
+    public void setRequestOutComeStatus(String requestOutComeStatus) {
+        this.requestOutComeStatus = requestOutComeStatus;
     }
 }

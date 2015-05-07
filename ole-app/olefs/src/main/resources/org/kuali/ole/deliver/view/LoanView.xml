@@ -190,7 +190,7 @@
         </property>
     </bean>
 
-    <bean id="hiddenLoanField" parent="Loan-Uif-InputField" p:propertyName="dueDateSlip" p:additionalHiddenPropertyNames="loanLoginMessage,audioEnable,renewalFlag,overrideRenewItemFlag,newPrincipalId,oldPrincipalId,overrideFlag,patronNoteFlag,maxSessionTime,success,renewDueDateFlag,fastAddItemIndicator,fastAddUrl,returnViewUrl,alterDueDateFlag,blockLoan,dueDateEmpty,dueDateMap,backGroundCheckIn,missingPieceDialog,damagedItemDialog,itemFocus,patronFocus,realPatronFlag,changeLocationFlag,claimsReturnFlag,removeClaimsReturnFlag,loanLoginName,validLogin,loginUser,displayMissingPieceNotePopup,displayDamagedRecordNotePopup,skipMissingPieceRecordPopup,skipDamagedRecordPopup,successMessage">
+    <bean id="hiddenLoanField" parent="Loan-Uif-InputField" p:propertyName="dueDateSlip" p:additionalHiddenPropertyNames="loanLoginMessage,audioEnable,renewalFlag,overrideRenewItemFlag,newPrincipalName,oldPrincipalId,overrideFlag,patronNoteFlag,maxSessionTime,success,renewDueDateFlag,fastAddItemIndicator,fastAddUrl,returnViewUrl,alterDueDateFlag,blockLoan,dueDateEmpty,dueDateMap,backGroundCheckIn,missingPieceDialog,damagedItemDialog,itemFocus,patronFocus,realPatronFlag,changeLocationFlag,claimsReturnFlag,removeClaimsReturnFlag,loanLoginName,validLogin,loginUser,displayMissingPieceNotePopup,displayDamagedRecordNotePopup,skipMissingPieceRecordPopup,skipDamagedRecordPopup,successMessage">
         <property name="control">
             <bean parent="Uif-HiddenControl"/>
         </property>
@@ -423,7 +423,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="@{overrideLoginMessage}" />
-                <bean id="newPrincipalId" parent="Loan-Uif-InputField" p:label="User" p:propertyName="newPrincipalId">
+                <bean id="newPrincipalName" parent="Loan-Uif-InputField" p:label="User" p:required="true" p:propertyName="newPrincipalName">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
                     </property>

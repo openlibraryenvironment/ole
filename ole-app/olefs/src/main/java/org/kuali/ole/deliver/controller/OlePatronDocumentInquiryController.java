@@ -48,7 +48,7 @@ public class OlePatronDocumentInquiryController extends OleInquiryController {
 
         InquiryForm form = (InquiryForm) uifForm;
         OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDataObject();
-        olePatronDocument.setOleLoanDocuments(new ArrayList<OleLoanDocument>());
+       // olePatronDocument.setOleLoanDocuments(new ArrayList<OleLoanDocument>());
         olePatronDocument.setShowLoanedRecords(false);
         return getUIFModelAndView(form);
     }
@@ -87,10 +87,15 @@ public class OlePatronDocumentInquiryController extends OleInquiryController {
                     if (oleItemSearch != null && oleItemSearch.getItemBarCode() != null) {
                         oleDeliverRequestBoList.get(i).setTitle(oleItemSearch.getTitle());
                         oleDeliverRequestBoList.get(i).setCallNumber(oleItemSearch.getCallNumber());
+                        oleDeliverRequestBoList.get(i).setAuthor(oleItemSearch.getAuthor());
+                        oleDeliverRequestBoList.get(i).setItemType(oleItemSearch.getItemType());
+                        oleDeliverRequestBoList.get(i).setItemStatus(oleItemSearch.getItemStatus());
+                        oleDeliverRequestBoList.get(i).setShelvingLocation(oleItemSearch.getShelvingLocation());
+                        oleDeliverRequestBoList.get(i).setCopyNumber(oleItemSearch.getCopyNumber());
                     }
                 }
             }
-            olePatronDocument.setOleDeliverRequestBos(getLoanProcessor().getPatronRequestRecords(olePatronDocument.getOlePatronId()));
+            olePatronDocument.setOleDeliverRequestBos(oleDeliverRequestBoList);
         } catch (Exception e) {
             LOG.error("While fetching Patron Requested Records error occured" + e);
         }
@@ -104,7 +109,7 @@ public class OlePatronDocumentInquiryController extends OleInquiryController {
         LOG.debug("Patron View : Hiding Patron Loaned Records");
         InquiryForm form = (InquiryForm) uifForm;
         OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDataObject();
-        olePatronDocument.setOleDeliverRequestBos(new ArrayList<OleDeliverRequestBo>());
+       // olePatronDocument.setOleDeliverRequestBos(new ArrayList<OleDeliverRequestBo>());
         olePatronDocument.setShowRequestedItems(false);
         return getUIFModelAndView(form);
     }
@@ -130,7 +135,7 @@ public class OlePatronDocumentInquiryController extends OleInquiryController {
         LOG.debug("Patron View : Hiding Patron Loaned Records");
         InquiryForm form = (InquiryForm) uifForm;
         OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDataObject();
-        olePatronDocument.setOleTemporaryCirculationHistoryRecords(new ArrayList<OleTemporaryCirculationHistory>());
+      //  olePatronDocument.setOleTemporaryCirculationHistoryRecords(new ArrayList<OleTemporaryCirculationHistory>());
         olePatronDocument.setShowTemporaryCirculationHistoryRecords(false);
         return getUIFModelAndView(form);
     }

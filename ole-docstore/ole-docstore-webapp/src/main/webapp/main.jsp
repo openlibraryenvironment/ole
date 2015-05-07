@@ -17,6 +17,7 @@
 <head>
 <script type="text/javascript" src="script/jquery-ui-1.8.16.custom/js/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="script/jquery-ui-1.8.16.custom/js/jquery-ui-1.8.16.custom.min.js"></script>
+    <title>Discovery Service</title>
 <script>
 
     function hideOnLoad() {

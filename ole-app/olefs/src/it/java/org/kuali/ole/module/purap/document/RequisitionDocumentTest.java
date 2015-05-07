@@ -29,9 +29,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Test;
 import org.kuali.ole.DocumentTestUtils;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.ole.module.purap.businessobject.PurchasingItem;
@@ -49,20 +52,23 @@ import org.kuali.ole.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.ksb.util.KSBConstants;
 
 /**
  * Used to create and test populated Requisition Documents of various kinds.
  */
-public class RequisitionDocumentTest extends KualiTestBase {
+public class RequisitionDocumentTest extends KFSTestCaseBase {
     public static final Class<OleRequisitionDocument> DOCUMENT_CLASS = OleRequisitionDocument.class;
     private static final String ACCOUNT_REVIEW = "Account";
     private static final String ORGANIZATION = "Organization";
@@ -80,11 +86,10 @@ public class RequisitionDocumentTest extends KualiTestBase {
         changeCurrentUser(UserNameFixture.khuntley);
     }
 
-    @Override
+    @After
     public void tearDown() throws Exception {
         requisitionDocument = null;
-        ConfigContext.getCurrentContextConfig().putProperty(KSBConstants.Config.MESSAGE_DELIVERY, "a"+KSBConstants.MESSAGING_SYNCHRONOUS );
-        super.tearDown();
+        ConfigContext.getCurrentContextConfig().putProperty(KSBConstants.Config.MESSAGE_DELIVERY, "a" + KSBConstants.MESSAGING_SYNCHRONOUS);
     }
 
 
@@ -275,6 +280,47 @@ public class RequisitionDocumentTest extends KualiTestBase {
 
     protected UserNameFixture getTestUserName() {
         return rorenfro;
+    }
+
+
+    protected void changeCurrentUser(UserNameFixture sessionUser) throws Exception {
+        Person p = sessionUser.getPerson();
+        GlobalVariables.setUserSession(new UserSession(p.getPrincipalName()));
+    }
+
+    protected void changeCurrentUser(Person p) throws Exception {
+        GlobalVariables.setUserSession(new UserSession(p.getPrincipalName()));
+    }
+
+    /**
+     * This method is used during debugging to dump the contents of the error map, including the key names. It is not used by the
+     * application in normal circumstances at all.
+     */
+    protected String dumpMessageMapErrors() {
+        if (GlobalVariables.getMessageMap().hasNoErrors()) {
+            return "";
+        }
+
+        StringBuilder message = new StringBuilder();
+        for ( String key : GlobalVariables.getMessageMap().getErrorMessages().keySet() ) {
+            List<ErrorMessage> errorList = GlobalVariables.getMessageMap().getErrorMessages().get(key);
+
+            for ( ErrorMessage em : errorList ) {
+                message.append(key).append(" = ").append( em.getErrorKey() );
+                if (em.getMessageParameters() != null) {
+                    message.append( " : " );
+                    String delim = "";
+                    for ( String parm : em.getMessageParameters() ) {
+                        message.append(delim).append("'").append(parm).append("'");
+                        if ("".equals(delim)) {
+                            delim = ", ";
+                        }
+                    }
+                }
+            }
+            message.append( '\n' );
+        }
+        return message.toString();
     }
 
     // create document fixture

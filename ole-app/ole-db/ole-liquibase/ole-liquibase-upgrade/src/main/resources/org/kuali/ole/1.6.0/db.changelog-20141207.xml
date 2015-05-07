@@ -23,197 +23,6 @@
         </rollback>
     </changeSet>
 
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_ENTITY_T_oracle" dbms="oracle">
-        <loadData tableName="KRIM_ENTITY_T" file="org/kuali/ole/1.6.0/data/ole_krim_entity_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_ENTITY_T">
-                <where>APPL_ID = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_ENTITY_T_mysql" dbms="mysql">
-        <sql>
-            SET sql_mode='NO_BACKSLASH_ESCAPES'
-        </sql>
-        <loadData tableName="KRIM_ENTITY_T" file="org/kuali/ole/1.6.0/data/ole_krim_entity_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_ENTITY_T">
-                <where>APPL_NMSPC_CD = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_ENTITY_NM_T_oracle" dbms="oracle">
-        <loadData tableName="KRIM_ENTITY_NM_T" file="org/kuali/ole/1.6.0/data/ole_krim_entity_nm_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_ENTITY_NM_T">
-                <where>APPL_ID = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_ENTITY_NM_T_mysql" dbms="mysql">
-        <sql>
-            SET sql_mode='NO_BACKSLASH_ESCAPES'
-        </sql>
-        <loadData tableName="KRIM_ENTITY_NM_T" file="org/kuali/ole/1.6.0/data/ole_krim_entity_nm_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_ENTITY_NM_T">
-                <where>APPL_NMSPC_CD = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_ENTITY_ENT_TYP_T_oracle" dbms="oracle">
-        <loadData tableName="KRIM_ENTITY_ENT_TYP_T" file="org/kuali/ole/1.6.0/data/ole_krim_entity_ent_typ_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_ENTITY_ENT_TYP_T">
-                <where>APPL_ID = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_ENTITY_ENT_TYP_T_mysql" dbms="mysql">
-        <sql>
-            SET sql_mode='NO_BACKSLASH_ESCAPES'
-        </sql>
-        <loadData tableName="KRIM_ENTITY_ENT_TYP_T" file="org/kuali/ole/1.6.0/data/ole_krim_entity_ent_typ_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_ENTITY_ENT_TYP_T">
-                <where>APPL_NMSPC_CD = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_ENTITY_EMAIL_T_oracle" dbms="oracle">
-        <loadData tableName="KRIM_ENTITY_EMAIL_T" file="org/kuali/ole/1.6.0/data/ole_krim_entity_email_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_ENTITY_EMAIL_T">
-                <where>APPL_ID = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_ENTITY_EMAIL_T_mysql" dbms="mysql">
-        <sql>
-            SET sql_mode='NO_BACKSLASH_ESCAPES'
-        </sql>
-        <loadData tableName="KRIM_ENTITY_EMAIL_T" file="org/kuali/ole/1.6.0/data/ole_krim_entity_email_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_ENTITY_EMAIL_T">
-                <where>APPL_NMSPC_CD = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_OLE_KRIM_ROLE_T_oracle" dbms="oracle">
-        <loadData tableName="KRIM_ROLE_T" file="org/kuali/ole/1.6.0/data/ole_krim_role_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_ROLE_T">
-                <where>APPL_ID = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_OLE_KRIM_ROLE_T_mysql" dbms="mysql">
-        <sql>
-            SET sql_mode='NO_BACKSLASH_ESCAPES'
-        </sql>
-        <loadData tableName="KRIM_ROLE_T" file="org/kuali/ole/1.6.0/data/ole_krim_role_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_ROLE_T">
-                <where>APPL_NMSPC_CD = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_OLE_KRIM_PERM_T_oracle" dbms="oracle">
-        <loadData tableName="KRIM_PERM_T" file="org/kuali/ole/1.6.0/data/ole_krim_perm_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_PERM_T">
-                <where>APPL_ID = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_OLE_KRIM_PERM_T_mysql" dbms="mysql">
-        <sql>
-            SET sql_mode='NO_BACKSLASH_ESCAPES'
-        </sql>
-        <loadData tableName="KRIM_PERM_T" file="org/kuali/ole/1.6.0/data/ole_krim_perm_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_PERM_T">
-                <where>APPL_NMSPC_CD = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_OLE_KRIM_PRNCPL_T_oracle" dbms="oracle">
-        <loadData tableName="KRIM_PRNCPL_T" file="org/kuali/ole/1.6.0/data/ole_krim_prncpl_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_PRNCPL_T">
-                <where>APPL_ID = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_OLE_KRIM_PRNCPL_T_mysql" dbms="mysql">
-        <sql>
-            SET sql_mode='NO_BACKSLASH_ESCAPES'
-        </sql>
-        <loadData tableName="KRIM_PRNCPL_T" file="org/kuali/ole/1.6.0/data/ole_krim_prncpl_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_PRNCPL_T">
-                <where>APPL_NMSPC_CD = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_OLE_KRIM_ROLE_PERM_T_oracle" dbms="oracle">
-        <loadData tableName="KRIM_ROLE_PERM_T" file="org/kuali/ole/1.6.0/data/ole_krim_role_perm_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_ROLE_PERM_T">
-                <where>APPL_ID = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_OLE_KRIM_ROLE_PERM_T_mysql" dbms="mysql">
-        <sql>
-            SET sql_mode='NO_BACKSLASH_ESCAPES'
-        </sql>
-        <loadData tableName="KRIM_ROLE_PERM_T" file="org/kuali/ole/1.6.0/data/ole_krim_role_perm_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_ROLE_PERM_T">
-                <where>APPL_NMSPC_CD = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_OLE_KRIM_ROLE_MBR_T_oracle" dbms="oracle">
-        <loadData tableName="KRIM_ROLE_MBR_T" file="org/kuali/ole/1.6.0/data/ole_krim_role_mbr_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_ROLE_MBR_T">
-                <where>APPL_ID = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
-    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_OLE_KRIM_ROLE_MBR_T_mysql" dbms="mysql">
-        <sql>
-            SET sql_mode='NO_BACKSLASH_ESCAPES'
-        </sql>
-        <loadData tableName="KRIM_ROLE_MBR_T" file="org/kuali/ole/1.6.0/data/ole_krim_role_mbr_t.csv"/>
-        <rollback>
-            <delete tableName="KRIM_ROLE_MBR_T">
-                <where>APPL_NMSPC_CD = 'OLE'</where>
-            </delete>
-        </rollback>
-    </changeSet>
-
     <changeSet context="bootstrap" author="ole" id="OLE_LOAN_INTRANSIT_HISTORY_T">
         <createTable catalogName="ole"
                      schemaName="ole"
@@ -415,6 +224,372 @@
     </changeSet>
 
     <changeSet context="bootstrap" author="ole" id="PATRON_VIEW_ALTER" >
+        <createView viewName="OLE_PTRN_ENTITY_V" schemaName="ole" catalogName="ole" replaceIfExists="true">
+            (SELECT
+            P.OLE_PTRN_ID,
+            P.BARCODE AS PTRN_BRCD,
+            (SELECT COUNT(*) FROM OLE_DLVR_PTRN_BILL_T PB WHERE P.OLE_PTRN_ID = PB.OLE_PTRN_ID) AS BILL_CNT,
+            (SELECT COUNT(*) FROM OLE_DLVR_LOAN_T PLN WHERE P.OLE_PTRN_ID = PLN.OLE_PTRN_ID) AS LOAN_CNT,
+            (SELECT COUNT(*) FROM OLE_DLVR_RQST_T PRQST WHERE P.OLE_PTRN_ID = PRQST.OLE_PTRN_ID) AS RQST_CNT,
+            (SELECT COUNT(*) FROM OLE_DLVR_TEMP_CIRC_RECORD PTMPHSTY WHERE P.OLE_PTRN_ID = PTMPHSTY.OLE_PTRN_ID) AS TMP_CIR_HSTY_CNT,
+            (SELECT DLVR_BORR_TYP_NM FROM OLE_DLVR_BORR_TYP_T WHERE DLVR_BORR_TYP_ID=P.BORR_TYP) AS PTRN_TYP,
+            P.BORR_TYP AS PTRN_TYP_ID,
+            P.EXPIRATION_DATE AS EXPR_DT,
+            ENT.ENTITY_ID,
+            ENT_NM.FIRST_NM,
+            ENT_NM.MIDDLE_NM,
+            ENT_NM.LAST_NM,
+            ENT_NM.SUFFIX_NM,
+            ENT_NM.PREFIX_NM,
+            (SELECT ENT_EM.EMAIL_ADDR FROM KRIM_ENTITY_EMAIL_T ENT_EM WHERE ENT.ENTITY_ID = ENT_EM.ENTITY_ID AND DFLT_IND='Y') AS EMAIL,
+            (SELECT ENT_PH.PHONE_NBR FROM KRIM_ENTITY_PHONE_T ENT_PH WHERE ENT.ENTITY_ID = ENT_PH.ENTITY_ID AND DFLT_IND='Y') AS PHONE,
+            concat(concat(ENT_NM.LAST_NM,', '),ENT_NM.FIRST_NM) AS NAME,
+            P.ACTV_IND AS ACTV_IND
+            FROM
+            OLE_PTRN_T P,
+            KRIM_ENTITY_T ENT,
+            KRIM_ENTITY_NM_T ENT_NM
+            WHERE
+            P.OLE_PTRN_ID = ENT.ENTITY_ID
+            AND ENT.ENTITY_ID = ENT_NM.ENTITY_ID)
+        </createView>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_RQST_T_ADD_HOLD_EXP_DATE">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_RQST_T">
+            <column name="HOLD_EXP_DATE" type="DATE"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_RQST_HSTRY_REC_T">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_RQST_HSTRY_REC_T">
+            <column name="OLE_REQ_OUTCOME_STATUS" type="VARCHAR(80)"/>
+        </addColumn>
+        <dropNotNullConstraint catalogName="ole"
+                               columnName="OLE_LOAN_ID"
+                               schemaName="ole"
+                               columnDataType="VARCHAR(80)"
+                               tableName="OLE_DLVR_RQST_HSTRY_REC_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="PUR_PO_V_ALTER" >
+    <createView viewName="PUR_PO_V" schemaName="ole" catalogName="ole" replaceIfExists="true">
+        (SELECT P.AP_PUR_DOC_LNK_ID,
+        P.PO_ID,
+        P.PO_CUR_IND,
+        P.FDOC_NBR,
+        P.OBJ_ID,
+        D.APP_DOC_STAT,
+        P.RECUR_PMT_TYP_CD,
+        P.PO_VNDR_CHC_CD,
+        P.PO_END_DT,
+        E.TOTAL_ENCUMBRANCE,
+        SUMMATION.TOTAL_AMOUNT,
+            P.PO_CRTE_DT AS PO_CRTE_DT
+        FROM
+        PUR_PO_T P,
+        KREW_DOC_HDR_T D,
+        PUR_PO_ITM_TOT_ENC_V E,
+        PUR_PO_ITM_TOT_AMT_V SUMMATION
+        WHERE
+        P.FDOC_NBR = E.FDOC_NBR
+        AND
+        P.FDOC_NBR=D.DOC_HDR_ID
+        AND P.FDOC_NBR = SUMMATION.FDOC_NBR)
+    </createView>
+</changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_RQST_HSTRY_REC_T_ADD_PATRON_ID">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="ole_dlvr_rqst_hstry_rec_t">
+            <column name="OLE_PTRN_ID" type="VARCHAR(40)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_ITM_CLM_RTND_HSTRY_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_ITM_CLM_RTND_HSTRY_T">
+            <column name="CLAIMS_RETURNED_ID"   type="INTEGER"/>
+            <column name="CLAIMS_RETURNED_DATE_CREATED" type="TIMESTAMP"/>
+            <column name="CLAIMS_RETURNED_NOTE" type="VARCHAR(400)"/>
+            <column name="CLAIMS_RETURNED_PATRON_BARCODE" type="VARCHAR(100)"/>
+            <column name="CLAIMS_RETURNED_OPERATOR_ID" type="VARCHAR(40)"/>
+            <column name="ITEM_ID" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_ITM_CLM_RTND_HSTRY_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="CLAIMS_RETURNED_ID"
+                       constraintName="OLE_ITM_CLM_RTND_HSTRY_PK"
+                       schemaName="ole"
+                       tableName="OLE_ITM_CLM_RTND_HSTRY_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_ITM_CLM_RTND_HSTRY_T_FK">
+        <addForeignKeyConstraint baseTableCatalogName="ole"
+                                 baseTableSchemaName="ole"
+                                 baseColumnNames="ITEM_ID"
+                                 baseTableName="OLE_ITM_CLM_RTND_HSTRY_T"
+                                 constraintName="OLE_ITM_CLM_RTND_HSTRY_FK"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="ITEM_ID"
+                                 referencedTableName="OLE_DS_ITEM_T"/>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_ITM_CLM_RTND_HSTRY_T_I">
+        <createIndex catalogName="ole"
+                     indexName="OLE_ITM_CLM_RTND_HSTRY_T_I"
+                     schemaName="ole"
+                     tableName="OLE_ITM_CLM_RTND_HSTRY_T">
+            <column name="CLAIMS_RETURNED_PATRON_BARCODE" type="VARCHAR(100)"/>
+            <column name="CLAIMS_RETURNED_OPERATOR_ID" type="VARCHAR(40)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_ITM_CLM_RTND_HSTRY_S" dbms="oracle">
+        <createSequence catalogName="ole"
+                        incrementBy="1"
+                        ordered="true"
+                        schemaName="ole"
+                        sequenceName="OLE_ITM_CLM_RTND_HSTRY_S"
+                        startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_ITM_CLM_RTND_HSTRY_S" dbms="mysql">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_ITM_CLM_RTND_HSTRY_S">
+            <column name="ID"   type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_ITM_CLM_RTND_HSTRY_S_PK" dbms="mysql">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="ID"
+                       constraintName="OLE_ITM_CLM_RTND_HSTRY_S_PK"
+                       schemaName="ole"
+                       tableName="OLE_ITM_CLM_RTND_HSTRY_S"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_ITM_CLM_RTND_HSTRY_S_AUTO_INCREMENT" dbms="mysql">
+        <addAutoIncrement catalogName="ole"
+                          columnDataType="BIGINT(19)"
+                          columnName="ID"
+                          incrementBy="1"
+                          schemaName="ole"
+                          startWith="1"
+                          tableName="OLE_ITM_CLM_RTND_HSTRY_S"/>
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DMGD_ITM_HSTRY_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_DS_DMGD_ITM_HSTRY_T ">
+            <column name="ITM_DMGD_ID" type="INTEGER"/>
+            <column name="DMGD_ITM_DATE"   type="TIMESTAMP"/>
+            <column name="DMGD_ITM_NOTE"   type="VARCHAR(400)"/>
+            <column name="PATRON_BARCODE"   type="VARCHAR(100)" />
+            <column name="OPERATOR_ID"   type="VARCHAR(40)"/>
+            <column name="ITEM_ID" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DMGD_ITM_HSTRY_T_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="ITM_DMGD_ID"
+                       constraintName="ITEM_DAMAGED_CONSTRAINT"
+                       schemaName="ole"
+                       tableName="OLE_DS_DMGD_ITM_HSTRY_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DMGD_ITM_HSTRY_T_FK">
+        <addForeignKeyConstraint baseTableCatalogName="ole"
+                                 baseTableSchemaName="ole"
+                                 baseColumnNames="ITEM_ID"
+                                 baseTableName="OLE_DS_DMGD_ITM_HSTRY_T"
+                                 constraintName="OLE_DS_DMGD_ITM_HSTRY_T_FK"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="ITEM_ID"
+                                 referencedTableName="OLE_DS_ITEM_T"/>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_DS_DMGD_ITM_HSTRY_T_I">
+        <createIndex catalogName="ole"
+                     indexName="OLE_DS_DMGD_ITM_HSTRY_T_I"
+                     schemaName="ole"
+                     tableName="OLE_DS_DMGD_ITM_HSTRY_T">
+            <column name="PATRON_BARCODE" type="VARCHAR(100)"/>
+            <column name="OPERATOR_ID" type="VARCHAR(40)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DMGD_ITM_HSTRY_S" dbms="oracle">
+        <createSequence catalogName="ole"
+                        incrementBy="1"
+                        ordered="true"
+                        schemaName="ole"
+                        sequenceName="OLE_DS_DMGD_ITM_HSTRY_S"
+                        startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DMGD_ITM_HSTRY_S" dbms="mysql">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_DS_DMGD_ITM_HSTRY_S ">
+            <column name="ID"   type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DMGD_ITM_HSTRY_S_PK" dbms="mysql">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="ID"
+                       constraintName="OLE_DS_DMGD_ITM_HSTRY_S_PK"
+                       schemaName="ole"
+                       tableName="OLE_DS_DMGD_ITM_HSTRY_S"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DMGD_ITM_HSTRY_S_AUTO_INCREMENT" dbms="mysql">
+        <addAutoIncrement catalogName="ole"
+                          columnDataType="BIGINT(19)"
+                          columnName="ID"
+                          incrementBy="1"
+                          schemaName="ole"
+                          startWith="1"
+                          tableName="OLE_DS_DMGD_ITM_HSTRY_S"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_MISS_PCE_ITM_HSTRY_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_MISS_PCE_ITM_HSTRY_T ">
+            <column name="ITEM_ID" type="INTEGER"/>
+            <column name="MISSING_PIECE_ID" type="VARCHAR(50)"/>
+            <column name="OPERATOR_ID"   type="VARCHAR(40)"/>
+            <column name="PATRON_BARCODE"   type="VARCHAR(100)" />
+            <column name="MISSING_PIECE_NOTE"   type="VARCHAR(400)"/>
+            <column name="MISSING_PIECE_COUNT"  type="INTEGER"/>
+            <column name="MISSING_PIECE_DATE"   type="TIMESTAMP"/>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_MISS_PCE_ITM_HSTRY_T_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="MISSING_PIECE_ID"
+                       constraintName="ITEM_MISS_PCE_CNSRT"
+                       schemaName="ole"
+                       tableName="OLE_MISS_PCE_ITM_HSTRY_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_MISS_PCE_ITM_HSTRY_T_FK">
+        <addForeignKeyConstraint baseTableCatalogName="ole"
+                                 baseTableSchemaName="ole"
+                                 baseColumnNames="ITEM_ID"
+                                 baseTableName="OLE_MISS_PCE_ITM_HSTRY_T"
+                                 constraintName="ITEM_MISS_PCE_CNSRT_FK"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="ITEM_ID"
+                                 referencedTableName="OLE_DS_ITEM_T"/>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_MISS_PCE_ITM_HSTRY_T_I">
+        <createIndex catalogName="ole"
+                     indexName="OLE_MISS_PCE_ITM_HSTRY_I"
+                     schemaName="ole"
+                     tableName="OLE_MISS_PCE_ITM_HSTRY_T">
+            <column name="PATRON_BARCODE" type="VARCHAR(100)"/>
+            <column name="OPERATOR_ID" type="VARCHAR(40)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_MISS_PCE_ITM_HSTRY_S" dbms="oracle">
+        <createSequence catalogName="ole"
+                        incrementBy="1"
+                        ordered="true"
+                        schemaName="ole"
+                        sequenceName="OLE_MISS_PCE_ITM_HSTRY_S"
+                        startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_MISS_PCE_ITM_HSTRY_S" dbms="mysql">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_MISS_PCE_ITM_HSTRY_S ">
+            <column name="MISSING_PIECE_ID"   type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_MISS_PCE_ITM_HSTRY_S_PK" dbms="mysql">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="MISSING_PIECE_ID"
+                       constraintName="ITEM_MISS_PCE_CNSRT_S"
+                       schemaName="ole"
+                       tableName="OLE_MISS_PCE_ITM_HSTRY_S"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_MISS_PCE_ITM_HSTRY_S_AUTO_INCREMENT" dbms="mysql">
+        <addAutoIncrement catalogName="ole"
+                          columnDataType="BIGINT(19)"
+                          columnName="MISSING_PIECE_ID"
+                          incrementBy="1"
+                          schemaName="ole"
+                          startWith="1"
+                          tableName="OLE_MISS_PCE_ITM_HSTRY_S"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id=" KRIM_ROLE_RSP_ACTN_T">
+        <update tableName="KRIM_ROLE_RSP_ACTN_T">
+            <column name="ACTN_PLCY_CD" value="F" />
+            <where>ROLE_RSP_ID = 'OLE1163'</where>
+        </update>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="krim_role_mbr_t_delete">
+    <delete tableName="krim_role_mbr_t">
+        <where>role_id = 'OLE10072' and mbr_id = 'olequickstart'</where>
+    </delete>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_DLVR_LOAN_NOTICE_HSTRY_T_AddColumn">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_LOAN_NOTICE_HSTRY_T">
+            <column name="NTC_CNTNT" type="BLOB"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_BATCH_JOB_T_Delete">
+        <delete tableName="OLE_DLVR_BATCH_JOB_T">
+            <where>JOB_ID = '2' and JOB_TRG_NM = 'generateNoticesJob'</where>
+        </delete>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_BATCH_JOB_T_Insert" dbms="mysql">
+        <sql>INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 2 * * ?','9','generateCourtesyNoticesJob','9','Y',1)</sql>
+        <sql>INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 2 * * ?','10','generateOverdueNoticesJob','10','Y',1)</sql>
+        <sql>INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 2 * * ?','11','generateLostNoticesJob','11','Y',1)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_BATCH_JOB_T_Insert" dbms="oracle">
+        <sql>INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 2 * * ?','9','generateCourtesyNoticesJob','9','Y',1)</sql>
+        <sql>INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 2 * * ?','10','generateOverdueNoticesJob','10','Y',1)</sql>
+        <sql>INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 2 * * ?','11','generateLostNoticesJob','11','Y',1)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="PATRON_VIEW_MODIFIED" >
         <createView viewName="OLE_PTRN_ENTITY_V" schemaName="ole" catalogName="ole" replaceIfExists="true">
             (SELECT
             P.OLE_PTRN_ID,

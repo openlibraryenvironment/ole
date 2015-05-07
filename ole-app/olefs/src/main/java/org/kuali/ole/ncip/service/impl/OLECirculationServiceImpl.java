@@ -6,6 +6,7 @@ import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
 import org.kuali.ole.deliver.service.impl.OleDeliverDaoJdbc;
@@ -70,6 +71,18 @@ public class OLECirculationServiceImpl implements OLECirculationService {
     private ConfigurationService kualiConfigurationService;
     private Map<String,OleCirculationDesk> oleCirculationDeskMap = getAvailableCirculationDesks();
     private Map<String,OleDeliverRequestType> oleDeliverRequestTypeMap = getAvailableRequestTypes();
+    private CircDeskLocationResolver circDeskLocationResolver;
+
+    private CircDeskLocationResolver getCircDeskLocationResolver() {
+        if (circDeskLocationResolver == null) {
+            circDeskLocationResolver = new CircDeskLocationResolver();
+        }
+        return circDeskLocationResolver;
+    }
+
+    public void setCircDeskLocationResolver(CircDeskLocationResolver circDeskLocationResolver) {
+        this.circDeskLocationResolver = circDeskLocationResolver;
+    }
 
     public ConfigurationService getKualiConfigurationService() {
         if (kualiConfigurationService == null) {
@@ -414,7 +427,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
             if ("".equals(itemIdentifier)) {
                 itemIdentifier = null;
             }
-                String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operator, itemBarcode, requestType, pickUpLocation, itemIdentifier, itemLocation, itemType, title, author, callNumber, true,null,null,null);
+                String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operator, itemBarcode, requestType, pickUpLocation, itemIdentifier, itemLocation, itemType, title, author, callNumber, true,null,"Item Level",null);
                 responseMessage = responseMessage.replaceAll("&lt;br/&gt;", "");
                 responseMessage = responseMessage.replaceAll("<br/>", "");
                 OLEPlaceRequestConverter olePlaceRequestConverter = new OLEPlaceRequestConverter();
@@ -475,7 +488,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
             } else {
                 itemLocation = item1.getLocation();
             }
-            Map<String, String> locationMap = oleDeliverRequestDocumentHelperService.getLocationMap(itemLocation);
+            Map<String, String> locationMap = getCircDeskLocationResolver().getLocationMap(itemLocation);
             oleLoanDocument.setItemInstitution(locationMap.get(OLEConstants.ITEM_INSTITUTION));
             oleLoanDocument.setItemCampus(locationMap.get(OLEConstants.ITEM_CAMPUS));
             oleLoanDocument.setItemCollection(locationMap.get(OLEConstants.ITEM_COLLECTION));
@@ -601,6 +614,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
                     oleItemFine.setTitle(item.getHolding().getBib().getTitle());
                     oleItemFine.setAuthor(item.getHolding().getBib().getAuthor());
                 }
+                oleItemFine.setPatronBillId(olePatronBillPayment.getBillNumber());
                 oleItemFine.setAmount((feeType.getFeeAmount() != null ? feeType.getFeeAmount().bigDecimalValue() : OLEConstants.BIGDECIMAL_DEF_VALUE));
                 oleItemFine.setBalance((feeType.getBalFeeAmount() != null ? feeType.getBalFeeAmount().bigDecimalValue() : OLEConstants.BIGDECIMAL_DEF_VALUE));
                 oleItemFine.setBillDate(feeType.getBillDate().toString());
@@ -789,7 +803,8 @@ public class OLECirculationServiceImpl implements OLECirculationService {
         termValues.put(OLEConstants.ITEM_LIBRARY, oleLoanDocument.getItemLibrary());
         termValues.put(OLEConstants.ITEM_CAMPUS, oleLoanDocument.getItemCampus());
         termValues.put(OLEConstants.ITEM_INSTITUTION, oleLoanDocument.getItemInstitution());
-        termValues.put(OLEConstants.NUM_RENEWALS, oleLoanDocument.getNumberOfRenewals());
+        Integer noOfRenewals = Integer.parseInt(oleLoanDocument.getNumberOfRenewals());
+        termValues.put(OLEConstants.NUM_RENEWALS, noOfRenewals);
         termValues.put(OLEConstants.PATRON_ID_POLICY, patronId);
         termValues.put(OLEConstants.ITEM_ID_POLICY, itemId);
         try {
@@ -901,7 +916,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
               } else {
                   oleCheckedOutItem.setNumberOfOverdueSent("1");
               }
-              Map<String, String> locationMap = oleDeliverRequestDocumentHelperService.getLocationMap(oleLoanDocument.getItemFullLocation());
+              Map<String, String> locationMap = getCircDeskLocationResolver().getLocationMap(oleLoanDocument.getItemFullLocation());
               oleLoanDocument.setItemInstitution(locationMap.get(OLEConstants.ITEM_INSTITUTION));
               oleLoanDocument.setItemCampus(locationMap.get(OLEConstants.ITEM_CAMPUS));
               oleLoanDocument.setItemCollection(locationMap.get(OLEConstants.ITEM_COLLECTION));

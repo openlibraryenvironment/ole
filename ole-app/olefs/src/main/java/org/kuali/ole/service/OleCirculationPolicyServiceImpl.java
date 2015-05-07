@@ -1,5 +1,6 @@
 package org.kuali.ole.service;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.FeeType;
@@ -323,7 +324,7 @@ public class OleCirculationPolicyServiceImpl implements OleCirculationPolicyServ
         return false;
     }
 
-    public HashMap getLoanedKeyMap(String patronId,boolean renewalFlag) {
+    public HashMap getLoanedKeyMap(String patronId,boolean renewalFlag){
         Long begin = System.currentTimeMillis();
         // Initializing  variables
         OlePatronDocument olePatronDocument;
@@ -371,9 +372,24 @@ public class OleCirculationPolicyServiceImpl implements OleCirculationPolicyServ
         if(oleLoanDocuments!=null){
             loanedItems = renewalFlag ?oleLoanDocuments.size() : oleLoanDocuments.size()+1;
         }
-
+        int claimsCount = 0;
         HashMap<String,Integer> itemTypeMap = new HashMap<>();
         for(OleLoanDocument oleLoanDocument : oleLoanDocuments){
+            if(StringUtils.isNotBlank(oleLoanDocument.getItemUuid())) {
+                String itemXmlContent = null;
+                Item oleItem = null;
+                try {
+                    itemXmlContent = getLoanProcessor().getItemXML(oleLoanDocument.getItemUuid());
+                    oleItem = getLoanProcessor().getItemPojo(itemXmlContent);
+                } catch (Exception e) {
+                    LOG.error("Item Parse Exception in CirculationPolicyServiceImpl getLoanedKeyMap");
+                }
+
+                if (oleItem != null && oleItem.isClaimsReturnedFlag()) {
+                    claimsCount++;
+                }
+            }
+
             if(itemTypeMap.containsKey(oleLoanDocument.getItemType())){
                 Integer count = itemTypeMap.get(oleLoanDocument.getItemType());
                 count++;
@@ -394,6 +410,7 @@ public class OleCirculationPolicyServiceImpl implements OleCirculationPolicyServ
 
         keyMap.put("patronDetails",olePatronDocument);
         keyMap.put("itemTypeMap",itemTypeMap);
+        keyMap.put("claimsCount",claimsCount);
         Long end = System.currentTimeMillis();
         Long timeTaken = end-begin;
         LOG.info("The Time Taken for getLoanedKeyMap in Add Item"+timeTaken);

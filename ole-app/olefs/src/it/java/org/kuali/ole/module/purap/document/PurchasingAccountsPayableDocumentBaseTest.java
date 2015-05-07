@@ -17,7 +17,7 @@ package org.kuali.ole.module.purap.document;
 
 import org.junit.Test;
 import org.kuali.ole.ConfigureContext;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.service.UniversityDateService;
@@ -29,7 +29,7 @@ import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 
-public class PurchasingAccountsPayableDocumentBaseTest extends KualiTestBase {
+public class PurchasingAccountsPayableDocumentBaseTest extends KFSTestCaseBase {
 
     PurchasingAccountsPayableDocument purapDoc;
     Integer currentFY;

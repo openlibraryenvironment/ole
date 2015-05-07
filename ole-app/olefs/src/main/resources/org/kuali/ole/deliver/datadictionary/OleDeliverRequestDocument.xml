@@ -800,6 +800,8 @@
                 </bean>
                 <bean id="onHoldRequestRequest-expirationDate" parent="Uif-InputField" p:propertyName="requestExpiryDate">
                 </bean>
+                <bean id="HoldExpirationDate-InquiryView" p:label="Hold Expiration Date" parent="Uif-InputField" p:propertyName="holdExpirationDate" p:render="@{dataObject.requestTypeId ne null}">
+                </bean>
             </list>
         </property>
     </bean>

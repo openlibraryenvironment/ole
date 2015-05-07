@@ -76,7 +76,7 @@ Cataloging submenu on the <emphasis role="bold">Rice 2</emphasis> menu tab.</par
                 sections in this tab. Selected data fields are available for editing.</para>
             <para role="TableHeading"><emphasis role="bold">Add/Edit Bibliographic Record Status tab
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -240,17 +240,17 @@ Cataloging submenu on the <emphasis role="bold">Rice 2</emphasis> menu tab.</par
                             </entry>
                         </row>
                         <row>
-                            <entry colname="col1" colsep="1" rowsep="1" valign="top">Second
-                                Indicator</entry>
-                            <entry colname="col2" colsep="1" rowsep="1" valign="top"> Optional. The
-                                MARC second indicator that will be globally protected during ingest.
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Second
+                                Indicator</para></entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Optional. The
+                                MARC second indicator that will be globally protected during ingest.</para>
                             </entry>
                         </row>
                         <row>
-                            <entry colname="col1" colsep="1" rowsep="1" valign="top">Sub
-                                Field</entry>
-                            <entry colname="col2" colsep="1" rowsep="1" valign="top"> Optional. The
-                                MARC subfield that will be globally protected during ingest.
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Sub
+                                Field</para></entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Optional. The
+                                MARC subfield that will be globally protected during ingest.</para>
                             </entry>
                         </row>
                         <row>
@@ -320,7 +320,7 @@ Cataloging submenu on the <emphasis role="bold">Rice 2</emphasis> menu tab.</par
                 available for editing.</para>
             <para role="TableHeading"><emphasis role="bold">Add/Edit Import Bib User Preference tab
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -502,7 +502,7 @@ Cataloging submenu on the <emphasis role="bold">Rice 2</emphasis> menu tab.</par
                 editing.</para>
             <para role="TableHeading"><emphasis role="bold">Add/Edit Call Number Type tab
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -620,7 +620,7 @@ Cataloging submenu on the <emphasis role="bold">Rice 2</emphasis> menu tab.</par
                 are available for editing.</para>
             <para role="TableHeading"><emphasis role="bold">Add/Edit Type of Ownership tab
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -736,7 +736,7 @@ Cataloging submenu on the <emphasis role="bold">Rice 2</emphasis> menu tab.</par
                 sections in this tab. Selected data fields are available for editing.</para>
             <para role="TableHeading"><emphasis role="bold">Add/Edit Item Availability Status tab
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -833,7 +833,7 @@ circulating library materials.</para>
 data into both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>
 sections in this tab. Selected data fields are available for editing.</para>
 <para role="TableHeading"><emphasis role="bold">Add/Edit Item Type tab definition</emphasis></para>
-<informaltable frame="top">
+<informaltable frame="topbot">
 <tgroup cols="2">
 <colspec colname="col1" colnum="1"/>
 <colspec colname="col2" colnum="2"/>
@@ -955,7 +955,7 @@ checkmark to deactivate this code</para>
                 are available for editing.</para>
             <para role="TableHeading"><emphasis role="bold">Add/Edit Receipt Status tab
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -1072,7 +1072,7 @@ the <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis
 tab. Selected data fields are available for editing.</para>
 <para role="TableHeading"><emphasis role="bold">Add/Edit Statistical Searching Codes tab
 definition</emphasis></para>
-<informaltable frame="top">
+<informaltable frame="topbot">
 <tgroup cols="2">
 <colspec colname="col1" colnum="1"/>
 <colspec colname="col2" colnum="2"/>

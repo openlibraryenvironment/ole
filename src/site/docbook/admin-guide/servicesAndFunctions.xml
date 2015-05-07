@@ -118,7 +118,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Advance Search Field
                         Definitions</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -138,10 +138,6 @@
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">General category of documents being
                                         searched.  </para>
-                                    <note>
-                                        <para role="Table Cells"> Work is the only valid category in
-                                            1.5</para>
-                                    </note>
                                 </entry>
                             </row>
                             <row>

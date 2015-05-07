@@ -9,6 +9,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.batch.OleDeliverBatchServiceImpl;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OLEDeliverNoticeHelperService;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.deliver.service.impl.OLEDeliverNoticeHelperServiceImpl;
@@ -70,7 +71,18 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
     private OleDeliverRequestDocumentHelperServiceImpl service =  getService();
     private OLEDeliverNoticeHelperService oleDeliverNoticeHelperService ;
     private OleCirculationPolicyService oleCirculationPolicyService;
+    private CircDeskLocationResolver circDeskLocationResolver;
 
+    private CircDeskLocationResolver getCircDeskLocationResolver() {
+        if (circDeskLocationResolver == null) {
+            circDeskLocationResolver = new CircDeskLocationResolver();
+        }
+        return circDeskLocationResolver;
+    }
+
+    public void setCircDeskLocationResolver(CircDeskLocationResolver circDeskLocationResolver) {
+        this.circDeskLocationResolver = circDeskLocationResolver;
+    }
     /**
      * This method initiate LoanProcessor.
      *
@@ -353,6 +365,9 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
             }
             //  oleDeliverRequestBo = service.reOrderQueuePosition(oleDeliverRequestBo);
         }
+            if(org.apache.commons.lang.StringUtils.isNotBlank(oleDeliverRequestBo.getRequestTypeId()) && (oleDeliverRequestBo.getRequestTypeId().equals("1") || oleDeliverRequestBo.getRequestTypeId().equals("2"))){
+                oleDeliverRequestBo.setRecallNoticeSentDate(new java.sql.Date(System.currentTimeMillis()));
+            }
         if ((oleDeliverRequestBo.getMessage() != null && !oleDeliverRequestBo.getMessage().isEmpty())) {
             return getUIFModelAndView(form);
         }
@@ -517,7 +532,7 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
                     oleItem.setDueDateTime(recallDueDate.toString());
                     getBusinessObjectService().save(oleLoanDocument);
                     OleCirculationDesk oleCirculationDesk = oleLoanDocument.getCirculationLocationId() != null ?
-                            getLoanProcessor().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()) : null;
+                            getCircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()) : null;
                     oleLoanDocument.setOleCirculationDesk(oleCirculationDesk);
                     OLEDeliverNoticeHelperService oleDeliverNoticeHelperService =getOleDeliverNoticeHelperService();
                     oleDeliverNoticeHelperService.deleteDeliverNotices(oleLoanDocument.getLoanId());
@@ -560,7 +575,7 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
                         oleDeliverRequestBo.setRecallDueDate(recallDueDate);
                         getBusinessObjectService().save(oleLoanDocument);
                         OleCirculationDesk oleCirculationDesk = oleLoanDocument.getCirculationLocationId() != null ?
-                                getLoanProcessor().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()) : null;
+                                getCircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()) : null;
                         oleLoanDocument.setOleCirculationDesk(oleCirculationDesk);
                         OLEDeliverNoticeHelperService oleDeliverNoticeHelperService =getOleDeliverNoticeHelperService();
                         oleDeliverNoticeHelperService.deleteDeliverNotices(oleLoanDocument.getLoanId());

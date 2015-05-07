@@ -37,7 +37,7 @@
             <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-DataField" p:propertyName="titleField"  p:label="Title / Author  "  p:readOnly="true" p:style="font-weight:bold;font-size:16px;border:3px;"  p:render="@{globalEditFlag eq 'false'}"/>
+                        <bean parent="Uif-DataField" p:propertyName="titleField"  p:label="Title / Author / Local Id"  p:readOnly="true" p:style="font-weight:bold;font-size:16px;border:3px;"  p:render="@{globalEditFlag eq 'false'}"/>
 
                         <bean  parent="Uif-Link" p:style="font-size:16px;border:3px;text-decoration:underline;" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{bibId}&amp;editable=@{editable}"
                                p:linkText=" @{title}"  p:target="_blank" p:render="@{hasLink eq true and staffOnlyFlagForBib ne true and fromDublin ne true and globalEditFlag eq 'false'}"/>

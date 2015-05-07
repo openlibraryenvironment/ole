@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><article xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en-US"><title>OLE Describe overview</title><para role="No Spacing"><emphasis role="bold">September 2014, Milestone Release
-        1.5</emphasis></para><section><title/><section>
+<?xml version="1.0" encoding="UTF-8"?><article xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en-US"><title>OLE Describe overview</title><para role="No Spacing"><emphasis role="bold">April 2015, Release 1.6</emphasis></para><section><title/><section>
             <title> </title>
             <para role="Normal">Cataloging is the term most commonly used in libraries for what OLE
                 defines as Describe and Manage activities. Cataloging involves the creation and
@@ -45,7 +44,7 @@
                 </listitem>
                 <listitem>
                     <para role="List Paragraph">“Staff only” flagging and record ownership (allowing
-                        only authorized staff to modify records)</para>
+                        only authorized staff to modify records).</para>
                 </listitem>
                 <listitem>
                     <para role="List Paragraph">“Bound-withs” and “analytics”.</para>
@@ -101,7 +100,7 @@
                 <section>
                     <title>Holdings records</title>
                     <para role="Normal">OLE Holding Records store information about particular
-                        copies, including “base” call numbers and shelving locations. In OLE 1.5,
+                        copies, including “base” call numbers and shelving locations. In OLE 1.6,
                         holdings are maintained in a format specific to OLE called “OLE holdings”
                         which also provides the ability to record summary holdings information. In
                         the future, other types of holdings formats (collectively referred to as
@@ -289,10 +288,9 @@
         </section>
         <section>
             <title>Locations</title>
-            <para role="Normal">Locations<emphasis role="bold"> </emphasis>in OLE are defined by
-                each partner site at the time of implementation. Locations are defined in terms of a
-                hierarchy of up to five levels. As delivered, the levels (from broadest to most
-                specific) are:</para>
+            <para role="Normal">Locations in OLE are defined by each partner site at the time of
+                implementation. Locations are defined in terms of a hierarchy of up to five levels.
+                As delivered, the levels (from broadest to most specific) are:</para>
             <itemizedlist mark="disc" spacing="normal">
                 <listitem>
                     <para role="List Paragraph">Institution</para>

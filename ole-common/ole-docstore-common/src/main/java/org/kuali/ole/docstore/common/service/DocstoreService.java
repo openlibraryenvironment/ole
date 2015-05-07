@@ -19,6 +19,14 @@ import java.util.Map;
  */
 public interface DocstoreService {
 
+    public static String OLE ="OLE";
+
+    public static String OLE_DESC="OLE-DESC";
+
+    public static String DESCRIBE ="Describe";
+
+    public static String PROCESS_SOLR_IND ="PROCESS_SOLR_IND";
+
     public void createBib(Bib bib);
 
     public void createHoldings(Holdings holdings);

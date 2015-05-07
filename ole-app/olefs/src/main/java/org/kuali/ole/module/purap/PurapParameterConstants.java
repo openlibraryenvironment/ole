@@ -77,6 +77,9 @@ public class PurapParameterConstants {
     public static final String AUTO_CLOSE_RECURRING_PO_DATE = "AUTO_CLOSE_RECURRING_PO_DATE";
     public static final String AUTO_CLOSE_RECURRING_PO_TO_EMAIL_ADDRESSES = "AUTO_CLOSE_RECURRING_PO_TO_EMAIL_ADDRESSES";
 
+    public static final String AUTO_CLOSE_PO_FROM_DATE = "AUTO_CLOSE_PO_FROM_DATE";
+    public static final String AUTO_CLOSE_PO_TO_DATE = "AUTO_CLOSE_PO_TO_DATE";
+
     public static final String ENABLE_SALES_TAX_IND = "ENABLE_SALES_TAX_IND";
 
     public static final String BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS = "BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS";

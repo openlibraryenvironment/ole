@@ -1,5 +1,7 @@
 package org.kuali.ole.pojo;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: palanivel
@@ -56,6 +58,7 @@ public class OleInvoiceRecord {
     private String itemType;                       // "QTY"
     private String quantity;                       // EDIFACT
     private String itemDescription;                // EDIFACT
+    private List itemNote;                         // EDIFACT
     private String listPrice;                      // EDIFACT
     private String unitPrice;                      // EDIFACT
     private String subscriptionPeriodFrom;         // EDIFACT
@@ -115,6 +118,15 @@ public class OleInvoiceRecord {
 
     public void setLineItemAdditionalCharge(String lineItemAdditionalCharge) {
         this.lineItemAdditionalCharge = lineItemAdditionalCharge;
+    }
+
+
+    public List getItemNote() {
+        return itemNote;
+    }
+
+    public void setItemNote(List itemNote) {
+        this.itemNote = itemNote;
     }
 
     public String getBfnNumber() {

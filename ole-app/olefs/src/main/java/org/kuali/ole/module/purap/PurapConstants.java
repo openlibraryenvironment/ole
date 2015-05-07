@@ -848,7 +848,7 @@ public class PurapConstants {
     public static final class InvoiceStatuses {
         public static final String APPDOC_INITIATE = "Initiated";
         public static final String APPDOC_IN_PROCESS = "In Process";
-        public static final String APPDOC_CANCELLED_IN_PROCESS = "Cancelled In Process";
+      //  public static final String APPDOC_CANCELLED_IN_PROCESS = "Cancelled In Process";
         public static final String APPDOC_CANCELLED_POST_AP_APPROVE = "Cancelled";
         public static final String APPDOC_DEPARTMENT_APPROVED = "Department-Approved";
         public static final String APPDOC_AUTO_APPROVED = "Auto-Approved";
@@ -872,7 +872,7 @@ public class PurapConstants {
 
             appDocStatusMap.put(APPDOC_INITIATE, APPDOC_INITIATE);
             appDocStatusMap.put(APPDOC_IN_PROCESS, APPDOC_IN_PROCESS);
-            appDocStatusMap.put(APPDOC_CANCELLED_IN_PROCESS, APPDOC_CANCELLED_IN_PROCESS);
+        //    appDocStatusMap.put(APPDOC_CANCELLED_IN_PROCESS, APPDOC_CANCELLED_IN_PROCESS);
             appDocStatusMap.put(APPDOC_CANCELLED_POST_AP_APPROVE, APPDOC_CANCELLED_POST_AP_APPROVE);
             appDocStatusMap.put(APPDOC_DEPARTMENT_APPROVED, APPDOC_DEPARTMENT_APPROVED);
             appDocStatusMap.put(APPDOC_AUTO_APPROVED, APPDOC_AUTO_APPROVED);
@@ -906,7 +906,7 @@ public class PurapConstants {
         // Note it doesn't make much sense to compare auto_approved and dept_approved but this is
         // easier than two enums plus this should primarily be used for user enterred areas
         public enum STATUS_ORDER {
-            CANCELLED_IN_PROCESS(PurapConstants.InvoiceStatuses.APPDOC_CANCELLED_IN_PROCESS, false),
+         //   CANCELLED_IN_PROCESS(PurapConstants.InvoiceStatuses.APPDOC_CANCELLED_IN_PROCESS, false),
             CANCELLED_POST_AP_APPROVE(PurapConstants.InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE, false),
             APPDOC_DAPRVD_BUDGET(PurapConstants.InvoiceStatuses.APPDOC_DAPRVD_BUDGET, false),
             APPDOC_DAPRVD_PAYMENT(PurapConstants.InvoiceStatuses.APPDOC_DAPRVD_PAYMENT, false),
@@ -1001,7 +1001,7 @@ public class PurapConstants {
         public static final Set STATUSES_POSTROUTE = new HashSet();
 
         static {
-            CANCELLED_STATUSES.add(APPDOC_CANCELLED_IN_PROCESS);
+          //  CANCELLED_STATUSES.add(APPDOC_CANCELLED_IN_PROCESS);
             CANCELLED_STATUSES.add(APPDOC_CANCELLED_POST_AP_APPROVE);
             CANCELLED_STATUSES.add(APPDOC_DAPRVD_BUDGET);
             CANCELLED_STATUSES.add(APPDOC_DAPRVD_PAYMENT);
@@ -1042,10 +1042,10 @@ public class PurapConstants {
 
             HashMap<String, String> appDocStatusMap = new HashMap<String, String>();
 
-            appDocStatusMap.put(NODE_ADHOC_REVIEW, InvoiceStatuses.APPDOC_CANCELLED_IN_PROCESS);
+            appDocStatusMap.put(NODE_ADHOC_REVIEW, InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
             appDocStatusMap.put(AWAIT_BUDGET_REVIEW, InvoiceStatuses.NODE_BUDGET_OFFICE_REVIEW);
             appDocStatusMap.put(APPDOC_AWAITING_PAYMENT_REVIEW, InvoiceStatuses.NODE_PAYMENT_OFFICE_REVIEW);
-            appDocStatusMap.put(AccountsPayableStatuses.NODE_ACCOUNT_PAYABLE_REVIEW, InvoiceStatuses.APPDOC_CANCELLED_IN_PROCESS);
+            appDocStatusMap.put(AccountsPayableStatuses.NODE_ACCOUNT_PAYABLE_REVIEW, InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
             appDocStatusMap.put(NODE_AWAITING_RECEIVING_REVIEW, InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
             appDocStatusMap.put(NODE_SUB_ACCOUNT_REVIEW, InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
             appDocStatusMap.put(NODE_ACCOUNT_REVIEW, InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);

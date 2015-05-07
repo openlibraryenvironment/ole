@@ -1,6 +1,15 @@
 .fixed-size-200-select {
     width:200px;
 }
+
+.disableColor{
+    color:#808080;
+}
+
+.enableColor{
+    color:#1150b0;
+}
+
 .fixed-size-100-select {
     width:100px;
 }
@@ -122,4 +131,12 @@ div#OlePatronDocument-messagePopupSection{
     color: #00529B;
     background-color: #BDE5F8;
 
+}
+
+.visual_indication_data{
+    color:green;
+}
+
+div.true span{
+    color:#808080;
 }

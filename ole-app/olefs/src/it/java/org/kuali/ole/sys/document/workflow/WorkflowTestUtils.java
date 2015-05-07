@@ -77,7 +77,7 @@ public class WorkflowTestUtils {
     }
 
     public static void waitForDocumentApproval( String documentNumber ) {
-        waitForStatusChange(documentNumber, DocumentStatus.PROCESSED, DocumentStatus.FINAL );
+        waitForStatusChange(documentNumber, DocumentStatus.PROCESSED, DocumentStatus.FINAL,DocumentStatus.ENROUTE );
     }
 
     public static void waitForStatusChange( String documentNumber, DocumentStatus... desiredStatuses ) {

@@ -27,6 +27,9 @@ public class OLEPatronEntityViewBo extends PersistableBusinessObjectBase {
     private int billCount;
     private String patronBillFileName;
     private String patronTypeId;
+    private int loanCount;
+    private int tempCirculationHistoryCount;
+    private int requestedItemRecordsCount;
 
     public String getPatronId() {
         return patronId;
@@ -194,5 +197,29 @@ public class OLEPatronEntityViewBo extends PersistableBusinessObjectBase {
 
     public void setPatronTypeId(String patronTypeId) {
         this.patronTypeId = patronTypeId;
+    }
+
+    public int getLoanCount() {
+        return loanCount;
+    }
+
+    public void setLoanCount(int loanCount) {
+        this.loanCount = loanCount;
+    }
+
+    public int getTempCirculationHistoryCount() {
+        return tempCirculationHistoryCount;
+    }
+
+    public void setTempCirculationHistoryCount(int tempCirculationHistoryCount) {
+        this.tempCirculationHistoryCount = tempCirculationHistoryCount;
+    }
+
+    public int getRequestedItemRecordsCount() {
+        return requestedItemRecordsCount;
+    }
+
+    public void setRequestedItemRecordsCount(int requestedItemRecordsCount) {
+        this.requestedItemRecordsCount = requestedItemRecordsCount;
     }
 }

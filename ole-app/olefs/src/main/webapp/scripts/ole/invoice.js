@@ -108,6 +108,18 @@ function selectNoProrate(){
     jq(".prorateByManualClass").removeAttr("checked");
 }
 
+function save() {
+    if(jq("#hdnduplicateSaveFlag_control").val() == 'true') {
+        displayDialogWindow("div#OLEInvoice-DuplicationSavePopUp");
+
+    }
+}
+
+function closeInvoiceVendorSavePopUp(){
+    jq("div#OLEInvoice-DuplicationSavePopUp").fadeOut(300);
+    jq("#mask").fadeOut(300);
+}
+
 
 function route(){
     if(jq("#hdnSfcFlag_control").val() == 'true') {
@@ -120,6 +132,7 @@ function route(){
 
 function blanketApprove(){
     if(jq("#hdnduplicateApproveFlag_control").val() == 'true' || jq('#hdnduplicateApproveFlag span').text().trim() =='true') {
+        jq("#unsaved_control").val(false);
         displayDialogWindow("div#OLEInvoice-DuplicationApprovePopUp");
     }
     else if(jq("#hdnSfcFlagForBlankApp_control").val() == 'true') {
@@ -158,9 +171,11 @@ function refreshCurrentItems(){
 function closeInvoiceValidationPopUp(){
     jq("div#MessagePopupSectionForInvoiceValidation").fadeOut(300);
     jq("#mask").fadeOut(300);
+    validateInvoiceNumber();
 }
 
 function closeInvoiceBlanketApproveValidationPopUp(){
+    jq("#unsaved_control").val(false);
     jq("div#MessagePopupSectionForBlanketApproveInvoiceValidation").fadeOut(300);
     jq("#mask").fadeOut(300);
 }
@@ -208,10 +223,25 @@ function onChangePriceScript() {
 function validateInvoiceAmount(){
     if(jq("#hdnValidationFlag_control").val() == 'true') {
         displayDialogWindow("div#MessagePopupSectionForInvoiceValidation");
-        jq('#mask').fadeOut(300);
-    }else{
+        /* jq('#mask').fadeOut(300);*/
+    } else {
+        validateInvoiceNumber();
+    }
+}
+
+function validateInvoiceNumber(){
+    if(jq("#hdnduplicateRouteFlag_control").val() == 'true' || jq('#hdnduplicateRouteFlag span').text().trim() =='true') {
+        displayDialogWindow("div#OLEInvoice-DuplicationRoutePopUp");
+        /*jq('#mask').fadeOut(300);*/
+    }
+    else{
         unsaved();
     }
+}
+
+function closeInvoiceVendorRoutePopUp(){
+    jq("div#OLEInvoice-DuplicationRoutePopUp").fadeOut(300);
+    jq("#mask").fadeOut(300);
 }
 
 function unsaved(){

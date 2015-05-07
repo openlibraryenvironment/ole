@@ -170,8 +170,9 @@ public class RdbmsBibMarcDocumentManager extends RdbmsBibDocumentManager {
             Map<String, String> dataFields = bibMarcUtil.buildDataValuesForBibInfo(bibMarcRecords.getRecords().get(0));
 
             BibInfoRecord bibInfoRecord = new BibInfoRecord();
-            bibInfoRecord.setBibId(Integer.valueOf(bibRecord.getBibId()));
-            bibInfoRecord.setBibIdStr(DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC, bibRecord.getBibId()));
+            String bibId = DocumentUniqueIDPrefix.getDocumentId(bibRecord.getBibId());
+            bibInfoRecord.setBibId(Integer.valueOf(bibId));
+            bibInfoRecord.setBibIdStr(DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC, bibId));
             bibInfoRecord.setTitle(BatchBibTreeDBUtil.truncateData(dataFields.get(BibMarcUtil.TITLE_DISPLAY), 4000));
             bibInfoRecord.setAuthor(BatchBibTreeDBUtil.truncateData(dataFields.get(BibMarcUtil.AUTHOR_DISPLAY), 4000));
             bibInfoRecord.setPublisher(BatchBibTreeDBUtil.truncateData(dataFields.get(BibMarcUtil.PUBLISHER_DISPLAY), 4000));

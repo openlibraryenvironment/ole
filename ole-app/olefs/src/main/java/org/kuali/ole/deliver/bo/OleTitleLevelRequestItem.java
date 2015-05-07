@@ -10,6 +10,7 @@ public class OleTitleLevelRequestItem {
     private String itemType;
     private String itemStatus;
     private boolean selectedItem;
+    private String volumeNumber;
 
     public String getItemBarcode() {
         return itemBarcode;
@@ -57,5 +58,13 @@ public class OleTitleLevelRequestItem {
 
     public void setSelectedItem(boolean selectedItem) {
         this.selectedItem = selectedItem;
+    }
+
+    public String getVolumeNumber() {
+        return volumeNumber;
+    }
+
+    public void setVolumeNumber(String volumeNumber) {
+        this.volumeNumber = volumeNumber;
     }
 }

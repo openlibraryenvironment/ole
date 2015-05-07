@@ -36,25 +36,7 @@ public class OleLocationWebServiceImpl implements OleLocationWebService {
             parentCriteria.put("levelId", shelvingId);
             Collection<OleLocation> oleLocationCollection = businessObjectService.findMatching(OleLocation.class, parentCriteria);
             for (OleLocation oleLocation : oleLocationCollection) {
-                String locationName = oleLocation.getLocationName();
-                String levelId = oleLocation.getLevelId();
-                String levelCode = oleLocation.getLocationCode();
-                boolean parentId = oleLocation.getParentLocationId() != null ? true : false;
-                while (parentId) {
-                    Map criteriaMap = new HashMap();
-                    criteriaMap.put("locationId", oleLocation.getParentLocationId());
-                    OleLocation location = businessObjectService.findByPrimaryKey(OleLocation.class,
-                            criteriaMap);
-                    if (locationName != null) {
-                        locationName = location.getLocationName() + "/" + locationName;
-                    }
-                    if (levelCode != null) {
-                        levelCode = location.getLocationCode() + "/" + levelCode;
-                    }
-                    parentId = location.getParentLocationId() != null ? true : false;
-                    oleLocation = location;
-                }
-                options.add(new ConcreteKeyValue(levelCode, levelCode));
+                options.add(new ConcreteKeyValue(oleLocation.getFullLocationPath(), oleLocation.getFullLocationPath()));
             }
         }
         Map<String, String> map = new HashMap<String, String>();

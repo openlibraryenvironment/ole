@@ -17,14 +17,16 @@ package org.kuali.ole.module.purap.document;
 
 import java.util.List;
 
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.ole.module.purap.document.AccountsPayableDocument;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
-public class AccountsPayableDocumentTestUtils extends KualiTestBase {
+public class AccountsPayableDocumentTestUtils extends KFSTestCaseBase {
 
     public static void testAddItem(AccountsPayableDocument document, List<AccountsPayableItem> items, int expectedItemTotal) throws Exception {
         assertTrue("no items found", items.size() > 0);

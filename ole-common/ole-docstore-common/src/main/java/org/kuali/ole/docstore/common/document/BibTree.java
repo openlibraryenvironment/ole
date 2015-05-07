@@ -3,6 +3,7 @@ package org.kuali.ole.docstore.common.document;
 import org.apache.log4j.Logger;
 import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
@@ -105,7 +106,7 @@ public class BibTree {
             StringWriter sw = new StringWriter();
             Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(BibTree.class);
             synchronized (jaxbMarshaller) {
-            jaxbMarshaller.marshal(bibTree, sw);
+                jaxbMarshaller.marshal(bibTree, sw);
             }
             result = sw.toString();
         } catch (Exception e) {
@@ -122,7 +123,7 @@ public class BibTree {
             XMLStreamReader xmlStreamReader = JAXBContextFactory.getInstance().getXmlInputFactory().createXMLStreamReader(streamSource);
             Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(BibTree.class);
             synchronized (unmarshaller) {
-            bibTree = unmarshaller.unmarshal(xmlStreamReader, BibTree.class).getValue();
+                bibTree = unmarshaller.unmarshal(xmlStreamReader, BibTree.class).getValue();
             }
         } catch (Exception e) {
             LOG.error("Exception :", e);

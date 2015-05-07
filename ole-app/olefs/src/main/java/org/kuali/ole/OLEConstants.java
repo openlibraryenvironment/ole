@@ -1567,7 +1567,7 @@ public class OLEConstants {
     public static final String PAR_EXP = "Parser Exception-item xml to item pojo.";
     public static final String ITM_STS_NT_AVAL = "Item status is unavailable.";
     public static final String KRMS_EXP_MSG = "Please ingest the deliver xml in KRMS Builder.";
-    public static final String ITM_STS_TO_DOC_FAIL = "Item status updation failed";
+    public static final String ITM_STS_TO_DOC_FAIL = "Error while updating item information";
     public static final String DAT_FORM = "MMM dd, yyyy hh:mm:ss a";
     public static final String DAT_FORMAT_EFFECTIVE = "MM/dd/yyyy hh:mm:ss a";
     public static final String DAT_FORMAT_EFFECTIVE_PRINT = "MM/dd/yyyy hh:mm a";
@@ -2034,6 +2034,8 @@ public class OLEConstants {
     public static final String PICKUP_NOTICE_START_CONTENT = "The item you requested is available for pickup from the ";
     public static final String PICKUP_NOTICE_MIDDLE_CONTENT = ". It will be held until ";
     public static final String PICKUP_NOTICE_FINAL_CONTENT = ". Please pick it up at your earliest convenience.";
+
+    public static final int DEFAULT_NOTICE_THREAD_POOL_SIZE = 20;
 
 
     public static final class OleInvoiceImport {
@@ -3129,6 +3131,7 @@ public class OLEConstants {
     public static final String PICKUP_LOCATION = "pickUpLocation";
 
     public static final String AND_SEARCH_SCOPE = "AND";
+    public static final String OR_SEARCH_SCOPE = "OR";
     public static final String PO_NONE = "NONE";
     public static final String RANGE_QUERY = "[* TO *]";
     public static final String HUNDRED = "100";
@@ -3194,6 +3197,8 @@ public class OLEConstants {
     public static final String   MULTIPLE = "Multiple";
     public static final String PO ="PO";
     public static final String INVOICE ="Invoice";
+    public static final String FROM_DATE ="REENCUMBER_RECURRING_FROM_DATE";
+    public static final String TO_DATE ="REENCUMBER_RECURRING_TO_DATE";
 
     public static final String GL_UNIV_FIS_YR = "UNIV_FISCAL_YR";
     public static final String GL_CHART_CD = "FIN_COA_CD";
@@ -3215,6 +3220,16 @@ public class OLEConstants {
     public static final String GL_TOTAL_INV_AMT = "amt";
     public static final String DOC_NBR = "FDOC_REF_NBR";
     public static final String EXC_RATE = "OLE_EXCHANGE_RT";
+    public static final String PROJECT_CODE = "PROJECT_CD";
+    public static final String REF_DOC_TYP_CD = "FDOC_REF_TYP_CD";
+    public static final String REF_ORG_CD = "FS_REF_ORIGIN_CD";
+    public static final String ENCUM_UPDT_CD = "R";
+    public static final String  FDOC_REF_NBR = "FDOC_REF_NBR";
+
+    public static final String REQUEST_FULFILLED = "message.request.fulfilled";
+    public static final String REQUEST_CANCELLED = "message.request.cancelled";
+    public static final String REQUEST_EXPIRED = "message.request.expired";
+    public static final String HOLD_REQUEST_EXPIRED = "message.request.hold.expired";
 
 
 
@@ -3377,4 +3392,14 @@ public class OLEConstants {
     public static final String COPY_ALERT_DESCRIPTION = "Saved Alert Document";
 
     public static final String PHRASE = "phrase";
+	public static final String ARCHIVE_DATE = "archiveDate";
+    public static final String MYSQL = "mysql";
+    public static final String DB_VENDOR = "db.vendor";
+    public static final String RENCUM_DATE_FORMAT = "yyyy-MM-dd";
+    public static final String LOST_NOTICE_TO_DATE="LOST_NOTICE_TO_DATE";
+    public static final String NOTICE_THREAD_POOL_SIZE = "NOTICE_THREAD_POOL_SIZE";
+    public static final String COURTESY_NOTICE_TO_DATE="COURTESY_NOTICE_TO_DATE";
+    public static final String OVERDUE_NOTICE_TO_DATE= "OVERDUE_NOTICE_TO_DATE";
+    public static final String OLE_LOAN_DAO = "oleLoanDao";
+    public static final String LOAN_WITH_NOTICES_DAO = "loanWithNoticesDAO";
 }

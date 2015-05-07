@@ -14,6 +14,7 @@ import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.Bib;
@@ -54,6 +55,18 @@ public class OlePrintSlip extends PdfPageEventHelper {
     private Map<String, BaseColor> printColorMap = new HashMap<String, BaseColor>();
     private DocstoreClientLocator docstoreClientLocator;
     private OleDeliverBatchServiceImpl oleDeliverBatchService;
+    private CircDeskLocationResolver circDeskLocationResolver;
+
+    private CircDeskLocationResolver getCircDeskLocationResolver() {
+        if (circDeskLocationResolver == null) {
+            circDeskLocationResolver = new CircDeskLocationResolver();
+        }
+        return circDeskLocationResolver;
+    }
+
+    public void setCircDeskLocationResolver(CircDeskLocationResolver circDeskLocationResolver) {
+        this.circDeskLocationResolver = circDeskLocationResolver;
+    }
 
     public OleDeliverBatchServiceImpl getOleDeliverBatchService() {
         if(oleDeliverBatchService==null){
@@ -155,7 +168,7 @@ public class OlePrintSlip extends PdfPageEventHelper {
         SimpleDateFormat sdf = new SimpleDateFormat(OLEConstants.TIMESTAMP);
         try {
             if (oleLoanDocument.getCirculationLocationId() != null) {
-                oleCirculationDesk = loanProcessor.getOleCirculationDesk(oleLoanDocument.getCirculationLocationId());
+                oleCirculationDesk = getCircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId());
                 oleLocation = oleCirculationDesk != null ? oleCirculationDesk.getOleCirculationDeskLocations().get(0).getLocation() : null;
             }
             String locationName = oleLocation != null ? oleLocation.getLocationName() : null;
@@ -573,7 +586,7 @@ public class OlePrintSlip extends PdfPageEventHelper {
             OleCirculationDesk oleCirculationDesk = null;
             try {
                 if (oleLoanDocument.get(0).getCirculationLocationId() != null) {
-                    oleCirculationDesk = loanProcessor.getOleCirculationDesk(oleLoanDocument.get(0).getCirculationLocationId());
+                    oleCirculationDesk = getCircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.get(0).getCirculationLocationId());
                 }
                 oleLocation = oleCirculationDesk.getOleCirculationDeskLocations().get(0).getLocation();
                 // oleLocation = loanProcessor.getLocationByLocationId(oleLoanDocument.get(0).getCirculationLocationId());
@@ -691,8 +704,7 @@ public class OlePrintSlip extends PdfPageEventHelper {
         SimpleDateFormat dateFormat = new SimpleDateFormat(OLEConstants.DATEFORMAT);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         OutputStream os = null;
-        //Document document = new Document(new Rectangle(253, 430));
-        Document document = new Document(PageSize.A4);
+        Document document = new Document(new Rectangle(253, 430));
         document.setMargins(0, 0, 5, 5);
         document.open();
         document.newPage();

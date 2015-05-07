@@ -119,4 +119,45 @@ public class OleOverDueNotice {
         }
 
     }
+
+    public void generateCourtesyNotices(){
+        LOG.debug("Start of scheduled job to execute generateCourtesyNotices.");
+        try {
+            oleDeliverRequestDocumentHelperService = getOleDeliverRequestDocumentHelperService();
+            oleDeliverRequestDocumentHelperService.generateCourtesyNotice();
+
+        } catch (Exception ex) {
+            LOG.error("Exception occurred while performing generateCourtesyNotices", ex);
+        }
+    }
+
+
+    public void generateOverdueNotices(){
+        LOG.debug("Start of scheduled job to execute generateOverdueNotices.");
+        try {
+            oleDeliverRequestDocumentHelperService = getOleDeliverRequestDocumentHelperService();
+            oleDeliverRequestDocumentHelperService.generateOverdueNotice();
+
+        } catch (Exception ex) {
+            LOG.error("Exception occurred while performing generateOverdueNotices", ex);
+        }
+    }
+
+    public void generateLostNotices(){
+        LOG.debug("Start of scheduled job to execute generateLostNotices.");
+        try {
+            oleDeliverRequestDocumentHelperService = getOleDeliverRequestDocumentHelperService();
+            oleDeliverRequestDocumentHelperService.generateLostNotice();
+
+        } catch (Exception ex) {
+            LOG.error("Exception occurred while performing generateLostNotices", ex);
+        }
+    }
+
+
+
+
+
+
+
 }

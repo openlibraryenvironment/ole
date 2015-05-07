@@ -28,7 +28,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public enum AccountingLineFixture {
     LINE(1, "BL", "1031400", "AC", "ADV", "5000", "SSS", "KUL", "Y", "ONE", "01", "1", "blah", GL_DEBIT_CODE, "2.50"),
-    LINE1(null, "BA", "6044900", null, null, "1697", null, null, null, null, null, null, null, null, "1000.00"),
+    LINE1(null, "BL", "2947482", null, null, "1697", null, null, null, null, null, null, null, null, "1000.00"),
     LINE2(null, "BL", "1031400", null, "ADV", "5000", "SSS", "KUL", null, "ONE", null, null, null, null, "1.10"),
     LINE3(null, "BA", "6044900", null, null, "4008", "POL", null, null, "TWO", null, null, null, null, "1.10"),
     LINE4(null, "UA", "1912201", null, null, "5033", null, null, null, null, null, "123", null, null, "1.10"),
@@ -47,7 +47,7 @@ public enum AccountingLineFixture {
     LINE17(null, "UA", "1912201", "AC", null, "7600", null, "KUL", "F", null, "01", "2004", null, GL_DEBIT_CODE, "1.10"),
     LINE18(null, "BL", "1031400", null, null, "5000", null, null, null, null, null, null, null, null, "1.10"),
 
-    APO_LINE1(null, "BA", "6044900", null, null, "4000", null, null, null, null, null, null, null, GL_DEBIT_CODE, "995.00"),
+    APO_LINE1(null, "BL", "2947488", null, null, "7112", null, null, null, null, null, null, null, GL_DEBIT_CODE, "995.00"),
     APO_LINE2(null, "BL", "0212007", null, null, "4000", null, null, null, null, null, null, null, GL_DEBIT_CODE, "120.00"),
     APO_LINE3(null, "BL", "0212008", null, null, "4000", null, null,  null, null, null, null, null, GL_DEBIT_CODE, "119.99"),
     APO_LINE4(null, "BL", "0212009", null, null, "4000", null, null, null, null, null, null, null, GL_DEBIT_CODE, "12.49"),

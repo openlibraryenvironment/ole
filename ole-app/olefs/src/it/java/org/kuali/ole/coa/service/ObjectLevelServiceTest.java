@@ -16,7 +16,9 @@
 package org.kuali.ole.coa.service;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.coa.businessobject.ObjectLevel;
 import org.kuali.ole.coa.service.ObjectLevelService;
 import org.kuali.ole.sys.context.SpringContext;
@@ -26,7 +28,7 @@ import static junit.framework.Assert.assertEquals;
 /**
  * This class tests the ObjLevel service.
  */
-public class ObjectLevelServiceTest extends KualiTestBase {
+public class ObjectLevelServiceTest extends KFSTestCaseBase {
 
     @Test
     public void testFindById() {

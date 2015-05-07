@@ -138,7 +138,7 @@
 	<bean abstract="true" id="OlePatron-DataField" parent="Uif-DataField"
 		p:enableAutoInquiry="false" />
 
-    <bean id="OlePatronDocument-PatronLoanedRecords-Wrapper" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-PatronLoanedRecords-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxGroup">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -168,9 +168,9 @@
 		      					</map>
 		      				</property>
 		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:actionLabel="Loaned Records"
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Loaned Records (@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.loanCount ne 0?document.newMaintainableObject.dataObject.loanCount:0})"
 		      					p:methodToCall="refresh"
-			      				p:refreshId="OlePatronDocument-PatronLoanedRecords-Wrapper">
+			      				p:refreshId="OlePatronDocument-PatronLoanedRecords-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.loanCount &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterLoanedRecords" value="@{!filterLoanedRecords}" />
@@ -187,13 +187,15 @@
     </bean>
     
     <bean id="OlePatronDocument-PatronLoanedRecords" parent="Uif-VerticalBoxSection"
-    		p:filterModelProperty="filterLoanedRecords"><!--p:render="@{document.newMaintainableObject.dataObject.loanFlag}"-->
+    		p:filterModelProperty="filterLoanedRecords" p:disclosure.defaultOpen="false" ><!--p:render="@{document.newMaintainableObject.dataObject.loanFlag}"-->
+        <!--<property name="headerText" value="Loaned Records (@{document.newMaintainableObject.dataObject.olePatronEntityViewBo ne null and document.newMaintainableObject.dataObject.olePatronEntityViewBo.loanCount ne 0?document.newMaintainableObject.dataObject.olePatronEntityViewBo.loanCount:0})" />-->
         <property name="items">
             <list>
-                <bean id="Show-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showPatronLoanedItem" p:actionLabel="Show All Loaned Item"  p:render="@{!document.newMaintainableObject.dataObject.showLoanedRecords}" p:ajaxSubmit="true"/>
-                <bean id="Hide-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hidePatronLoanedItem" p:actionLabel="Hide All Loaned Item"  p:render="@{document.newMaintainableObject.dataObject.showLoanedRecords}" p:ajaxSubmit="true" />
+                <bean id="Show-OlePatronDocument-LoanedItems-TotalNoCount" parent="Uif-MessageField" p:render="@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.loanCount ne 0 and !document.newMaintainableObject.dataObject.showLoanedRecords}"/>
+                <bean id="Show-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showPatronLoanedItem" p:actionLabel="Show Loaned Items"  p:render="@{!document.newMaintainableObject.dataObject.showLoanedRecords}" p:ajaxSubmit="true" p:successCallback="disableLink();"/>
+                <bean id="Hide-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hidePatronLoanedItem" p:actionLabel="Hide Loaned Items"  p:render="@{document.newMaintainableObject.dataObject.showLoanedRecords}" p:ajaxSubmit="true" p:successCallback="disableLink();"/>
                 <ref bean="OlePatronDocument-LoanedItems"/>
-                <bean id="viewLoanedRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#ViewHelper.getLoanedRecords(document.newMaintainableObject.dataObject.olePatronId)}"  p:linkText="View all records"  p:target="_blank" >
+                <bean id="viewLoanedRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#ViewHelper.getLoanedRecords(document.newMaintainableObject.dataObject.olePatronId)}"  p:linkText="View Loaned Items in a New Window"  p:target="_blank" >
                     <property name="cssClasses" value="uif-secondaryActionButton"/>
                 </bean>
             </list>
@@ -210,14 +212,14 @@
         <property name="layoutManager.richTable.disableTableSort" value="false" />
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
-                <entry key="aoColumnDefs" value="[{'bVisible': false,'aTargets': [0]},{'bVisible': false,'aTargets': [1]}]"/>
+                <entry key="aoColumnDefs" value="[{'bVisible': true,'aTargets': [0]},{'bVisible': true,'aTargets': [1]}]"/>
                 <entry key="sPaginationType" value="full_numbers"/>
             </map>
         </property>
         <property name="items">
             <list>
                 <bean id="checkIdRenewal" parent="OlePatron-DataField" p:propertyName="checkNo" p:defaultValue="false" p:hidden="true"/>
-                <bean id="patronLoan_isModified" parent="OlePatron-InputField" p:label="Modified" p:propertyName="loanModified" p:hidden="true"/>
+                <bean id="patronLoan_isModified" parent="OlePatron-InputField" p:label=" " p:propertyName="loanModified" p:hidden="true"/>
                 <bean id="patronLoan_itemId" parent="Uif-LinkField" p:label="Barcode" p:linkText="@{#line.itemId}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;editable=false&amp;docFormat=oleml&amp;docId=@{#line.itemUuid}&amp;instanceId=@{#line.instanceUuid}&amp;bibId=@{#line.bibUuid}"/>
                 <bean id="patronLoan_title" parent="OlePatron-DataField" p:label="Title" p:propertyName="title" />
                 <bean id="patronLoan_author" parent="OlePatron-DataField" p:label="Author" p:propertyName="author" />
@@ -284,7 +286,7 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="OlePatronDocument-PatronRequestedRecords-Wrapper" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-PatronRequestedRecords-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxGroup">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -314,9 +316,9 @@
 		      					</map>
 		      				</property>
 		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:actionLabel="Requested Records"
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Requested Records (@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.requestedItemRecordsCount ne 0?document.newMaintainableObject.dataObject.requestedItemRecordsCount:0})"
 		      					p:methodToCall="refresh"
-			      				p:refreshId="OlePatronDocument-PatronRequestedRecords-Wrapper">
+			      				p:refreshId="OlePatronDocument-PatronRequestedRecords-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.requestedItemRecordsCount &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterRequestedRecords" value="@{!filterRequestedRecords}" />
@@ -333,13 +335,14 @@
     </bean>
     
     <bean id="OlePatronDocument-PatronRequestedRecords" parent="Uif-VerticalBoxSection" p:componentSecurity.viewAuthz="true"
-    		p:filterModelProperty="filterRequestedRecords"><!--p:render="@{document.newMaintainableObject.dataObject.requestFlag}"-->
+    		p:filterModelProperty="filterRequestedRecords" p:disclosure.defaultOpen="false" ><!--p:render="@{document.newMaintainableObject.dataObject.requestFlag}"-->
         <property name="items">
             <list>
-                <bean id="Show-OlePatronDocument-RequestedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showPatronRequestedRecords" p:actionLabel="Show All RequestedItems"  p:render="@{!document.newMaintainableObject.dataObject.showRequestedItems}" p:ajaxSubmit="true"/>
-                <bean id="Hide-OlePatronDocument-RequestedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hidePatronRequestedRecords" p:actionLabel="Hide All RequestedItems"  p:render="@{document.newMaintainableObject.dataObject.showRequestedItems}" p:ajaxSubmit="true" />
+                <bean id="Show-OlePatronDocument-RequestedItems-TotalCount" parent="Uif-MessageField" p:render="@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.requestedItemRecordsCount ne 0 and !document.newMaintainableObject.dataObject.showRequestedItems}" />
+                <bean id="Show-OlePatronDocument-RequestedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showPatronRequestedRecords" p:actionLabel="Show Requested Items"  p:render="@{!document.newMaintainableObject.dataObject.showRequestedItems}" p:ajaxSubmit="true" p:successCallback="disableLink();"/>
+                <bean id="Hide-OlePatronDocument-RequestedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hidePatronRequestedRecords" p:actionLabel="Hide Requested Items"  p:render="@{document.newMaintainableObject.dataObject.showRequestedItems}" p:ajaxSubmit="true" p:successCallback="disableLink();" />
                 <ref bean="OlePatronDocument-RequestedItems" />
-                <bean id="viewRequestedRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#ViewHelper.getRequestedRecords(document.newMaintainableObject.dataObject.olePatronId)}"  p:linkText="View all records"  p:target="_blank" >
+                <bean id="viewRequestedRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#ViewHelper.getRequestedRecords(document.newMaintainableObject.dataObject.olePatronId)}"  p:linkText="View Requested Items in a New Window"  p:target="_blank" >
                     <property name="cssClasses" value="uif-secondaryActionButton"/>
                 </bean>
             </list>
@@ -379,7 +382,7 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxGroup">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -409,9 +412,9 @@
 		      					</map>
 		      				</property>
 		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:actionLabel="Temporary Circulation History records"
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Temporary Circulation History records (@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.tempCirculationHistoryCount ne 0?document.newMaintainableObject.dataObject.tempCirculationHistoryCount:0})"
 		      					p:methodToCall="refresh"
-			      				p:refreshId="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper">
+			      				p:refreshId="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.tempCirculationHistoryCount &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterTemporaryCirculationHistoryRecords" value="@{!filterTemporaryCirculationHistoryRecords}" />
@@ -428,15 +431,16 @@
     </bean>
     
     <bean id="OlePatronDocument-TemporaryCirculationHistoryRecords" parent="Uif-VerticalBoxSection"
-          p:filterModelProperty="filterTemporaryCirculationHistoryRecords" p:componentSecurity.viewAuthz="true"><!--p:render="@{document.newMaintainableObject.dataObject.tempCircHistoryFlag}"-->
+          p:filterModelProperty="filterTemporaryCirculationHistoryRecords"  p:componentSecurity.viewAuthz="true"><!--p:render="@{document.newMaintainableObject.dataObject.tempCircHistoryFlag}"-->
         <property name="items">
             <list>
-                <bean id="Show-OlePatronDocument-TemporaryCirculationHistoryRecords" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showTemporaryCirculationHistoryRecords" p:actionLabel="Show All TemporaryCirculationHistoryRecords"  p:render="@{!document.newMaintainableObject.dataObject.showTemporaryCirculationHistoryRecords}" p:ajaxSubmit="true"/>
-                <bean id="Hide-OlePatronDocument-TemporaryCirculationHistoryRecords" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hideTemporaryCirculationHistoryRecords" p:actionLabel="Hide All TemporaryCirculationHistoryRecords"  p:render="@{document.newMaintainableObject.dataObject.showTemporaryCirculationHistoryRecords}" p:ajaxSubmit="true" />
+                <bean id="Show-OlePatronDocument-TemporaryCirculationHistoryRecords-Count" parent="Uif-MessageField" p:render="@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.tempCirculationHistoryCount ne 0 and !document.newMaintainableObject.dataObject.showTemporaryCirculationHistoryRecords}" />
+                <bean id="Show-OlePatronDocument-TemporaryCirculationHistoryRecords" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showTemporaryCirculationHistoryRecords" p:actionLabel="Show TemporaryCirculationHistory Items"  p:render="@{!document.newMaintainableObject.dataObject.showTemporaryCirculationHistoryRecords}" p:ajaxSubmit="true" p:successCallback="disableLink();"/>
+                <bean id="Hide-OlePatronDocument-TemporaryCirculationHistoryRecords" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hideTemporaryCirculationHistoryRecords" p:actionLabel="Hide TemporaryCirculationHistory Items"  p:render="@{document.newMaintainableObject.dataObject.showTemporaryCirculationHistoryRecords}" p:ajaxSubmit="true" p:successCallback="disableLink();"/>
                 <ref bean="OlePatronDocument-TemporaryCirculationHistory"/>
                 <bean id="viewTempRecordsLink" parent="Uif-LinkField" p:style="font-weight:bold;"
                       p:href="@{#ViewHelper.getTempCircRecords(document.newMaintainableObject.dataObject.olePatronId)}"
-                      p:linkText="View all records" p:target="_blank">
+                      p:linkText="View TemporaryCirculationHistory Items in a New Window" p:target="_blank">
                     <property name="cssClasses" value="uif-secondaryActionButton"/>
                 </bean>
             </list>
@@ -472,7 +476,7 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="OlePatronDocument-OverviewSection" parent="Uif-Disclosure-VerticalBoxSection" p:componentSecurity.editAuthz="true">
+    <bean id="OlePatronDocument-OverviewSection" p:disclosure.defaultOpen="false" parent="Uif-Disclosure-VerticalBoxSection" p:componentSecurity.editAuthz="true">
         <property name="headerText" value="Overview" />
         <property name="items">
             <list>
@@ -717,7 +721,7 @@
 		      			</bean>
 		      			<bean parent="Uif-ActionLink" p:actionLabel="Affiliation"
 		      					p:methodToCall="refresh"
-			      				p:refreshId="OlePatronDocument-Affiliation-Wrapper">
+			      				p:refreshId="OlePatronDocument-Affiliation-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject.patronAffiliations ne null and document.newMaintainableObject.dataObject.patronAffiliations.size() &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterAffiliation" value="@{!filterAffiliation}" />
@@ -741,7 +745,7 @@
     
     <bean id="OlePatronDocument-Affiliation"
     		parent="Uif-TableCollectionSection" p:filterModelProperty="filterAffiliation"
-    		p:layoutManager.numberOfColumns="2" p:componentSecurity.editAuthz="true">
+    		p:layoutManager.numberOfColumns="2" p:componentSecurity.editAuthz="true" p:disclosure.defaultOpen="false">
         <!--p:fieldBindingObjectPath="document.newMaintainableObject.dataObject"-->
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronAffiliation" />
         <property name="propertyName" value="patronAffiliations" />
@@ -915,7 +919,7 @@
     	</property>
     </bean>
     
-    <bean id="OlePatronDocument-LibraryPoliciesSection" parent="Uif-HorizontalBoxSection"
+    <bean id="OlePatronDocument-LibraryPoliciesSection" p:disclosure.defaultOpen="false" parent="Uif-HorizontalBoxSection"
           p:filterModelProperty="filterLibraryPolicies" p:componentSecurity.editAuthz="true">
         <property name="items">
             <list>
@@ -948,7 +952,7 @@
         </property>
     </bean>
 
-    <bean id="OlePatronDocument-ContactsSection" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean id="OlePatronDocument-ContactsSection" p:disclosure.defaultOpen="false" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="headerText" value="Contacts" />
         <property name="items">
             <list>
@@ -998,7 +1002,7 @@
 		      			</bean>
 		      			<bean parent="Uif-ActionLink" p:actionLabel="Note"
 		      					p:methodToCall="refresh"
-			      				p:refreshId="OlePatronDocument-NotesSection-Wrapper">
+			      				p:refreshId="OlePatronDocument-NotesSection-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject.notes ne null and document.newMaintainableObject.dataObject.notes.size() &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterNotesSection" value="@{!filterNotesSection}" />
@@ -1021,7 +1025,7 @@
     </bean>
     
     <bean id="OlePatronDocument-NotesSection" p:filterModelProperty="filterNotesSection" 
-    		parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:componentSecurity.editAuthz="true">
+    		parent="Uif-TableCollectionSection" p:disclosure.defaultOpen="false" p:layoutManager.numberOfColumns="2" p:componentSecurity.editAuthz="true">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronNotes" />
         <property name="propertyName" value="notes" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -1402,7 +1406,7 @@
         </property>
     </bean>
 
-    <bean id="OlePatronDocument-ProxySection-Wrapper" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-ProxySection-Wrapper"  p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxGroup">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -1434,7 +1438,7 @@
 		      			</bean>
 		      			<bean parent="Uif-ActionLink" p:actionLabel="Proxy Patron"
 		      					p:methodToCall="refreshProxyPatron"
-			      				p:refreshId="OlePatronDocument-ProxySection-Wrapper">
+			      				p:refreshId="OlePatronDocument-ProxySection-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject.oleProxyPatronDocuments ne null and document.newMaintainableObject.dataObject.oleProxyPatronDocuments.size() &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterProxySection" value="@{!filterProxySection}" />
@@ -1525,7 +1529,7 @@
 		      		<list>
 		      			<bean parent="Uif-ActionImage" p:hidden="@{filterProxyForSection}"
 		      					p:methodToCall="refresh"
-			      				p:refreshId="OlePatronDocument-ProxyForSection-Wrapper">
+			      				p:refreshId="OlePatronDocument-ProxyForSection-Wrapper" >
 		      				<property name="actionImage">
 				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
 		      				</property>
@@ -1537,7 +1541,7 @@
 		      			</bean>
 		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterProxyForSection}"
 		      					p:methodToCall="refresh"
-			      				p:refreshId="OlePatronDocument-ProxyForSection-Wrapper">
+			      				p:refreshId="OlePatronDocument-ProxyForSection-Wrapper" >
 		      				<property name="actionImage">
 				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
 		      				</property>
@@ -1549,7 +1553,7 @@
 		      			</bean>
 		      			<bean parent="Uif-ActionLink" p:actionLabel="Proxy For"
 		      					p:methodToCall="refresh"
-			      				p:refreshId="OlePatronDocument-ProxyForSection-Wrapper">
+			      				p:refreshId="OlePatronDocument-ProxyForSection-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject.oleProxyPatronDocumentList ne null and document.newMaintainableObject.dataObject.oleProxyPatronDocumentList.size() &lt; 1?'disableColor':'enableColor'}" >
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterProxyForSection" value="@{!filterProxyForSection}" />
@@ -1572,7 +1576,7 @@
     </bean>
     
     <bean id="OlePatronDocument-ProxyForSection" p:layoutManager.numberOfColumns="5" p:componentSecurity.editAuthz="true"
-    		parent="Uif-TableCollectionSection" p:filterModelProperty="filterProxyForSection">
+    		parent="Uif-TableCollectionSection" p:disclosure.defaultOpen="false" p:filterModelProperty="filterProxyForSection">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleProxyPatronDocument" />
         <property name="propertyName" value="oleProxyPatronDocumentList" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -1621,7 +1625,7 @@
 		      			</bean>
 		      			<bean parent="Uif-ActionLink" p:actionLabel="Local Identification"
 		      					p:methodToCall="refresh"
-			      				p:refreshId="OlePatronDocument-PatronLocalIdSection-Wrapper">
+			      				p:refreshId="OlePatronDocument-PatronLocalIdSection-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject.olePatronLocalIds ne null and document.newMaintainableObject.dataObject.olePatronLocalIds.size() &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterPatronLocalIdSection" value="@{!filterPatronLocalIdSection}" />
@@ -1643,7 +1647,7 @@
     	</property>
     </bean>
     
-    <bean id="OlePatronDocument-PatronLocalIdSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:componentSecurity.editAuthz="true"
+    <bean id="OlePatronDocument-PatronLocalIdSection" p:disclosure.defaultOpen="false" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:componentSecurity.editAuthz="true"
     		p:filterModelProperty="filterPatronLocalIdSection">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronLocalIdentificationBo" />
         <property name="propertyName" value="olePatronLocalIds" />
@@ -1696,7 +1700,7 @@
 		      			</bean>
 		      			<bean parent="Uif-ActionLink" p:actionLabel="Lost/Invalid Barcode Info"
 		      					p:methodToCall="refresh"
-			      				p:refreshId="OlePatronDocument-InvalidOrLostBarcodeSection-Wrapper">
+			      				p:refreshId="OlePatronDocument-InvalidOrLostBarcodeSection-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject.lostBarcodes ne null and document.newMaintainableObject.dataObject.lostBarcodes.size() &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterInvalidOrLostBarcodeSection" value="@{!filterInvalidOrLostBarcodeSection}" />

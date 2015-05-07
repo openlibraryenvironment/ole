@@ -332,7 +332,57 @@
         <column name="UNIQUE_ID_PREFIX" size="10" type="VARCHAR"/>
         <column default="" name="CONTENT" type="BLOB"/>
     </table>
+    
+    <table name="OLE_ITM_CLM_RTND_HSTRY_T">
+        <column name="CLAIMS_RETURNED_ID" primaryKey="true" type="INTEGER"/>
+        <column default="" name="CLAIMS_RETURNED_DATE_CREATED" type="TIMESTAMP"/>
+        <column default="" name="CLAIMS_RETURNED_NOTE" size="400" type="VARCHAR"/>
+        <column name="CLAIMS_RETURNED_PATRON_BARCODE" size="100" type="VARCHAR"/>
+        <column name="CLAIMS_RETURNED_OPERATOR_ID" size="40" type="VARCHAR"/>
+        <column name="ITEM_ID" type="INTEGER"/>
+        <foreign-key foreignTable="OLE_DS_ITEM_T" name="OLE_ITM_CLM_RTND_HSTRY_FK">
+            <reference foreign="ITEM_ID" local="ITEM_ID"/>
+        </foreign-key>
+        <index name="OLE_ITM_CLM_RTND_HSTRY_T_I">
+            <index-column name="CLAIMS_RETURNED_PATRON_BARCODE"/>
+            <index-column name="CLAIMS_RETURNED_OPERATOR_ID"/>
+        </index>
+    </table>
 
+    <table name="OLE_DS_DMGD_ITM_HSTRY_T">
+        <column name="ITM_DMGD_ID" primaryKey="true" type="INTEGER"/>
+        <column name="DMGD_ITM_DATE" type="TIMESTAMP"/>
+        <column name="DMGD_ITM_NOTE" size="400" type="VARCHAR"/>
+        <column name="PATRON_BARCODE" size="100" type="VARCHAR"/>
+        <column name="OPERATOR_ID"  size="40" type="VARCHAR"/>
+        <column name="ITEM_ID" type="INTEGER"/>
+        <foreign-key foreignTable="OLE_DS_ITEM_T" name="ITEM_DAMAGED_CONSTRAINT">
+            <reference foreign="ITEM_ID" local="ITEM_ID"/>
+        </foreign-key>
+        <index name="OLE_DS_DMGD_ITM_HSTRY_T_I">
+            <index-column name="OPERATOR_ID"/>
+            <index-column name="PATRON_BARCODE"/>
+        </index>
+    </table>
+
+    <table name="OLE_MISS_PCE_ITM_HSTRY_T">
+        <column name="MISSING_PIECE_ID" primaryKey="true" type="INTEGER"/>
+        <column name="ITEM_ID" type="INTEGER"/>
+        <column name="OPERATOR_ID"  size="40" type="VARCHAR"/>
+        <column name="PATRON_BARCODE" size="100" type="VARCHAR"/>
+        <column name="MISSING_PIECE_NOTE" size="400" type="VARCHAR"/>
+        <column name="MISSING_PIECE_COUNT" type="INTEGER"/>
+        <column name="MISSING_PIECE_DATE" type="TIMESTAMP"/>
+        <foreign-key foreignTable="OLE_DS_ITEM_T" name="ITEM_MISS_PCE_CNSRT">
+            <reference foreign="ITEM_ID" local="ITEM_ID"/>
+        </foreign-key>
+        <index name="OLE_MISS_PCE_ITM_HSTRY_I">
+            <index-column name="OPERATOR_ID"/>
+            <index-column name="PATRON_BARCODE"/>
+        </index>
+    </table>
+
+    <sequence name="OLE_MISS_PCE_ITM_HSTRY_S" nextval="1"/>
     <sequence name="OLE_DS_ACCESS_LOCATION_S" nextval="1"/>
     <sequence name="OLE_DS_AUTHENTICATION_TYPE_S" nextval="1"/>
     <sequence name="OLE_DS_BIB_HOLDINGS_S" nextval="1"/>
@@ -357,5 +407,7 @@
     <sequence name="OLE_DS_LOC_CHECKIN_COUNT_S" nextval="1"/>
     <sequence name="OLE_DS_PERPETUAL_ACCESS_S" nextval="1"/>
     <sequence name="OLE_DS_LICENSE_S" nextval="1"/>
+    <sequence name="OLE_ITM_CLM_RTND_HSTRY_S" nextval="1"/>
+    <sequence name="OLE_DS_DMGD_ITM_HSTRY_S" nextval="1"/>
 
 </database>

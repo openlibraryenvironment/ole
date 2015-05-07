@@ -107,13 +107,13 @@
                                   p:propertyName="importBibConfirmReplace.overLayMarcRecord.title">
                             </bean>
                             <bean id="barcode_id" parent="Uif-DataField" p:label="Call Number"
-                                  p:propertyName="importBibConfirmReplace.overLayMarcRecord.holdingsTree.holdings.callNumber">
+                                  p:propertyName="importBibConfirmReplace.holdingsTree.holdings.callNumber">
                             </bean>
                             <bean id="callNumber_id" parent="Uif-DataField" p:label="Barcode"
-                                  p:propertyName="importBibConfirmReplace.overLayMarcRecord.holdingsTree.items[0].barcode">
+                                  p:propertyName="importBibConfirmReplace.holdingsTree.items[0].barcode">
                             </bean>
                             <bean id="location_name" parent="Uif-DataField" p:label="Location"
-                                  p:propertyName="importBibConfirmReplace.overLayMarcRecord.holdingsTree.items[0].locationName">
+                                  p:propertyName="importBibConfirmReplace.holdingsTree.items[0].locationName">
                             </bean>
                         </list>
                     </property>

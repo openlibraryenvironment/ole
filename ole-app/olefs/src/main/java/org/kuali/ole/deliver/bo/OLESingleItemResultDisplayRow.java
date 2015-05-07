@@ -1,5 +1,9 @@
 package org.kuali.ole.deliver.bo;
 
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord;
+import org.kuali.ole.docstore.common.document.content.instance.MissingPieceItemRecord;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +75,17 @@ public class OLESingleItemResultDisplayRow {
     private List<OLEItemNoteResultDisplayRow> oleItemNoteResultDisplayRowList = new ArrayList<>();
     private List<OLEHoldingsSearchResultDisplayRow> oleHoldingsSearchResultDisplayRowList = new ArrayList<>();
     private List<OLELoanIntransitRecordHistory> oleIntransitRecordHistories = new ArrayList<>();
+    private List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords = new ArrayList<>();
+    private List<ItemDamagedRecord> itemDamagedRecords = new ArrayList<>();
+    private List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordList = new ArrayList<>();
+
+    public List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> getMissingPieceItemRecordList() {
+        return missingPieceItemRecordList;
+    }
+
+    public void setMissingPieceItemRecordList(List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordList) {
+        this.missingPieceItemRecordList = missingPieceItemRecordList;
+    }
 
     public String getId() {
         return id;
@@ -510,5 +525,21 @@ public class OLESingleItemResultDisplayRow {
 
     public void setOleIntransitRecordHistories(List<OLELoanIntransitRecordHistory> oleIntransitRecordHistories) {
         this.oleIntransitRecordHistories = oleIntransitRecordHistories;
+    }
+
+    public List<ItemClaimsReturnedRecord> getItemClaimsReturnedRecords() {
+        return itemClaimsReturnedRecords;
+    }
+
+    public void setItemClaimsReturnedRecords(List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords) {
+        this.itemClaimsReturnedRecords = itemClaimsReturnedRecords;
+    }
+
+    public List<ItemDamagedRecord> getItemDamagedRecords() {
+        return itemDamagedRecords;
+    }
+
+    public void setItemDamagedRecords(List<ItemDamagedRecord> itemDamagedRecords) {
+        this.itemDamagedRecords = itemDamagedRecords;
     }
 }

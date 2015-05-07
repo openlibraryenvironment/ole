@@ -2066,7 +2066,7 @@
                 are available for editing.</para>
             <para role="TableHeading"><emphasis role="bold">Edit PO Transmission Method tab
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -2815,7 +2815,7 @@
             </para>
             <para role="TableHeading"><emphasis role="bold">Edit Electronic Invoice Item Mapping tab
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -5284,7 +5284,7 @@
                 sections. Selected data fields are available for editing.</para>
             <para role="TableHeading"><emphasis role="bold">Edit Offset Definition tab
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -5442,7 +5442,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Edit Organization Reversion tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -5598,7 +5598,7 @@
                     </para>
                     <para role="TableHeading"><emphasis role="bold">Edit Organization Reversion tab
                             definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -5668,7 +5668,7 @@
                         <para>Each organization reversion code represents a combination of reversion
                             rules (see the table below).</para>
                         <para role="TableHeading"><emphasis role="bold">Organization Reversion
-                                Codes</emphasis><informaltable frame="top" rowsep="1" colsep="1">
+                                Codes</emphasis><informaltable frame="topbot" rowsep="1" colsep="1">
                                 <tgroup cols="8">
                                     <colspec colname="c1" colnum="1" colwidth="1.0*"/>
                                     <colspec colname="c2" colnum="2" colwidth="1.0*"/>
@@ -5769,7 +5769,7 @@
                             understand which rules apply to the Org Reversion Code 'A.</para>
                         <para role="TableHeading"><emphasis role="bold">Carry Forward
                                 Rules</emphasis></para>
-                        <informaltable frame="top">
+                        <informaltable frame="topbot">
                             <tgroup cols="2">
                                 <colspec colname="col1" colnum="1"/>
                                 <colspec colname="col2" colnum="2"/>
@@ -5991,7 +5991,7 @@
                 editing.</para>
             <para role="TableHeading"><emphasis role="bold">Edit Organization Reversion Category tab
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -6053,7 +6053,7 @@
                 attributes.</para>
             <para role="TableHeading"><emphasis role="bold">Organization Reversion Business Rule
                     Examples</emphasis></para>
-            <informaltable frame="top" rowsep="1" colsep="1">
+            <informaltable frame="topbot" rowsep="1" colsep="1">
                 <tgroup cols="5">
                     <colspec colname="c1" colnum="1" colwidth="1.0*"/>
                     <colspec colname="c2" colnum="2" colwidth="1.0*"/>

@@ -27,12 +27,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.ole.ConfigureContext;
-import org.kuali.ole.DocumentTestUtils;
+import org.kuali.ole.*;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
 import org.kuali.ole.sys.businessobject.TargetAccountingLine;
-import org.kuali.ole.KualiTestBase;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.AccountingDocumentTestUtils;
 import org.kuali.ole.fixture.AccountingLineFixture;
@@ -45,7 +43,7 @@ import org.kuali.rice.krad.service.DocumentService;
  * This class is used to test DistributionOfIncomeAndExpenseDocument.
  */
 
-public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
+public class DistributionOfIncomeAndExpenseDocumentTest extends KFSTestCaseBase {
     private static final Log LOG = LogFactory.getLog(DistributionOfIncomeAndExpenseDocumentTest.class);
     public static final Class<DistributionOfIncomeAndExpenseDocument> DOCUMENT_CLASS = DistributionOfIncomeAndExpenseDocument.class;
 

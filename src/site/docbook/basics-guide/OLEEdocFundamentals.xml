@@ -13,13 +13,12 @@
     </note>
     <section>
         <title>E-Doc Screen Layout</title>
-        <para role="Normal">  An e-doc consists of a document header and a document body. The
+        <para role="Normal"> An e-doc consists of a document header and a document body. The
             document header in the upper right corner of the screen contains system information
             about the document. The document body is organized in a stack of labeled tabs that are
             similar to file folders. Based on the type of document, the system displays different
-            sets of tabs. To facilitate the document input process, an initiated document opens with
-            required tabs expanded and optional tabs collapsed. Workflow action buttons appropriate
-            to your role are displayed at the bottom of the screen.  </para>
+            sets of tabs. Workflow action buttons appropriate to your role are displayed at the
+            bottom of the screen. </para>
         <para role="Normal"/>
         <para>
             <screenshot>
@@ -34,9 +33,10 @@
             </screenshot>
         </para>
         <para/>
-        <para> A particular variation to note is that in OLE-built documents (not inherited from
-            KFS) there are not "Show/Hide" buttons but arrows to the left of the tab titles
-            instead:</para>
+        <para> OLE-built documents (not inherited from KFS) have several variations even though the
+            e-document concept remains the same. The tabs do not look like file folders, the
+            "Show/Hide" buttons do not exist but arrows to the left of the tab titles instead, the
+            overall design looks more modern:</para>
         <para role="Normal"/>
         <para>
             <screenshot>
@@ -67,12 +67,29 @@
             records, Instances and E-Instances.  For the E-Resource, the left pane allows for the
             large amount of information to be broken down into manageable pieces. </para>
         <note>
-            <para>The left pane navigation on the different
-                Editors will allow users to delete and add as well as navigate between records.  For
-                additional instructions, see <link xlink:href="../../../webhelp/CG/content/ch01s02.html"
-                    >Editors</link> on the <emphasis role="italic">Guide to the OLE Describe and
-                    Manage Module</emphasis>. </para>
+            <para>The left pane navigation on the different Editors will allow users to delete and
+                add as well as navigate between records. For additional instructions, see <link
+                    xlink:href="../../../webhelp/CG/content/ch01s02.html">Editors</link> on the
+                    <link xlink:href="../../../webhelp/CG/index.html"><emphasis>Guide to the OLE
+                        Describe Module.</emphasis></link>. </para>
         </note>
+        <section>
+            <title>Breadcrumbs</title>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE Breadcrumbs</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-120.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>In OLE-created documents, breadcrumbs are available to assist in navigation.
+                Click <emphasis role="bold">Home</emphasis> to return to the OLE menu.</para>
+        </section>
         <section>
             <title><anchor xml:id="_documentHeader"/>Document Header</title>
             <para role="Normal"/>
@@ -89,7 +106,7 @@
             <para/>
             <para role="TableHeading"><emphasis role="bold">Basic information in the document
                     header</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -147,7 +164,7 @@
             </note>
             <para role="TableHeading"><emphasis role="bold">Optional information in the document
                     header</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -295,7 +312,7 @@
                     </imageobject>
                 </inlinemediaobject> (<inlinemediaobject>
                     <imageobject>
-                        <imagedata fileref="../images/basic-miniCalendarRice.png"/>
+                        <imagedata fileref="../images/DeliverNoTitlePage-27.png"/>
                     </imageobject>
                 </inlinemediaobject> in OLE built documents) and selecting from the calendar that is
                 subsequently displayed. </para>
@@ -335,10 +352,16 @@
             <section>
                 <title>Help Icon</title>
                 <para> When you click the <inlinemediaobject>
+                        <alt>question mark</alt>
                         <imageobject>
                             <imagedata fileref="../images/basic-helpIcon2.png"/>
                         </imageobject>
-                    </inlinemediaobject> icon by the title in the top left corner of an e-doc or
+                    </inlinemediaobject> (or <inlinemediaobject>
+                        <alt>question mark</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-helpIcon.png"/>
+                        </imageobject>
+                    </inlinemediaobject>) icon by the title in the top left corner of an e-doc or
                     other screen, the help system will display information about and instructions
                     for working with the screen.</para>
                 <para/>
@@ -357,10 +380,16 @@
             <section>
                 <title><anchor xml:id="_fieldLookup"/>Field Lookup</title>
                 <para> The round magnifying glass or 'lookup' icon <inlinemediaobject>
+                        <alt>lookup</alt>
                         <imageobject>
                             <imagedata fileref="../images/Lookup.png"/>
                         </imageobject>
-                    </inlinemediaobject> allows you to look up reference table information so you
+                    </inlinemediaobject> (or <inlinemediaobject>
+                        <alt>lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/Lookup2.png"/>
+                        </imageobject>
+                    </inlinemediaobject>) allows you to look up reference table information so you
                     avoid data entry errors. </para>
                 <para/>
                 <para>
@@ -474,6 +503,42 @@
                 </orderedlist>
             </section>
             <section>
+                <title>Autocomplete Fields</title>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Autocomplete Field on an OLE Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-121.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para>When the lookup <inlinemediaobject>
+                        <alt>lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/Lookup2.png"/>
+                        </imageobject>
+                    </inlinemediaobject> appears within the text box, this means it is an
+                    autocomplete field.  Begin typing your data and a dropdown will appear to
+                    suggest data to enter.  You may also type "*" (the asterisk key) to view all
+                    options.</para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Autocomplete Field with suggestions on an OLE Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-122.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+            </section>
+            <section>
                 <title><anchor xml:id="_multipleValueLookup"/>Multiple Value Lookup</title>
                 <para> In global Chart of Account e-docs, documents requiring a list of values come
                     with a special multiple value lookup screen where you may select multiple values
@@ -573,7 +638,18 @@
                                 </mediaobject>
                             </screenshot>
                         </para>
-                        <para/>
+                        <para>On OLE-created documents, the same options are available above the
+                            results list.</para>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Export Links Available From Some OLE Search Results</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-119.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
                         <para> The system prompts you to click <emphasis role="bold"
                             >Open</emphasis>, <emphasis role="bold">Save,</emphasis> or <emphasis
                                 role="bold">Cancel</emphasis>. </para>
@@ -638,6 +714,7 @@
                     <listitem>
                         <para> Route log lookup: <emphasis role="bold">(c)</emphasis> Clicking the
                                 <emphasis role="bold">Route Log</emphasis> icon <inlinemediaobject>
+                                <alt>Route Log Icon</alt>
                                 <imageobject>
                                     <imagedata fileref="../images/basic-routeLogIcon.png"/>
                                 </imageobject>
@@ -668,7 +745,7 @@
                 </itemizedlist>
                 <para> To augment library workflows, search results are not as standard in the
                     OLE-build documents. However from the search results listed there are links in
-                    blue to 'drill down into'. </para>
+                    blue to drill down into. </para>
                 <para/>
                 <para>
                     <screenshot>
@@ -680,15 +757,14 @@
                         </mediaobject>
                     </screenshot>
                 </para>
-                <para/>
             </section>
         </section>
     </section>
     <section>
         <title><anchor xml:id="_standardTabs"/>Standard Tabs</title>
-        <para>  While the tabs contained in various e-docs may vary from one document type to
-            another, a set of standard tabs is included in every e-doc. All documents contain
-                <emphasis role="bold">Document Overview</emphasis>, <emphasis role="bold">Notes and
+        <para> While the tabs contained in various e-docs vary from one document type to another, a
+            set of standard tabs is included in every e-doc. All documents contain <emphasis
+                role="bold">Document Overview</emphasis>, <emphasis role="bold">Notes and
                 Attachments</emphasis>, <emphasis role="bold">Ad Hoc Recipients</emphasis>, and
                 <emphasis role="bold">Route Log</emphasis> tabs. Additionally, financial
             transactions e-docs contain the <emphasis role="bold">Accounting Lines</emphasis> tab
@@ -714,9 +790,9 @@
             <para/>
             <para> The <emphasis role="bold">Description</emphasis> field is a required field on
                 every e-doc because it is used to identify the transaction and is included in the GL
-                inquiry, standard reports, action list, and document search.  Some documents, such
-                as the Requisition, will have the <emphasis role="bold">Description</emphasis> field
-                pre-filled.</para>
+                inquiry, standard reports, action list, and document search. Some documents, such as
+                the Requisition, will have the <emphasis role="bold">Description</emphasis> field
+                pre-populated.</para>
             <para/>
             <para>
                 <screenshot>
@@ -749,7 +825,7 @@
             <para/>
             <para role="TableHeading"><emphasis role="bold">Document Overview Tab
                     Definitions</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -817,8 +893,9 @@
             <para> Accounting information for a financial transaction is entered in the <emphasis
                     role="bold">Accounting Lines</emphasis> tab. This is where the accounting string
                 data is entered. The required fields and the format of the tab vary slightly by
-                document type. The <emphasis role="bold">Amt</emphasis> field may also look
-                different, depending on the type of document you are creating. </para>
+                document type. The <emphasis role="bold">Dollar</emphasis> or <emphasis role="bold"
+                    >Amount</emphasis> field may also look different, depending on the type of
+                document you are creating. </para>
             <section>
                 <title>Single-Sided Entry</title>
                 <para> A number of documents require you to enter information onto only one side of
@@ -870,7 +947,7 @@
                 <para/>
                 <para role="TableHeading"><emphasis role="bold">Accounting Lines Tab
                         Definitions</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -1233,7 +1310,7 @@
                     may cause restrictions on various documents. </para>
                 <para role="TableHeading"><emphasis role="bold">Attributes that may cause
                         restrictions in entering accounting lines</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -1372,7 +1449,7 @@
             <para/>
             <para role="TableHeading"><emphasis role="bold">Notes and Attachments Tab
                     Definitions</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -1462,7 +1539,7 @@
             <para/>
             <para role="TableHeading"><emphasis role="bold">Ad Hoc Recipients Tab
                     Definitions</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -2621,7 +2698,7 @@
             </para>
             <para/>
             <para role="TableHeading"><emphasis role="bold">Doc Search Criteria</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>

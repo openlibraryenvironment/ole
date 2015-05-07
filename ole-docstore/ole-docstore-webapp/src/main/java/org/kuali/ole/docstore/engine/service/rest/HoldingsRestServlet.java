@@ -334,8 +334,8 @@ public class HoldingsRestServlet extends HttpServlet {
                 }
             } catch (DocstoreException e) {
                 LOG.error("Exception occurred in retrieveHoldingsTrees :", e);
-                return DocstoreExceptionProcessor.toXml(e);
-            }
+                holdingsTrees.append("<noBib><id>"+bibId+"</id></noBib>");
+             }
         }
         holdingsTrees.append("</holdingsTrees>");
         return holdingsTrees.toString();

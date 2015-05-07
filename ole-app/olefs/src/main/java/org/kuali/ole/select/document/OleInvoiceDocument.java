@@ -165,6 +165,8 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
     private String foreignVendorAmount;
     private String foreignInvoiceAmount;
     private List<OleInvoiceItem> deletedInvoiceItems =  new ArrayList<>();
+    private boolean duplicateRouteFlag;
+    private boolean duplicateSaveFlag;
 
     public boolean isBlanketApproveFlag() {
         return blanketApproveFlag;
@@ -986,7 +988,7 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
                     items.setItemExchangeRate(new KualiDecimal(exchangeRate));
                     items.setExchangeRate(exchangeRate.toString());
                 }
-                if (items.getItemExchangeRate() != null && items.getItemForeignUnitCost() != null) {
+                if (items.getItemExchangeRate() != null && items.getItemForeignUnitCost() != null   && !this.getApplicationDocumentStatus().equals("Department-Approved")) {
                     items.setItemUnitCostUSD(new KualiDecimal(items.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(items.getExchangeRate()), 4, BigDecimal.ROUND_HALF_UP)));
                     items.setItemUnitPrice(items.getItemForeignUnitCost().bigDecimalValue().divide(new BigDecimal(items.getExchangeRate()), 4, BigDecimal.ROUND_HALF_UP));
                     items.setItemListPrice(items.getItemUnitCostUSD());
@@ -1126,7 +1128,7 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
                     if ((StringUtils.isBlank(newStatusCode))
                             && ((InvoiceStatuses.APPDOC_INITIATE.equals(getApplicationDocumentStatus())) || (InvoiceStatuses.APPDOC_IN_PROCESS
                             .equals(getApplicationDocumentStatus())))) {
-                        newStatusCode = InvoiceStatuses.APPDOC_CANCELLED_IN_PROCESS;
+                        newStatusCode = InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE;
                     }
                     if (StringUtils.isNotBlank(newStatusCode)) {
                         getAccountsPayableService().cancelAccountsPayableDocument(this, nodeName);
@@ -2702,5 +2704,21 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
 
     public void setDeletedInvoiceItems(List<OleInvoiceItem> deletedInvoiceItems) {
         this.deletedInvoiceItems = deletedInvoiceItems;
+    }
+
+    public boolean isDuplicateRouteFlag() {
+        return duplicateRouteFlag;
+    }
+
+    public void setDuplicateRouteFlag(boolean duplicateRouteFlag) {
+        this.duplicateRouteFlag = duplicateRouteFlag;
+    }
+
+    public boolean isDuplicateSaveFlag() {
+        return duplicateSaveFlag;
+    }
+
+    public void setDuplicateSaveFlag(boolean duplicateSaveFlag) {
+        this.duplicateSaveFlag = duplicateSaveFlag;
     }
 }

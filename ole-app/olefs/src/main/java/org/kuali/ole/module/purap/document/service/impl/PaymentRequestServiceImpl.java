@@ -412,7 +412,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // Iterate all source accounting lines on the document, deriving a
         // minimum limit from each according to chart, chart and account, and
         // chart and organization.
-        for (SourceAccountingLine line : purapAccountingService.generateSummary(document.getItems())) {
+        for (SourceAccountingLine line : purapAccountingService.generateSummary((List<PurApItem>)document.getItems())) {
             // check to make sure the account is in the auto approve exclusion list
             Map<String, Object> autoApproveMap = new HashMap<String, Object>();
             autoApproveMap.put("chartOfAccountsCode", line.getChartOfAccountsCode());

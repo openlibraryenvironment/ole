@@ -119,6 +119,7 @@
         <property name="propertyName" value="patronBillPaymentList"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="renderAddLine" value="false"/>
+        <property name="useServerPaging" value="true"/>
         <property name="layoutManager.richTable.disableTableSort" value="false" />
         <property name="layoutManager.richTable.render" value="true"/>
         <property name="layoutManager.richTable.templateOptions">
@@ -178,6 +179,7 @@
         <property name="propertyName" value="feeTypes"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="useServerPaging" value="true"/>
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="bFilter" value="true"/>

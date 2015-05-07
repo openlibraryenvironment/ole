@@ -43,7 +43,7 @@ public class ASRHelperServiceImpl {
 
     public DocstoreClientLocator getDocstoreClientLocator() {
         if (null == docstoreClientLocator) {
-            return SpringContext.getBean(DocstoreClientLocator.class);
+            return (DocstoreClientLocator) SpringContext.getService("docstoreClientLocator");
         }
         return docstoreClientLocator;
     }

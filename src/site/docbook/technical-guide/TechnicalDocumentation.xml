@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title>Technical Documentation</title>
+    <itemizedlist>
+        <listitem>
+            <para><emphasis role="bold">Select and Acquire</emphasis></para>
+        </listitem>
+        <listitem>
+            <para><emphasis role="bold">Describe</emphasis></para>
+        </listitem>
+        <listitem>
+            <para><emphasis role="bold">Deliver</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/PatronTechnicalDocument.pdf"
+                        >Patron</link>.</para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/LocationTechnicalDocument.pdf"
+                        >Location</link>.</para>
+                </listitem>
+            </itemizedlist>
+        </listitem>
+        <listitem>
+            <para><emphasis role="bold">Admin</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/BatchProcessProfileTechnicalDocument.pdf">Batch
+                            Process Profile</link>.</para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/ScheduledJobsTechnicalDocument.pdf">Scheduled
+                            Jobs</link>.</para>
+                </listitem>
+            </itemizedlist>
+        </listitem>
+        <listitem>
+            <para><emphasis role="bold">Integration</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/OLE-SIP2Document.pdf">3M
+                        Integration</link>.</para>
+                </listitem>
+            </itemizedlist>
+        </listitem>
+    </itemizedlist>
+    <para>If you have technical questions, please contact our collaboration community at <link
+            xlink:href="mailto:ole.technical.usergroup@kuali.org"
+            >ole.technical.usergroup@kuali.org</link>.</para>
+    <para>For functional questions, please contact our collaboration community at <link
+            xlink:href="mailto:ole.functional.usergroup@kuali.org"
+            >ole.functional.usergroup@kuali.org</link>.</para>
+</chapter>

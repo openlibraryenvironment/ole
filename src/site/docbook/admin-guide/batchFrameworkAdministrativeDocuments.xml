@@ -850,10 +850,11 @@
                             <row>
                                 <entry colname="col1" colsep="1" rowsep="1" valign="top">Data to
                                     Import</entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="top">If the
-                                        <emphasis role="bold">Bib Import</emphasis> type is
-                                    selected, select the data type to import from the drop down
-                                    list.</entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">If the <emphasis role="bold">Bib
+                                            Import</emphasis> type is selected, select the data type
+                                        to import from the drop down list.</para>
+                                </entry>
                             </row>
                             <row>
                                 <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -1222,12 +1223,18 @@
                             </listitem>
                         </orderedlist>
                     </para>
+                    <para><emphasis role="bold">Item Description</emphasis> is required for EDIFACT
+                        or MARC files that will not have a matching PO line item.  Currently in OLE
+                        without a linked PO, or including the Item Description, the batch process
+                        will fail with the reason "Error Message:null". </para>
                     <note>
-                        <para>When typing a field value into the Constant and Default Values
-                            section, you must enter it exactly formatted as it is within OLE. For
-                            example, when adding Requestor Name you need to add LastName,
-                            FirstName.</para>
+                        <para>There is a bug ticket for the Item Description and its error message.
+                            See <link xlink:href="https://jira.kuali.org/browse/OLE-7057"
+                                >OLE-7057</link></para>
                     </note>
+                    <para>When typing a field value into the Constant and Default Values section,
+                        you must enter it formatted exactly as it is within OLE. For example, when
+                        adding Requestor Name you need to add LastName, FirstName.</para>
                 </section>
                 <section>
                     <title>Creating and Linking Items and E-Holdings during Order Record Import with
@@ -1370,8 +1377,8 @@
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">Select Field Name</para>
                                     </entry>
-                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">Select
-                                        the field name from the drop down list. </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Select
+                                        the field name from the drop down list. </para></entry>
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -1486,9 +1493,9 @@
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">Source Field</para>
                                     </entry>
-                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">If you
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top"><para role="Table Cells">If you
                                         have chosen holding or item as the data type, select the OLE
-                                        source field from the drop down menu.</entry>
+                                        source field from the drop down menu.</para></entry>
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -1522,9 +1529,11 @@
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top"
                                         >Destination Field</entry>
-                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">If you
-                                        have chosen holding or item as the data type, select the
-                                        destination field from the drop down menu.</entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">If you have chosen holding or item
+                                            as the data type, select the destination field from the
+                                            drop down menu.</para>
+                                    </entry>
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">Enter
@@ -1626,8 +1635,10 @@
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">First Indicator</para>
                                     </entry>
-                                    <entry colname="col2" colsep="1" rowsep="1" valign="top"
-                                        >Optional. Enter the first indicator to be deleted.</entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Enter the first indicator
+                                            to be deleted.</para>
+                                    </entry>
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -1727,8 +1738,10 @@
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">Ind 1</para>
                                     </entry>
-                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">Enter
-                                        the Indicator 1 that will be changed.</entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Enter the Indicator 1 that will be
+                                            changed.</para>
+                                    </entry>
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -1758,30 +1771,36 @@
                                     </entry>
                                 </row>
                                 <row>
-                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">Rename
-                                        Tag</entry>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Rename
+                                        Tag</para></entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">Enter the replacing numeric MARC
                                             tag.</para>
                                     </entry>
                                 </row>
                                 <row>
-                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">Ind
-                                        1</entry>
-                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">Enter
-                                        the replacing Indicator 1 value.</entry>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Ind
+                                        1</para></entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Enter the replacing Indicator 1
+                                            value.</para>
+                                    </entry>
                                 </row>
                                 <row>
-                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">Ind
-                                        2</entry>
-                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">Enter
-                                        the replacing Indicator 2 value.</entry>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Ind
+                                        2</para></entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Enter the replacing Indicator 2
+                                            value.</para>
+                                    </entry>
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top"
                                         >Subfield</entry>
-                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">Enter
-                                        the replacing Subfield.</entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Enter the replacing
+                                            Subfield.</para>
+                                    </entry>
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top"
@@ -2130,10 +2149,11 @@
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">Select Field Name</para>
                                     </entry>
-                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">If you
-                                        selected holding or item from the <emphasis role="bold">Data
-                                            Type</emphasis>, select the field name from the drop
-                                        down list. </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">If you selected holding or item
+                                            from the <emphasis role="bold">Data Type</emphasis>,
+                                            select the field name from the drop down list. </para>
+                                    </entry>
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -2250,9 +2270,11 @@
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">Source Field</para>
                                     </entry>
-                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">If you
-                                        have chosen holding or item as the data type, select the OLE
-                                        source field from the drop down menu.</entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">If you have chosen holding or item
+                                            as the data type, select the OLE source field from the
+                                            drop down menu.</para>
+                                    </entry>
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -2284,8 +2306,9 @@
                                     </entry>
                                 </row>
                                 <row>
-                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"
-                                        >Destination Field</entry>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Destination Field</para>
+                                    </entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                         <para>If you have chosen holding or item as the data type,
                                             select the destination field from the drop down
@@ -2303,8 +2326,9 @@
                                     </entry>
                                 </row>
                                 <row>
-                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">Enter
-                                        Destination Field</entry>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Enter Destination Field</para>
+                                    </entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">If you have chosen bibmarc as the
                                             destination data type, enter a destination field. For
@@ -2312,8 +2336,9 @@
                                     </entry>
                                 </row>
                                 <row>
-                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"
-                                        >Destination Field Value</entry>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Destination Field Value</para>
+                                    </entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">If you have chosen bibmarc as the
                                             data type, enter a destination field value to overlay or
@@ -2585,9 +2610,10 @@
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">Ind 1</para>
                                     </entry>
-                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">Enter
-                                        the value of Indicator 1 from the imported record that will
-                                        be changed.</entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Enter the value of Indicator 1 from
+                                            the imported record that will be changed.</para>
+                                    </entry>
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -2617,34 +2643,35 @@
                                     </entry>
                                 </row>
                                 <row>
-                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">Rename
-                                        Tag</entry>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Rename
+                                        Tag</para></entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">Enter the replacing numeric
                                             tag.</para>
                                     </entry>
                                 </row>
                                 <row>
-                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">Ind
-                                        1</entry>
-                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">Enter
-                                        the replacing Indicator 1 value.</entry>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Ind
+                                        1</para></entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Enter
+                                        the replacing Indicator 1 value.</para></entry>
                                 </row>
                                 <row>
-                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">Ind
-                                        2</entry>
-                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">Enter
-                                        the replacing Indicator 2 value.</entry>
-                                </row>
-                                <row>
-                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"
-                                        >Subfield</entry>
-                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">Enter
-                                        the replacing Subfield name.</entry>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Ind
+                                        2</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Enter
+                                        the replacing Indicator 2 value.</para></entry>
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top"
-                                        >Subfield Contains</entry>
+                                        ><para role="Table Cells">Subfield</para></entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Enter
+                                        the replacing Subfield name.</para></entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                        ><para role="Table Cells">Subfield Contains</para></entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">Enter the information that will
                                             replace the content in the imported record.</para>
@@ -2904,7 +2931,7 @@
         </para>
         <para role="TableHeading"><emphasis role="bold">Batch File Lookup screen
                 definition</emphasis></para>
-        <informaltable frame="top">
+        <informaltable frame="topbot">
             <tgroup cols="2">
                 <colspec colname="c1" colnum="1"/>
                 <colspec colname="c1" colnum="1"/>
@@ -3095,7 +3122,7 @@
                 <para/>
                 <para role="TableHeading"><emphasis role="bold">Add/Edit Batch Job
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -3321,7 +3348,7 @@
             <para>0/2 0 12 * * ?</para>
             <para/>
             <para role="TableHeading"><emphasis role="bold">CRON Field definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="c1" colnum="1"/>
                     <colspec colname="c1" colnum="1"/>
@@ -3425,7 +3452,7 @@
             </informaltable>
             <para role="TableHeading"><emphasis role="bold">Special Character
                 definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="c1" colnum="1"/>
                     <colspec colname="c1" colnum="1"/>
@@ -3676,7 +3703,7 @@
         </para>
         <para role="TableHeading"><emphasis role="bold">Batch Job Lookup screen
                 definition</emphasis></para>
-        <informaltable frame="top">
+        <informaltable frame="topbot">
             <tgroup cols="2">
                 <colspec colname="c1" colnum="1"/>
                 <colspec colname="c1" colnum="1"/>

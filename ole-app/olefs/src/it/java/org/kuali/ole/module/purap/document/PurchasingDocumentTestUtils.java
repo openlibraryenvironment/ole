@@ -17,14 +17,16 @@ package org.kuali.ole.module.purap.document;
 
 import java.util.List;
 
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.module.purap.businessobject.PurchasingItem;
 import org.kuali.ole.module.purap.document.PurchasingDocument;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
-public class PurchasingDocumentTestUtils extends KualiTestBase {
+public class PurchasingDocumentTestUtils extends KFSTestCaseBase {
 
     public static void testAddItem(PurchasingDocument document, List<PurchasingItem> items, int expectedItemTotal) throws Exception {
         assertTrue("no items found", items.size() > 0);

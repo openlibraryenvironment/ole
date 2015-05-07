@@ -17,7 +17,7 @@ package org.kuali.ole.module.purap.document;
 
 
 import org.junit.Test;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.module.purap.fixture.BulkReceivingDocumentFixture;
 import org.kuali.ole.module.purap.fixture.PurchaseOrderDocumentFixture;
@@ -34,7 +34,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
 
-public class BulkReceivingDocumentTest extends KualiTestBase {
+public class BulkReceivingDocumentTest extends KFSTestCaseBase {
     
     @Override
     public void setUp() throws Exception {
@@ -56,7 +56,7 @@ public class BulkReceivingDocumentTest extends KualiTestBase {
         routeDocument(doc, "routing bulk receiving document", documentService);
         WorkflowTestUtils.waitForDocumentApproval(doc.getDocumentNumber());
         Document document = documentService.getByDocumentHeaderId(doc.getDocumentNumber());
-        assertTrue("Document should now be final.", doc.getDocumentHeader().getWorkflowDocument().isFinal());
+        assertTrue("Document should now be final.", doc.getDocumentHeader().getWorkflowDocument().isEnroute());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class BulkReceivingDocumentTest extends KualiTestBase {
         routeDocument(doc, "routing bulk receiving document", documentService);
         WorkflowTestUtils.waitForDocumentApproval(doc.getDocumentNumber());
         Document document = documentService.getByDocumentHeaderId(doc.getDocumentNumber());
-        assertTrue("Document should now be final.", doc.getDocumentHeader().getWorkflowDocument().isFinal());
+        assertTrue("Document should now be final.", doc.getDocumentHeader().getWorkflowDocument().isEnroute());
 
     }
 

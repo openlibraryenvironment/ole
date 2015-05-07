@@ -27,7 +27,7 @@
             subsections contain detailed information about each template. </para>
         <para role="TableHeading"><emphasis role="bold">Data import templates by document
                 type</emphasis></para>
-        <informaltable frame="top">
+        <informaltable frame="topbot">
             <tgroup cols="2">
                 <colspec colname="col1" colnum="1"/>
                 <colspec colname="col2" colnum="2"/>
@@ -361,7 +361,7 @@
             <para role="TableHeading"><emphasis role="bold">
                     <emphasis role="bold">AD_CR_CCR_DV_SB_Import template format</emphasis>
                 </emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -493,7 +493,7 @@
             <para role="TableHeading"><emphasis role="bold">
                     <emphasis role="bold">BA_YEBA_Import template format</emphasis>
                 </emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -727,7 +727,7 @@
                     <emphasis role="bold">DI_YEDI_IB_TF_YETF_PE_Encumbrance_Only_Import template
                         format</emphasis>
                 </emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -842,7 +842,7 @@
             <para role="TableHeading"><emphasis role="bold">
                     <emphasis role="bold">GEC_YEGEC_Import template format</emphasis>
                 </emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -973,7 +973,7 @@
             <para role="TableHeading"><emphasis role="bold">
                     <emphasis role="bold">PE_Disencumbrance_Only_Import template format</emphasis>
                 </emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -1089,7 +1089,7 @@
             <para role="TableHeading"><emphasis role="bold">
                     <emphasis role="bold">PURAP_Account_Import template format</emphasis>
                 </emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>

@@ -388,9 +388,9 @@
         <loadData tableName="SH_ROOM_T" file="ole-demo/delivery-address/SH_ROOM_T.csv"/>
     </changeSet>
 
-    <!--<changeSet context="demo" author="ole" id="krcr_param_t">-->
-    <!--<loadData tableName="krcr_param_t" file="ole-demo/attributes/krcr_param_t.csv"/>-->
-    <!--</changeSet>-->
+    <changeSet context="demo" author="ole" id="krcr_parm_t">
+    <loadData tableName="krcr_parm_t" file="ole-demo/attributes/krcr_param_t.csv"/>
+    </changeSet>
 
     <changeSet context="demo" author="ole" id="krlc_cmp_t">
         <loadData tableName="krlc_cmp_t" file="ole-demo/attributes/krlc_cmp_t.csv"/>

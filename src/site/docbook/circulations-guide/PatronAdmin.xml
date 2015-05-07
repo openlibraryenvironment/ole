@@ -77,7 +77,7 @@
    <para role="Normal"/>
    <para role="TableHeading"><emphasis role="bold">Add/Edit Address Source Tab
      Definitions</emphasis></para>
-   <informaltable frame="top">
+   <informaltable frame="topbot">
     <tgroup cols="2">
      <colspec colname="col1" colnum="1"/>
      <colspec colname="col2" colnum="2"/>
@@ -182,7 +182,7 @@
      <para role="Normal"/>
      <para role="TableHeading"><emphasis role="bold">Add/Edit Borrower Type Tab
        Definitions</emphasis></para>
-     <informaltable frame="top">
+     <informaltable frame="topbot">
       <tgroup cols="2">
        <colspec colname="col1" colnum="1"/>
        <colspec colname="col2" colnum="2"/>
@@ -285,7 +285,7 @@
    <para role="Normal"/>
    <para role="TableHeading"><emphasis role="bold">Add/Edit Fee Type Tab
     Definitions</emphasis></para>
-   <informaltable frame="top">
+   <informaltable frame="topbot">
     <tgroup cols="2">
      <colspec colname="col1" colnum="1"/>
      <colspec colname="col2" colnum="2"/>
@@ -370,10 +370,10 @@
      <para role="Normal"/>
      <para role="TableHeading"><emphasis role="bold">Add/Edit Source Tab
       Definitions</emphasis></para>
-     <informaltable frame="top">
+     <informaltable frame="topbot">
       <tgroup cols="2">
-     <colspec colname="col1" colnum="1" colwidth="2.51*"/>
-     <colspec colname="col2" colnum="2" colwidth="1*"/>
+     <colspec colname="col1" colnum="1"/>
+     <colspec colname="col2" colnum="2"/>
      <tbody>
       <row>
        <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -470,7 +470,7 @@
    <para role="Normal"/>
    <para role="TableHeading"><emphasis role="bold">Add/Edit Payment Status Tab
      Definitions</emphasis></para>
-   <informaltable frame="top">
+   <informaltable frame="topbot">
     <tgroup cols="2">
      <colspec colname="col1" colnum="1"/>
      <colspec colname="col2" colnum="2"/>
@@ -555,7 +555,7 @@
      <para role="Normal"/>
      <para role="TableHeading"><emphasis role="bold">Add/Edit Statistical Category Tab
        Definitions</emphasis></para>
-     <informaltable frame="top">
+     <informaltable frame="topbot">
       <tgroup cols="2">
        <colspec colname="col1" colnum="1"/>
        <colspec colname="col2" colnum="2"/>

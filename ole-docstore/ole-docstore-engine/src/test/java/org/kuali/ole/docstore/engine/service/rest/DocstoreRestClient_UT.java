@@ -13,14 +13,14 @@ import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.client.DocstoreRestClient;
 import org.kuali.ole.docstore.common.client.RestResponse;
 import org.kuali.ole.docstore.common.document.*;
-import org.kuali.ole.docstore.common.document.HoldingsTree;
-import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecord;
 import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecords;
 import org.kuali.ole.docstore.common.document.content.bib.marc.DataField;
 import org.kuali.ole.docstore.common.document.content.bib.marc.SubField;
 import org.kuali.ole.docstore.common.document.content.bib.marc.xstream.BibMarcRecordProcessor;
-import org.kuali.ole.docstore.common.document.content.instance.*;
+import org.kuali.ole.docstore.common.document.content.instance.CallNumber;
+import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
+import org.kuali.ole.docstore.common.document.content.instance.ShelvingScheme;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.search.BrowseParams;
@@ -57,6 +57,8 @@ public class DocstoreRestClient_UT extends BaseTestCase {
     public void setUp() throws Exception {
         super.setUp();
         MockitoAnnotations.initMocks(this);
+        String url = "http://tst.docstore.ole.kuali.org/documentrest/";
+        DocstoreRestClient.setDocstoreUrl(url);
     }
 
     @Ignore
@@ -834,12 +836,9 @@ public class DocstoreRestClient_UT extends BaseTestCase {
 
     @Ignore
     @Test
-    public void testTransferItem(){
-        /*List<String> holdingsIds =new ArrayList<String>();
-        String bibId="wbm-10000005";
-        holdingsIds.add("who-5".toString());*/
-        String holdingsId ="who-2";
-        String itemId ="wio-6";
+    public void testTransferItem() {
+        String holdingsId = "who-2";
+        String itemId = "wio-6";
         List itemIds = new ArrayList<String>();
         itemIds.add(itemId);
         restClient.transferItems(itemIds,holdingsId);
@@ -897,20 +896,19 @@ public class DocstoreRestClient_UT extends BaseTestCase {
 
         BibTrees bibTreesobj = new BibTrees();
         Bib bibMarc = new Bib();
-        bibTreesobj.getBibTrees().addAll(bibTrees) ;
-       // restClient.createBibTrees(bibTreesobj);
+        bibTreesobj.getBibTrees().addAll(bibTrees);
         Assert.assertNotNull(bibTreesobj);
     }
 
 
-    private void setDate(Bib bib){
+    private void setDate(Bib bib) {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateStr = sdf.format(date);
         bib.setCreatedOn(dateStr);
     }
 
-    @Ignore
+   /* @Ignore
     @Test
     public void testCreateLicenseAttachment() {
         LicenseAttachment license = new LicenseAttachment();
@@ -921,12 +919,9 @@ public class DocstoreRestClient_UT extends BaseTestCase {
         license.setFilePath("/home/likewise-open/HTCINDIA/sambasivam/Downloads");
         Licenses licenses = new Licenses();
         licenses.getLicenses().add(license);
-
-
-
         licenses.getLicenses().add(license);
         restClient.createLicenses(licenses);
-    }
+    }*/
 
     @Ignore
     @Test
@@ -968,37 +963,20 @@ public class DocstoreRestClient_UT extends BaseTestCase {
         SearchParams searchParams = new SearchParams();
         searchParams.getSearchConditions().add(searchParams.buildSearchCondition("", searchParams.buildSearchField(DocType.BIB.getCode(), "Title_search", title), "AND"));
         SearchResponse response = restClient.search(searchParams);
-//        System.out.println("no. of bibs retrieve with title " + title + " is " + response.getSearchResults().size());
-//        System.out.println("no. of bibs with title " + title + " is " + response.getTotalRecordCount());
-//        System.out.println("time taken to search is " + response.getTime());
-
         System.out.println("Search result count " + response.getTotalRecordCount() + " and  time taken to search is " + response.getTime());
     }
     private void searchBib() {
         SearchParams searchParams = new SearchParams();
         searchParams.getSearchConditions().add(searchParams.buildSearchCondition("", searchParams.buildSearchField(DocType.BIB.getCode(), "DocType", DocType.BIB.getCode()), "AND"));
         SearchResponse response = restClient.search(searchParams);
-//        System.out.println("no. of bibs retrieved is " + response.getSearchResults().size());
         System.out.println("Search result count " + response.getTotalRecordCount() + " and  time taken to search is " + response.getTime());
-//        System.out.println("time taken to search is " + response.getTime());
+
     }
 
     public void searchBibWithFacets(String facetSort) throws Exception {
-
-//      &facet=true
-//      &sort=Title_sort+asc&
-//      &facet.mincount=1&facet.offset=0&facet.limit=5&wt=xml&rows=10
-//      &fl=LocalId_display,Title_sort,Title_display,JournalTitle_display,Author_display,Publisher_display,ISBN_display,ISSN_display,Subject_display,Publisher_display,PublicationDate_display,Edition_display,Format_display,Language_display,Description_display,FormGenre_display,DocFormat,staffOnlyFlag,bibIdentifier,holdingsIdentifier&start=0
-//      &facet.sort=count
-//      &q=(DocType:bibliographic)AND((*:*))
-//      &facet.field=Author_facet&facet.field=Format_facet&facet.field=Genre_facet&facet.field=Language_facet&facet.field=PublicationDate_facet&facet.field=PublicationDate_sort
-
         String[] facets = {"Author_facet", "Format_facet", "Genre_facet", "Language_facet", "PublicationDate_facet", "PublicationDate_sort"};
         String[] fieldList = {"LocalId_display", "Title_sort", "Title_display", "JournalTitle_display", "Author_display", "Publisher_display", "ISBN_display", "ISSN_display", "Subject_display", "Publisher_display", "PublicationDate_display", "Edition_display", "Format_display", "Language_display", "Description_display", "FormGenre_display", "DocFormat", "staffOnlyFlag", "bibIdentifier", "holdingsIdentifier"};
-
-
         String args = "(DocType:bibliographic)AND((*:*))";
-
         SolrServer solr = SolrServerManager.getInstance().getSolrServer();
         SolrQuery query = new SolrQuery();
         query.setQuery(args);
@@ -1010,12 +988,8 @@ public class DocstoreRestClient_UT extends BaseTestCase {
         query.setFields(fieldList);
         query.set("facet.offset", "0");
         QueryResponse response = solr.query(query);
-//        System.out.println("no. of bibs indexed " + response.getResults().getNumFound());
-//        System.out.println("time taken to search is " + response.getQTime());
-
         System.out.println("Search result count " + response.getResults().getNumFound() + " and  time taken to search is " + response.getQTime());
     }
-
 
 
     @Test
@@ -1049,7 +1023,7 @@ public class DocstoreRestClient_UT extends BaseTestCase {
         String input = "";
         File file = null;
         try {
-            file = new File(getClass().getResource("/documents/BibMarcUpdate.xml").toURI());
+            file = new File(getClass().getResource("/documents/BibMarc1.xml").toURI());
             input = FileUtils.readFileToString(file);
 
         } catch (Exception e) {
@@ -1064,78 +1038,31 @@ public class DocstoreRestClient_UT extends BaseTestCase {
 
     @Test
     public void testSearchBibBlankSearch() {
-
         searchBib();
-        searchBib();
-        searchBib();
-
-//        Bib bib = createBibRecord();
-
-        String bibId = "wbm-10008445";
-
+        Bib bib = createBibRecord();
+        String bibId = bib.getId();
         updateTitle(bibId);
-
         System.out.println(" after update");
         searchBib();
-        searchBib();
-        searchBib();
-
-
     }
 
     @Test
     public void testSearchBibWithTitle() {
-
         searchBibWithTitle("wings");
-        searchBibWithTitle("wings");
-        searchBibWithTitle("wings");
-
-//        Bib bib = createBibRecord();
-
-        String bibId = "wbm-10008445";
-
+        Bib bib = createBibRecord();
+        String bibId = bib.getId();
         updateTitle(bibId);
-
         searchBibWithTitle("wings");
-        searchBibWithTitle("wings");
-        searchBibWithTitle("wings");
-
-
     }
 
 
     @Test
     public void testSearchBibWithFacets() throws Exception {
-
         searchBibWithTitle("wings");
-        System.out.println("*********** count ************");
-        searchBibWithFacets("count");
-
-        System.out.println("*********** lex ************");
-        searchBibWithFacets("lex");
-
-        String bibId = "wbm-10008445";
-
+        Bib bib = createBibRecord();
+        String bibId = bib.getId();
         updateTitle(bibId);
-
         searchBibWithTitle("wings");
-
-
-        System.out.println("*********** count ************");
-        searchBibWithFacets("count");
-
-        System.out.println("*********** lex ************");
-        searchBibWithFacets("lex");
-        searchBibWithTitle("wings");
-
-
-        System.out.println("*********** count ************");
-        searchBibWithFacets("count");
-
-        System.out.println("*********** lex ************");
-        searchBibWithFacets("lex");
-
-
     }
 
     private Bib createBibRecord() {

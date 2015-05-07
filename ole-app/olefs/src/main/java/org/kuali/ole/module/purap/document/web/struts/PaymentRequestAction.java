@@ -471,7 +471,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         // and thus system wouldn't know it's not re-calculated after tax data are changed
         if (SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPreCalculateAccountsPayableEvent(preq))) {
             // pre-calculation rules succeed, calculate tax again and go ahead with approval
-            customCalculate(preq);
+            //customCalculate(preq);
             SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(preq);
             return super.approve(mapping, form, request, response);
         } else {

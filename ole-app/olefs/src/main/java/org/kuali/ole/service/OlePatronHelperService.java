@@ -6,6 +6,7 @@ import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo;
+import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 
 import java.util.List;
 
@@ -38,4 +39,11 @@ public interface OlePatronHelperService {
     public EntityBo editAndSaveEntityBo(OlePatronDocument patronDocument);
 
     public boolean validatePatron(OlePatronDocument patronDocument);
+
+    public String getPatronPreferredAddress(EntityTypeContactInfoBo entityTypeContactInfoBo) throws Exception;
+
+    public String getPatronHomePhoneNumber(EntityTypeContactInfoBo entityTypeContactInfoBo) throws Exception;
+
+    public String getPatronHomeEmailId(EntityTypeContactInfoBo entityTypeContactInfoBo) throws Exception;
+
 }

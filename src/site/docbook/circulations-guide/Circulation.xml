@@ -91,8 +91,9 @@
             <orderedlist numeration="arabic" spacing="normal">
                 <listitem>
                     <para role="List Paragraph">Once you have opened the <emphasis role="bold"
-                            >Loan</emphasis> interface, enter the Patron Barcode and press Enter or
-                        search for it from the lookup <inlinemediaobject>
+                            >Loan</emphasis> interface, type or scan the Patron Barcode and press
+                            <emphasis role="bold">Enter</emphasis>.  Alternatively, you may search
+                        for the patron from the lookup <inlinemediaobject>
                             <imageobject>
                                 <imagedata fileref="../images/Lookup2.png"/>
                             </imageobject>
@@ -107,7 +108,7 @@
                     </note>
                     <tip>
                         <para role="Normal"> Clicking on the <emphasis role="bold">Return</emphasis>
-                            button will take you to the return menu, allowing you to check-in
+                            button will take you to the return screen, allowing you to check-in
                             materials.</para>
                     </tip>
                     <para role="Normal">
@@ -140,8 +141,8 @@
                         is removed.</para>
                 </listitem>
                 <listitem>
-                    <para role="List Paragraph">Enter the Item Barcode or search for it from the
-                        lookup <inlinemediaobject>
+                    <para role="List Paragraph">Type or scan the Item Barcode, or search for it from
+                        the lookup <inlinemediaobject>
                             <imageobject>
                                 <imagedata fileref="../images/Lookup2.png"/>
                             </imageobject>
@@ -176,15 +177,31 @@
                 </listitem>
                 <listitem>
                     <para role="List Paragraph">If the patron has presented more than one item to
-                        borrow, enter the next item barcode and press Enter. Each new item
-                        checked-out will appear at the top of the <emphasis role="bold">Items
-                            Checked Out This Session</emphasis> list.</para>
+                        borrow, type or scan the next item barcode and press <emphasis role="bold"
+                            >Enter</emphasis>. Each new item checked-out will appear at the top of
+                        the <emphasis role="bold">Items Checked Out This Session</emphasis>
+                        list.</para>
                     <para>To view all items a patron has checked out, click the <inlinemediaobject>
                             <alt>Show All Items Currently Checked Out</alt>
                             <imageobject>
                                 <imagedata fileref="../images/DeliverNoTitlePage-124.png"/>
                             </imageobject>
                         </inlinemediaobject> button.</para>
+                    <para/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Loan screen: All Items Currently Checked Out Tab</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-87.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para>If there are any pending requests, a <emphasis role="bold">View all
+                            requests</emphasis> link will appear in the far right column.</para>
                 </listitem>
                 <listitem>
                     <para role="List Paragraph">Clear the patron information to prepare for the next
@@ -743,7 +760,7 @@
                     <para role="Normal"/>
                     <para role="TableHeading"><emphasis role="bold">Request Detail Tab
                             Definitions</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -939,7 +956,7 @@
                     <para role="Normal"/>
                     <para role="TableHeading"><emphasis role="bold">Request Detail Tab Definitions
                             for Copy Requests</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -993,7 +1010,7 @@
                     </para>
                     <para role="TableHeading"><emphasis role="bold">Request Detail Tab Definitions
                             for In-Transit Requests</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -1310,14 +1327,13 @@
                 on the <emphasis role="bold">Deliver</emphasis> menu.</para>
             <orderedlist>
                 <listitem>
-                    <para role="Normal">Enter the item barcode or search for it from the lookup <inlinemediaobject>
+                    <para role="Normal">Type or scan the item barcode and press <emphasis
+                            role="bold">Enter</emphasis>.  Alternatively, you may search for the
+                        item record from the lookup <inlinemediaobject>
                             <imageobject>
                                 <imagedata fileref="../images/Lookup2.png"/>
                             </imageobject>
                         </inlinemediaobject>. </para>
-                </listitem>
-                <listitem>
-                    <para role="Normal">Press <emphasis role="bold">Enter.</emphasis></para>
                     <para role="Normal">
                         <screenshot>
                             <mediaobject>

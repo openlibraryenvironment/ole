@@ -94,6 +94,25 @@
     <import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml"/>
     <import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
 
+    <bean id="userTransaction"
+          class="org.kuali.rice.core.framework.persistence.jta.UserTransactionFactoryBean"
+          lazy-init="true"/>
+
+    <bean id="jtaTransactionManager"
+          class="org.kuali.rice.core.framework.persistence.jta.TransactionManagerFactoryBean"
+          lazy-init="true"/>
+
+    <bean id="transactionManager"
+          class="org.springframework.transaction.jta.JtaTransactionManager"
+          lazy-init="true"
+          p:userTransaction-ref="userTransaction"
+          p:transactionManager-ref="jtaTransactionManager"/>
+
+<!--
+    <import resource="classpath:org/kuali/ole/KRMSCommonSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/ole/KRMSLocalSpringBeans.xml"/>
+-->
+
     <bean name="oleConfigurer" class="org.kuali.ole.TestOleModuleConfigurer" lazy-init="false" />
 
 </beans>

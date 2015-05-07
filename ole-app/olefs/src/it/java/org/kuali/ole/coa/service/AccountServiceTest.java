@@ -16,7 +16,9 @@
 package org.kuali.ole.coa.service;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
@@ -27,7 +29,7 @@ import static junit.framework.TestCase.*;
 /**
  * This class tests the Account service.
  */
-public class AccountServiceTest extends KualiTestBase {
+public class AccountServiceTest extends KFSTestCaseBase {
     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountServiceTest.class);
 
     @Test

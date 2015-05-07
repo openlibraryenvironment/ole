@@ -12,7 +12,8 @@ jq(document).ready(function(){
     jq("#OlePatronDocument-OverviewSection_errors").css("visibility","hidden");
       jq( "#mydiv" ).css( "color", "green" )
 
-
+      disableContactLink();
+   // disableLink();
 
 
     showBarcodeUpdateDialogBox();
@@ -25,6 +26,7 @@ jq(document).ready(function(){
     jq("#OlePatronDocument-validation-Message-Section-reinstate").hide();
 
 })
+
 
 function showDetails(){
     jq("#OlePatronDocument-Address_detLink_line0").focus().click();
@@ -90,6 +92,8 @@ jq(window).load(function () {
     if(jq("div#OlePatronDocument-LookupView")){
         jq("div#OlePatronDocument-LookupView  #barcode_control").focus();
     }
+
+   // disableLink()
 });
 
 function displayDialogWindow(divID){
@@ -181,5 +185,31 @@ function setLoanModified(obj){
     jq('input#patronLoan_isModified_line'+lineNumber).val('true');
 }
 
+function disableContactLink(){
+    if(jq("#addressTypeCode_line0").val() == undefined){
+        jq("#OlePatronDocument-Address  span").css("color", "#808080");
+    }
 
+    if(jq("#phoneTypeCode_line0").val() == undefined){
+        jq("#OlePatronDocument-Phone  span").css("color", "#808080");
+    }
+
+    if(jq("#emailTypeCode_line0").val() == undefined){
+        jq("#OlePatronDocument-Email  span").css("color", "#808080");
+    }
+}
+
+function disableLink(){
+    if(jq("#Show-OlePatronDocument-LoanedItems-TotalNoCount").val() == undefined && jq("#patronLoan_title_line0").val() == undefined ){
+        jq("#OlePatronDocument-PatronLoanedRecords-Wrapper span a").css("color", "#808080");
+    }
+
+    if(jq("#Show-OlePatronDocument-RequestedItems-TotalCount").val() == undefined && jq("#patronRequest_requestId_line0_control").val() == undefined ){
+        jq("#OlePatronDocument-PatronLoanedRecords-Wrapper span a").css("color", "#808080");
+    }
+
+    if(jq("#Show-OlePatronDocument-TemporaryCirculationHistoryRecords-Count").val() == undefined && jq("#patronTemp_circulationLocationCode_line0_control").val() == undefined ){
+        jq("#OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper span a").css("color", "#808080");
+    }
+}
 

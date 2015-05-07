@@ -2,6 +2,7 @@ package org.kuali.ole.sys.context;
 
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.sys.batch.AbstractStep;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.api.parameter.ParameterKey;
@@ -9,8 +10,10 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionItem;
 import org.kuali.rice.kew.api.action.DocumentActionParameters;
+import org.kuali.rice.kew.api.action.InvalidActionTakenException;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.actionlist.ActionListService;
+import org.kuali.rice.kew.api.document.InvalidDocumentContentException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,12 +67,16 @@ public class ActionListBatchProcessor extends AbstractStep {
         switch (request){
             case "A":
                 approve(docIds, principal);
+                break;
             case "K":
                 acknowledge(docIds, principal);
+                break;
             case "F":
                 fyi(docIds, principal);
+                break;
             case "C":
                 complete(docIds, principal);
+                break;
         }
         return true;
     }
@@ -77,28 +84,47 @@ public class ActionListBatchProcessor extends AbstractStep {
     private void complete(List<String> docIds, String principal) {
         for (Iterator<String> iterator = docIds.iterator(); iterator.hasNext(); ) {
             String docId = iterator.next();
-            getWorkflowDocumentActionsService().complete(DocumentActionParameters.create(docId, principal));
+            try {
+                getWorkflowDocumentActionsService().complete(DocumentActionParameters.create(docId, principal));
+            } catch (RiceIllegalArgumentException | InvalidDocumentContentException | InvalidActionTakenException e) {
+                System.out.println(docId);
+                e.printStackTrace();
+            }
         }
     }
 
     private void fyi(List<String> docIds, String principal) {
         for (Iterator<String> iterator = docIds.iterator(); iterator.hasNext(); ) {
             String docId = iterator.next();
-            getWorkflowDocumentActionsService().clearFyi(DocumentActionParameters.create(docId, principal));
+            try {
+                getWorkflowDocumentActionsService().clearFyi(DocumentActionParameters.create(docId, principal));
+            } catch (RiceIllegalArgumentException | InvalidDocumentContentException | InvalidActionTakenException e) {
+                System.out.println(docId);
+                e.printStackTrace();
+            }
         }
     }
 
     private void acknowledge(List<String> docIds, String principal) {
         for (Iterator<String> iterator = docIds.iterator(); iterator.hasNext(); ) {
             String docId = iterator.next();
-            getWorkflowDocumentActionsService().acknowledge(DocumentActionParameters.create(docId, principal));
+            try {
+                getWorkflowDocumentActionsService().acknowledge(DocumentActionParameters.create(docId, principal));
+            } catch (RiceIllegalArgumentException | InvalidDocumentContentException | InvalidActionTakenException e) {
+                System.out.println(docId);
+                e.printStackTrace();
+            }
         }
     }
 
     private void approve(List<String> docIds, String principal) {
         for (Iterator<String> iterator = docIds.iterator(); iterator.hasNext(); ) {
             String docId = iterator.next();
-            getWorkflowDocumentActionsService().approve(DocumentActionParameters.create(docId, principal));
+            try {
+                getWorkflowDocumentActionsService().approve(DocumentActionParameters.create(docId, principal));
+            } catch (RiceIllegalArgumentException | InvalidDocumentContentException | InvalidActionTakenException e) {
+                e.printStackTrace();
+            }
         }
     }
 

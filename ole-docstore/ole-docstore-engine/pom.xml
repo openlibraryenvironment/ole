@@ -111,5 +111,16 @@
             <artifactId>spring-webmvc</artifactId>
             <version>3.2.3.RELEASE</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-core-service-framework</artifactId>
+            <version>${rice.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-core-service-impl</artifactId>
+            <version>${rice.version}</version>
+        </dependency>
     </dependencies>
 </project>

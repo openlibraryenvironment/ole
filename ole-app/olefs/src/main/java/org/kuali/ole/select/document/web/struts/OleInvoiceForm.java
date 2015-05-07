@@ -35,6 +35,8 @@ public class OleInvoiceForm extends InvoiceForm {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OleInvoiceForm.class);
 
     private PurApItem newPaymentItemLine;
+    
+    private boolean filterProcessItems = true;
 
     /**
      * setting Item Type to Unordered Item
@@ -98,7 +100,15 @@ public class OleInvoiceForm extends InvoiceForm {
         this.newPaymentItemLine = newPaymentItemLine;
     }
 
-    public OleInvoiceForm() {
+    public boolean isFilterProcessItems() {
+		return filterProcessItems;
+	}
+
+	public void setFilterProcessItems(boolean filterProcessItems) {
+		this.filterProcessItems = filterProcessItems;
+	}
+
+	public OleInvoiceForm() {
         super();
         this.setNewPaymentItemLine(null);
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());

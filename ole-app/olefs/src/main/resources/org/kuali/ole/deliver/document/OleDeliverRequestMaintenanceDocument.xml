@@ -27,7 +27,7 @@
         <property name="documentAuthorizerClass"
                   value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
         <property name="businessRulesClass" value="org.kuali.ole.deliver.rule.OleDeliverRequestDocumentRule"/>
-        <property name="allowsNewOrCopy" value="false"/>
+        <property name="allowsNewOrCopy" value="true"/>
         <property name="lockingKeys">
             <list>
                 <value>requestId</value>
@@ -539,6 +539,13 @@
                         <bean parent="Uif-DateControl" p:size="10"/>
                     </property>
                 </bean>
+
+                <bean id="HoldExpirationDate-MaintenanceView" p:label="Hold Expiration Date" parent="Uif-InputField" p:propertyName="holdExpirationDate" p:render="@{maintenanceAction eq 'Edit' and document.newMaintainableObject.dataObject.requestTypeId ne null and (document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4')}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+
 
                 <bean id="copyRequest-copyFormat" parent="Uif-InputField" p:propertyName="copyFormat"  p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7'}">
                 <property name="optionsFinder">

@@ -38,7 +38,9 @@ import org.kuali.ole.select.bo.OLELinkPurapDonor;
 import org.kuali.ole.select.businessobject.OleCopy;
 import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.utility.Constants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -50,6 +52,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -154,7 +157,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                     workInstanceOlemlForm.setOldItemStatus(itemStatus);
                 }
 
-                if (item.getDueDateTime() != null && !item.getDueDateTime().equals("")) {
+               /* if (item.getDueDateTime() != null && !item.getDueDateTime().equals("")) {
                     String dueDate = item.getDueDateTime();
                     if (dueDate.contains(" ")) {
                         DateUtil dateUtil = new DateUtil();
@@ -167,7 +170,26 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                         }
                         item.setDueDateTime(dueDate.split(" ")[0] + " " + dueTime);
                     }
-                }
+                }*/
+               /* SimpleDateFormat format1 = new SimpleDateFormat(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("info.DateFormat")+" HH:mm:ss");
+                SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String DATE_FORMAT_HH_MM_SS_REGX = "^(1[0-2]|0[1-9])/(3[0|1]|[1|2][0-9]|0[1-9])/[0-9]{4}(\\s)((([1|0][0-9])|([2][0-4]))):[0-5][0-9]:[0-5][0-9]:[0-5][0-9]$";
+                Date dueDateTime = null;
+                DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mma");
+                DateFormat df1 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                try {
+                    dueDateTime = format2.parse(item.getDueDateTime());
+                   // item.setDueDateTime(format1.format(dueDateTime).toString());
+                    String dateString = format1.format(dueDateTime).toString();
+                    if (org.apache.commons.lang.StringUtils.isNotBlank(dateString) && dateString.matches(DATE_FORMAT_HH_MM_SS_REGX)) {
+                        dueDateTime = df1.parse(dateString);
+                        item.setDueDateTime(df.format(dueDateTime));
+                    }else {
+                        item.setDueDateTime(dateString);
+                    }
+                } catch (ParseException e) {
+                    LOG.error("format string to Date " + e);
+                }*/
                 String itemProperty = getInstanceEditorFormDataHandler().getParameter("OLE-DESC", "Describe", "ITEM_STATUS_READONLY");
                 String[] itemArray = itemProperty.split(",");
                 for (String status : itemArray) {
@@ -282,8 +304,9 @@ public class WorkItemOlemlEditor extends AbstractEditor {
     @Override
     public EditorForm saveDocument(EditorForm editorForm) {
         WorkInstanceOlemlForm workInstanceOlemlForm = (WorkInstanceOlemlForm) editorForm.getDocumentForm();
+        Item itemData = workInstanceOlemlForm.getSelectedItem();
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
         String dateStr = sdf.format(date);
         String user = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
         String docId = editorForm.getDocId();
@@ -316,16 +339,208 @@ public class WorkItemOlemlEditor extends AbstractEditor {
 
         try {
             if (StringUtils.isNotEmpty(docId)) {
-                Item itemData = workInstanceOlemlForm.getSelectedItem();
+                //Item itemData = workInstanceOlemlForm.getSelectedItem();
                 if (editorForm.getItemStatusSelection().equals("true")) {
                     Format formatter = new SimpleDateFormat("MM/dd/yyyy");
                     itemData.setItemStatusEffectiveDate(formatter.format(new Date()));
                 }
+                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                 if (!itemData.isClaimsReturnedFlag()) {
                     itemData.setClaimsReturnedNote(null);
                     itemData.setClaimsReturnedFlagCreateDate(null);
                 } else {
+                    org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemData.getItemIdentifier());
+                    ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
+                    org.kuali.ole.docstore.common.document.content.instance.Item oleItem = itemOlemlRecordProcessor.fromXML(item.getContent());
+                    ItemClaimsReturnedRecord itemClaimsReturnedRecord = new ItemClaimsReturnedRecord();
+                    List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords = new ArrayList<>();
+                    if(!oleItem.isClaimsReturnedFlag()){
+                        itemClaimsReturnedRecord.setClaimsReturnedNote(itemData.getClaimsReturnedNote());
+                        if (itemData.getClaimsReturnedFlagCreateDate() != null && !itemData.getClaimsReturnedFlagCreateDate().isEmpty()) {
+                            itemClaimsReturnedRecord.setClaimsReturnedFlagCreateDate(itemData.getClaimsReturnedFlagCreateDate());
+                        }
+                        else{
+                            itemClaimsReturnedRecord.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
+                        }
+                        itemClaimsReturnedRecord.setClaimsReturnedOperatorId(user);
+                        itemClaimsReturnedRecord.setItemId(itemData.getItemIdentifier());
+                        itemClaimsReturnedRecord.setClaimsReturnedPatronBarcode(null);
+                        if(itemData.getItemClaimsReturnedRecords() != null && itemData.getItemClaimsReturnedRecords().size() > 0){
+                            itemData.getItemClaimsReturnedRecords().add(itemClaimsReturnedRecord);
+                        }
+                        else{
+                            itemClaimsReturnedRecords.add(itemClaimsReturnedRecord);
+                            itemData.setItemClaimsReturnedRecords(itemClaimsReturnedRecords);
+                        }
+                    } else{
+                        Map<String,String> map = new HashMap<>();
+                        map.put("itemId", DocumentUniqueIDPrefix.getDocumentId(itemData.getItemIdentifier()));
+                        List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord> claimsReturnedRecordList = (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord.class, map, "claimsReturnedId", true);
+                        List<ItemClaimsReturnedRecord> itemClaimsReturnedRecordList = new ArrayList<>();
+                        for(int index=0 ; index < claimsReturnedRecordList.size() ; index++){
+                            ItemClaimsReturnedRecord claimsReturnedRecord = new ItemClaimsReturnedRecord();
+                            if(index == claimsReturnedRecordList.size()-1){
+                                if (itemData.getClaimsReturnedFlagCreateDate() != null && !itemData.getClaimsReturnedFlagCreateDate().isEmpty()) {
+                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(itemData.getClaimsReturnedFlagCreateDate());
+                                }
+                                else{
+                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
+                                }
+                                claimsReturnedRecord.setClaimsReturnedNote(itemData.getClaimsReturnedNote());
+                                claimsReturnedRecord.setClaimsReturnedPatronBarcode(null);
+                                claimsReturnedRecord.setClaimsReturnedOperatorId(user);
+                                claimsReturnedRecord.setItemId(itemData.getItemIdentifier());
+                            } else {
+                                if (claimsReturnedRecordList.get(index).getClaimsReturnedFlagCreateDate().toString() != null) {
+                                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+                                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                                    Date claimsReturnedDate = null;
+                                    try {
+                                        claimsReturnedDate = format2.parse(claimsReturnedRecordList.get(index).getClaimsReturnedFlagCreateDate().toString());
+                                    } catch (ParseException e) {
+                                        LOG.error("format string to Date " + e);
+                                    }
+                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(format1.format(claimsReturnedDate).toString());
+                                }
+                                claimsReturnedRecord.setClaimsReturnedNote(claimsReturnedRecordList.get(index).getClaimsReturnedNote());
+                                claimsReturnedRecord.setClaimsReturnedPatronBarcode(claimsReturnedRecordList.get(index).getClaimsReturnedPatronBarcode());
+                                claimsReturnedRecord.setClaimsReturnedOperatorId(claimsReturnedRecordList.get(index).getClaimsReturnedOperatorId());
+                                claimsReturnedRecord.setItemId(claimsReturnedRecordList.get(index).getItemId());
+                            }
+                            itemClaimsReturnedRecordList.add(claimsReturnedRecord);
+                        }
+                        itemData.setItemClaimsReturnedRecords(itemClaimsReturnedRecordList);
+                    }
                     getOleDeliverRequestDocumentHelperService().cancelPendingRequestForClaimsReturnedItem(itemData.getItemIdentifier());
+                }
+
+                if(itemData.isItemDamagedStatus()){
+                    org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemData.getItemIdentifier());
+                    ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
+                    org.kuali.ole.docstore.common.document.content.instance.Item oleItem = itemOlemlRecordProcessor.fromXML(item.getContent());
+                    ItemDamagedRecord itemDamagedRecord = new ItemDamagedRecord();
+                    List<ItemDamagedRecord> itemDamagedRecords = new ArrayList<>();
+                    if(!oleItem.isItemDamagedStatus()){
+                        itemDamagedRecord.setDamagedItemNote(itemData.getDamagedItemNote());
+                        itemDamagedRecord.setDamagedItemDate(df.format(getDateTimeService().getCurrentDate()));
+                        itemDamagedRecord.setPatronBarcode(null);
+                        itemDamagedRecord.setOperatorId(user);
+                        itemDamagedRecord.setItemId(itemData.getItemIdentifier());
+                        if(itemData.getItemDamagedRecords() != null && itemData.getItemDamagedRecords().size() > 0){
+                            itemData.getItemDamagedRecords().add(itemDamagedRecord);
+                        } else {
+                            itemDamagedRecords.add(itemDamagedRecord);
+                            itemData.setItemDamagedRecords(itemDamagedRecords);
+                        }
+                    } else {
+                        Map<String,String> map = new HashMap<>();
+                        map.put("itemId",DocumentUniqueIDPrefix.getDocumentId(itemData.getItemIdentifier()));
+                        List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord> itemDamagedRecordList = (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord.class, map, "itemDamagedId", true);
+                        List<ItemDamagedRecord> damagedRecordList = new ArrayList<>();
+                        for(int index=0 ; index < itemDamagedRecordList.size() ; index++){
+                            ItemDamagedRecord damagedRecord = new ItemDamagedRecord();
+                            if(index == itemDamagedRecordList.size()-1){
+                                damagedRecord.setDamagedItemNote(itemData.getDamagedItemNote());
+                                damagedRecord.setDamagedItemDate(df.format(getDateTimeService().getCurrentDate()));
+                                damagedRecord.setPatronBarcode(null);
+                                damagedRecord.setOperatorId(user);
+                                damagedRecord.setItemId(itemData.getItemIdentifier());
+                            } else {
+                                if (itemDamagedRecordList.get(index).getDamagedItemDate() != null && !itemDamagedRecordList.get(index).getDamagedItemDate().toString().isEmpty()) {
+                                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+                                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                                    Date itemDamagedDate = null;
+                                    try {
+                                        itemDamagedDate = format2.parse(itemDamagedRecordList.get(index).getDamagedItemDate().toString());
+                                    } catch (ParseException e) {
+                                        LOG.error("format string to Date " + e);
+                                    }
+                                    damagedRecord.setDamagedItemDate(format1.format(itemDamagedDate).toString());
+                                }
+                                damagedRecord.setDamagedItemNote(itemDamagedRecordList.get(index).getDamagedItemNote());
+                                damagedRecord.setPatronBarcode(itemDamagedRecordList.get(index).getPatronBarcode());
+                                damagedRecord.setOperatorId(itemDamagedRecordList.get(index).getOperatorId());
+                                damagedRecord.setItemId(itemDamagedRecordList.get(index).getItemId());
+                            }
+                            damagedRecordList.add(damagedRecord);
+                        }
+                        itemData.setItemDamagedRecords(damagedRecordList);
+                    }
+                }
+                try {
+                    org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemData.getItemIdentifier());
+                    ItemOlemlRecordProcessor itemOlemlRecordProcessor1 = new ItemOlemlRecordProcessor();
+                    org.kuali.ole.docstore.common.document.content.instance.Item oleItem = itemOlemlRecordProcessor1.fromXML(item.getContent());
+                    MissingPieceItemRecord missingPieceItemRecord = new MissingPieceItemRecord();
+                    List<MissingPieceItemRecord> missingPieceItemRecordList = new ArrayList<>();
+                    if (itemData.isMissingPieceFlag() && !oleItem.isMissingPieceFlag()) {
+                        missingPieceItemRecord.setMissingPieceFlagNote(itemData.getMissingPieceFlagNote());
+                        missingPieceItemRecord.setMissingPieceCount(itemData.getMissingPiecesCount());
+                        String parsedDate = df.format((new Date()));
+                        missingPieceItemRecord.setMissingPieceDate(parsedDate);
+                        missingPieceItemRecord.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                        missingPieceItemRecord.setPatronBarcode(itemData.getBarcodeARSL());
+                        missingPieceItemRecord.setItemId(itemData.getItemIdentifier());
+                        if (itemData.getMissingPieceItemRecordList() != null && itemData.getMissingPieceItemRecordList().size() > 0) {
+                            itemData.getMissingPieceItemRecordList().add(missingPieceItemRecord);
+                        } else {
+                            missingPieceItemRecordList.add(missingPieceItemRecord);
+                            itemData.setMissingPieceItemRecordList(missingPieceItemRecordList);
+                        }
+
+
+                    } else {
+                        if (itemData.isMissingPieceFlag() && oleItem.isMissingPieceFlag()) {
+                            Map<String, String> map = new HashMap<>();
+                            map.put("itemId", DocumentUniqueIDPrefix.getDocumentId(itemData.getItemIdentifier()));
+                            List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordList1 = (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord>) KRADServiceLocator.getBusinessObjectService()
+                                    .findMatchingOrderBy(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord.class, map, "missingPieceItemId", true);
+                            List<MissingPieceItemRecord> missingPieceItemRecords = new ArrayList<>();
+                            for (int index = 0; index < missingPieceItemRecordList1.size(); index++) {
+                                MissingPieceItemRecord missingPieceItemRecord1 = new MissingPieceItemRecord();
+                                if (index == missingPieceItemRecordList1.size() - 1) {
+                                /*if (oleLoanForm.getMissi != null) {
+                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(convertToString(loanObject.getClaimsReturnedDate()));
+                                }
+                                else{
+                                    DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
+                                }*/
+                                    DateFormat dfs = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                                    String missingPieceItemDate = dfs.format((new Date()));
+                                    missingPieceItemRecord1.setMissingPieceDate(missingPieceItemDate);
+                                    missingPieceItemRecord1.setMissingPieceCount(itemData.getMissingPiecesCount());
+                                    missingPieceItemRecord1.setPatronBarcode(itemData.getBarcodeARSL());
+                                    missingPieceItemRecord1.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                                    missingPieceItemRecord1.setItemId(itemData.getItemIdentifier());
+                                    missingPieceItemRecord1.setMissingPieceFlagNote(itemData.getMissingPieceFlagNote());
+                                    missingPieceItemRecords.add(missingPieceItemRecord1);
+
+                                } else {
+                                    if (missingPieceItemRecordList1.get(index).getMissingPieceDate() != null && !missingPieceItemRecordList1.get(index).getMissingPieceDate().toString().isEmpty()) {
+                                        SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+                                        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                                        Date missingPieceItemDate = null;
+                                        try {
+                                            missingPieceItemDate = format2.parse(missingPieceItemRecordList1.get(index).getMissingPieceDate().toString());
+                                        } catch (org.kuali.ole.sys.exception.ParseException e) {
+                                            LOG.error("format string to Date " + e);
+                                        }
+                                        missingPieceItemRecord1.setMissingPieceDate(format1.format(missingPieceItemDate).toString());
+                                    }
+                                    missingPieceItemRecord1.setMissingPieceFlagNote(missingPieceItemRecordList1.get(index).getMissingPieceFlagNote());
+                                    missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecordList1.get(index).getMissingPieceCount());
+                                    missingPieceItemRecord1.setOperatorId(missingPieceItemRecordList1.get(index).getOperatorId());
+                                    missingPieceItemRecord1.setPatronBarcode(missingPieceItemRecordList1.get(index).getPatronBarcode());
+                                    missingPieceItemRecord1.setItemId(missingPieceItemRecordList1.get(index).getItemId());
+                                    missingPieceItemRecords.add(missingPieceItemRecord1);
+                                }
+                            }
+                            itemData.setMissingPieceItemRecordList(missingPieceItemRecords);
+                        }
+                    }
+                } catch (Exception e) {
+                    LOG.error("Exception ", e);
                 }
                 workInstanceOlemlForm.setViewId("WorkItemViewPage");
                 if (!isValidItemData(workInstanceOlemlForm)) {
@@ -1134,5 +1349,9 @@ public class WorkItemOlemlEditor extends AbstractEditor {
         }
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, editorMessage);
         return workInstanceOlemlForm;
+    }
+
+    public DateTimeService getDateTimeService() {
+        return (DateTimeService)SpringContext.getService("dateTimeService");
     }
 }

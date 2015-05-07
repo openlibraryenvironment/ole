@@ -23,4 +23,10 @@ public interface OLEDeliverItemSearchService {
 
     public void setInTransitHistoryInfo(OLESingleItemResultDisplayRow singleItemResultDisplayRow);
 
+    public void setClaimsReturnedInfo(OLESingleItemResultDisplayRow singleItemResultDisplayRow);
+
+    public void setDamagedInfo(OLESingleItemResultDisplayRow singleItemResultDisplayRow);
+
+    public void setMissingPieceItemInfo(OLESingleItemResultDisplayRow singleItemResultDisplayRow);
+
 }

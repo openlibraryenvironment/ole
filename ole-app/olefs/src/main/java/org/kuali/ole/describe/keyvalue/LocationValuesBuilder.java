@@ -9,6 +9,7 @@ import org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
+import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.docstore.common.document.content.instance.Location;
 import org.kuali.ole.docstore.common.document.content.instance.LocationLevel;
@@ -41,7 +42,18 @@ public class LocationValuesBuilder extends KeyValuesBase {
 
 
     public static int refreshInterval = 300;     // in seconds
+    private CircDeskLocationResolver circDeskLocationResolver;
 
+    private CircDeskLocationResolver getCircDeskLocationResolver() {
+        if (circDeskLocationResolver == null) {
+            circDeskLocationResolver = new CircDeskLocationResolver();
+        }
+        return circDeskLocationResolver;
+    }
+
+    public void setCircDeskLocationResolver(CircDeskLocationResolver circDeskLocationResolver) {
+        this.circDeskLocationResolver = circDeskLocationResolver;
+    }
     /**
      * This method returns the List of ConcreteKeyValue,
      * ConcreteKeyValue has two arguments LevelCode and
@@ -236,8 +248,7 @@ public class LocationValuesBuilder extends KeyValuesBase {
         LOG.debug("Inside the getOleLocationLevel method");
         StringBuffer location = new StringBuffer();
         while (locationLevel.getLocationLevel() != null) {
-            LoanProcessor loanProcessor = new LoanProcessor();
-            OleLocationLevel oleLocationLevel = loanProcessor.getLocationLevelByName(locationLevel.getLevel());
+            OleLocationLevel oleLocationLevel = getCircDeskLocationResolver().getLocationLevelByName(locationLevel.getLevel());
             OleLocation oleLocation = new OleLocation();
             if (!"".equals(locationLevel.getName())) {
                 oleLocation = getLocationByLocationCode(locationLevel.getName());

@@ -16,7 +16,7 @@
 package org.kuali.ole.coa.service;
 
 import org.junit.Test;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.coa.businessobject.Chart;
 import org.kuali.ole.coa.service.ChartService;
 import org.kuali.ole.sys.context.SpringContext;
@@ -26,7 +26,7 @@ import static junit.framework.Assert.assertEquals;
 /**
  * This class tests the Chart service.
  */
-public class ChartServiceTest extends KualiTestBase {
+public class ChartServiceTest extends KFSTestCaseBase {
 
     @Test
     public void testFindById() {

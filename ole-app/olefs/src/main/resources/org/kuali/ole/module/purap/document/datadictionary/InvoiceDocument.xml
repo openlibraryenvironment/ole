@@ -577,7 +577,7 @@
             <ref bean="FloatingPointValidation" />
         </property> -->
         <property name="validationPattern">
-            <bean parent="FixedPointValidationPattern" p:precision="11" p:scale="2"  p:allowNegative="true"/>
+            <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="2"  p:allowNegative="true"/>
         </property>
         <property name="required" value="true"/>
         <property name="control">

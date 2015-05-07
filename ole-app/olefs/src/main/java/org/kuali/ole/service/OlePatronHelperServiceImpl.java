@@ -28,7 +28,7 @@ import java.util.*;
 /**
  * OlePatronHelperServiceImpl converts PatronProperties to EntityProperties and generate new search criteria.
  */
-public class OlePatronHelperServiceImpl extends LookupableImpl implements OlePatronHelperService {
+public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OlePatronHelperServiceImpl.class);
 
     protected static final String ENTITY_EMAIL_PROPERTY_PREFIX = "entity.entityTypeContactInfos.emailAddresses.";
@@ -269,6 +269,7 @@ public class OlePatronHelperServiceImpl extends LookupableImpl implements OlePat
             oleAddressBo.setAddressVerified(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().isAddressVerified());
             oleAddressBo.setAddressSource(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().getAddressSource());
             oleAddressBo.setId(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().getId());
+            oleAddressBo.setDeliverAddress(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().isDeliverAddress());
             oleAddressBos.add(oleAddressBo);
 
         }
@@ -625,6 +626,73 @@ public class OlePatronHelperServiceImpl extends LookupableImpl implements OlePat
             businessObjectService = KRADServiceLocator.getBusinessObjectService();
         }
         return businessObjectService;
+    }
+
+    public String getPatronPreferredAddress(EntityTypeContactInfoBo entityTypeContactInfoBo) throws Exception {
+        LOG.debug("Inside the getPatronPreferredAddress method");
+        String address = "";
+        if (entityTypeContactInfoBo.getAddresses() != null) {
+            for (int i = 0; i < entityTypeContactInfoBo.getAddresses().size(); i++) {
+                if (entityTypeContactInfoBo.getAddresses().get(i).isDefaultValue()) {
+                    if (entityTypeContactInfoBo.getAddresses().get(i).getLine1() != null)
+                        if (!entityTypeContactInfoBo.getAddresses().get(i).getLine1().isEmpty())
+                            address += entityTypeContactInfoBo.getAddresses().get(i).getLine1() + ",";
+
+                    if (entityTypeContactInfoBo.getAddresses().get(i).getLine2() != null)
+                        if (!entityTypeContactInfoBo.getAddresses().get(i).getLine2().isEmpty())
+                            address += entityTypeContactInfoBo.getAddresses().get(i).getLine2() + ",";
+
+                    if (entityTypeContactInfoBo.getAddresses().get(i).getLine3() != null)
+                        if (!entityTypeContactInfoBo.getAddresses().get(i).getLine3().isEmpty())
+                            address += entityTypeContactInfoBo.getAddresses().get(i).getLine3() + ",";
+
+                    if (entityTypeContactInfoBo.getAddresses().get(i).getCity() != null)
+                        if (!entityTypeContactInfoBo.getAddresses().get(i).getCity().isEmpty())
+                            address += entityTypeContactInfoBo.getAddresses().get(i).getCity() + ",";
+
+                    if (entityTypeContactInfoBo.getAddresses().get(i).getStateProvinceCode() != null)
+                        if (!entityTypeContactInfoBo.getAddresses().get(i).getStateProvinceCode().isEmpty())
+                            address += entityTypeContactInfoBo.getAddresses().get(i).getStateProvinceCode() + ",";
+
+                    if (entityTypeContactInfoBo.getAddresses().get(i).getCountryCode() != null)
+                        if (!entityTypeContactInfoBo.getAddresses().get(i).getCountryCode().isEmpty())
+                            address += entityTypeContactInfoBo.getAddresses().get(i).getCountryCode() + ",";
+
+                    if (entityTypeContactInfoBo.getAddresses().get(i).getPostalCode() != null)
+                        if (!entityTypeContactInfoBo.getAddresses().get(i).getPostalCode().isEmpty())
+                            address += entityTypeContactInfoBo.getAddresses().get(i).getPostalCode();
+                }
+            }
+        }
+
+        return address;
+    }
+
+    public String getPatronHomePhoneNumber(EntityTypeContactInfoBo entityTypeContactInfoBo) throws Exception {
+        LOG.debug("Inside the getPatronHomePhoneNumber method");
+        String phoneNumber = "";
+        if (entityTypeContactInfoBo.getPhoneNumbers() != null) {
+            for (int j = 0; j < entityTypeContactInfoBo.getPhoneNumbers().size(); j++) {
+                if (entityTypeContactInfoBo.getPhoneNumbers().get(j).getPhoneTypeCode().equalsIgnoreCase("HM")) {
+                    phoneNumber = (entityTypeContactInfoBo.getPhoneNumbers().get(j).getPhoneNumber());
+                }
+            }
+        }
+        return phoneNumber;
+    }
+
+    public String getPatronHomeEmailId(EntityTypeContactInfoBo entityTypeContactInfoBo) throws Exception {
+        LOG.debug("Inside the getPatronHomeEmailId method");
+        String emailId = "";
+        if (entityTypeContactInfoBo.getEmailAddresses() != null) {
+            for (int j = 0; j < entityTypeContactInfoBo.getEmailAddresses().size(); j++) {
+                if (entityTypeContactInfoBo.getEmailAddresses().get(j).getDefaultValue()) {
+                    emailId = (entityTypeContactInfoBo.getEmailAddresses().get(j).getEmailAddress());
+                    break;
+                }
+            }
+        }
+        return emailId;
     }
 
 

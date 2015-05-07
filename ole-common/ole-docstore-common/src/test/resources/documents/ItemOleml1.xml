@@ -1,4 +1,4 @@
-<item>
+<itemDoc>
     <active>false</active>
     <category>work</category>
     <content>&lt;item&gt;
@@ -21,4 +21,4 @@
     <public>false</public>
     <staffOnly>false</staffOnly>
     <type>item</type>
-</item>
+</itemDoc>

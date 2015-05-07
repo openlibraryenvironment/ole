@@ -16,7 +16,7 @@
 package org.kuali.ole.coa.businessobject;
 
 import org.junit.Test;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.coa.businessobject.IndirectCostRecoveryType;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -26,7 +26,7 @@ import static junit.framework.Assert.assertEquals;
 /**
  * Tests of the ICRTypeCode BO.
  */
-public class ICRTypeCodeTest extends KualiTestBase {
+public class ICRTypeCodeTest extends KFSTestCaseBase {
 
     /**
      * The isActive method should always return true, at least until a phase 2 task adds active indicators to all BOs.

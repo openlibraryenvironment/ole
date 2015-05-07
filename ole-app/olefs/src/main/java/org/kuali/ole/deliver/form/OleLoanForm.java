@@ -327,6 +327,7 @@ public class OleLoanForm extends UifFormBase {
      * Override attributes
      */
     private String newPrincipalId;
+    private String newPrincipalName;
     private String overideMethodCall;
     private boolean overrideFlag = false;
     private String oldPrincipalId;
@@ -1730,6 +1731,17 @@ public class OleLoanForm extends UifFormBase {
 
     public void setRenewalLoan(OleLoanDocument renewalLoan) {
         this.renewalLoan = renewalLoan;
+    }
+
+    public String getNewPrincipalName() {
+        if (this.newPrincipalName != null && this.newPrincipalName.contains(",")) {
+            return this.newPrincipalName.replaceAll(",", "");
+        }
+        return newPrincipalName;
+    }
+
+    public void setNewPrincipalName(String newPrincipalName) {
+        this.newPrincipalName = newPrincipalName;
     }
 }
 

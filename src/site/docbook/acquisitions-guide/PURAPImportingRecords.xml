@@ -113,7 +113,7 @@ the <emphasis role="bold">Notes and Attachments</emphasis> tab.</para>
 <title>Load Summary Tab</title>
 <para role="Normal"/>
 <para role="TableHeading"><emphasis role="bold">Load Summary tab definition</emphasis></para>
-<informaltable frame="top">
+<informaltable frame="topbot">
 <tgroup cols="2">
 <colspec colname="col1" colnum="1"/>
 <colspec colname="col2" colnum="2"/>
@@ -234,7 +234,7 @@ the file under the tab <emphasis role="bold">Load Failure Details</emphasis>.  
 <para role="Normal"/>
 <para role="TableHeading"><emphasis role="bold">Load Failure Details tab
 definition</emphasis></para>
-<informaltable frame="top">
+<informaltable frame="topbot">
 <tgroup cols="2">
 <colspec colname="col1" colnum="1"/>
 <colspec colname="col2" colnum="2"/>
@@ -296,7 +296,7 @@ attached under the <emphasis role="bold">Notes and Attachments</emphasis> tab.</
 <para role="Normal"/>
 <para role="TableHeading"><emphasis role="bold">Notes and Attachments tab
 definition</emphasis></para>
-<informaltable frame="top">
+<informaltable frame="topbot">
 <tgroup cols="2">
 <colspec colname="col1" colnum="1"/>
 <colspec colname="col2" colnum="2"/>

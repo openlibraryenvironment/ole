@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.bo;
 
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
+import java.sql.Blob;
 import java.sql.Timestamp;
 
 /**
@@ -14,6 +15,7 @@ public class OLEDeliverNoticeHistory extends PersistableBusinessObjectBase {
     private String patronId;
     private String noticeType;
     private String noticeSendType;
+    private byte[] noticeContent;
 
     public String getId() {
         return id;
@@ -62,4 +64,9 @@ public class OLEDeliverNoticeHistory extends PersistableBusinessObjectBase {
     public void setNoticeSendType(String noticeSendType) {
         this.noticeSendType = noticeSendType;
     }
+
+    public void setNoticeContent(byte[] noticeContent) {
+        this.noticeContent = noticeContent;
+    }
+
 }

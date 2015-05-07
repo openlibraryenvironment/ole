@@ -824,13 +824,7 @@ public class SearchResultDisplayRow  {
                 setLocalId(searchResultField.getFieldValue());
             }
             if (searchResultField.getFieldName().equalsIgnoreCase("Title_sort")) {
-                if(searchResultField.getFieldValue() != null){
-                String title = searchResultField.getFieldValue().replaceAll("<","&lt;");
-                title = title.replaceAll(">","&gt;");
-                setTitle(title);
-                }else{
                     setTitle(searchResultField.getFieldValue());
-                }
             }
             if (searchResultField.getFieldName().equalsIgnoreCase("Author_display")) {
                 setAuthor(searchResultField.getFieldValue());

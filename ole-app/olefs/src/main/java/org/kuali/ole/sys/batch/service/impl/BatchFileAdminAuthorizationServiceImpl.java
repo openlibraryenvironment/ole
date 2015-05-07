@@ -61,7 +61,10 @@ public class BatchFileAdminAuthorizationServiceImpl implements BatchFileAdminAut
                 List<String> batchFileDirectories = ((FinancialSystemModuleConfiguration) moduleConfiguration).getBatchFileDirectories();
                 for (String batchFileDirectoryName : batchFileDirectories) {
                     File directory = new File(batchFileDirectoryName).getAbsoluteFile();
-                    if (BatchFileUtils.isSuperDirectoryOf(directory, batchFile.retrieveFile())) {
+                    String fileName = batchFile.getFileName();
+                    if(fileName.contains(OLEConstants.REENCUM_RECURR))   {
+                        return moduleConfiguration.getNamespaceCode();
+                    } else if (BatchFileUtils.isSuperDirectoryOf(directory, batchFile.retrieveFile())) {
                         return moduleConfiguration.getNamespaceCode();
                     }
                 }

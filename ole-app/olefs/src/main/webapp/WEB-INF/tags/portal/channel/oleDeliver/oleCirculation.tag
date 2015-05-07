@@ -23,7 +23,7 @@
                         url="${ConfigProperties.application.url}/kr-krad/loancontroller?viewId=PatronItemView&methodToCall=start"/> <br/>--%>
     <portal:portalLink displayTitle="true" title="Loan"
                        url="${ConfigProperties.application.url}/ole-kr-krad/loancontroller?viewId=PatronItemView&methodToCall=start"/> <br/>
-    <portal:portalLink displayTitle="true"   title="Request"
+    <portal:portalLink displayTitle="true"   title="Request Search"
                        url="${ConfigProperties.application.url}/ole-kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/><br/>
     <portal:portalLink displayTitle="true" title="Request Re-order"
                        url="${ConfigProperties.application.url}/ole-kr-krad/deliverRequestController?viewId=DeliverRequestSearch&methodToCall=start"/> <br/>

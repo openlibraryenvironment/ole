@@ -26,6 +26,8 @@ import org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo;
 import org.kuali.rice.kim.impl.identity.phone.EntityPhoneTypeBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.location.impl.campus.CampusBo;
 import org.kuali.rice.location.impl.country.CountryBo;
 import org.kuali.rice.location.impl.state.StateBo;
@@ -556,6 +558,7 @@ public class OlePatronConverterService {
             oleAddressBo.setOleAddressId(KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber(OLEConstants.OlePatron.OLE_DLVR_ADD_S).toString());
             oleAddressBo.setId(entity.getId());
             oleAddressBo.setAddressVerified(true);
+            oleAddressBo.setDeliverAddress(postalAddresses.isDeliverAddress());
             if (postalAddresses.isAddressVerified() || postalAddresses.getAddressSource() != null) {
                 oleAddressBo.setAddressValidFrom(postalAddresses.getAddressValidFrom());
                 oleAddressBo.setAddressValidTo(postalAddresses.getAddressValidTo());
@@ -581,6 +584,7 @@ public class OlePatronConverterService {
             oleEntityAddressBo.setOleAddressBo(oleAddressBo);
             addressBo.add(oleEntityAddressBo);
             boolean defaultValue = checkAddressMultipleDefault(addressBo);
+            boolean defaultDeliverAddress = checkMultipleDeliverAddress(addressBo);
             if (defaultValue && oleAddressBo.getAddressSource()!=null) {
                 olePatronDocument.setAddresses(address);
                 olePatronDocument.setOleAddresses(oleAddress);
@@ -590,7 +594,11 @@ public class OlePatronConverterService {
                 if (oleAddressBo.getAddressSource() == null) {
                     olePatron.setErrorMessage(OLEPatronConstant.PATRON_ADDRESS_SOURCE_REQUIRED);
                 } else {
-                    olePatron.setErrorMessage(OLEPatronConstant.ADDRESS_DEFAULT_VALUE_ERROR);
+                    if(!defaultDeliverAddress){
+                        olePatron.setErrorMessage(OLEPatronConstant.DEFAULT_DELIVER_ADDRESS_ERROR);
+                    } else {
+                        olePatron.setErrorMessage(OLEPatronConstant.ADDRESS_DEFAULT_VALUE_ERROR);
+                    }
                 }
                 addressFlag = false;
             }
@@ -935,6 +943,33 @@ public class OlePatronConverterService {
         }
         if (defaultCounter != 1) {
             valid = false;
+        }
+        return valid;
+    }
+
+    protected boolean checkMultipleDeliverAddress(List<OleEntityAddressBo> addrBoList) {
+        boolean valid = true;
+        boolean isDefaultSet = false;
+        boolean isAtleastOneChecked=false;
+        int i = 0;
+        for (OleEntityAddressBo addr : addrBoList) {
+            OleAddressBo oleAddressBo = addr.getOleAddressBo();
+            if (oleAddressBo.isDeliverAddress()) {
+                isAtleastOneChecked=true;
+                if (isDefaultSet) {
+                    valid = false;
+                } else {
+                    isDefaultSet = true;
+                }
+            }
+            i++;
+        }
+        if(!isAtleastOneChecked){
+            valid=true;
+        } else {
+            if (!addrBoList.isEmpty() && !isDefaultSet) {
+                valid = false;
+            }
         }
         return valid;
     }

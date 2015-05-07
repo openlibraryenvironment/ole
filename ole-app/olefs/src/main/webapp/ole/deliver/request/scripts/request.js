@@ -1,8 +1,18 @@
 jq(document).ready(function(){
+    showRequestErrorMessage();
     draggable();
     refreshPageUser();
     jq(document).keypress(function(e) {
             if(e.which == 13) {
+                if(e.target.id == "pl_req_pat_control"){
+                    if(jq( "#pl_req_pat_control").val()!=""){
+                        jq(this).blur();
+                        jq('#fetchPatronAddressButton').focus().click();
+                    }else{
+                        jq("#pl_req_pat_control").focus();
+                        return false;
+                    }
+                }
                 if(e.target.id == "itemIdSearch_control"){
                     if(jq( "#itemIdSearch_control").val()!=""){
                         jq(this).blur();
@@ -299,7 +309,7 @@ function displayDialogWindow(divID){
 
 function showItemsDialog() {
      jq("div#OLEPlaceRequestView_MultipleItem_details").show();
-     displayDialogWindow("div#OLEPlaceRequestView_MultipleItem-parentBean");
+     displayDialogWindow("div#OLEPlaceRequestView_MultipleItem_details");
 }
 
 function showRequestErrorMessage(){
@@ -321,7 +331,7 @@ function cancelOverride(){
 }
 
 function closeItemsDialog(){
-    jq("div#OLEPlaceRequestView_MultipleItem-parentBean").fadeOut(300);
+    jq("div#OLEPlaceRequestView_MultipleItem_details").fadeOut(300);
     jq('#mask').fadeOut(300);
 }
 function selectAllItem(){

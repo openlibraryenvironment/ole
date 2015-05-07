@@ -55,6 +55,7 @@ public class OleAcquisitionsSearchAction extends KualiTransactionalDocumentActio
     public ActionForward search(ActionMapping mapping, ActionForm form,
                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Inside searchRequisitions of OleAcquisitionsSearchAction");
+        Long begin = System.currentTimeMillis();
         OleAcquisitionsSearchForm acqForm = (OleAcquisitionsSearchForm) form;
         OleAcquisitionsSearchDocument acqDoc = (OleAcquisitionsSearchDocument) acqForm.getDocument();
 
@@ -74,6 +75,9 @@ public class OleAcquisitionsSearchAction extends KualiTransactionalDocumentActio
         } else {
             GlobalVariables.getMessageMap().putError(OLEConstants.OrderQueue.REQUISITIONS, OLEKeyConstants.ERROR_DATE_TO_NOT_LESSER_THAN_DATE_FROM, new String[]{});
         }
+        Long end = System.currentTimeMillis();
+        Long timeTaken = end-begin;
+        LOG.info("The Time Taken for Fetching Acquisition Search : "+timeTaken);
 
         // Modified for Jira Ole-2563 by Aditya Ends
 

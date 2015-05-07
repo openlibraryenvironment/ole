@@ -1,5 +1,6 @@
 package org.kuali.ole.docstore.model.rdbms.bo;
 
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
@@ -68,6 +69,15 @@ public class ItemRecord extends PersistableBusinessObjectBase
     private List<FormerIdentifierRecord> formerIdentifierRecords;
     private List<ItemNoteRecord> itemNoteRecords;
     private List<LocationsCheckinCountRecord> locationsCheckinCountRecords;
+    private List<MissingPieceItemRecord> missingPieceItemRecordList;
+
+    public List<MissingPieceItemRecord> getMissingPieceItemRecordList() {
+        return missingPieceItemRecordList;
+    }
+
+    public void setMissingPieceItemRecordList(List<MissingPieceItemRecord> missingPieceItemRecordList) {
+        this.missingPieceItemRecordList = missingPieceItemRecordList;
+    }
 
     public String getItemId() {
         return itemId;

@@ -235,7 +235,7 @@
             <para role="TableHeading"><emphasis role="bold">Requisition document tabs and
                     purposes</emphasis>
             </para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -431,7 +431,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Document Overview tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -861,18 +861,21 @@
                                     </entry>
                                 </row>
                                 <row>
-                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">Vendor
-                                        Alias Name</entry>
-                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">If you
-                                        know the vendor's alias, enter the code in the box and click <inlinemediaobject>
-                                            <alt>Select Vendor</alt>
-                                            <imageobject>
-                                                <imagedata
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Vendor Alias Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">If you know the vendor's alias,
+                                            enter the code in the box and click <inlinemediaobject>
+                                                <alt>Select Vendor</alt>
+                                                <imageobject>
+                                                  <imagedata
                                                   fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-153a.png"
-                                                />
-                                            </imageobject>
-                                        </inlinemediaobject>. This will prepopulate the Vendor
-                                        address and information.</entry>
+                                                  />
+                                                </imageobject>
+                                            </inlinemediaobject>. This will prepopulate the Vendor
+                                            address and information.</para>
+                                    </entry>
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -1237,7 +1240,7 @@
                         </indexterm></title>
                     <para role="TableHeading"><emphasis role="bold">Add Item, Current Items section
                             definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -2053,8 +2056,9 @@
                                         </entry>
                                     </row>
                                     <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top"
-                                            >Volume Number</entry>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para>Volume Number</para>
+                                        </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                             <para>Enter the volume number for each item. You must
                                                 enter the volume numbers sequentially for each value
@@ -3475,7 +3479,7 @@
             </para>
             <para role="TableHeading"><emphasis role="bold">Purchase Order document tabs and
                 purposes</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -3642,7 +3646,7 @@
                 <para role="Body Text">These additional fields are defined below.</para>
                 <para role="TableHeading"><emphasis role="bold">Document Header definition for a Purchase Order
                     document</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -3731,7 +3735,7 @@
                     </para>
                     <para role="TableHeading"><emphasis role="bold">Document Overview section
                         definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -3789,7 +3793,7 @@
                     </para>
                     <para role="TableHeading"><emphasis role="bold">Purchase Order Detail section
                         definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -3930,7 +3934,7 @@
                     the information in the same tab of the requisition. The fields described below apply only if the
                     default information from the requisition needs to be updated by Purchasing. </para>
                 <para role="TableHeading"><emphasis role="bold">Delivery tab definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -4219,7 +4223,7 @@
                         </screenshot>
                     </para>
                     <para role="TableHeading"><emphasis role="bold">Vendor Address section definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -4354,7 +4358,7 @@
                         </screenshot>
                     </para>
                     <para role="TableHeading"><emphasis role="bold">Vendor Info section definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -4509,7 +4513,7 @@
                     </screenshot>
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Stipulations tab definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -4602,7 +4606,7 @@
                         Items</emphasis> sections contain the same fields. </para>
                     <para role="TableHeading"><emphasis role="bold">Add Item and Current Items section
                         definitions</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -5016,7 +5020,7 @@
                     </para>
                     <para role="TableHeading"><emphasis role="bold">Additional Charges section
                         definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -5374,7 +5378,7 @@
                         <secondary>Payment Info section, Payment Info tab</secondary>
                     </indexterm></title>
                     <para role="TableHeading"><emphasis role="bold">Payment Info section definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -5485,7 +5489,7 @@
                         <secondary>Billing Address section, Payment Info tab</secondary>
                     </indexterm></title>
                     <para role="TableHeading"><emphasis role="bold">Billing Address section definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -5535,7 +5539,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Additional Institutional Info tab
                     definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -5702,7 +5706,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">View Related Documents tab
                     definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -5767,7 +5771,7 @@
                     </screenshot>.</para>
                 <para role="TableHeading"><emphasis role="bold">General Ledger Pending Entries tab
                     definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -6217,7 +6221,7 @@
                             linkend="_PrintingPO">Printing a PO</link>.</para>
                 </note>
                 <para role="TableHeading"><emphasis role="bold">PO document types</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>

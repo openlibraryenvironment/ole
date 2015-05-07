@@ -16,7 +16,9 @@
 package org.kuali.ole.coa.service;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.coa.businessobject.SubFundGroup;
 import org.kuali.ole.coa.service.SubFundGroupService;
 import org.kuali.ole.sys.context.SpringContext;
@@ -28,7 +30,7 @@ import static org.junit.Assert.assertNull;
 /**
  * This class tests the subFundGroup service.
  */
-public class SubFundGroupServiceTest extends KualiTestBase {
+public class SubFundGroupServiceTest extends KFSTestCaseBase {
 
     @Test
     public final void testGetByCode_knownCode() {

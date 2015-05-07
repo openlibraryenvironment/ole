@@ -18,12 +18,12 @@ package org.kuali.ole.coa.service;
 import java.io.IOException;
 
 import org.junit.Test;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.coa.businessobject.CfdaUpdateResults;
 import org.kuali.ole.coa.service.impl.CfdaServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
 
-public class CfdaServiceTest extends KualiTestBase {
+public class CfdaServiceTest extends KFSTestCaseBase {
 
 //    public void testPatternExtraction() {
 //

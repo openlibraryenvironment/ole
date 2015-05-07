@@ -35,6 +35,7 @@ public class OlePatronXMLSchemaValidation_UT  {
         ByteArrayInputStream patronSchemaByteArray = new ByteArrayInputStream(patronByteArray);
         OlePatronXMLSchemaValidator olePatronXMLSchemaValidator = new OlePatronXMLSchemaValidator();
         boolean schemaFlag=olePatronXMLSchemaValidator.validateContentsAgainstSchema(patronSchemaByteArray);
+
         assertTrue(schemaFlag);
     }
 

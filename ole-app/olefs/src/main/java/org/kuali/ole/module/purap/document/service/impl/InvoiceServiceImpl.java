@@ -450,7 +450,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         // Iterate all source accounting lines on the document, deriving a
         // minimum limit from each according to chart, chart and account, and
         // chart and organization.
-        for (SourceAccountingLine line : purapAccountingService.generateSummary(document.getItems())) {
+        for (SourceAccountingLine line : purapAccountingService.generateSummary((List<PurApItem>)document.getItems())) {
             // check to make sure the account is in the auto approve exclusion list
             Map<String, Object> autoApproveMap = new HashMap<String, Object>();
             autoApproveMap.put("chartOfAccountsCode", line.getChartOfAccountsCode());
@@ -597,13 +597,13 @@ public class InvoiceServiceImpl implements InvoiceService {
             if (prqss.size() > 0) {
                 boolean addedMessage = false;
                 boolean foundCanceledPostApprove = false; // cancelled
-                boolean foundCanceledPreApprove = false; // voided
+            //    boolean foundCanceledPreApprove = false; // voided
                 for (InvoiceDocument testPRQS : prqss) {
                     if (StringUtils.equals(testPRQS.getApplicationDocumentStatus(), InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE)) {
                         foundCanceledPostApprove |= true;
-                    } else if (StringUtils.equals(testPRQS.getApplicationDocumentStatus(), InvoiceStatuses.APPDOC_CANCELLED_IN_PROCESS)) {
+                    } /*else if (StringUtils.equals(testPRQS.getApplicationDocumentStatus(), InvoiceStatuses.APPDOC_CANCELLED_IN_PROCESS)) {
                         foundCanceledPreApprove |= true;
-                    } else {
+                    }*/ else {
                         msgs.put(PRQSDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyValueAsString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE));
                         addedMessage = true;
                         break;
@@ -611,11 +611,12 @@ public class InvoiceServiceImpl implements InvoiceService {
                 }
                 // Custom error message for duplicates related to cancelled/voided PRQSs
                 if (!addedMessage) {
-                    if (foundCanceledPostApprove && foundCanceledPreApprove) {
+                    /*if (foundCanceledPostApprove && foundCanceledPreApprove) {
                         msgs.put(PRQSDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyValueAsString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLEDORVOIDED));
                     } else if (foundCanceledPreApprove) {
                         msgs.put(PRQSDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyValueAsString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_VOIDED));
-                    } else if (foundCanceledPostApprove) {
+                    } */
+                    if (foundCanceledPostApprove) {
                         // messages.add("errors.duplicate.vendor.invoice.cancelled");
                         msgs.put(PRQSDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyValueAsString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_CANCELLED));
                     }
@@ -627,14 +628,14 @@ public class InvoiceServiceImpl implements InvoiceService {
             if (prqss.size() > 0) {
                 boolean addedMessage = false;
                 boolean foundCanceledPostApprove = false; // cancelled
-                boolean foundCanceledPreApprove = false; // voided
+             //   boolean foundCanceledPreApprove = false; // voided
                 msgs.put(PRQSDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyValueAsString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
                 for (InvoiceDocument testPRQS : prqss) {
                     if (StringUtils.equalsIgnoreCase(testPRQS.getApplicationDocumentStatus(), InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE)) {
                         foundCanceledPostApprove |= true;
-                    } else if (StringUtils.equalsIgnoreCase(testPRQS.getApplicationDocumentStatus(), InvoiceStatuses.APPDOC_CANCELLED_IN_PROCESS)) {
+                    } /*else if (StringUtils.equalsIgnoreCase(testPRQS.getApplicationDocumentStatus(), InvoiceStatuses.APPDOC_CANCELLED_IN_PROCESS)) {
                         foundCanceledPreApprove |= true;
-                    } else {
+                    }*/ else {
                         msgs.put(PRQSDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyValueAsString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
                         addedMessage = true;
                         break;
@@ -643,12 +644,13 @@ public class InvoiceServiceImpl implements InvoiceService {
 
                 // Custom error message for duplicates related to cancelled/voided PRQSs
                 if (!addedMessage) {
-                    if (foundCanceledPostApprove && foundCanceledPreApprove) {
+                   /* if (foundCanceledPostApprove && foundCanceledPreApprove) {
                         msgs.put(PRQSDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyValueAsString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED));
                     } else if (foundCanceledPreApprove) {
                         msgs.put(PRQSDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyValueAsString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED));
                         addedMessage = true;
-                    } else if (foundCanceledPostApprove) {
+                    }*/
+                    if (foundCanceledPostApprove) {
                         msgs.put(PRQSDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyValueAsString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED));
                         addedMessage = true;
                     }

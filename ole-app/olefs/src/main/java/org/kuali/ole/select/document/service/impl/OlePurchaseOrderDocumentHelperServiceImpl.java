@@ -15,6 +15,7 @@
  */
 package org.kuali.ole.select.document.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.*;
@@ -352,9 +353,9 @@ public class OlePurchaseOrderDocumentHelperServiceImpl implements OlePurchaseOrd
      */
     @Override
     public void processAfterRetrieve(PurchaseOrderDocument purchaseOrderDocument) {
-
         // super.processAfterRetrieve();
         LOG.debug("Inside processAfterRetrieve of OlePurchaseOrderDocumentHelperServiceImpl");
+         // if(!purchaseOrderDocument.getFinancialDocumentTypeCode().equals("OLE_POC")) {
         try {
             PurchaseOrderType purchaseOrderTypeDoc = getOlePurapService().getPurchaseOrderType(purchaseOrderDocument.getPurchaseOrderTypeId());
             if(purchaseOrderTypeDoc != null){
@@ -373,7 +374,7 @@ public class OlePurchaseOrderDocumentHelperServiceImpl implements OlePurchaseOrd
             LOG.error("Exception in OlePurchaseOrderDocument:processAfterRetrieve for OlePurchaseOrderItem " + e.getMessage());
             throw new RuntimeException(e);
         }
-
+    // }
     }
 
     /**
@@ -409,8 +410,15 @@ public class OlePurchaseOrderDocumentHelperServiceImpl implements OlePurchaseOrd
             if (olePurchaseOrderItem.getItemQuantity().isGreaterThan(new KualiDecimal(1))
                     || olePurchaseOrderItem.getItemNoOfParts().isGreaterThan(new KualiInteger(1))) {
                 List<OleCopies> copies = setCopiesToLineItem(olePurchaseOrderItem, bibTree);
-                olePurchaseOrderItem.setItemTypeDescription(bibTree.getHoldingsTrees().get(bibTree.getHoldingsTrees().size() - 1)
-                        .getItems().get(0).getItemType());
+                if(CollectionUtils.isNotEmpty(bibTree.getHoldingsTrees())){
+                    if(CollectionUtils.isNotEmpty(bibTree.getHoldingsTrees().get(0).getItems())){
+                        olePurchaseOrderItem.setItemTypeDescription(bibTree.getHoldingsTrees().get(0).getItems().get(0).getItemType());
+                    }else{
+                        olePurchaseOrderItem.setItemTypeDescription("");
+                    }
+                }else {
+                    olePurchaseOrderItem.setItemTypeDescription("");
+                }
                 olePurchaseOrderItem.setCopies(copies);
             }
         }
@@ -435,7 +443,7 @@ public class OlePurchaseOrderDocumentHelperServiceImpl implements OlePurchaseOrd
 
             }
             int startingCopy = 0;
-            if (singleItem.getItemNoOfParts().intValue() != 0 && null != enumeration) {
+            if (singleItem.getItemNoOfParts().intValue() != 0 && null != enumeration && StringUtils.isNotEmpty(enumeration.toString())) {
                 String enumerationSplit = enumeration.substring(1, 2);
                 boolean isint = checkIsEnumerationSplitIsIntegerOrNot(enumerationSplit);
                 if (isint) {

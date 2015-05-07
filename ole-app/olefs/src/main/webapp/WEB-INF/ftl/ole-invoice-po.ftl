@@ -343,7 +343,7 @@
 	</@control_wrapper>
 </#macro>
 
-<#macro text_control line prop container label required=false size="7" maxlength="10" onchange="">
+<#macro text_control line prop container label required=false size="7" maxlength="19" onchange="">
 	<@control_wrapper "${line.lineId}_${prop}" container label>
 		<@spring.formInput id="${line.lineId}_${prop}_control"
 		attributes='maxlength="${maxlength}" size="${size}" class="uif-textControl${required?string(" required","")}" data-role="Control" data-control_for="${line.lineId}_${prop}" onchange="${onchange}"'

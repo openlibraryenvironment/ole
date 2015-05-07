@@ -21,7 +21,9 @@ import java.text.ParseException;
 import java.util.List;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.impl.identity.PersonImpl;
@@ -34,7 +36,7 @@ import static org.junit.Assert.assertNull;
 /**
  * This class...
  */
-public class AccountTest extends KualiTestBase {
+public class AccountTest extends KFSTestCaseBase {
 
     private static final String TEST_DATE_1_TODAY = "04/22/2002 07:48 PM";
     private static final String TEST_DATE_1_YESTERDAY = "04/21/2002 07:48 PM";

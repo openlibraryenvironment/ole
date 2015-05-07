@@ -20,9 +20,12 @@
                 <ref bean="OleDonorInformation"/>
                 <ref bean="OleCirculationInformation"/>
                 <ref bean="oleClaimsReturn-Section"/>
+                <ref bean="itemClaimsReturnedRecords"/>
                 <ref bean="OleItemDamaged-Section"/>
+                <ref bean="itemDamagedRecords"/>
                 <ref bean="OleMissingItem-Section"/>
                 <ref bean="OLEIntransitLoanRecords"/>
+                <ref bean="MissingPieceItemHistory"/>
                 <ref bean="OLEPatronFlaggedItemHistoryView-PatronRecords"/>
                 <ref bean="OleItemExtendedInformation"/>
 
@@ -743,7 +746,7 @@
                             </bean>-->
                             <bean id="oleCurrentBorrower" parent="Uif-LinkField" p:label="Current Borrower" p:style="word-break: break-all;word-wrap: break-word"
                                   p:linkText="@{documentForm.currentBarcode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;olePatronId=@{documentForm.selectedItem.currentBorrower}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument"/>
-                            <bean id="oleDueDatetime" parent="Uif-InputField" p:propertyName="dueDateTime"
+                            <bean id="oleDueDatetime" parent="Uif-InputField" p:propertyName="loanDueDate"
                                   p:label="Due Date time" p:readOnly="true">
                                 <!--<property name="control">
                                     <bean parent="Uif-DateControl" p:disabled="true"/>
@@ -808,6 +811,28 @@
         </property>
     </bean>
 
+    <bean id="MissingPieceItemHistory" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
+        <property name="headerText" value="Missing Piece Item History" />
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord" />
+        <property name="propertyName" value="documentForm.selectedItem.missingPieceItemRecordList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="true"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="items">
+                <list>
+                    <bean id="missingPieceDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceDate" p:label="Missing Piece Item Date"/>
+                    <bean id="missingPieceCount" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceCount" p:label="Missing Piece Item Count"/>
+                    <bean id="missingPieceFlagNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceFlagNote" p:label="Missing Piece Item Note"/>
+                    <bean id="operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
+                    <bean id="patronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="patronBarcode" p:label="Associated Patron Barcode"/>
+                </list>
+        </property>
+    </bean>
+
+
+
     <bean  id="OLEIntransitLoanRecords"  parent="Uif-Disclosure-TableCollectionSection"  p:layoutManager.numberOfColumns="10"
            p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
         <property name="headerText" value="Intransit loan history" />
@@ -843,6 +868,56 @@
                 </bean>
                 <ref bean="oleClaimsReturnCreateDate"/>
                 <ref bean="oleClaimsReturnNote"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean  id="itemClaimsReturnedRecords"  parent="Uif-Disclosure-TableCollectionSection"
+           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
+        <property name="headerText" value="Claims Returned History" />
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord" />
+        <property name="propertyName" value="documentForm.selectedItem.itemClaimsReturnedRecords" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aaSorting" value="[[0,'desc']]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="item_claimsReturnedFlagCreateDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedFlagCreateDate" p:label="Claims Returned Create Date"/>
+                <bean id="item_claimsReturnedNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedNote" p:label="Claims Returned Note"/>
+                <bean id="item_claimsReturnedPatronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedPatronBarcode" p:label="Associated Patron Barcode"/>
+                <bean id="item_claimsReturnedOperatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedOperatorId" p:label="Operator Id"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="itemDamagedRecords" parent="Uif-Disclosure-TableCollectionSection"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
+        <property name="headerText" value="Damaged History" />
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord"/>
+        <property name="propertyName" value="documentForm.selectedItem.itemDamagedRecords"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aaSorting" value="[[0,'desc']]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="item_damagedItemDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="damagedItemDate" p:label="Damaged Date"/>
+                <bean id="item_damagedItemNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="damagedItemNote" p:label="Damaged Note"/>
+                <bean id="item_patronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="patronBarcode" p:label="Associated Patron Barcode"/>
+                <bean id="item_operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
             </list>
         </property>
     </bean>

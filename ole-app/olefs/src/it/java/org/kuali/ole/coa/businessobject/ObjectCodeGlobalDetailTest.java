@@ -18,7 +18,9 @@ package org.kuali.ole.coa.businessobject;
 
 import org.junit.Test;
 import org.kuali.ole.DocumentTestUtils;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.fp.document.TransferOfFundsDocument;
 import org.kuali.ole.sys.context.SpringContext;
@@ -29,7 +31,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ObjectCodeGlobalDetailTest extends KualiTestBase {
+public class ObjectCodeGlobalDetailTest extends KFSTestCaseBase {
     private AccountingDocument document;
 
     @Override

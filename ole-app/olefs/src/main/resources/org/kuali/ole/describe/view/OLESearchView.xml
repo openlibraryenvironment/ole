@@ -227,8 +227,8 @@
     <bean id="DocumentAndSearchSelectionType" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="DocumentAndSearchSelectionType_DocType" parent="Base-Uif-InputField-LabelTop"
-                      p:propertyName="docType" p:label="Document Type of Search Results" p:onChangeScript="submitForm('start', null, null, null);" p:render="@{searchType eq 'search'}">
+                <bean id="DocumentAndSearchSelectionType_DocType" parent="Base-Uif-InputField"
+                      p:propertyName="docType" p:label="Document Type" p:onChangeScript="submitForm('start', null, null, null);" p:render="@{searchType eq 'search'}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
                     </property>
@@ -236,7 +236,7 @@
                         <bean class="org.kuali.ole.describe.keyvalue.DocTypeKeyValueFinder"/>
                     </property>
                 </bean>
-                <bean id="DocumentAndSearchSelectionType_SearchType" parent="Base-Uif-InputField-LabelTop"
+                <bean id="DocumentAndSearchSelectionType_SearchType" parent="Base-Uif-InputField"
                       p:propertyName="searchType" p:label="Select Records By" p:style="float:left;margin-left:39.3em" p:onChangeScript="submitForm('start', null, null, null);" p:render="@{searchTypeField eq 'OLESearch'}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl">

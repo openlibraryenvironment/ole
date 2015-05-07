@@ -25,9 +25,7 @@ import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import org.kuali.ole.ConfigureContext;
-import org.kuali.ole.DocumentTestUtils;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.*;
 import org.kuali.ole.coa.service.AccountingPeriodService;
 import org.kuali.ole.fixture.AccountingLineFixture;
 import org.kuali.ole.fixture.UserNameFixture;
@@ -47,7 +45,7 @@ import org.kuali.rice.krad.service.DocumentService;
  * This class is used to test TransferOfFundsDocument.
  */
 
-public class TransferOfFundsDocumentTest extends KualiTestBase {
+public class TransferOfFundsDocumentTest extends KFSTestCaseBase {
     public static final Class<TransferOfFundsDocument> DOCUMENT_CLASS = TransferOfFundsDocument.class;
 
     // The set of Route Nodes that the test document will progress through

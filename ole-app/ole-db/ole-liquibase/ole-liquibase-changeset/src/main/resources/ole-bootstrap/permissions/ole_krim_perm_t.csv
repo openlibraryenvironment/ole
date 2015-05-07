@@ -288,7 +288,7 @@ OLE10311,OLE70092,1,1,OLE-DLVR,Patron has at least one item overdue for more tha
 OLE10312,OLE70093,1,1,OLE-DLVR,Patron has at least one recalled item overdue for more than n days,Allows users to override if patron has at least one recalled item overdue for more than n days,Y
 OLE10313,OLE70094,1,1,OLE-DLVR,Item currently loaned to another patron,Allows users to override if an item is currently loaned to another patron,Y
 OLE10314,OLE70095,1,1,OLE-DLVR,Item has pending request queue where patron presenting item is NOT the patron in queue position '1',Allows users to override if patron presenting item is NOT the patron in queue position '1',Y
-OLE10315,OLE70096,1,1,OLE-DLVR,Item not at circ desk authorized to service the item’s shelving location,Allows users to override if an item is not at a circ desk authorized to service the item’s shelving location,Y
+OLE10315,OLE70096,1,1,OLE-DLVR,Item not at circ desk authorized to service the items shelving location,Allows users to override if an item is not at a circ desk authorized to service the items shelving location,Y
 OLE10316,OLE70097,1,58,OLE-CAT,Global Edit of Holdings/Items/EHoldings,Allows users to edit multiple OLE Instances by making the same changes to all affected OLE Instances,Y
 OLE10317,OLE70098,1,1,OLE-CAT,Create Analytics,Allows users to Create 'analytics' links between a series holdings record and one or more analytics holdings records.,Y
 OLE10318,OLE70099,1,66,OLE-SELECT,Edit Enumeration Main Receipt History,Allows user to edit Enumeration field in Main Receipt History in serial receiving record.,Y

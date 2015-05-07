@@ -223,54 +223,7 @@ public class OleCalendarController extends MaintenanceDocumentController {
     public void setOleCalendarService(OleCalendarService oleCalendarService) {
         this.oleCalendarService = oleCalendarService;
     }
-    @RequestMapping(params = "methodToCall=" + "calendarWeekDelete")
-    public ModelAndView calendarWeekDelete(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
-        OleCalendar oleCalendar = (OleCalendar) document.getNewMaintainableObject().getDataObject();
-        oleCalendar.getOleCalendarWeekDeleteList().add(oleCalendar.getOleCalendarWeekList().get(Integer.parseInt(selectedLineIndex)));
-        return deleteLine(form, result, request, response);
-    }
-    @RequestMapping(params = "methodToCall=" + "exceptionDayDelete")
-    public ModelAndView exceptionDayDelete(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
-        OleCalendar oleCalendar = (OleCalendar) document.getNewMaintainableObject().getDataObject();
-        oleCalendar.getOleCalendarExceptionDateDeleteList().add(oleCalendar.getOleCalendarExceptionDateList().get(Integer.parseInt(selectedLineIndex)));
-        return deleteLine(form, result, request, response);
-    }
-    @RequestMapping(params = "methodToCall=" + "exceptionPeriodListDelete")
-    public ModelAndView exceptionPeriodListDelete(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
-        OleCalendar oleCalendar = (OleCalendar) document.getNewMaintainableObject().getDataObject();
-        oleCalendar.getOleCalendarExceptionPeriodDeleteList().add(oleCalendar.getOleCalendarExceptionPeriodList().get(Integer.parseInt(selectedLineIndex)));
-        if(!oleCalendar.getOleCalendarExceptionPeriodList().get(Integer.parseInt(selectedLineIndex)).getExceptionPeriodType().equals("Holiday")){
-            oleCalendar.getOleCalendarExceptionPeriodDeleteWeekList().addAll(oleCalendar.getOleCalendarExceptionPeriodList().get(Integer.parseInt(selectedLineIndex)).getOleCalendarExceptionPeriodWeekList());
-        }
-        return deleteLine(form, result, request, response);
-    }
-    @RequestMapping(params = "methodToCall=" + "exceptionPeriodWeekListDelete")
-    public ModelAndView exceptionPeriodWeekListDelete(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
-        OleCalendar oleCalendar = (OleCalendar) document.getNewMaintainableObject().getDataObject();
-        Map<String,String> actionParameters = form.getActionParameters();
-        String subCollectionIndex = actionParameters.get(UifParameters.SELECTED_LINE_INDEX);
-        String mainCollectionIndex = StringUtils.substringBefore(StringUtils.substringAfter(actionParameters.get(UifParameters.SELLECTED_COLLECTION_PATH), "["), "]");
-        OleCalendarExceptionPeriodWeek oleCalendarExceptionPeriodWeek = oleCalendar.getOleCalendarExceptionPeriodList().get(Integer.parseInt(mainCollectionIndex)).getOleCalendarExceptionPeriodWeekList().get(Integer.parseInt(subCollectionIndex));
-        if(oleCalendar.getCalendarId()!=null){
-            oleCalendar.getOleCalendarExceptionPeriodDeleteWeekList().add(oleCalendarExceptionPeriodWeek);    //inr list delete
-            oleCalendar.getOleCalendarExceptionPeriodList().get(Integer.parseInt(mainCollectionIndex)).getOleCalendarExceptionPeriodWeekList().remove(Integer.parseInt(subCollectionIndex));
-            return getUIFModelAndView(form);
-        }else{
-            oleCalendar.getOleCalendarExceptionPeriodDeleteWeekList().add(oleCalendarExceptionPeriodWeek);
-            return deleteLine(form, result, request, response);
-        }
-    }
+
     @RequestMapping(params = "methodToCall=" + "exceptionPeriodListAdd")
     public ModelAndView exceptionPeriodListAdd(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                                   HttpServletRequest request, HttpServletResponse response) throws Exception {

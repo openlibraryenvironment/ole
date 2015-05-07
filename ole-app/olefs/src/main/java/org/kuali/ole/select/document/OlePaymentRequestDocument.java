@@ -621,18 +621,26 @@ public class OlePaymentRequestDocument extends PaymentRequestDocument {
                 }
             }
 
-            if (this.getVendorDetail() != null && (!currencyTypeIndicator)) {
-                Long currencyTypeId = this.getVendorDetail().getCurrencyType().getCurrencyTypeId();
-                Map documentNumberMap = new HashMap();
-                documentNumberMap.put(OleSelectConstant.CURRENCY_TYPE_ID, currencyTypeId);
-                List<OleExchangeRate> exchangeRateList = (List) getBusinessObjectService().findMatchingOrderBy(OleExchangeRate.class, documentNumberMap, OleSelectConstant.EXCHANGE_RATE_DATE, false);
-                Iterator iterator = exchangeRateList.iterator();
-                for (OlePaymentRequestItem items : item) {
-                    iterator = exchangeRateList.iterator();
-                    if (iterator.hasNext()) {
-                        OleExchangeRate tempOleExchangeRate = (OleExchangeRate) iterator.next();
-                        items.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
-                        this.setForeignVendorInvoiceAmount(this.getVendorInvoiceAmount().bigDecimalValue().multiply(tempOleExchangeRate.getExchangeRate()));
+            OleInvoiceDocument oleInvoiceDocument = SpringContext.getBean(BusinessObjectService.class)
+                    .findBySinglePrimaryKey(OleInvoiceDocument.class, this.getInvoiceIdentifier());
+
+            if(oleInvoiceDocument.getInvoiceCurrencyTypeId() != null && oleInvoiceDocument.getForeignVendorInvoiceAmount() != null && oleInvoiceDocument.getInvoiceCurrencyExchangeRate() != null) {
+                        this.setForeignVendorInvoiceAmount(this.getVendorInvoiceAmount().bigDecimalValue().multiply(new BigDecimal(oleInvoiceDocument.getInvoiceCurrencyExchangeRate())));
+            }
+            else {
+                if (this.getVendorDetail() != null && (!currencyTypeIndicator)) {
+                    Long currencyTypeId = this.getVendorDetail().getCurrencyType().getCurrencyTypeId();
+                    Map documentNumberMap = new HashMap();
+                    documentNumberMap.put(OleSelectConstant.CURRENCY_TYPE_ID, currencyTypeId);
+                    List<OleExchangeRate> exchangeRateList = (List) getBusinessObjectService().findMatchingOrderBy(OleExchangeRate.class, documentNumberMap, OleSelectConstant.EXCHANGE_RATE_DATE, false);
+                    Iterator iterator = exchangeRateList.iterator();
+                    for (OlePaymentRequestItem items : item) {
+                        iterator = exchangeRateList.iterator();
+                        if (iterator.hasNext()) {
+                            OleExchangeRate tempOleExchangeRate = (OleExchangeRate) iterator.next();
+                            items.setItemExchangeRate(new KualiDecimal(tempOleExchangeRate.getExchangeRate()));
+                            this.setForeignVendorInvoiceAmount(this.getVendorInvoiceAmount().bigDecimalValue().multiply(tempOleExchangeRate.getExchangeRate()));
+                        }
                     }
                 }
 

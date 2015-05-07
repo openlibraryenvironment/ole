@@ -20,7 +20,9 @@ import java.util.List;
 
 import org.junit.Test;
 import org.kuali.ole.ConfigureContext;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.module.purap.businessobject.ContractManagerAssignmentDetail;
 import org.kuali.ole.module.purap.fixture.ContractManagerAssignmentDocumentFixture;
@@ -48,7 +50,7 @@ import static junit.framework.TestCase.fail;
  * <p/>
  * To run, change the value of SETUP_PERFORMANCE_TESTS to true.
  */
-public class PurapPerformanceDocumentTest extends KualiTestBase {
+public class PurapPerformanceDocumentTest extends KFSTestCaseBase {
 
     protected RequisitionDocument requisitionDocument = null;
     protected boolean SETUP_PERFORMANCE_TESTS = false; // Set to true locally to setup performance tests.

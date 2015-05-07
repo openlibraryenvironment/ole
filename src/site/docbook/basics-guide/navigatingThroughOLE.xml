@@ -27,11 +27,12 @@
             displays e-docs and interfaces for cataloging processes.  The<emphasis role="bold"
                 >Select/Acquire</emphasis> tab displays the list of transactions and functions that
             are associated with the financial processes and purchases as well as the E-Resources and
-            Licensing, the beginning feature of electronic resource management. The <emphasis
-                role="bold">Maintenance</emphasis> tab includes the related maintenance documents
-            for the four other tabs.  The <emphasis role="bold">Administration</emphasis> menu tab
-            displays the list of functions that only technical staff or super users in the
-            functional area are likely to use. </para>
+            Licensing, the beginning feature of electronic resource management (more development is
+            scheduled for 2.0). The <emphasis role="bold">Maintenance</emphasis> tab includes the
+            related maintenance documents for the four other tabs.  The <emphasis role="bold"
+                >Administration</emphasis> menu tab displays the list of functions that only
+            technical staff or super users in the functional area are likely to use.  It also
+            contains batch processing e-docs and interfaces.</para>
         <tip>
             <para> Bookmark any page within OLE.  This will allow you to easily navigate back to an
                 interface or e-doc in one click, just log in. </para>
@@ -53,7 +54,7 @@
             <para> The Deliver menu lists interfaces and electronic documents that persons with
                 circulation permissions may access. </para>
             <para role="TableHeading"><emphasis role="bold">Deliver Menu Submenus</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -114,7 +115,7 @@
             <para> The Describe menu lists interfaces and electronic documents that persons with
                 cataloging permissions may access. </para>
             <para role="TableHeading"><emphasis role="bold">Describe Menu Submenus</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -134,7 +135,8 @@
                             </entry>
                             <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                 <para role="Table Cells"> Allows for the management of library
-                                    records: editors, bound-withs, transfers, import. </para>
+                                    records: editors for single records, global edits of holdings,
+                                    items and e-holdings. </para>
                             </entry>
                         </row>
                         <row>
@@ -194,7 +196,7 @@
                 departmental users are usually allowed to initiate. </para>
             <para role="TableHeading"><emphasis role="bold">Select/Acquire Menu
                 Submenus</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -265,8 +267,10 @@
                             <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                 <para role="Table Cells">Electronic Resources</para>
                             </entry>
-                            <entry colname="col2" colsep="1" rowsep="1" valign="top">Allows users to
-                                create and search E-Resource Records.</entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Allows users to create and search
+                                    E-Resource Records.</para>
+                            </entry>
                         </row>
                         <row>
                             <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -285,7 +289,7 @@
                                 <para role="Table Cells">Allows access to view various types of
                                     loaded records. Imports are done from the <emphasis role="bold"
                                         >Batch Processes</emphasis> submenu on the <emphasis
-                                        role="bold">Admin</emphasis>menu tab.</para>
+                                        role="bold">Admin</emphasis> menu tab.</para>
                             </entry>
                         </row>
                         <row>
@@ -350,7 +354,7 @@
                 edit the maintenance tables. </para>
             <para role="TableHeading"><emphasis role="bold">Maintenance Menu
                 Submenus</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -469,9 +473,9 @@
                 <para>The Admin submenu, often noted as "xxx Admin" where xxx is the name of another
                     submenu, provides access to a variety of user-defined reference tables that are
                     essential to OLE. These tables define attributes the system uses to validate
-                    transactions and allow users to look up values as necessary. The tables also
-                    control the often-complex relationship between elements for internal and
-                    external reporting. For example, OLE relies on maintenance tables for basic
+                    e-documents and interfaces and allow users to look up values as necessary. The
+                    tables also control the often-complex relationship between elements for internal
+                    and external reporting. For example, OLE relies on maintenance tables for basic
                     information such as the sub-fund groups to which new accounts may be assigned
                     and the calendar month that correlates to the first month of your institution's
                     fiscal year. This table-controlled flexibility is one of the features that make
@@ -517,6 +521,10 @@
                 users to: </para>
             <itemizedlist>
                 <listitem>
+                    <para>Import and export bibliographic, holding, item and e-holding records
+                        through batch processes</para>
+                </listitem>
+                <listitem>
                     <para>Support the Kuali Identity Management (KIM) module</para>
                 </listitem>
                 <listitem>
@@ -539,7 +547,7 @@
                     the lookup screens but may not be able to access other options at all. </para>
             </note>
             <para role="TableHeading"><emphasis role="bold">Admin Menu Submenus</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -591,8 +599,8 @@
                                 <para role="Table Cells">Documentation</para>
                             </entry>
                             <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                <para role="Table Cells"> Provides links to user documentation and
-                                    OLE resources. </para>
+                                <para role="Table Cells"> Provides links to OLE's user
+                                    documentation.</para>
                             </entry>
                         </row>
                         <row>
@@ -717,7 +725,7 @@
                 system. The following table briefly outlines the basic tools. </para>
             <para/>
             <para role="TableHeading"><emphasis role="bold">Basic OLE Tools</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -841,7 +849,7 @@
     </section>
     <section>
         <title>Logging On and Off OLE</title>
-        <para> When launching OLE's demo and test environment, you will be automatically logged in
+        <para> When launching OLE's demo and test environments, you will be automatically logged in
             with the default user id: ole-quickstart. </para>
         <para/>
         <para>
@@ -862,7 +870,7 @@
     </section>
     <section>
         <title><anchor xml:id="switchingUsers"/>Switching Users</title>
-        <para> In OLE's demo and test environment, you have the ability to simulate being logged in
+        <para> In OLE's demo and test environments, you have the ability to simulate being logged in
             as various users (sample users noted below). To accomplish this, type the user id you
             wish to login as into the text entry box next to the Login button and click Login. </para>
         <para/>

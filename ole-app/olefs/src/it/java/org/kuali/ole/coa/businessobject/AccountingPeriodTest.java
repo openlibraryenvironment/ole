@@ -18,7 +18,9 @@ package org.kuali.ole.coa.businessobject;
 import java.sql.Date;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.coa.businessobject.AccountingPeriod;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -28,7 +30,7 @@ import static junit.framework.Assert.assertEquals;
 /**
  * This class tests the AccountingPeriod business object.
  */
-public class AccountingPeriodTest extends KualiTestBase {
+public class AccountingPeriodTest extends KFSTestCaseBase {
     AccountingPeriod ap;
     public static final boolean BUDGET_ROLLOVER_IND = true;
     public static final String GUID = "123456789012345678901234567890123456";

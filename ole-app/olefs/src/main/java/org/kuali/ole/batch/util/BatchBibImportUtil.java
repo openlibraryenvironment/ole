@@ -43,20 +43,10 @@ public class BatchBibImportUtil {
         String entryDataField = null;
         String entryInds = null;
         String entrySubField = null;
-        String entryPrefix = null;
         if (dataFiledsArray.length == 3) {
-
-            if(dataFiledsArray[2].length() == 2) {
-                entryDataField = dataFiledsArray[0];
-                entryInds = dataFiledsArray[1];
-                entrySubField = dataFiledsArray[2];
-            }
-            else {
-                entryDataField = dataFiledsArray[0];
-                entryInds = "##";
-                entrySubField = dataFiledsArray[1];
-                entryPrefix = dataFiledsArray[2];
-            }
+            entryDataField = dataFiledsArray[0];
+            entryInds = dataFiledsArray[1];
+            entrySubField = dataFiledsArray[2];
         } else if (dataFiledsArray.length == 2) {
             entryDataField = dataFiledsArray[0];
             entryInds = "##";
@@ -71,12 +61,6 @@ public class BatchBibImportUtil {
                 }
                 return null;
             }
-        } else if (dataFiledsArray.length == 4) {
-            entryDataField = dataFiledsArray[0];
-            entryInds = dataFiledsArray[1];
-            entrySubField = dataFiledsArray[2];
-            entryPrefix = dataFiledsArray[3];
-            entryPrefix = entryPrefix.replace("*","");
         }
         List<String> dataFields = new ArrayList<>();
         String ind1 = "";
@@ -106,12 +90,7 @@ public class BatchBibImportUtil {
                             String code = subFieldsArray[i];
                             for (SubField subField : dataField.getSubFields()) {
                                 if (subField.getCode().equalsIgnoreCase(code)) {
-                                    if(StringUtils.isEmpty(entryPrefix)) {
-                                        subFieldValue.append(subField.getValue());
-                                    }
-                                    else if (subField.getValue().contains(entryPrefix)) {
-                                        subFieldValue.append(subField.getValue());
-                                    }
+                                    subFieldValue.append(subField.getValue());
                                 }
                             }
                         }
@@ -373,16 +352,8 @@ public class BatchBibImportUtil {
         } else {
 
             String[] matchRecordSplit = dataField.split(" ");
-
-            String subFieldCode = "";
-            for(String s : matchRecordSplit) {
-                if (s.contains("$")) {
-                    subFieldCode = s.substring(s.length() - 1);
-                    break;
-                }
-            }
-
-            dataFieldWithout$ = matchRecordSplit[0] + subFieldCode;
+            String fullSubField = matchRecordSplit[matchRecordSplit.length - 1];
+            dataFieldWithout$ = matchRecordSplit[0] + fullSubField.substring(fullSubField.length() - 1);
         }
         return OLEConstants.PREFIX_FOR_DATA_FIELD + dataFieldWithout$;
     }

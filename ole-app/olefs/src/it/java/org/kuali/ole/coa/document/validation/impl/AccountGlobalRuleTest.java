@@ -18,11 +18,13 @@ package org.kuali.ole.coa.document.validation.impl;
 import static org.kuali.ole.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.coa.businessobject.AccountGlobal;
 import org.kuali.ole.coa.document.validation.impl.AccountGlobalRule;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
-public class AccountGlobalRuleTest extends ChartRuleTestBase {
+public class AccountGlobalRuleTest extends KFSTestCaseBase {
 
     private class Accounts {
         private class ChartCode {

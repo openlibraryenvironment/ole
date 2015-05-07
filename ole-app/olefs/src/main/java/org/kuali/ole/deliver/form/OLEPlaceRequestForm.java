@@ -2,7 +2,7 @@ package org.kuali.ole.deliver.form;
 
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.bo.OleTitleLevelRequestItem;
-import org.kuali.ole.docstore.common.document.Item;
+import org.kuali.rice.kim.impl.identity.address.EntityAddressBo;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 import java.sql.Date;
@@ -22,6 +22,8 @@ public class OLEPlaceRequestForm extends UifFormBase {
     private String patronId;
     private String patronType;
     private String patronName;
+    private String PatronFirstName;
+    private EntityAddressBo oleEntityAddressBo;
     private boolean processRequest=false;
     private String requestLevel;
     private String requestType;
@@ -55,6 +57,77 @@ public class OLEPlaceRequestForm extends UifFormBase {
     private List<OleTitleLevelRequestItem> titleLevelRequestItems;
     private boolean patronFound;
     private String itemType;
+    private String newPrincipalId;
+    private String loanLoginName;
+    private boolean overrideFlag;
+    private String overrideLoginMessage;
+    private String overrideErrorMessage;
+    private boolean blockSubmit=false;
+    private String existingAddressType;
+
+    public String getPatronFirstName() {
+        return PatronFirstName;
+    }
+
+    public void setPatronFirstName(String patronFirstName) {
+        PatronFirstName = patronFirstName;
+    }
+
+    public EntityAddressBo getOleEntityAddressBo() {
+        return oleEntityAddressBo;
+    }
+
+    public void setOleEntityAddressBo(EntityAddressBo oleEntityAddressBo) {
+        this.oleEntityAddressBo = oleEntityAddressBo;
+    }
+
+    public boolean isBlockSubmit() {
+        return blockSubmit;
+    }
+
+    public void setBlockSubmit(boolean blockSubmit) {
+        this.blockSubmit = blockSubmit;
+    }
+
+    public String getOverrideErrorMessage() {
+        return overrideErrorMessage;
+    }
+
+    public void setOverrideErrorMessage(String overrideErrorMessage) {
+        this.overrideErrorMessage = overrideErrorMessage;
+    }
+
+    public String getOverrideLoginMessage() {
+        return overrideLoginMessage;
+    }
+
+    public void setOverrideLoginMessage(String overrideLoginMessage) {
+        this.overrideLoginMessage = overrideLoginMessage;
+    }
+
+    public boolean isOverrideFlag() {
+        return overrideFlag;
+    }
+
+    public void setOverrideFlag(boolean overrideFlag) {
+        this.overrideFlag = overrideFlag;
+    }
+
+    public String getLoanLoginName() {
+        return loanLoginName;
+    }
+
+    public void setLoanLoginName(String loanLoginName) {
+        this.loanLoginName = loanLoginName;
+    }
+
+    public String getNewPrincipalId() {
+        return newPrincipalId;
+    }
+
+    public void setNewPrincipalId(String newPrincipalId) {
+        this.newPrincipalId = newPrincipalId;
+    }
 
     public boolean isBlockOverride() {
         return blockOverride;
@@ -366,5 +439,13 @@ public class OLEPlaceRequestForm extends UifFormBase {
 
     public void setItemType(String itemType) {
         this.itemType = itemType;
+    }
+
+    public String getExistingAddressType() {
+        return existingAddressType;
+    }
+
+    public void setExistingAddressType(String existingAddressType) {
+        this.existingAddressType = existingAddressType;
     }
 }

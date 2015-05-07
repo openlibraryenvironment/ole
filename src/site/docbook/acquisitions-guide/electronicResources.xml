@@ -54,7 +54,7 @@
             print materials that includes placing orders, receiving orders, claiming orders, and
             paying for orders, acquiring electronic materials and tracking their life cycle has
             required additional interfaces and electronic documents.</para>
-        <para>In 1.5, initial development includes the E-Resource Record and its associated
+        <para>In 1.0, initial development included the E-Resource Record and its associated
             maintenance documents. The E-Resource Record provides a place to store and view
             information about an electronic resource acquisition, including the title(s) involved
             and the content provider. Within the OLE user interface, the E-Resource Record presents
@@ -78,7 +78,7 @@
                 search, and maintain E-Resource records.</para>
             <para> An E-Resource Record is a tool for collecting and storing life cycle management
                 data for electronic resources , including the title(s) involved, acquisitions and
-                licensing information, and workflow status . In the 1.5 release, the E-Resource
+                licensing information, and workflow status . In the 1.6 release, the E-Resource
                 Record is the starting point for OLE's licensing workflow. In later releases, users
                 will also be able to kick off trial workflows from this document. </para>
             <note>
@@ -97,58 +97,69 @@
                     </imageobject>
                 </inlinemediaobject></para>
             <para>The navigation bar includes:</para>
-            <table frame="all">
-                <title>E-Resource Navigation Descriptions</title>
-                <tgroup cols="2">
-                    <colspec colname="c1" colnum="1"/>
-                    <colspec colname="c2" colnum="2"/>
-                    <thead>
-                        <row>
-                            <entry>Tab Name</entry>
-                            <entry>Description</entry>
-                        </row>
-                    </thead>
+                        <para role="TableHeading"><emphasis role="bold">E-Resource Navigation Descriptions</emphasis></para>
+                        <informaltable frame="topbot">
+                            <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
                     <tbody>
                         <row>
-                            <entry>Main</entry>
-                            <entry>Displays the primary data elements and includes tabs for
-                                acquisitions, selection and access.</entry>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Tab Name</para></entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para></entry>
                         </row>
                         <row>
-                            <entry>Instances</entry>
-                            <entry> Users can manage the relationship between the E-Resource Record
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Main</para></entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Displays the primary data elements and includes tabs for
+                                acquisitions, selection and access.</para></entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Instances</para></entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells"> Users can manage the relationship between the E-Resource Record
                                 and OLE Instances and/or OLE E-Instances. In future releases, users
-                                will be able to import and manage data from GOKb</entry>
+                                will be able to import and manage data from GOKb</para></entry>
                         </row>
                         <row>
-                            <entry>Purchase Orders</entry>
-                            <entry> Displays and links to any purchase orders associated with an
-                                E-instance / Instance related to this E-Resource in 1.5. Also
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Purchase Orders</para></entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells"> Displays and links to any purchase orders associated with an
+                                E-instance / Instance related to this E-Resource in 1.6. Also
                                 included at the top of the purchase order list is the sum of all
                                 payments for all purchase order line items linked to that E-Resource
-                                per fiscal year. </entry>
+                                per fiscal year.</para></entry>
                         </row>
                         <row>
-                            <entry>Invoices</entry>
-                            <entry> Displays any invoices for any purchase orders associated with
-                                this E-Resource (see above). </entry>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Invoices</para></entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Displays any invoices for any purchase orders associated with
+                                this E-Resource (see above). </para></entry>
                         </row>
                         <row>
-                            <entry>Licenses</entry>
-                            <entry>Displays license information from any License Requests an
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Licenses</para></entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Displays license information from any License Requests an
                                 E-Resource Record is linked to. Users may also start a new License
-                                Request from this tab.</entry>
+                                Request from this tab.</para></entry>
                         </row>
                         <row>
-                            <entry>Event Log</entry>
-                            <entry>Allows staff to store correspondence between libraries and
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Event Log</para></entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Allows staff to store correspondence between libraries and
                                 publishers, vendors, etc. as well as notes about external
                                 activities. Some system-generated events are added
-                                automatically.</entry>
+                                automatically.</para></entry>
                         </row>
-                    </tbody>
-                </tgroup>
-            </table>
+                    </tbody></tgroup>
+                        </informaltable>
             <tip>
                 <para> Click <emphasis role="bold">save</emphasis> when you have completed your work
                     in one tab before moving on to the next. Prepopulated fields will be filled and
@@ -201,7 +212,7 @@
                     <para/>
                     <para role="TableHeading"><emphasis role="bold">Overview Tab
                             Definitions</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -305,7 +316,7 @@
                 <section>
                     <title>Workflow Status Tab</title>
                     <para>The <emphasis role="bold">Workflow Status</emphasis> tab is used in the
-                        1.5 release to display the status of a License Request created from the
+                        1.6 release to display the status of a License Request created from the
                         E-Resource, In future releases, it will also display the status of a linked
                         trial, purchase, or access/activation.</para>
                     <para> The checkbox in the Needed? column is used to indicate whether  a trial
@@ -343,7 +354,7 @@
                     <para/>
                     <para role="TableHeading"><emphasis role="bold">Acquisitions Tab
                             Definitions</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -451,12 +462,12 @@
                                     </entry>
                                 </row>
                                 <row>
-                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">Order
-                                        Type</entry>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"><para role="Table Cells">Order
+                                        Type</para></entry>
                                     <entry colname="col2" colsep="0" rowsep="1" valign="top"
-                                        >Indicates the type of order, for example subscription or
+                                        ><para role="Table Cells">Indicates the type of order, for example subscription or
                                         standing. In a future release, this will be used to populate
-                                        Purchase Orders created for this E-Resource.</entry>
+                                        Purchase Orders created for this E-Resource.</para></entry>
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -492,7 +503,7 @@
                                     <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                         <para role="Table Cells">This field is meant to display the
                                             accounting information from Purchase Orders and
-                                            Invoices. However in 1.5, the lookup will display the
+                                            Invoices. However in 1.6, the lookup will display the
                                             Vendor Reference Number.</para>
                                         <note>
                                             <para>The bug has been documented and further coding is
@@ -524,7 +535,7 @@
                     <para/>
                     <para role="TableHeading"><emphasis role="bold">Selection Tab
                             Definitions</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -621,7 +632,7 @@
                     <para/>
                     <para role="TableHeading"><emphasis role="bold">Access Tab
                             Definitions</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -957,7 +968,7 @@
                     </orderedlist>
                     <para/>
                     <tip>
-                        <para> Important : As of 1.5, you MUST click “save” on the Instances menu of
+                        <para> Important : As of 1.6, you MUST click “save” on the Instances menu of
                             the E-Resource before the link to an Instance or E-instance is actually
                             saved. </para>
                     </tip>
@@ -1101,7 +1112,7 @@
                 <section>
                     <title>Licenses Tab</title>
                     <para>Once a License Request has been started, its summary information will
-                        appear in this tab. As of 1.5, this includes Status of the License Request,
+                        appear in this tab. As of 1.6, this includes Status of the License Request,
                         Last Modified Date, License Request Title, and information about any
                         Attachments. Click on the <emphasis role="bold">License Title</emphasis> to
                         open and view or edit the License Request.</para>
@@ -1188,7 +1199,7 @@
                     <para role="Normal"/>
                     <para role="TableHeading"><emphasis role="bold">Event Log tab
                             Definitions</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -1229,21 +1240,21 @@
                                         <para role="Table Cells">User</para>
                                     </entry>
                                     <entry colname="col2" colsep="0" rowsep="1" valign="top"
-                                        >Required. Logs the user id of the person associated with
+                                        ><para role="Table Cells">Required. Logs the user id of the person associated with
                                         the event log change. Defaults to current user but can be
                                         modified by entering a name or searching from the lookup <inlinemediaobject>
                                             <imageobject>
                                                 <imagedata fileref="../images/Lookup.png"/>
                                             </imageobject>
-                                        </inlinemediaobject></entry>
+                                        </inlinemediaobject></para></entry>
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top"
-                                        >Note</entry>
-                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        ><para role="Table Cells">Note</para></entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top"><para role="Table Cells">
                                         Required; may be manually added or system generated. Users
                                         may input information to provide audit trail information.
-                                        System also records what events have occurred. </entry>
+                                        System also records what events have occurred. </para></entry>
                                 </row>
                             </tbody>
                         </tgroup>
@@ -1424,7 +1435,7 @@
                     Criteria</emphasis> button can be used if you need to use more than 3 search
                 criteria. </para>
             <note>
-                <para> As of 1.5, the search is performing a begins with search. You may use the ‘*’
+                <para> As of 1.6, the search is performing a begins with search. You may use the ‘*’
                     character as a wildcard before and / or after any search term(s) you enter. See
                         <link
                         xlink:href="../../../webhelp/BASICS/content/ch02s04.html#_usingSpecialCharactersInSearch"

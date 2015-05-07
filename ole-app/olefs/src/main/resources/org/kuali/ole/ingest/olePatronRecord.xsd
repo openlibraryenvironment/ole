@@ -107,6 +107,7 @@
             <xs:element name="addressVerified" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
             <xs:element name="default" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
             <xs:element name="active" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="deliverAddress" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="emailAddress">

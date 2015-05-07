@@ -13,6 +13,7 @@ import org.kuali.ole.deliver.batch.OleNoticeBo;
 import org.kuali.ole.deliver.batch.OleSms;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.ItemOleml;
@@ -66,6 +67,18 @@ public class OLEASRPlaceRequestHelperServiceImpl {
     private int queuePosition = 0;
     private LoanProcessor loanProcessor = new LoanProcessor();
     private DocstoreUtil docstoreUtil = new DocstoreUtil();
+    private CircDeskLocationResolver circDeskLocationResolver;
+
+    private CircDeskLocationResolver getCircDeskLocationResolver() {
+        if (circDeskLocationResolver == null) {
+            circDeskLocationResolver = new CircDeskLocationResolver();
+        }
+        return circDeskLocationResolver;
+    }
+
+    public void setCircDeskLocationResolver(CircDeskLocationResolver circDeskLocationResolver) {
+        this.circDeskLocationResolver = circDeskLocationResolver;
+    }
 
     private PermissionService getPermissionService() {
         PermissionService service = KimApiServiceLocator.getPermissionService();
@@ -559,7 +572,7 @@ public class OLEASRPlaceRequestHelperServiceImpl {
                 content = content.replace(']', ' ');
                 if (!content.trim().equals("")) {
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
                         oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.CANCELLATION_NOTICE), new EmailBody(content), true);
                     } else {
@@ -1080,7 +1093,7 @@ public class OLEASRPlaceRequestHelperServiceImpl {
                 content = content.replace(']', ' ');
                 if (!content.trim().equals("")) {
                     OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                    String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                    String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                     if (replyToEmail != null) {
                         oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(content), true);
                     } else {
@@ -1337,7 +1350,7 @@ public class OLEASRPlaceRequestHelperServiceImpl {
                     noticeContent = noticeContent.replace(']', ' ');
                     if (!noticeContent.trim().equals("")) {
                         OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                        String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                        String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                         if (replyToEmail != null) {
                             oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(noticeContent), true);
                         } else {
@@ -1427,6 +1440,7 @@ public class OLEASRPlaceRequestHelperServiceImpl {
             OleDeliverRequestHistoryRecord oleDeliverRequestHistoryRecord = new OleDeliverRequestHistoryRecord();
             oleDeliverRequestHistoryRecord.setRequestId(oleDeliverRequestBo.getRequestId());
             oleDeliverRequestHistoryRecord.setItemId(oleDeliverRequestBo.getItemId());
+            oleDeliverRequestHistoryRecord.setPatronId(oleDeliverRequestBo.getOlePatron()!=null?oleDeliverRequestBo.getOlePatron().getOlePatronId():null);
             oleDeliverRequestHistoryRecord.setArchiveDate(new java.sql.Date(System.currentTimeMillis()));
             oleDeliverRequestHistoryRecord.setPickUpLocationCode(oleDeliverRequestBo.getPickUpLocationCode());
             oleDeliverRequestHistoryRecord.setOperatorId(OperatorId);
@@ -1590,7 +1604,7 @@ public class OLEASRPlaceRequestHelperServiceImpl {
                     Integer maxNumberOfDaysOnHold = 0;
                     OleCirculationDesk oleCirculationDesk = null;
                     if (oleLoanDocument.getCirculationLocationId() != null) {
-                        oleCirculationDesk = loanProcessor.getOleCirculationDesk(oleLoanDocument.getCirculationLocationId());
+                        oleCirculationDesk = getCircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId());
                         String maxNumOfDays = oleCirculationDesk.getOnHoldDays() != null ? oleCirculationDesk.getOnHoldDays() : loanProcessor.getParameter(OLEConstants.MAX_NO_OF_DAYS_ON_HOLD);
                         maxNumberOfDaysOnHold = new Integer(maxNumOfDays);
                     }
@@ -1693,7 +1707,7 @@ public class OLEASRPlaceRequestHelperServiceImpl {
                             noticeContent = noticeContent.replace(']', ' ');
                             if (!noticeContent.trim().equals("")) {
                                 OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
-                                String replyToEmail = getLoanProcessor().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
+                                String replyToEmail = getCircDeskLocationResolver().getReplyToEmail(oleNoticeBo.getItemShelvingLocation());
                                 if (replyToEmail != null) {
                                     oleMailer.sendEmail(new EmailFrom(replyToEmail), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(noticeContent), true);
                                 } else {
@@ -1739,7 +1753,7 @@ public class OLEASRPlaceRequestHelperServiceImpl {
                 Integer maxNumberOfDaysOnHold = 0;
                 OleCirculationDesk oleCirculationDesk = null;
                 if (oleDeliverRequestBo.getPickUpLocationId() != null) {
-                    oleCirculationDesk = loanProcessor.getOleCirculationDesk(oleDeliverRequestBo.getPickUpLocationId());
+                    oleCirculationDesk = getCircDeskLocationResolver().getOleCirculationDesk(oleDeliverRequestBo.getPickUpLocationId());
                     String maxNumOfDays = oleCirculationDesk.getOnHoldDays() != null ? oleCirculationDesk.getOnHoldDays() : loanProcessor.getParameter(OLEConstants.MAX_NO_OF_DAYS_ON_HOLD);
                     maxNumberOfDaysOnHold = new Integer(maxNumOfDays);
                 }

@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OLEItemNoteResultDisplayRow;
 import org.kuali.ole.deliver.bo.OLESingleItemResultDisplayRow;
@@ -13,6 +14,7 @@ import org.kuali.ole.docstore.common.document.content.bib.marc.DataField;
 import org.kuali.ole.docstore.common.document.content.bib.marc.SubField;
 import org.kuali.ole.docstore.common.document.content.bib.marc.xstream.BibMarcRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.Note;
+import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -86,7 +88,7 @@ public class OLEDeliverItemResultController extends UifControllerBase {
                     oleSingleItemResultDisplayRow.setBibIdentifier(bib.getId());
                     oleSingleItemResultDisplayRow.setTitle(bib.getTitle());
                     oleSingleItemResultDisplayRow.setAuthor(bib.getAuthor());
-                    oleSingleItemResultDisplayRow.setPublication(bib.getPublicationDate());
+                    oleSingleItemResultDisplayRow.setPublication(bib.getPublisher() +" "+ bib.getPublicationDate());
                     oleSingleItemResultDisplayRow.setIsbn(bib.getIsbn());
 
                     BibMarcRecordProcessor recordProcessor = new BibMarcRecordProcessor();
@@ -118,8 +120,14 @@ public class OLEDeliverItemResultController extends UifControllerBase {
                     oleSingleItemResultDisplayRow.setItemStatus(itemPojo.getItemStatus().getCodeValue());
                 if (itemPojo.getAccessInformation() != null)
                     oleSingleItemResultDisplayRow.setItemBarCode(itemPojo.getAccessInformation().getBarcode());
-                if (itemPojo.getCallNumber() != null)
+                if (itemPojo.getCallNumber() != null && StringUtils.isNotBlank(itemPojo.getCallNumber().getNumber())) {
                     oleSingleItemResultDisplayRow.setCallNumber(itemPojo.getCallNumber().getNumber());
+                } else if (item.getHolding() != null) {
+                    OleHoldings holdingsContent = item.getHolding().getContentObject();
+                    if (holdingsContent != null && holdingsContent.getCallNumber() != null && StringUtils.isNotBlank(holdingsContent.getCallNumber().getNumber())) {
+                        oleSingleItemResultDisplayRow.setCallNumber(holdingsContent.getCallNumber().getNumber());
+                    }
+                }
                 oleSingleItemResultDisplayRow.setClaimsReturnedFlag(String.valueOf(itemPojo.isClaimsReturnedFlag()));
                 if (itemPojo.isClaimsReturnedFlag()) {
                     oleSingleItemResultDisplayRow.setClaimsReturnedNote(itemPojo.getClaimsReturnedNote());
@@ -161,6 +169,9 @@ public class OLEDeliverItemResultController extends UifControllerBase {
             getOleDeliverItemSearchService().setOutstandingFineInfo(itemIdMap, oleSingleItemResultDisplayRow);
             getOleDeliverItemSearchService().setRequestHistoryInfo(oleSingleItemResultDisplayRow);
             getOleDeliverItemSearchService().setInTransitHistoryInfo(oleSingleItemResultDisplayRow);
+            getOleDeliverItemSearchService().setMissingPieceItemInfo(oleSingleItemResultDisplayRow);
+            getOleDeliverItemSearchService().setClaimsReturnedInfo(oleSingleItemResultDisplayRow);
+            getOleDeliverItemSearchService().setDamagedInfo(oleSingleItemResultDisplayRow);
         } catch (Exception e) {
             e.printStackTrace();
         }

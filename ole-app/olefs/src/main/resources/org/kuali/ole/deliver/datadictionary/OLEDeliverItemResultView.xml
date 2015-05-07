@@ -12,6 +12,7 @@
                 <bean id="OLEDeliverItemResultPage" parent="Uif-Page">
                     <property name="items">
                         <list>
+                            <ref bean="ExpandCollapse_buttons"/>
                             <ref bean="OLEDeliverItemSearchResult-BibInfo"/>
                             <ref bean="OLEDeliverItemSearchResult-ItemInfo"/>
                             <ref bean="OLEDeliverItemSearchResult-Borrower"/>
@@ -31,6 +32,11 @@
         <property name="additionalCssFiles">
             <list>
                 <value>ole/deliver/deliverItemSearch/css/deliverItemSearch.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ole/deliver/deliverItemSearch/script/deliverItemSearch.js</value>
             </list>
         </property>
     </bean>

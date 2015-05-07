@@ -588,6 +588,14 @@
                 <para>The process by which a library ends its subscription to a resource.</para>
             </glossdef>
         </glossentry>
+        <glossentry>
+            <glossterm>Cancelled Request Notice</glossterm>
+            <glossdef>
+                <para>Notice sent to a patron when a hold has been manually cancelled by the library
+                    staff.</para>
+                <glossseealso otherterm="notices">Notices</glossseealso>
+            </glossdef>
+        </glossentry>
         <glossentry xml:id="caption">
             <glossterm>Caption</glossterm>
             <glossdef>
@@ -1588,6 +1596,20 @@
                     capability.)</para>
             </glossdef>
         </glossentry>
+        <glossentry>
+            <glossterm>Expired Hold</glossterm>
+            <glossdef>
+                <para>See <link linkend="onHoldCourtesyNotice">On Hold Courtesy
+                    Notice</link>.</para>
+            </glossdef>
+        </glossentry>
+        <glossentry>
+            <glossterm>Expired Request Notice</glossterm>
+            <glossdef>
+                <para>Notice sent to a patron when the request has expired unfilled.</para>
+                <glossseealso otherterm="notices">Notices</glossseealso>
+            </glossdef>
+        </glossentry>
         <glossentry xml:id="exposeMetadata">
             <glossterm>Expose Metadata (Describe)</glossterm>
             <glossdef>
@@ -1886,6 +1908,21 @@
                 <glossseealso otherterm="staffOnly">Staff-only</glossseealso>
             </glossdef>
         </glossentry>
+        <glossentry>
+            <glossterm>Hold Courtesy / Expired Hold Notice</glossterm>
+            <glossdef>
+                <para>Notice sent to a patron when the length of time an item is on the hold shelf
+                    has passed.</para>
+                <glossseealso otherterm="notices">Notices</glossseealso>
+            </glossdef>
+        </glossentry>
+        <glossentry>
+            <glossterm>Hold Expiration Date</glossterm>
+            <glossdef>
+                <para>See <link linkend="requestExpirationDate">Request Expiration
+                    Date</link></para>
+            </glossdef>
+        </glossentry>
         <glossentry xml:id="holdRequest">
             <glossterm>Hold Request</glossterm>
             <glossdef>
@@ -1896,6 +1933,13 @@
                     first.</para>
                 <glossseealso otherterm="request">Request</glossseealso>
                 <glossseealso otherterm="recallRequest">Recall Request</glossseealso>
+            </glossdef>
+        </glossentry>
+        <glossentry>
+            <glossterm>Hold Slip</glossterm>
+            <glossdef>
+                <para>PDF printed at a circulation desk to place in a book to identify the patron
+                    for which the book is being held.</para>
             </glossdef>
         </glossentry>
         <glossentry xml:id="holdingDescription">
@@ -3014,6 +3058,21 @@
                     MODS holdings or any other format specific holdings.</para>
             </glossdef>
         </glossentry>
+        <glossentry xml:id="onHoldCourtesyNotice">
+            <glossterm>On Hold Courtesy Notice</glossterm>
+            <glossdef>
+                <para>Notice sent to a patron when a hold has expired and will be removed from the
+                    hold shelf.</para>
+                <glossseealso otherterm="notices">Notices</glossseealso>
+            </glossdef>
+        </glossentry>
+        <glossentry>
+            <glossterm>On Hold Notice</glossterm>
+            <glossdef>
+                <para>Notice sent to a patron when a hold is available for pick-up.</para>
+                <glossseealso otherterm="notices">Notices</glossseealso>
+            </glossdef>
+        </glossentry>
         <glossentry xml:id="ONIX">
             <glossterm>ONIX</glossterm>
             <glossdef>
@@ -3690,6 +3749,15 @@
                     interact with the library's "back office" system. </para>
                 <glossseealso otherterm="recallRequest">Recall Request</glossseealso>
                 <glossseealso otherterm="holdRequest">Hold Request</glossseealso>
+            </glossdef>
+        </glossentry>
+        <glossentry xml:id="requestExpirationDate">
+            <glossterm>Request Expiration Date</glossterm>
+            <glossdef>
+                <para>The date at which the hold will expire for a patron.  The date is equal to X
+                    days after the hold notice was sent (as defined in the Circulation Desk
+                    maintenance document) and calculated when hold notice batch processes are run.
+                    The date is editable from the request screen by staff.</para>
             </glossdef>
         </glossentry>
         <glossentry xml:id="requestService">

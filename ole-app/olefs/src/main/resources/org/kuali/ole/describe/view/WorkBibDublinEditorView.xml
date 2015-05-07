@@ -25,25 +25,25 @@
     <bean id="WorkBibDublinEditorView" parent="WorkBibDublinEditorView-parentBean"/>
 
     <bean id="WorkBibDublinEditorView-parentBean" parent="Uif-OLEFormView">
-        <property name="headerText" value="Bibliographic Editor - Dublin Core (Unqualified) Format"/>
+<!--        <property name="headerText" value="Bibliographic Editor - Dublin Core (Unqualified) Format"/>
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s01.html"/>
-                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
+                &lt;!&ndash;<property name="tooltipHelpContent" value="[Help] help"/>&ndash;&gt;
             </bean>
-        </property>
+        </property>-->
         <property name="items">
             <list>
                 <bean id="WorkBibDublinEditorViewPage" parent="Uif-Page">
-                    <property name="headerText" value="@{headerText}"/>
+<!--                    <property name="headerText" value="@{headerText}"/>
                     <property name="help">
                         <bean parent="Uif-Help">
                             <property name="externalHelpUrl"
                                       value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s01.html"/>
-                            <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
+                            &lt;!&ndash;<property name="tooltipHelpContent" value="[Help] help"/>&ndash;&gt;
                         </bean>
-                    </property>
+                    </property>-->
                     <property name="items">
                         <list>
                             <bean parent="Uif-SecondaryActionButton" p:actionLabel="Edit" p:actionScript="edit()" p:render="@{editable eq 'false'}"/>

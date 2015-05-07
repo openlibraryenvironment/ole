@@ -81,6 +81,9 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private boolean showRequestedItems;
     private boolean showTemporaryCirculationHistoryRecords;
 
+    private HashMap<String,String> errorsAndPermission = new HashMap<>();
+    private String errorMessage;
+    private boolean blockPatron;
     private String realPatronFirstName;
 
     private String realPatronLastName;
@@ -148,6 +151,30 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private String createBillUrl;
     private String namePrefix;
     private String nameSuffix;
+
+    public HashMap<String, String> getErrorsAndPermission() {
+        return errorsAndPermission;
+    }
+
+    public void setErrorsAndPermission(HashMap<String, String> errorsAndPermission) {
+        this.errorsAndPermission = errorsAndPermission;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public boolean isBlockPatron() {
+        return blockPatron;
+    }
+
+    public void setBlockPatron(boolean blockPatron) {
+        this.blockPatron = blockPatron;
+    }
 
     public void setBorrowerTypeName(String borrowerTypeName) {
         this.borrowerTypeName = borrowerTypeName;

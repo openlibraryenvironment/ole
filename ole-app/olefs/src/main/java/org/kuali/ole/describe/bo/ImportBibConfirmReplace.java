@@ -1,6 +1,7 @@
 package org.kuali.ole.describe.bo;
 
 import org.kuali.ole.docstore.common.document.Bib;
+import org.kuali.ole.docstore.common.document.HoldingsTree;
 import org.kuali.ole.docstore.model.bo.WorkBibDocument;
 import org.kuali.ole.docstore.model.xmlpojo.work.bib.marc.WorkBibMarcRecord;
 
@@ -17,6 +18,15 @@ public class ImportBibConfirmReplace {
     private String importTypeOverLay;
     private String importTypeOclcNum;
     private String matchPoint;
+    private HoldingsTree holdingsTree;
+
+    public HoldingsTree getHoldingsTree() {
+        return holdingsTree;
+    }
+
+    public void setHoldingsTree(HoldingsTree holdingsTree) {
+        this.holdingsTree = holdingsTree;
+    }
 
     public Bib getOverLayMarcRecord() {
         return overLayMarcRecord;

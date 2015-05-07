@@ -48,6 +48,7 @@ import org.kuali.ole.vnd.businessobject.ShippingPaymentTerms;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
 import org.kuali.ole.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -178,7 +179,7 @@ public class InvoiceDocument extends AccountsPayableDocumentBase {
      */
     @Override
     public boolean isInquiryRendered() {
-        if (isPostingYearPrior() && (getApplicationDocumentStatus().equals(InvoiceStatuses.APPDOC_DEPARTMENT_APPROVED) || getApplicationDocumentStatus().equals(InvoiceStatuses.APPDOC_AUTO_APPROVED) || getApplicationDocumentStatus().equals(InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE) || getApplicationDocumentStatus().equals(InvoiceStatuses.APPDOC_CANCELLED_IN_PROCESS))) {
+        if (isPostingYearPrior() && (getApplicationDocumentStatus().equals(InvoiceStatuses.APPDOC_DEPARTMENT_APPROVED) || getApplicationDocumentStatus().equals(InvoiceStatuses.APPDOC_AUTO_APPROVED) || getApplicationDocumentStatus().equals(InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE))) {
             return false;
         } else {
             return true;
@@ -682,7 +683,7 @@ public class InvoiceDocument extends AccountsPayableDocumentBase {
             PurApAccountingLine theAccount = getFirstAccount();
             String accountNumber = (theAccount != null ? StringUtils.trimToEmpty(theAccount.getAccountNumber()) : "n/a");
             String accountChart = (theAccount != null ? theAccount.getChartOfAccountsCode() : "");
-            String payDate = (new SimpleDateFormat("MM/dd/yyyy")).format(getInvoicePayDate());
+            String payDate = (new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE)).format(getInvoicePayDate());
             String indicator = getTitleIndicator();
 
             // set title to: PO# - VendorName - Chart/Account - total amt - Pay Date - Indicator (ie Hold, Request Cancel)
@@ -768,7 +769,7 @@ public class InvoiceDocument extends AccountsPayableDocumentBase {
 
                 if (ObjectUtils.isNotNull(nodeName)) {
                     if (((StringUtils.isBlank(disapprovalStatus)) && ((InvoiceStatuses.APPDOC_INITIATE.equals(getApplicationDocumentStatus())) || (InvoiceStatuses.APPDOC_IN_PROCESS.equals(getApplicationDocumentStatus()))))) {
-                        disapprovalStatus = InvoiceStatuses.APPDOC_CANCELLED_IN_PROCESS;
+                        disapprovalStatus = InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE;
                     }
                     if (StringUtils.isNotBlank(disapprovalStatus)) {
                         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, nodeName);
@@ -786,7 +787,7 @@ public class InvoiceDocument extends AccountsPayableDocumentBase {
                 if (StringUtils.isBlank(cancelledStatus) &&
                         StringUtils.isBlank(InvoiceStatuses.getInvoiceAppDocDisapproveStatuses().get(currentNodeName)) &&
                         (InvoiceStatuses.APPDOC_INITIATE.equals(getStatusCode()) || InvoiceStatuses.APPDOC_IN_PROCESS.equals(getStatusCode()))) {
-                    cancelledStatus = InvoiceStatuses.APPDOC_CANCELLED_IN_PROCESS;
+                    cancelledStatus = InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE;
                 }
                 //**END AZ**
 

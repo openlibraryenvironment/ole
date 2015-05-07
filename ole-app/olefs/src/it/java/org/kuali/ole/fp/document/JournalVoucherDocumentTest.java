@@ -29,9 +29,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.ole.ConfigureContext;
-import org.kuali.ole.DocumentTestUtils;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.*;
 import org.kuali.ole.coa.service.AccountingPeriodService;
 import org.kuali.ole.fixture.AccountingLineFixture;
 import org.kuali.ole.fixture.UserNameFixture;
@@ -61,7 +59,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This class is used to test JournalVoucherDocument.
  */
 
-public class JournalVoucherDocumentTest extends KualiTestBase {
+public class JournalVoucherDocumentTest extends KFSTestCaseBase {
 
     public static final Class<JournalVoucherDocument> DOCUMENT_CLASS = JournalVoucherDocument.class;
 

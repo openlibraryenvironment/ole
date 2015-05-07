@@ -142,18 +142,11 @@
                 </listitem>
                 <listitem>
                     <para role="Normal"><link
-                            xlink:href="https://docs.google.com/a/kuali.org/document/d/1-ENb0NdJOIql1tjmrvGyIdM7Z_eXk1rX44D_ploH7zs/edit#https%3A%2F%2Fdocs.google.com%2Fa%2Fkuali.org%2Fdocument%2Fd%2F1-ENb0NdJOIql1tjmrvGyIdM7Z_eXk1rX44D_ploH7zs%2Fedit"
-                            >Appendix- Initializing Chart of Accounts in OLE</link> (requires KIS
-                        credentials, see <link
+                            xlink:href="https://docs.google.com/a/kuali.org/spreadsheets/d/1OwcrVlTeXfVVRmm36MhOqBJDr4LnhH0g_2Rc-h6UzHA/edit#gid=1994137331"
+                            >Populating a Chart of Accounts</link> (requires KIS credentials, see
+                            <link
                             xlink:href="https://wiki.kuali.org/display/OLE/New+Members+-+Getting+Started+with+OLE"
                             >Getting Started with OLE</link>)</para>
-                    <para role="Normal">This additional document is a work-in-progress guide to
-                        library implementations of the Chart of Accounts. It provides guidelines and
-                        key definitions of the structures and attributes libraries will need to
-                        setup to start using our OLE <emphasis>fund and budget</emphasis>
-                        structures. It will continue to be posted on Google Docs and updated over
-                        time as we append functions for final university payments, Fiscal Year
-                        Rollover and university financial integrations.</para>
                 </listitem>
             </itemizedlist>
             <para role="Normal">In the OLE Test and Demo environments, OLE users are welcome to
@@ -390,7 +383,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Account Maintenance tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -1056,7 +1049,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Account Description tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -1282,7 +1275,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Sufficient Funds Check tab
                         description</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -1834,7 +1827,7 @@
                 fields are available for editing.</para>
             <para role="TableHeading"><emphasis role="bold">Edit Chart tab
                 definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -1860,7 +1853,7 @@
                             <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                 <para role="Table Cells">Chart Manager Principal Name</para>
                             </entry>
-                            <entry colname="col2" colsep="0" rowsep="1" valign="top">Required. The
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top"><para role="Table Cells">Required. The
                                 principal name of the manager responsible for a specific chart.
                                 Existing principal names may be retrieved from thelookup <inlinemediaobject>
                                     <imageobject>
@@ -1870,7 +1863,7 @@
                                 Manager, they will also be assigned to the role Chart Manager
                                 (OLE37). To avoid any errors, assign only one person to each chart.
                                 To reassign a chart to a new Manager, remove the person from OLE37
-                                first.</entry>
+                                first.</para></entry>
                         </row>
                         <row>
                             <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -2002,13 +1995,13 @@
                             <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                 <para role="Table Cells">External Encumbrance Object Code</para>
                             </entry>
-                            <entry colname="col2" colsep="0" rowsep="1" valign="top">The default
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top"><para role="Table Cells">The default
                                 object code to offset external encumbrances on the chart. Existing
                                 object codes may be retrieved from the lookup <inlinemediaobject>
                                     <imageobject>
                                         <imagedata fileref="../images/Lookup.png"/>
                                     </imageobject>
-                                </inlinemediaobject>.</entry>
+                                </inlinemediaobject>.</para></entry>
                         </row>
                         <row>
                             <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -2088,12 +2081,16 @@
         </section>
         <section>
             <title>Implementation Information</title>
-            <para>You must have at least one Chart in OLE.  It is recommended that if you only have
-                one Chart, that chart should report to itself.</para>
-            <para>A chart requires a Chart Manager.  As stated above, when a person is assigned as
-                the Chart Manager, they will also be assigned to the role Chart Manager (OLE37). To
-                avoid any errors, assign only one person as the manager for each chart. To assign a
-                new Chart Manager, remove the person from OLE37 first.</para>
+            <para>The chart code is the first thing to create when populating your chart of
+                accounts.  You must have at least one Chart in OLE. It is recommended that if you
+                only have one Chart, that chart should report to itself.</para>
+            <para>Associated documents of a chart: Requisition, Purchase Order, Account and Object
+                Code</para>
+            <para>A chart requires a Chart Manager. As stated in the descriptions above, when a
+                person is assigned as the Chart Manager, they will also be assigned to the role
+                Chart Manager (OLE37). To avoid any errors, assign only one person as the manager
+                for each chart. To assign a new Chart Manager, remove the person from OLE37
+                first.</para>
         </section>
     </section>
     <section>
@@ -2203,7 +2200,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Edit Object Code tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -2431,6 +2428,14 @@
                         </imageobject>
                     </inlinemediaobject></para>
             </section>
+        </section>
+        <section>
+            <title>Implementation Information</title>
+            <para>You must have at least one object code for each of the following Object Type
+                Codes: EX, AS, FB, and IN. For an example of minimal use object codes in OLE, see
+                the Chicago tab of the <link
+                    xlink:href="https://docs.google.com/a/kuali.org/spreadsheets/d/1Tj0Zefjh6xFpYM2JitfU3r48w7TnBIxh31q-H0sF9io/edit#gid=890795628"
+                    >CA_OBJECT_CODE_T spreadsheet</link>.</para>
         </section>
     </section>
     <section>
@@ -3128,6 +3133,7 @@
                 organization will be your top level organization - it must report to itself.
                 Without this organization, with Organization type U, you will not be able to assign
                 a person to the role of manager (OLE44) or others.</para>
+            <para>Organization is also associated with the Organization Reversion document.</para>
         </section>
     </section>
     <section>
@@ -3198,7 +3204,7 @@
                 sections. Selected data fields are available for editing.</para>
             <para role="TableHeading"><emphasis role="bold">Edit Project Code tab
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -3224,10 +3230,10 @@
                             <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                 <para role="Table Cells">Project Name</para>
                             </entry>
-                            <entry colname="col2" colsep="0" rowsep="1" valign="top">Required. Enter
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top"><para role="Table Cells">Required. Enter
                                 the long descriptive name. The name appears on the <emphasis
                                     role="bold">Accounting Lines </emphasis>tab in financial
-                                documents as well as in searches and reports.</entry>
+                                documents as well as in searches and reports.</para></entry>
                         </row>
                         <row>
                             <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -3255,14 +3261,14 @@
                             <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                 <para role="Table Cells">Chart Code</para>
                             </entry>
-                            <entry colname="col2" colsep="0" rowsep="1" valign="top">Required. Enter
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top"><para role="Table Cells">Required. Enter
                                 the chart code associated with the organization assigned to the
                                 project code, or search for it from the <emphasis role="bold">Chart
                                 </emphasis>lookup <inlinemediaobject>
                                     <imageobject>
                                         <imagedata fileref="../images/Lookup.png"/>
                                     </imageobject>
-                                </inlinemediaobject>.</entry>
+                                </inlinemediaobject>.</para></entry>
                         </row>
                         <row>
                             <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -3441,7 +3447,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Edit Sub-Account Code tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -4386,7 +4392,7 @@
                     >New</emphasis> sections. Selected data fields are available for editing.</para>
             <para role="TableHeading"><emphasis role="bold">Edit Responsibility Center tab
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -4412,8 +4418,8 @@
                             <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                 <para role="Table Cells">Responsibility Center Name</para>
                             </entry>
-                            <entry colname="col2" colsep="0" rowsep="1" valign="top">Required. The
-                                descriptive name of this responsibility center code.</entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top"><para role="Table Cells">Required. The
+                                descriptive name of this responsibility center code.</para></entry>
                         </row>
                         <row>
                             <entry colname="col1" colsep="1" rowsep="1" valign="top">

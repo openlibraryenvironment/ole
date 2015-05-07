@@ -16,7 +16,7 @@
 package org.kuali.ole.coa.service;
 
 import org.junit.Test;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.TestUtils;
 import org.kuali.ole.coa.businessobject.OffsetDefinition;
 import org.kuali.ole.sys.context.SpringContext;
@@ -28,7 +28,7 @@ import static org.junit.Assert.assertNull;
 /**
  * This class tests the OffsetDefinition service.
  */
-public class OffsetDefinitionServiceTest extends KualiTestBase {
+public class OffsetDefinitionServiceTest extends KFSTestCaseBase {
 
     @Test
     public void testValidateAccount() {

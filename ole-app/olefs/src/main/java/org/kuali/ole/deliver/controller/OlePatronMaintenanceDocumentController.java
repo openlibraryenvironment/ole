@@ -18,8 +18,10 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleAddressBo;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
@@ -40,6 +42,7 @@ import org.kuali.ole.docstore.common.document.ItemOleml;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
+import org.kuali.ole.docstore.common.document.content.instance.MissingPieceItemRecord;
 import org.kuali.ole.service.OlePatronHelperService;
 import org.kuali.ole.service.OlePatronHelperServiceImpl;
 import org.kuali.ole.service.OlePatronMaintenanceDocumentServiceImpl;
@@ -408,7 +411,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
             try {
                 String itemXmlContent = getLoanProcessor().getItemXML(oleLoanDocument.getItemUuid());
                 Item oleItem = getLoanProcessor().getItemPojo(itemXmlContent);
-
+                boolean isMissingPieceFlagEnabled=(oleItem != null && oleItem.isMissingPieceFlag())?true:false;
 
                 oleItem.setClaimsReturnedFlag(oleLoanDocument.isClaimsReturnedIndicator());
                 if (oleItem.isClaimsReturnedFlag()) {
@@ -419,10 +422,47 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                     oleItem.setClaimsReturnedNote(null);
                     oleItem.setClaimsReturnedFlagCreateDate(null);
                 }
+                SimpleDateFormat dfs = new SimpleDateFormat("MM/dd/yyyy");
+                String parsedDate = dfs.format((new Date()));
+                if(oleLoanDocument.isMissingPieceFlag() && !isMissingPieceFlagEnabled){
+                    MissingPieceItemRecord missingPieceItemRecord = new MissingPieceItemRecord();
+                    missingPieceItemRecord.setMissingPieceFlagNote(oleLoanDocument.getMissingPieceNote());
+                    missingPieceItemRecord.setMissingPieceCount(oleLoanDocument.getMissingPiecesCount());
+                    missingPieceItemRecord.setMissingPieceDate(parsedDate);
+                    missingPieceItemRecord.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                    missingPieceItemRecord.setPatronBarcode(oleLoanDocument.getPatronBarcode());
+                    missingPieceItemRecord.setItemId(oleLoanDocument.getItemUuid());
+                    if (CollectionUtils.isNotEmpty(oleItem.getMissingPieceItemRecordList())) {
+
+                        oleItem.getMissingPieceItemRecordList().add(missingPieceItemRecord);
+                    } else {
+                        List<MissingPieceItemRecord> missingPieceItemRecords = new ArrayList<MissingPieceItemRecord>();
+                        missingPieceItemRecords.add(missingPieceItemRecord);
+                        oleItem.setMissingPieceItemRecordList(missingPieceItemRecords);
+                    }
+                }
+
+                if (oleLoanDocument.isClaimsReturnedIndicator()) {
+                    getLoanProcessor().updateClaimsReturnedHistory(oleItem,oleLoanDocument,oleLoanDocument.getPatronId());
+                    oleItem.setClaimsReturnedFlag(oleLoanDocument.isClaimsReturnedIndicator());
+                    getOleDeliverRequestDocumentHelperService().cancelPendingRequestForClaimsReturnedItem(oleItem.getItemIdentifier());
+                    oleItem.setClaimsReturnedNote(oleLoanDocument.getClaimsReturnNote());
+                    oleItem.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
+                } else {
+                    oleItem.setClaimsReturnedFlag(oleLoanDocument.isClaimsReturnedIndicator());
+                    oleItem.setClaimsReturnedNote(null);
+                    oleItem.setClaimsReturnedFlagCreateDate(null);
+                }
                 oleItem.setMissingPieceFlag(oleLoanDocument.isMissingPieceFlag());
                 oleItem.setMissingPieceFlagNote(oleLoanDocument.getMissingPieceNote());
-                oleItem.setItemDamagedStatus(oleLoanDocument.isItemDamagedStatus());
-                oleItem.setDamagedItemNote(oleLoanDocument.getItemDamagedNote());
+                if(oleLoanDocument.isItemDamagedStatus()){
+                    getLoanProcessor().updateItemDamagedHistory(oleItem,oleLoanDocument,newOlePatronDocument.getOlePatronId());
+                    oleItem.setItemDamagedStatus(oleLoanDocument.isItemDamagedStatus());
+                    oleItem.setDamagedItemNote(oleLoanDocument.getItemDamagedNote());
+                } else {
+                    oleItem.setItemDamagedStatus(oleLoanDocument.isItemDamagedStatus());
+                    oleItem.setDamagedItemNote(null);
+                }
                 oleItem.setMissingPiecesCount(oleLoanDocument.getMissingPiecesCount());
                 if(oleLoanDocument.getItemNumberOfPieces()!=null&& !oleLoanDocument.getItemNumberOfPieces().toString().equalsIgnoreCase("")){
                     oleItem.setNumberOfPieces(oleLoanDocument.getItemNumberOfPieces().toString());
@@ -668,21 +708,95 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                 try {
                     String itemXmlContent = getLoanProcessor().getItemXML(oleLoanDocument.getItemUuid());
                     Item oleItem = getLoanProcessor().getItemPojo(itemXmlContent);
-
-
-                    oleItem.setClaimsReturnedFlag(oleLoanDocument.isClaimsReturnedIndicator());
-                    if (oleItem.isClaimsReturnedFlag()) {
+                    boolean isMissingPieceFlagEnabled=(oleItem != null && oleItem.isMissingPieceFlag())?true:false;
+                    if (oleLoanDocument.isClaimsReturnedIndicator()) {
+                        getLoanProcessor().updateClaimsReturnedHistory(oleItem,oleLoanDocument,newOlePatronDocument.getOlePatronId());
+                        oleItem.setClaimsReturnedFlag(oleLoanDocument.isClaimsReturnedIndicator());
                         getOleDeliverRequestDocumentHelperService().cancelPendingRequestForClaimsReturnedItem(oleItem.getItemIdentifier());
                         oleItem.setClaimsReturnedNote(oleLoanDocument.getClaimsReturnNote());
                         oleItem.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
                     } else {
+                        oleItem.setClaimsReturnedFlag(oleLoanDocument.isClaimsReturnedIndicator());
                         oleItem.setClaimsReturnedNote(null);
                         oleItem.setClaimsReturnedFlagCreateDate(null);
                     }
+                    SimpleDateFormat dfs = new SimpleDateFormat("MM/dd/yyyy");
+                    String parsedDate = dfs.format((new Date()));
+                    if(oleLoanDocument.isMissingPieceFlag() && !isMissingPieceFlagEnabled){
+                        MissingPieceItemRecord missingPieceItemRecord = new MissingPieceItemRecord();
+                        missingPieceItemRecord.setMissingPieceFlagNote(oleLoanDocument.getMissingPieceNote());
+                        missingPieceItemRecord.setMissingPieceCount(oleLoanDocument.getMissingPiecesCount());
+                        missingPieceItemRecord.setMissingPieceDate(parsedDate);
+                        missingPieceItemRecord.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                        missingPieceItemRecord.setPatronBarcode(oleLoanDocument.getPatronBarcode());
+                        missingPieceItemRecord.setItemId(oleLoanDocument.getItemUuid());
+                        if (CollectionUtils.isNotEmpty(oleItem.getMissingPieceItemRecordList())) {
+
+                            oleItem.getMissingPieceItemRecordList().add(missingPieceItemRecord);
+                        } else {
+                            List<MissingPieceItemRecord> missingPieceItemRecords = new ArrayList<MissingPieceItemRecord>();
+                            missingPieceItemRecords.add(missingPieceItemRecord);
+                            oleItem.setMissingPieceItemRecordList(missingPieceItemRecords);
+                        }
+                    }else{
+                        Map<String, String> map = new HashMap<>();
+                        map.put("itemId", DocumentUniqueIDPrefix.getDocumentId(oleLoanDocument.getItemUuid()));
+                        List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordList1 = (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord>) KRADServiceLocator.getBusinessObjectService()
+                                .findMatchingOrderBy(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord.class, map, "missingPieceItemId", true);
+                        List<MissingPieceItemRecord> missingPieceItemRecords = new ArrayList<>();
+                        for (int index = 0; index < missingPieceItemRecordList1.size(); index++) {
+                            MissingPieceItemRecord missingPieceItemRecord1 = new MissingPieceItemRecord();
+                            if (index == missingPieceItemRecordList1.size() - 1) {
+                                /*if (oleLoanForm.getMissi != null) {
+                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(convertToString(loanObject.getClaimsReturnedDate()));
+                                }
+                                else{
+                                    DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
+                                }*/
+                                DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                                String missingPieceItemDate = dateFormat.format((new Date()));
+                                missingPieceItemRecord1.setMissingPieceDate(missingPieceItemDate);
+                                missingPieceItemRecord1.setMissingPieceCount(oleLoanDocument.getMissingPiecesCount());
+                                missingPieceItemRecord1.setPatronBarcode(newOlePatronDocument.getBarcode());
+                                missingPieceItemRecord1.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                                missingPieceItemRecord1.setItemId(DocumentUniqueIDPrefix.getDocumentId(oleLoanDocument.getItemUuid()));
+                                missingPieceItemRecord1.setMissingPieceFlagNote(oleLoanDocument.getMissingPieceNote());
+                                missingPieceItemRecords.add(missingPieceItemRecord1);
+
+                            } else {
+                                if (missingPieceItemRecordList1.get(index).getMissingPieceDate() != null && !missingPieceItemRecordList1.get(index).getMissingPieceDate().toString().isEmpty()) {
+                                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+                                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                                    Date missingPieceItemDate = null;
+                                    try {
+                                        missingPieceItemDate = format2.parse(missingPieceItemRecordList1.get(index).getMissingPieceDate().toString());
+                                    } catch (org.kuali.ole.sys.exception.ParseException e) {
+                                        LOG.error("format string to Date " + e);
+                                    }
+                                    missingPieceItemRecord1.setMissingPieceDate(format1.format(missingPieceItemDate).toString());
+                                }
+                                missingPieceItemRecord1.setMissingPieceFlagNote(missingPieceItemRecordList1.get(index).getMissingPieceFlagNote());
+                                missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecordList1.get(index).getMissingPieceCount());
+                                missingPieceItemRecord1.setOperatorId(missingPieceItemRecordList1.get(index).getOperatorId());
+                                missingPieceItemRecord1.setPatronBarcode(missingPieceItemRecordList1.get(index).getPatronBarcode());
+                                missingPieceItemRecord1.setItemId(missingPieceItemRecordList1.get(index).getItemId());
+                                missingPieceItemRecords.add(missingPieceItemRecord1);
+                            }
+                        }
+                        oleItem.setMissingPieceItemRecordList(missingPieceItemRecords);
+
+                    }
                     oleItem.setMissingPieceFlag(oleLoanDocument.isMissingPieceFlag());
                     oleItem.setMissingPieceFlagNote(oleLoanDocument.getMissingPieceNote());
-                    oleItem.setItemDamagedStatus(oleLoanDocument.isItemDamagedStatus());
-                    oleItem.setDamagedItemNote(oleLoanDocument.getItemDamagedNote());
+                    if(oleLoanDocument.isItemDamagedStatus()){
+                        getLoanProcessor().updateItemDamagedHistory(oleItem,oleLoanDocument,newOlePatronDocument.getOlePatronId());
+                        oleItem.setItemDamagedStatus(oleLoanDocument.isItemDamagedStatus());
+                        oleItem.setDamagedItemNote(oleLoanDocument.getItemDamagedNote());
+                    } else {
+                        oleItem.setItemDamagedStatus(oleLoanDocument.isItemDamagedStatus());
+                        oleItem.setDamagedItemNote(null);
+                    }
                     oleItem.setMissingPiecesCount(oleLoanDocument.getMissingPiecesCount());
                     if (oleLoanDocument.getItemNumberOfPieces() != null && !oleLoanDocument.getItemNumberOfPieces().toString().equalsIgnoreCase("")) {
                         oleItem.setNumberOfPieces(oleLoanDocument.getItemNumberOfPieces().toString());
@@ -1539,7 +1653,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         LOG.debug("Patron View : Hiding Patron Loaned Records");
         MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
         OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDocument().getNewMaintainableObject().getDataObject();
-        olePatronDocument.setOleLoanDocuments(new ArrayList<OleLoanDocument>());
+        //olePatronDocument.setOleLoanDocuments(new ArrayList<OleLoanDocument>());
         olePatronDocument.setShowLoanedRecords(false);
         return getUIFModelAndView(form);
     }

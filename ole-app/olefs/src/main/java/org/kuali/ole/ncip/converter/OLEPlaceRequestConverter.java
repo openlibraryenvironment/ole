@@ -16,7 +16,7 @@ public class OLEPlaceRequestConverter {
     public String generatePlaceRequestXml(OLEPlaceRequest olePlaceRequest){
         XStream xStream = new XStream();
         xStream.alias("placeRequest",OLEPlaceRequest.class);
-        xStream.omitField(OLEPlaceRequest.class, "expirationDate");
+        //xStream.omitField(OLEPlaceRequest.class, "expirationDate");
        // xStream.omitField(OLEPlaceRequest.class, "blockOverride");
         return xStream.toXML(olePlaceRequest);
     }

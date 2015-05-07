@@ -25,9 +25,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.ole.ConfigureContext;
-import org.kuali.ole.DocumentTestUtils;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.*;
 import org.kuali.ole.fixture.AccountingLineFixture;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
@@ -43,7 +41,7 @@ import org.kuali.rice.krad.service.DocumentService;
  * This class is used to test the IndirectCostAdjustmentDocument.
  */
 
-public class IndirectCostAdjustmentDocumentTest extends KualiTestBase {
+public class IndirectCostAdjustmentDocumentTest extends KFSTestCaseBase {
     public static final Class<IndirectCostAdjustmentDocument> DOCUMENT_CLASS = IndirectCostAdjustmentDocument.class;
 
     @Before

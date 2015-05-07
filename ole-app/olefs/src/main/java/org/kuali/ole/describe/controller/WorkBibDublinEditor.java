@@ -16,6 +16,8 @@ import org.kuali.ole.docstore.model.xmlpojo.ingest.ResponseDocument;
 import org.kuali.ole.docstore.model.xmlpojo.work.bib.dublin.WorkBibDublinRecord;
 import org.kuali.ole.describe.service.DocstoreHelperService;
 import org.kuali.ole.pojo.dublin.unqualified.UnQualifiedDublinRecord;
+import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -84,6 +86,9 @@ public class WorkBibDublinEditor
         BibTree bibTree = null;
         Bib bib = null;
 //        editorForm.setHeaderText("Bibliographic Editor - Dublin Core (Unqualified) Format");
+        String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(org.kuali.ole.sys.OLEConstants.EXTERNALIZABLE_HELP_URL_KEY);
+        editorForm.setExternalHelpUrl(directory+"/reference/webhelp/CG/content/ch01s01.html");
+        editorForm.setHeaderText("Dublin");
         if (null != docId) {
             try {
 

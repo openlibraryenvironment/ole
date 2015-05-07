@@ -16,7 +16,7 @@
 package org.kuali.ole.coa.service;
 
 import org.junit.Test;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.coa.businessobject.A21SubAccount;
 import org.kuali.ole.coa.businessobject.SubAccount;
 import org.kuali.ole.coa.service.SubAccountService;
@@ -30,7 +30,7 @@ import static junit.framework.TestCase.assertTrue;
 /**
  * This class tests the SubAccount service.
  */
-public class SubAccountServiceTest extends KualiTestBase {
+public class SubAccountServiceTest extends KFSTestCaseBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountServiceTest.class);
 
     private final static SubAccount subAccount = SubAccountFixture.VALID_SUB_ACCOUNT.createSubAccount();

@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.processor.LoanProcessor;
@@ -12,6 +13,8 @@ import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.BibTree;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
 import org.kuali.ole.docstore.common.document.Item;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -114,7 +117,9 @@ public class OLEDeliverItemSearchServiceImpl implements OLEDeliverItemSearchServ
                         singleItemResultDisplayRow.setPatronType(oleBorrowerType.getBorrowerTypeName());
                     }
                 }
-                singleItemResultDisplayRow.setPatronExpDate(olePatronDocument.getExpirationDate().toString());
+                if(olePatronDocument.getExpirationDate()!=null){
+                    singleItemResultDisplayRow.setPatronExpDate(olePatronDocument.getExpirationDate().toString());
+                }
                 olePatronDocument = OLEDeliverService.populatePatronName(olePatronDocument);
                 singleItemResultDisplayRow.setPatronLastName(olePatronDocument.getLastName());
                 singleItemResultDisplayRow.setPatronFirstName(olePatronDocument.getFirstName());
@@ -215,6 +220,41 @@ public class OLEDeliverItemSearchServiceImpl implements OLEDeliverItemSearchServ
             if (CollectionUtils.isNotEmpty(oleIntransitRecordHistories)) {
                 singleItemResultDisplayRow.setOleIntransitRecordHistories(oleIntransitRecordHistories);
             }
+        }
+    }
+
+    public void setClaimsReturnedInfo(OLESingleItemResultDisplayRow singleItemResultDisplayRow) {
+        if(StringUtils.isNotBlank(singleItemResultDisplayRow.getId())) {
+            Map map = new HashMap();
+            map.put("itemId", DocumentUniqueIDPrefix.getDocumentId(singleItemResultDisplayRow.getId()));
+            List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords = (List<ItemClaimsReturnedRecord>) KRADServiceLocator.getBusinessObjectService().findMatching(ItemClaimsReturnedRecord.class,map);
+            if(CollectionUtils.isNotEmpty(itemClaimsReturnedRecords)) {
+                singleItemResultDisplayRow.setItemClaimsReturnedRecords(itemClaimsReturnedRecords);
+            }
+        }
+    }
+
+    public void setDamagedInfo(OLESingleItemResultDisplayRow singleItemResultDisplayRow){
+        if(StringUtils.isNotBlank(singleItemResultDisplayRow.getId())) {
+            Map map = new HashMap();
+            map.put("itemId",DocumentUniqueIDPrefix.getDocumentId(singleItemResultDisplayRow.getId()));
+            List<ItemDamagedRecord> itemDamagedRecords = (List<ItemDamagedRecord>) KRADServiceLocator.getBusinessObjectService().findMatching(ItemDamagedRecord.class,map);
+            if(CollectionUtils.isNotEmpty(itemDamagedRecords)){
+                singleItemResultDisplayRow.setItemDamagedRecords(itemDamagedRecords);
+            }
+        }
+    }
+
+
+    public void setMissingPieceItemInfo(OLESingleItemResultDisplayRow singleItemResultDisplayRow){
+        if(StringUtils.isNotBlank(singleItemResultDisplayRow.getId())){
+            Map map = new HashMap();
+            map.put("itemId", DocumentUniqueIDPrefix.getDocumentId(singleItemResultDisplayRow.getId()));
+            List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordHistories = (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord>)KRADServiceLocator.getBusinessObjectService().findMatching(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord.class, map);
+            if(CollectionUtils.isNotEmpty(missingPieceItemRecordHistories)){
+                singleItemResultDisplayRow.setMissingPieceItemRecordList(missingPieceItemRecordHistories);
+            }
+
         }
     }
 }

@@ -3,6 +3,7 @@ package org.kuali.ole.deliver.maintenance;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.OLEPropertyConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.form.OlePatronMaintenanceDocumentForm;
 import org.kuali.ole.deliver.processor.LoanProcessor;
@@ -33,7 +34,7 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OlePatronMaintenanceImpl.class);
     OlePatronService olePatronService = new OlePatronServiceImpl();
 
-
+    String baseUrl = ConfigContext.getCurrentContextConfig().getProperty(OLEPropertyConstants.OLE_URL_BASE);
     /**
      * This method populate the patron object used for edit and copy
      *
@@ -239,17 +240,17 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
     }
 
     public String getTempCircRecords(String olePatronId) {
-        String url = "temporaryCirculationRecord?viewId=OleTemporaryCirculationHistoryRecordView&amp;methodToCall=viewTempCircRecords&amp;patronId=" + olePatronId;
+        String url = baseUrl + "/portal.do?channelTitle=Patron&channelUrl=" + baseUrl + "/ole-kr-krad/temporaryCirculationRecord?viewId=OleTemporaryCirculationHistoryRecordView&amp;methodToCall=viewTempCircRecords&amp;patronId=" + olePatronId;
         return url;
     }
 
     public String getLoanedRecords(String olePatronId) {
-        String url = "patronLoanedRecord?viewId=OlePatronLoanedRecordView&amp;methodToCall=viewLoanedRecords&amp;patronId=" + olePatronId;
+        String url = baseUrl + "/portal.do?channelTitle=Patron&channelUrl=" + baseUrl + "/ole-kr-krad/patronLoanedRecord?viewId=OlePatronLoanedRecordView&amp;methodToCall=viewLoanedRecords&amp;patronId=" + olePatronId;
         return url;
     }
 
     public String getRequestedRecords(String olePatronId) {
-        String url = "patronRequestedRecord?viewId=OlePatronRequestedRecordView&amp;methodToCall=viewRequestedRecords&amp;patronId=" + olePatronId;
+        String url = baseUrl + "/portal.do?channelTitle=Patron&channelUrl=" + baseUrl + "/ole-kr-krad/patronRequestedRecord?viewId=OlePatronRequestedRecordView&amp;methodToCall=viewRequestedRecords&amp;patronId=" + olePatronId;
         return url;
     }
 

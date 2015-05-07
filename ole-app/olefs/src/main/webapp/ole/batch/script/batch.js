@@ -8,8 +8,8 @@
 
 jq(window).load(function () {
 
-    var profileType = localStorage.getItem("profile");
-    var profileName = localStorage.getItem("profileName")
+    var profileType = sessionStorage.getItem("profile");
+    var profileName = sessionStorage.getItem("profileName")
 
    if(profileType != null){
        jq("#BatchProcessDefinition-batchProcessProfileName_processName_control").val(profileName);
@@ -20,6 +20,81 @@ jq(window).load(function () {
 
 });
 
+function sessionStorageData() {
+    jq("#BatchProcessDefinition-batchProcessType_control").live("change", function () {
+        /*alert("value changed");*/
+        jq("#BatchProcessDefinition-batchProcessProfileName_orderImport_control").val("");
+        jq("#BatchProcessDefinition-batchProcessProfileName_invoiceImport_control").val("");
+        jq("#BatchProcessDefinition-batchProcessProfileName_batchDelete_control").val("");
+        jq("#BatchProcessDefinition-batchProcessProfileName_batchExport_control").val("");
+        jq("#BatchProcessDefinition-batchProcessProfileName_patronImport_control").val("");
+        jq("#BatchProcessDefinition-batchProcessProfileName_bibImport_control").val("");
+        jq("#BatchProcessDefinition-batchProcessProfileName_locationImport_control").val("");
+        jq("#BatchProcessDefinition-batchProcessProfileName_claimReport_control").val("");
+        jq("#BatchProcessDefinition-batchProcessProfileName_serialRecordImport_control").val("");
+        jq('#hiddenButtonRefresh').focus().click();
+
+    })
+    jq("#BatchProcessDefinition-batchProcessProfileName_orderImport_control").live("blur", function () {
+        jq('#hiddenProfileId').focus().click();
+        sessionStorage.setItem("profile", "Order Record Import")
+        sessionStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_orderImport_control").val());
+    });
+
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_invoiceImport_control").live("blur", function () {
+        sessionStorage.setItem("profile", "Invoice Import");
+        sessionStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_invoiceImport_control").val());
+    });
+
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_batchDelete_control").live("blur", function () {
+        sessionStorage.setItem("profile", "Batch Delete");
+        sessionStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_batchDelete_control").val());
+
+    });
+
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_batchExport_control").live("blur", function () {
+        jq('#hiddenProfileId').focus().click();
+        sessionStorage.setItem("profile", "Batch Export");
+        sessionStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_batchExport_control").val());
+
+    });
+
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_patronImport_control").live("blur", function () {
+        sessionStorage.setItem("profile", "Patron Import");
+        sessionStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_patronImport_control").val());
+
+    });
+
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_bibImport_control").live("blur", function () {
+        sessionStorage.setItem("profile", "Bib Import")
+        sessionStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_bibImport_control").val());
+
+    });
+
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_locationImport_control").live("blur", function () {
+        sessionStorage.setItem("profile", "Location Import");
+        sessionStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_locationImport_control").val());
+
+    });
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_claimReport_control").live("blur", function () {
+        sessionStorage.setItem("profile", "Claim Report");
+        sessionStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_claimReport_control").val());
+
+    });
+
+    jq("#BatchProcessDefinition-batchProcessProfileName_serialRecordImport_control").live("blur", function () {
+        sessionStorage.setItem("profile", "Serial Record Import");
+        sessionStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_serialRecordImport_control").val());
+
+    });
+}
 jq(document).ready(function(){
 
     if(jq("#mainSection-MaintenanceView-exportScope_control").val() != "filter") {
@@ -28,79 +103,7 @@ jq(document).ready(function(){
 
     refreshPageUser();
     refreshBeanId();
-    jq("#BatchProcessDefinition-batchProcessType_control").live("change",function() {
-        /*alert("value changed");*/
-         jq("#BatchProcessDefinition-batchProcessProfileName_orderImport_control").val("");
-         jq("#BatchProcessDefinition-batchProcessProfileName_invoiceImport_control").val("");
-         jq("#BatchProcessDefinition-batchProcessProfileName_batchDelete_control").val("");
-         jq("#BatchProcessDefinition-batchProcessProfileName_batchExport_control").val("");
-         jq("#BatchProcessDefinition-batchProcessProfileName_patronImport_control").val("");
-         jq("#BatchProcessDefinition-batchProcessProfileName_bibImport_control").val("");
-         jq("#BatchProcessDefinition-batchProcessProfileName_locationImport_control").val("");
-         jq("#BatchProcessDefinition-batchProcessProfileName_claimReport_control").val("");
-         jq("#BatchProcessDefinition-batchProcessProfileName_serialRecordImport_control").val("");
-         jq('#hiddenButtonRefresh').focus().click();
-
-    })
-    jq("#BatchProcessDefinition-batchProcessProfileName_orderImport_control").live("blur",function() {
-            jq('#hiddenProfileId').focus().click();
-            localStorage.setItem("profile", "Order Record Import")
-            localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_orderImport_control").val());
-    });
-
-
-    jq("#BatchProcessDefinition-batchProcessProfileName_invoiceImport_control").live("blur",function() {
-        localStorage.setItem("profile", "Invoice Import");
-        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_invoiceImport_control").val());
-    });
-
-
-    jq("#BatchProcessDefinition-batchProcessProfileName_batchDelete_control").live("blur",function() {
-        localStorage.setItem("profile", "Batch Delete");
-        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_batchDelete_control").val());
-
-    });
-
-
-    jq("#BatchProcessDefinition-batchProcessProfileName_batchExport_control").live("blur",function() {
-        localStorage.setItem("profile", "Batch Export");
-        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_batchExport_control").val());
-
-    });
-
-
-    jq("#BatchProcessDefinition-batchProcessProfileName_patronImport_control").live("blur",function() {
-        localStorage.setItem("profile", "Patron Import");
-        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_patronImport_control").val());
-
-    });
-
-
-    jq("#BatchProcessDefinition-batchProcessProfileName_bibImport_control").live("blur",function() {
-        localStorage.setItem("profile", "Bib Import")
-        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_bibImport_control").val());
-
-    });
-
-
-    jq("#BatchProcessDefinition-batchProcessProfileName_locationImport_control").live("blur",function() {
-        localStorage.setItem("profile", "Location Import");
-        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_locationImport_control").val());
-
-    });
-
-    jq("#BatchProcessDefinition-batchProcessProfileName_claimReport_control").live("blur",function() {
-        localStorage.setItem("profile", "Claim Report");
-        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_claimReport_control").val());
-
-    });
-
-    jq("#BatchProcessDefinition-batchProcessProfileName_serialRecordImport_control").live("blur",function() {
-        localStorage.setItem("profile", "Serial Record Import");
-        localStorage.setItem("profileName", jq("#BatchProcessDefinition-batchProcessProfileName_serialRecordImport_control").val());
-
-    });
-
+    sessionStorageData();
     jq("#filterCriteria_filterFieldName_select_add_control").live("change",function() {
         //jq('#invoiceVendorBtn').click();
         if(jq("#filterCriteria_filterFieldName_select_add_control").val()!=''){
@@ -352,13 +355,15 @@ function exportFilter(){
     }
 }
 function openJobDetails() {
-
+    var processId = jq("#processId_hidden_control").val();
     if( jq("#hdn_control").val()=="true"){
         jq("#hdn_control").val(false);
         displayDialogWindow("div#MessagePopupSectionForInvoiceImport-HorizontalBoxSection");
         return false;
     }
-    if ((jq("#hdnJobDetails_control").val()=="true")){
+    if ((jq("#hdnJobDetails_control").val()=="true") && processId !== null && processId !== undefined && processId !== ''){
+        window.open("oleBatchProcessJobController?viewId=OLEBatchProcessJobDetailsView&methodToCall=singleJobDetailView&command=initiate&documentClass=org.kuali.ole.batch.bo.OLEBatchProcessJobDetailsBo&batchProcessId=" + processId);
+    }else if(jq("#hdnJobDetails_control").val()=="true"){
         window.open("oleBatchProcessJobController?viewId=OLEBatchProcessJobDetailsView&methodToCall=jobDocHandler&command=initiate&documentClass=org.kuali.ole.batch.bo.OLEBatchProcessJobDetailsBo");
     }
 }

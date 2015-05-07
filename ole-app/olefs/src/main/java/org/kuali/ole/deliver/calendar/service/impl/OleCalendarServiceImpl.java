@@ -1,12 +1,15 @@
 package org.kuali.ole.deliver.calendar.service.impl;
 
 import org.apache.log4j.Logger;
+import org.joda.time.Interval;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.calendar.bo.*;
 import org.kuali.ole.deliver.calendar.controller.OleCalendarController;
 import org.kuali.ole.deliver.calendar.service.DateUtil;
 import org.kuali.ole.deliver.calendar.service.OleCalendarService;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -31,8 +34,24 @@ public class OleCalendarServiceImpl implements OleCalendarService {
 
     private BusinessObjectService businessObjectService;
 
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
     private int totalWorkingDays = 0;
     private int totalDays = 0;
+    private ParameterValueResolver parameterValueResolver;
+
+    public ParameterValueResolver getParameterValueResolver() {
+        if(parameterValueResolver==null){
+            parameterValueResolver=ParameterValueResolver.getInstance();
+        }
+        return parameterValueResolver;
+    }
+
+    public void setParameterValueResolver(ParameterValueResolver parameterValueResolver) {
+        this.parameterValueResolver = parameterValueResolver;
+    }
 
     public OleCalendarGroup getCalendarGroup(String deskId) {
         HashMap calendarGroup = new HashMap();
@@ -51,7 +70,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
         cg.put(OLEConstants.CALENDER_ID, groupId);
         List<OleCalendar> oleCalendarList = (List<OleCalendar>) getBusinessObjectService().findMatching(OleCalendar.class, cg);
         for (OleCalendar calendar : oleCalendarList) {
-            if (calendar.getBeginDate() != null && date != null && calendar.getEndDate() != null && isCalendarExists(calendar.getBeginDate(), calendar.getEndDate(), date.getYear(), date.getMonth()) && (date.getTime() >= calendar.getBeginDate().getTime() && date.getTime() <= calendar.getEndDate().getTime())) {
+            if (calendar.getBeginDate() != null && date != null && calendar.getEndDate() != null && isCalendarExists(calendar.getBeginDate(), calendar.getEndDate())) {
                 calendar=continuousWeek(calendar);
                 return calendar;
             } else if (calendar.getBeginDate() != null && calendar.getEndDate() == null) {
@@ -62,7 +81,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
         return null;
     }
 
-    private OleCalendar continuousWeek(OleCalendar oleCalendar){     //each day of a week
+    public OleCalendar continuousWeek(OleCalendar oleCalendar){     //each day of a week
         int week=-1;
         List<OleCalendarWeek> oleCalendarWeekList=new ArrayList<OleCalendarWeek>();
         for(OleCalendarWeek oleCalendarWeek:oleCalendar.getOleCalendarWeekList()){
@@ -204,23 +223,10 @@ public class OleCalendarServiceImpl implements OleCalendarService {
     return oleCalendar;
     }
 
-    private boolean isCalendarExists(Timestamp fromDate, Timestamp toDate, Integer dateYear, Integer dateMonth) {
-        Integer fromYear = fromDate.getYear();
-        Integer fromMonth = fromDate.getMonth();
-        Integer fromHour = fromDate.getHours();
-        Integer fromMin = fromDate.getMinutes();
-        Integer fromSecond = fromDate.getSeconds();
-        Integer toYear = toDate.getYear();
-        Integer toMonth = toDate.getMonth();
-        Integer toHour = toDate.getHours();
-        Integer toMin = toDate.getMinutes();
-        Integer toSecond = toDate.getSeconds();
-        if (dateYear >= fromYear && dateYear <= toYear) {
-            if (dateMonth >= fromMonth && dateMonth <= toMonth) {
-                return true;
-            }
-        }
-        return false;
+    //
+    public boolean isCalendarExists(Timestamp fromDate, Timestamp toDate) {
+        Interval interval=new Interval(fromDate.getTime(),toDate.getTime());
+        return interval.contains(System.currentTimeMillis());
     }
 
 
@@ -349,8 +355,8 @@ public class OleCalendarServiceImpl implements OleCalendarService {
         String timePeriodType = timePeriods.length > 1 ? timePeriods[1] : "";
         Timestamp destinationTimestamp = null;
         Timestamp destinationTemp = null;
-        LoanProcessor loanProcessor = new LoanProcessor();
-        String sysFlag = loanProcessor.getParameter(OLEConstants.CALENDER_FLAG);
+        String sysFlag =getParameterValueResolver().getParameter(OLEConstants
+                .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.CALENDER_FLAG);
         if (timePeriodType != null && timePeriodType.equalsIgnoreCase("H")) {
             destinationTemp = DateUtil.addHours(currentDate, new Integer(timePeriods.length > 0 ? timePeriods[0] : "0"));
         }
@@ -442,8 +448,8 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                 String[] fineCal = fineAmount.split("/");
                 String fineAmt = fineCal[0];
                 String fineMode = fineCal[1];
-                LoanProcessor loanProcessor = new LoanProcessor();
-                String sysFlag = loanProcessor.getParameter(OLEConstants.FINE_FLAG);
+                String sysFlag = getParameterValueResolver().getParameter(OLEConstants
+                        .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.FINE_FLAG);
                 if (fineMode != null && fineMode.equalsIgnoreCase("H")) {
                     Integer numberOfHours = 0;
                     if (sysFlag.equalsIgnoreCase("true")) {
@@ -862,37 +868,6 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                     getBusinessObjectService().save(calendar);
                 }
             }
-        }
-    }
-
-    public void deleteCalendarCollections(OleCalendar oleCalendar){
-        //general
-        List<OleCalendarWeek> oleCalendarWeekList = oleCalendar.getOleCalendarWeekDeleteList();
-        for(OleCalendarWeek oleCalendarWeek:oleCalendarWeekList){
-            Map<String,String> map=new HashMap<String,String>();
-            map.put("calendarId",oleCalendarWeek.getCalendarId());
-            KRADServiceLocator.getBusinessObjectService().deleteMatching(OleCalendarWeek.class,map);
-        }
-        //exception day
-        List<OleCalendarExceptionDate> oleCalendarExceptionDateDeleteList = oleCalendar.getOleCalendarExceptionDateDeleteList();
-        for(OleCalendarExceptionDate oleCalendarExceptionDateList:oleCalendarExceptionDateDeleteList){
-            Map<String,String> map=new HashMap<String,String>();
-            map.put("calendarExceptionDateId",oleCalendarExceptionDateList.getCalendarExceptionDateId());
-            KRADServiceLocator.getBusinessObjectService().deleteMatching(OleCalendarExceptionDate.class,map);
-        }
-        //exception period week list
-        List<OleCalendarExceptionPeriodWeek> oleCalendarExceptionPeriodDeleteWeekList = oleCalendar.getOleCalendarExceptionPeriodDeleteWeekList();
-        for(OleCalendarExceptionPeriodWeek oleCalendarExceptionPeriodWeek:oleCalendarExceptionPeriodDeleteWeekList){
-            Map<String,String> map=new HashMap<String,String>();
-            map.put("calendarWeekId",oleCalendarExceptionPeriodWeek.getCalendarWeekId());
-            KRADServiceLocator.getBusinessObjectService().deleteMatching(OleCalendarExceptionPeriodWeek.class,map);
-        }
-        //exception period list
-        List<OleCalendarExceptionPeriod> oleCalendarExceptionPeriodDeleteList = oleCalendar.getOleCalendarExceptionPeriodDeleteList();
-        for(OleCalendarExceptionPeriod oleCalendarExceptionPeriod:oleCalendarExceptionPeriodDeleteList){
-            Map<String,String> map=new HashMap<String,String>();
-            map.put("calendarExceptionPeriodId",oleCalendarExceptionPeriod.getCalendarExceptionPeriodId());
-            KRADServiceLocator.getBusinessObjectService().deleteMatching(OleCalendarExceptionPeriod.class,map);
         }
     }
 

@@ -405,7 +405,8 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
             for (OlePurchaseOrderItem singleItem : items) {
                 if (singleItem instanceof OlePurchaseOrderItem) {
                     if(!this.getRequisitionSourceCode().equalsIgnoreCase(
-                            OleSelectConstant.REQUISITON_SRC_TYPE_DIRECTINPUT)){
+                            OleSelectConstant.REQUISITON_SRC_TYPE_DIRECTINPUT)  && !this.getRequisitionSourceCode().equalsIgnoreCase(
+                            OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)){
                         singleItem.setVendorItemPoNumber(this.getVendorPoNumber());
                     }
                     if (singleItem.getBibInfoBean() != null) {

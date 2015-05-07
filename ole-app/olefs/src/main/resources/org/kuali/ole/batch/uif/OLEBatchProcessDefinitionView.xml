@@ -106,6 +106,7 @@
                 <ref bean="storeProfileId"/>
                 <ref bean="BatchProcessDefinition-batchProcessProfileName_processName"/>
                 <ref bean="BatchProcessDefinition-batchProcessProfileName_processType"/>
+                <ref bean="processId_hidden"/>
 
             </list>
         </property>
@@ -838,6 +839,9 @@
         </property>
     </bean>
 
+    <bean id="processId_hidden" parent="Uif-InputField" p:propertyName="navigationBatchProcessId" p:hidden="true">
+        <property name="bindingInfo.bindToForm" value="true"/>
+    </bean>
 
 
 

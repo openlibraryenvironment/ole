@@ -15,31 +15,51 @@
  */
 package org.kuali.ole.select.document.web.struts;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.coa.businessobject.Chart;
 import org.kuali.ole.coa.businessobject.ObjectCode;
+import org.kuali.ole.gl.Constant;
+import org.kuali.ole.gl.GeneralLedgerConstants;
+import org.kuali.ole.gl.OJBUtility;
+import org.kuali.ole.gl.batch.service.AccountBalanceCalculator;
+import org.kuali.ole.gl.businessobject.AccountBalance;
 import org.kuali.ole.gl.businessobject.Balance;
 import org.kuali.ole.gl.businessobject.Entry;
+import org.kuali.ole.gl.businessobject.TransientBalanceInquiryAttributes;
+import org.kuali.ole.gl.businessobject.lookup.AccountBalanceLookupableHelperServiceImpl;
+import org.kuali.ole.gl.businessobject.lookup.BusinessObjectFieldConverter;
+import org.kuali.ole.gl.service.AccountBalanceService;
 import org.kuali.ole.module.purap.businessobject.PaymentRequestAccount;
 import org.kuali.ole.select.businessobject.*;
 import org.kuali.ole.select.document.OleFundLookupDocument;
 import org.kuali.ole.select.document.OlePaymentRequestDocument;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEKeyConstants;
+import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.ole.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.ole.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.ole.sys.businessobject.SystemOptions;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.ole.sys.service.OptionsService;
 import org.kuali.ole.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.LookupService;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,10 +76,50 @@ public class OleFundLookupAction extends KualiTransactionalDocumentActionBase {
     List<OleFundLookup> searchEntryList = new ArrayList<OleFundLookup>();
     List<OleFundLookup> searchMergedPendingList = new ArrayList<OleFundLookup>();
     List<OleFundLookup> finalSearchResult = new ArrayList<OleFundLookup>();
+    private AccountBalanceCalculator postAccountBalance;
+    private AccountBalanceService accountBalanceService;
+    private OptionsService optionsService;
+    protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    public BusinessObjectDictionaryService businessObjectDictionaryService;
+    protected Class businessObjectClass ;
+
+    public BusinessObjectDictionaryService getBusinessObjectDictionaryService() {
+        return businessObjectDictionaryService != null ? businessObjectDictionaryService : KNSServiceLocator
+                .getBusinessObjectDictionaryService();
+    }
+
+    protected GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
+        return SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+    }
+
+
+    public AccountBalanceCalculator getPostAccountBalance() {
+        return SpringContext.getBean(AccountBalanceCalculator.class);
+    }
+
+    public void setPostAccountBalance(AccountBalanceCalculator postAccountBalance) {
+        this.postAccountBalance = postAccountBalance;
+    }
+
+    public AccountBalanceService getAccountBalanceService() {
+        return SpringContext.getBean(AccountBalanceService.class);
+    }
+
+    public void setAccountBalanceService(AccountBalanceService accountBalanceService) {
+        this.accountBalanceService = accountBalanceService;
+    }
 
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                HttpServletResponse response) throws Exception {
         return mapping.findForward(OLEConstants.MAPPING_BASIC);
+    }
+
+    public OptionsService getOptionsService() {
+        return SpringContext.getBean(OptionsService.class);
+    }
+
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
     }
 
     /**
@@ -75,7 +135,7 @@ public class OleFundLookupAction extends KualiTransactionalDocumentActionBase {
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                 HttpServletResponse response) throws Exception {
 
-        List<Balance> balanceList = null;
+        List balanceList = null;
         List<GeneralLedgerPendingEntry> pendingList = null;
         List<Entry> entryList = null;
         finalSearchResult.clear();
@@ -117,7 +177,10 @@ public class OleFundLookupAction extends KualiTransactionalDocumentActionBase {
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
 
-
+        if(oleFundDocument.getChartOfAccountsCode().equals("*")){
+            GlobalVariables.getMessageMap().putError(OLEConstants.DOCUMENT_ERRORS, OLEKeyConstants.ERROR_CUSTOM, new String[]{OLEConstants.CHART_CODE_WILDCARD_SEARCH});
+            return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        }
         if(!validateChartCode(oleFundDocument.getChartOfAccountsCode())){
             GlobalVariables.getMessageMap().putError(OLEConstants.DOCUMENT_ERRORS, OLEKeyConstants.ERROR_CUSTOM, new String[]{OLEConstants.CHART_CODE_NOT_FOUND});
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
@@ -130,348 +193,103 @@ public class OleFundLookupAction extends KualiTransactionalDocumentActionBase {
             GlobalVariables.getMessageMap().putError(OLEConstants.DOCUMENT_ERRORS, OLEKeyConstants.ERROR_CUSTOM, new String[]{OLEConstants.OBJ_CODE_NOT_FOUND});
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
-        if(oleFundDocument.getUniversityFiscalYear() != null){
+    /*    if(oleFundDocument.getUniversityFiscalYear() != null){
             UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
             if(!universityDateService.getCurrentFiscalYear().equals(oleFundDocument.getUniversityFiscalYear())){
                 GlobalVariables.getMessageMap().putError(OLEConstants.DOCUMENT_ERRORS, OLEKeyConstants.ERROR_CUSTOM, new String[]{OLEConstants.UNIV_FIS_YR_FOUND});
                 return mapping.findForward(RiceConstants.MAPPING_BASIC);
             }
         }
+*/
 
+        Map map = new HashMap();
+        map.put(OLEConstants.OleFundLookupDocument.CHART_CODE,oleFundDocument.getChartOfAccountsCode().toUpperCase() );
+        map.put(OLEConstants.OleFundLookupDocument.ACC_NO, oleFundDocument.getAccountNumber().toUpperCase());
+        map.put("sunAccountNumber","");
+        map.put("objectCode",oleFundDocument.getObjectCode());
+        map.put("universityFiscalYear",oleFundDocument.getUniversityFiscalYear() );
+        map.put("dummyBusinessObject.pendingEntryOption", "All");
+        map.put("dummyBusinessObject.consolidationOption","Consolidation" );
+        map.put("backLocation", "portal.do");
+        map.put("docFormKey","88888888" );
+        map.put("subObjectCode","" );
 
-        if(oleFundDocument.getOrganizationCode() != null || oleFundDocument.getKeyword() != null){
-            Map searchCriteria = new HashMap();
-            if(oleFundDocument.getOrganizationCode() != null){
-                searchCriteria.put(OLEConstants.OleFundLookupDocument.ORG_CODE,oleFundDocument.getOrganizationCode().toUpperCase());
-            }
-            if(oleFundDocument.getKeyword() != null) {
-                searchCriteria.put(OLEConstants.OleFundLookupDocument.ACC_NAME, oleFundDocument.getKeyword().toUpperCase());
-            }
-            if(oleFundDocument.getChartOfAccountsCode() != null){
-                searchCriteria.put(OLEConstants.OleFundLookupDocument.CHART_CODE, oleFundDocument.getChartOfAccountsCode().toUpperCase());
-            }
-            if(oleFundDocument.getAccountNumber() != null){
-                searchCriteria.put(OLEConstants.OleFundLookupDocument.ACC_NO, oleFundDocument.getAccountNumber().toUpperCase());
-            }
-
-            if(searchCriteria != null){
-                String accountNumber = oleFundDocument.getAccountNumber();
-                List<Account> accounts = (List) getLookupService().findCollectionBySearchHelper(Account.class, searchCriteria, true);
-                searchCriteria.clear();
-                List<Account> orgAccounts;
-                List<Account> keywordList;
-                List<String> organizationCodeList = new ArrayList<String>();
-                List<String> accountNameList = new ArrayList<String>();
-                if(oleFundDocument.getOrganizationCode() != null){
-                    searchCriteria.clear();
-                    searchCriteria.put(OLEConstants.OleFundLookupDocument.ORG_CODE,oleFundDocument.getOrganizationCode().toUpperCase());
-                    orgAccounts = (List)getLookupService().findCollectionBySearchHelper(Account.class, searchCriteria, true);
-                    if(orgAccounts.size() >0){
-                    for(Account account : orgAccounts){
-                        organizationCodeList.add(account.getOrganizationCode());
-                    }
-                    }
-                }
-                if(oleFundDocument.getKeyword() != null){
-                    searchCriteria.clear();
-                    searchCriteria.put(OLEConstants.OleFundLookupDocument.ACC_NAME,oleFundDocument.getKeyword());
-                    keywordList = (List)getLookupService().findCollectionBySearchHelper(Account.class, searchCriteria, true);
-                    if(keywordList.size() >0){
-                        for(Account account : keywordList){
-                            accountNameList.add(account.getAccountName());
-                        }
-                    }
-                }
-
-                //List<Account> accounts = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(Account.class,searchCriteria);
-                if(accounts.size() > 0){
-                    for(Account account : accounts){
-                        if(oleFundDocument.getOrganizationCode() == null || organizationCodeList.contains(account.getOrganizationCode()) && (oleFundDocument.getKeyword() == null || accountNameList.contains(account.getAccountName()))){
-                            //if(oleFundDocument.getKeyword() == null || accountNameList.contains(account.getAccountName())){
-                        oleFundDocument.setAccountNumber(account.getAccountNumber());
-                        balanceList = getBalanceEntries(oleFundDocument);
-                        pendingList = getGLPendingEntries(oleFundDocument);
-                        entryList = getEntries(oleFundDocument);
-                        Map<String,String> searchResultMap = new HashMap<String,String>();
-                        if(balanceList.size() > 0){
-                            for(Balance balance : balanceList){
-                                String value =  balance.getChartOfAccountsCode()+"-"+balance.getAccountNumber()+"-"+balance.getObjectCode()+"-"+balance.getUniversityFiscalYear();
-                                searchResultMap.put(value,value);
-                            }
-                        }
-                        if(pendingList.size() > 0){
-                            for(GeneralLedgerPendingEntry glPendingEntry : pendingList){
-                                String value = glPendingEntry.getChartOfAccountsCode()+"-"+glPendingEntry.getAccountNumber()+"-"+glPendingEntry.getFinancialObjectCode()+"-"+glPendingEntry.getUniversityFiscalYear();
-                                searchResultMap.put(value,value);
-                            }
-                        }
-                        if(entryList.size() > 0){
-                            for(Entry entry : entryList){
-                                String value = entry.getChartOfAccountsCode()+"-"+entry.getAccountNumber()+"-"+entry.getFinancialObjectCode()+"-"+entry.getUniversityFiscalYear();
-                                searchResultMap.put(value,value);
-                            }
-                        }
-
-                        if(balanceList.size()<= 0 && pendingList.size()<= 0 && entryList.size() <= 0){
-                            boolean valid = checkAccountEntry(account.getAccountNumber(), account.getChartOfAccountsCode(),oleFundDocument.getKeyword());
-                            if(!valid){
-                                GlobalVariables.getMessageMap().putInfo(OLEConstants.OrderQueue.REQUISITIONS,
-                                        OLEKeyConstants.ERROR_NO_RESULTS_FOUND);
-                            }else{
-                                OleFundLookup oleFundLookup = new OleFundLookup();
-                                oleFundLookup.setChartOfAccountsCode(account.getChartOfAccountsCode());
-                                oleFundLookup.setAccountName(getAccountName(account.getAccountNumber()));
-                                oleFundLookup.setAccountNumber(account.getAccountNumber());
-                                if(oleFundDocument.getObjectCode().equals(OLEConstants.ALL))     {
-                                    oleFundLookup.setObjectCode(OLEConstants.ALL_OBJ_CD);
-                                } else{
-                                    oleFundLookup.setObjectCode(oleFundDocument.getObjectCode());
-                                }
-                                oleFundLookup.setOrganizationCode(getOrganizationCode(account.getAccountNumber()));
-                                oleFundLookup.setCashBalance(KualiDecimal.ZERO.toString());
-                                oleFundLookup.setFreeBalance(KualiDecimal.ZERO.toString());
-                                oleFundLookup.setIntialBudgetAllocation(KualiDecimal.ZERO.toString());
-                                oleFundLookup.setNetAllocation(KualiDecimal.ZERO.toString());
-                                oleFundLookup.setEncumbrances(KualiDecimal.ZERO.toString());
-                                oleFundLookup.setSumPaidInvoice(KualiDecimal.ZERO.toString());
-                                oleFundLookup.setSumUnpaidInvoice(KualiDecimal.ZERO.toString());
-                                oleFundLookup.setExpendedPercentage(KualiDecimal.ZERO.toString());
-                                oleFundLookup.setExpenEncumPercentage(KualiDecimal.ZERO.toString());
-                                searchResult.add(oleFundLookup);
-                            }
-                        }
-
-                        List searchList = new ArrayList();
-                        searchList.addAll(searchResultMap.values());
-                        finalSearchResult.clear();
-                        finalSearchResult.addAll(updateSearchResults(searchList));
-                        finalSearchResult.addAll(searchResult);
-                    }else{
-                                GlobalVariables.getMessageMap().putInfo(OLEConstants.OrderQueue.REQUISITIONS,
-                                        OLEKeyConstants.ERROR_NO_RESULTS_FOUND);
-
-                        }
-                }
-                    oleFundDocument.setAccountNumber(accountNumber);
-
-                }else{
-                    GlobalVariables.getMessageMap().putInfo(OLEConstants.OrderQueue.REQUISITIONS,
-                            OLEKeyConstants.ERROR_NO_RESULTS_FOUND);
-                }
-            }
-        }else{
-            balanceList = getBalanceEntries(oleFundDocument);
-            pendingList = getGLPendingEntries(oleFundDocument);
-            entryList = getEntries(oleFundDocument);
-            Map<String,String> searchResultMap = new HashMap<String,String>();
-            if(balanceList.size() > 0){
-                for(Balance balance : balanceList){
-                    String value =  balance.getChartOfAccountsCode()+"-"+balance.getAccountNumber()+"-"+balance.getObjectCode()+"-"+balance.getUniversityFiscalYear();
-                    searchResultMap.put(value,value);
-                }
-            }
-            if(pendingList.size() > 0){
-                for(GeneralLedgerPendingEntry glPendingEntry : pendingList){
-                    String value = glPendingEntry.getChartOfAccountsCode()+"-"+glPendingEntry.getAccountNumber()+"-"+glPendingEntry.getFinancialObjectCode()+"-"+glPendingEntry.getUniversityFiscalYear();
-                    searchResultMap.put(value,value);
-                }
-            }
-            if(entryList.size() > 0){
-                for(Entry entry : entryList){
-                    String value = entry.getChartOfAccountsCode()+"-"+entry.getAccountNumber()+"-"+entry.getFinancialObjectCode()+"-"+entry.getUniversityFiscalYear();
-                    searchResultMap.put(value,value);
-                }
-            }
-
-            if(balanceList.size()<= 0 && pendingList.size()<= 0 && entryList.size() <= 0){
-                List<Account> accountList = getAccountList(oleFundDocument.getAccountNumber(), oleFundDocument.getChartOfAccountsCode());
-
-                if (accountList.size() > 0) {
-                    for (Iterator<Account> accountIterator = accountList.iterator(); accountIterator.hasNext(); ) {
-                    Account account = accountIterator.next();
-                    OleFundLookup oleFundLookup = new OleFundLookup();
-                    oleFundLookup.setChartOfAccountsCode(account.getChartOfAccountsCode());
-                    oleFundLookup.setAccountName(getAccountName(account.getAccountNumber()));
-                    oleFundLookup.setAccountNumber(account.getAccountNumber());
-                        if(oleFundDocument.getObjectCode().equals(OLEConstants.ALL))     {
-                            oleFundLookup.setObjectCode(OLEConstants.ALL_OBJ_CD);
-                        } else{
-                            oleFundLookup.setObjectCode(oleFundDocument.getObjectCode());
-                        }
-                    oleFundLookup.setOrganizationCode(getOrganizationCode(account.getAccountNumber()));
-                    oleFundLookup.setCashBalance(KualiDecimal.ZERO.toString());
-                    oleFundLookup.setFreeBalance(KualiDecimal.ZERO.toString());
-                    oleFundLookup.setIntialBudgetAllocation(KualiDecimal.ZERO.toString());
-                    oleFundLookup.setNetAllocation(KualiDecimal.ZERO.toString());
-                    oleFundLookup.setEncumbrances(KualiDecimal.ZERO.toString());
-                    oleFundLookup.setSumPaidInvoice(KualiDecimal.ZERO.toString());
-                    oleFundLookup.setSumUnpaidInvoice(KualiDecimal.ZERO.toString());
-                    oleFundLookup.setExpendedPercentage(KualiDecimal.ZERO.toString());
-                    oleFundLookup.setExpenEncumPercentage(KualiDecimal.ZERO.toString());
-                    searchResult.add(oleFundLookup);
-
-                }
+        balanceList = getSearchResults(map);
+        if(balanceList.size() <= 0  && !oleFundDocument.getAccountNumber().equals("*")){
+            boolean accountAvailable = checkAccountEntry(oleFundDocument.getAccountNumber(),oleFundDocument.getChartOfAccountsCode());
+            if(accountAvailable){
+                AccountBalance accountBalance = new AccountBalance();
+                accountBalance.setChartOfAccountsCode(oleFundDocument.getChartOfAccountsCode());
+                accountBalance.setAccountNumber(oleFundDocument.getAccountNumber());
+                accountBalance.setObjectCode(oleFundDocument.getObjectCode());
+                accountBalance.setUniversityFiscalYear(Integer.parseInt(oleFundDocument.getUniversityFiscalYear()));
+                accountBalance.setCurrentBudgetLineBalanceAmount(KualiDecimal.ZERO);
+                accountBalance.setAccountLineEncumbranceBalanceAmount(KualiDecimal.ZERO);
+                accountBalance.setAccountLineActualsBalanceAmount(KualiDecimal.ZERO);
+                balanceList.add(accountBalance);
             }
         }
-            List searchList = new ArrayList();
-            searchList.addAll(searchResultMap.values());
-            finalSearchResult.addAll(updateSearchResults(searchList));
-            finalSearchResult.addAll(searchResult);
+        //CollectionIncomplete<AccountBalance> fundbBalanceResultList = null;
+        List<AccountBalance> fundbBalanceResultList = new ArrayList<AccountBalance>();
+        CollectionIncomplete<AccountBalance> fundbBalanceList = (CollectionIncomplete<AccountBalance>) balanceList;
+        List<String> accountNameList = new ArrayList<String>();
+        List<String> orgCodeList = new ArrayList<String>();
+        if(oleFundDocument.getKeyword() != null && oleFundDocument.getOrganizationCode() != null){
+            accountNameList  = getKeyword(oleFundDocument.getKeyword());
+            orgCodeList = getOrganizationCd(oleFundDocument.getOrganizationCode());
+            for (AccountBalance balance : fundbBalanceList) {
+                if((accountNameList.contains(getAccountName(balance.getAccountNumber()))) &&
+                        (orgCodeList.contains(getOrganizationCode(balance.getAccountNumber())))){
+                    fundbBalanceResultList.add(balance);
+
+                }
+            }
+        }else if(oleFundDocument.getKeyword() != null){
+            accountNameList  = getKeyword(oleFundDocument.getKeyword());
+            for (AccountBalance balance : fundbBalanceList) {
+                if((accountNameList.contains(getAccountName(balance.getAccountNumber())))){
+                    fundbBalanceResultList.add(balance);
+
+                }
+            }
+        }else if(oleFundDocument.getOrganizationCode() != null){
+            orgCodeList = getOrganizationCd(oleFundDocument.getOrganizationCode());
+            for (AccountBalance balance : fundbBalanceList) {
+                if(orgCodeList.contains(getOrganizationCode(balance.getAccountNumber()))){
+                    fundbBalanceResultList.add(balance);
+
+                }
+            }
+        }else if(oleFundDocument.getKeyword() == null && oleFundDocument.getOrganizationCode() == null){
+            fundbBalanceResultList = fundbBalanceList;
         }
-
-
-        Collections.sort(finalSearchResult, new Comparator<OleFundLookup>() {
-            public int compare(OleFundLookup fundLookup1, OleFundLookup fundLookup2) {
-                String firstString = fundLookup1.getAccountNumber();
-                String secondString = fundLookup2.getAccountNumber();
-                if (secondString == null || firstString == null) {
-                    return 0;
-                }
-                int lengthFirstStr = firstString.length();
-                int lengthSecondStr = secondString.length();
-                int index1 = 0;
-                int index2 = 0;
-                while (index1 < lengthFirstStr && index2 < lengthSecondStr) {
-                    char ch1 = firstString.charAt(index1);
-                    char ch2 = secondString.charAt(index2);
-
-                    char[] space1 = new char[lengthFirstStr];
-                    char[] space2 = new char[lengthSecondStr];
-
-                    int loc1 = 0;
-                    int loc2 = 0;
-
-                    do {
-                        space1[loc1++] = ch1;
-                        index1++;
-
-                        if (index1 < lengthFirstStr) {
-                            ch1 = firstString.charAt(index1);
-                        } else {
-                            break;
-                        }
-                    } while (Character.isDigit(ch1) == Character.isDigit(space1[0]));
-
-                    do {
-                        space2[loc2++] = ch2;
-                        index2++;
-
-                        if (index2 < lengthSecondStr) {
-                            ch2 = secondString.charAt(index2);
-                        } else {
-                            break;
-                        }
-                    } while (Character.isDigit(ch2) == Character.isDigit(space2[0]));
-
-                    String str1 = new String(space1);
-                    String str2 = new String(space2);
-
-                    int result;
-
-                    if (Character.isDigit(space1[0]) && Character.isDigit(space2[0])) {
-                        Integer firstNumberToCompare = new Integer(Integer
-                                .parseInt(str1.trim()));
-                        Integer secondNumberToCompare = new Integer(Integer
-                                .parseInt(str2.trim()));
-                        result = firstNumberToCompare.compareTo(secondNumberToCompare);
-                    } else {
-                        result = str1.compareTo(str2);
-                    }
-
-                    if (result != 0) {
-                        return result;
-                    }
-                }
-                return lengthFirstStr - lengthSecondStr;
-            }
-        });
-
-
-        Collections.sort(finalSearchResult, new Comparator<OleFundLookup>() {
-            public int compare(OleFundLookup fundLookup1, OleFundLookup fundLookup2) {
-                String firstString = fundLookup1.getObjectCode();
-                String secondString = fundLookup2.getObjectCode();
-                if (secondString == null || firstString == null) {
-                    return 0;
-                }
-                int lengthFirstStr = firstString.length();
-                int lengthSecondStr = secondString.length();
-                int index1 = 0;
-                int index2 = 0;
-                while (index1 < lengthFirstStr && index2 < lengthSecondStr) {
-                    char ch1 = firstString.charAt(index1);
-                    char ch2 = secondString.charAt(index2);
-
-                    char[] space1 = new char[lengthFirstStr];
-                    char[] space2 = new char[lengthSecondStr];
-
-                    int loc1 = 0;
-                    int loc2 = 0;
-
-                    do {
-                        space1[loc1++] = ch1;
-                        index1++;
-
-                        if (index1 < lengthFirstStr) {
-                            ch1 = firstString.charAt(index1);
-                        } else {
-                            break;
-                        }
-                    } while (Character.isDigit(ch1) == Character.isDigit(space1[0]));
-
-                    do {
-                        space2[loc2++] = ch2;
-                        index2++;
-
-                        if (index2 < lengthSecondStr) {
-                            ch2 = secondString.charAt(index2);
-                        } else {
-                            break;
-                        }
-                    } while (Character.isDigit(ch2) == Character.isDigit(space2[0]));
-
-                    String str1 = new String(space1);
-                    String str2 = new String(space2);
-
-                    int result;
-
-                    if (Character.isDigit(space1[0]) && Character.isDigit(space2[0])) {
-                        Integer firstNumberToCompare = new Integer(Integer
-                                .parseInt(str1.trim()));
-                        Integer secondNumberToCompare = new Integer(Integer
-                                .parseInt(str2.trim()));
-                        result = firstNumberToCompare.compareTo(secondNumberToCompare);
-                    } else {
-                        result = str1.compareTo(str2);
-                    }
-
-                    if (result != 0) {
-                        return result;
-                    }
-                }
-                return lengthFirstStr - lengthSecondStr;
-            }
-        });
+        if(fundbBalanceResultList != null){
+            finalSearchResult.addAll(updateSearchResults(fundbBalanceResultList));
+        }
+        if(finalSearchResult.size() > 0){
         oleFundDocument.setFinalResults(finalSearchResult);
+        }else {
+            GlobalVariables.getMessageMap().putInfo(OLEConstants.OrderQueue.REQUISITIONS,
+                    OLEKeyConstants.ERROR_NO_RESULTS_FOUND);
+            return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        }
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 
-
-    public List<OleFundLookup> updateSearchResults(List<String> entryList) {
-        for (int i=0; i< entryList.size();i++) {
+    public List updateSearchResults(List<AccountBalance> fundbBalanceList) {
+        for (AccountBalance balance : fundbBalanceList) {
             OleFundLookup oleFundLookup = new OleFundLookup();
-            String[] searchString = entryList.get(i).split("-");
-            String chartCode =  searchString[0];
-            String accountNumber = searchString[1];
-            String objectCode = searchString[2];
-            int fiscalYear = Integer.parseInt(searchString[3]);
-            KualiDecimal encumbranceAmount = getEncumbrance(chartCode, accountNumber,objectCode, fiscalYear);
-            KualiDecimal sumPaidInvoice = getSumPaidInvoices(chartCode, accountNumber,objectCode, fiscalYear);
-            KualiDecimal sumUnpaidInvoice = getSumUnpaidInvoices(chartCode, accountNumber, objectCode);
-            KualiDecimal budgetIncrease = getBudgetIncrease(fiscalYear,chartCode, accountNumber, objectCode);
-            KualiDecimal budgetDecrease = getBudgetDecrease(fiscalYear,chartCode, accountNumber, objectCode);
-            KualiDecimal initialBudgetAllocation = getInitialBudgetAllocation(chartCode,accountNumber,objectCode,fiscalYear);
-            KualiDecimal netAllocation = (initialBudgetAllocation.add(budgetIncrease)).subtract(budgetDecrease);
+            String chartCode =  balance.getChartOfAccountsCode();
+            String accountNumber = balance.getAccountNumber();
+            String objectCode = balance.getObjectCode();
+            int fiscalYear = balance.getUniversityFiscalYear();
+            KualiDecimal encumbranceAmount = balance.getAccountLineEncumbranceBalanceAmount();
+            KualiDecimal sumPaidInvoice = balance.getAccountLineActualsBalanceAmount();
+            KualiDecimal sumUnpaidInvoice = KualiDecimal.ZERO;
+            KualiDecimal budgetIncrease = KualiDecimal.ZERO;
+            KualiDecimal budgetDecrease = KualiDecimal.ZERO;
+            KualiDecimal initialBudgetAllocation = balance.getCurrentBudgetLineBalanceAmount();
+            KualiDecimal netAllocation = balance.getCurrentBudgetLineBalanceAmount();
             KualiDecimal encumExpPercentage = ((sumPaidInvoice.add(encumbranceAmount)).multiply(new KualiDecimal(100)));
             if(!encumExpPercentage.isZero() && netAllocation.isGreaterThan(KualiDecimal.ZERO)){
                 encumExpPercentage = encumExpPercentage.divide(netAllocation);
@@ -504,342 +322,232 @@ public class OleFundLookupAction extends KualiTransactionalDocumentActionBase {
 
     }
 
-    public List<Entry> getEntries(OleFundLookupDocument oleFundDocument) {
-        Map searchMap = new HashMap();
-        searchMap.put("accountNumber", oleFundDocument.getAccountNumber());
-        searchMap.put("chartOfAccountsCode", oleFundDocument.getChartOfAccountsCode());
-        searchMap.put("financialObjectCode", oleFundDocument.getObjectCode());
-        searchMap.put("universityFiscalYear", oleFundDocument.getUniversityFiscalYear());
-        List<Entry> list = new ArrayList<Entry>();
-        List<Entry> entryList = (List) SpringContext.getBean(BusinessObjectService.class).
-                findMatching(Entry.class, searchMap);
-        for(Entry entry : entryList){
-            if(!entry.getTransactionLedgerEntryDescription().equals("TP Generated Offset") && !entry.getTransactionLedgerEntryDescription().equals("GENERATED OFFSET")){
-                list.add(entry);
-            }
+
+
+    public List getSearchResults(Map fieldValues) {
+
+
+        Collection searchResultsCollection = null;
+
+        // get the pending entry option. This method must be prior to the get search results
+        String pendingEntryOption = this.getSelectedPendingEntryOption(fieldValues);
+
+        // KFSMI-410: added one more node for consolidationOption
+        String consolidationOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.CONSOLIDATION_OPTION);
+        // test if the consolidation option is selected or not
+        boolean isConsolidated = true;
+
+
+        if (isConsolidated) {
+            fieldValues.remove("dummyBusinessObject.consolidationOption");
+            Iterator availableBalanceIterator = getAccountBalanceService().findConsolidatedAvailableAccountBalance(fieldValues);
+            searchResultsCollection = buildConsolidedAvailableBalanceCollection(availableBalanceIterator);
         }
-        return list;
-    }
-
-    public List<Balance> getBalanceEntries(OleFundLookupDocument oleFundDocument) {
-        Map searchMap = new HashMap();
-        searchMap.put("accountNumber", oleFundDocument.getAccountNumber());
-        searchMap.put("chartOfAccountsCode", oleFundDocument.getChartOfAccountsCode());
-        searchMap.put("objectCode", oleFundDocument.getObjectCode());
-        searchMap.put("universityFiscalYear", oleFundDocument.getUniversityFiscalYear());
-        searchMap.put("balanceTypeCode","CB");
-        List<Balance> balanceList = new ArrayList<Balance>();
-        balanceList = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, searchMap);
-        return balanceList;
-    }
-
-    public List<GeneralLedgerPendingEntry> getGLPendingEntries(OleFundLookupDocument oleFundDocument) {
-        Map searchMap = new HashMap();
-        searchMap.put("accountNumber", oleFundDocument.getAccountNumber());
-        searchMap.put("chartOfAccountsCode", oleFundDocument.getChartOfAccountsCode());
-        searchMap.put("financialObjectCode", oleFundDocument.getObjectCode());
-        searchMap.put("universityFiscalYear", oleFundDocument.getUniversityFiscalYear());
-        searchMap.put("transactionEntryOffsetIndicator","N");
-        List<GeneralLedgerPendingEntry> pendingEntryList = new ArrayList<GeneralLedgerPendingEntry>();
-        pendingEntryList = (List) SpringContext.getBean(BusinessObjectService.class).
-                findMatching(GeneralLedgerPendingEntry.class, searchMap);
-        return pendingEntryList;
-    }
 
 
-    public KualiDecimal getInitialBudgetAllocation(String chartCode,String accountNumber,String financialObjectCode,int fiscalYear){
-        KualiDecimal initialBUdgetAllocation = KualiDecimal.ZERO;
-        Map searchMap = new HashMap();
-        searchMap.put("accountNumber", accountNumber);
-        searchMap.put("chartOfAccountsCode", chartCode);
-        searchMap.put("objectCode", financialObjectCode);
-        searchMap.put("balanceTypeCode", "CB");
-        searchMap.put("universityFiscalYear",fiscalYear);
-        List<Balance> balances = (List) SpringContext.getBean(BusinessObjectService.class).
-                findMatching(Balance.class, searchMap);
-        if (balances.size() > 0) {
-            for (Balance balance : balances) {
-                if (balance.getAccountLineAnnualBalanceAmount().isGreaterThan(KualiDecimal.ZERO)) {
-                    initialBUdgetAllocation = initialBUdgetAllocation.add(balance.getAccountLineAnnualBalanceAmount());
+        // update search results according to the selected pending entry option
+        updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, false);
+
+        // Put the search related stuff in the objects
+        for (Iterator iter = searchResultsCollection.iterator(); iter.hasNext();) {
+            AccountBalance ab = (AccountBalance) iter.next();
+            TransientBalanceInquiryAttributes dbo = ab.getDummyBusinessObject();
+            dbo.setConsolidationOption(consolidationOption);
+            dbo.setPendingEntryOption(pendingEntryOption);
+        }
+
+        // get the actual size of all qualified search results
+        Integer recordCount = getAccountBalanceService().getAvailableAccountBalanceCount(fieldValues, isConsolidated);
+        Long actualSize = OJBUtility.getResultActualSize(searchResultsCollection, recordCount, fieldValues, new AccountBalance());
+        // Get the entry in Account
+  /*      SystemOptions option = getBusinessObjectService().findBySinglePrimaryKey(SystemOptions.class, Integer.parseInt((String)fieldValues.get(OLEConstants.FISCAL_YEAR)));
+        if(option != null){
+            if(searchResultsCollection.size() < 1) {
+                String accountNumber = fieldValues.get(OLEConstants.ACCOUNT_NUMBER).toString();
+                String chartCode = fieldValues.get(OLEConstants.CHART_CODE).toString();
+                List<Account> accountList =  checkAccountEntry(accountNumber,chartCode);
+                for (Iterator<Account> accountIterator = accountList.iterator(); accountIterator.hasNext(); ) {
+                    Account account = accountIterator.next();
+                    AccountBalance balance = new AccountBalance();
+                    balance.setChartOfAccountsCode(account.getChartOfAccountsCode());
+                    balance.setAccountNumber(account.getAccountNumber());
+                    String fiscalYear = fieldValues.get(OLEConstants.FISCAL_YEAR).toString();
+                    balance.setUniversityFiscalYear(Integer.parseInt(fiscalYear));
+                    balance.setObjectCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
+                    balance.setSubAccountNumber(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
+                    balance.setSubObjectCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
+                    balance.setCurrentBudgetLineBalanceAmount(KualiDecimal.ZERO);
+                    balance.setAccountLineActualsBalanceAmount(KualiDecimal.ZERO);
+                    balance.setAccountLineEncumbranceBalanceAmount(KualiDecimal.ZERO);
+                    searchResultsCollection.add(balance);
                 }
             }
-        }
-        return initialBUdgetAllocation;
+        }*/
+        return this.buildSearchResultList(searchResultsCollection, actualSize);
     }
 
-    public String getAccountName(String accountNumber) {
-        Map searchMap = new HashMap();
-        String accountName = "";
-        searchMap.put("accountNumber", accountNumber);
-        List<Account> accounts = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(Account.class, searchMap);
-        if (accounts.size() > 0) {
-            return accounts.get(0).getAccountName();
-        }
-        return accountName;
+
+    protected String getSelectedPendingEntryOption(Map fieldValues) {
+        // truncate the non-property filed
+        String pendingEntryOption = (String) fieldValues.get(Constant.PENDING_ENTRY_OPTION);
+        fieldValues.remove(Constant.PENDING_ENTRY_OPTION);
+
+        return pendingEntryOption;
     }
 
-    public String getOrganizationCode(String accountNumber) {
-        Map searchMap = new HashMap();
-        String organizationCode = "";
-        searchMap.put("accountNumber", accountNumber);
-        List<Account> accounts = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(Account.class, searchMap);
-        if (accounts.size() > 0) {
-            return accounts.get(0).getOrganizationCode();
+    private Collection buildConsolidedAvailableBalanceCollection(Iterator iterator) {
+        Collection balanceCollection = new ArrayList();
+
+        // build available balance collection throught analyzing the input iterator
+        while (iterator.hasNext()) {
+            Object avaiableAccountBalance = iterator.next();
+
+            if (avaiableAccountBalance.getClass().isArray()) {
+                int i = 0;
+                Object[] array = (Object[]) avaiableAccountBalance;
+                AccountBalance accountBalance = new AccountBalance();
+
+                accountBalance.setUniversityFiscalYear(new Integer(array[i++].toString()));
+                accountBalance.setChartOfAccountsCode(array[i++].toString());
+
+                accountBalance.setAccountNumber(array[i++].toString());
+                accountBalance.setSubAccountNumber(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER);
+
+                accountBalance.setObjectCode(array[i++].toString());
+                accountBalance.setSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
+
+                String objectTypeCode = array[i++].toString();
+                accountBalance.getFinancialObject().setFinancialObjectTypeCode(objectTypeCode);
+
+                KualiDecimal budgetAmount = new KualiDecimal(array[i++].toString());
+                accountBalance.setCurrentBudgetLineBalanceAmount(budgetAmount);
+
+                KualiDecimal actualsAmount = new KualiDecimal(array[i++].toString());
+                accountBalance.setAccountLineActualsBalanceAmount(actualsAmount);
+
+                KualiDecimal encumbranceAmount = new KualiDecimal(array[i].toString());
+                accountBalance.setAccountLineEncumbranceBalanceAmount(encumbranceAmount);
+
+                KualiDecimal variance = calculateVariance(accountBalance);
+                accountBalance.getDummyBusinessObject().setGenericAmount(variance);
+
+                balanceCollection.add(accountBalance);
+            }
         }
-        return organizationCode;
+        return balanceCollection;
     }
 
-    public KualiDecimal getEncumbrance(String chartCode, String accountNumber, String objectCode, Integer fiscalYear) {
+    private KualiDecimal calculateVariance(AccountBalance balance) {
 
-        Map searchMap = new HashMap();
-        KualiDecimal encumbranceAmount = KualiDecimal.ZERO;
-        KualiDecimal creditAmount = KualiDecimal.ZERO;
-        KualiDecimal debitAmount = KualiDecimal.ZERO;
-        searchMap.put("accountNumber", accountNumber);
-        searchMap.put("chartOfAccountsCode", chartCode);
-        searchMap.put("financialObjectCode", objectCode);
-        searchMap.put("universityFiscalYear", fiscalYear);
-        searchMap.put("financialBalanceTypeCode", "EX");
-        searchMap.put("financialDocumentApprovedCode", "A");
-        List<GeneralLedgerPendingEntry> poPendingEntry = (List) SpringContext.getBean(BusinessObjectService.class).
-                findMatching(GeneralLedgerPendingEntry.class, searchMap);
-        if (poPendingEntry.size() > 0) {
-            for (GeneralLedgerPendingEntry generalLedgerPendingEntry : poPendingEntry) {
-                if (generalLedgerPendingEntry.getTransactionDebitCreditCode().equals("D")) {
-                    debitAmount = debitAmount.add(generalLedgerPendingEntry.getTransactionLedgerEntryAmount());
-                } else if (generalLedgerPendingEntry.getTransactionDebitCreditCode().equals("C")) {
-                    if(!generalLedgerPendingEntry.getFinancialDocumentTypeCode().equals("OLE_POR")) {
-                        creditAmount = creditAmount.add(generalLedgerPendingEntry.getTransactionLedgerEntryAmount());
+        KualiDecimal variance = new KualiDecimal(0.0);
+        KualiDecimal budgetAmount = balance.getCurrentBudgetLineBalanceAmount();
+        KualiDecimal actualsAmount = balance.getAccountLineActualsBalanceAmount();
+        KualiDecimal encumbranceAmount = balance.getAccountLineEncumbranceBalanceAmount();
+
+        // determine if the object type code is one of the given codes
+        if (ObjectUtils.isNull(balance.getFinancialObject()) || StringUtils.isBlank(balance.getFinancialObject().getFinancialObjectTypeCode())) {
+            balance.refreshReferenceObject("financialObject"); // refresh if we need to...
+        }
+        ObjectCode financialObject = balance.getFinancialObject();
+        String objectTypeCode = (financialObject == null) ? Constant.EMPTY_STRING : financialObject.getFinancialObjectTypeCode();
+
+        SystemOptions options = getOptionsService().getOptions(balance.getUniversityFiscalYear());
+        if (ObjectUtils.isNull(options)) {
+            options = getOptionsService().getCurrentYearOptions();
+        }
+        String[] objectTypeCodeList = new String[3];
+        objectTypeCodeList[0] = options.getFinObjTypeExpendNotExpCode();
+        objectTypeCodeList[1] = options.getFinObjTypeExpNotExpendCode();
+        objectTypeCodeList[2] = options.getFinObjTypeExpenditureexpCd();
+
+        boolean isObjectTypeCodeInList = ArrayUtils.contains(objectTypeCodeList, objectTypeCode);
+
+        // calculate the variance based on the object type code of the balance
+        if (isObjectTypeCodeInList) {
+            variance = budgetAmount.subtract(actualsAmount);
+            variance = variance.subtract(encumbranceAmount);
+        }
+        else {
+            variance = actualsAmount.subtract(budgetAmount);
+        }
+        return variance;
+    }
+
+    protected void updateByPendingLedgerEntry(Collection entryCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated, boolean isCostShareInclusive) {
+
+
+        updateEntryCollection(entryCollection, fieldValues, false, isConsolidated, isCostShareInclusive);
+
+    }
+
+    protected void updateEntryCollection(Collection entryCollection, Map fieldValues, boolean isApproved, boolean isConsolidated, boolean isCostShareExcluded) {
+
+        // convert the field names of balance object into corresponding ones of pending entry object
+        Map pendingEntryFieldValues = BusinessObjectFieldConverter.convertToTransactionFieldValues(fieldValues);
+
+        // go through the pending entries to update the balance collection
+        Iterator pendingEntryIterator = getGeneralLedgerPendingEntryService().findPendingLedgerEntriesForAccountBalance(pendingEntryFieldValues, isApproved);
+        while (pendingEntryIterator.hasNext()) {
+            GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntryIterator.next();
+
+            if (isCostShareExcluded) {
+                if (ObjectUtils.isNotNull(pendingEntry.getSubAccount()) && ObjectUtils.isNotNull(pendingEntry.getSubAccount().getA21SubAccount())) {
+                    if (OLEConstants.SubAccountType.COST_SHARE.equals(pendingEntry.getSubAccount().getA21SubAccount().getSubAccountTypeCode())) {
+                        // Don't process this one
+                        continue;
                     }
                 }
             }
-        }
 
-        searchMap.clear();
-        searchMap.put("accountNumber", accountNumber);
-        searchMap.put("chartOfAccountsCode", chartCode);
-        searchMap.put("financialObjectCode", objectCode);
-        searchMap.put("universityFiscalYear", fiscalYear);
-        searchMap.put("financialBalanceTypeCode", "EX");
-
-        List<Entry> poEntry = (List) SpringContext.getBean(BusinessObjectService.class).
-                findMatching(Entry.class, searchMap);
-        if (poEntry.size() > 0) {
-            for (Entry entry : poEntry) {
-                if (entry.getTransactionDebitCreditCode().equals("D")) {
-                    debitAmount = debitAmount.add(entry.getTransactionLedgerEntryAmount());
-                } else if (entry.getTransactionDebitCreditCode().equals("C")) {
-                    if(!entry.getFinancialDocumentTypeCode().equals("OLE_POR")){
-                        creditAmount = creditAmount.add(entry.getTransactionLedgerEntryAmount());
-                    }
-                }
+            // if consolidated, change the following fields into the default values for consolidation
+            if (isConsolidated) {
+                pendingEntry.setSubAccountNumber(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER);
+                pendingEntry.setFinancialSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
+                pendingEntry.setFinancialObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
             }
-        }
-        encumbranceAmount = debitAmount.subtract(creditAmount);
-        return encumbranceAmount;
 
+            AccountBalance accountBalance = getPostAccountBalance().findAccountBalance(entryCollection, pendingEntry);
+            getPostAccountBalance().updateAccountBalance(pendingEntry, accountBalance);
+
+            // recalculate the variance after pending entries are combined into account balances
+            if (accountBalance.getDummyBusinessObject() == null) {
+                accountBalance.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
+            }
+            KualiDecimal variance = calculateVariance(accountBalance);
+            accountBalance.getDummyBusinessObject().setGenericAmount(variance);
+        }
     }
 
-
-    public KualiDecimal getSumPaidInvoices (String chartCode, String accountNumber, String objectCode, Integer
-            fiscalYear){
-
-        KualiDecimal paidInvoice = KualiDecimal.ZERO;
-        KualiDecimal credit = KualiDecimal.ZERO;
-        KualiDecimal debit = KualiDecimal.ZERO;
-
+    public boolean checkAccountEntry(String accountNumber,String chartCode) {
+        boolean exists = false;
         Map searchMap = new HashMap();
-        searchMap.put("accountNumber", accountNumber);
-        searchMap.put("chartOfAccountsCode", chartCode);
-        searchMap.put("financialObjectCode", objectCode);
-        searchMap.put("universityFiscalYear", fiscalYear);
-        searchMap.put("financialBalanceTypeCode", "AC");
-        searchMap.put("financialDocumentApprovedCode", "A");
-        List<GeneralLedgerPendingEntry> preqPendingEntry = (List) SpringContext.getBean(BusinessObjectService.class).
-                findMatching(GeneralLedgerPendingEntry.class, searchMap);
-        if (preqPendingEntry.size() > 0) {
-            for (GeneralLedgerPendingEntry generalLedgerPendingEntry : preqPendingEntry) {
-                if (generalLedgerPendingEntry.getTransactionDebitCreditCode().equals("D")) {
-                    debit = debit.add(generalLedgerPendingEntry.getTransactionLedgerEntryAmount());
-                } else if (generalLedgerPendingEntry.getTransactionDebitCreditCode().equals("C")) {
-                    credit = credit.add(generalLedgerPendingEntry.getTransactionLedgerEntryAmount());
-                }
-
-            }
+        searchMap.put(OLEConstants.ACCOUNT_NUMBER, accountNumber);
+        searchMap.put(OLEConstants.CHART_CODE,chartCode);
+        List<Account> accountList = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(Account.class, searchMap);
+        if(accountList.size() > 0){
+            return true;
         }
-
-
-        searchMap.clear();
-        searchMap.put("accountNumber", accountNumber);
-        searchMap.put("chartOfAccountsCode", chartCode);
-        searchMap.put("financialObjectCode", objectCode);
-        searchMap.put("universityFiscalYear", fiscalYear);
-        searchMap.put("financialBalanceTypeCode", "AC");
-        //searchMap.put("financialDocumentTypeCode", "OLE_PREQ");
-        List<Entry> entryList = (List) SpringContext.getBean(BusinessObjectService.class).
-                findMatching(Entry.class, searchMap);
-        if (entryList.size() > 0) {
-            for (Entry entry : entryList) {
-                if (entry.getTransactionDebitCreditCode().equals("D")) {
-                    debit = debit.add(entry.getTransactionLedgerEntryAmount());
-                } else if (entry.getTransactionDebitCreditCode().equals("C")) {
-                    credit = credit.add(entry.getTransactionLedgerEntryAmount());
-                }
-            }
-        }
-        if(debit.isGreaterThan(credit)){
-            if(credit.isLessEqual(KualiDecimal.ZERO)){
-                credit = credit.negated();
-            }
-            paidInvoice = debit.subtract(credit);
-        } else{
-            paidInvoice = credit.subtract(debit);
-        }
-        return paidInvoice;
+        return false;
     }
 
-    public KualiDecimal getBudgetIncrease (Integer fiscalYear, String chartCode, String accountNo,
-                                           String objectCode){
-        Map searchMap = new HashMap();
-        searchMap.put("universityFiscalYear", fiscalYear);
-        searchMap.put("chartOfAccountsCode", chartCode);
-        searchMap.put("accountNumber", accountNo);
-        searchMap.put("financialObjectCode", objectCode);
-        searchMap.put("financialDocumentTypeCode", OLEConstants.DOC_TYP_CD);
-        searchMap.put("financialBalanceTypeCode", OLEConstants.BAL_TYP_CD);
-        searchMap.put("financialDocumentApprovedCode", OLEConstants.FDOC_APPR_CD);
-        List<GeneralLedgerPendingEntry> generalLedgerPendingEntryList = (List<GeneralLedgerPendingEntry>) SpringContext.getBean(
-                BusinessObjectService.class).findMatching(GeneralLedgerPendingEntry.class, searchMap);
-        KualiDecimal budgetIncrease = KualiDecimal.ZERO;
-        if (generalLedgerPendingEntryList.size() > 0) {
-            for (GeneralLedgerPendingEntry entry : generalLedgerPendingEntryList) {
-                if (entry.getTransactionLedgerEntryAmount().isGreaterThan(KualiDecimal.ZERO)) {
-                    budgetIncrease = budgetIncrease.add(entry.getTransactionLedgerEntryAmount());
-                }
-            }
+    protected List buildSearchResultList(Collection searchResultsCollection, Long actualSize) {
+        CollectionIncomplete results = new CollectionIncomplete(searchResultsCollection, actualSize);
+
+        // sort list if default sort column given
+        List searchResults = results;
+        List defaultSortColumns = getDefaultSortColumns();
+        if (defaultSortColumns.size() > 0) {
+            Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));
         }
-
-        return budgetIncrease;
+        return searchResults;
     }
 
-    public KualiDecimal getBudgetDecrease (Integer fiscalYear, String chartCode, String accountNo,
-                                           String objectCode){
-        Map searchMap = new HashMap();
-        searchMap.put("universityFiscalYear", fiscalYear);
-        searchMap.put("chartOfAccountsCode", chartCode);
-        searchMap.put("accountNumber", accountNo);
-        searchMap.put("financialObjectCode", objectCode);
-        searchMap.put("financialDocumentTypeCode", OLEConstants.DOC_TYP_CD);
-        searchMap.put("financialBalanceTypeCode", OLEConstants.BAL_TYP_CD);
-        searchMap.put("financialDocumentApprovedCode", OLEConstants.FDOC_APPR_CD);
-        List<GeneralLedgerPendingEntry> generalLedgerPendingEntryList = (List<GeneralLedgerPendingEntry>) SpringContext.getBean(
-                BusinessObjectService.class).findMatching(GeneralLedgerPendingEntry.class, searchMap);
-        KualiDecimal budgetDecrease = KualiDecimal.ZERO;
-        if (generalLedgerPendingEntryList.size() > 0) {
-            for (GeneralLedgerPendingEntry entry : generalLedgerPendingEntryList) {
-                if (entry.getTransactionLedgerEntryAmount().isNegative()) {
-                    budgetDecrease = budgetDecrease.add(entry.getTransactionLedgerEntryAmount().multiply(new KualiDecimal(-1)));
-                }
-            }
-        }
-        return budgetDecrease;
+    public List<String> getDefaultSortColumns() {
+        return getBusinessObjectDictionaryService().getLookupDefaultSortFieldNames(getBusinessObjectClass());
     }
 
-    public KualiDecimal getSumUnpaidInvoices (String chartCode, String accountNo, String objectCode){
-        Map payMap = new HashMap();
-        payMap.put("chartOfAccountsCode", chartCode);
-        payMap.put("accountNumber", accountNo);
-        payMap.put("financialObjectCode", objectCode);
-        Map docMap = new HashMap();
-        docMap.put("financialDocumentStatusCode", OLEConstants.FIN_DOC_STS_CD);
-        KualiDecimal amount = KualiDecimal.ZERO;
-        List<FinancialSystemDocumentHeader> docList = (List<FinancialSystemDocumentHeader>) SpringContext.getBean(
-                BusinessObjectService.class).findMatching(FinancialSystemDocumentHeader.class, docMap);
-        if (docList.size() > 0) {
-            for (FinancialSystemDocumentHeader financialSystemDocumentHeader : docList) {
-                String fdocNo = financialSystemDocumentHeader.getDocumentNumber();
-                Map reqMap = new HashMap();
-                reqMap.put("documentNumber", fdocNo);
-                List<OlePaymentRequestDocument> reqList = (List<OlePaymentRequestDocument>) SpringContext.getBean(
-                        BusinessObjectService.class).findMatching(OlePaymentRequestDocument.class, reqMap);
-                if (reqList.size() > 0) {
-                    for (OlePaymentRequestDocument oleRequestDocument : reqList) {
-                        Integer payReqItmId = oleRequestDocument.getPurapDocumentIdentifier();
-                        Map itmMap = new HashMap();
-                        itmMap.put("purapDocumentIdentifier", payReqItmId);
-                        List<OlePaymentRequestItem> itemList = (List<OlePaymentRequestItem>) SpringContext.getBean(
-                                BusinessObjectService.class).findMatching(OlePaymentRequestItem.class, itmMap);
-                        if (itemList.size() > 0) {
-                            for (OlePaymentRequestItem olePaymentRequestItem : itemList) {
-                                Integer itemIdentifier = olePaymentRequestItem.getItemIdentifier();
-                                Map itemMap = new HashMap();
-                                itemMap.put("itemIdentifier", itemIdentifier);
-                                itemMap.put("chartOfAccountsCode", chartCode);
-                                itemMap.put("accountNumber", accountNo);
-                                itemMap.put("financialObjectCode", objectCode);
-                                List<PaymentRequestAccount> payReqList = (List<PaymentRequestAccount>) SpringContext
-                                        .getBean(BusinessObjectService.class).findMatching(PaymentRequestAccount.class,
-                                                itemMap);
-                                if (payReqList.size() > 0) {
-                                    for (PaymentRequestAccount paymentRequestAccount : payReqList) {
-                                        amount = amount.add(paymentRequestAccount.getAmount());
-
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return amount;
-    }
-
-    @Override
-    public ActionForward cancel (ActionMapping mapping, ActionForm form, HttpServletRequest request,
-                                 HttpServletResponse response)throws Exception {
-        OleFundLookupForm lookupForm = (OleFundLookupForm) form;
-        return returnToSender(request, mapping, lookupForm);
-    }
-
-
-    @Override
-    public ActionForward refresh (ActionMapping mapping, ActionForm form, HttpServletRequest request,
-                                  HttpServletResponse response)throws Exception {
-        return super.refresh(mapping, form, request, response);
-    }
-
-
-    /**
-     * This method clears the search criteria's that is on the FundLookup Search Page
-     *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward clear (ActionMapping mapping, ActionForm form, HttpServletRequest request,
-                                HttpServletResponse response)throws Exception {
-        OleFundLookupForm oleFundLookupForm = (OleFundLookupForm) form;
-        OleFundLookupDocument oleFundLookDocument = (OleFundLookupDocument) oleFundLookupForm.getDocument();
-        oleFundLookDocument.setAccountNumber(null);
-        oleFundLookDocument.setKeyword(null);
-        oleFundLookDocument.setChartOfAccountsCode(null);
-        oleFundLookDocument.setObjectCode(null);
-        oleFundLookDocument.setOrganizationCode(null);
-        oleFundLookDocument.setUniversityFiscalYear(null);
-        oleFundLookupForm.setOleFundLookupDocument(null);
-        return mapping.findForward(RiceConstants.MAPPING_BASIC);
-    }
-
-    public String convertNegativeSign (KualiDecimal convertTo){
-        if (convertTo.isLessThan(KualiDecimal.ZERO)) {
-            String converted = convertTo.toString().replace("-", "");
-            return "(" + converted + ")";
-        }
-        return convertTo.toString();
+    public Class getBusinessObjectClass() {
+        return OleFundLookup.class;
     }
 
     public boolean validateChartCode(String chartCode) {
@@ -872,42 +580,86 @@ public class OleFundLookupAction extends KualiTransactionalDocumentActionBase {
         return false;
     }
 
-    public boolean checkAccountEntry(String accountNumber,String chartCode,String accountName) {
+    public ActionForward clear (ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                HttpServletResponse response)throws Exception {
+        OleFundLookupForm oleFundLookupForm = (OleFundLookupForm) form;
+        OleFundLookupDocument oleFundLookDocument = (OleFundLookupDocument) oleFundLookupForm.getDocument();
+        oleFundLookDocument.setAccountNumber(null);
+        oleFundLookDocument.setKeyword(null);
+        oleFundLookDocument.setChartOfAccountsCode(null);
+        oleFundLookDocument.setObjectCode(null);
+        oleFundLookDocument.setOrganizationCode(null);
+        oleFundLookDocument.setUniversityFiscalYear(null);
+        oleFundLookupForm.setOleFundLookupDocument(null);
+        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
+
+
+    @Override
+    public ActionForward cancel (ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                 HttpServletResponse response)throws Exception {
+        OleFundLookupForm lookupForm = (OleFundLookupForm) form;
+        return returnToSender(request, mapping, lookupForm);
+    }
+
+    public String getAccountName(String accountNumber) {
         Map searchMap = new HashMap();
-        searchMap.put(OLEConstants.ACCOUNT_NUMBER, accountNumber);
-        searchMap.put(OLEConstants.CHART_CODE,chartCode);
-        Account account =  SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, searchMap);
-        if (account != null && accountName != null) {
-             searchMap.clear();
-            searchMap.put(OLEConstants.ACCOUNT_NUMBER, accountNumber);
-            searchMap.put(OLEConstants.OleFundLookupDocument.ACC_NAME,accountName);
-            List<Account> accountList = (List) getLookupService().findCollectionBySearchHelper(Account.class, searchMap, true);
-            if(accountList.size() > 0){
-                if(account.getAccountName().equals(accountList.get(0).getAccountName())){
-                    return true;
-                }else{
-                    return false;
-                }
+        String accountName = "";
+        searchMap.put("accountNumber", accountNumber);
+        List<Account> accounts = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(Account.class, searchMap);
+        if (accounts.size() > 0) {
+            return accounts.get(0).getAccountName();
+        }
+        return accountName;
+    }
+
+    public String getOrganizationCode(String accountNumber) {
+        Map searchMap = new HashMap();
+        String organizationCode = "";
+        searchMap.put("accountNumber", accountNumber);
+        List<Account> accounts = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(Account.class, searchMap);
+        if (accounts.size() > 0) {
+            return accounts.get(0).getOrganizationCode();
+        }
+        return organizationCode;
+    }
+
+    public String convertNegativeSign (KualiDecimal convertTo){
+        if (convertTo.isLessThan(KualiDecimal.ZERO)) {
+            String converted = convertTo.toString().replace("-", "");
+            return "(" + converted + ")";
+        }
+        return convertTo.toString();
+    }
+
+    public List<String> getKeyword(String accountName){
+        Map searchMap = new HashMap();
+        List<String> accountNameList = new ArrayList<String>();
+        searchMap.put("accountName", accountName);
+        List<Account> accounts = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(Account.class, searchMap);
+        if (accounts.size() > 0) {
+            for(Account account : accounts){
+                accountNameList.add(account.getAccountName());
             }
         }
-        else if (account != null){
-            return true;
-        }
-        return false;
+        return accountNameList;
     }
 
-
-    public List<Account> getAccountList(String accountNumber,String chartCode) {
+    public List<String> getOrganizationCd(String orgCd){
         Map searchMap = new HashMap();
-        searchMap.put(OLEConstants.ACCOUNT_NUMBER, accountNumber);
-        searchMap.put(OLEConstants.CHART_CODE,chartCode);
-        List<Account> accountList = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(Account.class, searchMap);
-        return accountList;
-    }
-
-    private LookupService getLookupService() {
-        return KRADServiceLocatorWeb.getLookupService();
+        List<String> orgCdList = new ArrayList<String>();
+        searchMap.put("organizationCode", orgCd);
+        List<Account> accounts = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(Account.class, searchMap);
+        if (accounts.size() > 0) {
+            for(Account account : accounts){
+                orgCdList.add(account.getOrganizationCode());
+            }
+        }
+        return orgCdList;
     }
 
 
 }
+
+
+

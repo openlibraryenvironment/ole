@@ -70,7 +70,7 @@ public class OLECirculationServlet extends HttpServlet {
                                 if(parameterMap.containsKey(OLENCIPConstants.PICKUP_LOCATION)) {
                                     pickupLocation=parameterMap.get(OLENCIPConstants.PICKUP_LOCATION)[0];
                                 }
-                                responseString=oleCirculationService.placeRequest(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0],parameterMap.get(OLENCIPConstants.REQUEST_TYPE)[0],pickupLocation,null,null,null,null);
+                                responseString=oleCirculationService.placeRequest(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0],parameterMap.get(OLENCIPConstants.REQUEST_TYPE)[0],pickupLocation,null,null,"Item Level",null);
                                 if(outputFormat.equalsIgnoreCase(OLENCIPConstants.JSON_FORMAT)){
                                     responseString=new OLEPlaceRequestConverter().generatePlaceRequestJson(responseString);
                                 }

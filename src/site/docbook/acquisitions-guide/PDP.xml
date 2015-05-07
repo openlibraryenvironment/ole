@@ -1692,6 +1692,17 @@
                 </informaltable>
             </section>
         </section>
+        <section>
+            <title>Implementation Information</title>
+            <para>The Customer Profile is required to run the purchasingPreDisbursementExtractJob
+                that will populate the evoucher related tables in the database otherwise an
+                exception will occur.</para>
+            <para>Additionally for the job to run, the OLE-PDP parameter FROM_EMAIL_ADDRESS is
+                required to have the same value as the Customer Profile's <emphasis role="bold"
+                    >Customer Process E-mail Address</emphasis>.</para>
+            <para>See <link xlink:href="https://jira.kuali.org/browse/OLE-6428"
+                >OLE-6428</link></para>
+        </section>
     </section>
     <section>
         <title><anchor xml:id="_disbursementNumberRange"/>Disbursement Number Range</title>
@@ -2502,7 +2513,7 @@
         <para>Only users with the OLE-PDP Payee ACH Accounts Administrator role may create Payee ACH
             Account documents. These documents do not route for approval.</para>
         <note>
-            <para>In OLE's 1.5 test drive and out of the box software, you will need to assign
+            <para>In OLE's test drive and out of the box software, you will need to assign
                 someone to the OLE-PDP Payee ACH Accounts Administrator role.  As delivered, the
                 role has no members.</para>
         </note>
@@ -3848,7 +3859,8 @@
                                     <para role="Table Cells">Location</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells"> </para>
+                                    <para role="Table Cells"> Optional. Enter the location of the
+                                        PDP customer associated with the batch you want.</para>
                                 </entry>
                             </row>
                             <row>

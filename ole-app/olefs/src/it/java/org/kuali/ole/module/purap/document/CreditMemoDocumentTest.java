@@ -19,7 +19,7 @@ package org.kuali.ole.module.purap.document;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.ole.DocumentTestUtils;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.ole.module.purap.businessobject.CreditMemoItem;
@@ -43,10 +43,10 @@ import static org.kuali.ole.sys.document.AccountingDocumentTestUtils.testGetNewD
 /**
  * This class is used to create and test populated CreditMemo Documents of various kinds.
  */
-public class CreditMemoDocumentTest extends KualiTestBase {
+public class CreditMemoDocumentTest extends KFSTestCaseBase {
     public static final Class<VendorCreditMemoDocument> DOCUMENT_CLASS = VendorCreditMemoDocument.class;
     private static final String ACCOUNT_REVIEW = "Account Review";
-    
+
     private RequisitionDocument requisitionDocument = null;
     private VendorCreditMemoDocument creditMemoDocument = null;
    

@@ -19,7 +19,7 @@ package org.kuali.ole.module.purap;
  * Holds error key constants for PURAP.
  */
 public class PurapKeyConstants {
-
+    public static final String DUPLICATE_INVOICE_NUMBER = "error.duplicate.invoice.number" ;
     public static final String PURAP_GENERAL_POTENTIAL_DUPLICATE = "error.document.purap.potentialDuplicate";
     public static final String PURAP_GENERAL_NO_ACCOUNTS_TO_DISTRIBUTE = "error.document.purap.noAccountsToDistribute";
     public static final String PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO = "error.document.purap.noItemsToDistributeTo";

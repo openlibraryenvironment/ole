@@ -19,6 +19,7 @@ public class OlePatronPostalAddress {
     private boolean addressVerified;
     private boolean defaults;
     private boolean active;
+    private boolean deliverAddress;
     /**
      * Gets the postalAddressType attribute.
      * @return  Returns the postalAddressType.
@@ -182,5 +183,13 @@ public class OlePatronPostalAddress {
 
     public void setAddressSource(String addressSource) {
         this.addressSource = addressSource;
+    }
+
+    public boolean isDeliverAddress() {
+        return deliverAddress;
+    }
+
+    public void setDeliverAddress(boolean deliverAddress) {
+        this.deliverAddress = deliverAddress;
     }
 }

@@ -17,9 +17,7 @@ package org.kuali.ole.fp.document;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.ole.ConfigureContext;
-import org.kuali.ole.DocumentTestUtils;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.*;
 import org.kuali.ole.fixture.AccountingLineFixture;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.sys.businessobject.SourceAccountingLine;
@@ -44,7 +42,7 @@ import static org.kuali.ole.sys.document.AccountingDocumentTestUtils.testGetNewD
  * This class is used to test NonCheckDisbursementDocumentTest.
  */
 
-public class AuxiliaryVoucherDocumentTest extends KualiTestBase {
+public class AuxiliaryVoucherDocumentTest extends KFSTestCaseBase {
 
     public static final Class<AuxiliaryVoucherDocument> DOCUMENT_CLASS = AuxiliaryVoucherDocument.class;
 

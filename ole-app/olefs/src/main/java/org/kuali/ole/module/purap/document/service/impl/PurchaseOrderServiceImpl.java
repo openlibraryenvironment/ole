@@ -23,6 +23,7 @@ import org.kuali.ole.deliver.batch.OleMailer;
 import org.kuali.ole.integration.purap.CapitalAssetSystem;
 import org.kuali.ole.module.purap.*;
 import org.kuali.ole.module.purap.PurapConstants.*;
+import org.kuali.ole.module.purap.batch.AutoClosePurchaseOrdersStep;
 import org.kuali.ole.module.purap.batch.AutoCloseRecurringOrdersStep;
 import org.kuali.ole.module.purap.businessobject.*;
 import org.kuali.ole.module.purap.document.*;
@@ -293,7 +294,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     /**
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#createPurchaseOrderDocument(org.kuali.ole.module.purap.document.RequisitionDocument,
-     *      java.lang.String, java.lang.Integer)
+     * java.lang.String, java.lang.Integer)
      */
     @Override
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument, String newSessionUserId, Integer contractManagerCode) {
@@ -427,7 +428,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * TODO RELEASE 3 - QUOTE
      *
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#printPurchaseOrderQuoteRequestsListPDF(org.kuali.ole.module.purap.document.PurchaseOrderDocument,
-     *      java.io.ByteArrayOutputStream)
+     * java.io.ByteArrayOutputStream)
      */
     @Override
     public boolean printPurchaseOrderQuoteRequestsListPDF(String documentNumber, ByteArrayOutputStream baosPDF) {
@@ -447,7 +448,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * TODO RELEASE 3 - QUOTE
      *
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#printPurchaseOrderQuotePDF(org.kuali.ole.module.purap.document.PurchaseOrderDocument,
-     *      org.kuali.ole.module.purap.businessobject.PurchaseOrderVendorQuote, java.io.ByteArrayOutputStream)
+     * org.kuali.ole.module.purap.businessobject.PurchaseOrderVendorQuote, java.io.ByteArrayOutputStream)
      */
     @Override
     public boolean printPurchaseOrderQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, ByteArrayOutputStream baosPDF) {
@@ -464,7 +465,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     /**
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#performPurchaseOrderFirstTransmitViaPrinting(java.lang.String,
-     *      java.io.ByteArrayOutputStream)
+     * java.io.ByteArrayOutputStream)
      */
     @Override
     public void performPurchaseOrderFirstTransmitViaPrinting(String documentNumber, ByteArrayOutputStream baosPDF) {
@@ -499,7 +500,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     /**
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#performPurchaseOrderPreviewPrinting(java.lang.String,
-     *      java.io.ByteArrayOutputStream)
+     * java.io.ByteArrayOutputStream)
      */
     @Override
     public void performPurchaseOrderPreviewPrinting(String documentNumber, ByteArrayOutputStream baosPDF) {
@@ -508,7 +509,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     /**
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#performPrintPurchaseOrderPDFOnly(java.lang.String,
-     *      java.io.ByteArrayOutputStream)
+     * java.io.ByteArrayOutputStream)
      */
     @Override
     public void performPrintPurchaseOrderPDFOnly(String documentNumber, ByteArrayOutputStream baosPDF) {
@@ -523,7 +524,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     /**
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#retransmitPurchaseOrderPDF(org.kuali.ole.module.purap.document.PurchaseOrderDocument,
-     *      java.io.ByteArrayOutputStream)
+     * java.io.ByteArrayOutputStream)
      */
     @Override
     public void retransmitPurchaseOrderPDF(PurchaseOrderDocument po, ByteArrayOutputStream baosPDF) {
@@ -614,7 +615,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     /**
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#createAndSavePotentialChangeDocument(java.lang.String,
-     *      java.lang.String, java.lang.String)
+     * java.lang.String, java.lang.String)
      */
     @Override
     public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String currentDocumentStatusCode) {
@@ -662,7 +663,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     /**
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#createAndRoutePotentialChangeDocument(java.lang.String,
-     *      java.lang.String, java.lang.String, java.util.List, java.lang.String)
+     * java.lang.String, java.lang.String, java.util.List, java.lang.String)
      */
     @Override
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
@@ -708,7 +709,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     /**
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#createAndSavePurchaseOrderSplitDocument(java.util.List,
-     *      java.lang.String, boolean)
+     * java.lang.String, boolean)
      */
     @Override
     public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, PurchaseOrderDocument currentDocument, boolean copyNotes, String splitNoteText) {
@@ -1199,7 +1200,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     /**
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#getOldestPurchaseOrder(org.kuali.ole.module.purap.document.PurchaseOrderDocument,
-     *      org.kuali.ole.module.purap.document.PurchaseOrderDocument)
+     * org.kuali.ole.module.purap.document.PurchaseOrderDocument)
      */
     @Override
     public PurchaseOrderDocument getOldestPurchaseOrder(PurchaseOrderDocument po, PurchaseOrderDocument documentBusinessObject) {
@@ -1671,7 +1672,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     /**
      * @see org.kuali.module.purap.service.PurchaseOrderService#populateQuoteWithVendor(java.lang.Integer, java.lang.Integer,
-     *      java.lang.String)
+     * java.lang.String)
      */
     @Override
     public PurchaseOrderVendorQuote populateQuoteWithVendor(Integer headerId, Integer detailId, String documentNumber) {
@@ -1788,29 +1789,53 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     @Override
     public boolean autoCloseFullyDisencumberedOrders() {
         LOG.debug("autoCloseFullyDisencumberedOrders() started");
+        List<AutoClosePurchaseOrderView> autoCloseList = new ArrayList<AutoClosePurchaseOrderView>();
 
-        List<AutoClosePurchaseOrderView> autoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes());
+        String autoCloseOrderFromDateString = parameterService.getParameterValueAsString(AutoClosePurchaseOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_PO_FROM_DATE);
+        String autoCloseOrderToDateString = parameterService.getParameterValueAsString(AutoClosePurchaseOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_PO_TO_DATE);
+
+        boolean validFromDate = true;
+        java.sql.Date autoCloseOrderFromDate = null;
+        try {
+            autoCloseOrderFromDate = dateTimeService.convertToSqlDate(autoCloseOrderFromDateString);
+        } catch (Exception e) {
+            autoCloseOrderFromDate = null;
+        }
+
+        boolean validToDate = true;
+        java.sql.Date autoCloseOrderToDate = null;
+        try {
+            autoCloseOrderToDate = dateTimeService.convertToSqlDate(autoCloseOrderToDateString);
+
+        } catch (Exception e) {
+            autoCloseOrderToDate = null;
+        }
+
+
+        autoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes(), autoCloseOrderFromDate, autoCloseOrderToDate);
 
         //we need to eliminate the AutoClosePurchaseOrderView whose workflowdocument status is not OPEN..
         //KFSMI-7533
-        List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = filterDocumentsForAppDocStatusOpen(autoCloseList);
+         List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = filterDocumentsForAppDocStatusOpen
+         (autoCloseList);
 
         for (AutoClosePurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
             if ((poAutoClose.getTotalAmount() != null) && ((KualiDecimal.ZERO.compareTo(poAutoClose.getTotalAmount())) != 0)) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("autoCloseFullyDisencumberedOrders() PO ID " + poAutoClose.getPurapDocumentIdentifier() + " with total " + poAutoClose.getTotalAmount().doubleValue() + " will be closed");
-                }
-                String newStatus = PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_CLOSE;
-                String annotation = "This PO was automatically closed in batch.";
-                String documentType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
-                PurchaseOrderDocument document = getPurchaseOrderByDocumentNumber(poAutoClose.getDocumentNumber());
-                createNoteForAutoCloseOrders(document, annotation);
-                createAndRoutePotentialChangeDocument(poAutoClose.getDocumentNumber(), documentType, annotation, null, newStatus);
-
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("autoCloseFullyDisencumberedOrders() PO ID " + poAutoClose.getPurapDocumentIdentifier() + " with total " + poAutoClose.getTotalAmount().doubleValue() + " will be closed");
             }
+            String newStatus = PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_CLOSE;
+            String annotation = "This PO was automatically closed in batch.";
+            String documentType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
+            PurchaseOrderDocument document = getPurchaseOrderByDocumentNumber(poAutoClose.getDocumentNumber());
+            createNoteForAutoCloseOrders(document, annotation);
+            createAndRoutePotentialChangeDocument(poAutoClose.getDocumentNumber(), documentType, annotation, null, newStatus);
+            }
+
         }
         LOG.debug("autoCloseFullyDisencumberedOrders() ended");
 
+        resetAutoClosePurchaseOrderDateParameter();
         return true;
     }
 
@@ -1950,7 +1975,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * add add to the return list.
      *
      * @param List<AutoClosePurchaseOrderView>
-     *
      * @param appDocStatus
      * @return filteredAutoClosePOView filtered auto close po view documents where appdocstatus is open
      */
@@ -2058,6 +2082,25 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         Parameter autoCloseRecurringPODate = parameterService.getParameter(AutoCloseRecurringOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_DATE);
         if (autoCloseRecurringPODate != null) {
             Parameter.Builder updatedParameter = Parameter.Builder.create(autoCloseRecurringPODate);
+            updatedParameter.setValue("mm/dd/yyyy");
+            parameterService.updateParameter(updatedParameter.build());
+        }
+    }
+
+    /**
+     * Resets the AUTO_CLOSE_PO_FROM_DATE and AUTO_CLOSE_PO_TO_DATE system parameters to "mm/dd/yyyy".
+     */
+    protected void resetAutoClosePurchaseOrderDateParameter() {
+        Parameter autoClosePOFromDate = parameterService.getParameter(AutoClosePurchaseOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_PO_FROM_DATE);
+        Parameter autoClosePOToDate = parameterService.getParameter(AutoClosePurchaseOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_PO_TO_DATE);
+
+        if (autoClosePOFromDate != null) {
+            Parameter.Builder updatedParameter = Parameter.Builder.create(autoClosePOFromDate);
+            updatedParameter.setValue("mm/dd/yyyy");
+            parameterService.updateParameter(updatedParameter.build());
+        }
+        if (autoClosePOToDate != null) {
+            Parameter.Builder updatedParameter = Parameter.Builder.create(autoClosePOToDate);
             updatedParameter.setValue("mm/dd/yyyy");
             parameterService.updateParameter(updatedParameter.build());
         }
@@ -2342,7 +2385,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     @Override
     public void initiateTransmission(PurchaseOrderDocument po, PurApItem item) {
-        if(po.getRequestorPersonEmailAddress() != null){
+        if (po.getRequestorPersonEmailAddress() != null) {
             fromEmailAddress = po.getRequestorPersonEmailAddress();
         }
 
@@ -2376,7 +2419,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                         if (vendorTransmissionFormatDetail.getVendorTransmissionFormat() != null &&
                                 vendorTransmissionFormatDetail.getVendorTransmissionFormat().getVendorTransmissionFormat() != null &&
                                 vendorTransmissionFormatDetail.getVendorTransmissionFormat().getVendorTransmissionFormat().equalsIgnoreCase(OLEConstants.OLE_VENDOR_PDF_OPTION)) {
-                            if(!(po.getDocumentNumber().equals(documentNumber))) {
+                            if (!(po.getDocumentNumber().equals(documentNumber))) {
                                 savePurchaseOrderPdf(po, pdfFileName, item);
                                 processFTPTransmission(vendorTransmissionFormatDetail, file, pdfFileName.trim());
                                 documentNumber = po.getDocumentNumber();
@@ -2392,26 +2435,26 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
 
-    public String getEmailAddress(VendorTransmissionFormatDetail vendorTransmissionFormatDetail){
+    public String getEmailAddress(VendorTransmissionFormatDetail vendorTransmissionFormatDetail) {
         String toAddress = "";
         Integer vendorId = vendorTransmissionFormatDetail.getVendorHeaderGeneratedIdentifier();
-        if(vendorId != null){
+        if (vendorId != null) {
             Map searchMap = new HashMap();
-            searchMap.put("vendorHeaderGeneratedIdentifier",vendorId);
-            List<VendorAddress> address = (List<VendorAddress>)SpringContext.getBean(BusinessObjectService.class).findMatching(VendorAddress.class,searchMap);
-            if(address.size() > 0){
-                for(VendorAddress vendorAddress : address){
-                    if(toAddress == null || (toAddress.isEmpty())){
+            searchMap.put("vendorHeaderGeneratedIdentifier", vendorId);
+            List<VendorAddress> address = (List<VendorAddress>) SpringContext.getBean(BusinessObjectService.class).findMatching(VendorAddress.class, searchMap);
+            if (address.size() > 0) {
+                for (VendorAddress vendorAddress : address) {
+                    if (toAddress == null || (toAddress.isEmpty())) {
                         toAddress = vendorAddress.getVendorAddressEmailAddress();
                     }
                 }
 
             }
-            if(toAddress == null || toAddress.isEmpty()){
-                List<VendorContact> vendorContactList = (List<VendorContact>)SpringContext.getBean(BusinessObjectService.class).findMatching(VendorContact.class,searchMap);
-                if(vendorContactList.size() > 0){
-                    for(VendorContact vendorContact : vendorContactList){
-                        if(toAddress == null || (toAddress.isEmpty())){
+            if (toAddress == null || toAddress.isEmpty()) {
+                List<VendorContact> vendorContactList = (List<VendorContact>) SpringContext.getBean(BusinessObjectService.class).findMatching(VendorContact.class, searchMap);
+                if (vendorContactList.size() > 0) {
+                    for (VendorContact vendorContact : vendorContactList) {
+                        if (toAddress == null || (toAddress.isEmpty())) {
                             toAddress = vendorContact.getVendorContactEmailAddress();
                         }
                     }
@@ -2498,7 +2541,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 LOG.debug("ediFileName==========================>" + fileName);
             }
 
-            OleTransmissionService transmissionService = SpringContext.getBean(OleTransmissionService.class);
+            OleTransmissionService transmissionService = (OleTransmissionService) SpringContext.getService("transmissionService");
             if (vendorTransmissionFormatDetail.getVendorTransmissionTypes().getVendorTransmissionType().equalsIgnoreCase("SFTP")) {
                 transmissionService.doSFTPUpload(vendorTransmissionFormatDetail, file, fileName);
             } else if (vendorTransmissionFormatDetail.getVendorTransmissionTypes().getVendorTransmissionType().equalsIgnoreCase("FTP")) {
@@ -2522,30 +2565,30 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 getVendorFormatType(vendorTransmissionFormatDetail.getVendorTransmissionFormatId()).equalsIgnoreCase(OLEConstants.OLE_VENDOR_EDI_OPTION) &&
                 vendorTransmissionFormatDetail.isVendorPreferredTransmissionFormat() &&
                 getVendorTransmissionType(vendorTransmissionFormatDetail.getVendorTransmissionTypeId()).equalsIgnoreCase(OLEConstants.OLE_VENDOR_EMAIL_OPTION)) {
-                String fileLocation = ConfigContext.getCurrentContextConfig().getProperty(org.kuali.ole.OLEConstants.VENDOR_TRANSMISSION_FILE_PATH) + fileName;
-                fileNameList.add(fileLocation);
-                toEmailAddress = getEmailAddress(vendorTransmissionFormatDetail);
+            String fileLocation = ConfigContext.getCurrentContextConfig().getProperty(org.kuali.ole.OLEConstants.VENDOR_TRANSMISSION_FILE_PATH) + fileName;
+            fileNameList.add(fileLocation);
+            toEmailAddress = getEmailAddress(vendorTransmissionFormatDetail);
         }
         return true;
     }
 
-    public String getVendorFormatType(Long id){
+    public String getVendorFormatType(Long id) {
         String vendorFormatType = "";
         Map searchMap = new HashMap();
-        searchMap.put(OLEConstants.VENDOR_TRANS_FORMAT_ID,id);
-        OleVendorTransmissionFormat vendorTransmissionFormat = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OleVendorTransmissionFormat.class,searchMap);
-        if(vendorTransmissionFormat != null){
+        searchMap.put(OLEConstants.VENDOR_TRANS_FORMAT_ID, id);
+        OleVendorTransmissionFormat vendorTransmissionFormat = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OleVendorTransmissionFormat.class, searchMap);
+        if (vendorTransmissionFormat != null) {
             vendorFormatType = vendorTransmissionFormat.getVendorTransmissionFormat();
         }
         return vendorFormatType;
     }
 
-    public String getVendorTransmissionType(Integer id){
+    public String getVendorTransmissionType(Integer id) {
         String vendorTransmissionType = "";
         Map searchMap = new HashMap();
-        searchMap.put(OLEConstants.VENDOR_TRANS_TYPE_ID,id);
-        OleVendorTransmissionType transmissionType = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OleVendorTransmissionType.class,searchMap);
-        if(transmissionType != null){
+        searchMap.put(OLEConstants.VENDOR_TRANS_TYPE_ID, id);
+        OleVendorTransmissionType transmissionType = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OleVendorTransmissionType.class, searchMap);
+        if (transmissionType != null) {
             vendorTransmissionType = transmissionType.getVendorTransmissionType();
         }
         return vendorTransmissionType;
@@ -2560,13 +2603,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 oleMail.SendEMail(toEmailAddress, fromEmailAddress, fileNameList, subject, messageBody);
             }
         } catch (Exception e) {
-            LOG.info("Email Sending Failed for fromAddress ["+fromEmailAddress+"] and toAddress [ "+toEmailAddress+" ]");
+            LOG.info("Email Sending Failed for fromAddress [" + fromEmailAddress + "] and toAddress [ " + toEmailAddress + " ]");
             e.printStackTrace();
         }
     }
 
     public OleSelectDocumentService getOleSelectDocumentService() {
-        if(oleSelectDocumentService == null){
+        if (oleSelectDocumentService == null) {
             oleSelectDocumentService = SpringContext.getBean(OleSelectDocumentService.class);
         }
         return oleSelectDocumentService;

@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.bo;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.deliver.calendar.bo.OleCalendarGroup;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -166,7 +167,11 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
     }
 
     public String getOnHoldDays() {
-        return onHoldDays;
+        if(onHoldDays!=null && onHoldDays.equalsIgnoreCase("")){
+            return null;
+        }else{
+            return onHoldDays;
+        }
     }
 
     public void setOnHoldDays(String onHoldDays) {
@@ -278,7 +283,7 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
     }
 
     public String getRequestExpirationDays() {
-        return requestExpirationDays;
+        return StringUtils.isBlank(requestExpirationDays)?"0":requestExpirationDays;
     }
 
     public void setRequestExpirationDays(String requestExpirationDays) {

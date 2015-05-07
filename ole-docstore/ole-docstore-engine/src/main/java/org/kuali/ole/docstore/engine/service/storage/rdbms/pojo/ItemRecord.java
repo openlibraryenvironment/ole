@@ -75,6 +75,17 @@ public class ItemRecord extends PersistableBusinessObjectBase
     private List<ItemStatisticalSearchRecord> itemStatisticalSearchRecords;
     private List<HoldingsItemRecord> holdingsItemRecords;
     private int numberOfRenew;
+    private List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords;
+    private List<ItemDamagedRecord> itemDamagedRecords;
+    private List<MissingPieceItemRecord> missingPieceItemRecordList;
+
+    public List<MissingPieceItemRecord> getMissingPieceItemRecordList() {
+        return missingPieceItemRecordList;
+    }
+
+    public void setMissingPieceItemRecordList(List<MissingPieceItemRecord> missingPieceItemRecordList) {
+        this.missingPieceItemRecordList = missingPieceItemRecordList;
+    }
 
     public String getItemId() {
         return itemId;
@@ -556,5 +567,21 @@ public class ItemRecord extends PersistableBusinessObjectBase
 
     public void setNumberOfRenew(int numberOfRenew) {
         this.numberOfRenew = numberOfRenew;
+    }
+
+    public List<ItemClaimsReturnedRecord> getItemClaimsReturnedRecords() {
+        return itemClaimsReturnedRecords;
+    }
+
+    public void setItemClaimsReturnedRecords(List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords) {
+        this.itemClaimsReturnedRecords = itemClaimsReturnedRecords;
+    }
+
+    public List<ItemDamagedRecord> getItemDamagedRecords() {
+        return itemDamagedRecords;
+    }
+
+    public void setItemDamagedRecords(List<ItemDamagedRecord> itemDamagedRecords) {
+        this.itemDamagedRecords = itemDamagedRecords;
     }
 }

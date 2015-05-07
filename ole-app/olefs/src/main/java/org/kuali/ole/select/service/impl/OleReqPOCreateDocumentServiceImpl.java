@@ -717,6 +717,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
         populateValuesFromProfileAttributesAndDataMapping(item, job,requisitionDocument);
         setForeignCurrencyDetails(item,requisitionDocument);
         setItemNotes(item,oleOrderRecord.getOleTxRecord());
+        item.setVendorItemPoNumber(oleOrderRecord.getOleTxRecord().getVendorItemIdentifier());
         return item;
     }
 

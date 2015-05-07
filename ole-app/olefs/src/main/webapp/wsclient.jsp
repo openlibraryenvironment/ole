@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Webservice Client</title>
+<title>PreOrder Service</title>
 <script language="Javascript">
 	function showDisplay(obj){
 		if(obj == 'citation'){
@@ -298,3 +298,6 @@
 </form>
 </body>
 </html>
+<script>
+    parent.document.title="PreOrder Service";
+</script>

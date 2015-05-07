@@ -1,2 +1,0 @@
-entity_email_id,obj_id,entity_id,ent_typ_cd,email_typ_cd,email_addr,dflt_ind,actv_ind
-OLE100009,OLE100009,OLE100009,PERSON,WRK,rollover@kuali.org,Y,Y

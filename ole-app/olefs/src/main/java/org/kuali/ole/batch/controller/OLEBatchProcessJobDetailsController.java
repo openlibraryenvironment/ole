@@ -2,6 +2,7 @@ package org.kuali.ole.batch.controller;
 
 import org.apache.commons.io.IOUtils;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.OLEPropertyConstants;
 import org.kuali.ole.batch.bo.OLEBatchProcessJobDetailsBo;
 import org.kuali.ole.batch.bo.OLEBatchProcessScheduleBo;
 import org.kuali.ole.batch.document.OLEBatchProcessDefinitionDocument;
@@ -10,9 +11,12 @@ import org.kuali.ole.batch.helper.OLEBatchProcessDataHelper;
 import org.kuali.ole.batch.service.OLEBatchSchedulerService;
 import org.kuali.ole.sys.batch.BatchFile;
 import org.kuali.ole.sys.batch.BatchFileUtils;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.TransactionalDocumentControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -76,8 +80,6 @@ public class OLEBatchProcessJobDetailsController extends TransactionalDocumentCo
     protected OLEBatchProcessJobDetailsForm createInitialForm(HttpServletRequest request) {
         OLEBatchProcessJobDetailsForm oleBatchProcessJobDetailsForm = new OLEBatchProcessJobDetailsForm();
         GlobalVariables.getUserSession().addObject("formId", oleBatchProcessJobDetailsForm.getFormKey());
-        List<OLEBatchProcessJobDetailsBo> oLEBatchProcessJobDetailsBoList = (List<OLEBatchProcessJobDetailsBo>) getBusinessObjectService().findAllOrderBy(OLEBatchProcessJobDetailsBo.class,"jobId",false);
-        oleBatchProcessJobDetailsForm.setoLEBatchProcessJobDetailsBoList(oLEBatchProcessJobDetailsBoList);
         return oleBatchProcessJobDetailsForm;
     }
 
@@ -98,7 +100,7 @@ public class OLEBatchProcessJobDetailsController extends TransactionalDocumentCo
         jobDetailsBo.setStatus(OLEConstants.OLEBatchProcess.JOB_STATUS_RUNNING);
         getBusinessObjectService().save(jobDetailsBo);
         List<OLEBatchProcessJobDetailsBo> oleBatchProcessJobDetailsBoList = (List<OLEBatchProcessJobDetailsBo>) getBusinessObjectService().findAllOrderBy(OLEBatchProcessJobDetailsBo.class,"jobId",false);
-        oLEBatchProcessJobDetailsForm.setoLEBatchProcessJobDetailsBoList(oleBatchProcessJobDetailsBoList);
+        oLEBatchProcessJobDetailsForm.setOleBatchProcessJobDetailsBoList(oleBatchProcessJobDetailsBoList);
         getSchedulerService().startJob(jobDetailsBo.getJobId());
         return getUIFModelAndView(oLEBatchProcessJobDetailsForm);
     }
@@ -116,8 +118,8 @@ public class OLEBatchProcessJobDetailsController extends TransactionalDocumentCo
         }
         getBusinessObjectService().save(jobDetailsBo);
        /* List<OLEBatchProcessJobDetailsBo> oleBatchProcessJobDetailsBoList = (List<OLEBatchProcessJobDetailsBo>) getBusinessObjectService().findAllOrderBy(OLEBatchProcessJobDetailsBo.class,"jobId",false);
-        oLEBatchProcessJobDetailsForm.setoLEBatchProcessJobDetailsBoList(oleBatchProcessJobDetailsBoList);*/
-        for(OLEBatchProcessJobDetailsBo oleBatchProcessJobDetailsBo:oLEBatchProcessJobDetailsForm.getoLEBatchProcessJobDetailsBoList()){
+        oLEBatchProcessJobDetailsForm.setOleBatchProcessJobDetailsBoList(oleBatchProcessJobDetailsBoList);*/
+        for(OLEBatchProcessJobDetailsBo oleBatchProcessJobDetailsBo:oLEBatchProcessJobDetailsForm.getOleBatchProcessJobDetailsBoList()){
             if(oleBatchProcessJobDetailsBo.getJobId().equals(jobDetailsBo.getJobId())){
                 oleBatchProcessJobDetailsBo.setStatus(jobDetailsBo.getStatus());
                 break;
@@ -135,8 +137,8 @@ public class OLEBatchProcessJobDetailsController extends TransactionalDocumentCo
         jobDetailsBo.setStatus(OLEConstants.OLEBatchProcess.JOB_STATUS_CANCELLED);
         getBusinessObjectService().save(jobDetailsBo);
         /*List<OLEBatchProcessJobDetailsBo> oleBatchProcessJobDetailsBoList = (List<OLEBatchProcessJobDetailsBo>) getBusinessObjectService().findAllOrderBy(OLEBatchProcessJobDetailsBo.class,"jobId",false);
-        oLEBatchProcessJobDetailsForm.setoLEBatchProcessJobDetailsBoList(oleBatchProcessJobDetailsBoList);*/
-        for(OLEBatchProcessJobDetailsBo oleBatchProcessJobDetailsBo:oLEBatchProcessJobDetailsForm.getoLEBatchProcessJobDetailsBoList()){
+        oLEBatchProcessJobDetailsForm.setOleBatchProcessJobDetailsBoList(oleBatchProcessJobDetailsBoList);*/
+        for(OLEBatchProcessJobDetailsBo oleBatchProcessJobDetailsBo:oLEBatchProcessJobDetailsForm.getOleBatchProcessJobDetailsBoList()){
             if(oleBatchProcessJobDetailsBo.getJobId().equals(jobDetailsBo.getJobId())){
                 oleBatchProcessJobDetailsBo.setStatus(jobDetailsBo.getStatus());
                 break;
@@ -159,8 +161,8 @@ public class OLEBatchProcessJobDetailsController extends TransactionalDocumentCo
         }
         getBusinessObjectService().save(jobDetailsBo);
         /*List<OLEBatchProcessJobDetailsBo> oleBatchProcessJobDetailsBoList = (List<OLEBatchProcessJobDetailsBo>) getBusinessObjectService().findAllOrderBy(OLEBatchProcessJobDetailsBo.class,"jobId",false);
-        oLEBatchProcessJobDetailsForm.setoLEBatchProcessJobDetailsBoList(oleBatchProcessJobDetailsBoList);*/
-        for(OLEBatchProcessJobDetailsBo oleBatchProcessJobDetailsBo:oLEBatchProcessJobDetailsForm.getoLEBatchProcessJobDetailsBoList()){
+        oLEBatchProcessJobDetailsForm.setOleBatchProcessJobDetailsBoList(oleBatchProcessJobDetailsBoList);*/
+        for(OLEBatchProcessJobDetailsBo oleBatchProcessJobDetailsBo:oLEBatchProcessJobDetailsForm.getOleBatchProcessJobDetailsBoList()){
             if(oleBatchProcessJobDetailsBo.getJobId().equals(jobDetailsBo.getJobId())){
                 oleBatchProcessJobDetailsBo.setStatus(jobDetailsBo.getStatus());
                 break;
@@ -184,7 +186,7 @@ public class OLEBatchProcessJobDetailsController extends TransactionalDocumentCo
             jobDetailsBo.setSerialCSVErrorPath(getOLEBatchProcessDataHelper().getSerialCSVPathUrl(jobDetailsBo));
         }
         List<OLEBatchProcessJobDetailsBo> oleBatchProcessJobDetailsBoList = (List<OLEBatchProcessJobDetailsBo>) getBusinessObjectService().findAllOrderBy(OLEBatchProcessJobDetailsBo.class,"jobId",false);
-        oLEBatchProcessJobDetailsForm.setoLEBatchProcessJobDetailsBoList(oleBatchProcessJobDetailsBoList);
+        oLEBatchProcessJobDetailsForm.setOleBatchProcessJobDetailsBoList(oleBatchProcessJobDetailsBoList);
         oLEBatchProcessJobDetailsForm.setOleBatchProcessJobDetailsBo(jobDetailsBo);
 
         return getUIFModelAndView(oLEBatchProcessJobDetailsForm);
@@ -298,7 +300,7 @@ public class OLEBatchProcessJobDetailsController extends TransactionalDocumentCo
             oneTimeDate(oleBatchProcessScheduleBoList);
         } else {
             List<OLEBatchProcessJobDetailsBo> oLEBatchProcessJobDetailsBoList = (List<OLEBatchProcessJobDetailsBo>) getBusinessObjectService().findAllOrderBy(OLEBatchProcessJobDetailsBo.class,"jobId",false);
-            oleBatchProcessJobDetailsForm.setoLEBatchProcessJobDetailsBoList(oLEBatchProcessJobDetailsBoList);
+            oleBatchProcessJobDetailsForm.setOleBatchProcessJobDetailsBoList(oLEBatchProcessJobDetailsBoList);
         }
         return modelAndView;
     }
@@ -403,5 +405,109 @@ public class OLEBatchProcessJobDetailsController extends TransactionalDocumentCo
         } else {
             return OLEConstants.OLEBatchProcess.JOB_STATUS_RUNNING;
         }
+    }
+
+    @RequestMapping(params = "methodToCall=search")
+    public ModelAndView search(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("Entering Batch process job details search");
+        boolean checkFromDate = false;
+        boolean checkToDate = false;
+        OLEBatchProcessJobDetailsForm oleBatchProcessJobDetailsForm = (OLEBatchProcessJobDetailsForm) form;
+        oleBatchProcessJobDetailsForm.setSingleJobView(false);
+        if (oleBatchProcessJobDetailsForm.getJobFromDate() != null) {
+            checkFromDate = true;
+        }
+        if (oleBatchProcessJobDetailsForm.getJobToDate() != null) {
+            checkToDate = true;
+        }
+        oleBatchProcessJobDetailsForm.setOleBatchProcessJobDetailsBoList(null);
+        List<OLEBatchProcessJobDetailsBo> oLEBatchProcessJobDetailsBoList = (List<OLEBatchProcessJobDetailsBo>) getBusinessObjectService().findAllOrderBy(OLEBatchProcessJobDetailsBo.class, "jobId", false);
+        if (!checkFromDate && !checkToDate) {
+            oleBatchProcessJobDetailsForm.setOleBatchProcessJobDetailsBoList(oLEBatchProcessJobDetailsBoList);
+        } else {
+            List<OLEBatchProcessJobDetailsBo> resultList = new ArrayList<>();
+            for (OLEBatchProcessJobDetailsBo oleBatchProcessJobDetailsBo : oLEBatchProcessJobDetailsBoList) {
+                Date fromDate = oleBatchProcessJobDetailsBo.getCreateTime();
+                if (checkFromDate && checkToDate) {
+                    Date searchFromDate = oleBatchProcessJobDetailsForm.getJobFromDate();
+                    int subtract = 1;
+                    Calendar calendar = GregorianCalendar.getInstance();
+                    calendar.setTime(oleBatchProcessJobDetailsForm.getJobToDate());
+                    calendar.add(Calendar.DAY_OF_YEAR, subtract);
+                    Date searchToDate = calendar.getTime();
+                    if (fromDate.after(searchFromDate) && fromDate.before(searchToDate)) {
+                        resultList.add(oleBatchProcessJobDetailsBo);
+                    }
+                } else if (checkFromDate) {
+                    Date searchFromDate = oleBatchProcessJobDetailsForm.getJobFromDate();
+                    if (fromDate.after(searchFromDate)) {
+                        resultList.add(oleBatchProcessJobDetailsBo);
+                    }
+                } else if (checkToDate) {
+                    int subtract = 1;
+                    Calendar calendar = GregorianCalendar.getInstance();
+                    calendar.setTime(oleBatchProcessJobDetailsForm.getJobToDate());
+                    calendar.add(Calendar.DAY_OF_YEAR, subtract);
+                    Date searchToDate = calendar.getTime();
+                    if (fromDate.before(searchToDate)) {
+                        resultList.add(oleBatchProcessJobDetailsBo);
+                    }
+                }
+            }
+            oleBatchProcessJobDetailsForm.setOleBatchProcessJobDetailsBoList(resultList);
+        }
+
+        LOG.debug("Leaving Batch process job details search");
+        return getUIFModelAndView(oleBatchProcessJobDetailsForm);
+    }
+
+    @RequestMapping(params = "methodToCall=clearSearch")
+    public ModelAndView clearSearch(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        LOG.debug("Entering Batch process job details search");
+        OLEBatchProcessJobDetailsForm oleBatchProcessJobDetailsForm = (OLEBatchProcessJobDetailsForm) form;
+        oleBatchProcessJobDetailsForm.setJobFromDate(null);
+        oleBatchProcessJobDetailsForm.setJobToDate(null);
+        LOG.debug("Leaving Batch process job details search");
+        return getUIFModelAndView(oleBatchProcessJobDetailsForm);
+    }
+
+    @RequestMapping(params = "methodToCall=cancel")
+    public ModelAndView cancel(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
+        String baseUrl = ConfigContext.getCurrentContextConfig().getProperty(OLEPropertyConstants.OLE_URL_BASE);
+        String url = baseUrl + "/portal.do";
+        Properties props = new Properties();
+        props.put(UifParameters.METHOD_TO_CALL, UifConstants.MethodToCallNames.REFRESH);
+        if (org.apache.commons.lang.StringUtils.isNotBlank(form.getReturnFormKey())) {
+            props.put(UifParameters.FORM_KEY, form.getReturnFormKey());
+        }
+        return performRedirect(form, url, props);
+    }
+
+    @RequestMapping(params = "methodToCall=singleJobDetailView")
+    public ModelAndView singleJobDetailView(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+        OLEBatchProcessJobDetailsForm oleBatchProcessJobDetailsForm = (OLEBatchProcessJobDetailsForm) form;
+        oleBatchProcessJobDetailsForm.setSingleJobView(true);
+        ModelAndView modelAndView = super.docHandler(oleBatchProcessJobDetailsForm, result, request, response);
+        Map<String,String> parameterMap = new HashMap<>();
+        parameterMap.put("batchProcessId",request.getParameter("batchProcessId"));
+        List<OLEBatchProcessJobDetailsBo> oLEBatchProcessJobDetailsBoList = (List<OLEBatchProcessJobDetailsBo>) getBusinessObjectService().findMatching(OLEBatchProcessJobDetailsBo.class,parameterMap);
+        oleBatchProcessJobDetailsForm.setOleBatchProcessJobDetailsBoList(oLEBatchProcessJobDetailsBoList);
+        return modelAndView;
+    }
+
+    @RequestMapping(params = "methodToCall=refreshSingleJobDetailView")
+    public ModelAndView refreshSingleJobDetailView(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        OLEBatchProcessJobDetailsForm oleBatchProcessJobDetailsForm = (OLEBatchProcessJobDetailsForm) form;
+        oleBatchProcessJobDetailsForm.setSingleJobView(true);
+        Map<String,String> parameterMap = new HashMap<>();
+        parameterMap.put("jobId",oleBatchProcessJobDetailsForm.getJobId());
+        List<OLEBatchProcessJobDetailsBo> oLEBatchProcessJobDetailsBoList = (List<OLEBatchProcessJobDetailsBo>) getBusinessObjectService().findMatching(OLEBatchProcessJobDetailsBo.class,parameterMap);
+        oleBatchProcessJobDetailsForm.setOleBatchProcessJobDetailsBoList(oLEBatchProcessJobDetailsBoList);
+        return getUIFModelAndView(oleBatchProcessJobDetailsForm);
     }
 }

@@ -243,10 +243,10 @@ public class OLESIP2HelperServiceImpl implements OLESIP2HelperService {
                         patronBillPayment.setPaymentMethod(paymentMethod);
                         if (patronBillPayment.getPaymentMethod().equals(OLEConstants.FORGIVE) || patronBillPayment.getPaymentMethod().equals(OLEConstants.CANCEL) || patronBillPayment.getPaymentMethod().equals(OLEConstants.ERROR)) {
                             if (patronBillPayment.getPaymentMethod().equalsIgnoreCase(OLEConstants.FORGIVE)) {
-                                patronBillPayment.setFreeTextNote(CurrencyFormatter.getSymbolForCurrencyPattern() + patronBillPayment.getPaymentAmount() + OLEConstants.FORGIVE_MESSAGE);
+                                patronBillPayment.setFreeTextNote(CurrencyFormatter.getSymbolForCurrencyPattern() + patronBillPayment.getPaymentAmount() +" "+ OLEConstants.FORGIVE_MESSAGE);
                             }
                             if (patronBillPayment.getPaymentMethod().equalsIgnoreCase(OLEConstants.CANCEL)) {
-                                patronBillPayment.setFreeTextNote(OLEConstants.CANCEL_MESSAGE_AMT + " $" + patronBillPayment.getPaymentAmount());
+                                patronBillPayment.setFreeTextNote(OLEConstants.CANCEL_MESSAGE_AMT + " " +CurrencyFormatter.getSymbolForCurrencyPattern() + patronBillPayment.getPaymentAmount());
                             }
                             if (patronBillPayment.getPaymentMethod().equalsIgnoreCase(OLEConstants.ERROR)) {
                                 patronBillPayment.setFreeTextNote(CurrencyFormatter.getSymbolForCurrencyPattern() + patronBillPayment.getPaymentAmount() + OLEConstants.ERROR_MESSAGE);

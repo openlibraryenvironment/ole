@@ -23,14 +23,14 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
     <bean id="DublinEditorView" parent="Uif-OLEFormView">
-        <property name="headerText" value="Dublin Editor"/>
+<!--        <property name="headerText" value="Dublin Editor"/>
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
                           value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s01.html"/>
-                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
+                &lt;!&ndash;<property name="tooltipHelpContent" value="[Help] help"/>&ndash;&gt;
             </bean>
-        </property>
+        </property>-->
         <property name="items">
             <list>
 

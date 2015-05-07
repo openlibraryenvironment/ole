@@ -24,7 +24,6 @@ import org.kuali.ole.select.bo.OLEEditorResponse;
 import org.kuali.ole.select.businessobject.*;
 import org.kuali.ole.select.document.OLEEResourceInstance;
 import org.kuali.ole.select.document.OLEEResourceRecordDocument;
-import org.kuali.ole.service.OLEEResourceHelperService;
 import org.kuali.ole.service.OLEEResourceSearchService;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -263,9 +262,6 @@ public class WorkEInstanceOlemlEditor
             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "record.load.fail.message ");
             return workEInstanceOlemlForm;
         }
-        if(workEInstanceOlemlForm.getSelectedEHoldings()!=null && workEInstanceOlemlForm.getSelectedEHoldings().getPlatform()==null){
-            workEInstanceOlemlForm.getSelectedEHoldings().setPlatform(new Platform());
-        }
         workEInstanceOlemlForm.setViewId("WorkEInstanceViewPage");
         workEInstanceOlemlForm.setIssn(bib.getIssn());
         editorForm.seteResourceTitle(workEInstanceOlemlForm.geteResourceTitle());
@@ -311,7 +307,6 @@ public class WorkEInstanceOlemlEditor
         String editorStatusMessage = "";
         List<BibTree> bibTreeList = null;
         BibTree bibTree = null;
-        Holdings holdingsDoc = null;
         String user = GlobalVariables.getUserSession().getPrincipalName();
         if (StringUtils.isNotEmpty(bibId)) {
             try {
@@ -331,7 +326,7 @@ public class WorkEInstanceOlemlEditor
                 OleHoldings eHoldings = workEInstanceOlemlForm.getSelectedEHoldings();
                 boolean dateFlag = getOleEResourceSearchService().validateDates(eHoldings);
                 if (dateFlag) {
-                    getOleEResourceSearchService().removeEResourcesFields(eHoldings.getEResourceId(), eHoldings, workEInstanceOlemlForm);
+                    getOleEResourceSearchService().getEResourcesFields(editorForm.geteResourceId(), eHoldings, workEInstanceOlemlForm);
                     String content = getInstanceEditorFormDataHandler().buildHoldingContent(eHoldings);
                     getOleEResourceSearchService().getEResourcesLicenseFields(editorForm.geteResourceId(), workEInstanceOlemlForm);
                     Holdings eHoldingsDoc = new EHoldings();
@@ -349,14 +344,10 @@ public class WorkEInstanceOlemlEditor
                     String newContent = holdingOlemlRecordProcessor.toXML(eHoldings);
                     eHoldingsDoc.setContent(newContent);
                     docstoreClient.updateHoldings(eHoldingsDoc);
-                    OLEEResourceHelperService oleeResourceHelperService = new OLEEResourceHelperService();
-                    oleeResourceHelperService.insertOrUpdateGokbDataMapping(eHoldings, true);
                     workEInstanceOlemlForm.getSelectedEHoldings().setHoldingsIdentifier(eHoldingsDoc.getId());
                     // To add updated EHoldings to bib tree
                     addEHoldingsToBibTree(workEInstanceOlemlForm.getBibTreeList(), eHoldingsDoc);
                     editorStatusMessage = "holdings.record.update.message";
-                    getOleEResourceSearchService().getEResourcesFields(eHoldings.getEResourceId(), eHoldings, workEInstanceOlemlForm);
-                    workEInstanceOlemlForm.setSelectedEHoldings(eHoldings);
                 } else {
                     return workEInstanceOlemlForm;
                 }
@@ -364,7 +355,7 @@ public class WorkEInstanceOlemlEditor
                 OleHoldings eHoldings = workEInstanceOlemlForm.getSelectedEHoldings();
                 boolean dateFlag = getOleEResourceSearchService().validateDates(eHoldings);
                 if (dateFlag) {
-                    getOleEResourceSearchService().removeEResourcesFields(editorForm.geteResourceId(), eHoldings, workEInstanceOlemlForm);
+                    getOleEResourceSearchService().getEResourcesFields(editorForm.geteResourceId(), eHoldings, workEInstanceOlemlForm);
                     getOleEResourceSearchService().getEResourcesLicenseFields(editorForm.geteResourceId(), workEInstanceOlemlForm);
                     String content = getInstanceEditorFormDataHandler().buildHoldingContent(eHoldings);
                     Holdings eHoldingsDoc = new EHoldings();
@@ -391,14 +382,12 @@ public class WorkEInstanceOlemlEditor
                     holdingsTreeList.add(holdingsTree);
                     bibTree.getHoldingsTrees().addAll(holdingsTreeList);
                     editorStatusMessage = "record.create.message";
-                    getOleEResourceSearchService().getEResourcesFields(eHoldings.getEResourceId(), eHoldings, workEInstanceOlemlForm);
-                    workEInstanceOlemlForm.setSelectedEHoldings(eHoldings);
                 } else {
                     return workEInstanceOlemlForm;
                 }
             }
             if(editorForm.getDocId()!=null){
-            holdingsDoc = docstoreClient.retrieveHoldings(editorForm.getDocId());
+            Holdings holdingsDoc = docstoreClient.retrieveHoldings(editorForm.getDocId());
             editorForm.setHoldingUpdatedDate(holdingsDoc.getUpdatedOn());
             editorForm.setHoldingUpdatedBy(holdingsDoc.getUpdatedBy());
             editorForm.setHoldingCreatedDate(holdingsDoc.getCreatedOn());
@@ -439,7 +428,7 @@ public class WorkEInstanceOlemlEditor
 
                 Person principalPerson = SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 tempDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(tempDocument.getDocumentNumber()));
-                    tempDocument.getDocumentHeader().setWorkflowDocument(KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(tempDocument.getDocumentNumber(), principalPerson));
+                tempDocument.getDocumentHeader().setWorkflowDocument(KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(tempDocument.getDocumentNumber(), principalPerson));
                 if (tempDocument != null) {
                     try {
                         tempDocument.setSelectInstance(OLEConstants.OLEEResourceRecord.CREATE_NEW_INSTANCE);
@@ -449,18 +438,7 @@ public class WorkEInstanceOlemlEditor
                                 processResponse(editorForm.getDocId(), editorForm.getBibId(), tempDocument.getDocumentNumber(), editorForm.getLinkToOrderOption());
                             }
                         }
-
-                        //getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber());
-                        getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber(),holdingsDoc);
-                        for (OLEEResourceInstance oleeResourceInstance : tempDocument.getOleERSInstances()) {
-                            if (oleeResourceInstance.getInstanceId() != null && workEInstanceOlemlForm.getSelectedEHoldings() != null
-                                    && oleeResourceInstance.getInstanceId().equals(workEInstanceOlemlForm.getSelectedEHoldings().getHoldingsIdentifier())) {
-                                if (workEInstanceOlemlForm.getSelectedEHoldings().getPlatform() != null) {
-                                    oleeResourceInstance.setPlatformId(workEInstanceOlemlForm.getSelectedEHoldings().getPlatform().getPlatformName());
-                                }
-                                oleeResourceInstance.setStatus(workEInstanceOlemlForm.getSelectedEHoldings().getAccessStatus());
-                            }
-                        }
+                        getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber());
                         getDocumentService().updateDocument(tempDocument);
                     } catch (Exception e) {
                         LOG.error("Exception :", e);

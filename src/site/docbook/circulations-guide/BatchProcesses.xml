@@ -33,8 +33,8 @@
     </para>
     <para role="Body Text">Each job may be scheduled by a library to run at any time. From the
             <emphasis role="bold">Admin</emphasis> menu, click <emphasis role="bold">Batch/Scheduled
-            Jobs</emphasis> to enter the lookup. Click<emphasis role="bold">Search</emphasis>. Click
-            <emphasis role="bold">Edit </emphasis> to change the schedule for any job. (As of now,
+            Jobs</emphasis> to enter the lookup. Click <emphasis role="bold">Search</emphasis>.
+        Click <emphasis role="bold">Edit </emphasis> to change the schedule for any job. (As of now,
         the jobs are set to run at 2 AM Eastern time. A more user-friendly scheduling method will be
         developed.) </para>
     <para role="Body Text">Output files from these jobs are stored at a location chosen by the
@@ -44,7 +44,7 @@
     <para role="TableHeading">
         <emphasis role="bold">Deliver Batch Jobs</emphasis>
     </para>
-    <informaltable frame="top">
+    <informaltable frame="topbot">
         <tgroup cols="2">
             <colspec colname="col1" colnum="1"/>
             <colspec colname="col2" colnum="2"/>

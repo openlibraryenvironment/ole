@@ -29,6 +29,7 @@ public class OLEPatronConstant {
     public static final String EMAIL_DEFAULT_VALUE_ERROR = "Either of the Default value should be true in Email Address";
     public static final String PHONE_DEFAULT_VALUE_ERROR = "Either of the Default value should be true in TelePhone Number";
     public static final String ADDRESS_DEFAULT_VALUE_ERROR = "Either of the Default value should be true in Postal Address";
+    public static final String DEFAULT_DELIVER_ADDRESS_ERROR = "Either of the Default Deliver Address should be true in Postal Address";
     public static final String NOTETYPE_ERROR = "Note type is not found in the system";
     public static final String AFFILIATION_CODE_ERROR = "Affiliation code is not found in the system";
     public static final String CAMPUS_CODE_ERROR = "Campus code is not found in the system";

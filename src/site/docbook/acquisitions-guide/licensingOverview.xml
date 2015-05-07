@@ -85,7 +85,7 @@
             <listitem>
                 <para role="List Paragraph">ONIX-PL <link linkend="_Agreement">Agreement</link> is
                     used to record the interpreted terms of the license in a machine-readable
-                    format. Note that the Agreement is not available in the interface in 1.5, but
+                    format. Note that the Agreement is not available in the interface in 1.6, but
                     the underlying infrastructure to import and store these documents has been
                     created.</para>
             </listitem>
@@ -95,7 +95,7 @@
         </itemizedlist>
         <para role="Normal">A License Request might be initiated for acquisitions of new titles,
             renewals of existing titles, or making changes to previous Agreements (amendments). OLE
-            1.5 provides for a License Request generated from an E-Resource Record as part of the
+            1.6 provides for a License Request generated from an E-Resource Record as part of the
             acquisitions process. Future releases may address licensing for Addendums, Renewals, and
             Trials in more detail.</para>
     </section>

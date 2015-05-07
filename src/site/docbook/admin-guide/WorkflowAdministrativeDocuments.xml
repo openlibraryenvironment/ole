@@ -107,7 +107,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Edit Document Type tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -215,7 +215,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Fields Available for Retroactive
                         Application tab definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -444,7 +444,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">PeopleFlow Summary tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -535,7 +535,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">PeopleFlow Summary tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -808,7 +808,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Document Information tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -936,7 +936,7 @@
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Permissions tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -1030,7 +1030,7 @@
                     in a standard format.</para>
                 <para role="TableHeading"><emphasis role="bold">Workflow / Responsibilities tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>

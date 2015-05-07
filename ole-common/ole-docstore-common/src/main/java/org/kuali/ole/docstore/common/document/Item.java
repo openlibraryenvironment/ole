@@ -957,6 +957,15 @@ public class Item
         if (incomingItemContent.getDonorInfo() != null) {
             existingItemContent.setDonorInfo(incomingItemContent.getDonorInfo());
         }
+        if (incomingItemContent.getMissingPieceItemRecordList() != null) {
+            existingItemContent.setMissingPieceItemRecordList(incomingItemContent.getMissingPieceItemRecordList());
+        }
+        if(incomingItemContent.getItemClaimsReturnedRecords() != null){
+            existingItemContent.setItemClaimsReturnedRecords(incomingItemContent.getItemClaimsReturnedRecords());
+        }
+        if(incomingItemContent.getItemDamagedRecords() != null){
+            existingItemContent.setItemDamagedRecords(incomingItemContent.getItemDamagedRecords());
+        }
         if (incomingItemContent.getHighDensityStorage() != null) {
             existingItemContent.setHighDensityStorage(incomingItemContent.getHighDensityStorage());
         }

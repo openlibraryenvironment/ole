@@ -16,6 +16,7 @@ public class OLEDeliverNotice extends PersistableBusinessObjectBase {
     private BigDecimal replacementFeeAmount;
     private String noticeSendType;
     private String patronId;
+    private OleLoanDocument oleLoanDocument;
 
     public String getId() {
         return id;
@@ -71,5 +72,13 @@ public class OLEDeliverNotice extends PersistableBusinessObjectBase {
 
     public void setPatronId(String patronId) {
         this.patronId = patronId;
+    }
+
+    public OleLoanDocument getOleLoanDocument() {
+        return oleLoanDocument;
+    }
+
+    public void setOleLoanDocument(OleLoanDocument oleLoanDocument) {
+        this.oleLoanDocument = oleLoanDocument;
     }
 }

@@ -21,6 +21,7 @@ public class OLEBatchProcessDefinitionForm extends TransactionalDocumentFormBase
     private String batchProcessType;
     private boolean permissionFlag =true;
     private boolean marcOnly;
+    private String navigationBatchProcessId;
 
     public String getBatchProcessId() {
         return batchProcessId;
@@ -101,4 +102,12 @@ public class OLEBatchProcessDefinitionForm extends TransactionalDocumentFormBase
     public void setCronOrSchedule(String cronOrSchedule) {
         this.cronOrSchedule = cronOrSchedule;
     }*/
+
+    public String getNavigationBatchProcessId() {
+        return navigationBatchProcessId;
+    }
+
+    public void setNavigationBatchProcessId(String navigationBatchProcessId) {
+        this.navigationBatchProcessId = navigationBatchProcessId;
+    }
 }

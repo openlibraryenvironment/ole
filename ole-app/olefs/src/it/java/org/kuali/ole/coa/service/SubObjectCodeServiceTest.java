@@ -16,7 +16,8 @@
 package org.kuali.ole.coa.service;
 
 import org.junit.Test;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.KFSTestCaseBase;
+import org.kuali.ole.KualiTestConstants;
 import org.kuali.ole.coa.businessobject.SubObjectCode;
 import org.kuali.ole.coa.service.SubObjectCodeService;
 import org.kuali.ole.sys.context.SpringContext;
@@ -28,7 +29,7 @@ import static junit.framework.TestCase.assertTrue;
 /**
  * This class tests the SubObjectCode service.
  */
-public class SubObjectCodeServiceTest extends KualiTestBase {
+public class SubObjectCodeServiceTest extends KFSTestCaseBase implements KualiTestConstants {
 
     /**
      * Test that the service returns null if any of the parameters are empty.

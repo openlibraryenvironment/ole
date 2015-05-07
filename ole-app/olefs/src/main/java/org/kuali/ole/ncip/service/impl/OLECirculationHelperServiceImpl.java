@@ -5,6 +5,7 @@ import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
@@ -63,6 +64,17 @@ public class OLECirculationHelperServiceImpl {
     private OLESIAPIHelperService oleSIAPIHelperService;
     private OleCirculationPolicyService oleCirculationPolicyService = getOleCirculationPolicyService();
     private DocstoreClientLocator docstoreClientLocator;
+    private CircDeskLocationResolver circDeskLocationResolver;
+    private CircDeskLocationResolver getCircDeskLocationResolver() {
+        if (circDeskLocationResolver == null) {
+            circDeskLocationResolver = new CircDeskLocationResolver();
+        }
+        return circDeskLocationResolver;
+    }
+
+    public void setCircDeskLocationResolver(CircDeskLocationResolver circDeskLocationResolver) {
+        this.circDeskLocationResolver = circDeskLocationResolver;
+    }
     public OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService = new OleDeliverRequestDocumentHelperServiceImpl();
     DocstoreUtil docstoreUtil = new DocstoreUtil();
     private Map<String,OleBorrowerType> oleBorrowerTypeMap = getAvailableBorrowerTypes();
@@ -70,7 +82,7 @@ public class OLECirculationHelperServiceImpl {
     public DocstoreClientLocator getDocstoreClientLocator() {
 
         if (docstoreClientLocator == null) {
-            docstoreClientLocator = SpringContext.getBean(DocstoreClientLocator.class);
+            docstoreClientLocator = (DocstoreClientLocator) SpringContext.getService("docstoreClientLocator");
 
         }
         return docstoreClientLocator;
@@ -78,7 +90,7 @@ public class OLECirculationHelperServiceImpl {
 
     public LoanProcessor getLoanProcessor(){
         if (loanProcessor == null) {
-            loanProcessor = SpringContext.getBean(LoanProcessor.class);
+            loanProcessor = (LoanProcessor) SpringContext.getService("loanProcessor");
 
         }
         return loanProcessor;
@@ -102,7 +114,7 @@ public class OLECirculationHelperServiceImpl {
 
     public OLESIAPIHelperService getOleSIAPIHelperService() {
         if (oleSIAPIHelperService == null) {
-            oleSIAPIHelperService = SpringContext.getBean(OLESIAPIHelperService.class);
+            oleSIAPIHelperService = (OLESIAPIHelperService) SpringContext.getService("oleSIAPIHelperService");
         }
         return oleSIAPIHelperService;
     }
@@ -544,7 +556,17 @@ public class OLECirculationHelperServiceImpl {
                             }else{
                                 return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
                             }
-                        } else {
+                        } else if(oleLoanDocument != null && oleLoanDocument.getErrorMessage() !=null && oleLoanDocument.getErrorMessage().equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS))){
+                            OLECheckOutItem oleCheckOutItem = new OLECheckOutItem();
+                            oleCheckOutItem.setCode("014");
+                            oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
+                            LOG.info(oleLoanDocument.getErrorMessage());
+                            if(isSIP2Request){
+                                return oleCheckOutItemConverter.generateCheckOutItemXmlForSIP2(oleCheckOutItem);
+                            }else{
+                                return oleCheckOutItemConverter.generateCheckOutItemXml(oleCheckOutItem);
+                            }
+                        }else {
                             OLECheckOutItem oleCheckOutItem = new OLECheckOutItem();
                             oleCheckOutItem.setCode("500");
                             oleCheckOutItem.setMessage(oleLoanDocument.getErrorMessage());
@@ -580,10 +602,18 @@ public class OLECirculationHelperServiceImpl {
             }
         } catch (Exception e) {
             OLECheckOutItem oleCheckOutItem = new OLECheckOutItem();
-            oleCheckOutItem.setCode("014");
-            oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
-            LOG.info(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
-            LOG.error(e,e);
+            if(e.getCause()!= null && (e.getCause().getMessage()).contains("Duplicate entry")){
+                oleCheckOutItem.setCode("100");
+                oleCheckOutItem.setMessage("Item is already Loaned by a patron.");
+            }else if(e.getLocalizedMessage() == null){
+                oleCheckOutItem.setCode("500");
+                oleCheckOutItem.setMessage("Internal error");
+            } else {
+                oleCheckOutItem.setCode("014");
+                oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
+            }
+            LOG.info(oleCheckOutItem.getMessage());
+            LOG.error(e, e);
             if(isSIP2Request){
                 return oleCheckOutItemConverter.generateCheckOutItemXmlForSIP2(oleCheckOutItem);
             }else{
@@ -729,7 +759,7 @@ public class OLECirculationHelperServiceImpl {
 
         OleHoldings oleHoldings = new OleHoldings();
         LocationLevel locationLevel = new LocationLevel();
-        locationLevel = getLoanProcessor().createLocationLevel(itemLocation, locationLevel);
+        locationLevel = getCircDeskLocationResolver().createLocationLevel(itemLocation, locationLevel);
         Location holdingsLocation = new Location();
         holdingsLocation.setPrimary(OLEConstants.TRUE);
         holdingsLocation.setStatus(OLEConstants.PERMANENT);

@@ -54,7 +54,6 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
     private OLECirculationHelperServiceImpl oleCirculationHelperService = new OLECirculationHelperServiceImpl();
 
     public OlePatronService getOlePatronService() {
-
         if (olePatronService == null)
             olePatronService = new OlePatronServiceImpl();
         return olePatronService;
@@ -287,6 +286,7 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
             }
 
         }
+
         if (responseString == null || responseString.equalsIgnoreCase("")) {
             OLENCIPErrorResponse olencipErrorResponse = new OLENCIPErrorResponse();
             olencipErrorResponse.getErrorMap().put(OLENCIPConstants.PATRON_BARCODE, sip2CheckOutRequestParser.getPatronIdentifier());
@@ -295,9 +295,7 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
             responseString = olencipErrorResponse.getErrorXml(service);
         }
 
-
         return responseString;
-
     }
 
     @Override

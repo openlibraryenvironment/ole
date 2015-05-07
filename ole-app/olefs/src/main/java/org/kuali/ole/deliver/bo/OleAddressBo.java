@@ -238,6 +238,7 @@ public class OleAddressBo extends PersistableBusinessObjectBase implements OleAd
         bo.addressValidTo = imOleAddressDefinition.getAddressValidTo();
         bo.addressSource = imOleAddressDefinition.getAddressSource();
         bo.versionNumber = imOleAddressDefinition.getVersionNumber();
+        bo.deliverAddress = imOleAddressDefinition.isDeliverAddress();
         /*if (im.getEntityAddress() != null) {
             bo.entityAddress = EntityAddressBo.from(im.getEntityAddress());
         }*/

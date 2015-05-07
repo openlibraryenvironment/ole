@@ -1,6 +1,7 @@
 package org.kuali.ole;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.ole.docstore.common.document.config.DocumentSearchConfig;
 import org.kuali.ole.docstore.discovery.util.DiscoveryEnvUtil;
 import org.kuali.ole.docstore.util.DocStoreEnvUtil;
 import org.kuali.ole.docstore.utility.DocumentStoreMaintenance;
@@ -65,6 +66,7 @@ public class OleDocstoreModuleConfigurer extends ModuleConfigurer {
             String discoveryHome = System.getProperty(Constants.OLE_DISCOVERY_HOME_SYSTEM_PROPERTY);
             validate(docstoreHome, discoveryHome);
             documentStoreMaintenance.docStoreMaintenance(docstoreHome, discoveryHome);
+            DocumentSearchConfig.getDocumentSearchConfig();
         } catch (IOException e) {
             // If the system can't be initialized properly there is no point in continuing
             // Always throw an exception here

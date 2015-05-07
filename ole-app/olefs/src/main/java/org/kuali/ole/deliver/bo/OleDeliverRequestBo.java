@@ -104,6 +104,7 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
     private boolean isValidToProcess;
     private String bibId;
     private String requestLevel;
+    private Date holdExpirationDate;
 
     public String getItemInstitution() {
         return itemInstitution;
@@ -976,5 +977,13 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
 
     public void setRequestLevel(String requestLevel) {
         this.requestLevel = requestLevel;
+    }
+
+    public Date getHoldExpirationDate() {
+        return holdExpirationDate;
+    }
+
+    public void setHoldExpirationDate(Date holdExpirationDate) {
+        this.holdExpirationDate = holdExpirationDate;
     }
 }

@@ -4,6 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OleEditorResponseHandler;
 import org.kuali.ole.deliver.bo.SystemGeneratedBill;
@@ -152,7 +153,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                 List<BibMarcRecord> bibMarcRecordList = bibMarcRecords.getRecords();
                 BibMarcRecord bibMarcRecord = bibMarcRecordList.get(0);
                 Collections.sort(bibMarcRecord.getDataFields());
-                editorForm.setTitle(getMarcFormDataHandler().buildMarcEditorTitleField(bibMarcRecord.getDataFields()));
+                editorForm.setTitle(getMarcFormDataHandler().buildMarcEditorTitleField(bibMarcRecord.getDataFields())+" / "+ DocumentUniqueIDPrefix.getDocumentId(bib.getId()));
                 workBibMarcForm.setLeader(bibMarcRecord.getLeader());
                 workBibMarcForm.setControlFields(getMarcFormDataHandler().buildMarcEditorControlFields(workBibMarcForm, bibMarcRecord.getControlFields()));
                 List<MarcEditorDataField> marcEditorDataFields = new ArrayList<MarcEditorDataField>();

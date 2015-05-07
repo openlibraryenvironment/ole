@@ -12,9 +12,12 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
+import org.kuali.ole.service.OlePatronHelperService;
+import org.kuali.ole.service.OlePatronHelperServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.RiceConstants;
@@ -46,6 +49,8 @@ public class OleDeliverBatchServiceImpl {
     private DocstoreClientLocator docstoreClientLocator;
     private OutputStream overdueOutPutStream=null;
     private Document overdueDocument=null;
+    private OlePatronHelperServiceImpl olePatronHelperService;
+    private CircDeskLocationResolver circDeskLocationResolver;
 
     public DocstoreClientLocator getDocstoreClientLocator() {
 
@@ -92,6 +97,27 @@ public class OleDeliverBatchServiceImpl {
             this.overdueDocument=new Document(PageSize.A4);
         }
         return overdueDocument;
+    }
+
+    public OlePatronHelperService getOlePatronHelperService(){
+        if(olePatronHelperService==null)
+            olePatronHelperService=new OlePatronHelperServiceImpl();
+        return olePatronHelperService;
+    }
+
+    public void setOlePatronHelperService(OlePatronHelperServiceImpl olePatronHelperService) {
+        this.olePatronHelperService = olePatronHelperService;
+    }
+
+    private CircDeskLocationResolver getCircDeskLocationResolver() {
+        if (circDeskLocationResolver == null) {
+            circDeskLocationResolver = new CircDeskLocationResolver();
+        }
+        return circDeskLocationResolver;
+    }
+
+    public void setCircDeskLocationResolver(CircDeskLocationResolver circDeskLocationResolver) {
+        this.circDeskLocationResolver = circDeskLocationResolver;
     }
 
     public void setOverdueDocument(Document overdueDocument) {
@@ -643,14 +669,13 @@ public class OleDeliverBatchServiceImpl {
 
     public String generateMailContentFromPatronBill(OleLoanDocument oleLoanDocument,OlePatronDocument olePatronDocument,String feeTypeName,String fineAmount,PatronBillPayment patronBillPayment ){
         StringBuffer contentForSendMail=new StringBuffer();
-        OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService=new OleDeliverRequestDocumentHelperServiceImpl();
         String patronMail="";
         String patronAddress="";
         String patronPhoneNumber="";
         try{
-            patronMail=oleDeliverRequestDocumentHelperService.getPatronHomeEmailId(olePatronDocument.getEntity().getEntityTypeContactInfos().get(0));
-            patronAddress=oleDeliverRequestDocumentHelperService.getPatronPreferredAddress(olePatronDocument.getEntity().getEntityTypeContactInfos().get(0));
-            patronPhoneNumber=oleDeliverRequestDocumentHelperService.getPatronHomePhoneNumber(olePatronDocument.getEntity().getEntityTypeContactInfos().get(0));
+            patronMail=getOlePatronHelperService().getPatronHomeEmailId(olePatronDocument.getEntity().getEntityTypeContactInfos().get(0));
+            patronAddress=getOlePatronHelperService().getPatronPreferredAddress(olePatronDocument.getEntity().getEntityTypeContactInfos().get(0));
+            patronPhoneNumber=getOlePatronHelperService().getPatronHomePhoneNumber(olePatronDocument.getEntity().getEntityTypeContactInfos().get(0));
         }catch(Exception e){
             LOG.error("Exception while generating mail content from patron bill",e);
         }
@@ -678,72 +703,7 @@ public class OleDeliverBatchServiceImpl {
         contentForSendMail.append("<TR><TD>Fee Type</TD><TD>:</TD><TD>" + feeTypeName + "</TD></TR>");
         contentForSendMail.append("<TR><TD>Fee Amount</TD><TD>:</TD><TD>" + CurrencyFormatter.getSymbolForCurrencyPattern() + fineAmount + "</TD></TR>");
         contentForSendMail.append("<TR><TD>Item Barcode</TD><TD>:</TD><TD>" + oleLoanDocument.getItemId() + "</TD></TR>");
-    /*    try {
-            org.kuali.ole.docstore.common.document.Item item = new ItemOleml();
-            if (oleLoanDocument.getItemId() != null) {
 
-                org.kuali.ole.docstore.common.search.SearchParams search_Params = new org.kuali.ole.docstore.common.search.SearchParams();
-                SearchResponse searchResponse = null;
-                search_Params.getSearchConditions().add(search_Params.buildSearchCondition("phrase", search_Params.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), item.ITEM_BARCODE, oleLoanDocument.getItemId()), ""));
-                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), Item.CALL_NUMBER));
-                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), Item.COPY_NUMBER));
-                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), Item.ENUMERATION));
-                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), Bib.TITLE));
-                search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), Bib.AUTHOR));
-                searchResponse = getDocstoreClientLocator().getDocstoreClient().search(search_Params);
-
-
-                for (SearchResult searchResult : searchResponse.getSearchResults()) {
-                    for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
-                        String fieldName = searchResultField.getFieldName();
-                        String fieldValue = searchResultField.getFieldValue() != null ? searchResultField.getFieldValue() : "";
-
-                        if (fieldName.equalsIgnoreCase(Bib.TITLE) && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase("bibliographic")) {
-
-
-                            oleLoanDocument.setTitle(fieldValue);
-                        } else if (fieldName.equalsIgnoreCase(Bib.AUTHOR) && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase("bibliographic")) {
-
-
-                            oleLoanDocument.setAuthor(fieldValue);
-
-                        } else if (fieldName.equalsIgnoreCase(Item.CALL_NUMBER) && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase("item")) {
-
-
-                            oleLoanDocument.setItemCallNumber(fieldValue);
-
-                        } else if (fieldName.equalsIgnoreCase(Item.COPY_NUMBER) && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase("item")) {
-
-
-                            oleLoanDocument.setItemCopyNumber(fieldValue);
-
-                        }  else if (fieldName.equalsIgnoreCase(Item.ENUMERATION) && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase("item")) {
-
-
-                            oleLoanDocument.setItemVolumeNumber(fieldValue);
-
-                        }
-
-                    }
-                }
-            } else {
-                item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(oleLoanDocument.getItemUuid());
-                ItemOlemlRecordProcessor itemOlemlRecordProcessor=new ItemOlemlRecordProcessor();
-                org.kuali.ole.docstore.common.document.content.instance.Item itemXML=itemOlemlRecordProcessor.fromXML(item.getContent());
-
-                oleLoanDocument.setItemCallNumber(itemXML.getCallNumber().getNumber());
-                oleLoanDocument.setAuthor(item.getHolding().getBib().getAuthor());
-                oleLoanDocument.setItemVolumeNumber(itemXML.getVolumeNumber());
-                oleLoanDocument.setItemCopyNumber(itemXML.getCopyNumber());
-                oleLoanDocument.setTitle(item.getHolding().getBib().getTitle());
-
-
-            }
-
-
-        } catch (Exception e) {
-           LOG.error("Exception while generating mail content from patron bill",e);
-        }*/
         String issue = new String(" ");
         contentForSendMail.append("<TR><TD>Title</TD><TD>:</TD><TD>" + (oleLoanDocument.getTitle()!=null ? oleLoanDocument.getTitle() : "") + "</TD></TR>");
         contentForSendMail.append("<TR><TD>Author</TD><TD>:</TD><TD>" + (oleLoanDocument.getAuthor()!=null ? oleLoanDocument.getAuthor() : "") + "</TD></TR>");
@@ -815,10 +775,10 @@ public class OleDeliverBatchServiceImpl {
         try{
         stringBuffer.append("<TABLE></BR></BR>");
         stringBuffer.append("<TR><TD>Patron Name :</TD><TD>" + olePatronDocument.getEntity().getNames().get(0).getFirstName() + " " + olePatronDocument.getEntity().getNames().get(0).getLastName() + "</TD></TR>");
-        stringBuffer.append("<TR><TD>Address :</TD><TD>" + (deliverService.getPatronPreferredAddress(entityTypeContactInfoBo) != null ? deliverService.getPatronPreferredAddress(entityTypeContactInfoBo) : "") + "</TD></TR>");
-        stringBuffer.append("<TR><TD>EMAIL :</TD><TD>" + (deliverService.getPatronHomeEmailId(entityTypeContactInfoBo) != null ? deliverService.getPatronHomeEmailId(entityTypeContactInfoBo) : "") + "</TD></TR>");
+        stringBuffer.append("<TR><TD>Address :</TD><TD>" + (getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) : "") + "</TD></TR>");
+        stringBuffer.append("<TR><TD>EMAIL :</TD><TD>" + (getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) : "") + "</TD></TR>");
 
-        stringBuffer.append("<TR><TD>Phone Number :</TD><TD>" +(deliverService.getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? deliverService.getPatronHomePhoneNumber(entityTypeContactInfoBo) : "") + "</TD></TR>");
+        stringBuffer.append("<TR><TD>Phone Number :</TD><TD>" +(getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) : "") + "</TD></TR>");
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1123,7 +1083,7 @@ public class OleDeliverBatchServiceImpl {
         if (noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_RECALL) || noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.OleDeliverRequest.EXPIRED_REQUEST)) {
             String circulationLocation = null;
             String circulationReplyToEmail = null;
-            OleCirculationDesk oleCirculationDesk = getLoanProcessor().getCirculationDesk(noticeBo.getItemShelvingLocation());
+            OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getCirculationDesk(noticeBo.getItemShelvingLocation());
             if (oleCirculationDesk != null) {
                 circulationLocation = oleCirculationDesk.getCirculationDeskPublicName();
                 if (StringUtils.isNotBlank(oleCirculationDesk.getReplyToEmail())) {
@@ -1185,7 +1145,7 @@ public class OleDeliverBatchServiceImpl {
         pdfTable.addCell(getPdfPCellInJustified((noticeBo.getItemId() == null ? "" : noticeBo.getItemId())));
 
         if (noticeBo.getExpiredOnHoldDate() != null) {
-            pdfTable.addCell(getPdfPCellInJustified("Title"));
+            pdfTable.addCell(getPdfPCellInJustified("Hold Expiration Date"));
             pdfTable.addCell(getPdfPCellInLeft(":"));
             pdfTable.addCell(getPdfPCellInJustified((noticeBo.getExpiredOnHoldDate() == null ? "" : dateFormat.format(noticeBo.getExpiredOnHoldDate()))));
 
@@ -1487,17 +1447,17 @@ public class OleDeliverBatchServiceImpl {
 
             pdfTable.addCell(getPdfPCellInJustified("Address"));
             pdfTable.addCell(getPdfPCellInLeft(":"));
-            pdfTable.addCell(getPdfPCellInJustified((deliverService.getPatronPreferredAddress(entityTypeContactInfoBo) != null ? deliverService.getPatronPreferredAddress(entityTypeContactInfoBo) : "")));
+            pdfTable.addCell(getPdfPCellInJustified((getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) : "")));
 
 
 
             pdfTable.addCell(getPdfPCellInJustified("Email"));
             pdfTable.addCell(getPdfPCellInLeft(":"));
-            pdfTable.addCell(getPdfPCellInJustified((deliverService.getPatronHomeEmailId(entityTypeContactInfoBo) != null ? deliverService.getPatronHomeEmailId(entityTypeContactInfoBo) : "")));
+            pdfTable.addCell(getPdfPCellInJustified((getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) : "")));
 
             pdfTable.addCell(getPdfPCellInJustified("Phone #"));
             pdfTable.addCell(getPdfPCellInLeft(":"));
-            pdfTable.addCell(getPdfPCellInJustified((deliverService.getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? deliverService.getPatronHomePhoneNumber(entityTypeContactInfoBo) : "")));
+            pdfTable.addCell(getPdfPCellInJustified((getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) : "")));
 
             document.add(pdfTable);
             paraGraph = new Paragraph();
@@ -1522,14 +1482,13 @@ public class OleDeliverBatchServiceImpl {
     public Document getOverdueNoticePDFContent(OleLoanDocument oleLoanDocument, boolean isOverdue, Document document) {
         try {
             Paragraph paraGraph = new Paragraph();
-            OleDeliverRequestDocumentHelperServiceImpl deliverService = new OleDeliverRequestDocumentHelperServiceImpl();
             SimpleDateFormat sdf = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE+" "+RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
             PdfPTable pdfTable = new PdfPTable(3);
             pdfTable.setWidths(new int[]{20, 2, 30});
 
             String circulationLocation = null;
             String circulationReplyToEmail = null;
-            OleCirculationDesk oleCirculationDesk = getLoanProcessor().getCirculationDesk(oleLoanDocument.getItemLocation());
+            OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getCirculationDesk(oleLoanDocument.getItemLocation());
             if (oleCirculationDesk != null) {
                 circulationLocation = oleCirculationDesk.getCirculationDeskPublicName();
                 if (StringUtils.isNotBlank(oleCirculationDesk.getReplyToEmail())) {

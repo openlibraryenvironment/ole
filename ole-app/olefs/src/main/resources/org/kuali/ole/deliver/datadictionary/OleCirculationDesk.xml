@@ -333,10 +333,32 @@
 
     <!-- Business Object Inquiry Definition -->
 
-    <bean id="OleCirculationDesk-InquiryView" parent="Uif-OLEInquiryView">
+    <bean id="OLECirculationDesk-Uif-InquiryView" abstract="true" parent="OLECirculationDesk-Uif-InquiryView-parentBean"/>
+    <bean id="OLECirculationDesk-Uif-InquiryView-parentBean" parent="Uif-OLEInquiryView">
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.controller.OLECirculationDeskInquiryController"/>
+        <property name="footer">
+            <bean parent="OLECirculationDesk-Uif-InquiryFooter"/>
+        </property>
+    </bean>
+
+    <bean id="OLECirculationDesk-Uif-InquiryFooter" parent="Uif-InquiryFooter">
+        <property name="items">
+            <list merge="true">
+                <bean  id="notice_btn_clk" parent="Uif-PrimaryActionButton" p:methodToCall="generateOnHoldNotices"  p:actionLabel="Generate On Hold Notice" p:ajaxSubmit="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleCirculationDesk-InquiryView" parent="OLECirculationDesk-Uif-InquiryView">
         <property name="headerText" value="Circulation Desk Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleCirculationDesk"/>
         <property name="singlePageView" value="true"/>
+        <property name="formPostUrl" value="oleCirculationDeskInquiry" />
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ole/deliver/circulationDesk/scripts/CirculationDesk.js</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-Disclosure-VerticalBoxSection">

@@ -250,7 +250,7 @@
                     Receiving document.</para>
                 <para role="TableHeading"><emphasis role="bold">Line Item Receiving Initiation tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -370,7 +370,7 @@
                     </para>
                     <para role="TableHeading"><emphasis role="bold">Document Overview tab
                             definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -438,7 +438,7 @@
                     </para>
                     <para role="TableHeading"><emphasis role="bold">Vendor tab
                         definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -625,7 +625,7 @@
                     <title>Receiving Titles section</title>
                     <para role="TableHeading"><emphasis role="bold">Titles tab
                         definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -974,18 +974,20 @@
                                         </entry>
                                     </row>
                                     <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top"
-                                            >Action</entry>
-                                        <entry colname="col2" colsep="0" rowsep="1" valign="top"
-                                            >Click <inlinemediaobject>
-                                                <alt>Receive</alt>
-                                                <imageobject>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Action</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                            <para role="Table Cells">Click <inlinemediaobject>
+                                                  <alt>Receive</alt>
+                                                  <imageobject>
                                                   <imagedata
                                                   fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-123.png"
                                                   />
-                                                </imageobject>
-                                            </inlinemediaobject> to receive the item and update the
-                                            receipt status.</entry>
+                                                  </imageobject>
+                                                </inlinemediaobject> to receive the item and update
+                                                the receipt status.</para>
+                                        </entry>
                                     </row>
                                 </tbody>
                             </tgroup>
@@ -1017,7 +1019,7 @@
                     </para>
                     <para role="TableHeading"><emphasis role="bold">Delivery tab
                             definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -2129,7 +2131,7 @@
                     Bibliographic, Instance, and Purchase Order Records as well as data entered by the operator when
                     creating the record. </para>
                 <note>
-                    <para> OLE 1.0 assumes the use of MARC bibliographic records for describing serial or continuing
+                    <para> OLE 1.6 assumes the use of MARC bibliographic records for describing serial or continuing
                         resource titles. OLE can store records in other formats but serials receiving features cannot be
                         applied to records in other formats in this release. </para>
                 </note>
@@ -2150,7 +2152,7 @@
                 <para/>
                 <para role="TableHeading"><emphasis role="bold">Serials Receiving Record tab
                     definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -2251,10 +2253,15 @@
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                     <para role="Table Cells">Select the Subscription Status from the drop down list.</para>
                                     <note>
-                                        <para> The Serials Receiving Record’s linked Instance Record has a field labeled Receipt Status
-                                            which uses the SAME values as the Subscription Status in the Serials Receiving Record. Assigning or
-                                            changing a Subscription Status does NOT affect the Receipt Status and vice versa. Whether or not it
-                                            should is the subject of OLE-5288 which will not be addressed until OLE 2.0. </para>
+                                        <para> The Serials Receiving Record’s linked Instance Record
+                                            has a field labeled Receipt Status which uses the SAME
+                                            values as the Subscription Status in the Serials
+                                            Receiving Record. Assigning or changing a Subscription
+                                            Status does NOT affect the Receipt Status and vice
+                                            versa. Whether or not it should is the subject of <link
+                                                xlink:href="https://jira.kuali.org/browse/OLE-5288"
+                                                >OLE-5288</link> which will not be addressed until
+                                            OLE 2.0. </para>
                                     </note>
                                 </entry>
                             </row>
@@ -2395,9 +2402,11 @@
                             </row>
                             <row>
                                 <entry colname="col1" colsep="1" rowsep="1" valign="top">Claim Information</entry>
-                                <entry colname="col2" colsep="0" rowsep="1" valign="top">Optional. A
-                                    free-text note field for general information about claiming
-                                    which does not require acknowledgment.</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. A free-text note field for
+                                        general information about claiming which does not require
+                                        acknowledgment.</para>
+                                </entry>
                             </row>
                         </tbody>
                     </tgroup>
@@ -2422,7 +2431,7 @@
                 <para/>
                 <para role="TableHeading"><emphasis role="bold">Receive Enum/Chron Captions tab
                     definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -2673,11 +2682,14 @@
                     <listitem>
                         <para>The system responds with a message indicating that the record has been successfully
                             submitted.</para>
-                        <para>In 1.0, clicking <emphasis role="bold">Delete</emphasis> on a Serials Receiving Record sends a
-                            deletion request to a designated staff operator, one with the role of OLE-Select Operator, who can
-                            approve/disapprove the request.  If approved, the Serials Receiving Record remains online but is
-                            locked and cannot be used for receiving.  If disapproved, the system locks the Serials Receiving
-                            Record on which the delete request was made, but makes a second copy which can be used as before. </para>
+                        <para>In OLE, clicking <emphasis role="bold">Delete</emphasis> on a Serials
+                            Receiving Record sends a deletion request to a designated staff
+                            operator, one with the role of OLE-Select Operator, who can
+                            approve/disapprove the request. If approved, the Serials Receiving
+                            Record remains online but is locked and cannot be used for receiving. If
+                            disapproved, the system locks the Serials Receiving Record on which the
+                            delete request was made, but makes a second copy which can be used as
+                            before. </para>
                     </listitem>
                 </orderedlist>
             </section>

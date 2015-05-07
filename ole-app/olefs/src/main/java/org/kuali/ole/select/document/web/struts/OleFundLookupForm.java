@@ -29,7 +29,7 @@ public class OleFundLookupForm extends KualiTransactionalDocumentFormBase {
     private String objectCode;
     private String organizationCode;
     private String keyword;
-    private Integer universityFiscalYear;
+    private String universityFiscalYear;
     private boolean active;
     private String url;
 
@@ -105,11 +105,11 @@ public class OleFundLookupForm extends KualiTransactionalDocumentFormBase {
         this.keyword = keyword;
     }
 
-    public Integer getUniversityFiscalYear() {
+    public String getUniversityFiscalYear() {
         return universityFiscalYear;
     }
 
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+    public void setUniversityFiscalYear(String universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }
 

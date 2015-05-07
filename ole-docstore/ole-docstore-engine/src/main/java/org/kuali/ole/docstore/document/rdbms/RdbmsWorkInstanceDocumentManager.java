@@ -5,8 +5,11 @@ import org.apache.solr.common.SolrDocument;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.OleDocStoreException;
 import org.kuali.ole.docstore.common.document.content.instance.*;
+import org.kuali.ole.docstore.common.document.content.instance.ItemClaimsReturnedRecord;
+import org.kuali.ole.docstore.common.document.content.instance.MissingPieceItemRecord;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.InstanceOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord;
 import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.kuali.ole.docstore.model.enums.DocFormat;
 import org.kuali.ole.docstore.model.enums.DocType;
@@ -510,6 +513,9 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
         }
         if (item.getDonorInfo() != null && item.getDonorInfo().size() >= 0) {
             saveDonorList(item.getDonorInfo(), itemRecord.getItemId());
+        }
+        if(item.getMissingPieceItemRecordList() != null && item.getMissingPieceItemRecordList().size()>0){
+            saveMissingPieceItemList(item.getMissingPieceItemRecordList() , itemRecord.getItemId());
         }
 
 
@@ -1518,6 +1524,43 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
         }
     }
 
+    protected void saveMissingPieceItemList(List<MissingPieceItemRecord> missingPieceItemRecords,String itemId){
+        Map map = new HashMap();
+        map.put("itemId", itemId);
+        List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordList = (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord>) getBusinessObjectService().findMatching(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord.class, map);
+        if(missingPieceItemRecordList != null && missingPieceItemRecordList.size()>0){
+            getBusinessObjectService().delete(missingPieceItemRecordList);
+        }
+        if(missingPieceItemRecords.size()>0){
+            List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordList1 =new ArrayList<>();
+            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            String parsedDate = df.format((new Date()));
+            Timestamp dueDateTime1 = null;
+            try{
+                 dueDateTime1 = new Timestamp(df.parse(parsedDate).getTime());
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            for(int i=0;i<missingPieceItemRecords.size();i++){
+                MissingPieceItemRecord missingPieceItemRecord=missingPieceItemRecords.get(i);
+                if(missingPieceItemRecord.getMissingPieceItemId() != null){
+                    org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord missingPieceItemRecord1 = new org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord();
+                    missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecord.getMissingPieceCount());
+                    missingPieceItemRecord1.setMissingPieceFlagNote(missingPieceItemRecord.getMissingPieceFlagNote());
+                    missingPieceItemRecord1.setOperatorId(missingPieceItemRecord.getOperatorId());
+                    missingPieceItemRecord1.setItemId(missingPieceItemRecord.getItemId());
+                    missingPieceItemRecord1.setPatronBarcode(missingPieceItemRecord.getPatronBarcode());
+                    missingPieceItemRecord1.setMissingPieceDate(dueDateTime1);
+                    missingPieceItemRecordList1.add(missingPieceItemRecord1);
+                }
+            }
+            if(missingPieceItemRecordList1.size()>0){
+                getBusinessObjectService().save(missingPieceItemRecordList1);
+            }
+        }
+    }
+
+
     protected void saveCheckInLocationRecord(List<CheckInLocation> checkInLocationList, String itemId) {
 
         Map map = new HashMap();
@@ -1683,6 +1726,72 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
             }
             item.setDonorInfo(donorInfoList);
         }
+        List<MissingPieceItemRecord> missingPieceItemRecordList = new ArrayList<>();
+        if(itemRecord.getMissingPieceItemRecordList() != null){
+            SimpleDateFormat dfs = new SimpleDateFormat("MM/dd/yyyy");
+            String parsedDate = dfs.format((new Date()));
+            List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecords = itemRecord.getMissingPieceItemRecordList();
+            for(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord missingPieceItemRecord : missingPieceItemRecords){
+                MissingPieceItemRecord missingPieceItemRecord1 = new MissingPieceItemRecord();
+                missingPieceItemRecord1.setMissingPieceFlagNote(missingPieceItemRecord.getMissingPieceFlagNote());
+                missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecord.getMissingPieceCount());
+                missingPieceItemRecord1.setItemId(missingPieceItemRecord.getItemId());
+                missingPieceItemRecord1.setOperatorId(missingPieceItemRecord.getOperatorId());
+                missingPieceItemRecord1.setPatronBarcode(missingPieceItemRecord.getPatronBarcode());
+                missingPieceItemRecord1.setMissingPieceItemId(missingPieceItemRecord.getMissingPieceItemId());
+                missingPieceItemRecord1.setMissingPieceDate(parsedDate);
+                missingPieceItemRecordList.add(missingPieceItemRecord1);
+            }
+            item.setMissingPieceItemRecordList(missingPieceItemRecordList);
+        }
+        List<ItemClaimsReturnedRecord> itemClaimsReturnedRecordList = new ArrayList<>();
+        if(itemRecord.getItemClaimsReturnedRecords() != null) {
+            List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord> itemClaimsReturnedRecords = itemRecord.getItemClaimsReturnedRecords();
+            for(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord itemClaimsReturnedRecord : itemClaimsReturnedRecords){
+                ItemClaimsReturnedRecord claimsReturnedRecord = new ItemClaimsReturnedRecord();
+                if (itemClaimsReturnedRecord.getClaimsReturnedFlagCreateDate() != null) {
+                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                    Date claimsReturnedDate = null;
+                    try {
+                        claimsReturnedDate = format2.parse(itemClaimsReturnedRecord.getClaimsReturnedFlagCreateDate().toString());
+                    } catch (ParseException e) {
+                        LOG.error("format string to Date " + e);
+                    }
+                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(format1.format(claimsReturnedDate).toString());
+                }
+                claimsReturnedRecord.setClaimsReturnedOperatorId(itemClaimsReturnedRecord.getClaimsReturnedOperatorId());
+                claimsReturnedRecord.setClaimsReturnedPatronBarcode(itemClaimsReturnedRecord.getClaimsReturnedPatronBarcode());
+                claimsReturnedRecord.setClaimsReturnedNote(itemClaimsReturnedRecord.getClaimsReturnedNote());
+                claimsReturnedRecord.setItemId(itemClaimsReturnedRecord.getItemId());
+                itemClaimsReturnedRecordList.add(claimsReturnedRecord);
+            }
+            item.setItemClaimsReturnedRecords(itemClaimsReturnedRecordList);
+        }
+        List<org.kuali.ole.docstore.common.document.content.instance.ItemDamagedRecord> itemDamagedRecordList = new ArrayList<>();
+        if(itemRecord.getItemDamagedRecords() != null){
+            List<ItemDamagedRecord> itemDamagedRecords = itemRecord.getItemDamagedRecords();
+            for(ItemDamagedRecord itemDamagedRecord : itemDamagedRecords){
+                org.kuali.ole.docstore.common.document.content.instance.ItemDamagedRecord damagedRecord = new org.kuali.ole.docstore.common.document.content.instance.ItemDamagedRecord();
+                if(itemDamagedRecord.getDamagedItemDate() != null){
+                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                    Date itemDamagedDate = null;
+                    try{
+                        itemDamagedDate = format2.parse(itemDamagedRecord.getDamagedItemDate().toString());
+                    } catch (ParseException e){
+                        LOG.error("Format string to Date " +e);
+                    }
+                    damagedRecord.setDamagedItemDate(format1.format(itemDamagedDate).toString());
+                }
+                damagedRecord.setDamagedItemNote(itemDamagedRecord.getDamagedItemNote());
+                damagedRecord.setPatronBarcode(itemDamagedRecord.getPatronBarcode());;
+                damagedRecord.setOperatorId(itemDamagedRecord.getOperatorId());
+                damagedRecord.setItemId(itemDamagedRecord.getItemId());
+                itemDamagedRecordList.add(damagedRecord);
+            }
+            item.setItemDamagedRecords(itemDamagedRecordList);
+        }
         if (itemRecord.getItemStatusRecord() != null) {
             ItemStatus itemStatus = new ItemStatus();
             itemStatus.setCodeValue(itemRecord.getItemStatusRecord().getCode());
@@ -1784,13 +1893,27 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
             //try {
             SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String DATE_FORMAT_HH_MM_SS_REGX = "^(1[0-2]|0[1-9])/(3[0|1]|[1|2][0-9]|0[1-9])/[0-9]{4}(\\s)((([1|0][0-9])|([2][0-4]))):[0-5][0-9]:[0-5][0-9]$";
             Date dueDateTime = null;
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ssa");
+            DateFormat df1 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            DateFormat displayLoanTime = new SimpleDateFormat("MM/dd/yyyy hh:mma");
             try {
                 dueDateTime = format2.parse(itemRecord.getDueDateTime().toString());
+                //item.setDueDateTime(format1.format(dueDateTime).toString());
+                String dateString = format1.format(dueDateTime).toString();
+                if (StringUtils.isNotBlank(dateString) && dateString.matches(DATE_FORMAT_HH_MM_SS_REGX)) {
+                    dueDateTime = df1.parse(dateString);
+                    item.setDueDateTime(df.format(dueDateTime));
+                    item.setLoanDueDate(displayLoanTime.format(dueDateTime));
+                }else {
+                    item.setDueDateTime(dateString);
+                    item.setLoanDueDate(displayLoanTime.format(dueDateTime));
+                }
             } catch (ParseException e) {
                 LOG.error("format string to Date " + e);
             }
-            item.setDueDateTime(format1.format(dueDateTime).toString());
+            //item.setDueDateTime(format1.format(dueDateTime).toString());
             /*item.setClaimsReturnedFlagCreateDate(getGregorianCalendar(itemRecord.getClaimsReturnedFlagCreateDate()));
             } catch (DatatypeConfigurationException e) {
                 LOG.error(" getGregorianCalendar", e);

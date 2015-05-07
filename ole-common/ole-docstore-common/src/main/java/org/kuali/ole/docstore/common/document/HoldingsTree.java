@@ -103,7 +103,7 @@ public class HoldingsTree
             StringWriter sw = new StringWriter();
             Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(HoldingsTree.class);
             synchronized (jaxbMarshaller) {
-            jaxbMarshaller.marshal(holdingsTree, sw);
+                jaxbMarshaller.marshal(holdingsTree, sw);
             }
             result = sw.toString();
         } catch (Exception e) {
@@ -120,7 +120,7 @@ public class HoldingsTree
             XMLStreamReader xmlStreamReader = JAXBContextFactory.getInstance().getXmlInputFactory().createXMLStreamReader(streamSource);
             Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(HoldingsTree.class);
             synchronized (unmarshaller) {
-            holdingsTree = unmarshaller.unmarshal(xmlStreamReader, HoldingsTree.class).getValue();
+                holdingsTree = unmarshaller.unmarshal(xmlStreamReader, HoldingsTree.class).getValue();
             }
         } catch (Exception e) {
             LOG.error("Exception ", e);

@@ -417,7 +417,7 @@
         </property>
     </bean>
 
-    <bean id="OlePatronDocument-InquiryView-OverviewSection" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean id="OlePatronDocument-InquiryView-OverviewSection" p:disclosure.defaultOpen="false" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="headerText" value="Overview" />
         <property name="items">
             <list>
@@ -458,7 +458,7 @@
     </bean>
 
 
-    <bean id="OlePatronDocument-InquiryView-AffiliationSection-Wrapper" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-InquiryView-AffiliationSection-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxGroup">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -490,7 +490,7 @@
 		      			</bean>
 		      			<bean parent="Uif-ActionLink" p:actionLabel="Affiliation"
 		      					p:methodToCall="refresh"
-			      				p:refreshId="OlePatronDocument-InquiryView-AffiliationSection-Wrapper">
+			      				p:refreshId="OlePatronDocument-InquiryView-AffiliationSection-Wrapper" p:cssClasses="@{dataObject.patronAffiliations ne null and dataObject.patronAffiliations.size() &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterAffiliation" value="@{!filterAffiliation}" />
@@ -513,9 +513,10 @@
     </bean>
     
     <bean id="OlePatronDocument-InquiryView-AffiliationSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2"  p:filterModelProperty="filterAffiliation">
+        <property name="headerText" value="Affiliation" />
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronAffiliation" />
         <property name="propertyName" value="patronAffiliations" />
-      <!--  <property name="cssClasses" value="@{dataObject.patronAffiliations.size() eq 0}"/>-->
+        <property name="cssClasses" value="@{dataObject.patronAffiliations.size() eq 0}"/>
         <property name="layoutManager.richTable"><null /></property>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="items">
@@ -551,7 +552,7 @@
         </property>
     </bean>
 
-    <bean id="OlePatronDocument-InquiryView-ContactsSection" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean id="OlePatronDocument-InquiryView-ContactsSection" p:disclosure.defaultOpen="false" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="headerText" value="Contacts" />
         <property name="items">
             <list>
@@ -592,7 +593,7 @@
         <property name="propertyName" value="oleEntityAddressBo" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="showInactiveLines" value="true"/>
-        <!--<property name="cssClasses" value="@{dataObject.oleEntityAddressBo.size() eq 0}"/>-->
+        <property name="cssClasses" value="@{dataObject.oleEntityAddressBo.size() eq 0}"/>
         <property name="items">
             <list>
                 <bean id="address_addressTypeCode" parent="Uif-InputField" p:propertyName="entityAddressBo.addressTypeCode" p:label="Address Type"/>
@@ -618,7 +619,7 @@
         <property name="collectionObjectClass" value="org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo" />
         <property name="propertyName" value="phones" />
         <property name="showInactiveLines" value="true"/>
-        <!--<property name="cssClasses" value="@{dataObject.phones.size() eq 0}"/>-->
+        <property name="cssClasses" value="@{dataObject.phones.size() eq 0}"/>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="items">
             <list>
@@ -638,7 +639,7 @@
         <property name="propertyName" value="emails" />
         <property name="showInactiveLines" value="true"/>
         <property name="layoutManager.renderSequenceField" value="false" />
-       <!-- <property name="cssClasses" value="@{dataObject.emails.size() eq 0}"/>-->
+        <property name="cssClasses" value="@{dataObject.emails.size() eq 0}"/>
         <property name="items">
             <list>
                 <bean id="email_emailTypeCode" parent="Uif-InputField" p:propertyName="emailTypeCode" p:label="Email Type"/>
@@ -653,7 +654,7 @@
         <property name="headerText" value="Note" />
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronNotes" />
         <property name="propertyName" value="notes" />
-       <!-- <property name="cssClasses" value="@{dataObject.notes.size() eq 0}"/>-->
+        <property name="cssClasses" value="@{dataObject.notes.size() eq 0}"/>
         <property name="layoutManager.renderSequenceField" value="false" />
 
         <property name="items">
@@ -664,7 +665,7 @@
         </property>
     </bean>
 
-    <bean id="OlePatronDocument-InquiryView-PatronLoanedRecords-Wrapper" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-InquiryView-PatronLoanedRecords-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxGroup">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -694,9 +695,9 @@
 		      					</map>
 		      				</property>
 		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:actionLabel="Loaned Records"
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Loaned Records (@{dataObject.loanCount})"
 		      					p:methodToCall="refreshLoanSection"
-			      				p:refreshId="OlePatronDocument-InquiryView-PatronLoanedRecords-Wrapper">
+			      				p:refreshId="OlePatronDocument-InquiryView-PatronLoanedRecords-Wrapper" p:cssClasses="@{dataObject ne null and dataObject.loanCount &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterLoanedRecords" value="@{!filterLoanedRecords}" />
@@ -716,10 +717,11 @@
         <!--<property name="cssClasses" value="@{dataObject.oleLoanDocuments.size() eq 0}"/>-->
         <property name="items">
             <list>
-                <bean id="Show-InquiryView-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showPatronLoanedItem" p:actionLabel="Show All Loaned Item"  p:render="@{!dataObject.showLoanedRecords}" p:ajaxSubmit="true"/>
-                <bean id="Hide-InquiryView-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hidePatronLoanedItem" p:actionLabel="Hide All Loaned Item"  p:render="@{dataObject.showLoanedRecords}" p:ajaxSubmit="true" />
+                <bean id="Show-InquiryView-OlePatronDocument-LoanedItems-TotalNoCount" parent="Uif-MessageField" p:render="@{dataObject.loanCount ne 0}"/>
+                <bean id="Show-InquiryView-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showPatronLoanedItem" p:actionLabel="Show Loaned Item"  p:render="@{!dataObject.showLoanedRecords}" p:ajaxSubmit="true"/>
+                <bean id="Hide-InquiryView-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hidePatronLoanedItem" p:actionLabel="Hide Loaned Item"  p:render="@{dataObject.showLoanedRecords}" p:ajaxSubmit="true" />
                 <ref bean="OlePatronDocument-InquiryView-LoanedItems" />
-                <bean id="inquiry_viewLoanedRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#ViewHelper.getLoanedRecords(dataObject.olePatronId)}"  p:linkText="View all records"  p:target="_blank" >
+                <bean id="inquiry_viewLoanedRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#ViewHelper.getLoanedRecords(dataObject.olePatronId)}"  p:linkText="View Loaned Items in a New Window"  p:target="_blank" >
                     <property name="cssClasses" value="uif-secondaryActionButton"/>
                 </bean>
             </list>
@@ -761,7 +763,7 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="OlePatronDocument-InquiryView-PatronRequestedItems-Wrapper" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-InquiryView-PatronRequestedItems-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxGroup">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -791,9 +793,9 @@
 		      					</map>
 		      				</property>
 		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:actionLabel="Requested Records"
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Requested Records (@{dataObject.requestedItemRecordsCount})"
 		      					p:methodToCall="refreshLoanSection"
-			      				p:refreshId="OlePatronDocument-InquiryView-PatronRequestedItems-Wrapper">
+			      				p:refreshId="OlePatronDocument-InquiryView-PatronRequestedItems-Wrapper" p:cssClasses="@{dataObject ne null and dataObject.requestedItemRecordsCount &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterRequestedRecords" value="@{!filterRequestedRecords}" />
@@ -810,13 +812,14 @@
     </bean>
     
     <bean id="OlePatronDocument-InquiryView-PatronRequestedItems" parent="Uif-VerticalBoxSection" p:filterModelProperty="filterRequestedRecords"><!--p:render="@{dataObject.oleDeliverRequestBos.size()>0 }"-->
-       <!-- <property name="cssClasses" value="@{dataObject.oleDeliverRequestBos.size() eq 0}"/>-->
+        <!--<property name="cssClasses" value="@{dataObject.oleDeliverRequestBos.size() eq 0}"/>-->
         <property name="items">
             <list>
-                <bean id="Show-OlePatronDocument-InquiryView-RequestedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showPatronRequestedRecords" p:actionLabel="Show All RequestedItems"  p:render="@{!dataObject.showRequestedItems}" p:ajaxSubmit="true"/>
-                <bean id="Hide-OlePatronDocument-InquiryView-RequestedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hidePatronRequestedRecords" p:actionLabel="Hide All RequestedItems"  p:render="@{dataObject.showRequestedItems}" p:ajaxSubmit="true" />
+                <bean id="Show-OlePatronDocument-InquiryView-RequestedItems-TotalCount" parent="Uif-MessageField" p:render="@{dataObject.requestedItemRecordsCount ne 0 and !dataObject.showRequestedItems}" />
+                <bean id="Show-OlePatronDocument-InquiryView-RequestedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showPatronRequestedRecords" p:actionLabel="Show Requested Items"  p:render="@{!dataObject.showRequestedItems}" p:ajaxSubmit="true"/>
+                <bean id="Hide-OlePatronDocument-InquiryView-RequestedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hidePatronRequestedRecords" p:actionLabel="Hide Requested Items"  p:render="@{dataObject.showRequestedItems}" p:ajaxSubmit="true" />
                 <ref bean="OlePatronDocument-InquiryView-RequestedItems" />
-                <bean id="inquiry_viewRequestedRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#ViewHelper.getRequestedRecords(dataObject.olePatronId)}"  p:linkText="View all records"  p:target="_blank" >
+                <bean id="inquiry_viewRequestedRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#ViewHelper.getRequestedRecords(dataObject.olePatronId)}"  p:linkText="View Requested Items in a New Window"  p:target="_blank" >
                     <property name="cssClasses" value="uif-secondaryActionButton"/>
                 </bean>
             </list>
@@ -853,7 +856,7 @@
     </bean>
 
 
-    <bean id="OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords-Wrapper" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxGroup">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -883,9 +886,9 @@
 		      					</map>
 		      				</property>
 		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:actionLabel="Temporary Circulation History records"
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Temporary Circulation History records (@{dataObject.tempCirculationHistoryCount})"
 		      					p:methodToCall="refreshLoanSection"
-			      				p:refreshId="OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords-Wrapper">
+			      				p:refreshId="OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords-Wrapper" p:cssClasses="@{dataObject ne null and dataObject.tempCirculationHistoryCount &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterTemporaryCirculationHistoryRecords" value="@{!filterTemporaryCirculationHistoryRecords}" />
@@ -903,15 +906,16 @@
     
     <bean id="OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords" parent="Uif-VerticalBoxSection" p:filterModelProperty="filterTemporaryCirculationHistoryRecords">
         <!--p:render="@{dataObject.oleTemporaryCirculationHistoryRecords.size()>0 }" -->
-        <!--<property name="cssClasses" value="@{dataObject.oleTemporaryCirculationHistoryRecords.size() eq 0}"/>-->
+      <!--  <property name="cssClasses" value="@{dataObject.oleTemporaryCirculationHistoryRecords.size() eq 0}"/>-->
         <property name="items">
             <list>
-                <bean id="Show-OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showTemporaryCirculationHistoryRecords" p:actionLabel="Show All TemporaryCirculationHistoryRecords"  p:render="@{!dataObject.showTemporaryCirculationHistoryRecords}" p:ajaxSubmit="true"/>
-                <bean id="Hide-OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hideTemporaryCirculationHistoryRecords" p:actionLabel="Hide All TemporaryCirculationHistoryRecords"  p:render="@{dataObject.showTemporaryCirculationHistoryRecords}" p:ajaxSubmit="true" />
+                <bean id="Show-OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords-Count" parent="Uif-MessageField" p:render="@{dataObject.tempCirculationHistoryCount ne 0 and !dataObject.showTemporaryCirculationHistoryRecords}" />
+                <bean id="Show-OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showTemporaryCirculationHistoryRecords" p:actionLabel="Show TemporaryCirculationHistory Items"  p:render="@{!dataObject.showTemporaryCirculationHistoryRecords}" p:ajaxSubmit="true"/>
+                <bean id="Hide-OlePatronDocument-InquiryView-TemporaryCirculationHistoryRecords" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hideTemporaryCirculationHistoryRecords" p:actionLabel="Hide TemporaryCirculationHistory Items"  p:render="@{dataObject.showTemporaryCirculationHistoryRecords}" p:ajaxSubmit="true" />
                 <ref bean="OlePatronDocument-InquiryView-TemporaryCirculationHistory"/>
                 <bean id="inquiry_viewTempRecordsLink" parent="Uif-LinkField" p:style="font-weight:bold;"
                       p:href="@{#ViewHelper.getTempCircRecords(dataObject.olePatronId)}"
-                      p:linkText="View all records" p:target="_blank">
+                      p:linkText="View TemporaryCirculationHistory Items in a New Window" p:target="_blank">
                     <property name="cssClasses" value="uif-secondaryActionButton"/>
                 </bean>
             </list>
@@ -947,7 +951,7 @@
         <property name="renderLineActions" value="false"/>
     </bean>
     
-    <bean id="OlePatronDocument-InquiryView-ProxyPatronSection-Wrapper" parent="Uif-VerticalBoxGroup">
+    <bean id="OlePatronDocument-InquiryView-ProxyPatronSection-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxGroup">
     	<property name="items">
     		<list>
 		      <bean parent="Uif-SectionHeader">
@@ -979,7 +983,7 @@
 		      			</bean>
 		      			<bean parent="Uif-ActionLink" p:actionLabel="Proxy Patron"
 		      					p:methodToCall="refreshProxyPatron"
-			      				p:refreshId="OlePatronDocument-InquiryView-ProxyPatronSection-Wrapper">
+			      				p:refreshId="OlePatronDocument-InquiryView-ProxyPatronSection-Wrapper" p:cssClasses="@{dataObject.oleProxyPatronDocuments ne null and dataObject.oleProxyPatronDocuments.size() &lt; 1?'disableColor':'enableColor'}">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterProxySection" value="@{!filterProxySection}" />
@@ -1001,10 +1005,10 @@
     	</property>
     </bean>
     
-    <bean id="OlePatronDocument-InquiryView-ProxyPatronSection" parent="Uif-TableCollectionSection" p:layoutManager.suppressLineWrapping="true" p:filterModelProperty="filterProxySection">
+    <bean id="OlePatronDocument-InquiryView-ProxyPatronSection"  parent="Uif-TableCollectionSection" p:layoutManager.suppressLineWrapping="true" p:filterModelProperty="filterProxySection">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleProxyPatronDocument" />
         <property name="propertyName" value="oleProxyPatronDocuments" />
-      <!--  <property name="cssClasses" value="@{dataObject.oleProxyPatronDocuments.size() eq 0}"/>-->
+        <property name="cssClasses" value="@{dataObject.oleProxyPatronDocuments.size() eq 0}"/>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="items">
             <list>
@@ -1022,7 +1026,7 @@
         <property name="headerText" value="Proxy For" />
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleProxyPatronDocument" />
         <property name="propertyName" value="oleProxyPatronDocumentList" />
-       <!-- <property name="cssClasses" value="@{dataObject.oleProxyPatronDocumentList.size() eq 0}"/>-->
+        <property name="cssClasses" value="@{dataObject.oleProxyPatronDocumentList.size() eq 0}"/>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="items">
             <list>
@@ -1039,7 +1043,7 @@
         <property name="headerText" value="Local Identification" />
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronLocalIdentificationBo" />
         <property name="propertyName" value="olePatronLocalIds" />
-      <!--  <property name="cssClasses" value="@{dataObject.olePatronLocalIds.size() eq 0}"/>-->
+        <property name="cssClasses" value="@{dataObject.olePatronLocalIds.size() eq 0}"/>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="items">
             <list>
@@ -1052,7 +1056,7 @@
         <property name="headerText" value="Lost/Invalid Barcode Info" />
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronLostBarcode" />
         <property name="propertyName" value="lostBarcodes" />
-       <!-- <property name="cssClasses" value="@{dataObject.lostBarcodes.size() eq 0}"/>-->
+        <property name="cssClasses" value="@{dataObject.lostBarcodes.size() eq 0}"/>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="items">
             <list>

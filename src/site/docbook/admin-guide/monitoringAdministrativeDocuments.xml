@@ -472,7 +472,7 @@ Administrator role.</para>
             <para/>
             <para role="TableHeading"><emphasis role="bold">Document Action
                 definitions</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -574,7 +574,7 @@ Administrator role.</para>
             </para>
             <para/>
             <para role="TableHeading"><emphasis role="bold">Document definitions</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -735,7 +735,7 @@ Administrator role.</para>
             <para/>
             <para role="TableHeading"><emphasis role="bold">Action Request
                 definitions</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -964,7 +964,7 @@ Administrator role.</para>
             <para/>
             <para role="TableHeading"><emphasis role="bold">Actions Taken
                 definitions</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -1080,7 +1080,7 @@ Administrator role.</para>
             <para/>
             <para role="TableHeading"><emphasis role="bold">Actions Items
                 definitions</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -1237,7 +1237,7 @@ Administrator role.</para>
             <para/>
             <para role="TableHeading"><emphasis role="bold">Route Node Instances
                     definitions</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -1332,7 +1332,7 @@ Administrator role.</para>
             <para/>
             <para role="TableHeading"><emphasis role="bold">Branch States
                 definitions</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>

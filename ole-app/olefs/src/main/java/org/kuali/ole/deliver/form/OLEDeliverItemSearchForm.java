@@ -21,6 +21,7 @@ public class OLEDeliverItemSearchForm extends UifFormBase {
     private String itemType;
     private String itemLocation;
     private boolean singleItemFlag = false;
+    private boolean multipleItemFlag = false;
     private List<OLEBibSearchResultDisplayRow> oleBibSearchResultDisplayRowList = new ArrayList<>();
     private OLESingleItemResultDisplayRow oleSingleItemResultDisplayRow;
 
@@ -94,6 +95,14 @@ public class OLEDeliverItemSearchForm extends UifFormBase {
 
     public void setSingleItemFlag(boolean singleItemFlag) {
         this.singleItemFlag = singleItemFlag;
+    }
+
+    public boolean isMultipleItemFlag() {
+        return multipleItemFlag;
+    }
+
+    public void setMultipleItemFlag(boolean multipleItemFlag) {
+        this.multipleItemFlag = multipleItemFlag;
     }
 
     public List<OLEBibSearchResultDisplayRow> getOleBibSearchResultDisplayRowList() {

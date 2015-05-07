@@ -421,7 +421,7 @@
                     initiator.</para>
                 <para role="TableHeading"><emphasis role="bold">Contact Information tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -1673,7 +1673,7 @@
                 to your analysis.</para>
             <para role="TableHeading"><emphasis role="bold">Inquiry Drilldown
                 Patterns</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="7">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>

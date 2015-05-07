@@ -2084,7 +2084,7 @@
             <validApplicationStatuses>
                 <status>Initiated</status>
                 <status>In Process</status>
-                <status>Cancelled In Process</status>
+               <!-- <status>Cancelled In Process</status>-->
                 <status>Cancelled</status>
                 <status>Department-Approved</status>
                 <status>Auto-Approved</status>

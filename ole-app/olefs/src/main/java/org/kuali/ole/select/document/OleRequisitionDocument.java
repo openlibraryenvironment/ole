@@ -476,7 +476,8 @@ public class OleRequisitionDocument extends RequisitionDocument {
      */
     private void setItemDetailWhilePrepareForSave(OleRequisitionItem singleItem){
         if (!this.getRequisitionSourceCode().equalsIgnoreCase(
-                OleSelectConstant.REQUISITON_SRC_TYPE_DIRECTINPUT)) {
+                OleSelectConstant.REQUISITON_SRC_TYPE_DIRECTINPUT) && !this.getRequisitionSourceCode().equalsIgnoreCase(
+                OleSelectConstant.REQUISITON_SRC_TYPE_AUTOINGEST)) {
             singleItem.setVendorItemPoNumber(this.vendorPoNumber);
         }
         if (singleItem.getRequestSourceTypeId() == null) {

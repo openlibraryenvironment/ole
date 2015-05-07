@@ -20,6 +20,10 @@ import org.kuali.ole.docstore.engine.service.storage.DocstoreStorageService;
 import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.kuali.ole.docstore.model.enums.DocFormat;
 import org.kuali.ole.docstore.model.enums.DocType;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
+import org.kuali.rice.coreservice.impl.parameter.ParameterServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +44,13 @@ public class DocstoreServiceImpl implements DocstoreService {
     private DocstoreStorageService docstoreStorageService = null;
     private DocstoreSearchService docstoreSearchService = null;
     private DocstoreIndexService docstoreIndexService = null;
+    protected ParameterServiceImpl parameterService = new ParameterServiceImpl();
+
+    public String getParameter() {
+        ParameterKey parameterKey = ParameterKey.create(OLE, OLE_DESC, DESCRIBE, PROCESS_SOLR_IND);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        return parameter != null ? parameter.getValue() : null;
+    }
 
     @Override
     public void createBib(Bib bib) {
@@ -987,6 +998,52 @@ public class DocstoreServiceImpl implements DocstoreService {
 
                         }
                     }
+                    if(itemContent.getItemClaimsReturnedRecords() != null && itemContent.getItemClaimsReturnedRecords().size() > 0){
+                        List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords = existingItemContent.getItemClaimsReturnedRecords();
+                        if(itemClaimsReturnedRecords != null && itemClaimsReturnedRecords.size() > 0){
+                            for(ItemClaimsReturnedRecord itemClaimsReturnedRecord : itemContent.getItemClaimsReturnedRecords()){
+                                itemClaimsReturnedRecords.add(itemClaimsReturnedRecord);
+                            }
+                            existingItemContent.setItemClaimsReturnedRecords(itemClaimsReturnedRecords);
+                        } else {
+                            for(ItemClaimsReturnedRecord itemClaimsReturnedRecord : itemContent.getItemClaimsReturnedRecords()){
+                                itemClaimsReturnedRecords.add(itemClaimsReturnedRecord);
+                            }
+                            if(itemClaimsReturnedRecords != null && itemClaimsReturnedRecords.size() > 0)
+                                existingItemContent.setItemClaimsReturnedRecords(itemClaimsReturnedRecords);
+                        }
+                    }
+                    if(itemContent.getItemDamagedRecords() != null && itemContent.getItemDamagedRecords().size() > 0){
+                        List<ItemDamagedRecord> itemDamagedRecords = existingItemContent.getItemDamagedRecords();
+                        if(itemDamagedRecords != null && itemDamagedRecords.size() > 0){
+                            for(ItemDamagedRecord itemDamagedRecord : itemContent.getItemDamagedRecords()){
+                                itemDamagedRecords.add(itemDamagedRecord);
+                            }
+                            existingItemContent.setItemDamagedRecords(itemDamagedRecords);
+                        } else {
+                            for(ItemDamagedRecord itemDamagedRecord : itemContent.getItemDamagedRecords()){
+                                itemDamagedRecords.add(itemDamagedRecord);
+                            }
+                            if(itemDamagedRecords != null && itemDamagedRecords.size() > 0)
+                                existingItemContent.setItemDamagedRecords(itemDamagedRecords);
+                        }
+                    }
+                    if(itemContent.getMissingPieceItemRecordList() != null && itemContent.getMissingPieceItemRecordList().size() > 0){
+                        List<MissingPieceItemRecord> missingPieceItemRecords = existingItemContent.getMissingPieceItemRecordList();
+                        if(missingPieceItemRecords != null && missingPieceItemRecords.size()>0){
+                            for(MissingPieceItemRecord missingPieceItemRecord : itemContent.getMissingPieceItemRecordList()){
+                                missingPieceItemRecords.add(missingPieceItemRecord);
+                            }
+                            existingItemContent.setMissingPieceItemRecordList(missingPieceItemRecords);
+                        } else {
+                            for(MissingPieceItemRecord missingPieceItemRecord : itemContent.getMissingPieceItemRecordList()){
+                                missingPieceItemRecords.add(missingPieceItemRecord);
+                            }
+                            if(missingPieceItemRecords != null && missingPieceItemRecords.size()>0){
+                                existingItemContent.setMissingPieceItemRecordList(missingPieceItemRecords);
+                            }
+                        }
+                    }
 
 
                     if (itemContent.getCheckinNote() != null && !itemContent.getCheckinNote().isEmpty()) {
@@ -1262,7 +1319,9 @@ public class DocstoreServiceImpl implements DocstoreService {
     public BibTrees processBibTrees(BibTrees bibTrees) {
         try {
             getDocstoreStorageService().processBibTrees(bibTrees);
-            getDocstoreIndexService().processBibTrees(bibTrees);
+            if(!"false".equalsIgnoreCase(getParameter())){
+                getDocstoreIndexService().processBibTrees(bibTrees);
+            }
         } catch (Exception e) {
             LOG.error("Exception occurred while processing bib trees ", e);
             throw e;

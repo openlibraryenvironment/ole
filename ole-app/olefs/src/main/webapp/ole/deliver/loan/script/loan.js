@@ -505,9 +505,11 @@ function setUser(){
     if(jq( "#hiddenLoanField_h4").val() != null && jq( "#hiddenLoanField_h4").val() != ""){
        jq(parent.document).find("#login-info").children('strong').eq(1).html("  Impersonating User: "+jq( "#hiddenLoanField_h4").val());
     }
-    jq('#hdlogInUser').focus().click();
-    jq( "#OverRideLogInSectionLink" ).fadeOut(300);
-    jq('#mask').fadeOut(300);
+    if(jq("#newPrincipalName_control").val()!= null && jq("#newPrincipalName_control").val()!=""){
+        jq('#hdlogInUser').focus().click();
+        jq("#OverRideLogInSectionLink").fadeOut(300);
+        jq('#mask').fadeOut(300);
+    }
 }
 
 //hiddenLoanField_h5 mapped to oldPrincipalId
@@ -875,7 +877,11 @@ function backGroundCheckOut(){
 }
 
 function setCheckinItemFocus(){
-    jq("#CheckInItem_control").focus();
+    if(jq("#okCheckInNoteBtn").val() == undefined && jq("#returnBtn").val() == undefined && jq("#okClaimsBtn").val() == undefined && jq("#continueBtn").val() == undefined && jq("#OLEReturnView-DamagedItem-Loan").val() == undefined && jq("#returnLoanBtn").val() == undefined && jq("#closeBtn").val() == undefined){
+        jq("#CheckInItem_control").focus();
+    }else{
+        jq("#CheckInItem_control").blur();
+    }
 }
 
 function callFastAddClose(){

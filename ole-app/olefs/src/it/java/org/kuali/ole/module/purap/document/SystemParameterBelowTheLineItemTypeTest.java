@@ -20,7 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.ole.ConfigureContext;
-import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.businessobject.PurApItemBase;
@@ -44,7 +44,7 @@ import static junit.framework.TestCase.assertTrue;
  * update this test as well as the fixtures relevant to the change.
  */
 
-public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
+public class SystemParameterBelowTheLineItemTypeTest extends KFSTestCaseBase {
 
     private RequisitionDocument requisitionDocument = null;
     ParameterService parameterService;

@@ -6,6 +6,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.pojo.OleInvoiceRecord;
 import org.kuali.ole.pojo.edi.*;
 import org.kuali.ole.select.OleSelectConstant;
+import org.kuali.ole.select.businessobject.OleInvoiceNote;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.vnd.businessobject.OleCurrencyType;
 import org.kuali.ole.vnd.businessobject.VendorAlias;
@@ -14,10 +15,10 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.LookupService;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.ParsePosition;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -66,8 +67,8 @@ public class OleInvoiceRecordBuilder {
     public OleInvoiceRecord build(LineItemOrder lineItemOrder, INVOrder invOrder) throws Exception {
 
         OleInvoiceRecord oleInvoiceRecord = new OleInvoiceRecord();
-
-        oleInvoiceRecord.setListPrice(getListPrice(lineItemOrder));
+        String listPrice = getListPrice(lineItemOrder);
+        oleInvoiceRecord.setListPrice(listPrice!=null?listPrice:getPrice(lineItemOrder));
         oleInvoiceRecord.setUnitPrice(populateUnitPrice(lineItemOrder));
         oleInvoiceRecord.setQuantity(getQuantity(lineItemOrder));
         oleInvoiceRecord.setVendorItemIdentifier(getVendorItemIdentifier(lineItemOrder)!=null?getVendorItemIdentifier(lineItemOrder):getVendorIdentifierByPIA(lineItemOrder));
@@ -88,6 +89,7 @@ public class OleInvoiceRecordBuilder {
         //oleInvoiceRecord.setItemType(OLEConstants.OleInvoiceImport.QTY_TYP);
         oleInvoiceRecord.setBillToCustomerID(populateBillToCustomerId(invOrder));
         oleInvoiceRecord.setItemDescription(getItemDescription(lineItemOrder));
+        oleInvoiceRecord.setItemNote(getItemNote(lineItemOrder));
         oleInvoiceRecord.setNumberOfCopiesOrdered(oleInvoiceRecord.getQuantity());
         //oleInvoiceRecord.setNumberOfParts(OLEConstants.OleInvoiceImport.NO_PARTS);
         oleInvoiceRecord.setSubscriptionPeriodFrom(getSubscriptionDateFrom(lineItemOrder));
@@ -207,7 +209,7 @@ public class OleInvoiceRecordBuilder {
     private String populateLineItemAdditionalCharge(LineItemOrder lineItemOrder){
         if(lineItemOrder.getAllowanceMonetaryDetail()!= null){
             if(lineItemOrder.getAllowanceMonetaryDetail().get(0).getAllowanceMonetaryLineItemInformation() != null){
-                return lineItemOrder.getAllowanceMonetaryDetail().get(0).getAllowanceMonetaryLineItemInformation().get(0).getAmount();
+                return "0";//lineItemOrder.getAllowanceMonetaryDetail().get(0).getAllowanceMonetaryLineItemInformation().get(0).getAmount();
             }
         }
         return null;
@@ -241,10 +243,22 @@ public class OleInvoiceRecordBuilder {
      * @return  Price
      */
     private String getListPrice(LineItemOrder lineItemOrder) {
+
+        List<MonetaryDetail> monetaryDetails = lineItemOrder.getMonetaryDetail();
+        if(monetaryDetails != null && monetaryDetails.size() > 0){
+            if(monetaryDetails.get(0).getMonetaryLineItemInformation()!= null && monetaryDetails.get(0).getMonetaryLineItemInformation().size()>0){
+                if(monetaryDetails.get(0).getMonetaryLineItemInformation().get(0).getAmountType() != null && monetaryDetails.get(0).getMonetaryLineItemInformation().get(0).getAmountType().contains("2")){
+                    return monetaryDetails.get(0).getMonetaryLineItemInformation().get(0).getAmount();
+                }
+            }
+        }
+        return null;
+    }
+
+    private String getPrice(LineItemOrder lineItemOrder){
         List<PriceInformation> priceInformation = lineItemOrder.getPriceInformation();
         if (priceInformation !=null && priceInformation.size() > 0) {
             List<ItemPrice> itemPrice = priceInformation.get(0).getItemPrice();
-
             if (itemPrice != null && itemPrice.size() > 0) {
                 String priceCode = itemPrice.get(0).getGrossPrice();
                 if(priceCode != null && (priceCode.equalsIgnoreCase("AAB") || priceCode.equalsIgnoreCase("CAL"))){
@@ -252,7 +266,7 @@ public class OleInvoiceRecordBuilder {
                 }
             }
         }
-        return null;
+       return null;
     }
 
 
@@ -437,25 +451,87 @@ public class OleInvoiceRecordBuilder {
 
 
     private String getItemDescription(LineItemOrder lineItemOrder){
+        String description = "";
         if(lineItemOrder.getItemDescriptionList() != null && lineItemOrder.getItemDescriptionList().size() > 0){
-            return lineItemOrder.getItemDescriptionList().get(0).getData();
+            for(int i=0;i<lineItemOrder.getItemDescriptionList().size();i++) {
+                if(lineItemOrder.getItemDescriptionList().get(i).getItemCharacteristicCode().equals("050")) {
+                    if (StringUtils.isNotBlank(description)) {
+                        description = description + lineItemOrder.getItemDescriptionList().get(i).getData();
+                    } else {
+                        description = lineItemOrder.getItemDescriptionList().get(i).getData();
+                    }
+                }
+            }
+            return description;
         }
         return null;
+    }
+
+    private List getItemNote(LineItemOrder lineItemOrder){
+        List itemNoteList = new ArrayList();
+
+        if(lineItemOrder.getItemDescriptionList() != null && lineItemOrder.getItemDescriptionList().size() > 0){
+            for(int itemNote=0;itemNote<lineItemOrder.getItemDescriptionList().size();itemNote++){
+                if(lineItemOrder.getItemDescriptionList().get(itemNote).getItemCharacteristicCode() != null &&
+                        lineItemOrder.getItemDescriptionList().get(itemNote).getItemCharacteristicCode().contains("08")){
+                    OleInvoiceNote oleInvoiceNote = new OleInvoiceNote();
+                    oleInvoiceNote.setNote(lineItemOrder.getItemDescriptionList().get(itemNote).getData());
+                    itemNoteList.add(oleInvoiceNote);
+                }
+            }
+        }
+        if(lineItemOrder.getAllowanceMonetaryDetail()!= null){
+            if(lineItemOrder.getAllowanceMonetaryDetail().get(0).getAllowanceMonetaryLineItemInformation() != null){
+                OleInvoiceNote oleInvoiceNote = new OleInvoiceNote();
+                oleInvoiceNote.setNote("The service charge for this item is $" + lineItemOrder.getAllowanceMonetaryDetail().get(0).getAllowanceMonetaryLineItemInformation().get(0).getAmount());
+                itemNoteList.add(oleInvoiceNote);
+            }
+        }
+        return itemNoteList;
     }
 
     private String getSubscriptionDateFrom(LineItemOrder lineItemOrder){
         if(lineItemOrder.getDateTimeDetail() != null && lineItemOrder.getDateTimeDetail().size() > 0){
             if(lineItemOrder.getDateTimeDetail().get(0).getDateTimeInformationList() != null && lineItemOrder.getDateTimeDetail().get(0).getDateTimeInformationList().size() > 0){
-                return lineItemOrder.getDateTimeDetail().get(0).getDateTimeInformationList().get(0).getPeriod();
+                if(lineItemOrder.getDateTimeDetail().get(0).getDateTimeInformationList().get(0).getPeriod().length() == 8) {
+                    return lineItemOrder.getDateTimeDetail().get(0).getDateTimeInformationList().get(0).getPeriod();
+                }else{
+                    return lineItemOrder.getDateTimeDetail().get(0).getDateTimeInformationList().get(0).getPeriod()+01;
+                }
             }
         }
         return null;
     }
 
+    private int getLastDayOfMonth(String date){
+        SimpleDateFormat dateFromRawFile = new SimpleDateFormat(org.kuali.ole.OLEConstants.DATE_FORMAT);
+        Date dt = null;
+        try {
+            dt = dateFromRawFile.parse(date);
+        } catch (ParseException e) {
+            LOG.error("Unable to parse Subscription End Date");
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dt);
+        calendar.add(Calendar.MONTH, 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.add(Calendar.DATE, -1);
+        Date lastDayOfMonth = calendar.getTime();
+        int day = lastDayOfMonth.getDate();
+        return day;
+    }
+
     private String getSubscriptionDateTo(LineItemOrder lineItemOrder){
         if(lineItemOrder.getDateTimeDetail()!= null && lineItemOrder.getDateTimeDetail().size() > 1){
             if(lineItemOrder.getDateTimeDetail().get(1).getDateTimeInformationList() != null && lineItemOrder.getDateTimeDetail().get(1).getDateTimeInformationList().size() > 0){
-                return lineItemOrder.getDateTimeDetail().get(1).getDateTimeInformationList().get(0).getPeriod();
+               if(lineItemOrder.getDateTimeDetail().get(1).getDateTimeInformationList().get(0).getPeriod().length() == 8) {
+                   return lineItemOrder.getDateTimeDetail().get(1).getDateTimeInformationList().get(0).getPeriod();
+               }else{
+                   String subscriptionDate = lineItemOrder.getDateTimeDetail().get(1).getDateTimeInformationList().get(0).getPeriod()+"01";
+                   int day = getLastDayOfMonth(subscriptionDate);
+                   return lineItemOrder.getDateTimeDetail().get(1).getDateTimeInformationList().get(0).getPeriod()+day;
+               }
             }
         }
         return null;

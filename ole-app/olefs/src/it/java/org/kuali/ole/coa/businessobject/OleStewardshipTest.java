@@ -16,14 +16,16 @@
 package org.kuali.ole.coa.businessobject;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import static junit.framework.Assert.assertEquals;
 
-public class OleStewardshipTest extends KualiTestBase {
+public class OleStewardshipTest extends KFSTestCaseBase {
 
  private BusinessObjectService boService ;
 

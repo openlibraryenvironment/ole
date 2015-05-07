@@ -43,7 +43,7 @@
                       p:propertyName="importBibConfirmReplace.matchPoint"  p:render="@{importBibConfirmReplace.matchPoint ne null}">
                 </bean>
                 <bean id="callNumber_Id" parent="Uif-DataField" p:label="Call Number"
-                      p:propertyName="importBibConfirmReplace.overLayMarcRecord.holdingsTree.holdings.callNumber">
+                      p:propertyName="importBibConfirmReplace.holdingsTree.holdings.callNumber">
                 </bean>
                 <bean id="author_name" parent="Uif-DataField" p:label="Author"
                       p:propertyName="importBibConfirmReplace.overLayMarcRecord.author">
@@ -58,10 +58,10 @@
                       p:propertyName="importBibConfirmReplace.overLayMarcRecord.edition">
                 </bean>
                 <bean id="barCode_id" parent="Uif-DataField" p:label="Barcode"
-                      p:propertyName="importBibConfirmReplace.overLayMarcRecord.holdingsTree.items[0].barcode">
+                      p:propertyName="importBibConfirmReplace.holdingsTree.items[0].barcode">
                 </bean>
                 <bean id="location_name" parent="Uif-DataField" p:label="Holding Library"
-                      p:propertyName="importBibConfirmReplace.overLayMarcRecord.holdingsTree.items[0].locationName">
+                      p:propertyName="importBibConfirmReplace.holdingsTree.items[0].locationName">
                 </bean>
             </list>
         </property>

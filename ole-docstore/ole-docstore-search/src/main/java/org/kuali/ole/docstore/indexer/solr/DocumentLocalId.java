@@ -9,18 +9,21 @@ package org.kuali.ole.docstore.indexer.solr;
  */
 public class DocumentLocalId {
 
-    public static int getDocumentId(String uuid) {
+
+    public static String getDocumentId(String uuid) {
         if (hasPrefix(uuid)) {
             String[] prefixes = uuid.split("-");
-            return Integer.valueOf(prefixes[1]).intValue();
+            return prefixes[1];
         }
-        return Integer.valueOf(uuid).intValue();
+        return uuid;
     }
 
     public static boolean hasPrefix(String uuid) {
-        String[] prefixes = uuid.split("-");
-        if (prefixes.length == 2) {
-            return true;
+        if (uuid != null) {
+            String[] prefixes = uuid.split("-");
+            if (prefixes.length == 2) {
+                return true;
+            }
         }
         return false;
     }

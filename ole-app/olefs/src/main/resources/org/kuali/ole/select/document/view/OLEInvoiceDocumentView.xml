@@ -196,6 +196,10 @@
                 <ref bean="hiddenButtonForChangeToPaymentMethod"/>
                 <ref bean="hdnduplicateApproveFlag"/>
                 <ref bean="OLEInvoice-DuplicationApprovePopUp"/>
+                <ref bean="hdnduplicateRouteFlag"/>
+                <ref bean="OLEInvoice-DuplicationRoutePopUp"/>
+                <ref bean="hdnduplicateSaveFlag"/>
+                <ref bean="OLEInvoice-DuplicationSavePopUp"/>
                 <ref bean="hdnAmountExceeds"/>
                 <ref bean="hdnAmountExceedsForBlanketApprove"/>
                 <ref bean="MessagePopupSectionForInvoiceAmountExceedsThreshold"/>
@@ -878,7 +882,7 @@
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="route" p:actionLabel="submit"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:successCallback="route()" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"  p:performClientSideValidation="true" />
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="save"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" p:successCallback="route()" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" p:successCallback="save()" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="blanketApprove" p:actionLabel="blanket approve"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}" p:successCallback="blanketApprove()" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"  p:performClientSideValidation="true" />
                 <bean id="invoice_close_btn" parent="Uif-SecondaryActionButton" p:actionLabel="close" p:methodToCall="closeDocument" p:render="@{!#form.renderedInLightBox}"/>
@@ -1071,6 +1075,68 @@
             </list>
         </property>
     </bean>
+
+    <bean id="hdnduplicateRouteFlag" parent="Uif-InputField" p:propertyName="duplicateRouteFlag" p:hidden="true">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="OLEInvoice-DuplicationRoutePopUp" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="duplicateRouteExist" parent="Uif-MessageField" p:messageText="@{duplicationMessage}" />
+                            <ref bean="OLEInvoice-DuplicationRoutePopUp-HorizontalBoxSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoice-DuplicationRoutePopUp-HorizontalBoxSection" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton-Small" p:ajaxSubmit="true" p:methodToCall="continueDuplicateRoute" p:successCallback="closeInvoiceVendorRoutePopUp()" p:actionLabel="Yes" p:render="@{document.duplicateRouteFlag}"/>
+                <bean parent="Uif-PrimaryActionButton-Small" p:ajaxSubmit="true" p:methodToCall="closePopup" p:actionLabel="No" p:successCallback="closeInvoiceVendorRoutePopUp()" p:render="@{document.duplicateRouteFlag}"/>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="hdnduplicateSaveFlag" parent="Uif-InputField" p:propertyName="duplicateSaveFlag" p:hidden="true">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="OLEInvoice-DuplicationSavePopUp" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="duplicateSaveExist" parent="Uif-MessageField" p:messageText="@{duplicationMessage}" />
+                            <ref bean="OLEInvoice-DuplicationSavePopUp-HorizontalBoxSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoice-DuplicationSavePopUp-HorizontalBoxSection" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton-Small" p:ajaxSubmit="true" p:methodToCall="continueSave" p:successCallback="closeInvoiceVendorSavePopUp()" p:actionLabel="Yes" p:render="@{document.duplicateSaveFlag}"/>
+                <bean parent="Uif-PrimaryActionButton-Small" p:ajaxSubmit="true" p:methodToCall="closePopup" p:actionLabel="No" p:successCallback="closeInvoiceVendorSavePopUp()" p:render="@{document.duplicateSaveFlag}"/>
+            </list>
+        </property>
+    </bean>
+
+
 
     <bean id="hdnduplicateApproveFlag" parent="Uif-InputField" p:propertyName="duplicateApproveFlag" p:hidden="true">
         <property name="control">

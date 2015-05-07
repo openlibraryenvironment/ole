@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<holdings>
+<holdingsDoc>
     <active>false</active>
     <category>work</category>
     <content>&lt;oleHoldings&gt;
@@ -18,7 +18,7 @@
     <staffOnly>false</staffOnly>
     <type>eholdings</type>
     <holdingsType>electronic</holdingsType>
-    <bib>
+    <bibDoc>
         <active>false</active>
         <category>work</category>
         <fastAdd>false</fastAdd>
@@ -27,5 +27,5 @@
         <public>false</public>
         <staffOnly>false</staffOnly>
         <type>bibliographic</type>
-    </bib>
-</holdings>
+    </bibDoc>
+</holdingsDoc>

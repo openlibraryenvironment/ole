@@ -437,4 +437,12 @@ public class SpringContext {
 
         CoreServiceApiServiceLocator.getComponentService().publishDerivedComponents(OLE_BATCH_STEP_COMPONENT_SET_ID, stepComponents);
     }
+
+    public static ConfigurableApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
+
+    public static void setApplicationContext(ConfigurableApplicationContext applicationContext) {
+        SpringContext.applicationContext = applicationContext;
+    }
 }

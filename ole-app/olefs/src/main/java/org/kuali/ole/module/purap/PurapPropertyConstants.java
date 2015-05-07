@@ -131,6 +131,7 @@ public class PurapPropertyConstants {
     public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
     public static final String VENDOR_CONTRACT = "vendorContract";
     public static final String ITEM_UNIT_OF_MEASURE = "itemUnitOfMeasure";
+    public static final String PO_CREATE_DATE ="purchaseOrderCreateTimestamp";
 
     // Capital Asset Locations
     public static final String CAPITAL_ASSET_LOCATION_ADDRESS_LINE1 = "capitalAssetLine1Address";

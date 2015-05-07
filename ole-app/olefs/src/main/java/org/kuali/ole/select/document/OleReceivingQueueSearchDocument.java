@@ -663,14 +663,15 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
         if (!isDbCriteriaExist && (StringUtils.isNotBlank(this.title) || (StringUtils.isNotBlank(this.standardNumber)))) {
             isOnlyDocCriteria = true;
             List<String> newBibIds = new ArrayList<>();
-            bibIds = getDocSearchResults(this.title, this.standardNumber);
-            for (String bibId : bibIds) {
+            List<DocData> docDatas=getDocDatas(this.title, this.standardNumber);
+            for (DocData docData : docDatas) {
                 Map<String, String> poItemMap = new HashMap<String, String>();
-                poItemMap.put("itemTitleId", bibId);
+                poItemMap.put("itemTitleId", docData.getBibIdentifier());
                 poItemMap.put("itemTypeCode", "ITEM");
                 List<OlePurchaseOrderItem> items = (List<OlePurchaseOrderItem>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePurchaseOrderItem.class, poItemMap);
                 if (CollectionUtils.isNotEmpty(items)) {
                     for (OlePurchaseOrderItem orderItem : items) {
+                        orderItem.setDocData(docData);
                         int purAppNum = orderItem.getPurchaseOrder().getPurapDocumentIdentifier();
                         String docNumber = orderItem.getPurchaseOrder().getDocumentNumber();
                         if (validatePurchaseOrderItem(orderItem) && validateRecords(purAppNum, docNumber)) {
@@ -696,56 +697,62 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
             } else {
                 results.addAll(getSearchResults("", bibIds, orderTypeId));
             }
-        }
-        try {
-            if (CollectionUtils.isNotEmpty(bibIds)) {
-                List<Bib> bibs = new ArrayList<>();
-                bibs.addAll(getDocstoreClientLocator().getDocstoreClient().acquisitionSearchRetrieveBibs(new ArrayList<String>(bibIds)));
-                if (bibIds!=null && bibs!=null) {
-                    for (OlePurchaseOrderItem orderItem : results) {
-                        inner:
-                        for (Bib bib : bibs) {
-                            if (bib.getId().equals(orderItem.getItemTitleId())) {
-                                boolean isAllowed = true;
-                                boolean isTitle = true;
-                                boolean isIsbn = true;
-                                if (StringUtils.isNotBlank(this.title)) {
-                                    if (!bib.getTitle().contains(this.title)) {
-                                        isTitle = false;
+            try {
+                if (CollectionUtils.isNotEmpty(bibIds)) {
+                    List<Bib> bibs = new ArrayList<>();
+                    bibs.addAll(getDocstoreClientLocator().getDocstoreClient().acquisitionSearchRetrieveBibs(new ArrayList<String>(bibIds)));
+                    if (bibIds!=null && bibs!=null) {
+                        for (OlePurchaseOrderItem orderItem : results) {
+                            inner:
+                            for (Bib bib : bibs) {
+                                if (bib.getId().equals(orderItem.getItemTitleId())) {
+                                    boolean isAllowed = true;
+                                    boolean isTitle = true;
+                                    boolean isIsbn = true;
+                                    if (StringUtils.isNotBlank(this.title)) {
+                                        if (!bib.getTitle().contains(this.title)) {
+                                            isTitle = false;
+                                        }
+                                        isAllowed = false;
                                     }
-                                    isAllowed = false;
-                                }
-                                if (StringUtils.isNotBlank(this.standardNumber)) {
-                                    if (!bib.getIsbn().equals(this.standardNumber)) {
-                                        isIsbn = false;
+                                    if (StringUtils.isNotBlank(this.standardNumber)) {
+                                        if (!bib.getIsbn().equals(this.standardNumber)) {
+                                            isIsbn = false;
+                                        }
+                                        isAllowed = false;
                                     }
-                                    isAllowed = false;
-                                }
-                                if (!isAllowed) {
-                                    isAllowed = isIsbn && isTitle;
-                                }
-                                if (isAllowed) {
-                                    DocData docData = new DocData();
-                                    docData.setTitle(bib.getTitle());
-                                    docData.setAuthor(bib.getAuthor());
-                                    docData.setPublisher(bib.getPublisher());
-                                    docData.setIsbn(bib.getIsbn());
-                                    docData.setLocalIdentifier(DocumentUniqueIDPrefix.getDocumentId(bib.getId()));
-                                    docData.setBibIdentifier(bib.getId());
-                                    orderItem.setDocData(docData);
-                                    purchaseOrderItemList.add(orderItem);
-                                    break inner;
-                                }
+                                    if (!isAllowed) {
+                                        isAllowed = isIsbn && isTitle;
+                                    }
+                                    if (isAllowed) {
+                                        DocData docData = new DocData();
+                                        docData.setTitle(bib.getTitle());
+                                        docData.setAuthor(bib.getAuthor());
+                                        docData.setPublisher(bib.getPublisher());
+                                        if(StringUtils.isNotBlank(bib.getIsbn())){
+                                            docData.setIsbn(bib.getIsbn());
+                                        } else {
+                                            docData.setIsbn(bib.getIssn());
+                                        }
 
+                                        docData.setLocalIdentifier(DocumentUniqueIDPrefix.getDocumentId(bib.getId()));
+                                        docData.setBibIdentifier(bib.getId());
+                                        orderItem.setDocData(docData);
+                                        purchaseOrderItemList.add(orderItem);
+                                        break inner;
+                                    }
+
+                                }
                             }
                         }
                     }
                 }
-            }
-        } catch (Exception e) {
+            } catch (Exception e) {
 
+            }
+            this.setPurchaseOrders(purchaseOrderItemList);
         }
-        this.setPurchaseOrders(purchaseOrderItemList);
+
     }
 
     public List<OlePurchaseOrderItem> getSearchResults(String poNumber, Set<String> bibIds, BigDecimal orderTypeId) {
@@ -846,7 +853,10 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
         org.kuali.rice.krad.service.BusinessObjectService businessObject = SpringContext.getBean(org.kuali.rice.krad.service.BusinessObjectService.class);
         List<PurchaseOrderType> purchaseOrderTypeDocumentList = (List) businessObject.findMatching(PurchaseOrderType.class, purchaseOrderTypeIdMap);
 
-        //isValid=isValid && isValidRecord(olePurchaseOrderDocument);
+        int purAppNum = olePurchaseOrderDocument.getPurapDocumentIdentifier();
+        olePurchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purAppNum);
+        String docNumber = olePurchaseOrderDocument.getDocumentNumber();
+        isValid = isValid && validateRecords(purAppNum, docNumber);
         isValid = isValid && validatePurchaseOrderStatus(purchaseOrderTypeDocumentList, olePurchaseOrderDocument);
         isValid = isValid && validatePoByRetiredVersionStatus(olePurchaseOrderDocument);
         isValid = isValid && !(checkSpecialHandlingNotesExsist(olePurchaseOrderItem));
@@ -887,10 +897,11 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
             org.kuali.ole.docstore.common.search.SearchParams searchParams = new org.kuali.ole.docstore.common.search.SearchParams();
             searchParams.setPageSize(maxLimit);
             if (StringUtils.isNotBlank(title)) {
-                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.TITLE_SEARCH, title), "AND"));
+                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.TITLE_SEARCH, title), "AND"));
             }
             if (StringUtils.isNotBlank(isbn)) {
-                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.ISBN_SEARCH, isbn), "AND"));
+                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.ISBN_SEARCH, isbn), "OR"));
+                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.ISSN_SEARCH, isbn), "OR"));
             }
             SearchResponse searchResponse = null;
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), ItemConstants.BIB_IDENTIFIER));
@@ -910,6 +921,64 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
         }
 
         return itemTitles;
+    }
+
+    public List<DocData> getDocDatas(String title, String isbn) {
+        List<DocData> docDatas=new ArrayList<>();
+        int maxLimit = Integer.parseInt(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(OLEConstants.DOCSEARCH_ORDERQUEUE_LIMIT_KEY));
+        Set<String> itemTitles = new HashSet<>();
+        try {
+            org.kuali.ole.docstore.common.document.Item item = new ItemOleml();
+            org.kuali.ole.docstore.common.search.SearchParams searchParams = new org.kuali.ole.docstore.common.search.SearchParams();
+            searchParams.setPageSize(maxLimit);
+            if (StringUtils.isNotBlank(title)) {
+                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.TITLE_SEARCH, title), "AND"));
+            }
+            if (StringUtils.isNotBlank(isbn)) {
+                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.ISBN_SEARCH, isbn), "OR"));
+                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.ISSN_SEARCH, isbn), "OR"));
+            }
+            SearchResponse searchResponse = null;
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), BibConstants.TITLE_DISPLAY));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), BibConstants.AUTHOR_DISPLAY));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), BibConstants.PUBLISHER_DISPLAY));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), BibConstants.ISBN_DISPLAY));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), ItemConstants.BIB_IDENTIFIER));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), BibConstants.ISSN_DISPLAY));
+            searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+            for (SearchResult searchResult : searchResponse.getSearchResults()) {
+                DocData docData=new DocData();
+                for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
+                    if (StringUtils.isNotBlank(searchResultField.getFieldValue())) {
+                        if (searchResultField.getFieldName().equals(ItemConstants.BIB_IDENTIFIER)) {
+                            docData.setBibIdentifier(searchResultField.getFieldValue());
+                        }
+                        if (searchResultField.getFieldName().equals(BibConstants.TITLE_DISPLAY)) {
+                            docData.setTitle(searchResultField.getFieldValue());
+                        }
+                        if (searchResultField.getFieldName().equals(BibConstants.AUTHOR_DISPLAY)) {
+                            docData.setAuthor(searchResultField.getFieldValue());
+                        }
+                        if (searchResultField.getFieldName().equals(BibConstants.PUBLISHER_DISPLAY)) {
+                            docData.setPublisher(searchResultField.getFieldValue());
+                        }
+                        if (searchResultField.getFieldName().equals(BibConstants.ISBN_DISPLAY) && StringUtils.isNotBlank(searchResultField.getFieldValue())) {
+                            docData.setIsbn(searchResultField.getFieldValue());
+                        }
+                        if (searchResultField.getFieldName().equals(BibConstants.ISSN_DISPLAY) && StringUtils.isNotBlank(searchResultField.getFieldValue())) {
+                            docData.setIsbn(searchResultField.getFieldValue());
+                        }
+
+                    }
+                }
+                docDatas.add(docData);
+            }
+        } catch (Exception ex) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "Item Exists");
+            LOG.error(org.kuali.ole.OLEConstants.ITEM_EXIST + ex);
+        }
+
+        return docDatas;
     }
 
     private boolean validatePoByRetiredVersionStatus(PurchaseOrderDocument olePurchaseOrderDocument) {

@@ -92,7 +92,7 @@
             </para>
             <para role="TableHeading"><emphasis role="bold">Data Mapping Field Definition Lookup
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="c1" colnum="1"/>
                     <colspec colname="c1" colnum="1"/>
@@ -200,7 +200,7 @@
                     above are detailed here.</para>
                 <para role="TableHeading"><emphasis role="bold">Data Mapping Field Definition
                         Inquiry definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -368,7 +368,7 @@
             </para>
             <para role="TableHeading"><emphasis role="bold">Add/Edit Data Source tab
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>
@@ -511,7 +511,7 @@
             <para role="Body Text">The Functional Field Description document contains the <emphasis
                     role="bold">Functional Field Description</emphasis> tab.</para>
             <para role="TableHeading">Functional Field Description tab definition</para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="c1" colnum="1"/>
                     <colspec colname="c1" colnum="1"/>
@@ -619,12 +619,12 @@
                         <imagedata fileref="../images/admin-265.png"/>
                     </imageobject>
                 </inlinemediaobject></emphasis></para>
-        <para role="Body Text">The Message of the Day document updates a message that appears OLE
-            portal. It is an easy way to share information with OLE users and can be updated at any
-            time.</para>
+        <para role="Body Text">The Message of the Day document updates a message that appears on
+            each tab of the OLE portal. It is an easy way to share information with OLE users and
+            can be updated at any time.</para>
         <note>
             <para> Only members of OLE-SYS Manager role can create or edit Message of the Day
-                    documents.<phrase role="GEN-\MinBodyLeft"/></para>
+                documents.</para>
         </note>
         <para role="Illustration"><inlinemediaobject>
                 <alt>Message Of The Day Display on the User Interface</alt>
@@ -650,7 +650,7 @@
                         role="bold">Edit Message of the Day</emphasis> tab.</para>
                 <para role="TableHeading"><emphasis role="bold">Edit Message of the Day tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -687,6 +687,14 @@
                     </tgroup>
                 </informaltable>
             </section>
+        </section>
+        <section>
+            <title>Implementation Information</title>
+            <para>You must have at least one item in the Message of the Day table (FP_MOTD_T),
+                otherwise you will see the message "Unable to retrieve message of the day".</para>
+            <para>The Message of the Day should only display the message whose origination code
+                (FS_ORIGIN_CODE_T) is equal to the origination code contained in Home Origination
+                (FS_HOME_ORIGIN_T).  OLE defaults to "01" for the Home Origination code.</para>
         </section>
     </section>
     <section>
@@ -759,7 +767,7 @@
                         role="bold">Edit System Options</emphasis> tab.</para>
                 <para role="TableHeading"><emphasis role="bold">Edit System Options tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -1214,10 +1222,6 @@
         <para>The <emphasis role="bold">Search Framwork Configuration</emphasis> controls what is
             displayed on the Search Workbench and to a large degree how the Search Workbench
             operates.</para>
-        <note>
-            <para>To see the system defaults for 1.5, see the Jira <link
-                    xlink:href="https://jira.kuali.org/browse/OLE-6360">OLE-6360</link>.</para>
-        </note>
         <section>
             <title>Document Layout</title>
             <para role="Illustration">
@@ -1276,7 +1280,7 @@
                 </warning>
                 <para role="TableHeading"><emphasis role="bold">Doc Types Column
                         definitions</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -1391,7 +1395,7 @@
                 </warning>
                 <para role="TableHeading"><emphasis role="bold">Doc Format Column
                         definitions</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -1462,10 +1466,11 @@
                     <para>In order to index and reindex bibliographic, holdings, e-holdings, and
                         item records in Solr, go to <link
                             xlink:href="http://demo.docstore.ole.kuali.org/admin.jsp"
-                            >http://demo.docstore.ole.kuali.org/admin.jsp</link> (or <link
+                            >http://demo.docstore.ole.kuali.org/admin.jsp</link> for OLE's demo
+                        environment or <link
                             xlink:href="http://tst.docstore.ole.kuali.org/admin.jsp"
                             >http://tst.docstore.ole.kuali.org/admin.jsp</link> if you are in the
-                        tst environment).</para>
+                        tst environment.</para>
                     <para>Click the <emphasis role="bold">Start</emphasis> button. </para>
                     <para>Click <emphasis role="bold">Show Status</emphasis> button to see the
                         status. </para>
@@ -1522,7 +1527,7 @@
                     <para/>
                     <para role="TableHeading"><emphasis role="bold">Doc Fields
                             definitions</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="c1" colnum="1"/>
                             <colspec colname="c1" colnum="1"/>
@@ -1549,7 +1554,7 @@
                                                 accompanied by a reconfiguration of Solr to be
                                                 effective. Changing an existing Name value here
                                                 without a corresponding name change in Solr will
-                                                have unforeseen consequences .</para>
+                                                have unforeseen consequences.</para>
                                         </warning>
                                     </entry>
                                 </row>
@@ -1759,7 +1764,7 @@
                     <para/>
                     <para role="TableHeading"><emphasis role="bold">Doc Fields
                             definitions</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="c1" colnum="1"/>
                             <colspec colname="c1" colnum="1"/>
@@ -2006,7 +2011,7 @@
                 <para/>
                 <para role="TableHeading"><emphasis role="bold">Search Result Page Size Column
                         definitions</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -2182,7 +2187,7 @@
                         >Edit Namespace</emphasis> tab.</para>
                 <para role="TableHeading"><emphasis role="bold">Edit Namespace tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -2315,7 +2320,7 @@
                     type, rules, and description of the parameters.</para>
                 <para role="TableHeading"><emphasis role="bold">Edit Parameter tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -2635,7 +2640,7 @@
                         role="bold">Edit Parameter Type </emphasis>tab.</para>
                 <para role="TableHeading"><emphasis role="bold">Edit Parameter Type tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>

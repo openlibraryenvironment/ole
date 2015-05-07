@@ -140,7 +140,7 @@
      >Description</emphasis>. </para>
    <para role="Normal"/>
    <para role="TableHeading"><emphasis role="bold">Definitions</emphasis></para>
-   <informaltable frame="top">
+   <informaltable frame="topbot">
     <tgroup cols="2">
      <colspec colname="col1" colnum="1"/>
      <colspec colname="col2" colnum="2"/>
@@ -220,7 +220,7 @@
     </para>
     <para/>
     <para role="TableHeading"><emphasis role="bold">General Tab Definitions</emphasis></para>
-    <informaltable frame="top">
+    <informaltable frame="topbot">
      <tgroup cols="2">
       <colspec colname="col1" colnum="1"/>
       <colspec colname="col2" colnum="2"/>
@@ -285,7 +285,7 @@
     </para>
     <para/>
     <para role="TableHeading"><emphasis role="bold">Exception Day Tab Definitions</emphasis></para>
-    <informaltable frame="top">
+    <informaltable frame="topbot">
      <tgroup cols="2">
       <colspec colname="col1" colnum="1"/>
       <colspec colname="col2" colnum="2"/>
@@ -360,7 +360,7 @@
     <para/>
     <para role="TableHeading"><emphasis role="bold">Exception Period Tab
      Definitions</emphasis></para>
-    <informaltable frame="top">
+    <informaltable frame="topbot">
      <tgroup cols="2">
       <colspec colname="col1" colnum="1"/>
       <colspec colname="col2" colnum="2"/>
@@ -564,7 +564,7 @@
    <para role="Normal"/>
    <para role="TableHeading"><emphasis role="bold">Add/Edit Calendar Exception Type Tab
      Definitions</emphasis></para>
-   <informaltable frame="top">
+   <informaltable frame="topbot">
     <tgroup cols="2">
      <colspec colname="col1" colnum="1"/>
      <colspec colname="col2" colnum="2"/>
@@ -674,7 +674,7 @@
    <para role="Normal"/>
    <para role="TableHeading"><emphasis role="bold">Add/Edit Calendar Group Tab
      Definitions</emphasis></para>
-   <informaltable frame="top">
+   <informaltable frame="topbot">
     <tgroup cols="2">
      <colspec colname="col1" colnum="1"/>
      <colspec colname="col2" colnum="2"/>
@@ -809,7 +809,7 @@
     <para role="Normal"/>
     <para role="TableHeading"><emphasis role="bold">Add/Edit Circulation Desk Tab
       Definitions</emphasis></para>
-    <informaltable frame="top">
+    <informaltable frame="topbot">
      <tgroup cols="2">
       <colspec colname="col1" colnum="1"/>
       <colspec colname="col2" colnum="2"/>
@@ -1123,7 +1123,7 @@
    <para role="Normal"/>
    <para role="TableHeading"><emphasis role="bold">Add/Edit Copy Format Tab
     Definitions</emphasis></para>
-   <informaltable frame="top">
+   <informaltable frame="topbot">
     <tgroup cols="2">
      <colspec colname="col1" colnum="1"/>
      <colspec colname="col2" colnum="2"/>
@@ -1287,7 +1287,7 @@
      </screenshot>
     </para>
     <para role="TableHeading"><emphasis role="bold">Time Span Tab Definitions</emphasis></para>
-    <informaltable frame="top">
+    <informaltable frame="topbot">
      <tgroup cols="2">
       <colspec colname="col1" colnum="1"/>
       <colspec colname="col2" colnum="2"/>
@@ -1321,7 +1321,9 @@
         </entry>
        </row>
        <row>
-        <entry colname="col1" colsep="1" rowsep="1" valign="top">Fixed Due Date</entry>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Fixed Due Date</para>
+        </entry>
         <entry colname="col2" colsep="1" rowsep="1" valign="top">
          <para role="Table Cells">The date every item loaned within the circulation policy noted
           above will be due.</para>
@@ -1330,9 +1332,13 @@
         </entry>
        </row>
        <row>
-        <entry colname="col1" colsep="1" rowsep="1" valign="top">Action</entry>
-        <entry colname="col2" colsep="1" rowsep="1" valign="top">Click <emphasis role="bold"
-          >add</emphasis> to add the time span.</entry>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Action</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Click <emphasis role="bold">add</emphasis> to add the time
+          span.</para>
+        </entry>
        </row>
       </tbody>
      </tgroup>
@@ -1464,7 +1470,7 @@
     Selected data fields are available for editing.</para>
    <para role="TableHeading"><emphasis role="bold">Add/Edit Location tab
     definition</emphasis></para>
-   <informaltable frame="top">
+   <informaltable frame="topbot">
     <tgroup cols="2">
      <colspec colname="c1" colnum="1"/>
      <colspec colname="c1" colnum="1"/>
@@ -1602,7 +1608,7 @@
     tab. Selected data fields are available for editing.</para>
    <para role="TableHeading"><emphasis role="bold">Add/Edit Location Level tab
     definition</emphasis></para>
-   <informaltable frame="top">
+   <informaltable frame="topbot">
     <tgroup cols="2">
      <colspec colname="c1" colnum="1"/>
      <colspec colname="c1" colnum="1"/>
@@ -1646,7 +1652,7 @@
   <section>
    <title>Implementation Information</title>
    <para>The out of the box values for Level Code and Level Names are:</para>
-   <informaltable frame="top">
+   <informaltable frame="topbot">
     <tgroup cols="4">
      <colspec colname="c1" colnum="1"/>
      <colspec colname="c2" colnum="1"/>
@@ -1763,7 +1769,7 @@
    <para role="Normal"/>
    <para role="TableHeading"><emphasis role="bold">Add/Edit Request Type Tab
     Definitions</emphasis></para>
-   <informaltable frame="top">
+   <informaltable frame="topbot">
     <tgroup cols="2">
      <colspec colname="col1" colnum="1"/>
      <colspec colname="col2" colnum="2"/>

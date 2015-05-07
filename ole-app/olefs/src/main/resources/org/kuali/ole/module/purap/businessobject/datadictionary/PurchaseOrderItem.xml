@@ -277,10 +277,17 @@
   </bean>
   <bean id="PurchaseOrderItem-itemOutstandingEncumberedQuantity" parent="PurchaseOrderItem-itemOutstandingEncumberedQuantity-parentBean"/>
 
-  <bean id="PurchaseOrderItem-itemOutstandingEncumberedQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
+  <bean id="PurchaseOrderItem-itemOutstandingEncumberedQuantity-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="itemOutstandingEncumberedQuantity"/>
     <property name="label" value="Item Outstanding Encumbered Quantity"/>
     <property name="shortLabel" value="Outstanding Encumbered Quantity"/>
+    <property name="maxLength" value="11"/>
+      <!--<property name="validationPattern">
+          <bean parent="FixedPointValidationPattern" p:precision="11" p:scale="2"/>
+      </property>-->
+      <property name="control">
+          <ref bean="TenCharacterTextControl" />
+      </property>
   </bean>
   <bean id="PurchaseOrderItem-itemOutstandingEncumberedAmount" parent="PurchaseOrderItem-itemOutstandingEncumberedAmount-parentBean"/>
 

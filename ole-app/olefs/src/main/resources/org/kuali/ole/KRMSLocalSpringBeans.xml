@@ -568,6 +568,7 @@
     </bean>
 
 
+<!--
     <bean id="generateNoticesJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="oleOverDueNotice"/>
         <property name="targetMethod" value="generateNotices"/>
@@ -575,7 +576,32 @@
         <property name="group" value="batchJobGroup"/>
         <property name="concurrent" value="false"/>
     </bean>
+-->
 
+    <bean id="generateCourtesyNoticesJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="oleOverDueNotice"/>
+        <property name="targetMethod" value="generateCourtesyNotices"/>
+        <property name="name" value="generateCourtesyNotices"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="generateOverdueNoticesJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="oleOverDueNotice"/>
+        <property name="targetMethod" value="generateOverdueNotices"/>
+        <property name="name" value="generateCourtesyNotices"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="generateLostNoticesJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="oleOverDueNotice"/>
+        <property name="targetMethod" value="generateLostNotices"/>
+        <property name="name" value="generateLostNotices"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+    
     <bean id="syncOleWithGOKbUpdatesJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="syncOleWithGOKbUpdates"/>
         <property name="targetMethod" value="synchronizeOleWithGOKb"/>

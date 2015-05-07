@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.kuali.ole.ConfigureContext;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
 
 import static junit.framework.TestCase.assertFalse;
@@ -26,6 +27,7 @@ import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
 import static org.kuali.ole.fixture.UserNameFixture.khuntley;
 
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.ole.module.purap.document.LineItemReceivingDocument;
@@ -49,7 +51,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * Used to create and test populated Receiving Line Documents of various kinds. 
  */
 
-public class LineItemReceivingDocumentTest extends KualiTestBase {
+public class LineItemReceivingDocumentTest extends KFSTestCaseBase {
     public static final Class<LineItemReceivingDocument> DOCUMENT_CLASS = LineItemReceivingDocument.class;
     protected static DocumentServiceImpl documentService = null;
 
@@ -97,7 +99,7 @@ public class LineItemReceivingDocumentTest extends KualiTestBase {
         routeDocument(receivingLineDocument, "routing line item receiving document", documentService);
         WorkflowTestUtils.waitForDocumentApproval(receivingLineDocument.getDocumentNumber());
         Document document = documentService.getByDocumentHeaderId(receivingLineDocument.getDocumentNumber());
-        assertTrue("Document should now be final.", receivingLineDocument.getDocumentHeader().getWorkflowDocument().isFinal());
+        assertTrue("Document should now be final.", receivingLineDocument.getDocumentHeader().getWorkflowDocument().isEnroute());
     }
 
     /**

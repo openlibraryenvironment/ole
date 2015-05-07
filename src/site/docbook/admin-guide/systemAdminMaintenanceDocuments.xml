@@ -93,7 +93,7 @@
                     editable fields on the right in which the user may enter changes.</para>
                 <para role="TableHeading"><emphasis role="bold">Edit Campus tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -222,7 +222,7 @@
                     editable fields on the right in which the user may enter changes.</para>
                 <para role="TableHeading"><emphasis role="bold">Edit Country tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -350,7 +350,7 @@
                     and editable fields on the right in which the user may enter changes.</para>
                 <para role="TableHeading"><emphasis role="bold">Edit Counties tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -491,7 +491,7 @@
                     editable fields on the right in which the user may enter changes.</para>
                 <para role="TableHeading"><emphasis role="bold">Edit Postal Codes tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -639,7 +639,7 @@
                     editable fields on the right in which the user may enter changes.</para>
                 <para role="TableHeading"><emphasis role="bold">Edit States tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -751,7 +751,7 @@
             </para>
             <para role="TableHeading"><emphasis role="bold">Address Type Lookup results
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="c1" colnum="1"/>
                     <colspec colname="c1" colnum="1"/>
@@ -865,7 +865,7 @@
             </para>
             <para role="TableHeading"><emphasis role="bold">Affiliation Type Lookup results
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="c1" colnum="1"/>
                     <colspec colname="c1" colnum="1"/>
@@ -1010,7 +1010,7 @@
                     editable fields on the right in which the user may enter changes.</para>
                 <para role="TableHeading"><emphasis role="bold">Edit Campus Type tab
                         definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="c1" colnum="1"/>
                         <colspec colname="c1" colnum="1"/>
@@ -1097,7 +1097,7 @@
             </para>
             <para role="TableHeading"><emphasis role="bold">Citizenship Status Lookup results
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="c1" colnum="1"/>
                     <colspec colname="c1" colnum="1"/>
@@ -1199,7 +1199,7 @@
             </para>
             <para role="TableHeading"><emphasis role="bold">Email Type Code Lookup results
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="c1" colnum="1"/>
                     <colspec colname="c1" colnum="1"/>
@@ -1313,7 +1313,7 @@
             </para>
             <para role="TableHeading"><emphasis role="bold">Employee Type Lookup results
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="c1" colnum="1"/>
                     <colspec colname="c1" colnum="1"/>
@@ -1427,7 +1427,7 @@
             </para>
             <para role="TableHeading"><emphasis role="bold">Entity Type Lookup results
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="c1" colnum="1"/>
                     <colspec colname="c1" colnum="1"/>
@@ -1542,7 +1542,7 @@
             </para>
             <para role="TableHeading"><emphasis role="bold">External Identifier Lookup results
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="c1" colnum="1"/>
                     <colspec colname="c1" colnum="1"/>
@@ -1654,7 +1654,7 @@
             </para>
             <para role="TableHeading"><emphasis role="bold">Entity Name Type Lookup results
                     definition</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="c1" colnum="1"/>
                     <colspec colname="c1" colnum="1"/>
@@ -1767,7 +1767,7 @@
                 </screenshot>
             </para>
             <para role="TableHeading">Phone Type Lookup results definition</para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="c1" colnum="1"/>
                     <colspec colname="c1" colnum="1"/>

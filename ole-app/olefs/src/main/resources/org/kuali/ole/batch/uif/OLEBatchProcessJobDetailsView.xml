@@ -15,6 +15,8 @@
                 <bean id="BatchProcessViewPage" parent="Uif-Page" >
                     <property name="items">
                         <list>
+                            <ref bean="BatchProcessJobDetailSearchPanel"/>
+                            <ref bean="BatchProcessJobDetailSearchPanel-buttons"/>
                             <ref bean="OLEBatchProcessJobDetailsView-listOfItems"/>
                             <ref bean="hdnStop_button"/>
                             <ref bean="hdnStart_button"/>
@@ -22,6 +24,7 @@
                             <ref bean="hdnPause_button"/>
                             <ref bean="hdnResume_button"/>
                             <ref bean="jobId"/>
+                            <ref bean="BatchProcessJobDetail_Refresh_Hidden"/>
                         </list>
                     </property>
                 </bean>
@@ -45,7 +48,7 @@
     <bean id="OLEBatchProcessJobDetailsView-listOfItems"  parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="15">
         <property name="headerText" value="Batch Process Job Details" />
         <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessJobDetailsBo" />
-        <property name="propertyName" value="oLEBatchProcessJobDetailsBoList" />
+        <property name="propertyName" value="oleBatchProcessJobDetailsBoList" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.richTable.render" value="true" />
         <property name="renderAddLine" value="false"/>
@@ -127,6 +130,7 @@
         </property>
         <property name="lineActions">
             <list>
+                <bean id="refreshOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"   p:actionScript="refresh(@{#line?.jobId});"  p:actionLabel="Refresh" p:render="@{singleJobView and (#line?.status eq 'RUNNING' or #line?.status eq 'STOPPED' or #line?.status eq 'PAUSED')}"/>
                 <bean id="stopOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"   p:actionScript="stop(@{#line?.jobId});"  p:actionLabel="Stop"  p:render="@{#line?.status eq 'RUNNING'}" />
                 <!--bean id="startOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="start(@{#line?.jobId});"    p:actionLabel="Start"  p:render="@{#line?.status eq 'STOPPED'}" /-->
                 <bean id="removeOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="remove(@{#line?.jobId});"  p:actionLabel="Remove"  p:render="@{#line?.status eq 'STOPPED' or #line?.status eq 'COMPLETED' or #line?.status eq 'PAUSED'}" />
@@ -149,5 +153,49 @@
             <bean parent="Uif-HiddenControl"/>
         </property>
     </bean>
+
+    <bean id="BatchProcessJobDetailSearchPanel" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean id="batchProcess_jobFromDate" parent="Uif-InputField" p:propertyName="jobFromDate" p:label="Date Created From">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10" />
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="BasicDatePatternConstraint"/>
+                                </property>
+                            </bean>
+                            <bean id="batchProcess_jobToDate" parent="Uif-InputField" p:propertyName="jobToDate" p:label="Date Created To">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10" />
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="BasicDatePatternConstraint"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessJobDetailSearchPanel-buttons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="batchProcess_search_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:50em"
+                      p:methodToCall="search" p:actionLabel="Search"/>
+                <bean id="batchProcess_clear_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:2em"
+                      p:methodToCall="clearSearch" p:actionLabel="Clear"/>
+                <bean id="batchProcess_close_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:2em"
+                      p:methodToCall="cancel" p:actionLabel="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id ="BatchProcessJobDetail_Refresh_Hidden" parent="Uif-SecondaryActionButton" p:methodToCall="refreshSingleJobDetailView" p:hidden="true" p:refreshId="OLEBatchProcessJobDetailsView-listOfItems"/>
 
 </beans>

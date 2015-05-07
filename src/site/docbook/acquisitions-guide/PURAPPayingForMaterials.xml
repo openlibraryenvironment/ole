@@ -515,7 +515,8 @@
                         </mediaobject>
                     </screenshot>
                 </para>
-                <para role="TableHeading"><emphasis role="bold">Invoice Info tab definition</emphasis></para>
+                <para role="TableHeading"><emphasis role="bold">Invoice Info tab
+                        definition</emphasis></para>
                 <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
@@ -533,19 +534,22 @@
                                 <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Vendor Invoice Number</para>
                                 </entry>
-                                <entry colname="col2" colsep="0" rowsep="1" valign="top">The number assigned by the
-                                    vendor to their invoice for credit.</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">The number
+                                    assigned by the vendor to their invoice for credit.</entry>
                             </row>
                             <row>
                                 <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Invoice Date</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Required. Enter an invoice date or select it from the calendar <inlinemediaobject>
-                                        <imageobject>
-                                            <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-30.png"/>
-                                        </imageobject>
-                                    </inlinemediaobject>.</para>
+                                    <para role="Table Cells">Required. Enter an invoice date or
+                                        select it from the calendar <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-30.png"
+                                                />
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
                                 </entry>
                             </row>
                             <row>
@@ -553,21 +557,27 @@
                                     <para role="Table Cells">Payment Attachment Indicator</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Optional. Select the check box if an attachment (such as a copy of the
-                                        invoice) must be returned to the Vendor with this payment.</para>
+                                    <para role="Table Cells">Optional. Select the check box if an
+                                        attachment (such as a copy of the invoice) must be returned
+                                        to the Vendor with this payment.</para>
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Processed Date</entry>
-                                <entry colname="col2" colsep="0" rowsep="1" valign="top">Display-only. The date at
-                                    which the payment was processed.</entry>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Processed Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display-only. The date at which the
+                                        payment was processed.</para>
+                                </entry>
                             </row>
                             <row>
                                 <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Invoice Sub Type</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Select the locally defined invoice sub type from the drop down menu.</para>
+                                    <para role="Table Cells">Select the locally defined invoice sub
+                                        type from the drop down menu.</para>
                                 </entry>
                             </row>
                             <row>
@@ -575,8 +585,9 @@
                                     <para role="Table Cells">Payment Method</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Required. This may be prepopulated from the vendor record but must not be
-                                        left blank. Select the method of payment from the drop down menu.</para>
+                                    <para role="Table Cells">Required. This may be prepopulated from
+                                        the vendor record but must not be left blank. Select the
+                                        method of payment from the drop down menu.</para>
                                 </entry>
                             </row>
                             <row>
@@ -584,9 +595,9 @@
                                     <para role="Table Cells">Currency Type</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">The currency type of the vendor.  If
-                                        the vendor has a currency type assigned, this field will be
-                                        prepopulated.  It is possible to select a different currency
+                                    <para role="Table Cells">The currency type of the vendor. If the
+                                        vendor has a currency type assigned, this field will be
+                                        prepopulated. It is possible to select a different currency
                                         type at any time until the Invoice document is submitted
                                         however you will need to reenter item price
                                         information.</para>
@@ -615,14 +626,14 @@
                                             two different ways. The payment terms specified are
                                             applied to the invoice date to generate a pay date. The
                                             payment terms parameters are in the Payment Terms Type
-                                            table.  Additionally, ten days (or another
+                                            table. Additionally, ten days (or another
                                             institutionally defined default number of days -
                                             controlled by the parameter
                                             NUMBER_OF_DAYS_USED_TO_CALCULATE_DEFAULT_PAY_DATE under
                                             component "Invoice") are added to the current date to
                                             generate a pay date. OLE selects the later of these two
                                             dates and uses it as the default pay date for this
-                                            Invoice document.  The pay date will not appear until
+                                            Invoice document. The pay date will not appear until
                                             after you save, submit or blanket approve the
                                             invoice.</para>
                                     </note>
@@ -647,9 +658,11 @@
                                     <para role="Table Cells">(Immediate Payment Indicator)</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Optional. Select the Immediate Pay check box if a check is needed on the
-                                        same day (overrides the pay date – subject to the rules of your accounts-payable system). This
-                                        indicator allows for an approved payment request to be extracted for payment during the day.</para>
+                                    <para role="Table Cells">Optional. Select the Immediate Pay
+                                        check box if a check is needed on the same day (overrides
+                                        the pay date – subject to the rules of your accounts-payable
+                                        system). This indicator allows for an approved payment
+                                        request to be extracted for payment during the day.</para>
                                 </entry>
                             </row>
                             <row>
@@ -666,8 +679,9 @@
                                     <para role="Table Cells">Extract Date</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Display-only. The date the Payment record is extracted to the
-                                        Pre-Disbursement Processor.</para>
+                                    <para role="Table Cells">Display-only. The date the Payment
+                                        record is extracted to the Pre-Disbursement
+                                        Processor.</para>
                                 </entry>
                             </row>
                             <row>
@@ -675,8 +689,9 @@
                                     <para role="Table Cells">Invoice Type</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Optional.  Select the type of invoice.  Locally defined but sample data
-                                        could include values Proforma/prepay, Regular.</para>
+                                    <para role="Table Cells">Optional.  Select the type of invoice.
+                                         Locally defined but sample data could include values
+                                        Proforma/prepay, Regular.</para>
                                 </entry>
                             </row>
                             <row>
@@ -701,12 +716,14 @@
                                 <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Vendor Foreign Invoice Amount</para>
                                 </entry>
-                                <entry colname="col2" colsep="0" rowsep="1" valign="top">Required
-                                    for foreign vendors.  The vendor total invoice amount.  You must
-                                    enter the <emphasis role="bold">Vendor Foreign Invoice
-                                        Amount</emphasis> however once the document is submitted,
-                                    this will be calculated based on the total cost and the currency
-                                    rate.</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required for foreign vendors. The
+                                        vendor total invoice amount. You must enter the <emphasis
+                                            role="bold">Vendor Foreign Invoice Amount</emphasis>
+                                        however once the document is submitted, this will be
+                                        calculated based on the total cost and the currency
+                                        rate.</para>
+                                </entry>
                             </row>
                             <row>
                                 <entry colname="col1" colsep="1" rowsep="1" valign="top">
@@ -714,7 +731,7 @@
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                     <para role="Table Cells">Automatically populated from the
-                                        Currency Type.  The exchange rate can be edited until the
+                                        Currency Type. The exchange rate can be edited until the
                                         Invoice is submitted.</para>
                                 </entry>
                             </row>
@@ -775,7 +792,7 @@
                     </para>
                     <para role="TableHeading"><emphasis role="bold">Purchase Order Documents subtab
                         definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -2118,7 +2135,7 @@
                     </screenshot>
                 </para>
                 <para role="TableHeading"><emphasis role="bold">Credit Memo Info tab definition</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -2136,8 +2153,9 @@
                                     <para role="Table Cells">Credit Memo # from Vendor</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Display-only. The credit memo number as entered on the <emphasis
-                                            role="bold">Credit Memo Initiation</emphasis> tab.</para>
+                                    <para role="Table Cells">Display-only. The credit memo number as
+                                        entered on the <emphasis role="bold">Credit Memo
+                                            Initiation</emphasis> tab.</para>
                                 </entry>
                             </row>
                             <row>
@@ -2145,8 +2163,9 @@
                                     <para role="Table Cells">Credit Memo Date</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Display-only. The credit memo date as entered on the <emphasis role="bold"
-                                            >Credit Memo Initiation</emphasis> tab.</para>
+                                    <para role="Table Cells">Display-only. The credit memo date as
+                                        entered on the <emphasis role="bold">Credit Memo
+                                            Initiation</emphasis> tab.</para>
                                 </entry>
                             </row>
                             <row>
@@ -2154,9 +2173,11 @@
                                     <para role="Table Cells">Vendor Credit Memo Amount</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Display-only. The amount of the credit as entered on the <emphasis
-                                            role="bold">Credit Memo Initiation </emphasis>tab. This field is displayed only on an in-process
-                                        Vendor Credit Memo document. After the document has been submitted, the field no longer carries
+                                    <para role="Table Cells">Display-only. The amount of the credit
+                                        as entered on the <emphasis role="bold">Credit Memo
+                                            Initiation </emphasis>tab. This field is displayed only
+                                        on an in-process Vendor Credit Memo document. After the
+                                        document has been submitted, the field no longer carries
                                         forward.</para>
                                 </entry>
                             </row>
@@ -2165,8 +2186,8 @@
                                     <para role="Table Cells">PO End Date</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Display-only. The end date automatically populated from PO
-                                        information.</para>
+                                    <para role="Table Cells">Display-only. The end date
+                                        automatically populated from PO information.</para>
                                 </entry>
                             </row>
                             <row>
@@ -2174,7 +2195,8 @@
                                     <para role="Table Cells">PO Notes</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Display-only. 'Yes' if the PO contains notes.</para>
+                                    <para role="Table Cells">Display-only. 'Yes' if the PO contains
+                                        notes.</para>
                                 </entry>
                             </row>
                             <row>
@@ -2182,8 +2204,9 @@
                                     <para role="Table Cells">Extract Date</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Display-only. The date the credit record was extracted to the
-                                        Pre-Disbursement Processor.</para>
+                                    <para role="Table Cells">Display-only. The date the credit
+                                        record was extracted to the Pre-Disbursement
+                                        Processor.</para>
                                 </entry>
                             </row>
                             <row>
@@ -2191,8 +2214,8 @@
                                     <para role="Table Cells">Credit Type</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Corresponds to the Invoice Type on Payment Requests. Enter a value or
-                                        search from the lookup <inlinemediaobject>
+                                    <para role="Table Cells">Corresponds to the Invoice Type on
+                                        Payment Requests. Enter a value or search from the lookup <inlinemediaobject>
                                             <imageobject>
                                                 <imagedata fileref="../images/Lookup.png"/>
                                             </imageobject>
@@ -2204,10 +2227,13 @@
                                     <para role="Table Cells">Bank Code</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Required. The bank code will be displayed only if the
-                                        Bank_Code_Document_Types includes 'CM' and Enable_Bank_Specification_Ind=‘Y.’ The default bank is
-                                        determined by the Default_Bank_By_Document_Type parameter. You may override this value by entering
-                                        another bank code or selecting it from the <emphasis role="bold">Bank </emphasis>lookup <inlinemediaobject>
+                                    <para role="Table Cells">Required. The bank code will be
+                                        displayed only if the Bank_Code_Document_Types includes 'CM'
+                                        and Enable_Bank_Specification_Ind=‘Y.’ The default bank is
+                                        determined by the Default_Bank_By_Document_Type parameter.
+                                        You may override this value by entering another bank code or
+                                        selecting it from the <emphasis role="bold">Bank
+                                        </emphasis>lookup <inlinemediaobject>
                                             <imageobject>
                                                 <imagedata fileref="../images/Lookup.png"/>
                                             </imageobject>
@@ -2219,8 +2245,9 @@
                                     <para role="Table Cells">Credit Memo Type</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Display-only. Indicates whether this credit memo references a payment
-                                        request, PO, or vendor.</para>
+                                    <para role="Table Cells">Display-only. Indicates whether this
+                                        credit memo references a payment request, PO, or
+                                        vendor.</para>
                                 </entry>
                             </row>
                             <row>
@@ -2228,9 +2255,11 @@
                                     <para role="Table Cells">Vendor #</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Display-only. Automatically populated based on the entry in the <emphasis
-                                            role="bold">Credit Memo Initiation</emphasis> tab that references either the payment request, the
-                                        purchase order or the vendor number. The vendor number is followed by a hyphen and the division
+                                    <para role="Table Cells">Display-only. Automatically populated
+                                        based on the entry in the <emphasis role="bold">Credit Memo
+                                            Initiation</emphasis> tab that references either the
+                                        payment request, the purchase order or the vendor number.
+                                        The vendor number is followed by a hyphen and the division
                                         number.</para>
                                 </entry>
                             </row>
@@ -2239,8 +2268,9 @@
                                     <para role="Table Cells">Purchase Order #</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Display-only. The referenced purchase order number or the purchase order
-                                        number associated with the referenced payment request.</para>
+                                    <para role="Table Cells">Display-only. The referenced purchase
+                                        order number or the purchase order number associated with
+                                        the referenced payment request.</para>
                                 </entry>
                             </row>
                             <row>
@@ -2248,9 +2278,10 @@
                                     <para role="Table Cells">Payment Request #</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Display-only. If processing a credit against a payment request, this field
-                                        is populated based on the entry in the <emphasis role="bold">Credit Memo Initiation</emphasis>
-                                        tab.</para>
+                                    <para role="Table Cells">Display-only. If processing a credit
+                                        against a payment request, this field is populated based on
+                                        the entry in the <emphasis role="bold">Credit Memo
+                                            Initiation</emphasis> tab.</para>
                                 </entry>
                             </row>
                             <row>
@@ -2258,8 +2289,8 @@
                                     <para role="Table Cells">AP Processed Date</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Display-only. The date the vendor credit memo was submitted by Accounts
-                                        Payable.</para>
+                                    <para role="Table Cells">Display-only. The date the vendor
+                                        credit memo was submitted by Accounts Payable.</para>
                                 </entry>
                             </row>
                             <row>
@@ -2267,8 +2298,9 @@
                                     <para role="Table Cells">Credit Sub Type</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Corresponds to the Invoice Sub Type of the payment request. Example values
-                                        may include "regular" and "supplemental". Enter a value or search from the lookup <inlinemediaobject>
+                                    <para role="Table Cells">Corresponds to the Invoice Sub Type of
+                                        the payment request. Example values may include "regular"
+                                        and "supplemental". Enter a value or search from the lookup <inlinemediaobject>
                                             <imageobject>
                                                 <imagedata fileref="../images/Lookup.png"/>
                                             </imageobject>
@@ -2280,7 +2312,8 @@
                                     <para role="Table Cells">Payment Method</para>
                                 </entry>
                                 <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                    <para role="Table Cells">Select the method of payment from the drop down menu.</para>
+                                    <para role="Table Cells">Select the method of payment from the
+                                        drop down menu.</para>
                                 </entry>
                             </row>
                         </tbody>
@@ -2663,7 +2696,7 @@
                         credits that apply to the credit memo. </para>
                     <para role="TableHeading"><emphasis role="bold">Additional Charges section definition (credit
                         references a vendor number)</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -2681,7 +2714,8 @@
                                         <para role="Table Cells">Credit Processed</para>
                                     </entry>
                                     <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                        <para role="Table Cells">The dollar amount to be applied to this vendor credit memo.</para>
+                                        <para role="Table Cells">The dollar amount to be applied to
+                                            this vendor credit memo.</para>
                                     </entry>
                                 </row>
                                 <row>
@@ -2689,7 +2723,8 @@
                                         <para role="Table Cells">Total Amount</para>
                                     </entry>
                                     <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                        <para role="Table Cells">Display-only. The sum of credit processed, if applicable.</para>
+                                        <para role="Table Cells">Display-only. The sum of credit
+                                            processed, if applicable.</para>
                                     </entry>
                                 </row>
                                 <row>
@@ -2697,10 +2732,12 @@
                                         <para role="Table Cells">Description</para>
                                     </entry>
                                     <entry colname="col2" colsep="0" rowsep="1" valign="top">
-                                        <para role="Table Cells">Required by default for miscellaneous credit only.</para>
+                                        <para role="Table Cells">Required by default for
+                                            miscellaneous credit only.</para>
                                         <note>
-                                            <para> The Item_Types_Requiring_User_Entered_Description parameter controls whether the
-                                                description is required or optional.</para>
+                                            <para> The Item_Types_Requiring_User_Entered_Description
+                                                parameter controls whether the description is
+                                                required or optional.</para>
                                         </note>
                                     </entry>
                                 </row>
@@ -3652,7 +3689,7 @@
                 <para role="TableHeading"><emphasis role="bold">Payment Request Initiation tab
                         definition</emphasis>
                 </para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -4532,7 +4569,7 @@
                     </title>
                     <para role="TableHeading"><emphasis role="bold">Items section
                             definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -4971,7 +5008,7 @@
                     </para>
                     <para role="TableHeading"><emphasis role="bold">Invoice Notes section
                             definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>
@@ -4999,7 +5036,7 @@
                     <para role="Normal"/>
                     <para role="TableHeading"><emphasis role="bold">Accounting Lines section
                             definition</emphasis></para>
-                    <informaltable frame="top">
+                    <informaltable frame="topbot">
                         <tgroup cols="2">
                             <colspec colname="col1" colnum="1"/>
                             <colspec colname="col2" colnum="2"/>

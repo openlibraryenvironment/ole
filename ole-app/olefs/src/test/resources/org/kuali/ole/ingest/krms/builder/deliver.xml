@@ -916,7 +916,7 @@
                         </parameter>
                         <parameter>
                             <name>permissionName</name>
-                            <value>Item not at circ desk authorized to service the item’s shelving location</value>
+                            <value>Item not at circ desk authorized to service the items shelving location</value>
                         </parameter>
                     </action>
                 </falseActions>
@@ -2798,13 +2798,13 @@
                                     <type>simple</type>
                                     <simpleProposition>
                                         <term>
-                                            <type>java.lang.String</type>
+                                            <type>java.lang.Integer</type>
                                             <value>numberOfRenewals</value>
                                         </term>
                                         <operator>greaterThan</operator>
                                         <values>
                                             <value>
-                                                <type>java.lang.String</type>
+                                                <type>java.lang.Integer</type>
                                                 <name>1</name>
                                             </value>
                                         </values>
@@ -4354,7 +4354,7 @@
                                         </parameter>
                                         <parameter>
                                             <name>recallLoanPeriod</name>
-                                            <value>2-D</value>
+                                            <value>3-D</value>
                                         </parameter>
                                         <parameter>
                                             <name>courtesyNoticeInterval</name>

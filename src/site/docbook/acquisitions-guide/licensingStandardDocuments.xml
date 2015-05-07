@@ -220,7 +220,7 @@
                 <para role="Normal"/>
                 <para role="TableHeading"><emphasis role="bold">Document Overview Tabs
                         Definitions</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -326,7 +326,7 @@
                 <para role="Normal"/>
                 <para role="TableHeading"><emphasis role="bold">Event Log Tabs
                         Definitions</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -421,7 +421,7 @@
                 <para/>
                 <para role="TableHeading"><emphasis role="bold">Agreement Documents Tab
                         Definitions</emphasis></para>
-                <informaltable frame="top">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -584,7 +584,7 @@
                     terms of the license itself. </para>
                 <para role="Normal"/>
                 <note>
-                    <para role="Normal"> Although Agreements are not available as part of 1.5,
+                    <para role="Normal"> Although Agreements are not available as part of 1.6,
                         future releases should allow staff to either upload an ONIX-PL document
                         directly or use a license editor GUI to record license terms as an
                         Agreement.</para>
@@ -609,7 +609,7 @@
                             </imageobject>
                         </inlinemediaobject> to search existing Agreements, and link to an existing
                         Agreement for reference or future renewal or amendment. It is not possible
-                        to upload an Agreement in 1.5, so there are no Agreements to link to License
+                        to upload an Agreement in 1.6, so there are no Agreements to link to License
                         Requests in this release. Users will also be able to create a new Agreement
                         from this screen for this License Request in future releases.</para>
                     <para role="Normal"/>
@@ -712,7 +712,7 @@
                 <para role="Normal"/>
                 <para role="TableHeading"><emphasis role="bold">Licensing Workflow
                         Descriptions</emphasis></para>
-                <informaltable frame="all">
+                <informaltable frame="topbot">
                     <tgroup cols="2">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -860,7 +860,7 @@
                     </listitem>
                 </orderedlist>
                 <para><emphasis role="bold">Statuses &amp; Workflow Definitions</emphasis></para>
-                <informaltable frame="all">
+                <informaltable frame="topbot">
                     <tgroup cols="4">
                         <colspec colname="col1" colnum="1"/>
                         <colspec colname="col2" colnum="2"/>
@@ -872,11 +872,11 @@
                                     <para role="Table Cells"><emphasis role="bold">License Request
                                             Manual Selection</emphasis></para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells"><emphasis role="bold">E-Doc Custom
                                             Status</emphasis></para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells"><emphasis role="bold"
                                             >Description.</emphasis></para>
                                 </entry>
@@ -886,13 +886,13 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">License Needed</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">License Needed</para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Default custom doc status upon
                                         initiation.</para>
                                 </entry>
@@ -901,13 +901,13 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">License Requested</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">License Requested</para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Manual custom doc status saved from
                                         "Initiate Licensing Workflow" selection.</para>
                                 </entry>
@@ -916,13 +916,13 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">In Process</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">In Process</para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Manual custom doc status saved from
                                         "Initiate Licensing Workflow" selection.</para>
                                 </entry>
@@ -931,13 +931,13 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">In Negotiation</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">In Negotiation</para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Manual custom doc status saved from
                                         "Initiate Licensing Workflow" selection.</para>
                                 </entry>
@@ -946,13 +946,13 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">License Received</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">License Received</para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Manual status derived from "Initiate
                                         Licensing Workflow" selection, submitted by OLE_Licenses for
                                         routing to OLE_LicenseManager.</para>
@@ -964,13 +964,13 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Review Only</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Pending Review</para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Status when "Review Only" workflow
                                         selected from “Initiate Licensing Workflow”, and
                                         submitted.</para>
@@ -982,13 +982,13 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">--</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Review Complete</para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Status when "Review only" workflow is
                                         completed by user approving License Request.</para>
                                 </entry>
@@ -999,13 +999,13 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Signatory Only</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Pending Signature</para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Status when "Signature Only" is
                                         selected from “Initiate Licensing Workflow” and
                                         submitted.</para>
@@ -1017,13 +1017,13 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">--</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Signature Complete</para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Status when "Signature Only" workflow
                                         is completed by OLE_Signatory and approved.</para>
                                 </entry>
@@ -1034,13 +1034,13 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">&lt;Current Location&gt;</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Pending University </para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Manual Status when University Approval
                                         step is required in Full Approval or Renewal workflows;
                                         routes to Owner/OLE_LicenseManager.</para>
@@ -1053,13 +1053,13 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">--</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">University processing complete</para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Status when Owner/OLE_LicenseManager
                                         approves License Request to complete University approval
                                         workflow step.</para>
@@ -1072,13 +1072,13 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Approval Only</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Pending Approval</para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Status when "Approval only" workflow
                                         selected from “Initiate Licensing Workflow” and
                                         submitted.</para>
@@ -1090,13 +1090,13 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Full Approval</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">&lt;varies&gt;</para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Status will update based on current
                                         action pending or most recent action completed. “Full
                                         Approval” is a composite workflow, and sequentially
@@ -1105,20 +1105,20 @@
                                         a “University Approval step between Review and Signatory
                                         workflows.</para>
                                 </entry>
-                                <entry colname="col4" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Initiate Licensing Workflow=Full
                                         Approval. Status updates when approval actions are
                                         taken.</para>
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Complete</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Complete</para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Status when "Approval Only" workflow is
                                         completed by OLE_LicensingApprover via "Approve"
                                         button.</para>
@@ -1131,13 +1131,13 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Failed</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Negotiation Failed.</para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Status when "Approval only" workflow is
                                         completed by OLE_LicensingApprover role via "Disapprove"
                                         button.</para>
@@ -1150,13 +1150,13 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">--</para>
                                 </entry>
-                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">&lt;exception&gt;</para>
                                 </entry>
-                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Something fails in workflow, License
                                         Request returns to Owner. Owner can re-select workflow and
                                         Submit again.</para>
@@ -1391,7 +1391,7 @@
             requirements, and can be downloaded for use with individual License Requests. The basic
             checklists will contain action lists, compliancy checks, or internal policies for
             different types or Agreements. Users may attach locally-downloaded and filled-in copies
-            to specific License Requests in 1.5.</para>
+            to specific License Requests in 1.6.</para>
         <para>The document can be initiated and edited only by members of the OLE-LIC
             OLE_LicenseConfiguration role.</para>
         <note>
@@ -1419,7 +1419,7 @@
             <para role="Normal"/>
             <para role="TableHeading"><emphasis role="bold">Add/Edit/Delete Check List Tab
                     Definitions</emphasis></para>
-            <informaltable frame="top">
+            <informaltable frame="topbot">
                 <tgroup cols="2">
                     <colspec colname="col1" colnum="1"/>
                     <colspec colname="col2" colnum="2"/>

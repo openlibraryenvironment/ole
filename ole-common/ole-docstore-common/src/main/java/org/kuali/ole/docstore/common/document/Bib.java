@@ -81,16 +81,16 @@ public class Bib
     protected String title;
 
     public Bib() {
-        category=DocCategory.WORK.getCode();
-        type=DocType.BIB.getCode();
-        format=DocFormat.MARC.getCode();
+        category = DocCategory.WORK.getCode();
+        type = DocType.BIB.getCode();
+        format = DocFormat.MARC.getCode();
     }
 
     /**
      * Gets the value of the issn property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getIssn() {
         return issn;
@@ -110,7 +110,7 @@ public class Bib
      * Gets the value of the isbn property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getIsbn() {
         return isbn;
@@ -130,7 +130,7 @@ public class Bib
      * Gets the value of the subject property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getSubject() {
         return subject;
@@ -150,7 +150,7 @@ public class Bib
      * Gets the value of the edition property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getEdition() {
         return edition;
@@ -170,7 +170,7 @@ public class Bib
      * Gets the value of the publicationDate property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getPublicationDate() {
         return publicationDate;
@@ -190,7 +190,7 @@ public class Bib
      * Gets the value of the publisher property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getPublisher() {
         return publisher;
@@ -210,7 +210,7 @@ public class Bib
      * Gets the value of the author property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getAuthor() {
         return author;
@@ -230,7 +230,7 @@ public class Bib
      * Gets the value of the title property.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
     public String getTitle() {
         return title;
@@ -255,7 +255,7 @@ public class Bib
             JAXBContextFactory jaxbContextFactory = JAXBContextFactory.getInstance();
             Marshaller jaxbMarshaller = jaxbContextFactory.getMarshaller(Bib.class);
             synchronized (jaxbMarshaller) {
-            jaxbMarshaller.marshal(bib, sw);
+                jaxbMarshaller.marshal(bib, sw);
             }
 
             result = sw.toString();
@@ -277,7 +277,7 @@ public class Bib
 
         } catch (Exception e) {
             LOG.error("Exception :", e);
-            throw new DocstoreDeserializeException(DocstoreResources.BIB_CREATION_FAILED,DocstoreResources.BIB_CREATION_FAILED);
+           throw new DocstoreDeserializeException(DocstoreResources.BIB_CREATION_FAILED,DocstoreResources.BIB_CREATION_FAILED);
         }
         return bib;
     }

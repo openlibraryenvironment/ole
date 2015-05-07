@@ -53,8 +53,8 @@
                             <bean id="create_circulationDeskCode" parent="Uif-InputField" p:propertyName="circulationDeskCode" p:enableAutoDirectInquiry="false"/>
                             <bean id="create_circulationDeskPublicName" parent="Uif-InputField" p:propertyName="circulationDeskPublicName"/>
                             <bean id="create_circulationDeskStaffName" parent="Uif-InputField" p:propertyName="circulationDeskStaffName"/>
-                            <bean id="create_onHoldDays" parent="Uif-InputField" p:propertyName="onHoldDays" p:required="true"/>
-                            <bean id="create_requestExpirationDays" parent="Uif-InputField" p:propertyName="requestExpirationDays" p:required="true"/>
+                            <bean id="create_onHoldDays" parent="Uif-InputField" p:propertyName="onHoldDays"/>
+                            <bean id="create_requestExpirationDays" parent="Uif-InputField" p:propertyName="requestExpirationDays"/>
                             <bean id="create_shelvingLagTime" parent="Uif-InputField" p:propertyName="shelvingLagTime" p:required="true"/>
                             <bean id="create_isPickUpLocation" parent="Uif-InputField" p:propertyName="pickUpLocation"/>
                             <bean id="create_asrPickupLocation" parent="Uif-InputField" p:propertyName="asrPickupLocation"/>
