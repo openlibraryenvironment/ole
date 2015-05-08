@@ -23,6 +23,31 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="From" id="78">
+            <text-property name="promptText">Date Missing/Lost Status From Date</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">date</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="To" id="79">
+            <property name="hidden">false</property>
+            <text-property name="promptText">Date Missing/Lost Status To Date</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">date</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="LostOrMissingItems" id="7">
@@ -190,8 +215,16 @@
                 </list-property>
             </structure>
             <method name="beforeOpen"><![CDATA[deliverReport = new Packages.org.kuali.ole.OLEDeliverReportHelper();
-this.queryText = this.queryText+" and (ODI.LOCATION LIKE CONCAT('%',CONCAT('?','%')) or ODH.LOCATION LIKE CONCAT('%',CONCAT('?','%')))";
-this.queryText = this.queryText.replace("?",params["Library"].value);]]></method>
+this.queryText = this.queryText+" and (ODI.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%')) or ODH.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%')))";
+
+dbVendor = deliverReport.getDbVendor();
+if(dbVendor!=null){
+	if(dbVendor.equalsIgnoreCase("oracle")){
+		this.queryText = this.queryText+" and ((ODIAS.ITEM_AVAIL_STAT_CD = 'LOST' AND trunc(ODI.ITEM_STATUS_DATE_UPDATED) between to_date('"+params["From"].value+"', 'YYYY-MM-DD') and to_date('"+params["To"].value+"', 'YYYY-MM-DD')) or (ODI.MISSING_PIECES = 'Y' AND trunc(ODI.MISSING_PIECES_EFFECTIVE_DATE) between to_date('"+params["From"].value+"', 'YYYY-MM-DD') and to_date('"+params["To"].value+"', 'YYYY-MM-DD')))";
+	}else if(dbVendor.equalsIgnoreCase("mysql")){
+		this.queryText = this.queryText+" and ((ODIAS.ITEM_AVAIL_STAT_CD = 'LOST' AND ODI.ITEM_STATUS_DATE_UPDATED between '"+params["From"].value+"' AND '"+params["To"].value+"') or (ODI.MISSING_PIECES = 'Y' AND ODI.MISSING_PIECES_EFFECTIVE_DATE between '"+params["From"].value+"' AND '"+params["To"].value+"'))";
+	}
+}]]></method>
             <method name="onFetch"><![CDATA[dataSetRow["Library"] = deliverReport.getLibraryLocation(dataSetRow["Location"],dataSetRow["Location Level"]);
 dataSetRow["Item Availability Status"] = deliverReport.getItemAvailabilityStatus(dataSetRow["Missing Piece"]);]]></method>
             <property name="dataSource">LostOrMissingItems</property>
@@ -288,7 +321,7 @@ where OLL.LEVEL_CD = 'LIBRARY') as "Library Location Level Name",
 (select OCIT.ITM_TYP_NM from OLE_CAT_ITM_TYP_T OCIT
 where ODI.ITEM_TYPE_ID = OCIT.ITM_TYP_CD_ID) as "Item Type",
 CASE WHEN ODI.MISSING_PIECES = 'Y' THEN ODI.MISSING_PIECES_EFFECTIVE_DATE
-	ELSE ODI.ITEM_STATUS_DATE_UPDATED 
+	ELSE ODI.ITEM_STATUS_DATE_UPDATED
 END as "Date Missing/Lost Status Added",
 ODI.MISSING_PIECES as "Missing Piece"
 from
@@ -299,8 +332,6 @@ OLE_DLVR_ITEM_AVAIL_STAT_T ODIAS
 where
 ODIAS.ITEM_AVAIL_STAT_ID = ODI.ITEM_STATUS_ID
 and
-(ODIAS.ITEM_AVAIL_STAT_CD = 'LOST' or ODI.MISSING_PIECES = 'Y')
-and 
 ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID
 and
 ODBI.BIB_ID = ODH.BIB_ID]]></xml-property>

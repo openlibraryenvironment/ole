@@ -93,7 +93,25 @@
 	}
 %>
 
-		<INPUT TYPE="HIDDEN" ID="isRequired" 
-			VALUE = "<%= parameterBean.isRequired( )? "true": "false" %>">
-	</TD>
+        <INPUT TYPE="HIDDEN" ID="isRequired"
+               VALUE = "<%= parameterBean.isRequired( )? "true": "false" %>">
+
+        <%
+            if (parameterBean.getParameter().getDataType()==7 || parameterBean.getParameter().getDataType()==4) {
+        %>
+        <button id="<%=parameterBean.getName()%>_button">...</button>
+        <script type="text/javascript">
+            Calendar.setup({
+                trigger     : '<%=parameterBean.getName()%>_button',
+                inputField  : '<%=parameterBean.getName()%>',
+                showTime    : 12,
+                onSelect    :function () { this.hide() }
+            });
+        </script>
+        <%
+            }
+        %>
+
+
+    </TD>
 </TR>

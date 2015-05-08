@@ -105,6 +105,12 @@
                     <text-property name="displayName">Patron Id</text-property>
                     <text-property name="heading">Patron Id</text-property>
                 </structure>
+                <structure>
+                    <property name="columnName">Hold Expiration Date</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Hold Expiration Date</text-property>
+                    <text-property name="heading">Hold Expiration Date</text-property>
+                </structure>
             </list-property>
             <list-property name="parameters"/>
             <structure name="cachedMetaData">
@@ -151,6 +157,11 @@
                     </structure>
                     <structure>
                         <property name="position">9</property>
+                        <property name="name">Hold Expiration Date</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
                         <property name="name">Library</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -218,6 +229,13 @@ this.queryText = this.queryText.replace("?",params["Library"].value);]]></method
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">Hold Expiration Date</property>
+                    <property name="nativeName">Hold Expiration Date</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select 
 ODR.ITM_ID as "Barcode",
@@ -237,7 +255,8 @@ CASE WHEN ODI.CALL_NUMBER IS NOT NULL AND ODI.CALL_NUMBER != ' ' THEN ODI.CALL_N
 END as "Call Number",
 ODBI.TITLE as "Title",
 CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM)) as "Patron Name",
-ODR.OLE_PTRN_ID as "Patron Id"
+ODR.OLE_PTRN_ID as "Patron Id",
+ODR.HOLD_EXP_DATE as "Hold Expiration Date"
 from
 OLE_DLVR_RQST_T ODR,
 OLE_DLVR_ITEM_AVAIL_STAT_T ODIAS,
@@ -396,6 +415,12 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                     <expression name="expression" type="javascript">dataSetRow["Patron Id"]</expression>
                     <property name="dataType">string</property>
                 </structure>
+                <structure>
+                    <property name="name">Hold Expiration Date</property>
+                    <text-property name="displayName">Hold Expiration Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Hold Expiration Date"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
             </list-property>
             <column id="61"/>
             <column id="62"/>
@@ -403,6 +428,7 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
             <column id="64"/>
             <column id="65"/>
             <column id="66"/>
+            <column id="84"/>
             <header>
                 <row id="40">
                     <cell id="41">
@@ -481,6 +507,19 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderTopWidth">thin</property>
                         <label id="78">
                             <text-property name="text">Patron Id</text-property>
+                        </label>
+                    </cell>
+                    <cell id="82">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="85">
+                            <text-property name="text">Hold Expiration Date</text-property>
                         </label>
                     </cell>
                 </row>
@@ -567,6 +606,19 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderTopWidth">thin</property>
                         <data id="79">
                             <property name="resultSetColumn">Patron Id</property>
+                        </data>
+                    </cell>
+                    <cell id="83">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="86">
+                            <property name="resultSetColumn">Hold Expiration Date</property>
                         </data>
                     </cell>
                 </row>

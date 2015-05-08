@@ -128,6 +128,12 @@
 		<script src="birt/ajax/utility/BirtPosition.js" type="text/javascript"></script>
 		<script src="birt/ajax/utility/Printer.js" type="text/javascript"></script>
 
+        <link href="birt/calendar/css/jscal2.css" rel="stylesheet" type="text/css"/>
+        <link href="birt/calendar/css/border-radius.css" rel="stylesheet" type="text/css"/>
+        <link href="birt/calendar/css/win2k/win2k.css" rel="stylesheet" type="text/css"/>
+        <script src="birt/calendar/js/jscal2.js" type="text/javascript"></script>
+        <script src="birt/calendar/js/lang/en.js" type="text/javascript"></script>
+
 		<script src="birt/ajax/core/BirtCommunicationManager.js" type="text/javascript"></script>
 		<script src="birt/ajax/core/BirtSoapRequest.js" type="text/javascript"></script>
 		<script src="birt/ajax/core/BirtSoapResponse.js" type="text/javascript"></script>
