@@ -1,6 +1,8 @@
 package org.kuali.ole.service;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.ingest.FileUtil;
@@ -211,59 +213,73 @@ public class OlePatronConverterService {
         LOG.debug(" Inside createOlePatronDocument for patron ingest");
         List<OlePatronDocument> newPatrons = new ArrayList<OlePatronDocument>();
         OlePatronDocument olePatronDocument = new OlePatronDocument();
-        OlePatron olePatron;
+
         int createPatron = createPatronList.size();
         for (int i = 0; i < createPatronList.size(); i++) {
-            boolean patronCreateFlag = true;
-            olePatron = new OlePatron();
+            OlePatron olePatron = new OlePatron();
             olePatron = createPatronList.get(i);
-            EntityBo kimEntity = new EntityBo();
-            kimEntity.setId(olePatron.getPatronID());
-            olePatronDocument.setEntity(kimEntity);
-            if (olePatron.getBarcode() != null) {
-                if (checkDuplicateBarcode(olePatron.getBarcode())) {
-                    patronCreateFlag=false;
-                    olePatron.setErrorMessage(OLEPatronConstant.DUP_PATRON_BARCODE_ERROR);
+            try{
+                boolean patronCreateFlag = true;
+                EntityBo kimEntity = new EntityBo();
+                kimEntity.setId(olePatron.getPatronID());
+                olePatronDocument.setEntity(kimEntity);
+                if (olePatron.getBarcode() != null) {
+                    if (checkDuplicateBarcode(olePatron.getBarcode())) {
+                        patronCreateFlag=false;
+                        olePatron.setErrorMessage(OLEPatronConstant.DUP_PATRON_BARCODE_ERROR);
+                        failedPatronList.add(olePatron);
+                        continue;
+                    } else {
+                        olePatronDocument.setBarcode(olePatron.getBarcode());
+                    }
                 } else {
-                    olePatronDocument.setBarcode(olePatron.getBarcode());
+                    patronCreateFlag=false;
+                    olePatron.setErrorMessage(OLEPatronConstant.PATRON_BARCODE_EMPTY);
                 }
-            } else {
-                patronCreateFlag=false;
-                olePatron.setErrorMessage(OLEPatronConstant.PATRON_BARCODE_EMPTY);
-            }
-            olePatronDocument.setExpirationDate(olePatron.getExpirationDate());
-            olePatronDocument.setActivationDate(olePatron.getActivationDate());
-            olePatronDocument.setCourtesyNotice(olePatron.getPatronLevelPolicies().isReceivesCourtesyNotice());
-            olePatronDocument.setDeliveryPrivilege(olePatron.getPatronLevelPolicies().isHasDeliveryPrivilege());
-            olePatronDocument.setGeneralBlock(olePatron.getPatronLevelPolicies().isGenerallyBlocked());
-            olePatronDocument.setGeneralBlockNotes(olePatron.getPatronLevelPolicies().getGeneralBlockNotes());
-            olePatronDocument.setPagingPrivilege(olePatron.getPatronLevelPolicies().isHasPagingPrivilege());
-            patronCreateFlag &= persistPatronNames(olePatron, olePatronDocument);
-            if (patronCreateFlag)
-                patronCreateFlag &= persistPatronBorrowerType(olePatron, olePatronDocument);
-            if (patronCreateFlag)
-                patronCreateFlag &= persistPatronSource(olePatron, olePatronDocument);
-            if (patronCreateFlag)
-                patronCreateFlag &= persistPatronStatisticalCategory(olePatron, olePatronDocument);
-            if (patronCreateFlag)
-                patronCreateFlag &= persistPatronPostalAddress(olePatron, olePatronDocument);
-            if (patronCreateFlag)
-                patronCreateFlag &= persistPatronPhoneNumbers(olePatron, olePatronDocument);
-            if (patronCreateFlag)
-                patronCreateFlag &= persistPatronEmailAddress(olePatron, olePatronDocument);
-            if (patronCreateFlag)
-                patronCreateFlag &= persistPatronAffiliations(olePatron, olePatronDocument);
-            if (patronCreateFlag)
-                patronCreateFlag &= persistPatronEmployments(olePatron, olePatronDocument);
-            if (patronCreateFlag)
-                patronCreateFlag &= persistPatronNotes(olePatron, olePatronDocument);
-            olePatronDocument.setActiveIndicator(olePatron.isActive());
-            if (patronCreateFlag) {
-                OlePatronDefinition patron = getOlePatronService().createPatron(OlePatronDocument.to(olePatronDocument));
-                newPatrons.add(OlePatronDocument.from(patron));
-            } else {
+                olePatronDocument.setExpirationDate(olePatron.getExpirationDate());
+                olePatronDocument.setActivationDate(olePatron.getActivationDate());
+                olePatronDocument.setCourtesyNotice(olePatron.getPatronLevelPolicies().isReceivesCourtesyNotice());
+                olePatronDocument.setDeliveryPrivilege(olePatron.getPatronLevelPolicies().isHasDeliveryPrivilege());
+                olePatronDocument.setGeneralBlock(olePatron.getPatronLevelPolicies().isGenerallyBlocked());
+                olePatronDocument.setGeneralBlockNotes(olePatron.getPatronLevelPolicies().getGeneralBlockNotes());
+                olePatronDocument.setPagingPrivilege(olePatron.getPatronLevelPolicies().isHasPagingPrivilege());
+                patronCreateFlag &= persistPatronNames(olePatron, olePatronDocument);
+                if (patronCreateFlag)
+                    patronCreateFlag &= persistPatronBorrowerType(olePatron, olePatronDocument);
+                if (patronCreateFlag)
+                    patronCreateFlag &= persistPatronSource(olePatron, olePatronDocument);
+                if (patronCreateFlag)
+                    patronCreateFlag &= persistPatronStatisticalCategory(olePatron, olePatronDocument);
+                if (patronCreateFlag)
+                    patronCreateFlag &= persistPatronPostalAddress(olePatron, olePatronDocument);
+                if (patronCreateFlag)
+                    patronCreateFlag &= persistPatronPhoneNumbers(olePatron, olePatronDocument);
+                if (patronCreateFlag)
+                    patronCreateFlag &= persistPatronEmailAddress(olePatron, olePatronDocument);
+                if (patronCreateFlag)
+                    patronCreateFlag &= persistPatronAffiliations(olePatron, olePatronDocument);
+                if (patronCreateFlag)
+                    patronCreateFlag &= persistPatronEmployments(olePatron, olePatronDocument);
+                if (patronCreateFlag)
+                    patronCreateFlag &= persistPatronNotes(olePatron, olePatronDocument);
+                olePatronDocument.setActiveIndicator(olePatron.isActive());
+                if (patronCreateFlag) {
+                    OlePatronDefinition patron = getOlePatronService().createPatron(OlePatronDocument.to(olePatronDocument));
+                    newPatrons.add(OlePatronDocument.from(patron));
+                } else {
+                    failedPatronList.add(olePatron);
+                }
+            }catch(NullPointerException nullPointerException){
+                LOG.error(nullPointerException);
+                nullPointerException.printStackTrace();
+                olePatron.setErrorMessage("Null Pointer Exception.");
+                failedPatronList.add(olePatron);
+            } catch(Exception e){
+                LOG.error(e);
+                olePatron.setErrorMessage(e.getMessage());
                 failedPatronList.add(olePatron);
             }
+
         }
         createPatronList.removeAll(failedPatronList);
         return newPatrons;
@@ -289,44 +305,55 @@ public class OlePatronConverterService {
             for (Iterator<OlePatronDocument> patronIterator = patronImpls.iterator(); patronIterator.hasNext(); ) {
                 boolean patronUpdateFlag = true;
                 patronDocument = patronIterator.next();
-                olePatronDocument.setOlePatronId(patronDocument.getOlePatronId());
-                olePatronDocument.setBarcode(olePatron.getBarcode());
-                olePatronDocument.setExpirationDate(olePatron.getExpirationDate());
-                olePatronDocument.setActivationDate(olePatron.getActivationDate());
-                olePatronDocument.setCourtesyNotice(olePatron.getPatronLevelPolicies().isReceivesCourtesyNotice());
-                olePatronDocument.setDeliveryPrivilege(olePatron.getPatronLevelPolicies().isHasDeliveryPrivilege());
-                olePatronDocument.setGeneralBlock(olePatron.getPatronLevelPolicies().isGenerallyBlocked());
-                olePatronDocument.setGeneralBlockNotes(olePatron.getPatronLevelPolicies().getGeneralBlockNotes());
-                olePatronDocument.setPagingPrivilege(olePatron.getPatronLevelPolicies().isHasPagingPrivilege());
-                olePatronDocument.setActiveIndicator(olePatron.isActive());
-                olePatronDocument.setObjectId(patronDocument.getObjectId());
-                olePatronDocument.setVersionNumber(patronDocument.getVersionNumber());
-                olePatronDocument.setOleProxyPatronDocuments(patronDocument.getOleProxyPatronDocuments());
-                olePatronDocument.setOlePatronLocalIds(patronDocument.getOlePatronLocalIds());
-                olePatronDocument.setLostBarcodes(patronDocument.getLostBarcodes());
-                patronUpdateFlag &= persistPatronNames(olePatron, olePatronDocument);
-                if (patronUpdateFlag)
-                    patronUpdateFlag &= persistPatronBorrowerType(olePatron, olePatronDocument);
-                if (patronUpdateFlag)
-                    patronUpdateFlag &= persistPatronSource(olePatron, olePatronDocument);
-                if (patronUpdateFlag)
-                    patronUpdateFlag &= persistPatronStatisticalCategory(olePatron, olePatronDocument);
-                if (patronUpdateFlag)
-                    patronUpdateFlag &= persistPatronPostalAddress(olePatron, olePatronDocument);
-                if (patronUpdateFlag)
-                    patronUpdateFlag &= persistPatronPhoneNumbers(olePatron, olePatronDocument);
-                if (patronUpdateFlag)
-                    patronUpdateFlag &= persistPatronEmailAddress(olePatron, olePatronDocument);
-                if (patronUpdateFlag)
-                    patronUpdateFlag &= persistPatronAffiliations(olePatron, olePatronDocument);
-                if (patronUpdateFlag)
-                    patronUpdateFlag &= persistPatronEmployments(olePatron, olePatronDocument);
-                if (patronUpdateFlag)
-                    patronUpdateFlag &= persistPatronNotes(olePatron, olePatronDocument);
-                if (patronUpdateFlag) {
-                    OlePatronDefinition olePatronDefinition = getOlePatronService().updatePatron(OlePatronDocument.to(olePatronDocument));
-                    updatedPatrons.add(OlePatronDocument.from(olePatronDefinition));
-                } else {
+                try{
+                    olePatronDocument.setOlePatronId(patronDocument.getOlePatronId());
+                    olePatronDocument.setBarcode(olePatron.getBarcode());
+                    olePatronDocument.setExpirationDate(olePatron.getExpirationDate());
+                    olePatronDocument.setActivationDate(olePatron.getActivationDate());
+                    olePatronDocument.setCourtesyNotice(olePatron.getPatronLevelPolicies().isReceivesCourtesyNotice());
+                    olePatronDocument.setDeliveryPrivilege(olePatron.getPatronLevelPolicies().isHasDeliveryPrivilege());
+                    olePatronDocument.setGeneralBlock(olePatron.getPatronLevelPolicies().isGenerallyBlocked());
+                    olePatronDocument.setGeneralBlockNotes(olePatron.getPatronLevelPolicies().getGeneralBlockNotes());
+                    olePatronDocument.setPagingPrivilege(olePatron.getPatronLevelPolicies().isHasPagingPrivilege());
+                    olePatronDocument.setActiveIndicator(olePatron.isActive());
+                    olePatronDocument.setObjectId(patronDocument.getObjectId());
+                    olePatronDocument.setVersionNumber(patronDocument.getVersionNumber());
+                    olePatronDocument.setOleProxyPatronDocuments(patronDocument.getOleProxyPatronDocuments());
+                    olePatronDocument.setOlePatronLocalIds(patronDocument.getOlePatronLocalIds());
+                    olePatronDocument.setLostBarcodes(patronDocument.getLostBarcodes());
+                    patronUpdateFlag &= persistPatronNames(olePatron, olePatronDocument);
+                    if (patronUpdateFlag)
+                        patronUpdateFlag &= persistPatronBorrowerType(olePatron, olePatronDocument);
+                    if (patronUpdateFlag)
+                        patronUpdateFlag &= persistPatronSource(olePatron, olePatronDocument);
+                    if (patronUpdateFlag)
+                        patronUpdateFlag &= persistPatronStatisticalCategory(olePatron, olePatronDocument);
+                    if (patronUpdateFlag)
+                        patronUpdateFlag &= persistPatronPostalAddress(olePatron, olePatronDocument);
+                    if (patronUpdateFlag)
+                        patronUpdateFlag &= persistPatronPhoneNumbers(olePatron, olePatronDocument);
+                    if (patronUpdateFlag)
+                        patronUpdateFlag &= persistPatronEmailAddress(olePatron, olePatronDocument);
+                    if (patronUpdateFlag)
+                        patronUpdateFlag &= persistPatronAffiliations(olePatron, olePatronDocument);
+                    if (patronUpdateFlag)
+                        patronUpdateFlag &= persistPatronEmployments(olePatron, olePatronDocument);
+                    if (patronUpdateFlag)
+                        patronUpdateFlag &= persistPatronNotes(olePatron, olePatronDocument);
+                    if (patronUpdateFlag) {
+                        OlePatronDefinition olePatronDefinition = getOlePatronService().updatePatron(OlePatronDocument.to(olePatronDocument));
+                        updatedPatrons.add(OlePatronDocument.from(olePatronDefinition));
+                    } else {
+                        failedPatronList.add(olePatron);
+                    }
+                }catch(NullPointerException nullPointerException){
+                    LOG.error(nullPointerException);
+                    nullPointerException.printStackTrace();
+                    olePatron.setErrorMessage("Null Pointer Exception.");
+                    failedPatronList.add(olePatron);
+                } catch(Exception e){
+                    e.printStackTrace();
+                    olePatron.setErrorMessage(e.getMessage());
                     failedPatronList.add(olePatron);
                 }
             }
@@ -386,48 +413,52 @@ public class OlePatronConverterService {
         List<EntityPhoneBo> phones = new ArrayList<EntityPhoneBo>();
         EntityPhoneBo entityPhoneBo;
         List<OlePatronTelePhoneNumber> olePatronTelePhoneNumbers = olePatron.getTelephoneNumbers();
-        for (Iterator<OlePatronTelePhoneNumber> iterator = olePatronTelePhoneNumbers.iterator(); iterator.hasNext(); ) {
-            OlePatronTelePhoneNumber phoneNumbers = iterator.next();
-            entityPhoneBo = new EntityPhoneBo();
-            entityPhoneBo.setPhoneNumber(phoneNumbers.getTelephoneNumber());
-            Map criteria = new HashMap<String, String>();
-            Map criteriaCountry = new HashMap<String, String>();
-            if (!phoneNumbers.getTelephoneNumberType().equals("")) {
-                criteria.put(OLEConstants.CODE, phoneNumbers.getTelephoneNumberType());
-                List<EntityPhoneTypeBo> entityType = (List<EntityPhoneTypeBo>) getBusinessObjectService().findMatching(EntityPhoneTypeBo.class, criteria);
-                if (entityType.size() > 0) {
-                    entityPhoneBo.setPhoneType(entityType.get(0));
-                    entityPhoneBo.setPhoneTypeCode(entityType.get(0).getCode());
-                    if (phoneNumbers.getExtension() != null && !phoneNumbers.getExtension().equals("")) {
-                        entityPhoneBo.setExtensionNumber(phoneNumbers.getExtension());
-                    }
-                    if (phoneNumbers.getCountry() != null && !phoneNumbers.getCountry().equals("")) {
-                        criteriaCountry.put(OLEConstants.CODE, phoneNumbers.getCountry());
-                        List<CountryBo> countryList = (List<CountryBo>) getBusinessObjectService().findMatching(CountryBo.class, criteriaCountry);
-                        if (countryList.size() > 0) {
-                            entityPhoneBo.setCountryCode(phoneNumbers.getCountry());
-                        } else {
-                            olePatron.setErrorMessage(OLEPatronConstant.COUNTRY_PHONE_ERROR);
-                            return false;
+        if(CollectionUtils.isNotEmpty(olePatronTelePhoneNumbers)){
+            for (Iterator<OlePatronTelePhoneNumber> iterator = olePatronTelePhoneNumbers.iterator(); iterator.hasNext(); ) {
+                OlePatronTelePhoneNumber phoneNumbers = iterator.next();
+                entityPhoneBo = new EntityPhoneBo();
+                entityPhoneBo.setPhoneNumber(phoneNumbers.getTelephoneNumber());
+                Map criteria = new HashMap<String, String>();
+                Map criteriaCountry = new HashMap<String, String>();
+                if (!phoneNumbers.getTelephoneNumberType().equals("")) {
+                    criteria.put(OLEConstants.CODE, phoneNumbers.getTelephoneNumberType());
+                    List<EntityPhoneTypeBo> entityType = (List<EntityPhoneTypeBo>) getBusinessObjectService().findMatching(EntityPhoneTypeBo.class, criteria);
+                    if (entityType.size() > 0) {
+                        entityPhoneBo.setPhoneType(entityType.get(0));
+                        entityPhoneBo.setPhoneTypeCode(entityType.get(0).getCode());
+                        if (phoneNumbers.getExtension() != null && !phoneNumbers.getExtension().equals("")) {
+                            entityPhoneBo.setExtensionNumber(phoneNumbers.getExtension());
                         }
-                    }
-                    entityPhoneBo.setActive(phoneNumbers.isActive());
-                    entityPhoneBo.setDefaultValue(phoneNumbers.isDefaults());
-                    phones.add(entityPhoneBo);
-                    boolean defaultValue = checkPhoneMultipleDefault(phones);
-                    if (defaultValue) {
-                        olePatronDocument.setPhones(phones);
-                        phoneFlag = true;
+                        if (phoneNumbers.getCountry() != null && !phoneNumbers.getCountry().equals("")) {
+                            criteriaCountry.put(OLEConstants.CODE, phoneNumbers.getCountry());
+                            List<CountryBo> countryList = (List<CountryBo>) getBusinessObjectService().findMatching(CountryBo.class, criteriaCountry);
+                            if (countryList.size() > 0) {
+                                entityPhoneBo.setCountryCode(phoneNumbers.getCountry());
+                            } else {
+                                olePatron.setErrorMessage(OLEPatronConstant.COUNTRY_PHONE_ERROR);
+                                return false;
+                            }
+                        }
+                        entityPhoneBo.setActive(phoneNumbers.isActive());
+                        entityPhoneBo.setDefaultValue(phoneNumbers.isDefaults());
+                        phones.add(entityPhoneBo);
+                        boolean defaultValue = checkPhoneMultipleDefault(phones);
+                        if (defaultValue) {
+                            olePatronDocument.setPhones(phones);
+                            phoneFlag = true;
+                        } else {
+                            olePatron.setErrorMessage(OLEPatronConstant.PHONE_DEFAULT_VALUE_ERROR);
+                            phoneFlag = false;
+                        }
                     } else {
-                        olePatron.setErrorMessage(OLEPatronConstant.PHONE_DEFAULT_VALUE_ERROR);
-                        phoneFlag = false;
+                        olePatron.setErrorMessage(OLEPatronConstant.PHONETYPE_ERROR);
                     }
                 } else {
-                    olePatron.setErrorMessage(OLEPatronConstant.PHONETYPE_ERROR);
+                    olePatron.setErrorMessage(OLEPatronConstant.PHONETYPE_BLANK_ERROR);
                 }
-            } else {
-                olePatron.setErrorMessage(OLEPatronConstant.PHONETYPE_BLANK_ERROR);
             }
+        }else{
+            phoneFlag = true;
         }
         return phoneFlag;
     }
@@ -443,34 +474,38 @@ public class OlePatronConverterService {
         List<EntityEmailBo> email = new ArrayList<EntityEmailBo>();
         EntityEmailBo entityEmailBo;
         List<OlePatronEmailAddress> olePatronEmailAddresses = olePatron.getEmailAddresses();
-        for (Iterator<OlePatronEmailAddress> iterator = olePatronEmailAddresses.iterator(); iterator.hasNext(); ) {
-            OlePatronEmailAddress emailAddresses = iterator.next();
-            entityEmailBo = new EntityEmailBo();
-            entityEmailBo.setEmailAddress(emailAddresses.getEmailAddress());
-            if (!emailAddresses.getEmailAddressType().equals("")) {
-                Map criteria = new HashMap<String, String>();
-                criteria.put(OLEConstants.CODE, emailAddresses.getEmailAddressType());
-                List<EntityEmailTypeBo> entityType = (List<EntityEmailTypeBo>) getBusinessObjectService().findMatching(EntityEmailTypeBo.class, criteria);
-                if (entityType.size() > 0) {
-                    entityEmailBo.setEmailType(entityType.get(0));
-                    entityEmailBo.setEmailTypeCode(entityType.get(0).getCode());
-                    entityEmailBo.setActive(emailAddresses.isActive());
-                    entityEmailBo.setDefaultValue(emailAddresses.isDefaults());
-                    email.add(entityEmailBo);
-                    boolean defaultValue = checkEmailMultipleDefault(email);
-                    if (defaultValue) {
-                        olePatronDocument.setEmails(email);
-                        emailFlag = true;
+        if(CollectionUtils.isNotEmpty(olePatronEmailAddresses)){
+            for (Iterator<OlePatronEmailAddress> iterator = olePatronEmailAddresses.iterator(); iterator.hasNext(); ) {
+                OlePatronEmailAddress emailAddresses = iterator.next();
+                entityEmailBo = new EntityEmailBo();
+                entityEmailBo.setEmailAddress(emailAddresses.getEmailAddress());
+                if (StringUtils.isNotBlank(emailAddresses.getEmailAddressType())) {
+                    Map criteria = new HashMap<String, String>();
+                    criteria.put(OLEConstants.CODE, emailAddresses.getEmailAddressType());
+                    List<EntityEmailTypeBo> entityType = (List<EntityEmailTypeBo>) getBusinessObjectService().findMatching(EntityEmailTypeBo.class, criteria);
+                    if (entityType.size() > 0) {
+                        entityEmailBo.setEmailType(entityType.get(0));
+                        entityEmailBo.setEmailTypeCode(entityType.get(0).getCode());
+                        entityEmailBo.setActive(emailAddresses.isActive());
+                        entityEmailBo.setDefaultValue(emailAddresses.isDefaults());
+                        email.add(entityEmailBo);
+                        boolean defaultValue = checkEmailMultipleDefault(email);
+                        if (defaultValue) {
+                            olePatronDocument.setEmails(email);
+                            emailFlag = true;
+                        } else {
+                            olePatron.setErrorMessage(OLEPatronConstant.EMAIL_DEFAULT_VALUE_ERROR);
+                            emailFlag = false;
+                        }
                     } else {
-                        olePatron.setErrorMessage(OLEPatronConstant.EMAIL_DEFAULT_VALUE_ERROR);
-                        emailFlag = false;
+                        olePatron.setErrorMessage(OLEPatronConstant.EMAILTYPE_ERROR);
                     }
                 } else {
-                    olePatron.setErrorMessage(OLEPatronConstant.EMAILTYPE_ERROR);
+                    olePatron.setErrorMessage(OLEPatronConstant.EMAILTYPE_BLANK_ERROR);
                 }
-            } else {
-                olePatron.setErrorMessage(OLEPatronConstant.EMAILTYPE_BLANK_ERROR);
             }
+        }else{
+            emailFlag = true;
         }
         return emailFlag;
     }
@@ -621,7 +656,7 @@ public class OlePatronConverterService {
         if (entityType.size() > 0) {
             names.setNameType(entityType.get(0));
             names.setNameCode(entityType.get(0).getCode());
-            if (!olePatron.getName().getFirst().equals("") && !olePatron.getName().getSurname().equals("")) {
+            if (StringUtils.isNotBlank(olePatron.getName().getFirst())&& StringUtils.isNotBlank(olePatron.getName().getSurname())) {
                 names.setFirstName(olePatron.getName().getFirst());
                 names.setLastName(olePatron.getName().getSurname());
                 if (olePatron.getName().getTitle() != null && !olePatron.getName().getTitle().equals("")) {
@@ -635,10 +670,10 @@ public class OlePatronConverterService {
                 olePatronDocument.setName(names);
                 nameFlag = true;
             } else {
-                if (olePatron.getName().getFirst().equals("")) {
+                if (org.apache.commons.lang.StringUtils.isBlank(olePatron.getName().getFirst())) {
                     olePatron.setErrorMessage(OLEPatronConstant.FIRSTNAME_BLANK_ERROR);
                 }
-                if (olePatron.getName().getSurname().equals("")) {
+                if (org.apache.commons.lang.StringUtils.isBlank(olePatron.getName().getSurname())) {
                     olePatron.setErrorMessage(OLEPatronConstant.SURNAME_BLANK_ERROR);
                 }
             }

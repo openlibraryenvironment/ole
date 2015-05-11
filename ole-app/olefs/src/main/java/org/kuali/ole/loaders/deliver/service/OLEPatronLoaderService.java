@@ -11,9 +11,9 @@ import java.util.List;
  */
 public interface OLEPatronLoaderService {
 
-    /*public Object importPatrons(String bodyContent, HttpContext context);
+    public Object importPatrons(String bodyContent, HttpContext context);
 
-    public OLELoaderResponseBo updatePatronById(String patronId, String bodyContent, HttpContext context);*/
+    /*public OLELoaderResponseBo updatePatronById(String patronId, String bodyContent, HttpContext context);*/
 
     public Object exportPatronById(String patronId);
 

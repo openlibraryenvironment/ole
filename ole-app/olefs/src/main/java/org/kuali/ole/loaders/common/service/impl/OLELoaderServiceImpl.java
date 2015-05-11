@@ -127,6 +127,28 @@ public class OLELoaderServiceImpl implements OLELoaderService {
     }
 
     @Override
+    public JSONObject getJsonObjectValueFromJsonObject(JSONObject jsonObject, String key) {
+        JSONObject returnValue = null;
+        try {
+            returnValue = jsonObject.getJSONObject(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return  returnValue;
+    }
+
+    @Override
+    public JSONArray getJsonArrayValueFromJsonObject(JSONObject jsonObject, String key) {
+        JSONArray returnValue = null;
+        try {
+            returnValue = jsonObject.getJSONArray(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return  returnValue;
+    }
+
+    @Override
     public Object getLoaderService(String serviceName) {
         if(serviceName.equals("location")){
             if(oleLocationLoaderService == null){

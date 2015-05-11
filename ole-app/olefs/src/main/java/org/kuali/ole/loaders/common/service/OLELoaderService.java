@@ -23,6 +23,10 @@ public interface OLELoaderService {
 
     public String getStringValueFromJsonObject(JSONObject jsonObject, String key);
 
+    public JSONObject getJsonObjectValueFromJsonObject(JSONObject jsonObject, String key);
+
+    public JSONArray getJsonArrayValueFromJsonObject(JSONObject jsonObject, String key);
+
     public Object getLoaderService(String serviceName);
 
     public Object getLoaderHelperService(String serviceName);

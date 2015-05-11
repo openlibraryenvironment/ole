@@ -569,17 +569,17 @@ public class OLELoaderApiProcessor {
         return Response.status(500).entity(null).build();
     }
 
-    /*@POST
+    @POST
     @Path("/patron")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response importPatron(@Context HttpContext context, String bodyContent){
         LOG.info("Incoming request for Import Locations Level.");
         OLEPatronLoaderService olePatronLoaderService = (OLEPatronLoaderService) getOleLoaderService().getLoaderService("patron");
-        Object object = olePatronLoaderService.importPatron(bodyContent, context);
+        Object object = olePatronLoaderService.importPatrons(bodyContent, context);
         return getOleLoaderService().formResponseForImport(object,OLELoaderConstants.OLELoaderContext.PATRON);
     }
 
-    @PUT
+    /*@PUT
     @Path("/patron/{patronId}")
     @Produces({"application/ld+json", MediaType.APPLICATION_JSON})
     public Response updatePatron(@Context HttpContext context, @PathParam("patronId") String patronId, String body){

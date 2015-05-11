@@ -2,11 +2,13 @@ package org.kuali.ole.loaders.deliver.service.impl;
 
 import com.sun.jersey.api.core.HttpContext;
 import org.apache.commons.lang.StringUtils;
+import org.apache.cxf.common.util.SortedArraySet;
 import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.ingest.pojo.OlePatron;
 import org.kuali.ole.loaders.common.bo.OLELoaderImportResponseBo;
 import org.kuali.ole.loaders.common.bo.OLELoaderResponseBo;
 import org.kuali.ole.loaders.common.constants.OLELoaderConstants;
@@ -14,11 +16,12 @@ import org.kuali.ole.loaders.common.service.OLELoaderService;
 import org.kuali.ole.loaders.common.service.impl.OLELoaderServiceImpl;
 import org.kuali.ole.loaders.deliver.service.OLEPatronLoaderHelperService;
 import org.kuali.ole.loaders.deliver.service.OLEPatronLoaderService;
+import org.kuali.ole.service.OlePatronConverterService;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by sheiksalahudeenm on 27/3/15.
@@ -29,6 +32,7 @@ public class OLEPatronLoaderServiceImpl implements OLEPatronLoaderService {
     private OLEPatronLoaderHelperService olePatronLoaderHelperService;
     private OLELoaderService oleLoaderService;
     private BusinessObjectService businessObjectService;
+    private OlePatronConverterService olePatronConverterService;
 
     public OLEPatronLoaderHelperService getPatronDocumentLoaderHelperService() {
         if(olePatronLoaderHelperService == null){
@@ -63,88 +67,45 @@ public class OLEPatronLoaderServiceImpl implements OLEPatronLoaderService {
         this.businessObjectService = businessObjectService;
     }
 
-   /* @Override
+    public OlePatronConverterService getOlePatronConverterService() {
+        if(olePatronConverterService == null){
+            olePatronConverterService = (OlePatronConverterService) SpringContext.getService("olePatronConverterService");
+        }
+        return olePatronConverterService;
+    }
+
+    public void setOlePatronConverterService(OlePatronConverterService olePatronConverterService) {
+        this.olePatronConverterService = olePatronConverterService;
+    }
+
+    @Override
     public Object importPatrons(String bodyContent, HttpContext context) {
         LOG.info("Inside importPatrons method.");
         OLELoaderImportResponseBo oleLoaderImportResponseBo = new OLELoaderImportResponseBo();
-        List<Integer> rejectPatronList = new ArrayList<Integer>();
+        Set<Integer> rejectPatronList = new SortedArraySet<>();
         List<JSONObject> createdPatronObject = new ArrayList<JSONObject>();
         JSONObject requestJsonObject = getOleLoaderService().getJsonObjectFromString(bodyContent);
         boolean validObject = false;
+        List<OlePatron> failureList = new ArrayList<>();
+        List<OlePatronDocument> createdList = new ArrayList<>();
+        Map<String,Integer> rejectedPatronBarcodeAndIndexMap = new HashMap<>();
+        Map<String,Integer> selectedPatronBarcodeAndIndexMap = new HashMap<>();
         if(requestJsonObject != null) {
             if (requestJsonObject.has("items")) {
                 String items = getOleLoaderService().getStringValueFromJsonObject(requestJsonObject, "items");
                 if (StringUtils.isNotBlank(items)) {
                     JSONArray patronJsonArray = getOleLoaderService().getJsonArrayFromString(items);
-                    for (int index = 0; index < patronJsonArray.length(); index ++) {
-                        JSONObject jsonObject = null;
-                        OlePatronDocument patron = new OlePatronDocument();
-                        try {
-                            jsonObject = (JSONObject)patronJsonArray.get(index);
-                            if(jsonObject != null){
-                                if(jsonObject.has("name")){
-                                    String name = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"name");
-                                    if(StringUtils.isNotBlank(name)){
-                                        patron.setPatronName(name);
-                                        validObject = true;
-                                    }
-                                }
-                                if(jsonObject.has("code")){
-                                    String code = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"code");
-                                    if(StringUtils.isNotBlank(code)){
-                                        patron.setPatronCode(code);
-                                        validObject = true;
-                                    }
-                                }
-
-                                if(jsonObject.has("description")){
-                                    String description = getOleLoaderService().getStringValueFromJsonObject(jsonObject,"description");
-                                    if(StringUtils.isNotBlank(description)){
-                                        patron.setPatronDescription(description);
-                                        validObject = true;
-                                    }
-                                }
-
-                                if(jsonObject.has("active")){
-                                    try{
-                                        boolean active = Boolean.parseBoolean(getOleLoaderService().getStringValueFromJsonObject(jsonObject, "active"));
-                                        patron.setActive(active);
-                                        validObject = true;
-                                    }catch(Exception e){
-                                        e.printStackTrace();
-                                        rejectPatronList.add(index+1);
-                                        continue;
-                                    }
-
-                                }
-
-
-                            }
-                            if(patron != null && validObject){
-                                if(getPatronDocumentLoaderHelperService().getPatronByCode(patron.getPatronCode()) == null){
-                                    try {
-                                        patron = getBusinessObjectService().save(patron);
-                                        createdPatronObject.add((JSONObject)getPatronDocumentLoaderHelperService().formOlePatronDocumentExportResponse(patron, OLELoaderConstants.OLELoaderContext.PATRON,
-                                                context.getRequest().getRequestUri().toASCIIString(), false));
-                                    } catch (Exception e) {
-                                        rejectPatronList.add(index+1);
-                                        continue;
-                                    }
-                                }else{
-                                    rejectPatronList.add(index+1);
-                                    continue;
-                                }
-
-
-                            }else{
-                                rejectPatronList.add(index+1);
-                                continue;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            rejectPatronList.add(index+1);
-                            continue;
-                        }
+                    List<OlePatron> olePatronList = getPatronDocumentLoaderHelperService().formIngestOlePatrons(patronJsonArray,rejectedPatronBarcodeAndIndexMap,selectedPatronBarcodeAndIndexMap);
+                    createdList = getOlePatronConverterService().createOlePatronDocument(olePatronList,failureList);
+                    for(OlePatronDocument olePatronDocument : createdList){
+                        createdPatronObject.add((JSONObject)getPatronDocumentLoaderHelperService().formPatronExportResponse(olePatronDocument,OLELoaderConstants.OLELoaderContext.PATRON, context.getRequest().getRequestUri().toASCIIString(), false));
+                    }
+                    for(OlePatron olePatron : failureList){
+                        rejectPatronList.add(selectedPatronBarcodeAndIndexMap.get(olePatron.getBarcode()));
+                    }
+                    for (Iterator<String> patronBarcodeIndex= rejectedPatronBarcodeAndIndexMap.keySet().iterator(); patronBarcodeIndex.hasNext(); ) {
+                        String barcode =  patronBarcodeIndex.next();
+                        rejectPatronList.add(rejectedPatronBarcodeAndIndexMap.get(barcode));
                     }
                 }else{
                     return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
@@ -154,12 +115,12 @@ public class OLEPatronLoaderServiceImpl implements OLEPatronLoaderService {
         }else{
             return getOleLoaderService().generateResponse(OLELoaderConstants.OLEloaderMessage.BAD_REQUEST, OLELoaderConstants.OLEloaderStatus.BAD_REQUEST);
         }
-        oleLoaderImportResponseBo.setOleRejectedBos(rejectPatronList);
+        oleLoaderImportResponseBo.setOleRejectedBos(new ArrayList<Integer>(rejectPatronList));
         oleLoaderImportResponseBo.setOleCreatedBos(createdPatronObject);
         return oleLoaderImportResponseBo;
     }
 
-    @Override
+   /* @Override
     public OLELoaderResponseBo updatePatronById(String patronId, String bodyContent, HttpContext context) {
         LOG.info("Inside updatePatronById method.");
         OLEPatronBo olePatronBo = new OLEPatronBo();

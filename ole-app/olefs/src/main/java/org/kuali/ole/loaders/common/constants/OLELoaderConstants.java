@@ -96,6 +96,9 @@ public class OLELoaderConstants {
         public static final String PATRON_SUCCESS = "Successfully Updated the patron.";
         public static final String PATRON_FAILED = "Patron update failed.";
         public static final String PATRON_INVALID_CONTENT = "Invalid input content for Patron import";
+        public static final String PATRON_ID_INVALID = "Invalid patron id";
+        public static final String PATRON_EXIST = "Patron already exist";
+        public static final String PATRON_INVALID_SALARY = "Invalid salary amount";
 
         public static final String BORROWER_TYPE_NOT_EXIST = "Borrower type does not exits.";
         public static final String BORROWER_TYPE_SUCCESS = "Successfully Updated the Borrower type.";

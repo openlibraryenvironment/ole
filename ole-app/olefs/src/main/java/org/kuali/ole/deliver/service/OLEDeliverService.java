@@ -29,6 +29,8 @@ public class OLEDeliverService {
                             olePatronDocument.setMiddleName(entityNameBo.getMiddleName());
                             olePatronDocument.setLastName(entityNameBo.getLastName());
                             olePatronDocument.setPatronName(entityNameBo.getLastName() + ", " + entityNameBo.getFirstName());
+                            olePatronDocument.setNamePrefix(entityNameBo.getNamePrefix());
+                            olePatronDocument.setNameSuffix(entityNameBo.getNameSuffix());
                         }
                     }
                 }
