@@ -86,15 +86,6 @@ public class BoundwithForm extends OLESearchForm {
     private String searchTypeField;
     private List<FacetResultField> facetResultFields;
     private SearchResultDisplayFields searchResultDisplayFields;
-    private String showFieldSort;
-
-    public String getShowFieldSort() {
-        return searchResultDisplayFields.getSortFieldString();
-    }
-
-    public void setShowFieldSort(String showFieldSort) {
-        this.showFieldSort = showFieldSort;
-    }
 
     public List<FacetResultField> getFacetResultFields() {
         return facetResultFields;
@@ -151,22 +142,6 @@ public class BoundwithForm extends OLESearchForm {
     public void setStart(int start) {
         this.start = start;
     }
-
-   /* public boolean isNextFlag() {
-        return nextFlag;
-    }
-
-    public void setNextFlag(boolean nextFlag) {
-        this.nextFlag = nextFlag;
-    }
-
-    public boolean isPreviousFlag() {
-        return previousFlag;
-    }
-
-    public void setPreviousFlag(boolean previousFlag) {
-        this.previousFlag = previousFlag;
-    }  */
 
     public String getPageShowEntries() {
         return pageShowEntries;

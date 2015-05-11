@@ -6,11 +6,11 @@
         <thead>
         <tr>
             <th></th>
-            <#if manager.searchResultDisplayFields.title><th>Title</th></#if>
-            <#if manager.searchResultDisplayFields.localId><th>Local Identifier</th></#if>
-            <#if manager.searchResultDisplayFields.journalTitle><th>Journal Title</th></#if>
-            <#if manager.searchResultDisplayFields.author><th>Author</th></#if>
-            <#if manager.searchResultDisplayFields.publisher><th>Publisher</th></#if>
+            <#if manager.searchResultDisplayFields.title><th><a style="text-decoration:underline;" onclick="bibSortBy('title');">Title</a></th></#if>
+            <#if manager.searchResultDisplayFields.localId><th><a style="text-decoration:underline;" onclick="bibSortBy('local');">Local Identifier</a></th><</th></#if>
+            <#if manager.searchResultDisplayFields.journalTitle><th><a style="text-decoration:underline;" onclick="bibSortBy('journal');">Journal Title</a></th></#if>
+            <#if manager.searchResultDisplayFields.author><th><a style="text-decoration:underline;" onclick="bibSortBy('author');">Author</a></th></#if>
+            <#if manager.searchResultDisplayFields.publisher><th><a style="text-decoration:underline;" onclick="bibSortBy('publisher');">Publisher</a></th></#if>
             <#if manager.searchResultDisplayFields.isbn><th>ISBN</th></#if>
             <#if manager.searchResultDisplayFields.issn><th>ISSN</th></#if>
             <#if manager.searchResultDisplayFields.subject><th>Subject</th></#if>
@@ -19,7 +19,7 @@
             <#if manager.searchResultDisplayFields.formGenre><th>Form Genre</th></#if>
             <#if manager.searchResultDisplayFields.language><th>Language</th></#if>
             <#if manager.searchResultDisplayFields.description><th>Description</th></#if>
-            <#if manager.searchResultDisplayFields.publicationDate><th>Pub Date</th></#if>
+            <#if manager.searchResultDisplayFields.publicationDate><th><a style="text-decoration:underline;" onclick="bibSortBy('publicationDate');">Pub Date</a></th></#if>
             <#if manager.searchResultDisplayFields.barcode><th>Bar Code</th></#if>
         </tr>
         </thead>
@@ -90,11 +90,11 @@
         <tr>
             <th></th>
             <th>Relations</th>
-            <#if manager.searchResultDisplayFields.localId><th>Local Identifier</th></#if>
-            <#if manager.searchResultDisplayFields.title><th>Title</th></#if>
-            <#if manager.searchResultDisplayFields.location><th>Location</th></#if>
-            <#if manager.searchResultDisplayFields.callNumber><th>Call Number</th></#if>
-            <#if manager.searchResultDisplayFields.barcode><th>Barcode</th></#if>
+            <#if manager.searchResultDisplayFields.localId><th><a style="text-decoration:underline;" onclick="itemSortBy('local');">Local Identifier</a></th></#if>
+            <#if manager.searchResultDisplayFields.title><th><a style="text-decoration:underline;" onclick="itemSortBy('title');">Title</a></th></#if>
+            <#if manager.searchResultDisplayFields.location><th><a style="text-decoration:underline;" onclick="itemSortBy('location');">Location</a></th></#if>
+            <#if manager.searchResultDisplayFields.callNumber><th><a style="text-decoration:underline;" onclick="itemSortBy('callNumber');">Call Number</a></th></#if>
+            <#if manager.searchResultDisplayFields.barcode><th><a style="text-decoration:underline;" onclick="itemSortBy('barcode');">Barcode</a></th></#if>
             <#if manager.searchResultDisplayFields.barcodeArsl><th>BarcodeARSL</th></#if>
             <#if manager.searchResultDisplayFields.callNumberPrefix><th>Call Number Prefix</th></#if>
             <#if manager.searchResultDisplayFields.classificationPart><th>Classification Part</th></#if>
@@ -103,17 +103,20 @@
             <#if manager.searchResultDisplayFields.shelvingSchemeCode><th>Shelving Scheme Code</th></#if>
             <#if manager.searchResultDisplayFields.shelvingSchemeValue><th>Shelving Scheme Value</th></#if>
             <#if manager.searchResultDisplayFields.itemPart><th>Item Part</th></#if>
-            <#if manager.searchResultDisplayFields.itemStatus><th>ItemStatus</th></#if>
+            <#if manager.searchResultDisplayFields.itemStatus><th><a style="text-decoration:underline;" onclick="itemSortBy('itemStatus');">ItemStatus</a></th></#if>
             <#if manager.searchResultDisplayFields.uri><th>Uri</th></#if>
-            <#if manager.searchResultDisplayFields.copyNumber><th>CopyNumber</th></#if>
+            <#if manager.searchResultDisplayFields.copyNumber><th><a style="text-decoration:underline;" onclick="itemSortBy('copyNumber');">CopyNumber</a></th></#if>
             <#if manager.searchResultDisplayFields.copyNumberLabel><th>CopyNumber Label</th></#if>
             <#if manager.searchResultDisplayFields.volumeNumber><th>VolumeNumber</th></#if>
             <#if manager.searchResultDisplayFields.volumeNumberLabel><th>VolumeNumber Label</th></#if>
-            <#if manager.searchResultDisplayFields.enumeration><th>Enumeration</th></#if>
-            <#if manager.searchResultDisplayFields.chronology><th>Chronology</th></#if>
+            <#if manager.searchResultDisplayFields.enumeration><th><a style="text-decoration:underline;" onclick="itemSortBy('enumeration');">Enumeration</a></th></#if>
+            <#if manager.searchResultDisplayFields.chronology><th><a style="text-decoration:underline;" onclick="itemSortBy('chronology');">Chronology</a></th></#if>
             <#if manager.searchResultDisplayFields.itemIdentifier><th>Item Identifier</th></#if>
             <#if manager.searchResultDisplayFields.itemTypeCodeValue><th>Item Type Code Value</th></#if>
             <#if manager.searchResultDisplayFields.itemTypeFullValue><th>Item Type Full Value</th></#if>
+            <#if manager.searchResultDisplayFields.donorCode><th>Donor Code</th></#if>
+            <#if manager.searchResultDisplayFields.itemType><th>Item Type</th></#if>
+            <#if manager.searchResultDisplayFields.dueDateTime><th>Due Date Time</th></#if>
         </tr>
         </thead>
         <tbody>
@@ -171,6 +174,9 @@
                 <#if manager.searchResultDisplayFields.itemIdentifier><td>${line.row.itemIdentifier!}</td></#if>
                 <#if manager.searchResultDisplayFields.itemTypeCodeValue><td>${line.row.itemTypeCodeValue!}</td></#if>
                 <#if manager.searchResultDisplayFields.itemTypeFullValue><td>${line.row.itemTypeFullValue!}</td></#if>
+                <#if manager.searchResultDisplayFields.donorCode><td>${line.row.donorCode!}</td></#if>
+                <#if manager.searchResultDisplayFields.itemType><td>${line.row.itemTypeFullValue!}</td></#if>
+                <#if manager.searchResultDisplayFields.dueDateTime><td>${line.row.dueDateTime!}</td></#if>
             </tr>
             </#list>
         </tbody>
@@ -201,6 +207,9 @@
             <#if manager.searchResultDisplayFields.itemIdentifier><th></th></#if>
             <#if manager.searchResultDisplayFields.itemTypeCodeValue><th></th></#if>
             <#if manager.searchResultDisplayFields.itemTypeFullValue><th></th></#if>
+            <#if manager.searchResultDisplayFields.donorCode><th></th></#if>
+            <#if manager.searchResultDisplayFields.itemType><th></th></#if>
+            <#if manager.searchResultDisplayFields.dueDateTime><th></th></#if>
         </tr></tfoot>
     </table>
         <@search_pager manager container />
@@ -217,10 +226,10 @@
         <tr>
             <th></th>
             <th>Relations</th>
-            <#if manager.searchResultDisplayFields.localId><th>Local Identifier</th></#if>
-            <#if manager.searchResultDisplayFields.title><th>Title</th></#if>
-            <#if manager.searchResultDisplayFields.location><th>Location</th></#if>
-            <#if manager.searchResultDisplayFields.callNumber><th>Call Number</th></#if>
+            <#if manager.searchResultDisplayFields.localId><th><a style="text-decoration:underline;" onclick="holdingsSortBy('local');">Local Identifier</a></th></#if>
+            <#if manager.searchResultDisplayFields.title><th><a style="text-decoration:underline;" onclick="holdingsSortBy('title');">Title</a></th></#if>
+            <#if manager.searchResultDisplayFields.location><th><a style="text-decoration:underline;" onclick="holdingsSortBy('location');">Location</a></th></#if>
+            <#if manager.searchResultDisplayFields.callNumber><th><a style="text-decoration:underline;" onclick="holdingsSortBy('callNumber');">Call Number</a></th></#if>
             <#if manager.searchResultDisplayFields.callNumberPrefix><th>Call Number Prefix</th></#if>
             <#if manager.searchResultDisplayFields.classificationPart><th>Classification Part</th></#if>
             <#if manager.searchResultDisplayFields.shelvingOrder><th>Shelving Order</th></#if>
@@ -336,8 +345,8 @@
         <thead>
         <tr>
             <th></th>
-            <#if manager.searchResultDisplayFields.localId><th>Local Identifier</th></#if>
-            <#if manager.searchResultDisplayFields.title><th>Title</th></#if>
+            <#if manager.searchResultDisplayFields.localId><th><a style="text-decoration:underline;" onclick="holdingsSortBy('local');">Local Identifier</a></th></#if>
+            <#if manager.searchResultDisplayFields.title><th><a style="text-decoration:underline;" onclick="holdingsSortBy('title');">Title</a></th></#if>
             <#if manager.searchResultDisplayFields.accessPassword><th>Access Password</th></#if>
             <#if manager.searchResultDisplayFields.accessUserName><th>Access UserName</th></#if>
             <#if manager.searchResultDisplayFields.accessLocation><th>Access Location</th></#if>
@@ -346,7 +355,7 @@
             <#if manager.searchResultDisplayFields.adminUrl><th>Admin Url</th></#if>
             <#if manager.searchResultDisplayFields.adminUserName><th>Admin UserName</th></#if>
             <#if manager.searchResultDisplayFields.authentication><th>Authentication</th></#if>
-            <#if manager.searchResultDisplayFields.callNumber><th>Call Number</th></#if>
+            <#if manager.searchResultDisplayFields.callNumber><th><a style="text-decoration:underline;" onclick="holdingsSortBy('callNumber');">Call Number</a></th></#if>
             <#if manager.searchResultDisplayFields.callNumberPrefix><th>Call Number Prefix</th></#if>
             <#if manager.searchResultDisplayFields.classificationPart><th>Classification Part</th></#if>
             <#if manager.searchResultDisplayFields.coverageDate><th>Coverage Date</th></#if>
@@ -359,7 +368,7 @@
             <#if manager.searchResultDisplayFields.imprint><th>Imprint</th></#if>
             <#if manager.searchResultDisplayFields.itemPart><th>Item Part</th></#if>
             <#if manager.searchResultDisplayFields.linkText><th>Link Text</th></#if>
-            <#if manager.searchResultDisplayFields.location><th>Location</th></#if>
+            <#if manager.searchResultDisplayFields.location><th><a style="text-decoration:underline;" onclick="holdingsSortBy('location');">Location</a></th></#if>
             <#if manager.searchResultDisplayFields.locationLevel><th>Location Level</th></#if>
             <#if manager.searchResultDisplayFields.locationLevelName><th>Location Level Name</th></#if>
             <#if manager.searchResultDisplayFields.numberOfSimultaneousUses><th>Number Of Simultaneous Uses</th></#if>

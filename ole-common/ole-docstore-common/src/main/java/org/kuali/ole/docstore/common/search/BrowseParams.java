@@ -2,9 +2,8 @@ package org.kuali.ole.docstore.common.search;
 
 
 import org.apache.log4j.Logger;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -62,35 +61,39 @@ public class BrowseParams
         this.totalCount = value;
     }
 
-   @Override
+    @Override
     public String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
         BrowseParams browseParams = (BrowseParams) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(BrowseParams.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.marshal(browseParams, sw);
+            StringWriter sw = new StringWriter();
+            JAXBContextFactory jaxbContextFactory = JAXBContextFactory.getInstance();
+            Marshaller jaxbMarshaller = jaxbContextFactory.getMarshaller(BrowseParams.class);
+            synchronized (jaxbMarshaller) {
+                jaxbMarshaller.marshal(browseParams, sw);
+            }
+
             result = sw.toString();
         } catch (Exception e) {
-            LOG.error("Exception ", e);
+            LOG.error("Exception :", e);
         }
         return result;
     }
 
     @Override
     public Object deserialize(String content) {
-
-        JAXBElement<BrowseParams> browseParamsElement = null;
+        BrowseParams browseParams = new BrowseParams();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(BrowseParams.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(BrowseParams.class);
             ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
-            browseParamsElement = jaxbUnmarshaller.unmarshal(new StreamSource(input),BrowseParams.class);
+            synchronized (unmarshaller) {
+                browseParams = unmarshaller.unmarshal(new StreamSource(input), BrowseParams.class).getValue();
+            }
+
         } catch (Exception e) {
-            LOG.error("Exception ", e);
+            LOG.error("Exception :", e);
         }
-        return browseParamsElement.getValue();
+        return browseParams;
     }
 
 }

@@ -878,27 +878,13 @@ public class OLESearchController extends UifControllerBase {
         oleSearchForm.getSearchParams().getSearchConditions().clear();
         searchParams.getSearchConditions().addAll(oleSearchForm.getSearchConditions());
         searchParams.getSearchResultFields().clear();
-        if ("true".equals(oleSearchForm.getSortFlag())) {
-            searchParams.setPageSize(oleSearchForm.getPageSize());
-//            searchParams.setStartIndex(this.start);
-            searchParams.getSortConditions().clear();
-            if (oleSearchForm.getDocType().equalsIgnoreCase("holdings") && oleSearchForm.getSortField().equalsIgnoreCase("Relations")) {
-                searchParams.getSortConditions().add(searchParams.buildSortCondition("isBoundwith", oleSearchForm.getSortOrder()));
-                searchParams.getSortConditions().add(searchParams.buildSortCondition("isSeries", oleSearchForm.getSortOrder()));
-                searchParams.getSortConditions().add(searchParams.buildSortCondition("isAnalytic", oleSearchForm.getSortOrder()));
-            } else if (oleSearchForm.getDocType().equalsIgnoreCase("item") && oleSearchForm.getSortField().equalsIgnoreCase("Relations")) {
-                searchParams.getSortConditions().add(searchParams.buildSortCondition("isAnalytic", oleSearchForm.getSortOrder()));
-                searchParams.getSortConditions().add(searchParams.buildSortCondition("Title_sort", oleSearchForm.getSortOrder()));
-            } else {
-                searchParams.getSortConditions().add(searchParams.buildSortCondition(oleSearchForm.getSortField(), oleSearchForm.getSortOrder()));
-
-            }
-        } else {
-            searchParams.setPageSize(oleSearchForm.getPageSize());
-//            searchParams.setStartIndex(this.start);
-        }
+        searchParams.setPageSize(oleSearchForm.getPageSize());
         int startIndex = searchParams.getStartIndex();
-        searchParams.setStartIndex(startIndex - startIndex % searchParams.getPageSize());
+        if(oleSearchForm.getPageNumber().equalsIgnoreCase("1")){
+            searchParams.setStartIndex(0);
+        }else{
+            searchParams.setStartIndex(startIndex - startIndex % searchParams.getPageSize());
+        }
         for (SearchCondition searchCondition : oleSearchForm.getSearchConditions()) {
             if(searchCondition.getSearchField().getFieldName().equalsIgnoreCase(BibConstants.ISBN_SEARCH)){
                String fieldValue= searchCondition.getSearchField().getFieldValue().replaceAll("-","");
@@ -940,14 +926,15 @@ public class OLESearchController extends UifControllerBase {
                 searchParams.setStartIndex(0);
             }
         }
-        float start = System.currentTimeMillis()/1000;
+        float start = System.currentTimeMillis() / 1000;
         try {
-            if(oleSearchForm.getDocType().equalsIgnoreCase(DocType.BIB.getCode()) && searchParams.getSortConditions() != null && searchParams.getSortConditions().size() == 0) {
-                SortCondition sortCondition = new SortCondition();
-                sortCondition.setSortField("Title_sort");
-                sortCondition.setSortOrder("asc");
-                searchParams.getSortConditions().add(sortCondition);
+            if (searchParams.getSortConditions() != null && searchParams.getSortConditions().size() > 0) {
+                searchParams.getSortConditions().clear();
             }
+            SortCondition sortCondition = new SortCondition();
+            sortCondition.setSortField(oleSearchForm.getSortField());
+            sortCondition.setSortOrder(oleSearchForm.getSortOrder());
+            searchParams.getSortConditions().add(sortCondition);
             searchResponse = getDocstoreLocalClient().search(searchParams);
             oleSearchForm.setSearchResponse(searchResponse);
         } catch (Exception e) {
@@ -962,7 +949,6 @@ public class OLESearchController extends UifControllerBase {
         List<SearchResultDisplayRow> bibSearchResultDisplayRows=new ArrayList<>();
         List<SearchResultDisplayRow> holdingsSearchResultDisplayRows=new ArrayList<>();
         if(searchResponse!=null){
-        if (searchResponse != null) {
             for (SearchResult searchResult : searchResponse.getSearchResults()) {
                 SearchResultDisplayRow searchResultDisplayRow = new SearchResultDisplayRow();
                 if (DocType.BIB.getCode().equalsIgnoreCase(oleSearchForm.getDocType())) {
@@ -982,7 +968,6 @@ public class OLESearchController extends UifControllerBase {
         } else {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_INFIELD);
             return;
-        }
         }
         oleSearchForm.setSearchResultDisplayRowList(searchResultDisplayRows);
         oleSearchForm.setBibSearchResultDisplayRowList(bibSearchResultDisplayRows);

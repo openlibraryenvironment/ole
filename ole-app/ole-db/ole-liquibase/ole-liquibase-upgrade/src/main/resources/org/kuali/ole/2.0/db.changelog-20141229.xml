@@ -605,6 +605,8 @@
         <sql>UPDATE OLE_DS_DOC_FIELD_T SET IS_SEARCH='Y' WHERE DOC_FIELD_ID=301</sql>
         <sql>UPDATE OLE_DS_DOC_FIELD_T SET IS_SEARCH='Y' WHERE DOC_FIELD_ID=180</sql>
         <sql>UPDATE OLE_DS_DOC_FIELD_T SET IS_SEARCH='Y' WHERE DOC_FIELD_ID=284</sql>
+        <sql>UPDATE OLE_DS_DOC_FIELD_T SET IS_SEARCH='N' WHERE DOC_FIELD_ID=32</sql>
+        <sql>UPDATE OLE_DS_DOC_FIELD_T SET IS_SEARCH='N' WHERE DOC_FIELD_ID=194</sql>
     </changeSet>
 
     <changeSet context="bootstrap" author="ole" id="OLE_E_RES_REC_T" dbms="mysql">

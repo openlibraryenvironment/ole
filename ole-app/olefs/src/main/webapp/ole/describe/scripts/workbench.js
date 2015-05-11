@@ -133,8 +133,12 @@ function refresh(){
 
 jq(document).ready(function () {
     // jq("#SearchConditions_SearchScope_id_line0_control_0").attr("checked","true");
-    jq('#hdnStart_control').val(0);
     jq('#hdnRows_control').val(jq(".dataTables_length select").val());
+    if (sessionStorage.getItem("sortOrder") == null) {
+        sessionStorage.setItem("sortOrder", "asc");
+        jq('#hiddenSearchFields_h3').val("Title_sort");
+        jq('#hiddenSearchFields_h2').val("asc");
+    }
 
     searchShowEntries();
 
@@ -583,6 +587,10 @@ function openHelpWindow(url) {
     }
 }
 function search() {
+    jq('#hiddenSearchFields_control').val(1);
+    sessionStorage.setItem("sortOrder", "asc");
+    jq('#hiddenSearchFields_h3').val("Title_sort");
+    jq('#hiddenSearchFields_h2').val("asc");
     var date =new Date();
     jq("#hiddenSearchFields_h9").val("false")
     localStorage.startTime = date.getMilliseconds();
@@ -619,5 +627,101 @@ function oleSearchPager(linkElement, collectionId) {
             searching();
         });
     }
+
+}
+
+//hiddenSearchFields_h9 is mapped to selectAllRecords
+function bibSortBy(field) {
+    var sortField = "";
+    var sortOrder = "";
+    if (sessionStorage.getItem("sortOrder") == "asc") {
+        sessionStorage.setItem("sortOrder", "desc");
+    } else if (sessionStorage.getItem("sortOrder") == "desc") {
+        sessionStorage.setItem("sortOrder", "asc");
+    }
+    sortOrder = sessionStorage.getItem("sortOrder");
+    if (field == 'title') {
+        sortField = "Title_sort";
+    } else if (field == 'author') {
+        sortField = "Author_sort";
+    } else if (field == 'publicationDate') {
+        sortField = "PublicationDate_sort";
+    } else if (field == 'journal') {
+        sortField = "JournalTitle_sort";
+    } else if (field == 'publisher') {
+        sortField = "Publisher_sort";
+    } else if (field == 'local') {
+        sortField = "LocalId_search";
+    }
+
+    jq('#hiddenSearchFields_h3').val(sortField);
+    jq('#hiddenSearchFields_h2').val(sortOrder);
+    submitForm('search', null, null, true, function () {
+        searching();
+    });
+
+}
+
+function itemSortBy(field) {
+    var sortField = "";
+
+    if (sessionStorage.getItem("sortOrder") == "asc") {
+        sessionStorage.setItem("sortOrder", "desc");
+    } else if (sessionStorage.getItem("sortOrder") == "desc") {
+        sessionStorage.setItem("sortOrder", "asc");
+    }
+    var sortOrder = sessionStorage.getItem("sortOrder");
+    if (field == 'title') {
+        sortField = "Title_sort";
+    } else if (field == 'location') {
+        sortField = "Location_sort";
+    } else if (field == 'callNumber') {
+        sortField = "CallNumber_sort";
+    } else if (field == 'barcode') {
+        sortField = "ItemBarcode_sort";
+    } else if (field == 'itemStatus') {
+        sortField = "ItemStatus_sort";
+    } else if (field == 'copyNumber') {
+        sortField = "CopyNumber_sort";
+    } else if (field == 'enumeration') {
+        sortField = "Enumeration_sort";
+    } else if (field == 'chronology') {
+        sortField = "Chronology_sort";
+    } else if (field == 'local') {
+        sortField = "LocalId_search";
+    }
+    jq('#hiddenSearchFields_h3').val(sortField);
+    jq('#hiddenSearchFields_h2').val(sortOrder);
+    submitForm('search', null, null, true, function () {
+        searching();
+    });
+
+}
+
+
+function holdingsSortBy(field) {
+    var sortField = "";
+
+    if (sessionStorage.getItem("sortOrder") == "asc") {
+        sessionStorage.setItem("sortOrder", "desc");
+    } else if (sessionStorage.getItem("sortOrder") == "desc") {
+        sessionStorage.setItem("sortOrder", "asc");
+    }
+    var sortOrder = sessionStorage.getItem("sortOrder");
+    if (field == 'title') {
+        sortField = "Title_sort";
+    } else if (field == 'location') {
+        sortField = "Location_sort";
+    } else if (field == 'callNumber') {
+        sortField = "CallNumber_sort";
+    } else if (field == 'local') {
+        sortField = "LocalId_search";
+    }
+    jq('#hiddenSearchFields_h3').val(sortField);
+    jq('#hiddenSearchFields_h2').val(sortOrder);
+    submitForm('search', null, null, true, function () {
+        searching();
+    });
+
 }
 

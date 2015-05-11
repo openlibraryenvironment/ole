@@ -89,8 +89,8 @@ public class SearchResultDisplayFields {
     private boolean extentOfOwnershipNoteType = false;
     private boolean extentOfOwnershipNoteValue = false;
     private boolean extentOfOwnershipType = false;
-
-    private String sortFieldString = "";
+    private boolean itemType = false;
+    private boolean dueDateTime = false;
 
     public SearchResultDisplayFields() {
     }
@@ -648,16 +648,23 @@ public class SearchResultDisplayFields {
         this.extentOfOwnershipType = extentOfOwnershipType;
     }
 
-    public String getSortFieldString() {
-        return sortFieldString;
+    public boolean isItemType() {
+        return itemType;
     }
 
-    public void setSortFieldString(String sortFieldString) {
-        this.sortFieldString = sortFieldString;
+    public void setItemType(boolean itemType) {
+        this.itemType = itemType;
+    }
+
+    public boolean isDueDateTime() {
+        return dueDateTime;
+    }
+
+    public void setDueDateTime(boolean dueDateTime) {
+        this.dueDateTime = dueDateTime;
     }
 
     public void buildSearchResultDisplayFields(List<DocTypeConfig> docTypeConfigs, String docType) {
-        StringBuffer boSortFieldForUI= new StringBuffer("{'bSortable':false, 'sWidth':'1%'},");
         for (DocTypeConfig docTypeConfig : docTypeConfigs) {
             if (docTypeConfig.getName().equals(docType)) {
                 for (DocFormatConfig docFormatConfig : docTypeConfig.getDocFormatConfigList()) {
@@ -665,319 +672,241 @@ public class SearchResultDisplayFields {
                         for (DocFieldConfig docFieldConfig : docFormatConfig.getDocFieldConfigList()) {
                             if (docFieldConfig.isDisplayable() && docFieldConfig.getName().endsWith("_display") || ((docFormatConfig.getName().equalsIgnoreCase(DocFormat.MARC.getCode()) || docFormatConfig.getName().equalsIgnoreCase(DocFormat.OLEML.getCode())) && docFieldConfig.getName().equalsIgnoreCase("Title_display"))) {
                                 // Condition : If a field is displayable or if it is a title field of marc or oleml doc format. Renders title column for all doc types as default, independent of displayable flag.
-                                boolean boSortFlag = false;
 
                                 if(DocType.BIB.getCode().equalsIgnoreCase(docType)){
                                     if (docFieldConfig.getName().equalsIgnoreCase("LocalId_display")) {
                                         setLocalId(true);
-                                        boSortFieldForUI.insert(35,"{'sType':'numeric','bSortable':true, 'sWidth':'5%'},");
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Author_display")) {
                                         setAuthor(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Title_display")) {
                                         setTitle(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("JournalTitle_display")) {
                                         setJournalTitle(true);
-                                        boSortFieldForUI.append("{'bSortable':true, 'sWidth':'1%'},");
-                                        boSortFlag = false;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Publisher_display")) {
                                         setPublisher(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Isbn_display")) {
                                         setIsbn(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Issn_display")) {
                                         setIssn(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Subject_display")) {
                                         setSubject(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("PublicationPlace_display")) {
                                         setPublicationPlace(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Edition_display")) {
                                         setEdition(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Format_display")) {
                                         setFormat(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("FormGenre_display")) {
                                         setFormGenre(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Language_display")) {
                                         setLanguage(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Description_display")) {
                                         setDescription(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("PublicationDate_display")) {
                                         setPublicationDate(true);
-                                        boSortFlag = true;
                                     }
                                 }
                                 else {
 
                                     if (docFieldConfig.getName().equalsIgnoreCase("LocalId_display")) {
                                         setLocalId(true);
-                                        boSortFieldForUI.insert(35,"{'sType':'numeric','bSortable':true, 'sWidth':'5%'},\n");
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Title_display")) {
                                         setTitle(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Location_display")) {
                                         setLocation(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Location_display")) {
                                         setLocation(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("CallNumber_display")) {
                                         setCallNumber(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("CallNumberPrefix_display")) {
                                         setCallNumberPrefix(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ClassificationPart_display")) {
                                         setClassificationPart(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ShelvingOrder_display")) {
                                         setShelvingOrder(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ShelvingOrderCode_display")) {
                                         setShelvingOrderCode(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Uri_display")) {
                                         setUri(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ReceiptStatus_display")) {
                                         setReceiptStatus(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("CopyNumber_display")) {
                                         setCopyNumber(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("CopyNumberLabel_display")) {
                                         setCopyNumberLabel(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("HoldingsNote_display")) {
                                         setHoldingsNote(true);
-                                        boSortFlag = true;
                                     }
-
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ItemStatus_display")) {
                                         setItemStatus(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Barcode_display")) {
                                         setBarcode(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ItemBarcode_display")) {
                                         setBarcode(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("BarcodeARSL_display")) {
                                         setBarcode(true);
-                                        boSortFlag = true;
                                     }
-
                                     else if (docFieldConfig.getName().equalsIgnoreCase("VolumeNumber_display")) {
                                         setVolumeNumber(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("VolumeNumberLabel_display")) {
                                         setVolumeNumberLabel(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Enumeration_display")) {
                                         setEnumeration(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Chronology_display")) {
                                         setChronology(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("AccessStatus_display")) {
                                         setAccessStatus(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Platform_display")) {
                                         setPlatform(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Imprint_display")) {
                                         setImprint(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("StatisticalSearchingCodeValue_display")) {
                                         setStatisticalCode(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ItemPart_display")) {
                                         setItemPart(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Location_display")) {
                                         setLocationLevel(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("LocationLevelName_display")) {
                                         setLocationLevelName(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ShelvingSchemeCode_display")) {
                                         setShelvingSchemeCode(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ShelvingSchemeValue_display")) {
                                         setShelvingSchemeValue(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ItemTypeCodeValue_display")) {
                                         setItemTypeCodeValue(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ItemTypeFullValue_display")) {
                                         setItemTypeFullValue(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ItemIdentifier_display")) {
                                         setItemIdentifier(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ExtentOfOwnership_Note_Type_display")) {
                                         setExtentOfOwnershipNoteType(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ExtentOfOwnership_Note_Value_display")) {
                                         setExtentOfOwnershipNoteValue(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ExtentOfOwnership_Type_display")) {
                                         setExtentOfOwnershipType(true);
-                                        boSortFlag = true;
                                     }
-
                                     else if (docFieldConfig.getName().equalsIgnoreCase("NumberOfSimultaneousUses_display")) {
                                         setNumberOfSimultaneousUses(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Persist_Link_display")) {
                                         setPersistLink(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("AccessLocation_display")) {
                                         setAccessLocation(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Admin_UserName_display")) {
                                         setAdminUserName(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Access_UserName_display")) {
                                         setAccessUserName(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Access_Password_display")) {
                                         setAccessPassword(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Admin_url_display")) {
                                         setAdminurl(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Authentication_display")) {
                                         setAuthentication(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Proxied_display")) {
                                         setProxied(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("ILL_display")) {
                                         setIll(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("HoldingsNote_display")) {
                                         setHoldingsNote(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Subscription_display")) {
                                         setSubscription(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Link_Text_display")) {
                                         setLinkText(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Admin_Password_display")) {
                                         setAdminPassword(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("DonorPublic_display")) {
                                         setDonorPublic(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("DonorNote_display")) {
                                         setDonorNote(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("DonorCode_display")) {
                                         setDonorCode(true);
-                                        boSortFlag = true;
                                     }
 
                                     else if (docFieldConfig.getName().equalsIgnoreCase("CoverageDate_display")) {
                                         setCoverageDate(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("PerpetualAccess_display")) {
                                         setPerpetualAccess(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Public_Note_display")) {
                                         setPublicNote(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Url_display")) {
                                         setUrl(true);
-                                        boSortFlag = true;
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("E_Publisher_display")) {
                                         setPublisher(true);
-                                        boSortFlag = true;
+                                    }
+                                    else if (docFieldConfig.getName().equalsIgnoreCase("ItemType_display")) {
+                                        setItemType(true);
+                                    }
+                                    else if (docFieldConfig.getName().equalsIgnoreCase("dueDateTime_display")) {
+                                        setDueDateTime(true);
                                     }
 
-                                }
-
-                                if(boSortFlag){
-                                    boSortFieldForUI.append("{'bSortable':true, 'sWidth':'10%'},\n");
-                                    boSortFlag = false;
                                 }
                             }
                         }
@@ -985,13 +914,5 @@ public class SearchResultDisplayFields {
                 }
             }
         }
-        String sortField = "";
-        if(docType.equalsIgnoreCase(DocType.ITEM.getCode()) || docType.equalsIgnoreCase(DocType.HOLDINGS.getCode())){
-            boSortFieldForUI.insert(35,"{'bSortable':true, 'sWidth':'4%'},\n");
-            sortField = "["+boSortFieldForUI+"]";
-        } else{
-            sortField = "["+boSortFieldForUI+"]";
-        }
-        this.setSortFieldString(sortField);
     }
 }

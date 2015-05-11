@@ -164,10 +164,7 @@ public class OLESearchForm extends UifFormBase {
         this.eHoldingsFlag = eHoldingsFlag;
     }
 
-    public String getShowFieldSort() {
-        return searchResultDisplayFields.getSortFieldString();
 
-    }
     public String getTokenId() {
         return tokenId;
     }

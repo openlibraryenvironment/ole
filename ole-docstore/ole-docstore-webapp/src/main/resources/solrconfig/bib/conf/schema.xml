@@ -658,6 +658,7 @@ but may be good for SKUs.  Can insert dashes in the wrong place and still match.
         <field name="Title_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
         <field name="JournalTitle_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
         <field name="PublicationDate_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="Publisher_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
         <field name="ShelvingOrder_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
         <field name="Location_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
         <field name="CallNumber_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
@@ -666,6 +667,7 @@ but may be good for SKUs.  Can insert dashes in the wrong place and still match.
         <field name="Chronology_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
         <field name="CopyNumber_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
         <field name="ItemBarcode_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="ItemStatus_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
         <!-- FACET fields -->
         <field name="Subject_facet" type="string" indexed="true" stored="true"  multiValued="true"/>
         <field name="Author_facet" type="string" indexed="true" stored="true"  multiValued="true"/>

@@ -169,8 +169,71 @@ public class BoundwithController extends OLESearchController {
         if (boundwithForm.getFacetResultFields() != null) {
             boundwithForm.getFacetResultFields().clear();
         }
+        clearForm(boundwithForm);
 
         return navigate(boundwithForm, result, request, response);
+    }
+
+
+    private void clearForm(BoundwithForm boundwithForm) {
+
+        List<Integer> pageSizes = documentSearchConfig.getPageSizes();
+        if(!pageSizes.isEmpty() || pageSizes.size() > 0) {
+            boundwithForm.setPageSize(pageSizes.get(0));
+        }
+        boundwithForm.setPreviousFlag(false);
+        boundwithForm.setNextFlag(false);
+        boundwithForm.setBrowseText(null);
+        boundwithForm.setShowRequestXml(false);
+        boundwithForm.setHoldingsList(null);
+        boundwithForm.setItemList(null);
+        boundwithForm.setSearchResultDisplayRowList(null);
+        boundwithForm.setCallNumberBrowseText(null);
+        boundwithForm.setLocation(null);
+        boundwithForm.setClassificationScheme("LCC");
+        boundwithForm.setFacetLimit(0);
+        boundwithForm.setTotalRecordCount(0);
+        boundwithForm.setSearchParams(new SearchParams());
+        boundwithForm.setPageShowEntries(null);
+        boundwithForm.setShowPageSize(null);
+        boundwithForm.setShowFieldSort(null);
+        boundwithForm.setBibSearchResultDisplayRowList(null);
+        boundwithForm.setHoldingSearchResultDisplayRowList(null);
+        boundwithForm.setSearchResponse(null);
+        boundwithForm.setFacetResultFields(null);
+
+        boundwithForm.setWorkBibDocumentList(null);
+        boundwithForm.setWorkHoldingsDocumentList(null);
+        boundwithForm.setWorkItemDocumentList(null);
+        boundwithForm.setWorkEHoldingsDocumentList(null);
+        boundwithForm.setSearchTypeField("OLESearch");
+        boundwithForm.setSelectAllRecords(false);
+
+        if (boundwithForm.getSearchParams() != null) {
+            for (SearchCondition searchCondition : boundwithForm.getSearchConditions()) {
+                if (searchCondition.getSearchField() != null) {
+                    searchCondition.getSearchField().setFieldName("");
+                    searchCondition.getSearchField().setFieldValue("");
+                }
+            }
+
+            if (boundwithForm.getSearchParams().getFacetFields() != null) {
+                boundwithForm.getSearchParams().getFacetFields().clear();
+            }
+            if (boundwithForm.getSearchParams().getFacetConditions() != null) {
+                boundwithForm.getSearchParams().getFacetConditions().clear();
+            }
+            boundwithForm.getSearchParams().getSearchResultFields().clear();
+
+        }
+        if (boundwithForm.getSearchResultDisplayRowList() != null && boundwithForm.getSearchResultDisplayRowList().size() > 0) {
+            boundwithForm.getSearchResultDisplayRowList().clear();
+        }
+
+        if (boundwithForm.getFacetResultFields() != null) {
+            boundwithForm.getFacetResultFields().clear();
+        }
+
     }
 
     @Override
@@ -248,6 +311,7 @@ public class BoundwithController extends OLESearchController {
         }
         boundwithForm.setHoldingsList(null);
         boundwithForm.setItemList(null);
+        clearForm(boundwithForm);
         GlobalVariables.getMessageMap().clearErrorMessages();
         return navigate(boundwithForm, result, request, response);
 
@@ -424,7 +488,7 @@ public class BoundwithController extends OLESearchController {
         if (boundwithForm.getFacetResultFields() != null) {
             boundwithForm.getFacetResultFields().clear();
         }
-
+        clearForm(boundwithForm);
         return navigate(boundwithForm, result, request, response);
     }
 

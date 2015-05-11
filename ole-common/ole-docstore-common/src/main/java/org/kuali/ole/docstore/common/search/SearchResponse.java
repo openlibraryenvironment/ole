@@ -1,13 +1,12 @@
 package org.kuali.ole.docstore.common.search;
 
 import org.apache.log4j.Logger;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
@@ -174,31 +173,35 @@ public class SearchResponse {
 
     public String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
         SearchResponse searchResponse = (SearchResponse) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(SearchResponse.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.marshal(searchResponse, sw);
+            StringWriter sw = new StringWriter();
+            JAXBContextFactory jaxbContextFactory = JAXBContextFactory.getInstance();
+            Marshaller jaxbMarshaller = jaxbContextFactory.getMarshaller(SearchResponse.class);
+            synchronized (jaxbMarshaller) {
+                jaxbMarshaller.marshal(searchResponse, sw);
+            }
+
             result = sw.toString();
         } catch (Exception e) {
-            LOG.error("Exception ", e);
+            LOG.error("Exception :", e);
         }
         return result;
     }
 
 
     public Object deserialize(String content) {
-
-        JAXBElement<SearchResponse> SearchResponseElement = null;
+        SearchResponse searchResponse = new SearchResponse();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(SearchResponse.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(SearchResponse.class);
             ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
-            SearchResponseElement = jaxbUnmarshaller.unmarshal(new StreamSource(input),SearchResponse.class);
+            synchronized (unmarshaller) {
+                searchResponse = unmarshaller.unmarshal(new StreamSource(input), SearchResponse.class).getValue();
+            }
+
         } catch (Exception e) {
-            LOG.error("Exception ", e);
+            LOG.error("Exception :", e);
         }
-        return SearchResponseElement.getValue();
+        return searchResponse;
     }
 }

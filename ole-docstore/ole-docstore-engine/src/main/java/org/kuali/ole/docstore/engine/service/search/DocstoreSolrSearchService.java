@@ -1108,7 +1108,8 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
             } else if (character == '~') {
                 modifiedText.append("\\~");
             } else if (character == '-') {
-                modifiedText.append("\\-");
+                //modifiedText.append("\\-");
+                modifiedText.append("");
             } else if (character == '!') {
                 modifiedText.append("\\!");
             } else if (character == '\'') {

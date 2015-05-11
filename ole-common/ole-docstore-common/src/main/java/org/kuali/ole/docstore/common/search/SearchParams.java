@@ -3,12 +3,11 @@ package org.kuali.ole.docstore.common.search;
 
 import org.apache.log4j.Logger;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.util.*;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
@@ -298,31 +297,35 @@ public class SearchParams {
 
     public String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
         SearchParams searchParams = (SearchParams) object;
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(SearchParams.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.marshal(searchParams, sw);
+            StringWriter sw = new StringWriter();
+            JAXBContextFactory jaxbContextFactory = JAXBContextFactory.getInstance();
+            Marshaller jaxbMarshaller = jaxbContextFactory.getMarshaller(SearchParams.class);
+            synchronized (jaxbMarshaller) {
+                jaxbMarshaller.marshal(searchParams, sw);
+            }
             result = sw.toString();
         } catch (Exception e) {
-            LOG.error("Exception ", e);
+            LOG.error("Exception :", e);
         }
         return result;
     }
 
-    public Object deserialize(String content) {
 
-        JAXBElement<SearchParams> SearchParamsElement = null;
+    public Object deserialize(String content) {
+        SearchParams searchParams = new SearchParams();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(SearchParams.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(SearchParams.class);
             ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("UTF-8"));
-            SearchParamsElement = jaxbUnmarshaller.unmarshal(new StreamSource(input), SearchParams.class);
+            synchronized (unmarshaller) {
+                searchParams = unmarshaller.unmarshal(new StreamSource(input), SearchParams.class).getValue();
+            }
+
         } catch (Exception e) {
-            LOG.error("Exception ", e);
+            LOG.error("Exception :", e);
         }
-        return SearchParamsElement.getValue();
+        return searchParams;
     }
 
     public void buildSearchParams(SearchParams searchParams, String docType){
@@ -447,7 +450,8 @@ public class SearchParams {
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "isAnalytic"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "ItemTypeCodeValue_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "ItemTypeFullValue_display"));
-
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "ItemType_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "dueDateTime"));
         }
     }
 

@@ -479,6 +479,7 @@ public class WorkInstanceOlemlDocBuilder extends DocBuilder implements WorkBibCo
             if (item.getItemStatus() != null) {
                 solrDocForItem.addField(ITEM_STATUS_DISPLAY, item.getItemStatus().getCodeValue());
                 solrDocForItem.addField(ITEM_STATUS_SEARCH, item.getItemStatus().getCodeValue());
+                solrDocForItem.addField(ITEM_STATUS_SORT, item.getItemStatus().getCodeValue());
             }
             if (item.getLocation() != null &&
                     item.getLocation().getLocationLevel() != null) {
