@@ -3,8 +3,8 @@
     <property name="createdBy">Eclipse BIRT Designer Version 4.4.1.v201408290142 Build &lt;4.4.1.v20140916-1320></property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
-    <property name="imageDPI">96</property>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="HoldsPassedPickupPeriod" id="7">
             <list-property name="privateDriverProperties">
@@ -39,13 +39,13 @@
                     <text-property name="heading">Call Number</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">BARCODE</property>
+                    <property name="columnName">Barcode</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">Barcode</text-property>
                     <text-property name="heading">Barcode</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">TITLE</property>
+                    <property name="columnName">Title</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">Title</text-property>
                     <text-property name="heading">Title</text-property>
@@ -57,7 +57,7 @@
                     <text-property name="heading">Patron Name</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">RQST_EXPIR_DT_TIME</property>
+                    <property name="columnName">Expiration Date</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">Expiration Date</text-property>
                     <text-property name="heading">Expiration Date</text-property>
@@ -73,12 +73,12 @@
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">BARCODE</property>
+                        <property name="name">Barcode</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">TITLE</property>
+                        <property name="name">Title</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -88,11 +88,20 @@
                     </structure>
                     <structure>
                         <property name="position">5</property>
-                        <property name="name">RQST_EXPIR_DT_TIME</property>
+                        <property name="name">Expiration Date</property>
                         <property name="dataType">date-time</property>
                     </structure>
                 </list-property>
             </structure>
+            <method name="beforeOpen"><![CDATA[deliverReport = new Packages.org.kuali.ole.OLEDeliverReportHelper();
+dbVendor = deliverReport.getDbVendor();
+if(dbVendor!=null){
+	if(dbVendor.equalsIgnoreCase("oracle")){
+		this.queryText = this.queryText+" and (trunc(CURRENT_DATE) - (trunc(ODI.ITEM_STATUS_DATE_UPDATED) + OCD.HLD_DAYS)) > 0";
+	}else if(dbVendor.equalsIgnoreCase("mysql")){
+		this.queryText = this.queryText+" and DATEDIFF(CURDATE(), DATE_ADD(ODI.ITEM_STATUS_DATE_UPDATED,INTERVAL OCD.HLD_DAYS DAY)) > 0";
+	}
+}]]></method>
             <property name="dataSource">HoldsPassedPickupPeriod</property>
             <list-property name="resultSet">
                 <structure>
@@ -104,15 +113,15 @@
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">BARCODE</property>
-                    <property name="nativeName">BARCODE</property>
+                    <property name="name">Barcode</property>
+                    <property name="nativeName">Barcode</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
-                    <property name="name">TITLE</property>
-                    <property name="nativeName">TITLE</property>
+                    <property name="name">Title</property>
+                    <property name="nativeName">Title</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
@@ -125,26 +134,29 @@
                 </structure>
                 <structure>
                     <property name="position">5</property>
-                    <property name="name">RQST_EXPIR_DT_TIME</property>
-                    <property name="nativeName">RQST_EXPIR_DT_TIME</property>
+                    <property name="name">Expiration Date</property>
+                    <property name="nativeName">Expiration Date</property>
                     <property name="dataType">date-time</property>
                     <property name="nativeDataType">93</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select 
-IF(ODI.CALL_NUMBER IS NULL OR ODI.CALL_NUMBER = '', IF(ODH.CALL_NUMBER IS NULL,'',ODH.CALL_NUMBER), ODI.CALL_NUMBER) as 'Call Number',
-ODI.BARCODE as 'Barcode',
-ODBI.TITLE as 'Title',
-concat(OPEV.FIRST_NM,' ',OPEV.LAST_NM) as 'Patron Name',
-ODR.RQST_EXPIR_DT_TIME as 'Expiration Date'
+CASE WHEN ODI.CALL_NUMBER IS NOT NULL AND ODI.CALL_NUMBER != ' ' THEN ODI.CALL_NUMBER
+	WHEN ODH.CALL_NUMBER IS NOT NULL AND ODH.CALL_NUMBER != ' ' THEN ODH.CALL_NUMBER
+	ELSE ' '
+END as "Call Number",
+ODI.BARCODE as "Barcode",
+ODBI.TITLE as "Title",
+CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM)) as "Patron Name",
+ODR.RQST_EXPIR_DT_TIME as "Expiration Date"
 from 
-OLE_DLVR_RQST_T as ODR,
-OLE_DS_ITEM_T as ODI,
-OLE_CRCL_DSK_T as OCD,
-OLE_DS_HOLDINGS_T as ODH,
-OLE_DS_BIB_INFO_T as ODBI,
-OLE_DLVR_ITEM_AVAIL_STAT_T as ODIAS,
-OLE_PTRN_ENTITY_V as OPEV
+OLE_DLVR_RQST_T ODR,
+OLE_DS_ITEM_T ODI,
+OLE_CRCL_DSK_T OCD,
+OLE_DS_HOLDINGS_T ODH,
+OLE_DS_BIB_INFO_T ODBI,
+OLE_DLVR_ITEM_AVAIL_STAT_T ODIAS,
+OLE_PTRN_ENTITY_V OPEV
 where
 (ODR.OLE_RQST_TYP_ID = 2 or ODR.OLE_RQST_TYP_ID = 4 or ODR.OLE_RQST_TYP_ID = 6)
 and
@@ -156,633 +168,11 @@ ODIAS.ITEM_AVAIL_STAT_CD = 'ONHOLD'
 and 
 ODR.PCKUP_LOC_ID = OCD.OLE_CRCL_DSK_ID
 and
-DATEDIFF(CURDATE(), DATE_ADD(ODI.ITEM_STATUS_DATE_UPDATED,INTERVAL OCD.HLD_DAYS DAY)) > 0
-and
 ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID
 and
 ODBI.BIB_ID = ODH.BIB_ID
 and 
 ODR.OLE_PTRN_ID = OPEV.OLE_PTRN_ID]]></xml-property>
-            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
-  <Version>2.0</Version>
-  <design:ResultSets derivedMetaData="true">
-    <design:resultSetDefinitions>
-      <design:resultSetColumns>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>OLE_RQST_ID</design:name>
-              <design:position>1</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>OLE_RQST_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>OLE_RQST_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>OBJ_ID</design:name>
-              <design:position>2</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>36</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>OBJ_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>OBJ_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>36</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>VER_NBR</design:name>
-              <design:position>3</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
-            <design:precision>8</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>VER_NBR</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>VER_NBR</design:label>
-            <design:formattingHints>
-              <design:displaySize>9</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>PO_LN_ITM_NO</design:name>
-              <design:position>4</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>100</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>PO_LN_ITM_NO</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>PO_LN_ITM_NO</design:label>
-            <design:formattingHints>
-              <design:displaySize>100</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>ITM_ID</design:name>
-              <design:position>5</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>ITM_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>ITM_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>OLE_PTRN_ID</design:name>
-              <design:position>6</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>OLE_PTRN_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>OLE_PTRN_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>OLE_PTRN_BARCD</design:name>
-              <design:position>7</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>80</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>OLE_PTRN_BARCD</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>OLE_PTRN_BARCD</design:label>
-            <design:formattingHints>
-              <design:displaySize>80</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>PROXY_PTRN_ID</design:name>
-              <design:position>8</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>PROXY_PTRN_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>PROXY_PTRN_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>PROXY_PTRN_BARCD</design:name>
-              <design:position>9</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>80</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>PROXY_PTRN_BARCD</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>PROXY_PTRN_BARCD</design:label>
-            <design:formattingHints>
-              <design:displaySize>80</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>OLE_RQST_TYP_ID</design:name>
-              <design:position>10</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>OLE_RQST_TYP_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>OLE_RQST_TYP_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>CNTNT_DESC</design:name>
-              <design:position>11</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>800</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>CNTNT_DESC</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>CNTNT_DESC</design:label>
-            <design:formattingHints>
-              <design:displaySize>800</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>RQST_EXPIR_DT_TIME</design:name>
-              <design:position>12</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
-            <design:precision>19</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>RQST_EXPIR_DT_TIME</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>RQST_EXPIR_DT_TIME</design:label>
-            <design:formattingHints>
-              <design:displaySize>19</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>RCAL_NTC_SNT_DT</design:name>
-              <design:position>13</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
-            <design:precision>19</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>RCAL_NTC_SNT_DT</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>RCAL_NTC_SNT_DT</design:label>
-            <design:formattingHints>
-              <design:displaySize>19</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>ONHLD_NTC_SNT_DT</design:name>
-              <design:position>14</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
-            <design:precision>19</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>ONHLD_NTC_SNT_DT</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>ONHLD_NTC_SNT_DT</design:label>
-            <design:formattingHints>
-              <design:displaySize>19</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>CRTE_DT_TIME</design:name>
-              <design:position>15</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
-            <design:precision>19</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>CRTE_DT_TIME</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>CRTE_DT_TIME</design:label>
-            <design:formattingHints>
-              <design:displaySize>19</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>MODI_DT_TIME</design:name>
-              <design:position>16</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
-            <design:precision>19</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>MODI_DT_TIME</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>MODI_DT_TIME</design:label>
-            <design:formattingHints>
-              <design:displaySize>19</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>CPY_FRMT</design:name>
-              <design:position>17</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>CPY_FRMT</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>CPY_FRMT</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>LOAN_TRAN_ID</design:name>
-              <design:position>18</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>LOAN_TRAN_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>LOAN_TRAN_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>PCKUP_LOC_ID</design:name>
-              <design:position>19</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>PCKUP_LOC_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>PCKUP_LOC_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>OPTR_CRTE_ID</design:name>
-              <design:position>20</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>OPTR_CRTE_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>OPTR_CRTE_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>OPTR_MODI_ID</design:name>
-              <design:position>21</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>OPTR_MODI_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>OPTR_MODI_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>CIRC_LOC_ID</design:name>
-              <design:position>22</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>CIRC_LOC_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>CIRC_LOC_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>MACH_ID</design:name>
-              <design:position>23</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>80</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>MACH_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>MACH_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>80</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>PTRN_Q_POS</design:name>
-              <design:position>24</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
-            <design:precision>11</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>PTRN_Q_POS</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>PTRN_Q_POS</design:label>
-            <design:formattingHints>
-              <design:displaySize>11</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>ITEM_UUID</design:name>
-              <design:position>25</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>100</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>ITEM_UUID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>ITEM_UUID</design:label>
-            <design:formattingHints>
-              <design:displaySize>100</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>RQST_STAT</design:name>
-              <design:position>26</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>10</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>RQST_STAT</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>RQST_STAT</design:label>
-            <design:formattingHints>
-              <design:displaySize>10</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>RQST_LVL</design:name>
-              <design:position>27</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>RQST_LVL</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>RQST_LVL</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>BIB_ID</design:name>
-              <design:position>28</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>40</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>BIB_ID</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>BIB_ID</design:label>
-            <design:formattingHints>
-              <design:displaySize>40</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>ASR_FLAG</design:name>
-              <design:position>29</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>1</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>ASR_FLAG</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>ASR_FLAG</design:label>
-            <design:formattingHints>
-              <design:displaySize>1</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-      </design:resultSetColumns>
-      <design:criteria/>
-    </design:resultSetDefinitions>
-  </design:ResultSets>
-</model:DesignValues>]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -831,11 +221,13 @@ ODR.OLE_PTRN_ID = OPEV.OLE_PTRN_ID]]></xml-property>
     </page-setup>
     <body>
         <label id="9">
+            <property name="fontSize">12pt</property>
             <property name="fontWeight">bold</property>
             <property name="textAlign">center</property>
             <text-property name="text">Holds That Have Passed The Pickup Period And Need Removed From The Hold Shelf For Staff</text-property>
         </label>
-        <table id="10">
+        <label id="10"/>
+        <table id="11">
             <property name="dataSet">HoldsPassedPickupPeriod</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -845,15 +237,15 @@ ODR.OLE_PTRN_ID = OPEV.OLE_PTRN_ID]]></xml-property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">BARCODE</property>
+                    <property name="name">Barcode</property>
                     <text-property name="displayName">Barcode</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["BARCODE"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["Barcode"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">TITLE</property>
+                    <property name="name">Title</property>
                     <text-property name="displayName">Title</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["TITLE"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["Title"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -863,84 +255,156 @@ ODR.OLE_PTRN_ID = OPEV.OLE_PTRN_ID]]></xml-property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">RQST_EXPIR_DT_TIME</property>
+                    <property name="name">Expiration Date</property>
                     <text-property name="displayName">Expiration Date</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["RQST_EXPIR_DT_TIME"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["Expiration Date"]</expression>
                     <property name="dataType">date-time</property>
                 </structure>
             </list-property>
-            <column id="29"/>
             <column id="30"/>
             <column id="31"/>
             <column id="32"/>
             <column id="33"/>
+            <column id="34"/>
             <header>
-                <row id="11">
-                    <cell id="12">
-                        <label id="34">
+                <row id="12">
+                    <cell id="13">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="46">
                             <text-property name="text">Call Number</text-property>
                         </label>
                     </cell>
-                    <cell id="13">
-                        <label id="36">
+                    <cell id="14">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="38">
                             <text-property name="text">Barcode</text-property>
                         </label>
                     </cell>
-                    <cell id="14">
-                        <label id="38">
+                    <cell id="15">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="40">
                             <text-property name="text">Title</text-property>
                         </label>
                     </cell>
-                    <cell id="15">
-                        <label id="40">
+                    <cell id="16">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="42">
                             <text-property name="text">Patron Name</text-property>
                         </label>
                     </cell>
-                    <cell id="16">
-                        <label id="42">
+                    <cell id="17">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="44">
                             <text-property name="text">Expiration Date</text-property>
                         </label>
                     </cell>
                 </row>
             </header>
             <detail>
-                <row id="17">
-                    <cell id="18">
-                        <data id="35">
+                <row id="18">
+                    <cell id="19">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="47">
                             <property name="resultSetColumn">Call Number</property>
                         </data>
                     </cell>
-                    <cell id="19">
-                        <data id="37">
-                            <property name="resultSetColumn">BARCODE</property>
-                        </data>
-                    </cell>
                     <cell id="20">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
                         <data id="39">
-                            <property name="resultSetColumn">TITLE</property>
+                            <property name="resultSetColumn">Barcode</property>
                         </data>
                     </cell>
                     <cell id="21">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
                         <data id="41">
-                            <property name="resultSetColumn">Patron Name</property>
+                            <property name="resultSetColumn">Title</property>
                         </data>
                     </cell>
                     <cell id="22">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
                         <data id="43">
-                            <property name="resultSetColumn">RQST_EXPIR_DT_TIME</property>
+                            <property name="resultSetColumn">Patron Name</property>
+                        </data>
+                    </cell>
+                    <cell id="23">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="45">
+                            <property name="resultSetColumn">Expiration Date</property>
                         </data>
                     </cell>
                 </row>
             </detail>
-            <footer>
-                <row id="23">
-                    <cell id="24"/>
-                    <cell id="25"/>
-                    <cell id="26"/>
-                    <cell id="27"/>
-                    <cell id="28"/>
-                </row>
-            </footer>
         </table>
+        <label id="35"/>
     </body>
 </report>
