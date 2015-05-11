@@ -571,8 +571,9 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
         solrDoc.addField(DOC_FORMAT, DocFormat.MARC.getDescription());
 
         for (String field : documentSearchConfig.FIELDS_TO_TAGS_2_INCLUDE_MAP.keySet()) {
-            if (!field.equalsIgnoreCase("mdf_035a") && !field.startsWith("Local") && !field.equalsIgnoreCase(ITEM_BARCODE_SEARCH) && !field.equalsIgnoreCase(URI_SEARCH)) {
-                addFieldToSolrDoc(record, field, buildFieldValue(field, record), solrDoc);
+            Object object = buildFieldValue(field, record);
+            if(object != null){
+                addFieldToSolrDoc(record, field,object, solrDoc);
             }
 
         }
@@ -739,7 +740,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
             }
             return getDataFieldValue(includeTags, excludeTags, record, false, fieldName);
         } else {
-            throw new RuntimeException("Unknown field named:" + fieldName);
+            return null;
         }
     }
 
