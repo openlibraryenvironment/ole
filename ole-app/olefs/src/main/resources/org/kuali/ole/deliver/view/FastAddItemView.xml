@@ -118,7 +118,7 @@
 
                 <bean id="barcode" parent="Uif-InputField" p:label="Barcode" p:propertyName="oleLoanFastAdd.barcode" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl"/>
+                        <bean parent="Uif-TextControl" p:maxLength="20"/>
                     </property>
                 </bean>
                 <bean id="itemType" parent="Uif-InputField" p:label="Item Type" p:propertyName="oleLoanFastAdd.itemType" p:required="true">
@@ -139,44 +139,44 @@
                 </bean>
                 <bean id="callNumberPrefix" parent="Uif-InputField"   p:propertyName="oleLoanFastAdd.callNumberPrefix"   p:label="Call Number Prefix" p:required="false">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5" p:maxLength=""/>
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="40"/>
                     </property>
                 </bean>
                 <bean id="callNumber" parent="Uif-InputField" p:label="Call Number" p:propertyName="oleLoanFastAdd.callNumber" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl"/>
+                        <bean parent="Uif-TextControl" p:maxLength="100"/>
                     </property>
                 </bean>
                 <bean id="copyNumber" parent="Uif-InputField" p:label="Copy Number" p:propertyName="oleLoanFastAdd.copyNumber">
                     <property name="control">
-                        <bean parent="Uif-TextControl"/>
+                        <bean parent="Uif-TextControl" p:maxLength="20"/>
                     </property>
                 </bean>
                 <bean id="labelForCopyNumber" parent="Uif-InputField" p:label="Copy Number Label" p:propertyName="oleLoanFastAdd.labelForCopyNumber">
                     <property name="control">
-                        <bean parent="Uif-TextControl"/>
+                        <bean parent="Uif-TextControl" p:maxLength="11"/>
                     </property>
                 </bean>
 
                 <bean id="checkinNote" parent="Uif-InputField" p:label="Checkin Note" p:propertyName="oleLoanFastAdd.checkinNote" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" />
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" p:maxLength="400"/>
                     </property>
                 </bean>
                 <bean id="note" parent="Uif-InputField" p:label="Note" p:propertyName="oleLoanFastAdd.note" >
                     <property name="control">
-                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" />
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" p:maxLength="400" />
                     </property>
                 </bean>
 
                 <bean id="enumeration" parent="Uif-InputField" p:label="Enumeration" p:propertyName="oleLoanFastAdd.enumeration">
                     <property name="control">
-                        <bean parent="Uif-TextControl"/>
+                        <bean parent="Uif-TextControl" p:maxLength="100"/>
                     </property>
                 </bean>
                 <bean id="numberOfPieces" parent="Uif-InputField" p:label="Number Of Pieces" p:propertyName="oleLoanFastAdd.numberOfPieces">
                     <property name="control">
-                        <bean parent="Uif-TextControl"/>
+                        <bean parent="Uif-TextControl" p:maxLength="10"/>
                     </property>
                 </bean>
 
