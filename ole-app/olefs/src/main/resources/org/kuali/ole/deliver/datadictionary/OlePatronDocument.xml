@@ -596,7 +596,7 @@
         <property name="cssClasses" value="@{dataObject.oleEntityAddressBo.size() eq 0}"/>
         <property name="items">
             <list>
-                <bean id="address_addressTypeCode" parent="Uif-InputField" p:propertyName="entityAddressBo.addressTypeCode" p:label="Address Type"/>
+                <bean id="address_addressTypeCode" parent="Uif-InputField" p:propertyName="entityAddressBo.addressType.name" p:label="Address Type"/>
                 <bean id="address_line1" parent="Uif-InputField" p:propertyName="entityAddressBo.line1" p:label="Line 1"/>
                 <bean id="address_line2" parent="Uif-InputField" p:propertyName="entityAddressBo.line2" p:label="Line 2"/>
                 <bean id="address_line3" parent="Uif-InputField" p:propertyName="entityAddressBo.line3" p:label="Line 3"/>
@@ -623,7 +623,7 @@
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="items">
             <list>
-                <bean id="phone_phoneTypeCode" parent="Uif-InputField" p:propertyName="phoneTypeCode" p:label="Phone Type"/>
+                <bean id="phone_phoneTypeCode" parent="Uif-InputField" p:propertyName="phoneType.name" p:label="Phone Type"/>
                 <bean id="phone_phoneNumber" parent="Uif-InputField" p:propertyName="phoneNumber" p:label="Phone Number"/>
                 <bean id="phone_extensionNumber" parent="Uif-InputField" p:propertyName="extensionNumber" p:label="Extension Number"/>
                 <bean id="phone_countryCode" parent="Uif-InputField" p:propertyName="countryCode" p:label="Country"/>
@@ -642,7 +642,7 @@
         <property name="cssClasses" value="@{dataObject.emails.size() eq 0}"/>
         <property name="items">
             <list>
-                <bean id="email_emailTypeCode" parent="Uif-InputField" p:propertyName="emailTypeCode" p:label="Email Type"/>
+                <bean id="email_emailTypeCode" parent="Uif-InputField" p:propertyName="emailType.name" p:label="Email Type"/>
                 <bean id="email_emailAddress" parent="Uif-InputField" p:propertyName="emailAddress" p:label="Email"/>
                 <bean id="email_defaultValue" parent="Uif-InputField" p:propertyName="defaultValue"  p:label="Default"/>
                 <bean id="email_active" parent="Uif-InputField" p:propertyName="active" p:label="Active"/>
