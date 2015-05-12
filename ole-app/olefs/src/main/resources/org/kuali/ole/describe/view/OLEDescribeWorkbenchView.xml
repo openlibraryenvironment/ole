@@ -128,7 +128,6 @@
             <map merge="true">
                 <entry key="iDisplayLength" value="@{pageSize}"/>
                 <entry key="aLengthMenu" value="@{showPageSize}"/>
-                <entry key="aoColumns"  value="@{showFieldSort}"/>
             </map>
         </property>
         <property name="items">
