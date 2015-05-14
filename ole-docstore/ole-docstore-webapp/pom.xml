@@ -62,6 +62,12 @@
                 </excludes>
             </resource>
         </resources>
+        <testResources>
+            <testResource>
+                <directory>src/it/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
         <!--
           To help manage complex builds, the maven enforcer plugin has many useful rules.
           This is not configured in this sample pom for simplicity sake.
