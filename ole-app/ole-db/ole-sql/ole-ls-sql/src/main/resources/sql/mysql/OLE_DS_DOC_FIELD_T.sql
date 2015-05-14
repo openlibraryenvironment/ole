@@ -118,7 +118,7 @@ INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMA
   VALUES ('Subject','',16,1,1,'','690-v,600-a;b;c;d;f;k;l;m;n;o;p;q;r;s;t;v;x;y;z,610-a;b;c;d;f;k;l;m;n;o;p;r;s;t;v;x;y;z,611-a;c;d;e;f;k;l;n;p;q;s;t;v;x;y;z,630-a;d;e;f;k;l;m;n;o;p;r;s;t;v;x;y;z,650-a;b;c;d;v;x;y;z,651-a;v;x;y;z,655-a;z,691-a;b;z,752-a;b;c;d;f;g;h','N','Y','N','N','Y','Subject_search','16',1)
 /
 INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)
-  VALUES ('Description','',32,1,1,'','','N','Y','N','N','Y','Description_search','32',1)
+  VALUES ('Description','',32,1,1,'','','N','Y','N','N','N','Description_search','32',1)
 /
 INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)
   VALUES ('Date of Publication','',38,1,1,'','260-c,264-c','N','Y','N','N','Y','PublicationDate_search','38',1)
@@ -211,7 +211,7 @@ INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMA
   VALUES ('Shelving Order','',190,9,4,'','callNumber/shelvingOrder/fullValue','N','Y','N','N','Y','ShelvingOrder_search','190',1)
 /
 INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)
-  VALUES ('Item Identifier','',194,9,4,'','/itemIdentifier','N','Y','N','N','Y','ItemIdentifier_search','194',1)
+  VALUES ('Item Identifier','',194,9,4,'','/itemIdentifier','N','Y','N','N','N','ItemIdentifier_search','194',1)
 /
 INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)
   VALUES ('Item Status','',195,9,4,'','/itemStatus','N','Y','N','N','Y','ItemStatus_search','195',1)
