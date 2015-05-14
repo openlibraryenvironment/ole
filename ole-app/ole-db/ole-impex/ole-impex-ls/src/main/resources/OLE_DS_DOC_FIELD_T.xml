@@ -282,7 +282,7 @@
     <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="Description" DESCRIPTION=""
                         DOC_FIELD_ID="32" DOC_FORMAT_ID="1" DOC_TYPE_ID="1"
                         EXCLUDE_PATH="" INCLUDE_PATH="" IS_DISPLAY="N"
-                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="Y"
+                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="N"
                         NAME="Description_search" OBJ_ID="32" VER_NBR="1"/>
 
     <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="Date of Publication"
@@ -480,7 +480,7 @@
     <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="Item Identifier" DESCRIPTION=""
                         DOC_FIELD_ID="194" DOC_FORMAT_ID="9" DOC_TYPE_ID="4"
                         EXCLUDE_PATH="" INCLUDE_PATH="/itemIdentifier" IS_DISPLAY="N"
-                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="Y"
+                        IS_EXPORT="Y" IS_FACET="N" IS_GLOBAL_EDIT="N" IS_SEARCH="N"
                         NAME="ItemIdentifier_search" OBJ_ID="194" VER_NBR="1"/>
 
     <OLE_DS_DOC_FIELD_T DISPLAY_LABEL="Item Status" DESCRIPTION=""
