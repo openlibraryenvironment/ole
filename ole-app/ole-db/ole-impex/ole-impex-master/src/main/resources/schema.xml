@@ -11941,6 +11941,21 @@
         <column name="ROW_ACT_IND" size="1" type="VARCHAR"/>
     </table>
 
+
+
+    <table name="OLE_MARC_UPDT_FREQ_T">
+        <column name="MARC_UPDT_FREQ_ID" primaryKey="true" size="10" type="VARCHAR"/>
+        <column name="MARC_UPDT_FREQ_CD" size="40" type="VARCHAR"/>
+        <column name="MARC_UPDT_FREQ_NM" size="100" type="VARCHAR"/>
+        <column name="MARC_UPDT_FREQ_DESC" size="800" type="VARCHAR"/>
+        <column name="MARC_UPDT_FREQ" type="INTEGER"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="ROW_ACT_IND" size="1" type="VARCHAR"/>
+    </table>
+
+
+
     <table name="OLE_E_RES_PLTFRM_EVNT_TYPE_T">
         <column name="E_RES_PLTFRM_EVNT_TYPE_ID" primaryKey="true" size="10" type="VARCHAR"/>
         <column name="NAME" size="40" type="VARCHAR"/>
@@ -12257,4 +12272,6 @@
     <sequence name="OLE_VNDR_ASSOCIATION_S" nextval="1"/>
     <sequence name="OLE_ERES_SYNC_GOKB_LOG_S" nextval="1"/>
     <sequence name="OLE_GOKB_CONFIG_S" nextval="1"/>
+    <sequence name="OLE_MARC_UPDT_FREQ_S" nextval="1"/>
+
 </database>

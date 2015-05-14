@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEMarcUpdateFrequency" parent="OLEMarcUpdateFrequency-parentBean"/>
+    <bean id="OLEMarcUpdateFrequency-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEMarcUpdateFrequency"/>
+        <property name="titleAttribute" value="marcRecordSourceTypeName"/>
+        <property name="objectLabel" value="MARC Record Source Type"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OLEMarcUpdateFrequency-marcUpdateFrequencyId"/>
+                <ref bean="OLEMarcUpdateFrequency-marcUpdateFrequencyCode"/>
+                <ref bean="OLEMarcUpdateFrequency-marcUpdateFrequencyName"/>
+                <ref bean="OLEMarcUpdateFrequency-marcUpdateFrequency"/>
+                <ref bean="OLEMarcUpdateFrequency-marcUpdateFrequencyDescription"/>
+                <ref bean="OLEMarcUpdateFrequency-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OLEMarcUpdateFrequency-marcUpdateFrequencyId" parent="OLEMarcUpdateFrequency-marcUpdateFrequencyId-parentBean"/>
+    <bean id="OLEMarcUpdateFrequency-marcUpdateFrequencyId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="marcUpdateFrequencyId"/>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEMarcUpdateFrequency-marcUpdateFrequencyCode" parent="OLEMarcUpdateFrequency-marcUpdateFrequencyCode-parentBean"/>
+    <bean id="OLEMarcUpdateFrequency-marcUpdateFrequencyCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Marc Update Frequency Code"/>
+        <property name="maxLength" value="40"/>
+        <property name="name" value="marcUpdateFrequencyCode"/>
+        <property name="label" value="Marc Update Frequency Code"/>
+        <property name="description" value="Marc Update Frequency Code"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEMarcUpdateFrequency-marcUpdateFrequencyName" parent="OLEMarcUpdateFrequency-marcUpdateFrequencyName-parentBean"/>
+    <bean id="OLEMarcUpdateFrequency-marcUpdateFrequencyName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Marc Update Frequency Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="name" value="marcUpdateFrequencyName"/>
+        <property name="label" value="Marc Update Frequency Name"/>
+        <property name="description" value="Marc Update Frequency Name"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLEMarcUpdateFrequency-marcUpdateFrequency" parent="OLEMarcUpdateFrequency-marcUpdateFrequency-parentBean"/>
+    <bean id="OLEMarcUpdateFrequency-marcUpdateFrequency-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Marc Update Frequency"/>
+        <property name="maxLength" value="100"/>
+        <property name="name" value="marcUpdateFrequency"/>
+        <property name="label" value="Marc Update Frequency"/>
+        <property name="description" value="Marc Update Frequency"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="required" value="true"/>
+    </bean>
+
+
+
+    <bean id="OLEMarcUpdateFrequency-marcUpdateFrequencyDescription" parent="OLEMarcUpdateFrequency-marcUpdateFrequencyDescription-parentBean"/>
+    <bean id="OLEMarcUpdateFrequency-marcUpdateFrequencyDescription-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Marc Update Frequency Description"/>
+        <property name="maxLength" value="100"/>
+        <property name="name" value="marcUpdateFrequencyDescription"/>
+        <property name="label" value="Marc Update Frequency Description"/>
+        <property name="description" value="Marc Update Frequency Description"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEMarcUpdateFrequency-active" parent="OLEMarcUpdateFrequency-active-parentBean"/>
+    <bean id="OLEMarcUpdateFrequency-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description"
+                  value="This attribute is used to describe whether the associated object is active or inactive."/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+    </bean>
+
+    <!-- Inquiry View -->
+
+    <bean id="OLEMarcUpdateFrequency-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Marc Record Update Frequency Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEMarcUpdateFrequency"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Marc Record Update Frequency"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_marcUpdateFrequencyId" parent="Uif-InputField"
+                                              p:propertyName="marcUpdateFrequencyId"/>
+                                        <bean id="inquiry_marcUpdateFrequencyCode" parent="Uif-InputField"
+                                              p:propertyName="marcUpdateFrequencyCode"/>
+                                        <bean id="inquiry_marcUpdateFrequencyName" parent="Uif-InputField"
+                                              p:propertyName="marcUpdateFrequencyName"/>
+                                        <bean id="inquiry_marcUpdateFrequencyDescription" parent="Uif-InputField"
+                                              p:propertyName="marcUpdateFrequencyDescription"/>
+                                        <bean id="inquiry_marcUpdateFrequency" parent="Uif-InputField"
+                                              p:propertyName="marcUpdateFrequency"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Lookup View -->
+
+    <bean id="OLEMarcUpdateFrequency-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="MARC Record Update Frequency Lookup"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEMarcUpdateFrequency"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="marcUpdateFrequencyCode" parent="Uif-LookupCriteriaInputField"
+                      p:propertyName="marcUpdateFrequencyCode" p:enableAutoDirectInquiry="false"/>
+                <bean id="marcUpdateFrequencyName" parent="Uif-LookupCriteriaInputField"
+                      p:propertyName="marcUpdateFrequencyName"/>
+
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_marcUpdateFrequencyCode" parent="Uif-DataField"
+                      p:propertyName="marcUpdateFrequencyCode"/>
+                <bean id="searchResult_marcUpdateFrequencyName" parent="Uif-DataField"
+                      p:propertyName="marcUpdateFrequencyName"/>
+                <bean id="searchResult_marcUpdateFrequency" parent="Uif-DataField"
+                      p:propertyName="marcUpdateFrequency"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

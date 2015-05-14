@@ -5112,6 +5112,7 @@
         <field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR"/>
         <field-descriptor name="accessActivationConfigurationId" column="ACC_ACT_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="personId" column="PRSN_ID" jdbc-type="VARCHAR"/>
       <!--  <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>-->
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -6222,6 +6223,23 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     </class-descriptor>
+
+
+
+    <class-descriptor class="org.kuali.ole.select.bo.OLEMarcUpdateFrequency" table="OLE_MARC_UPDT_FREQ_T">
+        <field-descriptor name="marcUpdateFrequencyId" column="MARC_UPDT_FREQ_ID" jdbc-type="VARCHAR" primarykey="true"
+                          index="true" autoincrement="true" sequence-name="OLE_MARC_UPDT_FREQ_S"/>
+        <field-descriptor name="marcUpdateFrequencyCode" column="MARC_UPDT_FREQ_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="marcUpdateFrequencyName" column="MARC_UPDT_FREQ_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="marcUpdateFrequencyDescription" column="MARC_UPDT_FREQ_DESC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="marcUpdateFrequency" column="MARC_UPDT_FREQ" jdbc-type="INTEGER"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+
 
     <class-descriptor class="org.kuali.ole.select.bo.OlePurchaseOrderPurpose" table="OLE_PO_PURP_T">
         <field-descriptor name="purchaseOrderPurposeId" column="OLE_PO_PURP_ID" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" sequence-name="OLE_PO_PURP_S"/>
