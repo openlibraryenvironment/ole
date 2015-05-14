@@ -323,7 +323,7 @@
         <column default="" name="DATE_CREATED" type="TIMESTAMP"/>
         <column name="UPDATED_BY" size="40" type="VARCHAR"/>
         <column default="" name="DATE_UPDATED" type="TIMESTAMP"/>
-        <column name="FILE_NAME" size="40" type="VARCHAR"/>
+        <column name="FILE_NAME" size="400" type="VARCHAR"/>
         <column name="DOCUMENT_TITLE" size="40" type="VARCHAR"/>
         <column name="DOCUMENT_MIME_TYPE" size="100" type="VARCHAR"/>
         <column name="DOCUMENT_NOTE" size="400" type="VARCHAR"/>
