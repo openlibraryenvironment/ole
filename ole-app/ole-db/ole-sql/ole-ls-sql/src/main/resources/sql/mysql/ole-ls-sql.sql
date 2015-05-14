@@ -64,7 +64,8 @@ CREATE TABLE OLE_E_RES_ACC_ACT_WRKFLW_T
         , ORDER_NO INTEGER(10)
         , STATUS VARCHAR(36)
         , ACC_ACT_ID VARCHAR(30)
-        , ROLE_ID VARCHAR(10)
+        , ROLE_ID VARCHAR(100)
+        , PRSN_ID VARCHAR(100)
         , OBJ_ID VARCHAR(36)
         , VER_NBR DECIMAL(8)
     
@@ -75,7 +76,7 @@ CREATE TABLE OLE_E_RES_ACC_ACT_WRKFLW_T
 
 
     
-                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                        
                                     
 , INDEX OLE_ACC_ACT_CONFIG_FK (ACC_ACT_ID )
 
