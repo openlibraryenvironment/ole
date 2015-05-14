@@ -92,6 +92,7 @@
                  <bean id="create_orderNo" parent="Uif-InputField" p:propertyName="orderNo" p:enableAutoDirectInquiry="false" p:required="true"/>
                  <bean id="create_status" parent="Uif-InputField" p:propertyName="status" p:required="true"/>
                  <ref bean="selectRequest-MaintenanceViews-roleName"/>
+                 <ref bean="selectRequest-MaintenanceViews-personName"/>
              </list>
         </property>
         <property name="addLineActions">
@@ -117,6 +118,13 @@
                   p:lookupParameters="roleName:name,roleId:id"/>
         </property>
 
+    </bean>
+
+    <bean id="selectRequest-MaintenanceViews-personName" p:propertyName="personName" parent="Uif-InputField" p:label="Person Name" >
+        <property name="quickfinder">
+            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+                  p:fieldConversions="principalId:personId,principalName:personName"/>
+        </property>
     </bean>
 
 

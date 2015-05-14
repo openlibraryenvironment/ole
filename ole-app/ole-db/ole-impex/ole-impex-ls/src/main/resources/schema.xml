@@ -28,7 +28,8 @@
         <column name="ORDER_NO" size="10" type="INTEGER"/>
         <column name="STATUS" size="36" type="VARCHAR"/>
         <column name="ACC_ACT_ID" size="30" type="VARCHAR"/>
-        <column name="ROLE_ID" size="10" type="VARCHAR"/>
+        <column name="ROLE_ID" size="100" type="VARCHAR"/>
+        <column name="PRSN_ID" size="100" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <foreign-key foreignTable="OLE_E_RES_ACC_ACT_CONFIG_T" name="OLE_ACC_ACT_CONFIG_FK">

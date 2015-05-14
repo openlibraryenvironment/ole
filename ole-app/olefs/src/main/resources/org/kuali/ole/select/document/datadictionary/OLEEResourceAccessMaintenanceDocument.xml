@@ -251,17 +251,11 @@
                             <bean parent="Uif-InputField" p:propertyName="lastRecordLoadDate"/>
                             <bean parent="Uif-InputField" p:propertyName="marcRecordSource"/>
                             <bean parent="Uif-InputField" p:propertyName="marcRecordUpdateFreqId">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.keyvalue.OLEMarcUpdateFrequencyKeyValues" />
+                                </property>
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="None"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Irregular"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Weekly"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Monthly"/>
-                                            </list>
-                                        </property>
-                                    </bean>
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="marcRecordURL"/>

@@ -11,8 +11,9 @@
                 <ref bean="AccessActivationWorkFlow-status"/>
                 <ref bean="AccessActivationWorkFlow-roleName"/>
                 <ref bean="AccessActivationWorkFlow-roleId"/>
+                <ref bean="AccessActivationWorkFlow-personId"/>
+                <ref bean="AccessActivationWorkFlow-personName"/>
                 <ref bean="AccessActivationWorkFlow-accessActivationName"/>
-               <!-- <ref bean="AccessActivationWorkFlow-active"/>-->
             </list>
     </property>
 
@@ -55,6 +56,42 @@
     </bean>
 
 
+
+    <bean id="AccessActivationWorkFlow-personId" parent="AccessActivationWorkFlow-personId-parentBean"/>
+
+    <bean id="AccessActivationWorkFlow-personId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="personId"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Person Id"/>
+        <property name="shortLabel" value="Person Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="required" value="false"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="AccessActivationWorkFlow-personName" parent="AccessActivationWorkFlow-personName-parentBean"/>
+
+    <bean id="AccessActivationWorkFlow-personName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Person Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="name" value="personName"/>
+        <property name="label" value="Person Name"/>
+        <property name="description" value="Person Name"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
     <bean id="AccessActivationWorkFlow-status" parent="AccessActivationWorkFlow-status-parentBean"/>
 
     <bean id="AccessActivationWorkFlow-status-parentBean" abstract="true" parent="AttributeDefinition">
@@ -87,31 +124,8 @@
         <property name="controlField">
             <bean parent="Uif-TextControl" p:size="30"/>
         </property>
-        <!--<property name="quickfinder">
-            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.role.RoleBo"
-                  p:fieldConversions="name:role" p:lookupParameters="role:name"/>
-        </property>-->
     </bean>
 
-<!--    <bean id="AccessActivationWorkFlow-active" parent="AccessActivationWorkFlow-active-parentBean"/>
-
-    <bean id="AccessActivationWorkFlow-active-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="active"/>
-        <property name="forceUppercase" value="false"/>
-        <property name="shortLabel" value="active"/>
-        <property name="maxLength" value="1"/>
-        <property name="summary" value="Active Indicator"/>
-        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
-        <property name="label" value="Active Indicator"/>
-        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
-        <property name="validCharactersConstraint">
-            <bean  parent="AnyCharacterPatternConstraint"/>
-        </property>
-        <property name="controlField">
-            <bean  parent="Uif-CheckboxControl"/>
-        </property>
-
-    </bean>-->
 
     <bean id="AccessActivationWorkFlow-accessActivationName" parent="AccessActivationWorkFlow-accessActivationName-parentBean"/>
     <bean id="AccessActivationWorkFlow-accessActivationName-parentBean" abstract="true" parent="AttributeDefinition">
@@ -151,6 +165,7 @@
                                         <bean id="inquiry_orderNo" parent="Uif-InputField" p:propertyName="orderNo" />
                                         <bean id="inquiry_status" parent="Uif-InputField" p:propertyName="status" />
                                         <bean id="inquiry_roleId" parent="Uif-InputField" p:propertyName="roleId"/>
+                                        <bean id="inquiry_personId" parent="Uif-InputField" p:propertyName="personId"/>
                                         <bean id="inquiry_accessActivationName" parent="Uif-InputField" p:propertyName="accessActivationName"/>
                                         <!--<bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active" />-->
                                     </list>
@@ -181,6 +196,7 @@
                 <bean id="orderNo" parent="Uif-LookupCriteriaInputField" p:propertyName="orderNo" />
                 <bean id="status" parent="Uif-LookupCriteriaInputField" p:propertyName="status" />
                 <bean id="roleId" parent="Uif-LookupCriteriaInputField" p:propertyName="roleId" />
+                <bean id="personId" parent="Uif-LookupCriteriaInputField" p:propertyName="personId" />
                 <bean id="accessActivationName" parent="Uif-LookupCriteriaInputField" p:propertyName="accessActivationName" />
                 <!--<bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active" />-->
             </list>
@@ -190,6 +206,7 @@
                 <bean id="searchResult_orderNo" parent="Uif-DataField" p:propertyName="orderNo" />
                 <bean id="searchResult_status" parent="Uif-DataField" p:propertyName="status" />
                 <bean id="searchResult_roleId" parent="Uif-DataField" p:propertyName="roleId" />
+                <bean id="searchResult_personId" parent="Uif-DataField" p:propertyName="personId" />
                 <bean id="searchResult_accessActivationName" parent="Uif-DataField" p:propertyName="accessActivationName" />
                <!-- <bean id="searchResult-active" parent="Uif-DataField" p:propertyName="active" />-->
             </list>

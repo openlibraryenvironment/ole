@@ -5,10 +5,9 @@ import org.kuali.ole.OLEConstants;
 
 import org.kuali.ole.select.bo.OLEAccessActivationConfiguration;
 import org.kuali.ole.select.bo.OLEAccessActivationWorkFlow;
-import org.kuali.ole.select.bo.OLERoleBo;
-import org.kuali.rice.kim.impl.role.RoleBo;
+import org.kuali.ole.select.service.OLEAccessActivationService;
+import org.kuali.ole.select.service.impl.OLEAccessActivationServiceImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -27,9 +26,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by hemalathas on 12/22/14.
@@ -38,17 +34,25 @@ import java.util.Map;
 @RequestMapping(value = "/oleAccessActivationConfiguration")
 public class OLEAccessActivationConfigurationController extends MaintenanceDocumentController {
 
+
+    private OLEAccessActivationService oleAccessActivationService;
+
+    public OLEAccessActivationService getOleAccessActivationService() {
+        if(oleAccessActivationService == null){
+            oleAccessActivationService = new OLEAccessActivationServiceImpl();
+        }
+        return oleAccessActivationService;
+    }
+
+    public void setOleAccessActivationService(OLEAccessActivationService oleAccessActivationService) {
+        this.oleAccessActivationService = oleAccessActivationService;
+    }
+
     @Override
     public ModelAndView maintenanceEdit(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
         OLEAccessActivationConfiguration oleAccessActivationConfiguration = (OLEAccessActivationConfiguration) form.getDocument().getNewMaintainableObject().getDataObject();
-        List<OLEAccessActivationWorkFlow> accessActivationWorkFlowList = oleAccessActivationConfiguration.getAccessActivationWorkflowList();
-        for (OLEAccessActivationWorkFlow oleAccessActivationWorkFlow : accessActivationWorkFlowList) {
-            Map<String, Object> oleBoMap = new HashMap<>();
-            oleBoMap.put(OLEConstants.ID, oleAccessActivationWorkFlow.getRoleId());
-            OLERoleBo oleRoleBo = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLERoleBo.class, oleBoMap);
-            oleAccessActivationWorkFlow.setRoleName(oleRoleBo.getName());
-        }
+        oleAccessActivationConfiguration = getOleAccessActivationService().setRoleAndPersonName(oleAccessActivationConfiguration);
         return getUIFModelAndView(form);
     }
 
@@ -56,13 +60,7 @@ public class OLEAccessActivationConfigurationController extends MaintenanceDocum
     public ModelAndView maintenanceCopy(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         setupMaintenance(form, request, KRADConstants.MAINTENANCE_COPY_ACTION);
         OLEAccessActivationConfiguration oleAccessActivationConfiguration = (OLEAccessActivationConfiguration) form.getDocument().getNewMaintainableObject().getDataObject();
-        List<OLEAccessActivationWorkFlow> accessActivationWorkFlowList = oleAccessActivationConfiguration.getAccessActivationWorkflowList();
-        for (OLEAccessActivationWorkFlow oleAccessActivationWorkFlow : accessActivationWorkFlowList) {
-            Map<String, Object> oleBoMap = new HashMap<>();
-            oleBoMap.put(OLEConstants.ID, oleAccessActivationWorkFlow.getRoleId());
-            OLERoleBo oleRoleBo = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLERoleBo.class, oleBoMap);
-            oleAccessActivationWorkFlow.setRoleName(oleRoleBo.getName());
-        }
+        oleAccessActivationConfiguration = getOleAccessActivationService().setRoleAndPersonName(oleAccessActivationConfiguration);
         return getUIFModelAndView(form);
     }
 
@@ -81,7 +79,7 @@ public class OLEAccessActivationConfigurationController extends MaintenanceDocum
         if (!validateEmptyFieldActivationWorkFlow(accessWorkflow)) {
             return getUIFModelAndView(form);
         }
-        if (!validateDuplicateValuesForAccessActivationWorkFlow(accessActivation.getAccessActivationWorkflowList(), accessWorkflow)) {
+        if (!getOleAccessActivationService().validateAccessActivationWorkFlow(accessActivation.getAccessActivationWorkflowList(), accessWorkflow)) {
             return getUIFModelAndView(form);
         }
         View view = form.getPostedView();
@@ -90,69 +88,7 @@ public class OLEAccessActivationConfigurationController extends MaintenanceDocum
         return getUIFModelAndView(form);
     }
 
-    private boolean validateDuplicateValuesForAccessActivationWorkFlow(List<OLEAccessActivationWorkFlow> accessActivationWorkFlowList, OLEAccessActivationWorkFlow accessActivationWorkFlow) {
-        Map<String, String> criteria = new HashMap<String, String>();
-        List<RoleBo> dataSourceNameInDatabaseroleName;
-        RoleBo roleBo;
-        boolean duplicateOrderNumber = false;
-        boolean duplicateStatus = false;
-        boolean validRole = false;
-        for (OLEAccessActivationWorkFlow activationWorkFlow : accessActivationWorkFlowList) {
-            if (accessActivationWorkFlow.getOrderNo() != null) {
-                if (activationWorkFlow.getOrderNo() == accessActivationWorkFlow.getOrderNo()) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION, OLEConstants.ERROR_DUPLICATE_ORDER_NO);
-                    duplicateOrderNumber = true;
-                }
-            }
-            if (StringUtils.isNotBlank(accessActivationWorkFlow.getStatus())) {
-                if (activationWorkFlow.getStatus().equalsIgnoreCase(accessActivationWorkFlow.getStatus())) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION, OLEConstants.ERROR_DUPLICATE_STATUS);
-                    duplicateStatus = true;
-                }
-            }
-        }
-        if (accessActivationWorkFlow.getRoleId() != null && accessActivationWorkFlow.getRoleName() != null) {
-            criteria.put(OLEConstants.ACCESS_ROLE_ID, accessActivationWorkFlow.getRoleId());
-            criteria.put(OLEConstants.ACCESS_ROLE_NAME, accessActivationWorkFlow.getRoleName());
-            dataSourceNameInDatabaseroleName = (List<RoleBo>) getBusinessObjectService().findMatching(RoleBo.class, criteria);
-            if (dataSourceNameInDatabaseroleName != null && dataSourceNameInDatabaseroleName.size() > 0) {
-                validRole = false;
-            } else {
-                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION, OLEConstants.ERROR_INVALID_ID_NAME);
-                validRole = true;
-            }
-        } else if (accessActivationWorkFlow.getRoleId() == null && accessActivationWorkFlow.getRoleName() != null) {
-            criteria = new HashMap<String, String>();
-            criteria.put(OLEConstants.ACCESS_ROLE_NAME, accessActivationWorkFlow.getRoleName());
-            dataSourceNameInDatabaseroleName = (List<RoleBo>) getBusinessObjectService()
-                    .findMatching(RoleBo.class, criteria);
-            if (dataSourceNameInDatabaseroleName != null && dataSourceNameInDatabaseroleName.size() > 0) {
-                roleBo = dataSourceNameInDatabaseroleName.get(0);
-                accessActivationWorkFlow.setRoleId(roleBo.getId());
-                validRole = false;
-            } else {
-                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION, OLEConstants.ERROR_INVALID_NAME);
-                validRole = true;
-            }
-        } else if (accessActivationWorkFlow.getRoleId() != null && accessActivationWorkFlow.getRoleName() == null) {
-            criteria = new HashMap<String, String>();
-            criteria.put(OLEConstants.ACCESS_ROLE_ID, accessActivationWorkFlow.getRoleId());
-            dataSourceNameInDatabaseroleName = (List<RoleBo>) getBusinessObjectService()
-                    .findMatching(RoleBo.class, criteria);
-            if (dataSourceNameInDatabaseroleName != null && dataSourceNameInDatabaseroleName.size() > 0) {
-                roleBo = dataSourceNameInDatabaseroleName.get(0);
-                accessActivationWorkFlow.setRoleName(roleBo.getName());
-                validRole = false;
-            } else {
-                GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION, OLEConstants.ERROR_INVALID_ID);
-                validRole = true;
-            }
-        }
-        if (duplicateStatus || duplicateOrderNumber || validRole) {
-            return false;
-        }
-        return true;
-    }
+
 
     private boolean validateEmptyFieldActivationWorkFlow(OLEAccessActivationWorkFlow accessActivationWorkFlow) {
         boolean emptyOrderNumber = false;

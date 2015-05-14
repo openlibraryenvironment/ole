@@ -12,6 +12,8 @@ public class OLEAccessActivationWorkFlow extends PersistableBusinessObjectBase {
     private String status;
     private String roleName;
     private String roleId;
+    private String personId;
+    private String personName;
     private String accessActivationName;
     private String accessActivationConfigurationId;
     private OLEAccessActivationConfiguration oleAccessActivationConfiguration;
@@ -81,6 +83,21 @@ public class OLEAccessActivationWorkFlow extends PersistableBusinessObjectBase {
         this.accessActivationConfigurationId = accessActivationConfigurationId;
     }
 
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
+
+    public String getPersonName() {
+        return personName;
+    }
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
 }
 
 

@@ -5,6 +5,8 @@ import org.kuali.ole.select.bo.OLEAccessActivationWorkFlow;
 import org.kuali.ole.select.bo.OLEEResourceAccessActivation;
 import org.kuali.ole.select.bo.OLEEResourceNotes;
 import org.kuali.ole.select.document.OLEEResourceAccessWorkflow;
+import org.kuali.ole.select.service.OLEAccessActivationService;
+import org.kuali.ole.select.service.impl.OLEAccessActivationServiceImpl;
 import org.kuali.ole.service.OLEEResourceHelperService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
@@ -47,12 +49,24 @@ import java.util.*;
 public class OLEEEResourceAccessActivationMaintenanceController extends MaintenanceDocumentController {
 
     private OLEEResourceHelperService oleeResourceHelperService;
+    private OLEAccessActivationService oleAccessActivationService;
 
     public OLEEResourceHelperService getOleeResourceHelperService() {
         if (oleeResourceHelperService == null) {
             oleeResourceHelperService = new OLEEResourceHelperService();
         }
         return oleeResourceHelperService;
+    }
+
+    public OLEAccessActivationService getOleAccessActivationService() {
+        if(oleAccessActivationService == null){
+            oleAccessActivationService = new OLEAccessActivationServiceImpl();
+        }
+        return oleAccessActivationService;
+    }
+
+    public void setOleAccessActivationService(OLEAccessActivationService oleAccessActivationService) {
+        this.oleAccessActivationService = oleAccessActivationService;
     }
 
     @RequestMapping(params = "methodToCall=addNoteTextSection")
@@ -181,11 +195,7 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
                         List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
                         org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
                         Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
-                        Collection<String> principalIds = (Collection<String>) roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(), role.getName(), new HashMap<String, String>());
-                        IdentityService identityService = KimApiServiceLocator.getIdentityService();
-                        List<String> principalList = new ArrayList<String>();
-                        principalList.addAll(principalIds);
-                        List<Principal> principals = identityService.getPrincipals(principalList);
+                        List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
                         OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = accessWorkflowList.get(accessWorkflowList.size() - 1);
                         StringBuffer currentOwnerBuffer = new StringBuffer();
                         AdHocRoutePerson adHocRoutePerson;
@@ -265,11 +275,7 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
                 List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
                 org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
                 Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
-                Collection<String> principalIds = (Collection<String>) roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(), role.getName(), new HashMap<String, String>());
-                IdentityService identityService = KimApiServiceLocator.getIdentityService();
-                List<String> principalList = new ArrayList<String>();
-                principalList.addAll(principalIds);
-                List<Principal> principals = identityService.getPrincipals(principalList);
+                List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
                 StringBuffer currentOwnerBuffer = new StringBuffer();
                 AdHocRoutePerson adHocRoutePerson;
                 if (principals != null && principals.size() > 0) {

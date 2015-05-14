@@ -5,6 +5,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.select.bo.OLEAccessActivationConfiguration;
 import org.kuali.ole.select.bo.OLEAccessActivationWorkFlow;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleBo;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
@@ -20,6 +23,21 @@ import java.util.Map;
  */
 
 public class OLEAccessActivationConfigurationRule extends MaintenanceDocumentRuleBase {
+
+    private PersonService personService;
+
+    public PersonService getPersonService() {
+    if(personService == null){
+        personService = KimApiServiceLocator.getPersonService();
+    }
+        return personService;
+    }
+
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         boolean isValid = true;
@@ -85,6 +103,7 @@ public class OLEAccessActivationConfigurationRule extends MaintenanceDocumentRul
         List<RoleBo> dataSourceNameInDatabaseroleName;
         RoleBo roleBo;
         boolean validRole = false;
+        boolean validPerson = false;
         if (accessConfiguration.getAccessActivationWorkflowList() != null) {
             for (OLEAccessActivationWorkFlow workflow : accessConfiguration.getAccessActivationWorkflowList()) {
                 if (workflow.getRoleId() != null && workflow.getRoleName() != null) {
@@ -125,9 +144,43 @@ public class OLEAccessActivationConfigurationRule extends MaintenanceDocumentRul
                         validRole = false;
                     }
                 }
+
+                if(workflow.getPersonId()!=null && workflow.getPersonName()!=null){
+                    Map<String,String> criteriaMap = new HashMap<String,String>();
+                    criteriaMap.put("principalId",workflow.getPersonId());
+                    criteriaMap.put("principalName",workflow.getPersonName());
+                    List<Person> personList = getPersonService().findPeople(criteriaMap);
+                    if(personList.size()>0){
+                        validPerson = true;
+                    }else {
+                        GlobalVariables.getMessageMap().putError(OLEConstants.ACCESS_ROLE_NAME_ID_FIELD,"invalid person Id and name" );
+                        validPerson = false;
+                    }
+                } else if(workflow.getPersonId()!=null && workflow.getPersonName()==null){
+                    Person person = getPersonService().getPerson(workflow.getPersonId());
+                    if(person!=null){
+                        validPerson =true;
+                        workflow.setPersonName(person.getName());
+                    }else{
+                        validPerson = false;
+                        GlobalVariables.getMessageMap().putError(OLEConstants.ACCESS_ROLE_NAME_ID_FIELD,"invalid person Idid" );
+                    }
+
+                }
+                else if(workflow.getPersonId()==null && workflow.getPersonName()!=null && !workflow.getPersonName().isEmpty()){
+                    Person person = getPersonService().getPersonByPrincipalName(workflow.getPersonId());
+                    if(person!=null){
+                        validPerson =true;
+                        workflow.setPersonId(person.getPrincipalId());
+                    }else{
+                        validPerson = false;
+                        GlobalVariables.getMessageMap().putError(OLEConstants.ACCESS_ROLE_NAME_ID_FIELD,"invalid person Name id" );
+                    }
+
+                }
             }
         }
-        return validRole;
+        return validRole&&validPerson;
     }
 
     private boolean validateAccessActivationWorkflows(OLEAccessActivationConfiguration accessConfiguration) {
