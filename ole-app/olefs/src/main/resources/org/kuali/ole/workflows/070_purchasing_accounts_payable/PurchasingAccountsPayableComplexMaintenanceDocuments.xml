@@ -10,7 +10,7 @@
 				Order Type
 			</label>
 			<helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s17.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_Order_Type
 			</helpDefinitionURL>
 			<active>
 				true
@@ -43,7 +43,7 @@
 				Order Item Status
 			</label>
 			<helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s31.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_Purchase_Order_Item
 			</helpDefinitionURL>
 			<active>
 				true
@@ -76,7 +76,7 @@
 				OleExceptionTypeDocument
 			</label>
 			<helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s09.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_Exception_Type
 			</helpDefinitionURL>
 			<active>
 				true
@@ -109,7 +109,7 @@
 				OleNoteTypeDocument
 			</label>
 			<helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s16.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_Note_Type
 			</helpDefinitionURL>
 			<active>
 				true

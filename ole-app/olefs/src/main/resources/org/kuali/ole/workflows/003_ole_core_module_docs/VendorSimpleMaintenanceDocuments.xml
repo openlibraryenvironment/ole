@@ -7,7 +7,7 @@
         Address Type
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s01.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_AddressType
       </helpDefinitionURL>
       <active>
         true
@@ -23,7 +23,7 @@
         Campus Parameter
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s02.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_Campus
       </helpDefinitionURL>
       <active>
         true
@@ -72,7 +72,7 @@
         Contact Type
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s03.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_ContactType
       </helpDefinitionURL>
       <active>
         true
@@ -105,7 +105,7 @@
         Contract Manager
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s04.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_ContractManager
       </helpDefinitionURL>
       <active>
         true
@@ -153,7 +153,7 @@
         Payment Terms Type
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s06.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_PaymentTermsType
       </helpDefinitionURL>
       <active>
         true
@@ -169,7 +169,7 @@
         Phone Type
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s07.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_PhoneType
       </helpDefinitionURL>
       <active>
         true
@@ -185,7 +185,7 @@
         Cost Source
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s05.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_CostSource
       </helpDefinitionURL>
       <active>
         true
@@ -218,7 +218,7 @@
         Shipping Payment Terms
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s08.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_ShippingPaymentTerms
       </helpDefinitionURL>
       <active>
         true
@@ -234,7 +234,7 @@
         Shipping Special Conditions
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s09.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_ShippingSpecialConditions
       </helpDefinitionURL>
       <active>
         true
@@ -250,7 +250,7 @@
         Shipping Title
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s10.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_ShippingTitle
       </helpDefinitionURL>
       <active>
         true
@@ -266,7 +266,7 @@
         Supplier Diversity
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s11.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_SupplierDiversity
       </helpDefinitionURL>
       <active>
         true
@@ -282,7 +282,7 @@
         Vendor Inactive Reason
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s12.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_VendorInactiveReason
       </helpDefinitionURL>
       <active>
         true
@@ -315,7 +315,7 @@
         Currency Type
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s06.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_currencyType
       </helpDefinitionURL>
       <active>
         true
@@ -332,7 +332,7 @@
        Vendor Transmission Format
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s14.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_Vendor_Transmission_Format
       </helpDefinitionURL>
       <active>
         true
@@ -348,7 +348,7 @@
        Item Price Source
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s25.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_Item_Price_Source
       </helpDefinitionURL>
       <active>
         true

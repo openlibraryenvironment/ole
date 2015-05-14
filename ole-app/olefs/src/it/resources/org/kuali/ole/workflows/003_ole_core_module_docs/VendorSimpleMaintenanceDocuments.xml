@@ -332,7 +332,8 @@
        Vendor Transmission Format
       </label>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Fvendortransmissionformat.htm
+        <!--default.htm?turl=WordDocuments%2Fvendortransmissionformat.htm-->
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_Vendor_Transmission_Format
       </helpDefinitionURL>
       <active>
         true
@@ -348,7 +349,8 @@
        Item Price Source
       </label>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Fvendortransmissionformat.htm
+        <!--default.htm?turl=WordDocuments%2Fvendortransmissionformat.htm-->
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_Vendor_Transmission_Format
       </helpDefinitionURL>
       <active>
         true

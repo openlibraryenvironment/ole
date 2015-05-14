@@ -66,7 +66,7 @@
       <parent>OLESelectTransactionalDocument</parent>
       <label>Receiving and Claiming Queue Search</label>
        <helpDefinitionURL>
-           ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch05s05.html
+           ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s05.html#_Receiving_Queue
        </helpDefinitionURL>
     </documentType>
 
@@ -77,7 +77,7 @@
 			OrderQueueDocument
 		</label>
         <helpDefinitionURL>
-            ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s11.html
+            ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s03.html#_Order_Holding_Queue
         </helpDefinitionURL>
         <docSearchHelpURL>
             ${ole.externalizable.help.url}/default.htm?turl=WordDocuments%2Frequisitions.htm
@@ -96,7 +96,7 @@
 			Acquisitions Search
 		</label>
         <helpDefinitionURL>
-            ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch12s01.html
+            ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s11.html#_Acquisitions_Search
         </helpDefinitionURL>
 		<active>
 			true
@@ -112,7 +112,7 @@
 			Fund Lookup
 		</label>
         <helpDefinitionURL>
-            ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch06s02.html
+            ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s06.html#_fundLookup
         </helpDefinitionURL>
 		<active>
 			true

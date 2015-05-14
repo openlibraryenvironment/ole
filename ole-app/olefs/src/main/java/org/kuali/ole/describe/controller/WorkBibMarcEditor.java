@@ -131,7 +131,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
         List<BibTree> bibTreeList = new ArrayList<>();
         BibTree bibTree = null;
         String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(org.kuali.ole.sys.OLEConstants.EXTERNALIZABLE_HELP_URL_KEY);
-        editorForm.setExternalHelpUrl(directory+"/reference/webhelp/CG/content/ch01s02.html");
+        editorForm.setExternalHelpUrl(directory+"/reference/webhelp/OLE/content/ch04s01.html#_Editors");
         editorForm.setHeaderText("Bib");
         if (null != docId && StringUtils.isNotEmpty(docId)) {
             try {

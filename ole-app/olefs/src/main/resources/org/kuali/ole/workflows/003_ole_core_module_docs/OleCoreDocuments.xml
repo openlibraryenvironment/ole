@@ -7,7 +7,7 @@
         Bank
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s01.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_bank
       </helpDefinitionURL>
       <active>
         true
@@ -23,7 +23,7 @@
         Building
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s03.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_Building
       </helpDefinitionURL>
       <active>
         true
@@ -71,7 +71,7 @@
         Message Of The Day
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch04s04.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_messageOfTheDay
       </helpDefinitionURL>
       <active>
         true
@@ -87,7 +87,7 @@
         Room
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s37.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_Room
       </helpDefinitionURL>
       <active>
         true
@@ -103,7 +103,7 @@
         System Options
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch04s05.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_systemOptions
       </helpDefinitionURL>
       <active>
         true
@@ -151,7 +151,7 @@
         University Date
       </label>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Funiversitydate.htm
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_universityDate
       </helpDefinitionURL>
       <active>
         true

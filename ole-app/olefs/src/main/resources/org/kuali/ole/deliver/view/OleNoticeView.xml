@@ -25,6 +25,13 @@
     <bean id="OleNoticeView" parent="OleNoticeView-parentBean" />
     <bean id="OleNoticeView-parentBean" parent="Uif-OLEFormView">
         <property name="headerText" value="Compute courtesy and overdue notice dates for loans"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s02.html#_computeCourtesyAndOverdueNoticeDatesForLoans"/>
+                <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
+            </bean>
+        </property>
         <property name="items">
             <list>
                 <bean id="OleNoticeViewPage" parent="Uif-Page" >

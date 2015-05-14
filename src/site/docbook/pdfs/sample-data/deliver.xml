@@ -2495,7 +2495,7 @@
                         </parameter>
                         <parameter>
                             <name>permissionName</name>
-                            <value>Item not at circ desk authorized to service the item’s shelving location</value>
+                            <value>Item not at circ desk authorized to service the items shelving location</value>
                         </parameter>
                     </action>
                 </falseActions>

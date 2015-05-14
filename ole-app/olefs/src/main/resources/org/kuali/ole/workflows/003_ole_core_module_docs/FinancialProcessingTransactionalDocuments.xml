@@ -226,7 +226,7 @@
         ${ole.url}/financialBudgetAdjustment.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch06s05.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s06.html#_BudgetAdjustment
       </helpDefinitionURL>
       <active>
         true
@@ -317,7 +317,7 @@
         ${ole.url}/oleFinancialDistributionOfIncomeAndExpense.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s02.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s13.html#_DistributionofIncomeandExpense
       </helpDefinitionURL>
       <active>
         true
@@ -399,7 +399,7 @@
         ${ole.url}/oleFinancialGeneralErrorCorrection.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s07.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s13.html#_GeneralErrorCorrection
       </helpDefinitionURL>
       <active>
         true
@@ -625,7 +625,7 @@
         ${ole.url}/financialPreEncumbrance.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s10.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s13.html#_Pre-Encumbrance
       </helpDefinitionURL>
       <active>
         true
@@ -739,7 +739,7 @@
         ${ole.url}/financialTransferOfFunds.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch06s07.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s06.html#_TransferOfFunds
       </helpDefinitionURL>
       <active>
         true
@@ -917,7 +917,7 @@
         ${ole.url}/oleFinancialDisbursementVoucher.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s01.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s13.html#_DisbursementVoucher
       </helpDefinitionURL>
       <docSearchHelpURL>
         default.htm?turl=WordDocuments%2Fdisbursementvouchers.htm
@@ -1132,7 +1132,7 @@
         ${ole.url}/financialYearEndBudgetAdjustment.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s11.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s13.html#_YearEnd
       </helpDefinitionURL>
       <active>
         true
@@ -1151,7 +1151,7 @@
         ${ole.url}/financialYearEndDistributionOfIncomeAndExpense.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s11.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s13.html#_YearEnd
       </helpDefinitionURL>
       <active>
         true
@@ -1170,7 +1170,7 @@
         ${ole.url}/financialYearEndGeneralErrorCorrection.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s11.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s13.html#_YearEnd
       </helpDefinitionURL>
       <active>
         true

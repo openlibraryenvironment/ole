@@ -4568,9 +4568,10 @@
                                     </inlinemediaobject> below the search results – each record will
                                     open in a separate tab or window.</para>
                                 <para>To the right of the search results, you can click on any blue
-                                    facet to narrow the search results. You can click more above any
-                                    facet section for additional facet options. Note that facets are
-                                    presented only with a bibliographic search.</para>
+                                    facet to narrow the search results. You can click <emphasis
+                                        role="bold">more </emphasis>above any facet section for
+                                    additional facet options. Note that facets are presented only
+                                    with a bibliographic search.</para>
                                 <para>The search results will provide the title regardless of the
                                     document type selected. What other information that will display
                                     for records in the search results is locally configurable and
@@ -4615,9 +4616,6 @@
                                         <emphasis role="bold">Next</emphasis> to go to forward one
                                     screen of results or <emphasis role="bold">Previous</emphasis>
                                     to go back one screen.</para>
-                                <para>Click on any blue facet to narrow your search results. You may
-                                    click <emphasis role="bold">more </emphasis>above any facet
-                                    section to view additional facet options. </para>
                                 <para>Click <inlinemediaobject>
                                         <alt>Remove</alt>
                                         <imageobject>

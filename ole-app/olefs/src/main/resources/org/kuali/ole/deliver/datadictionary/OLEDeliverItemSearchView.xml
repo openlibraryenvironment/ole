@@ -6,6 +6,13 @@
     <bean id="OLEDeliverItemSearchView" parent="OLEDeliverItemSearchView-parentBean"/>
     <bean id="OLEDeliverItemSearchView-parentBean" parent="Uif-OLEFormView">
         <property name="headerText" value="Deliver Item Search"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/OLE/content/ch03s02.html#_Item_Search"/>
+                <!--<property name="tooltipHelpContent" value="[Help] Loan help"/>-->
+            </bean>
+        </property>
         <property name="items">
             <list>
                 <bean id="OLEDeliverItemSearchPage" parent="Uif-Page">

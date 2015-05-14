@@ -311,7 +311,7 @@
         Organization Reversion Category
       </label>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Forganizationreversioncategory.htm
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_organizationReversionCategory
       </helpDefinitionURL>
       <active>
         true

@@ -107,7 +107,7 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
         //TODO: set title info
         WorkInstanceOlemlForm workInstanceOlemlForm = new WorkInstanceOlemlForm();
         String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(org.kuali.ole.sys.OLEConstants.EXTERNALIZABLE_HELP_URL_KEY);
-        editorForm.setExternalHelpUrl(directory+"/reference/webhelp/CG/content/ch01s03.html#_Holdings");
+        editorForm.setExternalHelpUrl(directory+"/reference/webhelp/OLE/content/ch04s01.html#_Instance_Editor_1");
         editorForm.setHeaderText("Holdings");
         editorForm.setHasLink(true);
         editorForm.setShowEditorFooter(true);

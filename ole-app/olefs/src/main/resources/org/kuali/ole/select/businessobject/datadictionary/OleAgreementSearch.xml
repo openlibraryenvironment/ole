@@ -118,7 +118,7 @@
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
-                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/AG/content/ch08s01.html"/>
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/OLE/content/ch05s07.html#_AgreementDoc"/>
                 <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>

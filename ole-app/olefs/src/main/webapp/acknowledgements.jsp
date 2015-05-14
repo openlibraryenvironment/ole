@@ -256,7 +256,7 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
         lucene-memory.jar, v4.9.0. &copy; 2014 The Apache Software Foundation Licensed under the terms of Apache License,
 Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
 <br/>
-        lucene-miscellaneous.jar, v4.9.0. &copy; 2014 The Apache Software Foundation Licensed under the terms of Apache License,
+        lucene-misc.jar, v4.9.0. &copy; 2014 The Apache Software Foundation Licensed under the terms of Apache License,
 Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
 <br/>
         lucene-queries.jar, v4.9.0. &copy; 2014 The Apache Software Foundation Licensed under the terms of Apache License,
@@ -617,7 +617,7 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
 
 <p>This product includes software developed by Groovy (<a href="http://groovy.codehaus.org/">http://groovy.codehaus.org/</a>):
     <br/>
-    groovy.jar, v1.8.5. &copy; 2003-2007 The original author or authors. Licensed under the terms of Apache License, Version
+    groovy-all.jar, v1.8.5. &copy; 2003-2007 The original author or authors. Licensed under the terms of Apache License, Version
     2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
 </p>
         
@@ -651,7 +651,7 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
 
 <p>This product includes sofware developed by ICU(<a href="http://site.icu-project.org/">http://site.icu-project.org/</a>):
     <br/>
-    icu4j.jar, 4.8.1.1. &copy; 1997-2014, International Business Machines Corporation and others. Licensed under the terms of the ICU License (<a href="http://source.icu-project.org/repos/icu/icu/trunk/license.html">http://source.icu-project.org/repos/icu/icu/trunk/license.html</a>)
+    icu4j.jar, 53.1. &copy; 1997-2014, International Business Machines Corporation and others. Licensed under the terms of the ICU License (<a href="http://source.icu-project.org/repos/icu/icu/trunk/license.html">http://source.icu-project.org/repos/icu/icu/trunk/license.html</a>)
 </p>
 
 <p>INDIANA UNIVERSITY</p>
@@ -965,9 +965,12 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
 
 <p>This product includes software developed by the OW2 Consortium (<a href="http://www.ow2.org/">http://www.ow2.org/</a>):
     <br/>
-    asm.jar, v4.1. &copy; 2000-2011 INRIA, France Telecom Licensed under the
+    asm.jar, v3.3.1. &copy; 2000-2011 INRIA, France Telecom Licensed under the
     terms of BSD License (<a href="http://asm.ow2.org/license.html">http://asm.ow2.org/license.html</a>)
     <br/>
+        asm.jar, v4.1. &copy; 2000-2011 INRIA, France Telecom Licensed under the
+        terms of BSD License (<a href="http://asm.ow2.org/license.html">http://asm.ow2.org/license.html</a>)
+        <br/>
         asm-commons.jar, v4.1. &copy; 2000-2011 INRIA, France Telecom Licensed under the
         terms of BSD License (<a href="http://asm.ow2.org/license.html">http://asm.ow2.org/license.html</a>)
         <br/>
@@ -999,7 +1002,7 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
                 org.restlet.jar.  v.2.1.1. &copy; 2005-2012 Restlet S.A.S. Licensed under the terms of Apache License,
                 Version 2.0 (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)
                 <br/>
-                org.restlet..ext.servlet.jar, v2.1.1. &copy; 2005-2012 Restlet S.A.S. Licensed under the terms of Apache License,
+                org.restlet.ext.servlet.jar, v2.1.1. &copy; 2005-2012 Restlet S.A.S. Licensed under the terms of Apache License,
                 Version 2.0 (<a href="http://www.apache.org/licenses/">http://www.apache.org/licenses/</a>)
         </p>
         

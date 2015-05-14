@@ -27,7 +27,7 @@
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
-                          value="${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s04.html"/>
+                          value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s13.html#_DonorEncumberedReport"/>
                 <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>

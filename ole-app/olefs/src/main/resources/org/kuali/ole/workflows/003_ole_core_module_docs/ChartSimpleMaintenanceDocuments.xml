@@ -7,7 +7,7 @@
         Accounting Period
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s02.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_accountingPeriod
       </helpDefinitionURL>
       <active>
         true
@@ -23,7 +23,7 @@
         Account Type
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s01.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_accountType
       </helpDefinitionURL>
       <active>
         true
@@ -55,7 +55,7 @@
         Balance Type
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s03.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_balanceType
       </helpDefinitionURL>
       <active>
         true
@@ -71,7 +71,7 @@
         Basic Accounting Category
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s04.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_basicAccountingCategory
       </helpDefinitionURL>
       <active>
         true
@@ -87,7 +87,7 @@
         Budget Aggregation Code
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s05.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_budgetAggregationCode
       </helpDefinitionURL>
       <active>
         true
@@ -119,7 +119,7 @@
         Chart
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch15s05.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s14.html#_chart
       </helpDefinitionURL>
       <active>
         true
@@ -167,7 +167,7 @@
         Fund Group
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s07.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_FundGroup
       </helpDefinitionURL>
       <active>
         true
@@ -215,7 +215,7 @@
         Object Consolidation
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s08.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_ObjectConsolidation
       </helpDefinitionURL>
       <active>
         true
@@ -231,7 +231,7 @@
         Object Level
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s09.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_ObjectLevel
       </helpDefinitionURL>
       <active>
         true
@@ -247,7 +247,7 @@
         Object Sub-Type
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s10.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_ObjectSubType
       </helpDefinitionURL>
       <active>
         true
@@ -263,7 +263,7 @@
         Object Type
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s11.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_ObjectType
       </helpDefinitionURL>
       <active>
         true
@@ -295,7 +295,7 @@
         Offset Definition
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s41.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_offsetDefinition
       </helpDefinitionURL>
       <active>
         true
@@ -311,7 +311,7 @@
         Organization Reversion Category
       </label>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Forganizationreversioncategory.htm
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_organizationReversionCategory
       </helpDefinitionURL>
       <active>
         true
@@ -327,7 +327,7 @@
         Organization Type
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s12.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_organizationType
       </helpDefinitionURL>
       <active>
         true
@@ -375,7 +375,7 @@
         Responsibility Center
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch15s13.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s14.html#_responsibilityCenter
       </helpDefinitionURL>
       <active>
         true
@@ -391,7 +391,7 @@
         Restricted Status
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s13.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_RestrictedStatus
       </helpDefinitionURL>
       <active>
         true
@@ -407,7 +407,7 @@
         Sub-Fund Group
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s15.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_SubFundGroup
       </helpDefinitionURL>
       <active>
         true
@@ -423,7 +423,7 @@
         Sub-Fund Group Type
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s16.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_SubFundGroupType
       </helpDefinitionURL>
       <active>
         true
@@ -487,7 +487,7 @@
         Stewardship Requirement
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s14.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_Stewardship_Requirement
       </helpDefinitionURL>
       <active>
         true
@@ -519,7 +519,7 @@
         Sufficient Funds Check Type
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch16s17.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s15.html#_Sufficient_Funds_Check
       </helpDefinitionURL>
       <active>
         true

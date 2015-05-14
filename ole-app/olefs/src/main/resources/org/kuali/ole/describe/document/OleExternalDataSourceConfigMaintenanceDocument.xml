@@ -42,7 +42,7 @@
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
-                          value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch04s02.html"/>
+                          value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_externalDataSources"/>
                 <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>

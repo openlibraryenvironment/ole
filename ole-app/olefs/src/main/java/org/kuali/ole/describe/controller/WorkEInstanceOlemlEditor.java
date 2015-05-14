@@ -269,7 +269,7 @@ public class WorkEInstanceOlemlEditor
         workEInstanceOlemlForm.setIssn(bib.getIssn());
         editorForm.seteResourceTitle(workEInstanceOlemlForm.geteResourceTitle());
         String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(org.kuali.ole.sys.OLEConstants.EXTERNALIZABLE_HELP_URL_KEY);
-        editorForm.setExternalHelpUrl(directory+"/reference/webhelp/CG/content/ch01s04.html");
+        editorForm.setExternalHelpUrl(directory+"/reference/webhelp/OLE/content/ch04s01.html#_EInstanceEditor");
         editorForm.setHeaderText("E-Holdings");
         if (workEInstanceOlemlForm.getTokenId() != null && !workEInstanceOlemlForm.getTokenId().isEmpty()) {
             editorForm.setTokenId(workEInstanceOlemlForm.getTokenId());

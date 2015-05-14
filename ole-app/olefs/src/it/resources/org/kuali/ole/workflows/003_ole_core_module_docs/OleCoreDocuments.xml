@@ -151,7 +151,7 @@
         University Date
       </label>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Funiversitydate.htm
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_universityDate
       </helpDefinitionURL>
       <active>
         true

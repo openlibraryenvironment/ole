@@ -325,8 +325,8 @@
                     <listitem>
                         <para>If you have not scheduled the job for a later time, the <emphasis
                                 role="bold">Batch Process Job Details</emphasis> page will open in a
-                            new tab or window.  This interface allows you to review the report,
-                            stop, pause, or restart the job.  </para>
+                            new tab or window. This interface allows you to review the report, stop,
+                            pause, or restart the job. </para>
                         <note>
                             <para>For additional information on <emphasis role="bold">Batch Process
                                     Job Details</emphasis>, see <link
@@ -629,7 +629,7 @@
                 interface.</para>
             <para>If you have run a batch job and the <emphasis role="bold">Batch Process Job
                     Details</emphasis> screen opened automatically, only your corresponding job will
-                be displayed.  If you open the screen from the OLE menu, all jobs will be
+                be displayed. If you open the screen from the OLE menu, all jobs will be
                 displayed.</para>
             <para>Enter dates into the <emphasis role="bold">Date Create From</emphasis> and/or the
                     <emphasis role="bold">Date Created To</emphasis> fields or use the calendar icon <inlinemediaobject>
@@ -1430,7 +1430,7 @@
                                                   <imagedata
                                                   fileref="../images/DeliverNoTitlePage-48.png"/>
                                                   </imageobject>
-                                                </inlinemediaobject> to add the filter criteria
+                                                </inlinemediaobject> to add the Filter Criteria
                                                 value.</para>
                                         </entry>
                                     </row>
@@ -1585,7 +1585,7 @@
                                                   <imagedata
                                                   fileref="../images/DeliverNoTitlePage-48.png"/>
                                                   </imageobject>
-                                                </inlinemediaobject> to add the Delete Field
+                                                </inlinemediaobject> to add the Data Mapping
                                                 value.</para>
                                         </entry>
                                     </row>
@@ -3419,7 +3419,7 @@
                                     <imagedata fileref="../images/admin-189.png"/>
                                 </imageobject>
                             </inlinemediaobject> value will stop all other hold notices from
-                            running.  To run an on demand hold notice job for one pick up location,
+                            running. To run an on demand hold notice job for one pick up location,
                             separate from or in addition to the regularly scheduled <emphasis
                                 role="bold">generateOnHoldNoticeJob</emphasis>, use the Circulation
                             Desk Inquiry.</para>
@@ -3456,7 +3456,7 @@
                             </inlinemediaobject></para>
                         <para>The Circulation Desk Lookup allows staff to view circulation desks and
                             the Inquiry allows staff to run hold notices notice jobs for circulation
-                            desks that have already been mapped.  By clicking the <inlinemediaobject>
+                            desks that have already been mapped. By clicking the <inlinemediaobject>
                                 <alt>Generate On Hold Notice</alt>
                                 <imageobject>
                                     <imagedata fileref="../images/admin-205.png"/>

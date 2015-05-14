@@ -102,7 +102,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
     public EditorForm loadDocument(EditorForm editorForm) {
         WorkInstanceOlemlForm workInstanceOlemlForm = new WorkInstanceOlemlForm();
         String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(org.kuali.ole.sys.OLEConstants.EXTERNALIZABLE_HELP_URL_KEY);
-        editorForm.setExternalHelpUrl(directory+"/reference/webhelp/CG/content/ch01s03.html#_Item");
+        editorForm.setExternalHelpUrl(directory+"/reference/webhelp/OLE/content/ch04s01.html#_Item");
         editorForm.setHeaderText("Item");
         editorForm.setHasLink(true);
         String bibId = editorForm.getBibId();

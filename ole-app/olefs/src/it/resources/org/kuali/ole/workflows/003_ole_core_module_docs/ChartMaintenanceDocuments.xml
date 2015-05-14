@@ -7,7 +7,7 @@
         Organization Reversion Global
       </label>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Forganizationreversionglobal.htm
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_organizationReversionGlobal
       </helpDefinitionURL>
       <active>
         true

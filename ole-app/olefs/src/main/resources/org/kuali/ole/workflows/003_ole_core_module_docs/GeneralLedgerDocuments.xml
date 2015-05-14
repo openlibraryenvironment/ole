@@ -10,7 +10,7 @@
         ${ole.url}/generalLedgerCorrection.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s08.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s13.html#_GeneralLedgerCorrectionProcess
       </helpDefinitionURL>
       <active>
         true

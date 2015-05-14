@@ -23,7 +23,7 @@
         Payment Request Auto Approve Exclusions
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s29.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_PaymentRequestAutoApproveExclusions
       </helpDefinitionURL>
       <active>
         true
@@ -39,7 +39,7 @@
         Billing Address
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s02.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_BillingAddress
       </helpDefinitionURL>
       <active>
         true
@@ -71,7 +71,7 @@
         Carrier
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s05.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_Carrier
       </helpDefinitionURL>
       <active>
         true
@@ -103,7 +103,7 @@
         Delivery Required Date Reason
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s07.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_DeliveryRequiredDateReason
       </helpDefinitionURL>
       <active>
         true
@@ -119,7 +119,7 @@
         Funding Source
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s24.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_FundingSource
       </helpDefinitionURL>
       <active>
         true
@@ -135,7 +135,7 @@
         Item Reason Added
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s26.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_ItemReasonAdded
       </helpDefinitionURL>
       <active>
         true
@@ -151,7 +151,7 @@
         Item Type
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s14.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_ItemType
       </helpDefinitionURL>
       <active>
         true
@@ -167,7 +167,7 @@
         Negative Payment Request Approval Limit
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s27.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_NegativePaymentRequestApprovalLimit
       </helpDefinitionURL>
       <active>
         true
@@ -183,7 +183,7 @@
         Organization Parameter
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s28.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_OrganizationParameter
       </helpDefinitionURL>
       <active>
         true
@@ -215,7 +215,7 @@
         Purchase Order Contract Language
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s30.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_Purchase_Order_Contract
       </helpDefinitionURL>
       <active>
         true
@@ -295,7 +295,7 @@
         Method of PO Transmission
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s15.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_Method_of_PO
       </helpDefinitionURL>
       <active>
         true
@@ -311,7 +311,7 @@
         Purchase Order Vendor Choice
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s32.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_purchaseOrderVendorChoice
       </helpDefinitionURL>
       <active>
         true
@@ -327,7 +327,7 @@
         Receiving Address
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s33.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_ReceivingAddress
       </helpDefinitionURL>
       <active>
         true
@@ -343,7 +343,7 @@
         Receiving Threshold
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s34.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_ReceivingThreshold
       </helpDefinitionURL>
       <active>
         true
@@ -359,7 +359,7 @@
         Recurring Payment Frequency
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s35.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_Recurring_Payment_Frequency
       </helpDefinitionURL>
       <active>
         true
@@ -375,7 +375,7 @@
         Recurring Payment Type
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s19.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_RecurringPaymentType
       </helpDefinitionURL>
       <active>
         true
@@ -391,7 +391,7 @@
         Requisition Source
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s36.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_RequisitionSource
       </helpDefinitionURL>
       <active>
         true
@@ -423,7 +423,7 @@
         Sensitive Data
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s21.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_SensitiveData
       </helpDefinitionURL>
       <active>
         true
@@ -503,7 +503,7 @@
         Electronic Invoice Item Mapping
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s22.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_ElectronicInvoiceItemMapping
       </helpDefinitionURL>
       <active>
         true
@@ -521,7 +521,7 @@
         OLE Invoice Type Document
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s12.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_Invoice_Type
       </helpDefinitionURL>
       <active>
         true
@@ -537,7 +537,7 @@
         OLE Invoice SubType Document
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s11.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_Invoice_Sub_Type
       </helpDefinitionURL>
       <active>
         true
@@ -553,7 +553,7 @@
         OLE Payment Method Document
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s18.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_Payment_Method
       </helpDefinitionURL>
       <active>
         true
@@ -569,7 +569,7 @@
         OLE Licensing Requirement Document
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch19s13.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s18.html#_Licensing_Requirement
       </helpDefinitionURL>
       <active>
         true

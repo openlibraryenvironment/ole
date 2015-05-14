@@ -84,26 +84,30 @@ public class KrmsBuilderController
         OleKrmsBuilder loanKrmsBuilder = new OleKrmsBuilder();
         KrmsXMLSchemaValidator krmsXMLSchemaValidator = new KrmsXMLSchemaValidator();
         MultipartFile multipartFile = krmsBuilderForm.getKrmsFile();
-        if (validateFile(multipartFile.getOriginalFilename())) {
-            String fileContent = new String(multipartFile.getBytes());
-            try {
-                boolean validXML= true;
-                if(!validXML){
-                    GlobalVariables.getMessageMap().putError(OLEKeyConstants.KRMS_BUILDER_INVALID_SCHEMA, OLEKeyConstants.KRMS_BUILDER_INVALID_SCHEMA);
-                    return super.start(krmsBuilderForm, result, request, response);
-                }
-                boolean license  = krmsXMLSchemaValidator.validateContentsAgainstSchema(multipartFile.getInputStream());
-                if(license)
-                    krmsBuilder.persistKrmsFromFileContent(fileContent);
-                else
-                    loanKrmsBuilder.persistKrmsFromFileContent(fileContent);
+        if(multipartFile != null){
+            if (validateFile(multipartFile.getOriginalFilename())) {
+                String fileContent = new String(multipartFile.getBytes());
+                try {
+                    boolean validXML= true;
+                    if(!validXML){
+                        GlobalVariables.getMessageMap().putError(OLEKeyConstants.KRMS_BUILDER_INVALID_SCHEMA, OLEKeyConstants.KRMS_BUILDER_INVALID_SCHEMA);
+                        return super.start(krmsBuilderForm, result, request, response);
+                    }
+                    boolean license  = krmsXMLSchemaValidator.validateContentsAgainstSchema(multipartFile.getInputStream());
+                    if(license)
+                        krmsBuilder.persistKrmsFromFileContent(fileContent);
+                    else
+                        loanKrmsBuilder.persistKrmsFromFileContent(fileContent);
 
-                GlobalVariables.getMessageMap().putInfo(OLEKeyConstants.KRMS_BUILDER_SUCCESS,OLEKeyConstants.KRMS_BUILDER_SUCCESS);
-            } catch (Exception krmsBuilderException) {
-                GlobalVariables.getMessageMap().putError(OLEKeyConstants.KRMS_BUILDER_FAILURE, OLEKeyConstants.KRMS_BUILDER_FAILURE);
-                LOG.error("Failed to upload Krms builder.", krmsBuilderException);
+                    GlobalVariables.getMessageMap().putInfo(OLEKeyConstants.KRMS_BUILDER_SUCCESS,OLEKeyConstants.KRMS_BUILDER_SUCCESS);
+                } catch (Exception krmsBuilderException) {
+                    GlobalVariables.getMessageMap().putError(OLEKeyConstants.KRMS_BUILDER_FAILURE, OLEKeyConstants.KRMS_BUILDER_FAILURE);
+                    LOG.error("Failed to upload Krms builder.", krmsBuilderException);
+                }
+            } else {
+                GlobalVariables.getMessageMap().putError(OLEKeyConstants.KRMS_BUILDER_SELECT_FILE, OLEKeyConstants.KRMS_BUILDER_SELECT_FILE);
             }
-        } else {
+        }else {
             GlobalVariables.getMessageMap().putError(OLEKeyConstants.KRMS_BUILDER_SELECT_FILE, OLEKeyConstants.KRMS_BUILDER_SELECT_FILE);
         }
         return super.start(krmsBuilderForm, result, request, response);

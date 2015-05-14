@@ -7,7 +7,7 @@
         Currency Type
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s06.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_currencyType
       </helpDefinitionURL>
       <active>
         true
@@ -24,7 +24,7 @@
        Vendor Transmission Format
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s14.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_Vendor_Transmission_Format
       </helpDefinitionURL>
       <active>
         true
@@ -41,7 +41,7 @@
        Alias Type
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s13.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_VendorSearchAliasType
       </helpDefinitionURL>
       <active>
         true
@@ -55,7 +55,7 @@
   <name>OLE_PMVTT</name> 
   <parent>OLEVendorSimpleMaintenanceDocument</parent> 
   <label>Vendor Transmission Type</label> 
-  <helpDefinitionURL>${ole.externalizable.help.url}/reference/webhelp/AG/content/ch17s15.html</helpDefinitionURL>
+  <helpDefinitionURL>${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s16.html#_Vendor_Transmission_Type</helpDefinitionURL>
   <active>true</active> 
   <routingVersion>2</routingVersion> 
   </documentType>
@@ -63,7 +63,7 @@
   <name>OLE_PMEXCH</name> 
   <parent>OLEVendorSimpleMaintenanceDocument</parent> 
   <label>Exchange Rate</label> 
-  <helpDefinitionURL>${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s10.html</helpDefinitionURL>
+  <helpDefinitionURL>${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_exchangeRate</helpDefinitionURL>
   <active>true</active> 
   <routingVersion>2</routingVersion> 
   </documentType>

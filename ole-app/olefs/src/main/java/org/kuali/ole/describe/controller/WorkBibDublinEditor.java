@@ -87,7 +87,7 @@ public class WorkBibDublinEditor
         Bib bib = null;
 //        editorForm.setHeaderText("Bibliographic Editor - Dublin Core (Unqualified) Format");
         String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(org.kuali.ole.sys.OLEConstants.EXTERNALIZABLE_HELP_URL_KEY);
-        editorForm.setExternalHelpUrl(directory+"/reference/webhelp/CG/content/ch01s01.html");
+        editorForm.setExternalHelpUrl(directory+"/reference/webhelp/OLE/content/ch04s01.html#DublinEditor");
         editorForm.setHeaderText("Dublin");
         if (null != docId) {
             try {

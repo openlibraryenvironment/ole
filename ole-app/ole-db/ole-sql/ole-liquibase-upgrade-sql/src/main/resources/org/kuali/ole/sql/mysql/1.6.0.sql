@@ -555,5 +555,63 @@ CREATE OR REPLACE VIEW ole.OLE_PTRN_ENTITY_V AS (SELECT
 INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('PATRON_VIEW_MODIFIED', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 51, '7:cf968b369107076cef561114f1ce728f', 'createView', '', 'EXECUTED', '3.2.0')
 /
 
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::UPDATE_HELP_LINK::ole
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s06.html#_documentType' WHERE DOC_TYP_NM = 'DocumentTypeDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_namespace' WHERE DOC_TYP_NM = 'NamespaceMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_parameterType' WHERE DOC_TYP_NM = 'ParameterTypeMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_parameterComponent' WHERE DOC_TYP_NM = 'ParameterDetailTypeMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_parameter' WHERE DOC_TYP_NM = 'ParameterMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_campus' WHERE DOC_TYP_NM = 'CampusMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_campusType' WHERE DOC_TYP_NM = 'CampusTypeMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_country' WHERE DOC_TYP_NM = 'CountryMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_county' WHERE DOC_TYP_NM = 'CountyMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_postalCode' WHERE DOC_TYP_NM = 'PostalCodeMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_state' WHERE DOC_TYP_NM = 'StateMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = 'reference/webhelp/OLE/content/ch06s08.html#_role' WHERE DOC_TYP_NM = 'IdentityManagementRoleDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s08.html#_group' WHERE DOC_TYP_NM = 'IdentityManagementGroupDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s08.html#_responsibility' WHERE DOC_TYP_NM = 'IdentityManagementReviewResponsibilityMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s08.html#_permission' WHERE DOC_TYP_NM = 'IdentityManagementGenericPermissionMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_parameterComponent' WHERE DOC_TYP_NM = 'ComponentMaintenanceDocument'
+/
+
+UPDATE KRCR_PARM_T SET VAL = 'customerLoadInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;procurementCardInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;collectorFlatFileInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;collectorXmlInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;enterpriseFeederFileSetType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;laborEnterpriseFeederFileSetType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;assetBarcodeInventoryInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;paymentInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload' WHERE parm_nm = 'BATCH_UPLOAD_HELP_URL'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s08.html#_person' WHERE DOC_TYP_NM = 'IdentityManagementPersonDocument'
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('UPDATE_HELP_LINK', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 52, '7:e674d01db36f5c613fea09a925166478', 'update (x18)', '', 'EXECUTED', '3.2.0')
+/
+
 --  Release Database Lock
 --  Release Database Lock

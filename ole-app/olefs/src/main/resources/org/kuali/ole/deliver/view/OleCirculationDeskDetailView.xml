@@ -28,7 +28,7 @@
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
-                          value="${ole.externalizable.help.url}/reference/webhelp/CIRC/content/ch04s06.html"/>
+                          value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch03s04.html#_Circulation_Desk_Mapping_1"/>
                 <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>

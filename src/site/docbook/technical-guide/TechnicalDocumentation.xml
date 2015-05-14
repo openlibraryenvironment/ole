@@ -7,6 +7,16 @@
             <para><emphasis role="bold">Select and Acquire</emphasis></para>
         </listitem>
         <listitem>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/FYMakerJobTechDoc.pdf">Fiscal Year
+                                Maker Job</link>.</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </listitem>
+        <listitem>
             <para><emphasis role="bold">Describe</emphasis></para>
         </listitem>
         <listitem>
@@ -18,7 +28,15 @@
                 </listitem>
                 <listitem>
                     <para><link xlink:href="../../../pdfs/LocationTechnicalDocument.pdf"
-                        >Location</link>.</para>
+                            >Location</link>.</para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/OLECirculationProcessesTechDoc.pdf"
+                            >Circulation Processes</link>.</para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/OLERESTServicesTechDoc.pdf">REST
+                            Services</link>.</para>
                 </listitem>
             </itemizedlist>
         </listitem>
@@ -26,12 +44,16 @@
             <para><emphasis role="bold">Admin</emphasis></para>
             <itemizedlist>
                 <listitem>
-                    <para><link xlink:href="../../../pdfs/BatchProcessProfileTechnicalDocument.pdf">Batch
-                            Process Profile</link>.</para>
+                    <para><link xlink:href="../../../pdfs/BatchProcessProfileTechnicalDocument.pdf"
+                            >Batch Process Profile</link>.</para>
                 </listitem>
                 <listitem>
-                    <para><link xlink:href="../../../pdfs/ScheduledJobsTechnicalDocument.pdf">Scheduled
-                            Jobs</link>.</para>
+                    <para><link xlink:href="../../../pdfs/BatchProcessTechnicalDocument.pdf">Batch
+                            Process</link>.</para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/ScheduledJobsTechnicalDocument.pdf"
+                            >Scheduled Jobs</link>.</para>
                 </listitem>
             </itemizedlist>
         </listitem>
@@ -40,7 +62,16 @@
             <itemizedlist>
                 <listitem>
                     <para><link xlink:href="../../../pdfs/OLE-SIP2Document.pdf">3M
-                        Integration</link>.</para>
+                            Integration</link>.</para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/DataLoadAtStartupTechDoc.pdf">Data Load at
+                            Startup</link> (Includes patrons, circulation policies, ingest profiles,
+                        and e-resources).</para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/InternationalizationTechnicalDocument.pdf"
+                            >Internationalization</link> .</para>
                 </listitem>
             </itemizedlist>
         </listitem>

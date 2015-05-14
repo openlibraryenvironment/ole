@@ -995,8 +995,9 @@
         <glossentry xml:id="copyRequest">
             <glossterm>Copy Request</glossterm>
             <glossdef>
-                <para>The ability for a patron/borrower to ask for a photocopy or PDF of a part of
-                    an item.</para>
+                <para>Request for an item to be retrieved from its shelving location and designated
+                    pages from that item to be reproduced (scanned or photocopied) for the
+                    requesting patron. </para>
                 <glossseealso otherterm="request">Request</glossseealso>
             </glossdef>
         </glossentry>

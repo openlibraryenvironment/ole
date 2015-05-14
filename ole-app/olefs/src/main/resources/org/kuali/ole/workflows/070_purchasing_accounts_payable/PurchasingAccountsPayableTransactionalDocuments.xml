@@ -77,7 +77,7 @@
                 ReceivingTransactionalDocument
             </label>
             <docSearchHelpURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch05s01.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s05.html#_Receiving
             </docSearchHelpURL>
             <active>
                 true
@@ -273,10 +273,10 @@
                 ${ole.url}/purapRequisition.do?methodToCall=docHandler
             </docHandler>
             <helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s02.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s03.html#_Requisition
             </helpDefinitionURL>
             <docSearchHelpURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s01.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s03.html#_RequisitionSearch
             </docSearchHelpURL>
             <active>
                 true
@@ -640,10 +640,10 @@
                 ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
             </docHandler>
             <helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s04.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s03.html#_Purchase_Order
             </helpDefinitionURL>
             <docSearchHelpURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s03.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s03.html#_Purchase_Order_Search
             </docSearchHelpURL>
             <active>
                 true
@@ -885,7 +885,7 @@
                 ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
             </docHandler>
             <helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s05.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s03.html#_POA
             </helpDefinitionURL>
             <active>
                 true
@@ -1022,7 +1022,7 @@
                 ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
             </docHandler>
             <helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s09.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s03.html#_POClose
             </helpDefinitionURL>
             <active>
                 true
@@ -1102,7 +1102,7 @@
                 ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
             </docHandler>
             <helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s06.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s03.html#_POHold
             </helpDefinitionURL>
             <active>
                 true
@@ -1183,7 +1183,7 @@
                 ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
             </docHandler>
             <helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s07.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s03.html#_PORemoveHold
             </helpDefinitionURL>
             <active>
                 true
@@ -1270,7 +1270,7 @@
                 ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
             </docHandler>
             <helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s10.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s03.html#_POReopen
             </helpDefinitionURL>
             <active>
                 true
@@ -1502,7 +1502,7 @@
                 ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
             </docHandler>
             <helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s08.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s03.html#_POVoid
             </helpDefinitionURL>
             <active>
                 true
@@ -1620,10 +1620,10 @@
                 ${ole.url}/selectOleVendorCreditMemo.do?methodToCall=docHandler
             </docHandler>
             <helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch04s04.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s04.html#_Vendor_Credit_Memo
             </helpDefinitionURL>
             <docSearchHelpURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch04s03.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s04.html#_Vendor_Credit_Memo_Search
             </docSearchHelpURL>
             <active>
                 true
@@ -1759,10 +1759,10 @@
                 ${ole.url}/selectOlePaymentRequest.do?methodToCall=docHandler
             </docHandler>
             <helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch04s06.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s04.html#_Payment_Request
             </helpDefinitionURL>
             <docSearchHelpURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch04s05.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s04.html#_Payment_Request_Search
             </docSearchHelpURL>
             <active>
                 true
@@ -2070,10 +2070,10 @@
                 ${application.url}/ole-kr-krad/OLEInvoice?viewId=OLEInvoiceDocumentView&amp;methodToCall=docHandler
             </docHandler>
             <helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch04s02.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s04.html#_Invoice
             </helpDefinitionURL>
             <docSearchHelpURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch04s01.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s04.html#_invoiceSearch
             </docSearchHelpURL>
             <active>
                 true
@@ -2452,7 +2452,7 @@
                 ${ole.url}/selectOleLineItemReceiving.do?methodToCall=docHandler
             </docHandler>
             <helpDefinitionURL>
-                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch05s02.html
+                ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s05.html#_Receiving_-Line_Item
             </helpDefinitionURL>
             <active>
                 true

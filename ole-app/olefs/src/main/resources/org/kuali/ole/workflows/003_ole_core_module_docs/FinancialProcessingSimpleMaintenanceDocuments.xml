@@ -71,7 +71,7 @@
         Fiscal Year Function Control
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s39.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_fiscalYearFunctionControl
       </helpDefinitionURL>
       <active>
         true
@@ -87,7 +87,7 @@
         Function Control Code
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s40.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_functionControlCode
       </helpDefinitionURL>
       <active>
         true
@@ -135,7 +135,7 @@
         Disbursement Voucher Payment Reason
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s38.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_disbursementVoucherPaymentReason
       </helpDefinitionURL>
       <active>
         true

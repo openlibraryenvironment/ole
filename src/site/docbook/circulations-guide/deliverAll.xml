@@ -120,7 +120,7 @@
                                 within OLE.</para>
                             <note>
                                 <para>Do not run this job before the
-                                    generateRequestExpirationNoticeJob.  If you do, the request is
+                                    generateRequestExpirationNoticeJob. If you do, the request is
                                     deleted from the request table before the request expiration
                                     notice has been sent to the patron.</para>
                             </note>
@@ -566,12 +566,14 @@
                     </orderedlist>
                 </section>
                 <section>
-                    <title>Claims Return</title>
+                    <title><anchor xml:id="_claimsReturn"/>Claims Return</title>
                     <para role="Normal">Patrons sometimes notify library staff that they have
                         returned items for which they may have received overdue notices or
                         replacement fee bills. In such circumstances a library staff operator with
                         proper permission needs to manually turn on a “claims returned” flag in the
-                        item and have the system automatically record the date of the event.</para>
+                        item and have the system automatically record the date of the event.
+                        Marking an item as claimed returned will cancel any outstanding requests and
+                        a cancellation notice will be sent to the requestor.</para>
                     <para role="Normal"/>
                     <orderedlist numeration="arabic" spacing="normal">
                         <listitem>
@@ -615,7 +617,7 @@
                     </orderedlist>
                 </section>
                 <section>
-                    <title>Missing Piece</title>
+                    <title><anchor xml:id="_missingPiece"/>Missing Piece</title>
                     <para>If the operator observes that the item presented for checkout is missing a
                         piece, then they can report the missing piece within OLE. Missing pieces are
                         noted on the item record and will remind staff with each circulation
@@ -664,7 +666,7 @@
                     </orderedlist>
                 </section>
                 <section>
-                    <title>Damaged</title>
+                    <title><anchor xml:id="_damaged"/>Damaged</title>
                     <para>If the operator observes that the item presented for checkout is damaged,
                         then they can report the damage within OLE. Damages are noted on the item
                         record and a notice will pop up with each circulation transaction if the
@@ -1235,7 +1237,8 @@
                 </orderedlist>
             </section>
             <section>
-                <title>Modifying or Canceling Requests </title>
+                <title><anchor xml:id="_ModifyingOrCancelingRequests"/>Modifying or Canceling
+                    Requests </title>
                 <para role="Normal">An authorized library staff operator can change a pickup
                     location or an expiration date for a request.</para>
                 <orderedlist>
@@ -1273,9 +1276,14 @@
                     <listitem>
                         <para role="Normal (Web)">If you click edit, you will be able to change
                                 <emphasis role="bold">Pickup Location</emphasis>, the <emphasis
-                                role="bold">Request Expiry Date</emphasis>, the <emphasis
-                                role="bold">Patron</emphasis> and the <emphasis role="bold"
-                                >Item</emphasis>.</para>
+                                role="bold">Request Expiry Date</emphasis>, and, depending on the
+                            request type, the <emphasis role="bold">Hold Expiration Date</emphasis>.  </para>
+                        <para role="Normal (Web)">When you have made your changes, click <inlinemediaobject>
+                                <alt>Submit</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/admin-303.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
                         <para role="Normal (Web)"/>
                         <para role="Normal (Web)"><inlinemediaobject>
                                 <imageobject>
@@ -1285,8 +1293,9 @@
                             </inlinemediaobject></para>
                     </listitem>
                     <listitem>
-                        <para role="Normal">Alternatively, if you click cancel from the search
-                            screen, a confirmation screen will appear. </para>
+                        <para role="Normal">Alternatively, if you click <emphasis role="bold"
+                                >cancel</emphasis> from the search screen, a confirmation screen
+                            will appear. </para>
                         <para role="Normal">Double check that this is the request you would like to
                             cancel and click <inlinemediaobject>
                                 <alt>Cancel</alt>
@@ -1389,11 +1398,54 @@
                                     <imagedata fileref="../images/Lookup2.png"/>
                                 </imageobject>
                             </inlinemediaobject>.</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Request Re-order</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-196.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <note>
+                            <para>You can also re-order requests from the Deliver Item Search's Item
+                                Display when your item search only returns one item.  Expand the
+                                    <emphasis role="bold">Requests</emphasis> tab and select <inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-197.png"/>
+                                    </imageobject>
+                                </inlinemediaobject>.</para>
+                            <para role="Normal">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Request Re-order</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/DeliverNoTitlePage-198.png"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </note>
                     </listitem>
                     <listitem>
-                        <para role="Normal">To reorder the request queue, change the numeration
-                            within the <emphasis role="bold">Queue Position</emphasis>
+                        <para role="Normal">To reorder the request queue, click and drag the row to
+                            the new location.  Release your mouse when you see the row in
+                            position.</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Request Re-order with Sample Requests listed</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-88a.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
                         </para>
+                    </listitem>
+                    <listitem>
                         <para role="Normal">Click <emphasis role="bold">Save</emphasis>.</para>
                         <para/>
                         <para role="Normal">
@@ -1747,7 +1799,7 @@
                                                   <imagedata
                                                   fileref="../images/DeliverNoTitlePage-138.png"/>
                                                 </imageobject>
-                                            </inlinemediaobject> to begin the request process.  The
+                                            </inlinemediaobject> to begin the request process. The
                                                 <emphasis role="bold">Place Request</emphasis>
                                             screen will open in a new tab.</para>
                                         <screenshot>
@@ -1761,6 +1813,11 @@
                                                 </imageobject>
                                             </mediaobject>
                                         </screenshot>
+                                        <note>
+                                            <para>For additional information about placing a request
+                                                through the Deliver Item Search, see <link
+                                                  linkend="_ItemSearchRequest">Request</link></para>
+                                        </note>
                                     </listitem>
                                 </itemizedlist>
                             </listitem>
@@ -1831,7 +1888,7 @@
                             <listitem>
                                 <para>Click on the <emphasis role="bold">Details</emphasis> link
                                     next to the Holdings ID to display a third section with a line
-                                    for available items.  The information displayed include Item ID,
+                                    for available items. The information displayed include Item ID,
                                     Item Location (if different from Holdings Location), Item Type,
                                     Item Barcode (if any), Enum/Chron (if any), Volume (if any), a
                                     link to Place Request (see separate section on this topic), and
@@ -1862,7 +1919,7 @@
                             </listitem>
                             <listitem>
                                 <para>Click on the <emphasis role="bold">Holdings ID</emphasis> in
-                                    the second level to open the Holdings record.  Click <inlinemediaobject>
+                                    the second level to open the Holdings record. Click <inlinemediaobject>
                                         <alt>Edit</alt>
                                         <imageobject>
                                             <imagedata
@@ -1880,7 +1937,7 @@
                     </listitem>
                     <listitem>
                         <para>Click on the <emphasis role="bold">Item ID</emphasis> in the third
-                            level to open the Item record.  This record is described below.</para>
+                            level to open the Item record. This record is described below.</para>
                     </listitem>
                 </itemizedlist>
                 <section>
@@ -1931,7 +1988,7 @@
                     </para>
                     <para>The rest of the Deliver Item Record are included in the collapsed tabs.
                         Tabs within the Deliver Item Record that contain content display in blue,
-                        tabs without content display in grey.  They may also display a count, if
+                        tabs without content display in grey. They may also display a count, if
                         appropriate. All sections are closed by default. </para>
                     <section>
                         <title>Borrower tab</title>
@@ -1972,14 +2029,15 @@
                         <title>Requests tab</title>
                         <para>The Request Tab will display a table with request information: the
                             request type, patron information, the date the request was created and
-                            the date it will expire.  It also includes the button <emphasis
+                            the date it will expire. It also includes the button <emphasis
                                 role="bold">Place Request</emphasis> that will allow you to place a
                             request on the item and the <emphasis role="bold">ReOrder
-                                Request</emphasis> button.  When either button is clicked, their
+                                Request</emphasis> button. When either button is clicked, their
                             screens will open in new tabs with the item information
                             prepopulated.</para>
                         <note>
-                            <para>For information about the Place Request screen, see</para>
+                            <para>For information about the Place Request screen, see <link
+                                    linkend="_ItemSearchRequest">Request</link></para>
                             <para>For information about the Request Re-Order screen, see <link
                                     linkend="_Request_Re-order">Request Re-Order</link></para>
                         </note>
@@ -1998,8 +2056,8 @@
                     <section>
                         <title>Item Flags tabs</title>
                         <para>The Item Flags shows the Item Flag details already included in the
-                            item record in the Item and Holdings records, including notes.  Item
-                            Flag types are Claims Returned, Damaged, and Missing Pieces.  </para>
+                            item record in the Item and Holdings records, including notes. Item Flag
+                            types are Claims Returned, Damaged, and Missing Pieces. </para>
                         <para>Check the box to add a flag to the record.</para>
                         <para>
                             <screenshot>
@@ -2086,10 +2144,9 @@
                     <section>
                         <title>Item History Tab</title>
                         <para>The Item History tab displays the item record history and request
-                            history.  For Item Record, this includes Created Date, Created By,
-                            Update Date, and Updated By fields. For Request History, this includes
-                            Last Request Type, Final Status, Pick up Location, and Final Status
-                            Date. </para>
+                            history. For Item Record, this includes Created Date, Created By, Update
+                            Date, and Updated By fields. For Request History, this includes Last
+                            Request Type, Final Status, Pick up Location, and Final Status Date. </para>
                         <para>
                             <screenshot>
                                 <mediaobject>
@@ -2118,6 +2175,265 @@
                         </listitem>
                     </itemizedlist>
                 </section>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_ItemSearchRequest"/>Request</title>
+            <note>
+                <para>While the "Place Request" from the <emphasis role="bold">Deliver Item
+                        Search</emphasis> is ideal for working with patrons, for libraries that have
+                    a high volume of course reserve recalls to process, the "Create New" request
+                    form available from the <emphasis role="bold">Request Search</emphasis> page is
+                    actually fewer steps. </para>
+                <para>For information about the Create New link, see <link linkend="_Request"
+                        >Request Search</link>.</para>
+            </note>
+            <para>A request is a circulation desk staff operation to recall, place a hold on, page
+                (retrieve) from a collection, or copy pages from a work in the library catalog,
+                either to hold for pickup at a circulation desk, or deliver to the patron’s
+                address.</para>
+            <section>
+                <title>Getting Started</title>
+                <para>Each patron’s paging privileges (either “true” or “false”) are stored in the
+                    patron record. </para>
+                <note>
+                    <para>For more information about patron records, see the <link linkend="_Patron"
+                            >patron</link> section in this chapter.</para>
+                </note>
+                <para> </para>
+                <para>Paging privileges can be automatically enabled for any patron of a designated
+                    borrower type.  For example, you might set up OLE so that any patron belonging
+                    to borrower type “faculty” gets paging privileges. However, delivery privileges
+                    can be assigned on an individual basis as well.</para>
+                <para> </para>
+                <para>Each patron’s delivery privileges (either “true” or “false”) are stored in the
+                    patron record and the system automatically selects the request method based on
+                    this value. However, if a patron’s delivery privilege = true, the system still
+                    provides for selection of a pick-up location.</para>
+                <para> </para>
+                <para>Delivery privileges can be automatically enabled for any patron of a
+                    designated borrower type, e.g., you might set up OLE so that any patron
+                    belonging to borrower type “faculty” gets delivery privileges. However, delivery
+                    privileges can be assigned on an individual basis as well.  For example, you may
+                    enable delivery for any student with a physical disability.</para>
+                <para> </para>
+                <para>Most copy requests are now filled by scanning the required item and a file is
+                    then emailed to the patron, meaning that copy requests are “delivered” via
+                    email. If a paper copy is made, the staff operator will manually address an
+                    envelope using the preferred street address from the patron record. </para>
+                <para> </para>
+                <para>Patrons can place their own requests via a library’s interface which will need
+                    to be customized to interact with the OLE request logic appropriately.</para>
+            </section>
+            <section>
+                <title>Process Overview</title>
+                <para>To place a request from the Deliver Item Search, follow these steps.</para>
+                <orderedlist>
+                    <listitem>
+                        <para>Click the <emphasis role="bold">Item Search</emphasis> link on the
+                            Deliver tab.</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Deliver Tab's Item Search Link</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/itemSearch.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Search for the item on which you wish to place the request.</para>
+                        <note>
+                            <para>For more information about performing the search, see <link
+                                    linkend="_Item_Search">Deliver Item Search</link> in this
+                                chapter.</para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para>Select the appropriate Bib ID by clicking <emphasis role="bold"
+                                >Details</emphasis> from the search results.  Continue to click
+                                <emphasis role="bold">Details</emphasis> to open the bibliographic,
+                            holding, and finally the Item record details</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Deliver Item Search Results: Click Details to view holdings
+                                        and item records</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-173.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> Click <inlinemediaobject>
+                                <alt>Place Request</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-138.png"/>
+                                </imageobject>
+                            </inlinemediaobject> for the appropriate item ID to begin the request
+                            process. The <emphasis role="bold">Place Request</emphasis> screen will
+                            open in a new tab.</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Deliver Item Search Results: Click Place Request to open
+                                        the request screen</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-177.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <note>
+                            <para>If your search only returns one item, the interface will look
+                                slightly different.  Under the item information, expand the
+                                    <emphasis role="bold">Request</emphasis> tab and click <emphasis
+                                    role="bold">Place Request</emphasis>.</para>
+                            <para role="Normal">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Deliver Item Search Results for an individual item:
+                                            Click Place Request to open the request screen</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/DeliverNoTitlePage-182.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para>In the new tab (or window) enter the <emphasis role="bold">Patron
+                                Barcode</emphasis> or search for it from the lookup <inlinemediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/Lookup2.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.  Press "Enter"</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Place Request screen: Enter the patron barcode</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-183.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Additional details about the patron will display.  Review the patron
+                            information and click <inlinemediaobject>
+                                <alt>Confirm patron and Continue with Request</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-187.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Place Request screen: patron details displayed</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-188.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> Make the following selections: </para>
+                        <orderedlist>
+                            <listitem>
+                                <para> Request Level </para>
+                                <note>
+                                    <para>Title Level requests are still in development for a future
+                                        release.</para>
+                                </note>
+                            </listitem>
+                            <listitem>
+                                <para> Request Type: options based on patron privileges and item
+                                    availability (for example, recall will only display if the item
+                                    is checked out, hold will only display if item is checked out or
+                                    otherwise unavailable on-shelf, page and copy will only display
+                                    if item is available on-shelf) </para>
+                                <note>
+                                    <para>“Copy” and “Page” functionality is still in development
+                                        for a future release.</para>
+                                </note>
+                            </listitem>
+                            <listitem>
+                                <para> Delivery/Pickup details: options based on patron privileges.
+                                    Delivery is the default if patron is eligible for
+                                    delivery.</para>
+                            </listitem>
+                            <listitem>
+                                <para> Request Expiration Date: default will display but can be
+                                    adjusted.  The default Request Expiration Date is set on the
+                                    circulation desk or in the local circulation policy.</para>
+                                <note>
+                                    <para>For information about the circulation desk, see <link
+                                            linkend="_Circulation_Desk_1">Circulation Desk</link> in
+                                        this chapter.</para>
+                                </note>
+                            </listitem>
+                        </orderedlist>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Place Request screen: select request options
+                                        available</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-192.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Submit</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-142.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                    <listitem>
+                        <para>A confirmation message will display above the Item Information tab
+                            indicating the request was successfully created. </para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Place Request screen: success message displayed above Item
+                                        Information tab</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-193.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>Modifying or Canceling Requests</title>
+                <para>To modify or cancel a request you must start from the <link linkend="_Request"
+                        >Request Search</link> interface.</para>
+                <note>
+                    <para>For more information about the modifying or cancelling requests, see the
+                        section <link linkend="_ModifyingOrCancelingRequests">Modifying or Canceling
+                            Requests</link>.</para>
+                </note>
             </section>
         </section>
     </section>
@@ -2177,20 +2493,22 @@
                 <listitem>
                     <para>Recall Notice - A notice to inform a patron that another user requests an
                         item currently on loan to the patron and their loan time has been shortened.
-                        Notices are triggered by the creation of the request.  The content of the
+                        Notices are triggered by the creation of the request. The content of the
                         Recall Notice can be modified by the RECALL_BODY parameter.</para>
                 </listitem>
                 <listitem>
                     <para>On Hold Notice - A notice to inform a patron that an item they had
                         requested is available for pickup. Notices are generated by the
-                        generateOnHoldNoticeJob after the item has been checked-in.  The content of
-                        the On Hold Notice can be modified by the ONHOLD_BODY parameter.</para>
+                        generateOnHoldNoticeJob after the item has been checked-in.  Notices are
+                        generated only for the request types defined by the
+                        ON_HOLD_NOTICE_REQUEST_TYPE parameter. The content of the On Hold Notice can
+                        be modified by the ONHOLD_BODY parameter.</para>
                 </listitem>
                 <listitem>
                     <para>On Hold Courtesy Notice - A notice to inform a patron that their hold has
                         expired. Notices are generated by the generateHoldCourtesyNoticeJob and are
                         triggered by the <emphasis role="bold">On-Hold Days</emphasis> value
-                        assigned on each circulation desk.  The content of the On Hold Courtesy
+                        assigned on each circulation desk. The content of the On Hold Courtesy
                         Notice can be modified by the EXP_HOLD_NOTICE_CONTENT parameter.</para>
                 </listitem>
                 <listitem>
@@ -2213,47 +2531,64 @@
                 <listitem>
                     <para>Cancelled Request Notice - A notice to inform a patron that their request
                         has been cancelled. (Manually cancelled by staff.) Notices are generated
-                        when the request is cancelled.  The content of the Cancelled Request Notice
-                        can be modified by the CANCELLATION_BODY parameter.</para>
+                        when the request is cancelled or if a staff member marks the item as claimed
+                        returned. The content of the Cancelled Request Notice can be modified by the
+                        CANCELLATION_BODY parameter.</para>
                 </listitem>
             </itemizedlist>
             <para>Return Notices</para>
             <itemizedlist>
                 <listitem>
                     <para>Courtesy Notice - A notice to inform a patron that their library material
-                        is about to become due. Notices are generated by the generateNoticesJob. The
-                        amount of days before the due date that the Courtesy Notice is sent out is
-                        set by the OLE-DLVR COURTESY_NOTICE_INTER parameter.  The content of the
-                        Courtesy Notice can be modified by the COURTESY_NOTICE_CONTENT
-                        parameter.</para>
+                        is about to become due. Notices are generated by the
+                        generateCourtesyNoticesJob. The number of days before the due date that the
+                        Courtesy Notice is sent out is set by local circulation policies, otherwise
+                        the amount of days will be set by the OLE-DLVR COURTESY_NOTICE_INTER
+                        parameter.  COURTESY_NOTICE_TO_DATE is used to set the scheduled notice date
+                        before which courtesy notices will be generated. For example, if the
+                        COURTESY_NOTICE_TO_DATE is set to 05/05/2015 (requires mm/dd/yyyy format),
+                        any courtesy notices scheduled for 5/4/2015 or before will be generated.
+                        The content of the Courtesy Notice can be modified by the
+                        COURTESY_NOTICE_CONTENT parameter.</para>
+                    <note>
+                        <para>To configure the jobs for Courtesy Notice, Overdue Notice, and
+                            Replacement Bill, NOTICE_THREAD_POOL_SIZE specifies the number of
+                            parallel threads to be used in generating notices. This is meant to
+                            speed up notice generation.</para>
+                    </note>
                 </listitem>
                 <listitem>
                     <para>Missing Pieces Notice – A notice to inform a patron that their recently
                         returned material is missing one or more pieces. Notices are generated upon
                         the return of the item when the staff person indicates a piece(s) is
-                        missing.  Missing Pieces Notices are not sent to patrons but appear during
+                        missing. Missing Pieces Notices are not sent to patrons but appear during
                         circulation.</para>
                 </listitem>
                 <listitem>
                     <para>Overdue Notice - A notice to inform a patron that their library material
-                        is overdue. Notices are generated by the generateNoticesJob. After Overdue
-                        Notices are sent n times (n is set by the "numberOfOverdueToBeSent"
-                        parameter defined in local circulation policies), the generateNoticesJob
-                        will generate a replacement bill and update the item status as ‘Lost’. The
-                        content of the Overdue Notice can be modified by the OVERDUE_NOTICE_CONTENT
-                        parameter.</para>
+                        is overdue. Notices are generated by the generateOverdueNoticesJob. After
+                        Overdue Notices are sent n times (n is set by the "numberOfOverdueToBeSent"
+                        parameter defined in local circulation policies), the generateLostNoticesJob
+                        will generate a replacement bill and update the item status as ‘Lost’.
+                        OVERDUE_NOTICE_TO_DATE is used to set the scheduled notice date before which
+                        overdue notices will be generated. For example, if the
+                        OVERDUE_NOTICE_TO_DATE is set to 05/05/2015, any overdue notices scheduled
+                        for 5/4/2015 or before will be generated.  The content of the Overdue Notice
+                        can be modified by the OVERDUE_NOTICE_CONTENT parameter.</para>
                 </listitem>
                 <listitem>
                     <para>Fine Notice – A notice to inform a patron of fines accrued by an overdue
                         item. Notices are generated upon the return of the overdue item.  Fine
-                        Notices are not sent to patrons but can be viewed and printed from the
-                        Patron Bill screen.</para>
+                        Notices are sent to the patron when generated, alternatively they can be
+                        viewed and printed from the Patron Bill screen.</para>
                 </listitem>
                 <listitem>
-                    <para>Replacement bill – A notice to inform a patron that the overdue item is
+                    <para>Replacement Bill – A notice to inform a patron that the overdue item is
                         now considered lost. Notices are generated when the item status is updated
-                        to ‘Lost’ by the generateNoticesJob.  Replacement Bills are not sent to
-                        patrons but can be viewed and printed from the Patron Bill screen.</para>
+                        to ‘Lost’ by the generateLostNoticesJob. LOST_NOTICE_TO_DATE is used to set
+                        the scheduled notice date before which replacement bills will be generated.
+                        For example, if the LOST_NOTICE_TO_DATE is set to 05/05/2015, any
+                        replacement bills scheduled for 5/4/2015 or before will be generated.</para>
                 </listitem>
             </itemizedlist>
             <note>
@@ -2678,7 +3013,7 @@
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">Indicates which address is used, if
                                             any, to deliver items to the patron, such as when a
-                                            request is being filled.  Only one address can be
+                                            request is being filled. Only one address can be
                                             selected as the Deliver Address.</para>
                                     </entry>
                                 </row>
@@ -3029,7 +3364,7 @@
                         a title loaned to the patron as well as the due date. Click the <emphasis
                             role="bold">Show ... Items</emphasis> button to see the patron's loaned
                         or requested items, or the patron's temporary Circulation History Record in
-                        the current screen.  Click the <emphasis role="bold">View ... in a New
+                        the current screen. Click the <emphasis role="bold">View ... in a New
                             Window</emphasis> to view the items in a separate window or tab that can
                         easily be printed for patrons.</para>
                     <note>
@@ -3334,7 +3669,7 @@
                             <note>
                                 <para>This button could also read "Waive" if your institution has
                                     implemented the internationalization changes described under
-                                    Patron Bill.  For more information about this change, see <link
+                                    Patron Bill. For more information about this change, see <link
                                         linkend="patronBillImplementation">the Patron Bill's
                                         Implementation Information</link>.</para>
                             </note>
@@ -3747,7 +4082,7 @@
             <section>
                 <title><anchor xml:id="patronBillImplementation"/>Implementation Information</title>
                 <para>To remove the word "Forgive" from the Patron Bill and the patron's receipt and
-                    replace it with "Waived" or "has been waived".  Please note, that these
+                    replace it with "Waived" or "has been waived". Please note, that these
                     configuration changes allow you to select between these two display values (ie.
                     Forgive or Waived). A different value would not be displayed on the application
                     or be included in the bill printed/emailed to the patron.</para>
@@ -4749,11 +5084,11 @@
                                         <para role="Table Cells">Request Expiration Days</para>
                                     </entry>
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                        <para role="Table Cells">Optional.  The number of days a
+                                        <para role="Table Cells">Optional. The number of days a
                                             request will remain open before an expired request
-                                            notice is sent to the patron.  This value may be
+                                            notice is sent to the patron. This value may be
                                             overridden on the request document when the request is
-                                            placed.  </para>
+                                            placed. </para>
                                     </entry>
                                 </row>
                                 <row>

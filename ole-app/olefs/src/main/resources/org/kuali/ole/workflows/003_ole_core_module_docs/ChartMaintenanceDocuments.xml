@@ -7,7 +7,7 @@
         Organization Reversion Global
       </label>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Forganizationreversionglobal.htm
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s19.html#_organizationReversionGlobal
       </helpDefinitionURL>
       <active>
         true
@@ -23,7 +23,7 @@
         Sub-Object Code Global
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch15s12.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s14.html#_SubObjectCodeGlobal
       </helpDefinitionURL>
       <active>
         true
@@ -74,7 +74,7 @@
         Account Delegate Global
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch18s02.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s17.html#_accountDelegateGlobal
       </helpDefinitionURL>
       <active>
         true
@@ -138,7 +138,7 @@
         Account Delegate
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch18s01.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s17.html#_accountDelegate
       </helpDefinitionURL>
       <active>
         true
@@ -174,7 +174,7 @@
         Account Delegate Model
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch18s04.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s17.html#_accountDelegateModel
       </helpDefinitionURL>
       <active>
         true
@@ -210,7 +210,7 @@
         Account Global
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch15s04.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s14.html#_AccountGlobal
       </helpDefinitionURL>
       <active>
         true
@@ -246,7 +246,7 @@
         Object Code Global
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch15s07.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s14.html#_ObjectCodeGlobal
       </helpDefinitionURL>
       <active>
         true
@@ -276,7 +276,7 @@
         Object Code
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch15s06.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s14.html#_ObjectCode
       </helpDefinitionURL>
       <active>
         true
@@ -312,7 +312,7 @@
         Organization
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch15s08.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s14.html#_Organization
       </helpDefinitionURL>
       <active>
         true
@@ -348,7 +348,7 @@
         Project Code
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch15s09.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s14.html#_projectCode
       </helpDefinitionURL>
       <active>
         true
@@ -378,7 +378,7 @@
         Sub-Account
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch15s10.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s14.html#_SubAccount
       </helpDefinitionURL>
       <active>
         true
@@ -414,7 +414,7 @@
         Sub-Object Code
       </label>
       <helpDefinitionURL>
-        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch15s11.html
+        ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s14.html#_SubObjectCode
       </helpDefinitionURL>
       <active>
         true
@@ -450,7 +450,7 @@
         Account
       </label>
       <helpDefinitionURL>
-         ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch15s03.html
+         ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s14.html#_Account
       </helpDefinitionURL>
       <active>
         true
@@ -544,7 +544,7 @@
         Organization Review Role
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch13s03.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s12.html#_organizationReview
       </helpDefinitionURL>
       <active>
         true

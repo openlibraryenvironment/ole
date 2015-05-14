@@ -1425,8 +1425,7 @@
                             <para role="Normal"> To learn more about <link
                                     linkend="_serialsReceivingTransaction">Serials Receiving</link>
                                 and action interval checkin within OLE, see the relevant section
-                                under the <emphasis>Select and Acquire
-                                    Module</emphasis>.</para>
+                                under the <emphasis>Select and Acquire Module</emphasis>.</para>
                         </note>
                     </section>
                 </section>
@@ -1459,13 +1458,21 @@
                             Location/Call Number Information</emphasis>, <emphasis role="bold">Item
                             Information</emphasis>, <emphasis role="bold">Acquisition
                             Information</emphasis>, <emphasis role="bold">Circulation
-                            Information</emphasis>, and <emphasis role="bold">Extended
+                            Information</emphasis>, <emphasis role="bold">Claims Returned
+                            History</emphasis>, <emphasis role="bold">Damaged History</emphasis>,
+                            <emphasis role="bold">Intransit Loan History</emphasis>, <emphasis
+                            role="bold">Missing Piece Item History</emphasis>, <emphasis role="bold"
+                            >Item Flagged History</emphasis>, and <emphasis role="bold">Extended
                             Information</emphasis>.</para>
                     <section>
                         <title>Holdings Location/Call Number Information tab</title>
                         <para role="Normal">The Holdings Location/Call Number Information tab
-                            contains call number information inherited from the Holdings record. It
-                            is not editable from the item record.</para>
+                            contains call number information inherited from the Holdings record. </para>
+                        <warning>
+                            <para role="Normal">Values can be edited from the item record, but staff
+                                should be aware that any changes will populate to the Holdings
+                                record and thus all item records associated with it.</para>
+                        </warning>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
@@ -1548,7 +1555,7 @@
                                                   <imagedata
                                                   fileref="../images/DescribeNoTitlePage-118.png"/>
                                                   </imageobject>
-                                                </inlinemediaobject>to open <emphasis role="bold"
+                                                </inlinemediaobject> to open <emphasis role="bold"
                                                   >Call Number Browse</emphasis></para>
                                             <note>
                                                 <para>For more information on the interface, see
@@ -1711,8 +1718,7 @@
                                                 different copies have different call numbers and/or
                                                 shelve in different locations, it is recommended
                                                 that different holdings records be used and that the
-                                                copies not be identified at the holdings level.
-                                            </para>
+                                                copies not be identified at the item level. </para>
                                         </entry>
                                     </row>
                                     <row>
@@ -1751,9 +1757,15 @@
                                                 intended to circulate as a unit.  For example, if
                                                 the item is a book with an accompanying map in a
                                                 separate pocket, you may wish to record “2” here.
-                                                 Note that this is an uncontrolled free-text field,
-                                                so it is possible, if not necessarily desirable, to
-                                                enter something other than a number.</para>
+                                                 </para>
+                                            <note>
+                                                <para>This is an uncontrolled free-text field, so it
+                                                  is possible to enter something other than a
+                                                  number.  However, entering any value other than a
+                                                  number will cause an error on Return of the item;
+                                                  the item cannot be returned until record has been
+                                                  corrected.</para>
+                                            </note>
                                         </entry>
                                     </row>
                                 </tbody>
@@ -1974,42 +1986,189 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Claims Return Flag</para>
+                                            <para role="Table Cells">Usage Counter Table - this
+                                                table appears only after an item has circulated
+                                                once.</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top"/>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Location Name</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells"> This flag may be checked if a
-                                                borrower claims to have returned an item from
-                                                circulation but there has been no circulation
-                                                check-in transaction for the item. When checked,
-                                                enter a corresponding Claims Return Date and note.
-                                            </para>
+                                            <para role="Table Cells"> On the Usage Counter,
+                                                indicates the item’s location at time of
+                                                circulation.</para>
                                         </entry>
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Item Damaged Status</para>
+                                            <para role="Table Cells">Count</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">This flag may be checked if an
-                                                item has been damaged. When checked, enter a note to
-                                                be displayed with circulation transactions.</para>
+                                            <para role="Table Cells">Number of times an item has
+                                                been loaned in the system.</para>
                                         </entry>
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Missing Piece Flag</para>
+                                            <para role="Table Cells">In House Uses</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">This flag may be checked if an
-                                                item is missing pieces. When checked, enter the
-                                                number of pieces missing, the effective date, and
-                                                note to be displayed with circulation
-                                                transactions.</para>
+                                            <para role="Table Cells">Number of times an item has
+                                                been used in-house. Increments when an on-shelf item
+                                                is scanned with Return function.</para>
                                         </entry>
                                     </row>
                                 </tbody>
                             </tgroup>
                         </informaltable>
+                    </section>
+                    <section>
+                        <title>Claims Returned History tab</title>
+                        <note>
+                            <para>It’s important to note that the history tab for each flag
+                                currently displays below the flag. It can therefore be somewhat
+                                confusing to tell which section one is viewing, as the next flag
+                                appears below the previous history tab. For example, the Damaged
+                                flag appears to be the last part of the Claims Returned History tab,
+                                but is, in fact, the beginning of a new section.</para>
+                            <para>This is particularly problematic for the Missing Piece History
+                                tab, because the Missing Piece flag appears after the Damaged
+                                History tab but the Missing Piece History tab appears after the In
+                                Transit History Tab. This is a known bug and is scheduled to be
+                                fixed.</para>
+                            <para>In general, the display of the flags and history tabs is a known
+                                issue and an enhancement request is being developed.</para>
+                        </note>
+                        <para>Just above the Claims Returned History tab, is the <emphasis
+                                role="bold">Claim Return Flag</emphasis>, <emphasis role="bold"
+                                >Claim Returned Create Date</emphasis>, and the <emphasis
+                                role="bold">Claims Return Note</emphasis>.  The flag may be checked
+                            if a borrower claims to have returned an item from circulation but there
+                            has been no circulation check-in transaction for the item. When checked,
+                            enter a corresponding Claims Return Date and note.  This flag is
+                            typically checked by an operator from the Loan screen.</para>
+                        <note>
+                            <para>For more information about claiming items from the Loan screen,
+                                see <link linkend="_claimsReturn">Claims Return</link> under the
+                                    <link linkend="_Loan">Loan</link> section of the
+                                    <emphasis>Deliver Module</emphasis>.</para>
+                        </note>
+                        <para>The <emphasis role="bold">Claims Returned History</emphasis> tab
+                            stores records of notes about claims returned placed on the item record
+                            by the operator. Records include the date the Claim Returned flag was
+                            created, any notes added by an operator, the associated patron barcode
+                            (the patron to whom the item is loaned) and the operator ID of the
+                            operator who created the claim flag.</para>
+                        <para>It is important to note, however, that the history does not currently
+                            record whether the claim is active (this is indicated by the presence or
+                            absence of the claim returned flag above the tab), nor does it record
+                            when or how past claims returned were resolved. When an item that has
+                            been claimed as returned is scanned in the Return screen, the option is
+                            given to the operator to record a note. This note appears in the patron
+                            record but not in the Claims Returned history.</para>
+                        <para/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Item Record Editor: Claims Return Flag and History
+                                        Tab</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-221.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </section>
+                    <section>
+                        <title>Damaged History</title>
+                        <para>Just above the Damaged History tab, is the <emphasis role="bold">Item
+                                Damaged Status</emphasis> and the <emphasis role="bold">Damaged Item
+                                Note</emphasis>.  This flag may be checked if an item has been
+                            damaged.  When checked, enter a note to be displayed with circulation
+                            transactions.  This flag is typically checked by an operator from the
+                            Loan screen</para>
+                        <note>
+                            <para>For more information about marking an item damaged from the Loan
+                                screen, see <link linkend="_damaged">Damaged</link> under the <link
+                                    linkend="_Loan">Loan</link> section of the <emphasis>Deliver
+                                    Module</emphasis>.</para>
+                        </note>
+                        <para>The <emphasis role="bold">Damaged History</emphasis> tab stores
+                            records of notes about damage placed on the item record by an operator.
+                            Records include the Damaged Date, the Damaged Note, the Associated
+                            Patron Barcode and the Operator ID.</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Item Record Editor: Damaged Item Status and History
+                                        Tab</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-227.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </section>
+                    <section>
+                        <title>Missing Piece Item History tab</title>
+                        <para>Just above the Intransit Loan History tab, is the <emphasis
+                                role="bold">Missing Piece Flag</emphasis>, the <emphasis role="bold"
+                                >No of missing pieces count</emphasis>, the <emphasis role="bold"
+                                >Missing Pieces Effective Date</emphasis>and the <emphasis
+                                role="bold">Missing Piece Note</emphasis>.  This flag may be checked
+                            if an item is missing pieces.  When checked, enter the number of pieces
+                            missing, the effective date, and note to be displayed with circulation
+                            transactions.  </para>
+                        <note>
+                            <para>If you enter any missing pieces, you must include the full count
+                                in the <emphasis role="bold">Number of Pieces</emphasis> field of
+                                the Item Information tab.</para>
+                        </note>
+                        <para>This flag is typically checked by an operator from the Loan
+                            screen.</para>
+                        <note>
+                            <para>For more information about flagging an item for missing pieces
+                                from the Loan screen, see <link linkend="_missingPiece">Missing
+                                    Piece</link> under the <link linkend="_Loan">Loan</link> section
+                                of the <emphasis>Deliver Module</emphasis>.</para>
+                        </note>
+                        <para>The <emphasis role="bold">Missing Piece Item History</emphasis> tab
+                            stores records of notes about missing pieces placed on the item record
+                            by an operator. Records include Missing Piece Item Date, Missing Piece
+                            Item Count, Missing Piece Item Note, Operator ID and Associated Patron
+                            Barcode.</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Item Record Editor: Missing Piece Flag and Item History
+                                        Tab</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-226.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                        <para>When a missing piece is returned and scanned at the circulation desk,
+                            a dialog like the following appears:</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Missing Piece Popup from the Return Screen</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-232.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para>The operator must verify the missing item(s) before continuing with
+                            the return.</para>
                     </section>
                     <section>
                         <title>Intransit Loan History tab</title>
@@ -2018,6 +2177,10 @@
                             materials. This tab displays the Item Barcode, the Operator who checked
                             in the item, the routing locations (from and to), and the date of
                             transit (when the item was first returned).</para>
+                        <para>This information does not show when or if the item was returned to its
+                            home circulation desk. Nor does it record if the same or different
+                            operators return the item at different times at the same circulation
+                            desk, which means in-house use transaction are not captured.</para>
                         <para/>
                         <para role="Normal">
                             <screenshot>
@@ -2033,6 +2196,14 @@
                     </section>
                     <section>
                         <title>Item Flagged History tab</title>
+                        <note>
+                            <para>This tab is currently not functional. It formerly allowed users to
+                                view basic history about Claims, Damaged, and Missing flags. The
+                                history for each of those flags now lives in the sections
+                                above.</para>
+                            <para>Clicking on “View all records” in this section is a broken
+                                link.</para>
+                        </note>
                         <para>When an item with multiple pieces is loaned or returned, and a missing
                             pieces flag is set with the number of missing pieces and a missing
                             pieces check-in note, the patron barcode associated with the loan or
@@ -2271,8 +2442,8 @@
                         <para><emphasis role="bold">Test Link</emphasis> could appear below or to
                             the right of the Access Information field, depending on the size of the
                             browser window. Note that the Submit button at the bottom of the
-                            holdings record does <emphasis>not</emphasis> have to be
-                            clicked in order for the hyperlink to work.</para>
+                            holdings record does <emphasis>not</emphasis> have to be clicked in
+                            order for the hyperlink to work.</para>
                         <para> If a URI is entered without http:// or https://, OLE will not
                             recognize that text string as a web address and the user will not get a
                             response when clicking on <emphasis role="bold">Test Link</emphasis>. If
@@ -2401,8 +2572,7 @@
                         <note>
                             <para>For additional information about the <link linkend="_E-Resource"
                                     >E-Resource Record</link>, see the appropriate section under the
-                                    <emphasis>Select and Acquire
-                                Module</emphasis>.</para>
+                                    <emphasis>Select and Acquire Module</emphasis>.</para>
                         </note>
                     </listitem>
                     <listitem>
@@ -2417,8 +2587,7 @@
                                 see <link linkend="_Editors">Bib Editor</link></para>
                             <para>For more information about the Search Workbench, <link
                                     linkend="_Describe_Workbench">Search Workbench</link> under
-                                    <emphasis>OLE Basic
-                                Functionality</emphasis>.</para>
+                                    <emphasis>OLE Basic Functionality</emphasis>.</para>
                         </note>
                     </listitem>
                 </itemizedlist>
@@ -2984,8 +3153,7 @@
                         <note>
                             <para>For additional information about the <link linkend="_E-Resource"
                                     >E-Resources</link> and linking E-Instances, see the section
-                                under the <emphasis>Select and Acquire
-                                    Module</emphasis>.</para>
+                                under the <emphasis>Select and Acquire Module</emphasis>.</para>
                         </note>
                         <para role="Normal"/>
                         <para role="Normal">
@@ -3347,8 +3515,7 @@
                             <para>For more information on <link linkend="_Standard_Licensing_E-Docs"
                                     >Licensing</link> and <link linkend="_E-Resource"
                                     >E-Resources</link>, see the relevant sections under the
-                                    <emphasis>Select and Acquire
-                                Module</emphasis>.</para>
+                                    <emphasis>Select and Acquire Module</emphasis>.</para>
                         </note>
                         <para role="Normal"/>
                         <para role="Normal">
@@ -4662,9 +4829,8 @@
                                 the series, or a record for a title in the series.</para>
                         </listitem>
                         <listitem>
-                            <para> In the left navigation pane, click on <emphasis
-                                    >either</emphasis> “SH” or “AI” (it does not matter which you
-                                choose):</para>
+                            <para> In the left navigation pane, click on <emphasis>either</emphasis>
+                                “SH” or “AI” (it does not matter which you choose):</para>
                             <para/>
                             <para>
                                 <screenshot>
@@ -5219,7 +5385,7 @@
             </inlinemediaobject></para>
         <para role="Normal"/>
         <para role="Body Text">On the Describe menu, the Single Record Export/Import submenu
-            provides access for users to export and import single records.  For multiple record
+            provides access for users to export and import single records. For multiple record
             import and export see the <link linkend="batchProcessesAdminDocuments">Batch
                 Processes</link> section of <emphasis>Administrative Functions</emphasis>.</para>
         <section>
@@ -5665,8 +5831,8 @@
                                     attached to the overlaid record, you will need to use the
                                         <emphasis role="bold">Instance Editor</emphasis>. These
                                     records cannot be edited during the import process when existing
-                                    records are overlaid.  You may search for the record to edit
-                                    from the search workbench.</para>
+                                    records are overlaid. You may search for the record to edit from
+                                    the search workbench.</para>
                                 <note>
                                     <para role="Normal"> For more information about Instance Editors
                                         or E-Holdings Editors, see <link

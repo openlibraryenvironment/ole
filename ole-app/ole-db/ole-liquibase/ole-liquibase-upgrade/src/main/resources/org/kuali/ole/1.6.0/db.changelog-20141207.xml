@@ -615,4 +615,79 @@
         </createView>
     </changeSet>
 
+    <changeSet context="bootstrap" id="UPDATE_HELP_LINK" author="ole">
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s06.html#_documentType" />
+            <where>DOC_TYP_NM = 'DocumentTypeDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_namespace" />
+            <where>DOC_TYP_NM = 'NamespaceMaintenanceDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_parameterType" />
+            <where>DOC_TYP_NM = 'ParameterTypeMaintenanceDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_parameterComponent" />
+            <where>DOC_TYP_NM = 'ParameterDetailTypeMaintenanceDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_parameter" />
+            <where>DOC_TYP_NM = 'ParameterMaintenanceDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_campus" />
+            <where>DOC_TYP_NM = 'CampusMaintenanceDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_campusType" />
+            <where>DOC_TYP_NM = 'CampusTypeMaintenanceDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_country" />
+            <where>DOC_TYP_NM = 'CountryMaintenanceDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_county" />
+            <where>DOC_TYP_NM = 'CountyMaintenanceDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_postalCode" />
+            <where>DOC_TYP_NM = 'PostalCodeMaintenanceDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_state" />
+            <where>DOC_TYP_NM = 'StateMaintenanceDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="reference/webhelp/OLE/content/ch06s08.html#_role" />
+            <where>DOC_TYP_NM = 'IdentityManagementRoleDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s08.html#_group" />
+            <where>DOC_TYP_NM = 'IdentityManagementGroupDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s08.html#_responsibility" />
+            <where>DOC_TYP_NM = 'IdentityManagementReviewResponsibilityMaintenanceDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s08.html#_permission" />
+            <where>DOC_TYP_NM = 'IdentityManagementGenericPermissionMaintenanceDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_parameterComponent" />
+            <where>DOC_TYP_NM = 'ComponentMaintenanceDocument'</where>
+        </update>
+        <update tableName="KRCR_PARM_T">
+            <column name="VAL" value="customerLoadInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;procurementCardInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;collectorFlatFileInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;collectorXmlInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;enterpriseFeederFileSetType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;laborEnterpriseFeederFileSetType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;assetBarcodeInventoryInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;paymentInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload" />
+            <where>parm_nm = 'BATCH_UPLOAD_HELP_URL'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s08.html#_person" />
+            <where>DOC_TYP_NM = 'IdentityManagementPersonDocument'</where>
+        </update>
+    </changeSet>
+
 </databaseChangeLog>

@@ -7,7 +7,7 @@
         Accounting Change Code
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch21s04.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s20.html#_accountingChangeCode
       </helpDefinitionURL>
       <active>
         true
@@ -23,7 +23,7 @@
         ACH Bank
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch21s05.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s20.html#_ACHBank
       </helpDefinitionURL>
       <active>
         true
@@ -39,7 +39,7 @@
         ACH Transaction Code
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch21s06.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s20.html#_ACHTransactionCode
       </helpDefinitionURL>
       <active>
         true
@@ -55,7 +55,7 @@
         ACH Transaction Type
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch21s07.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s20.html#_ACHTransactionType
       </helpDefinitionURL>
       <active>
         true
@@ -71,7 +71,7 @@
         Customer Profile
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch21s08.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s20.html#_customerProfile
       </helpDefinitionURL>
       <active>
         true
@@ -87,7 +87,7 @@
         Disbursement Number Range
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch21s09.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s20.html#_disbursementNumberRange
       </helpDefinitionURL>
       <active>
         true
@@ -119,7 +119,7 @@
         Payee Type
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch21s15.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s20.html#_payeeType
       </helpDefinitionURL>
       <active>
         true
@@ -135,7 +135,7 @@
         Payment Change Code
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch21s17.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s20.html#_paymentChange
       </helpDefinitionURL>
       <active>
         true
@@ -151,7 +151,7 @@
         Payment Status
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch21s20.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s20.html#_paymentStatus
       </helpDefinitionURL>
       <active>
         true
@@ -167,7 +167,7 @@
         Payment Type
       </label>
       <helpDefinitionURL>
-          reference/webhelp/AG/content/ch21s19.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s20.html#_PDPPaymentType
       </helpDefinitionURL>
       <active>
         true
@@ -183,7 +183,7 @@
         Payee ACH Account
       </label>
       <helpDefinitionURL>
-          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch21s14.html
+          ${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch05s20.html#_payeeACHAccount
       </helpDefinitionURL>
       <active>
         true

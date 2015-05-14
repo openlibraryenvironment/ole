@@ -21,6 +21,7 @@
                 <postalCode>60647</postalCode>
                 <default>true</default>
                 <active>true</active>
+                <deliverAddress>true</deliverAddress>
             </postalAddress>
             <postalAddress>
                 <postalAddressType>CMP</postalAddressType>
@@ -32,6 +33,7 @@
                 <postalCode>60647</postalCode>
                 <default>false</default>
                 <active>true</active>
+                <deliverAddress>false</deliverAddress>
             </postalAddress>
         </postalAddresses>
         <emailAddresses>
