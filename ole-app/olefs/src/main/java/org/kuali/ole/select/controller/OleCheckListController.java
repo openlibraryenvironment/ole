@@ -131,7 +131,7 @@ public class OleCheckListController extends MaintenanceDocumentController {
                     GlobalVariables.getMessageMap().putInfoWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS,
                             OLEConstants.OleLicenseRequest.MSG_DELETE_DOC);
                 } else {
-                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_MESSAGES, OLEConstants.OleLicenseRequest.ERROR_FILE_NOT_FOUND);
+                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_MESSAGES, OLEConstants.OleLicenseRequest.DOCUMENT_NOT_DELETED);
                 }
             } else {
                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_MESSAGES, OLEConstants.OleLicenseRequest.ERROR_CHECKLIST_NOT_FOUND);

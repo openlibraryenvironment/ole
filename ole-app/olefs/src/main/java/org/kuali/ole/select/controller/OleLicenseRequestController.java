@@ -536,7 +536,7 @@ public class OleLicenseRequestController extends MaintenanceDocumentController {
 
         MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
         MultipartFile attachmentFile = form.getAttachmentFile();
-        if (attachmentFile.getOriginalFilename() != null && !attachmentFile.getOriginalFilename().isEmpty()) {
+        if (attachmentFile!=null && attachmentFile.getOriginalFilename() != null && !attachmentFile.getOriginalFilename().isEmpty()) {
             String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
             CollectionGroup collectionGroup = form.getPostedView().getViewIndex().getCollectionGroupByPath(
                     selectedCollectionPath);
@@ -566,7 +566,7 @@ public class OleLicenseRequestController extends MaintenanceDocumentController {
                 }
             }
         } else {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_MESSAGES, OLEConstants.OleLicenseRequest.ERROR_FILE_NOT_FOUND);
+            GlobalVariables.getMessageMap().putErrorForSectionId("AgreementDocumentSection", OLEConstants.OleLicenseRequest.ERROR_FILE_NOT_FOUND);
             return getUIFModelAndView(form);
         }
 
