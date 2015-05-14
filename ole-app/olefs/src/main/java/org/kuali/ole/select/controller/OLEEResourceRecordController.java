@@ -25,7 +25,9 @@ import org.kuali.ole.select.document.*;
 import org.kuali.ole.select.bo.OLECreatePO;
 import org.kuali.ole.select.form.OLEEResourceRecordForm;
 import org.kuali.ole.select.gokb.*;
+import org.kuali.ole.select.service.OLEAccessActivationService;
 import org.kuali.ole.select.service.OleReqPOCreateDocumentService;
+import org.kuali.ole.select.service.impl.OLEAccessActivationServiceImpl;
 import org.kuali.ole.service.*;
 import org.kuali.ole.service.impl.OLEEResourceSearchServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
@@ -105,6 +107,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
     private OLEEResourceHelperService oleeResourceHelperService = new OLEEResourceHelperService();
     private OleReqPOCreateDocumentService oleReqPOCreateDocumentService;
     private RequisitionCreateDocumentService requisitionCreateDocumentService;
+    private OLEAccessActivationService oleAccessActivationService;
 
     public OLEEResourceHelperService getOleeResourceHelperService() {
         if (oleeResourceHelperService == null) {
@@ -132,6 +135,13 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             requisitionCreateDocumentService = SpringContext.getBean(RequisitionCreateDocumentService.class);
         }
         return requisitionCreateDocumentService;
+    }
+
+    public OLEAccessActivationService getOleAccessActivationService() {
+        if(oleAccessActivationService == null){
+            oleAccessActivationService = new OLEAccessActivationServiceImpl();
+        }
+        return oleAccessActivationService;
     }
 
     /**
@@ -2224,7 +2234,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                     }
                 }
                 oleeResourceRecordDocument.setGokbPackageId(packageId);
-                List<OleGokbTipp> oleGokbTippList = olegokbSearchDaoOjb.getTippsByPlatform(gokbPlatform.getPlatformId(), packageId);
+                List<OleGokbTipp> oleGokbTippList = olegokbSearchDaoOjb.getTippsByPlatform(gokbPlatform.getPlatformId(), gokbPlatform.getPackageId());
                 List<OLEGOKbTIPP> olegoKbTIPP;
                 if (oleGokbTippList != null && resultSetSize != null && oleGokbTippList.size() > resultSetSize) {
                     olegoKbTIPP = getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList.subList(0, resultSetSize));
@@ -2679,11 +2689,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
                 org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
                 Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
-                Collection<String> principalIds = (Collection<String>) roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(), role.getName(), new HashMap<String, String>());
-                IdentityService identityService = KimApiServiceLocator.getIdentityService();
-                List<String> principalList = new ArrayList<String>();
-                principalList.addAll(principalIds);
-                List<Principal> principals = identityService.getPrincipals(principalList);
+                List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
                 AdHocRoutePerson adHocRoutePerson;
                 StringBuffer currentOwnerBuffer = new StringBuffer();
                 if (principals != null && principals.size() > 0) {

@@ -76,6 +76,9 @@ public class OLEGOKBSearchDaoOjb extends PlatformAwareDaoBaseOjb {
     public List<OleGokbTipp> getTippsByPlatform(Integer platformId,Integer packageId) {
         Criteria goKbSearchCriteria = new Criteria();
             goKbSearchCriteria.addEqualTo("gokbPlatformId",platformId);
+        if(packageId !=null){
+            goKbSearchCriteria.addEqualTo("gokbPackageId",packageId);
+        }
         QueryByCriteria query = QueryFactory.newQuery(OleGokbTipp.class, goKbSearchCriteria);
         Collection results=  getPersistenceBrokerTemplate().getCollectionByQuery(query);
     return ( List<OleGokbTipp>)results;

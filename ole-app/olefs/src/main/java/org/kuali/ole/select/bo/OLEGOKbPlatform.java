@@ -19,6 +19,7 @@ public class OLEGOKbPlatform extends PersistableBusinessObjectBase {
     private String softwarePlatform;
     private Integer platformId;
     private String status;
+    private Integer packageId;
 
     private boolean select;
 
@@ -112,5 +113,13 @@ public class OLEGOKbPlatform extends PersistableBusinessObjectBase {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Integer getPackageId() {
+        return packageId;
+    }
+
+    public void setPackageId(Integer packageId) {
+        this.packageId = packageId;
     }
 }

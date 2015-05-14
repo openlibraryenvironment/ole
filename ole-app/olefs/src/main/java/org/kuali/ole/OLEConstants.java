@@ -1487,6 +1487,7 @@ public class OLEConstants {
         public static final String STATUS_CODE = "licenseRequestStatusCode";
         public static final String BIB_TITLE = "bibliographicTitle";
         public static final String MSG_DELETE_DOC = "error.delete.document";
+        public static final String DOCUMENT_NOT_DELETED ="error.delete.no.document";
         public static final String ERROR_FILE_NOT_FOUND = "error.file.not.found";
         public static final String ERROR_CHECKLIST_NOT_FOUND = "error.checklist.not.found";
 

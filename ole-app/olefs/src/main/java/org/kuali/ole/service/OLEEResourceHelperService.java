@@ -334,15 +334,19 @@ public class OLEEResourceHelperService {
         OLEGOKbPackage olegoKbPackage;
        Map<Integer,OLEGOKbPackage> packageMaps = new HashMap<>();
        Map<Integer,Integer> platformMap = new HashMap<Integer,Integer>();
+        Map<Integer,Integer> packageTippMap = new HashMap<Integer,Integer>();
         if(oleGokbTipps != null && oleGokbTipps.size() > 0 ){
             for(OleGokbTipp oleGokbTipp : oleGokbTipps){
                 if(oleGokbTipp.getOleGokbPackage()!=null){
                     if(!packageMaps.containsKey(oleGokbTipp.getOleGokbPackage().getGokbPackageId())){
+                        packageTippMap.put(oleGokbTipp.getOleGokbPackage().getGokbPackageId(),1);
                         olegoKbPackage = buildOLEGOKBPackage(oleGokbTipp.getOleGokbPackage());
                         packageMaps.put(oleGokbTipp.getOleGokbPackage().getGokbPackageId(),olegoKbPackage);
+                       if(oleGokbTipp.getOleGokbPlatform()!=null){
                         platformMap.put(oleGokbTipp.getOleGokbPackage().getGokbPackageId(), oleGokbTipp.getOleGokbPlatform().getGokbPlatformId());
-                        olegoKbPackages.add(olegoKbPackage) ;
-                    }else{
+                       }
+                       }else{
+                        packageTippMap.put(oleGokbTipp.getOleGokbPackage().getGokbPackageId(),packageTippMap.get(oleGokbTipp.getOleGokbPackage().getGokbPackageId())+1);
                        if(platformMap.containsKey(oleGokbTipp.getOleGokbPackage().getGokbPackageId())){
                            oleeResourceRecordDocument.setSinglePlatform(false);
                            packageMaps.get(oleGokbTipp.getOleGokbPackage().getGokbPackageId()).setMultiplePlatform(true);
@@ -353,6 +357,9 @@ public class OLEEResourceHelperService {
 
         }
 
+        for(int i=0;i<olegoKbPackages.size();i++){
+            olegoKbPackages.get(i).setTiips(packageTippMap.get(olegoKbPackages.get(i).getPackageId()));
+        }
         return olegoKbPackages;
     }
 
@@ -625,7 +632,7 @@ public class OLEEResourceHelperService {
                 olegoKbPlatform.setNoOfTiips(1);
                 olegoKbPlatform.setPlatformId(platformId);
                 olegoKbPlatform.setStatus(gokbPlatform.getStatus());
-
+                olegoKbPlatform.setPackageId(Integer.parseInt(packageId));
                 olegoKbPlatforms.add(olegoKbPlatform);
                 platformMap.put(platformId, olegoKbPlatform);
             }
