@@ -173,8 +173,8 @@ OL.LOCN_CD as "Collection Location Code",
 (select count(*) from OLE_DLVR_LOAN_T ODL
 where ODL.ITM_ID = ODI.BARCODE) as "# Of Loans",
 (select MAX(CHECK_IN_DT_TIME)
-from OLE_DLVR_TEMP_CIRC_RECORD ODTCR
-where ODTCR.ITM_ID = ODI.BARCODE) as "Last Returned Date",
+from OLE_DLVR_CIRC_RECORD ODCR
+where ODCR.ITM_ID = ODI.BARCODE) as "Last Returned Date",
 ODBI.TITLE as "Title",
 ODI.BARCODE as "Barcode",
 CASE WHEN ODI.CALL_NUMBER IS NOT NULL AND ODI.CALL_NUMBER != ' ' THEN ODI.CALL_NUMBER

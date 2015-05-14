@@ -7,64 +7,10 @@
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <parameters>
-        <scalar-parameter name="From" id="42">
-            <text-property name="promptText">From Date</text-property>
-            <property name="valueType">static</property>
-            <property name="dataType">date</property>
-            <property name="distinct">true</property>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="To" id="43">
-            <text-property name="promptText">To Date</text-property>
-            <property name="valueType">static</property>
-            <property name="dataType">date</property>
-            <property name="distinct">true</property>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">text-box</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="Library" id="53">
+        <scalar-parameter name="Item Type" id="10">
             <property name="valueType">dynamic</property>
-            <property name="dataSetName">Library</property>
-            <expression name="valueExpr" type="javascript">dataSetRow["Library"]</expression>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">list-box</property>
-            <property name="mustMatch">true</property>
-            <property name="fixedOrder">true</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="Patron Type" id="54">
-            <property name="valueType">dynamic</property>
-            <property name="dataSetName">Patron Types</property>
-            <expression name="valueExpr" type="javascript">dataSetRow["Patron Type"]</expression>
-            <property name="dataType">string</property>
-            <property name="distinct">true</property>
-            <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
-            <property name="controlType">list-box</property>
-            <property name="mustMatch">true</property>
-            <property name="fixedOrder">true</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
-        <scalar-parameter name="Patron Statistical Category" id="55">
-            <property name="valueType">dynamic</property>
-            <property name="dataSetName">Patron Statistical Category</property>
-            <expression name="valueExpr" type="javascript">dataSetRow["Patron Statistical Category"]</expression>
+            <property name="dataSetName">Item Types</property>
+            <expression name="valueExpr" type="javascript">dataSetRow["Item Type"]</expression>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
@@ -78,7 +24,7 @@
         </scalar-parameter>
     </parameters>
     <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="GeneralStatistics" id="7">
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="StandrdLoanBooks" id="7">
             <list-property name="privateDriverProperties">
                 <ex-property>
                     <name>metadataBidiFormatStr</name>
@@ -95,146 +41,158 @@
                     <name>disabledContentBidiFormatStr</name>
                 </ex-property>
             </list-property>
-            <property name="odaDriverClass">oracle.jdbc.driver.OracleDriver</property>
+            <property name="odaDriverClass">oracle.jdbc.OracleDriver</property>
             <property name="odaURL">jdbc:oracle:thin:@oracle.ole.kuali.org:1521:OLE</property>
             <property name="odaUser">OLEENV11</property>
             <encrypted-property name="odaPassword" encryptionID="base64">T0xFRU5WMTE=</encrypted-property>
         </oda-data-source>
     </data-sources>
     <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="GeneralStatistics" id="8">
-            <list-property name="columnHints"/>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="StandardLoanBooks" id="8">
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name"># of Loans</property>
+                    <expression name="expression">row["Current Loan Count"]+row["Past Loan Count"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">Call Number</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Call Number</text-property>
+                    <text-property name="heading">Call Number</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Current Loan Count</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Current Loan Count</text-property>
+                    <text-property name="heading">Current Loan Count</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Past Loan Count</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Past Loan Count</text-property>
+                    <text-property name="heading">Past Loan Count</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Last Returned Date</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Last Returned Date</text-property>
+                    <text-property name="heading">Last Returned Date</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Current Loan Date</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Current Loan Date</text-property>
+                    <text-property name="heading">Current Loan Date</text-property>
+                </structure>
+            </list-property>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData"/>
-            <method name="beforeOpen"><![CDATA[deliverReport = new Packages.org.kuali.ole.OLEDeliverReportHelper();
-
-dbVendor = deliverReport.getDbVendor();
-if(dbVendor!=null){
-	if(dbVendor.equalsIgnoreCase("oracle")){
-		this.queryText = this.queryText.replace("?","between to_date('"+params["From"].value+"', 'YYYY-MM-DD') and to_date('"+params["To"].value+"', 'YYYY-MM-DD') and (ODI.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%')) or ODH.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%'))) and ODBT.DLVR_BORR_TYP_NM = '"+params["Patron Type"].value+"' and ODSC.OLE_DLVR_STAT_CAT_NM='"+params["Patron Statistical Category"].value+"'");
-	}else if(dbVendor.equalsIgnoreCase("mysql")){
-		this.queryText = this.queryText.replace("?","between '"+params["From"].value+"' AND '"+params["To"].value+"' and (ODI.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%')) or ODH.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%'))) and ODBT.DLVR_BORR_TYP_NM = '"+params["Patron Type"].value+"' and ODSC.OLE_DLVR_STAT_CAT_NM = '"+params["Patron Statistical Category"].value+"'");
-	}
-}
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Call Number</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">Current Loan Count</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">Past Loan Count</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">Last Returned Date</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">Current Loan Date</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name"># of Loans</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText+ " and  OCIT.ITM_TYP_NM = '"+params["Item Type"].value+"'";
 ]]></method>
-            <property name="dataSource">GeneralStatistics</property>
-            <list-property name="resultSet"/>
-            <xml-property name="queryText"><![CDATA[Select
-loan.count + retrn.count as "Loan Count",
-retrn.count as "Return Count",
-renew.count as "Renew Count",
-request.count + requestHistory.count as "Hold count"
-from
-(Select count(*) as count
-from
-OLE_DLVR_LOAN_T ODL,
+            <property name="dataSource">StandrdLoanBooks</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">Call Number</property>
+                    <property name="nativeName">Call Number</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">Current Loan Count</property>
+                    <property name="nativeName">Current Loan Count</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">Past Loan Count</property>
+                    <property name="nativeName">Past Loan Count</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">Last Returned Date</property>
+                    <property name="nativeName">Last Returned Date</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">Current Loan Date</property>
+                    <property name="nativeName">Current Loan Date</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select 
+CASE WHEN ODI.CALL_NUMBER IS NOT NULL AND ODI.CALL_NUMBER != ' ' THEN ODI.CALL_NUMBER 
+	WHEN ODH.CALL_NUMBER IS NOT NULL AND ODH.CALL_NUMBER != ' ' THEN ODH.CALL_NUMBER 
+	ELSE ' ' 
+END as "Call Number",
+(select count(*) from OLE_DLVR_LOAN_T ODL
+where ODL.ITM_ID = ODI.BARCODE) as "Current Loan Count",
+(select count(*) from OLE_DLVR_CIRC_RECORD ODCR
+where ODCR.ITM_ID = ODI.BARCODE) as "Past Loan Count",
+(select MAX(CHECK_IN_DT_TIME) 
+from OLE_DLVR_CIRC_RECORD ODCR
+where ODCR.ITM_ID = ODI.BARCODE) as "Last Returned Date",
+(select ODL.CRTE_DT_TIME from OLE_DLVR_LOAN_T ODL
+where ODL.ITM_ID = ODI.BARCODE) as "Current Loan Date"
+from 
+OLE_CAT_ITM_TYP_T OCIT,
 OLE_DS_ITEM_T ODI,
-OLE_DS_HOLDINGS_T ODH,
-OLE_PTRN_T OP,
-OLE_DLVR_BORR_TYP_T ODBT,
-OLE_DLVR_STAT_CAT_T ODSC
+OLE_DS_HOLDINGS_T ODH
 where
-ODI.BARCODE = ODL.ITM_ID
+ODI.ITEM_TYPE_ID = OCIT.ITM_TYP_CD_ID
 and
-ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID
-and
-ODL.OLE_PTRN_ID = OP.OLE_PTRN_ID
-and
-OP.BORR_TYP = ODBT.DLVR_BORR_TYP_ID
-and
-ODSC.OLE_DLVR_STAT_CAT_ID = OP.OLE_STAT_CAT
-and
-ODL.CRTE_DT_TIME ?) loan,
-(Select count(*) as count
-from
-OLE_DLVR_CIRC_RECORD ODCR,
-OLE_DS_ITEM_T ODI,
-OLE_DS_HOLDINGS_T ODH,
-OLE_PTRN_T OP,
-OLE_DLVR_BORR_TYP_T ODBT,
-OLE_DLVR_STAT_CAT_T ODSC
-where
-ODI.BARCODE = ODCR.ITM_ID
-and
-ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID
-and
-ODCR.OLE_PTRN_ID = OP.OLE_PTRN_ID
-and
-OP.BORR_TYP = ODBT.DLVR_BORR_TYP_ID
-and
-ODSC.OLE_DLVR_STAT_CAT_ID = OP.OLE_STAT_CAT
-and
-ODCR.CRTE_DT_TIME ?) retrn,
-(select count(*) as count
-from
-OLE_RNWL_HISTORY_T ORH,
-OLE_DS_ITEM_T ODI,
-OLE_DS_HOLDINGS_T ODH,
-OLE_PTRN_T OP,
-OLE_DLVR_BORR_TYP_T ODBT,
-OLE_DLVR_STAT_CAT_T ODSC
-where
-ODI.BARCODE = ORH.ITEM_BARCODE
-and
-ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID
-and
-ORH.PTRN_BARCODE = OP.BARCODE
-and
-OP.BORR_TYP = ODBT.DLVR_BORR_TYP_ID
-and
-ODSC.OLE_DLVR_STAT_CAT_ID = OP.OLE_STAT_CAT
-and
-ORH.RNWD_DT ?) renew,
-(select count(*) as count
-from
-OLE_DLVR_RQST_T ODR,
-OLE_DS_ITEM_T ODI,
-OLE_DS_HOLDINGS_T ODH,
-OLE_PTRN_T OP,
-OLE_DLVR_BORR_TYP_T ODBT,
-OLE_DLVR_STAT_CAT_T ODSC
-where
-ODI.BARCODE = ODR.ITM_ID
-and
-ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID
-and
-ODR.OLE_PTRN_ID = OP.OLE_PTRN_ID
-and
-OP.BORR_TYP = ODBT.DLVR_BORR_TYP_ID
-and
-ODSC.OLE_DLVR_STAT_CAT_ID = OP.OLE_STAT_CAT
-and
-ODR.CRTE_DT_TIME ?) request,
-(select count(*) as count
-from
-OLE_DLVR_RQST_HSTRY_REC_T ODRHR,
-OLE_DS_ITEM_T ODI,
-OLE_DS_HOLDINGS_T ODH,
-OLE_PTRN_T OP,
-OLE_DLVR_BORR_TYP_T ODBT,
-OLE_DLVR_STAT_CAT_T ODSC
-where
-ODI.BARCODE = ODRHR.OLE_ITEM_ID
-and
-ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID
-and
-ODRHR.OLE_PTRN_ID = OP.OLE_PTRN_ID
-and
-OP.BORR_TYP = ODBT.DLVR_BORR_TYP_ID
-and
-ODSC.OLE_DLVR_STAT_CAT_ID = OP.OLE_STAT_CAT
-and
-ODRHR.CRTE_DT_TIME ?) requestHistory
-
-]]></xml-property>
+ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID]]></xml-property>
         </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Library" id="9">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Item Types" id="9">
             <list-property name="columnHints">
                 <structure>
-                    <property name="columnName">Library</property>
+                    <property name="columnName">Item Type</property>
                     <property name="analysis">dimension</property>
-                    <text-property name="displayName">Library</text-property>
-                    <text-property name="heading">Library</text-property>
+                    <text-property name="displayName">Item Type</text-property>
+                    <text-property name="heading">Item Type</text-property>
                 </structure>
             </list-property>
             <list-property name="parameters"/>
@@ -242,97 +200,24 @@ ODRHR.CRTE_DT_TIME ?) requestHistory
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">Library</property>
+                        <property name="name">Item Type</property>
                         <property name="dataType">string</property>
                     </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">GeneralStatistics</property>
+            <property name="dataSource">StandrdLoanBooks</property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">Library</property>
-                    <property name="nativeName">Library</property>
+                    <property name="name">Item Type</property>
+                    <property name="nativeName">Item Type</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select OL.LOCN_CD as "Library"
-from
-OLE_LOCN_LEVEL_T OLL,
-OLE_LOCN_T OL
-where
-OLL.LEVEL_CD = 'LIBRARY'
-and
-OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
-        </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Patron Types" id="10">
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">Patron Type</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">Patron Type</text-property>
-                    <text-property name="heading">Patron Type</text-property>
-                </structure>
-            </list-property>
-            <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">Patron Type</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                </list-property>
-            </structure>
-            <property name="dataSource">GeneralStatistics</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">Patron Type</property>
-                    <property name="nativeName">Patron Type</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select
-ODBT.DLVR_BORR_TYP_NM as "Patron Type"
-from
-OLE_DLVR_BORR_TYP_T ODBT]]></xml-property>
-        </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Patron Statistical Category" id="52">
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">Patron Statistical Category</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">Patron Statistical Category</text-property>
-                    <text-property name="heading">Patron Statistical Category</text-property>
-                </structure>
-            </list-property>
-            <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">Patron Statistical Category</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                </list-property>
-            </structure>
-            <property name="dataSource">GeneralStatistics</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">Patron Statistical Category</property>
-                    <property name="nativeName">Patron Statistical Category</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-            </list-property>
-            <xml-property name="queryText"><![CDATA[select
-ODSC.OLE_DLVR_STAT_CAT_NM as "Patron Statistical Category"
-from
-OLE_DLVR_STAT_CAT_T ODSC]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select ITM_TYP_NM as "Item Type"
+from 
+OLE_CAT_ITM_TYP_T]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -384,35 +269,43 @@ OLE_DLVR_STAT_CAT_T ODSC]]></xml-property>
             <property name="fontSize">12pt</property>
             <property name="fontWeight">bold</property>
             <property name="textAlign">center</property>
-            <text-property name="text">General Statistics</text-property>
+            <text-property name="text">Standrad Loan Books</text-property>
         </label>
         <label id="12"/>
         <table id="13">
-            <property name="dataSet">GeneralStatistics</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+            <property name="dataSet">StandardLoanBooks</property>
             <list-property name="boundDataColumns">
                 <structure>
-                    <property name="name">Loan Count</property>
-                    <text-property name="displayName">Loan Count</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["Loan Count"]</expression>
-                    <property name="dataType">decimal</property>
+                    <property name="name">Call Number</property>
+                    <text-property name="displayName">Call Number</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Call Number"]</expression>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">Return Count</property>
-                    <text-property name="displayName">Return Count</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["Return Count"]</expression>
-                    <property name="dataType">decimal</property>
+                    <property name="name"># of Loans</property>
+                    <text-property name="displayName"># of Loans</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["# of Loans"]</expression>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">Renew Count</property>
-                    <text-property name="displayName">Renew Count</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["Renew Count"]</expression>
-                    <property name="dataType">decimal</property>
+                    <property name="name">Last Returned Date</property>
+                    <text-property name="displayName">Last Returned Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Last Returned Date"]</expression>
+                    <property name="dataType">date-time</property>
                 </structure>
                 <structure>
-                    <property name="name">Hold count</property>
-                    <text-property name="displayName">Hold count</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["Hold count"]</expression>
-                    <property name="dataType">decimal</property>
+                    <property name="name">Current Loan Date</property>
+                    <text-property name="displayName">Current Loan Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Current Loan Date"]</expression>
+                    <property name="dataType">date-time</property>
                 </structure>
             </list-property>
             <column id="29"/>
@@ -430,8 +323,8 @@ OLE_DLVR_STAT_CAT_T ODSC]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <label id="44">
-                            <text-property name="text">Loan Count</text-property>
+                        <label id="34">
+                            <text-property name="text">Call Number</text-property>
                         </label>
                     </cell>
                     <cell id="16">
@@ -443,8 +336,8 @@ OLE_DLVR_STAT_CAT_T ODSC]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <label id="46">
-                            <text-property name="text">Return Count</text-property>
+                        <label id="36">
+                            <text-property name="text"># of Loans</text-property>
                         </label>
                     </cell>
                     <cell id="17">
@@ -456,8 +349,8 @@ OLE_DLVR_STAT_CAT_T ODSC]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <label id="48">
-                            <text-property name="text">Renew Count</text-property>
+                        <label id="38">
+                            <text-property name="text">Last Returned Date</text-property>
                         </label>
                     </cell>
                     <cell id="18">
@@ -469,8 +362,8 @@ OLE_DLVR_STAT_CAT_T ODSC]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <label id="50">
-                            <text-property name="text">Hold count</text-property>
+                        <label id="40">
+                            <text-property name="text">Current Loan Date</text-property>
                         </label>
                     </cell>
                 </row>
@@ -486,8 +379,8 @@ OLE_DLVR_STAT_CAT_T ODSC]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="45">
-                            <property name="resultSetColumn">Loan Count</property>
+                        <data id="35">
+                            <property name="resultSetColumn">Call Number</property>
                         </data>
                     </cell>
                     <cell id="21">
@@ -499,8 +392,8 @@ OLE_DLVR_STAT_CAT_T ODSC]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="47">
-                            <property name="resultSetColumn">Return Count</property>
+                        <data id="37">
+                            <property name="resultSetColumn"># of Loans</property>
                         </data>
                     </cell>
                     <cell id="22">
@@ -512,8 +405,8 @@ OLE_DLVR_STAT_CAT_T ODSC]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="49">
-                            <property name="resultSetColumn">Renew Count</property>
+                        <data id="39">
+                            <property name="resultSetColumn">Last Returned Date</property>
                         </data>
                     </cell>
                     <cell id="23">
@@ -525,8 +418,8 @@ OLE_DLVR_STAT_CAT_T ODSC]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="51">
-                            <property name="resultSetColumn">Hold count</property>
+                        <data id="41">
+                            <property name="resultSetColumn">Current Loan Date</property>
                         </data>
                     </cell>
                 </row>

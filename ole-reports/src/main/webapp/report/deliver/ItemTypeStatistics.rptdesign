@@ -37,6 +37,30 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="From" id="56">
+            <text-property name="promptText">Laon Date From</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">date</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="To" id="57">
+            <text-property name="promptText">Laon Date To</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">date</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="ItemTypeStatistics" id="7">
@@ -56,144 +80,47 @@
                     <name>disabledContentBidiFormatStr</name>
                 </ex-property>
             </list-property>
-            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
-            <property name="odaURL">jdbc:mysql://localhost/ole_16_new</property>
-            <property name="odaUser">root</property>
-            <encrypted-property name="odaPassword" encryptionID="base64">cm9vdA==</encrypted-property>
+            <property name="odaDriverClass">oracle.jdbc.driver.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@oracle.ole.kuali.org:1521:OLE</property>
+            <property name="odaUser">OLEENV11</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">T0xFRU5WMTE=</encrypted-property>
         </oda-data-source>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ItemTypeStatistics" id="8">
-            <list-property name="columnHints">
+            <list-property name="computedColumns">
                 <structure>
-                    <property name="columnName">Item Status</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">Item Status</text-property>
-                    <text-property name="heading">Item Status</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName"># Of Loans</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName"># Of Loans</text-property>
-                    <text-property name="heading"># Of Loans</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">Last Returned Date</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">Last Returned Date</text-property>
-                    <text-property name="heading">Last Returned Date</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">Barcode</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">Barcode</text-property>
-                    <text-property name="heading">Barcode</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">Call Number</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">Call Number</text-property>
-                    <text-property name="heading">Call Number</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">Title</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">Title</text-property>
-                    <text-property name="heading">Title</text-property>
+                    <property name="name"># of Loans</property>
+                    <expression name="expression">row["Current Loan Count"]+row["Past Loan Count"]</expression>
+                    <property name="dataType">string</property>
                 </structure>
             </list-property>
+            <list-property name="columnHints"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">Item Status</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name"># Of Loans</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">Last Returned Date</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">Barcode</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">Call Number</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">Title</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                </list-property>
-            </structure>
+            <structure name="cachedMetaData"/>
             <method name="beforeOpen"><![CDATA[deliverReport = new Packages.org.kuali.ole.OLEDeliverReportHelper();
-this.queryText = this.queryText.replace("?",params["Item Type"].value);
-this.queryText = this.queryText+" and (ODI.LOCATION LIKE CONCAT('%',CONCAT('??','%')) or ODH.LOCATION LIKE CONCAT('%',CONCAT('??','%')))";
-this.queryText = this.queryText.replace("??",params["Library"].value);]]></method>
+dbVendor = deliverReport.getDbVendor();
+if(dbVendor!=null){
+	if(dbVendor.equalsIgnoreCase("oracle")){
+		this.queryText = this.queryText.replace("?","between to_date('"+params["From"].value+"', 'YYYY-MM-DD') and to_date('"+params["To"].value+"', 'YYYY-MM-DD')");
+	}else if(dbVendor.equalsIgnoreCase("mysql")){
+		this.queryText = this.queryText.replace("?","between '"+params["From"].value+"' AND '"+params["To"].value+"'");
+	}
+}
+this.queryText = this.queryText+ " and  OCIT.ITM_TYP_NM = '"+params["Item Type"].value+"'";
+this.queryText = this.queryText+" and (ODI.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%')) or ODH.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%')))";]]></method>
             <property name="dataSource">ItemTypeStatistics</property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">Item Status</property>
-                    <property name="nativeName">Item Status</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name"># Of Loans</property>
-                    <property name="nativeName"># Of Loans</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">2</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">Last Returned Date</property>
-                    <property name="nativeName">Last Returned Date</property>
-                    <property name="dataType">date-time</property>
-                    <property name="nativeDataType">93</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">Barcode</property>
-                    <property name="nativeName">Barcode</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">Call Number</property>
-                    <property name="nativeName">Call Number</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">Title</property>
-                    <property name="nativeName">Title</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-            </list-property>
+            <list-property name="resultSet"/>
             <xml-property name="queryText"><![CDATA[select 
 (select ODIAS.ITEM_AVAIL_STAT_NM from OLE_DLVR_ITEM_AVAIL_STAT_T ODIAS
 where ODIAS.ITEM_AVAIL_STAT_ID = ODI.ITEM_STATUS_ID) as "Item Status",
 (select count(*) from OLE_DLVR_LOAN_T ODL
-where ODL.ITM_ID = ODI.BARCODE) as "# Of Loans",
+where ODL.ITM_ID = ODI.BARCODE and ODL.CURR_DUE_DT_TIME ?) as "Current Loan Count",
+(select count(*) from OLE_DLVR_CIRC_RECORD ODCR
+where ODCR.ITM_ID = ODI.BARCODE and ODCR.CRTE_DT_TIME ?) as "Past Loan Count",
 (select MAX(CHECK_IN_DT_TIME) 
-from OLE_DLVR_TEMP_CIRC_RECORD ODTCR
-where ODTCR.ITM_ID = ODI.BARCODE) as "Last Returned Date",
+from OLE_DLVR_CIRC_RECORD ODCR
+where ODCR.ITM_ID = ODI.BARCODE) as "Last Returned Date",
 ODI.BARCODE as "Barcode",
 CASE WHEN ODI.CALL_NUMBER IS NOT NULL AND ODI.CALL_NUMBER != ' ' THEN ODI.CALL_NUMBER 
 	WHEN ODH.CALL_NUMBER IS NOT NULL AND ODH.CALL_NUMBER != ' ' THEN ODH.CALL_NUMBER 
@@ -206,8 +133,6 @@ OLE_DS_ITEM_T ODI,
 OLE_DS_HOLDINGS_T ODH,
 OLE_DS_BIB_INFO_T ODBI
 where
-OCIT.ITM_TYP_NM = '?'
-and
 ODI.ITEM_TYPE_ID = OCIT.ITM_TYP_CD_ID
 and
 ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID
@@ -338,7 +263,7 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
             <text-property name="text">Item Type Statistics</text-property>
         </label>
         <label id="12"/>
-        <table id="13">
+        <table id="88">
             <property name="dataSet">ItemTypeStatistics</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -348,10 +273,10 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name"># Of Loans</property>
-                    <text-property name="displayName"># Of Loans</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["# Of Loans"]</expression>
-                    <property name="dataType">decimal</property>
+                    <property name="name"># of Loans</property>
+                    <text-property name="displayName"># of Loans</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["# of Loans"]</expression>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">Last Returned Date</property>
@@ -378,15 +303,15 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <column id="35"/>
-            <column id="36"/>
-            <column id="37"/>
-            <column id="38"/>
-            <column id="39"/>
-            <column id="40"/>
+            <column id="110"/>
+            <column id="111"/>
+            <column id="112"/>
+            <column id="113"/>
+            <column id="114"/>
+            <column id="115"/>
             <header>
-                <row id="14">
-                    <cell id="15">
+                <row id="89">
+                    <cell id="90">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftStyle">solid</property>
@@ -395,11 +320,11 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <label id="42">
+                        <label id="117">
                             <text-property name="text">Item Status</text-property>
                         </label>
                     </cell>
-                    <cell id="16">
+                    <cell id="91">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftStyle">solid</property>
@@ -408,11 +333,11 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <label id="44">
-                            <text-property name="text"># Of Loans</text-property>
+                        <label id="119">
+                            <text-property name="text"># of Loans</text-property>
                         </label>
                     </cell>
-                    <cell id="17">
+                    <cell id="92">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftStyle">solid</property>
@@ -421,11 +346,11 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <label id="46">
+                        <label id="121">
                             <text-property name="text">Last Returned Date</text-property>
                         </label>
                     </cell>
-                    <cell id="18">
+                    <cell id="93">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftStyle">solid</property>
@@ -434,11 +359,11 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <label id="48">
+                        <label id="123">
                             <text-property name="text">Barcode</text-property>
                         </label>
                     </cell>
-                    <cell id="19">
+                    <cell id="94">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftStyle">solid</property>
@@ -447,11 +372,11 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <label id="50">
+                        <label id="125">
                             <text-property name="text">Call Number</text-property>
                         </label>
                     </cell>
-                    <cell id="20">
+                    <cell id="95">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftStyle">solid</property>
@@ -460,15 +385,15 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <label id="52">
+                        <label id="127">
                             <text-property name="text">Title</text-property>
                         </label>
                     </cell>
                 </row>
             </header>
             <detail>
-                <row id="21">
-                    <cell id="22">
+                <row id="96">
+                    <cell id="97">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftStyle">solid</property>
@@ -477,11 +402,11 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="43">
+                        <data id="118">
                             <property name="resultSetColumn">Item Status</property>
                         </data>
                     </cell>
-                    <cell id="23">
+                    <cell id="98">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftStyle">solid</property>
@@ -490,11 +415,11 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="45">
-                            <property name="resultSetColumn"># Of Loans</property>
+                        <data id="120">
+                            <property name="resultSetColumn"># of Loans</property>
                         </data>
                     </cell>
-                    <cell id="24">
+                    <cell id="99">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftStyle">solid</property>
@@ -503,11 +428,11 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="47">
+                        <data id="122">
                             <property name="resultSetColumn">Last Returned Date</property>
                         </data>
                     </cell>
-                    <cell id="25">
+                    <cell id="100">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftStyle">solid</property>
@@ -516,11 +441,11 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="49">
+                        <data id="124">
                             <property name="resultSetColumn">Barcode</property>
                         </data>
                     </cell>
-                    <cell id="26">
+                    <cell id="101">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftStyle">solid</property>
@@ -529,11 +454,11 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="51">
+                        <data id="126">
                             <property name="resultSetColumn">Call Number</property>
                         </data>
                     </cell>
-                    <cell id="27">
+                    <cell id="102">
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftStyle">solid</property>
@@ -542,13 +467,13 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderRightWidth">thin</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="53">
+                        <data id="128">
                             <property name="resultSetColumn">Title</property>
                         </data>
                     </cell>
                 </row>
             </detail>
         </table>
-        <label id="41"/>
+        <label id="116"/>
     </body>
 </report>

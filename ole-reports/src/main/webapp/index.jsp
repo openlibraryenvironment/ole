@@ -91,8 +91,9 @@
                     <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/LostOrMissingItems.rptdesign"%>" target="_blank">Lost/Missing Items</a></li>
                     <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ItemTypeStatistics.rptdesign"%>" target="_blank">Item Type Statistics</a></li>
                     <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CollectionStatistics.rptdesign"%>" target="_blank">Collection Statistics</a></li>
-                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/LostItems.rptdesign"%>" target="_blank">Lost Items</a></li>
+                    <%--<li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/LostItems.rptdesign"%>" target="_blank">Lost Items</a></li>--%>
                     <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/GeneralStatistics.rptdesign"%>" target="_blank">General Statistics</a></li>
+                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/StandrdLoanBooks.rptdesign"%>" target="_blank">Standrd Loan Books</a></li>
 
             </ul>
         </ul>
