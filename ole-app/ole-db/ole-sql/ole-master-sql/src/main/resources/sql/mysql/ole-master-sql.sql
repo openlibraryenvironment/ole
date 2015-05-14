@@ -17774,6 +17774,34 @@ CREATE TABLE OLE_MARC_REC_SRC_TYPE_T
 
 
 # -----------------------------------------------------------------------
+# OLE_MARC_UPDT_FREQ_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_MARC_UPDT_FREQ_T
+/
+
+CREATE TABLE OLE_MARC_UPDT_FREQ_T
+(
+      MARC_UPDT_FREQ_ID VARCHAR(10)
+        , MARC_UPDT_FREQ_CD VARCHAR(40)
+        , MARC_UPDT_FREQ_NM VARCHAR(100)
+        , MARC_UPDT_FREQ_DESC VARCHAR(800)
+        , MARC_UPDT_FREQ INTEGER
+        , OBJ_ID VARCHAR(36) NOT NULL
+        , VER_NBR DECIMAL(8) NOT NULL
+        , ROW_ACT_IND VARCHAR(1)
+    
+    , CONSTRAINT OLE_MARC_UPDT_FREQ_TP1 PRIMARY KEY(MARC_UPDT_FREQ_ID)
+
+
+
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
 # OLE_E_RES_PLTFRM_EVNT_TYPE_T
 # -----------------------------------------------------------------------
 drop table if exists OLE_E_RES_PLTFRM_EVNT_TYPE_T
@@ -20949,4 +20977,18 @@ CREATE TABLE OLE_GOKB_CONFIG_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_GOKB_CONFIG_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_MARC_UPDT_FREQ_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_MARC_UPDT_FREQ_S
+/
+
+CREATE TABLE OLE_MARC_UPDT_FREQ_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_MARC_UPDT_FREQ_S auto_increment = 1
 /

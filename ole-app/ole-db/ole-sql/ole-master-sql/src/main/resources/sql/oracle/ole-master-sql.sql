@@ -21704,6 +21704,42 @@ PRIMARY KEY (MARC_REC_SRC_TYPE_ID)
 
 
 -----------------------------------------------------------------------------
+-- OLE_MARC_UPDT_FREQ_T
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'OLE_MARC_UPDT_FREQ_T';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE OLE_MARC_UPDT_FREQ_T CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE OLE_MARC_UPDT_FREQ_T
+(
+      MARC_UPDT_FREQ_ID VARCHAR2(10)
+        , MARC_UPDT_FREQ_CD VARCHAR2(40)
+        , MARC_UPDT_FREQ_NM VARCHAR2(100)
+        , MARC_UPDT_FREQ_DESC VARCHAR2(800)
+        , MARC_UPDT_FREQ NUMBER(10,0)
+        , OBJ_ID VARCHAR2(36) NOT NULL
+        , VER_NBR NUMBER(8) NOT NULL
+        , ROW_ACT_IND VARCHAR2(1)
+    
+
+)
+/
+
+ALTER TABLE OLE_MARC_UPDT_FREQ_T
+    ADD CONSTRAINT OLE_MARC_UPDT_FREQ_TP1
+PRIMARY KEY (MARC_UPDT_FREQ_ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
 -- OLE_E_RES_PLTFRM_EVNT_TYPE_T
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
@@ -24135,5 +24171,15 @@ END;
 /
 
 CREATE SEQUENCE OLE_GOKB_CONFIG_S INCREMENT BY 1 START WITH 1 NOMAXVALUE NOCYCLE NOCACHE ORDER
+/
+
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'OLE_MARC_UPDT_FREQ_S';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE OLE_MARC_UPDT_FREQ_S'; END IF;
+END;
+/
+
+CREATE SEQUENCE OLE_MARC_UPDT_FREQ_S INCREMENT BY 1 START WITH 1 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
