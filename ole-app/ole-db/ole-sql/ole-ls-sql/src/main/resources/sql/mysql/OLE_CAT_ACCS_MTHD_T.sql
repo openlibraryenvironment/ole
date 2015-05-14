@@ -1,0 +1,23 @@
+TRUNCATE TABLE OLE_CAT_ACCS_MTHD_T
+/
+INSERT INTO OLE_CAT_ACCS_MTHD_T (ACCS_MTHD_CD,ACCS_MTHD_ID,ACCS_MTHD_NM,OBJ_ID,ROW_ACT_IND,SRC,SRC_DT,VER_NBR)
+  VALUES (' ',1,'No information provIDed ','2743172a-b838-448e-b57c-440104695e43','Y','MFHD 856 1st Indicator VALUES: http://www.loc.gov/marc/holdings/hd856.html',STR_TO_DATE( '20120517000000', '%Y%m%d%H%i%s' ),1)
+/
+INSERT INTO OLE_CAT_ACCS_MTHD_T (ACCS_MTHD_CD,ACCS_MTHD_ID,ACCS_MTHD_NM,OBJ_ID,ROW_ACT_IND,SRC,SRC_DT,VER_NBR)
+  VALUES ('0',2,'Email','7d051884-1872-4513-aa81-22757a7bdea7','Y','MFHD 856 1st Indicator VALUES: http://www.loc.gov/marc/holdings/hd856.html',STR_TO_DATE( '20120517000000', '%Y%m%d%H%i%s' ),1)
+/
+INSERT INTO OLE_CAT_ACCS_MTHD_T (ACCS_MTHD_CD,ACCS_MTHD_ID,ACCS_MTHD_NM,OBJ_ID,ROW_ACT_IND,SRC,SRC_DT,VER_NBR)
+  VALUES ('1',3,'FTP','9f07876b-bb1e-4a25-aaf6-c53677ea2aa8','Y','MFHD 856 1st Indicator VALUES: http://www.loc.gov/marc/holdings/hd856.html',STR_TO_DATE( '20120517000000', '%Y%m%d%H%i%s' ),1)
+/
+INSERT INTO OLE_CAT_ACCS_MTHD_T (ACCS_MTHD_CD,ACCS_MTHD_ID,ACCS_MTHD_NM,OBJ_ID,ROW_ACT_IND,SRC,SRC_DT,VER_NBR)
+  VALUES ('2',4,'Remote Login(Telnet)','a3f3290a-6c73-4443-a299-d7b33cce13c1','Y','MFHD 856 1st Indicator VALUES: http://www.loc.gov/marc/holdings/hd856.html',STR_TO_DATE( '20120517000000', '%Y%m%d%H%i%s' ),1)
+/
+INSERT INTO OLE_CAT_ACCS_MTHD_T (ACCS_MTHD_CD,ACCS_MTHD_ID,ACCS_MTHD_NM,OBJ_ID,ROW_ACT_IND,SRC,SRC_DT,VER_NBR)
+  VALUES ('3',5,'Dial-Up','8e798ab4-e74e-4580-bdad-2f0d039ea412','Y','MFHD 856 1st Indicator VALUES: http://www.loc.gov/marc/holdings/hd856.html',STR_TO_DATE( '20120517000000', '%Y%m%d%H%i%s' ),1)
+/
+INSERT INTO OLE_CAT_ACCS_MTHD_T (ACCS_MTHD_CD,ACCS_MTHD_ID,ACCS_MTHD_NM,OBJ_ID,ROW_ACT_IND,SRC,SRC_DT,VER_NBR)
+  VALUES ('4',6,'HTTP','40fdb970-4fb0-437b-b8f5-be73ca2f1708','Y','MFHD 856 1st Indicator VALUES: http://www.loc.gov/marc/holdings/hd856.html',STR_TO_DATE( '20120517000000', '%Y%m%d%H%i%s' ),1)
+/
+INSERT INTO OLE_CAT_ACCS_MTHD_T (ACCS_MTHD_CD,ACCS_MTHD_ID,ACCS_MTHD_NM,OBJ_ID,ROW_ACT_IND,SRC,SRC_DT,VER_NBR)
+  VALUES ('7',7,'Method specified in additionalAccessMethodInformation','f7071489-80b8-41da-a15a-e02d41f38f92','Y','MFHD 856 1st Indicator VALUES: http://www.loc.gov/marc/holdings/hd856.html',STR_TO_DATE( '20120517000000', '%Y%m%d%H%i%s' ),1)
+/
