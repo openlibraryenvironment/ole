@@ -473,9 +473,9 @@
                             <bean id="OleEinstance-ResourceName" parent="Uif-LinkField" p:link.linkText="@{eResourceTitle}" p:label="E-Resource Name"
                                   p:href="@{#ConfigProperties['ole.eresource.url']}oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{tokenId}&amp;command=displayDocSearchView"
                                   p:target="_blank"/>
-                            <bean id="OleEinstance-relatedHoldingIdentifier" parent="Uif-DataField"
+<!--                            <bean id="OleEinstance-relatedHoldingIdentifier" parent="Uif-DataField"
                                   p:propertyName="documentForm.extendedEHoldingFields.relatedHoldingIdentifier"
-                                  p:label="Related Instance"/>
+                                  p:label="Related Instance"/>-->
                             <bean id="OleEinstance-eResourceId" parent="Uif-DataField" p:propertyName="documentForm.selectedEHoldings.eResourceId"
                                   p:label="E-Resource ID"/>
                         </list>
