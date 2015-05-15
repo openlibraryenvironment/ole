@@ -138,8 +138,8 @@
     <bean id="SerialsReceivingRecordSearchPanel-Buttons"  parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="search_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:25em" p:methodToCall="search" p:actionLabel="Search" p:successCallback="pageEntriesDisplay()" p:onClickScript="setSearchType()"/>
-                <bean id="clear_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:methodToCall="clearSearch" p:actionLabel="Clear" p:successCallback="refreshPage()"/>
+                <bean id="search_button" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:25em" p:methodToCall="search" p:actionLabel="Search" p:successCallback="pageEntriesDisplay()" p:onClickScript="setSearchType()"/>
+                <bean id="clear_button" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:0em" p:methodToCall="clearSearch" p:actionLabel="Clear" p:successCallback="refreshPage()"/>
             </list>
         </property>
     </bean>

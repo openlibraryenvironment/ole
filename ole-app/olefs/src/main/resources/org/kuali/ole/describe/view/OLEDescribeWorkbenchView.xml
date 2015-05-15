@@ -63,8 +63,7 @@
     </bean>
 
     <bean id="OLESearchPanel" parent="OLEDescribeSearchPanel-parentBean"/>
-    <bean id="OLEDescribeSearchPanel-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
-        <property name="headerText" value="Search Conditions:"/>
+    <bean id="OLEDescribeSearchPanel-parentBean" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean id="success_message" parent="Uif-MessageField" p:messageText="@{successMessage}" />
@@ -75,8 +74,7 @@
     <bean id="OLESearchAndSearchResultsView" parent="Uif-VerticalBoxSection" p:render="@{searchType eq 'search'}">
         <property name="items">
             <list>
-                <ref bean="SearchConditionsSection"/>
-                <ref bean="SearchFooterSection"/>
+                <ref bean="SearchConditions"/>
                 <ref bean="OLESearchResultsSection"/>
                 <ref bean="hiddenSearchFields"/>
             </list>
@@ -96,7 +94,7 @@
         </property>
     </bean>
     <bean id="OLESearchResultsSection" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="3">
-        <property name="headerText" value="Search Results"/>
+        <property name="headerText" value="Search Results:"/>
         <property name="items">
             <list>
                 <ref bean="OLESearchFieldResultSection"/>
@@ -105,8 +103,8 @@
         </property>
     </bean>
 
-    <bean id="OLESearchFieldResultSection" parent="Uif-VerticalBoxSection" p:colSpan="2">
-        <property name="headerText" value="Search Results"/>
+    <bean id="OLESearchFieldResultSection" parent="Uif-Disclosure-VerticalBoxSection" p:colSpan="2">
+        <property name="headerText" value="Search Results:"/>
         <property name="items">
             <list>
                 <ref bean="OLEBibSearchResults"/>
@@ -170,7 +168,7 @@
             </list>
         </property>
     </bean>
-    <bean id="OLEFacetFieldResultSection" parent="Uif-VerticalBoxSection" p:render="@{docType eq 'bibliographic'}">
+    <bean id="OLEFacetFieldResultSection" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{docType eq 'bibliographic'}">
         <property name="headerText" value="Narrow Search"/>
         <property name="items">
             <list>

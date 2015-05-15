@@ -2,7 +2,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="OLEEResourceRecordView-E-ResourceEventLogTab" parent="E-Res-Uif-DocumentPage">
-        <property name="headerText" value="Event Log"/>
         <property name="items">
             <list>
                 <ref bean="Ole-Uif-DocumentPageFooter-EventLog"/>
@@ -16,7 +15,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+                      p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
             </list>
         </property>
     </bean>
@@ -154,19 +153,19 @@
         </property>
         <property name="addLineActions">
             <list>
-                <bean id="addEventLogLine_button" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addEventLogLine" p:actionLabel="Add" p:title="Add a EventLog"/>
+                <bean id="addEventLogLine_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addEventLogLine" p:actionLabel="Add" p:title="Add a EventLog"/>
 
             </list>
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="saveEvent" p:actionLabel="Save" p:render="@{!#line.saveFlag}"/>
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="editEventLogLine" p:actionLabel="Edit" p:render="@{#line.saveFlag and #line.logTypeName ne 'System'}"/>
-                <bean id="deleteEventLogLine_button" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteEventLogLine" p:actionLabel="Delete" p:title="Delete a EventLog" p:render="@{#line.saveFlag and #line.logTypeName ne 'System'}"/>
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="downloadEventAttachment1"
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="saveEvent" p:actionLabel="Save" p:render="@{!#line.saveFlag}"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="editEventLogLine" p:actionLabel="Edit" p:render="@{#line.saveFlag and #line.logTypeName ne 'System'}"/>
+                <bean id="deleteEventLogLine_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteEventLogLine" p:actionLabel="Delete" p:title="Delete a EventLog" p:render="@{#line.saveFlag and #line.logTypeName ne 'System'}"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="downloadEventAttachment1"
                       p:actionLabel="Download Attachment1" p:ajaxSubmit="false" p:disableBlocking="true"
                       p:render="@{#line.attachmentFileName1 ne null and #line.attachmentFileName1 ne ' '}"/>
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="downloadEventAttachment2"
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="downloadEventAttachment2"
                       p:actionLabel="Download Attachment2" p:ajaxSubmit="false" p:disableBlocking="true"
                       p:render="@{#line.attachmentFileName2 ne null and #line.attachmentFileName2 ne ' '}"/>
             </list>

@@ -367,9 +367,9 @@
     <bean id="OLEEResourceRecordDocument-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="vendorName"/>
         <property name="label" value="Vendor Name"/>
-        <property name="maxLength" value="40"/>
+        <property name="maxLength" value="45"/>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="20"/>
+            <bean parent="Uif-TextControl" p:size="40"/>
         </property>
     </bean>
 

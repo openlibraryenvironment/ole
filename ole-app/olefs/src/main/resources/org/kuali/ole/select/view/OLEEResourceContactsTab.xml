@@ -5,12 +5,24 @@
         <property name="items">
             <list>
                 <ref bean="OLEEResourceRecordView-Overview"/>
-                <ref bean="OLEEResourceContactsTab-ContactDetails"/>
+                <ref bean="OLEEResourceRecordView-ContactDetails"/>
             </list>
         </property>
     </bean>
 
-    <bean id="OLEEResourceContactsTab-ContactDetails" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="7" >
+    <bean id="OLEEResourceRecordView-ContactDetails" parent="Uif-Disclosure-VerticalBoxSection" >
+        <property name="headerText" value="Contact Details"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceContactsTab-ContactDetailSection"/>
+                <bean parent="Uif-MessageField"
+                      p:messageText="There are currently no Vendors linked to the E-Resource Record."
+                      p:render="@{document.oleERSContacts.size()==0}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceContactsTab-ContactDetailSection" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="7" >
         <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEEResourceContacts" />
         <property name="propertyName" value="oleERSContacts" />
         <property name="layoutManager.renderSequenceField" value="false" />

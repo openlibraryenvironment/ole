@@ -4,12 +4,11 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="OLEEResourceRecordView-E-ResourcePOTab" parent="E-Res-Uif-DocumentPage">
-        <property name="headerText" value="Purchase Orders"/>
         <property name="items">
             <list>
                 <ref bean="OLEEResourceRecordView-CreatePOLink"/>
                 <ref bean="OLEEResourceRecordView-Overview"/>
-                <ref bean="OLEEResourceRecordView-POItemDetails"/>
+                <ref bean="OLEEResourceRecordView-PO"/>
             </list>
         </property>
     </bean>
@@ -104,7 +103,7 @@
         </property>
     </bean>
 
-    <bean id="OLEEResourceRecordView-Overview" parent="Uif-Disclosure-HorizontalBoxSection">
+    <bean id="OLEEResourceRecordView-Overview" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="headerText" value="Overview"/>
         <property name="items">
             <list>
@@ -114,14 +113,14 @@
 
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="title" p:required="true"/>
-                            <bean parent="Uif-DataField" p:propertyName="publisher"/>
-                            <bean parent="Uif-DataField" p:propertyName="oleERSIdentifier"/>
                             <bean id="statusId" parent="Uif-DataField" p:propertyName="statusName" p:label="Status"
                                   p:required="true"/>
-                            <bean parent="Uif-DataField" p:propertyName="platformProvider"/>
-                            <bean parent="Uif-DataField" p:propertyName="isbn" />
+                            <bean parent="Uif-DataField" p:propertyName="oleERSIdentifier"/>
+                            <bean parent="Uif-DataField" p:propertyName="publisher"/>
                             <bean parent="Uif-DataField" p:propertyName="statusDate" />
+                            <bean parent="Uif-DataField" p:propertyName="isbn" />
                             <bean parent="Uif-DataField" p:propertyName="vendorName" />
+                            <bean parent="Uif-DataField" p:propertyName="platformProvider"/>
                             <bean parent="Uif-DataField" p:propertyName="gokbIdentifier"/>
                         </list>
                     </property>
@@ -130,9 +129,20 @@
         </property>
     </bean>
 
+    <bean id="OLEEResourceRecordView-PO" parent="Uif-Disclosure-VerticalBoxSection" >
+        <property name="headerText" value="PO details"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceRecordView-POItemDetails"/>
+                <bean parent="Uif-MessageField"
+                      p:messageText="There are currently no Purchase Orders attached to the E-Resource Record."
+                      p:render="@{document.linkedERSPOItems.size()==0}"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="OLEEResourceRecordView-POItemDetails" parent="Uif-Disclosure-TableCollectionSection"
           p:layoutManager.numberOfColumns="1">
-        <property name="headerText" value="PO details"/>
         <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourcePO"/>
         <property name="propertyName" value="linkedERSPOItems"/>
         <property name="layoutManager.renderSequenceField" value="false"/>

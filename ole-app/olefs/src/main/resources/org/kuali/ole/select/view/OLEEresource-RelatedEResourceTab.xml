@@ -4,7 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="OLEEResourceRecordView-E-ResourceRelatedTab" parent="E-Res-Uif-DocumentPage">
-        <property name="headerText" value="Related E-Resource"/>
         <property name="items">
             <list>
                 <ref bean="searchUrl"/>
@@ -12,10 +11,6 @@
                 <ref bean="OLEEResourceRecordView-RemoveRelationShipPopUp"/>
                 <ref bean="OLEEResourceRecordView-RemoveRelationShipParentPopUp"/>
                 <ref bean="OLEEResourceRecordView-Overview"/>
-                <bean parent="Uif-PrimaryActionButton"
-                      p:ajaxSubmit="true"
-                      p:actionScript="eResourceSearch()" p:actionLabel="Create new E-Resource link"
-                      p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
                 <ref bean="OLEEResourceRecordView-RelatedEresources"/>
             </list>
         </property>
@@ -25,13 +20,27 @@
         <property name="items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+                      p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true"
+                      p:actionScript="eResourceSearch()" p:actionLabel="Create new E-Resource link"
+                      p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
             </list>
         </property>
     </bean>
 
-    <bean id="OLEEResourceRecordView-RelatedEresources" parent="Uif-TableCollectionSection">
-        <property name="headerText" value=""/>
+    <bean id="OLEEResourceRecordView-RelatedEresources" parent="Uif-Disclosure-VerticalBoxSection" >
+        <property name="headerText" value="Related Eresources" />
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceRecordView-RelatedEresourceSection"/>
+                <bean parent="Uif-MessageField"
+                      p:messageText="There are currently no E-Resources linked to the E-Resource Record."
+                      p:render="@{document.oleLinkedEresources.size()==0}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-RelatedEresourceSection" parent="Uif-TableCollectionSection">
         <property name="collectionObjectClass"
                   value="org.kuali.ole.select.bo.OLELinkedEresource"/>
         <property name="propertyName" value="oleLinkedEresources"/>
@@ -89,9 +98,9 @@
                     <property name="items">
                         <list>
                             <bean id="OLEEResourceRecordView-RemoveRelation-Cancel-button"
-                                  parent="Uif-PrimaryActionButton" p:methodToCall="saveRelationship" p:actionParameters="removeChild:no"
+                                  parent="Uif-SecondaryActionButton-Small" p:methodToCall="saveRelationship" p:actionParameters="removeChild:no"
                                   p:ajaxSubmit="true" p:successCallback="closeRemoveRelationShipPopup();" p:actionLabel="Cancel"/>
-                            <bean id="OLEEResourceRecordView-RemoveRelation-Ok-button" parent="Uif-PrimaryActionButton"
+                            <bean id="OLEEResourceRecordView-RemoveRelation-Ok-button" parent="Uif-SecondaryActionButton-Small"
                                   p:methodToCall="saveRelationship" p:actionLabel="Ok" p:ajaxSubmit="true"
                                   p:successCallback="closeRemoveRelationShipPopup();"/>
                         </list>
@@ -114,9 +123,9 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="OLEEResourceRecordView-RemoveRelation-Yes-button" parent="Uif-PrimaryActionButton"
+                            <bean id="OLEEResourceRecordView-RemoveRelation-Yes-button" parent="Uif-SecondaryActionButton-Small"
                                   p:methodToCall="saveRelationship" p:actionParameters="removeParent:yes" p:actionLabel="Yes" p:ajaxSubmit="true" p:successCallback="closeRemoveRelationShipPopup();" p:style="float:left;margin-left:5em"/>
-                            <bean id="OLEEResourceRecordView-RemoveRelation-No-button" parent="Uif-PrimaryActionButton"
+                            <bean id="OLEEResourceRecordView-RemoveRelation-No-button" parent="Uif-SecondaryActionButton-Small"
                                   p:methodToCall="saveRelationship" p:actionParameters="removeParent:no" p:actionLabel="No" p:ajaxSubmit="true" p:successCallback="closeRemoveRelationShipPopup();"/>
                         </list>
                     </property>

@@ -2,11 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="OLEEResourceRecordView-E-ResourceInstanceTab" parent="E-Res-Uif-DocumentPage">
-        <property name="headerText" value="Instances"/>
             <property name="items">
             <list>
-                <ref bean="OLEEResourceRecordView-InstanceLink_Row1"/>
-                <ref bean="OLEEResourceRecordView-InstanceLink_Row2"/>
+                <ref bean="OLEEResourceRecordView-InstanceLink"/>
                 <ref bean="OLEEResourceRecordView-Overview"/>
                 <ref bean="OLEEResourceRecordView-InstanceDefault"/>
                 <ref bean="OLEEResourceRecordView-InstanceSelectionPopUp"/>
@@ -35,55 +33,28 @@
         </property>
     </bean>
 
-    <bean id="OLEEResourceRecordView-InstanceLink_Row1" parent="Uif-Disclosure-HorizontalBoxSection">
+    <bean id="OLEEResourceRecordView-InstanceLink" parent="Uif-Disclosure-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection" p:style="float:left;margin-left:17em">
+                <bean parent="Uif-HorizontalBoxSection" p:style="float:left;margin-left:10em">
                     <property name="items">
                         <list>
-
-                            <bean id="CreateInstance-button" parent="Uif-PrimaryActionButton"
-                                  p:ajaxSubmit="true"
-                                  p:methodToCall="createInstance" p:actionLabel="Add OLE Instance"
-                                  p:performClientSideValidation="true"
-                                  p:successCallback="instance()"
-                                  p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final) }"/>
-
-                            <bean id="CreateChildEresource-button" parent="Uif-PrimaryActionButton"
-                                  p:style="float:left;margin-left:3em" p:ajaxSubmit="true"
-                                  p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"
-                                  p:actionScript="displayChildEresourcePopup();" p:actionLabel="Create Child E-Resource"/>
-
-                            <bean id="GokbConfig-button" parent="Uif-PrimaryActionButton"
-                                  p:style="float:left;margin-left:3em" p:render="@{document.gokbIdentifier ne null}"
-                                  p:actionScript="displayPopup();" p:actionLabel="GOKb Configuration"/>
-
-                            <bean id="Synchronize-Gokb-button" parent="Uif-PrimaryActionButton"
-                                  p:style="float:left;margin-left:3em"
-                                  p:methodToCall="synchronizeWithGokb" p:actionLabel="Synchronize with GOKb"
-                                  p:render="@{document.gokbIdentifier ne null}"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-    <bean id="OLEEResourceRecordView-InstanceLink_Row2" parent="Uif-Disclosure-HorizontalBoxSection">
-        <property name="items">
-            <list>
-                <bean parent="Uif-HorizontalBoxSection" p:style="float:left;margin-left:28em">
-                    <property name="items">
-                        <list>
-                            <bean id="SaveInstance-button" parent="Uif-PrimaryActionButton"
-                                  p:ajaxSubmit="true"
-                                  p:methodToCall="save"
+                            <bean id="SaveInstance-button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="save"
                                   p:actionLabel="save" p:performClientSideValidation="true" p:successCallback="displayLink(true);"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
+                            <bean id="CreateInstance-button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="createInstance" p:actionLabel="Add OLE Instance"
+                                  p:performClientSideValidation="true" p:successCallback="instance()"
+                                  p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final) }"/>
+                            <bean id="CreateChildEresource-button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="true"
+                                  p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"
+                                  p:actionScript="displayChildEresourcePopup();" p:actionLabel="Create Child E-Resource"/>
+                            <bean id="GokbConfig-button" parent="Uif-PrimaryActionButton" p:render="@{document.gokbIdentifier ne null}"
+                                  p:actionScript="displayPopup();" p:actionLabel="GOKb Configuration"/>
+                            <bean id="Synchronize-Gokb-button" parent="Uif-PrimaryActionButton" p:methodToCall="synchronizeWithGokb"
+                                  p:actionLabel="Synchronize with GOKb" p:render="@{document.gokbIdentifier ne null}"/>
                             <bean id="DeleteInstance-Button" parent="Uif-PrimaryActionButton"
-                                  p:style="float:left;margin-left:3em"
-                                  p:actionScript="displayDialogWindow('div#OLEEResourceRecordView-DeleteRelatedInstancesPopUp')"
-                                  p:actionLabel="Delete Related Instances"
-                                  p:render="@{!(document.documentHeader.workflowDocument.initiated) and (document.oleERSInstances ne null)}"
+                                  p:actionScript="displayDialogWindow('div#OLEEResourceRecordView-DeleteRelatedInstancesPopUp')" p:actionLabel="Delete Related Instances"
+                                  p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final) and (document.oleERSInstances ne null)}"
                                   p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteInstance"/>
                         </list>
                     </property>
@@ -150,10 +121,10 @@
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
                             </bean>
-                            <bean id="Cancel-button" parent="Uif-PrimaryActionButton"
+                            <bean id="Cancel-button" parent="Uif-SecondaryActionButton-Small"
                                   p:style="float:left;margin-left:20em" p:ajaxSubmit="true"
                                   p:methodToCall="closePopup" p:actionLabel="Cancel" p:successCallback="closeDisplayPopUp()"/>
-                            <bean id="Save-button" parent="Uif-PrimaryActionButton"
+                            <bean id="Save-button" parent="Uif-SecondaryActionButton-Small"
                                   p:style="float:left;margin-left:5em"
                                   p:methodToCall="saveGokbConfig"
                                   p:actionLabel="Save" p:ajaxSubmit="true"  p:successCallback="closeDisplayPopUp()"/>
@@ -353,7 +324,7 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-PrimaryActionButton-Small" p:ajaxSubmit="true" p:methodToCall="closePopup" p:actionLabel="Close" p:actionImagePlacement="LEFT" p:successCallback="closeLinkInstance()" />
+                            <bean parent="Uif-SecondaryActionButton-Small" p:ajaxSubmit="true" p:methodToCall="closePopup" p:actionLabel="Close" p:actionImagePlacement="LEFT" p:successCallback="closeLinkInstance()" />
                             <bean id="hdnInstanceBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="linkInstance" p:hidden="true"/>
                             <ref bean="OLEEResourceRecordView-SelectFlag"/>
                         </list>
@@ -411,8 +382,19 @@
         </property>
     </bean>
 
-    <bean id="OLEEResourceRecordView-InstanceDetails" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="7" >
+    <bean id="OLEEResourceRecordView-InstanceDetails" parent="Uif-Disclosure-VerticalBoxSection" >
         <property name="headerText" value="Instance Details" />
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceRecordView-InstanceDetailSection"/>
+                <bean parent="Uif-MessageField"
+                      p:messageText="There are currently no Intstances linked to the E-Resource Record."
+                      p:render="@{document.eRSInstances.size()==0}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-InstanceDetailSection" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="7" >
         <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceInstance" />
         <property name="propertyName" value="eRSInstances" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -449,7 +431,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="RemoveLine_button" parent="Uif-PrimaryActionButton-Small" p:methodToCall="removeInstance" p:actionLabel="Remove" p:title="Remove Instance" p:render="@{#line.oleERSDocument.oleERSIdentifier eq document.oleERSIdentifier}"/>
+                <bean id="RemoveLine_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="removeInstance" p:actionLabel="Remove" p:title="Remove Instance" p:render="@{#line.oleERSDocument.oleERSIdentifier eq document.oleERSIdentifier}"/>
 
             </list>
         </property>
@@ -480,9 +462,9 @@
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean id="Next-button" parent="Uif-PrimaryActionButton"
+                                        <bean id="Next-button" parent="Uif-SecondaryActionButton-Small"
                                               p:methodToCall="linkEResourceInstance" p:actionLabel="Next"/>
-                                        <bean parent="Uif-PrimaryActionButton"
+                                        <bean parent="Uif-SecondaryActionButton-Small"
                                               p:ajaxSubmit="true" p:actionScript="closeChildEresourcePopup();"
                                               p:actionLabel="Cancel"/>
                                     </list>

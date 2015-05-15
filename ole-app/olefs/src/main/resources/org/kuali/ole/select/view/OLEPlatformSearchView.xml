@@ -12,8 +12,8 @@
                     <property name="items">
                         <list>
                             <ref bean="PlatformSearchPanel"/>
-                            <ref bean="PlatformSearchButtons"/>
                             <bean parent="Uif-Disclosure-VerticalBoxSection">
+                                <property name="headerText" value="Search Results:"/>
                                 <property name="items">
                                     <list>
                                         <ref bean="PlatformResultsPanel"/>
@@ -28,7 +28,17 @@
         <property name="formClass" value="org.kuali.ole.select.form.OLEPlatformSearchForm"/>
     </bean>
 
-    <bean id="PlatformSearchPanel" parent="Uif-TableCollectionSection" p:style="margin-left:250px;margin-right:400px">
+    <bean id="PlatformSearchPanel" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Search Conditions:"/>
+        <property name="items">
+            <list>
+                <ref bean="PlatformSearchPanel-SearchConditions"/>
+                <ref bean="PlatformSearchButtons"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PlatformSearchPanel-SearchConditions" parent="Uif-TableCollectionSection" p:style="margin-left:250px;margin-right:400px">
         <property name="headerText" value=""/>
         <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLESearchCondition"/>
         <property name="propertyName" value="oleSearchParams.searchFieldsList"/>
@@ -80,16 +90,16 @@
     <bean id="PlatformSearchButtons" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="platform_search_button" parent="Uif-SecondaryActionButton-Small"
+                <bean id="platform_search_button" parent="Uif-PrimaryActionButton"
                       p:style="float:left;margin-left:40em"
                       p:methodToCall="search" p:actionLabel="Search"/>
-                <bean id="platform_searchCriteria_button" parent="Uif-SecondaryActionButton-Small"
+                <bean id="platform_searchCriteria_button" parent="Uif-PrimaryActionButton"
                       p:style="float:left;margin-left:0em" p:methodToCall="addSearchCriteria"
                       p:actionLabel="Add Search Criteria"/>
-                <bean id="platform_clear_button" parent="Uif-SecondaryActionButton-Small"
+                <bean id="platform_clear_button" parent="Uif-PrimaryActionButton"
                       p:style="float:left;margin-left:0em"
                       p:methodToCall="clearSearch" p:actionLabel="Clear"/>
-                <bean id="platform_close_button" parent="Uif-SecondaryActionButton-Small"
+                <bean id="platform_close_button" parent="Uif-PrimaryActionButton"
                       p:style="float:left;margin-left:0em"
                       p:methodToCall="cancel" p:actionLabel="Cancel"/>
             </list>

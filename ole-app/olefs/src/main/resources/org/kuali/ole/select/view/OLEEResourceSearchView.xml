@@ -23,7 +23,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
     <bean id="OLEEResourceSearchView" parent="Uif-OLEFormView">
-        <property name="headerText" value="Search E-Resource Records"/>
+        <property name="headerText" value="E-Resource Records Search"/>
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
@@ -38,35 +38,8 @@
                         <list>
                             <ref bean="MessagePopupSectionForLinkToERes"/>
                             <ref bean="EResourceSearchPanel"/>
-                            <ref bean="EResourceSearchPanel-Buttons"/>
-                            <bean id="EResourceSearchResults" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{!selectEResFlag}">
-                                <property name="items">
-                                    <list>
-                                        <ref bean="EResourceSearchResultsPanel"/>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean id="SearchResultsInEResDoc" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{selectEResFlag and eresourceDocumentList ne null and eresourceDocumentList.size()>0}">
-                                <property name="items">
-                                    <list>
-                                        <ref bean="SearchResultsPanelInEResDoc"/>
-                                        <bean parent="Uif-HorizontalBoxSection">
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="Uif-SecondaryActionButton-Small"
-                                                          p:style="float:left;margin-left:0em" p:ajaxSubmit="true"
-                                                          p:successCallback="validLinkToERes();" p:methodToCall="linkEResource"
-                                                          p:actionLabel="Link To E-Resource"/>
-                                                    <bean parent="Uif-SecondaryActionButton-Small"
-                                                          p:style="float:left;margin-left:0em" p:actionScript="closeFancyBox();"
-                                                          p:actionLabel="Cancel"/>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-
+                            <ref bean="EResourceSearchResults"/>
+                            <ref bean="SearchResultsInEResDoc"/>
                         </list>
                     </property>
                 </bean>
@@ -85,8 +58,48 @@
         <property name="formClass" value="org.kuali.ole.select.form.OLEEResourceSearchForm"/>
     </bean>
 
-    <bean id="EResourceSearchPanel" parent="EResourceSearchPanel-parentBean"/>
-    <bean id="EResourceSearchPanel-parentBean" parent="Uif-Disclosure-HorizontalBoxSection">
+    <bean id="EResourceSearchPanel" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Search Conditions:"/>
+        <property name="items">
+            <list>
+                <ref bean="EResourceSearchPanel-SearchCriteria"/>
+                <ref bean="EResourceSearchPanel-Buttons"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="EResourceSearchResults" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{!selectEResFlag}">
+        <property name="headerText" value="Search Results:"/>
+        <property name="items">
+            <list>
+                <ref bean="EResourceSearchResultsPanel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SearchResultsInEResDoc" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{selectEResFlag and eresourceDocumentList ne null and eresourceDocumentList.size()>0}">
+        <property name="items">
+            <list>
+                <ref bean="SearchResultsPanelInEResDoc"/>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton-Small"
+                                  p:style="float:left;margin-left:0em" p:ajaxSubmit="true"
+                                  p:successCallback="validLinkToERes();" p:methodToCall="linkEResource"
+                                  p:actionLabel="Link To E-Resource"/>
+                            <bean parent="Uif-SecondaryActionButton-Small"
+                                  p:style="float:left;margin-left:0em" p:actionScript="closeFancyBox();"
+                                  p:actionLabel="Cancel"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="EResourceSearchPanel-SearchCriteria" parent="EResourceSearchPanel-SearchCriteria-parentBean"/>
+    <bean id="EResourceSearchPanel-SearchCriteria-parentBean" parent="Uif-Disclosure-HorizontalBoxSection">
         <property name="items">
             <list>
                 <ref bean="EResourceSearchPanel-SearchParams-Section"/>
@@ -193,14 +206,14 @@
     <bean id="EResourceSearchPanel-Buttons" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="search_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:25em"
+                <bean id="search_button" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:25em"
                       p:methodToCall="search" p:actionLabel="Search"/>
-                <bean id="searchCriteria_button" parent="Uif-SecondaryActionButton-Small"
+                <bean id="searchCriteria_button" parent="Uif-PrimaryActionButton"
                       p:style="float:left;margin-left:0em" p:methodToCall="addSearchCriteria"
                       p:actionLabel="Add Search Criteria"/>
-                <bean id="clear_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"
+                <bean id="clear_button" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:0em"
                       p:methodToCall="clearSearch" p:actionLabel="Clear"/>
-                <bean id="close_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"
+                <bean id="close_button" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:0em"
                       p:methodToCall="cancelSearch" p:actionLabel="Cancel"/>
             </list>
         </property>
@@ -235,9 +248,9 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="SearchResultsPanelInEResDoc" parent="Uif-TableCollectionSection" p:layoutManager.applyDefaultCellWidths="false">
+    <bean id="SearchResultsPanelInEResDoc" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.applyDefaultCellWidths="false">
+        <property name="headerText" value="Search Results:"/>
         <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
-        <property name="headerText" value="E-Resource Record List"/>
         <property name="propertyName" value="eresourceDocumentList"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.generateAutoSequence" value="false"/>

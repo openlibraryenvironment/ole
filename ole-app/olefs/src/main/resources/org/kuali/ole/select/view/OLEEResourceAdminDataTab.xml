@@ -4,7 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="OLEEResourceRecordView-E-ResourceAdminDataTab" parent="E-Res-Uif-DocumentPage">
-        <property name="headerText" value="Admin Data"/>
         <property name="items">
             <list>
                 <ref bean="OLEEResourceRecordView-Overview"/>
@@ -13,8 +12,19 @@
         </property>
     </bean>
 
-    <bean id="OLEEResourceRecordView-PlatformDetails" parent="Uif-Disclosure-HorizontalBoxSection">
+    <bean id="OLEEResourceRecordView-PlatformDetails" parent="Uif-Disclosure-VerticalBoxSection" >
         <property name="headerText" value="Platform Details"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceRecordView-PlatformDetailSection"/>
+                <bean parent="Uif-MessageField"
+                      p:messageText="There are currently no Platforms attached to the E-Resource Record."
+                      p:render="@{document.olePlatformAdminUrlList.size()==0}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-PlatformDetailSection" parent="Uif-Disclosure-HorizontalBoxSection">
         <property name="items">
             <list>
                 <bean id="PlatformDetails" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:layoutManager.cssClasses="fl-container-flex"

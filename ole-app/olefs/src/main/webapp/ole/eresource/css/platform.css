@@ -1,10 +1,21 @@
 .uif-documentView .uif-viewHeader {
-    height: 30px;
+    height: 20px;
     padding: 1;
 }
 
 .uif-viewHeader div.uif-docheader table {
     height: 20px;
+}
+
+.uif-viewHeader .uif-headerText .uif-headerText-span {
+    display: block;
+    float: inherit;
+    width: inherit;
+    clear: both;
+    font-size: 25px;
+    margin: 0;
+    padding: 0;
+    padding-top: 6px;
 }
 
 div#popupToDisplayLinkedRecords{

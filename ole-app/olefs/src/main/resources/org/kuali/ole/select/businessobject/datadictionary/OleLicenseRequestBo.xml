@@ -217,7 +217,7 @@
             parent="Uif-OLELookupView"/>-->
 
     <bean id="OleLicenseRequestBo-LookupView" parent="Uif-OLELookupView">
-        <property name="header.headerText" value="License Request Lookup"/>
+        <property name="header.headerText" value="License Request Search"/>
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"

@@ -58,7 +58,6 @@
 
     <bean id="OLEERSSearchPanel" parent="OLEERSSearchPanel-parentBean"/>
     <bean id="OLEERSSearchPanel-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
-        <property name="headerText" value="Search Conditions:"/>
         <property name="items">
             <list>
                 <bean id="link_success_message" parent="Uif-MessageField" p:messageText="@{successMessage}"
@@ -83,8 +82,7 @@
     <bean id="OLEERSSearchAndSearchResultsView" parent="Uif-VerticalBoxSection" p:render="@{searchType eq 'search'}">
         <property name="items">
             <list>
-                <ref bean="SearchConditionsSection"/>
-                <ref bean="SearchFooterSection"/>
+                <ref bean="SearchConditions"/>
                 <ref bean="OLEERSSearchResultsPanel"/>
                 <ref bean="hiddenSearchFields"/>
             </list>
@@ -155,7 +153,7 @@
     </bean>
 
     <bean id="OLEERSSearchResultsPanel" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="3">
-        <property name="headerText" value="Search Results"/>
+        <property name="headerText" value="Search Results:"/>
         <property name="items">
             <list>
                 <ref bean="OLEERSSearchResultsSection"/>
@@ -164,8 +162,8 @@
         </property>
     </bean>
     <bean id="OLEERSSearchResultsSection" parent="OLEERSSearchResultsSection-ParentBean"/>
-    <bean id="OLEERSSearchResultsSection-ParentBean" parent="Uif-VerticalBoxSection" p:colSpan="2">
-        <property name="headerText" value="Search Results"/>
+    <bean id="OLEERSSearchResultsSection-ParentBean" parent="Uif-Disclosure-VerticalBoxSection" p:colSpan="2">
+        <property name="headerText" value="Search Results:"/>
         <property name="items">
             <list>
                 <ref bean="OLEERSBibSearchResults"/>
@@ -273,7 +271,7 @@
         </property>
         <property name="renderLineActions" value="false"/>
     </bean>
-    <bean id="OLEERSFacetFieldResultSection" parent="Uif-VerticalBoxSection" p:render="@{docType eq 'bibliographic'}">
+    <bean id="OLEERSFacetFieldResultSection" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{docType eq 'bibliographic'}">
         <property name="headerText" value="Narrow Search"/>
         <property name="items">
             <list>

@@ -61,7 +61,6 @@
             <list>
                 <ref bean="OLEClaimingSearchPanel-searchParams-Section"/>
                 <ref bean="OLEClaimingSearchPanel-Buttons"/>
-                <ref bean="OLEClaimingSearchPanel-MessageSection"/>
 
             </list>
         </property>
@@ -101,25 +100,26 @@
         <property name="items">
             <list>
 
-                <bean id="claim-search_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:55em" p:methodToCall="search" p:actionLabel="Search" />
-                <bean id="claim-clear_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0em" p:methodToCall="clearSearch" p:actionLabel="Clear"/>
+                <bean id="claim-search_button" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:55em" p:methodToCall="search" p:actionLabel="Search" />
+                <bean id="claim-clear_button" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:0em" p:methodToCall="clearSearch" p:actionLabel="Clear"/>
             </list>
         </property>
     </bean>
 
     <bean id="OLEClaimingSearchResultsPanel" parent="OLEClaimingSearchResultsPanel-ParentBean"/>
 
-    <bean id="OLEClaimingSearchResultsPanel-ParentBean" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{oleClaimingSearchRecordList ne null and oleClaimingSearchRecordList.size()>0}">
+    <bean id="OLEClaimingSearchResultsPanel-ParentBean" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="headerText" value="Search Results:"/>
         <property name="items">
             <list>
                 <ref bean="OLEClaimingSearchResult"/>
                 <ref bean="Claim-FooterView-buttons"/>
+                <ref bean="OLEClaimingSearchPanel-MessageSection"/>
             </list>
         </property>
     </bean>
 
-    <bean id="OLEClaimingSearchResult" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3"  p:style="border:1px solid;" >
+    <bean id="OLEClaimingSearchResult" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3">
         <property name="collectionObjectClass"
                   value="org.kuali.ole.select.bo.OLEPOClaimHistory" />
         <property name="propertyName" value="oleClaimingSearchRecordList" />
@@ -150,10 +150,10 @@
 
 
     <bean id="Claim-FooterView-buttons" parent="Claim-FooterView-buttons-parentBean"/>
-    <bean id="Claim-FooterView-buttons-parentBean" parent="Uif-HorizontalBoxSection" >
+    <bean id="Claim-FooterView-buttons-parentBean" parent="Uif-HorizontalBoxSection" p:render="@{oleClaimingSearchRecordList ne null and oleClaimingSearchRecordList.size()>0}">
         <property name="items">
             <list>
-                <bean id="claim-updateNote_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:55em" p:methodToCall="updateClaimNote" p:actionLabel="Update Claim Response Info" />
+                <bean id="claim-updateNote_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:55em" p:methodToCall="updateClaimNote" p:actionLabel="Update Claim Response Info" />
             </list>
         </property>
     </bean>

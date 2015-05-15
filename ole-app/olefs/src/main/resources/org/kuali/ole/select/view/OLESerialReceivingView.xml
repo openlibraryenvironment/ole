@@ -92,7 +92,7 @@
             </list>
         </property>
         <property name="layoutManager">
-            <bean parent="Uif-GridLayoutBase" p:numberOfColumns="4" p:applyDefaultCellWidths="false"/>
+            <bean parent="Uif-GridLayoutBase" p:numberOfColumns="10" p:applyDefaultCellWidths="false"/>
         </property>
         <property name="fieldBindingObjectPath" value="document"/>
         <property name="validationMessages.render" value="false"/>
@@ -129,6 +129,7 @@
     <bean id="OLESerialReceiving-MainPage" parent="SR-Uif-DocumentPage">
         <property name="items">
             <list merge="true">
+                <ref bean ="OLESerialReceiving-Footer-Buttons"/>
                 <ref bean="OLESerialReceiving-valueDetails"/>
                 <ref bean="OLESerialReceiving-OLESerialRelatedPODocument-HorizontalBoxSection"/>
                 <ref bean="OLESerialReceiving-receive"/>
@@ -597,9 +598,9 @@
     <bean id="OLESerialReceiving-Buttons" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="receive_button" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:30em" p:methodToCall="receive" p:actionLabel="Receive" p:ajaxSubmit="true"  p:successCallback="treatmentNote()" p:performClientSideValidation="true" />
-                <bean id="special_button" parent="Uif-PrimaryActionButton" p:methodToCall="specialIssue"  p:actionLabel="Special Issue" p:ajaxSubmit="true"  p:successCallback="specialIssue()" p:performClientSideValidation="true" />
-                <bean id="claim_button" parent="Uif-PrimaryActionButton" p:methodToCall="claimNote"   p:actionLabel="Claim" p:performClientSideValidation="true" p:ajaxSubmit="true"  p:successCallback="claimNote()" p:render="@{document.poId ne null and document.poId ne ''}"/>
+                <bean id="receive_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:40em" p:methodToCall="receive" p:actionLabel="Receive" p:ajaxSubmit="true"  p:successCallback="treatmentNote()" p:performClientSideValidation="true" />
+                <bean id="special_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="specialIssue"  p:actionLabel="Special Issue" p:ajaxSubmit="true"  p:successCallback="specialIssue()" p:performClientSideValidation="true" />
+                <bean id="claim_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="claimNote"   p:actionLabel="Claim" p:performClientSideValidation="true" p:ajaxSubmit="true"  p:successCallback="claimNote()" p:render="@{document.poId ne null and document.poId ne ''}"/>
             </list>
         </property>
     </bean>
@@ -790,8 +791,8 @@
             <bean id="mainFooters" parent="Uif-LookupResultsFooter">
                 <property name="items">
                     <list>
-                        <bean id="selectAllMainPublicDisplay" parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="selectAllMainPublicDisplay();"/>
-                        <bean id="deSelectAllMainPublicDisplay" parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="deSelectAllMainPublicDisplay();"/>
+                        <bean id="selectAllMainPublicDisplay" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Select All" p:actionScript="selectAllMainPublicDisplay();"/>
+                        <bean id="deSelectAllMainPublicDisplay" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Deselect All" p:actionScript="deSelectAllMainPublicDisplay();"/>
                     </list>
                 </property>
             </bean>
@@ -888,8 +889,8 @@
             <bean id="supplementFooters" parent="Uif-LookupResultsFooter">
                 <property name="items">
                     <list>
-                        <bean id="selectAllSupplementPublicDisplay" parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="selectAllSupplementPublicDisplay();"/>
-                        <bean id="deSelectAllSupplementPublicDisplay" parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="deSelectAllSupplementPublicDisplay();"/>
+                        <bean id="selectAllSupplementPublicDisplay" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Select All" p:actionScript="selectAllSupplementPublicDisplay();"/>
+                        <bean id="deSelectAllSupplementPublicDisplay" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Deselect All" p:actionScript="deSelectAllSupplementPublicDisplay();"/>
                     </list>
                 </property>
             </bean>
@@ -1269,8 +1270,8 @@
     <bean id="claimNoteButton-parentBean" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="claim_note_button" parent="Uif-PrimaryActionButton"  p:methodToCall="claim"   p:actionLabel="Claim" p:performClientSideValidation="true" p:render="@{document.claimNoteFlag}"/>
-                <bean id="claimAgain_button" parent="Uif-PrimaryActionButton"  p:methodToCall="claimHistory" p:actionLabel="Claim Again"  p:render="@{document.claimAgainNoteFlag}"/>
+                <bean id="claim_note_button" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="claim"   p:actionLabel="Claim" p:performClientSideValidation="true" p:render="@{document.claimNoteFlag}"/>
+                <bean id="claimAgain_button" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="claimHistory" p:actionLabel="Claim Again"  p:render="@{document.claimAgainNoteFlag}"/>
             </list>
         </property>
     </bean>

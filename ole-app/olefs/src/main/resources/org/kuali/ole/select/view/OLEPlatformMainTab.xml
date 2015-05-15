@@ -59,7 +59,7 @@
                                                 <bean parent="Uif-TextControl" p:size="10" p:disabled="true"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="clearGOKbId"
+                                        <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="clearGOKbId"
                                               p:actionLabel="Clear"
                                               p:render="@{document.gokbId ne null and !document.gokbFlag}"/>
                                     </list>
@@ -244,8 +244,8 @@
         <property name="headerText" value="Administrative URLs"/>
         <property name="items">
             <list>
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addAdministrativeUrl"
-                      p:actionLabel="Add Administrative URL" p:style="margin-left:900px" p:render="@{!document.documentHeader.workflowDocument.final}"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addAdministrativeUrl" p:style="float:left;margin-left:50em"
+                      p:actionLabel="Add Administrative URL" p:render="@{!document.documentHeader.workflowDocument.final}"/>
                 <ref bean="OLEPlatformMainTab-AdministrativeUrlSection"/>
             </list>
         </property>
@@ -298,11 +298,11 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="saveAdminUrl"
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="saveAdminUrl"
                       p:actionLabel="Save" p:render="@{!#line.saveFlag}"/>
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="editAdminUrl"
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="editAdminUrl"
                       p:actionLabel="Edit" p:render="@{#line.saveFlag}"/>
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteAdminUrl"
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteAdminUrl"
                       p:actionLabel="Delete" p:render="@{#line.saveFlag}"/>
             </list>
         </property>
@@ -325,7 +325,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="@{message}"/>
-                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:actionScript="closeDisplayLinkedRecordsPopup();"
+                <bean parent="Uif-SecondaryActionButton-Small" p:ajaxSubmit="true" p:actionScript="closeDisplayLinkedRecordsPopup();"
                       p:actionLabel="Ok"/>
             </list>
         </property>

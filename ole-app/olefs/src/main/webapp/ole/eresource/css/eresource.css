@@ -32,13 +32,24 @@ h4 {
     height: 20px;
 }
 
+.uif-viewHeader .uif-headerText .uif-headerText-span {
+    display: block;
+    float: inherit;
+    width: inherit;
+    clear: both;
+    font-size: 25px;
+    margin: 0;
+    padding: 0;
+    padding-top: 6px;
+}
+
 .dropDownField{
     width: 200px;
     padding: 0;
 }
 
 .vendorDropDownField{
-    width: 150px;
+    width: 305px;
     padding: 0;
 }
 

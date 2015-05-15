@@ -7,14 +7,24 @@
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-DataField" p:propertyName="name" p:label="Platform"/>
-                <ref bean="EResDocList"/>
+                <ref bean="OLEPlatformRecordView-EResDocList"/>
             </list>
         </property>
     </bean>
 
+    <bean id="OLEPlatformRecordView-EResDocList" parent="Uif-Disclosure-VerticalBoxSection" >
+        <property name="headerText" value="E-Resources"/>
+        <property name="items">
+            <list>
+                <ref bean="EResDocList"/>
+                <bean parent="Uif-MessageField"
+                      p:messageText="There are currently no E-Resources linked to the Platform Record."
+                      p:render="@{document.linkedEResources.size()==0}"/>
+            </list>
+        </property>
+    </bean>
 
     <bean id="EResDocList" parent="Uif-TableCollectionSection">
-        <property name="headerText" value="E-Resources"/>
         <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
         <property name="propertyName" value="linkedEResources"/>
         <property name="layoutManager.renderSequenceField" value="false"/>

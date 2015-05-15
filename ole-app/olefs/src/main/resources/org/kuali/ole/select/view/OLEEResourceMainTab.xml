@@ -2,7 +2,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="OLEEResourceRecordView-E-ResourceRecordTab" parent="E-Res-Uif-DocumentPage">
-        <property name="headerText" value="Main" />
         <property name="items">
             <list merge="true">
                 <bean id="bannerMessage" parent="Uif-MessageField" p:messageText="@{document.bannerMessage}" p:cssClasses="successMessageClass"/>
@@ -76,7 +75,7 @@
             </list>
         </property>
     </bean>
-    <bean id="OLEEResourceMainTab-OverviewSection"  parent="Uif-Disclosure-HorizontalBoxSection" >
+    <bean id="OLEEResourceMainTab-OverviewSection"  parent="Uif-Disclosure-VerticalBoxSection" >
         <property name="headerText" value="Overview" />
         <property name="items">
             <list>
@@ -84,23 +83,11 @@
                     <property name="items">
 
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="title" p:required="true" p:colSpan="4"
-                                  p:fieldLabel.colSpan="2"
-                                  p:width="60%" p:fieldLabel.width="40%">
+                            <bean parent="Uif-InputField" p:propertyName="title" p:required="true">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="50" p:maxLength="200" p:textExpand="true"/>
+                                    <bean parent="Uif-TextControl" p:size="38" p:maxLength="200" p:textExpand="true"/>
                                 </property>
                             </bean>
-
-                            <bean parent="Uif-InputField" p:propertyName="publisherId">
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceVendorTypeFinder" />
-                                </property>
-                                <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:cssClasses="vendorDropDownField" p:disabled="@{document.gokbIdentifier ne null}"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="oleERSIdentifier" p:readOnly="true"/>
                             <bean id="eresource-statusId" parent="Uif-InputField" p:propertyName="statusId" p:label="Status" p:required="true" p:enableAutoQuickfinder="false">
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.ole.select.keyvalue.OLEEResourceStatusKeyValues" />
@@ -109,11 +96,19 @@
                                     <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="platformProvider"/>
-                            <bean parent="Uif-InputField" p:propertyName="isbn" p:readOnly="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="oleERSIdentifier" p:readOnly="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="publisherId">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceVendorTypeFinder" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="vendorDropDownField" p:disabled="@{document.gokbIdentifier ne null}"/>
+                                </property>
+                            </bean>
                             <bean id="eresource-statusDate" parent="Uif-DataField" p:propertyName="statusDate" p:label="Status Date">
                                 <property name="bindingInfo.bindToForm" value="true"/>
                             </bean>
+                            <bean parent="Uif-InputField" p:propertyName="isbn" p:readOnly="true"/>
                             <!--<bean parent="Uif-InputField" p:propertyName="vendorId" p:label="Vendor Name" p:enableAutoQuickfinder="false">
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceVendorTypeFinder" />
@@ -151,7 +146,7 @@
                                     </list>
                                 </property>
                             </bean>
-
+                            <bean parent="Uif-DataField" p:propertyName="platformProvider"/>
                             <bean parent="Uif-InputField" p:propertyName="gokbIdentifier" p:readOnly="true"/>
                         </list>
                     </property>
@@ -205,7 +200,7 @@
                                                 <list>-->
                                         <bean parent="Uif-InputField" p:propertyName="trialNeeded" p:label="Trial">
                                             <property name="control">
-                                                <bean parent="Uif-CheckboxControl" p:style="float:right;margin-left:20em"/>
+                                                <bean parent="Uif-CheckboxControl" p:style="float:right;margin-left:21.6em"/>
                                             </property>
                                         </bean>
                                         <!--</list>
@@ -565,7 +560,7 @@
                                     <bean class="org.kuali.ole.describe.keyvalue.OLEStatisticalSearchingCodesValueFinder" />
                                 </property>
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropDownField"/>
+                                    <bean parent="Uif-DropdownControl"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="description" p:width="50%" p:fieldLabel.width="50%"/>
@@ -592,7 +587,7 @@
                                     <bean parent="Uif-TextControl" p:size="15"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-PrimaryActionButton" p:methodToCall="populateAccountingLines" p:actionLabel="Populate Accounting Lines"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="populateAccountingLines" p:actionLabel="Populate Accounting Lines"/>
                         </list>
                     </property>
                 </bean>
@@ -747,7 +742,7 @@
                               p:fieldConversions="lastName:requestorId"/>
                     </property>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="40" />
+                        <bean parent="Uif-TextControl" p:size="28" p:maxLength="40" />
                     </property>
                 </bean>
             </list>
@@ -791,7 +786,7 @@
                               p:fieldConversions="name:selectorId"/>
                     </property>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="40"  />
+                        <bean parent="Uif-TextControl" p:size="28" p:maxLength="40"  />
                     </property>
                 </bean>
             </list>

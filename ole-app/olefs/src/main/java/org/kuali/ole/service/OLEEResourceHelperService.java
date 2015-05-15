@@ -799,7 +799,9 @@ public class OLEEResourceHelperService {
         Set<String> platformIds = new HashSet<>();
 
         for (OLEEResourceInstance oleeResourceInstance : oleERSInstances) {
-            platformIds.add(oleeResourceInstance.getPlatformId());
+            if(StringUtils.isNotBlank(oleeResourceInstance.getPlatformId())){
+                platformIds.add(oleeResourceInstance.getPlatformId());
+            }
         }
 
         for (String platformId : platformIds) {

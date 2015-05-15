@@ -2,12 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="OLEEResourceRecordView-E-ResourceLicenseTab" parent="E-Res-Uif-DocumentPage">
-        <property name="headerText" value="Licenses"/>
         <property name="items">
             <list>
                 <ref bean="OLEEResourceLicense-create"/>
                 <bean parent="OLEEResourceRecordView-Overview"/>
-                <ref bean="OLEEResourceLicenses"/>
+                <ref bean="OLEEResourceRecordView-Licenses"/>
             </list>
         </property>
     </bean>
@@ -20,9 +19,21 @@
             </list>
         </property>
     </bean>
-    <bean id="OLEEResourceLicenses" parent="OLEEResourceLicenses-parent"/>
-    <bean id="OLEEResourceLicenses-parent" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:render="@{document.oleERSLicenseRequests ne null and document.oleERSLicenseRequests.size() > 0}">
+
+    <bean id="OLEEResourceRecordView-Licenses" parent="Uif-Disclosure-VerticalBoxSection" >
         <property name="headerText" value="Licenses" />
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceRecordView-LicenseDetails"/>
+                <bean parent="Uif-MessageField"
+                      p:messageText="There are currently no Licenses attached to the E-Resource Record."
+                      p:render="@{document.oleERSLicenseRequests.size()==0}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-LicenseDetails" parent="OLEEResourceRecordView-LicenseDetails-parent"/>
+    <bean id="OLEEResourceRecordView-LicenseDetails-parent" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="1">
         <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceLicense" />
         <property name="propertyName" value="oleERSLicenseRequests" />
         <property name="layoutManager.renderSequenceField" value="false" />

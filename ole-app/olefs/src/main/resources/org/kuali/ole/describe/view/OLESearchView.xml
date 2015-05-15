@@ -67,14 +67,23 @@
     <bean id="SearchAndSearchResultsView" parent="Uif-VerticalBoxSection" p:render="@{searchType eq 'search'}">
         <property name="items">
             <list>
-                <ref bean="SearchConditionsSection"/>
-                <ref bean="SearchFooterSection"/>
+                <ref bean="SearchConditions"/>
                 <ref bean="SearchResultsSection"/>
                 <ref bean="hiddenSearchFields"/>
                 <ref bean="totalTime"/>
                 <ref bean="solrTime"/>
                 <ref bean="serverTime"/>
                 <ref bean="hiddenTotalTime"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SearchConditions" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Search Conditions:"/>
+        <property name="items">
+            <list>
+                <ref bean="SearchConditionsSection"/>
+                <ref bean="SearchFooterSection"/>
             </list>
         </property>
     </bean>
@@ -229,9 +238,9 @@
     <bean id="SearchFooterSection" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="SearchButton" parent="Uif-SecondaryActionButton" p:actionScript="search()"  p:style="float:left;margin-left:30em" p:actionLabel="Search" p:successCallback="searching()"/>
-                <bean id="ClearButton" parent="Uif-SecondaryActionButton" p:methodToCall="clear" p:style="float:left;margin-left:0.2em" p:actionLabel="Clear"/>
-                <bean id="StartSearchButton" parent="Uif-SecondaryActionButton" p:methodToCall="start" p:style="float:left;margin-left:0.2em" p:actionLabel="New Search"/>
+                <bean id="SearchButton" parent="Uif-PrimaryActionButton" p:actionScript="search()"  p:style="float:left;margin-left:30em" p:actionLabel="Search" p:successCallback="searching()"/>
+                <bean id="ClearButton" parent="Uif-PrimaryActionButton" p:methodToCall="clear" p:style="float:left;margin-left:0.2em" p:actionLabel="Clear"/>
+                <bean id="StartSearchButton" parent="Uif-PrimaryActionButton" p:methodToCall="start" p:style="float:left;margin-left:0.2em" p:actionLabel="New Search"/>
             </list>
         </property>
     </bean>
@@ -267,7 +276,6 @@
 
 
     <bean id="SearchConditionsSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1"  p:instructionalText="Note - &lt;ol&gt; &lt;li&gt; Search conditions are applied in the order they appear. e.g. ((( Condition 1 and Condition 2 ) or Condition 3) and Condition 4).  &lt;/li&gt;    &lt;li&gt; The following special characters @,#,%,$,/,~,!,(,),{,},[,],',:,-,\,^, are ignored in search text. &lt;/li&gt; &lt;/ol&gt;">
-        <property name="headerText" value="Search Conditions"/>
         <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.search.SearchCondition"/>
         <property name="propertyName" value="searchConditions"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -357,8 +365,8 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="addLineField-Add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLineField" p:actionLabel="Add" p:successCallback="highLightNewSearch(this)"/>
-                <bean id="deleteLineField-Delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLineField" p:actionLabel="Delete" p:render="@{searchConditions.size() ne 1}"/>
+                <bean id="addLineField-Add" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLineField" p:actionLabel="Add" p:successCallback="highLightNewSearch(this)"/>
+                <bean id="deleteLineField-Delete" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLineField" p:actionLabel="Delete" p:render="@{searchConditions.size() ne 1}"/>
             </list>
         </property>
         <property name="layoutManager.actionFieldPrototype.group.layoutManager">
@@ -368,7 +376,7 @@
     </bean>
 
     <bean id="SearchResultsSection" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="3">
-        <property name="headerText" value="Search Results"/>
+        <property name="headerText" value="Search Results:"/>
         <property name="items">
             <list>
                 <ref bean="SearchFieldResultSection"/>
@@ -377,8 +385,8 @@
         </property>
     </bean>
 
-    <bean id="SearchFieldResultSection" parent="Uif-VerticalBoxSection" p:colSpan="2">
-        <property name="headerText" value="Search Results"/>
+    <bean id="SearchFieldResultSection" parent="Uif-Disclosure-VerticalBoxSection" p:colSpan="2">
+        <property name="headerText" value="Search Results:"/>
         <property name="items">
             <list>
                 <ref bean="BibSearchResults"/>
@@ -481,7 +489,7 @@
         </property>
     </bean>
 
-    <bean id="FacetFieldResultSection" parent="Uif-VerticalBoxSection" p:render="@{docType eq 'bibliographic'}">
+    <bean id="FacetFieldResultSection" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{docType eq 'bibliographic'}">
         <property name="headerText" value="Narrow Search"/>
         <property name="items">
             <list>

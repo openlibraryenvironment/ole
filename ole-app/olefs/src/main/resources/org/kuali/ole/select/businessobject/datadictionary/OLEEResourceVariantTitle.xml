@@ -65,7 +65,7 @@
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="30"/>
+            <bean parent="Uif-TextControl" p:size="28"/>
         </property>
     </bean>
 
