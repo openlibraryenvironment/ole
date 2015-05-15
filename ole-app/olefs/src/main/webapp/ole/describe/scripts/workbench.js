@@ -6,104 +6,104 @@
  * To change this template use File | Settings | File Templates.
  */
 //for bib
-function viewWorkbenchBibView(docFormat,docId,bibId){
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat="+docFormat+"&docId="+docId+"&bibId="+bibId+"&editable=false");
+function viewWorkbenchBibView(docFormat, docId, bibId) {
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat=" + docFormat + "&docId=" + docId + "&bibId=" + bibId + "&editable=false");
     return false;
 
 }
 
-function viewWorkbenchBibEdit(docFormat,docId,bibId){
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat="+docFormat+"&docId="+docId+"&bibId="+bibId+"&editable=true&fromSearch=true");
+function viewWorkbenchBibEdit(docFormat, docId, bibId) {
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat=" + docFormat + "&docId=" + docId + "&bibId=" + bibId + "&editable=true&fromSearch=true");
     return false;
 }
 
-function viewWorkbenchBibOverlay(docId,bibId){
-    window.open("importBibController?viewId=ImportBibView&methodToCall=overLay&docCategory=work&docType=bibliographic&docFormat=marc&docId="+docId+"&bibId="+bibId);
+function viewWorkbenchBibOverlay(docId, bibId) {
+    window.open("importBibController?viewId=ImportBibView&methodToCall=overLay&docCategory=work&docType=bibliographic&docFormat=marc&docId=" + docId + "&bibId=" + bibId);
     return false;
 }
 
-function viewWorkbenchBibCreateInstance(bibId){
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&bibId="+bibId+"&docCategory=work&docType=holdings&docFormat=oleml&editable=true");
+function viewWorkbenchBibCreateInstance(bibId) {
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&bibId=" + bibId + "&docCategory=work&docType=holdings&docFormat=oleml&editable=true");
     return false;
 }
 
 //for holdings
-function viewWorkbenchHoldingsView(docId,bibId,instanceId){
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=holdings&docFormat=oleml&docId="+docId+"&bibId="+bibId+"&instanceId="+instanceId+"&editable=false");
+function viewWorkbenchHoldingsView(docId, bibId, instanceId) {
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=holdings&docFormat=oleml&docId=" + docId + "&bibId=" + bibId + "&instanceId=" + instanceId + "&editable=false");
     return false;
 
 }
 
-function viewWorkbenchHoldingsEdit(docId,bibId,instanceId){
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=holdings&docFormat=oleml&docId="+docId+"&bibId="+bibId+"&instanceId="+instanceId+"&editable=true&fromSearch=true");
+function viewWorkbenchHoldingsEdit(docId, bibId, instanceId) {
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=holdings&docFormat=oleml&docId=" + docId + "&bibId=" + bibId + "&instanceId=" + instanceId + "&editable=true&fromSearch=true");
     return false;
 }
 
-function viewWorkbenchHoldingsShowBib(docId,instanceId){
-    window.open("editorcontroller?viewId=ShowBibView&methodToCall=showBibs&docId="+docId+"&instanceId="+instanceId+"&docCategory=work&docType=holdings&docFormat=oleml&editable=true");
+function viewWorkbenchHoldingsShowBib(docId, instanceId) {
+    window.open("editorcontroller?viewId=ShowBibView&methodToCall=showBibs&docId=" + docId + "&instanceId=" + instanceId + "&docCategory=work&docType=holdings&docFormat=oleml&editable=true");
     return false;
 }
 
 function viewBoundWithRelation(holdingsId) {
-    window.open("editorcontroller?viewId=ShowBibView&methodToCall=showBibs&holdingsId="+holdingsId+"&docCategory=work&docType=holdings&docFormat=oleml&editable=true");
+    window.open("editorcontroller?viewId=ShowBibView&methodToCall=showBibs&holdingsId=" + holdingsId + "&docCategory=work&docType=holdings&docFormat=oleml&editable=true");
     return false;
 }
-function viewSeriesHoldingRelation(holdingsId){
-    window.open("analyticsController?viewId=AnalyticsSummaryView&methodToCall=showAnalyticsSummary&holdingsId="+holdingsId+"&docType=holdings&");
+function viewSeriesHoldingRelation(holdingsId) {
+    window.open("analyticsController?viewId=AnalyticsSummaryView&methodToCall=showAnalyticsSummary&holdingsId=" + holdingsId + "&docType=holdings&");
 
     return false;
 }
 //for item
 
-function viewWorkbenchItemView(docId,bibId,instanceId){
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=item&docFormat=oleml&docId="+docId+"&bibId="+bibId+"&instanceId="+instanceId+"&editable=false");
+function viewWorkbenchItemView(docId, bibId, instanceId) {
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=item&docFormat=oleml&docId=" + docId + "&bibId=" + bibId + "&instanceId=" + instanceId + "&editable=false");
     return false;
 
 }
 
-function viewWorkbenchItemEdit(docId,bibId,instanceId){
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=item&docFormat=oleml&docId="+docId+"&bibId="+bibId+"&instanceId="+instanceId+"&editable=true&fromSearch=true");
+function viewWorkbenchItemEdit(docId, bibId, instanceId) {
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=item&docFormat=oleml&docId=" + docId + "&bibId=" + bibId + "&instanceId=" + instanceId + "&editable=true&fromSearch=true");
     return false;
 
 }
 
-function viewWorkbenchItemShowBib(instanceId){
-    window.open("ole-kr-krad/editorcontroller?viewId=ShowBibView&methodToCall=showBibs&instanceId="+instanceId+"&docCategory=work&docType=item&docFormat=oleml&editable=true");
+function viewWorkbenchItemShowBib(instanceId) {
+    window.open("ole-kr-krad/editorcontroller?viewId=ShowBibView&methodToCall=showBibs&instanceId=" + instanceId + "&docCategory=work&docType=item&docFormat=oleml&editable=true");
     return false;
 }
 
-function viewAnalyticItemRelation(itemIdentifier){
-    window.open("analyticsController?viewId=AnalyticsSummaryView&methodToCall=showAnalyticsSummary&itemId="+itemIdentifier+"&docType=item&");
+function viewAnalyticItemRelation(itemIdentifier) {
+    window.open("analyticsController?viewId=AnalyticsSummaryView&methodToCall=showAnalyticsSummary&itemId=" + itemIdentifier + "&docType=item&");
 }
 
 //for EHoldings
 
-function viewWorkbenchEHoldingsView(docId,bibId,holdingsId){
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=eHoldings&docFormat=oleml&docId="+docId+"&editable=false&bibId="+bibId+"&holdingsId="+holdingsId);
+function viewWorkbenchEHoldingsView(docId, bibId, holdingsId) {
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=eHoldings&docFormat=oleml&docId=" + docId + "&editable=false&bibId=" + bibId + "&holdingsId=" + holdingsId);
     return false;
 
 }
 
-function viewWorkbenchEHoldingsEdit(docId,bibId,holdingsId){
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=eHoldings&docFormat=oleml&docId="+docId+"&editable=true&fromSearch=true&bibId="+bibId+"&holdingsId="+holdingsId);
+function viewWorkbenchEHoldingsEdit(docId, bibId, holdingsId) {
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=eHoldings&docFormat=oleml&docId=" + docId + "&editable=true&fromSearch=true&bibId=" + bibId + "&holdingsId=" + holdingsId);
     return false;
 
 }
 
-jq("#SearchPanel-docType-Section").live("change",function() {
-    jq("div#DescribeWorkBenchViewPage").each(function(){
-        if(jq(this).find("div.uif-validationMessages")){
+jq("#SearchPanel-docType-Section").live("change", function () {
+    jq("div#DescribeWorkBenchViewPage").each(function () {
+        if (jq(this).find("div.uif-validationMessages")) {
             jq(this).find("div.uif-validationMessages").remove();
         }
     });
     jq('#hdn_refresh_button').focus().click();
-    submitForm('start', null, null,null,null);
+    submitForm('start', null, null, null, null);
 });
 
 
-jq("#GlobalEditView-Type-Section").live("change",function() {
-    jq("div#DescribeWorkBenchViewPage").each(function(){
-        if(jq(this).find("div.uif-validationMessages")){
+jq("#GlobalEditView-Type-Section").live("change", function () {
+    jq("div#DescribeWorkBenchViewPage").each(function () {
+        if (jq(this).find("div.uif-validationMessages")) {
             jq(this).find("div.uif-validationMessages").remove();
         }
     });
@@ -123,11 +123,11 @@ function displayDialogWindow(divID) {
     jq('#mask').fadeIn(300);
 }
 
-function refresh(){
-    window.setTimeout(function(){
+function refresh() {
+    window.setTimeout(function () {
         jq('#hdn_refreshLeft_button').focus().click();
         jq('#hdn_refreshRight_button').focus().click();
-    },0);
+    }, 0);
     searching();
 }
 
@@ -140,29 +140,18 @@ jq(document).ready(function () {
         jq('#hiddenSearchFields_h2').val("asc");
     }
 
-    searchShowEntries();
 
-    jq(document).click(function(e){
-        if (jq(e.target).is('#BoundwithTree2TabSection_tabs,#BoundwithTree2TabSection_tabs *,#BoundwithTreeSection1_tabs,#BoundwithTreeSection1_tabs *,#TransferSection1_tabs *,#TransferSection2_tabs *')) {
-            window.setTimeout(function () {
-                searchShowEntries();
-            }, 800)
-        }
-
-    });
 });
 
 
 jq(window).load(function () {
-    jq("#SearchPanel-docType-Section_control_0").attr ('checked',true);
+    jq("#SearchPanel-docType-Section_control_0").attr('checked', true);
     jq(".dataTables_length select").live("change", function () {
         localStorage.localAscSort = true;
         localStorage.localDescSort = true;
         var rows = jq(".dataTables_length select").val();
         jq("#hdnRows_control").val(rows);
         jq("#hdnSortFlag_control").val("true");
-        //jq("#hdnSortOrder_control").val("");
-        // jq("#hdnSortField_control").val("");
         jq("#hdn_search_button").focus().click();
         jq("#hiddenSearchFields_h1").val(rows); //hiddenSearchFields_h1 is mapped to pageSize
         jq("#hiddenSearchFields_h4").val("true"); //hiddenSearchFields_h4 is mapped to sortFlag
@@ -170,91 +159,15 @@ jq(window).load(function () {
             searching();
         });
     });
-    jq(".paginate_enabled_next").live("click", function () {
-        localStorage.localAscSort = true;
-        localStorage.localDescSort = true;
-        jq('#hdn_NextFlag_button').focus().click();
-        submitForm('nextSearch', null, null, true, function () {
-            searching();
-        });
-    });
-    jq(".paginate_enabled_previous").live("click", function () {
-        localStorage.localAscSort = true;
-        localStorage.localDescSort = true;
-        jq('#hdn_PreviousFlag_button').focus().click();
-        submitForm('previousSearch', null, null, true, function () {
-            searching();
-        });
-    });
-    jq("#search_button").live("click",function(){
+    jq("#search_button").live("click", function () {
         localStorage.localAscSort = true;
         localStorage.localDescSort = true;
         jq('#hdn_search_button').focus().click();
     });
 
-//    jq("#SearchButton").on("click",function(){
-//        localStorage.localAscSort = true;
-//        localStorage.localDescSort = true;
-//        jq('#hidden_search_button').focus().click();
-//    });
-
-    jq(".sorting").live("click",function(){
-        commonShowEntries();
-    });
-
-    jq(".sorting_asc").live("click",function(){
-        if(localStorage.localAscSort == "true") {
-            if(jq(this).attr("aria-label") != null){
-                var sortAttr= jq(this).attr("aria-label").split(":");
-                jq("#hdnSortOrder_control").val("asc");
-                jq("#hdnSortField_control").val(sortAttr[0]);
-                jq("#hiddenSearchFields_h2").val("asc"); //hiddenSearchFields_h2 is mapped to sortOrder
-                jq("#hiddenSearchFields_h3").val(sortAttr[0]); //hiddenSearchFields_h3 is mapped to sortField
-            }
-            localStorage.indexOfTableSorting = jq(this).index();
-            localStorage.classValueToReplace = "sorting_asc";
-            jq("#hdnSortFlag_control").val("true");
-            jq('#hdn_search_button').focus().click();
-            jq("#hiddenSearchFields_h4").val("true"); //hiddenSearchFields_h4 is mapped to sortFlag
-            submitForm('search', null, null, true, function () {
-                searching();
-            });
-        }
-        else {
-            localStorage.localAscSort = true;
-            localStorage.localDescSort = true;
-            commonShowEntries();
-        }
-    });
-
-    jq(".sorting_desc").live("click",function(){
-        if(localStorage.localDescSort == "true") {
-            if(jq(this).attr("aria-label") != null){
-                var sortAttr= jq(this).attr("aria-label").split(":");
-                jq("#hdnSortOrder_control").val("desc");
-                jq("#hdnSortField_control").val(sortAttr[0]);
-                jq("#hiddenSearchFields_h2").val("desc"); //hiddenSearchFields_h2 is mapped to sortOrder
-                jq("#hiddenSearchFields_h3").val(sortAttr[0]); //hiddenSearchFields_h3 is mapped to sortField
-            }
-            localStorage.indexOfTableSorting = jq(this).index();
-            localStorage.classValueToReplace = "sorting_desc";
-            jq("#hdnSortFlag_control").val("true");
-            jq('#hdn_search_button').focus().click();
-            jq("#hiddenSearchFields_h4").val("true"); //hiddenSearchFields_h4 is mapped to sortFlag
-            submitForm('search', null, null, true, function () {
-                searching();
-            });
-
-        }
-        else {
-            localStorage.localAscSort = true;
-            localStorage.localDescSort = true;
-            commonShowEntries();
-        }
-    });
 });
 
-function submitSearching(){
+function submitSearching() {
     localStorage.classValueToReplace = "";
     localStorage.localAscSort = true;
     localStorage.localDescSort = true;
@@ -266,140 +179,17 @@ function submitSearching(){
 
 function searching() {
     jq("#hdnSortFlag_control").val("false");
-    searchShowEntries();
-    window.setTimeout(function () {
-        jq("#SearchResultsPanel_toggle").click(function(){
-            if(jq("#SearchResultsPanel_disclosureContent").css("display")=="block"){
-                    searchShowEntries();
-            }
-        });
-        jq("#SearchPanel_toggle").click(function(){
-            if(jq("#SearchPanel_disclosureContent").css("display")=="block"){
-                    searchShowEntries();
-            }
 
-        });
-        jq("#OLEERSSearchResultsPanel_toggle").click(function () {
-            if (jq("#OLEERSSearchResultsPanel_disclosureContent").css("display") == "block") {
-                    searchShowEntries();
-            }
-        });
-        jq("#OLEERSSearchPanel_toggle").click(function () {
-            if (jq("#OLEERSSearchPanel_disclosureContent").css("display") == "block") {
-                    searchShowEntries();
-            }
-        });
-
-        jq("#BoundwithSearchResultsPanel_toggle").click(function(){
-            if(jq("#BoundwithSearchResultsPanel_disclosureContent").css("display")=="block"){
-                    searchShowEntries();
-            }
-        });
-
-        jq("#BoundwithSearchPanel_toggle").click(function(){
-            if(jq("#BoundwithSearchPanel_disclosureContent").css("display")=="block"){
-                    searchShowEntries();
-            }
-          });
-    }, 500)
-    var date =new Date();
+    var date = new Date();
     var endTime = date.getMilliseconds();
-    var timeTaken = (endTime - localStorage.startTime)/1000;
-    jq("#totalTime_control").text(" "+timeTaken+" ");
+    var timeTaken = (endTime - localStorage.startTime) / 1000;
+    jq("#totalTime_control").text(" " + timeTaken + " ");
     selectCheckbox(jq("#DocumentAndSearchSelectionType_DocType_control").val());
 }
 
 
-function searchShowEntries(){
-
-    jq(".dataTables_length select").val(jq("#hiddenSearchFields_h1").val()); //hiddenSearchFields_h1 is mapped to pageSize
-    window.setTimeout(function () {
-        if (jq(".dataTables_info").text() != "") {
-            jq(".dataTables_info").text(jq("#boundwithPageShowEntries_control").val());
-            jq(".dataTables_info").text(jq("#workbenchPageShowEntries_control").val());
-            jq(".dataTables_info").text(jq("#hiddenSearchFields_h7").val());    //hiddenSearchFields_h7 is mapped to pageShowEntries
-        }
-
-        if (jq("#boundwithNextFlag_control").val() == "true") {
-            jq(".paginate_disabled_next").removeClass("paginate_disabled_next").addClass("paginate_enabled_next");
-        }
-        if (jq("#boundwithPreviousFlag_control").val() == "true") {
-            jq(".paginate_disabled_previous").removeClass("paginate_disabled_previous").addClass("paginate_enabled_previous");
-        }
-
-        if (jq("#workbenchNextFlag_control").val() == "true") {
-            jq(".paginate_disabled_next").removeClass("paginate_disabled_next").addClass("paginate_enabled_next");
-        }
-        if (jq("#workbenchPreviousFlag_control").val() == "true") {
-            jq(".paginate_disabled_previous").removeClass("paginate_disabled_previous").addClass("paginate_enabled_previous");
-        }
-
-        //hiddenSearchFields_h5 is mapped to nextFlag
-        if (jq("#hiddenSearchFields_h5").val() == "true") {
-            jq(".paginate_disabled_next").removeClass("paginate_disabled_next").addClass("paginate_enabled_next");
-        }
-        //hiddenSearchFields_h6 is mapped to previousFlag
-        if (jq("#hiddenSearchFields_h6").val() == "true") {
-            jq(".paginate_disabled_previous").removeClass("paginate_disabled_previous").addClass("paginate_enabled_previous");
-        }
-        if (localStorage.classValueToReplace == "sorting_desc") {
-            localStorage.classValueToReplace = "sorting_desc";
-            jq("table#u216 thead tr th:eq(" + localStorage.indexOfTableSorting +")").removeClass("sorting").addClass("sorting_desc");
-            jq("table#u353 thead tr th:eq(" + localStorage.indexOfTableSorting +")").removeClass("sorting").addClass("sorting_desc");
-            jq("table#u496 thead tr th:eq(" + localStorage.indexOfTableSorting +")").removeClass("sorting").addClass("sorting_desc");
-            jq("table#u659 thead tr th:eq(" + localStorage.indexOfTableSorting +")").removeClass("sorting").addClass("sorting_desc");
-            localStorage.localAscSort = true;
-            localStorage.localDescSort = true;
-            commonShowEntries();
-        }
-        else  if (localStorage.classValueToReplace == "sorting_asc") {
-            localStorage.localAscSort = true;
-            localStorage.localDescSort = true;
-            localStorage.classValueToReplace = "sorting_asc";
-            jq("table#u216 thead tr th:eq("+  localStorage.indexOfTableSorting + ")").removeClass("sorting").addClass("sorting_asc");
-            jq("table#u353 thead tr th:eq("+  localStorage.indexOfTableSorting + ")").removeClass("sorting").addClass("sorting_asc");
-            jq("table#u496 thead tr th:eq("+  localStorage.indexOfTableSorting + ")").removeClass("sorting").addClass("sorting_asc");
-            jq("table#u659 thead tr th:eq("+  localStorage.indexOfTableSorting + ")").removeClass("sorting").addClass("sorting_asc");
-            jq(".sorting_desc").click();
-        }
-    }, 500)
-}
-
-function commonShowEntries(){
-
-    if (jq(".dataTables_info").text() != "") {
-        jq(".dataTables_info").text(jq("#boundwithPageShowEntries_control").val());
-        jq(".dataTables_info").text(jq("#workbenchPageShowEntries_control").val());
-        jq(".dataTables_info").text(jq("#hiddenSearchFields_h7").val());    //hiddenSearchFields_h7 is mapped to pageShowEntries
-    }
-
-    if (jq("#boundwithNextFlag_control").val() == "true") {
-        jq(".paginate_disabled_next").removeClass("paginate_disabled_next").addClass("paginate_enabled_next");
-    }
-    if (jq("#boundwithPreviousFlag_control").val() == "true") {
-        jq(".paginate_disabled_previous").removeClass("paginate_disabled_previous").addClass("paginate_enabled_previous");
-    }
-
-    if (jq("#workbenchNextFlag_control").val() == "true") {
-        jq(".paginate_disabled_next").removeClass("paginate_disabled_next").addClass("paginate_enabled_next");
-    }
-    if (jq("#workbenchPreviousFlag_control").val() == "true") {
-        jq(".paginate_disabled_previous").removeClass("paginate_disabled_previous").addClass("paginate_enabled_previous");
-    }
-
-    //hiddenSearchFields_h5 is mapped to nextFlag
-    if (jq("#hiddenSearchFields_h5").val() == "true") {
-        jq(".paginate_disabled_next").removeClass("paginate_disabled_next").addClass("paginate_enabled_next");
-    }
-    //hiddenSearchFields_h6 is mapped to previousFlag
-    if (jq("#hiddenSearchFields_h6").val() == "true") {
-        jq(".paginate_disabled_previous").removeClass("paginate_disabled_previous").addClass("paginate_enabled_previous");
-    }
-
-}
-
-function globalEditInstance(docType){
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" +docType + "&docFormat=oleml&editable=true&fromSearch=true&pageId=WorkHoldingsViewPage");
+function globalEditInstance(docType) {
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + docType + "&docFormat=oleml&editable=true&fromSearch=true&pageId=WorkHoldingsViewPage");
 }
 
 function selectCheckbox(doctype) {
@@ -429,30 +219,40 @@ function selectCheckbox(doctype) {
                 jq("#EHoldingsSearchResults tbody tr:eq(" + count + ") td div input").prop("checked", true);
             }
         }
+    } else if (jq('#hiddenSearchFields-browse_control').val() == "true") {
+        var length = jq("#Title-Browse-BibSearchResults tbody tr").length;
+        for (var count = 0; count < length; count++) {
+            jq("#Title-Browse-BibSearchResults tbody tr:eq(" + count + ") td div input").prop("checked", true);
+        }
+
+        var length = jq("#CallNumberSectionResults tbody tr").length;
+        for (var count = 0; count < length; count++) {
+            jq("#CallNumberSectionResults tbody tr:eq(" + count + ") td div input").prop("checked", true);
+        }
     }
+
 }
 
 function openSelectAll(doctype) {
     //hiddenSearchFields_h9 is mapped to selectAllRecords
-    if (jq("#hiddenSearchFields_h9").val() == "true") {
+    if (jq("#hiddenSearchFields_h9").val() == "true" || jq("#hiddenSearchFields-browse_control").val() == "true") {
         submitForm('openAll', null, null, true, function () {
             var selectedRecords = jq("#hiddenSearchFields_h10").val();  //hiddenSearchFields_h10 is mapped to idsToBeOpened
-            var ids=selectedRecords.split(",");
+            if (selectedRecords == undefined) {
+                selectedRecords = jq("#hiddenSearchFields-browse_h0").val();
+            }
+            var ids = selectedRecords.split(",");
             var docFormat = "oleml";
-            var pageId= "&pageId=WorkBibEditorViewPage";
+            var pageId = "&pageId=WorkBibEditorViewPage";
             if (doctype == "bibliographic") {
                 docFormat = "marc";
             }
-
             for (var i = 0; i < ids.length; i++) {
                 var id = ids[i].split("#");
-                var link = href = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=" +id[1] + "&editable=true";
+                var link = href = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=" + id[1] + "&editable=true";
                 window.open(link);
             }
         });
-
-
-
     } else {
         var checkedcount = 0;
         if (doctype == 'bibliographic') {
@@ -460,6 +260,14 @@ function openSelectAll(doctype) {
             for (var count = 0; count < length; count++) {
                 if (jq("#BibSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
                     window.open(jq("#BibSearchResults tbody tr:eq(" + count + ") td:eq(1) div a").attr("href") + "&pageId=WorkBibEditorViewPage");
+                    checkedcount += 1;
+                }
+            }
+
+            length = jq("#Title-Browse-BibSearchResults tbody tr").length;
+            for (var count = 0; count < length; count++) {
+                if (jq("#Title-Browse-BibSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
+                    window.open(jq("#Title-Browse-BibSearchResults tbody tr:eq(" + count + ") td:eq(1) div a").attr("href") + "&pageId=WorkBibEditorViewPage");
                     checkedcount += 1;
                 }
             }
@@ -472,12 +280,29 @@ function openSelectAll(doctype) {
                     checkedcount += 1;
                 }
             }
+
+            var length = jq("#CallNumberSectionResults tbody tr").length;
+            for (var count = 0; count < length; count++) {
+                if (jq("#CallNumberSectionResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
+                    window.open(jq("#CallNumberSectionResults tbody tr:eq(" + count + ") td:eq(2) div a").attr("href") + "&pageId=WorkHoldingsViewPage");
+                    checkedcount += 1;
+                }
+            }
         }
         else if (doctype == 'item') {
             var length = jq("#ItemSearchResults tbody tr").length;
             for (var count = 0; count < length; count++) {
                 if (jq("#ItemSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
                     window.open(jq("#ItemSearchResults tbody tr:eq(" + count + ") td:eq(2) div a").attr("href") + "&pageId=WorkItemViewPage");
+                    checkedcount += 1;
+                }
+            }
+
+
+            var length = jq("#CallNumberSectionResults tbody tr").length;
+            for (var count = 0; count < length; count++) {
+                if (jq("#CallNumberSectionResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
+                    window.open(jq("#CallNumberSectionResults tbody tr:eq(" + count + ") td:eq(2) div a").attr("href") + "&pageId=WorkHoldingsViewPage");
                     checkedcount += 1;
                 }
             }
@@ -493,15 +318,18 @@ function openSelectAll(doctype) {
             }
         }
     }
+
+
 }
 
 //hiddenSearchFields_h9 is mapped to selectAllRecords
-function selectAll(doctype){
+function selectAll(doctype) {
     jq("#hiddenSearchFields_h9").val(true);
+    jq("#hiddenSearchFields-browse_control").val(true);
     selectCheckbox(doctype);
 
 }
-function highLightNewSearch(id){
+function highLightNewSearch(id) {
     var JSONObject = JSON.stringify(id.extraData);//.split("actionParameters[selectedLineIndex]");
     var obj = jQuery.parseJSON(JSONObject);
 
@@ -509,10 +337,10 @@ function highLightNewSearch(id){
         if (key == "actionParameters[selectedLineIndex]")
             id = parseInt(obj[key]) + 1;
     }
-    jq('#'+'items_line'+id).css({"background-color": "#FFFFD6", "border-color": "#000000"});
-    jq('#'+'SearchConditions_SearchText_id_line'+id+'_control').focus();
-    if(jq('#'+'SearchConditions_SearchText_id_line'+id+'_control').val()==null&&
-        jq('#'+'SearchConditions_DocField_id_line'+id+'_control').val()==null){
+    jq('#' + 'items_line' + id).css({"background-color": "#FFFFD6", "border-color": "#000000"});
+    jq('#' + 'SearchConditions_SearchText_id_line' + id + '_control').focus();
+    if (jq('#' + 'SearchConditions_SearchText_id_line' + id + '_control').val() == null &&
+        jq('#' + 'SearchConditions_DocField_id_line' + id + '_control').val() == null) {
         alert("Please enter values for the search condition.")
     }
 }
@@ -563,15 +391,16 @@ jq("#OLEERSSearchPanel-docType-Section").live("change", function () {
 });
 function browse() {
     jq(".dataTables_wrapper").attr("style", "width:1200px;");
+    jq("hiddenSearchFields-browse_control").val("false");
     displayDialogWindow("div#MessagePopupSectionForLinkToEResource");
     return true;
 }
 function openHelpWindow(url) {
 
-    if(jq("input.uif-textControl").is(":focus")){
+    if (jq("input.uif-textControl").is(":focus")) {
         jq('#SearchButton').click();
 
-    }else{
+    } else {
         var windowWidth = screen.availWidth / 2;
         var windowHeight = screen.availHeight / 2;
         var windowPositionY = parseInt((screen.availWidth / 2) - (windowWidth / 2));
@@ -591,7 +420,7 @@ function search() {
     sessionStorage.setItem("sortOrder", "asc");
     jq('#hiddenSearchFields_h3').val("Title_sort");
     jq('#hiddenSearchFields_h2').val("asc");
-    var date =new Date();
+    var date = new Date();
     jq("#hiddenSearchFields_h9").val("false")
     localStorage.startTime = date.getMilliseconds();
     submitForm('search', null, null, true, function () {
@@ -605,7 +434,7 @@ function oleSearchPager(linkElement, collectionId) {
     var pageNumber = link.data(kradVariables.PAGE_NUMBER_DATA);
     if (pageNumber == 'next')
         submitForm('nextSearch', null, null, true, function () {
-          searching();
+            searching();
         });
 
     else if (pageNumber == 'prev')
@@ -613,7 +442,7 @@ function oleSearchPager(linkElement, collectionId) {
             searching();
         });
     else if (pageNumber == 'first') {
-    	jQuery('#hiddenSearchFields_control').val('1');
+        jQuery('#hiddenSearchFields_control').val('1');
         submitForm('pageNumberSearch', null, null, true, function () {
             searching();
         });
@@ -622,8 +451,8 @@ function oleSearchPager(linkElement, collectionId) {
             searching();
         });
     else {
-    	jQuery('#hiddenSearchFields_control').val(pageNumber);
-        submitForm('pageNumberSearch', null, null,  true, function () {
+        jQuery('#hiddenSearchFields_control').val(pageNumber);
+        submitForm('pageNumberSearch', null, null, true, function () {
             searching();
         });
     }
