@@ -19,10 +19,10 @@
     <bean id="Ole-Uif-DocumentPageFooter-RelatedEResorces" parent="Uif-FooterBase">
         <property name="items">
             <list>
-                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true"
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true"
                       p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true"
-                      p:actionScript="eResourceSearch()" p:actionLabel="Create new E-Resource link"
+                      p:actionScript="eResourceSearch()" p:actionLabel="Create new e-resource link"
                       p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
             </list>
         </property>

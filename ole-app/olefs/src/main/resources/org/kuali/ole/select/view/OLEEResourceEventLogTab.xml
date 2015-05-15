@@ -14,7 +14,7 @@
     <bean id="Ole-Uif-DocumentPageFooter-EventLog" parent="Uif-FooterBase">
         <property name="items">
             <list>
-                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true"
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true"
                       p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
             </list>
         </property>
@@ -163,10 +163,10 @@
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="editEventLogLine" p:actionLabel="Edit" p:render="@{#line.saveFlag and #line.logTypeName ne 'System'}"/>
                 <bean id="deleteEventLogLine_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteEventLogLine" p:actionLabel="Delete" p:title="Delete a EventLog" p:render="@{#line.saveFlag and #line.logTypeName ne 'System'}"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="downloadEventAttachment1"
-                      p:actionLabel="Download Attachment1" p:ajaxSubmit="false" p:disableBlocking="true"
+                      p:actionLabel="Download attachment1" p:ajaxSubmit="false" p:disableBlocking="true"
                       p:render="@{#line.attachmentFileName1 ne null and #line.attachmentFileName1 ne ' '}"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="downloadEventAttachment2"
-                      p:actionLabel="Download Attachment2" p:ajaxSubmit="false" p:disableBlocking="true"
+                      p:actionLabel="Download attachment2" p:ajaxSubmit="false" p:disableBlocking="true"
                       p:render="@{#line.attachmentFileName2 ne null and #line.attachmentFileName2 ne ' '}"/>
             </list>
         </property>

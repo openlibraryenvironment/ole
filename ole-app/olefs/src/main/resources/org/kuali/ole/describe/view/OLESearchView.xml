@@ -240,7 +240,7 @@
             <list>
                 <bean id="SearchButton" parent="Uif-PrimaryActionButton" p:actionScript="search()"  p:style="float:left;margin-left:30em" p:actionLabel="Search" p:successCallback="searching()"/>
                 <bean id="ClearButton" parent="Uif-PrimaryActionButton" p:methodToCall="clear" p:style="float:left;margin-left:0.2em" p:actionLabel="Clear"/>
-                <bean id="StartSearchButton" parent="Uif-PrimaryActionButton" p:methodToCall="start" p:style="float:left;margin-left:0.2em" p:actionLabel="New Search"/>
+                <bean id="StartSearchButton" parent="Uif-PrimaryActionButton" p:methodToCall="start" p:style="float:left;margin-left:0.2em" p:actionLabel="New search"/>
             </list>
         </property>
     </bean>
@@ -587,12 +587,12 @@
         <property name="items">
             <list>
                 <bean id="SelectedAll_button" parent="Uif-SecondaryActionButton"
-                      p:actionScript="selectAll('@{docType}');" p:actionLabel="Select All Records"
+                      p:actionScript="selectAll('@{docType}');" p:actionLabel="Select all records"
                       p:render="@{(searchResultDisplayRowList ne null or itemList ne null or holdingsList ne null) and (searchType eq 'search' or searchType eq 'browse')}"/>
                 <bean id="OpenSelectedRecord_button" parent="Uif-SecondaryActionButton"
-                      p:actionScript="openSelectAll('@{docType}');" p:actionLabel="Open Selected Records"
+                      p:actionScript="openSelectAll('@{docType}');" p:actionLabel="Open selected records"
                       p:render="@{(searchResultDisplayRowList ne null or itemList ne null or holdingsList ne null) and (searchType eq 'search' or searchType eq 'browse')}"/>
-                <bean id="exportToXml" parent="Uif-SecondaryActionButton" p:actionLabel="Export to Doc XML" p:methodToCall="exportToXml"
+                <bean id="exportToXml" parent="Uif-SecondaryActionButton" p:actionLabel="Export to doc XML" p:methodToCall="exportToXml"
                       p:render="@{(searchResultDisplayRowList ne null) and (searchType eq 'search' or searchType eq 'browse')}" p:successCallback="searching()"/>
             </list>
         </property>

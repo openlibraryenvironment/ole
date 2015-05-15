@@ -19,7 +19,7 @@
     <bean id="Ole-Uif-Platform-DocumentPageFooter-EventLog" parent="Uif-FooterBase">
         <property name="items">
             <list>
-                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="save"
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="Save"
                       p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
             </list>
@@ -105,7 +105,7 @@
                             </bean>
                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="Filter" p:methodToCall="filter"
                                   p:render="@{!document.documentHeader.workflowDocument.final}"/>
-                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Clear Filter"
+                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Clear filter"
                                   p:methodToCall="clearFilter"
                                   p:render="@{!document.documentHeader.workflowDocument.final}"/>
                         </list>
@@ -271,10 +271,10 @@
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteEvent"
                       p:actionLabel="Delete" p:render="@{#line.saveFlag and #line.logTypeName ne 'System'}"/>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="downloadEventAttachment1"
-                      p:actionLabel="Download Attachment1" p:ajaxSubmit="false" p:disableBlocking="true"
+                      p:actionLabel="Download attachment1" p:ajaxSubmit="false" p:disableBlocking="true"
                       p:render="@{#line.attachmentFileName1 ne null and #line.attachmentFileName1 ne ' '}"/>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="downloadEventAttachment2"
-                      p:actionLabel="Download Attachment2" p:ajaxSubmit="false" p:disableBlocking="true"
+                      p:actionLabel="Download attachment2" p:ajaxSubmit="false" p:disableBlocking="true"
                       p:render="@{#line.attachmentFileName2 ne null and #line.attachmentFileName2 ne ' '}"/>
             </list>
         </property>
@@ -438,10 +438,10 @@
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteFilterEvent"
                       p:actionLabel="Delete" p:render="@{#line.saveFlag and #line.logTypeName ne 'System'}"/>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="downloadFilterEventAttachment1"
-                      p:actionLabel="Download Attachment1" p:ajaxSubmit="false" p:disableBlocking="true"
+                      p:actionLabel="Download attachment1" p:ajaxSubmit="false" p:disableBlocking="true"
                       p:render="@{#line.attachmentFileName1 ne null and #line.attachmentFileName1 ne ' '}"/>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="downloadFilterEventAttachment2"
-                      p:actionLabel="Download Attachment2" p:ajaxSubmit="false" p:disableBlocking="true"
+                      p:actionLabel="Download attachment2" p:ajaxSubmit="false" p:disableBlocking="true"
                       p:render="@{#line.attachmentFileName2 ne null and #line.attachmentFileName2 ne ' '}"/>
             </list>
         </property>

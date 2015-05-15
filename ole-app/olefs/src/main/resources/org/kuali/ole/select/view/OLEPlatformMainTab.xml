@@ -245,7 +245,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addAdministrativeUrl" p:style="float:left;margin-left:50em"
-                      p:actionLabel="Add Administrative URL" p:render="@{!document.documentHeader.workflowDocument.final}"/>
+                      p:actionLabel="Add administrative URL" p:render="@{!document.documentHeader.workflowDocument.final}"/>
                 <ref bean="OLEPlatformMainTab-AdministrativeUrlSection"/>
             </list>
         </property>
@@ -311,11 +311,11 @@
     <bean id="Ole-Uif-Platform-DocumentPageFooter" parent="Uif-FooterBase">
         <property name="items">
             <list>
-                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="save" p:actionLabel="save" p:successCallback="save()"
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="save" p:actionLabel="Save" p:successCallback="save()"
                       p:performClientSideValidation="true" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
                 <bean parent="Uif-CancelAction" p:ajaxSubmit="false"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="copy"
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="Copy"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
             </list>
         </property>

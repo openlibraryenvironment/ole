@@ -7,7 +7,7 @@
         <property name="items">
             <list>
                 <ref bean="OLEEResourceRecordView-Overview"/>
-                <bean id="ERSAccess-Save" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:0em" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true" p:hidden="true"/>
+                <bean id="ERSAccess-Save" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:0em" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true" p:hidden="true"/>
                 <ref bean="OLEEResourceAccessTab-AccessActivation"/>
                 <ref bean="OLEEResourceAccessTab-Access"/>
             </list>
@@ -32,7 +32,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="startAccessWorkflow"
-                      p:actionLabel="start Access workflow"
+                      p:actionLabel="Start access workflow"
                       p:performClientSideValidation="true" p:ajaxSubmit="true" p:successCallback="saveERSAccessDocument()"/>
             </list>
         </property>

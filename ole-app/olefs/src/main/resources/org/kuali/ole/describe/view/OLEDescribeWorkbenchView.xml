@@ -163,7 +163,7 @@
     <bean id="LinkToOrderButtons"  parent="Uif-HorizontalBoxSection" p:render="@{searchResultDisplayRowList ne null}">
         <property name="items">
             <list>
-                <bean id="submit_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:methodToCall="submit" p:actionLabel="Link To Order" p:ajaxSubmit="true"  p:successCallback="validLinkToOrder();"/>
+                <bean id="submit_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:methodToCall="submit" p:actionLabel="Link to order" p:ajaxSubmit="true"  p:successCallback="validLinkToOrder();"/>
                 <bean id="cancel_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:actionScript="parent.window.close();" p:actionLabel="Close"/>
             </list>
         </property>

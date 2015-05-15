@@ -465,7 +465,7 @@
                         <list>
                             <bean id="link_button" parent="Uif-SecondaryActionButton-Small"
                                   p:style="float:left;margin-left:0em" p:methodToCall="linkToBib"
-                                  p:actionLabel="Link To EResource" p:ajaxSubmit="true"
+                                  p:actionLabel="Link To e-resource" p:ajaxSubmit="true"
                                   p:successCallback="validLinkToEResource();" p:render="@{holdingsFlag eq 'true' OR eHoldingsFlag eq 'true'}"/>
                             <bean id="cancel_link_button" parent="Uif-SecondaryActionButton-Small"
                                   p:style="float:left;margin-left:0em" p:actionScript="parent.window.close();"

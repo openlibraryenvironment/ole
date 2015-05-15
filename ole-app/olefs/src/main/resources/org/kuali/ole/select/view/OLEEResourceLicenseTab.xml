@@ -14,8 +14,8 @@
     <bean id="OLEEResourceLicense-create-parent" parent="Uif-Disclosure-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="ERSLicense-Create" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:20em" p:methodToCall="performCreateLicenseRequest" p:actionLabel="Start New License" p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}" p:ajaxSubmit="true" p:successCallback="saveERSDocument()"/>
-                <bean id="ERSLicense-Save" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:0em" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true" p:hidden="true"/>
+                <bean id="ERSLicense-Create" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:20em" p:methodToCall="performCreateLicenseRequest" p:actionLabel="Start new license" p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}" p:ajaxSubmit="true" p:successCallback="saveERSDocument()"/>
+                <bean id="ERSLicense-Save" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:0em" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true" p:hidden="true"/>
             </list>
         </property>
     </bean>

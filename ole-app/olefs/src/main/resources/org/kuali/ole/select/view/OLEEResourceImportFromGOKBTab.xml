@@ -237,7 +237,7 @@
         <list>
             <ref bean="GokbTippProileSection"/>
             <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="importData"
-                  p:actionLabel="Import Data" p:style="float:left;margin-left:10em" p:successCallback="closeLightBoxComponentTipp('div#tiipResults')"/>
+                  p:actionLabel="Import data" p:style="float:left;margin-left:10em" p:successCallback="closeLightBoxComponentTipp('div#tiipResults')"/>
              <bean parent="Uif-SecondaryActionButton-Small" p:actionScript="closeLightBoxComponentTipp('div#tiipResults')"
                   p:actionLabel="Cancel" p:style="float:left;margin-left:30em"/>
         </list>

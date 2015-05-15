@@ -22,11 +22,11 @@
                             <bean id="CreatePOsButton" parent="Uif-PrimaryActionButton"
                                   p:style="float:left;margin-left:20em"
                                   p:actionScript="window.open('oleERSController?viewId=EResourcePOView&amp;methodToCall=getEResourcesAndInstances&amp;oleERSIdentifier=@{document.oleERSIdentifier}');"
-                                  p:actionLabel="Create Purchase Orders"
+                                  p:actionLabel="Create purchase orders"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
                             <bean id="PriceIncreaseAnalysisButton" parent="Uif-PrimaryActionButton"
                                   p:actionScript="showLightboxComponent('OLEEResourceRecordView-PriceIncreaseAnalysis');"
-                                  p:actionLabel="Price Increase Analysis"
+                                  p:actionLabel="Price increase analysis"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save"
                                   p:actionLabel="Save" p:performClientSideValidation="true"
@@ -95,7 +95,7 @@
             <list>
                 <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Save results to event log"
                       p:methodToCall="saveResultToEventlog" p:style="float:center;margin-left:5em"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Download Csv" p:methodToCall="downloadCsv"
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Download csv" p:methodToCall="downloadCsv"
                       p:disableBlocking="true" p:ajaxSubmit="false" p:style="float:center;margin-left:5em"/>
                 <bean id="closeLightbox" parent="Uif-SecondaryActionButton-Small" p:methodToCall="closeDialog"
                       p:actionLabel="Close" p:successCallback="close()" p:style="float:left;margin-left:5em"/>

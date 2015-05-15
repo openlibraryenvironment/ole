@@ -30,7 +30,7 @@
                         <list>
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
-                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="send adhoc"
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="Send adhoc"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="deleteEresource" p:actionLabel="Delete"
                                   p:successCallback="showEResourceNotDeletedPopUp('@{access}');" p:render="@{!(document.documentHeader.workflowDocument.initiated)}" p:componentSecurity.performActionAuthz="true" p:actionEvent="delete"/>
@@ -40,9 +40,9 @@
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final) and document.gokbIdentifier ne null}"/>
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
-                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="Approve For Next Owner"  p:performClientSideValidation="true"
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="Approve for next owner"  p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
-                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="disapprove"
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="Disapprove"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
                         </list>
                     </property>
@@ -587,7 +587,7 @@
                                     <bean parent="Uif-TextControl" p:size="15"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="populateAccountingLines" p:actionLabel="Populate Accounting Lines"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="populateAccountingLines" p:actionLabel="Populate accounting lines"/>
                         </list>
                     </property>
                 </bean>
