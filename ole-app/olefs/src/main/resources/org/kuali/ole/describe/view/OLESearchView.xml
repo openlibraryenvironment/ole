@@ -118,10 +118,9 @@
                     </property>
                 </bean>
                 <ref bean="TitleSection"/>
-                <ref bean="Title-Browse-BibSearchResults-section"/>
+                <ref bean="Title-Browse-BibSearchResults"/>
                 <ref bean="CallNumberSection"/>
                 <ref bean="CallNumberSectionResults"/>
-                <ref bean="hiddenSearchFields-browse"/>
             </list>
         </property>
     </bean>
@@ -159,17 +158,6 @@
         </property>
     </bean>
 
-    <bean id="Title-Browse-BibSearchResults-section" parent="Uif-Disclosure-VerticalBoxSection">
-        <property name="headerText" value="Browse Results:"/>
-        <property name="items">
-            <list>
-                <ref bean ="Title-Browse-BibSearchResults"/>
-            </list>
-        </property>
-
-    </bean>
-
-
     <bean id="Title-Browse-BibSearchResults" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="4" p:render="@{browseField eq 'title'}">
         <property name="collectionObjectClass"
                   value="org.kuali.ole.describe.bo.SearchResultDisplayRow" />
@@ -189,7 +177,7 @@
                   {'bSortable':false, 'sWidth':'20%'}
                 ]"/>
             </map>
-                </property>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Base-Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false" p:width="50px">
@@ -580,18 +568,17 @@
             <list>
                 <bean id="SelectedAll_button" parent="Uif-SecondaryActionButton"
                       p:actionScript="selectAll('@{docType}');" p:actionLabel="Select All Records"
-                      p:render="@{(searchResultDisplayRowList ne null or itemList ne null or holdingsList ne null) and (searchType eq 'search' or searchType eq 'browse')}"/>
+                      p:render="@{searchResultDisplayRowList ne null and searchType eq 'search'}"/>
                 <bean id="OpenSelectedRecord_button" parent="Uif-SecondaryActionButton"
                       p:actionScript="openSelectAll('@{docType}');" p:actionLabel="Open Selected Records"
-                      p:render="@{(searchResultDisplayRowList ne null or itemList ne null or holdingsList ne null) and (searchType eq 'search' or searchType eq 'browse')}"/>
-                <bean id="exportToXml" parent="Uif-SecondaryActionButton" p:actionLabel="Export to Doc XML" p:methodToCall="exportToXml"
-                      p:render="@{(searchResultDisplayRowList ne null) and (searchType eq 'search' or searchType eq 'browse')}" p:successCallback="searching()"/>
+                      p:render="@{searchResultDisplayRowList ne null and searchType eq 'search'}"/>
+                <bean id="exportToXml" parent="Uif-SecondaryActionButton" p:actionLabel="Export to Doc XML" p:methodToCall="exportToXml" p:render="@{searchType eq 'search' and searchResultDisplayRowList ne null}" p:successCallback="searching()"/>
             </list>
         </property>
     </bean>
 
     <bean id="requestXML" parent="Base-Uif-InputField" p:propertyName="requestXMLTextArea"
-          p:label="" p:render="@{showRequestXml eq true }"
+          p:label="" p:render="@{showRequestXml eq true and searchType eq 'search'}"
           p:required="false">
         <property name="control">
             <bean parent="Uif-TextAreaControl" p:cols="75" p:rows="15"/>
@@ -600,7 +587,6 @@
 
 
     <bean id="hiddenSearchFields" parent="Base-Uif-InputField" p:hidden="true" p:propertyName="pageNumber" p:additionalHiddenPropertyNames="start,pageSize,sortOrder,sortField,sortFlag,nextFlag,previousFlag,pageShowEntries,facetPageEntries,selectAllRecords,idsToBeOpened"/>
-    <bean id="hiddenSearchFields-browse" parent="Base-Uif-InputField" p:hidden="true" p:propertyName="selectAllRecords" p:additionalHiddenPropertyNames="idsToBeOpened"/>
     <bean id="solrTime" parent="Uif-DataField" p:propertyName="solrTime" p:label="Time Taken By Solr (sec)" p:render="@{showTime}"/>
     <bean id="serverTime" parent="Uif-DataField" p:propertyName="serverTime" p:label="Time Taken By Server (sec)" p:render="@{showTime}"/>
     <bean id="totalTime" parent="Uif-DataField" p:propertyName="totalTime" p:label="Total Time (sec)" p:render="@{showTime}"/>
