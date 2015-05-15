@@ -786,6 +786,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             itemsTable.addCell(" ");
             itemsTable.addCell(" ");
             itemsTable.addCell(" ");
+            itemsTable.addCell(" ");
 
             tableCell = new PdfPCell(new Paragraph("Total Tax: ", ver_10_normal));
             tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -809,7 +810,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         itemsTable.addCell(" ");
         itemsTable.addCell(" ");
         itemsTable.addCell(" ");
-        itemsTable.addCell(" ");
+
 
         if (!po.isUseTaxIndicator()) {
             itemsTable.addCell(" ");
