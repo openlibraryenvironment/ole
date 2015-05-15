@@ -279,7 +279,11 @@ public class OLEAddTitlesToInvoiceService {
 
             OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("OLE_PRQS");
             java.util.Date date1 = new java.util.Date();
-            oleInvoiceDocument.setInvoiceDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            if(invoiceDate == null){
+                oleInvoiceDocument.setInvoiceDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
+            } else {
+                oleInvoiceDocument.setInvoiceDate(invoiceDate);
+            }
             oleInvoiceDocument.setInvoiceNumber(invoiceNumber);
             oleInvoiceDocument.setPaymentMethodId(Integer.parseInt(paymentMethodId));
             oleInvoiceDocument.setVendorInvoiceAmount(new KualiDecimal(vendorInvoiceAmt));
