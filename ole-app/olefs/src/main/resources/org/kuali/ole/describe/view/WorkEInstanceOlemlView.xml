@@ -1047,8 +1047,7 @@
                 <bean id="EInstanceCopy" parent="Uif-SecondaryActionButton-Small" p:actionScript="methodToCall('copy');"
                       p:actionLabel="Copy" p:align="right" p:actionEvent="addEInstance"
                       p:componentSecurity.performActionAuthz="true"/>
-                <bean id="EInstanceDelete" parent="Uif-SecondaryActionButton-Small"
-                      p:actionScript="methodToCall('delete');" p:actionLabel="Delete" p:align="right"
+                <bean id="EInstanceDelete" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteVerify" p:actionLabel="Delete" p:align="right"
                       p:actionEvent="deleteEInstance" p:componentSecurity.performActionAuthz="true"/>
             </list>
         </property>
@@ -1068,8 +1067,7 @@
                 <bean id="eInstanceCopy" parent="Uif-SecondaryActionButton-Small" p:actionScript="methodToCall('copy');"
                       p:actionLabel="Copy" p:align="right" p:actionEvent="addEInstance"
                       p:componentSecurity.performActionAuthz="true"/>
-                <bean id="eInstanceDelete" parent="Uif-SecondaryActionButton-Small"
-                      p:actionScript="methodToCall('delete');" p:actionLabel="Delete" p:align="right"
+                <bean id="eInstanceDelete" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteVerify" p:actionLabel="Delete" p:align="right"
                       p:actionEvent="deleteEInstance" p:componentSecurity.performActionAuthz="true"/>
             </list>
         </property>

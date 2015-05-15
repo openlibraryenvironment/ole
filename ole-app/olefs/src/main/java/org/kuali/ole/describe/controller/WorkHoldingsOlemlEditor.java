@@ -177,12 +177,12 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
                     editorForm.setHoldingCreatedBy(holdings.getCreatedBy());
                     editorForm.setHoldingUpdatedDate(holdings.getUpdatedOn());
                     editorForm.setHoldingUpdatedBy(holdings.getUpdatedBy());
-//            editorForm.setHoldingLocalIdentifier(holdings.getLocalId());
+//                  editorForm.setHoldingLocalIdentifier(holdings.getLocalId());
 
-            ensureMultipleValuesInOleHoldings(oleHoldings);
+                    ensureMultipleValuesInOleHoldings(oleHoldings);
 
-            workInstanceOlemlForm.setSelectedHolding(oleHoldings);
-            getInstanceEditorFormDataHandler().setLocationDetails(workInstanceOlemlForm);
+                    workInstanceOlemlForm.setSelectedHolding(oleHoldings);
+                    getInstanceEditorFormDataHandler().setLocationDetails(workInstanceOlemlForm);
                 } else {
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "ds.error.holdings.notfound");
                     workInstanceOlemlForm.setViewId("WorkHoldingsViewPage");
@@ -190,12 +190,19 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
                 }
             //workInstanceOlemlForm.setMessage("Holdings record loaded successfully.");
             if (editorForm.getEditable().equalsIgnoreCase("false")) {
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO,
-                        "holdings.record.load.message");
+                if(editorForm.getMethodToCall() != null && editorForm.getMethodToCall().equalsIgnoreCase("copy")){
+                    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO,"record.copy.instance.message");
+                } else {
+                    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO,"holdings.record.load.message");
+                }
             } else {
                 boolean hasPermission = canEditInstance(GlobalVariables.getUserSession().getPrincipalId());
                 if (hasPermission) {
-                    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "holdings.record.load.message");
+                    if(editorForm.getMethodToCall() != null && editorForm.getMethodToCall().equalsIgnoreCase("copyInstance")){
+                        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO,"record.copy.instance.message");
+                    } else {
+                        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "holdings.record.load.message");
+                    }
                 } else {
                     editorForm.setHideFooter(false);
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, OLEConstants.ERROR_EDIT_INSTANCE);
@@ -793,6 +800,19 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
             }
         }
         editorForm.setDocumentForm(workInstanceOlemlForm);
+        return editorForm;
+    }
+
+    @Override
+    public EditorForm copy(EditorForm editorForm) {
+        loadDocument(editorForm);
+        WorkInstanceOlemlForm workInstanceOlemlForm = (WorkInstanceOlemlForm) editorForm.getDocumentForm();
+        workInstanceOlemlForm.getSelectedHolding().setEResourceId(workInstanceOlemlForm.geteResourceId()!=null && !workInstanceOlemlForm.geteResourceId().isEmpty()?workInstanceOlemlForm.geteResourceId():null);
+        editorForm.seteResourceId(workInstanceOlemlForm.geteResourceId()!=null && !workInstanceOlemlForm.geteResourceId().isEmpty()?workInstanceOlemlForm.geteResourceId():null);
+        editorForm.seteResourceTitle(workInstanceOlemlForm.geteResourceTitle()!=null && !workInstanceOlemlForm.geteResourceTitle().isEmpty()?workInstanceOlemlForm.geteResourceTitle():null);
+        editorForm.setDocId(null);
+        editorForm.setShowEditorFooter(false);
+        editorForm.setFromSearch(false);
         return editorForm;
     }
 

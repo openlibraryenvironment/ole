@@ -159,6 +159,15 @@ public class EditorForm extends UifFormBase {
     private String channelUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.editor.url");
     private boolean canDeleteEHoldings = true;
     private String externalHelpUrl;
+    private boolean addSpaceField;
+
+    public boolean isAddSpaceField() {
+        return addSpaceField;
+    }
+
+    public void setAddSpaceField(boolean addSpaceField) {
+        this.addSpaceField = addSpaceField;
+    }
 
     public String getExternalHelpUrl() {
         return externalHelpUrl;

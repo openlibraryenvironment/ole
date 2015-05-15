@@ -138,6 +138,28 @@ public class EditorController extends UifControllerBase {
         return modelAndView;
     }
 
+    @RequestMapping(params = "methodToCall=copyInstance")
+    public ModelAndView copyInstance(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) {
+        if (!isFormInitialized) {
+            super.start(form, result, request, response);
+            isFormInitialized = true;
+        }
+        EditorForm editorForm = (EditorForm) form;
+        ModelAndView modelAndView = null;
+        String docCategory = request.getParameter("docCategory");
+        String docType = request.getParameter("docType");
+        String docFormat = request.getParameter("docFormat");
+        ((EditorForm) form).setDocCategory(docCategory);
+        ((EditorForm) form).setDocType(docType);
+        ((EditorForm) form).setDocFormat(docFormat);
+        DocumentEditor documentEditor = DocumentEditorFactory.getInstance()
+                .getDocumentEditor(docCategory, docType, docFormat);
+        editorForm = documentEditor.copy((EditorForm) form);
+        modelAndView = getUIFModelAndView(editorForm, "WorkHoldingsViewPage");
+        return modelAndView;
+    }
+
     @Override
     @RequestMapping(params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
@@ -1033,12 +1055,13 @@ public class EditorController extends UifControllerBase {
         getEditorFormDataHandler().buildLeftPaneData((EditorForm) form);
 
         // Redirect to bib page after deleting eholdings.
-        if (documentForm.isCanDeleteEHoldings() && docType.equalsIgnoreCase(DocType.EHOLDINGS.getCode())) {
+        //Commented the code for the jira OLE-6862
+        /*if (documentForm.isCanDeleteEHoldings() && docType.equalsIgnoreCase(DocType.EHOLDINGS.getCode())) {
             String url = ConfigContext.getCurrentContextConfig().getProperty(OLEPropertyConstants.OLE_URL_BASE);
             url = url + "/portal.do?channelTitle=Editor&channelUrl=" + url +
                     "/ole-kr-krad/editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat=marc&bibId=&editable=true&docId=" + editorForm.getBibId();
             return performRedirect(editorForm, url);
-        }
+        }*/
 
         return getUIFModelAndView(editorForm, documentForm.getViewId());
     }

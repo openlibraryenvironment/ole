@@ -92,12 +92,14 @@ public class AbstractEditor implements DocumentEditor {
             }
             setDocTypeOfViewPage(editorForm);
             editorForm.getDocumentForm().setCanDeleteEHoldings(Boolean.FALSE);
+            editorForm.setAddSpaceField(true);
             return editorForm.getDocumentForm();
         }
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, OLEConstants.RECORD_DELETE_MESSAGE);
         removeDocumentFromTree(editorForm);
+        editorForm.setAddSpaceField(true);
         editorForm.setShowDeleteTree(false);
-        editorForm.setHasLink(false);
+        editorForm.setHasLink(true);
         editorForm.getDocumentForm().setViewId(OLEConstants.DELETE_VIEW_PAGE);
         return editorForm.getDocumentForm();
     }

@@ -3,6 +3,7 @@ package org.kuali.ole.describe.controller;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.describe.bo.*;
@@ -29,6 +30,7 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.*;
@@ -824,6 +826,32 @@ public class WorkEInstanceOlemlEditor
     @Override
     public EditorForm delete(EditorForm editorForm) throws Exception {
         return deleteFromDocStore(editorForm);
+    }
+
+    public EditorForm deleteVerify(EditorForm editorForm) {
+        //LOG.info("in instance editor class");
+        WorkInstanceOlemlForm workInstanceOlemlForm = new WorkInstanceOlemlForm();
+        String docId = editorForm.getDocId();
+        String operation = "deleteVerify";
+        //        String responseXml = getResponseFromDocStore(editorForm, docId, operation);
+        //        LOG.info("deleteVerify responseXml-->" + responseXml);
+        //        editorForm.setDeleteVerifyResponse(responseXml);
+        editorForm.setShowDeleteTree(true);
+        editorForm.setHasLink(true);
+        //        Node<DocumentTreeNode, String> docTree = buildDocSelectionTree(responseXml);
+        List<String> uuidList = new ArrayList<>(0);
+        uuidList.add(editorForm.getDocId());
+        DocumentSelectionTree documentSelectionTree = new DocumentSelectionTree();
+        Node<DocumentTreeNode, String> docTree = null;
+        try {
+            docTree = documentSelectionTree.add(uuidList, editorForm.getDocType());
+        } catch (SolrServerException e) {
+            LOG.error("Exception :", e);
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        editorForm.getDocTree().setRootElement(docTree);
+        editorForm.setViewId("DeleteViewPage");
+        return editorForm;
     }
 
     /*@Override

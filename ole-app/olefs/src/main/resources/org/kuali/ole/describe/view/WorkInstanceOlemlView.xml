@@ -32,6 +32,7 @@
                         <list>
                             <ref bean="WorkInstanceMessageSection"/>
                             <bean parent="Uif-SecondaryActionButton" p:actionLabel="Edit" p:actionScript="edit()" p:render="@{canAdd and editable eq 'false'}" />
+                            <ref bean="WorkInstanceButtonSection"/>
                             <ref bean="WorkHoldingsView"/>
                             <ref bean="WorkButtonSection"/>
                         </list>
@@ -134,6 +135,22 @@
     <bean id="editorFormKey" parent="Uif-InputField" p:propertyName="formKey">
         <property name="control">
             <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="WorkInstanceButtonSection" parent="Uif-HorizontalFieldGroup" p:render="@{editable eq 'true' and globalEditFlag eq 'false'}" >
+        <property name="items">
+            <list>
+                <bean id="SaveInstance" parent="Uif-SecondaryActionButton-Small" p:actionScript="methodToCall('save');"
+                      p:actionLabel="Save" p:align="right" p:actionEvent="save"
+                      p:componentSecurity.performActionAuthz="true"/>
+                <bean id="InstanceCancel" parent="Uif-SecondaryActionButton-Small"
+                      p:actionScript="methodToCall('cancel');" p:actionLabel="Cancel" p:align="right"/>
+                <bean id="InstanceCopy" parent="Uif-SecondaryActionButton-Small"  p:actionScript="methodToCall('copyInstance');"
+                      p:actionLabel="Copy" p:align="right" p:actionEvent="addInstance"
+                      p:componentSecurity.performActionAuthz="true"/>
+                <bean id="InstanceDelete" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteVerify" p:actionLabel="Delete" p:align="right"/>
+            </list>
         </property>
     </bean>
 </beans>
