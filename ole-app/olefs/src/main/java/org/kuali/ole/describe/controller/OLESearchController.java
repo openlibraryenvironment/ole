@@ -569,8 +569,8 @@ public class OLESearchController extends UifControllerBase {
             oleSearchForm.setPageSize(pageSizes.get(0));
         }
         oleSearchForm.setBrowseText("");
-        if(oleSearchForm.getSearchResultDisplayRowList() != null) {
-            oleSearchForm.getSearchResultDisplayRowList().clear();
+        if(CollectionUtils.isNotEmpty(oleSearchForm.getSearchResultDisplayRowList())) {
+            oleSearchForm.setSearchResultDisplayRowList(null);
         }
         return navigate(oleSearchForm, result, request, response);
     }
@@ -678,7 +678,11 @@ public class OLESearchController extends UifControllerBase {
         List<String> idsToExport = new ArrayList<>();
         if(oleSearchForm.isSelectAllRecords()){
             if(StringUtils.isEmpty(oleSearchForm.getIdsToBeOpened())){
-                searchDocstoreForLocalIds(oleSearchForm, request);
+                if("browse".equalsIgnoreCase(oleSearchForm.getSearchType())){
+                    browseDocstoreForLocalIds(oleSearchForm, request);
+                }else{
+                    searchDocstoreForLocalIds(oleSearchForm, request);
+                }
             }
             String[]  localIds=oleSearchForm.getIdsToBeOpened().split(",");
             for(String localId:localIds){
@@ -1358,8 +1362,41 @@ public class OLESearchController extends UifControllerBase {
                                HttpServletRequest request, HttpServletResponse response) {
         OLESearchForm oleSearchForm = (OLESearchForm) form;
         oleSearchForm.getSearchParams().setFacetOffset(0);
-        searchDocstoreForLocalIds(oleSearchForm, request);
+        if("browse".equalsIgnoreCase(oleSearchForm.getSearchType())){
+            browseDocstoreForLocalIds(oleSearchForm, request);
+        }else{
+            searchDocstoreForLocalIds(oleSearchForm, request);
+        }
         return super.navigate(oleSearchForm, result, request, response);
+    }
+
+    private void browseDocstoreForLocalIds(OLESearchForm oleSearchForm, HttpServletRequest request) {
+        int pageSize = oleSearchForm.getPageSize();
+        oleSearchForm.setPageSize(40);
+        StringBuilder ids = new StringBuilder();
+        if ("title".equals(oleSearchForm.getBrowseField())) {
+            oleSearchForm.setDocType(DocType.BIB.getCode());
+            List<SearchResultDisplayRow> searchResultDisplayRowList = getBrowseService().browse(oleSearchForm);
+            for( SearchResultDisplayRow searchResultDisplayRow:searchResultDisplayRowList){
+                ids.append("," + searchResultDisplayRow.getLocalId() +"#"+ searchResultDisplayRow.getBibIdentifier());
+            }
+        } else {
+            String location = getBrowseService().validateLocation(oleSearchForm.getLocation());
+            oleSearchForm.setLocation(location);
+            if (oleSearchForm.getDocType().equalsIgnoreCase(DocType.ITEM.getCode())) {
+                List<Item> itemList = getBrowseService().browse(oleSearchForm);
+                for( Item item:itemList){
+                    ids.append("," + item.getLocalId() + "#" + item.getHolding().getBib().getId());
+                }
+            } else {
+                List<Holdings> holdingsList = getBrowseService().browse(oleSearchForm);
+                for( Holdings holdings:holdingsList){
+                    ids.append("," + holdings.getLocalId() + "#" + holdings.getBib().getId());
+                }
+            }
+        }
+        oleSearchForm.setPageSize(pageSize);
+        oleSearchForm.setIdsToBeOpened(ids.toString().replaceFirst(",", ""));
     }
 
     public void searchDocstoreForLocalIds(OLESearchForm oleSearchForm,HttpServletRequest request) {
