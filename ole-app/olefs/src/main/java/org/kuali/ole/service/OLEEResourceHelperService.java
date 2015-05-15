@@ -341,6 +341,7 @@ public class OLEEResourceHelperService {
                     if(!packageMaps.containsKey(oleGokbTipp.getOleGokbPackage().getGokbPackageId())){
                         packageTippMap.put(oleGokbTipp.getOleGokbPackage().getGokbPackageId(),1);
                         olegoKbPackage = buildOLEGOKBPackage(oleGokbTipp.getOleGokbPackage());
+                        olegoKbPackages.add(olegoKbPackage);
                         packageMaps.put(oleGokbTipp.getOleGokbPackage().getGokbPackageId(),olegoKbPackage);
                        if(oleGokbTipp.getOleGokbPlatform()!=null){
                         platformMap.put(oleGokbTipp.getOleGokbPackage().getGokbPackageId(), oleGokbTipp.getOleGokbPlatform().getGokbPlatformId());

@@ -224,6 +224,7 @@
     <bean id="tiipResults" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
+                <bean id="profileField" parent="Uif-MessageField" p:messageText="@{profileErrorMessage}" p:cssClasses="messageClass" p:render="@{profileErrorMessage ne null}"/>
                 <ref bean="importPackageMetaData"/>
                 <ref bean="TIIPSearchResults"/>
                 <ref bean="platFormSearchResults1"/>

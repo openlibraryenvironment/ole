@@ -325,6 +325,7 @@
         <property name="propertyName" value="agreementDocumentMetadataList" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.richTable.render" value="true"/>
+        <property name="forceSessionPersistence" value="true"/>
         <property name="layoutManager.richTable.templateOptions">
             <map>
                 <entry key="aaSorting" value="[[0,'asc']]"/>

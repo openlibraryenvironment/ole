@@ -85,11 +85,11 @@ public class OLEEResourceRecordForm extends TransactionalDocumentFormBase {
     private List<OLEPhoneNumber> phoneNos = new ArrayList<>();
     private String vendorNameForContacts;
     private List<OLEGOKbMappingValue> oleGOKbMappingValueList = new ArrayList<OLEGOKbMappingValue>();
-
     private boolean showMultiplePlatforms = false;
     private String packageId;
     private boolean access ;
-    public OLEEResourceRecordForm() {
+    private String profileErrorMessage;
+     public OLEEResourceRecordForm() {
         super();
         this.selectedPOType = OLEConstants.OLEEResourceRecord.ONE_PO_PER_TITLE;
         List<OLESearchCondition> searchConditions = new ArrayList<OLESearchCondition>();
@@ -617,5 +617,13 @@ public class OLEEResourceRecordForm extends TransactionalDocumentFormBase {
 
     public void setOleGOKbMappingValueList(List<OLEGOKbMappingValue> oleGOKbMappingValueList) {
         this.oleGOKbMappingValueList = oleGOKbMappingValueList;
+    }
+
+    public String getProfileErrorMessage() {
+        return profileErrorMessage;
+    }
+
+    public void setProfileErrorMessage(String profileErrorMessage) {
+        this.profileErrorMessage = profileErrorMessage;
     }
 }

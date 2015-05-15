@@ -3403,4 +3403,8 @@ public class OLEConstants {
     public static final String OVERDUE_NOTICE_TO_DATE= "OVERDUE_NOTICE_TO_DATE";
     public static final String OLE_LOAN_DAO = "oleLoanDao";
     public static final String LOAN_WITH_NOTICES_DAO = "loanWithNoticesDAO";
+
+    public static final String N0_PROFILE_SELECTED = "error.no.profile";
+    public static final String UPLOAD_FILE_AGAIN = "error.file.upload";
+
 }

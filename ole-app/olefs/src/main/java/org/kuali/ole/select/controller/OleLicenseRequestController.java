@@ -536,17 +536,25 @@ public class OleLicenseRequestController extends MaintenanceDocumentController {
 
         MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
         MultipartFile attachmentFile = form.getAttachmentFile();
+        OleAgreementDocumentMetadata oleAgreementDocumentMetadata = null;
         if (attachmentFile!=null && attachmentFile.getOriginalFilename() != null && !attachmentFile.getOriginalFilename().isEmpty()) {
+            try{
             String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
             CollectionGroup collectionGroup = form.getPostedView().getViewIndex().getCollectionGroupByPath(
                     selectedCollectionPath);
             String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
             Object eventObject = ObjectPropertyUtils.getPropertyValue(uifForm, addLinePath);
-            OleAgreementDocumentMetadata oleAgreementDocumentMetadata = (OleAgreementDocumentMetadata) eventObject;
+                oleAgreementDocumentMetadata = (OleAgreementDocumentMetadata) eventObject;
             oleAgreementDocumentMetadata.setCurrentTimeStamp();
             String userName = GlobalVariables.getUserSession().getPrincipalName();
             oleAgreementDocumentMetadata.setUploadedBy(userName);
-
+            }catch(Exception e){
+                LOG.info("Exception occured while processing the document " + e.getMessage());
+                LOG.error(e,e);
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS,
+                        OLEConstants.UPLOAD_FILE_AGAIN, attachmentFile.getOriginalFilename());
+                return getUIFModelAndView(form);
+            }
             if (attachmentFile != null && !StringUtils.isBlank(attachmentFile.getOriginalFilename())) {
                 if (attachmentFile.getSize() == 0) {
                     GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS,

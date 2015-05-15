@@ -2140,7 +2140,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             }
         }
 
-        if (stringBuilder != null && stringBuilder.length() > 0 || isbnList.size() > 0 || platformProviderList.size() > 0) {
+        if (stringBuilder != null && stringBuilder.length() > 0 || isbnList.size() > 0 || platformProviderList.size() > 0 || packageStatusList.size() > 0) {
 
             OLEGOKBSearchDaoOjb olegokbSearchDaoOjb = (OLEGOKBSearchDaoOjb) SpringContext.getBean("oleGOKBSearchDaoOjb");
             oleGokbTipps = olegokbSearchDaoOjb.packageSearch(packageName, platformName, platformProviderList, title, isbnList, titleInstanceType, packageStatusList, platformStatusList, tippStatus);
@@ -2284,12 +2284,10 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
         KRADServiceLocatorWeb.getDocumentService().updateDocument(oleeResourceRecordDocument);
         OLEBatchProcessProfileBo gokbImportProfile = getOleeResourceHelperService().getGOKBImportProfile(oleeResourceRecordDocument.getProfile());
+        if(gokbImportProfile == null){
+            oleEResourceRecordForm.setProfileErrorMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.N0_PROFILE_SELECTED));
+        }else{
         List<BibMarcRecord> bibMarcRecords = getOleeResourceHelperService().buildBibMarcRecords(oleeResourceRecordDocument.getGoKbPlatformList(), oleeResourceRecordDocument.getOleERSIdentifier());
-//need to provide validation
-/*        if(bibMarcRecords != null && bibMarcRecords.size() > 0 && gokbImportProfile == null) {
-            return getUIFModelAndView(oleEResourceRecordForm);
-        }*/
-
         if (oleEResourceRecordForm.isImportPackageMetaDataOnly() || (bibMarcRecords != null && bibMarcRecords.size() > 0)) {
 
             OleGokbPackage oleGokbPackage = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OleGokbPackage.class, oleeResourceRecordDocument.getGoKbPackageList().get(0).getPackageId());
@@ -2300,6 +2298,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
         if (bibMarcRecords != null && bibMarcRecords.size() > 0) {
             getOleeResourceHelperService().importTipps(gokbImportProfile, bibMarcRecords);
+        }
         }
         return getUIFModelAndView(oleEResourceRecordForm);
     }
