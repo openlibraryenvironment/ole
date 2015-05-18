@@ -17,15 +17,18 @@ import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOleml
 import org.kuali.ole.docstore.common.exception.DocstoreException;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.docstore.engine.client.DocstoreLocalClient;
+import org.kuali.ole.select.document.OLEEResourceInstance;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.print.Doc;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AbstractEditor implements DocumentEditor {
 
@@ -65,6 +68,11 @@ public class AbstractEditor implements DocumentEditor {
                 getDocstoreClientLocator().getDocstoreClient().deleteBib(docId);
             }  else if(DocType.HOLDINGS.getCode().equalsIgnoreCase(editorForm.getDocType()) || DocType.EHOLDINGS.getCode().equalsIgnoreCase(editorForm.getDocType())){
                 getDocstoreClientLocator().getDocstoreClient().deleteHoldings(docId);
+                if (StringUtils.isNotBlank(docId)) {
+                    Map<String, String> map = new HashMap<>();
+                    map.put(OLEConstants.INSTANCE_ID, docId);
+                    KRADServiceLocator.getBusinessObjectService().deleteMatching(OLEEResourceInstance.class, map);
+                }
             } else if(DocType.ITEM.getCode().equalsIgnoreCase(editorForm.getDocType())){
                 getDocstoreClientLocator().getDocstoreClient().deleteItem(docId);
             }
