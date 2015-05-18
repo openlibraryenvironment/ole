@@ -405,6 +405,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         if (item.getItemStatus() != null) {
             solrInputDocument.addField(ITEM_STATUS_DISPLAY, item.getItemStatus().getCodeValue());
             solrInputDocument.addField(ITEM_STATUS_SEARCH, item.getItemStatus().getCodeValue());
+            solrInputDocument.addField(ITEM_STATUS_SORT, item.getItemStatus().getCodeValue());
         }
         if (item.getLocation() != null &&
                 item.getLocation().getLocationLevel() != null) {

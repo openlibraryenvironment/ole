@@ -116,6 +116,7 @@ public interface ItemConstants {
     public static final String CHRONOLOGY_DISPLAY = "Chronology_display";
     public static final String ITEM_STATUS_DISPLAY = "ItemStatus_display";
     public static final String ITEM_STATUS_SEARCH = "ItemStatus_search";
+    public static final String ITEM_STATUS_SORT = "ItemStatus_sort";
     public static final String LOCATION_LEVEL_SORT = "Location_sort";
     public static final String DONOR_CODE_DISPLAY = "DonorCode_display";
     public static final String CLAIMS_RETURNED_NOTE_DISPLAY = "ClaimsReturnedNote_display";
