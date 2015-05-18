@@ -312,6 +312,7 @@ public class WorkEInstanceOlemlEditor
         String editorStatusMessage = "";
         List<BibTree> bibTreeList = null;
         BibTree bibTree = null;
+        Holdings eHoldingsDoc = null;
         String user = GlobalVariables.getUserSession().getPrincipalName();
         if (StringUtils.isNotEmpty(bibId)) {
             try {
@@ -334,7 +335,7 @@ public class WorkEInstanceOlemlEditor
                     getOleEResourceSearchService().getEResourcesFields(editorForm.geteResourceId(), eHoldings, workEInstanceOlemlForm);
                     String content = getInstanceEditorFormDataHandler().buildHoldingContent(eHoldings);
                     getOleEResourceSearchService().getEResourcesLicenseFields(editorForm.geteResourceId(), workEInstanceOlemlForm);
-                    Holdings eHoldingsDoc = new EHoldings();
+                    eHoldingsDoc = new EHoldings();
                     eHoldingsDoc.setId(editorForm.getDocId());
                     eHoldingsDoc.setType(editorForm.getDocType());
                     eHoldingsDoc.setFormat(editorForm.getDocFormat());
@@ -363,7 +364,7 @@ public class WorkEInstanceOlemlEditor
                     getOleEResourceSearchService().getEResourcesFields(editorForm.geteResourceId(), eHoldings, workEInstanceOlemlForm);
                     getOleEResourceSearchService().getEResourcesLicenseFields(editorForm.geteResourceId(), workEInstanceOlemlForm);
                     String content = getInstanceEditorFormDataHandler().buildHoldingContent(eHoldings);
-                    Holdings eHoldingsDoc = new EHoldings();
+                    eHoldingsDoc = new EHoldings();
                     eHoldingsDoc.setCategory(DocCategory.WORK.getCode());
                     eHoldingsDoc.setType(DocType.EHOLDINGS.getCode());
                     eHoldingsDoc.setFormat(DocFormat.OLEML.getCode());
@@ -443,7 +444,7 @@ public class WorkEInstanceOlemlEditor
                                 processResponse(editorForm.getDocId(), editorForm.getBibId(), tempDocument.getDocumentNumber(), editorForm.getLinkToOrderOption());
                             }
                         }
-                        getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber());
+                        getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber(), eHoldingsDoc);
                         getDocumentService().updateDocument(tempDocument);
                     } catch (Exception e) {
                         LOG.error("Exception :", e);
