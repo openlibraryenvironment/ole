@@ -584,6 +584,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
             solrDoc.removeField(JOURNAL_TITLE_DISPLAY);
             solrDoc.removeField(JOURNAL_TITLE_SORT);
         }
+        addFieldToSolrDoc(record, PUBLISHER_SORT, solrDoc.getFieldValue(PUBLISHER_SEARCH), solrDoc);
         return solrDoc;
     }
 
