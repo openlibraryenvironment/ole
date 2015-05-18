@@ -92,7 +92,7 @@ public class OLEAccessActivationServiceImpl implements OLEAccessActivationServic
         }
 
 
-        if (duplicateStatus || duplicateOrderNumber || validateRole(accessActivationWorkFlow) || !validatePerson(accessActivationWorkFlow)) {
+        if (duplicateStatus || duplicateOrderNumber || !validateRole(accessActivationWorkFlow) || !validatePerson(accessActivationWorkFlow)) {
             return false;
         }
         return true;
@@ -128,10 +128,10 @@ public class OLEAccessActivationServiceImpl implements OLEAccessActivationServic
             criteria.put(OLEConstants.ACCESS_ROLE_NAME, accessActivationWorkFlow.getRoleName());
             dataSourceNameInDatabaseroleName = (List<RoleBo>) getBusinessObjectService().findMatching(RoleBo.class, criteria);
             if (dataSourceNameInDatabaseroleName != null && dataSourceNameInDatabaseroleName.size() > 0) {
-                validRole = false;
+                validRole = true;
             } else {
                 GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION, OLEConstants.ERROR_INVALID_ID_NAME);
-                validRole = true;
+                validRole = false;
             }
         } else if (accessActivationWorkFlow.getRoleId() == null && accessActivationWorkFlow.getRoleName() != null) {
             criteria = new HashMap<String, String>();
@@ -141,10 +141,10 @@ public class OLEAccessActivationServiceImpl implements OLEAccessActivationServic
             if (dataSourceNameInDatabaseroleName != null && dataSourceNameInDatabaseroleName.size() > 0) {
                 roleBo = dataSourceNameInDatabaseroleName.get(0);
                 accessActivationWorkFlow.setRoleId(roleBo.getId());
-                validRole = false;
+                validRole = true;
             } else {
                 GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION, OLEConstants.ERROR_INVALID_NAME);
-                validRole = true;
+                validRole = false;
             }
         } else if (accessActivationWorkFlow.getRoleId() != null && accessActivationWorkFlow.getRoleName() == null) {
             criteria = new HashMap<String, String>();
@@ -154,10 +154,10 @@ public class OLEAccessActivationServiceImpl implements OLEAccessActivationServic
             if (dataSourceNameInDatabaseroleName != null && dataSourceNameInDatabaseroleName.size() > 0) {
                 roleBo = dataSourceNameInDatabaseroleName.get(0);
                 accessActivationWorkFlow.setRoleName(roleBo.getName());
-                validRole = false;
+                validRole = true;
             } else {
                 GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION, OLEConstants.ERROR_INVALID_ID);
-                validRole = true;
+                validRole = false;
             }
         }
 
@@ -200,6 +200,10 @@ public class OLEAccessActivationServiceImpl implements OLEAccessActivationServic
                 GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION, OLEConstants.ERROR_INVALID_PERSON_NAME);
             }
 
+        }
+        if(accessActivationWorkFlow.getPersonId() == null && (accessActivationWorkFlow.getPersonName()!=null && accessActivationWorkFlow.getPersonName().trim().isEmpty())){
+            accessActivationWorkFlow.setPersonName(null);
+            validPerson=true;
         }
         return validPerson;
     }
