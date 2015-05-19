@@ -46,7 +46,6 @@ public class OLEAccessActivationConfigurationRule extends MaintenanceDocumentRul
         isValid &= validateUniqueAccessName(accessConfiguration);
         isValid &= validateAccessActivationWorkflows(accessConfiguration);
         isValid &= validateUniqueStatus(accessConfiguration);
-        isValid &= validateRole(accessConfiguration);
         return isValid;
     }
 
@@ -98,90 +97,6 @@ public class OLEAccessActivationConfigurationRule extends MaintenanceDocumentRul
         return true;
     }
 
-    public boolean validateRole(OLEAccessActivationConfiguration accessConfiguration) {
-        Map<String, String> criteria = new HashMap<String, String>();
-        List<RoleBo> dataSourceNameInDatabaseroleName;
-        RoleBo roleBo;
-        boolean validRole = false;
-        boolean validPerson = false;
-        if (accessConfiguration.getAccessActivationWorkflowList() != null) {
-            for (OLEAccessActivationWorkFlow workflow : accessConfiguration.getAccessActivationWorkflowList()) {
-                if (workflow.getRoleId() != null && workflow.getRoleName() != null) {
-                    criteria.put(OLEConstants.ACCESS_ROLE_ID, workflow.getRoleId());
-                    criteria.put(OLEConstants.ACCESS_ROLE_NAME, workflow.getRoleName());
-                    dataSourceNameInDatabaseroleName = (List<RoleBo>) getBoService()
-                            .findMatching(RoleBo.class, criteria);
-                    if (dataSourceNameInDatabaseroleName != null && dataSourceNameInDatabaseroleName.size() > 0) {
-                        validRole = true;
-                    } else {
-                        GlobalVariables.getMessageMap().putError(OLEConstants.ACCESS_ROLE_NAME_ID_FIELD, OLEConstants.ERROR_INVALID_ID_NAME);
-                        validRole = false;
-                    }
-                } else if (workflow.getRoleId() == null && workflow.getRoleName() != null) {
-                    criteria = new HashMap<String, String>();
-                    criteria.put(OLEConstants.ACCESS_ROLE_NAME, workflow.getRoleName());
-                    dataSourceNameInDatabaseroleName = (List<RoleBo>) getBoService()
-                            .findMatching(RoleBo.class, criteria);
-                    if (dataSourceNameInDatabaseroleName != null && dataSourceNameInDatabaseroleName.size() > 0) {
-                        roleBo = dataSourceNameInDatabaseroleName.get(0);
-                        workflow.setRoleId(roleBo.getId());
-                        validRole = true;
-                    } else {
-                        GlobalVariables.getMessageMap().putError(OLEConstants.ACCESS_ROLE_NAME_ID_FIELD, OLEConstants.ERROR_INVALID_NAME);
-                        validRole = false;
-                    }
-                } else if (workflow.getRoleId() != null && workflow.getRoleName() == null) {
-                    criteria = new HashMap<String, String>();
-                    criteria.put(OLEConstants.ACCESS_ROLE_ID, workflow.getRoleId());
-                    dataSourceNameInDatabaseroleName = (List<RoleBo>) getBoService()
-                            .findMatching(RoleBo.class, criteria);
-                    if (dataSourceNameInDatabaseroleName != null && dataSourceNameInDatabaseroleName.size() > 0) {
-                        roleBo = dataSourceNameInDatabaseroleName.get(0);
-                        workflow.setRoleName(roleBo.getName());
-                        validRole = true;
-                    } else {
-                        GlobalVariables.getMessageMap().putError(OLEConstants.ACCESS_ROLE_NAME_ID_FIELD, OLEConstants.ERROR_INVALID_ID);
-                        validRole = false;
-                    }
-                }
-
-                if(workflow.getPersonId()!=null && workflow.getPersonName()!=null){
-                    Map<String,String> criteriaMap = new HashMap<String,String>();
-                    criteriaMap.put("principalId",workflow.getPersonId());
-                    criteriaMap.put("principalName",workflow.getPersonName());
-                    List<Person> personList = getPersonService().findPeople(criteriaMap);
-                    if(personList.size()>0){
-                        validPerson = true;
-                    }else {
-                        GlobalVariables.getMessageMap().putError(OLEConstants.ACCESS_ROLE_NAME_ID_FIELD,"invalid person Id and name" );
-                        validPerson = false;
-                    }
-                } else if(workflow.getPersonId()!=null && workflow.getPersonName()==null){
-                    Person person = getPersonService().getPerson(workflow.getPersonId());
-                    if(person!=null){
-                        validPerson =true;
-                        workflow.setPersonName(person.getName());
-                    }else{
-                        validPerson = false;
-                        GlobalVariables.getMessageMap().putError(OLEConstants.ACCESS_ROLE_NAME_ID_FIELD,"invalid person Idid" );
-                    }
-
-                }
-                else if(workflow.getPersonId()==null && workflow.getPersonName()!=null && !workflow.getPersonName().isEmpty()){
-                    Person person = getPersonService().getPersonByPrincipalName(workflow.getPersonId());
-                    if(person!=null){
-                        validPerson =true;
-                        workflow.setPersonId(person.getPrincipalId());
-                    }else{
-                        validPerson = false;
-                        GlobalVariables.getMessageMap().putError(OLEConstants.ACCESS_ROLE_NAME_ID_FIELD,"invalid person Name id" );
-                    }
-
-                }
-            }
-        }
-        return validRole&&validPerson;
-    }
 
     private boolean validateAccessActivationWorkflows(OLEAccessActivationConfiguration accessConfiguration) {
         boolean isValid = true;
