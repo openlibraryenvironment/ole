@@ -26,6 +26,7 @@ public interface ItemConstants {
 
     public static final String CALL_NUMBER_TYPE_SEARCH = "CallNumberType_search";
     public static final String CALL_NUMBER_SEARCH = "CallNumber_search";
+    public static final String CALL_NUMBER_SORT = "CallNumber_sort";
     public static final String CALL_NUMBER_PREFIX_SEARCH = "CallNumberPrefix_search";
     public static final String CLASSIFICATION_PART_SEARCH = "ClassificationPart_search";
     public static final String SHELVING_SCHEME_VALUE_SEARCH = "ShelvingSchemeValue_search";

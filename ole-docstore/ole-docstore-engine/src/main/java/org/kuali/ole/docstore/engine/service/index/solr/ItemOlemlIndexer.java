@@ -287,6 +287,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
                 itemCallNumber = item.getCallNumber().getNumber();
                 solrInputDocument.addField(CALL_NUMBER_SEARCH, item.getCallNumber().getNumber());
                 solrInputDocument.addField(CALL_NUMBER_DISPLAY, item.getCallNumber().getNumber());
+                solrInputDocument.addField(CALL_NUMBER_SORT, item.getCallNumber().getNumber());
             }
         }
 

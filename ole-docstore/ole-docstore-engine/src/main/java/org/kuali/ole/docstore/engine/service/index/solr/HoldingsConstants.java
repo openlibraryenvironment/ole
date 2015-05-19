@@ -17,6 +17,7 @@ public interface HoldingsConstants {
     public static final String ITEM_PART_DISPLAY = "ItemPart_display";
 
     public static final String CALL_NUMBER_TYPE_SEARCH = "CallNumberType_search";
+    public static final String CALL_NUMBER_SORT = "CallNumber_sort";
     public static final String CALL_NUMBER_SEARCH = "CallNumber_search";
     public static final String CALL_NUMBER_PREFIX_SEARCH = "CallNumberPrefix_search";
     public static final String CLASSIFICATION_PART_SEARCH = "ClassificationPart_search";

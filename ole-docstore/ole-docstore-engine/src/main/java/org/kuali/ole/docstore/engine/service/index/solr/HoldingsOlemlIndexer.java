@@ -153,6 +153,7 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
         if (oleHoldings.getCallNumber() != null) {
             solrDocForHolding.addField(CALL_NUMBER_TYPE_SEARCH, oleHoldings.getCallNumber().getType());
             solrDocForHolding.addField(CALL_NUMBER_SEARCH, oleHoldings.getCallNumber().getNumber());
+            solrDocForHolding.addField(CALL_NUMBER_SORT, oleHoldings.getCallNumber().getNumber());
             solrDocForHolding.addField(ITEM_PART_SEARCH, oleHoldings.getCallNumber().getItemPart());
             solrDocForHolding.addField(CALL_NUMBER_PREFIX_SEARCH, oleHoldings.getCallNumber().getPrefix());
             solrDocForHolding.addField(CLASSIFICATION_PART_SEARCH, oleHoldings.getCallNumber().getClassificationPart());
