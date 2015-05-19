@@ -168,7 +168,7 @@
         </property>
     </bean>
 
-    <bean id="Title-Browse-BibSearchResults-section" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean id="Title-Browse-BibSearchResults-section" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{browseField eq 'title'}">
         <property name="headerText" value="Browse Results:"/>
         <property name="items">
             <list>
