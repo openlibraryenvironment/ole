@@ -53,7 +53,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
+            <property name="paramType">multi-value</property>
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
@@ -228,8 +228,7 @@ if(dbVendor!=null){
 	    this.queryText = this.queryText+" and (ODPB.CRTE_DT_TIME between '"+params["From"].value+"' AND '"+params["To"].value+"')";
 	}
 }
-
-this.queryText = this.queryText+" and ODBT.DLVR_BORR_TYP_NM = '"+params["Patron Type"].value+"'";]]></method>
+this.queryText = this.queryText+" and ODBT.DLVR_BORR_TYP_NM IN ('"+params["Patron Type"].value.join("','")+"')";]]></method>
             <method name="onFetch"><![CDATA[dataSetRow["Library"] = deliverReport.getLibraryLocation(dataSetRow["Location"],dataSetRow["Location Level"]);]]></method>
             <property name="dataSource">CashTransactions</property>
             <list-property name="resultSet">

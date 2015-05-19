@@ -38,7 +38,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="From" id="56">
-            <text-property name="promptText">Laon Date From</text-property>
+            <text-property name="promptText">Loan Date From</text-property>
             <property name="valueType">static</property>
             <property name="dataType">date</property>
             <property name="distinct">true</property>
@@ -50,7 +50,7 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="To" id="57">
-            <text-property name="promptText">Laon Date To</text-property>
+            <text-property name="promptText">Loan Date To</text-property>
             <property name="valueType">static</property>
             <property name="dataType">date</property>
             <property name="distinct">true</property>

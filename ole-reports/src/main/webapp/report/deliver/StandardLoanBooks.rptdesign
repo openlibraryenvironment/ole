@@ -24,7 +24,7 @@
         </scalar-parameter>
     </parameters>
     <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="StandrdLoanBooks" id="7">
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="StandardLoanBooks" id="7">
             <list-property name="privateDriverProperties">
                 <ex-property>
                     <name>metadataBidiFormatStr</name>
@@ -125,7 +125,7 @@
             </structure>
             <method name="beforeOpen"><![CDATA[this.queryText = this.queryText+ " and  OCIT.ITM_TYP_NM = '"+params["Item Type"].value+"'";
 ]]></method>
-            <property name="dataSource">StandrdLoanBooks</property>
+            <property name="dataSource">StandardLoanBooks</property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
@@ -205,7 +205,7 @@ ODI.HOLDINGS_ID =  ODH.HOLDINGS_ID]]></xml-property>
                     </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">StandrdLoanBooks</property>
+            <property name="dataSource">StandardLoanBooks</property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
@@ -269,7 +269,7 @@ OLE_CAT_ITM_TYP_T]]></xml-property>
             <property name="fontSize">12pt</property>
             <property name="fontWeight">bold</property>
             <property name="textAlign">center</property>
-            <text-property name="text">Standrad Loan Books</text-property>
+            <text-property name="text">Standard Loan Books</text-property>
         </label>
         <label id="12"/>
         <table id="13">
