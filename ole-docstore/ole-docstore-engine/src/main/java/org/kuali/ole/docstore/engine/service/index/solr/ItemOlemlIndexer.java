@@ -287,7 +287,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
                 itemCallNumber = item.getCallNumber().getNumber();
                 solrInputDocument.addField(CALL_NUMBER_SEARCH, item.getCallNumber().getNumber());
                 solrInputDocument.addField(CALL_NUMBER_DISPLAY, item.getCallNumber().getNumber());
-                solrInputDocument.addField(CALL_NUMBER_SORT, item.getCallNumber().getNumber());
+                solrInputDocument.setField(CALL_NUMBER_SORT, item.getCallNumber().getNumber());
             }
         }
 
@@ -385,7 +385,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
                 solrInputDocument.addField(CALLNUMBER_PREFIX_SORT, item.getCallNumber().getPrefix());
             }
             if (item.getCallNumber() != null && item.getCallNumber().getNumber() != null) {
-                solrInputDocument.addField(CALLNUMBER_SORT, item.getCallNumber().getNumber());
+                solrInputDocument.setField(CALLNUMBER_SORT, item.getCallNumber().getNumber());
             }
             if (item.getEnumeration() != null) {
                 String enumerationSort = getNormalizedEnumeration(item.getEnumeration());
