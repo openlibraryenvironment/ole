@@ -363,8 +363,10 @@ public class OLESearchController extends UifControllerBase {
             int totlaPages = totalcount/pageSize;
             int lastNumber= pageSize*totlaPages;
             int lastPage = totalcount - pageSize;
+            oleSearchForm.setPageNumber(Integer.toString(totlaPages));
             if(lastNumber < totalcount){
                 lastPage = lastNumber;
+                oleSearchForm.setPageNumber(Integer.toString(totlaPages+1));
             }
             int start = Math.max(0, lastPage);
             searchParams.setStartIndex(start);
