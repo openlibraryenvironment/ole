@@ -705,7 +705,7 @@
                      tableName="OLE_E_RES_ACC_ACT_CONFIG_T">
             <column name="ACC_ACT_ID"   type="VARCHAR(10)"/>
             <column name="WRK_FLW_NAME"   type="VARCHAR(40)"/>
-            <column name="APPROVAL_TYPE"   type="VARCHAR(40)"/>
+            <column name="WRK_FLW_TYPE"   type="VARCHAR(40)"/>
             <column name="WRK_FLW_STATUS"   type="VARCHAR(40)"/>
             <column name="ROW_ACT_IND"   type="VARCHAR(1)"/>
             <column name="VER_NBR" type="DECIMAL(8)"/>
@@ -4926,5 +4926,15 @@
                         tableName="OLE_DS_LICENSE_T"/>
 
     </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_E_RES_REC_T_1">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_E_RES_REC_T">
+            <column name="WRK_FLW_STAT" type="varchar(40)"/>
+        </addColumn>
+    </changeSet>
+
+
 
 </databaseChangeLog>

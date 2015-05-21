@@ -5,11 +5,11 @@
     <bean id="OLEAccessActivationConfiguration-parentbean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEAccessActivationConfiguration"/>
     <!--<property name="titleAttribute" value="orderNo"/>-->
-    <property name="objectLabel" value="Access Activation Configuration"/>
+    <property name="objectLabel" value="E-Resource Custom Workflow Configuration"/>
     <property name="attributes">
             <list>
                 <ref bean="OLEAccessActivationConfiguration-workflowName"/>
-                <ref bean="OLEAccessActivationConfiguration-approvalType"/>
+                <ref bean="OLEAccessActivationConfiguration-workflowType"/>
                 <ref bean="OLEAccessActivationConfiguration-workflowCompletionStatus"/>
                 <ref bean="OLEAccessActivationConfiguration-active"/>
             </list>
@@ -55,14 +55,14 @@
     </bean>
 
 
-    <bean id="OLEAccessActivationConfiguration-approvalType" parent="OLEAccessActivationConfiguration-approvalType-parentBean"/>
+    <bean id="OLEAccessActivationConfiguration-workflowType" parent="OLEAccessActivationConfiguration-workflowType-parentBean"/>
 
-    <bean id="OLEAccessActivationConfiguration-approvalType-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="OLEAccessActivationConfiguration-workflowType-parentBean" abstract="true" parent="AttributeDefinition">
 
-        <property name="name" value="approvalType"/>
+        <property name="name" value="workflowType"/>
         <property name="forceUppercase" value="true"/>
-        <property name="label" value="Approval Type"/>
-        <property name="shortLabel" value="approvalType"/>
+        <property name="label" value="Workflow Type"/>
+        <property name="shortLabel" value="workflowType"/>
         <property name="maxLength" value="50"/>
         <property name="required" value="false"/>
         <property name="validCharactersConstraint">
@@ -96,13 +96,13 @@
     <!-- Business Object Inquiry Definition -->
 
     <bean id="OLEAccessActivationConfiguration-InquiryView" parent="Uif-OLEInquiryView">
-        <property name="headerText" value="Access Activation Configuration"/>
+        <property name="headerText" value="E-Resource Custom Workflow Configuration"/>
         <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEAccessActivationConfiguration" />
 
         <property name="items">
             <list>
                 <bean parent="Uif-Disclosure-VerticalBoxSection">
-                    <property name="header.headerText" value="Access Activation Configuration" />
+                    <property name="header.headerText" value="E-Resource Custom Workflow Configuration" />
                     <property name="items">
                         <list>
 
@@ -110,6 +110,7 @@
                                 <property name="items">
                                     <list>
                                         <bean id="inquiry_workflowName" parent="Uif-InputField" p:propertyName="workflowName" />
+                                        <bean id="inquiry_workflowType" parent="Uif-InputField" p:propertyName="workflowType" />
                                         <bean id="inquiry_workflowCompletionStatus" parent="Uif-InputField" p:propertyName="workflowCompletionStatus" />
                                         <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active" />
                                     </list>
@@ -126,7 +127,7 @@
 
 
     <bean id="OLEAccessActivationConfiguration-LookupView" parent="Uif-OLELookupView">
-        <property name="headerText" value="Access Activation Configuration Lookup" />
+        <property name="headerText" value="E-Resource Custom Workflow Configuration" />
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"

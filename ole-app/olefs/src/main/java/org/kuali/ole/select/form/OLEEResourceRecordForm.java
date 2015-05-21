@@ -89,6 +89,15 @@ public class OLEEResourceRecordForm extends TransactionalDocumentFormBase {
     private String packageId;
     private boolean access ;
     private String profileErrorMessage;
+    public boolean canApprove;
+
+    public boolean isCanApprove() {
+        return canApprove;
+    }
+
+    public void setCanApprove(boolean canApprove) {
+        this.canApprove = canApprove;
+    }
      public OLEEResourceRecordForm() {
         super();
         this.selectedPOType = OLEConstants.OLEEResourceRecord.ONE_PO_PER_TITLE;

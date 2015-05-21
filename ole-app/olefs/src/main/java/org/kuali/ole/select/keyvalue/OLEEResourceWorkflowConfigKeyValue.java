@@ -21,7 +21,7 @@ public class OLEEResourceWorkflowConfigKeyValue extends KeyValuesBase {
         Collection<OLEAccessActivationConfiguration> oleAccessActivationConfigurations = KRADServiceLocator.getBusinessObjectService().findAll(OLEAccessActivationConfiguration.class);
         keyValues.add(new ConcreteKeyValue("",""));
         for (OLEAccessActivationConfiguration oleAccessActivationConfiguration : oleAccessActivationConfigurations) {
-            if (oleAccessActivationConfiguration.isActive()) {
+            if (oleAccessActivationConfiguration.isActive() && oleAccessActivationConfiguration.getWorkflowType().equals("accessActivation")) {
                 keyValues.add(new ConcreteKeyValue(oleAccessActivationConfiguration.getAccessActivationConfigurationId(), oleAccessActivationConfiguration.getWorkflowName()));
             }
         }

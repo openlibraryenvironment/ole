@@ -1913,14 +1913,14 @@ public class OLEEResourceHelperService {
 
     public void setAccessInfo(OLEEResourceRecordDocument oleeResourceRecordDocument) {
         if (StringUtils.isNotBlank(oleeResourceRecordDocument.getOleAccessActivationDocumentNumber())) {
-            DocumentService documentService = GlobalResourceLoader.getService(OLEConstants.DOCUMENT_HEADER_SERVICE);
+           // DocumentService documentService = GlobalResourceLoader.getService(OLEConstants.DOCUMENT_HEADER_SERVICE);
             try {
                 boolean hasPermission = false;
                 PermissionService service = KimApiServiceLocator.getPermissionService();
                 if (GlobalVariables.getUserSession() != null && StringUtils.isNotBlank(GlobalVariables.getUserSession().getPrincipalId())) {
                     hasPermission = service.hasPermission(GlobalVariables.getUserSession().getPrincipalId(), OLEConstants.SELECT_NMSPC, "Edit E-Resource Record");
                 }
-                MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(oleeResourceRecordDocument.getOleAccessActivationDocumentNumber());
+                MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) getDocumentService().getByDocumentHeaderId(oleeResourceRecordDocument.getOleAccessActivationDocumentNumber());
                 String accessActivationDocumentStatus = maintenanceDocumentBase.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
                 if (!(hasPermission && accessActivationDocumentStatus.equalsIgnoreCase("s"))) {
                     oleeResourceRecordDocument.setAccessReadOnly(true);
@@ -1943,7 +1943,7 @@ public class OLEEResourceHelperService {
     public void createOrUpdateAccessWorkflow(OLEEResourceRecordDocument oleeResourceRecordDocument) {
         if (StringUtils.isNotBlank(oleeResourceRecordDocument.getOleAccessActivationDocumentNumber())) {
             try {
-                MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(oleeResourceRecordDocument.getOleAccessActivationDocumentNumber());
+                MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) getDocumentService().getByDocumentHeaderId(oleeResourceRecordDocument.getOleAccessActivationDocumentNumber());
                 String accessActivationDocumentStatus = maintenanceDocumentBase.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
                 if (accessActivationDocumentStatus.equalsIgnoreCase("s")) {
                     OLEEResourceAccessActivation oleeResourceAccessActivation = (OLEEResourceAccessActivation) maintenanceDocumentBase.getNewMaintainableObject().getDataObject();

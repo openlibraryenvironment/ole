@@ -14,7 +14,7 @@ public class OLEAccessActivationConfiguration extends PersistableBusinessObjectB
 
     private String accessActivationConfigurationId;
     private String workflowName;
-    private String approvalType;
+    private String workflowType;
     private String workflowCompletionStatus;
     private List<OLEAccessActivationWorkFlow> accessActivationWorkflowList = new ArrayList<OLEAccessActivationWorkFlow>();
     private boolean active;
@@ -51,12 +51,12 @@ public class OLEAccessActivationConfiguration extends PersistableBusinessObjectB
         this.accessActivationWorkflowList = accessActivationWorkflowList;
     }
 
-    public String getApprovalType() {
-        return approvalType;
+    public String getWorkflowType() {
+        return workflowType;
     }
 
-    public void setApprovalType(String approvalType) {
-        this.approvalType = approvalType;
+    public void setWorkflowType(String workflowType) {
+        this.workflowType = workflowType;
     }
 
     public String getWorkflowCompletionStatus() {

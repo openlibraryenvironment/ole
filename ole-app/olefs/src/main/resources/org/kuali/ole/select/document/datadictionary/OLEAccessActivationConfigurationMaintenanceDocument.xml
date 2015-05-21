@@ -19,7 +19,7 @@
     </bean>
     <bean id="OLEAccessActivationConfigurationMaintenanceDocument-MaintenanceView" parent="Uif-OLEMaintenanceView">
         <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEAccessActivationConfiguration"/>
-        <property name="headerText" value="Access Activation Workflow Configuration"/>
+        <property name="headerText" value="E-Resource Custom Workflow Configuration"/>
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
@@ -36,25 +36,24 @@
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-MaintenanceGridSection">
-                    <property name="headerText" value="Add/Edit Access Activation Workflow Configuration"/>
+                    <property name="headerText" value="Add/Edit E-Resource Custom Workflow Configuration"/>
                     <property name="items">
                         <list>
                             <bean id="create_workflowName" parent="Uif-InputField" p:propertyName="workflowName" p:required="true"/>
                             <bean id="create_workflowCompletionStatus" parent="Uif-InputField" p:propertyName="workflowCompletionStatus" p:required="true"/>
-<!--
-                            <bean id="create_approvalType" parent="Uif-InputField" p:propertyName="approvalType">
+                            <bean id="create_workflowType" parent="Uif-InputField" p:propertyName="workflowType">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
                                             <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="All" p:value="All"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="First" p:value="First"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="accessActivation" p:value="Access Activation"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="cancellation" p:value="Cancellation"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="renewal" p:value="Renewal"/>
                                             </list>
                                         </property>
                                     </bean>
                                 </property>
                             </bean>
--->
                             <bean id="create_activeIndicator" parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
                         </list>
                     </property>
@@ -82,7 +81,7 @@
     </bean>
 
     <bean id="OLEAccessActivationConfigurationMaintenanceDocument-AccessActivationWorkflow" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="true">
-        <property name="headerText" value="Access Activation WorkFlow" />
+        <property name="headerText" value="Workflow Configuration" />
         <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEAccessActivationWorkFlow" />
         <property name="propertyName" value="accessActivationWorkflowList" />
         <property name="layoutManager.renderSequenceField" value="false" />

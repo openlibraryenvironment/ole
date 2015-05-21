@@ -18,7 +18,7 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="WRK_FLW_NAME" size="40" type="VARCHAR"/>
-        <column name="APPROVAL_TYPE" size="40" type="VARCHAR"/>
+        <column name="WRK_FLW_TYPE" size="40" type="VARCHAR"/>
         <column name="WRK_FLW_STATUS" size="40" type="VARCHAR"/>
         <column default="Y" name="ROW_ACT_IND" size="1" type="VARCHAR"/>
     </table>
@@ -1358,6 +1358,7 @@
         <column name="FD_CD" size="10" type="VARCHAR"/>
         <!--<column name="VNDR_HDR_GNRTD_ID" size="10" type="DECIMAL"/>
         <column name="VNDR_DTL_ASND_ID" size="10" type="DECIMAL"/>-->
+        <column name="WRK_FLW_STAT" size="40" type="VARCHAR"/>
         <column name="VNDR_NM" size="40" type="VARCHAR"/>
         <column name="VNDR_ID" size="40" type="VARCHAR"/>
         <column name="ESTD_PR" size="40" type="VARCHAR"/>

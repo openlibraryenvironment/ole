@@ -5092,7 +5092,7 @@
     <class-descriptor class="org.kuali.ole.select.bo.OLEAccessActivationConfiguration" table="OLE_E_RES_ACC_ACT_CONFIG_T">
         <field-descriptor name="accessActivationConfigurationId" column="ACC_ACT_ID" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" sequence-name="OLE_E_RES_ACC_ACT_CONFIG_S"/>
         <field-descriptor name="workflowName" column="WRK_FLW_NAME" jdbc-type="VARCHAR"/>
-        <field-descriptor name="approvalType" column="APPROVAL_TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="workflowType" column="WRK_FLW_TYPE" jdbc-type="VARCHAR"/>
         <field-descriptor name="workflowCompletionStatus" column="WRK_FLW_STATUS" jdbc-type="VARCHAR"/>
         <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -5312,6 +5312,7 @@
         <field-descriptor name="statusDate" column="STAT_DT" jdbc-type="VARCHAR" />
         <!--<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" />
         <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" />-->
+        <field-descriptor name="workflowStatus" column="WRK_FLW_STAT" jdbc-type="VARCHAR" />
         <field-descriptor name="vendorName" column="VNDR_NM" jdbc-type="VARCHAR" />
         <field-descriptor name="vendorId" column="VNDR_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="estimatedPrice" column="ESTD_PR" jdbc-type="VARCHAR" />

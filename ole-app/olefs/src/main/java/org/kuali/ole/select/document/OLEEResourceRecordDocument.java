@@ -235,7 +235,16 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
 
     private boolean singlePlatform=true;
     private Integer singlePaltformId;
+    private String workflowStatus;
 
+
+    public String getWorkflowStatus() {
+        return workflowStatus;
+    }
+
+    public void setWorkflowStatus(String workflowStatus) {
+        this.workflowStatus = workflowStatus;
+    }
 
     public boolean isSinglePlatform() {
         return singlePlatform;

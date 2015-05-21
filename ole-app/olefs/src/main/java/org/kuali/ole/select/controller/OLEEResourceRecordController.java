@@ -34,10 +34,15 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.api.parameter.ParameterKey;
+import org.kuali.rice.kew.actionitem.ActionItem;
+import org.kuali.rice.kew.actionrequest.ActionRequestValue;
+import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -52,10 +57,8 @@ import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.maintenance.MaintenanceLock;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.*;
+import org.kuali.rice.krad.service.impl.DocumentHeaderServiceImpl;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -63,6 +66,7 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.web.controller.TransactionalDocumentControllerBase;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -164,12 +168,21 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
         OLEEResourceRecordForm oleeResourceRecordForm = (OLEEResourceRecordForm) form;
         oleeResourceRecordForm.setSearchUrl(ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base") + "/ole-kr-krad/oleERSController?viewId=OLEEResourceSearchView&methodToCall=start");
+
         request.getSession().setAttribute("formKeyValue", oleeResourceRecordForm.getFormKey());
         ModelAndView modelAndView = super.docHandler(oleeResourceRecordForm, result, request, response);
         OLEEResourceRecordForm kualiForm = (OLEEResourceRecordForm) modelAndView.getModel().get("KualiForm");
         HttpSession session = request.getSession();
         //session.removeAttribute("createChildEResource");
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) kualiForm.getDocument();
+        List<ActionItem> actionItems = (List<ActionItem>)KEWServiceLocator.getActionListService().findByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
+        if(actionItems!=null && actionItems.size()>0){
+            for(ActionItem actionItem : actionItems){
+                if(GlobalVariables.getUserSession().getPrincipalId().equals(actionItem.getPrincipalId()) ){
+                    oleeResourceRecordForm.setCanApprove(true);
+                }
+            }
+        }
         if (session.getAttribute("createChildEResource") != null) {
             String oleeResourceInstancesIdentifier = (String) session.getAttribute("oleeResourceInstancesIdentifier");
             String[] identifiers = oleeResourceInstancesIdentifier.split(",");
@@ -688,7 +701,13 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         }
         getOleEResourceSearchService().processEventAttachments(oleeResourceRecordDocument.getOleERSEventLogs());
         getOleeResourceHelperService().createOrUpdateAccessWorkflow(oleeResourceRecordDocument);
-        return super.approve(oleERSform, result, request, response);
+        super.approve(oleERSform, result, request, response);
+        if(oleeResourceRecordDocument.getDocumentHeader().getWorkflowDocument().getStatus().getCode().equals("F")){
+            DocumentRouteHeaderValue documentBo = KEWServiceLocator.getRouteHeaderService().getRouteHeader(oleeResourceRecordDocument.getDocumentNumber());
+            documentBo.setDocRouteStatus("S");
+            KEWServiceLocator.getRouteHeaderService().saveRouteHeader(documentBo);
+        }
+        return getUIFModelAndView(oleERSform);
     }
 
     /*@Override
@@ -2739,42 +2758,232 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=downloadEventAttachment1")
-    public ModelAndView downloadEventAttachment1(@ModelAttribute("KualiForm") TransactionalDocumentFormBase form, BindingResult result,
-                                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
-        OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
-        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
-        int index = Integer.parseInt(oleEResourceRecordForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        OLEEResourceEventLog oleeResourceEventLog = oleeResourceRecordDocument.getOleERSEventLogs().get(index);
-        getOleEResourceSearchService().downloadAttachment(response, oleeResourceEventLog.getOleEResEventLogID(), oleeResourceEventLog.getAttachmentFileName1(), oleeResourceEventLog.getAttachmentContent1(), oleeResourceEventLog.getAttachmentMimeType1());
-        return super.navigate(oleEResourceRecordForm, result, request, response);
-    }
 
-    @RequestMapping(params = "methodToCall=downloadEventAttachment2")
-    public ModelAndView downloadEventAttachment2(@ModelAttribute("KualiForm") TransactionalDocumentFormBase form, BindingResult result,
-                                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
-        OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
-        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
-        int index = Integer.parseInt(oleEResourceRecordForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        OLEEResourceEventLog oleeResourceEventLog = oleeResourceRecordDocument.getOleERSEventLogs().get(index);
-        getOleEResourceSearchService().downloadAttachment(response, oleeResourceEventLog.getOleEResEventLogID(), oleeResourceEventLog.getAttachmentFileName2(), oleeResourceEventLog.getAttachmentContent2(), oleeResourceEventLog.getAttachmentMimeType2());
-        return super.navigate(oleEResourceRecordForm, result, request, response);
-    }
 
-    @RequestMapping(params = "methodToCall=saveGokbData")
-    public ModelAndView saveGokbData(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+
+    @RequestMapping(params = "methodToCall=renewOrCancelEresourceDocument")
+    public ModelAndView renewOrCancelEresourceDocument(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
-        for (OLEGOKbMappingValue olegoKbMappingValue : oleeResourceRecordDocument.getOleGOKbMappingValueList()) {
-            if (olegoKbMappingValue.isReset()) {
-                getBusinessObjectService().delete(olegoKbMappingValue);
+        OLEAccessActivationWorkFlow accessActivationWorkFlow = null;
+        Map<String, String> accessConfigMap = new HashMap<String, String>();
+        accessConfigMap.put("accessActivationConfigurationId", oleeResourceRecordDocument.getEresourceWorkflowIndication());
+        List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows = (List<OLEAccessActivationWorkFlow>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(OLEAccessActivationWorkFlow.class, accessConfigMap, "orderNo", true);
+        if (oleAccessActivationWorkFlows != null && oleAccessActivationWorkFlows.size() > 0) {
+            boolean found = false;
+            for (int i = 0; i < oleAccessActivationWorkFlows.size(); i++) {
+                accessActivationWorkFlow = oleAccessActivationWorkFlows.get(i);
+                oleeResourceRecordDocument.setWorkflowStatus(accessActivationWorkFlow.getStatus());
+                List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
+                org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
+                Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
+                List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
+                AdHocRoutePerson adHocRoutePerson;
+                StringBuffer currentOwnerBuffer = new StringBuffer();
+                if (principals != null && principals.size() > 0) {
+                    found = true;
+                    for (Principal principal : principals) {
+                        currentOwnerBuffer.append(principal.getPrincipalName() + ",");
+                        adHocRoutePerson = new AdHocRoutePerson();
+                        adHocRoutePerson.setId(principal.getPrincipalId());
+                        adHocRoutePerson.setName(principal.getPrincipalName());
+                        adHocRoutePerson.setActionRequested("A");
+                        adHocRoutePerson.setdocumentNumber(oleeResourceRecordDocument.getDocumentNumber());
+                        adHocRoutePerson.setType(0);
+                        adHocRouteRecipients.add(adHocRoutePerson);
+                    }                    List<AdHocRouteRecipient> adHocRouteRecipientList = new ArrayList<AdHocRouteRecipient>();
+                    adHocRouteRecipientList.addAll(adHocRouteRecipients);
+                    try {
+                        getDocumentService().routeDocument(oleeResourceRecordDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + role.getName(), adHocRouteRecipientList);
+                   /*    ActionRequestValue actionRequestValue = new ActionRequestValue();
+                        KEWServiceLocator.getActionListService().createActionItemForActionRequest(actionRequestValue);
+                   */     List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(oleeResourceRecordDocument.getDocumentNumber());
+                        ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
+                        actionTakenValue.setAnnotation("Initiated the access activation workflow");
+                        KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
             }
-        }
+            if (!found) {
+                try {
+                    DocumentRouteHeaderValue documentBo = KEWServiceLocator.getRouteHeaderService().getRouteHeader(oleeResourceRecordDocument.getDocumentNumber());
+                    documentBo.setDocRouteStatus("S");
+                    getBusinessObjectService().save(documentBo);
+                    getDocumentService().saveDocument(oleeResourceRecordDocument);
+                    List<ActionRequestValue> actionRequestValueList = KEWServiceLocator.getActionRequestService().findAllPendingRequests(oleeResourceRecordDocument.getDocumentNumber());
+                    KEWServiceLocator.getActionRequestService().deleteByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
+                    KEWServiceLocator.getActionListService().deleteByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
+                    ActionTakenValue actionTakenValue;
+                    for (ActionRequestValue actionRequestValue : actionRequestValueList) {
+                        if (actionRequestValue.getPrincipalId().equalsIgnoreCase(GlobalVariables.getUserSession().getPrincipalId())) {
+                            actionTakenValue = new ActionTakenValue();
+                            actionTakenValue.setAnnotation("Approved status : " + oleeResourceRecordDocument.getWorkflowStatus());
+                            actionTakenValue.setActionDate(new Timestamp(System.currentTimeMillis()));
+                            actionTakenValue.setActionTaken("A");
+                            actionTakenValue.setDocumentId(actionRequestValue.getDocumentId());
+                            actionTakenValue.setPrincipalId(actionRequestValue.getPrincipalId());
+                            actionTakenValue.setDocVersion(1);
+                            KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
+                        }
+                    }
+
+                    return getUIFModelAndView(form);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            List<ActionItem> actionItems = (List<ActionItem>)KEWServiceLocator.getActionListService().findByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
+            if(actionItems!=null && actionItems.size()>0){
+                for(ActionItem actionItem : actionItems){
+                    if(GlobalVariables.getUserSession().getPrincipalId().equals(actionItem.getPrincipalId())){
+                        form.setCanApprove(true);
+                    }
+                }
+            }
+        } else {
+        GlobalVariables.getMessageMap().putError("accessActivationConfigurationId", "Invalid workflow");
         return getUIFModelAndView(form);
+    }
+    return getUIFModelAndView(form);
     }
 
 
+
+
+    @RequestMapping(params = "methodToCall=approveRenewOrCancelEresource")
+    public ModelAndView approveRenewOrCancelEresource(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                                       HttpServletRequest request, HttpServletResponse response) {
+        OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
+        String previousStatus = oleeResourceRecordDocument.getWorkflowStatus();
+        ActionRequestService actionRequestService = KEWServiceLocator.getActionRequestService();
+        Map<String, String> accessConfigMap = new HashMap<String, String>();
+        accessConfigMap.put("accessActivationConfigurationId", oleeResourceRecordDocument.getEresourceWorkflowIndication());
+        List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows = (List<OLEAccessActivationWorkFlow>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(OLEAccessActivationWorkFlow.class, accessConfigMap, "orderNo", true);
+        OLEAccessActivationWorkFlow accessActivationWorkFlow = null;
+        if (oleAccessActivationWorkFlows != null && oleAccessActivationWorkFlows.size() > 0) {
+            for (int i = 0; i < oleAccessActivationWorkFlows.size(); i++) {
+                if (oleAccessActivationWorkFlows.get(i).getStatus().equals(oleeResourceRecordDocument.getWorkflowStatus())) {
+                    if (i + 1 < oleAccessActivationWorkFlows.size()) {
+                        accessActivationWorkFlow = oleAccessActivationWorkFlows.get(i + 1);
+                        oleeResourceRecordDocument.setWorkflowStatus(accessActivationWorkFlow.getStatus());
+                        List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
+                        org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
+                        Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
+                        List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
+                        StringBuffer currentOwnerBuffer = new StringBuffer();
+                        List<String> principalIds = new ArrayList<String>();
+                        AdHocRoutePerson adHocRoutePerson;
+                        if (principals != null && principals.size() > 0) {
+                            for (Principal principal : principals) {
+                                currentOwnerBuffer.append(principal.getPrincipalName() + ",");
+                                adHocRoutePerson = new AdHocRoutePerson();
+                                adHocRoutePerson.setId(principal.getPrincipalId());
+                                adHocRoutePerson.setName(principal.getPrincipalName());
+                                adHocRoutePerson.setActionRequested("A");
+                                adHocRoutePerson.setdocumentNumber(form.getDocument().getDocumentNumber());
+                                adHocRoutePerson.setType(0);
+                                adHocRouteRecipients.add(adHocRoutePerson);
+                                principalIds.add(principal.getPrincipalId());
+                            }
+                            List<AdHocRouteRecipient> adHocRouteRecipientList = combineAdHocRecipients(form);
+                            adHocRouteRecipientList.addAll(adHocRouteRecipients);
+                            actionRequestService.deleteByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
+                            try{
+                            getDocumentService().approveDocument(form.getDocument(), "Needed Approval for the status : " + oleeResourceRecordDocument.getWorkflowStatus() + " from the members of the  Role :" + role.getName(), adHocRouteRecipientList);
+                                List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(oleeResourceRecordDocument.getDocumentNumber());
+                            ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
+                            actionTakenValue.setAnnotation("Approved Status : " + previousStatus);
+                            KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
+                            KEWServiceLocator.getActionListService().deleteByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
+                            }catch(Exception e){
+
+                            }
+                            break;
+                        }
+                    } else {
+                        try{
+                        getDocumentService().saveDocument(oleeResourceRecordDocument);
+                        List<ActionRequestValue> actionRequestValueList = KEWServiceLocator.getActionRequestService().findAllPendingRequests(oleeResourceRecordDocument.getDocumentNumber());
+                        KEWServiceLocator.getActionRequestService().deleteByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
+                        KEWServiceLocator.getActionListService().deleteByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
+                        ActionTakenValue actionTakenValue;
+                        for (ActionRequestValue actionRequestValue : actionRequestValueList) {
+                            if (actionRequestValue.getPrincipalId().equalsIgnoreCase(GlobalVariables.getUserSession().getPrincipalId())) {
+                                actionTakenValue = new ActionTakenValue();
+                                actionTakenValue.setAnnotation("Approved status : " + oleeResourceRecordDocument.getWorkflowStatus());
+                                actionTakenValue.setActionDate(new Timestamp(System.currentTimeMillis()));
+                                actionTakenValue.setActionTaken("A");
+                                actionTakenValue.setDocumentId(actionRequestValue.getDocumentId());
+                                actionTakenValue.setPrincipalId(actionRequestValue.getPrincipalId());
+                                actionTakenValue.setDocVersion(1);
+                                KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
+                            }
+                        }
+                        }catch(Exception e){
+                            e.printStackTrace();
+                        }
+                        DocumentRouteHeaderValue documentBo = KEWServiceLocator.getRouteHeaderService().getRouteHeader(oleeResourceRecordDocument.getDocumentNumber());
+                        documentBo.setDocRouteStatus("S");
+                        getBusinessObjectService().save(documentBo);
+
+                        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_ROUTE_APPROVED);
+                        return getUIFModelAndView(form);
+                    }
+                }
+            }
+        }
+        List<ActionItem> actionItems = (List<ActionItem>)KEWServiceLocator.getActionListService().findByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
+        if(actionItems!=null && actionItems.size()>0){
+            for(ActionItem actionItem : actionItems){
+                if(GlobalVariables.getUserSession().getPrincipalId().equals(actionItem.getPrincipalId())){
+                    form.setCanApprove(true);
+                }
+            }
+        }
+        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_ROUTE_APPROVED);
+        return super.navigate(form, result, request, response);
+        /*}*/
+    }
+
+        @RequestMapping(params = "methodToCall=downloadEventAttachment1")
+        public ModelAndView downloadEventAttachment1(@ModelAttribute("KualiForm") TransactionalDocumentFormBase form, BindingResult result,
+                HttpServletRequest request, HttpServletResponse response) throws Exception {
+            OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
+            OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
+            int index = Integer.parseInt(oleEResourceRecordForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+            OLEEResourceEventLog oleeResourceEventLog = oleeResourceRecordDocument.getOleERSEventLogs().get(index);
+            getOleEResourceSearchService().downloadAttachment(response, oleeResourceEventLog.getOleEResEventLogID(), oleeResourceEventLog.getAttachmentFileName1(), oleeResourceEventLog.getAttachmentContent1(), oleeResourceEventLog.getAttachmentMimeType1());
+            return super.navigate(oleEResourceRecordForm, result, request, response);
+        }
+
+        @RequestMapping(params = "methodToCall=downloadEventAttachment2")
+        public ModelAndView downloadEventAttachment2(@ModelAttribute("KualiForm") TransactionalDocumentFormBase form, BindingResult result,
+                HttpServletRequest request, HttpServletResponse response) throws Exception {
+            OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
+            OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
+            int index = Integer.parseInt(oleEResourceRecordForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+            OLEEResourceEventLog oleeResourceEventLog = oleeResourceRecordDocument.getOleERSEventLogs().get(index);
+            getOleEResourceSearchService().downloadAttachment(response, oleeResourceEventLog.getOleEResEventLogID(), oleeResourceEventLog.getAttachmentFileName2(), oleeResourceEventLog.getAttachmentContent2(), oleeResourceEventLog.getAttachmentMimeType2());
+            return super.navigate(oleEResourceRecordForm, result, request, response);
+        }
+
+        @RequestMapping(params = "methodToCall=saveGokbData")
+        public ModelAndView saveGokbData(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                HttpServletRequest request, HttpServletResponse response) {
+            OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
+            OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
+            for (OLEGOKbMappingValue olegoKbMappingValue : oleeResourceRecordDocument.getOleGOKbMappingValueList()) {
+                if (olegoKbMappingValue.isReset()) {
+                    getBusinessObjectService().delete(olegoKbMappingValue);
+                }
+            }
+            return getUIFModelAndView(form);
+        }
 }
 
 

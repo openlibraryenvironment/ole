@@ -38,6 +38,11 @@
                                   p:methodToCall="getManageGOKbDataOnERes" p:ajaxSubmit="true"
                                   p:successCallback="manageGokbPopup()"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final) and document.gokbIdentifier ne null}"/>
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="renewOrCancelEresourceDocument" p:actionLabel="Start Renew/Cancel Process" p:performClientSideValidation="true"
+                                  p:render="@{document.documentHeader.workflowDocument.saved}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approveRenewOrCancelEresource" p:actionLabel="Approve for Renew/cancel Process" p:performClientSideValidation="true"
+                                  p:render="@{document.documentHeader.workflowDocument.enroute and canApprove}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
+
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="Approve for next owner"  p:performClientSideValidation="true"
@@ -161,15 +166,11 @@
             <list>
                 <bean id="EResourceWorkflow" parent="Uif-InputField" p:propertyName="eresourceWorkflowIndication"
                       p:label="E-Resource workflow indication" >
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLEEResourceWorkflowKeyValue"/>
+                    </property>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl">
-                            <property name="options">
-                                <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="cancellation" p:value="Cancellation"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="renewal" p:value="Renewal"/>
-                                </list>
-                            </property>
-                        </bean>
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
                     </property>
                 </bean>
             </list>
@@ -183,12 +184,12 @@
                 <bean parent="Uif-VerticalBoxGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="3" >
+                            <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="4" >
                                 <property name="items">
                                     <list>
                                         <bean id="ERName" parent="Uif-Label" p:labelText="WorkFlow Name"/>
                                         <bean id="ERNeeded" parent="Uif-Label" p:labelText="Needed" p:align="center"/>
-                                        <bean id="ERStatus" parent="Uif-Label" p:labelText="Status"/>
+                                        <bean parent="Uif-DataField" p:propertyName="workflowStatus" p:label="Workflow Status"/>
                                     </list>
                                 </property>
                             </bean>
