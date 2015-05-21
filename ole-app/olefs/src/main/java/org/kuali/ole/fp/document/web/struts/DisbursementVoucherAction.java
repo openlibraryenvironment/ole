@@ -479,9 +479,12 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         wireCharge.setUniversityFiscalYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 
         wireCharge = (WireCharge) SpringContext.getBean(BusinessObjectService.class).retrieve(wireCharge);
-        Object[] args = { wireCharge.getDomesticChargeAmt(), wireCharge.getForeignChargeAmt() };
-
-        return MessageFormat.format(message, args);
+        if(wireCharge != null){
+            Object[] args = { wireCharge.getDomesticChargeAmt()!=null?wireCharge.getDomesticChargeAmt():"", wireCharge.getForeignChargeAmt()!=null?wireCharge.getForeignChargeAmt():"" };
+            return MessageFormat.format(message, args);
+        } else {
+            return MessageFormat.format(message,"");
+        }
     }
 
     /**
