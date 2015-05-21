@@ -20,7 +20,7 @@
 
     <param name="qa.ole.docstore.url.base">http://docstore.qa.ole.kuali.org</param>
     <param name="qa.ole.fs.url.base">http://qa.ole.kuali.org</param>
-    <param name="qa.ole.reports.url.base">http://reports.qa.ole.kuali.org</param>
+    <param name="qa.ole.reports.url.base">http://reports.staging.ole.kuali.org</param>
 
     <param name="tst.ole.docstore.url.base">http://tst.docstore.ole.kuali.org</param>
     <param name="tst.ole.fs.url.base">http://tst.ole.kuali.org</param>
