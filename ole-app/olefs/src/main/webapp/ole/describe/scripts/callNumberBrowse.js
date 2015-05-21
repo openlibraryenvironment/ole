@@ -51,11 +51,13 @@ jq(window).load(function() {
     })
 
     jq(".dataTables_filter").hide();
+    selectOrUnselect();
 
 });
 
 function browse(){
     jq("#hiddenSearchFields-browse_control").val(false);
+    links = [];
     common();
     return false;
 }

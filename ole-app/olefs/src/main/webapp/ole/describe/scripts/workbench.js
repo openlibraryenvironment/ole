@@ -6,6 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 //for bib
+var links = [];
 function viewWorkbenchBibView(docFormat, docId, bibId) {
     window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat=" + docFormat + "&docId=" + docId + "&bibId=" + bibId + "&editable=false");
     return false;
@@ -177,6 +178,60 @@ function submitSearching() {
     searching();
 }
 
+function getUrl(line, length) {
+    var url = jq("#BibSearchResults tbody tr:eq(" + line + ") td:eq(1) div a").attr("href") + "&pageId=WorkBibEditorViewPage";
+    if (jq("#DocumentAndSearchSelectionType_SearchType_control").val() == "search") {
+        var doctype = jq("#DocumentAndSearchSelectionType_DocType_control").val();
+        if (doctype == 'holdings') {
+            url = href = jq("#HoldingsSearchResults tbody tr:eq(" + line + ") td:eq(2) div a").attr("href") + "&pageId=WorkHoldingsViewPage";
+        }
+        else if (doctype == 'item') {
+            url = href = jq("#ItemSearchResults tbody tr:eq(" + line + ") td:eq(2) div a").attr("href") + "&pageId=WorkItemViewPage";
+        }
+        else if (doctype == 'eHoldings') {
+            url = href = jq("#EHoldingsSearchResults tbody tr:eq(" + line + ") td:eq(2) div a").attr("href") + "&pageId=WorkEInstanceViewPage";
+        }
+
+    } else {
+        url = jq("#Title-Browse-BibSearchResults tbody tr:eq(" + line + ") td:eq(1) div a").attr("href") + "&pageId=WorkBibEditorViewPage";
+        if (jq("#CallNumberBrowse-docType-Section_control_0").is(':checked') || jq("#CallNumberBrowse-docType-Section_control_1").is(':checked')) {
+            url = jq("#CallNumberSectionResults tbody tr:eq(" + line + ") td:eq(1) div a").attr("href");
+        }
+
+    }
+    return url;
+}
+function selectOrUnselect() {
+    jq('.sorting_1').live("click", function (event) {
+        var id = event.target.id;
+        var line = id.split("line")[1].substr(0, 1);
+        var length = links.length + 1;
+        var url = getUrl(line, length);
+        if (jq("#" + id).is(':checked')) {
+            if (links.length > 0) {
+                var isAvailable = false;
+                for (i = 1; i < links.length; i++) {
+                    if (links[i] == url) {
+                        isAvailable = true;
+                    }
+                }
+                if (!isAvailable) {
+                    links[length] = url;
+                }
+            } else {
+                links[length] = url;
+            }
+        } else {
+            for (i = 1; i < links.length; i++) {
+                if (links[i] == url) {
+                    delete links[i];
+                }
+            }
+
+        }
+    });
+}
+
 function searching() {
     jq("#hdnSortFlag_control").val("false");
 
@@ -185,6 +240,7 @@ function searching() {
     var timeTaken = (endTime - localStorage.startTime) / 1000;
     jq("#totalTime_control").text(" " + timeTaken + " ");
     selectCheckbox(jq("#DocumentAndSearchSelectionType_DocType_control").val());
+    selectOrUnselect();
 }
 
 
@@ -254,68 +310,9 @@ function openSelectAll(doctype) {
             }
         });
     } else {
-        var checkedcount = 0;
-        if (doctype == 'bibliographic') {
-            var length = jq("#BibSearchResults tbody tr").length;
-            for (var count = 0; count < length; count++) {
-                if (jq("#BibSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
-                    window.open(jq("#BibSearchResults tbody tr:eq(" + count + ") td:eq(1) div a").attr("href") + "&pageId=WorkBibEditorViewPage");
-                    checkedcount += 1;
-                }
-            }
-
-            length = jq("#Title-Browse-BibSearchResults tbody tr").length;
-            for (var count = 0; count < length; count++) {
-                if (jq("#Title-Browse-BibSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
-                    window.open(jq("#Title-Browse-BibSearchResults tbody tr:eq(" + count + ") td:eq(1) div a").attr("href") + "&pageId=WorkBibEditorViewPage");
-                    checkedcount += 1;
-                }
-            }
-        }
-        else if (doctype == 'holdings') {
-            var length = jq("#HoldingsSearchResults tbody tr").length;
-            for (var count = 0; count < length; count++) {
-                if (jq("#HoldingsSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
-                    window.open(jq("#HoldingsSearchResults tbody tr:eq(" + count + ") td:eq(2) div a").attr("href") + "&pageId=WorkHoldingsViewPage");
-                    checkedcount += 1;
-                }
-            }
-
-            var length = jq("#CallNumberSectionResults tbody tr").length;
-            for (var count = 0; count < length; count++) {
-                if (jq("#CallNumberSectionResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
-                    window.open(jq("#CallNumberSectionResults tbody tr:eq(" + count + ") td:eq(2) div a").attr("href") + "&pageId=WorkHoldingsViewPage");
-                    checkedcount += 1;
-                }
-            }
-        }
-        else if (doctype == 'item') {
-            var length = jq("#ItemSearchResults tbody tr").length;
-            for (var count = 0; count < length; count++) {
-                if (jq("#ItemSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
-                    window.open(jq("#ItemSearchResults tbody tr:eq(" + count + ") td:eq(2) div a").attr("href") + "&pageId=WorkItemViewPage");
-                    checkedcount += 1;
-                }
-            }
-
-
-            var length = jq("#CallNumberSectionResults tbody tr").length;
-            for (var count = 0; count < length; count++) {
-                if (jq("#CallNumberSectionResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
-                    window.open(jq("#CallNumberSectionResults tbody tr:eq(" + count + ") td:eq(2) div a").attr("href") + "&pageId=WorkHoldingsViewPage");
-                    checkedcount += 1;
-                }
-            }
-        }
-        else if (doctype == 'eHoldings') {
-            var length = jq("#EHoldingsSearchResults tbody tr").length;
-            for (var count = 0; count < length; count++) {
-                if (jq("#EHoldingsSearchResults tbody tr:eq(" + count + ") td div input").is(':checked')) {
-                    window.open(jq("#EHoldingsSearchResults tbody tr:eq(" + count + ") td:eq(1) div a").attr("href") + "&pageId=WorkEInstanceViewPage");
-                    checkedcount += 1;
-                }
-
-            }
+        for(i=0;i < links.length;i++)
+        if(links[i] != null){
+            window.open(links[i]);
         }
     }
 
@@ -392,6 +389,7 @@ jq("#OLEERSSearchPanel-docType-Section").live("change", function () {
 function browse() {
     jq(".dataTables_wrapper").attr("style", "width:1200px;");
     jq("hiddenSearchFields-browse_control").val("false");
+    links = [];
     displayDialogWindow("div#MessagePopupSectionForLinkToEResource");
     return true;
 }
@@ -421,7 +419,8 @@ function search() {
     jq('#hiddenSearchFields_h3').val("Title_sort");
     jq('#hiddenSearchFields_h2').val("asc");
     var date = new Date();
-    jq("#hiddenSearchFields_h9").val("false")
+    jq("#hiddenSearchFields_h9").val("false");
+    links = [];
     localStorage.startTime = date.getMilliseconds();
     submitForm('search', null, null, true, function () {
         searching();
