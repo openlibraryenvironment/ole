@@ -7,6 +7,10 @@ import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.describe.bo.SearchResultDisplayFields;
 import org.kuali.ole.describe.bo.SearchResultDisplayRow;
+import org.kuali.ole.describe.bo.marc.structuralfields.ControlFields;
+import org.kuali.ole.describe.bo.marc.structuralfields.controlfield006.ControlField006Text;
+import org.kuali.ole.describe.bo.marc.structuralfields.controlfield007.ControlField007Text;
+import org.kuali.ole.describe.bo.marc.structuralfields.controlfield008.ControlField008;
 import org.kuali.ole.describe.form.GlobalEditForm;
 import org.kuali.ole.describe.form.OLESearchForm;
 import org.kuali.ole.describe.service.BrowseService;
@@ -16,6 +20,10 @@ import org.kuali.ole.docstore.common.client.DocstoreClient;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.config.*;
+import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecord;
+import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecords;
+import org.kuali.ole.docstore.common.document.content.bib.marc.ControlField;
+import org.kuali.ole.docstore.common.document.content.bib.marc.xstream.BibMarcRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
 import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
@@ -25,6 +33,7 @@ import org.kuali.ole.docstore.common.search.SearchResult;
 import org.kuali.ole.docstore.engine.client.DocstoreLocalClient;
 import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
 import org.kuali.ole.docstore.engine.service.index.solr.ItemConstants;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord;
 import org.kuali.ole.docstore.utility.ISBNUtil;
 import org.kuali.ole.select.bo.OLEEditorResponse;
 import org.kuali.ole.select.businessobject.OleCopy;
@@ -708,6 +717,7 @@ public class OLESearchController extends UifControllerBase {
                 BibTrees bibTrees = new BibTrees();
                 for(String id : idsToExport) {
                     BibTree bibTree =getDocstoreLocalClient().retrieveBibTree(id);
+                    setControlFields(bibTree);
                     bibTrees.getBibTrees().add(bibTree);
                 }
                 requestXml = BibTrees.serialize(bibTrees);
@@ -1493,5 +1503,16 @@ public class OLESearchController extends UifControllerBase {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.DOCTYPE_COMBINATION_ERROR, errorMessage);
         }
         return getUIFModelAndView(oleSearchForm);
+    }
+
+    public void setControlFields(BibTree bibTree) {
+        BibMarcRecordProcessor bibMarcRecordProcessor = new BibMarcRecordProcessor();
+        BibMarcRecords bibRecords = bibMarcRecordProcessor.fromXML(bibTree.getBib().getContent());
+        for (BibMarcRecord bibMarcRecord : bibRecords.getRecords()) {
+            for (ControlField controlField : bibMarcRecord.getControlFields()) {
+                controlField.setValue(controlField.getValue().replaceAll(" ", "#"));
+            }
+        }
+        bibTree.getBib().setContent(bibMarcRecordProcessor.toXml(bibRecords));
     }
 }
