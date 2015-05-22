@@ -170,19 +170,30 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         oleeResourceRecordForm.setSearchUrl(ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base") + "/ole-kr-krad/oleERSController?viewId=OLEEResourceSearchView&methodToCall=start");
 
         request.getSession().setAttribute("formKeyValue", oleeResourceRecordForm.getFormKey());
+
         ModelAndView modelAndView = super.docHandler(oleeResourceRecordForm, result, request, response);
         OLEEResourceRecordForm kualiForm = (OLEEResourceRecordForm) modelAndView.getModel().get("KualiForm");
+       String backDoorUser = request.getParameter("backdoorId");
+        if(backDoorUser == null){
+            backDoorUser = GlobalVariables.getUserSession().getPrincipalId();
+        }else{
+            backDoorUser=backDoorUser.split("=")[1];
+           Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(backDoorUser);
+            backDoorUser = person.getPrincipalId();
+        }
+
         HttpSession session = request.getSession();
         //session.removeAttribute("createChildEResource");
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) kualiForm.getDocument();
         List<ActionItem> actionItems = (List<ActionItem>)KEWServiceLocator.getActionListService().findByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
         if(actionItems!=null && actionItems.size()>0){
             for(ActionItem actionItem : actionItems){
-                if(GlobalVariables.getUserSession().getPrincipalId().equals(actionItem.getPrincipalId()) ){
+                if(backDoorUser.equals(actionItem.getPrincipalId()) ){
                     oleeResourceRecordForm.setCanApprove(true);
                 }
             }
         }
+      //  oleeResourceRecordForm.setCanApprove(true);
         if (session.getAttribute("createChildEResource") != null) {
             String oleeResourceInstancesIdentifier = (String) session.getAttribute("oleeResourceInstancesIdentifier");
             String[] identifiers = oleeResourceInstancesIdentifier.split(",");
@@ -2800,7 +2811,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                         KEWServiceLocator.getActionListService().createActionItemForActionRequest(actionRequestValue);
                    */     List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(oleeResourceRecordDocument.getDocumentNumber());
                         ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
-                        actionTakenValue.setAnnotation("Initiated the access activation workflow");
+                        actionTakenValue.setAnnotation("Initiated the Renew/Cancel workflow");
                         KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -2836,11 +2847,21 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                     e.printStackTrace();
                 }
             }
+            String backDoorUser = request.getParameter("backdoorId");
+            if(backDoorUser == null){
+                backDoorUser = GlobalVariables.getUserSession().getPrincipalId();
+            }else{
+                backDoorUser=backDoorUser.split("=")[1];
+                Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(backDoorUser);
+                backDoorUser = person.getPrincipalId();
+            }
             List<ActionItem> actionItems = (List<ActionItem>)KEWServiceLocator.getActionListService().findByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
             if(actionItems!=null && actionItems.size()>0){
                 for(ActionItem actionItem : actionItems){
-                    if(GlobalVariables.getUserSession().getPrincipalId().equals(actionItem.getPrincipalId())){
+                    if(backDoorUser.equals(actionItem.getPrincipalId())){
                         form.setCanApprove(true);
+                    }else{
+                        form.setCanApprove(false);
                     }
                 }
             }
@@ -2859,6 +2880,14 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                                                        HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
+        String backDoorUser = request.getParameter("backdoorId");
+        if(backDoorUser == null){
+            backDoorUser = GlobalVariables.getUserSession().getPrincipalId();
+        }else{
+            backDoorUser=backDoorUser.split("=")[1];
+            Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(backDoorUser);
+            backDoorUser = person.getPrincipalId();
+        }
         String previousStatus = oleeResourceRecordDocument.getWorkflowStatus();
         ActionRequestService actionRequestService = KEWServiceLocator.getActionRequestService();
         Map<String, String> accessConfigMap = new HashMap<String, String>();
@@ -2913,7 +2942,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                         KEWServiceLocator.getActionListService().deleteByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
                         ActionTakenValue actionTakenValue;
                         for (ActionRequestValue actionRequestValue : actionRequestValueList) {
-                            if (actionRequestValue.getPrincipalId().equalsIgnoreCase(GlobalVariables.getUserSession().getPrincipalId())) {
+                            if (backDoorUser.equalsIgnoreCase(GlobalVariables.getUserSession().getPrincipalId())) {
                                 actionTakenValue = new ActionTakenValue();
                                 actionTakenValue.setAnnotation("Approved status : " + oleeResourceRecordDocument.getWorkflowStatus());
                                 actionTakenValue.setActionDate(new Timestamp(System.currentTimeMillis()));
@@ -2927,6 +2956,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                         }catch(Exception e){
                             e.printStackTrace();
                         }
+                        form.setCanApprove(false);
                         DocumentRouteHeaderValue documentBo = KEWServiceLocator.getRouteHeaderService().getRouteHeader(oleeResourceRecordDocument.getDocumentNumber());
                         documentBo.setDocRouteStatus("S");
                         getBusinessObjectService().save(documentBo);
@@ -2938,10 +2968,13 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             }
         }
         List<ActionItem> actionItems = (List<ActionItem>)KEWServiceLocator.getActionListService().findByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
+
         if(actionItems!=null && actionItems.size()>0){
             for(ActionItem actionItem : actionItems){
-                if(GlobalVariables.getUserSession().getPrincipalId().equals(actionItem.getPrincipalId())){
+                if(backDoorUser.equals(actionItem.getPrincipalId())){
                     form.setCanApprove(true);
+                }else{
+                    form.setCanApprove(false);
                 }
             }
         }
