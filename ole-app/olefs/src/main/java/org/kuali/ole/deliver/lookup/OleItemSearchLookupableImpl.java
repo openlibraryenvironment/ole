@@ -137,7 +137,7 @@ public class OleItemSearchLookupableImpl extends OleLookupableImpl {
                     item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), Bib.AUTHOR, author), "AND"));
                 }
                 if (!publisher.isEmpty()) {
-                    item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), "Publisher_display", publisher), "AND"));
+                    item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), Bib.PUBLISHER, publisher), "AND"));
                 }
                 if (!itemType.isEmpty()) {
                     item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), "TemporaryItemTypeCodeValue_search", itemType), "OR"));
