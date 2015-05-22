@@ -436,4 +436,15 @@ function manageGokbPopup() {
     return false;
 }
 
-
+function setSpaceField() {
+    var navigationBarHeight = jq('#Uif-Navigation').height();
+    navigationBarHeight = navigationBarHeight/2;
+    jq('#eResRelatedEresSpaceField').height(navigationBarHeight);
+    jq('#eResPOSpaceField').height(navigationBarHeight);
+    jq('#eResInvoiceSpaceField').height(navigationBarHeight);
+    jq('#eResLicenseSpaceField').height(navigationBarHeight);
+    jq('#eResContactsSpaceField').height(navigationBarHeight);
+    jq('#eResReviewDashSpaceField').height(navigationBarHeight);
+    jq('#eResAdminDataSpaceField').height(navigationBarHeight);
+    jq('#eResAccessSpaceField').height(navigationBarHeight);
+}

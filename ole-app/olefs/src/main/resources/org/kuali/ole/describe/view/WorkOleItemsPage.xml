@@ -693,7 +693,7 @@
         </property>
         <property name="addLineActions">
             <list>
-                <bean id="item_donor-add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addDonorToItem" p:successCallback="itemAddOrRemove()" p:actionLabel="Add"/>
+                <bean id="item_donor-add" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addDonorToItem" p:successCallback="itemAddOrRemove()" p:actionLabel="Add"/>
             </list>
         </property>
     </bean>

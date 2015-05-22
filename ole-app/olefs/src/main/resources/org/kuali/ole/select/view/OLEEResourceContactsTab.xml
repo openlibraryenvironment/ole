@@ -6,6 +6,7 @@
             <list>
                 <ref bean="OLEEResourceRecordView-Overview"/>
                 <ref bean="OLEEResourceRecordView-ContactDetails"/>
+                <ref bean="eResContactsSpaceField"/>
             </list>
         </property>
     </bean>
@@ -60,5 +61,11 @@
         </property>
     </bean>
 
+    <bean id="eResContactsSpaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{document.oleERSContacts.size()==0}">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
 
 </beans>

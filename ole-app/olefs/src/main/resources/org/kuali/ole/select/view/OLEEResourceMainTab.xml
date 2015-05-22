@@ -38,9 +38,9 @@
                                   p:methodToCall="getManageGOKbDataOnERes" p:ajaxSubmit="true"
                                   p:successCallback="manageGokbPopup()"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final) and document.gokbIdentifier ne null}"/>
-                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="renewOrCancelEresourceDocument" p:actionLabel="Start Renew/Cancel Process" p:performClientSideValidation="true"
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="renewOrCancelEresourceDocument" p:actionLabel="Start renew/cancel process" p:performClientSideValidation="true"
                                   p:render="@{document.documentHeader.workflowDocument.saved}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
-                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approveRenewOrCancelEresource" p:actionLabel="Approve for Renew/cancel Process" p:performClientSideValidation="true"
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approveRenewOrCancelEresource" p:actionLabel="Approve for renew/cancel process" p:performClientSideValidation="true"
                                   p:render="@{document.documentHeader.workflowDocument.enroute and canApprove}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
 
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"

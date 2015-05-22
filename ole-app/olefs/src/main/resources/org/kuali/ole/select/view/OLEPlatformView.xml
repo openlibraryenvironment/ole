@@ -24,7 +24,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/eresource/scripts/platform.js</value>
             </list>
         </property>

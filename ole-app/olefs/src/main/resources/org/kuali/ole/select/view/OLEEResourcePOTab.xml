@@ -9,6 +9,7 @@
                 <ref bean="OLEEResourceRecordView-CreatePOLink"/>
                 <ref bean="OLEEResourceRecordView-Overview"/>
                 <ref bean="OLEEResourceRecordView-PO"/>
+                <ref bean="eResPOSpaceField"/>
             </list>
         </property>
     </bean>
@@ -176,6 +177,13 @@
             </list>
         </property>
         <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="eResPOSpaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{document.linkedERSPOItems.size()==0}">
+        <property name="items">
+            <list>
+            </list>
+        </property>
     </bean>
 
 </beans>

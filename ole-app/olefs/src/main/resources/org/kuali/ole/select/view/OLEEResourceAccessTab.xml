@@ -10,6 +10,7 @@
                 <bean id="ERSAccess-Save" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:0em" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true" p:hidden="true"/>
                 <ref bean="OLEEResourceAccessTab-AccessActivation"/>
                 <ref bean="OLEEResourceAccessTab-Access"/>
+                <ref bean="eResAccessSpaceField"/>
             </list>
         </property>
     </bean>
@@ -31,7 +32,7 @@
                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
                     </property>
                 </bean>
-                <bean parent="Uif-PrimaryActionButton" p:methodToCall="startAccessWorkflow"
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="startAccessWorkflow"
                       p:actionLabel="Start access workflow"
                       p:performClientSideValidation="true" p:ajaxSubmit="true" p:successCallback="saveERSAccessDocument()"/>
             </list>
@@ -49,6 +50,13 @@
                         </list>
                     </property>
                 </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="eResAccessSpaceField" parent="Uif-VerticalBoxSection" p:align="center">
+        <property name="items">
+            <list>
             </list>
         </property>
     </bean>

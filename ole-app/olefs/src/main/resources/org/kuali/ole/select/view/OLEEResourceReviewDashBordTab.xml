@@ -7,6 +7,7 @@
                 <ref bean="Ole-Uif-DocumentPageFooter-ResourceReviewDashBoardTab"/>
                 <ref bean="OLEEResourceRecordView-Overview"/>
                 <ref bean="EResourceReviewDashBoard-TabSection"/>
+                <ref bean="eResReviewDashSpaceField"/>
             </list>
         </property>
     </bean>
@@ -105,5 +106,12 @@
             </list>
         </property>
         <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="eResReviewDashSpaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{document.oleEResourceChangeDashBoards.size()==0}">
+        <property name="items">
+            <list>
+            </list>
+        </property>
     </bean>
 </beans>

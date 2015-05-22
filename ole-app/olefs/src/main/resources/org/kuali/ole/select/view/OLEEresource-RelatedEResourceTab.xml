@@ -12,6 +12,7 @@
                 <ref bean="OLEEResourceRecordView-RemoveRelationShipParentPopUp"/>
                 <ref bean="OLEEResourceRecordView-Overview"/>
                 <ref bean="OLEEResourceRecordView-RelatedEresources"/>
+                <ref bean="eResRelatedEresSpaceField"/>
             </list>
         </property>
     </bean>
@@ -130,6 +131,13 @@
                         </list>
                     </property>
                 </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="eResRelatedEresSpaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{document.oleLinkedEresources.size()==0}">
+        <property name="items">
+            <list>
             </list>
         </property>
     </bean>

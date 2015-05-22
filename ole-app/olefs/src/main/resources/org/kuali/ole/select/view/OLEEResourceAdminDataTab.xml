@@ -8,6 +8,7 @@
             <list>
                 <ref bean="OLEEResourceRecordView-Overview"/>
                 <ref bean="OLEEResourceRecordView-PlatformDetails"/>
+                <ref bean="eResAdminDataSpaceField"/>
             </list>
         </property>
     </bean>
@@ -58,4 +59,12 @@
             </list>
         </property>
     </bean>
+
+    <bean id="eResAdminDataSpaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{!(document.olePlatformAdminUrlList.size()>3)}">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
 </beans>

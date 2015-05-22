@@ -6,6 +6,7 @@
             <list>
                 <ref bean="OLEEResourceRecordView-Overview"/>
                 <ref bean="OLEEResourceRecordView-Invoice"/>
+                <ref bean="eResInvoiceSpaceField"/>
             </list>
         </property>
     </bean>
@@ -84,6 +85,13 @@
                 <bean parent="Uif-DataField" p:propertyName="organizationReferenceId" p:label="Org Ref Id"/>
                 <bean parent="Uif-DataField" p:propertyName="amount" p:label="Dollar"/>
                 <bean parent="Uif-DataField" p:propertyName="accountLinePercent" p:label="Percentage"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="eResInvoiceSpaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{document.oleERSInvoices.size()==0}">
+        <property name="items">
+            <list>
             </list>
         </property>
     </bean>

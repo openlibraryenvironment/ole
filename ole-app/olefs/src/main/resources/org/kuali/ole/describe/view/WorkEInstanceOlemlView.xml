@@ -32,7 +32,7 @@
                         <list>
                             <ref bean="WorkEInstanceIdSection"/>
                             <ref bean="WorkEInstanceMessageSection"/>
-                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Edit" p:actionScript="edit()"
+                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Edit" p:actionScript="edit()"
                                   p:render="@{canAdd and editable eq 'false'}"/>
                             <ref bean="WorkEInstanceButtonSection1"/>
                             <ref bean="StatusUpdatedFieldSectionHolding"/>
@@ -772,7 +772,7 @@
         </property>
         <property name="addLineActions">
             <list>
-                <bean id="holdings_donor-add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addDonorToEInstance" p:successCallback="eHoldingsAddOrRemove()" p:actionLabel="Add"/>
+                <bean id="holdings_donor-add" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addDonorToEInstance" p:successCallback="eHoldingsAddOrRemove()" p:actionLabel="Add"/>
             </list>
         </property>
     </bean>
@@ -1025,7 +1025,7 @@
     <bean id="OleEHoldingsButton" parent="Uif-HorizontalFieldGroup" p:render="@{showEditorFooter eq false}">
         <property name="items">
             <list>
-                <bean id="OleEHoldingsButton_Save" parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
+                <bean id="OleEHoldingsButton_Save" parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
                       p:style="float:left;margin-left:30em"/>
                 <!-- <bean id="continueInstanceProcess" parent="Uif-SecondaryActionButton" p:methodToCall="EditNewInstance" p:actionLabel="Continue Process"
                        p:style="float:left;margin-left:30em" p:performClientSideValidation="false"  p:render="@{needToCreateInstance eq true}"/>-->
@@ -1036,18 +1036,18 @@
     <bean id="WorkEInstanceButtonSection1" parent="Uif-HorizontalFieldGroup" p:render="@{editable eq 'true' and globalEditFlag eq 'false'}" >
         <property name="items">
             <list>
-                <bean id="EInstanceRestore" parent="Uif-SecondaryActionButton-Small"
+                <bean id="EInstanceRestore" parent="Uif-PrimaryActionButton"
                       p:actionScript="methodToCall('load');" p:actionLabel="Restore OLE defaults" p:align="left"
                       p:actionEvent="restoreOLEDefaults" p:componentSecurity.performActionAuthz="true"/>
-                <bean id="EInstanceSave" parent="Uif-SecondaryActionButton-Small" p:actionScript="methodToCall('save');"
+                <bean id="EInstanceSave" parent="Uif-PrimaryActionButton" p:actionScript="methodToCall('save');"
                       p:actionLabel="Save" p:align="right" p:actionEvent="save"
                       p:componentSecurity.performActionAuthz="true"/>
-                <bean id="EInstanceCancel" parent="Uif-SecondaryActionButton-Small"
+                <bean id="EInstanceCancel" parent="Uif-PrimaryActionButton"
                       p:actionScript="methodToCall('cancel');" p:actionLabel="Cancel" p:align="right"/>
-                <bean id="EInstanceCopy" parent="Uif-SecondaryActionButton-Small" p:actionScript="methodToCall('copy');"
+                <bean id="EInstanceCopy" parent="Uif-PrimaryActionButton" p:actionScript="methodToCall('copy');"
                       p:actionLabel="Copy" p:align="right" p:actionEvent="addEInstance"
                       p:componentSecurity.performActionAuthz="true"/>
-                <bean id="EInstanceDelete" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteVerify" p:actionLabel="Delete" p:align="right"
+                <bean id="EInstanceDelete" parent="Uif-PrimaryActionButton" p:methodToCall="deleteVerify" p:actionLabel="Delete" p:align="right"
                       p:actionEvent="deleteEInstance" p:componentSecurity.performActionAuthz="true"/>
             </list>
         </property>
@@ -1056,18 +1056,18 @@
     <bean id="WorkEInstanceButtonSection2" parent="Uif-HorizontalFieldGroup" p:render="@{editable eq 'true' and globalEditFlag eq 'false'}" >
         <property name="items">
             <list>
-                <bean id="eInstanceRestore" parent="Uif-SecondaryActionButton-Small"
+                <bean id="eInstanceRestore" parent="Uif-PrimaryActionButton"
                       p:actionScript="methodToCall('load');" p:actionLabel="Restore OLE defaults" p:align="left"
                       p:actionEvent="restoreOLEDefaults" p:componentSecurity.performActionAuthz="true"/>
-                <bean id="eInstanceSave" parent="Uif-SecondaryActionButton-Small" p:actionScript="methodToCall('save');"
+                <bean id="eInstanceSave" parent="Uif-PrimaryActionButton" p:actionScript="methodToCall('save');"
                       p:actionLabel="Save" p:align="right" p:actionEvent="save"
                       p:componentSecurity.performActionAuthz="true" />
-                <bean id="eInstanceCancel" parent="Uif-SecondaryActionButton-Small"
+                <bean id="eInstanceCancel" parent="Uif-PrimaryActionButton"
                       p:actionScript="methodToCall('cancel');" p:actionLabel="Cancel" p:align="right"/>
-                <bean id="eInstanceCopy" parent="Uif-SecondaryActionButton-Small" p:actionScript="methodToCall('copy');"
+                <bean id="eInstanceCopy" parent="Uif-PrimaryActionButton" p:actionScript="methodToCall('copy');"
                       p:actionLabel="Copy" p:align="right" p:actionEvent="addEInstance"
                       p:componentSecurity.performActionAuthz="true"/>
-                <bean id="eInstanceDelete" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteVerify" p:actionLabel="Delete" p:align="right"
+                <bean id="eInstanceDelete" parent="Uif-PrimaryActionButton" p:methodToCall="deleteVerify" p:actionLabel="Delete" p:align="right"
                       p:actionEvent="deleteEInstance" p:componentSecurity.performActionAuthz="true"/>
             </list>
         </property>

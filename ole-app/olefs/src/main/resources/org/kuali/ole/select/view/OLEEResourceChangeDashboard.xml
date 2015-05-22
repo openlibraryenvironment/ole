@@ -14,7 +14,7 @@
                     <property name="items">
                         <list>
                             <ref bean="EResourceChangesDashBoard-SelectionSection"/>
-                            <bean id="EResourceChangesDashBoard-Reset" parent="Uif-SecondaryActionButton-Small" p:methodToCall="clear" p:actionLabel="Clear" />
+                            <bean id="EResourceChangesDashBoard-Reset" parent="Uif-PrimaryActionButton" p:methodToCall="clear" p:actionLabel="Clear" />
                             <ref bean="EResourceChangesDashBoard-TabSection"/>
                             <ref bean="EResourceChangesDashBoard-ButtonSection"/>
                             <ref bean="hiddenSelectedTab"/>
@@ -28,7 +28,7 @@
             </list>
         </property>
         <property name="additionalScriptFiles">
-            <list>
+            <list merge="true">
                 <value>ole/eresource/scripts/changedashboard.js</value>
             </list>
         </property>
@@ -197,11 +197,11 @@
                         <bean parent="Uif-DateControl" p:size="10" />
                     </property>
                 </bean>
-                <bean id="EResourceChangesDashBoard-Archive" parent="Uif-SecondaryActionButton-Small"
+                <bean id="EResourceChangesDashBoard-Archive" parent="Uif-PrimaryActionButton"
                       p:methodToCall="archive" p:actionLabel="Archive" p:render="@{selectedTab eq 'Change-Log'}" p:successCallback="submitForm('start', null, null, null);"/>
-                <bean id="EResourceChangesDashBoard-Submit" parent="Uif-SecondaryActionButton-Small"
+                <bean id="EResourceChangesDashBoard-Submit" parent="Uif-PrimaryActionButton"
                       p:methodToCall="submit" p:actionLabel="Submit"  p:render="@{selectedTab eq 'To-Do'}" p:successCallback="submitForm('start', null, null, null);"/>
-                <bean id="EResourceChangesDashBoard-Cancel" parent="Uif-SecondaryActionButton-Small"
+                <bean id="EResourceChangesDashBoard-Cancel" parent="Uif-PrimaryActionButton"
                       p:methodToCall="cancel" p:actionLabel="Cancel" p:render="@{selectedTab eq 'To-Do'}"/>
             </list>
         </property>
