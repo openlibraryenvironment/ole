@@ -307,7 +307,7 @@ public class OLESearchableAttribute extends DataDictionarySearchableAttribute {
 
 
             Field searchResultInvDateField = FieldUtils.getPropertyField(boClass, OleSelectConstant.InvoiceSearch.PO_DIS_INV_DT, true);
-            searchResultInvDateField.setFieldDataType(SearchableAttributeConstants.DATA_TYPE_STRING);
+            searchResultInvDateField.setFieldDataType(SearchableAttributeConstants.DATA_TYPE_DATE);
             docSearchRows.add(new Row(Collections.singletonList(searchResultInvDateField)));
 
 
@@ -339,7 +339,7 @@ public class OLESearchableAttribute extends DataDictionarySearchableAttribute {
 
 
             Field searchResultInvPayDateField = FieldUtils.getPropertyField(boClass, OleSelectConstant.InvoiceSearch.PO_DIS_INV_PAY_DT, true);
-            searchResultInvPayDateField.setFieldDataType(SearchableAttributeConstants.DATA_TYPE_STRING);
+            searchResultInvPayDateField.setFieldDataType(SearchableAttributeConstants.DATA_TYPE_DATE);
             docSearchRows.add(new Row(Collections.singletonList(searchResultInvPayDateField)));
 
             //magicFields.put(OleSelectConstant.InvoiceSearch.PO_DOC_NUMS, boClass.getSimpleName());
