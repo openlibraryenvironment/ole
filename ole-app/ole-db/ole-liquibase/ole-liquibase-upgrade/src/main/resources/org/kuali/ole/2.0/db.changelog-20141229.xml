@@ -4936,5 +4936,12 @@
     </changeSet>
 
 
+    <changeSet context="bootstrap" author="ole" id="DateFormatChange" dbms="mysql">
+        <sql>UPDATE KREW_DOC_HDR_EXT_T SET VAL = date_format(str_to_date(VAL, '%d-%m-%Y'), '%m/%d/%Y') WHERE KEY_CD IN ('searchResultInvoiceDate','searchResultInvoicePayDate')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="DateFormatChange" dbms="oracle">
+        <sql>UPDATE KREW_DOC_HDR_EXT_T SET VAL = TO_CHAR(TO_DATE(VAL,'DD-MM-YYYY'),'MM/DD/YYYY') WHERE KEY_CD IN ('searchResultInvoiceDate','searchResultInvoicePayDate')</sql>
+    </changeSet>
 
 </databaseChangeLog>

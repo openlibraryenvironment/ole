@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
    - Copyright 2011 The Kuali Foundation.
    - 
@@ -109,7 +110,8 @@
                               </a>
                           </td>
                           <td align="left" valign="middle" class="datacell">
-                              <c:out value="${invoiceHistory.invoiceDate}" />
+                              <%--<c:out value="${invoiceHistory.invoiceDate}" />--%>
+                              <fmt:formatDate pattern="${RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE}" value="${invoiceHistory.invoiceDate}" />
                           </td>
                           <td align="left" valign="middle" class="datacell">
                               <c:out value="${invoiceHistory.applicationDocumentStatus}" />

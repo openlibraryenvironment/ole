@@ -3681,5 +3681,12 @@ ALTER TABLE ole.OLE_E_RES_REC_T ADD WRK_FLW_STAT VARCHAR(40) NULL
 INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_E_RES_REC_T_1', 'ole', 'org/kuali/ole/2.0/db.changelog-20141229.xml', NOW(), 370, '7:2586ee63d86bb1f14909e15f9609784f', 'addColumn', '', 'EXECUTED', '3.2.0')
 /
 
+--  Changeset org/kuali/ole/2.0/db.changelog-20141229.xml::DateFormatChange::ole
+UPDATE KREW_DOC_HDR_EXT_T SET VAL = date_format(str_to_date(VAL, '%d-%m-%Y'), '%m/%d/%Y') WHERE KEY_CD IN ('searchResultInvoiceDate','searchResultInvoicePayDate')
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('DateFormatChange', 'ole', 'org/kuali/ole/2.0/db.changelog-20141229.xml', NOW(), 371, '7:02439767f9985270f88fffa98781ff62', 'sql', '', 'EXECUTED', '3.2.0')
+/
+
 --  Release Database Lock
 --  Release Database Lock

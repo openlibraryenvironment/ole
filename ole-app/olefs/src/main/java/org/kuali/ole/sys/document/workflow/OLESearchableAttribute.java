@@ -52,6 +52,7 @@ import org.kuali.ole.sys.document.datadictionary.FinancialSystemTransactionalDoc
 import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.web.format.*;
 import org.kuali.rice.core.web.format.Formatter;
@@ -435,7 +436,7 @@ public class OLESearchableAttribute extends DataDictionarySearchableAttribute {
                 poDocNumSearchableAttributeValue.setValue(purchaseOrderDocumentNums.toString());
                 searchAttrValues.add(poDocNumSearchableAttributeValue.build());
 
-                DateFormat sourceFormat = new SimpleDateFormat("dd-MM-yyyy");
+                DateFormat sourceFormat = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE);
 
                 String invoiceDate = sourceFormat.format(invoiceDocument.getInvoiceDate());
                 String invoicePayDate = sourceFormat.format(invoiceDocument.getInvoicePayDate());
