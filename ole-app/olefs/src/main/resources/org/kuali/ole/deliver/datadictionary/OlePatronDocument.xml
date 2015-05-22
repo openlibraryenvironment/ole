@@ -754,7 +754,7 @@
                 <bean id="patronLoanInquiry_missingPieceFlag" parent="Uif-DataField" p:label="Missing Piece Flag" p:propertyName="missingPieceFlag"/>
                 <bean id="patronLoanInquiry_missingPieceNote" parent="Uif-DataField" p:label="Missing Piece Note" p:propertyName="missingPieceNote"/>
                 <bean id="patronLoanInquiry_itemDamagedStatus" parent="Uif-DataField" p:label="Item Damaged Flag" p:propertyName="itemDamagedStatus"/>
-                <bean id="patronLoanInquiry_itemDamagedNote" parent="Uif-DataField" p:label="Item Damaged Note" p:propertyName="claimsReturnNote"/>
+                <bean id="patronLoanInquiry_itemDamagedNote" parent="Uif-DataField" p:label="Item Damaged Note" p:propertyName="itemDamagedNote"/>
                 <bean id="patronLoanInquiry_pendingRequestLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="lookup?methodToCall=search&amp;itemId=@{#line.itemId}&amp;flag=true&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo" p:linkText="@{#ViewHelper.getCountOfPendingRequests(#line.itemId)}"  p:target="_blank"  p:label="Pending Requests" >
                     <property name="cssClasses" value="uif-secondaryActionButton"/>
                 </bean>
