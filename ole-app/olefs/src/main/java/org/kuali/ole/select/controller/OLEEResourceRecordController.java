@@ -177,7 +177,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         if(backDoorUser == null){
             backDoorUser = GlobalVariables.getUserSession().getPrincipalId();
         }else{
+            if(backDoorUser.contains("=")){
             backDoorUser=backDoorUser.split("=")[1];
+            }
            Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(backDoorUser);
             backDoorUser = person.getPrincipalId();
         }
@@ -2851,7 +2853,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             if(backDoorUser == null){
                 backDoorUser = GlobalVariables.getUserSession().getPrincipalId();
             }else{
-                backDoorUser=backDoorUser.split("=")[1];
+                if(backDoorUser.contains("=")){
+                    backDoorUser=backDoorUser.split("=")[1];
+                }
                 Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(backDoorUser);
                 backDoorUser = person.getPrincipalId();
             }
@@ -2884,7 +2888,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         if(backDoorUser == null){
             backDoorUser = GlobalVariables.getUserSession().getPrincipalId();
         }else{
-            backDoorUser=backDoorUser.split("=")[1];
+            if(backDoorUser.contains("=")){
+                backDoorUser=backDoorUser.split("=")[1];
+            }
             Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(backDoorUser);
             backDoorUser = person.getPrincipalId();
         }
