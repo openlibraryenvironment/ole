@@ -392,11 +392,12 @@
                 </bean>
                 <bean id="agreementNotes" parent="Uif-InputField" p:propertyName="agreementNotes"/>
                 <bean id="agreementVersion" parent="Uif-InputField" p:propertyName="agreementVersion" p:readOnly="true"/>
+                <bean id="agreementSelected" parent="Uif-InputField" p:propertyName="selected" p:hidden="true" />
             </list>
         </property>
         <property name="addLineActions">
             <list>
-                <bean id="insertAgreementDocument_button" parent="Uif-PrimaryActionButton-Small" p:methodToCall="insertAgreementDocument" p:actionLabel="Add" p:title="Add a Agreement Document"/>
+                <bean id="insertAgreementDocument_buttons" parent="Uif-PrimaryActionButton-Small" p:methodToCall="insertAgreementDocument" p:actionLabel="Add" p:title="Add a Agreement Document" p:onClickScript="refreshBeanIdAgreementDocument()"/>
             </list>
         </property>
         <property name="lineActions">

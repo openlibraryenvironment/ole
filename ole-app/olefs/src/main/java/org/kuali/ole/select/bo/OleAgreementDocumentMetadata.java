@@ -22,6 +22,7 @@ public class OleAgreementDocumentMetadata extends PersistableBusinessObjectBase 
     private String oleAgreementDocumentId;
     private String oleLicenseRequestId;
     private OleLicenseRequestBo oleLicenseRequestBo;
+    private String selected;
 
     /**
      * Gets the uploadedDate attribute.
@@ -254,5 +255,13 @@ public class OleAgreementDocumentMetadata extends PersistableBusinessObjectBase 
     public void setCurrentTimeStamp() {
         final Timestamp now = CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp();
         this.setUploadedDate(now);
+    }
+
+    public String getSelected() {
+        return selected;
+    }
+
+    public void setSelected(String selected) {
+        this.selected = selected;
     }
 }

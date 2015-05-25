@@ -629,7 +629,11 @@ public class OleLicenseRequestController extends MaintenanceDocumentController {
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) uifForm;
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) maintenanceForm.getDocument();
         OleLicenseRequestBo oleLicenseRequestBo = (OleLicenseRequestBo) document.getNewMaintainableObject().getDataObject();
+        if(oleLicenseRequestBo.getAgreementDocumentMetadataList().get(0).getSelected().equalsIgnoreCase("true")){
+            oleLicenseRequestBo.getAgreementDocumentMetadataList().get(0).setSelected(null);
+            return insertAgreementDocument(maintenanceForm,result,request,response);
 
+        }
         OleAgreementDocumentMetadata oleAgreementDocumentMetadata = oleLicenseRequestBo.getAgreementDocumentMetadataList().get(Integer.parseInt(selectedLineIndex));
         File file;
         try {
@@ -660,7 +664,7 @@ public class OleLicenseRequestController extends MaintenanceDocumentController {
             performWorkflowAction(maintenanceForm, UifConstants.WorkflowAction.SAVE, true);
         }
 
-        return null;
+        return getUIFModelAndView(maintenanceForm);
     }
 
     /**

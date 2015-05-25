@@ -16,3 +16,7 @@ jq(document).ready(function () {
     })
 });
 
+function refreshBeanIdAgreementDocument(){
+    jq("#agreementSelected_line0_control").val("true");
+}
+
