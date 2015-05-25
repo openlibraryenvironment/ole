@@ -570,11 +570,13 @@ public class OlePurchaseOrderAction extends PurchaseOrderAction {
                     item.getCopyList().get(0).setCopyNumber(item.getSingleCopyNumber() != null && !item.getSingleCopyNumber().isEmpty() ? item.getSingleCopyNumber() : null);
                 }
             }
-            Map map = new HashMap();
-            map.put(OLEConstants.PO_ID, item.getItemIdentifier().toString());
-            List<OLELinkPurapDonor> linkPurapDonors = (List<OLELinkPurapDonor>)getBusinessObjectService().findMatching(OLELinkPurapDonor.class, map);
-            if (linkPurapDonors != null && linkPurapDonors.size() > 0 ){
-                getBusinessObjectService().delete(linkPurapDonors);
+            if (item.getItemIdentifier() != null) {
+                Map map = new HashMap();
+                map.put(OLEConstants.PO_ID, item.getItemIdentifier().toString());
+                List<OLELinkPurapDonor> linkPurapDonors = (List<OLELinkPurapDonor>) getBusinessObjectService().findMatching(OLELinkPurapDonor.class, map);
+                if (linkPurapDonors != null && linkPurapDonors.size() > 0) {
+                    getBusinessObjectService().delete(linkPurapDonors);
+                }
             }
         }
         return super.route(mapping, form, request, response);
@@ -1475,11 +1477,13 @@ public class OlePurchaseOrderAction extends PurchaseOrderAction {
                     }
                 }
             }
-            Map map = new HashMap();
-            map.put(OLEConstants.PO_ID, tempItem.getItemIdentifier().toString());
-            List<OLELinkPurapDonor> linkPurapDonors = (List<OLELinkPurapDonor>)getBusinessObjectService().findMatching(OLELinkPurapDonor.class, map);
-            if (linkPurapDonors != null && linkPurapDonors.size() > 0){
-                getBusinessObjectService().delete(linkPurapDonors);
+            if (tempItem.getItemIdentifier() != null) {
+                Map map = new HashMap();
+                map.put(OLEConstants.PO_ID, tempItem.getItemIdentifier().toString());
+                List<OLELinkPurapDonor> linkPurapDonors = (List<OLELinkPurapDonor>) getBusinessObjectService().findMatching(OLELinkPurapDonor.class, map);
+                if (linkPurapDonors != null && linkPurapDonors.size() > 0) {
+                    getBusinessObjectService().delete(linkPurapDonors);
+                }
             }
         }
         return super.blanketApprove(mapping, form, request, response);

@@ -134,22 +134,7 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
                     }
                     olePatron.setOleProxyPatronDocumentList(proxyPatronDocuments);
                 }
-                List<String> propertyName = new ArrayList<>();
-                propertyName.add("oleBorrowerType");
-                propertyName.add("sourceBo");
-                propertyName.add("statisticalCategoryBo");
-                propertyName.add("olePatronEntityViewBo");
-                propertyName.add("notes");
-                propertyName.add("lostBarcodes");
-                propertyName.add("oleProxyPatronDocuments");
-                propertyName.add("oleProxyPatronDocumentList");
-                propertyName.add("oleAddresses");
-                propertyName.add("oleLoanDocuments");
-                propertyName.add("oleDeliverRequestBos");
-                propertyName.add("oleTemporaryCirculationHistoryRecords");
-                propertyName.add("olePatronLocalIds");
-                propertyName.add("patronBillPayments");
-                LoanProcessor.retrieveReferenceListOfObject(olePatron,propertyName);
+
                 if(olePatron.getOleLoanDocuments()!=null){
                     olePatron.setLoanCount(olePatron.getOleLoanDocuments().size());
                 }

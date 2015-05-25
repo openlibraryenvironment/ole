@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.bo.OleAddressBo;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.bo.OleEntityAddressBo;
@@ -93,6 +94,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
     private byte[] imageInByte;
     private OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService;
     private DateTimeService dateTimeService;
+    private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
 
     @Override
 	protected MaintenanceDocumentForm createInitialForm(
@@ -443,7 +445,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                 }
 
                 if (oleLoanDocument.isClaimsReturnedIndicator()) {
-                    getLoanProcessor().updateClaimsReturnedHistory(oleItem,oleLoanDocument,oleLoanDocument.getPatronId());
+                    getLoanProcessor().updateClaimsReturnedHistory(oleItem,oleLoanDocument,newOlePatronDocument.getOlePatronId());
                     oleItem.setClaimsReturnedFlag(oleLoanDocument.isClaimsReturnedIndicator());
                     getOleDeliverRequestDocumentHelperService().cancelPendingRequestForClaimsReturnedItem(oleItem.getItemIdentifier());
                     oleItem.setClaimsReturnedNote(oleLoanDocument.getClaimsReturnNote());
@@ -1640,13 +1642,26 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
         OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDocument().getNewMaintainableObject().getDataObject();
         try {
-            olePatronDocument.setOleLoanDocuments(getLoanProcessor().getPatronLoanedItemBySolr(olePatronDocument.getOlePatronId()));
+            olePatronDocument.setOleLoanDocuments(getOleLoanDocumentsFromSolrBuilder().getPatronLoanedItemBySolr
+                    (olePatronDocument.getOlePatronId(), null));
         } catch (Exception e) {
             LOG.error("While fetching loan records error occured" + e);
         }
         olePatronDocument.setShowLoanedRecords(true);
         return getUIFModelAndView(form);
     }
+
+    private OleLoanDocumentsFromSolrBuilder getOleLoanDocumentsFromSolrBuilder() {
+        if (null == oleLoanDocumentsFromSolrBuilder) {
+            oleLoanDocumentsFromSolrBuilder = new OleLoanDocumentsFromSolrBuilder();
+        }
+        return oleLoanDocumentsFromSolrBuilder;
+    }
+
+    public void setOleLoanDocumentsFromSolrBuilder(OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder) {
+        this.oleLoanDocumentsFromSolrBuilder = oleLoanDocumentsFromSolrBuilder;
+    }
+
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=hidePatronLoanedItem")
     public ModelAndView hidePatronLoanedItem(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) {
@@ -1702,7 +1717,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
         OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDocument().getNewMaintainableObject().getDataObject();
         try {
-            olePatronDocument.setOleTemporaryCirculationHistoryRecords(loanProcessor.getPatronTemporaryCirculationHistoryRecords(olePatronDocument.getOlePatronId()));
+            olePatronDocument.setOleTemporaryCirculationHistoryRecords(getOleLoanDocumentsFromSolrBuilder().getPatronTemporaryCirculationHistoryRecords(olePatronDocument.getOlePatronId()));
         } catch (Exception e) {
             LOG.error("While fetching Patron TemporaryCirculationHistory Records error occured" + e);
         }

@@ -310,7 +310,8 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
 
         if (olePatronDocument != null && olePatronDocument.getOlePatronId() != null) {
             if (olePatronDocument.getOleLoanDocuments() == null || olePatronDocument.getOleLoanDocuments().size() == 0) {
-                if ((olePatronDocument.getOleTemporaryCirculationHistoryRecords() == null || olePatronDocument.getOleTemporaryCirculationHistoryRecords().size() == 0)) {
+                if ((olePatronDocument.getOleTemporaryCirculationHistoryRecordsFromDB() == null || olePatronDocument
+                        .getOleTemporaryCirculationHistoryRecordsFromDB().size() == 0)) {
                     if ((olePatronDocument.getOleDeliverRequestBos() == null || olePatronDocument.getOleDeliverRequestBos().size() == 0)) {
                         if ((patronBillPayments == null || patronBillPayments.size() == 0)) {
                             olePatronDocument.setActiveIndicator(false);

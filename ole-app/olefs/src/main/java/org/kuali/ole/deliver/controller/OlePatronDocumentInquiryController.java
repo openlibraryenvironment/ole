@@ -1,6 +1,7 @@
 package org.kuali.ole.deliver.controller;
 
 import org.apache.log4j.Logger;
+import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
@@ -34,6 +35,7 @@ public class OlePatronDocumentInquiryController extends OleInquiryController {
     private static final Logger LOG = Logger.getLogger(OlePatronDocumentInquiryController.class);
 
     private LoanProcessor loanProcessor;
+    private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
 
     private LoanProcessor getLoanProcessor() {
         if (loanProcessor == null) {
@@ -59,12 +61,24 @@ public class OlePatronDocumentInquiryController extends OleInquiryController {
         InquiryForm form = (InquiryForm) uifForm;
         OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDataObject();
         try {
-            olePatronDocument.setOleLoanDocuments(getLoanProcessor().getPatronLoanedItemBySolr(olePatronDocument.getOlePatronId()));
+            olePatronDocument.setOleLoanDocuments(getOleLoanDocumentsFromSolrBuilder().getPatronLoanedItemBySolr
+                    (olePatronDocument.getOlePatronId(), null));
         } catch (Exception e) {
             LOG.error("While fetching loan records error occured" + e);
         }
         olePatronDocument.setShowLoanedRecords(true);
         return getUIFModelAndView(form);
+    }
+
+    private OleLoanDocumentsFromSolrBuilder getOleLoanDocumentsFromSolrBuilder() {
+        if (null == oleLoanDocumentsFromSolrBuilder) {
+            oleLoanDocumentsFromSolrBuilder = new OleLoanDocumentsFromSolrBuilder();
+        }
+        return oleLoanDocumentsFromSolrBuilder;
+    }
+
+    public void setOleLoanDocumentsFromSolrBuilder(OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder) {
+        this.oleLoanDocumentsFromSolrBuilder = oleLoanDocumentsFromSolrBuilder;
     }
 
     @Override
@@ -121,7 +135,7 @@ public class OlePatronDocumentInquiryController extends OleInquiryController {
         InquiryForm form = (InquiryForm) uifForm;
         OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDataObject();
         try {
-            olePatronDocument.setOleTemporaryCirculationHistoryRecords(getLoanProcessor().getPatronTemporaryCirculationHistoryRecords(olePatronDocument.getOlePatronId()));
+            olePatronDocument.setOleTemporaryCirculationHistoryRecords(getOleLoanDocumentsFromSolrBuilder().getPatronTemporaryCirculationHistoryRecords(olePatronDocument.getOlePatronId()));
         } catch (Exception e) {
             LOG.error("While fetching Patron TemporaryCirculationHistory Records error occured" + e);
         }

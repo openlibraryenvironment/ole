@@ -7,6 +7,7 @@ import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.OLEPropertyConstants;
+import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.batch.OleDeliverBatchServiceImpl;
 import org.kuali.ole.deliver.batch.OleMailer;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
@@ -82,6 +83,7 @@ public class LoanController extends UifControllerBase {
     private List<String> loginUserList;
     private DocstoreClientLocator docstoreClientLocator;
     private CircDeskLocationResolver circDeskLocationResolver;
+    private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
 
     public DocstoreClientLocator getDocstoreClientLocator() {
 
@@ -4339,10 +4341,12 @@ public class LoanController extends UifControllerBase {
                 OleLoanDocument oleLoanDocument = loanForm.getDummyLoan();
                 if (oleLoanDocument.getRealPatronBarcode() != null) {
                     if (loanForm.getRealPatronId() != null && (loanForm.getRealPatronId() != null && !loanForm.getRealPatronId().equalsIgnoreCase(""))) {
-                        loanForm.setExistingLoanList(getLoanProcessor().getPatronLoanedItemBySolr(loanForm.getRealPatronId()));
+                        loanForm.setExistingLoanList(getOleLoanDocumentsFromSolrBuilder().getPatronLoanedItemBySolr
+                                (loanForm.getRealPatronId(), null));
                     }
                 } else {
-                    loanForm.setExistingLoanList(getLoanProcessor().getPatronLoanedItemBySolr(oleLoanDocument.getPatronId()));
+                    loanForm.setExistingLoanList(getOleLoanDocumentsFromSolrBuilder().getPatronLoanedItemBySolr
+                            (oleLoanDocument.getPatronId(), null));
                 }
                 if(loanForm.getLoanList() != null && loanForm.getLoanList().size()>0){
                     for(OleLoanDocument oleLoanDocument1 : loanForm.getLoanList()){
@@ -4358,6 +4362,17 @@ public class LoanController extends UifControllerBase {
         } catch (Exception e) {
             e.printStackTrace();        }
         return getUIFModelAndView(form);
+    }
+
+    private OleLoanDocumentsFromSolrBuilder getOleLoanDocumentsFromSolrBuilder() {
+        if (null == oleLoanDocumentsFromSolrBuilder) {
+            oleLoanDocumentsFromSolrBuilder = new OleLoanDocumentsFromSolrBuilder();
+        }
+        return oleLoanDocumentsFromSolrBuilder;
+    }
+
+    public void setOleLoanDocumentsFromSolrBuilder(OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder) {
+        this.oleLoanDocumentsFromSolrBuilder = oleLoanDocumentsFromSolrBuilder;
     }
 
     @RequestMapping(params = "methodToCall=hideExistingLoan")

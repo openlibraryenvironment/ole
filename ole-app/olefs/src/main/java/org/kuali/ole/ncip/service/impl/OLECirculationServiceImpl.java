@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
@@ -72,6 +73,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
     private Map<String,OleCirculationDesk> oleCirculationDeskMap = getAvailableCirculationDesks();
     private Map<String,OleDeliverRequestType> oleDeliverRequestTypeMap = getAvailableRequestTypes();
     private CircDeskLocationResolver circDeskLocationResolver;
+    private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
 
     private CircDeskLocationResolver getCircDeskLocationResolver() {
         if (circDeskLocationResolver == null) {
@@ -175,7 +177,8 @@ public class OLECirculationServiceImpl implements OLECirculationService {
                     lookupUser.setValidPatron(true);
                 }
                 try {
-                    List<OleLoanDocument> oleLoanDocumentList = loanProcessor.getPatronLoanedItemBySolr(olePatronDocument.getOlePatronId());
+                    List<OleLoanDocument> oleLoanDocumentList = getOleLoanDocumentsFromSolrBuilder()
+                            .getPatronLoanedItemBySolr(olePatronDocument.getOlePatronId(), null);
                     List<OLECheckedOutItem> oleCheckedOutItemList = getPatronCheckedOutItemList(oleLoanDocumentList,olePatronDocument.getOleBorrowerType().getBorrowerTypeCode(),agencyId!=null?false:true);
                     //List<OLECheckedOutItem> checkedOutItemList = getPatronCheckedOutItemList(olePatronDocument.getOleLoanDocuments(),olePatronDocument.getOleBorrowerType().getBorrowerTypeCode());
                     OLECheckedOutItems oleCheckedOutItems = new OLECheckedOutItems();
@@ -248,7 +251,8 @@ public class OLECirculationServiceImpl implements OLECirculationService {
                     patronType = oleBorrowerTypeList.get(0).getBorrowerTypeCode();
                 }
                 patronDocMap.put(OLEConstants.PATRON_ID, olePatronDocument.getOlePatronId());
-                List<OleLoanDocument> oleLoanDocumentList = loanProcessor.getPatronLoanedItemBySolr(olePatronDocument.getOlePatronId());
+                List<OleLoanDocument> oleLoanDocumentList = getOleLoanDocumentsFromSolrBuilder()
+                        .getPatronLoanedItemBySolr(olePatronDocument.getOlePatronId(), null);
                 if (oleLoanDocumentList != null && oleLoanDocumentList.size() > 0) {
                     List<OLECheckedOutItem> oleCheckedOutItemList = getPatronCheckedOutItemList(oleLoanDocumentList,patronType,true);
                     oleCheckedOutItems.setCheckedOutItems(oleCheckedOutItemList);
@@ -270,6 +274,17 @@ public class OLECirculationServiceImpl implements OLECirculationService {
         checkoutItemString = oleCheckoutItemsConverter.generateCheckOutItemXml(oleCheckedOutItems);
         LOG.info("END CHECK out " + System.currentTimeMillis());
         return checkoutItemString;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    private OleLoanDocumentsFromSolrBuilder getOleLoanDocumentsFromSolrBuilder() {
+        if (null == oleLoanDocumentsFromSolrBuilder) {
+            oleLoanDocumentsFromSolrBuilder = new OleLoanDocumentsFromSolrBuilder();
+        }
+        return oleLoanDocumentsFromSolrBuilder;
+    }
+
+    public void setOleLoanDocumentsFromSolrBuilder(OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder) {
+        this.oleLoanDocumentsFromSolrBuilder = oleLoanDocumentsFromSolrBuilder;
     }
 
     @Override

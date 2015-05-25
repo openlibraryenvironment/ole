@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.bo.OleProxyPatronDocument;
@@ -97,11 +98,11 @@ public class OleInquiryController extends InquiryController {
 			}
 
 			try {
-				patronDocument.setOleLoanDocuments(loanProcessor
+				patronDocument.setOleLoanDocuments(new OleLoanDocumentsFromSolrBuilder()
 						.getPatronLoanedItemBySolr(patronDocument
-								.getOlePatronId()));
+								.getOlePatronId(), null));
 				patronDocument
-						.setOleTemporaryCirculationHistoryRecords(loanProcessor
+						.setOleTemporaryCirculationHistoryRecords(new OleLoanDocumentsFromSolrBuilder()
 								.getPatronTemporaryCirculationHistoryRecords(patronDocument
 										.getOlePatronId()));
 				patronDocument.setOleDeliverRequestBos(loanProcessor

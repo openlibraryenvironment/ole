@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.controller;
 
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory;
 import org.kuali.ole.deliver.form.OleTemporaryCirculationRecordsForm;
@@ -36,6 +37,7 @@ public class OleTemporaryCirculationRecordsController extends UifControllerBase 
      * @see org.kuali.rice.krad.web.controller.UifControllerBase#createInitialForm(javax.servlet.http.HttpServletRequest)
      */
     private static final Logger LOG = Logger.getLogger(OleTemporaryCirculationRecordsController.class);
+    private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
 
     @Override
     protected OleTemporaryCirculationRecordsForm createInitialForm(HttpServletRequest request) {
@@ -89,7 +91,8 @@ public class OleTemporaryCirculationRecordsController extends UifControllerBase 
             oleTemporaryCirculationRecordsForm.setOlePatronDocument(olePatronDocument);
             LoanProcessor loanProcessor = new LoanProcessor();
             try {
-                olePatronDocument.setOleTemporaryCirculationHistoryRecords(loanProcessor.getPatronTemporaryCirculationHistoryRecords(olePatronDocument.getOlePatronId()));
+                olePatronDocument.setOleTemporaryCirculationHistoryRecords(getOleLoanDocumentsFromSolrBuilder()
+                        .getPatronTemporaryCirculationHistoryRecords(olePatronDocument.getOlePatronId()));
             } catch (Exception e) {
                 LOG.error("Exception while setting temporary circulation history records", e);
             }
@@ -99,5 +102,16 @@ public class OleTemporaryCirculationRecordsController extends UifControllerBase 
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PATRON_NOT_FOUND);
         }
         return getUIFModelAndView(oleTemporaryCirculationRecordsForm, "OleTemporaryCirculationHistoryRecordPage");
+    }
+
+    private OleLoanDocumentsFromSolrBuilder getOleLoanDocumentsFromSolrBuilder() {
+        if (null == oleLoanDocumentsFromSolrBuilder) {
+            oleLoanDocumentsFromSolrBuilder = new OleLoanDocumentsFromSolrBuilder();
+        }
+        return oleLoanDocumentsFromSolrBuilder;
+    }
+
+    public void setOleLoanDocumentsFromSolrBuilder(OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder) {
+        this.oleLoanDocumentsFromSolrBuilder = oleLoanDocumentsFromSolrBuilder;
     }
 }

@@ -10,6 +10,7 @@ import org.kuali.asr.service.ASRHelperServiceImpl;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
+import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.batch.OleDeliverBatchServiceImpl;
 import org.kuali.ole.deliver.batch.OleMailer;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
@@ -107,6 +108,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     private List<OleLoanDocument> laonDocumentsFromLaondId;
     private OlePatronHelperServiceImpl olePatronHelperService;
     private CircDeskLocationResolver circDeskLocationResolver;
+    private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
 
     public DateTimeService getDateTimeService() {
         return (DateTimeService) SpringContext.getService("dateTimeService");
@@ -4158,7 +4160,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                                     oleLoanDocument.setClaimsReturnedIndicator(true);
                                     count++;
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("Location_display")) {
-                                    getLoanProcessor().getLocationBySolr(searchResultField, oleLoanDocument);
+                                    getOleLoanDocumentsFromSolrBuilder().getLocationBySolr(searchResultField, oleLoanDocument);
                                     oleLoanDocument.setItemFullLocation(searchResultField.getFieldValue());
                                     Map<String, String> locationMap = getCircDeskLocationResolver().getLocationMap(oleLoanDocument.getItemFullLocation());
                                     oleLoanDocument.setItemInstitution(locationMap.get(OLEConstants.ITEM_INSTITUTION));
@@ -4169,7 +4171,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("HoldingsLocation_search") &&
                                         (oleLoanDocument.getItemLocation() == null || oleLoanDocument.getItemLocation().isEmpty())) {
-                                    getLoanProcessor().getLocationBySolr(searchResultField, oleLoanDocument);
+                                    getOleLoanDocumentsFromSolrBuilder().getLocationBySolr(searchResultField, oleLoanDocument);
                                     oleLoanDocument.setItemFullLocation(searchResultField.getFieldValue());
                                     Map<String, String> locationMap = getCircDeskLocationResolver().getLocationMap(oleLoanDocument.getItemFullLocation());
                                     oleLoanDocument.setItemInstitution(locationMap.get(OLEConstants.ITEM_INSTITUTION));
@@ -4180,7 +4182,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("claimsReturnedFlagCreateDate")) {
                                     String[] formatStrings = new String[]{"MM/dd/yyyy hh:mm:ss", "MM/dd/yyyy", "yyyy-MM-dd hh:mm:ss"};
-                                    Date date = getLoanProcessor().tryParse(formatStrings, searchResultField.getFieldValue());
+                                    Date date = getOleLoanDocumentsFromSolrBuilder().tryParse(formatStrings, searchResultField.getFieldValue());
                                     oleLoanDocument.setClaimsReturnedDate(new Timestamp(date.getTime()));
 
                                 } else if (searchResultField.getFieldName().equalsIgnoreCase("CallNumber_display")) {
@@ -4242,6 +4244,16 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         return oleLoanDocuments;
     }
 
+    private OleLoanDocumentsFromSolrBuilder getOleLoanDocumentsFromSolrBuilder() {
+        if (null == oleLoanDocumentsFromSolrBuilder) {
+            oleLoanDocumentsFromSolrBuilder = new OleLoanDocumentsFromSolrBuilder();
+        }
+        return oleLoanDocumentsFromSolrBuilder;
+    }
+
+    public void setOleLoanDocumentsFromSolrBuilder(OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder) {
+        this.oleLoanDocumentsFromSolrBuilder = oleLoanDocumentsFromSolrBuilder;
+    }
 
     public String getItemTypeCodeByName(String itemTypeName){
        String itemTypeCode = "";

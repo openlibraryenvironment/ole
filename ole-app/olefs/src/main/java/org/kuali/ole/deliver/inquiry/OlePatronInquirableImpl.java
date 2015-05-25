@@ -155,22 +155,7 @@ public class OlePatronInquirableImpl extends InquirableImpl {
 
 
         }
-        List<String> propertyName = new ArrayList<>();
-        propertyName.add("oleBorrowerType");
-        propertyName.add("sourceBo");
-        propertyName.add("statisticalCategoryBo");
-        propertyName.add("olePatronEntityViewBo");
-        propertyName.add("notes");
-        propertyName.add("lostBarcodes");
-        propertyName.add("oleProxyPatronDocuments");
-        propertyName.add("oleProxyPatronDocumentList");
-        propertyName.add("oleAddresses");
-        propertyName.add("oleLoanDocuments");
-        propertyName.add("oleDeliverRequestBos");
-        propertyName.add("oleTemporaryCirculationHistoryRecords");
-        propertyName.add("olePatronLocalIds");
-        propertyName.add("patronBillPayments");
-        LoanProcessor.retrieveReferenceListOfObject(patronDocument,propertyName);
+
         if(patronDocument.getOleLoanDocuments()!=null){
             patronDocument.setLoanCount(patronDocument.getOleLoanDocuments().size());
         }

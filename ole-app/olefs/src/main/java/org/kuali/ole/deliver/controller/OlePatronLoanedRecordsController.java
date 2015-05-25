@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.controller;
 
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.form.OlePatronLoanedRecordsForm;
@@ -36,6 +37,7 @@ public class OlePatronLoanedRecordsController extends UifControllerBase {
      * @see org.kuali.rice.krad.web.controller.UifControllerBase#createInitialForm(javax.servlet.http.HttpServletRequest)
      */
     private static final Logger LOG = Logger.getLogger(org.kuali.ole.deliver.controller.OlePatronLoanedRecordsController.class);
+    private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
 
     @Override
     protected OlePatronLoanedRecordsForm createInitialForm(HttpServletRequest request) {
@@ -89,15 +91,27 @@ public class OlePatronLoanedRecordsController extends UifControllerBase {
             olePatronLoanedRecordsForm.setOlePatronDocument(olePatronDocument);
             LoanProcessor loanProcessor = new LoanProcessor();
             try {
-                olePatronDocument.setOleLoanDocuments(loanProcessor.getPatronLoanedItemBySolr(olePatronDocument.getOlePatronId()));
+                olePatronDocument.setOleLoanDocuments(getOleLoanDocumentsFromSolrBuilder().getPatronLoanedItemBySolr(olePatronDocument
+                        .getOlePatronId(), null));
             } catch (Exception e) {
                 LOG.error("Exception while setting loan documents", e);
             }
-            List<OleLoanDocument> oleLoanDocuments = olePatronDocument.getOleLoanDocuments();
+            List<OleLoanDocument> oleLoanDocuments = olePatronDocument.getOleLoanDocumentsFromSolr(patronId);
             olePatronLoanedRecordsForm.setLoanDocuments(oleLoanDocuments);
         } else {
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PATRON_NOT_FOUND);
         }
         return getUIFModelAndView(olePatronLoanedRecordsForm, "OlePatronLoanedRecordPage");
+    }
+
+    private OleLoanDocumentsFromSolrBuilder getOleLoanDocumentsFromSolrBuilder() {
+        if (null == oleLoanDocumentsFromSolrBuilder) {
+            oleLoanDocumentsFromSolrBuilder = new OleLoanDocumentsFromSolrBuilder();
+        }
+        return oleLoanDocumentsFromSolrBuilder;
+    }
+
+    public void setOleLoanDocumentsFromSolrBuilder(OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder) {
+        this.oleLoanDocumentsFromSolrBuilder = oleLoanDocumentsFromSolrBuilder;
     }
 }

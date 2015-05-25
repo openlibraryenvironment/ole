@@ -1,6 +1,7 @@
 package org.kuali.ole.service;
 
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory;
@@ -52,6 +53,7 @@ public class OlePatronServiceImpl implements OlePatronService {
     private CriteriaLookupService criteriaLookupService;
     private LoanProcessor loanProcessor;
     private OlePatronHelperService olePatronHelperService;
+    private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
 
     protected  OlePatronHelperService getOlePatronHelperService(){
         if(olePatronHelperService==null)
@@ -629,7 +631,7 @@ public class OlePatronServiceImpl implements OlePatronService {
         List<OleLoanDocument> oleLoanDocumentList=new ArrayList<OleLoanDocument>();
         List<OlePatronLoanDocument> olePatronLoanItemList=new ArrayList<OlePatronLoanDocument>();
         try{
-            oleLoanDocumentList=getLoanProcessor().getPatronLoanedItemBySolr(patronBarcode);
+            oleLoanDocumentList= getOleLoanDocumentsFromSolrBuilder().getPatronLoanedItemBySolr(patronBarcode, null);
             OlePatronLoanDocuments olePatronLoanDocuments=convertPatronLoanDocuments(oleLoanDocumentList);
             return olePatronLoanDocuments;
         }
@@ -638,6 +640,17 @@ public class OlePatronServiceImpl implements OlePatronService {
         }
 
         return  null;
+    }
+
+    private OleLoanDocumentsFromSolrBuilder getOleLoanDocumentsFromSolrBuilder() {
+        if (null == oleLoanDocumentsFromSolrBuilder) {
+            oleLoanDocumentsFromSolrBuilder = new OleLoanDocumentsFromSolrBuilder();
+        }
+        return oleLoanDocumentsFromSolrBuilder;
+    }
+
+    public void setOleLoanDocumentsFromSolrBuilder(OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder) {
+        this.oleLoanDocumentsFromSolrBuilder = oleLoanDocumentsFromSolrBuilder;
     }
 
     public List<OleDeliverRequestDefinition> getPatronRequestItems(String patronId) {
@@ -777,7 +790,7 @@ public class OlePatronServiceImpl implements OlePatronService {
             olePatronDocument = patronIterator.next();
             if ((olePatronDocument.getExpirationDate() != null && fmt.format(new Date(System.currentTimeMillis())).compareTo(fmt.format(olePatronDocument.getExpirationDate())) > 0) || (olePatronDocument.getExpirationDate() == null)) {
                 List<OleLoanDocument> oleLoanDocuments = olePatronDocument.getOleLoanDocuments();
-                List<OleTemporaryCirculationHistory> oleTemporaryCirculationHistories = olePatronDocument.getOleTemporaryCirculationHistoryRecords();
+                List<OleTemporaryCirculationHistory> oleTemporaryCirculationHistories = olePatronDocument.getOleTemporaryCirculationHistoryRecordsFromDB();
                 List<OleDeliverRequestBo> oleDeliverRequestBos = olePatronDocument.getOleDeliverRequestBos();
                 Map billMap = new HashMap();
                 billMap.put(OLEConstants.OlePatron.PAY_BILL_PATRON_ID, olePatronDocument.getOlePatronId());
