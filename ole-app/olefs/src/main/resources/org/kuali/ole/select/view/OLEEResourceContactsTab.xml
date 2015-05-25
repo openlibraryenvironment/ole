@@ -18,7 +18,7 @@
                 <ref bean="OLEEResourceContactsTab-ContactDetailSection"/>
                 <bean parent="Uif-MessageField"
                       p:messageText="There are currently no Vendors linked to the E-Resource Record."
-                      p:render="@{document.oleERSContacts.size()==0}"/>
+                      p:render="@{document.oleERSContacts eq null or document.oleERSContacts.size()==0}"/>
             </list>
         </property>
     </bean>
@@ -61,7 +61,7 @@
         </property>
     </bean>
 
-    <bean id="eResContactsSpaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{document.oleERSContacts.size()==0}">
+    <bean id="eResContactsSpaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{document.oleERSContacts eq null or document.oleERSContacts.size()==0}">
         <property name="items">
             <list>
             </list>

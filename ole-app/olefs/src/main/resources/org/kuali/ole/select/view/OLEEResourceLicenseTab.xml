@@ -28,7 +28,7 @@
                 <ref bean="OLEEResourceRecordView-LicenseDetails"/>
                 <bean parent="Uif-MessageField"
                       p:messageText="There are currently no Licenses attached to the E-Resource Record."
-                      p:render="@{document.oleERSLicenseRequests.size()==0}"/>
+                      p:render="@{document.oleERSLicenseRequests eq null or document.oleERSLicenseRequests.size()==0}"/>
             </list>
         </property>
     </bean>
@@ -74,7 +74,7 @@
 
     </bean>
 
-    <bean id="eResLicenseSpaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{!(document.oleERSLicenseRequests.size()>3)}">
+    <bean id="eResLicenseSpaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{document.oleERSLicenseRequests eq null or !(document.oleERSLicenseRequests.size()>3)}">
         <property name="items">
             <list>
             </list>

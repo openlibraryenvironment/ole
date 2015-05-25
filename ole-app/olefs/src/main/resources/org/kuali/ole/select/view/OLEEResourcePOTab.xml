@@ -137,7 +137,7 @@
                 <ref bean="OLEEResourceRecordView-POItemDetails"/>
                 <bean parent="Uif-MessageField"
                       p:messageText="There are currently no Purchase Orders attached to the E-Resource Record."
-                      p:render="@{document.linkedERSPOItems.size()==0}"/>
+                      p:render="@{document.linkedERSPOItems eq null or document.linkedERSPOItems.size()==0}"/>
             </list>
         </property>
     </bean>
@@ -179,7 +179,7 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="eResPOSpaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{document.linkedERSPOItems.size()==0}">
+    <bean id="eResPOSpaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{document.linkedERSPOItems eq null or document.linkedERSPOItems.size()==0}">
         <property name="items">
             <list>
             </list>

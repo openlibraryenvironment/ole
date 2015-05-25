@@ -389,7 +389,7 @@
                 <ref bean="OLEEResourceRecordView-InstanceDetailSection"/>
                 <bean parent="Uif-MessageField"
                       p:messageText="There are currently no Intstances linked to the E-Resource Record."
-                      p:render="@{document.eRSInstances.size()==0}"/>
+                      p:render="@{document.eRSInstances eq null or document.eRSInstances.size()==0}"/>
             </list>
         </property>
     </bean>

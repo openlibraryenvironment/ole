@@ -19,7 +19,7 @@
                 <ref bean="EResDocList"/>
                 <bean parent="Uif-MessageField"
                       p:messageText="There are currently no E-Resources linked to the Platform Record."
-                      p:render="@{document.linkedEResources.size()==0}"/>
+                      p:render="@{document.linkedEResources eq null or document.linkedEResources.size()==0}"/>
             </list>
         </property>
     </bean>

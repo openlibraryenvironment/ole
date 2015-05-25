@@ -108,7 +108,7 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="eResReviewDashSpaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{document.oleEResourceChangeDashBoards.size()==0}">
+    <bean id="eResReviewDashSpaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{document.oleEResourceChangeDashBoards eq null or document.oleEResourceChangeDashBoards.size()==0}">
         <property name="items">
             <list>
             </list>
