@@ -148,7 +148,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         ((DisbursementVoucherDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
 
         // set wire charge message in form
-        ((DisbursementVoucherForm) kualiDocumentFormBase).setWireChargeMessage(retrieveWireChargeMessage());
+        //((DisbursementVoucherForm) kualiDocumentFormBase).setWireChargeMessage(retrieveWireChargeMessage());
     }
 
     /**
@@ -473,7 +473,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
      *
      * @return the wire charge message for the current fiscal year
      */
-    protected String retrieveWireChargeMessage() {
+    /*protected String retrieveWireChargeMessage() {
         String message = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(OLEKeyConstants.MESSAGE_DV_WIRE_CHARGE);
         WireCharge wireCharge = new WireCharge();
         wireCharge.setUniversityFiscalYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
@@ -485,7 +485,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         } else {
             return MessageFormat.format(message,"");
         }
-    }
+    }*/
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
