@@ -580,6 +580,15 @@ public class OlePaymentRequestItem extends PaymentRequestItem {
         this.setItemListPrice(olePoi.getItemListPrice());
         this.setItemUnitPrice(olePoi.getItemUnitPrice());
         this.setItemDiscount(olePoi.getItemDiscount());
+        if(olePoi.getNotes() != null && olePoi.getNotes().size() > 0){
+            List<OlePaymentRequestNote> paymentRequestNotes = new ArrayList<>();
+            for(OleInvoiceNote invoiceNote : olePoi.getNotes()){
+                OlePaymentRequestNote olePaymentRequestNote = new OlePaymentRequestNote();
+                olePaymentRequestNote.setNote(invoiceNote.getNote());
+                paymentRequestNotes.add(olePaymentRequestNote);
+            }
+            this.setNotes(paymentRequestNotes);
+        }
         if(olePoi.getBibUUID()!=null){
             this.setDocFormat(DocumentUniqueIDPrefix.getBibFormatType(olePoi.getBibUUID()));
         }
