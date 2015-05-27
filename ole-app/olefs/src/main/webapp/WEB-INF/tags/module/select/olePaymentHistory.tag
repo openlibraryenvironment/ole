@@ -19,34 +19,34 @@
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map"
     description="The DataDictionary entry containing attributes for this row's fields." %>  
 
-<%@ attribute name="displayRequisitionFields" required="false" description="Boolean to indicate if REQ specific fields should be displayed"%>
+<%--<%@ attribute name="displayRequisitionFields" required="false" description="Boolean to indicate if REQ specific fields should be displayed"%>--%>
 
-<%@ attribute name="isPaymentRequest" required="false" description="Boolean to indicate whether that document is PaymentRequest Document" %>
+<%--<%@ attribute name="isPaymentRequest" required="false" description="Boolean to indicate whether that document is PaymentRequest Document" %>--%>
 <%@ attribute name="accountPrefix" required="false" description="an optional prefix to specify a different location for acocunting lines rather than just on the document."%>
 <%@ attribute name="itemColSpan" required="true" description="item columns to span"%>
 <%@ attribute name="count" required="true" description="item number" %>
-<c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />
-<c:set var="isRequisition" value="${KualiForm.document.isReqsDoc}" />
+<%--<c:set var="isATypeOfPODoc" value="${KualiForm.document.isATypeOfPODoc}" />--%>
+<%--<c:set var="isRequisition" value="${KualiForm.document.isReqsDoc}" />--%>
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
 <c:set var="amendmentEntry"	value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 <c:set var="lockB2BEntry" value="${(not empty KualiForm.editingMode['lockB2BEntry'])}" />
 <c:set var="itemIdentifier" value="${KualiForm.document.items[count].itemIdentifier}"/>
 <c:set var="requisition" value="false"/>
-<c:choose>
-    <c:when test="${isATypeOfPODoc}">
+<%--<c:choose>--%>
+   <%-- <c:when test="${isATypeOfPODoc}">--%>
         <c:set var="limitByPoId" value="${KualiForm.document.purapDocumentIdentifier}" />
-    </c:when>
-    <c:when test="${isRequisition}">
+    <%--</c:when>--%>
+    <%--<c:when test="${isRequisition}">
         <c:set var="requisition" value="true"/>
-    </c:when>
-    <c:otherwise>
-        <c:set var="limitByPoId" value="${KualiForm.document.purchaseOrderIdentifier}" />
+    </c:when>--%>
+   <%-- <c:otherwise>--%>
+       <%-- <c:set var="limitByPoId" value="${KualiForm.document.purchaseOrderIdentifier}" />
     </c:otherwise>
-</c:choose>
-<c:choose>
+</c:choose>--%>
+<%--<c:choose>
     <c:when test="${isRequisition}">
     </c:when>
-</c:choose>
+</c:choose>--%>
     <%-- add extra columns count for the "Action" button and/or dual amounts --%>
 
 	<c:set var="mainColumnCount" value="12"/>
@@ -97,16 +97,22 @@
                   <kul:htmlAttributeHeaderCell scope="col">Invoice Date</kul:htmlAttributeHeaderCell>
                   <kul:htmlAttributeHeaderCell scope="col">INV Status</kul:htmlAttributeHeaderCell>
                   <kul:htmlAttributeHeaderCell scope="col">Amount</kul:htmlAttributeHeaderCell>
-                  <kul:htmlAttributeHeaderCell scope="col">PREQ #</kul:htmlAttributeHeaderCell><%--
-                    <kul:htmlAttributeHeaderCell scope="col">Start Date</kul:htmlAttributeHeaderCell>
-                    <kul:htmlAttributeHeaderCell scope="col">End Date</kul:htmlAttributeHeaderCell>--%>
+                  <kul:htmlAttributeHeaderCell scope="col">Start Date</kul:htmlAttributeHeaderCell>
+                  <kul:htmlAttributeHeaderCell scope="col">End Date</kul:htmlAttributeHeaderCell>
+                  <kul:htmlAttributeHeaderCell scope="col">PREQ /CM #</kul:htmlAttributeHeaderCell>
               </tr>
               <logic:iterate id="invoiceHistory" name="KualiForm" property="document.item[${count}].invoiceDocuments" indexId="ctr">
                   <c:if test="${(not empty limitByPoId) or (limitByPoId eq invoiceHistory.purchaseOrderIdentifier)}">
                       <tr>
                           <td align="left" valign="middle" class="datacell">
                               <a href="<c:url value="${ConfigProperties.workflow.url}/DocHandler.do?docId=${invoiceHistory.documentNumber}&command=displayDocSearchView" ></c:url>"
-                                 target="_blank" class="showvisit"> <c:out value="${invoiceHistory.documentNumber}" />
+                                 target="_blank" class="showvisit">
+                                  <c:if test="${not empty invoiceHistory.invoiceNumber}">
+                                  <c:out value="${invoiceHistory.invoiceNumber}" />
+                                  </c:if>
+                                  <c:if test="${empty invoiceHistory.invoiceNumber}">
+                                      <c:out value="${invoiceHistory.documentNumber}" />
+                                  </c:if>
                               </a>
                           </td>
                           <td align="left" valign="middle" class="datacell">
@@ -117,30 +123,58 @@
                               <c:out value="${invoiceHistory.applicationDocumentStatus}" />
                           </td>
                           <td align="left" valign="middle" class="datacell">
-                              <c:if test="${requisition eq 'true'}">
-                                  <logic:iterate id="item" name="invoiceHistory" property="items" indexId="itemctr">
-                                      <c:if test="${((not empty itemIdentifier) and (not empty item.requisitionItemIdentifier) and item.itemType.itemTypeCode eq 'ITEM') and (itemIdentifier eq item.requisitionItemIdentifier)}">
-
-                                          <c:out value="${item.extendedPrice}" />
-                                      </c:if>
-                                  </logic:iterate>
-                              </c:if>
-                              <c:if test="${requisition eq 'false'}">
+                             <%-- <c:if test="${requisition eq 'true'}">
                                   <logic:iterate id="invoiceItem" name="invoiceHistory" property="items" indexId="itemctr">
-                                      <c:if test="${((not empty itemIdentifier) and (not empty invoiceItem.poItemIdentifier) and invoiceItem.itemType.itemTypeCode eq 'ITEM') and (itemIdentifier eq invoiceItem.poItemIdentifier)}">
+                                      <c:if test="${((not empty itemIdentifier) and (not empty item.requisitionItemIdentifier) and item.itemType.itemTypeCode eq 'ITEM') and (itemIdentifier eq item.requisitionItemIdentifier)}">
+                                      <c:if test="${invoiceItem.debitItem}">
                                           <c:out value="${invoiceItem.extendedPrice}" />
                                       </c:if>
+                                      <c:if test="${!invoiceItem.debitItem}">
+                                      <c:out value="${invoiceItem.extendedPrice * -1}" />
                                   </logic:iterate>
                               </c:if>
+                              <c:if test="${requisition eq 'false'}">--%>
+                                  <logic:iterate id="invoiceItem" name="invoiceHistory" property="items" indexId="itemctr">
+                                      <c:if test="${((not empty itemIdentifier) and (not empty invoiceItem.poItemIdentifier) and invoiceItem.itemType.itemTypeCode eq 'ITEM')}">
+                                          <c:if test="${invoiceItem.debitItem}">
+                                          <c:out value="${invoiceItem.extendedPrice}" />
+                                          </c:if>
+										  <c:if test="${!invoiceItem.debitItem}">
+                                          <c:out value="(${invoiceItem.extendedPrice})" />
+                                          </c:if>
 
+                                      </c:if>
+                                  </logic:iterate>
+                              <%--</c:if>--%>
+                          <td align="left" valign="middle" class="datacell">
+                          <logic:iterate id="invoiceItem" name="invoiceHistory" property="items" indexId="itemctr">
+                              <c:if test="${((not empty itemIdentifier) and (not empty invoiceItem.poItemIdentifier) and invoiceItem.itemType.itemTypeCode eq 'ITEM') }">
+
+                              <c:out value="${invoiceItem.subscriptionFromDate}" />
+                                  </td>
+                          <td>
+                              <c:out value="${invoiceItem.subscriptionToDate}" />
+                          </td>
+                              </c:if>
+                          </logic:iterate>
+                          </td>
 
                           </td>
                             <td align="left" valign="middle" class="datacell">
-                                  <logic:iterate id="paymentHistory" name="invoiceHistory" property="paymentRequestDocuments" indexId="paymentctr">
-                                      <a href="<c:url value="${ConfigProperties.workflow.url}/DocHandler.do?docId=${paymentHistory.documentNumber}&command=displayDocSearchView" ></c:url>"
-                                         target="_blank" class="showvisit"> <c:out value="${paymentHistory.documentNumber}" />
-                                      </a>
-                                  </logic:iterate>
+                               <%-- <c:if test="${invoiceItem.debitItem}">--%>
+                                    <logic:iterate id="paymentHistory" name="invoiceHistory" property="paymentRequestDocuments" indexId="paymentctr">
+                                        <a href="<c:url value="${ConfigProperties.workflow.url}/DocHandler.do?docId=${paymentHistory.documentNumber}&command=displayDocSearchView" ></c:url>"
+                                        target="_blank" class="showvisit"> <c:out value="${paymentHistory.documentNumber}" />
+                                        </a>
+                                    </logic:iterate>
+                               <%-- </c:if>
+                                <c:if test="${!invoiceItem.debitItem}">
+                                    <logic:iterate id="creditMemoHistory" name="invoiceHistory" property="creditMemoDocuments" indexId="creditmemoctr">
+                                        <a href="<c:url value="${ConfigProperties.workflow.url}/DocHandler.do?docId=${creditMemoHistory.documentNumber}&command=displayDocSearchView" ></c:url>"
+                                        target="_blank" class="showvisit"> <c:out value="${creditMemoHistory.documentNumber}" />
+                                        </a>
+                                    </logic:iterate>
+                                </c:if>--%>
                             </td> <%--
                             <td align="left" valign="middle" class="datacell">
                                 <c:out value="${invoiceHistory.vendorCustomerNumber}" />
