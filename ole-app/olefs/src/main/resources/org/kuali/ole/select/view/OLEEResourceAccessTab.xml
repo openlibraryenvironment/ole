@@ -6,6 +6,7 @@
     <bean id="OLEEResourceRecordView-E-ResourceAccessTab" parent="E-Res-Uif-DocumentPage">
         <property name="items">
             <list>
+                <ref bean="accessMessageField"/>
                 <ref bean="OLEEResourceRecordView-Overview"/>
                 <bean id="ERSAccess-Save" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:0em" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true" p:hidden="true"/>
                 <ref bean="OLEEResourceAccessTab-AccessActivation"/>
@@ -14,6 +15,8 @@
             </list>
         </property>
     </bean>
+
+    <bean id="accessMessageField" parent="Uif-MessageField" p:messageText="@{message}" p:cssClasses="messageClass"/>
 
     <bean id="OLEEResourceAccessTab-AccessActivation" parent="Uif-Disclosure-GridSection"
           p:layoutManager.numberOfColumns="8"

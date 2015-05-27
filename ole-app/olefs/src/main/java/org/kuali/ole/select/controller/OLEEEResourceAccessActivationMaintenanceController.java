@@ -173,10 +173,10 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
             oleeResourceAccess.setWorkflowId(null);
             flag = true;
         }
-        if (oleeResourceAccess.getWorkflowDescription() == null || (oleeResourceAccess.getWorkflowDescription() != null && oleeResourceAccess.getWorkflowDescription().trim().isEmpty())) {
+        /*if (oleeResourceAccess.getWorkflowDescription() == null || (oleeResourceAccess.getWorkflowDescription() != null && oleeResourceAccess.getWorkflowDescription().trim().isEmpty())) {
             GlobalVariables.getMessageMap().putError("workflowDescription", OLEConstants.NO_DESCRIPTION);
             flag = true;
-        }
+        }*/
         if (flag) {
             return getUIFModelAndView(form);
         }

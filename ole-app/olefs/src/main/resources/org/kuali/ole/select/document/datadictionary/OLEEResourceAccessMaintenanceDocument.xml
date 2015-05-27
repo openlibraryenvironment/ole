@@ -276,7 +276,7 @@
                 <bean id="accessWorkflow"  parent="Uif-GridGroup" p:layoutManager.numberOfColumns="1" >
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="workflowDescription" p:label="Description" p:required="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="workflowDescription" p:label="Workflow Description"/>
                         </list>
                     </property>
                 </bean>

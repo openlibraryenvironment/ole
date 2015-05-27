@@ -49,7 +49,10 @@ function saveERSDocument() {
 }
 
 function saveERSAccessDocument() {
-    jq("#ERSAccess-Save").focus().click();
+    setSpaceField();
+    if(jq("#accessMessageField").val() == null){
+        jq("#ERSAccess-Save").focus().click();
+    }
 }
 
 function removeInstance() {

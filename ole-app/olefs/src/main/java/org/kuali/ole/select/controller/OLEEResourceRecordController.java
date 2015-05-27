@@ -2690,6 +2690,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
     public ModelAndView startAccessWorkflow(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
+        oleEResourceRecordForm.setMessage(null);
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
         OLEAccessActivationWorkFlow accessActivationWorkFlow = null;
         MaintenanceDocument newDocument = null;
@@ -2765,7 +2766,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 }
             }
         } else {
-            GlobalVariables.getMessageMap().putError("accessActivationConfigurationId", "Invalid workflow");
+            oleEResourceRecordForm.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_WORKFLOW_SELECTED));
             return getUIFModelAndView(form);
         }
         return getUIFModelAndView(form);
