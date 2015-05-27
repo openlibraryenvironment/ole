@@ -50,7 +50,7 @@ function saveERSDocument() {
 
 function saveERSAccessDocument() {
     setSpaceField();
-    if(jq("#accessMessageField").val() == null){
+    if(jq("#accessMessageField span").text() == undefined || jq("#accessMessageField span").text() == null || jq("#accessMessageField span").text() == ''){
         jq("#ERSAccess-Save").focus().click();
     }
 }
