@@ -365,8 +365,7 @@
                                         <bean id="downloadAgreement_button" parent="Uif-PrimaryActionButton-Small" p:methodToCall="downloadAgreement"
                                               p:ajaxSubmit="false"
                                               p:actionLabel="download attachment" p:title="download attachment"
-                                              p:disableBlocking="true"
-                                              p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);">
+                                              p:disableBlocking="true">
                                             <property name="actionParameters">
                                                 <map>
                                                     <entry key="selectedLineIndex" value="@{#index}"/>
