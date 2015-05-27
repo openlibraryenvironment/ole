@@ -127,7 +127,29 @@
         <property name="addLineLabel">
             <bean parent="Uif-Message" p:messageText=""/>
         </property>
-        <property name="layoutManager.richTable.disableTableSort" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aoColumns"
+                       value="[ {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true}
+                ]"/>
+                <entry key="bFilter" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+                <entry key="sDom" value="fTlrtip"/>
+                <entry key="bRetrieve" value="true"/>
+                <entry key="sPaginationType" value="full_numbers"/>
+                <entry key="oTableTools"
+                       value="{&quot;aButtons&quot; : [ &quot;csv&quot;, &quot;xls&quot; ]}"/>
+            </map>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="logTypeName" p:label="Log Type"/>
@@ -292,7 +314,29 @@
         <property name="addLineLabel">
             <bean parent="Uif-Message" p:messageText=""/>
         </property>
-        <property name="layoutManager.richTable.disableTableSort" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aoColumns"
+                       value="[ {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true},
+                {'bSortable':true}
+                ]"/>
+                <entry key="bFilter" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+                <entry key="sDom" value="fTlrtip"/>
+                <entry key="bRetrieve" value="true"/>
+                <entry key="sPaginationType" value="full_numbers"/>
+                <entry key="oTableTools"
+                       value="{&quot;aButtons&quot; : [ &quot;csv&quot;, &quot;xls&quot; ]}"/>
+            </map>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="logTypeName" p:label="Log Type"/>
