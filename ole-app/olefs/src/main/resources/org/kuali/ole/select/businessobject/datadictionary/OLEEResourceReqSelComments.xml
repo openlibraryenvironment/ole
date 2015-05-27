@@ -64,7 +64,7 @@
         <property name="label" value="Requestor/Selector Comment"/>
         <property name="description" value="E-Resource ReqSelComment"/>
         <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern"/>
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="30"/>
