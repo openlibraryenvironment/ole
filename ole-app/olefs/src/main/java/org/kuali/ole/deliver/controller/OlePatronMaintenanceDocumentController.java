@@ -1339,17 +1339,18 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PATRON_PHOTOGRAPH_FORMAT);
             return getUIFModelAndView(mainForm);
         }
+
         return getUIFModelAndView(mainForm);
     }
 
     @RequestMapping(params = "methodToCall=deleteImage")
     public ModelAndView deleteImage(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView modelAndView;
         MaintenanceDocumentForm mainForm = (MaintenanceDocumentForm) form;
         MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
         newOlePatronDocument.setPatronPhotograph(null);
+        newOlePatronDocument.setDeleteImageFlag(true);
         return getUIFModelAndView(mainForm);
     }
 
@@ -1371,17 +1372,15 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
             if (request.getParameter("patronInquiryFlag") != null) {
                 inquiry = (String) request.getParameter("patronInquiryFlag");
             }
-
+            String deleteImageFlag = (String)request.getParameter("deleteImageFlag");
             if (inquiry.equalsIgnoreCase("false")) {
-
-
                 String patronId = request.getParameter(OLEConstants.OlePatron.PATRON_ID);
                 if (patronId != null && !patronId.equals("")) {
                     Map patronMap = new HashMap();
                     patronMap.put(OLEConstants.OlePatron.PATRON_ID, patronId);
                     OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
                     byte[] patronPhoto = olePatronDocument.getPatronPhotograph();
-                    if (patronPhoto != null) {
+                    if (patronPhoto != null && deleteImageFlag.equals("false")) {
                         if (imageInByte == null || !patronPhoto.equals(imageInByte)) {
                             response.setContentType("image/jpg");
                             response.getOutputStream().write(patronPhoto);
@@ -1400,17 +1399,17 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                     }
                 }
             } else {
+
                 Map patronMap = new HashMap();
                 String patronId = request.getParameter(OLEConstants.OlePatron.PATRON_ID);
                 if (patronId != null && !patronId.equals("")) {
                     patronMap.put(OLEConstants.OlePatron.PATRON_ID, patronId);
                     OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
+                    olePatronDocument.setDeleteImageFlag(false);
                     byte[] patronPhoto = olePatronDocument.getPatronPhotograph();
                     if (patronPhoto != null) {
-
                         response.setContentType("image/jpg");
                         response.getOutputStream().write(patronPhoto);
-
                     }
                 }
             }

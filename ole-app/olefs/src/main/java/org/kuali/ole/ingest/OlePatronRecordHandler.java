@@ -192,6 +192,7 @@ public class OlePatronRecordHandler {
         xStream.omitField(OlePatronDocument.class, "loanCount");
         xStream.omitField(OlePatronDocument.class, "requestedItemRecordsCount");
         xStream.omitField(OlePatronDocument.class, "tempCirculationHistoryCount");
+        xStream.omitField(OlePatronDocument.class, "deleteImageFlag");
         String xml = xStream.toXML(olePatronDocuments);
         stringBuffer.append(xml);
         stringBuffer.append("\n");

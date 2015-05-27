@@ -99,7 +99,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private int tempCirculationHistoryCount;
 
     private transient IdentityService identityService;
-
+    private boolean deleteImageFlag;
     public IdentityService getIdentityService() {
         if (identityService == null) {
             identityService = KimApiServiceLocator.getIdentityService();
@@ -1733,5 +1733,13 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
 
     public void setTempCirculationHistoryCount(int tempCirculationHistoryCount) {
         this.tempCirculationHistoryCount = tempCirculationHistoryCount;
+    }
+
+    public boolean isDeleteImageFlag() {
+        return deleteImageFlag;
+    }
+
+    public void setDeleteImageFlag(boolean deleteImageFlag) {
+        this.deleteImageFlag = deleteImageFlag;
     }
 }

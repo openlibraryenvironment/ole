@@ -354,15 +354,12 @@
           p:refreshId="OlePatronDocument-LoanedItems" />
 
     <bean id="OlePatronDocument-RequestedItems" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="12" p:render="@{document.newMaintainableObject.dataObject.oleDeliverRequestBos ne null and document.newMaintainableObject.dataObject.oleDeliverRequestBos.size()>0 and document.newMaintainableObject.dataObject.showRequestedItems}">
-        <!-- <property name="headerText" value="Requested Items" />  -->
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleDeliverRequestBo"/>
         <property name="propertyName" value="oleDeliverRequestBos"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="renderAddLine" value="false"/>
-        <!--<property name="addLineLabel" value="false"/>-->
         <property name="layoutManager.richTable.render" value="true"/>
         <property name="layoutManager.richTable.disableTableSort" value="false" />
-        <!--<property name="collectionLookup.render" value="false"/>-->
         <property name="items">
             <list>
                 <bean id="patronRequest_itemId" parent="OlePatron-DataField" p:label="Item Barcode" p:propertyName="itemId"/>
@@ -448,12 +445,10 @@
     </bean>
 
     <bean id="OlePatronDocument-TemporaryCirculationHistory" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="13" p:render="@{document.newMaintainableObject.dataObject.oleTemporaryCirculationHistoryRecords ne null and document.newMaintainableObject.dataObject.oleTemporaryCirculationHistoryRecords.size()>0 and document.newMaintainableObject.dataObject.showTemporaryCirculationHistoryRecords}">
-        <!--  <property name="headerText" value="Temporary Circulation History Records" /> -->
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory"/>
         <property name="propertyName" value="oleTemporaryCirculationHistoryRecords"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="renderAddLine" value="false"/>
-        <!--<property name="addLineLabel" value="false"/>-->
         <property name="layoutManager.richTable.render" value="true"/>
         <property name="layoutManager.richTable.disableTableSort" value="false" />
         <property name="items">
@@ -538,6 +533,7 @@
                                     </list>
                                 </property>
                             </bean>
+
                             <bean id="statisticalCategory" parent="OlePatron-InputField" p:propertyName="statisticalCategory" p:label="Statistical Category" p:enableAutoDirectInquiry="false">
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.ole.deliver.keyvalue.OleStatisticalCategoryKeyValue" />
@@ -603,11 +599,6 @@
                                     <bean parent="Uif-TextControl" p:size="10" p:maxLength="10"/>
                                 </property>
                             </bean>
-                            <!--  <bean parent="OlePatron-InputField" p:propertyName="entityId" p:readOnly="true">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="10"/>
-                                </property>
-                            </bean>-->
                             <bean id="barcode_edit" parent="OlePatron-InputField" p:propertyName="barcode" p:label="Barcode" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="20" p:maxLength="20"/>
@@ -633,9 +624,6 @@
                                     <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
                                 </property>
                                 <property name="enableAutoQuickfinder" value="false" />
-                                <!-- <property name="quickfinder">
-                                     <null></null>
-                                 </property>-->
                             </bean>
                             <bean id="attachImageFile_edit" parent="Uif-HorizontalFieldGroup" p:label="Upload Image"
                                   p:rowSpan="2" p:fieldLabel.rowSpan="2">
@@ -654,7 +642,8 @@
                                 </property>
                             </bean>
                             <bean id="patronImage_edit" parent="Uif-ImageField" p:altText=""
-                                  p:captionHeaderText="" p:cutlineText="" p:source="patronMaintenance?methodToCall=getImage&amp;olePatronId=@{document.newMaintainableObject.dataObject.olePatronId}"  p:rowSpan="2" p:fieldLabel.rowSpan="2" p:label="Patron Photograph"/>
+                                  p:captionHeaderText="" p:cutlineText="" p:style="max-width:100px" p:source="patronMaintenance?methodToCall=getImage&amp;olePatronId=@{document.newMaintainableObject.dataObject.olePatronId}&amp;deleteImageFlag=@{document.newMaintainableObject.dataObject.deleteImageFlag}&amp;timeFlag=@{T(System).currentTimeMillis()}"  p:rowSpan="2" p:fieldLabel.rowSpan="2" p:label="Patron Photograph"/>
+
                             <bean id="statisticalCategory_edit" parent="OlePatron-InputField" p:propertyName="statisticalCategory" p:label="Statistical Category" p:enableAutoDirectInquiry="false">
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.ole.deliver.keyvalue.OleStatisticalCategoryKeyValue" />
@@ -663,9 +652,6 @@
                                     <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
                                 </property>
                                 <property name="enableAutoQuickfinder" value="false" />
-                                <!--  <property name="quickfinder">
-                                      <null></null>
-                                  </property>-->
                             </bean>
                             <bean id="activationDate_edit" p:id="OlePatronDocument-OverviewSection" parent="OlePatron-InputField" p:propertyName="activationDate" p:label="Activation Date" p:required="true" p:readOnly="false">
                                 <property name="control">
@@ -688,6 +674,7 @@
             </list>
         </property>
     </bean>
+
 
     <bean id="OlePatronDocument-Affiliation-Wrapper" parent="Uif-VerticalBoxGroup">
     	<property name="items">
@@ -746,7 +733,6 @@
     <bean id="OlePatronDocument-Affiliation"
     		parent="Uif-TableCollectionSection" p:filterModelProperty="filterAffiliation"
     		p:layoutManager.numberOfColumns="2" p:componentSecurity.editAuthz="true" p:disclosure.defaultOpen="false">
-        <!--p:fieldBindingObjectPath="document.newMaintainableObject.dataObject"-->
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronAffiliation" />
         <property name="propertyName" value="patronAffiliations" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -771,12 +757,6 @@
                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
                     </property>
                 </bean>
-
-                <!--<bean parent="OlePatron-InputField" p:propertyName="defaultValue" p:label="Default">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>-->
             </list>
         </property>
 
@@ -795,8 +775,6 @@
 
     <bean id="OlePatronDocument-Employment" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.suppressLineWrapping="true"
           p:fieldBindingObjectPath="patronAffiliations" p:renderInactiveToggleButton="false" >
-        <!--<bean id="OlePatronDocument-Employment" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="6" >-->
-
         <property name="headerText" value="Employment Information" />
         <property name="collectionObjectClass" value="org.kuali.rice.kim.impl.identity.employment.EntityEmploymentBo" />
         <property name="propertyName" value="employments" />
@@ -1038,14 +1016,10 @@
                         <bean class="org.kuali.ole.deliver.keyvalue.OleNoteTypeKeyValues" />
                     </property>
                     <property name="enableAutoQuickfinder" value="false" />
-                    <!-- <property name="quickfinder">
-                         <null></null>
-                     </property>-->
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
                     </property>
                 </bean>
-                <!--<bean id="patronNoteText" parent="OlePatron-InputField" p:propertyName="patronNoteText" p:label="Note Text" />-->
                 <bean id="patronNoteText" parent="OlePatron-InputField" p:propertyName="patronNoteText" p:label="Note Text" p:readOnly="@{!document.newMaintainableObject.dataObject.expirationFlag}">
                     <property name="control">
                         <bean parent="Uif-LargeTextAreaControl" p:cssClasses="comments" p:watermarkText="size 800"/>
@@ -1107,16 +1081,6 @@
                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-50-select"/>
                     </property>
                 </bean>
-                <!--<bean parent="OlePatron-InputField" p:propertyName="name.defaultValue" p:label="Default">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>
-                <bean parent="OlePatron-InputField" p:propertyName="name.active" p:label="Active" p:defaultValue="true">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl" />
-                    </property>
-                </bean>-->
             </list>
         </property>
     </bean>
@@ -1129,7 +1093,6 @@
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="disclosure.defaultOpen" value="true" />
         <property name="showInactiveLines" value="true"/>
-        <!--<property name="layoutManager.rowDetailsLinkName" value="Address Details"/>-->
         <property name="layoutManager.rowDetailsOpen" value="true"/>
         <property name="layoutManager.rowDetailsGroup" >
             <bean parent="Uif-HorizontalBoxGroup" >
