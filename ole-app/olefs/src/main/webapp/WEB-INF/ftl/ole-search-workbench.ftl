@@ -31,7 +31,7 @@
                     <#if line.row.title??>
                         <#if line.row.staffOnly == 'true'>
                             <div class="staffOnlyForHiperlink">
-                                <a target="_blank" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=${line.row.localId}&amp;bibId=${line.row.bibIdentifier!}">${line.row.title!?html}</a>
+                                <a target="_blank" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=${line.row.docFormat}&amp;docId=${line.row.localId}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
                             </div>
                         <#else>
                             <div>
@@ -130,11 +130,11 @@
                     <#if line.row.localId??>
                         <#if line.row.staffOnly == 'true'>
                             <div class="staffOnlyForHiperlink">
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.itemIdentifier!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.localId!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.localId!?html}</a>
                             </div>
                         <#else>
                             <div>
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.itemIdentifier!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}">${line.row.localId!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.localId!?html}</a>
                             </div>
                         </#if>
                     </#if>
@@ -143,11 +143,11 @@
                     <#if line.row.title??>
                         <#if line.row.staffOnly == 'true'>
                             <div class="staffOnlyForHiperlink">
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.itemIdentifier!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
                             </div>
                         <#else>
                             <div>
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.itemIdentifier!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}">${line.row.title!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
                             </div>
                         </#if>
                     </#if>
@@ -266,11 +266,11 @@
                     <#if line.row.localId??>
                         <#if line.row.staffOnly == 'true'>
                             <div class="staffOnlyForHiperlink">
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.holdingsIdentifier!}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true">${line.row.localId!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true">${line.row.localId!?html}</a>
                             </div>
                         <#else>
                             <div>
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.holdingsIdentifier!}&amp;bibId=${line.row.bibIdentifier!}">${line.row.localId!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true">${line.row.localId!?html}</a>
                             </div>
                         </#if>
                     </#if>
@@ -279,11 +279,11 @@
                     <#if line.row.title??>
                         <#if line.row.staffOnly == 'true'>
                             <div class="staffOnlyForHiperlink">
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.holdingsIdentifier!}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
                             </div>
                         <#else>
                             <div>
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.holdingsIdentifier!}&amp;bibId=${line.row.bibIdentifier!}">${line.row.title!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
                             </div>
                         </#if>
                     </#if>
@@ -394,11 +394,11 @@
                     <#if line.row.localId??>
                         <#if line.row.staffOnly == 'true'>
                             <div class="staffOnlyForHiperlink">
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.holdingsIdentifier!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.localId!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.localId!?html}</a>
                             </div>
                         <#else>
                             <div>
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.holdingsIdentifier!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}">${line.row.localId!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.localId!?html}</a>
                             </div>
                         </#if>
                     </#if>
@@ -407,11 +407,11 @@
                     <#if line.row.title??>
                         <#if line.row.staffOnly == 'true'>
                             <div class="staffOnlyForHiperlink">
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.holdingsIdentifier!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
                             </div>
                         <#else>
                             <div>
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.holdingsIdentifier!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}">${line.row.title!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
                             </div>
                         </#if>
                     </#if>

@@ -58,6 +58,7 @@ jq(window).load(function() {
 function browse(){
     jq("#hiddenSearchFields-browse_control").val(false);
     links = [];
+    deLinks = [];
     common();
     return false;
 }
@@ -74,7 +75,7 @@ function common(){
     }
     jq(".dataTables_length select").val(jq("#pageSize_control").val());
     selectCheckbox(jq("#DocumentAndSearchSelectionType_DocType_control").val());
-    window.setTimeout(function(){
+
         if(jq(".dataTables_info").text()!=""){
             jq(".dataTables_info").text(jq("#pageShowEntries_control").val());
         }
@@ -90,7 +91,7 @@ function common(){
         else if(jq("#docType_control").val()=="item") {
            jq("#CallNumberBrowse-docType-Section_control_1").attr('checked', true);
         }
-    }, 0);
+
 }
 
 function clear(){

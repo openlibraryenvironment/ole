@@ -1414,13 +1414,12 @@ public class OLESearchController extends UifControllerBase {
     public void searchDocstoreForLocalIds(OLESearchForm oleSearchForm,HttpServletRequest request) {
         setShowPageSizeEntries(oleSearchForm);
         SearchParams searchParams = oleSearchForm.getSearchParams();
-        oleSearchForm.getSearchParams().getSearchConditions().clear();
-        searchParams.getSearchConditions().addAll(oleSearchForm.getSearchConditions());
+        oleSearchForm.getSearchConditions().clear();
+        oleSearchForm.getSearchConditions().addAll(searchParams.getSearchConditions());
         searchParams.getSearchResultFields().clear();
         searchParams.setPageSize(totalRecCount);
         searchParams.setStartIndex(0);
         for (SearchCondition searchCondition : oleSearchForm.getSearchConditions()) {
-            searchCondition.getSearchField().setDocType(oleSearchForm.getDocType());
             if(searchCondition.getSearchField().getFieldName().equalsIgnoreCase(BibConstants.ISBN_SEARCH)){
                 String fieldValue= searchCondition.getSearchField().getFieldValue().replaceAll("-","");
                 ISBNUtil isbnUtil = new ISBNUtil();
@@ -1439,17 +1438,13 @@ public class OLESearchController extends UifControllerBase {
             }
         }
 
-        if(CollectionUtils.isEmpty(searchParams.getSearchConditions())) {
-            searchParams.getSearchConditions().add(searchParams.buildSearchCondition("", searchParams.buildSearchField(oleSearchForm.getDocType(), "", ""), ""));
-        }
-        request.getSession().setAttribute("searchParams", searchParams);
-
         SearchResponse searchResponse = null;
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(oleSearchForm.getDocType(), "LocalId_display"));
         if(oleSearchForm.getDocType().equalsIgnoreCase("bibliographic")){
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(oleSearchForm.getDocType(), Bib.ID));
         }else{
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(oleSearchForm.getDocType(), Bib.BIBIDENTIFIER));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(oleSearchForm.getDocType(), Holdings.HOLDINGSIDENTIFIER));
         }
 
         if (oleSearchForm instanceof GlobalEditForm) {
@@ -1458,16 +1453,15 @@ public class OLESearchController extends UifControllerBase {
             }
         }
         try {
-            if(oleSearchForm.getDocType().equalsIgnoreCase(DocType.BIB.getCode()) && searchParams.getSortConditions() != null && searchParams.getSortConditions().size() == 0) {
-                SortCondition sortCondition = new SortCondition();
-                sortCondition.setSortField("Title_sort");
-                sortCondition.setSortOrder("asc");
-                searchParams.getSortConditions().add(sortCondition);
-            }
             searchResponse = getDocstoreLocalClient().search(searchParams);
             StringBuilder ids = new StringBuilder();
             for( SearchResult searchResult:searchResponse.getSearchResults()){
-               ids.append("," + searchResult.getSearchResultFields().get(0).getFieldValue() +"#"+ searchResult.getSearchResultFields().get(1).getFieldValue());
+                if(oleSearchForm.getDocType().equalsIgnoreCase("bibliographic")){
+                    ids.append("," + searchResult.getSearchResultFields().get(0).getFieldValue() +"#"+ searchResult.getSearchResultFields().get(1).getFieldValue());
+                }else{
+                    ids.append("," + searchResult.getSearchResultFields().get(0).getFieldValue() +"#"+ searchResult.getSearchResultFields().get(1).getFieldValue()+"#"+ searchResult.getSearchResultFields().get(2).getFieldValue());
+                }
+
             }
             oleSearchForm.setIdsToBeOpened(ids.toString().replaceFirst(",",""));
 

@@ -7,6 +7,7 @@
  */
 //for bib
 var links = [];
+var deLinks = [];
 function viewWorkbenchBibView(docFormat, docId, bibId) {
     window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat=" + docFormat + "&docId=" + docId + "&bibId=" + bibId + "&editable=false");
     return false;
@@ -178,7 +179,7 @@ function submitSearching() {
     searching();
 }
 
-function getUrl(line, length) {
+function getUrl(line) {
     var url = jq("#BibSearchResults tbody tr:eq(" + line + ") td:eq(1) div a").attr("href") + "&pageId=WorkBibEditorViewPage";
     if (jq("#DocumentAndSearchSelectionType_SearchType_control").val() == "search") {
         var doctype = jq("#DocumentAndSearchSelectionType_DocType_control").val();
@@ -201,34 +202,101 @@ function getUrl(line, length) {
     }
     return url;
 }
+
+function getPageId() {
+    var pageId = "&pageId=WorkBibEditorViewPage";
+    if (jq("#DocumentAndSearchSelectionType_SearchType_control").val() == "search") {
+        var doctype = jq("#DocumentAndSearchSelectionType_DocType_control").val();
+        if (doctype == 'holdings') {
+            pageId = "&pageId=WorkHoldingsViewPage";
+        }
+        else if (doctype == 'item') {
+            pageId = "&pageId=WorkItemViewPage";
+        }
+        else if (doctype == 'eHoldings') {
+            pageId = "&pageId=WorkEInstanceViewPage";
+        }
+
+    } else {
+        pageId = "&pageId=WorkBibEditorViewPage";
+        if (jq("#CallNumberBrowse-docType-Section_control_0").is(':checked')) {
+            pageId = "&pageId=WorkHoldingsViewPage";
+        } else if (jq("#CallNumberBrowse-docType-Section_control_1").is(':checked')) {
+            pageId = "&pageId=WorkItemViewPage";
+        }
+    }
+    return pageId;
+}
+
+function selectOrUnselectLink(id, url) {
+    var length = links.length + 1;
+    if (jq("#" + id).is(':checked')) {
+        if (length > 0) {
+            var isAvailable = false;
+            for (i = 1; i < length; i++) {
+                if (links[i] == url) {
+                    isAvailable = true;
+                    break;
+                }
+            }
+            if (!isAvailable) {
+                links[length] = url;
+            }
+        } else {
+            links[length] = url;
+        }
+    } else {
+        for (i = 1; i < links.length; i++) {
+            if (links[i] == url) {
+                delete links[i];
+                break;
+            }
+        }
+
+    }
+}
+
+
+function selectOrUnselectDeLink(id, url) {
+    var length = deLinks.length + 1;
+    if (jq("#" + id).is(':checked')) {
+        for (i = 1; i < length; i++) {
+            if (deLinks[i] == url) {
+                delete deLinks[i];
+                break;
+            }
+        }
+    } else {
+        if (length > 0) {
+            var isAvailable = false;
+            for (i = 1; i < length; i++) {
+                if (deLinks[i] == url) {
+                    isAvailable = true;
+                    break;
+                }
+            }
+            if (!isAvailable) {
+                deLinks[length] = url;
+            }
+        } else {
+            deLinks[length] = url;
+        }
+
+    }
+}
+
+
 function selectOrUnselect() {
     jq('.sorting_1').live("click", function (event) {
         var id = event.target.id;
         var line = id.split("line")[1].substr(0, 1);
-        var length = links.length + 1;
-        var url = getUrl(line, length);
-        if (jq("#" + id).is(':checked')) {
-            if (links.length > 0) {
-                var isAvailable = false;
-                for (i = 1; i < links.length; i++) {
-                    if (links[i] == url) {
-                        isAvailable = true;
-                    }
-                }
-                if (!isAvailable) {
-                    links[length] = url;
-                }
-            } else {
-                links[length] = url;
-            }
-        } else {
-            for (i = 1; i < links.length; i++) {
-                if (links[i] == url) {
-                    delete links[i];
-                }
-            }
-
+        var url = getUrl(line);
+        if (jq("#hiddenSearchFields_h9").val() == "true" || jq("#hiddenSearchFields-browse_control").val() == "true") {
+            selectOrUnselectDeLink(id, url)
+        }else{
+            selectOrUnselectLink(id, url);
         }
+
     });
 }
 
@@ -299,24 +367,41 @@ function openSelectAll(doctype) {
             }
             var ids = selectedRecords.split(",");
             var docFormat = "oleml";
-            var pageId = "&pageId=WorkBibEditorViewPage";
+            var pageId = getPageId();
             if (doctype == "bibliographic") {
                 docFormat = "marc";
             }
             for (var i = 0; i < ids.length; i++) {
                 var id = ids[i].split("#");
-                var link = href = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=" + id[1] + "&editable=true";
-                window.open(link);
+                var link = href = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=" + id[1] + "&editable=true"+ pageId;
+                if (doctype == "bibliographic") {
+                   link = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=&editable=true" + pageId;
+                } else if (doctype == "item") {
+                    link = href = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=" + id[1] + "&instanceId=" +id[2]+ "&editable=true"+ pageId;
+                }
+                if (deLinks.length > 0) {
+                    var isAvailable = true;
+                    for (j = 1; j < deLinks.length; j++) {
+                        if (link == deLinks[j]) {
+                            isAvailable = false;
+                            break;
+                        }
+                    }
+                    if (isAvailable) {
+                        window.open(link);
+                    }
+                } else {
+                    window.open(link);
+                }
+
             }
         });
     } else {
-        for(i=0;i < links.length;i++)
-        if(links[i] != null){
-            window.open(links[i]);
-        }
+        for (i = 0; i < links.length; i++)
+            if (links[i] != null) {
+                window.open(links[i]);
+            }
     }
-
-
 }
 
 //hiddenSearchFields_h9 is mapped to selectAllRecords
@@ -390,6 +475,7 @@ function browse() {
     jq(".dataTables_wrapper").attr("style", "width:1200px;");
     jq("hiddenSearchFields-browse_control").val("false");
     links = [];
+    deLinks = [];
     displayDialogWindow("div#MessagePopupSectionForLinkToEResource");
     return true;
 }
@@ -421,6 +507,7 @@ function search() {
     var date = new Date();
     jq("#hiddenSearchFields_h9").val("false");
     links = [];
+    deLinks = [];
     localStorage.startTime = date.getMilliseconds();
     submitForm('search', null, null, true, function () {
         searching();
