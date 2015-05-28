@@ -18,8 +18,8 @@
 <channel:portalChannelTop channelTitle="Circulation Admin"/>
 <div class="body">
 
-    <portal:portalLink displayTitle="true"   title="Barcode Status"
-                       url="${ConfigProperties.application.url}/ole-kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.ole.deliver.bo.BarcodeStatus&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/><br/>
+    <%--<portal:portalLink displayTitle="true"   title="Barcode Status"
+                       url="${ConfigProperties.application.url}/ole-kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.ole.deliver.bo.BarcodeStatus&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/><br/>--%>
     <portal:portalLink displayTitle="true"  title="Calendar"
                        url="${ConfigProperties.application.url}/ole-kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.ole.deliver.calendar.bo.OleCalendar&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/><br/>
     <portal:portalLink displayTitle="true"   title="Calendar Exception Type"
