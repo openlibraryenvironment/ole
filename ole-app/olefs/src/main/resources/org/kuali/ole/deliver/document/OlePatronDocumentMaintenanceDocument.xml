@@ -1053,25 +1053,16 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="40" p:maxLength="40"  />
                     </property>
-                    <!-- <property name="validCharactersConstraint">
-                         <bean parent="AlphaNumericPatternConstraint" p:allowWhitespace="true" p:allowDash="true" p:allowApostrophe="true"/>
-                     </property>-->
                 </bean>
                 <bean id="middleName" parent="OlePatron-InputField" p:propertyName="name.middleName" p:label="Middle Name">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:maxLength="20" />
                     </property>
-                    <!-- <property name="validCharactersConstraint">
-                         <bean parent="AlphaNumericPatternConstraint" p:allowWhitespace="true" p:allowDash="true" p:allowApostrophe="true"/>
-                     </property>-->
                 </bean>
                 <bean id="lastName" parent="OlePatron-InputField" p:propertyName="name.lastName" p:label="Last Name" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="40" p:maxLength="40"/>
                     </property>
-                    <!-- <property name="validCharactersConstraint">
-                         <bean parent="AlphaNumericPatternConstraint" p:allowWhitespace="true" p:allowDash="true" p:allowApostrophe="true"/>
-                     </property>-->
                 </bean>
                 <bean id="nameSuffix" parent="OlePatron-InputField" p:propertyName="name.nameSuffix" p:label="Suffix">
                     <property name="optionsFinder">

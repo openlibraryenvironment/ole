@@ -125,24 +125,15 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:maxLength="45"/>
                     </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
-                    </property>
                 </bean>
                 <bean id="myAccount_line2" parent="Uif-InputField" p:propertyName="entityAddressBo.line2" p:label="Line 2">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:maxLength="45"/>
                     </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
-                    </property>
                 </bean>
                 <bean id="myAccount_line3" parent="Uif-InputField" p:propertyName="entityAddressBo.line3" p:label="Line 3">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:maxLength="45"/>
-                    </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
                     </property>
                 </bean>
                 <bean id="myAccount_city" parent="Uif-InputField" p:propertyName="entityAddressBo.city" p:label="City">
