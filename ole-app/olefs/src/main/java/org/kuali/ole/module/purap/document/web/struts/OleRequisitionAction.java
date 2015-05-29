@@ -1194,9 +1194,9 @@ public class OleRequisitionAction extends RequisitionAction {
                 OleFundCode oleFundCode = oleFundCodes.get(0);
                 if (oleFundCode != null) {
                     if (oleFundCode.getOleFundCodeAccountingLineList() != null) {
-                        OleRequisitionAccount account = new OleRequisitionAccount();
                         List<PurApAccountingLine> accountingLines = new ArrayList<PurApAccountingLine>();
                         for (OleFundCodeAccountingLine accountingLine : oleFundCode.getOleFundCodeAccountingLineList()) {
+                            OleRequisitionAccount account = new OleRequisitionAccount();
                             if (accountingLine.getPercentage() != null) {
                                 account.setAccountLinePercent(accountingLine.getPercentage());
                             }
