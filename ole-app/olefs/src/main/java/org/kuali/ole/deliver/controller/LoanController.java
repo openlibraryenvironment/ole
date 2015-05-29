@@ -53,6 +53,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -630,9 +631,16 @@ public class LoanController extends UifControllerBase {
                     renewalFlag = true;
                 }
             }
+
             if (!renewalFlag) {
                 try {
                     OleLoanDocument oleLoanDocument = new OleLoanDocument();
+
+                    String ipAddress = request.getHeader("X-FORWARDED-FOR");
+                    if (ipAddress == null) {
+                        ipAddress = request.getRemoteAddr();
+                    }
+                    oleLoanDocument.setMachineId(ipAddress);
                     oleLoanDocument.setItemUuid(oleLoanForm.getItemUuid());
                     oleLoanForm.setAddressVerified(false);
                     oleLoanForm.getErrorsAndPermission().clear();
