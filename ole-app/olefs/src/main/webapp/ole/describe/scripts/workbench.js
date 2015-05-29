@@ -604,7 +604,10 @@ function itemSortBy(field) {
         sortField = "Chronology_sort";
     } else if (field == 'local') {
         sortField = "LocalId_search";
+    } else if (field == 'shelvingOrder') {
+        sortField = "ShelvingOrder_sort";
     }
+
     jq('#hiddenSearchFields_h3').val(sortField);
     jq('#hiddenSearchFields_h2').val(sortOrder);
     submitForm('search', null, null, true, function () {
@@ -631,6 +634,8 @@ function holdingsSortBy(field) {
         sortField = "CallNumber_sort";
     } else if (field == 'local') {
         sortField = "LocalId_search";
+    } else if (field == 'shelvingOrder') {
+        sortField = "ShelvingOrder_sort";
     }
     jq('#hiddenSearchFields_h3').val(sortField);
     jq('#hiddenSearchFields_h2').val(sortOrder);

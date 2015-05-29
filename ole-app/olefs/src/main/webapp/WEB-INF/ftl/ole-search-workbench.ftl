@@ -98,7 +98,7 @@
             <#if manager.searchResultDisplayFields.barcodeArsl><th>BarcodeARSL</th></#if>
             <#if manager.searchResultDisplayFields.callNumberPrefix><th>Call Number Prefix</th></#if>
             <#if manager.searchResultDisplayFields.classificationPart><th>Classification Part</th></#if>
-            <#if manager.searchResultDisplayFields.shelvingOrder><th>Shelving Order</th></#if>
+            <#if manager.searchResultDisplayFields.shelvingOrder><th><a style="text-decoration:underline;" onclick="itemSortBy('shelvingOrder');">Shelving Order</a></th></#if>
             <#if manager.searchResultDisplayFields.shelvingOrderCode><th>Shelving Order Code</th></#if>
             <#if manager.searchResultDisplayFields.shelvingSchemeCode><th>Shelving Scheme Code</th></#if>
             <#if manager.searchResultDisplayFields.shelvingSchemeValue><th>Shelving Scheme Value</th></#if>
@@ -232,7 +232,7 @@
             <#if manager.searchResultDisplayFields.callNumber><th><a style="text-decoration:underline;" onclick="holdingsSortBy('callNumber');">Call Number</a></th></#if>
             <#if manager.searchResultDisplayFields.callNumberPrefix><th>Call Number Prefix</th></#if>
             <#if manager.searchResultDisplayFields.classificationPart><th>Classification Part</th></#if>
-            <#if manager.searchResultDisplayFields.shelvingOrder><th>Shelving Order</th></#if>
+            <#if manager.searchResultDisplayFields.shelvingOrder><th><a style="text-decoration:underline;" onclick="itemSortBy('shelvingOrder');">Shelving Order</a></th></#if>
             <#if manager.searchResultDisplayFields.shelvingOrderCode><th>Shelving Order Code</th></#if>
             <#if manager.searchResultDisplayFields.shelvingSchemeCode><th>Shelving Scheme Code</th></#if>
             <#if manager.searchResultDisplayFields.shelvingSchemeValue><th>Shelving Scheme Value</th></#if>
