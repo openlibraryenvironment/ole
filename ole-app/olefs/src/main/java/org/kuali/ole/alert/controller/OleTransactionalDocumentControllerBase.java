@@ -1,6 +1,8 @@
 package org.kuali.ole.alert.controller;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.alert.bo.AlertBo;
 import org.kuali.ole.alert.document.OleTransactionalDocumentBase;
 import org.kuali.ole.alert.service.impl.AlertHelperServiceImpl;
@@ -195,6 +197,12 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
         transactionalDocumentFormBase = (TransactionalDocumentFormBase)modelAndView.getModel().get("KualiForm");
         List<String> principalIds = new ArrayList<String>();
         AlertBo alertBo = oleTransactionalDocumentBase.getAlertBoList().get(0);
+        oleTransactionalDocumentBase.getAlertBoList().remove(0);
+        if(alertBo.getReceivingGroupId()==null && alertBo.getReceivingUserId()==null && alertBo.getReceivingRoleId()==null && StringUtils.isEmpty(alertBo.getReceivingGroupId()) && StringUtils.isEmpty(alertBo.getReceivingUserName()) && StringUtils.isEmpty(alertBo.getReceivingRoleName()) && StringUtils.isEmpty(alertBo.getReceivingGroupName())){
+            GlobalVariables.getMessageMap().putErrorForSectionId("OLE-AlertSection", OLEConstants.SELECT_USER);
+            oleTransactionalDocumentBase.getAlertBoList().remove(0);
+            return modelAndView ;
+        } 
         alertBo.setAlertCreateDate(new Date(System.currentTimeMillis()));
         alertBo.setAlertInitiatorId(GlobalVariables.getUserSession().getPrincipalId());
         alertBo.setAlertInitiatorName(alertService.getName(GlobalVariables.getUserSession().getPrincipalId()));
@@ -210,15 +218,34 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
             List<String> memberIds = groupService.getMemberPrincipalIds(alertBo.getReceivingGroupId());
             principalIds.addAll(memberIds);
         }*/
-
-
+        String status = null;
+        if(alertBo.getAlertDate()!=null){
+            Date alertDate = alertBo.getAlertDate();
+            if(alertDate.toString().equals(new Date(System.currentTimeMillis()).toString())){
+                status = "Active";
+            }else{
+                int dateCompare= alertBo.getAlertDate().compareTo(new Date(System.currentTimeMillis()));
+                if(dateCompare>0){
+                    status = "Future";
+                }else if(dateCompare<0){
+                    status="Complete";
+                }
+            }
+        }
+        alertBo.setStatus(status);
+        alertBo.setAlertStatus(true);
+        List<AlertBo> alerts = new ArrayList<AlertBo>();
         if(alertBo.getReceivingUserId()!=null && (alertBo.getReceivingUserName() == null || (alertBo.getReceivingUserName()!=null && alertBo.getReceivingUserName().trim().isEmpty()))){
             alertBo.setReceivingUserName(alertService.getName(alertBo.getReceivingUserId()));
         }
         if(alertBo.getReceivingUserId() == null && (alertBo.getReceivingUserName() != null && !alertBo.getReceivingUserName().trim().isEmpty())){
             alertBo.setReceivingUserId(alertService.getPersonId(alertBo.getReceivingUserName()));
         }
-
+       if(alertBo.getReceivingUserId()!=null){
+        principalIds.add(alertBo.getReceivingUserId());
+       }
+        alerts.addAll(alertService.getAlertBo(alertBo,principalIds,false,false));
+        principalIds = new ArrayList<String>();
 
 
 /*        if(alertBo.getReceivingUserId()!=null && !alertBo.getReceivingUserId().trim().isEmpty()){
@@ -240,6 +267,10 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
             List<String> memberIds = groupService.getMemberPrincipalIds(alertBo.getReceivingGroupId());
             principalIds.addAll(memberIds);
         }
+        alerts.addAll(alertService.getAlertBo(alertBo,principalIds,false,true));
+
+
+        principalIds = new ArrayList<String>();
 
         if(alertBo.getReceivingRoleId()!=null && (alertBo.getReceivingRoleName() == null || (alertBo.getReceivingRoleName()!=null && alertBo.getReceivingRoleName().trim().isEmpty()))){
             alertBo.setReceivingRoleName(alertService.getRoleName(alertBo.getReceivingRoleId()));
@@ -260,25 +291,8 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
         }
 
 
+        alerts.addAll(alertService.getAlertBo(alertBo,principalIds,true,false));
 
-        String status = null;
-        if(alertBo.getAlertDate()!=null){
-            Date alertDate = alertBo.getAlertDate();
-            if(alertDate.toString().equals(new Date(System.currentTimeMillis()).toString())){
-                status = "Active";
-            }else{
-                int dateCompare= alertBo.getAlertDate().compareTo(new Date(System.currentTimeMillis()));
-                if(dateCompare>0){
-                    status = "Future";
-                }else if(dateCompare<0){
-                    status="Complete";
-                }
-            }
-        }
-        alertBo.setStatus(status);
-        alertBo.setAlertStatus(true);
-
-        List<AlertBo> alerts = alertService.getAlertBo(alertBo,principalIds);
 
         oleTransactionalDocumentBase.getAlertBoList().addAll(alerts);
         if(alertBo.getReceivingUserId()==null && alertBo.getReceivingGroupId()!=null){

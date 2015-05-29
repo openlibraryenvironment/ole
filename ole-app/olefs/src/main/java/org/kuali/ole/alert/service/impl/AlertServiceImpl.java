@@ -192,7 +192,7 @@ public class AlertServiceImpl implements AlertService{
     }
 
 
-    public List<AlertBo> getAlertBo(AlertBo alertBo,List<String> receivingPrincipalIds){
+    public List<AlertBo> getAlertBo(AlertBo alertBo,List<String> receivingPrincipalIds,boolean roleMember,boolean groupMember){
         AlertBo alertBo1 = null;
         List<AlertBo> alertBos = new ArrayList<AlertBo>();
         for(String receivingUserId : receivingPrincipalIds){
@@ -211,11 +211,15 @@ public class AlertServiceImpl implements AlertService{
             alertBo1.setAlertApproverId(alertBo.getAlertApproverId());
             alertBo1.setAlertApprovedDate(alertBo.getAlertApprovedDate());
             alertBo1.setReceivingUserName(getName(receivingUserId));
+            if(groupMember){
             alertBo1.setReceivingGroupId(alertBo.getReceivingGroupId());
             alertBo1.setReceivingGroupName(getGroupName(alertBo.getReceivingGroupId()));
+
+            }if(roleMember){
             alertBo1.setReceivingRoleId(alertBo.getReceivingRoleId());
             alertBo1.setReceivingRoleName(alertBo.getReceivingRoleName());
-            alertBo1.setStatus(alertBo.getStatus());
+            }
+                alertBo1.setStatus(alertBo.getStatus());
             alertBos.add(alertBo1);
         }
         return alertBos;

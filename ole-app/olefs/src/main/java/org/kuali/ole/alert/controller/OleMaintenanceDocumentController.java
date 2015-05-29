@@ -2,6 +2,7 @@ package org.kuali.ole.alert.controller;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.alert.bo.AlertBo;
 import org.kuali.ole.alert.document.OleMaintenanceDocumentBase;
 import org.kuali.ole.alert.document.OlePersistableBusinessObjectBase;
@@ -242,55 +243,15 @@ public class OleMaintenanceDocumentController extends MaintenanceDocumentControl
         MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm)modelAndView.getModel().get("KualiForm");
         OlePersistableBusinessObjectBase olePersistableBusinessObjectBase = (OlePersistableBusinessObjectBase)maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
         AlertBo alertBo = olePersistableBusinessObjectBase.getAlertBoList().get(0);
+        olePersistableBusinessObjectBase.getAlertBoList().remove(0);
+        if(alertBo.getReceivingGroupId()==null && alertBo.getReceivingUserId()==null && alertBo.getReceivingRoleId()==null && StringUtils.isEmpty(alertBo.getReceivingGroupId()) && StringUtils.isEmpty(alertBo.getReceivingUserName()) && StringUtils.isEmpty(alertBo.getReceivingRoleName()) && StringUtils.isEmpty(alertBo.getReceivingGroupName())){
+            GlobalVariables.getMessageMap().putErrorForSectionId("OLE-AlertSection", OLEConstants.SELECT_USER);
+            olePersistableBusinessObjectBase.getAlertBoList().remove(0);
+            return modelAndView ;
+        }
         alertBo.setAlertCreateDate(new Date(System.currentTimeMillis()));
         alertBo.setAlertInitiatorId(GlobalVariables.getUserSession().getPrincipalId());
         alertBo.setAlertInitiatorName(alertService.getName(GlobalVariables.getUserSession().getPrincipalId()));
-
-         if(alertBo.getReceivingUserId()!=null && (alertBo.getReceivingUserName() == null || (alertBo.getReceivingUserName()!=null && alertBo.getReceivingUserName().trim().isEmpty()))){
-             alertBo.setReceivingUserName(alertService.getName(alertBo.getReceivingUserId()));
-         }
-        if(alertBo.getReceivingUserId() == null && (alertBo.getReceivingUserName() != null && !alertBo.getReceivingUserName().trim().isEmpty())){
-             alertBo.setReceivingUserId(alertService.getPersonId(alertBo.getReceivingUserName()));
-        }
-
-
-
-/*        if(alertBo.getReceivingUserId()!=null && !alertBo.getReceivingUserId().trim().isEmpty()){
-//            principalIds.add(alertBo.getReceivingUserId());
-            alertBo.setReceivingUserName(alertService.getName(alertBo.getReceivingUserId()));
-        }*/
-        if(alertBo.getReceivingGroupId()!=null && (alertBo.getReceivingGroupName() == null || (alertBo.getReceivingGroupName()!=null && alertBo.getReceivingGroupName().trim().isEmpty()))){
-            alertBo.setReceivingGroupName(alertService.getGroupName(alertBo.getReceivingGroupId()));
-        }
-        if(alertBo.getReceivingGroupId() == null && (alertBo.getReceivingGroupName() != null && !alertBo.getReceivingGroupName().trim().isEmpty())){
-            alertBo.setReceivingGroupId(alertService.getGroupId((alertBo.getReceivingUserName())));
-        }
-
-/*        if(alertBo.getReceivingGroupId()!=null && !alertBo.getReceivingGroupId().trim().isEmpty()){
-            alertBo.setReceivingGroupName(alertService.getGroupName(alertBo.getReceivingGroupId()));
-        }*/
-
-        if(alertBo.getReceivingGroupId()!=null){
-            List<String> memberIds = groupService.getMemberPrincipalIds(alertBo.getReceivingGroupId());
-            principalIds.addAll(memberIds);
-        }
-
-        if(alertBo.getReceivingRoleId()!=null && (alertBo.getReceivingRoleName() == null || (alertBo.getReceivingRoleName()!=null && alertBo.getReceivingRoleName().trim().isEmpty()))){
-            alertBo.setReceivingRoleName(alertService.getRoleName(alertBo.getReceivingRoleId()));
-        }
-        if(alertBo.getReceivingRoleId() == null && (alertBo.getReceivingRoleName() != null && !alertBo.getReceivingRoleName().trim().isEmpty())){
-            alertBo.setReceivingRoleId(alertService.getRoleId((alertBo.getReceivingRoleName())));
-        }
-
-        if(alertBo.getReceivingRoleId()!=null){
-            List<String> roleIds = new ArrayList<String>();
-            roleIds.add(alertBo.getReceivingRoleId());
-            Role role =  roleService.getRole(alertBo.getReceivingRoleId());
-            Collection collection  =  (Collection)roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(),role.getName(),null);
-            List<String> memberIds = new ArrayList<String>();
-            memberIds.addAll(collection);
-            principalIds.addAll(memberIds);
-        }
 
         String status = null;
         if(alertBo.getAlertDate()!=null){
@@ -308,7 +269,60 @@ public class OleMaintenanceDocumentController extends MaintenanceDocumentControl
         }
         alertBo.setStatus(status);
         alertBo.setAlertStatus(true);
-        List<AlertBo> alerts = alertService.getAlertBo(alertBo,principalIds);
+        List<AlertBo> alerts = new ArrayList<AlertBo>();
+        if(alertBo.getReceivingUserId()!=null && (alertBo.getReceivingUserName() == null || (alertBo.getReceivingUserName()!=null && alertBo.getReceivingUserName().trim().isEmpty()))){
+            alertBo.setReceivingUserName(alertService.getName(alertBo.getReceivingUserId()));
+        }
+        if(alertBo.getReceivingUserId() == null && (alertBo.getReceivingUserName() != null && !alertBo.getReceivingUserName().trim().isEmpty())){
+            alertBo.setReceivingUserId(alertService.getPersonId(alertBo.getReceivingUserName()));
+        }
+        if(alertBo.getReceivingUserId()!=null){
+            principalIds.add(alertBo.getReceivingUserId());
+        }
+        alerts.addAll(alertService.getAlertBo(alertBo,principalIds,false,false));
+        principalIds = new ArrayList<String>();
+
+
+
+        if(alertBo.getReceivingGroupId()!=null && (alertBo.getReceivingGroupName() == null || (alertBo.getReceivingGroupName()!=null && alertBo.getReceivingGroupName().trim().isEmpty()))){
+            alertBo.setReceivingGroupName(alertService.getGroupName(alertBo.getReceivingGroupId()));
+        }
+        if(alertBo.getReceivingGroupId() == null && (alertBo.getReceivingGroupName() != null && !alertBo.getReceivingGroupName().trim().isEmpty())){
+            alertBo.setReceivingGroupId(alertService.getGroupId((alertBo.getReceivingUserName())));
+        }
+
+
+        if(alertBo.getReceivingGroupId()!=null){
+            List<String> memberIds = groupService.getMemberPrincipalIds(alertBo.getReceivingGroupId());
+            principalIds.addAll(memberIds);
+        }
+        alerts.addAll(alertService.getAlertBo(alertBo,principalIds,false,true));
+
+
+        principalIds = new ArrayList<String>();
+
+        if(alertBo.getReceivingRoleId()!=null && (alertBo.getReceivingRoleName() == null || (alertBo.getReceivingRoleName()!=null && alertBo.getReceivingRoleName().trim().isEmpty()))){
+            alertBo.setReceivingRoleName(alertService.getRoleName(alertBo.getReceivingRoleId()));
+        }
+        if(alertBo.getReceivingRoleId() == null && (alertBo.getReceivingRoleName() != null && !alertBo.getReceivingRoleName().trim().isEmpty())){
+            alertBo.setReceivingRoleId(alertService.getRoleId((alertBo.getReceivingRoleName())));
+        }
+
+
+        if(alertBo.getReceivingRoleId()!=null){
+            List<String> roleIds = new ArrayList<String>();
+            roleIds.add(alertBo.getReceivingRoleId());
+            Role role =  roleService.getRole(alertBo.getReceivingRoleId());
+            Collection collection  =  (Collection)roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(),role.getName(),null);
+            List<String> memberIds = new ArrayList<String>();
+            memberIds.addAll(collection);
+            principalIds.addAll(memberIds);
+        }
+
+
+        alerts.addAll(alertService.getAlertBo(alertBo,principalIds,true,false));
+
+
         olePersistableBusinessObjectBase.getAlertBoList().addAll(alerts);
         if(alertBo.getReceivingUserId()==null && alertBo.getReceivingGroupId()!=null){
             olePersistableBusinessObjectBase.getAlertBoList().remove(0);
@@ -317,17 +331,9 @@ public class OleMaintenanceDocumentController extends MaintenanceDocumentControl
             alertBo.setReceivingGroupName(null);
             alertBo.setReceivingGroupId(null);
         }
+
         return modelAndView ;
 
-
-/*        List<AlertBo> alertBoList = new ArrayList<AlertBo>();
-    //    MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm)formBase;
-
-        oleDeliverRequestType.setAlertBoList(alertBoList);
-*//*        OleMaintenanceDocumentBase oleMaintenanceDocumentBase = (OleMaintenanceDocumentBase) maintenanceDocumentForm.getDocument();
-        oleMaintenanceDocumentBase.setAlertBoList(alertBoes);*//*
-
-        return getUIFModelAndView(formBase);*/
 }
 
 

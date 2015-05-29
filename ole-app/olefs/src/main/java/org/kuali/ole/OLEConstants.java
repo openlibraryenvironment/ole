@@ -3408,5 +3408,6 @@ public class OLEConstants {
 
     public static final String N0_PROFILE_SELECTED = "error.no.profile";
     public static final String UPLOAD_FILE_AGAIN = "error.file.upload";
+    public static final String SELECT_USER="error.select.user";
 
 }

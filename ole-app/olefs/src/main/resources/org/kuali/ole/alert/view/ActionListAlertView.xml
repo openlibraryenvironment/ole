@@ -70,7 +70,7 @@
         <property name="layoutManager.richTable.disableTableSort" value="true" />
         <property name="items">
             <list>
-                <bean id="ActionListAlertView-documentId" parent="Uif-LinkField"  p:width="10%" p:linkText="@{#line.documentId}" p:target="_blank" p:href="../ole-kr-krad/oleMaintenance?docId=@{#line.documentId}&amp;methodToCall=docHandler&amp;command=displayDocSearchView" p:label="Document Number" p:render="@{#line.active}"/>
+                <bean id="ActionListAlertView-documentId" parent="Uif-LinkField"  p:width="10%" p:linkText="@{#line.documentId}" p:target="_blank" p:href="../kew/DocHandler.do?command=displayDocSearchView&amp;docId=@{#line.documentId}" p:label="Document Number" p:render="@{#line.active}"/>
 
                 <bean id="ActionListAlertView-title" parent="Uif-InputField" p:propertyName="title" p:label="Title" p:readOnly="true"  p:render="@{#line.active}">
                     <property name="control">

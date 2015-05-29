@@ -13,6 +13,7 @@
                 <ref bean="OLEEResourceMainTab-Subscription"/>
                 <ref bean="OLEEResourceMainTab-SelectionSection"/>
                 <ref bean="OLEEResourceMainTab-AccessSection"/>
+                <ref bean="OLE-AlertSection"/>
                 <ref bean="OLEEResourceMainTab-NoteSection"/>
                 <ref bean="EResourceInstance_ManageGoKbPopup"/>
                 <bean parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"/>
