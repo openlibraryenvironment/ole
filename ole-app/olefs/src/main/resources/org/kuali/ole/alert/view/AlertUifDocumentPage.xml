@@ -26,7 +26,7 @@
     </bean>
 
 
-    <bean id="Uif-AddLineActions" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addAlertLine" p:actionLabel="add"
+    <bean id="Uif-AddLineActions" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addAlertLine" p:actionLabel="Add"
           p:actionEvent="addLine" p:loadingMessageText="Adding Alert..." p:focusOnIdAfterSubmit="LINE_FIRST"
           p:performClientSideValidation="true" p:dirtyOnAction="true" p:id="@{#collectionGroup.id}_add"/>
 

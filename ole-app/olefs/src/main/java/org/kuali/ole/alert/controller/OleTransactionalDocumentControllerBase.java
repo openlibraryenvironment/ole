@@ -200,7 +200,6 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
         oleTransactionalDocumentBase.getAlertBoList().remove(0);
         if(alertBo.getReceivingGroupId()==null && alertBo.getReceivingUserId()==null && alertBo.getReceivingRoleId()==null && StringUtils.isEmpty(alertBo.getReceivingGroupId()) && StringUtils.isEmpty(alertBo.getReceivingUserName()) && StringUtils.isEmpty(alertBo.getReceivingRoleName()) && StringUtils.isEmpty(alertBo.getReceivingGroupName())){
             GlobalVariables.getMessageMap().putErrorForSectionId("OLE-AlertSection", OLEConstants.SELECT_USER);
-            oleTransactionalDocumentBase.getAlertBoList().remove(0);
             return modelAndView ;
         } 
         alertBo.setAlertCreateDate(new Date(System.currentTimeMillis()));
@@ -256,7 +255,7 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
             alertBo.setReceivingGroupName(alertService.getGroupName(alertBo.getReceivingGroupId()));
         }
         if(alertBo.getReceivingGroupId() == null && (alertBo.getReceivingGroupName() != null && !alertBo.getReceivingGroupName().trim().isEmpty())){
-            alertBo.setReceivingGroupId(alertService.getGroupId((alertBo.getReceivingUserName())));
+            alertBo.setReceivingGroupId(alertService.getGroupId((alertBo.getReceivingGroupName())));
         }
 
 /*        if(alertBo.getReceivingGroupId()!=null && !alertBo.getReceivingGroupId().trim().isEmpty()){

@@ -246,7 +246,6 @@ public class OleMaintenanceDocumentController extends MaintenanceDocumentControl
         olePersistableBusinessObjectBase.getAlertBoList().remove(0);
         if(alertBo.getReceivingGroupId()==null && alertBo.getReceivingUserId()==null && alertBo.getReceivingRoleId()==null && StringUtils.isEmpty(alertBo.getReceivingGroupId()) && StringUtils.isEmpty(alertBo.getReceivingUserName()) && StringUtils.isEmpty(alertBo.getReceivingRoleName()) && StringUtils.isEmpty(alertBo.getReceivingGroupName())){
             GlobalVariables.getMessageMap().putErrorForSectionId("OLE-AlertSection", OLEConstants.SELECT_USER);
-            olePersistableBusinessObjectBase.getAlertBoList().remove(0);
             return modelAndView ;
         }
         alertBo.setAlertCreateDate(new Date(System.currentTimeMillis()));
