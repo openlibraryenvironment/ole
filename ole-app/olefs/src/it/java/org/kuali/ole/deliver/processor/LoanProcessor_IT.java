@@ -134,7 +134,7 @@ public class LoanProcessor_IT extends OLETestCaseBase{
     }
 
     @Test
-    public  void testAlterDueDate(){
+    public  void testAlterDueDate() throws Exception{
         List<OleLoanDocument> alterDueDateList=new ArrayList<OleLoanDocument>();
         LoanProcessor loanProcessor = (LoanProcessor) SpringContext.getService("loanProcessor");
         Map map=new HashMap<>();
@@ -168,6 +168,43 @@ public class LoanProcessor_IT extends OLETestCaseBase{
                 loanProcessor.updateLoan(alterDueDateList,PATRON_ID,false, false,oleLoanDocument.getBorrowerTypeCode());
             } catch (Exception e){
                e.printStackTrace();
+            }
+            assertTrue(expectedDueDate.equals(oleLoanDocument.getLoanDueDate()));
+        }
+    }
+
+    @Test
+    public  void testAlterDueDateForIndefinite() throws Exception{
+        List<OleLoanDocument> alterDueDateList=new ArrayList<OleLoanDocument>();
+        LoanProcessor loanProcessor = (LoanProcessor) SpringContext.getService("loanProcessor");
+        Map map=new HashMap<>();
+        map.put("itemId",ITEM_BARCODE);
+        map.put("patronId", PATRON_ID);
+        List<OleLoanDocument> oleLoanDocumentList=(List<OleLoanDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleLoanDocument.class,map);
+        Map patronMap=new HashMap<>();
+        patronMap.put("olePatronId", PATRON_ID);
+        OlePatronDocument olePatronDocument=null;
+        List<OlePatronDocument> olePatronDocuments=(List<OlePatronDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class,patronMap);
+        if(CollectionUtils.isNotEmpty(olePatronDocuments)){
+            olePatronDocument=olePatronDocuments.get(0);
+        }
+        assertNotNull(olePatronDocument);
+        if(CollectionUtils.isNotEmpty(oleLoanDocumentList) && oleLoanDocumentList.size()==1){
+            OleLoanDocument oleLoanDocument=oleLoanDocumentList.get(0);
+            oleLoanDocument.setBorrowerTypeCode(olePatronDocument.getBorrowerTypeCode());
+            alterDueDateList.add(oleLoanDocument);
+            // <code>GregorianCalendar(year + 1900, month, date)</code>
+            // month jan-00,feb-01 ...
+            String [] dates=ALTER_DUE_DATE.split("-");
+            int year=Integer.parseInt(dates[0]);
+            int month=Integer.parseInt(dates[1])-1;
+            int date=Integer.parseInt(dates[2]);
+            Timestamp expectedDueDate=null;
+            oleLoanDocument.setLoanDueDateToAlter(null);
+            try {
+                loanProcessor.updateLoan(alterDueDateList,PATRON_ID,false, false,oleLoanDocument.getBorrowerTypeCode());
+            } catch (Exception e){
+                e.printStackTrace();
             }
             assertTrue(expectedDueDate.equals(oleLoanDocument.getLoanDueDate()));
         }

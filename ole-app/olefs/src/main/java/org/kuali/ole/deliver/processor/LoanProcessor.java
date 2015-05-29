@@ -1751,7 +1751,6 @@ public class LoanProcessor {
         }
         oleLoanDocument.setLoanStatusId(getLoanStatusId());
         //commented for jira OLE-5675
-        //oleLoanDocument.setMachineId("MACH12233");  // TODO: Need to fetch machine IP.
         if (!oleLoanDocument.isRenewalItemFlag()) {
             oleLoanDocument.setCreateDate(new Timestamp(new Date().getTime()));
         }
@@ -1933,6 +1932,9 @@ public class LoanProcessor {
                         }
                         existingLoanObject.setLoanDueDate(timestamp);
                         oleLoanDocument.setLoanDueDate(timestamp);
+                    }else if (existingLoanObject.getLoanDueDateTimeToAlter() == null || existingLoanObject.getLoanDueDateTimeToAlter().isEmpty()) {
+                        existingLoanObject.setLoanDueDate(null);
+                        oleLoanDocument.setLoanDueDate(null);
                     }
                     if (claimsReturn && existingLoanObject != null) {
                         oleLoanDocument.setClaimsReturnNote(existingLoanObject.getClaimsReturnNote());
