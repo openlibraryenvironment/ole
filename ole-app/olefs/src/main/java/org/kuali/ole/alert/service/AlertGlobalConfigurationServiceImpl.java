@@ -448,7 +448,7 @@ public Object getObjectValue(String fieldName,Object olePersistableBusinessObjec
             List<String> roleIds = new ArrayList<String>();
             roleIds.add(alertConditionAndReceiverInformation.getRoleId());
            Role role =  roleService.getRole(alertConditionAndReceiverInformation.getRoleId());
-          Collection collection  =  (Collection)roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(),role.getName(),null);
+          Collection collection  =  (Collection)roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(),role.getName(),new HashMap<String,String>());
          List<String> memberIds = new ArrayList<String>();
             memberIds.addAll(collection);
             if(memberIds!=null && memberIds.size()>0){

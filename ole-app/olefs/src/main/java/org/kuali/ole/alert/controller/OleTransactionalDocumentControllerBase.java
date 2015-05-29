@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -283,7 +284,7 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
             List<String> roleIds = new ArrayList<String>();
             roleIds.add(alertBo.getReceivingRoleId());
             Role role =  roleService.getRole(alertBo.getReceivingRoleId());
-            Collection collection  =  (Collection)roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(),role.getName(),null);
+            Collection collection  =  (Collection)roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(),role.getName(),new HashMap<String, String>());
             List<String> memberIds = new ArrayList<String>();
             memberIds.addAll(collection);
             principalIds.addAll(memberIds);

@@ -312,7 +312,7 @@ public class OleMaintenanceDocumentController extends MaintenanceDocumentControl
             List<String> roleIds = new ArrayList<String>();
             roleIds.add(alertBo.getReceivingRoleId());
             Role role =  roleService.getRole(alertBo.getReceivingRoleId());
-            Collection collection  =  (Collection)roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(),role.getName(),null);
+            Collection collection  =  (Collection)roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(),role.getName(),new HashMap<String,String>());
             List<String> memberIds = new ArrayList<String>();
             memberIds.addAll(collection);
             principalIds.addAll(memberIds);
