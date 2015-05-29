@@ -113,8 +113,8 @@
         <property name="criteriaFields">
             <list>
                 <bean id="search_name" parent="Uif-LookupCriteriaInputField" p:propertyName="platformName"/>
-                <bean id="search_platformProviderId" parent="Uif-LookupCriteriaInputField"
-                      p:propertyName="platformProviderId"/>
+                <bean id="search_platformProvider" parent="Uif-LookupCriteriaInputField"
+                      p:label="Platform Provider" p:propertyName="oleGokbOrganization.organizationName"/>
             </list>
         </property>
         <property name="resultFields">
@@ -122,7 +122,7 @@
                 <bean id="result_gokbPlatformId" parent="Uif-DataField" p:propertyName="gokbPlatformId"/>
                 <bean id="result_name" parent="Uif-DataField" p:propertyName="platformName"/>
                 <bean id="result_status" parent="Uif-DataField" p:propertyName="status"/>
-                <bean id="result_platformProviderId" parent="Uif-DataField" p:propertyName="platformProviderId"/>
+                <bean id="result_platformProvider" parent="Uif-DataField" p:label="Platform Provider" p:propertyName="platformProvider"/>
                 <bean id="result_softwarePlatform" parent="Uif-DataField" p:propertyName="softwarePlatform"/>
             </list>
         </property>

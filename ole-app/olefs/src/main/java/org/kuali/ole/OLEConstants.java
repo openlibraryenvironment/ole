@@ -3312,6 +3312,7 @@ public class OLEConstants {
         public static final String ID = "id";
         public static final String SCOPE = "scope";
         public static final String STATUS = "status";
+        public static final String SERVICE = "service";
         public static final String BREAKABLE = "breakable";
         public static final String FIXED = "fixed";
         public static final String NAME = "name";

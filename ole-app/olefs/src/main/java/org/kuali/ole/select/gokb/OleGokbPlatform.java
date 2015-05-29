@@ -21,6 +21,7 @@ public class OleGokbPlatform extends PersistableBusinessObjectBase {
     private String status;
     private String statusId;
     private Integer platformProviderId=0;
+    private String platformProvider;
     private String authentication;
     private String softwarePlatform;
     private Timestamp dateCreated;
@@ -75,6 +76,17 @@ public class OleGokbPlatform extends PersistableBusinessObjectBase {
 
     public void setPlatformProviderId(Integer platformProviderId) {
         this.platformProviderId = platformProviderId;
+    }
+
+    public String getPlatformProvider() {
+        if (oleGokbOrganization!=null){
+            return oleGokbOrganization.getOrganizationName();
+        }
+        return platformProvider;
+    }
+
+    public void setPlatformProvider(String platformProvider) {
+        this.platformProvider = platformProvider;
     }
 
     public String getAuthentication() {

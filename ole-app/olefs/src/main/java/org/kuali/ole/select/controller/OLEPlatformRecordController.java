@@ -822,6 +822,7 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
                     olePlatformRecordDocument.setVendorHeaderGeneratedIdentifier(vendorDetails.get(0).getVendorHeaderGeneratedIdentifier());
                     olePlatformRecordDocument.setVendorDetailAssignedIdentifier(vendorDetails.get(0).getVendorDetailAssignedIdentifier());
                     olePlatformRecordDocument.setVendorId(vendorDetails.get(0).getVendorNumber());
+                    olePlatformRecordDocument.setPlatformProviderName(vendorDetails.get(0).getVendorName());
                 }
             }
         }

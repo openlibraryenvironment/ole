@@ -7,7 +7,9 @@ import org.kuali.ole.select.gokb.*;
 import org.kuali.ole.select.gokb.service.GokbLocalService;
 import org.kuali.ole.select.gokb.service.GokbRdbmsService;
 import org.kuali.ole.select.gokb.util.OleGokbXmlUtil;
-import org.kuali.ole.util.StringUtil;
+import org.kuali.ole.sys.OLEPropertyConstants;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
@@ -16,7 +18,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rajeshbabuk on 12/18/14.
@@ -26,6 +30,18 @@ public class GokbLocalServiceImpl implements GokbLocalService {
     private static final Logger LOG = LoggerFactory.getLogger(GokbLocalServiceImpl.class);
 
     private GokbRdbmsService gokbRdbmsService = null;
+    private BusinessObjectService businessObjectService;
+
+    public BusinessObjectService getBusinessObjectService() {
+        if(businessObjectService == null){
+            this.businessObjectService = KRADServiceLocator.getBusinessObjectService();
+        }
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 
     /**
      * This method returns GokbRdbmsService.
@@ -47,8 +63,8 @@ public class GokbLocalServiceImpl implements GokbLocalService {
         getGokbRdbmsService().truncateTables();
         int updateId = getGokbRdbmsService().insertStatus();
         initPackages(updateId);
-        initPlatforms(updateId);
         initVendors(updateId);
+        initPlatforms(updateId);
         initTitles(updateId);
         getGokbRdbmsService().insertLogEndTime(updateId);
     }
@@ -62,8 +78,8 @@ public class GokbLocalServiceImpl implements GokbLocalService {
     public void updateLocalGokb(String lastUpdatedTime) {
         int updateId = getGokbRdbmsService().insertStatus();
         updatePackages(lastUpdatedTime, updateId);
-        updatePlatforms(lastUpdatedTime, updateId);
         updateVendors(lastUpdatedTime, updateId);
+        updatePlatforms(lastUpdatedTime, updateId);
         updateTitles(lastUpdatedTime, updateId);
         getGokbRdbmsService().insertLogEndTime(updateId);
     }
@@ -768,6 +784,15 @@ public class GokbLocalServiceImpl implements GokbLocalService {
                 oleGokbPlatform.setDateCreated(OleGokbXmlUtil.getTimeStampFromString(platformChildNode.getTextContent()));
             } else if (nodeName.equalsIgnoreCase(OLEConstants.OleGokb.STATUS)) {
                 oleGokbPlatform.setStatus(platformChildNode.getTextContent());
+            }  else if (nodeName.equalsIgnoreCase(OLEConstants.OleGokb.SERVICE)) {
+                if (StringUtils.isNotBlank(platformChildNode.getTextContent())) {
+                    Map<String, String> orgMap = new HashMap<>();
+                    orgMap.put(OLEPropertyConstants.ORGANIZATION_NAME, platformChildNode.getTextContent());
+                    List<OleGokbOrganization> oleGokbOrganizations = (List<OleGokbOrganization>) getBusinessObjectService().findMatching(OleGokbOrganization.class, orgMap);
+                    if (oleGokbOrganizations.size() > 0) {
+                        oleGokbPlatform.setPlatformProviderId(oleGokbOrganizations.get(0).getGokbOrganizationId());
+                    }
+                }
             }
         }
         return oleGokbPlatform;

@@ -1,10 +1,11 @@
-package org.kuali.ole.select.gokb.service.impl;
+package org.kuali.ole.select.gokb.service;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.xerces.dom.DeferredElementImpl;
 import org.junit.Test;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.select.gokb.*;
+import org.kuali.ole.select.gokb.service.impl.GokbLocalServiceImpl;
 import org.kuali.ole.select.gokb.util.OleGokbXmlUtil;
 import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;
@@ -19,7 +20,7 @@ import static junit.framework.Assert.assertNotNull;
 /**
  * Created by jayabharathreddy on 3/5/15.
  */
-public class GokbLocalService_UT {
+public class GokbLocalService_IT extends OLETestCaseBase {
 
     private static String URL = "https://test-gokb.kuali.org/gokb/oai/";
 
