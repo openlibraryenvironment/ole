@@ -2453,6 +2453,7 @@ public class OLEConstants {
         public static final String ERROR_FILL_MANDATORY_FIELDS = "error.fill.mandatory.fields";
         public static final String ERROR_INVALID_FUND_CODE = "error.invali.fund.code";
         public static final String ERROR_INVALID_WORKFLOW="error.invalid.workflow";
+        public static final String ID_FOR_LOG_TYPE_SYSTEM="3";
 
     }
 

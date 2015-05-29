@@ -5,9 +5,11 @@ import org.kuali.ole.select.bo.OLEAccessActivationWorkFlow;
 import org.kuali.ole.select.bo.OLEEResourceAccessActivation;
 import org.kuali.ole.select.bo.OLEEResourceNotes;
 import org.kuali.ole.select.document.OLEEResourceAccessWorkflow;
+import org.kuali.ole.select.document.OLEEResourceEventLog;
 import org.kuali.ole.select.service.OLEAccessActivationService;
 import org.kuali.ole.select.service.impl.OLEAccessActivationServiceImpl;
 import org.kuali.ole.service.OLEEResourceHelperService;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
@@ -18,6 +20,8 @@ import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -98,9 +102,23 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
     @RequestMapping(params = "methodToCall=approve")
     public ModelAndView approve(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        DocumentService documentService = GlobalResourceLoader.getService(OLEConstants.DOCUMENT_HEADER_SERVICE);
         MaintenanceDocumentForm forms = (MaintenanceDocumentForm) form;
         org.kuali.rice.krad.maintenance.MaintenanceDocument maintenanceDocument = ((MaintenanceDocumentForm) form).getDocument();
+        org.kuali.rice.krad.maintenance.MaintenanceDocument oldMaintenanceDocument =  (MaintenanceDocument)documentService.getByDocumentHeaderId(maintenanceDocument.getDocumentNumber());
+        OLEEResourceAccessActivation oldOleeResourceAccess  = (OLEEResourceAccessActivation)oldMaintenanceDocument.getNewMaintainableObject().getDataObject();
         OLEEResourceAccessActivation oleeResourceAccess = (OLEEResourceAccessActivation) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
+        if(oleeResourceAccess.getLastRecordLoadDate() != null && !oleeResourceAccess.getLastRecordLoadDate().equals(oldOleeResourceAccess.getLastRecordLoadDate())){
+            OLEEResourceEventLog oleeResourceEventLog = new OLEEResourceEventLog();
+            oleeResourceEventLog.setEventDate(oleeResourceAccess.getLastRecordLoadDate());
+            oleeResourceEventLog.setEventUser(GlobalVariables.getUserSession().getPrincipalName());
+            oleeResourceEventLog.setEventNote("Last Record Load Date has been updated");
+            oleeResourceEventLog.setOleERSIdentifier(oleeResourceAccess.getOleERSIdentifier());
+            oleeResourceEventLog.setLogTypeId(OLEConstants.OLEEResourceRecord.ID_FOR_LOG_TYPE_SYSTEM);
+            oleeResourceEventLog.setSaveFlag(true);
+            KRADServiceLocator.getBusinessObjectService().save(oleeResourceEventLog);
+        }
         String previousStatus = oleeResourceAccess.getAccessStatus();
         ActionRequestService actionRequestService = KEWServiceLocator.getActionRequestService();
         Map<String, String> accessConfigMap = new HashMap<String, String>();
@@ -165,8 +183,22 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
     @RequestMapping(params = "methodToCall=startAccessActivation")
     public ModelAndView startAccessActivation(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        DocumentService documentService = GlobalResourceLoader.getService(OLEConstants.DOCUMENT_HEADER_SERVICE);
         org.kuali.rice.krad.maintenance.MaintenanceDocument maintenanceDocument = ((MaintenanceDocumentForm) form).getDocument();
+        org.kuali.rice.krad.maintenance.MaintenanceDocument oldMaintenanceDocument =  (MaintenanceDocument)documentService.getByDocumentHeaderId(maintenanceDocument.getDocumentNumber());
+        OLEEResourceAccessActivation oldOleeResourceAccess  = (OLEEResourceAccessActivation)oldMaintenanceDocument.getNewMaintainableObject().getDataObject();
         OLEEResourceAccessActivation oleeResourceAccess = (OLEEResourceAccessActivation) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
+        if(oleeResourceAccess.getLastRecordLoadDate() != null && !oleeResourceAccess.getLastRecordLoadDate().equals(oldOleeResourceAccess.getLastRecordLoadDate())){
+            OLEEResourceEventLog oleeResourceEventLog = new OLEEResourceEventLog();
+            oleeResourceEventLog.setEventDate(oleeResourceAccess.getLastRecordLoadDate());
+            oleeResourceEventLog.setEventUser(GlobalVariables.getUserSession().getPrincipalName());
+            oleeResourceEventLog.setEventNote("Last Record Load Date has been updated");
+            oleeResourceEventLog.setOleERSIdentifier(oleeResourceAccess.getOleERSIdentifier());
+            oleeResourceEventLog.setLogTypeId(OLEConstants.OLEEResourceRecord.ID_FOR_LOG_TYPE_SYSTEM);
+            oleeResourceEventLog.setSaveFlag(true);
+            KRADServiceLocator.getBusinessObjectService().save(oleeResourceEventLog);
+        }
         boolean flag = false;
         if (oleeResourceAccess.getWorkflowId() == null || (oleeResourceAccess.getWorkflowId() != null && oleeResourceAccess.getWorkflowId().trim().isEmpty())) {
             GlobalVariables.getMessageMap().putError("workflowId", OLEConstants.NO_WORKFLOW);
