@@ -60,9 +60,9 @@ public class OleLoanDocumentsFromSolrBuilder {
             int count = itemStatus.length;
             for (int i = 0; i < count; i++) {
                 if (i == (count - 1)) {
-                    searchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", itemStatus[i]), "AND"));
-                } else {
                     searchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", itemStatus[i]), "OR"));
+                } else {
+                    searchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", itemStatus[i]), "AND"));
                 }
             }
 
@@ -103,9 +103,9 @@ public class OleLoanDocumentsFromSolrBuilder {
             int count = itemStatus.length;
             for (int i = 0; i < count; i++) {
                 if (i == (count - 1)) {
-                    searchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", itemStatus[i]), "AND"));
-                } else {
                     searchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", itemStatus[i]), "OR"));
+                } else {
+                    searchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", itemStatus[i]), "AND"));
                 }
             }
 
