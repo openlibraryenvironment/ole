@@ -72,4 +72,51 @@ public class OleItemSearchLookupableImpl_IT extends OLETestCaseBase{
         List result = (List)oleItemSearchLookupable.performSearch(form,searchCriteria,false);
         Assert.assertNotNull(result);
     }
+
+    @Test
+    public void searchAuthorTest(){
+        OleItemSearchLookupableImpl oleItemSearchLookupable = new OleItemSearchLookupableImpl();
+        testCreateBib();
+        Map<String,String> searchCriteria = new HashMap<String, String>();
+        searchCriteria.put("author","Synge, Edward");
+        searchCriteria.put("pageSize","1");
+        LookupForm form = new LookupForm();
+        Map map = new HashedMap();
+        map.put("publisher","");
+        map.put("title","");
+        //map.put("callNumber","0");
+        map.put("itemType","");
+        //map.put("itemBarcode","");
+        map.put("author","Synge, Edward");
+        map.put("pageSize","1");
+        form.setLookupCriteria(map);
+        form.setDataObjectClassName("org.kuali.ole.deliver.bo.OleItemSearch");
+
+        List result = (List)oleItemSearchLookupable.performSearch(form,searchCriteria,false);
+        Assert.assertNotNull(result);
+    }
+
+
+    @Test
+    public void searchTitleTest(){
+        OleItemSearchLookupableImpl oleItemSearchLookupable = new OleItemSearchLookupableImpl();
+        testCreateBib();
+        Map<String,String> searchCriteria = new HashMap<String, String>();
+        searchCriteria.put("title","Thankfulness to Almighty God for his more ancient and later mercies and deliverances vouchsafed to the British and Protestants within the Kingdom of Ireland");
+        searchCriteria.put("pageSize","1");
+        LookupForm form = new LookupForm();
+        Map map = new HashedMap();
+        map.put("author","");
+        map.put("title","Thankfulness to Almighty God for his more ancient and later mercies and deliverances vouchsafed to the British and Protestants within the Kingdom of Ireland");
+        //map.put("callNumber","0");
+        map.put("itemType","");
+        map.put("itemBarcode","");
+        map.put("publisher","");
+        map.put("pageSize","1");
+        form.setLookupCriteria(map);
+        form.setDataObjectClassName("org.kuali.ole.deliver.bo.OleItemSearch");
+
+        List result = (List)oleItemSearchLookupable.performSearch(form,searchCriteria,false);
+        Assert.assertNotNull(result);
+    }
 }
