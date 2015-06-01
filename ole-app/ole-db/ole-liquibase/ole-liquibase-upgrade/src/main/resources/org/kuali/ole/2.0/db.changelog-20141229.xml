@@ -4944,4 +4944,15 @@
         <sql>UPDATE KREW_DOC_HDR_EXT_T SET VAL = TO_CHAR(TO_DATE(VAL,'DD-MM-YYYY'),'MM/DD/YYYY') WHERE KEY_CD IN ('searchResultInvoiceDate','searchResultInvoicePayDate')</sql>
     </changeSet>
 
+
+    <changeSet context="bootstrap" author="ole" id="VendorTypeCode_DropNotNull">
+        <dropNotNullConstraint catalogName="ole"
+                               columnDataType="VARCHAR(4)"
+                               columnName="VNDR_TYP_CD"
+                               schemaName="ole"
+                               tableName="PUR_VNDR_HDR_T"/>
+    </changeSet>
+
+
+
 </databaseChangeLog>

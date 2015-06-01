@@ -131,5 +131,6 @@ public class VendorPropertyConstants {
     public static final String VENDOR_GOKB_ID = "gokbId";
 
     public static final String CURRENCY_TYPE = "currencyTypeId";
+    public static final String PAYMENT_METHOD_ID = "paymentMethodId";
 
 }

@@ -3688,5 +3688,12 @@ UPDATE KREW_DOC_HDR_EXT_T SET VAL = date_format(str_to_date(VAL, '%d-%m-%Y'), '%
 INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('DateFormatChange', 'ole', 'org/kuali/ole/2.0/db.changelog-20141229.xml', NOW(), 371, '7:02439767f9985270f88fffa98781ff62', 'sql', '', 'EXECUTED', '3.2.0')
 /
 
+--  Changeset org/kuali/ole/2.0/db.changelog-20141229.xml::VendorTypeCode_DropNotNull::ole
+ALTER TABLE ole.PUR_VNDR_HDR_T MODIFY VNDR_TYP_CD VARCHAR(4) NULL
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('VendorTypeCode_DropNotNull', 'ole', 'org/kuali/ole/2.0/db.changelog-20141229.xml', NOW(), 372, '7:5126c2ebcdcbd6fc3275b6571a0af827', 'dropNotNullConstraint', '', 'EXECUTED', '3.2.0')
+/
+
 --  Release Database Lock
 --  Release Database Lock

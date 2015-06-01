@@ -32,13 +32,21 @@ public class OleVendorRule extends VendorRule {
         List<VendorTransmissionFormatDetail> vendorTransmissionFormatDetailList = vendorDetail.getVendorTransmissionFormat();
         List formatId = new ArrayList();
         if(!vendorDetail.isNonBillable()){
+            if(vendorDetail.getPaymentMethodId() == null || vendorDetail.getPaymentMethodId().equals("")){
+                putFieldError(VendorPropertyConstants.PAYMENT_METHOD_ID,VendorKeyConstants.PAYMENT_METHOD_ID_REQUIRED);
+                valid &= false;
+            }
             if(vendorDetail.getCurrencyTypeId() == null || vendorDetail.getCurrencyTypeId().equals("")){
                 putFieldError(VendorPropertyConstants.CURRENCY_TYPE,VendorKeyConstants.CURRENCY_TYPE_REQUIRED);
-                valid &=false;
+                valid &= false;
+            }
+            if(vendorDetail.getVendorHeader() != null && (vendorDetail.getVendorHeader().getVendorTypeCode() == null || vendorDetail.getVendorHeader().getVendorTypeCode().equals(""))){
+                putFieldError(VendorPropertyConstants.VENDOR_TYPE_CODE,VendorKeyConstants.VENDOR_TYPE_CODE_REQUIRED);
+                valid &= false;
             }
             if(vendorDetail.getVendorHeader()!=null && (vendorDetail.getVendorHeader().getVendorOwnershipCode() == null || vendorDetail.getVendorHeader().getVendorOwnershipCode().equals(""))){
                 putFieldError(VendorPropertyConstants.VENDOR_OWNERSHIP_CODE,VendorKeyConstants.OWNERSHIP_TYPE_CODE_REQUIRED);
-                valid &=false;
+                valid &= false;
             }
         }
         for(VendorTransmissionFormatDetail vendorTransmissionFormatDetail : vendorTransmissionFormatDetailList) {

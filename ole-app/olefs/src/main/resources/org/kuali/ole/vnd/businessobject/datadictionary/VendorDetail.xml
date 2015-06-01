@@ -160,7 +160,7 @@
   <bean id="VendorDetail-currencyTypeId" parent="VendorDetail-currencyTypeId-parentBean"/>
 
   <bean id="VendorDetail-currencyTypeId-parentBean" abstract="true" parent="OleCurrencyType-currencyTypeId">
-    <property name="label" value="*  Currency Type"/>
+    <property name="label" value="Currency Type"/>
     <property name="shortLabel" value="Currency Type"/>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.vnd.businessobject.options.OleCurrencyTypeValuesFinder" p:includeKeyInLabel="false"/>

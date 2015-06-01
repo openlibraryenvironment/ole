@@ -85,8 +85,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="vendorFirstName"/>
         <bean parent="MaintainableFieldDefinition" p:name="nonBillable" />
         <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Corporate Information" />
-        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorTypeCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorForeignIndicator" p:defaultValue="No" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorTypeCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="vendorHeader.vendorForeignIndicator" p:defaultValue="No"/>
         <bean parent="MaintainableFieldDefinition">
           <property name="name" value="vendorHeader.vendorTaxNumber"/>
         </bean>
@@ -101,7 +101,7 @@
         <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Detail Information"/>
         <bean parent="MaintainableFieldDefinition" p:name="currencyTypeId"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorPaymentTermsCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="paymentMethodId" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="paymentMethodId"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorPrepaymentIndicator"/>
         <bean parent="MaintainableFieldDefinition" p:name="vendorCreditCardIndicator"/>
         <bean parent="MaintainableFieldDefinition" p:name="taxableIndicator"/>
