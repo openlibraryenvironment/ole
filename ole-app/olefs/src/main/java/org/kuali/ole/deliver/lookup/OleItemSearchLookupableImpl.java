@@ -127,8 +127,8 @@ public class OleItemSearchLookupableImpl extends OleLookupableImpl {
                 item_search_Params.setStartIndex(this.start);
                 item_search_Params.setPageSize(Integer.parseInt(page_Size));
                 if (!callNumber.isEmpty()) {
-                    item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), "HoldingsCallNumber_display", callNumber), "OR"));
-                    item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), "CallNumber_display", callNumber), "AND"));
+                    item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), "HoldingsCallNumber_display", callNumber), "AND"));
+                    item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), "CallNumber_display", callNumber), "OR"));
                 }
                 if (!title.isEmpty()) {
                     item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), Bib.TITLE, title), "AND"));
@@ -140,8 +140,8 @@ public class OleItemSearchLookupableImpl extends OleLookupableImpl {
                     item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), Bib.PUBLISHER, publisher), "AND"));
                 }
                 if (!itemType.isEmpty()) {
-                    item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), "TemporaryItemTypeCodeValue_search", itemType), "OR"));
-                    item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), "ItemTypeCodeValue_search", itemType), "AND"));
+                    item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), "TemporaryItemTypeCodeValue_search", itemType), "AND"));
+                    item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("AND", item_search_Params.buildSearchField(DocType.ITEM.getCode(), "ItemTypeCodeValue_search", itemType), "OR"));
                 }
                 if (!itemBarCode.isEmpty()) {
                     item_search_Params.getSearchConditions().add(item_search_Params.buildSearchCondition("phrase", item_search_Params.buildSearchField(DocType.ITEM.getCode(), Item.ITEM_BARCODE, itemBarCode), "AND"));

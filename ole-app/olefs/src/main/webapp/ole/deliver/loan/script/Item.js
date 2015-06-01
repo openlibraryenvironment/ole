@@ -10,6 +10,26 @@ jq(".sorting").live("click", function () {
     successMethod();
 });
 
+
+jq(document).ready(function(){
+    jq("#titleLookUp_control").attr('maxlength','4000');
+    jq("#authorLookUp_control").attr('maxlength','4000');
+    jq("#publisherLookUp_control").attr('maxlength','4000');
+    jq("#callNumberLookUp").attr('maxlength','100');
+});
+jq(document).click(function(){
+    jq("#titleLookUp_control").attr('maxlength','4000');
+    jq("#authorLookUp_control").attr('maxlength','4000');
+    jq("#publisherLookUp_control").attr('maxlength','4000');
+    jq("#callNumberLookUp").attr('maxlength','100');
+});
+jq(document).keypress(function(){
+    jq("#titleLookUp_control").attr('maxlength','4000');
+    jq("#authorLookUp_control").attr('maxlength','4000');
+    jq("#publisherLookUp_control").attr('maxlength','4000');
+    jq("#callNumberLookUp").attr('maxlength','100');
+});
+
 jq('#u100006').hide();
 jq('#u100007').hide();
 jq('#u100009').hide();

@@ -74,15 +74,15 @@
         <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.lookup.OleItemSearchLookupableImpl"/>
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title"/>
+                <bean id="titleLookUp" parent="Uif-LookupCriteriaInputField" p:propertyName="title"/>
                 <bean id="totalRec" parent="Uif-LookupCriteriaInputField"
                       p:propertyName="totalRec" p:label="" p:hidden="true">
                 </bean>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="author"/>
+                <bean id="authorLookUp" parent="Uif-LookupCriteriaInputField" p:propertyName="author"/>
                 <bean id="pagesz" parent="Uif-LookupCriteriaInputField"
                       p:propertyName="pageSize" p:label="" p:hidden="true">
                 </bean>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="publisher"/>
+                <bean id="publisherLookUp" parent="Uif-LookupCriteriaInputField" p:propertyName="publisher"/>
                 <bean id="nxtflg" parent="Uif-LookupCriteriaInputField"
                       p:propertyName="nextFlag" p:label="" p:hidden="true">
                 </bean>
@@ -90,7 +90,7 @@
                 <bean id="prvflg" parent="Uif-LookupCriteriaInputField"
                       p:propertyName="previousFlag" p:label="" p:hidden="true">
                 </bean>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="callNumber"/>
+                <bean id="callNumberLookUp" parent="Uif-LookupCriteriaInputField" p:propertyName="callNumber"/>
                 <bean id="pageDisplay" parent="Uif-LookupCriteriaInputField"
                       p:propertyName="pageDisplay" p:label="" p:hidden="true">
                 </bean>
