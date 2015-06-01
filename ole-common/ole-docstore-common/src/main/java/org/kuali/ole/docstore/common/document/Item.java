@@ -91,6 +91,7 @@ public class Item
     public static final String VENDOR_LINE_ITEM_IDENTIFIER = "VENDORLINEITEMIDENTIFIER";
     public static final String SHELVING_ORDER = "SHELVINGORDER";
     public static final String ITEM_BARCODE = "ITEMBARCODE";
+    public static final String DUE_DATE_TIME = "DUEDATETIME";
     public static final String COPY_NUMBER = "COPYNUMBER";
     public static final String HOLDINGS_COPY_NUMBER = "HOLDINGSCOPYNUMBER";
     public static final String ENUMERATION = "ENUMERATION";

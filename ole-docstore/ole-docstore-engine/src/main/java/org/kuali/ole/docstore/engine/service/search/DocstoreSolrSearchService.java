@@ -161,7 +161,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
         searchResultFieldsMap.put(Bib.BIBIDENTIFIER, "bibIdentifier");
         searchResultFieldsMap.put(Holdings.HOLDINGSIDENTIFIER, "holdingsIdentifier");
         searchResultFieldsMap.put(Item.ITEMIDENTIFIER, "itemIdentifier");
-
+        searchResultFieldsMap.put(Item.DUE_DATE_TIME, "dueDateTime");
 
         joinQueryMap.put(BIB_HOLDINGS, "{!join from=id to=holdingsIdentifier}");
         joinQueryMap.put(HOLDINGS_BIB, "{!join from=id to=bibIdentifier}");

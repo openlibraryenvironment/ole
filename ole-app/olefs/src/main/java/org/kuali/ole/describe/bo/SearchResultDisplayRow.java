@@ -70,6 +70,7 @@ public class SearchResultDisplayRow  {
     private String itemPart;
     private String seriesHolding = "false";
     private String boundWithHolding = "false";
+    private String dueDateTime;
 
     // eHoldings
     private String accessStatus;
@@ -118,6 +119,14 @@ public class SearchResultDisplayRow  {
         if(boundWithHolding!=null){
             this.boundWithHolding = boundWithHolding;
         }
+    }
+
+    public String getDueDateTime() {
+        return dueDateTime;
+    }
+
+    public void setDueDateTime(String dueDateTime) {
+        this.dueDateTime = dueDateTime;
     }
 
     public String getAnalyticItem() {
@@ -1075,6 +1084,13 @@ public class SearchResultDisplayRow  {
             if (searchResultField.getFieldName().equalsIgnoreCase("isAnalytic")) {
                 setAnalyticItem(searchResultField.getFieldValue());
             }
+            if (searchResultField.getFieldName().equalsIgnoreCase("DonorCode_display")) {
+                setDonorCode(searchResultField.getFieldValue());
+            }
+            if (searchResultField.getFieldName().equalsIgnoreCase("DueDateTime")) {
+                setDueDateTime(searchResultField.getFieldValue());
+            }
+
         }
     }
 
