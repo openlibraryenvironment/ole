@@ -2,6 +2,7 @@ var unsaved = false;
 
 jq(document).ready(function () {
     /*var gokbFlag = false;*/
+    var bindButton = false;
     unsaved = false;
 
     /*jq("#gokbIdd_quickfinder_act").live("click", function () {
@@ -17,6 +18,11 @@ jq(document).ready(function () {
     jq(":input").live("change keypress",function(){
         unsaved = true;
     });
+    jq(":button").live("click",function(){
+        if (!bindButton) {
+            unsaved = true;
+        }
+    });
 
     function unloadPage() {
         /*if (gokbFlag) {
@@ -29,6 +35,7 @@ jq(document).ready(function () {
         }
     }
     jq('form').bind('submit', function() {
+        bindButton = true;
         unsaved = false;
         /*gokbFlag = false*/;
     });
