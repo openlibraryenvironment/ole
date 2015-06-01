@@ -591,32 +591,37 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
         }
     }
 
-    protected void buildLocationName(Location location, SolrInputDocument solrInputDocument) {
+    protected void buildLocationName(Location location, SolrInputDocument solrInputDocument ,StringBuffer loactionLevelStr) {
         if (location != null) {
-            buildLocation(location.getLocationLevel(), solrInputDocument);
+            buildLocation(location.getLocationLevel(), solrInputDocument,loactionLevelStr);
         }
     }
 
-    private void buildLocation(LocationLevel locationLevel, SolrInputDocument solrInputDocument) {
+    private void buildLocation(LocationLevel locationLevel, SolrInputDocument solrInputDocument,StringBuffer loactionLevelStr) {
         if (locationLevel != null) {
             String locationName = locationLevel.getName();
             if (BibConstants.LOCATION_LEVEL_INSTITUTION.equalsIgnoreCase(locationLevel.getLevel())) {
                 solrInputDocument.addField(LEVEL1LOCATION_DISPLAY, locationName);
                 solrInputDocument.addField(LEVEL1LOCATION_SEARCH, locationName);
+                appendData(loactionLevelStr,locationName.replace("-",""));
             } else if (BibConstants.LOCATION_LEVEL_CAMPUS.equalsIgnoreCase(locationLevel.getLevel())) {
                 solrInputDocument.addField(LEVEL2LOCATION_DISPLAY, locationName);
                 solrInputDocument.addField(LEVEL2LOCATION_SEARCH, locationName);
+                appendData(loactionLevelStr,locationName.replace("-",""));
             } else if (BibConstants.LOCATION_LEVEL_LIBRARY.equalsIgnoreCase(locationLevel.getLevel())) {
                 solrInputDocument.addField(LEVEL3LOCATION_DISPLAY, locationName);
                 solrInputDocument.addField(LEVEL3LOCATION_SEARCH, locationName);
+                appendData(loactionLevelStr,locationName.replace("-",""));
             } else if (BibConstants.LOCATION_LEVEL_COLLECTION.equalsIgnoreCase(locationLevel.getLevel())) {
                 solrInputDocument.addField(LEVEL4LOCATION_DISPLAY, locationName);
                 solrInputDocument.addField(LEVEL4LOCATION_SEARCH, locationName);
+                appendData(loactionLevelStr,locationName.replace("-",""));
             } else if (BibConstants.LOCATION_LEVEL_SHELVING.equalsIgnoreCase(locationLevel.getLevel())) {
                 solrInputDocument.addField(LEVEL5LOCATION_DISPLAY, locationName);
                 solrInputDocument.addField(LEVEL5LOCATION_SEARCH, locationName);
+                appendData(loactionLevelStr,locationName.replace("-",""));
             }
-            buildLocation(locationLevel.getLocationLevel(), solrInputDocument);
+            buildLocation(locationLevel.getLocationLevel(), solrInputDocument,loactionLevelStr);
         }
     }
 

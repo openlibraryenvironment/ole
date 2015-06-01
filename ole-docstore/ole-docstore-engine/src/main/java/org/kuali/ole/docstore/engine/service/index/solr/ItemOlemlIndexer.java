@@ -194,7 +194,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         solrInputDocument.addField(LOCALID_DISPLAY, DocumentLocalId.getDocumentIdDisplay(itemDocument.getId()));
         solrInputDocument.addField(LOCALID_SEARCH, DocumentLocalId.getDocumentId(itemDocument.getId()));
 
-        solrInputDocument.addField(ALL_TEXT, getAllTextValueForItem(item));
+
         solrInputDocument.addField(CLMS_RET_FLAG, item.isClaimsReturnedFlag());
         solrInputDocument.addField(CLMS_RET_FLAG_CRE_DATE, item.getClaimsReturnedFlagCreateDate());
         solrInputDocument.addField(CLMS_RET_NOTE, item.getClaimsReturnedNote());
@@ -205,50 +205,6 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         solrInputDocument.addField(CHECK_OUT_DUE_DATE_TIME, item.getCheckOutDateTime());
         solrInputDocument.addField(STAFF_ONLY_FLAG, itemDocument.isStaffOnly());
         solrInputDocument.addField(IS_ANALYTIC, itemDocument.isAnalytic());
-        //TODO:Set Additional attributes
-/*
-
-        if (item.getExtension() != null && item.getExtension().getContent() != null && item.getExtension().getContent().size() > 0 && item.getExtension().getContent().get(0) != null) {
-            AdditionalAttributes additionalAttributes = (AdditionalAttributes) item.getExtension().getContent().get(0);
-            String staffOnlyFlagForItem = additionalAttributes.getAttributeMap().get("staffOnlyFlag");
-            if (staffOnlyFlagForItem != null) {
-                solrInputDocument.addField(STAFF_ONLY_FLAG, staffOnlyFlagForItem.equalsIgnoreCase(Boolean.TRUE.toString()) ? Boolean.TRUE.toString() : Boolean.FALSE.toString());
-            } else if (requestDocument.getAdditionalAttributes() != null && requestDocument.getAdditionalAttributes().getAttribute(AdditionalAttributes.STAFFONLYFLAG) != null &&
-                    requestDocument.getAdditionalAttributes().getAttribute(AdditionalAttributes.STAFFONLYFLAG).equalsIgnoreCase(Boolean.TRUE.toString())) {
-                solrInputDocument.addField(STAFF_ONLY_FLAG, Boolean.TRUE.toString());
-            } else {
-                solrInputDocument.addField(STAFF_ONLY_FLAG, Boolean.FALSE.toString());
-            }
-        } else {
-            solrInputDocument.addField(STAFF_ONLY_FLAG, Boolean.FALSE.toString());
-        }
-*/
-        Date date = new Date();
-        //TODO: for checkin
-     /*   if ("checkIn".equalsIgnoreCase(requestDocument.getOperation())) {
-            IndexerService indexerService = getIndexerService(requestDocument);
-            List<SolrDocument> solrDocumentList = indexerService.getSolrDocumentBySolrId(requestDocument.getUuid());
-            SolrDocument solrDocument = solrDocumentList.get(0);
-            String user = requestDocument.getAdditionalAttributes() == null ? null : requestDocument.getAdditionalAttributes().getAttribute(AdditionalAttributes.UPDATED_BY);
-            user = user == null ? requestDocument.getUser() : user;
-            solrInputDocument.addField(UPDATED_BY, user);
-            solrInputDocument.addField(DATE_ENTERED, solrDocument.getFieldValue(DATE_ENTERED));
-            solrInputDocument.addField(CREATED_BY, solrDocument.getFieldValue(CREATED_BY));
-            solrInputDocument.addField(DATE_UPDATED, date);
-        } else {
-            //String user = requestDocument.getAdditionalAttributes() == null ? null : requestDocument.getAdditionalAttributes().getAttribute(AdditionalAttributes.CREATED_BY);
-            String user = null;
-            if (item.getExtension() != null && item.getExtension().getContent() != null  && item.getExtension().getContent().size()>0) {
-                AdditionalAttributes additionalAttributes = (AdditionalAttributes) item.getExtension().getContent().get(0);
-                user = additionalAttributes.getAttributeMap().get("createdBy");
-            }
-            user = user == null ? requestDocument.getUser() : user;
-            solrInputDocument.addField(DATE_ENTERED, date);
-            solrInputDocument.addField(CREATED_BY, user);
-            //solrInputDocument.addField(UPDATED_BY, user);
-        }*/
-
-
         solrInputDocument.addField(ITEM_IDENTIFIER_SEARCH, itemDocument.getId());
         solrInputDocument.addField(BARCODE_ARSL_SEARCH, item.getBarcodeARSL());
         solrInputDocument.addField(COPY_NUMBER_SEARCH, item.getCopyNumber());
@@ -268,21 +224,10 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         solrInputDocument.addField(ITEM_DAMAGED_FLAG_SEARCH, item.isItemDamagedStatus());
         solrInputDocument.addField(MISSING_PIECE_COUNT_SEARCH,item.getMissingPiecesCount());
         solrInputDocument.addField(NUMBER_OF_PIECES_SEARCH,item.getNumberOfPieces());
-
+        Date date = new Date();
         // Item call number should be indexed if it is available at item level or holdings level.
         String itemCallNumber = null;
-        //TODO:CallNUmber Not present at item level
-        // Not available at item level
-        /*if ((item.getCallNumber() == null) || StringUtils.isEmpty(StringUtils.trimToEmpty(item.getCallNumber().getNumber()))) {
-            if (oleInstance.getOleHoldings().getCallNumber() != null) {
-                itemCallNumber = StringUtils.trimToEmpty(oleInstance.getOleHoldings().getCallNumber().getNumber());
-            }
-        }
-        // Available at item level
-        else {
-            itemCallNumber = item.getCallNumber().getNumber();
-        }
-*/      if (item.getCallNumber() != null && item.getCallNumber().getNumber() != null) {
+      if (item.getCallNumber() != null && item.getCallNumber().getNumber() != null) {
             if (StringUtils.isNotEmpty(item.getCallNumber().getNumber())) {
                 itemCallNumber = item.getCallNumber().getNumber();
                 solrInputDocument.addField(CALL_NUMBER_SEARCH, item.getCallNumber().getNumber());
@@ -304,36 +249,6 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
             String shelvingSchemeCode = "";
             String shelvingSchemeValue = "";
 
-            //Not available at item level
-            //TODO:Shelving scheme not present at item level
-           /* if ((item.getCallNumber().getShelvingScheme() == null) || StringUtils
-                    .isEmpty(StringUtils.trimToEmpty(item.getCallNumber().getShelvingScheme().getCodeValue()))) {
-                if (oleInstance.getOleHoldings().getCallNumber() != null) {
-                    if (oleInstance.getOleHoldings().getCallNumber().getShelvingScheme() != null) {
-                        shelvingSchemeCode = StringUtils.trimToEmpty(
-                                oleInstance.getOleHoldings().getCallNumber().getShelvingScheme().getCodeValue());
-                        shelvingSchemeValue = StringUtils.trimToEmpty(
-                                oleInstance.getOleHoldings().getCallNumber().getShelvingScheme().getFullValue());
-                    }
-                }
-            }
-            //Available at Item level
-            else {
-                shelvingSchemeCode = item.getCallNumber().getShelvingScheme().getCodeValue();
-                shelvingSchemeValue = item.getCallNumber().getShelvingScheme().getFullValue();
-            }
-
-            if (StringUtils.isNotEmpty(shelvingSchemeCode)) {
-                solrInputDocument.addField(SHELVING_SCHEME_CODE_SEARCH, shelvingSchemeCode);
-                solrInputDocument.addField(SHELVING_SCHEME_CODE_DISPLAY, shelvingSchemeCode);
-            }
-            if (StringUtils.isNotEmpty(shelvingSchemeValue)) {
-                solrInputDocument.addField(SHELVING_SCHEME_VALUE_SEARCH, shelvingSchemeValue);
-//                    solrInputDocument.addField(SHELVING_SCHEME_CODE_SEARCH, item.getCallNumber().getShelvingScheme().getCodeValue());
-
-                solrInputDocument.addField(SHELVING_SCHEME_VALUE_DISPLAY, shelvingSchemeValue);
-//                    solrInputDocument.addField(SHELVING_SCHEME_CODE_DISPLAY, item.getCallNumber().getShelvingScheme().getCodeValue());
-            }  */
             if(item.getCallNumber() != null && item.getCallNumber().getShelvingScheme() != null && item.getCallNumber().getShelvingScheme().getCodeValue() != null) {
                 shelvingSchemeCode = item.getCallNumber().getShelvingScheme().getCodeValue();
                 shelvingSchemeValue = item.getCallNumber().getShelvingScheme().getFullValue();
@@ -408,13 +323,14 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
             solrInputDocument.addField(ITEM_STATUS_SEARCH, item.getItemStatus().getCodeValue());
             solrInputDocument.addField(ITEM_STATUS_SORT, item.getItemStatus().getCodeValue());
         }
+        StringBuffer loactionLevelStr = new StringBuffer(" ");
         if (item.getLocation() != null &&
                 item.getLocation().getLocationLevel() != null) {
             StringBuffer locationName = new StringBuffer();
             StringBuffer locationLevel = new StringBuffer();
             Location location = item.getLocation();
             buildLocationNameAndLocationLevel(location, locationName, locationLevel);
-            buildLocationName(location, solrInputDocument);
+            buildLocationName(location, solrInputDocument,loactionLevelStr);
             solrInputDocument.addField(LOCATION_LEVEL_SEARCH, locationName.toString());
             solrInputDocument.addField(LOCATION_LEVEL_NAME_SEARCH, locationLevel.toString());
             solrInputDocument.addField(LOCATION_LEVEL_DISPLAY, locationName.toString());
@@ -422,7 +338,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
             solrInputDocument.addField(LOCATION_LEVEL_SORT, locationName.toString());
         }
 
-
+        solrInputDocument.addField(ALL_TEXT, getAllTextValueForItem(item) + loactionLevelStr.toString());
         if (item.getItemType() != null) {
             solrInputDocument.addField(ITEM_TYPE_FULL_VALUE_SEARCH, item.getItemType().getFullValue());
             solrInputDocument.addField(ITEM_TYPE_CODE_VALUE_SEARCH, item.getItemType().getCodeValue());

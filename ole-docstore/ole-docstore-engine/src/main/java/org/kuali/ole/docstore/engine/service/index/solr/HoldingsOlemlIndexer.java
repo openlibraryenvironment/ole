@@ -140,7 +140,7 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
         }
 
         setCommonFields(holdings, solrDocForHolding);
-        solrDocForHolding.addField(ALL_TEXT, getAllTextValueForHoldings(oleHoldings));
+
         solrDocForHolding.addField(RECEIPT_STATUS_SEARCH, oleHoldings.getReceiptStatus());
         solrDocForHolding.addField(RECEIPT_STATUS_DISPLAY, oleHoldings.getReceiptStatus());
 
@@ -186,13 +186,14 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
                 solrDocForHolding.addField(SHELVING_ORDER_DISPLAY, shelvingOrder);
             }
         }
+        StringBuffer loactionLevelStr = new StringBuffer(" ");
         if (oleHoldings != null && oleHoldings.getLocation() != null &&
                 oleHoldings.getLocation().getLocationLevel() != null) {
             StringBuffer locationName = new StringBuffer();
             StringBuffer locationLevel = new StringBuffer();
             Location location = oleHoldings.getLocation();
             buildLocationNameAndLocationLevel(location, locationName, locationLevel);
-            buildLocationName(location, solrDocForHolding);
+            buildLocationName(location, solrDocForHolding,loactionLevelStr);
             solrDocForHolding.addField(LOCATION_LEVEL_SEARCH, locationName.toString());
             solrDocForHolding.addField(LOCATION_LEVEL_NAME_SEARCH, locationLevel.toString());
             solrDocForHolding.addField(LOCATION_LEVEL_DISPLAY, locationName.toString());
@@ -207,6 +208,8 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
             solrDocForHolding.addField(DOC_TYPE, DocType.EHOLDINGS.getCode());
             indexEHoldingsInfomation(oleHoldings, solrDocForHolding);
         }
+
+        solrDocForHolding.addField(ALL_TEXT, getAllTextValueForHoldings(oleHoldings) + loactionLevelStr.toString());
         return solrDocForHolding;
     }
 
