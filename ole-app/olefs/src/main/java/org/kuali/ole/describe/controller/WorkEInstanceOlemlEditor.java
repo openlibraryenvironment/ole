@@ -342,9 +342,7 @@ public class WorkEInstanceOlemlEditor
                     eHoldingsDoc.setCategory(editorForm.getDocCategory());
                     eHoldingsDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
                     eHoldingsDoc.setUpdatedBy(user);
-                    Bib bib = new BibMarc();
-                    bib.setId(workEInstanceOlemlForm.getBibId());
-                    eHoldingsDoc.setBib(bib);
+                    eHoldingsDoc.setBib(bibTree.getBib());
                     eHoldings = (OleHoldings) holdingOlemlRecordProcessor.fromXML(content);
                     eHoldings = getEHolding(editorForm, eHoldings);
                     String newContent = holdingOlemlRecordProcessor.toXML(eHoldings);
@@ -370,9 +368,7 @@ public class WorkEInstanceOlemlEditor
                     eHoldingsDoc.setFormat(DocFormat.OLEML.getCode());
                     eHoldingsDoc.setStaffOnly(editorForm.isStaffOnlyFlagForHoldings());
                     eHoldingsDoc.setCreatedBy(user);
-                    Bib bib = new BibMarc();
-                    bib.setId(workEInstanceOlemlForm.getBibId());
-                    eHoldingsDoc.setBib(bib);
+                    eHoldingsDoc.setBib(bibTree.getBib());
                     eHoldings = (OleHoldings) holdingOlemlRecordProcessor.fromXML(content);
                     eHoldings = getEHolding(editorForm, eHoldings);
                     String newContent = holdingOlemlRecordProcessor.toXML(eHoldings);
