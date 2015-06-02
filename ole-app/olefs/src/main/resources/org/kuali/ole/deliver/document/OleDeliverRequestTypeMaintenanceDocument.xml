@@ -54,7 +54,7 @@
                         </list>
                     </property>
                 </bean>
-                <ref bean="OLE-AlertSection"/>
+                <ref bean="OLE-Alerts"/>
             </list>
         </property>
     </bean>

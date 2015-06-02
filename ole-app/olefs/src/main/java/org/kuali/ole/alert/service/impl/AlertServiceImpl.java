@@ -1,9 +1,9 @@
 package org.kuali.ole.alert.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.alert.bo.ActionListAlertBo;
 import org.kuali.ole.alert.bo.AlertBo;
-import org.kuali.ole.alert.document.OleMaintenanceDocumentBase;
 import org.kuali.ole.alert.document.OlePersistableBusinessObjectBase;
 import org.kuali.ole.alert.document.OleTransactionalDocumentBase;
 import org.kuali.ole.alert.service.AlertService;
@@ -94,13 +94,13 @@ public class AlertServiceImpl implements AlertService{
                     if(alertBo.getAlertModifierId()!=null){
                         alertBo.setAlertModifierName(getName(alertBo.getAlertModifierId()));
                     }
-                    if(alertBo.getReceivingUserId()!=null){
+                    if(StringUtils.isNotBlank(alertBo.getReceivingUserId())){
                         alertBo.setReceivingUserName(getName(alertBo.getReceivingUserId()));
                     }
-                    if(alertBo.getReceivingGroupId()!=null && !alertBo.getReceivingGroupId().trim().isEmpty()){
+                    if(StringUtils.isNotBlank(alertBo.getReceivingGroupId())){
                         alertBo.setReceivingGroupName(getGroupName(alertBo.getReceivingGroupId()));
                     }
-                    if(alertBo.getReceivingRoleId()!=null){
+                    if(StringUtils.isNotBlank(alertBo.getReceivingRoleId())){
                         alertBo.setReceivingRoleName(getRoleName(alertBo.getReceivingRoleId()));
                     }
                 }

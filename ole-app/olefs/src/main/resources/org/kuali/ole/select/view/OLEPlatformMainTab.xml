@@ -11,7 +11,7 @@
                 <ref bean="OLEPlatformMainTab-VariantTitle"/>
                 <ref bean="OLEPlatformMainTab-Configuration"/>
                 <ref bean="OLEPlatformMainTab-AdministrativeUrls"/>
-                <ref bean="OLE-AlertSection"/>
+                <ref bean="OLE-Alerts"/>
                 <bean parent="Ole-Uif-Platform-DocumentPageFooter"/>
                 <ref bean="popupToDisplayLinkedRecords"/>
                 <ref bean="hdnsaveValidationFlag"/>

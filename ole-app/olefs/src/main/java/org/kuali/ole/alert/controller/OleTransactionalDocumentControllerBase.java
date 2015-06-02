@@ -199,7 +199,7 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
         List<String> principalIds = new ArrayList<String>();
         AlertBo alertBo = oleTransactionalDocumentBase.getAlertBoList().get(0);
         oleTransactionalDocumentBase.getAlertBoList().remove(0);
-        if(alertBo.getReceivingGroupId()==null && alertBo.getReceivingUserId()==null && alertBo.getReceivingRoleId()==null && StringUtils.isEmpty(alertBo.getReceivingGroupId()) && StringUtils.isEmpty(alertBo.getReceivingUserName()) && StringUtils.isEmpty(alertBo.getReceivingRoleName()) && StringUtils.isEmpty(alertBo.getReceivingGroupName())){
+        if(StringUtils.isBlank(alertBo.getReceivingGroupId()) && StringUtils.isBlank(alertBo.getReceivingUserId()) && StringUtils.isBlank(alertBo.getReceivingRoleId()) && StringUtils.isBlank(alertBo.getReceivingGroupId()) && StringUtils.isEmpty(alertBo.getReceivingUserName()) && StringUtils.isEmpty(alertBo.getReceivingRoleName()) && StringUtils.isEmpty(alertBo.getReceivingGroupName())){
             GlobalVariables.getMessageMap().putErrorForSectionId("OLE-AlertSection", OLEConstants.SELECT_USER);
             return modelAndView ;
         } 
@@ -235,13 +235,13 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
         alertBo.setStatus(status);
         alertBo.setAlertStatus(true);
         List<AlertBo> alerts = new ArrayList<AlertBo>();
-        if(alertBo.getReceivingUserId()!=null && (alertBo.getReceivingUserName() == null || (alertBo.getReceivingUserName()!=null && alertBo.getReceivingUserName().trim().isEmpty()))){
+        if(StringUtils.isNotBlank(alertBo.getReceivingUserId()) && (alertBo.getReceivingUserName() == null || (alertBo.getReceivingUserName()!=null && alertBo.getReceivingUserName().trim().isEmpty()))){
             alertBo.setReceivingUserName(alertService.getName(alertBo.getReceivingUserId()));
         }
-        if(alertBo.getReceivingUserId() == null && (alertBo.getReceivingUserName() != null && !alertBo.getReceivingUserName().trim().isEmpty())){
+        if(StringUtils.isBlank(alertBo.getReceivingUserId()) && (alertBo.getReceivingUserName() != null && !alertBo.getReceivingUserName().trim().isEmpty())){
             alertBo.setReceivingUserId(alertService.getPersonId(alertBo.getReceivingUserName()));
         }
-       if(alertBo.getReceivingUserId()!=null){
+       if(StringUtils.isNotBlank(alertBo.getReceivingUserId())){
         principalIds.add(alertBo.getReceivingUserId());
        }
         alerts.addAll(alertService.getAlertBo(alertBo,principalIds,false,false));
@@ -252,10 +252,10 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
 //            principalIds.add(alertBo.getReceivingUserId());
             alertBo.setReceivingUserName(alertService.getName(alertBo.getReceivingUserId()));
         }*/
-        if(alertBo.getReceivingGroupId()!=null && (alertBo.getReceivingGroupName() == null || (alertBo.getReceivingGroupName()!=null && alertBo.getReceivingGroupName().trim().isEmpty()))){
+        if(StringUtils.isNotBlank(alertBo.getReceivingGroupId()) && (alertBo.getReceivingGroupName() == null || (alertBo.getReceivingGroupName()!=null && alertBo.getReceivingGroupName().trim().isEmpty()))){
             alertBo.setReceivingGroupName(alertService.getGroupName(alertBo.getReceivingGroupId()));
         }
-        if(alertBo.getReceivingGroupId() == null && (alertBo.getReceivingGroupName() != null && !alertBo.getReceivingGroupName().trim().isEmpty())){
+        if(StringUtils.isBlank(alertBo.getReceivingGroupId()) && (alertBo.getReceivingGroupName() != null && !alertBo.getReceivingGroupName().trim().isEmpty())){
             alertBo.setReceivingGroupId(alertService.getGroupId((alertBo.getReceivingGroupName())));
         }
 
@@ -263,7 +263,7 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
             alertBo.setReceivingGroupName(alertService.getGroupName(alertBo.getReceivingGroupId()));
         }*/
 
-        if(alertBo.getReceivingGroupId()!=null){
+        if(StringUtils.isNotBlank(alertBo.getReceivingGroupId())){
             List<String> memberIds = groupService.getMemberPrincipalIds(alertBo.getReceivingGroupId());
             principalIds.addAll(memberIds);
         }
@@ -272,15 +272,15 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
 
         principalIds = new ArrayList<String>();
 
-        if(alertBo.getReceivingRoleId()!=null && (alertBo.getReceivingRoleName() == null || (alertBo.getReceivingRoleName()!=null && alertBo.getReceivingRoleName().trim().isEmpty()))){
+        if(StringUtils.isNotBlank(alertBo.getReceivingRoleId()) && (alertBo.getReceivingRoleName() == null || (alertBo.getReceivingRoleName()!=null && alertBo.getReceivingRoleName().trim().isEmpty()))){
             alertBo.setReceivingRoleName(alertService.getRoleName(alertBo.getReceivingRoleId()));
         }
-        if(alertBo.getReceivingRoleId() == null && (alertBo.getReceivingRoleName() != null && !alertBo.getReceivingRoleName().trim().isEmpty())){
+        if(StringUtils.isBlank(alertBo.getReceivingRoleId()) && (alertBo.getReceivingRoleName() != null && !alertBo.getReceivingRoleName().trim().isEmpty())){
             alertBo.setReceivingRoleId(alertService.getRoleId((alertBo.getReceivingRoleName())));
         }
 
 
-        if(alertBo.getReceivingRoleId()!=null){
+        if(StringUtils.isNotBlank(alertBo.getReceivingRoleId())){
             List<String> roleIds = new ArrayList<String>();
             roleIds.add(alertBo.getReceivingRoleId());
             Role role =  roleService.getRole(alertBo.getReceivingRoleId());
@@ -295,10 +295,10 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
 
 
         oleTransactionalDocumentBase.getAlertBoList().addAll(alerts);
-        if(alertBo.getReceivingUserId()==null && alertBo.getReceivingGroupId()!=null){
+        if(StringUtils.isBlank(alertBo.getReceivingUserId()) && StringUtils.isNotBlank(alertBo.getReceivingGroupId())){
             oleTransactionalDocumentBase.getAlertBoList().remove(0);
         }
-        if(alertBo.getReceivingUserId()!=null && alertBo.getReceivingGroupId()!=null){
+        if(StringUtils.isNotBlank(alertBo.getReceivingUserId()) && StringUtils.isNotBlank(alertBo.getReceivingGroupId())){
             alertBo.setReceivingGroupName(null);
             alertBo.setReceivingGroupId(null);
         }

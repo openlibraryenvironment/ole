@@ -16,7 +16,7 @@
     </bean>
 
 
-    <bean id="OLE-Alerts" parent="Uif-Disclosure-HorizontalBoxSection">
+    <bean id="OLE-Alerts" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="1">
         <property name="headerText" value="Alerts"/>
         <property name="items">
             <list>
@@ -30,8 +30,7 @@
           p:actionEvent="addLine" p:loadingMessageText="Adding Alert..." p:focusOnIdAfterSubmit="LINE_FIRST"
           p:performClientSideValidation="true" p:dirtyOnAction="true" p:id="@{#collectionGroup.id}_add"/>
 
-    <bean id="OLE-AlertSection" parent="Uif-Disclosure-TableCollectionSection">
-        <property name="headerText" value="Alerts"/>
+    <bean id="OLE-AlertSection" parent="Uif-TableCollectionSection">
         <property name="collectionObjectClass" value="org.kuali.ole.alert.bo.AlertBo"/>
         <property name="propertyName" value="alertBoList"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -44,8 +43,8 @@
         <property name="layoutManager.richTable.templateOptions">
             <map>
                 <entry key="aaSorting" value="[[1,'asc']]"/>
-                <entry key="bPaginate" value="false"/>
-                <entry key="bInfo" value="false"/>
+                <entry key="bPaginate" value="true"/>
+                <entry key="bInfo" value="true"/>
                 <entry key="bFilter" value="false"/>
             </map>
         </property>
@@ -53,13 +52,12 @@
             <list>
                 <bean p:propertyName="receivingRoleName" parent="Uif-InputField" p:label="Role" p:readOnly="@{!#isAddLine}">
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.role.RoleBo" p:fieldConversions="id:receivingRoleId,name:receivingRoleName"/>
-
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.impl.role.RoleBo" p:fieldConversions="id:receivingRoleId,name:receivingRoleName"/>
                     </property>
                 </bean>
                 <bean p:propertyName="receivingGroupName" parent="Uif-InputField" p:label="Group" p:readOnly="@{!#isAddLine}">
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.group.GroupBo" p:fieldConversions="id:receivingGroupId,name:receivingGroupName"/>
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.impl.group.GroupBo" p:fieldConversions="id:receivingGroupId,name:receivingGroupName"/>
 
                     </property>
                 </bean>
@@ -95,8 +93,9 @@
                 <bean parent="Uif-InputField" p:propertyName="status" p:label="Status"
                       p:fieldLabel.renderColon="false" p:readOnly="true" p:render="@{!#isAddLine}">
                 </bean>
-
-
+                <bean parent="Uif-InputField" p:propertyName="receivingGroupId" p:hidden="true" p:render="@{#isAddLine}"/>
+                <bean parent="Uif-InputField" p:propertyName="receivingRoleId" p:hidden="true" p:render="@{#isAddLine}"/>
+                <bean parent="Uif-InputField" p:propertyName="receivingUserId" p:hidden="true" p:render="@{#isAddLine}"/>
             </list>
         </property>
         <property name="lineActions">
