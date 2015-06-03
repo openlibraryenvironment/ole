@@ -1077,6 +1077,10 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
 
     private String getModifiedText(String searchText) {
         StringBuffer modifiedText = new StringBuffer();
+        boolean isHashReplaced=true;
+        if(searchText.contains(DocumentUniqueIDPrefix.PREFIX_WORK_BIB_MARC) || searchText.contains(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML) || searchText.contains(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML) ){
+            isHashReplaced=false;
+        }
         StringCharacterIterator stringCharacterIterator = new StringCharacterIterator(searchText);
         char character = stringCharacterIterator.current();
         while (character != CharacterIterator.DONE) {
@@ -1108,8 +1112,11 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
             } else if (character == '~') {
                 modifiedText.append("\\~");
             } else if (character == '-') {
-                //modifiedText.append("\\-");
-                modifiedText.append("");
+                if (isHashReplaced) {
+                    modifiedText.append("");
+                } else {
+                    modifiedText.append("\\-");
+                }
             } else if (character == '!') {
                 modifiedText.append("\\!");
             } else if (character == '\'') {
