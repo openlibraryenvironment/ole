@@ -1,6 +1,7 @@
 package org.kuali.ole.describe.controller;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.describe.form.EditorForm;
 import org.kuali.ole.describe.form.WorkBibMarcForm;
 import org.kuali.ole.describe.form.WorkEInstanceOlemlForm;
@@ -67,6 +68,10 @@ public class AbstractEditor implements DocumentEditor {
             if(DocType.BIB.getCode().equalsIgnoreCase(editorForm.getDocType())){
                 getDocstoreClientLocator().getDocstoreClient().deleteBib(docId);
             }  else if(DocType.HOLDINGS.getCode().equalsIgnoreCase(editorForm.getDocType()) || DocType.EHOLDINGS.getCode().equalsIgnoreCase(editorForm.getDocType())){
+                if (!DocumentUniqueIDPrefix.hasPrefix(docId)) {
+                    docId = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML, docId);
+                    editorForm.setDocId(docId);
+                }
                 getDocstoreClientLocator().getDocstoreClient().deleteHoldings(docId);
                 if (StringUtils.isNotBlank(docId)) {
                     Map<String, String> map = new HashMap<>();

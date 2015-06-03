@@ -214,7 +214,7 @@
                       p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=@{#line.docFormat}&amp;docId=@{#line.localId}&amp;editable=false"
                       p:linkText="View Bib" p:target="_blank"/>
                 <bean id="FastAddItemEditBib" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eInstance&amp;docFormat=oleml&amp;bibId=@{#line.localId}&amp;editable=true&amp;fromSearch=true&amp;tokenId=@{#line.tokenId}&amp;eResourceId=@{#line.oleERSIdentifier}"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;bibId=@{#line.localId}&amp;editable=true&amp;fromSearch=true&amp;tokenId=@{#line.tokenId}&amp;eResourceId=@{#line.oleERSIdentifier}"
                       p:linkText="Create New EInstance"/>
             </list>
         </property>

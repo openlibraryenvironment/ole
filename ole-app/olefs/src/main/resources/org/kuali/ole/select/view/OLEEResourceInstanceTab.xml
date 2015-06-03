@@ -404,7 +404,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eInstance&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eHoldings&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
                       p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'false'}"/>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
                       p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=holdings&amp;docId=@{#line.holdingsId}&amp;instanceId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
@@ -494,7 +494,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eInstance&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eHoldings&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
                       p:label="Title" p:linkText="@{#line.instanceTitle}" p:target="_blank"
                       p:render="@{#line.instanceFlag eq 'false'}"/>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
@@ -603,7 +603,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eInstance&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eHoldings&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
                       p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'false'}"/>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
                       p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=holdings&amp;docId=@{#line.holdingsId}&amp;instanceId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
@@ -633,7 +633,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eInstance&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eHoldings&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
                       p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'false'}"/>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
                       p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=holdings&amp;docId=@{#line.holdingsId}&amp;instanceId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
@@ -668,7 +668,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eInstance&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eHoldings&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
                       p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'false'}"/>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
                       p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=holdings&amp;docId=@{#line.holdingsId}&amp;instanceId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"

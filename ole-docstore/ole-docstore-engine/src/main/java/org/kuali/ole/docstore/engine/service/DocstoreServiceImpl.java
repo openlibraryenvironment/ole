@@ -296,6 +296,9 @@ public class DocstoreServiceImpl implements DocstoreService {
 
     @Override
     public void deleteHoldings(String holdingsId) {
+        if (!DocumentUniqueIDPrefix.hasPrefix(holdingsId)) {
+            holdingsId = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_HOLDINGS_OLEML, holdingsId);
+        }
         try {
             getDocstoreStorageService().deleteHoldings(holdingsId);
         } catch (Exception e) {
@@ -313,6 +316,9 @@ public class DocstoreServiceImpl implements DocstoreService {
 
     @Override
     public void deleteItem(String itemId) {
+        if (!DocumentUniqueIDPrefix.hasPrefix(itemId)) {
+            itemId = DocumentUniqueIDPrefix.getPrefixedId(DocumentUniqueIDPrefix.PREFIX_WORK_ITEM_OLEML, itemId);
+        }
         try {
             getDocstoreStorageService().deleteItem(itemId);
         } catch (Exception e) {
