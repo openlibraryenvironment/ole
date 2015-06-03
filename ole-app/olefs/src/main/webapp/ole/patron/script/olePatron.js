@@ -139,13 +139,13 @@ function refreshItemDamagedNote(){
 
 function disableEnableBarcode(){
     if(jq("input#OlePatronDocument-barcodeEditable_control").val()=='false'){
-        jq("#overviewId_edit input#barcode_edit_control").attr("disabled", "disabled");
-        jq("#overviewId input#barcode_control").attr("disabled", "disabled");
+        jq("#overviewId_edit input#barcode_edit_control").attr('readonly', true);
+        jq("#overviewId input#barcode_control").attr('readonly', true);
     }
 
     if(jq("input#OlePatronDocument-barcodeEditable_control").val()=='true'){
-        jq("#overviewId_edit input#barcode_edit_control").removeAttr("disabled");
-        jq("#overviewId input#barcode_control").removeAttr("disabled");
+        jq("#overviewId_edit input#barcode_edit_control").removeAttr("readonly");
+        jq("#overviewId input#barcode_control").removeAttr("readonly");
     }
 }
 
