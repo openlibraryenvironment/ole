@@ -353,8 +353,59 @@ function selectCheckbox(doctype) {
         for (var count = 0; count < length; count++) {
             jq("#CallNumberSectionResults tbody tr:eq(" + count + ") td div input").prop("checked", true);
         }
-    }
+    } else {
 
+        if (doctype == 'bibliographic') {
+            var length = jq("#BibSearchResults tbody tr").length;
+            for (var count = 0; count < length; count++) {
+                for (var line = 0; line < links.length; line++) {
+                    if (links[line] != null) {
+                        if (links[line] == getUrl(count)) {
+                            jq("#BibSearchResults tbody tr:eq(" + count + ") td div input").prop("checked", true);
+                        }
+                    }
+                }
+
+            }
+        }
+        else if (doctype == 'holdings') {
+            var length = jq("#HoldingsSearchResults tbody tr").length;
+            for (var count = 0; count < length; count++) {
+                for (var line = 0; line < links.length; line++) {
+                    if (links[line] != null) {
+                        if (links[line] == getUrl(count)) {
+                            jq("#HoldingsSearchResults tbody tr:eq(" + count + ") td div input").prop("checked", true);
+                        }
+                    }
+                }
+            }
+        }
+        else if (doctype == 'item') {
+            var length = jq("#ItemSearchResults tbody tr").length;
+            for (var count = 0; count < length; count++) {
+                for (var line = 0; line < links.length; line++) {
+                    if (links[line] != null) {
+                        if (links[line] == getUrl(count)) {
+                            jq("#ItemSearchResults tbody tr:eq(" + count + ") td div input").prop("checked", true);
+                        }
+                    }
+                }
+            }
+        }
+        else if (doctype == 'eHoldings') {
+            var length = jq("#EHoldingsSearchResults tbody tr").length;
+            for (var count = 0; count < length; count++) {
+                for (var line = 0; line < links.length; line++) {
+                    if (links[line] != null) {
+                        if (links[line] == getUrl(count)) {
+                            jq("#EHoldingsSearchResults tbody tr:eq(" + count + ") td div input").prop("checked", true);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
 }
 
 function openSelectAll(doctype) {
@@ -480,7 +531,6 @@ function browse() {
     return true;
 }
 function openHelpWindow(url) {
-
     if (jq("input.uif-textControl").is(":focus")) {
         jq('#SearchButton').click();
 
