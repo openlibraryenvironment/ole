@@ -1087,6 +1087,8 @@
                 <bean parent="Uif-VerticalFieldGroup">
                     <property name="items">
                         <list>
+                            <bean id="message_dueDate" parent="Uif-MessageField" p:messageText="Select due date or leave blank to set due date to Indefinite." p:render="@{nonCirculatingFlag}" p:cssClasses="alert-info" />
+                            <bean parent="Uif-SpaceField" p:render="@{nonCirculatingFlag}" />
                             <bean id="message_return" parent="Uif-MessageField" p:messageText="@{message}" />
                             <ref bean="loanClaimsOption"/>
                             <ref bean="PopUpDateTime-HorizontalBoxSection"/>
