@@ -314,37 +314,6 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
         getReqSelComments().add(new OLEEResourceReqSelComments());
         getOleEResourceVariantTitleList().add(new OLEEResourceVariantTitle());
         getEresNotes().add(new OLEEResourceNotes());
-        OLEEResourceChangeDashBoard oleeResourceChangeDashBoard = new OLEEResourceChangeDashBoard();
-        oleeResourceChangeDashBoard.setDate("2014-09-18");
-        oleeResourceChangeDashBoard.seteResource("Elsevier Freedom Collection ");
-        oleeResourceChangeDashBoard.setDetails("TiPP deletd from GOKb package");
-        oleeResourceChangeDashBoard.setType("Deleted TIPP");
-        oleeResourceChangeDashBoard.setOrigin("System");
-        oleeResourceChangeDashBoard.setTitle("The Great Gatsby");
-        getOleEResourceChangeDashBoards().add(oleeResourceChangeDashBoard);
-        try {
-        OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = new OLEEResourceAccessWorkflow();
-        oleeResourceAccessWorkflow.setDescription("Initial_Access_Elsevier_Freedom");
-        oleeResourceAccessWorkflow.setStatus("Complete");
-        oleeResourceAccessWorkflow.setLastApproved(getDateTimeService().convertToSqlTimestamp("01/23/2013"));
-        oleeResourceAccessWorkflow.setCurrentOwner("");
-        getOleERSAccessWorkflows().add(oleeResourceAccessWorkflow);
-        oleeResourceAccessWorkflow = new OLEEResourceAccessWorkflow();
-        oleeResourceAccessWorkflow.setDescription("Add_Access_Elsevier_Freedom");
-        oleeResourceAccessWorkflow.setStatus("Activate OpenURL");
-        oleeResourceAccessWorkflow.setLastApproved(getDateTimeService().convertToSqlTimestamp("08/03/2013"));
-        oleeResourceAccessWorkflow.setCurrentOwner("Emily Lynema");
-        getOleERSAccessWorkflows().add(oleeResourceAccessWorkflow);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        /* getOleERSInstances().add(new OLEEResourceInstance());
-        getOleERSInstances().add(new OLEEResourceInstance());
-        getOleERSInstances().add(new OLEEResourceInstance());*/
-       /* getOleERSInstances().add(new OLEEResourceInstance());
-        getOleERSInstances().add(new OLEEResourceInstance());
-        getOleERSInstances().add(new OLEEResourceInstance());
-        getOleERSInstances().add(new OLEEResourceInstance());*/
         getStandardIdentifiers().add(new OLEStandardIdentifier());
     }
 
