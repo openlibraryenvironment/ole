@@ -230,9 +230,10 @@ public class EHoldings
                 donorInfo = new DonorInfo();
                 buildDonorInfo(docField, fieldValue, oleHoldings, donorInfo, false);
             }
-        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_ERESOURCE_NAME) || docField.equalsIgnoreCase(DESTINATION_FIELD_ERESOURCE_ID)) {
+        }else if ( docField.equalsIgnoreCase(DESTINATION_FIELD_ERESOURCE_ID)) {
             oleHoldings.setEResourceId(fieldValue);
-        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_GOKB_ID)) {
+        }
+        else if (docField.equalsIgnoreCase(DESTINATION_FIELD_GOKB_ID)) {
             if(StringUtils.isNotEmpty(fieldValue)) {
                 oleHoldings.setGokbIdentifier(Integer.parseInt(fieldValue));
             }

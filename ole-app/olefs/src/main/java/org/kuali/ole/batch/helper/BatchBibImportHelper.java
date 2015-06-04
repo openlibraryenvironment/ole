@@ -1267,7 +1267,7 @@ public class BatchBibImportHelper {
     private void validateAndSetEResource(String bibFieldValue, EHoldings eHoldings) {
         List<OLEEResourceRecordDocument> oleeResourceRecordDocuments = getEResourceDocumentByName(bibFieldValue);
         if(oleeResourceRecordDocuments != null && oleeResourceRecordDocuments.size() == 1) {
-            eHoldings.setField(EHoldings.DESTINATION_FIELD_ERESOURCE_NAME, oleeResourceRecordDocuments.get(0).getOleERSIdentifier());
+            eHoldings.setField(EHoldings.DESTINATION_FIELD_ERESOURCE_ID, oleeResourceRecordDocuments.get(0).getOleERSIdentifier());
         }
         else {
             //if eResource name  doesnt exists in OLE, set operation to NONE
