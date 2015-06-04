@@ -763,6 +763,10 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
             for (SubField sf : df.getSubFields()) {
                 allText.append(sf.getValue());
                 allText.append(SEPERATOR_SUB_FIELD);
+                if(sf.getValue().contains("-")){
+                    allText.append(sf.getValue().replace("-",""));
+                    allText.append(SEPERATOR_SUB_FIELD);
+                }
             }
             allText.append(SEPERATOR_DATA_FIELD);
         }
