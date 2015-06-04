@@ -31,6 +31,7 @@ import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.businessobject.*;
 import org.kuali.ole.select.document.OleInvoiceDocument;
 import org.kuali.ole.select.document.OlePaymentRequestDocument;
+import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.select.document.OleRequisitionDocument;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.context.SpringContext;
@@ -558,6 +559,56 @@ public class OlePurapServiceImpl implements OlePurapService {
         singleItem.setInvoiceDocuments(list);
     }
 
+    public void setInvoiceDocumentsForPO(PurchaseOrderDocument purchaseOrderDocument,PurApItem purApItem) {
+        OlePurchaseOrderItem singleItem = (OlePurchaseOrderItem) purApItem;
+        Map<String, OleInvoiceDocument> invoiceDocMap = new HashMap<>();
+        List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList = getRelatedPurchaseOrderList(purchaseOrderDocument);
+        for(OlePurchaseOrderDocument linkedOlePurchaseOrderDocument:olePurchaseOrderDocumentList){
+            for(OlePurchaseOrderItem olePurchaseOrderItem:(List<OlePurchaseOrderItem>)linkedOlePurchaseOrderDocument.getItems()){
+                if (olePurchaseOrderItem.getItemTypeCode().equals(org.kuali.ole.OLEConstants.ITM_TYP_CODE)&&olePurchaseOrderItem.getItemTitleId().equals(singleItem.getItemTitleId())) {
+                    List<OleInvoiceItem> oleInvoiceItemList = getOleInvoiceItemList(purchaseOrderDocument,olePurchaseOrderItem);
+                    if(oleInvoiceItemList!=null){
+                        for(OleInvoiceItem oleInvoiceItem:oleInvoiceItemList){
+                            if(!invoiceDocMap.containsKey(oleInvoiceItem.getInvoiceDocument().getPurapDocumentIdentifier().toString())){
+                                OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument)oleInvoiceItem.getInvoiceDocument();
+                                oleInvoiceDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(oleInvoiceDocument.getDocumentNumber()));
+                                if(oleInvoiceDocument.getPaymentRequestDocuments()!=null){
+                                    List<OlePaymentRequestDocument> olePaymentRequestDocumentList = getOlePaymentRequestDocumentList(oleInvoiceDocument);
+                                    oleInvoiceDocument.setPaymentRequestDocuments(olePaymentRequestDocumentList);
+                                }
+                                invoiceDocMap.put(oleInvoiceItem.getInvoiceDocument().getPurapDocumentIdentifier().toString(), oleInvoiceDocument);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        Collection collection = (Collection)(invoiceDocMap.values());
+        List list = new ArrayList(collection);
+        singleItem.setInvoiceDocuments(list);
+    }
+
+    private List<OlePurchaseOrderDocument> getRelatedPurchaseOrderList(PurchaseOrderDocument purchaseOrderDocument){
+        Map<String,String> poCriteriaMap = new HashMap<>();
+        poCriteriaMap.put(org.kuali.ole.OLEConstants.PurapInvoiceHistory.PURAP_DOC_LINK,Integer.toString(purchaseOrderDocument.getAccountsPayablePurchasingDocumentLinkIdentifier()));
+        List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList = (List<OlePurchaseOrderDocument>)getBusinessObjectService().findMatching(OlePurchaseOrderDocument.class,poCriteriaMap);
+        return olePurchaseOrderDocumentList;
+    }
+
+    private List<OleInvoiceItem> getOleInvoiceItemList(PurchaseOrderDocument purchaseOrderDocument,OlePurchaseOrderItem olePurchaseOrderItem){
+        Map<String,String> invoiceCriteriaMap = new HashMap<>();
+        invoiceCriteriaMap.put(org.kuali.ole.OLEConstants.PurapInvoiceHistory.POID,Integer.toString(purchaseOrderDocument.getPurapDocumentIdentifier()));
+        invoiceCriteriaMap.put(org.kuali.ole.OLEConstants.PurapInvoiceHistory.PO_ITM_ID,Integer.toString(olePurchaseOrderItem.getItemIdentifier()));
+        List<OleInvoiceItem> oleInvoiceItemList = (List<OleInvoiceItem>)getBusinessObjectService().findMatching(OleInvoiceItem.class,invoiceCriteriaMap);
+        return oleInvoiceItemList;
+    }
+
+    private List<OlePaymentRequestDocument> getOlePaymentRequestDocumentList(OleInvoiceDocument oleInvoiceDocument){
+        Map<String,String> paymentRequestMap = new HashMap<>();
+        paymentRequestMap.put(org.kuali.ole.OLEConstants.PurapInvoiceHistory.INVOICE_ID,Integer.toString(oleInvoiceDocument.getPurapDocumentIdentifier()));
+        List<OlePaymentRequestDocument> olePaymentRequestDocumentList = (List<OlePaymentRequestDocument>)getBusinessObjectService().findMatching(OlePaymentRequestDocument.class,paymentRequestMap);
+        return olePaymentRequestDocumentList;
+    }
     /**
      * This method is used to get the requestor type id for the given requestor type
      * @param requestorType

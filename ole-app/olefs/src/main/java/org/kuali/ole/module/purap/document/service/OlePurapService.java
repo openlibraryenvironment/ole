@@ -19,6 +19,7 @@ import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecord;
 import org.kuali.ole.module.purap.businessobject.PurApItem;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
+import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
 import org.kuali.ole.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.ole.select.businessobject.*;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
@@ -58,6 +59,8 @@ public interface OlePurapService {
     public void setInvoiceDocumentsForRequisition(PurApItem purApItem);
 
     public void setInvoiceDocumentsForPO(PurApItem purApItem);
+
+    public void setInvoiceDocumentsForPO(PurchaseOrderDocument purchaseOrderDocument,PurApItem purApItem);
 
     public Integer getRequestorTypeId(String requestorType);
 

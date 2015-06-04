@@ -32,6 +32,8 @@
 <c:set var="lockB2BEntry" value="${(not empty KualiForm.editingMode['lockB2BEntry'])}" />
 <c:set var="itemIdentifier" value="${KualiForm.document.items[count].itemIdentifier}"/>
 <c:set var="requisition" value="false"/>
+<c:set var="itemTitleId" value="${KualiForm.document.items[count].itemTitleId}"/>
+
 <%--<c:choose>--%>
    <%-- <c:when test="${isATypeOfPODoc}">--%>
         <c:set var="limitByPoId" value="${KualiForm.document.purapDocumentIdentifier}" />
@@ -135,7 +137,7 @@
                               </c:if>
                               <c:if test="${requisition eq 'false'}">--%>
                                   <logic:iterate id="invoiceItem" name="invoiceHistory" property="items" indexId="itemctr">
-                                      <c:if test="${((not empty itemIdentifier) and (not empty invoiceItem.poItemIdentifier) and invoiceItem.itemType.itemTypeCode eq 'ITEM')}">
+                                      <c:if test="${((not empty itemIdentifier) and (not empty invoiceItem.poItemIdentifier) and invoiceItem.itemType.itemTypeCode eq 'ITEM') and itemTitleId eq invoiceItem.itemTitleId}">
                                           <c:if test="${invoiceItem.debitItem}">
                                           <c:out value="${invoiceItem.extendedPrice}" />
                                           </c:if>
@@ -148,7 +150,7 @@
                               <%--</c:if>--%>
                           <td align="left" valign="middle" class="datacell">
                           <logic:iterate id="invoiceItem" name="invoiceHistory" property="items" indexId="itemctr">
-                              <c:if test="${((not empty itemIdentifier) and (not empty invoiceItem.poItemIdentifier) and invoiceItem.itemType.itemTypeCode eq 'ITEM') }">
+                              <c:if test="${((not empty itemIdentifier) and (not empty invoiceItem.poItemIdentifier) and invoiceItem.itemType.itemTypeCode eq 'ITEM') and itemTitleId eq invoiceItem.itemTitleId}">
 
                               <c:out value="${invoiceItem.subscriptionFromDate}" />
                                   </td>

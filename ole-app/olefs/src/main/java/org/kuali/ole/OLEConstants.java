@@ -3344,6 +3344,13 @@ public class OLEConstants {
         public static final String ROLES = "roles";
         public static final String PIPE = "|";
     }
+
+    public static final class PurapInvoiceHistory{
+        public static final String PURAP_DOC_LINK = "accountsPayablePurchasingDocumentLinkIdentifier";
+        public static final String POID = "purchaseOrderIdentifier";
+        public static final String PO_ITM_ID = "poItemIdentifier";
+        public static final String INVOICE_ID = "invoiceIdentifier";
+    }
     public static final String ALRT_DOC_ALRT_FIELD_VAL = "AlertDocument-FieldValueMapping";
     public static final String INVALID_INTEGER = "error.invalid.integer.data";
     public static final String EMPTY_FIELDNAME = "error.empty.field.name";
