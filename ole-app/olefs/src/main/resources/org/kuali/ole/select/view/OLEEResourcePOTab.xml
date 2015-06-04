@@ -23,11 +23,11 @@
                             <bean id="CreatePOsButton" parent="Uif-PrimaryActionButton"
                                   p:style="float:left;margin-left:20em"
                                   p:actionScript="window.open('oleERSController?viewId=EResourcePOView&amp;methodToCall=getEResourcesAndInstances&amp;oleERSIdentifier=@{document.oleERSIdentifier}');"
-                                  p:actionLabel="Create purchase orders"
+                                  p:actionLabel="Create Purchase Orders"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
                             <bean id="PriceIncreaseAnalysisButton" parent="Uif-PrimaryActionButton"
                                   p:actionScript="showLightboxComponent('OLEEResourceRecordView-PriceIncreaseAnalysis');"
-                                  p:actionLabel="Price increase analysis"
+                                  p:actionLabel="Price Increase Analysis"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save"
                                   p:actionLabel="Save" p:performClientSideValidation="true"
@@ -63,10 +63,10 @@
         <property name="items">
             <list>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="generateEmailText"
-                      p:actionLabel="Generate approval email text"
+                      p:actionLabel="Generate Approval Email Text"
                       p:refreshId="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo"
                       p:style="float:center;margin-left:5em"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Copy to clipboard"
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Copy to Clipboard"
                       p:methodToCall="saveResultToEventlog" p:style="float:center;margin-left:5em"
                       p:render="@{emailFlag}"/>
                 <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailText" parent="Uif-InputField"
@@ -94,7 +94,7 @@
     <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-Button" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Save results to event log"
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Save Results to Event Log"
                       p:methodToCall="saveResultToEventlog" p:style="float:center;margin-left:5em"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Download csv" p:methodToCall="downloadCsv"
                       p:disableBlocking="true" p:ajaxSubmit="false" p:style="float:center;margin-left:5em"/>

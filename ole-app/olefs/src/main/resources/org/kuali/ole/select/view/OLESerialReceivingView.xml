@@ -607,14 +607,14 @@
     <bean id="OLESerialReceiving-Footer-Buttons" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="SR-Uif-SaveAction" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:30em"  p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true"
+                <bean id="SR-Uif-SaveAction" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:30em"  p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true"
                       p:loadingMessageText="Saving..."/>
-                <bean id="return_button" parent="Uif-PrimaryActionButton" p:methodToCall="returnToSearch" p:actionLabel="Return To Search" p:ajaxSubmit="true"  p:successCallback="searchSerialReceiving()"/>
+                <bean id="return_button" parent="Uif-PrimaryActionButton" p:methodToCall="returnToSearch" p:actionLabel="Return to Search" p:ajaxSubmit="true"  p:successCallback="searchSerialReceiving()"/>
                 <bean id="delete_button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Delete" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                <bean id="approve_button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="approve" p:performClientSideValidation="true"
+                <bean id="approve_button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="Approve" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
-                <bean id="disapprove_button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="disapprove"
+                <bean id="disapprove_button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="Disapprove"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
            <!--     <bean id="srr_close_button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="close" p:actionLabel="close" />-->
             </list>
@@ -753,9 +753,9 @@
                             <bean id="receiveHistory_button_main" parent="Uif-SecondaryActionButton-Small" p:actionScript="receive(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Receive" p:render="@{#line?.receiptStatus eq 'Claimed'}"/>
                             <bean id="claimAgain_button_main" parent="Uif-SecondaryActionButton-Small" p:actionScript="claim(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Claim Again" p:render="@{#line?.receiptStatus eq 'Claimed'}" />
                             <bean id="cancel_button_main" parent="Uif-SecondaryActionButton-Small" p:actionScript="cancelClaim(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Cancel" p:render="@{#line?.receiptStatus eq 'Claimed'}" />
-                            <bean id="unReceiveHistory_button_main" parent="Uif-SecondaryActionButton-Small" p:actionScript="unReceive(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="unreceive" p:render="@{#line?.receiptStatus eq 'Received'}"/>
-                            <bean id="onChangeEnumMain" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeEnumerationScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="onChangeEnum" p:hidden="true"/>
-                            <bean id="onChangeChronMain" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeChronologyScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="onChangeChron" p:hidden="true"/>
+                            <bean id="unReceiveHistory_button_main" parent="Uif-SecondaryActionButton-Small" p:actionScript="unReceive(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="UnReceive" p:render="@{#line?.receiptStatus eq 'Received'}"/>
+                            <bean id="onChangeEnumMain" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeEnumerationScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="OnChangeEnum" p:hidden="true"/>
+                            <bean id="onChangeChronMain" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeChronologyScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="OnChangeChron" p:hidden="true"/>
                         </list>
                     </property>
                 </bean>
@@ -851,9 +851,9 @@
                             <bean id="receiveHistory_button_supplement" parent="Uif-SecondaryActionButton-Small" p:actionScript="receive(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Receive" p:render="@{#line?.receiptStatus eq 'Claimed'}"/>
                             <bean id="claimAgain_button_supplement" parent="Uif-SecondaryActionButton-Small" p:actionScript="claim(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Claim Again" p:render="@{#line?.receiptStatus eq 'Claimed'}" />
                             <bean id="cancel_button_supplement" parent="Uif-SecondaryActionButton-Small" p:actionScript="cancelClaim(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Cancel" p:render="@{#line?.receiptStatus eq 'Claimed'}" />
-                            <bean id="unReceiveHistory_button_supplement" parent="Uif-SecondaryActionButton-Small" p:actionScript="unReceive(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="unreceive" p:render="@{#line?.receiptStatus eq 'Received'}"/>
-                            <bean id="onChangeEnumSupplement" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeEnumerationScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="onChangeEnum" p:hidden="true"/>
-                            <bean id="onChangeChronSupplement" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeChronologyScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="onChangeChron" p:hidden="true"/>
+                            <bean id="unReceiveHistory_button_supplement" parent="Uif-SecondaryActionButton-Small" p:actionScript="unReceive(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="UnReceive" p:render="@{#line?.receiptStatus eq 'Received'}"/>
+                            <bean id="onChangeEnumSupplement" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeEnumerationScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="OnChangeEnum" p:hidden="true"/>
+                            <bean id="onChangeChronSupplement" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeChronologyScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="OnChangeChron" p:hidden="true"/>
                         </list>
                     </property>
                 </bean>
@@ -941,7 +941,7 @@
                             <bean id="receiveHistory_button_index" parent="Uif-SecondaryActionButton-Small" p:actionScript="receive(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Receive" p:render="@{#line?.receiptStatus eq 'Claimed'}"/>
                             <bean id="claimAgain_button_index" parent="Uif-SecondaryActionButton-Small" p:actionScript="claim(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Claim Again" p:render="@{#line?.receiptStatus eq 'Claimed'}" />
                             <bean id="cancel_button_index" parent="Uif-SecondaryActionButton-Small" p:actionScript="cancelClaim(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Cancel" p:render="@{#line?.receiptStatus eq 'Claimed'}" />
-                            <bean id="unReceiveHistory_button_index" parent="Uif-SecondaryActionButton-Small" p:actionScript="unReceive(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="unreceive" p:render="@{#line?.receiptStatus eq 'Received'}"/>
+                            <bean id="unReceiveHistory_button_index" parent="Uif-SecondaryActionButton-Small" p:actionScript="unReceive(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="unReceive" p:render="@{#line?.receiptStatus eq 'Received'}"/>
                             <bean id="onChangeEnumIndex" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeEnumerationScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="onChangeEnum" p:hidden="true"/>
                             <bean id="onChangeChronIndex" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeChronologyScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="onChangeChron" p:hidden="true"/>
                         </list>
@@ -990,7 +990,7 @@
     <bean id="hdnReceiveHistory_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:2em"  p:methodToCall="receiveHistory" p:actionLabel="Receive"  p:hidden="true" />
     <bean id="hdnClaimAgainNote_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:methodToCall="claimAgainNote" p:actionLabel="Claim Again Note"  p:hidden="true" p:ajaxSubmit="true" p:successCallback="claimNote()"/>
     <bean id="hdnCancelClaim_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:methodToCall="cancelClaim" p:actionLabel="Cancel Claim"  p:hidden="true" />
-    <bean id="hdnUnReceiveHistory_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:methodToCall="unReceiveHistory" p:actionLabel="unreceive"  p:hidden="true" />
+    <bean id="hdnUnReceiveHistory_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:methodToCall="unReceiveHistory" p:actionLabel="UnReceive"  p:hidden="true" />
     <bean id="serialReceivingVendor_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:methodToCall="searchVendor" p:actionLabel="Search Vendor"  p:hidden="true" />
     <bean id="SpecialIssue-HorizontalBoxSection" parent="SpecialIssue-HorizontalBoxSection-parentBean" />
     <bean id="SpecialIssue-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxSection" p:render="@{document.specialIssueFlag}">
@@ -1025,7 +1025,7 @@
     <bean id="SpecialIssueButton-parentBean" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="SpecialIssueBtn" parent="Uif-SecondaryActionButton-Small" p:actionLabel="receive" p:methodToCall="saveNote" p:ajaxSubmit="true"  p:successCallback="closeSpecialIssueDialog();"/>
+                <bean id="SpecialIssueBtn" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Receive" p:methodToCall="saveNote" p:ajaxSubmit="true"  p:successCallback="closeSpecialIssueDialog();"/>
                 <bean id="SpecialIssueCloseBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="closeSpecialIssueDialog();" p:actionLabel="Close" />
             </list>
         </property>
@@ -1072,8 +1072,8 @@
     <bean id="TreatmentInstructionButton-parentBean" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="receiveAckBtnLbl" parent="Uif-SecondaryActionButton-Small" p:actionLabel="acknowledge" p:actionScript="closeTreatmentNoteDialog();" />
-                <bean id="receiveAckBtn" parent="Uif-SecondaryActionButton-Small" p:actionLabel="acknowledge" p:methodToCall="acknowledgeNote" p:ajaxSubmit="true"  p:successCallback="createItemLink()" p:hidden="true" />
+                <bean id="receiveAckBtnLbl" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Acknowledge" p:actionScript="closeTreatmentNoteDialog();" />
+                <bean id="receiveAckBtn" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Acknowledge" p:methodToCall="acknowledgeNote" p:ajaxSubmit="true"  p:successCallback="createItemLink()" p:hidden="true" />
                 <!--  <bean id="treatmentInstructionBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="closeTreatmentNoteDialog();" p:actionLabel="Close" />-->
             </list>
         </property>
@@ -1113,8 +1113,8 @@
     <bean id="UrgentNoteButton-parentBean" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="receiveAckBtnForUrgNoteLbl" parent="Uif-SecondaryActionButton-Small" p:actionLabel="acknowledge" p:actionScript="closeUrgentNoteDialog();"/>
-                <bean id="receiveAckBtnForUrgNote" parent="Uif-SecondaryActionButton-Small" p:actionLabel="acknowledge" p:methodToCall="acknowledgeUrgentNote" p:hidden="true" />
+                <bean id="receiveAckBtnForUrgNoteLbl" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Acknowledge" p:actionScript="closeUrgentNoteDialog();"/>
+                <bean id="receiveAckBtnForUrgNote" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Acknowledge" p:methodToCall="acknowledgeUrgentNote" p:hidden="true" />
                 <!--   <bean id="urgentNoteBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="parent.window.close();" p:actionLabel="Close" />-->
             </list>
         </property>
@@ -1312,8 +1312,8 @@
     <bean id="enumerationSaveDialogButton-parent" parent="Uif-HorizontalBoxSubSection">
         <property name="items">
             <list>
-                <bean id="saveEnumeration" parent="Uif-SecondaryActionButton-Small" p:methodToCall="saveEnumerationChronology" p:actionLabel="done" p:ajaxSubmit="true"  p:successCallback="closeConfirmEnumerationChange();" />
-                <bean id="resetEnumeration" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="resetEnumerationAndChronology" p:actionLabel="cancel" p:successCallback="closeConfirmEnumerationChange();" />
+                <bean id="saveEnumeration" parent="Uif-SecondaryActionButton-Small" p:methodToCall="saveEnumerationChronology" p:actionLabel="Done" p:ajaxSubmit="true"  p:successCallback="closeConfirmEnumerationChange();" />
+                <bean id="resetEnumeration" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="resetEnumerationAndChronology" p:actionLabel="Cancel" p:successCallback="closeConfirmEnumerationChange();" />
 
             </list>
         </property>
@@ -1389,15 +1389,15 @@
     <bean id="chronologySaveDialogButton-parent" parent="Uif-HorizontalBoxSubSection">
         <property name="items">
             <list>
-                <bean id="saveChronology" parent="Uif-SecondaryActionButton-Small" p:methodToCall="saveEnumerationChronology" p:actionLabel="done" p:ajaxSubmit="true"  p:successCallback="closeConfirmChronologyChange();" />
-                <bean id="resetChronology" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="resetEnumerationAndChronology" p:actionLabel="cancel" p:successCallback="closeConfirmChronologyChange();" />
+                <bean id="saveChronology" parent="Uif-SecondaryActionButton-Small" p:methodToCall="saveEnumerationChronology" p:actionLabel="Done" p:ajaxSubmit="true"  p:successCallback="closeConfirmChronologyChange();" />
+                <bean id="resetChronology" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="resetEnumerationAndChronology" p:actionLabel="Cancel" p:successCallback="closeConfirmChronologyChange();" />
 
             </list>
         </property>
     </bean>
 
-    <bean id="setEnumeration" parent="Uif-SecondaryActionButton-Small" p:methodToCall="setEnumerationChronology" p:actionLabel="done" p:ajaxSubmit="true"  p:successCallback="showEnumDialog();" p:hidden="true" />
-    <bean id="setChronology" parent="Uif-SecondaryActionButton-Small" p:methodToCall="setEnumerationChronology" p:actionLabel="done" p:ajaxSubmit="true"  p:successCallback="showChronDialog();" p:hidden="true" />
+    <bean id="setEnumeration" parent="Uif-SecondaryActionButton-Small" p:methodToCall="setEnumerationChronology" p:actionLabel="Done" p:ajaxSubmit="true"  p:successCallback="showEnumDialog();" p:hidden="true" />
+    <bean id="setChronology" parent="Uif-SecondaryActionButton-Small" p:methodToCall="setEnumerationChronology" p:actionLabel="Done" p:ajaxSubmit="true"  p:successCallback="showChronDialog();" p:hidden="true" />
 
     <bean id="SRR-Uif-InputField" parent="Uif-InputField">
         <property name="quickfinder">

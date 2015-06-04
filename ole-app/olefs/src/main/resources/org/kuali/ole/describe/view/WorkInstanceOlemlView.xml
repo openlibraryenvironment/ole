@@ -46,7 +46,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Edit" p:actionScript="edit()" p:render="@{canAdd and editable eq 'false'}" />
-                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Print call slip" p:actionScript="printSlip()" />
+                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Print Call Slip" p:actionScript="printSlip()" />
                                     </list>
                                 </property>
                             </bean>
@@ -115,7 +115,7 @@
             <list>
                 <bean id="InstanceSave" parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
                       p:style="float:left;margin-left:30em"   p:render="@{needToCreateInstance eq false}"/>
-                <bean id="continueInstanceProcess" parent="Uif-PrimaryActionButton" p:methodToCall="EditNewInstance" p:actionLabel="Continue process"
+                <bean id="continueInstanceProcess" parent="Uif-PrimaryActionButton" p:methodToCall="EditNewInstance" p:actionLabel="Continue Process"
                       p:style="float:left;margin-left:30em" p:performClientSideValidation="false"  p:render="@{needToCreateInstance eq true}"/>
             </list>
         </property>
@@ -126,7 +126,7 @@
             <list>
                 <bean id="InstanceItemSave" parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
                       p:style="float:left;margin-left:30em"   p:render="@{needToCreateInstance eq true}"/>
-                <bean id="continueInstanceItemProcess" parent="Uif-PrimaryActionButton" p:methodToCall="EditNewInstance" p:actionLabel="Continue process"
+                <bean id="continueInstanceItemProcess" parent="Uif-PrimaryActionButton" p:methodToCall="EditNewInstance" p:actionLabel="Continue Process"
                       p:style="float:left;margin-left:30em" p:performClientSideValidation="false"  p:render="@{needToCreateInstance eq false}"/>
             </list>
         </property>

@@ -23,7 +23,7 @@
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true"
                       p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true"
-                      p:actionScript="eResourceSearch()" p:actionLabel="Create new e-resource link"
+                      p:actionScript="eResourceSearch()" p:actionLabel="Create New E-Resource Link"
                       p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
             </list>
         </property>

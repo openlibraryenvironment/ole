@@ -87,7 +87,7 @@
                             <bean parent="Uif-SecondaryActionButton-Small"
                                   p:style="float:left;margin-left:0em" p:ajaxSubmit="true"
                                   p:successCallback="validLinkToERes();" p:methodToCall="linkEResource"
-                                  p:actionLabel="Link To E-Resource"/>
+                                  p:actionLabel="Link to E-Resource"/>
                             <bean parent="Uif-SecondaryActionButton-Small"
                                   p:style="float:left;margin-left:0em" p:actionScript="closeFancyBox();"
                                   p:actionLabel="Cancel"/>

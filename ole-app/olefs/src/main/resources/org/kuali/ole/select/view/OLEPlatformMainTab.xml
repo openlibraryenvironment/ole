@@ -245,7 +245,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addAdministrativeUrl" p:style="float:left;margin-left:50em"
-                      p:actionLabel="Add administrative URL" p:render="@{!document.documentHeader.workflowDocument.final}"/>
+                      p:actionLabel="Add Administrative URL" p:render="@{!document.documentHeader.workflowDocument.final}"/>
                 <ref bean="OLEPlatformMainTab-AdministrativeUrlSection"/>
             </list>
         </property>

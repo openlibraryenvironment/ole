@@ -338,8 +338,8 @@
                 <bean id="boundwith_button" parent="Uif-SecondaryActionButton"
                       p:style="float:left;margin-left:20em"
                       p:actionLabel="Bound-with" p:actionScript="showTabs('performBoundwith');"/>
-                <bean id="undo_all_boundwith_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:20em" p:actionLabel="Undo All Bound-with" p:methodToCall="undoAllBoundwith"/>
-                <bean id="undo_one_boundwith_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:20em" p:actionLabel="Undo One Bound-with" p:methodToCall="undoOneBoundwith"/>
+                <bean id="undo_all_boundwith_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:20em" p:actionLabel="Undo All Bound-with" p:methodToCall="undoAllBoundwith"/>
+                <bean id="undo_one_boundwith_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:20em" p:actionLabel="Undo One Bound-with" p:methodToCall="undoOneBoundwith"/>
             </list>
         </property>
     </bean>
@@ -433,9 +433,9 @@
     <bean id="Boundwith-deleteConfirmationButtons" parent="Uif-FooterBase" p:render="@{inDelete eq 'true'}">
         <property name="items">
             <list>
-                <bean id="deleteVerify" parent="Uif-SecondaryActionButton" p:actionScript="showDeleteTabs('delete');"
+                <bean id="deleteVerify" parent="Uif-SecondaryActionButton-Small" p:actionScript="showDeleteTabs('delete');"
                       p:actionLabel="Continue" p:style="float:left;margin-left:10em"/>
-                <bean id="cancelDelete" parent="Uif-SecondaryActionButton" p:methodToCall="cancel"
+                <bean id="cancelDelete" parent="Uif-SecondaryActionButton-Small" p:methodToCall="cancel"
                       p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em"/>
             </list>
         </property>
@@ -496,9 +496,9 @@
     <bean id="BoundwithSearchResultsSelectPanel"  parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="search_button1" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:25em" p:methodToCall="copyToTree" p:actionLabel="Copy To Tree1" p:actionParameters="treeId:leftTree" p:refreshId="BoundwithSelectionSection" p:successCallback="searching()"/>
-                <bean id="search_button2" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0em" p:methodToCall="copyToTree" p:actionLabel="Copy To Tree2" p:actionParameters="treeId:rightTree" p:refreshId="BoundwithSelectionSection" p:successCallback="searching()"/>
-                <bean id="search_button3" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0em" p:methodToCall="unSelectAll" p:actionLabel="Unselect All" p:refreshId="BibSearchResults" p:successCallback="searching()"/>
+                <bean id="search_button1" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:25em" p:methodToCall="copyToTree" p:actionLabel="Copy to Tree1" p:actionParameters="treeId:leftTree" p:refreshId="BoundwithSelectionSection" p:successCallback="searching()"/>
+                <bean id="search_button2" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:methodToCall="copyToTree" p:actionLabel="Copy to Tree2" p:actionParameters="treeId:rightTree" p:refreshId="BoundwithSelectionSection" p:successCallback="searching()"/>
+                <bean id="search_button3" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:methodToCall="unSelectAll" p:actionLabel="Unselect All" p:refreshId="BibSearchResults" p:successCallback="searching()"/>
             </list>
         </property>
     </bean>

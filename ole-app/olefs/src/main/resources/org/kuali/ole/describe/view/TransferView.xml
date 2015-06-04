@@ -190,9 +190,9 @@
     <bean id="Transfer-deleteConfirmationButtonsLeftTree" parent="Uif-FooterBase"  p:render="@{inDeleteLeftTree eq 'true'}">
         <property name="items">
             <list>
-                <bean id="deleteVerifyLeftTree" parent="Uif-SecondaryActionButton" p:methodToCall="delete"  p:actionParameters="treeId:leftTree" p:actionLabel="delete" p:refreshId="TransferSelectionSection" p:style="float:left;margin-left:10em" p:successCallback="refresh()"/>
-                <bean id="OnlyTransferLeftTree" parent="Uif-SecondaryActionButton" p:methodToCall="OnlyTransfer"  p:actionParameters="treeId:leftTree"  p:actionLabel="keep" p:style="float:left;margin-left:0.2em" p:successCallback="refresh()"/>
-                <bean id="cancelDeleteLeftTree" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="cancel" p:style="float:left;margin-left:0.2em"/>
+                <bean id="deleteVerifyLeftTree" parent="Uif-SecondaryActionButton-Small" p:methodToCall="delete"  p:actionParameters="treeId:leftTree" p:actionLabel="Delete" p:refreshId="TransferSelectionSection" p:style="float:left;margin-left:10em" p:successCallback="refresh()"/>
+                <bean id="OnlyTransferLeftTree" parent="Uif-SecondaryActionButton-Small" p:methodToCall="OnlyTransfer"  p:actionParameters="treeId:leftTree"  p:actionLabel="Keep" p:style="float:left;margin-left:0.2em" p:successCallback="refresh()"/>
+                <bean id="cancelDeleteLeftTree" parent="Uif-SecondaryActionButton-Small" p:methodToCall="cancel" p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em"/>
             </list>
         </property>
     </bean>
@@ -260,9 +260,9 @@
     <bean id="Transfer-deleteConfirmationButtonsRightTree" parent="Uif-FooterBase"  p:render="@{inDeleteRightTree eq 'true'}">
         <property name="items">
             <list>
-                <bean id="deleteVerifyRightTree" parent="Uif-SecondaryActionButton" p:methodToCall="delete" p:actionParameters="treeId:rightTree" p:actionLabel="delete" p:refreshId="TransferSelectionSection" p:style="float:left;margin-left:10em" p:successCallback="refresh()"/>
-                <bean id="OnlyTransferRightTree" parent="Uif-SecondaryActionButton" p:methodToCall="OnlyTransfer" p:actionParameters="treeId:rightTree" p:actionLabel="keep"  p:style="float:left;margin-left:0.2em" p:successCallback="refresh()"/>
-                <bean id="cancelDeleteRightTree" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="cancel" p:style="float:left;margin-left:0.2em"/>
+                <bean id="deleteVerifyRightTree" parent="Uif-SecondaryActionButton-Small" p:methodToCall="delete" p:actionParameters="treeId:rightTree" p:actionLabel="Delete" p:refreshId="TransferSelectionSection" p:style="float:left;margin-left:10em" p:successCallback="refresh()"/>
+                <bean id="OnlyTransferRightTree" parent="Uif-SecondaryActionButton-Small" p:methodToCall="OnlyTransfer" p:actionParameters="treeId:rightTree" p:actionLabel="Keep"  p:style="float:left;margin-left:0.2em" p:successCallback="refresh()"/>
+                <bean id="cancelDeleteRightTree" parent="Uif-SecondaryActionButton-Small" p:methodToCall="cancel" p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em"/>
             </list>
         </property>
     </bean>
@@ -421,8 +421,8 @@
     <bean id="TransferCopyToTree"  parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="copyToTree1" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:25em" p:methodToCall="copyToTree" p:actionLabel="Copy To Tree1" p:actionParameters="treeId:leftTree" p:refreshId="TransferSelectionSection" p:ajaxSubmit="true"  p:successCallback="refresh()"/>
-                <bean id="copyToTree2" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0em" p:methodToCall="copyToTree" p:actionLabel="Copy To Tree2" p:actionParameters="treeId:rightTree" p:refreshId="TransferSelectionSection" p:ajaxSubmit="true"  p:successCallback="refresh()"/>
+                <bean id="copyToTree1" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:25em" p:methodToCall="copyToTree" p:actionLabel="Copy to Tree1" p:actionParameters="treeId:leftTree" p:refreshId="TransferSelectionSection" p:ajaxSubmit="true"  p:successCallback="refresh()"/>
+                <bean id="copyToTree2" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:methodToCall="copyToTree" p:actionLabel="Copy to Tree2" p:actionParameters="treeId:rightTree" p:refreshId="TransferSelectionSection" p:ajaxSubmit="true"  p:successCallback="refresh()"/>
                 <ref bean="search_button3"/>
             </list>
         </property>

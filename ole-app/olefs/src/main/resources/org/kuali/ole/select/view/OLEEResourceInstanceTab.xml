@@ -42,18 +42,18 @@
                             <bean id="SaveInstance-button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="save"
                                   p:actionLabel="Save" p:performClientSideValidation="true" p:successCallback="displayLink(true);"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
-                            <bean id="CreateInstance-button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="createInstance" p:actionLabel="Add OLE instance"
+                            <bean id="CreateInstance-button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="createInstance" p:actionLabel="Add OLE Instance"
                                   p:performClientSideValidation="true" p:successCallback="instance()"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final) }"/>
                             <bean id="CreateChildEresource-button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="true"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"
-                                  p:actionScript="displayChildEresourcePopup();" p:actionLabel="Create child e-resource"/>
+                                  p:actionScript="displayChildEresourcePopup();" p:actionLabel="Create Child E-Resource"/>
                             <bean id="GokbConfig-button" parent="Uif-PrimaryActionButton" p:render="@{document.gokbIdentifier ne null}"
-                                  p:actionScript="displayPopup();" p:actionLabel="GOKb configuration"/>
+                                  p:actionScript="displayPopup();" p:actionLabel="GOKb Configuration"/>
                             <bean id="Synchronize-Gokb-button" parent="Uif-PrimaryActionButton" p:methodToCall="synchronizeWithGokb"
                                   p:actionLabel="Synchronize with GOKb" p:render="@{document.gokbIdentifier ne null}"/>
                             <bean id="DeleteInstance-Button" parent="Uif-PrimaryActionButton"
-                                  p:actionScript="displayDialogWindow('div#OLEEResourceRecordView-DeleteRelatedInstancesPopUp')" p:actionLabel="Delete related instances"
+                                  p:actionScript="displayDialogWindow('div#OLEEResourceRecordView-DeleteRelatedInstancesPopUp')" p:actionLabel="Delete Related Instances"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final) and (document.oleERSInstances ne null)}"
                                   p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteInstance"/>
                         </list>

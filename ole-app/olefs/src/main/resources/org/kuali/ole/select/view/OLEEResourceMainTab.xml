@@ -31,22 +31,22 @@
                         <list>
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
-                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="Send adhoc"
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="Send Adhoc"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="deleteEresource" p:actionLabel="Delete"
                                   p:successCallback="showEResourceNotDeletedPopUp('@{access}');" p:render="@{!(document.documentHeader.workflowDocument.initiated)}" p:componentSecurity.performActionAuthz="true" p:actionEvent="delete"/>
-                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Manage GOKb data"
+                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Manage GOKb Data"
                                   p:methodToCall="getManageGOKbDataOnERes" p:ajaxSubmit="true"
                                   p:successCallback="manageGokbPopup()"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final) and document.gokbIdentifier ne null}"/>
-                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="renewOrCancelEresourceDocument" p:actionLabel="Start renew/cancel process" p:performClientSideValidation="true"
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="renewOrCancelEresourceDocument" p:actionLabel="Start Renew/Cancel Process" p:performClientSideValidation="true"
                                   p:render="@{document.documentHeader.workflowDocument.saved}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
-                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approveRenewOrCancelEresource" p:actionLabel="Approve for renew/cancel process" p:performClientSideValidation="true"
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approveRenewOrCancelEresource" p:actionLabel="Approve for Renew/Cancel Process" p:performClientSideValidation="true"
                                   p:render="@{document.documentHeader.workflowDocument.enroute and canApprove}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
 
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
-                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="Approve for next owner"  p:performClientSideValidation="true"
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="Approve for Next Owner"  p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="Disapprove"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
@@ -589,7 +589,7 @@
                                     <bean parent="Uif-TextControl" p:size="15"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="populateAccountingLines" p:actionLabel="Populate accounting lines"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="populateAccountingLines" p:actionLabel="Populate Accounting Lines"/>
                         </list>
                     </property>
                 </bean>

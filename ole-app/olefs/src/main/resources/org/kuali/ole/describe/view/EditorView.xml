@@ -245,7 +245,7 @@
                 <bean id="cancelDescEditor" parent="Uif-PrimaryActionButton" p:actionScript="methodToCall('load')"
                       p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq true and docId ne null and globalEditFlag eq 'false'}"/>
 
-                <bean id="returnToSearch_button" parent="Uif-PrimaryActionButton" p:actionLabel="Return to search" p:actionScript="closeEditorWindow();"
+                <bean id="returnToSearch_button" parent="Uif-PrimaryActionButton" p:actionLabel="Return to Search" p:actionScript="closeEditorWindow();"
                       p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq true and globalEditFlag eq 'false'}"/>
 
                 <bean id="globalEditUpdate_button" parent="Uif-PrimaryActionButton" p:actionLabel="Update"  p:methodToCall="globalEditSave"
