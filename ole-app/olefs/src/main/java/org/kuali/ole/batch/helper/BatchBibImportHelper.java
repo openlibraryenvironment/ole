@@ -1253,8 +1253,6 @@ public class BatchBibImportHelper {
         }
         else {
             //if platform name  doesnt exists in OLE, set operation to NONE
-            eHoldings.setOperation(DocstoreDocument.OperationType.NONE);
-            eHoldings.setResult(DocstoreDocument.ResultType.FAILURE);
             if(olePlatformRecordDocuments != null && olePlatformRecordDocuments.size() > 1) {
                 setErrorMessage(eHoldings, OLEConstants.ERROR_MESSAGE_MORE_THAN_ONE_PLATFORM);
             }
@@ -1271,9 +1269,6 @@ public class BatchBibImportHelper {
         }
         else {
             //if eResource name  doesnt exists in OLE, set operation to NONE
-            eHoldings.setOperation(DocstoreDocument.OperationType.NONE);
-            eHoldings.setResult(DocstoreDocument.ResultType.FAILURE);
-
             if(oleeResourceRecordDocuments != null && oleeResourceRecordDocuments.size() > 1) {
                 setErrorMessage(eHoldings, OLEConstants.ERROR_MESSAGE_MORE_THAN_ONE_ERESOURCE);
             }
@@ -1764,70 +1759,39 @@ public class BatchBibImportHelper {
 
 
     private List<OLEEResourceRecordDocument> getEResourceDocumentByName(String title) {
-
-//        OLEEResourceRecordDocument oleeResourceRecordDocument = null;
-
         List<OLEEResourceRecordDocument> oleeResourceRecordDocuments = null;
-
         Map eResMap = new HashMap();
         eResMap.put(OLEConstants.OLEEResourceRecord.ERESOURCE_NAME, title);
         oleeResourceRecordDocuments = (List<OLEEResourceRecordDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEEResourceRecordDocument.class, eResMap);
-
-//        if(oleeResourceRecordDocuments != null && oleeResourceRecordDocuments.size() == 1) {
-//            oleeResourceRecordDocument = oleeResourceRecordDocuments.get(0);
-//        }
-
         return oleeResourceRecordDocuments;
     }
 
     private List<OLEEResourceRecordDocument> getEResourceDocumentById(String id) {
-
-//        OLEEResourceRecordDocument oleeResourceRecordDocument = null;
-
         List<OLEEResourceRecordDocument> oleeResourceRecordDocuments = null;
-
         Map eResMap = new HashMap();
         eResMap.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, id);
         oleeResourceRecordDocuments = (List<OLEEResourceRecordDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEEResourceRecordDocument.class, eResMap);
-
-//        if(oleeResourceRecordDocuments != null && oleeResourceRecordDocuments.size() == 1) {
-//            oleeResourceRecordDocument = oleeResourceRecordDocuments.get(0);
-//        }
-
         return oleeResourceRecordDocuments;
     }
 
 
     private List<OLEPlatformRecordDocument> getPlatformRecordByName(String platformName) {
-//        OLEPlatformRecordDocument olePlatformRecordDocument = null;
-
         List<OLEPlatformRecordDocument> olePlatformRecordDocuments = null;
         Map platformMap = new HashMap();
         platformMap.put(OLEConstants.PLATFORM_NAME, platformName);
-
         olePlatformRecordDocuments = (List<OLEPlatformRecordDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEPlatformRecordDocument.class, platformMap);
-
-//        if(olePlatformRecordDocuments != null && olePlatformRecordDocuments.size() == 1) {
-//            olePlatformRecordDocument = olePlatformRecordDocuments.get(0);
-//        }
-
         return olePlatformRecordDocuments;
     }
 
     private void validateAndSetEResourceId(String eResourceId, EHoldings eHoldings) {
         List<OLEEResourceRecordDocument> oleeResourceRecordDocuments = getEResourceDocumentById(eResourceId);
-        if(oleeResourceRecordDocuments != null && oleeResourceRecordDocuments.size() == 1) {
+        if (oleeResourceRecordDocuments != null && oleeResourceRecordDocuments.size() == 1) {
             eHoldings.setField(EHoldings.DESTINATION_FIELD_ERESOURCE_ID, oleeResourceRecordDocuments.get(0).getOleERSIdentifier());
-        }
-        else {
+        } else {
             //if eResource name  doesnt exists in OLE, set operation to NONE
-            eHoldings.setOperation(DocstoreDocument.OperationType.NONE);
-            eHoldings.setResult(DocstoreDocument.ResultType.FAILURE);
-
-            if(oleeResourceRecordDocuments != null && oleeResourceRecordDocuments.size() > 1) {
+            if (oleeResourceRecordDocuments != null && oleeResourceRecordDocuments.size() > 1) {
                 setErrorMessage(eHoldings, OLEConstants.ERROR_MESSAGE_MORE_THAN_ONE_ERESOURCE);
-            }
-            else {
+            } else {
                 setErrorMessage(eHoldings, OLEConstants.ERROR_MESSAGE_ERESOURCE + eResourceId);
             }
         }

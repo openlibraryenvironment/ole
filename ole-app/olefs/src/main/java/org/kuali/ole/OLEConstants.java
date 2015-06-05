@@ -3265,10 +3265,10 @@ public class OLEConstants {
 
     public static final String CONFIRMATION_MESSAGE_INSTANCE = "<br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Create another PO for this instance? <br/><br/>";
     public static final String CONFIRMATION_MESSAGE_E_RESOURCE = "<br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Create another PO for this E-Resource? <br/><br/>";
-    public static final String ERROR_MESSAGE_ERESOURCE = "EResource document doesnt exists for ";
-    public static final String ERROR_MESSAGE_PLATFORM = "Platform document doesnt exists for ";
-    public static final String ERROR_MESSAGE_MORE_THAN_ONE_ERESOURCE = "More than one EResource document doesnt exists";
-    public static final String ERROR_MESSAGE_MORE_THAN_ONE_PLATFORM = "More than one Platform document doesnt exists";
+    public static final String ERROR_MESSAGE_ERESOURCE = "EResource document doesn't exists for ";
+    public static final String ERROR_MESSAGE_PLATFORM = "Platform document doesn't exists for ";
+    public static final String ERROR_MESSAGE_MORE_THAN_ONE_ERESOURCE = "More than one EResource document exists";
+    public static final String ERROR_MESSAGE_MORE_THAN_ONE_PLATFORM = "More than one Platform document exists";
     public static final String OLE_FUND_CODE_ACCOUNTING_LINE = "OleFundCode_AccountingLine";
     public static final String ERROR_NOTE_REQUIRED = "error.note.required";
     public static final String OLE_VENDOR_ACTIVE = "error.vendor.active";

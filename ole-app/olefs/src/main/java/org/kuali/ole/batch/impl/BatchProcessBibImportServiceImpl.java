@@ -761,7 +761,7 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
                 }
                 if (CollectionUtils.isNotEmpty(bibTree.getHoldingsTrees())) {
                     for (HoldingsTree holdingsTree : bibTree.getHoldingsTrees()) {
-                        if (null != holdingsTree.getHoldings() && DocstoreDocument.ResultType.FAILURE.equals(holdingsTree.getHoldings().getResult())) {
+                        if (null != holdingsTree.getHoldings()) {
                             setErrorMessage(bibMarcRecords, oleBatchbibImportStatistics, i, holdingsTree.getHoldings().getMessage());
                             continue;
                         }
@@ -787,9 +787,11 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
     }
 
     private void setErrorMessage(List<BibMarcRecord> bibMarcRecords, OLEBatchBibImportStatistics oleBatchbibImportStatistics, int recordNumber, String failureMessage) {
-        oleBatchbibImportStatistics.getMismatchRecordList().add(bibMarcRecords.get(recordNumber));
-        oleBatchbibImportStatistics.getErrorBuilder().append("Record #" + ++recordNumber).append(" : ");
-        oleBatchbibImportStatistics.getErrorBuilder().append(failureMessage).append(System.lineSeparator());
+        if (StringUtils.isNotEmpty(failureMessage)) {
+            oleBatchbibImportStatistics.getMismatchRecordList().add(bibMarcRecords.get(recordNumber));
+            oleBatchbibImportStatistics.getErrorBuilder().append("Record #" + ++recordNumber).append(" : ");
+            oleBatchbibImportStatistics.getErrorBuilder().append(failureMessage).append(System.lineSeparator());
+        }
     }
 
     @Override
