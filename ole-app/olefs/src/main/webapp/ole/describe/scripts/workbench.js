@@ -138,6 +138,7 @@ jq(document).ready(function () {
     jq('#hdnRows_control').val(jq(".dataTables_length select").val());
     if (sessionStorage.getItem("sortOrder") == null) {
         sessionStorage.setItem("sortOrder", "asc");
+        sessionStorage.setItem("field", "title");
         jq('#hiddenSearchFields_h3').val("Title_sort");
         jq('#hiddenSearchFields_h2').val("asc");
     }
@@ -293,7 +294,7 @@ function selectOrUnselect() {
         var url = getUrl(line);
         if (jq("#hiddenSearchFields_h9").val() == "true" || jq("#hiddenSearchFields-browse_control").val() == "true") {
             selectOrUnselectDeLink(id, url)
-        }else{
+        } else {
             selectOrUnselectLink(id, url);
         }
 
@@ -424,11 +425,11 @@ function openSelectAll(doctype) {
             }
             for (var i = 0; i < ids.length; i++) {
                 var id = ids[i].split("#");
-                var link = href = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=" + id[1] + "&editable=true"+ pageId;
+                var link = href = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=" + id[1] + "&editable=true" + pageId;
                 if (doctype == "bibliographic") {
-                   link = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=&editable=true" + pageId;
+                    link = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=&editable=true" + pageId;
                 } else if (doctype == "item") {
-                    link = href = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=" + id[1] + "&instanceId=" +id[2]+ "&editable=true"+ pageId;
+                    link = href = "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=" + doctype + "&docFormat=" + docFormat + "&docId=" + id[0] + "&bibId=" + id[1] + "&instanceId=" + id[2] + "&editable=true" + pageId;
                 }
                 if (deLinks.length > 0) {
                     var isAvailable = true;
@@ -552,6 +553,7 @@ function openHelpWindow(url) {
 function search() {
     jq('#hiddenSearchFields_control').val(1);
     sessionStorage.setItem("sortOrder", "asc");
+    sessionStorage.setItem("field", "title");
     jq('#hiddenSearchFields_h3').val("Title_sort");
     jq('#hiddenSearchFields_h2').val("asc");
     var date = new Date();
@@ -598,13 +600,8 @@ function oleSearchPager(linkElement, collectionId) {
 //hiddenSearchFields_h9 is mapped to selectAllRecords
 function bibSortBy(field) {
     var sortField = "";
-    var sortOrder = "";
-    if (sessionStorage.getItem("sortOrder") == "asc") {
-        sessionStorage.setItem("sortOrder", "desc");
-    } else if (sessionStorage.getItem("sortOrder") == "desc") {
-        sessionStorage.setItem("sortOrder", "asc");
-    }
-    sortOrder = sessionStorage.getItem("sortOrder");
+    setFieldAndSort(field);
+    var sortOrder = sessionStorage.getItem("sortOrder");
     if (field == 'title') {
         sortField = "Title_sort";
     } else if (field == 'author') {
@@ -629,12 +626,7 @@ function bibSortBy(field) {
 
 function itemSortBy(field) {
     var sortField = "";
-
-    if (sessionStorage.getItem("sortOrder") == "asc") {
-        sessionStorage.setItem("sortOrder", "desc");
-    } else if (sessionStorage.getItem("sortOrder") == "desc") {
-        sessionStorage.setItem("sortOrder", "asc");
-    }
+    setFieldAndSort(field);
     var sortOrder = sessionStorage.getItem("sortOrder");
     if (field == 'title') {
         sortField = "Title_sort";
@@ -666,15 +658,9 @@ function itemSortBy(field) {
 
 }
 
-
 function holdingsSortBy(field) {
     var sortField = "";
-
-    if (sessionStorage.getItem("sortOrder") == "asc") {
-        sessionStorage.setItem("sortOrder", "desc");
-    } else if (sessionStorage.getItem("sortOrder") == "desc") {
-        sessionStorage.setItem("sortOrder", "asc");
-    }
+    setFieldAndSort(field);
     var sortOrder = sessionStorage.getItem("sortOrder");
     if (field == 'title') {
         sortField = "Title_sort";
@@ -693,5 +679,18 @@ function holdingsSortBy(field) {
         searching();
     });
 
+}
+
+function setFieldAndSort(field) {
+    if (sessionStorage.getItem("field") == field) {
+        if (sessionStorage.getItem("sortOrder") == "asc") {
+            sessionStorage.setItem("sortOrder", "desc");
+        } else if (sessionStorage.getItem("sortOrder") == "desc") {
+            sessionStorage.setItem("sortOrder", "asc");
+        }
+    } else {
+        sessionStorage.setItem("field", field)
+        sessionStorage.setItem("sortOrder", "asc");
+    }
 }
 

@@ -654,20 +654,20 @@ but may be good for SKUs.  Can insert dashes in the wrong place and still match.
 
 
         <!-- SORT fields -->
-        <field name="Author_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
-        <field name="Title_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
-        <field name="JournalTitle_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
-        <field name="PublicationDate_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
-        <field name="Publisher_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
-        <field name="ShelvingOrder_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
-        <field name="Location_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
-        <field name="CallNumber_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
-        <field name="CallNumberPrefix_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
-        <field name="Enumeration_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
-        <field name="Chronology_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
-        <field name="CopyNumber_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
-        <field name="ItemBarcode_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
-        <field name="ItemStatus_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="Author_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="false" />
+        <field name="Title_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="false"/>
+        <field name="JournalTitle_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="false"/>
+        <field name="PublicationDate_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="false"/>
+        <field name="Publisher_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="false"/>
+        <field name="ShelvingOrder_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="false"/>
+        <field name="Location_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="false"/>
+        <field name="CallNumber_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="false"/>
+        <field name="CallNumberPrefix_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="false"/>
+        <field name="Enumeration_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="false"/>
+        <field name="Chronology_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="false"/>
+        <field name="CopyNumber_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="false"/>
+        <field name="ItemBarcode_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="false"/>
+        <field name="ItemStatus_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="false"/>
         <!-- FACET fields -->
         <field name="Subject_facet" type="string" indexed="true" stored="true"  multiValued="true"/>
         <field name="Author_facet" type="string" indexed="true" stored="true"  multiValued="true"/>
