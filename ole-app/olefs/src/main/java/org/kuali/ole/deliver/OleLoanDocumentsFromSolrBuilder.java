@@ -58,15 +58,17 @@ public class OleLoanDocumentsFromSolrBuilder {
             SearchParams searchParams = new SearchParams();
             List<SearchCondition> searchConditions = new ArrayList<>();
             int count = itemStatus.length;
+            searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField("item", "currentBorrower", patronId), "AND"));
+            List<SearchCondition> itemStatusSearchConditions = new ArrayList<>();
             for (int i = 0; i < count; i++) {
                 if (i == (count - 1)) {
-                    searchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", itemStatus[i]), "OR"));
+                    itemStatusSearchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", itemStatus[i]), "AND"));
                 } else {
-                    searchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", itemStatus[i]), "AND"));
+                    itemStatusSearchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", itemStatus[i]), "OR"));
                 }
             }
-
-            searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField("item", "currentBorrower", patronId), "AND"));
+            Collections.reverse(itemStatusSearchConditions);
+            searchConditions.addAll(itemStatusSearchConditions);
             if (null != itemBarcode) {
                 searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org
                                 .kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), ItemOleml.ITEM_BARCODE,
