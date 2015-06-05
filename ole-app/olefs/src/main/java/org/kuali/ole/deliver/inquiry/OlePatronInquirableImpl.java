@@ -156,6 +156,23 @@ public class OlePatronInquirableImpl extends InquirableImpl {
 
         }
 
+        if (CollectionUtils.isNotEmpty(patronDocument.getOleProxyPatronDocuments())) {
+            OlePatronDocument olePatronDocument;
+            for (OleProxyPatronDocument oleProxyPatronDocument : patronDocument.getOleProxyPatronDocuments()) {
+                olePatronDocument = oleProxyPatronDocument.getOlePatronDocument();
+                oleProxyPatronDocument.setProxyForPatronFirstName(olePatronDocument.getEntity().getNames().get(0).getFirstName());
+                oleProxyPatronDocument.setProxyForPatronLastName(olePatronDocument.getEntity().getNames().get(0).getLastName());
+            }
+        }
+        if (CollectionUtils.isNotEmpty(patronDocument.getOleProxyPatronDocumentList())) {
+            OlePatronDocument olePatronDocument;
+            for (OleProxyPatronDocument oleProxyPatronDocument : patronDocument.getOleProxyPatronDocumentList()) {
+                olePatronDocument = oleProxyPatronDocument.getOlePatronDocument();
+                oleProxyPatronDocument.setProxyForPatronFirstName(olePatronDocument.getEntity().getNames().get(0).getFirstName());
+                oleProxyPatronDocument.setProxyForPatronLastName(olePatronDocument.getEntity().getNames().get(0).getLastName());
+            }
+        }
+
         if(patronDocument.getOleLoanDocuments()!=null){
             patronDocument.setLoanCount(patronDocument.getOleLoanDocuments().size());
         }
