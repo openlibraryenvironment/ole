@@ -400,6 +400,8 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
                     if (oleeResourceInstance.getStatus() != null && oleeResourceInstance.getStatus().equals(OLEConstants.OleHoldings.ACTIVE)) {
                         oleeResourceInstance.getOleERSDocument().setActiveTitlesCount(oleeResourceInstance.getOleERSDocument().getActiveTitlesCount() + 1);
                         avoidingDuplicateMap.put(oleeResourceInstance.getOleERSIdentifier(), oleeResourceInstance.getOleERSDocument());
+                    } else {
+                        avoidingDuplicateMap.put(oleeResourceInstance.getOleERSIdentifier(), oleeResourceInstance.getOleERSDocument());
                     }
                 }
                 getLinkedEResources().addAll(avoidingDuplicateMap.values());

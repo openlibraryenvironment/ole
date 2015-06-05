@@ -1264,6 +1264,8 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                         oleeResourceInstance.setInstancePublisher(oleHoldings.getPublisher());
                         if (oleHoldings.getPlatform() != null && StringUtils.isNotBlank(oleHoldings.getPlatform().getPlatformName())) {
                             oleeResourceInstance.setPlatformId(oleHoldings.getPlatform().getPlatformName());
+                        }else {
+                            oleeResourceInstance.setPlatformId(null);
                         }
                         // oleeResourceInstance.setPublicDisplayNote(workEInstanceDocument.getPublicDisplayNote());
                         StringBuffer urls = new StringBuffer();
@@ -1401,6 +1403,8 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                         oleeResourceInstance.setInstancePublisher(oleHoldings.getPublisher());
                         if (oleHoldings.getPlatform() != null && StringUtils.isNotBlank(oleHoldings.getPlatform().getPlatformName())) {
                             oleeResourceInstance.setPlatformId(oleHoldings.getPlatform().getPlatformName());
+                        }else {
+                            oleeResourceInstance.setPlatformId(null);
                         }
                         // oleeResourceInstance.setPublicDisplayNote(workEInstanceDocument.getPublicDisplayNote());
                         StringBuffer urls = new StringBuffer();
