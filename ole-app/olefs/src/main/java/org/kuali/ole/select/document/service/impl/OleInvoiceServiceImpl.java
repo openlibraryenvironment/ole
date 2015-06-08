@@ -2826,4 +2826,15 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
     public void setOleSelectDocumentService(OleSelectDocumentService oleSelectDocumentService) {
         this.oleSelectDocumentService = oleSelectDocumentService;
     }
+
+    public String getPurchaseOrderVendor(String poId) {
+        Map poMap = new HashMap();
+        poMap.put(OLEConstants.PUR_DOC_IDENTIFIER,poId);
+        OlePurchaseOrderDocument document = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePurchaseOrderDocument.class,poMap);
+        if(document != null) {
+            return document.getVendorName();
+        }
+        return null;
+
+    }
 }

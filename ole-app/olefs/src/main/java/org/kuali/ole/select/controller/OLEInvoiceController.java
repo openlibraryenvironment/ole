@@ -275,7 +275,10 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                         invoiceDocument.setRouteLogFlag(getInvoiceService().canCollapse(OLEConstants.ROUTE_LOG_SECTION,collapseSections));
                         invoiceDocument.setNotesAndAttachmentFlag(getInvoiceService().canCollapse(OLEConstants.NOTES_AND_ATTACH_SECTION,collapseSections));
 
-                    } else {
+                    } else if(invoiceDocument.getVendorHeaderGeneratedIdentifier() == null && invoiceDocument.getVendorDetailAssignedIdentifier() == null && invoiceDocument.getPoId() != null && invoiceService.getPurchaseOrderVendor(invoiceDocument.getPoId()) != null) {
+                        GlobalVariables.getMessageMap().putError(OleSelectConstant.PO_ITEM_SECTION_ID, OLEKeyConstants.ERROR_NO_MATCHING_PO_VND_NM, new String[]{invoiceService.getPurchaseOrderVendor(invoiceDocument.getPoId())});
+                    }
+                    else {
                         GlobalVariables.getMessageMap().putError(OleSelectConstant.PO_ITEM_SECTION_ID, OLEKeyConstants.ERROR_NO_MATCHING_PO_VND);
                     }
                 }
