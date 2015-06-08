@@ -65,7 +65,7 @@
         <property name="label" value="E-Resource Requestor Name"/>
         <property name="description" value="E-Resource Requestor Name"/>
         <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern"/>
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="30"/>
