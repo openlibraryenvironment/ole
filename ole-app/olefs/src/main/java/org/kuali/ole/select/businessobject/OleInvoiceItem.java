@@ -857,11 +857,13 @@ public class OleInvoiceItem extends InvoiceItem {
     }
 
     public PurApRelatedViews getRelatedViews() {
-        /*if (!getRelatedViewExist()) {
-            relatedViews = new PurApRelatedViews(this.getInvoiceDocument() != null ? this.getInvoiceDocument().getDocumentNumber() : null,
-                    this.getAccountsPayablePurchasingDocumentLinkIdentifier() != null ? this.getAccountsPayablePurchasingDocumentLinkIdentifier() : null);
-            ;
-        }*/
+        if (relatedViews == null) {
+            relatedViews = new PurApRelatedViews(
+            		this.getInvoiceDocument() != null ? this.getInvoiceDocument().getDocumentNumber()
+            				: null,
+                    this.getAccountsPayablePurchasingDocumentLinkIdentifier() != null ?
+                    		this.getAccountsPayablePurchasingDocumentLinkIdentifier() : null);
+        }
         return relatedViews;
     }
 
