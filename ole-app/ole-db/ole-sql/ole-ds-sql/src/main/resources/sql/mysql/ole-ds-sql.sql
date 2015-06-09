@@ -771,6 +771,7 @@ CREATE TABLE OLE_MISS_PCE_ITM_HSTRY_T
         , ITEM_ID INTEGER
         , OPERATOR_ID VARCHAR(40)
         , PATRON_BARCODE VARCHAR(100)
+        , PATRON_ID VARCHAR(40)
         , MISSING_PIECE_NOTE VARCHAR(400)
         , MISSING_PIECE_COUNT INTEGER
         , MISSING_PIECE_DATE DATETIME
@@ -782,11 +783,13 @@ CREATE TABLE OLE_MISS_PCE_ITM_HSTRY_T
 
 
     
-                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                        
                                     
-                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                        
                                     
-, INDEX OLE_MISS_PCE_ITM_HSTRY_I (OPERATOR_ID , PATRON_BARCODE )
+                                                                                                                                                                                                                                                        
+                                    
+, INDEX OLE_MISS_PCE_ITM_HSTRY_I (OPERATOR_ID , PATRON_BARCODE , PATRON_ID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
