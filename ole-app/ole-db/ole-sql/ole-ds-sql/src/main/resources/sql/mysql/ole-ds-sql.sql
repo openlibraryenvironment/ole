@@ -701,6 +701,7 @@ CREATE TABLE OLE_ITM_CLM_RTND_HSTRY_T
         , CLAIMS_RETURNED_DATE_CREATED DATETIME
         , CLAIMS_RETURNED_NOTE VARCHAR(400)
         , CLAIMS_RETURNED_PATRON_BARCODE VARCHAR(100)
+        , CLAIMS_RETURNED_PATRON_ID VARCHAR(40)
         , CLAIMS_RETURNED_OPERATOR_ID VARCHAR(40)
         , ITEM_ID INTEGER
     
@@ -711,11 +712,13 @@ CREATE TABLE OLE_ITM_CLM_RTND_HSTRY_T
 
 
     
-                                                                                                                                                                                                                
+                                                                                                                                                                                                                                    
                                     
-                                                                                                                                                                                                                
+                                                                                                                                                                                                                                    
                                     
-, INDEX OLE_ITM_CLM_RTND_HSTRY_T_I (CLAIMS_RETURNED_PATRON_BARCODE , CLAIMS_RETURNED_OPERATOR_ID )
+                                                                                                                                                                                                                                    
+                                    
+, INDEX OLE_ITM_CLM_RTND_HSTRY_T_I (CLAIMS_RETURNED_PATRON_BARCODE , CLAIMS_RETURNED_PATRON_ID , CLAIMS_RETURNED_OPERATOR_ID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
@@ -733,6 +736,7 @@ CREATE TABLE OLE_DS_DMGD_ITM_HSTRY_T
         , DMGD_ITM_DATE DATETIME
         , DMGD_ITM_NOTE VARCHAR(400)
         , PATRON_BARCODE VARCHAR(100)
+        , DMGD_PATRON_ID VARCHAR(40)
         , OPERATOR_ID VARCHAR(40)
         , ITEM_ID INTEGER
     
@@ -743,11 +747,13 @@ CREATE TABLE OLE_DS_DMGD_ITM_HSTRY_T
 
 
     
-                                                                                                                                                                                                                
+                                                                                                                                                                                                                                    
                                     
-                                                                                                                                                                                                                
+                                                                                                                                                                                                                                    
                                     
-, INDEX OLE_DS_DMGD_ITM_HSTRY_T_I (OPERATOR_ID , PATRON_BARCODE )
+                                                                                                                                                                                                                                    
+                                    
+, INDEX OLE_DS_DMGD_ITM_HSTRY_T_I (OPERATOR_ID , PATRON_BARCODE , DMGD_PATRON_ID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
