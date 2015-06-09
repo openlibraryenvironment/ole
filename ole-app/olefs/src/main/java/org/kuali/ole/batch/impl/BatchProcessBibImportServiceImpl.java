@@ -761,14 +761,14 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
                 }
                 if (CollectionUtils.isNotEmpty(bibTree.getHoldingsTrees())) {
                     for (HoldingsTree holdingsTree : bibTree.getHoldingsTrees()) {
-                       if (null != holdingsTree.getHoldings()) {
+                        if (null != holdingsTree.getHoldings()) {
+                            if (holdingsTree.getHoldings().getHoldingsType() != null && holdingsTree.getHoldings().getHoldingsType().equalsIgnoreCase("electronic") && holdingsTree.getHoldings().getOperation().equals(DocstoreDocument.OperationType.CREATE)
+                                    && DocstoreDocument.ResultType.SUCCESS.equals(holdingsTree.getHoldings().getResult())) {
+                                getOleeResourceHelperService().updateEHoldingsInEResource(holdingsTree.getHoldings());
+                            }
                             setErrorMessage(bibMarcRecords, oleBatchbibImportStatistics, i, holdingsTree.getHoldings().getMessage());
                         }
 
-                        if (holdingsTree.getHoldings() != null && holdingsTree.getHoldings().getHoldingsType() != null && holdingsTree.getHoldings().getHoldingsType().equalsIgnoreCase("electronic") && holdingsTree.getHoldings().getOperation().equals(DocstoreDocument.OperationType.CREATE)
-                                && DocstoreDocument.ResultType.SUCCESS.equals(holdingsTree.getHoldings().getResult())) {
-                            getOleeResourceHelperService().updateEHoldingsInEResource(holdingsTree.getHoldings());
-                        }
 
                         if (CollectionUtils.isNotEmpty(holdingsTree.getItems())) {
                             for (Item item : holdingsTree.getItems()) {
