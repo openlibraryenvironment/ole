@@ -24,22 +24,27 @@ public class OLEGOKBSearchDaoOjb extends PlatformAwareDaoBaseOjb {
 
      List<OleGokbTipp> oleGokbTipps ;
     Criteria goKbSearchCriteria = new Criteria();
+
        if(StringUtils.isNotEmpty(packageName)){
-           goKbSearchCriteria.addEqualTo("oleGokbPackage.packageName",packageName);
+           packageName = packageName.replace("*","%").toUpperCase();
+           goKbSearchCriteria.addLike("UPPER(oleGokbPackage.packageName)",packageName);
        }
 
      if(StringUtils.isNotEmpty(platformName)){
-            goKbSearchCriteria.addEqualTo("oleGokbPlatform.platformName",platformName);
+         platformName = platformName.replace("*","%").toUpperCase();
+            goKbSearchCriteria.addLike("UPPER(oleGokbPlatform.platformName)",platformName);
         }
 
 
         if(StringUtils.isNotEmpty(title)){
-            goKbSearchCriteria.addEqualTo("oleGokbTitle.titleName",title);
+            title = title.replace("*","%").toUpperCase();
+            goKbSearchCriteria.addLike("UPPER(oleGokbTitle.titleName)",title);
         }
 
 
         if(StringUtils.isNotEmpty(titleInstanceType)){
-            goKbSearchCriteria.addEqualTo("oleGokbTitle.medium",titleInstanceType);
+            titleInstanceType = titleInstanceType.replace("*","%").toUpperCase();
+            goKbSearchCriteria.addLike("UPPER(oleGokbTitle.medium)",titleInstanceType);
         }
 
         if(platformProviders.size()>0 && platformProviders.size()>0){

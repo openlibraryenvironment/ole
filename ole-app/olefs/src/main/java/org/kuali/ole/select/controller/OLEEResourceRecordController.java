@@ -2157,6 +2157,10 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         if (StringUtils.isNotEmpty(platformProvider)) {
             platformProviderList.add(platformProvider);
         }
+        if (StringUtils.isNotEmpty(publisher)) {
+            platformProviderList.add(publisher);
+        }
+
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(packageName);
         stringBuilder.append(platformName);
