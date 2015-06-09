@@ -551,8 +551,9 @@
 
         <field-descriptor name="missingPieceItemId" column="MISSING_PIECE_ID" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" sequence-name="OLE_MISS_PCE_ITM_HSTRY_S"/>
         <field-descriptor name="itemId" column="ITEM_ID" jdbc-type="VARCHAR"/>
-        <field-descriptor name="operatorId" column="OPERATOR_ID" jdbc-type="VARCHAR" />
-        <field-descriptor name="patronBarcode" column="PATRON_BARCODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="operatorId" column="OPERATOR_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="patronBarcode" column="PATRON_BARCODE" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="patronId" column="PATRON_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="missingPieceFlagNote" column="MISSING_PIECE_NOTE" jdbc-type="VARCHAR"/>
         <field-descriptor name="missingPieceCount" column="MISSING_PIECE_COUNT" jdbc-type="VARCHAR"/>
         <field-descriptor name="missingPieceDate" column="MISSING_PIECE_DATE" jdbc-type="TIMESTAMP"/>

@@ -510,7 +510,9 @@
                     <bean id="missingPieceCount" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceCount" p:label="Missing Piece Item Count"/>
                     <bean id="missingPieceFlagNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceFlagNote" p:label="Missing Piece Item Note"/>
                     <bean id="operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
-                    <bean id="patronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="patronBarcode" p:label="Associated Patron Barcode"/>
+                    <bean parent="Uif-LinkField" p:label="Associate Patron Barcode"
+                          p:linkText="@{#line.patronBarcode}" p:target="_blank"
+                          p:href="@{#line.patronURL}"/>
                 </list>
         </property>
         <property name="renderLineActions" value="false"/>

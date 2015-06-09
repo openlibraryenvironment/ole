@@ -765,11 +765,8 @@ public class LoanProcessor {
         Map barMap = new HashMap();
         barMap.put(OLEConstants.OleDeliverRequest.BORROWER_ID, patronId);
         List<OleDeliverRequestBo> matchingLoan = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, barMap);
-
         for (int itemid = 0; itemid < matchingLoan.size(); itemid++) {
             String itemUuid = matchingLoan.get(itemid).getItemUuid();
-
-
             org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemUuid);
             org.kuali.ole.docstore.common.document.content.instance.Item itemContent = getItemOlemlRecordProcessor().fromXML(item.getContent());
             HoldingOlemlRecordProcessor holdingOlemlRecordProcessor = new HoldingOlemlRecordProcessor();
@@ -3697,6 +3694,7 @@ public class LoanProcessor {
                 missingPieceItemRecord.setMissingPieceDate(parsedDate);
                 missingPieceItemRecord.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
                 missingPieceItemRecord.setPatronBarcode(oleLoanDocument.getPatronBarcode());
+                missingPieceItemRecord.setPatronId(oleLoanDocument.getPatronId());
                 missingPieceItemRecord.setItemId(oleLoanDocument.getItemUuid());
                 if (CollectionUtils.isNotEmpty(item.getMissingPieceItemRecordList())) {
 
@@ -3714,6 +3712,7 @@ public class LoanProcessor {
                     missingPieceItemRecord.setMissingPieceDate(parsedDate);
                     missingPieceItemRecord.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
                     missingPieceItemRecord.setPatronBarcode(oleLoanDocument.getPatronBarcode());
+                    missingPieceItemRecord.setPatronId(oleLoanDocument.getPatronId());
                     missingPieceItemRecord.setItemId(oleLoanDocument.getItemUuid());
                     if(CollectionUtils.isNotEmpty(item.getMissingPieceItemRecordList())){
 

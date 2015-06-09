@@ -407,6 +407,7 @@ public class EditorController extends UifControllerBase {
                     ((WorkInstanceOlemlForm) documentForm).setProxyBarcode(olePatronDocument.getBarcode());
                 }
                 setClaimsAndDamagedPatronBarcode(item);
+                setMissingPieceItemRecord(item);
             }
         }
 
@@ -475,6 +476,37 @@ public class EditorController extends UifControllerBase {
                             for(OlePatronLostBarcode olePatronLostBarcode : olePatronLostBarcodeList) {
                                 item.getItemDamagedRecords().get(index).setDamagedPatronId(olePatronLostBarcode.getOlePatronId());
                             }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void setMissingPieceItemRecord (Item item){
+        if(item.getMissingPieceItemRecordList() != null && !item.getMissingPieceItemRecordList().isEmpty()){
+            for(int index=0 ; index < item.getMissingPieceItemRecordList().size() ; index++){
+                if(item.getMissingPieceItemRecordList().get(index).getPatronId() != null && !item.getMissingPieceItemRecordList().get(index).getPatronId().isEmpty()){
+                    OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class, item.getMissingPieceItemRecordList().get(index).getPatronId());
+                    if(olePatronDocument != null ){
+                        item.getMissingPieceItemRecordList().get(index).setPatronBarcode(olePatronDocument.getBarcode());
+                    }
+                }else if(item.getMissingPieceItemRecordList().get(index).getPatronBarcode() != null && !item.getMissingPieceItemRecordList().get(index).getPatronBarcode().isEmpty()){
+                    Map map = new HashMap();
+                    map.put("patronBarcode" ,item.getMissingPieceItemRecordList().get(index).getPatronBarcode());
+                    List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class ,map );
+                    if(!CollectionUtils.isEmpty(olePatronDocumentList)){
+                        for(OlePatronDocument olePatronDocument : olePatronDocumentList){
+                            item.getMissingPieceItemRecordList().get(index).setPatronId(olePatronDocument.getOlePatronId());
+                        }
+                    }
+                }else{
+                    Map criteria1 = new HashMap();
+                    criteria1.put("invalidOrLostBarcodeNumber" ,item.getMissingPieceItemRecordList().get(index).getPatronBarcode());
+                    List<OlePatronLostBarcode> olePatronLostBarcodeList = (List<OlePatronLostBarcode>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronLostBarcode.class , criteria1);
+                    if(olePatronLostBarcodeList != null && olePatronLostBarcodeList.size()>0){
+                        for(OlePatronLostBarcode olePatronLostBarcode : olePatronLostBarcodeList){
+                            item.getMissingPieceItemRecordList().get(index).setPatronId(olePatronLostBarcode.getOlePatronId());
                         }
                     }
                 }
@@ -696,6 +728,7 @@ public class EditorController extends UifControllerBase {
                 if (documentForm instanceof WorkInstanceOlemlForm) {
                     Item item = ((WorkInstanceOlemlForm) documentForm).getSelectedItem();
                     setClaimsAndDamagedPatronBarcode(item);
+                    setMissingPieceItemRecord(item);
                 }
                 ((EditorForm) form).setDocumentForm(documentForm);
             } else {
@@ -707,6 +740,7 @@ public class EditorController extends UifControllerBase {
                     if (documentForm instanceof WorkInstanceOlemlForm) {
                         Item item = ((WorkInstanceOlemlForm) documentForm).getSelectedItem();
                         setClaimsAndDamagedPatronBarcode(item);
+                        setMissingPieceItemRecord(item);
                     }
                     // Set the output (response) form containing docum ((EditorForm) form).isAllowUpdate()ent info into the current form.
                     ((EditorForm) form).setDocumentForm(documentForm);

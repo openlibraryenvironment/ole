@@ -24,8 +24,8 @@
                 <ref bean="OleItemDamaged-Section"/>
                 <ref bean="itemDamagedRecords"/>
                 <ref bean="OleMissingItem-Section"/>
-                <ref bean="OLEIntransitLoanRecords"/>
                 <ref bean="MissingPieceItemHistory"/>
+                <ref bean="OLEIntransitLoanRecords"/>
                 <ref bean="OLEPatronFlaggedItemHistoryView-PatronRecords"/>
                 <ref bean="OleItemExtendedInformation"/>
 
@@ -826,7 +826,8 @@
                     <bean id="missingPieceCount" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceCount" p:label="Missing Piece Item Count"/>
                     <bean id="missingPieceFlagNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceFlagNote" p:label="Missing Piece Item Note"/>
                     <bean id="operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
-                    <bean id="patronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="patronBarcode" p:label="Associated Patron Barcode"/>
+                    <bean id="patronId" parent="Uif-LinkField" p:label="Associated Patron Barcode" p:style="word-break: break-all;word-wrap: break-word"
+                          p:linkText="@{#line.patronBarcode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;olePatronId=@{#line.patronId}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument"/>
                 </list>
         </property>
     </bean>

@@ -1530,6 +1530,7 @@ public class LoanController extends UifControllerBase {
                     missingPieceItemRecord.setItemId(oleLoanForm.getMissingPieceLoanDocument().getItemUuid());
                     missingPieceItemRecord.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
                     missingPieceItemRecord.setPatronBarcode(oleLoanForm.getPatronBarcode());
+                    missingPieceItemRecord.setPatronId(oleLoanForm.getPatronId());
 
                     if(CollectionUtils.isNotEmpty(oleItem.getMissingPieceItemRecordList())){
 
@@ -1541,69 +1542,9 @@ public class LoanController extends UifControllerBase {
                     }
                 }else{
                     if(isUpdateNote){
-                        /*missingPieceItemRecord.setMissingPieceCount(oleLoanForm.getDialogMissingPieceCount());
-                        missingPieceItemRecord.setMissingPieceFlagNote(oleLoanForm.getDialogText());
-                        missingPieceItemRecord.setMissingPieceDate(parsedDate);
-                        missingPieceItemRecord.setItemId(oleLoanForm.getMissingPieceLoanDocument().getItemUuid());
-                        missingPieceItemRecord.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
-                        missingPieceItemRecord.setPatronBarcode(oleLoanForm.getPatronBarcode());
-                        if(CollectionUtils.isNotEmpty(oleItem.getMissingPieceItemRecordList())){
-
-                            oleItem.getMissingPieceItemRecordList().add(missingPieceItemRecord);
-                        } else {
-                            List<MissingPieceItemRecord> missingPieceItemRecords=new ArrayList<MissingPieceItemRecord>();
-                            missingPieceItemRecords.add(missingPieceItemRecord);
-                            oleItem.setMissingPieceItemRecordList(missingPieceItemRecords);
-                    }*/
-                        Map<String,String> map = new HashMap<>();
-                        map.put("itemId", DocumentUniqueIDPrefix.getDocumentId(loanDocument.getItemUuid()));
-                        List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordList = (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord.class, map, "missingPieceItemId", true);
-                        List<MissingPieceItemRecord> missingPieceItemRecords = new ArrayList<>();
-                        for(int index=0 ; index < missingPieceItemRecordList.size() ; index++){
-                            MissingPieceItemRecord missingPieceItemRecord1 = new MissingPieceItemRecord();
-                            if(index == missingPieceItemRecordList.size()-1){
-                                /*if (oleLoanForm.getMissi != null) {
-                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(convertToString(loanObject.getClaimsReturnedDate()));
-                                }
-                                else{
-                                    DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
-                                }*/
-                                DateFormat dfs = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                                String missingPieceItemDate = dfs.format((new Date()));
-                                missingPieceItemRecord1.setMissingPieceDate(missingPieceItemDate);
-                                missingPieceItemRecord1.setMissingPieceCount(oleLoanForm.getDialogMissingPieceCount());
-                                missingPieceItemRecord1.setPatronBarcode(oleLoanForm.getPatronBarcode());
-                                missingPieceItemRecord1.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
-                                missingPieceItemRecord1.setItemId(oleLoanForm.getMissingPieceLoanDocument().getItemUuid());
-                                missingPieceItemRecord1.setMissingPieceFlagNote(oleLoanForm.getDialogText());
-
-                            } else {
-                                if (missingPieceItemRecordList.get(index).getMissingPieceDate() != null && !missingPieceItemRecordList.get(index).getMissingPieceDate().toString().isEmpty()) {
-                                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-                                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                                    Date missingPieceItemDate = null;
-                                    try {
-                                        missingPieceItemDate = format2.parse(missingPieceItemRecordList.get(index).getMissingPieceDate().toString());
-                                    } catch (ParseException e) {
-                                        LOG.error("format string to Date " + e);
-                                    }
-                                    missingPieceItemRecord1.setMissingPieceDate(format1.format(missingPieceItemDate).toString());
-                                }
-                                missingPieceItemRecord1.setMissingPieceFlagNote(missingPieceItemRecordList.get(index).getMissingPieceFlagNote());
-                                missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecordList.get(index).getMissingPieceCount());
-                                missingPieceItemRecord1.setOperatorId(missingPieceItemRecordList.get(index).getOperatorId());
-                                missingPieceItemRecord1.setPatronBarcode(missingPieceItemRecordList.get(index).getPatronBarcode());
-                                missingPieceItemRecord1.setItemId(missingPieceItemRecordList.get(index).getItemId());
-                            }
-                            missingPieceItemRecords.add(missingPieceItemRecord1);
-                        }
-                        oleItem.setMissingPieceItemRecordList(missingPieceItemRecords);
+                        updateMissingPieceNote(itemXmlContent,oleItem,oleLoanForm,loanDocument.getItemUuid());
                     }
                 }
-
-
-
                     //getDocstoreClientLocator().getDocstoreClient().updateItem(item);
 
                 oleItem.setMissingPiecesCount(oleLoanForm.getDialogMissingPieceCount());
@@ -3385,6 +3326,7 @@ public class LoanController extends UifControllerBase {
         oleLoanDocument.setMissingPieceNote(oleLoanForm.getMissingPieceNote());
         if (oleLoanForm.getMissingPieceCount() != null) {
             oleLoanDocument.setMissingPiecesCount(oleLoanForm.getMissingPieceCount());
+            oleLoanDocument.setPatronBarcode(oleLoanForm.getPatronBarcode());
         }
         try {
             if (copyCheck != null && copyCheck.equalsIgnoreCase(OLEConstants.TRUE)) {
@@ -4392,5 +4334,49 @@ public class LoanController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    public void updateMissingPieceNote(String itemXmlContent,Item oleItem,OleLoanForm oleLoanForm,String itemUuid) throws Exception{
+
+        Map<String,String> map = new HashMap<>();
+        map.put("itemId", DocumentUniqueIDPrefix.getDocumentId(itemUuid));
+        List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordList = (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord.class, map, "missingPieceItemId", true);
+        List<MissingPieceItemRecord> missingPieceItemRecords = new ArrayList<>();
+        for(int index=0 ; index < missingPieceItemRecordList.size() ; index++){
+            MissingPieceItemRecord missingPieceItemRecord1 = new MissingPieceItemRecord();
+            if(index == missingPieceItemRecordList.size()-1){
+
+                DateFormat dfs = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                String missingPieceItemDate = dfs.format((new Date()));
+                missingPieceItemRecord1.setMissingPieceDate(missingPieceItemDate);
+                missingPieceItemRecord1.setMissingPieceCount(oleLoanForm.getDialogMissingPieceCount());
+                missingPieceItemRecord1.setPatronBarcode(oleLoanForm.getPatronBarcode());
+                missingPieceItemRecord1.setPatronId(oleLoanForm.getPatronId());
+                missingPieceItemRecord1.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                missingPieceItemRecord1.setItemId(oleLoanForm.getMissingPieceLoanDocument().getItemUuid());
+                missingPieceItemRecord1.setMissingPieceFlagNote(oleLoanForm.getDialogText());
+
+            } else {
+                if (missingPieceItemRecordList.get(index).getMissingPieceDate() != null && !missingPieceItemRecordList.get(index).getMissingPieceDate().toString().isEmpty()) {
+                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                    Date missingPieceItemDate = null;
+                    try {
+                        missingPieceItemDate = format2.parse(missingPieceItemRecordList.get(index).getMissingPieceDate().toString());
+                    } catch (ParseException e) {
+                        LOG.error("format string to Date " + e);
+                    }
+                    missingPieceItemRecord1.setMissingPieceDate(format1.format(missingPieceItemDate).toString());
+                }
+                missingPieceItemRecord1.setMissingPieceFlagNote(missingPieceItemRecordList.get(index).getMissingPieceFlagNote());
+                missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecordList.get(index).getMissingPieceCount());
+                missingPieceItemRecord1.setOperatorId(missingPieceItemRecordList.get(index).getOperatorId());
+                missingPieceItemRecord1.setPatronBarcode(missingPieceItemRecordList.get(index).getPatronBarcode());
+                missingPieceItemRecord1.setPatronId(missingPieceItemRecordList.get(index).getPatronId());
+                missingPieceItemRecord1.setItemId(missingPieceItemRecordList.get(index).getItemId());
+            }
+            missingPieceItemRecords.add(missingPieceItemRecord1);
+        }
+        oleItem.setMissingPieceItemRecordList(missingPieceItemRecords);
+
+    }
 
 }

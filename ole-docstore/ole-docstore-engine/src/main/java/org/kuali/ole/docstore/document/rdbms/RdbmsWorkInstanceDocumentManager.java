@@ -1551,6 +1551,7 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
                     missingPieceItemRecord1.setOperatorId(missingPieceItemRecord.getOperatorId());
                     missingPieceItemRecord1.setItemId(missingPieceItemRecord.getItemId());
                     missingPieceItemRecord1.setPatronBarcode(missingPieceItemRecord.getPatronBarcode());
+                    missingPieceItemRecord1.setPatronId(missingPieceItemRecord.getPatronId());
                     missingPieceItemRecord1.setMissingPieceDate(dueDateTime1);
                     missingPieceItemRecordList1.add(missingPieceItemRecord1);
                 }
@@ -1739,6 +1740,7 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
                 missingPieceItemRecord1.setItemId(missingPieceItemRecord.getItemId());
                 missingPieceItemRecord1.setOperatorId(missingPieceItemRecord.getOperatorId());
                 missingPieceItemRecord1.setPatronBarcode(missingPieceItemRecord.getPatronBarcode());
+                missingPieceItemRecord1.setPatronId(missingPieceItemRecord.getPatronId());
                 missingPieceItemRecord1.setMissingPieceItemId(missingPieceItemRecord.getMissingPieceItemId());
                 missingPieceItemRecord1.setMissingPieceDate(parsedDate);
                 missingPieceItemRecordList.add(missingPieceItemRecord1);

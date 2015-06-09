@@ -374,6 +374,7 @@
         <column name="ITEM_ID" type="INTEGER"/>
         <column name="OPERATOR_ID"  size="40" type="VARCHAR"/>
         <column name="PATRON_BARCODE" size="100" type="VARCHAR"/>
+        <column name="PATRON_ID" size="40" type="VARCHAR"/>
         <column name="MISSING_PIECE_NOTE" size="400" type="VARCHAR"/>
         <column name="MISSING_PIECE_COUNT" type="INTEGER"/>
         <column name="MISSING_PIECE_DATE" type="TIMESTAMP"/>
@@ -383,6 +384,7 @@
         <index name="OLE_MISS_PCE_ITM_HSTRY_I">
             <index-column name="OPERATOR_ID"/>
             <index-column name="PATRON_BARCODE"/>
+            <index-column name="PATRON_ID"/>
         </index>
     </table>
 

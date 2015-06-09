@@ -14,6 +14,8 @@ public class MissingPieceItemRecord extends PersistableBusinessObjectBase {
     private String missingPieceCount;
     private String missingPieceFlagNote;
     private String operatorId;
+    private String patronId;
+    private String patronURL;
     private String patronBarcode;
 
     public String getItemId() {
@@ -70,5 +72,21 @@ public class MissingPieceItemRecord extends PersistableBusinessObjectBase {
 
     public void setPatronBarcode(String patronBarcode) {
         this.patronBarcode = patronBarcode;
+    }
+
+    public String getPatronId() {
+        return patronId;
+    }
+
+    public void setPatronId(String patronId) {
+        this.patronId = patronId;
+    }
+
+    public String getPatronURL() {
+        return patronURL;
+    }
+
+    public void setPatronURL(String patronURL) {
+        this.patronURL = patronURL;
     }
 }

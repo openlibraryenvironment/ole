@@ -276,6 +276,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
                 missingPieceItemRecord1.setMissingPieceDate(parsedDate);
                 missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecord.getMissingPieceCount());
                 missingPieceItemRecord1.setPatronBarcode(missingPieceItemRecord.getPatronBarcode());
+                missingPieceItemRecord1.setPatronId(missingPieceItemRecord.getPatronId());
                 missingPieceItemRecord1.setOperatorId(missingPieceItemRecord.getOperatorId());
                 missingPieceItemRecord1.setItemId(missingPieceItemRecord.getItemId());
                 missingPieceItemRecordList.add(missingPieceItemRecord1);
@@ -659,6 +660,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
                       missingPieceRecord.setMissingPieceFlagNote(missingPieceItemRecord.getMissingPieceFlagNote());
                       missingPieceRecord.setMissingPieceCount(missingPieceItemRecord.getMissingPieceCount());
                       missingPieceRecord.setPatronBarcode(missingPieceItemRecord.getPatronBarcode());
+                      missingPieceRecord.setPatronId(missingPieceItemRecord.getPatronId());
                       missingPieceRecord.setOperatorId(missingPieceItemRecord.getOperatorId());
                       missingPieceRecord.setItemId(DocumentUniqueIDPrefix.getDocumentId(missingPieceItemRecord.getItemId()));
                       if (missingPieceItemRecord.getMissingPieceDate() != null && !missingPieceItemRecord.getMissingPieceDate().equalsIgnoreCase("")) {

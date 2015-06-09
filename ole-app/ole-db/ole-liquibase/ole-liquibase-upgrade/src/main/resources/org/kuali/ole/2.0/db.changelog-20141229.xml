@@ -4983,5 +4983,22 @@
         </createIndex>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_MISS_PCE_ITM_ADD_COLM">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_MISS_PCE_ITM_HSTRY_T">
+            <column name="PATRON_ID" type="VARCHAR(40)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_MISS_PCE_ITM_INDX">
+        <createIndex catalogName="ole"
+                     indexName="OLE_MISS_PCE_ITM_HSTRY_T_I1"
+                     schemaName="ole"
+                     tableName="OLE_MISS_PCE_ITM_HSTRY_T">
+            <column name="PATRON_ID" type="VARCHAR(40)"/>
+        </createIndex>
+    </changeSet>
+
 
 </databaseChangeLog>

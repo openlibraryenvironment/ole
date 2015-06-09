@@ -368,7 +368,8 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                         String parsedDate = df.format((new Date()));
                         missingPieceItemRecord.setMissingPieceDate(parsedDate);
                         missingPieceItemRecord.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
-                        missingPieceItemRecord.setPatronBarcode(itemData.getBarcodeARSL());
+                        missingPieceItemRecord.setPatronBarcode(null);
+                        missingPieceItemRecord.setPatronId(itemData.getCurrentBorrower());
                         missingPieceItemRecord.setItemId(itemData.getItemIdentifier());
                         if (itemData.getMissingPieceItemRecordList() != null && itemData.getMissingPieceItemRecordList().size() > 0) {
                             itemData.getMissingPieceItemRecordList().add(missingPieceItemRecord);
@@ -388,18 +389,12 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                             for (int index = 0; index < missingPieceItemRecordList1.size(); index++) {
                                 MissingPieceItemRecord missingPieceItemRecord1 = new MissingPieceItemRecord();
                                 if (index == missingPieceItemRecordList1.size() - 1) {
-                                /*if (oleLoanForm.getMissi != null) {
-                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(convertToString(loanObject.getClaimsReturnedDate()));
-                                }
-                                else{
-                                    DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
-                                }*/
                                     DateFormat dfs = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                                     String missingPieceItemDate = dfs.format((new Date()));
                                     missingPieceItemRecord1.setMissingPieceDate(missingPieceItemDate);
                                     missingPieceItemRecord1.setMissingPieceCount(itemData.getMissingPiecesCount());
-                                    missingPieceItemRecord1.setPatronBarcode(itemData.getBarcodeARSL());
+                                    missingPieceItemRecord1.setPatronBarcode(null);
+                                    missingPieceItemRecord1.setPatronId(itemData.getCurrentBorrower());
                                     missingPieceItemRecord1.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
                                     missingPieceItemRecord1.setItemId(itemData.getItemIdentifier());
                                     missingPieceItemRecord1.setMissingPieceFlagNote(itemData.getMissingPieceFlagNote());
@@ -421,6 +416,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                                     missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecordList1.get(index).getMissingPieceCount());
                                     missingPieceItemRecord1.setOperatorId(missingPieceItemRecordList1.get(index).getOperatorId());
                                     missingPieceItemRecord1.setPatronBarcode(missingPieceItemRecordList1.get(index).getPatronBarcode());
+                                    missingPieceItemRecord1.setPatronId(missingPieceItemRecordList1.get(index).getPatronId());
                                     missingPieceItemRecord1.setItemId(missingPieceItemRecordList1.get(index).getItemId());
                                     missingPieceItemRecords.add(missingPieceItemRecord1);
                                 }

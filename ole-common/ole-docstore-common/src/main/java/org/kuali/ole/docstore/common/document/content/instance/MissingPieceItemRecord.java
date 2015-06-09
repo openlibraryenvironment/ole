@@ -47,8 +47,10 @@ import javax.xml.bind.annotation.XmlType;
         "missingPieceFlagNote",
         "operatorId",
         "patronBarcode",
+        "patronId",
         "itemId",
-        "missingPieceItemId"
+        "missingPieceItemId",
+        "patronURL"
 })
 public class MissingPieceItemRecord {
 
@@ -63,7 +65,11 @@ public class MissingPieceItemRecord {
     @XmlElement(required = true)
     protected String patronBarcode ;
     @XmlElement(required = true)
+    protected String patronId ;
+    @XmlElement(required = true)
     protected String itemId ;
+    @XmlElement(required = true)
+    protected String patronURL;
     @XmlElement(required = true)
     protected String missingPieceItemId ;
 
@@ -121,6 +127,22 @@ public class MissingPieceItemRecord {
 
     public void setPatronBarcode(String patronBarcode) {
         this.patronBarcode = patronBarcode;
+    }
+
+    public String getPatronURL() {
+        return patronURL;
+    }
+
+    public void setPatronURL(String patronURL) {
+        this.patronURL = patronURL;
+    }
+
+    public String getPatronId() {
+        return patronId;
+    }
+
+    public void setPatronId(String patronId) {
+        this.patronId = patronId;
     }
 
 
