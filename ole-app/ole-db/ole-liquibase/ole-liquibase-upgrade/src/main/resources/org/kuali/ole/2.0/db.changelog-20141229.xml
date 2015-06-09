@@ -4953,6 +4953,35 @@
                                tableName="PUR_VNDR_HDR_T"/>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="AddColumn_Claims_Damaged_History">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_ITM_CLM_RTND_HSTRY_T">
+            <column name="CLAIMS_RETURNED_PATRON_ID" type="VARCHAR(40)"/>
+        </addColumn>
+
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DS_DMGD_ITM_HSTRY_T">
+            <column name="DMGD_PATRON_ID" type="VARCHAR(40)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="ole" id="AddIndex_PatronId">
+        <createIndex catalogName="ole"
+                     indexName="OLE_ITM_CLM_RTND_HSTRY_I"
+                     schemaName="ole"
+                     tableName="OLE_ITM_CLM_RTND_HSTRY_T">
+            <column name="CLAIMS_RETURNED_PATRON_ID" type="VARCHAR(40)"/>
+        </createIndex>
+
+        <createIndex catalogName="ole"
+                     indexName="OLE_DS_DMGD_ITM_HSTRY_I"
+                     schemaName="ole"
+                     tableName="OLE_DS_DMGD_ITM_HSTRY_T">
+            <column name="DMGD_PATRON_ID" type="VARCHAR(40)"/>
+        </createIndex>
+    </changeSet>
 
 
 </databaseChangeLog>

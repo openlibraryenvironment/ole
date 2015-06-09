@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEPropertyConstants;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.bo.OlePatronLostBarcode;
 import org.kuali.ole.describe.bo.*;
 import org.kuali.ole.describe.bo.marc.structuralfields.LeaderField;
 import org.kuali.ole.describe.bo.marc.structuralfields.controlfield006.ControlField006;
@@ -405,6 +406,7 @@ public class EditorController extends UifControllerBase {
                     OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class, item.getProxyBorrower());
                     ((WorkInstanceOlemlForm) documentForm).setProxyBarcode(olePatronDocument.getBarcode());
                 }
+                setClaimsAndDamagedPatronBarcode(item);
             }
         }
 
@@ -419,6 +421,65 @@ public class EditorController extends UifControllerBase {
         // Return the next view to be shown to user.
         ModelAndView modelAndView = getUIFModelAndView(form, documentForm.getViewId());
         return modelAndView;
+    }
+
+    private void setClaimsAndDamagedPatronBarcode(Item item) {
+        if(CollectionUtils.isNotEmpty(item.getItemClaimsReturnedRecords())){
+            for(int index=0 ; index < item.getItemClaimsReturnedRecords().size() ; index++){
+                if(item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronId() != null && !item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronId().isEmpty()){
+                    OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class,item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronId());
+                    if(olePatronDocument != null){
+                        item.getItemClaimsReturnedRecords().get(index).setClaimsReturnedPatronBarcode(olePatronDocument.getBarcode());
+                    }
+                } else if(item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronBarcode() != null && !item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronBarcode().isEmpty()) {
+                    Map criteria = new HashMap();
+                    criteria.put("barcode",item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronBarcode());
+                    List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class,criteria);
+                    if(olePatronDocumentList != null && olePatronDocumentList.size() > 0) {
+                        for(OlePatronDocument olePatronDocument : olePatronDocumentList) {
+                            item.getItemClaimsReturnedRecords().get(index).setClaimsReturnedPatronId(olePatronDocument.getOlePatronId());
+                        }
+                    } else {
+                        criteria = new HashMap();
+                        criteria.put("invalidOrLostBarcodeNumber", item.getItemClaimsReturnedRecords().get(index).getClaimsReturnedPatronBarcode());
+                        List<OlePatronLostBarcode> olePatronLostBarcodeList = (List<OlePatronLostBarcode>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronLostBarcode.class, criteria);
+                        if(CollectionUtils.isNotEmpty(olePatronLostBarcodeList)){
+                            for(OlePatronLostBarcode olePatronLostBarcode : olePatronLostBarcodeList) {
+                                item.getItemClaimsReturnedRecords().get(index).setClaimsReturnedPatronId(olePatronLostBarcode.getOlePatronId());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if(CollectionUtils.isNotEmpty(item.getItemDamagedRecords())){
+            for(int index=0 ; index < item.getItemDamagedRecords().size() ; index++){
+                if(item.getItemDamagedRecords().get(index).getDamagedPatronId() != null && !item.getItemDamagedRecords().get(index).getDamagedPatronId().isEmpty()){
+                    OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OlePatronDocument.class,item.getItemDamagedRecords().get(index).getDamagedPatronId());
+                    if(olePatronDocument != null){
+                        item.getItemDamagedRecords().get(index).setPatronBarcode(olePatronDocument.getBarcode());
+                    }
+                } else if(item.getItemDamagedRecords().get(index).getPatronBarcode() != null && !item.getItemDamagedRecords().get(index).getPatronBarcode().isEmpty()) {
+                    Map criteria = new HashMap();
+                    criteria.put("barcode",item.getItemDamagedRecords().get(index).getPatronBarcode());
+                    List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class,criteria);
+                    if(olePatronDocumentList != null && olePatronDocumentList.size() > 0) {
+                        for(OlePatronDocument olePatronDocument : olePatronDocumentList) {
+                            item.getItemDamagedRecords().get(index).setDamagedPatronId(olePatronDocument.getOlePatronId());
+                        }
+                    } else {
+                        criteria = new HashMap();
+                        criteria.put("invalidOrLostBarcodeNumber", item.getItemDamagedRecords().get(index).getPatronBarcode());
+                        List<OlePatronLostBarcode> olePatronLostBarcodeList = (List<OlePatronLostBarcode>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronLostBarcode.class, criteria);
+                        if(CollectionUtils.isNotEmpty(olePatronLostBarcodeList)){
+                            for(OlePatronLostBarcode olePatronLostBarcode : olePatronLostBarcodeList) {
+                                item.getItemDamagedRecords().get(index).setDamagedPatronId(olePatronLostBarcode.getOlePatronId());
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @RequestMapping(params = "methodToCall=updateLeftPane")
@@ -632,6 +693,10 @@ public class EditorController extends UifControllerBase {
             }
             if("overwrite".equals(((EditorForm) form).getCheckOverwriteFlag())) {
                 EditorForm documentForm = documentEditor.saveDocument((EditorForm) form);
+                if (documentForm instanceof WorkInstanceOlemlForm) {
+                    Item item = ((WorkInstanceOlemlForm) documentForm).getSelectedItem();
+                    setClaimsAndDamagedPatronBarcode(item);
+                }
                 ((EditorForm) form).setDocumentForm(documentForm);
             } else {
                 if (documentEditor.isValidUpdate((EditorForm) form) && ((EditorForm) form).getAllowUpdate().equals
@@ -639,6 +704,10 @@ public class EditorController extends UifControllerBase {
                         ("")) {
                     // Send the input through one (request)form and get the output through another (response) form.
                     EditorForm documentForm = documentEditor.saveDocument((EditorForm) form);
+                    if (documentForm instanceof WorkInstanceOlemlForm) {
+                        Item item = ((WorkInstanceOlemlForm) documentForm).getSelectedItem();
+                        setClaimsAndDamagedPatronBarcode(item);
+                    }
                     // Set the output (response) form containing docum ((EditorForm) form).isAllowUpdate()ent info into the current form.
                     ((EditorForm) form).setDocumentForm(documentForm);
                     ((EditorForm) form).setAllowUpdate("true");

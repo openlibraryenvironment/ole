@@ -15,7 +15,9 @@ import javax.xml.bind.annotation.XmlType;
         "claimsReturnedNote",
         "claimsReturnedPatronBarcode",
         "claimsReturnedOperatorId",
-        "itemId"
+        "itemId",
+        "claimsReturnedPatronId",
+        "claimsReturnedPatronUrl"
 })
 public class ItemClaimsReturnedRecord {
 
@@ -29,6 +31,9 @@ public class ItemClaimsReturnedRecord {
     protected String claimsReturnedOperatorId;
     @XmlElement(required = true)
     protected String itemId;
+    @XmlElement(required = true)
+    protected String claimsReturnedPatronId;
+    protected String claimsReturnedPatronUrl;
 
     public String getClaimsReturnedFlagCreateDate() {
         return claimsReturnedFlagCreateDate;
@@ -68,5 +73,21 @@ public class ItemClaimsReturnedRecord {
 
     public void setItemId(String itemId) {
         this.itemId = itemId;
+    }
+
+    public String getClaimsReturnedPatronId() {
+        return claimsReturnedPatronId;
+    }
+
+    public void setClaimsReturnedPatronId(String claimsReturnedPatronId) {
+        this.claimsReturnedPatronId = claimsReturnedPatronId;
+    }
+
+    public String getClaimsReturnedPatronUrl() {
+        return claimsReturnedPatronUrl;
+    }
+
+    public void setClaimsReturnedPatronUrl(String claimsReturnedPatronUrl) {
+        this.claimsReturnedPatronUrl = claimsReturnedPatronUrl;
     }
 }

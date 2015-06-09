@@ -674,7 +674,9 @@
             <list>
                 <bean id="claimsReturnedFlagCreateDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedFlagCreateDate" p:label="Claims Returned Create Date"/>
                 <bean id="claimsReturnedNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedNote" p:label="Claims Returned Note"/>
-                <bean id="claimsReturnedPatronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedPatronBarcode" p:label="Associated Patron Barcode"/>
+                <bean parent="Uif-LinkField" p:label="Associated Patron Barcode"
+                      p:linkText="@{#line.claimsReturnedPatronBarcode}" p:target="_blank"
+                      p:href="@{#line.claimsReturnedPatronUrl}"/>
                 <bean id="claimsReturnedOperatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedOperatorId" p:label="Operator Id"/>
             </list>
         </property>
@@ -699,7 +701,9 @@
             <list>
                 <bean id="damagedItemDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="damagedItemDate" p:label="Damaged Date"/>
                 <bean id="damagedItemNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="damagedItemNote" p:label="Damaged Note"/>
-                <bean id="patronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="patronBarcode" p:label="Associated Patron Barcode"/>
+                <bean parent="Uif-LinkField" p:label="Associated Patron Barcode"
+                      p:linkText="@{#line.patronBarcode}" p:target="_blank"
+                      p:href="@{#line.damagedPatronUrl}"/>
                 <bean id="operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
             </list>
         </property>

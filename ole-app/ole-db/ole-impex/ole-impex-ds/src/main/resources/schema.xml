@@ -338,6 +338,7 @@
         <column default="" name="CLAIMS_RETURNED_DATE_CREATED" type="TIMESTAMP"/>
         <column default="" name="CLAIMS_RETURNED_NOTE" size="400" type="VARCHAR"/>
         <column name="CLAIMS_RETURNED_PATRON_BARCODE" size="100" type="VARCHAR"/>
+        <column name="CLAIMS_RETURNED_PATRON_ID" size="40" type="VARCHAR"/>
         <column name="CLAIMS_RETURNED_OPERATOR_ID" size="40" type="VARCHAR"/>
         <column name="ITEM_ID" type="INTEGER"/>
         <foreign-key foreignTable="OLE_DS_ITEM_T" name="OLE_ITM_CLM_RTND_HSTRY_FK">
@@ -345,6 +346,7 @@
         </foreign-key>
         <index name="OLE_ITM_CLM_RTND_HSTRY_T_I">
             <index-column name="CLAIMS_RETURNED_PATRON_BARCODE"/>
+            <index-column name="CLAIMS_RETURNED_PATRON_ID"/>
             <index-column name="CLAIMS_RETURNED_OPERATOR_ID"/>
         </index>
     </table>
@@ -354,6 +356,7 @@
         <column name="DMGD_ITM_DATE" type="TIMESTAMP"/>
         <column name="DMGD_ITM_NOTE" size="400" type="VARCHAR"/>
         <column name="PATRON_BARCODE" size="100" type="VARCHAR"/>
+        <column name="DMGD_PATRON_ID" size="40" type="VARCHAR"/>
         <column name="OPERATOR_ID"  size="40" type="VARCHAR"/>
         <column name="ITEM_ID" type="INTEGER"/>
         <foreign-key foreignTable="OLE_DS_ITEM_T" name="ITEM_DAMAGED_CONSTRAINT">
@@ -362,6 +365,7 @@
         <index name="OLE_DS_DMGD_ITM_HSTRY_T_I">
             <index-column name="OPERATOR_ID"/>
             <index-column name="PATRON_BARCODE"/>
+            <index-column name="DMGD_PATRON_ID"/>
         </index>
     </table>
 

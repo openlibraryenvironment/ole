@@ -891,7 +891,8 @@
             <list>
                 <bean id="item_claimsReturnedFlagCreateDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedFlagCreateDate" p:label="Claims Returned Create Date"/>
                 <bean id="item_claimsReturnedNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedNote" p:label="Claims Returned Note"/>
-                <bean id="item_claimsReturnedPatronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedPatronBarcode" p:label="Associated Patron Barcode"/>
+                <bean id="item_claimsReturnedPatronBarcode" parent="Uif-LinkField" p:label="Associated Patron Barcode" p:style="word-break: break-all;word-wrap: break-word"
+                      p:linkText="@{#line.claimsReturnedPatronBarcode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;olePatronId=@{#line.claimsReturnedPatronId}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument"/>
                 <bean id="item_claimsReturnedOperatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedOperatorId" p:label="Operator Id"/>
             </list>
         </property>
@@ -916,7 +917,8 @@
             <list>
                 <bean id="item_damagedItemDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="damagedItemDate" p:label="Damaged Date"/>
                 <bean id="item_damagedItemNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="damagedItemNote" p:label="Damaged Note"/>
-                <bean id="item_patronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="patronBarcode" p:label="Associated Patron Barcode"/>
+                <bean id="item_damagedPatronBarcode" parent="Uif-LinkField" p:label="Associated Patron Barcode" p:style="word-break: break-all;word-wrap: break-word"
+                      p:linkText="@{#line.patronBarcode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;olePatronId=@{#line.damagedPatronId}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument"/>
                 <bean id="item_operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
             </list>
         </property>

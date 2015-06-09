@@ -15,6 +15,8 @@ public class ItemDamagedRecord extends PersistableBusinessObjectBase {
     private String operatorId;
     private String patronBarcode;
     private String itemId;
+    private String damagedPatronId;
+    private String damagedPatronUrl;
 
 
     public String getItemId() {
@@ -65,4 +67,19 @@ public class ItemDamagedRecord extends PersistableBusinessObjectBase {
         this.patronBarcode = patronBarcode;
     }
 
+    public String getDamagedPatronId() {
+        return damagedPatronId;
+    }
+
+    public void setDamagedPatronId(String damagedPatronId) {
+        this.damagedPatronId = damagedPatronId;
+    }
+
+    public String getDamagedPatronUrl() {
+        return damagedPatronUrl;
+    }
+
+    public void setDamagedPatronUrl(String damagedPatronUrl) {
+        this.damagedPatronUrl = damagedPatronUrl;
+    }
 }

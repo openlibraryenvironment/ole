@@ -564,6 +564,7 @@
                           jdbc-type="TIMESTAMP"/>
         <field-descriptor name="claimsReturnedNote" column="CLAIMS_RETURNED_NOTE" jdbc-type="VARCHAR"/>
         <field-descriptor name="claimsReturnedPatronBarcode" column="CLAIMS_RETURNED_PATRON_BARCODE" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="claimsReturnedPatronId" column="CLAIMS_RETURNED_PATRON_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="claimsReturnedOperatorId" column="CLAIMS_RETURNED_OPERATOR_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="itemId" column="ITEM_ID" jdbc-type="VARCHAR"/>
     </class-descriptor>
@@ -572,8 +573,9 @@
         <field-descriptor name="itemDamagedId" column="ITM_DMGD_ID" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" sequence-name="OLE_DS_DMGD_ITM_HSTRY_S"/>
         <field-descriptor name="damagedItemDate" column="DMGD_ITM_DATE" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="damagedItemNote" column="DMGD_ITM_NOTE" jdbc-type="VARCHAR"/>
-        <field-descriptor name="patronBarcode" column="PATRON_BARCODE" jdbc-type="VARCHAR"/>
-        <field-descriptor name="operatorId" column="OPERATOR_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="patronBarcode" column="PATRON_BARCODE" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="damagedPatronId" column="DMGD_PATRON_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="operatorId" column="OPERATOR_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="itemId" column="ITEM_ID" jdbc-type="VARCHAR"/>
     </class-descriptor>
 

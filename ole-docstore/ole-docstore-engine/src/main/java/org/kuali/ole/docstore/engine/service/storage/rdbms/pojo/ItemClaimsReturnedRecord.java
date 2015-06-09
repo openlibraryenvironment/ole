@@ -22,6 +22,10 @@ public class ItemClaimsReturnedRecord extends PersistableBusinessObjectBase impl
 
     private String itemId;
 
+    private String claimsReturnedPatronId;
+
+    private String claimsReturnedPatronUrl;
+
     public Integer getClaimsReturnedId() {
         return claimsReturnedId;
     }
@@ -68,5 +72,21 @@ public class ItemClaimsReturnedRecord extends PersistableBusinessObjectBase impl
 
     public void setItemId(String itemId) {
         this.itemId = itemId;
+    }
+
+    public String getClaimsReturnedPatronId() {
+        return claimsReturnedPatronId;
+    }
+
+    public void setClaimsReturnedPatronId(String claimsReturnedPatronId) {
+        this.claimsReturnedPatronId = claimsReturnedPatronId;
+    }
+
+    public String getClaimsReturnedPatronUrl() {
+        return claimsReturnedPatronUrl;
+    }
+
+    public void setClaimsReturnedPatronUrl(String claimsReturnedPatronUrl) {
+        this.claimsReturnedPatronUrl = claimsReturnedPatronUrl;
     }
 }

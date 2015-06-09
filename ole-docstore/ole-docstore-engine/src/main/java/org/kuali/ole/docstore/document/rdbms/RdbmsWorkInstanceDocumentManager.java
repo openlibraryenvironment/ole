@@ -1,5 +1,6 @@
 package org.kuali.ole.docstore.document.rdbms;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.common.SolrDocument;
 import org.kuali.ole.DocumentUniqueIDPrefix;
@@ -1745,7 +1746,7 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
             item.setMissingPieceItemRecordList(missingPieceItemRecordList);
         }
         List<ItemClaimsReturnedRecord> itemClaimsReturnedRecordList = new ArrayList<>();
-        if(itemRecord.getItemClaimsReturnedRecords() != null) {
+        if(CollectionUtils.isNotEmpty(itemRecord.getItemClaimsReturnedRecords())) {
             List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord> itemClaimsReturnedRecords = itemRecord.getItemClaimsReturnedRecords();
             for(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord itemClaimsReturnedRecord : itemClaimsReturnedRecords){
                 ItemClaimsReturnedRecord claimsReturnedRecord = new ItemClaimsReturnedRecord();
@@ -1762,6 +1763,7 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
                 }
                 claimsReturnedRecord.setClaimsReturnedOperatorId(itemClaimsReturnedRecord.getClaimsReturnedOperatorId());
                 claimsReturnedRecord.setClaimsReturnedPatronBarcode(itemClaimsReturnedRecord.getClaimsReturnedPatronBarcode());
+                claimsReturnedRecord.setClaimsReturnedPatronId(itemClaimsReturnedRecord.getClaimsReturnedPatronId());
                 claimsReturnedRecord.setClaimsReturnedNote(itemClaimsReturnedRecord.getClaimsReturnedNote());
                 claimsReturnedRecord.setItemId(itemClaimsReturnedRecord.getItemId());
                 itemClaimsReturnedRecordList.add(claimsReturnedRecord);
@@ -1769,7 +1771,7 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
             item.setItemClaimsReturnedRecords(itemClaimsReturnedRecordList);
         }
         List<org.kuali.ole.docstore.common.document.content.instance.ItemDamagedRecord> itemDamagedRecordList = new ArrayList<>();
-        if(itemRecord.getItemDamagedRecords() != null){
+        if(CollectionUtils.isNotEmpty(itemRecord.getItemDamagedRecords())){
             List<ItemDamagedRecord> itemDamagedRecords = itemRecord.getItemDamagedRecords();
             for(ItemDamagedRecord itemDamagedRecord : itemDamagedRecords){
                 org.kuali.ole.docstore.common.document.content.instance.ItemDamagedRecord damagedRecord = new org.kuali.ole.docstore.common.document.content.instance.ItemDamagedRecord();
@@ -1785,7 +1787,8 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
                     damagedRecord.setDamagedItemDate(format1.format(itemDamagedDate).toString());
                 }
                 damagedRecord.setDamagedItemNote(itemDamagedRecord.getDamagedItemNote());
-                damagedRecord.setPatronBarcode(itemDamagedRecord.getPatronBarcode());;
+                damagedRecord.setPatronBarcode(itemDamagedRecord.getPatronBarcode());
+                damagedRecord.setDamagedPatronId(itemDamagedRecord.getDamagedPatronId());
                 damagedRecord.setOperatorId(itemDamagedRecord.getOperatorId());
                 damagedRecord.setItemId(itemDamagedRecord.getItemId());
                 itemDamagedRecordList.add(damagedRecord);

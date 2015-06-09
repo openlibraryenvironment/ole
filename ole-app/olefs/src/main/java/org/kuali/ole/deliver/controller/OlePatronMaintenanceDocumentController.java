@@ -415,16 +415,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                 String itemXmlContent = getLoanProcessor().getItemXML(oleLoanDocument.getItemUuid());
                 Item oleItem = getLoanProcessor().getItemPojo(itemXmlContent);
                 boolean isMissingPieceFlagEnabled=(oleItem != null && oleItem.isMissingPieceFlag())?true:false;
-
-                oleItem.setClaimsReturnedFlag(oleLoanDocument.isClaimsReturnedIndicator());
-                if (oleItem.isClaimsReturnedFlag()) {
-                    getOleDeliverRequestDocumentHelperService().cancelPendingRequestForClaimsReturnedItem(oleItem.getItemIdentifier());
-                    oleItem.setClaimsReturnedNote(oleLoanDocument.getClaimsReturnNote());
-                    oleItem.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
-                } else {
-                    oleItem.setClaimsReturnedNote(null);
-                    oleItem.setClaimsReturnedFlagCreateDate(null);
-                }
                 SimpleDateFormat dfs = new SimpleDateFormat("MM/dd/yyyy");
                 String parsedDate = dfs.format((new Date()));
                 if(oleLoanDocument.isMissingPieceFlag() && !isMissingPieceFlagEnabled){

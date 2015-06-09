@@ -43,20 +43,25 @@ import javax.xml.bind.annotation.XmlType;
         "damagedItemDate",
         "operatorId",
         "patronBarcode",
-        "itemId"
+        "itemId",
+        "damagedPatronId",
+        "damagedPatronUrl"
 })
 public class ItemDamagedRecord {
 
-        @XmlElement(required = true)
-        protected String damagedItemNote;
-        @XmlElement(required = true)
-        protected String damagedItemDate;
-        @XmlElement(required = true)
-        protected String operatorId;
-        @XmlElement(required = true)
-        protected String patronBarcode;
-        @XmlElement(required = true)
-        protected String itemId;
+    @XmlElement(required = true)
+    protected String damagedItemNote;
+    @XmlElement(required = true)
+    protected String damagedItemDate;
+    @XmlElement(required = true)
+    protected String operatorId;
+    @XmlElement(required = true)
+    protected String patronBarcode;
+    @XmlElement(required = true)
+    protected String itemId;
+    @XmlElement(required = true)
+    protected String damagedPatronId;
+    protected String damagedPatronUrl;
 
     public String getItemId() {
         return itemId;
@@ -96,5 +101,21 @@ public class ItemDamagedRecord {
 
     public void setPatronBarcode(String patronBarcode) {
         this.patronBarcode = patronBarcode;
+    }
+
+    public String getDamagedPatronId() {
+        return damagedPatronId;
+    }
+
+    public void setDamagedPatronId(String damagedPatronId) {
+        this.damagedPatronId = damagedPatronId;
+    }
+
+    public String getDamagedPatronUrl() {
+        return damagedPatronUrl;
+    }
+
+    public void setDamagedPatronUrl(String damagedPatronUrl) {
+        this.damagedPatronUrl = damagedPatronUrl;
     }
 }

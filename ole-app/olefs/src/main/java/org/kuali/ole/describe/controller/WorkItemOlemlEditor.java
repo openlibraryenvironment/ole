@@ -349,123 +349,12 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                     itemData.setClaimsReturnedNote(null);
                     itemData.setClaimsReturnedFlagCreateDate(null);
                 } else {
-                    org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemData.getItemIdentifier());
-                    ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
-                    org.kuali.ole.docstore.common.document.content.instance.Item oleItem = itemOlemlRecordProcessor.fromXML(item.getContent());
-                    ItemClaimsReturnedRecord itemClaimsReturnedRecord = new ItemClaimsReturnedRecord();
-                    List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords = new ArrayList<>();
-                    if(!oleItem.isClaimsReturnedFlag()){
-                        itemClaimsReturnedRecord.setClaimsReturnedNote(itemData.getClaimsReturnedNote());
-                        if (itemData.getClaimsReturnedFlagCreateDate() != null && !itemData.getClaimsReturnedFlagCreateDate().isEmpty()) {
-                            itemClaimsReturnedRecord.setClaimsReturnedFlagCreateDate(itemData.getClaimsReturnedFlagCreateDate());
-                        }
-                        else{
-                            itemClaimsReturnedRecord.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
-                        }
-                        itemClaimsReturnedRecord.setClaimsReturnedOperatorId(user);
-                        itemClaimsReturnedRecord.setItemId(itemData.getItemIdentifier());
-                        itemClaimsReturnedRecord.setClaimsReturnedPatronBarcode(null);
-                        if(itemData.getItemClaimsReturnedRecords() != null && itemData.getItemClaimsReturnedRecords().size() > 0){
-                            itemData.getItemClaimsReturnedRecords().add(itemClaimsReturnedRecord);
-                        }
-                        else{
-                            itemClaimsReturnedRecords.add(itemClaimsReturnedRecord);
-                            itemData.setItemClaimsReturnedRecords(itemClaimsReturnedRecords);
-                        }
-                    } else{
-                        Map<String,String> map = new HashMap<>();
-                        map.put("itemId", DocumentUniqueIDPrefix.getDocumentId(itemData.getItemIdentifier()));
-                        List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord> claimsReturnedRecordList = (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord.class, map, "claimsReturnedId", true);
-                        List<ItemClaimsReturnedRecord> itemClaimsReturnedRecordList = new ArrayList<>();
-                        for(int index=0 ; index < claimsReturnedRecordList.size() ; index++){
-                            ItemClaimsReturnedRecord claimsReturnedRecord = new ItemClaimsReturnedRecord();
-                            if(index == claimsReturnedRecordList.size()-1){
-                                if (itemData.getClaimsReturnedFlagCreateDate() != null && !itemData.getClaimsReturnedFlagCreateDate().isEmpty()) {
-                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(itemData.getClaimsReturnedFlagCreateDate());
-                                }
-                                else{
-                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
-                                }
-                                claimsReturnedRecord.setClaimsReturnedNote(itemData.getClaimsReturnedNote());
-                                claimsReturnedRecord.setClaimsReturnedPatronBarcode(null);
-                                claimsReturnedRecord.setClaimsReturnedOperatorId(user);
-                                claimsReturnedRecord.setItemId(itemData.getItemIdentifier());
-                            } else {
-                                if (claimsReturnedRecordList.get(index).getClaimsReturnedFlagCreateDate().toString() != null) {
-                                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-                                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                                    Date claimsReturnedDate = null;
-                                    try {
-                                        claimsReturnedDate = format2.parse(claimsReturnedRecordList.get(index).getClaimsReturnedFlagCreateDate().toString());
-                                    } catch (ParseException e) {
-                                        LOG.error("format string to Date " + e);
-                                    }
-                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(format1.format(claimsReturnedDate).toString());
-                                }
-                                claimsReturnedRecord.setClaimsReturnedNote(claimsReturnedRecordList.get(index).getClaimsReturnedNote());
-                                claimsReturnedRecord.setClaimsReturnedPatronBarcode(claimsReturnedRecordList.get(index).getClaimsReturnedPatronBarcode());
-                                claimsReturnedRecord.setClaimsReturnedOperatorId(claimsReturnedRecordList.get(index).getClaimsReturnedOperatorId());
-                                claimsReturnedRecord.setItemId(claimsReturnedRecordList.get(index).getItemId());
-                            }
-                            itemClaimsReturnedRecordList.add(claimsReturnedRecord);
-                        }
-                        itemData.setItemClaimsReturnedRecords(itemClaimsReturnedRecordList);
-                    }
+                    addClaimsReturnedItemHistory(itemData, user);
                     getOleDeliverRequestDocumentHelperService().cancelPendingRequestForClaimsReturnedItem(itemData.getItemIdentifier());
                 }
 
                 if(itemData.isItemDamagedStatus()){
-                    org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemData.getItemIdentifier());
-                    ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
-                    org.kuali.ole.docstore.common.document.content.instance.Item oleItem = itemOlemlRecordProcessor.fromXML(item.getContent());
-                    ItemDamagedRecord itemDamagedRecord = new ItemDamagedRecord();
-                    List<ItemDamagedRecord> itemDamagedRecords = new ArrayList<>();
-                    if(!oleItem.isItemDamagedStatus()){
-                        itemDamagedRecord.setDamagedItemNote(itemData.getDamagedItemNote());
-                        itemDamagedRecord.setDamagedItemDate(df.format(getDateTimeService().getCurrentDate()));
-                        itemDamagedRecord.setPatronBarcode(null);
-                        itemDamagedRecord.setOperatorId(user);
-                        itemDamagedRecord.setItemId(itemData.getItemIdentifier());
-                        if(itemData.getItemDamagedRecords() != null && itemData.getItemDamagedRecords().size() > 0){
-                            itemData.getItemDamagedRecords().add(itemDamagedRecord);
-                        } else {
-                            itemDamagedRecords.add(itemDamagedRecord);
-                            itemData.setItemDamagedRecords(itemDamagedRecords);
-                        }
-                    } else {
-                        Map<String,String> map = new HashMap<>();
-                        map.put("itemId",DocumentUniqueIDPrefix.getDocumentId(itemData.getItemIdentifier()));
-                        List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord> itemDamagedRecordList = (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord.class, map, "itemDamagedId", true);
-                        List<ItemDamagedRecord> damagedRecordList = new ArrayList<>();
-                        for(int index=0 ; index < itemDamagedRecordList.size() ; index++){
-                            ItemDamagedRecord damagedRecord = new ItemDamagedRecord();
-                            if(index == itemDamagedRecordList.size()-1){
-                                damagedRecord.setDamagedItemNote(itemData.getDamagedItemNote());
-                                damagedRecord.setDamagedItemDate(df.format(getDateTimeService().getCurrentDate()));
-                                damagedRecord.setPatronBarcode(null);
-                                damagedRecord.setOperatorId(user);
-                                damagedRecord.setItemId(itemData.getItemIdentifier());
-                            } else {
-                                if (itemDamagedRecordList.get(index).getDamagedItemDate() != null && !itemDamagedRecordList.get(index).getDamagedItemDate().toString().isEmpty()) {
-                                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-                                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                                    Date itemDamagedDate = null;
-                                    try {
-                                        itemDamagedDate = format2.parse(itemDamagedRecordList.get(index).getDamagedItemDate().toString());
-                                    } catch (ParseException e) {
-                                        LOG.error("format string to Date " + e);
-                                    }
-                                    damagedRecord.setDamagedItemDate(format1.format(itemDamagedDate).toString());
-                                }
-                                damagedRecord.setDamagedItemNote(itemDamagedRecordList.get(index).getDamagedItemNote());
-                                damagedRecord.setPatronBarcode(itemDamagedRecordList.get(index).getPatronBarcode());
-                                damagedRecord.setOperatorId(itemDamagedRecordList.get(index).getOperatorId());
-                                damagedRecord.setItemId(itemDamagedRecordList.get(index).getItemId());
-                            }
-                            damagedRecordList.add(damagedRecord);
-                        }
-                        itemData.setItemDamagedRecords(damagedRecordList);
-                    }
+                    addItemDamagedHistory(itemData, user);
                 }
                 try {
                     org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemData.getItemIdentifier());
@@ -916,6 +805,137 @@ public class WorkItemOlemlEditor extends AbstractEditor {
         // To add new item or updated item in bib tree
         addItemToBibTree(workInstanceOlemlForm.getBibTreeList(), itemDocument);
         return workInstanceOlemlForm;
+    }
+
+    private void addItemDamagedHistory(Item itemData, String user) throws Exception {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemData.getItemIdentifier());
+        ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
+        Item oleItem = itemOlemlRecordProcessor.fromXML(item.getContent());
+        ItemDamagedRecord itemDamagedRecord = new ItemDamagedRecord();
+        List<ItemDamagedRecord> itemDamagedRecords = new ArrayList<>();
+        if(!oleItem.isItemDamagedStatus()){
+            itemDamagedRecord.setDamagedItemNote(itemData.getDamagedItemNote());
+            itemDamagedRecord.setDamagedItemDate(df.format(getDateTimeService().getCurrentDate()));
+            itemDamagedRecord.setPatronBarcode(null);
+            itemDamagedRecord.setDamagedPatronId(itemData.getCurrentBorrower());
+            itemDamagedRecord.setOperatorId(user);
+            itemDamagedRecord.setItemId(itemData.getItemIdentifier());
+            if(itemData.getItemDamagedRecords() != null && itemData.getItemDamagedRecords().size() > 0){
+                itemData.getItemDamagedRecords().add(itemDamagedRecord);
+            } else {
+                itemDamagedRecords.add(itemDamagedRecord);
+                itemData.setItemDamagedRecords(itemDamagedRecords);
+            }
+        } else {
+            Map<String,String> map = new HashMap<>();
+            map.put("itemId", DocumentUniqueIDPrefix.getDocumentId(itemData.getItemIdentifier()));
+            List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord> itemDamagedRecordList = (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord.class, map, "itemDamagedId", true);
+            List<ItemDamagedRecord> damagedRecordList = new ArrayList<>();
+            if(CollectionUtils.isNotEmpty(itemDamagedRecordList)){
+                for(int index=0 ; index < itemDamagedRecordList.size() ; index++){
+                    ItemDamagedRecord damagedRecord = new ItemDamagedRecord();
+                    if(index == itemDamagedRecordList.size()-1){
+                        damagedRecord.setDamagedItemNote(itemData.getDamagedItemNote());
+                        damagedRecord.setDamagedItemDate(df.format(getDateTimeService().getCurrentDate()));
+                        damagedRecord.setPatronBarcode(null);
+                        damagedRecord.setDamagedPatronId(itemData.getCurrentBorrower());
+                        damagedRecord.setOperatorId(user);
+                        damagedRecord.setItemId(itemData.getItemIdentifier());
+                    } else {
+                        if (itemDamagedRecordList.get(index).getDamagedItemDate() != null && !itemDamagedRecordList.get(index).getDamagedItemDate().toString().isEmpty()) {
+                            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+                            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                            Date itemDamagedDate = null;
+                            try {
+                                itemDamagedDate = format2.parse(itemDamagedRecordList.get(index).getDamagedItemDate().toString());
+                            } catch (ParseException e) {
+                                LOG.error("format string to Date " + e);
+                            }
+                            damagedRecord.setDamagedItemDate(format1.format(itemDamagedDate).toString());
+                        }
+                        damagedRecord.setDamagedItemNote(itemDamagedRecordList.get(index).getDamagedItemNote());
+                        damagedRecord.setPatronBarcode(itemDamagedRecordList.get(index).getPatronBarcode());
+                        damagedRecord.setDamagedPatronId(itemDamagedRecordList.get(index).getDamagedPatronId());
+                        damagedRecord.setOperatorId(itemDamagedRecordList.get(index).getOperatorId());
+                        damagedRecord.setItemId(itemDamagedRecordList.get(index).getItemId());
+                    }
+                    damagedRecordList.add(damagedRecord);
+                }
+                itemData.setItemDamagedRecords(damagedRecordList);
+            }
+        }
+    }
+
+    private void addClaimsReturnedItemHistory(Item itemData, String user) throws Exception {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemData.getItemIdentifier());
+        ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
+        Item oleItem = itemOlemlRecordProcessor.fromXML(item.getContent());
+        ItemClaimsReturnedRecord itemClaimsReturnedRecord = new ItemClaimsReturnedRecord();
+        List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords = new ArrayList<>();
+        if(!oleItem.isClaimsReturnedFlag()){
+            itemClaimsReturnedRecord.setClaimsReturnedNote(itemData.getClaimsReturnedNote());
+            if (itemData.getClaimsReturnedFlagCreateDate() != null && !itemData.getClaimsReturnedFlagCreateDate().isEmpty()) {
+                itemClaimsReturnedRecord.setClaimsReturnedFlagCreateDate(itemData.getClaimsReturnedFlagCreateDate());
+            }
+            else{
+                itemClaimsReturnedRecord.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
+            }
+            itemClaimsReturnedRecord.setClaimsReturnedOperatorId(user);
+            itemClaimsReturnedRecord.setItemId(itemData.getItemIdentifier());
+            itemClaimsReturnedRecord.setClaimsReturnedPatronBarcode(null);
+            itemClaimsReturnedRecord.setClaimsReturnedPatronId(itemData.getCurrentBorrower());
+            if(itemData.getItemClaimsReturnedRecords() != null && itemData.getItemClaimsReturnedRecords().size() > 0){
+                itemData.getItemClaimsReturnedRecords().add(itemClaimsReturnedRecord);
+            }
+            else{
+                itemClaimsReturnedRecords.add(itemClaimsReturnedRecord);
+                itemData.setItemClaimsReturnedRecords(itemClaimsReturnedRecords);
+            }
+        } else{
+            Map<String,String> map = new HashMap<>();
+            map.put("itemId", DocumentUniqueIDPrefix.getDocumentId(itemData.getItemIdentifier()));
+            List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord> claimsReturnedRecordList = (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord.class, map, "claimsReturnedId", true);
+            List<ItemClaimsReturnedRecord> itemClaimsReturnedRecordList = new ArrayList<>();
+            if(CollectionUtils.isNotEmpty(claimsReturnedRecordList)){
+                for(int index=0 ; index < claimsReturnedRecordList.size() ; index++){
+                    ItemClaimsReturnedRecord claimsReturnedRecord = new ItemClaimsReturnedRecord();
+                    if(index == claimsReturnedRecordList.size()-1){
+                        if (itemData.getClaimsReturnedFlagCreateDate() != null && !itemData.getClaimsReturnedFlagCreateDate().isEmpty()) {
+                            claimsReturnedRecord.setClaimsReturnedFlagCreateDate(itemData.getClaimsReturnedFlagCreateDate());
+                        }
+                        else{
+                            claimsReturnedRecord.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
+                        }
+                        claimsReturnedRecord.setClaimsReturnedNote(itemData.getClaimsReturnedNote());
+                        claimsReturnedRecord.setClaimsReturnedPatronBarcode(null);
+                        claimsReturnedRecord.setClaimsReturnedPatronId(itemData.getCurrentBorrower());
+                        claimsReturnedRecord.setClaimsReturnedOperatorId(user);
+                        claimsReturnedRecord.setItemId(itemData.getItemIdentifier());
+                    } else {
+                        if (claimsReturnedRecordList.get(index).getClaimsReturnedFlagCreateDate().toString() != null) {
+                            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+                            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                            Date claimsReturnedDate = null;
+                            try {
+                                claimsReturnedDate = format2.parse(claimsReturnedRecordList.get(index).getClaimsReturnedFlagCreateDate().toString());
+                            } catch (ParseException e) {
+                                LOG.error("format string to Date " + e);
+                            }
+                            claimsReturnedRecord.setClaimsReturnedFlagCreateDate(format1.format(claimsReturnedDate).toString());
+                        }
+                        claimsReturnedRecord.setClaimsReturnedNote(claimsReturnedRecordList.get(index).getClaimsReturnedNote());
+                        claimsReturnedRecord.setClaimsReturnedPatronBarcode(claimsReturnedRecordList.get(index).getClaimsReturnedPatronBarcode());
+                        claimsReturnedRecord.setClaimsReturnedPatronId(claimsReturnedRecordList.get(index).getClaimsReturnedPatronId());
+                        claimsReturnedRecord.setClaimsReturnedOperatorId(claimsReturnedRecordList.get(index).getClaimsReturnedOperatorId());
+                        claimsReturnedRecord.setItemId(claimsReturnedRecordList.get(index).getItemId());
+                    }
+                    itemClaimsReturnedRecordList.add(claimsReturnedRecord);
+                }
+                itemData.setItemClaimsReturnedRecords(itemClaimsReturnedRecordList);
+            }
+        }
     }
 
     /**
