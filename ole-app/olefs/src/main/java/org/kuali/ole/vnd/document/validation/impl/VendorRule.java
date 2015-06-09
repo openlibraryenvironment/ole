@@ -249,7 +249,9 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         valid &= validateTaxTypeAndTaxNumberBlankness(vendorDetail);
         valid &= validateParentVendorTaxNumber(vendorDetail);
         valid &= validateOwnershipTypeAllowed(vendorDetail);
-        valid &= validateTaxNumberFromTaxNumberService(vendorDetail);
+        if(!vendorDetail.isNonBillable()){
+            valid &= validateTaxNumberFromTaxNumberService(vendorDetail);
+        }
         valid &= validateRestrictedReasonRequiredness(vendorDetail);
         valid &= validateInactiveReasonRequiredness(vendorDetail);
         valid &= validatePreInactiveIndicator(vendorDetail);

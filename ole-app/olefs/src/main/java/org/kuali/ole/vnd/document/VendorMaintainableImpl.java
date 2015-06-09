@@ -284,7 +284,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
             vendor.put("vendorDetailAssignedIdentifier", vendorDetail.getVendorDetailAssignedIdentifier());
             List<VendorDetail> vendorDetails = (List<VendorDetail>) KRADServiceLocator.getBusinessObjectService().findMatching(VendorDetail.class, vendor);
             if (vendorDetails.get(0).isActiveIndicator() && !vendorDetail.isActiveIndicator()) {
-                eventLog.setNote("Vendor is inactive :" + vendorDetail.getVendorInactiveReason().getVendorInactiveReasonDescription());
+                eventLog.setNote("Vendor is inactive :" + vendorDetail.getVendorInactiveReasonCode());
             }
             if (!vendorDetails.get(0).isActiveIndicator() && vendorDetail.isActiveIndicator()) {
                 Map vendorMap = new HashMap();
