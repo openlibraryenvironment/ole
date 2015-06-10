@@ -120,7 +120,7 @@
         <property name="headerText" value="Route Log"/>
         <property name="items">
             <list >
-                <bean parent="Uif-Iframe" p:height="500" p:width="95%" p:frameborder="0" p:render="@{document.routeLogDisplayFlag}">
+                <bean parent="Uif-Iframe" p:height="500" p:width="95%" p:frameborder="0" >
                     <property name="id" value="routeLogIFrame"/>
                     <property name="source"
                               value="@{#ConfigProperties['workflow.url']}/RouteLog.do?documentId=@{workflowDocument.documentId}"/>
@@ -502,7 +502,7 @@
                     </property>
 
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" />
+                        <bean parent="Uif-DropdownControl"/>
                     </property>
                 </bean>
                 <bean id="invoice-vendorAddressCity" parent="Uif-DataField" p:propertyName="vendorCityName"/>
