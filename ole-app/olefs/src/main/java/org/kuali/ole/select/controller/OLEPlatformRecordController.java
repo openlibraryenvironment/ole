@@ -175,16 +175,20 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
             }
             olePlatformRecordDocument.setPlatformProviderId(null);
         }
-
+        OLEPlatformRecordDocument tempDocument = null;
         if (StringUtils.isNotBlank(olePlatformRecordDocument.getOlePlatformId())) {
-            getOlePlatformService().getNewPlatformDoc(olePlatformRecordDocument.getOlePlatformId());
+            Map<String, String> tempId = new HashMap<>();
+            tempId.put(OLEConstants.OLE_PLATFORM_ID, olePlatformRecordDocument.getOlePlatformId());
+            tempDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEPlatformRecordDocument.class, tempId);
         }
         if (olePlatformRecordDocument.getAdminUrls().size() > 0) {
-            olePlatformRecordDocument.setAdminUrls(getOlePlatformService().saveUrls(olePlatformRecordDocument.getAdminUrls()));
+            olePlatformRecordDocument.setAdminUrls(getOlePlatformService().saveUrls(olePlatformRecordDocument.getAdminUrls(), tempDocument));
         }
         if (olePlatformRecordDocument.getEventLogs().size() > 0) {
-            olePlatformRecordDocument.setEventLogs(getOlePlatformService().saveEvents(olePlatformRecordDocument.getEventLogs()));
+            olePlatformRecordDocument.setEventLogs(getOlePlatformService().saveEvents(olePlatformRecordDocument.getEventLogs(), tempDocument));
         }
+        getOlePlatformService().getNewPlatformDoc(tempDocument);
+
         if (StringUtils.isNotBlank(olePlatformRecordDocument.getVendorId())) {
             String[] vendorId = olePlatformRecordDocument.getVendorId().split("-");
             if (vendorId != null && vendorId.length == 2) {

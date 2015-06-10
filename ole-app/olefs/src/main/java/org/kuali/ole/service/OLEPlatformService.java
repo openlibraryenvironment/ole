@@ -18,11 +18,11 @@ public interface OLEPlatformService {
 
     public List<OLEPlatformRecordDocument> performSearch(List<OLESearchCondition> oleSearchConditionsList);
 
-    public void getNewPlatformDoc(String olePlatformId);
+    public void getNewPlatformDoc(OLEPlatformRecordDocument tempDocument);
 
-    public List<OLEPlatformAdminUrl> saveUrls(List<OLEPlatformAdminUrl> olePlatformAdminUrls);
+    public List<OLEPlatformAdminUrl> saveUrls(List<OLEPlatformAdminUrl> olePlatformAdminUrls, OLEPlatformRecordDocument tempDocument);
 
-    public List<OLEPlatformEventLog> saveEvents(List<OLEPlatformEventLog> olePlatformEventLogs);
+    public List<OLEPlatformEventLog> saveEvents(List<OLEPlatformEventLog> olePlatformEventLogs, OLEPlatformRecordDocument tempDocument);
 
     public List<OLEPlatformEventLog> filterByReportedDate(Date beginDate, Date endDate, List<OLEPlatformEventLog> eventLogs);
 

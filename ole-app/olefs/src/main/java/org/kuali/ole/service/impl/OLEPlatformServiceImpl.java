@@ -164,10 +164,7 @@ public class OLEPlatformServiceImpl implements OLEPlatformService {
     }
 
     @Override
-    public void getNewPlatformDoc(String olePlatformId) {
-        Map<String, String> tempId = new HashMap<>();
-        tempId.put(OLEConstants.OLE_PLATFORM_ID, olePlatformId);
-        OLEPlatformRecordDocument tempDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEPlatformRecordDocument.class, tempId);
+    public void getNewPlatformDoc(OLEPlatformRecordDocument tempDocument) {
         if (tempDocument != null) {
             if (tempDocument.getGeneralNotes().size() > 0) {
                 KRADServiceLocator.getBusinessObjectService().delete(tempDocument.getGeneralNotes());
@@ -185,22 +182,36 @@ public class OLEPlatformServiceImpl implements OLEPlatformService {
     }
 
     @Override
-    public List<OLEPlatformAdminUrl> saveUrls(List<OLEPlatformAdminUrl> olePlatformAdminUrls) {
+    public List<OLEPlatformAdminUrl> saveUrls(List<OLEPlatformAdminUrl> olePlatformAdminUrls, OLEPlatformRecordDocument tempDocument) {
         List<OLEPlatformAdminUrl> olePlatformAdminUrlList = new ArrayList<>();
         for (OLEPlatformAdminUrl olePlatformAdminUrl : olePlatformAdminUrls) {
             if (olePlatformAdminUrl.isSaveFlag()) {
                 olePlatformAdminUrlList.add(olePlatformAdminUrl);
+            } else if (StringUtils.isNotBlank(olePlatformAdminUrl.getPlatformAdminUrlId()) && tempDocument != null) {
+                for (OLEPlatformAdminUrl platformAdminUrl : tempDocument.getAdminUrls()) {
+                    if (StringUtils.isNotBlank(platformAdminUrl.getPlatformAdminUrlId()) && platformAdminUrl.getPlatformAdminUrlId().equals(olePlatformAdminUrl.getPlatformAdminUrlId())) {
+                        olePlatformAdminUrlList.add(platformAdminUrl);
+                        break;
+                    }
+                }
             }
         }
         return olePlatformAdminUrlList;
     }
 
     @Override
-    public List<OLEPlatformEventLog> saveEvents(List<OLEPlatformEventLog> olePlatformEventLogs) {
+    public List<OLEPlatformEventLog> saveEvents(List<OLEPlatformEventLog> olePlatformEventLogs, OLEPlatformRecordDocument tempDocument) {
         List<OLEPlatformEventLog> olePlatformEventLogList = new ArrayList<>();
         for (OLEPlatformEventLog olePlatformEventLog : olePlatformEventLogs) {
             if (olePlatformEventLog.isSaveFlag()) {
                 olePlatformEventLogList.add(olePlatformEventLog);
+            } else if (StringUtils.isNotBlank(olePlatformEventLog.getPlatformEventLogId()) && tempDocument != null) {
+                for (OLEPlatformEventLog platformEventLog : tempDocument.getEventLogs()) {
+                    if (StringUtils.isNotBlank(platformEventLog.getPlatformEventLogId()) && platformEventLog.getPlatformEventLogId().equals(olePlatformEventLog.getPlatformEventLogId())) {
+                        olePlatformEventLogList.add(platformEventLog);
+                        break;
+                    }
+                }
             }
         }
         return olePlatformEventLogList;
