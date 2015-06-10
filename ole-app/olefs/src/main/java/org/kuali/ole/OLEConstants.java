@@ -3247,6 +3247,12 @@ public class OLEConstants {
         return parameter!=null?parameter.getValue():null;
     }
 
+    public static String getParameterForSelectModule(String name){
+        ParameterKey parameterKey = ParameterKey.create(org.kuali.ole.OLEConstants.APPL_ID, org.kuali.ole.OLEConstants.SELECT_NMSPC, org.kuali.ole.OLEConstants.SELECT_CMPNT,name);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        return parameter!=null?parameter.getValue():null;
+    }
+
     public static final String DELIVER_ITEM__SEARCH_SERVICE = "oleDeliverItemSearchService";
     public static final String OLE_PLATFORM_DOC = "OLE_PLTFRM_DOC";
     public static final List<String> PLATFORM_RESULT_FIELDS = getSearchPlatformfields();
@@ -3417,5 +3423,6 @@ public class OLEConstants {
     public static final String N0_PROFILE_SELECTED = "error.no.profile";
     public static final String UPLOAD_FILE_AGAIN = "error.file.upload";
     public static final String SELECT_USER="error.select.user";
+    public static final int DEFAULT_INV_ITM_LMT = 50;
 
 }

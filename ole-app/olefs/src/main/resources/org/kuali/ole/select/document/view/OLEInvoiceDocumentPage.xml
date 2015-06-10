@@ -305,7 +305,7 @@
 		<property name="disclosure.render" value="true" />
 		<property name="layoutManager">
 			<bean
-				class="org.kuali.ole.select.document.krad.OleInvoiceItemsLayout" p:pageSize="25"
+				class="org.kuali.ole.select.document.krad.OleInvoiceItemsLayout"
 				p:template="/WEB-INF/ftl/ole-invoice-po.ftl" p:templateName="ole_invoice_items"
 				p:actionRefreshId="OLEInvoiceView-processItems-Wrapper">
 		        <property name="rowDetailsGroup">

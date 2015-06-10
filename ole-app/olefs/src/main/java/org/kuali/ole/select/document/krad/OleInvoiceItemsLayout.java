@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.module.purap.businessobject.options.DiscountTypeValuesFinder;
 import org.kuali.ole.select.businessobject.OleInvoiceItem;
 import org.kuali.ole.select.document.OleInvoiceDocument;
@@ -54,6 +55,17 @@ public class OleInvoiceItemsLayout extends LayoutManagerBase implements
 	private String actionRefreshId;
 
 	private List<Component> components = new ArrayList<Component>();
+
+    public OleInvoiceItemsLayout(){
+        super();
+        pageSize = OLEConstants.DEFAULT_INV_ITM_LMT;
+        String pageSizeFromParameter = OLEConstants.getParameterForSelectModule("INVOICE_ITEM_LIMIT");
+        try{
+            pageSize = Integer.parseInt(pageSizeFromParameter);
+        }catch(Exception e){
+            LOG.info("System parameter is having invalid size for invoice current item section page size. So taking the default value for page size : " + pageSize);
+        }
+    }
 
 	private void setUpPager(OLEInvoiceForm form, CollectionGroup collection) {
 		if (pageSize == 0 || pager == null)
