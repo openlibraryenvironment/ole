@@ -3021,8 +3021,6 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
         StringBuffer orderType = new StringBuffer();
         StringBuffer orderFormat = new StringBuffer();
         StringBuffer fundCode = new StringBuffer();
-        List fundCodeList = new ArrayList();
-        List<PurApAccountingLine> accountingLines = new ArrayList<>();
         KualiDecimal currentFYCost=new KualiDecimal(0);
         for (OleCopy oleCopy : oleCopyList) {
             if (oleCopy.getPoItemId() != null) {
@@ -3073,11 +3071,32 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                                 break;
                             }
                         }
+                        // fund code
+                        Set<String> oleFundCodeList = new HashSet<>();
                         for (OleInvoiceItem oleInvoiceItem : oleInvoiceItems) {
-                            List purApAccountingLines = oleInvoiceItem.getSourceAccountingLines();
+                            List<PurApAccountingLine> purApAccountingLines = oleInvoiceItem.getSourceAccountingLines();
+                            List<String> oleFundCodes = new ArrayList<>();
                             if (purApAccountingLines != null && purApAccountingLines.size() > 0) {
-                                accountingLines.addAll(purApAccountingLines);
+                                oleFundCodes = getFundCodeList(purApAccountingLines);
+                                oleFundCodeList.addAll(oleFundCodes);
                             }
+                        }
+                        if(CollectionUtils.isNotEmpty(oleFundCodeList)){
+                            for(String fundCodeId : oleFundCodeList){
+                                OleFundCode oleFundCode = new OleFundCode();
+                                Map fundCodeMap = new HashMap();
+                                fundCodeMap.put("fundCodeId",fundCodeId);
+                                oleFundCode = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OleFundCode.class,fundCodeMap);
+                                if (oleFundCode != null){
+                                    fundCode.append(oleFundCode.getFundCode());
+                                    fundCode.append(OLEConstants.COMMA);
+                                    fundCode.append(' ');
+                                }
+                            }
+                        }
+                        if (fundCode.length() > 0) {
+                            fundCode.deleteCharAt(fundCode.length() - 2);
+                            workEInstanceOlemlForm.getExtendedEHoldingFields().setFundCode(fundCode.toString());
                         }
                     }
                     // order format
@@ -3139,25 +3158,61 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             if (org.apache.commons.lang.StringUtils.isBlank(workEInstanceOlemlForm.getExtendedEHoldingFields().getPaymentStatus())) {
                 workEInstanceOlemlForm.getExtendedEHoldingFields().setPaymentStatus(OLEConstants.NOT_PAID);
             }
-            if (accountingLines.size() > 0) {
-                for (PurApAccountingLine accountingLine : accountingLines) {
-                    map.clear();
-                    map.put(OLEConstants.ACCOUNT_NUMBER, accountingLine.getAccountNumber());
-                    map.put(OLEConstants.OBJECT_CODE, accountingLine.getFinancialObjectCode());
-                    OleVendorAccountInfo oleVendorAccountInfo = getBusinessObjectService().findByPrimaryKey(OleVendorAccountInfo.class, map);
-                    if (oleVendorAccountInfo != null && !fundCodeList.contains(oleVendorAccountInfo.getVendorRefNumber())) {
-                        fundCodeList.add(oleVendorAccountInfo.getVendorRefNumber());
-                        fundCode.append(oleVendorAccountInfo.getVendorRefNumber());
-                        fundCode.append(OLEConstants.COMMA);
-                        fundCode.append(' ');
-                    }
+        }
+    }
+
+    private List<String> getFundCodeList(List<PurApAccountingLine> purApAccountingLines) {
+        int totalInvoiceAccountLine = purApAccountingLines.size();
+        List<List<String>> oleFundCodeIdList = new ArrayList<>();
+        List<String> fundCodes = new ArrayList<>();
+        for(PurApAccountingLine purApAccountingLine : purApAccountingLines){
+            List<OleFundCodeAccountingLine> oleFundCodeAccountingLines = new ArrayList<>();
+            Map criteria = new HashMap();
+            criteria.put(OLEConstants.CHART_CODE,purApAccountingLine.getChartOfAccountsCode());
+            criteria.put(OLEConstants.ACCOUNT_NUMBER,purApAccountingLine.getAccountNumber());
+            criteria.put(OLEConstants.OBJECT_CODE,purApAccountingLine.getFinancialObjectCode());
+            criteria.put(OLEConstants.ACCOUNT_LINE_PERCENT,purApAccountingLine.getAccountLinePercent());
+            if(StringUtils.isNotBlank(purApAccountingLine.getSubAccountNumber())){
+               criteria.put(OLEConstants.SUB_ACCOUNT,purApAccountingLine.getSubAccountNumber());
+            } else {
+                criteria.put(OLEConstants.SUB_ACCOUNT,"");
+            }
+            if(StringUtils.isNotBlank(purApAccountingLine.getFinancialSubObjectCode())){
+                criteria.put(OLEConstants.SUB_OBJECT,purApAccountingLine.getFinancialSubObjectCode());
+            } else {
+                criteria.put(OLEConstants.SUB_OBJECT,"");
+            }
+            if(StringUtils.isNotBlank(purApAccountingLine.getProjectCode())){
+                criteria.put(OLEConstants.PROJECT,purApAccountingLine.getProjectCode());
+            } else {
+                criteria.put(OLEConstants.PROJECT,"");
+            }
+            if(StringUtils.isNotBlank(purApAccountingLine.getOrganizationReferenceId())){
+                criteria.put(OLEConstants.ORG_REF_ID,purApAccountingLine.getOrganizationReferenceId());
+            } else {
+                criteria.put(OLEConstants.ORG_REF_ID,"");
+            }
+            oleFundCodeAccountingLines = (List<OleFundCodeAccountingLine>) KRADServiceLocator.getBusinessObjectService().findMatching(OleFundCodeAccountingLine.class,criteria);
+            if(CollectionUtils.isNotEmpty(oleFundCodeAccountingLines)){
+                List<String> fundCodeIdList = new ArrayList<>();
+                for (Iterator<OleFundCodeAccountingLine> iterator = oleFundCodeAccountingLines.iterator(); iterator.hasNext(); ) {
+                    OleFundCodeAccountingLine oleFundCodeAccountingLine = iterator.next();
+                    fundCodeIdList.add(oleFundCodeAccountingLine.getFundCodeId());
+                }
+                if(CollectionUtils.isNotEmpty(fundCodeIdList)){
+                    oleFundCodeIdList.add(fundCodeIdList);
                 }
             }
-            if (fundCode.length() > 0) {
-                fundCode.deleteCharAt(fundCode.length() - 2);
-                workEInstanceOlemlForm.getExtendedEHoldingFields().setFundCode(fundCode.toString());
-            }
         }
+        if(CollectionUtils.isNotEmpty(oleFundCodeIdList) && oleFundCodeIdList.size() == totalInvoiceAccountLine){
+            List<String> oleFundCodeList = oleFundCodeIdList.get(0);
+            for(int index = 1; index < oleFundCodeIdList.size();index++){
+                List<String> fundCodeList = oleFundCodeIdList.get(index);
+                oleFundCodeList.retainAll(fundCodeList);
+            }
+            fundCodes.addAll(oleFundCodeList);
+        }
+        return fundCodes;
     }
 
     private void updateEResInOleCopy(Holdings holdings, OLEEResourceRecordDocument oleERSDoc) {

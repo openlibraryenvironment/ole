@@ -182,6 +182,11 @@ public class OLEConstants {
     public static final String ACCOUNT_NUMBER = "accountNumber";
     public static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
     public static final String FINANCIAL_SUB_OBJECT_CODE = "financialSubObjectCode";
+    public static final String ACCOUNT_LINE_PERCENT = "percentage";
+    public static final String SUB_ACCOUNT = "subAccount";
+    public static final String SUB_OBJECT = "subObject";
+    public static final String PROJECT = "project";
+    public static final String ORG_REF_ID = "orgRefId";
     public static final String BIB_OVERLAY_DIRECTORY = "bibOverlay.directory";
     public static final String ACTION_START_TAG = "<actions>\n";
     public static final String ACTION_CLOSE_TAG = "\n</actions>";
