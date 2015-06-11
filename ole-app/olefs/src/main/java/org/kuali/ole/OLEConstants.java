@@ -23,6 +23,7 @@ import java.util.*;
  */
 public class OLEConstants {
 
+    public static final String LICENSE_ID = "licenseId";
 	public static final String EMPTY_ITEM_BARCODE ="empty.item.barcode";
     public static final String ERES_ACCESS_ACTIVATION_CONFIG_ACTION_LINK = "oleAccessActivationConfiguration";
     public static final String OLE_ACCESS_ACTIVATION = "OLEAccessActivationConfigurationMaintenanceDocument-AccessActivationWorkflow";
@@ -233,6 +234,7 @@ public class OLEConstants {
     public static final String UPDATE_BIB_EXCLUDING_GPF = "updateBibExcludingGPF";
     public static final String UPDATE_BIB_INCLUDING_GPF = "updateBibIncludingGPF";
     public static final String LICENSE_DOC_TYPE = "license";
+
     public static final String EXCEPTION_CREATION_FLAG = "exceptionRouted";
     public static final String ISBN_TERM = "ISBN Term";
     public static final String ISBN_FUNCTION_DEF_NAME = "isbnFunction";

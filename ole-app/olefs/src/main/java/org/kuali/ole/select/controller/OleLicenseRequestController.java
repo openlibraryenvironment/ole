@@ -1,13 +1,12 @@
 package org.kuali.ole.select.controller;
 
-import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.derby.impl.services.reflect.LoadedGeneratedClass;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEPropertyConstants;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.LicenseRecord;
 import org.kuali.ole.ingest.pojo.MatchBo;
 import org.kuali.ole.select.bo.*;
-import org.kuali.ole.select.document.OLEEResourceRecordDocument;
-import org.kuali.ole.select.form.OLEEResourceRecordForm;
 import org.kuali.ole.service.OleLicenseRequestService;
 import org.kuali.ole.service.impl.OleLicenseRequestServiceImpl;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -126,6 +125,7 @@ public class OleLicenseRequestController extends MaintenanceDocumentController {
         Map<String, String> licenses = getLicenseWorkFlows();
         if (licenses.containsKey(oleLicenseRequestBo.getLicenseRequestWorkflowTypeCode())) {
             oleLicenseRequestBo.setLicenseRequestStatusCode(licenses.get(oleLicenseRequestBo.getLicenseRequestWorkflowTypeCode()));
+            processAgreementDocument(oleLicenseRequestBo);
             document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(
                     getLicenseRequestName(licenses.get(oleLicenseRequestBo.getLicenseRequestWorkflowTypeCode())));
             performWorkflowAction(form, UifConstants.WorkflowAction.SAVE, true);
@@ -629,42 +629,37 @@ public class OleLicenseRequestController extends MaintenanceDocumentController {
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) uifForm;
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) maintenanceForm.getDocument();
         OleLicenseRequestBo oleLicenseRequestBo = (OleLicenseRequestBo) document.getNewMaintainableObject().getDataObject();
-        if(oleLicenseRequestBo.getAgreementDocumentMetadataList().get(0).getSelected().equalsIgnoreCase("true")){
+        if (oleLicenseRequestBo.getAgreementDocumentMetadataList().get(0).getSelected().equalsIgnoreCase("true")) {
             oleLicenseRequestBo.getAgreementDocumentMetadataList().get(0).setSelected(null);
-            return insertAgreementDocument(maintenanceForm,result,request,response);
+            return insertAgreementDocument(maintenanceForm, result, request, response);
 
         }
         OleAgreementDocumentMetadata oleAgreementDocumentMetadata = oleLicenseRequestBo.getAgreementDocumentMetadataList().get(Integer.parseInt(selectedLineIndex));
-        File file;
         try {
-            if (oleAgreementDocumentMetadata.getAgreementUUID() == null) {
-                file = new File(getKualiConfigurationService().getPropertyValueAsString(
-                        KRADConstants.ATTACHMENTS_PENDING_DIRECTORY_KEY) + OLEConstants.OleLicenseRequest.AGREEMENT_TMP_LOCATION +
-                        File.separator + oleAgreementDocumentMetadata.getAgreementFileName());
-                LOG.info("Uploaded file location : " + file.getAbsolutePath());
-            } else {
-                file = getOleLicenseRequestService().downloadAgreementDocumentFromDocstore(oleAgreementDocumentMetadata);
-                LOG.info("Uploaded file location : " + file.getAbsolutePath());
-
+            InputStream fis = null;
+            String[] uuidSplit = oleAgreementDocumentMetadata.getAgreementUUID().split("-");
+            Map<String, String> licenseCriteriaMap = new HashMap<>();
+            licenseCriteriaMap.put(OLEConstants.LICENSE_ID, uuidSplit[1]);
+            if (LOG.isInfoEnabled()) {
+                LOG.info("licenseId----->"+uuidSplit[1]);
             }
+            LicenseRecord licenseRecordList = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(LicenseRecord.class, licenseCriteriaMap);
+            fis = new ByteArrayInputStream(licenseRecordList.getContent());
             response.setContentType(oleAgreementDocumentMetadata.getAgreementMimeType());
-            response.setContentLength((int) file.length());
             response.setHeader("Expires", "0");
             response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
             response.setHeader("Pragma", "public");
             response.setHeader("Content-Disposition",
                     "attachment; filename=\"" + oleAgreementDocumentMetadata.getAgreementFileName() + "\"");
-            InputStream fis = new BufferedInputStream(new FileInputStream(file));
             FileCopyUtils.copy(fis, response.getOutputStream());
-
         } catch (Exception e) {
-            LOG.error("Exception while retrieving the attachment"+e);
+            LOG.error("Exception while retrieving the attachment" + e);
         } finally {
             updateEventLogForLocation(oleLicenseRequestBo, "agreement document", "Agreement Document Downloaded");
             performWorkflowAction(maintenanceForm, UifConstants.WorkflowAction.SAVE, true);
         }
 
-        return getUIFModelAndView(maintenanceForm);
+        return null;
     }
 
     /**
