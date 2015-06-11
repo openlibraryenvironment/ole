@@ -1626,7 +1626,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 }
             }
             linkedEresource.setRemoveRelationShip(false);
-            oleeResourceRecordDocument.setOleLinkedEresources(null);
+            //oleeResourceRecordDocument.setOleLinkedEresources(null);
             oleEResourceSearchService.getPOInvoiceForERS(oleeResourceRecordDocument);
         }
         return getUIFModelAndView(form);
