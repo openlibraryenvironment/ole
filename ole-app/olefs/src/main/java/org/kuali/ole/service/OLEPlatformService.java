@@ -46,4 +46,10 @@ public interface OLEPlatformService {
 
     public void downloadAttachment(HttpServletResponse response, String eventLogId, String fileName, byte[] attachmentContent, String attachmentMimeType) throws Exception;
 
+    public StringBuffer validatePlatformRecordDocument(OLEPlatformRecordDocument olePlatformRecordDocument);
+
+    public OLEPlatformEventLog getFilterPlatformEventLog(OLEPlatformEventLog olePlatformEventLog, List<OLEPlatformEventLog> filterEventLogs);
+
+    public void addVendorEventLog(OLEPlatformRecordDocument olePlatformRecordDocument);
+
 }

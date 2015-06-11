@@ -51,9 +51,13 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
 
     private Integer gokbId;
 
-    private String platformProviderName;
+    private Integer gokbPlatformId = 0;
 
-    private Integer platformProviderId;
+    private boolean gokbPlatformFlag;
+
+    private String gokbMessage;
+
+    private String platformProviderName;
 
     private String vendorLink;
 
@@ -147,6 +151,14 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
         this.gokbId = gokbId;
     }
 
+    public Integer getGokbPlatformId() {
+        return gokbPlatformId;
+    }
+
+    public void setGokbPlatformId(Integer gokbPlatformId) {
+        this.gokbPlatformId = gokbPlatformId;
+    }
+
     public String getPlatformProviderName() {
         /*if (vendorDetail != null) {
             return vendorDetail.getVendorName();
@@ -156,14 +168,6 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
 
     public void setPlatformProviderName(String platformProviderName) {
         this.platformProviderName = platformProviderName;
-    }
-
-    public Integer getPlatformProviderId() {
-        return platformProviderId;
-    }
-
-    public void setPlatformProviderId(Integer platformProviderId) {
-        this.platformProviderId = platformProviderId;
     }
 
     public String getVendorLink() {
@@ -492,5 +496,21 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
 
     public void setPlatformProviderFlag(boolean platformProviderFlag) {
         this.platformProviderFlag = platformProviderFlag;
+    }
+
+    public boolean isGokbPlatformFlag() {
+        return gokbPlatformFlag;
+    }
+
+    public void setGokbPlatformFlag(boolean gokbPlatformFlag) {
+        this.gokbPlatformFlag = gokbPlatformFlag;
+    }
+
+    public String getGokbMessage() {
+        return gokbMessage;
+    }
+
+    public void setGokbMessage(String gokbMessage) {
+        this.gokbMessage = gokbMessage;
     }
 }

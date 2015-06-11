@@ -1,10 +1,12 @@
 package org.kuali.ole.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.module.purap.PurapKeyConstants;
 import org.kuali.ole.select.bo.OLEPlatformAdminUrl;
 import org.kuali.ole.select.bo.OLEPlatformEventLog;
 import org.kuali.ole.select.bo.OLESearchCondition;
@@ -13,7 +15,9 @@ import org.kuali.ole.select.document.OLEPlatformRecordDocument;
 import org.kuali.ole.select.gokb.OleGokbPlatform;
 import org.kuali.ole.select.gokb.OleGokbTipp;
 import org.kuali.ole.service.OLEPlatformService;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
+import org.kuali.ole.vnd.businessobject.VendorEventLog;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -29,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -362,7 +367,7 @@ public class OLEPlatformServiceImpl implements OLEPlatformService {
                 Map map = new HashMap();
                 map.put(OLEConstants.GOKB_ID, tempDocument.getGokbId());
                 OleGokbPlatform oleGokbPlatform = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OleGokbPlatform.class, tempDocument.getGokbId());
-                if (oleGokbPlatform != null && oleGokbPlatform.getPlatformProviderId() != null) {
+                if (oleGokbPlatform != null && oleGokbPlatform.getPlatformProviderId() != 0) {
                     map.clear();
                     map.put(OLEConstants.GOKB_ID, oleGokbPlatform.getPlatformProviderId());
                     List<VendorDetail> vendorDetailList = (List<VendorDetail>) KRADServiceLocator.getBusinessObjectService().findMatching(VendorDetail.class, map);
@@ -520,6 +525,97 @@ public class OLEPlatformServiceImpl implements OLEPlatformService {
                 "attachment; filename=\"" + fileName + "\"");
         InputStream fis = new BufferedInputStream(new FileInputStream(file));
         FileCopyUtils.copy(fis, response.getOutputStream());
+    }
+
+    @Override
+    public StringBuffer validatePlatformRecordDocument(OLEPlatformRecordDocument olePlatformRecordDocument){
+        StringBuffer errorMessage = new StringBuffer();
+        if (!olePlatformRecordDocument.isActive() && olePlatformRecordDocument.getLinkedEResources().size() > 0) {
+            olePlatformRecordDocument.setActive(true);
+            errorMessage.append(olePlatformRecordDocument.getLinkedEResources().size() + " " + SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.ERROR_ERESOURCE_LINKED_TO_PLATFORM));
+            errorMessage.append(OLEConstants.BREAK);
+        }
+        if (olePlatformRecordDocument.getGokbId()!=null) {
+            Map gokbMap = new HashMap();
+            gokbMap.put(OLEConstants.GOKB_ID, olePlatformRecordDocument.getGokbId());
+            List<OLEPlatformRecordDocument> tempDocuments = (List<OLEPlatformRecordDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEPlatformRecordDocument.class, gokbMap);
+            if (tempDocuments != null && tempDocuments.size() > 0) {
+                for (OLEPlatformRecordDocument tempDocument : tempDocuments) {
+                    if (StringUtils.isBlank(olePlatformRecordDocument.getOlePlatformId()) || (StringUtils.isNotBlank(olePlatformRecordDocument.getOlePlatformId()) && !olePlatformRecordDocument.getOlePlatformId().equals(tempDocument.getOlePlatformId()))) {
+                        errorMessage.append(" Platform record " + tempDocument.getOlePlatformId() + " " + SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.ERROR_PLATFORM_LINKED_TO_GOKB_ID));
+                        errorMessage.append(OLEConstants.BREAK);
+                    }
+                }
+            }
+        }
+        if (StringUtils.isNotBlank(olePlatformRecordDocument.getName())) {
+            Map platformNameMap = new HashMap();
+            platformNameMap.put(OLEConstants.PLATFORM_NAME, olePlatformRecordDocument.getName());
+            List<OLEPlatformRecordDocument> tempDocuments = (List<OLEPlatformRecordDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEPlatformRecordDocument.class, platformNameMap);
+            if (tempDocuments != null && tempDocuments.size() > 0) {
+                for (OLEPlatformRecordDocument tempDocument : tempDocuments) {
+                    if (StringUtils.isBlank(olePlatformRecordDocument.getOlePlatformId()) || (StringUtils.isNotBlank(olePlatformRecordDocument.getOlePlatformId()) && !olePlatformRecordDocument.getOlePlatformId().equals(tempDocument.getOlePlatformId()))) {
+                        errorMessage.append(" Platform record " + tempDocument.getOlePlatformId() + " " + SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.ERROR_PLATFORM_SAME_NAME));
+                        errorMessage.append(OLEConstants.BREAK);
+                    }
+
+                }
+            }
+        }
+        if (StringUtils.isNotBlank(olePlatformRecordDocument.getPlatformProviderName())) {
+            Map vendorMap = new HashMap();
+            vendorMap.put(OLEConstants.VENDOR_NAME, olePlatformRecordDocument.getPlatformProviderName());
+            List<VendorDetail> vendorDetails = (List<VendorDetail>) KRADServiceLocator.getBusinessObjectService().findMatching(VendorDetail.class, vendorMap);
+            if (vendorDetails != null && vendorDetails.size() > 0) {
+                olePlatformRecordDocument.setVendorId(vendorDetails.get(0).getVendorNumber());
+            } else {
+                errorMessage.append("Invalid Platform Provider " + olePlatformRecordDocument.getPlatformProviderName());
+                errorMessage.append(OLEConstants.BREAK);
+            }
+        }
+        return errorMessage;
+    }
+
+    @Override
+    public OLEPlatformEventLog getFilterPlatformEventLog(OLEPlatformEventLog olePlatformEventLog, List<OLEPlatformEventLog> filterEventLogs) {
+        if (StringUtils.isNotBlank(olePlatformEventLog.getPlatformEventLogId())) {
+            for (OLEPlatformEventLog platformEventLog : filterEventLogs) {
+                if (StringUtils.isNotBlank(platformEventLog.getPlatformEventLogId()) && platformEventLog.getPlatformEventLogId().equals(olePlatformEventLog.getPlatformEventLogId())) {
+                    return platformEventLog;
+                }
+            }
+        } else if (olePlatformEventLog.getEventTempId() != null) {
+            for (OLEPlatformEventLog platformEventLog : filterEventLogs) {
+                if (platformEventLog.getEventTempId() != null && platformEventLog.getEventTempId().equals(olePlatformEventLog.getEventTempId())) {
+                    return platformEventLog;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void addVendorEventLog(OLEPlatformRecordDocument olePlatformRecordDocument) {
+        if (olePlatformRecordDocument.getVendorHeaderGeneratedIdentifier() != null && olePlatformRecordDocument.getVendorDetailAssignedIdentifier() != null) {
+            Map vendorMap = new HashMap();
+            vendorMap.put(OLEConstants.VENDOR_HEADER_GENERATED_ID, olePlatformRecordDocument.getVendorHeaderGeneratedIdentifier());
+            vendorMap.put(OLEConstants.VENDOR_DETAILED_ASSIGNED_ID, olePlatformRecordDocument.getVendorDetailAssignedIdentifier());
+            VendorDetail vendor = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorDetail.class, vendorMap);
+            if (vendor != null) {
+                String note = "This vendor is associated with the platform '" + olePlatformRecordDocument.getName() + "'";
+                vendorMap.put("note", note);
+                List<VendorEventLog> vendorEventLogList = (List<VendorEventLog>) KRADServiceLocator.getBusinessObjectService().findMatching(VendorEventLog.class, vendorMap);
+                if (CollectionUtils.isEmpty(vendorEventLogList)) {
+                    VendorEventLog vendorEventLog = new VendorEventLog();
+                    vendorEventLog.setLogTypeId("3");
+                    vendorEventLog.setDate(new Timestamp((new Date()).getTime()));
+                    vendorEventLog.setUserId(GlobalVariables.getUserSession().getPrincipalId());
+                    vendorEventLog.setNote(note);
+                    vendor.getEventLogs().add(vendorEventLog);
+                    KRADServiceLocator.getBusinessObjectService().save(vendor);
+                }
+            }
+        }
     }
 
 }

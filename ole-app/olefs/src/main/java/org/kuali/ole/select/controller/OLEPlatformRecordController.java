@@ -3,7 +3,6 @@ package org.kuali.ole.select.controller;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.alert.controller.OleTransactionalDocumentControllerBase;
-import org.kuali.ole.module.purap.PurapKeyConstants;
 import org.kuali.ole.select.bo.*;
 import org.kuali.ole.select.document.OLEPlatformRecordDocument;
 import org.kuali.ole.select.form.OLEPlatformRecordForm;
@@ -11,10 +10,7 @@ import org.kuali.ole.select.gokb.OleGokbOrganization;
 import org.kuali.ole.select.gokb.OleGokbPlatform;
 import org.kuali.ole.service.OLEEResourceSearchService;
 import org.kuali.ole.service.OLEPlatformService;
-import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
-import org.kuali.ole.vnd.businessobject.VendorEventLog;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -96,7 +92,13 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
         OLEPlatformRecordDocument olePlatformRecordDocument = (OLEPlatformRecordDocument) olePlatformRecordForm.getDocument();
         olePlatformRecordDocument.setSaveValidationFlag(false);
         olePlatformRecordForm.setTempId(null);
-        StringBuffer errorMessage = new StringBuffer();
+        StringBuffer errorMessage = getOlePlatformService().validatePlatformRecordDocument(olePlatformRecordDocument);
+        if (StringUtils.isNotBlank(errorMessage)) {
+            olePlatformRecordForm.setMessage(errorMessage.toString());
+            olePlatformRecordDocument.setSaveValidationFlag(true);
+            return getUIFModelAndView(olePlatformRecordForm);
+        }
+
         if (StringUtils.isNotBlank(olePlatformRecordDocument.getName())) {
             if (olePlatformRecordDocument.getName().length() < 40) {
                 olePlatformRecordDocument.getDocumentHeader().setDocumentDescription(olePlatformRecordDocument.getName());
@@ -105,75 +107,11 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
                 olePlatformRecordDocument.getDocumentHeader().setDocumentDescription(documentDescription);
             }
         }
-        if (!olePlatformRecordDocument.isActive() && olePlatformRecordDocument.getLinkedEResources().size() > 0) {
-            olePlatformRecordDocument.setActive(true);
-            errorMessage.append(olePlatformRecordDocument.getLinkedEResources().size() + " " + SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.ERROR_ERESOURCE_LINKED_TO_PLATFORM));
-            errorMessage.append(OLEConstants.BREAK);
-        }
-        if (olePlatformRecordDocument.getGokbId()!=null) {
-            Map gokbMap = new HashMap();
-            gokbMap.put(OLEConstants.GOKB_ID, olePlatformRecordDocument.getGokbId());
-            List<OLEPlatformRecordDocument> tempDocuments = (List<OLEPlatformRecordDocument>) getBusinessObjectService().findMatching(OLEPlatformRecordDocument.class, gokbMap);
-            if (tempDocuments != null && tempDocuments.size() > 0) {
-                for (OLEPlatformRecordDocument tempDocument : tempDocuments) {
-                    if (StringUtils.isBlank(olePlatformRecordDocument.getOlePlatformId()) || (StringUtils.isNotBlank(olePlatformRecordDocument.getOlePlatformId()) && !olePlatformRecordDocument.getOlePlatformId().equals(tempDocument.getOlePlatformId()))) {
-                        errorMessage.append(" Platform record " + tempDocument.getOlePlatformId() + " " + SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.ERROR_PLATFORM_LINKED_TO_GOKB_ID));
-                        errorMessage.append(OLEConstants.BREAK);
-                    }
-                }
-            }
-        }
-        if (StringUtils.isNotBlank(olePlatformRecordDocument.getName())) {
-            Map platformNameMap = new HashMap();
-            platformNameMap.put(OLEConstants.PLATFORM_NAME, olePlatformRecordDocument.getName());
-            List<OLEPlatformRecordDocument> tempDocuments = (List<OLEPlatformRecordDocument>) getBusinessObjectService().findMatching(OLEPlatformRecordDocument.class, platformNameMap);
-            if (tempDocuments != null && tempDocuments.size() > 0) {
-                for (OLEPlatformRecordDocument tempDocument : tempDocuments) {
-                    if (StringUtils.isBlank(olePlatformRecordDocument.getOlePlatformId()) || (StringUtils.isNotBlank(olePlatformRecordDocument.getOlePlatformId()) && !olePlatformRecordDocument.getOlePlatformId().equals(tempDocument.getOlePlatformId()))) {
-                        errorMessage.append(" Platform record " + tempDocument.getOlePlatformId() + " " + SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.ERROR_PLATFORM_SAME_NAME));
-                        errorMessage.append(OLEConstants.BREAK);
-                    }
-
-                }
-            }
-        }
-        if (StringUtils.isNotBlank(olePlatformRecordDocument.getPlatformProviderName())) {
-            Map vendorMap = new HashMap();
-            vendorMap.put(OLEConstants.VENDOR_NAME, olePlatformRecordDocument.getPlatformProviderName());
-            List<VendorDetail> vendorDetails = (List<VendorDetail>) getBusinessObjectService().findMatching(VendorDetail.class, vendorMap);
-            if (vendorDetails != null && vendorDetails.size() > 0) {
-                olePlatformRecordDocument.setVendorId(vendorDetails.get(0).getVendorNumber());
-            } else {
-                errorMessage.append("Invalid Platform Provider " + olePlatformRecordDocument.getPlatformProviderName());
-                errorMessage.append(OLEConstants.BREAK);
-            }
-        }
-        if (StringUtils.isNotBlank(errorMessage)) {
-            olePlatformRecordForm.setMessage(errorMessage.toString());
-            olePlatformRecordDocument.setSaveValidationFlag(true);
-            return getUIFModelAndView(olePlatformRecordForm);
-        }
 
         getOlePlatformService().processEventAttachments(olePlatformRecordDocument.getEventLogs());
 
         if (StringUtils.isBlank(olePlatformRecordDocument.getStatusId())){
             olePlatformRecordDocument.setStatusId("1");
-        }
-        if (olePlatformRecordDocument.getGokbId()!=null && olePlatformRecordDocument.getPlatformProviderId()!=null){
-            OleGokbOrganization oleGokbOrganization = getBusinessObjectService().findBySinglePrimaryKey(OleGokbOrganization.class, olePlatformRecordDocument.getPlatformProviderId());
-            if (oleGokbOrganization != null && oleGokbOrganization.getGokbOrganizationId() != null) {
-                Map vendorMap = new HashMap();
-                vendorMap.put(OLEConstants.GOKB_ID, oleGokbOrganization.getGokbOrganizationId());
-                List<VendorDetail> vendorDetails = (List<VendorDetail>) getBusinessObjectService().findMatching(VendorDetail.class, vendorMap);
-                if (vendorDetails != null && vendorDetails.size() > 0) {
-                    getOleEResourceSearchService().updateVendor(vendorDetails.get(0), oleGokbOrganization.getOrganizationName());
-                    olePlatformRecordDocument.setVendorId(vendorDetails.get(0).getVendorNumber());
-                } else {
-                    getOleEResourceSearchService().createVendor(oleGokbOrganization.getOrganizationName(), oleGokbOrganization.getGokbOrganizationId(), oleGokbOrganization.getVariantName());
-                    olePlatformRecordDocument.setPlatformProviderFlag(true);
-                }
-            }
-            olePlatformRecordDocument.setPlatformProviderId(null);
         }
         OLEPlatformRecordDocument tempDocument = null;
         if (StringUtils.isNotBlank(olePlatformRecordDocument.getOlePlatformId())) {
@@ -199,20 +137,7 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
             olePlatformRecordDocument.setVendorHeaderGeneratedIdentifier(null);
             olePlatformRecordDocument.setVendorDetailAssignedIdentifier(null);
         }
-        if (olePlatformRecordDocument.getVendorHeaderGeneratedIdentifier() != null && olePlatformRecordDocument.getVendorDetailAssignedIdentifier() != null) {
-            Map vendorMap = new HashMap();
-            vendorMap.put(OLEConstants.VENDOR_HEADER_GENERATED_ID, olePlatformRecordDocument.getVendorHeaderGeneratedIdentifier());
-            vendorMap.put(OLEConstants.VENDOR_DETAILED_ASSIGNED_ID, olePlatformRecordDocument.getVendorDetailAssignedIdentifier());
-            VendorDetail vendor = getBusinessObjectService().findByPrimaryKey(VendorDetail.class, vendorMap);
-            if (vendor != null) {
-                VendorEventLog vendorEventLog = new VendorEventLog();
-                vendorEventLog.setLogTypeId("3");
-                vendorEventLog.setDate(new Timestamp((new Date()).getTime()));
-                vendorEventLog.setUserId(GlobalVariables.getUserSession().getPrincipalId());
-                vendorEventLog.setNote("This vendor is associated with the platform '"+olePlatformRecordDocument.getName()+"'");
-                vendor.getEventLogs().add(vendorEventLog);
-            }
-        }
+        getOlePlatformService().addVendorEventLog(olePlatformRecordDocument);
         return super.save(olePlatformRecordForm, result, request, response);
     }
 
@@ -484,7 +409,7 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
         olePlatformRecordDocument.setSaveValidationFlag(false);
         int index = Integer.parseInt(olePlatformRecordForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         OLEPlatformEventLog olePlatformEventLog = olePlatformRecordDocument.getFilterEventLogs().get(index);
-        olePlatformEventLog = getFilterPlatformEventLog(olePlatformEventLog, olePlatformRecordDocument.getFilterEventLogs());
+        olePlatformEventLog = getOlePlatformService().getFilterPlatformEventLog(olePlatformEventLog, olePlatformRecordDocument.getFilterEventLogs());
         if (olePlatformEventLog != null) {
             olePlatformEventLog.setSaveFlag(false);
         }
@@ -541,7 +466,7 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
         olePlatformRecordDocument.setSaveValidationFlag(false);
         int index = Integer.parseInt(olePlatformRecordForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         OLEPlatformEventLog olePlatformEventLog = olePlatformRecordDocument.getFilterEventLogs().get(index);
-        olePlatformEventLog = getFilterPlatformEventLog(olePlatformEventLog, olePlatformRecordDocument.getFilterEventLogs());
+        olePlatformEventLog = getOlePlatformService().getFilterPlatformEventLog(olePlatformEventLog, olePlatformRecordDocument.getFilterEventLogs());
         if (StringUtils.isBlank(olePlatformEventLog.getEventNote())) {
             GlobalVariables.getMessageMap().putErrorForSectionId("OLEPlatformEventLogTab-filterEventLogSection", OLEConstants.ERROR_NOTE_REQUIRED);
             return super.navigate(olePlatformRecordForm, result, request, response);
@@ -599,7 +524,7 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
         olePlatformRecordDocument.setSaveValidationFlag(false);
         int index = Integer.parseInt(olePlatformRecordForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         OLEPlatformEventLog olePlatformEventLog = olePlatformRecordDocument.getFilterEventLogs().get(index);
-        olePlatformEventLog = getFilterPlatformEventLog(olePlatformEventLog, olePlatformRecordDocument.getFilterEventLogs());
+        olePlatformEventLog = getOlePlatformService().getFilterPlatformEventLog(olePlatformEventLog, olePlatformRecordDocument.getFilterEventLogs());
         if (olePlatformEventLog != null) {
             olePlatformRecordDocument.getFilterEventLogs().remove(olePlatformEventLog);
             olePlatformRecordDocument.getEventLogs().remove(olePlatformEventLog);
@@ -640,7 +565,6 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
         OLEPlatformRecordDocument olePlatformRecordDocument = (OLEPlatformRecordDocument) olePlatformRecordForm.getDocument();
         olePlatformRecordDocument.setSaveValidationFlag(false);
         olePlatformRecordDocument.setGokbId(null);
-        olePlatformRecordDocument.setPlatformProviderId(null);
         olePlatformRecordDocument.setPlatformProviderFlag(false);
         olePlatformRecordDocument.setVendorHeaderGeneratedIdentifier(null);
         olePlatformRecordDocument.setVendorDetailAssignedIdentifier(null);
@@ -745,23 +669,6 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
         return super.navigate(olePlatformRecordForm, result, request, response);
     }
 
-    private OLEPlatformEventLog getFilterPlatformEventLog(OLEPlatformEventLog olePlatformEventLog, List<OLEPlatformEventLog> filterEventLogs) {
-        if (StringUtils.isNotBlank(olePlatformEventLog.getPlatformEventLogId())) {
-            for (OLEPlatformEventLog platformEventLog : filterEventLogs) {
-                if (StringUtils.isNotBlank(platformEventLog.getPlatformEventLogId()) && platformEventLog.getPlatformEventLogId().equals(olePlatformEventLog.getPlatformEventLogId())) {
-                    return platformEventLog;
-                }
-            }
-        } else if (olePlatformEventLog.getEventTempId() != null) {
-            for (OLEPlatformEventLog platformEventLog : filterEventLogs) {
-                if (platformEventLog.getEventTempId() != null && platformEventLog.getEventTempId().equals(olePlatformEventLog.getEventTempId())) {
-                    return platformEventLog;
-                }
-            }
-        }
-        return null;
-    }
-
     @RequestMapping(params = "methodToCall=downloadEventAttachment1")
     public ModelAndView downloadEventAttachment1(@ModelAttribute("KualiForm") TransactionalDocumentFormBase form, BindingResult result,
                                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -825,15 +732,69 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
                 if (vendorDetails != null && vendorDetails.size() > 0) {
                     olePlatformRecordDocument.setVendorHeaderGeneratedIdentifier(vendorDetails.get(0).getVendorHeaderGeneratedIdentifier());
                     olePlatformRecordDocument.setVendorDetailAssignedIdentifier(vendorDetails.get(0).getVendorDetailAssignedIdentifier());
-                    olePlatformRecordDocument.setVendorId(vendorDetails.get(0).getVendorNumber());
                     olePlatformRecordDocument.setPlatformProviderName(vendorDetails.get(0).getVendorName());
                 }
             }
         }
         olePlatformRecordDocument.setPlatformProviderFlag(false);
-        return super.save(form,result,request,response);
+        return super.navigate(olePlatformRecordForm, result, request, response);
     }
 
 
+    @Override
+    public ModelAndView refresh(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        OLEPlatformRecordForm olePlatformRecordForm = (OLEPlatformRecordForm) form;
+        OLEPlatformRecordDocument olePlatformRecordDocument = (OLEPlatformRecordDocument) olePlatformRecordForm.getDocument();
+        olePlatformRecordDocument.setSaveValidationFlag(false);
+        if (olePlatformRecordDocument.getGokbPlatformId() != 0) {
+            olePlatformRecordDocument.setGokbPlatformFlag(true);
+            StringBuffer gokbMessge = new StringBuffer();
+            gokbMessge.append("Linking this Platform record to a GOKb identifier will overwrite the following fields with GOKb-provided metadata: ");
+            gokbMessge.append(OLEConstants.BREAK);
+            gokbMessge.append("GOKb Identifier, Platform Name, Platform Provider Name, and Software.");
+            gokbMessge.append(OLEConstants.BREAK);
+            gokbMessge.append("This data will no longer be editable. Select “OK” to proceed.");
+            olePlatformRecordDocument.setGokbMessage(gokbMessge.toString());
+            super.refresh(olePlatformRecordForm, result, request, response);
+            return getUIFModelAndView(olePlatformRecordForm);
+        }
+        return super.refresh(olePlatformRecordForm, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=setGokbFields")
+    public ModelAndView setGokbFields(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) throws InterruptedException {
+        OLEPlatformRecordForm olePlatformRecordForm = (OLEPlatformRecordForm) uifForm;
+        OLEPlatformRecordDocument olePlatformRecordDocument = (OLEPlatformRecordDocument) olePlatformRecordForm.getDocument();
+        olePlatformRecordDocument.setSaveValidationFlag(false);
+        if (olePlatformRecordDocument.getGokbPlatformId() != 0) {
+            OleGokbPlatform oleGokbPlatform = getBusinessObjectService().findBySinglePrimaryKey(OleGokbPlatform.class, olePlatformRecordDocument.getGokbPlatformId());
+            if (oleGokbPlatform != null) {
+                olePlatformRecordDocument.setGokbId(oleGokbPlatform.getGokbPlatformId());
+                olePlatformRecordDocument.setName(oleGokbPlatform.getPlatformName());
+                olePlatformRecordDocument.setSoftware(oleGokbPlatform.getSoftwarePlatform());
+                olePlatformRecordDocument.setStatusId(oleGokbPlatform.getStatusId());
+                if (oleGokbPlatform.getPlatformProviderId() != null) {
+                    OleGokbOrganization oleGokbOrganization = getBusinessObjectService().findBySinglePrimaryKey(OleGokbOrganization.class, oleGokbPlatform.getPlatformProviderId());
+                    if (oleGokbOrganization != null && oleGokbOrganization.getGokbOrganizationId() != null) {
+                        Map vendorMap = new HashMap();
+                        vendorMap.put(OLEConstants.GOKB_ID, oleGokbOrganization.getGokbOrganizationId());
+                        List<VendorDetail> vendorDetails = (List<VendorDetail>) getBusinessObjectService().findMatching(VendorDetail.class, vendorMap);
+                        if (vendorDetails != null && vendorDetails.size() > 0) {
+                            getOleEResourceSearchService().updateVendor(vendorDetails.get(0), oleGokbOrganization.getOrganizationName());
+                            olePlatformRecordDocument.setVendorHeaderGeneratedIdentifier(vendorDetails.get(0).getVendorHeaderGeneratedIdentifier());
+                            olePlatformRecordDocument.setVendorDetailAssignedIdentifier(vendorDetails.get(0).getVendorDetailAssignedIdentifier());
+                            olePlatformRecordDocument.setPlatformProviderName(vendorDetails.get(0).getVendorName());
+                        } else {
+                            getOleEResourceSearchService().createVendor(oleGokbOrganization.getOrganizationName(), oleGokbOrganization.getGokbOrganizationId(), oleGokbOrganization.getVariantName());
+                            Thread.sleep(300);
+                            olePlatformRecordDocument.setPlatformProviderFlag(true);
+                        }
+                    }
+                }
+            }
+        }
+        return super.navigate(olePlatformRecordForm, result, request, response);
+    }
 
 }

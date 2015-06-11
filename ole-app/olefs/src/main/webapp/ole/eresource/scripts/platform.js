@@ -40,6 +40,11 @@ jq(document).ready(function () {
         /*gokbFlag = false*/;
     });
     window.onbeforeunload = unloadPage;
+
+    if(jq("#hdnGokbPlatformFlag_control").val() == 'true') {
+        jq("#hdnGokbPlatformFlag_control").val("false");
+        displayDialogWindow("div#popupToDisplayGOKBMessage");
+    }
 });
 
 function closeDisplayLinkedRecordsPopup(){
@@ -47,12 +52,20 @@ function closeDisplayLinkedRecordsPopup(){
     jq('#mask').fadeOut(300);
 }
 
+function closeGOKBMessagePopup(){
+    jq("#gokbPlatformId_control").val(0);
+    jq("#gokbPlatformId").val(0);
+    if(jq("#hdnPlatformProviderFlag_control").val() == 'true') {
+        jq('#hiddenButtonForUpdateVendorDetails').focus().click();
+    }
+    jq("div#popupToDisplayGOKBMessage").fadeOut(300);
+    jq('#mask').fadeOut(300);
+}
+
 function save(){
     unsaved = false;
     if(jq("#hdnsaveValidationFlag_control").val() == 'true') {
         displayDialogWindow("div#popupToDisplayLinkedRecords");
-    }else if(jq("#hdnPlatformProviderFlag_control").val() == 'true') {
-        jq('#hiddenButtonForUpdateVendorDetails').focus().click();
     }
 }
 

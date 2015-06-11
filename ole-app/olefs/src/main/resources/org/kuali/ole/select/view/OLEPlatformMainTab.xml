@@ -17,6 +17,9 @@
                 <ref bean="hdnsaveValidationFlag"/>
                 <ref bean="hiddenButtonForUpdateVendorDetails"/>
                 <ref bean="hdnPlatformProviderFlag"/>
+                <ref bean="hdnGokbPlatformFlag"/>
+                <ref bean="popupToDisplayGOKBMessage"/>
+                <ref bean="gokbPlatformId"/>
             </list>
         </property>
     </bean>
@@ -52,8 +55,8 @@
                                             <property name="quickfinder">
                                                 <bean parent="Uif-QuickFinder"
                                                       p:dataObjectClassName="org.kuali.ole.select.gokb.OleGokbPlatform"
-                                                      p:lookupParameters="name:platformName,vendorId:platformProviderId"
-                                                      p:fieldConversions="gokbPlatformId:gokbId,platformName:name,softwarePlatform:software,statusId:statusId,platformProviderId:platformProviderId"/>
+                                                      p:lookupParameters="name:platformName"
+                                                      p:fieldConversions="gokbPlatformId:gokbPlatformId"/>
                                             </property>
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="10" p:disabled="true"/>
@@ -343,5 +346,36 @@
         </property>
     </bean>
     <bean id="hiddenButtonForUpdateVendorDetails" parent="Uif-SecondaryActionButton" p:methodToCall="updateVendorDetails" p:hidden="true"/>
+
+    <bean id="hdnGokbPlatformFlag" parent="Uif-InputField" p:propertyName="gokbPlatformFlag" p:hidden="true">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="gokbPlatformId" parent="Uif-InputField" p:propertyName="gokbPlatformId" p:hidden="true">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="popupToDisplayGOKBMessage" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{document.gokbMessage}"/>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="setGokbFields"
+                                  p:actionLabel="Ok" p:successCallback="closeGOKBMessagePopup()"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:ajaxSubmit="true"
+                                  p:actionScript="closeGOKBMessagePopup();"
+                                  p:actionLabel="cancel"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
 </beans>
