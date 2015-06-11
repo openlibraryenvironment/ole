@@ -96,7 +96,7 @@ public class OlePatronDefintionHelper {
 
     private static final String PATRON_LOST_BARCODE_ID = "P11";
     private static final String PATRON_LOST_BARCODE = "222222";
-    private static final Date  PATRON_LOST_BARCODE_EFF_DATE= new java.sql.Date((new Timestamp(System.currentTimeMillis())).getTime());
+    private static final Timestamp  PATRON_LOST_BARCODE_EFF_DATE= new java.sql.Timestamp((new Timestamp(System.currentTimeMillis())).getTime());
     private static final Long PATRON_LOST_BARCODE_VERSION_NUMBER = new Long(1);
 
     private static final String PATRON_LOCAL_SEQ_ID = "P10";
@@ -438,7 +438,7 @@ public class OlePatronDefintionHelper {
                     }
 
                     @Override
-                    public Date getInvalidOrLostBarcodeEffDate() {
+                    public Timestamp getInvalidOrLostBarcodeEffDate() {
                         return PATRON_LOST_BARCODE_EFF_DATE;
                     }
 

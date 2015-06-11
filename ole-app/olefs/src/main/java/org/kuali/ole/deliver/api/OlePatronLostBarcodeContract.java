@@ -3,6 +3,7 @@ package org.kuali.ole.deliver.api;
 import org.kuali.rice.core.api.mo.common.Identifiable;
 import org.kuali.rice.core.api.mo.common.Versioned;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -18,7 +19,7 @@ public interface OlePatronLostBarcodeContract extends Versioned, Identifiable {
 
     public String getOlePatronId();
 
-    public Date getInvalidOrLostBarcodeEffDate();
+    public Timestamp getInvalidOrLostBarcodeEffDate();
 
     public String getInvalidOrLostBarcodeNumber();
 

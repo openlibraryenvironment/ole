@@ -1227,8 +1227,9 @@
         <field-descriptor name="invalidOrLostBarcodeNumber" column="OLE_PTRN_LOST_BAR" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="status" column="OLE_PTRN_LOST_STATUS" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="description" column="OLE_PTRN_LOST_DESC" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="operatorId" column="OPTR_CRTE_ID" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="active" column="OLE_PTRN_LOST_BAR_ACTIVE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="invalidOrLostBarcodeEffDate" column="OLE_PTRN_LOST_BAR_EFF_DT" jdbc-type="DATE"></field-descriptor>
+        <field-descriptor name="invalidOrLostBarcodeEffDate" column="OLE_PTRN_LOST_BAR_EFF_DT" jdbc-type="TIMESTAMP"></field-descriptor>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
         <reference-descriptor name="olePatronDocument" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"

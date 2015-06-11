@@ -7,12 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -634,7 +629,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                             if (!isNeedToUpdateBarcode) {
                                 OlePatronLostBarcode olePatronLostBarcode = new OlePatronLostBarcode();
                                 olePatronLostBarcode.setInvalidOrLostBarcodeNumber(patronDocument.getBarcode());
-                                olePatronLostBarcode.setInvalidOrLostBarcodeEffDate(new java.sql.Date(getDateTimeService().getCurrentDate().getTime()));
+                                olePatronLostBarcode.setInvalidOrLostBarcodeEffDate(new java.sql.Timestamp(getDateTimeService().getCurrentDate().getTime()));
                                 olePatronLostBarcode.setRevertBarcode(true);
                                 olePatronLostBarcode.setDescription("");
                                 olePatronLostBarcode.setStatus("Lost");
@@ -933,8 +928,8 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                         newOlePatronDocument.setBarcode(null);
                         newOlePatronDocument.setBarcodeEditable(true);
                         newOlePatronDocument.setReinstated(false);
-                        olePatronLostBarcode.setStatus("LOST");
-                        olePatronLostBarcode.setDescription("LOST");
+                        olePatronLostBarcode.setStatus(OLEConstants.OlePatron.NEWBARCODE_STATUS);
+                        olePatronLostBarcode.setDescription(OLEConstants.OlePatron.NEWBARCODE_DESCRIPTION);
                         return getUIFModelAndView(mainForm);
                     }
                 }
@@ -978,7 +973,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                             if (!isNeedToUpdateBarcode) {
                                 OlePatronLostBarcode olePatronLostBarcode = new OlePatronLostBarcode();
                                 olePatronLostBarcode.setInvalidOrLostBarcodeNumber(patronDocument.getBarcode());
-                                olePatronLostBarcode.setInvalidOrLostBarcodeEffDate(new java.sql.Date(getDateTimeService().getCurrentDate().getTime()));
+                                olePatronLostBarcode.setInvalidOrLostBarcodeEffDate(new java.sql.Timestamp(getDateTimeService().getCurrentDate().getTime()));
                                 olePatronLostBarcode.setRevertBarcode(true);
                                 olePatronLostBarcode.setDescription("");
                                 olePatronLostBarcode.setStatus("Lost");
@@ -1221,17 +1216,22 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
             String lostBarcode = newOlePatronDocument.getBarcode();
             OlePatronLostBarcode olePatronLostBarcode = new OlePatronLostBarcode();
             olePatronLostBarcode.setInvalidOrLostBarcodeNumber(lostBarcode);
-            olePatronLostBarcode.setInvalidOrLostBarcodeEffDate(new java.sql.Date(getDateTimeService().getCurrentDate().getTime()));
+            olePatronLostBarcode.setInvalidOrLostBarcodeEffDate(new java.sql.Timestamp(getDateTimeService().getCurrentDate().getTime()));
             olePatronLostBarcode.setRevertBarcode(true);
+            if(StringUtils.isBlank(newOlePatronDocument.getLostOperatorId())) {
+                olePatronLostBarcode.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+            }else {
+                olePatronLostBarcode.setOperatorId(newOlePatronDocument.getLostOperatorId());
+            }
             olePatronLostBarcode.setDescription(newOlePatronDocument.getLostDescription());
             olePatronLostBarcode.setStatus(newOlePatronDocument.getLostStatus());
-            for (OlePatronLostBarcode lostBarcodes : newOlePatronDocument.getLostBarcodes()) {
+            /*for (OlePatronLostBarcode lostBarcodes : newOlePatronDocument.getLostBarcodes()) {
                 if (lostBarcodes.getInvalidOrLostBarcodeNumber().equalsIgnoreCase(lostBarcode)) {
                     lostBarcodes.setDescription(newOlePatronDocument.getLostDescription());
                     lostBarcodes.setStatus(newOlePatronDocument.getLostStatus());
                     isBarcodeExist = true;
                 }
-            }
+            }*/
             List<OlePatronLostBarcode> lostBarcodes = newOlePatronDocument.getLostBarcodes();
             List<OlePatronLostBarcode> lostBarcodeList = new ArrayList<OlePatronLostBarcode>();
             if (!isBarcodeExist) {
@@ -1288,19 +1288,34 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,OLEConstants.OlePatron.PATRON_BARCODE_DOES_NOT_EXIST_REINSTATE,new String[]{oldBarcode});
             }
         }
-
+        OlePatronLostBarcode olePatronLostBarcodeHistory = new OlePatronLostBarcode();
         for (OlePatronLostBarcode olePatronLostBarcode : newOlePatronDocument.getLostBarcodes()) {
             if (olePatronLostBarcode.isActive()) {
                 newOlePatronDocument.setBarcode(olePatronLostBarcode.getInvalidOrLostBarcodeNumber());
-                olePatronLostBarcode.setDescription(newOlePatronDocument.getLostDescription());
-                olePatronLostBarcode.setStatus(newOlePatronDocument.getLostStatus());
+                olePatronLostBarcodeHistory.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                olePatronLostBarcodeHistory.setInvalidOrLostBarcodeNumber(newOlePatronDocument.getBarcode());
+                olePatronLostBarcodeHistory.setInvalidOrLostBarcodeEffDate(new java.sql.Timestamp(getDateTimeService().getCurrentDate().getTime()));
+                olePatronLostBarcodeHistory.setRevertBarcode(true);
+                olePatronLostBarcodeHistory.setDescription(newOlePatronDocument.getLostDescription());
+                olePatronLostBarcodeHistory.setStatus(newOlePatronDocument.getLostStatus());
             }
-            if(olePatronLostBarcode.getInvalidOrLostBarcodeNumber().equalsIgnoreCase(oldBarcode)){
-                olePatronLostBarcode.setDescription("LOST");
-                olePatronLostBarcode.setStatus("LOST");
-                olePatronLostBarcode.setActive(false);
-            }
+
         }
+        newOlePatronDocument.getLostBarcodes().add(olePatronLostBarcodeHistory);
+
+        OlePatronLostBarcode invalidBarcode = new OlePatronLostBarcode();
+        invalidBarcode.setInvalidOrLostBarcodeNumber(oldBarcode);
+        invalidBarcode.setInvalidOrLostBarcodeEffDate(new java.sql.Timestamp(getDateTimeService().getCurrentDate().getTime()));
+        invalidBarcode.setDescription(OLEConstants.OlePatron.NEWBARCODE_DESCRIPTION);
+        invalidBarcode.setStatus(OLEConstants.OlePatron.NEWBARCODE_STATUS);
+        invalidBarcode.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+        newOlePatronDocument.getLostBarcodes().add(invalidBarcode);
+
+        /*if(olePatronLostBarcode.getInvalidOrLopeople.getPrincipalName()stBarcodeNumber().equalsIgnoreCase(oldBarcode)){
+            olePatronLostBarcode.setDescription(OLEConstants.OlePatron.NEWBARCODE_DESCRIPTION);
+            olePatronLostBarcode.setStatus(OLEConstants.OlePatron.NEWBARCODE_STATUS);
+            olePatronLostBarcode.setActive(false);
+        }*/
         boolean isOldBarcodeExist=false;
         for (OlePatronLostBarcode olePatronLostBarcode : newOlePatronDocument.getLostBarcodes()) {
             if (olePatronLostBarcode.getInvalidOrLostBarcodeNumber().equalsIgnoreCase(oldBarcode)) {
@@ -1311,10 +1326,12 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
             if (!isOldBarcodeExist && isBarcodeExistInOLE) {
                 OlePatronLostBarcode olePatronLostBarcode = new OlePatronLostBarcode();
                 olePatronLostBarcode.setInvalidOrLostBarcodeNumber(oldBarcode);
-                olePatronLostBarcode.setInvalidOrLostBarcodeEffDate(new java.sql.Date(getDateTimeService().getCurrentDate().getTime()));
+                olePatronLostBarcode.setInvalidOrLostBarcodeEffDate(new java.sql.Timestamp(getDateTimeService().getCurrentDate().getTime()));
                 olePatronLostBarcode.setRevertBarcode(true);
-                olePatronLostBarcode.setDescription("LOST");
-                olePatronLostBarcode.setStatus("LOST");
+                olePatronLostBarcode.setDescription(OLEConstants.OlePatron.NEWBARCODE_DESCRIPTION);
+                olePatronLostBarcode.setStatus(OLEConstants.OlePatron.NEWBARCODE_STATUS);
+                //Person people = SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPrincipalId());
+                olePatronLostBarcode.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
                 newOlePatronDocument.getLostBarcodes().add(olePatronLostBarcode);
             }
         }

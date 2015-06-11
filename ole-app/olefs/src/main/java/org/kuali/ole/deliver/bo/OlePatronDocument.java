@@ -73,6 +73,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private boolean deactivateBarcode;
     private String lostStatus;
     private String lostDescription;
+    private String lostOperatorId;
     private boolean invalidateBarcode;
     private boolean reinstateBarcode;
     private boolean skipBarcodeValidation;
@@ -1741,5 +1742,13 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
 
     public void setDeleteImageFlag(boolean deleteImageFlag) {
         this.deleteImageFlag = deleteImageFlag;
+    }
+
+    public String getLostOperatorId() {
+        return lostOperatorId;
+    }
+
+    public void setLostOperatorId(String lostOperatorId) {
+        this.lostOperatorId = lostOperatorId;
     }
 }

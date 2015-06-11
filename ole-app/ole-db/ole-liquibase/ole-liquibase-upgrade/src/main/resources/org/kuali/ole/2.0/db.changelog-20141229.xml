@@ -5007,5 +5007,12 @@
             <column name="OLE_PROXY_PTRN_ID" type="VARCHAR(40)"/>
         </addColumn>
     </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_PTRN_LOST_BAR_T_2">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_PTRN_LOST_BAR_T">
+            <column name="OPTR_CRTE_ID" type="varchar(40)"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

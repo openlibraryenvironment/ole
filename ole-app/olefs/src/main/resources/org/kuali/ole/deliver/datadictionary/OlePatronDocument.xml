@@ -1061,11 +1061,21 @@
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronLostBarcode" />
         <property name="propertyName" value="lostBarcodes" />
         <property name="cssClasses" value="@{dataObject.lostBarcodes.size() eq 0}"/>
+        <property name="layoutManager.richTable.render" value="true" />
         <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map>
+                <entry key="aaSorting" value="[[0,'desc']]"/>
+            </map>
+        </property>
         <property name="items">
             <list>
+                <bean id="invalidOrLostBarcodeID" parent="Uif-InputField" p:propertyName="olePatronLostBarcodeId" p:label=" " p:style="width:0px" p:hidden="true"/>
                 <bean id="invalidOrLostBarcodeNumber" parent="Uif-InputField" p:propertyName="invalidOrLostBarcodeNumber" p:label="Lost/Invalid Barcode"/>
-                <bean id="invalidOrLostBarcodeEffDate" parent="Uif-InputField" p:propertyName="invalidOrLostBarcodeEffDate" p:label="Lost/Invalid Barcode Eff Date"/>
+                <bean id="invalidOrLostBarcodeEffDate" parent="Uif-InputField" p:propertyName="invalidOrLostBarcodeEffDate" p:label="Effective date"/>
+                <bean id="invalidOrLostBarcodeStatus" parent="Uif-InputField" p:propertyName="status" p:label="Status"/>
+                <bean id="invalidOrLostBarcodeDescription" parent="Uif-InputField" p:propertyName="description" p:label="Description"/>
+                <bean id="invalidOrLostBarcodeOperatorId" parent="Uif-InputField" p:propertyName="operatorName" p:label="Operator Name"/>
             </list>
         </property>
     </bean>

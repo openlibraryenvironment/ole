@@ -1,10 +1,16 @@
 package org.kuali.ole.deliver.bo;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.deliver.api.OlePatronLostBarcodeContract;
 import org.kuali.ole.deliver.api.OlePatronLostBarcodeDefinition;
+import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * OlePatronDocument provides OlePatronDocument information through getter and setter.
@@ -13,12 +19,14 @@ public class OlePatronLostBarcode extends PersistableBusinessObjectBase implemen
 
     private String olePatronLostBarcodeId;
     private String olePatronId;
-    private Date invalidOrLostBarcodeEffDate;
+    private Timestamp invalidOrLostBarcodeEffDate;
     private String invalidOrLostBarcodeNumber;
     private OlePatronDocument olePatronDocument;
     private boolean revertBarcode;
     private String status;
     private String description;
+    private String operatorId;
+    private String operatorName;
     private boolean active;
     public String getOlePatronLostBarcodeId() {
         return olePatronLostBarcodeId;
@@ -36,11 +44,12 @@ public class OlePatronLostBarcode extends PersistableBusinessObjectBase implemen
         this.olePatronId = olePatronId;
     }
 
-    public Date getInvalidOrLostBarcodeEffDate() {
+    @Override
+    public Timestamp getInvalidOrLostBarcodeEffDate() {
         return invalidOrLostBarcodeEffDate;
     }
 
-    public void setInvalidOrLostBarcodeEffDate(Date invalidOrLostBarcodeEffDate) {
+    public void setInvalidOrLostBarcodeEffDate(Timestamp invalidOrLostBarcodeEffDate) {
         this.invalidOrLostBarcodeEffDate = invalidOrLostBarcodeEffDate;
     }
 
@@ -130,5 +139,26 @@ public class OlePatronLostBarcode extends PersistableBusinessObjectBase implemen
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getOperatorId() {
+        getOperatorName();
+        return operatorId;
+    }
+
+    public void setOperatorId(String operatorId) {
+        this.operatorId = operatorId;
+    }
+
+    public String getOperatorName() {
+        if(!StringUtils.isNotBlank(operatorName)) {
+            Person people = SpringContext.getBean(PersonService.class).getPerson(operatorId);
+            operatorName = people.getPrincipalName();
+        }
+        return operatorName;
+    }
+
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
     }
 }

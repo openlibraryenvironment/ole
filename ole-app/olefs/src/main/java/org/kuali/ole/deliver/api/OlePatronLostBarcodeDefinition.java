@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collection;
 
 /**
@@ -47,8 +48,8 @@ public class OlePatronLostBarcodeDefinition extends AbstractDataTransferObject i
     private final String olePatronId;
 
     @XmlElement(name = Elements.OLE_PTRN_LOST_BAR_EFF_DT, required = false)
-    @XmlJavaTypeAdapter(value = DateAdapter.class, type = Date.class)
-    private final Date invalidOrLostBarcodeEffDate;
+    @XmlJavaTypeAdapter(value = DateAdapter.class, type = Timestamp.class)
+    private final Timestamp invalidOrLostBarcodeEffDate;
 
     @XmlElement(name = Elements.OLE_PTRN_LOST_BAR_NUM, required = false)
     private final String invalidOrLostBarcodeNumber;
@@ -95,7 +96,7 @@ public class OlePatronLostBarcodeDefinition extends AbstractDataTransferObject i
     }
 
 
-    public Date getInvalidOrLostBarcodeEffDate() {
+    public Timestamp getInvalidOrLostBarcodeEffDate() {
         return this.invalidOrLostBarcodeEffDate;
     }
 
@@ -128,7 +129,7 @@ public class OlePatronLostBarcodeDefinition extends AbstractDataTransferObject i
             implements Serializable, ModelBuilder, OlePatronLostBarcodeContract {
         private String olePatronLostBarcodeId;
         private String olePatronId;
-        private Date invalidOrLostBarcodeEffDate;
+        private Timestamp invalidOrLostBarcodeEffDate;
         private String invalidOrLostBarcodeNumber;
         private Long versionNumber;
         private String objectId;
@@ -155,7 +156,7 @@ public class OlePatronLostBarcodeDefinition extends AbstractDataTransferObject i
                 builder.setInvalidOrLostBarcodeNumber(contract.getInvalidOrLostBarcodeNumber());
             }
             if (contract.getInvalidOrLostBarcodeEffDate() != null) {
-                builder.setInvalidOrLostBarcodeEffDate(new Date(contract.getInvalidOrLostBarcodeEffDate().getTime()));
+                builder.setInvalidOrLostBarcodeEffDate(new Timestamp(contract.getInvalidOrLostBarcodeEffDate().getTime()));
             }
 
             builder.setObjectId(contract.getObjectId());
@@ -185,11 +186,11 @@ public class OlePatronLostBarcodeDefinition extends AbstractDataTransferObject i
             this.olePatronId = olePatronId;
         }
 
-        public Date getInvalidOrLostBarcodeEffDate() {
+        public Timestamp getInvalidOrLostBarcodeEffDate() {
             return this.invalidOrLostBarcodeEffDate;
         }
 
-        public void setInvalidOrLostBarcodeEffDate(Date invalidOrLostBarcodeEffDate) {
+        public void setInvalidOrLostBarcodeEffDate(Timestamp invalidOrLostBarcodeEffDate) {
             this.invalidOrLostBarcodeEffDate = invalidOrLostBarcodeEffDate;
         }
 

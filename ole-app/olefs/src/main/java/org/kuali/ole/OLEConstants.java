@@ -1066,6 +1066,8 @@ public class OLEConstants {
         public static final String ERROR_BARCODE_EXIST_LOST_SECTION = "error.patron.barcode.contains.lost.section";
         public static final String REINSTATE = "REINSTATE";
         public static final String PATRON_LOST_BARCODE_FLD = "invalidOrLostBarcodeNumber";
+        public static final String NEWBARCODE_STATUS = "INVALID";
+        public static final String NEWBARCODE_DESCRIPTION = "Previous barcode reinstated.";
         public static final String PATRON_LOANED_ITEM_SECTION = "OlePatronDocument-LoanedItems";
         public static final String ERROR_PATRON_ITEM_INFO = "error.patron.item.noOfPieces";
         public static final String ERROR_PATRON_MISSING_PIECE_ITEM_INFO = "error.patron.item.noOfMissingPieces";

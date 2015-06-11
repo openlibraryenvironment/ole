@@ -51,15 +51,18 @@
       <!--<property name="validCharactersConstraint">
       <bean parent="NumericPatternConstraint"/>
     </property>-->
-      <property name="control">
+      <!--<property name="control">
           <bean id="TextControlDefinition_olePatronLostBarcodeId" parent="TextControlDefinition" p:size="30"/>
       </property>
       <property name="controlField">
           <bean id="Uif-TextControl_olePatronLostBarcodeId" parent="Uif-TextControl" p:size="30"/>
+      </property>-->
+      <property name="control">
+          <ref bean="HiddenControl" />
       </property>
 
-    <property name="name" value="olePatronLostBarcodeId"/>
-    <property name="label" value="Patron Lost Barcode Id"/>
+      <property name="name" value="olePatronLostBarcodeId"/>
+      <property name="label" value="Patron Lost Barcode Id"/>
       <property name="description" value="Patron Lost Barcode Id"/>
   </bean>
   

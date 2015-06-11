@@ -1671,19 +1671,26 @@
     	</property>
     </bean>
     
-    <bean id="OlePatronDocument-InvalidOrLostBarcodeSection" parent="Uif-TableCollectionSection" p:layoutManager.suppressLineWrapping="true" p:componentSecurity.editAuthz="true"
-    		p:filterModelProperty="filterInvalidOrLostBarcodeSection">
+    <bean id="OlePatronDocument-InvalidOrLostBarcodeSection" parent="Uif-TableCollectionSection" p:disclosure.defaultOpen="false" p:layoutManager.suppressLineWrapping="true" p:componentSecurity.editAuthz="true">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronLostBarcode" />
         <property name="propertyName" value="lostBarcodes" />
         <property name="renderAddLine" value="false"/>
         <!--  <property name="addLineLabel" value="false"/>-->
+        <property name="layoutManager.richTable.render" value="true" />
         <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map>
+                <entry key="aaSorting" value="[[0,'desc']]"/>
+            </map>
+        </property>
         <property name="items">
             <list>
+                <bean id="invalidOrLostId" parent="OlePatron-DataField" p:propertyName="olePatronLostBarcodeId" p:label=" " p:style="width:0px" p:hidden="true"/>
                 <bean id="invalidOrLostBarcodeNumber" parent="OlePatron-DataField" p:propertyName="invalidOrLostBarcodeNumber" p:label="Lost/Invalid Barcode" p:readOnly="true"/>
                 <bean id="invalidOrLostBarcodeEffDate" parent="OlePatron-DataField" p:label="Effective date" p:propertyName="invalidOrLostBarcodeEffDate" p:readOnly="true"/>
                 <bean id="invalidOrLostStatusCode" parent="OlePatron-DataField" p:label="Status" p:propertyName="status" p:readOnly="true"/>
                 <bean id="invalidOrLostDescription" parent="OlePatron-DataField" p:label="Description" p:propertyName="description" p:readOnly="true"/>
+                <bean id="invalidOrLostStatusOperatorId" parent="OlePatron-DataField" p:label="Operator Name" p:propertyName="operatorName" p:readOnly="true"/>
                 <bean id="invalidOrLostReinstate" parent="OlePatron-InputField" p:label="Reinstate" p:propertyName="active"  p:readOnly="@{!document.newMaintainableObject.dataObject.expirationFlag}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:onClickScript="reinstateDialog();" p:disabled="@{#line?.invalidOrLostBarcodeNumber eq document.newMaintainableObject.dataObject.barcode}"/>
