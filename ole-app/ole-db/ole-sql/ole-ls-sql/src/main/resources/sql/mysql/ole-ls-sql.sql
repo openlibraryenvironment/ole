@@ -2196,6 +2196,7 @@ CREATE TABLE OLE_DLVR_TEMP_CIRC_RECORD
         , CHECK_IN_DT_TIME DATETIME
         , DUE_DT_TIME DATETIME
         , CHECK_OUT_DT_TIME DATETIME
+        , OLE_PROXY_PTRN_ID VARCHAR(40)
         , ITEM_UUID VARCHAR(100) NOT NULL
     
     , CONSTRAINT OLE_DLVR_TEMP_CIRC_RECORDP1 PRIMARY KEY(TMP_CIR_HIS_REC_ID)
@@ -2205,7 +2206,7 @@ CREATE TABLE OLE_DLVR_TEMP_CIRC_RECORD
 
 
     
-                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                            
                                     
 , INDEX fk1_ole_ptrn_t (OLE_PTRN_ID )
 
