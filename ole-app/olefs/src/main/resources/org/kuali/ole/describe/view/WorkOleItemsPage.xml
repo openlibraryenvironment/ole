@@ -570,9 +570,12 @@
                     </property>
                 </bean>
                 <bean id="oleItemNumberOfPieces" parent="Uif-InputField" p:propertyName="numberOfPieces"
-                      p:label="Number Of Pieces" p:required="false">
+                      p:label="Number Of Pieces" >
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="100"/>
+                        <bean parent="Uif-TextControl"  p:maxLength="11"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint"/>
                     </property>
                 </bean>
             </list>

@@ -178,6 +178,9 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:maxLength="10"/>
                     </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint"/>
+                    </property>
                 </bean>
 
 
