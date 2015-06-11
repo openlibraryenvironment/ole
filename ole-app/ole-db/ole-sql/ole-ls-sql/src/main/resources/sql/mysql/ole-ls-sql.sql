@@ -3671,6 +3671,7 @@ CREATE TABLE OLE_PTRN_LOST_BAR_T
         , OLE_PTRN_LOST_BAR VARCHAR(100)
         , OLE_PTRN_LOST_STATUS VARCHAR(50)
         , OLE_PTRN_LOST_DESC VARCHAR(300)
+        , OPTR_CRTE_ID VARCHAR(40)
         , OLE_PTRN_LOST_BAR_EFF_DT DATETIME
         , OLE_PTRN_LOST_BAR_ACTIVE VARCHAR(1)
     
@@ -3681,7 +3682,7 @@ CREATE TABLE OLE_PTRN_LOST_BAR_T
 
 
     
-                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                
                                     
 , INDEX OLE_PTRN_LOST_BAR_TI1 (OLE_PTRN_ID )
 
