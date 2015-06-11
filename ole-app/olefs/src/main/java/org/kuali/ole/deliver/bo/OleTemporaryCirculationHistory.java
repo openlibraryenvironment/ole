@@ -31,6 +31,10 @@ public class OleTemporaryCirculationHistory extends PersistableBusinessObjectBas
     private String itemUuid;
     private Timestamp dueDate;
     private Date checkOutDate;
+    private String proxyPatronBarcode;
+    private String proxyPatronBarcodeUrl;
+    private String proxyPatronName;
+    private String oleProxyPatronId;
 
     public String getCirculationLocationCode() {
         return circulationLocationCode;
@@ -166,5 +170,37 @@ public class OleTemporaryCirculationHistory extends PersistableBusinessObjectBas
 
     public void setCheckOutDate(Date checkOutDate) {
         this.checkOutDate = checkOutDate;
+    }
+
+    public String getProxyPatronBarcode() {
+        return proxyPatronBarcode;
+    }
+
+    public void setProxyPatronBarcode(String proxyPatronBarcode) {
+        this.proxyPatronBarcode = proxyPatronBarcode;
+    }
+
+    public String getProxyPatronBarcodeUrl() {
+        return proxyPatronBarcodeUrl;
+    }
+
+    public void setProxyPatronBarcodeUrl(String proxyPatronBarcodeUrl) {
+        this.proxyPatronBarcodeUrl = proxyPatronBarcodeUrl;
+    }
+
+    public String getProxyPatronName() {
+        return proxyPatronName;
+    }
+
+    public void setProxyPatronName(String proxyPatronName) {
+        this.proxyPatronName = proxyPatronName;
+    }
+
+    public String getOleProxyPatronId() {
+        return oleProxyPatronId;
+    }
+
+    public void setOleProxyPatronId(String oleProxyPatronId) {
+        this.oleProxyPatronId = oleProxyPatronId;
     }
 }

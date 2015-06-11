@@ -227,6 +227,8 @@
                 <bean id="patronLoan_itemCallNumberId" parent="OlePatron-DataField" p:label="Call Number" p:propertyName="itemCallNumber"/>
                 <bean id="patronLoan_itemCopyNumberId" parent="OlePatron-DataField" p:label="Copy Number" p:propertyName="itemCopyNumber"/>
                 <bean id="patronLoan_itemVolumeNumberId" parent="OlePatron-DataField" p:label="Volume Number" p:propertyName="itemVolumeNumber"/>
+                <bean id="patronLoan_realPatronName" parent="OlePatron-DataField" p:label="Proxy Borrower Name" p:width="10%" p:propertyName="realPatronName"/>
+                <bean id="patronLoan_realPatronBarcode" parent="Uif-LinkField" p:target="_blank" p:label="Proxy Borrower Barcode" p:href="@{#line.proxyPatronBarcodeUrl}" p:linkText="@{#line.proxyPatronBarcode}"/>
                 <bean id="patronLoan_itemStatus" parent="OlePatron-DataField" p:label="Item Status" p:propertyName="itemStatus"/>
                 <bean id="patronLoan_itemType" parent="OlePatron-DataField" p:label="Item Type" p:propertyName="itemType"/>
                 <bean id="patronLoan_loanDueDate" parent="OlePatron-DataField" p:label="Due Date" p:propertyName="loanDueDate" p:render="@{#line.loanDueDate ne null}"/>
@@ -460,6 +462,8 @@
                 <bean id="patronTemp_callNumberId" parent="OlePatron-DataField" p:label="Call Number" p:propertyName="callNumber"/>
                 <bean id="patronTemp_copyNumberId" parent="OlePatron-DataField" p:label="Copy Number" p:propertyName="copyNumber"/>
                 <bean id="patronTemp_volumeNumberId" parent="OlePatron-DataField" p:label="Volume Number" p:propertyName="volumeNumber"/>
+                <bean id="patronTemp_realPatronName" parent="OlePatron-DataField" p:label="Proxy Borrower Name" p:width="10%" p:propertyName="proxyPatronName"/>
+                <bean id="patronTemp_realPatronBarcode" parent="Uif-LinkField" p:target="_blank" p:label="Proxy Borrower Barcode" p:href="@{#line.proxyPatronBarcodeUrl}" p:linkText="@{#line.proxyPatronBarcode}"/>
                 <bean id="patronTemp_shelvingLocation" parent="OlePatron-DataField" p:label="Shelving Location" p:propertyName="shelvingLocation" />
                 <bean id="patronTemp_itemStatus" parent="OlePatron-DataField" p:label="Item Status" p:propertyName="itemStatus"/>
                 <bean id="patronTemp_itemType" parent="OlePatron-DataField" p:label="Item Type" p:propertyName="itemType"/>

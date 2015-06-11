@@ -37,6 +37,7 @@ import org.kuali.ole.deliver.bo.OleProxyPatronDocument;
 import org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory;
 import org.kuali.ole.deliver.form.OlePatronMaintenanceDocumentForm;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.OLEDeliverService;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.ItemOleml;
@@ -1697,6 +1698,21 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         try {
             olePatronDocument.setOleLoanDocuments(getOleLoanDocumentsFromSolrBuilder().getPatronLoanedItemBySolr
                     (olePatronDocument.getOlePatronId(), null));
+            if(CollectionUtils.isNotEmpty(olePatronDocument.getOleLoanDocuments())) {
+                for(OleLoanDocument oleLoanDocument : olePatronDocument.getOleLoanDocuments()) {
+                    if(StringUtils.isNotEmpty(oleLoanDocument.getRealPatronName())) {
+                        Map patronMap = new HashMap();
+                        patronMap.put(OLEConstants.OlePatron.PATRON_ID, oleLoanDocument.getRealPatronName());
+                        OlePatronDocument patronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
+                        if(patronDocument != null){
+                            patronDocument = OLEDeliverService.populatePatronName(patronDocument);
+                            oleLoanDocument.setRealPatronName(patronDocument.getPatronName());
+                            oleLoanDocument.setProxyPatronBarcode(patronDocument.getBarcode());
+                            oleLoanDocument.setProxyPatronBarcodeUrl(OLEConstants.ASSIGN_INQUIRY_PATRON_ID + patronDocument.getOlePatronId() + OLEConstants.ASSIGN_PATRON_INQUIRY);
+                        }
+                    }
+                }
+            }
         } catch (Exception e) {
             LOG.error("While fetching loan records error occured" + e);
         }

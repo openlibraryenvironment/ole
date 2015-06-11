@@ -746,6 +746,8 @@
                 <bean id="patronLoanInquiry_itemCallNumberId" parent="Uif-DataField" p:label="Call Number" p:propertyName="itemCallNumber"/>
                 <bean id="patronLoanInquiry_itemCopyNumberId" parent="Uif-DataField" p:label="Copy Number" p:propertyName="itemCopyNumber"/>
                 <bean id="patronLoanInquiry_itemVolumeNumberId" parent="Uif-DataField" p:label="Volume Number" p:propertyName="itemVolumeNumber"/>
+                <bean id="patronLoanInquiry_realPatronName" parent="Uif-DataField" p:label="Proxy Borrower Name" p:width="10%" p:propertyName="realPatronName"/>
+                <bean id="patronLoanInquiry_realPatronBarcode" parent="Uif-LinkField" p:target="_blank" p:label="Proxy Borrower Barcode" p:href="@{#line.proxyPatronBarcodeUrl}" p:linkText="@{#line.proxyPatronBarcode}"/>
                 <bean id="patronLoanInquiry_itemStatus" parent="Uif-DataField" p:label="Item Status" p:propertyName="itemStatus"/>
                 <bean id="patronLoanInquiry_itemType" parent="Uif-DataField" p:label="Item Type" p:propertyName="itemType"/>
                 <bean id="patronLoanInquiry_loanDueDate" parent="Uif-DataField" p:label="Due Date" p:propertyName="loanDueDate"/>
@@ -940,6 +942,8 @@
                 <bean id="patronTempInquiry_callNumberId" parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber"/>
                 <bean id="patronTempInquiry_copyNumberId" parent="Uif-DataField" p:label="Copy Number" p:propertyName="copyNumber"/>
                 <bean id="patronTempInquiry_volumeNumberId" parent="Uif-DataField" p:label="Volume Number" p:propertyName="volumeNumber"/>
+                <bean id="patronTempInquiry_realPatronName" parent="Uif-DataField" p:label="Proxy Borrower Name" p:width="10%" p:propertyName="proxyPatronName"/>
+                <bean id="patronTempInquiry_realPatronBarcode" parent="Uif-LinkField" p:target="_blank" p:label="Proxy Borrower Barcode" p:href="@{#line.proxyPatronBarcodeUrl}" p:linkText="@{#line.proxyPatronBarcode}"/>
                 <bean id="patronTempInquiry_shelvingLocation" parent="Uif-DataField" p:label="Shelving Location" p:propertyName="shelvingLocation" />
                 <bean id="patronTempInquiry_itemStatus" parent="Uif-DataField" p:label="Item Status" p:propertyName="itemStatus"/>
                 <bean id="patronTempInquiry_itemType" parent="Uif-DataField" p:label="Item Type" p:propertyName="itemType"/>

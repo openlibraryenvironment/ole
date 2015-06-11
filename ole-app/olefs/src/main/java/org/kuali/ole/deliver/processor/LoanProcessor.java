@@ -329,6 +329,8 @@ public class LoanProcessor {
                 oleLoanDocumentForRealPatron = getPatronBarcodeRecord(realPtrnBarcode);      // retrieves Loan Document for real patron.
                 oleLoanDocument.setProxyPatronId(oleLoanDocumentForRealPatron.getPatronId());
                 oleLoanDocument.setRealPatronName(getPatronName(oleLoanDocumentForRealPatron.getPatronId()));
+                oleLoanDocument.setProxyPatronBarcode(oleLoanDocumentForRealPatron.getProxyPatronBarcode());
+                oleLoanDocument.setProxyPatronBarcodeUrl(OLEConstants.ASSIGN_INQUIRY_PATRON_ID + oleLoanDocumentForRealPatron.getPatronId() + OLEConstants.ASSIGN_PATRON_INQUIRY);
                 oleLoanDocument.setRealPatronType(oleLoanDocumentForRealPatron.getBorrowerTypeCode());
                 boolean isAddressVerifiedReal = checkAddressVerifiedAndBlocks(oleLoanDocumentForRealPatron); // Checks isAddressVerified for real patron.
                 termValues.put(OLEConstants.GENERAL_BLOCK, oleLoanDocumentForRealPatron.getOlePatron().isGeneralBlock() ? OLEConstants.TRUE : OLEConstants.FALSE);
@@ -3038,7 +3040,7 @@ public class LoanProcessor {
             oleCirculationHistory.setNumberOfRenewals(oleLoanDocument.getNumberOfRenewals());
             oleCirculationHistory.setStatisticalCategory(olePatronDocument.getStatisticalCategory());
             oleCirculationHistory.setRepaymentFeePatronBillId(oleLoanDocument.getRepaymentFeePatronBillId());
-            oleCirculationHistory.setProxyPatronId(olePatronDocument.getProxyPatronId());
+            oleCirculationHistory.setProxyPatronId(oleLoanDocument.getProxyPatronId());
             oleCirculationHistory.setPatronTypeId(oleLoanDocument.getBorrowerTypeId());
             oleCirculationHistory.setPatronId(oleLoanDocument.getPatronId());
             oleCirculationHistory.setPastDueDate(oleLoanDocument.getPastDueDate());
@@ -3060,6 +3062,7 @@ public class LoanProcessor {
             oleTemporaryCirculationHistory.setItemUuid(oleLoanDocument.getItemUuid());
             oleTemporaryCirculationHistory.setDueDate(oleLoanDocument.getLoanDueDate());
             oleTemporaryCirculationHistory.setCheckOutDate(oleLoanDocument.getCreateDate());
+            oleTemporaryCirculationHistory.setOleProxyPatronId(oleLoanDocument.getProxyPatronId());
             getBusinessObjectService().save(oleTemporaryCirculationHistory);
         }catch (Exception tempHistoryException){
             LOG.error(tempHistoryException.getMessage());
@@ -3614,6 +3617,8 @@ public class LoanProcessor {
         }
         if(oleLoanForm.getRealPatronName()!=null){
             oleLoanDocument.setRealPatronName(oleLoanForm.getRealPatronName());
+            oleLoanDocument.setProxyPatronBarcode(oleLoanForm.getPatronBarcode());
+            oleLoanDocument.setProxyPatronBarcodeUrl(OLEConstants.ASSIGN_INQUIRY_PATRON_ID + oleLoanForm.getPatronId() + OLEConstants.ASSIGN_PATRON_INQUIRY);
         }
         if (oleLoanDocument.getErrorMessage() == null) {
             existingItemList.add(oleLoanDocument);

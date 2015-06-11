@@ -894,6 +894,7 @@
         <field-descriptor name="itemUuid" column="ITEM_UUID" jdbc-type="VARCHAR" />
         <field-descriptor name="dueDate"  column="DUE_DT_TIME" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="checkOutDate"  column="CHECK_OUT_DT_TIME" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="oleProxyPatronId"  column="OLE_PROXY_PTRN_ID" jdbc-type="VARCHAR"/>
     </class-descriptor>
     <class-descriptor class="org.kuali.ole.deliver.bo.OleDeliverRequestBo" table="OLE_DLVR_RQST_T">
         <field-descriptor name="requestId" column="OLE_RQST_ID" jdbc-type="VARCHAR" primarykey="true"/>

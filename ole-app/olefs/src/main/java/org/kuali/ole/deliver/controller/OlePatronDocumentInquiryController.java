@@ -1,11 +1,16 @@
 package org.kuali.ole.deliver.controller;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.OLEDeliverService;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.krad.OleInquiryController;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.web.controller.InquiryController;
 import org.kuali.rice.krad.web.form.InquiryForm;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -20,7 +25,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -63,6 +70,21 @@ public class OlePatronDocumentInquiryController extends OleInquiryController {
         try {
             olePatronDocument.setOleLoanDocuments(getOleLoanDocumentsFromSolrBuilder().getPatronLoanedItemBySolr
                     (olePatronDocument.getOlePatronId(), null));
+            if(CollectionUtils.isNotEmpty(olePatronDocument.getOleLoanDocuments())) {
+                for(OleLoanDocument oleLoanDocument : olePatronDocument.getOleLoanDocuments()) {
+                    if(StringUtils.isNotEmpty(oleLoanDocument.getRealPatronName())) {
+                        Map patronMap = new HashMap();
+                        patronMap.put(OLEConstants.OlePatron.PATRON_ID, oleLoanDocument.getRealPatronName());
+                        OlePatronDocument patronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
+                        if(patronDocument != null){
+                            patronDocument = OLEDeliverService.populatePatronName(patronDocument);
+                            oleLoanDocument.setRealPatronName(patronDocument.getPatronName());
+                            oleLoanDocument.setProxyPatronBarcode(patronDocument.getBarcode());
+                            oleLoanDocument.setProxyPatronBarcodeUrl(OLEConstants.ASSIGN_INQUIRY_PATRON_ID + patronDocument.getOlePatronId() + OLEConstants.ASSIGN_PATRON_INQUIRY);
+                        }
+                    }
+                }
+            }
         } catch (Exception e) {
             LOG.error("While fetching loan records error occured" + e);
         }

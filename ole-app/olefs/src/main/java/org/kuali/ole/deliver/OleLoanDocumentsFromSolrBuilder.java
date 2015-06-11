@@ -4,11 +4,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
-import org.kuali.ole.deliver.bo.OleCirculationDesk;
-import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
-import org.kuali.ole.deliver.bo.OleLoanDocument;
-import org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory;
+import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
+import org.kuali.ole.deliver.service.OLEDeliverService;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.keyvalue.LocationValuesBuilder;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
@@ -375,6 +373,17 @@ public class OleLoanDocumentsFromSolrBuilder {
                     oleTemporaryCirculationHistory.setVolumeNumber(itemContent.getVolumeNumber());
                     oleTemporaryCirculationHistory.setItemStatus(itemContent.getItemStatus().getFullValue());
                     oleTemporaryCirculationHistory.setItemType(itemContent.getItemType().getCodeValue());
+                    if(oleTemporaryCirculationHistory.getOleProxyPatronId() != null){
+                        Map<String, String> criteria = new HashMap<>();
+                        criteria.put(OLEConstants.OlePatron.PATRON_ID,oleTemporaryCirculationHistory.getOleProxyPatronId());
+                        OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, criteria);
+                        if(olePatronDocument != null){
+                            olePatronDocument = OLEDeliverService.populatePatronName(olePatronDocument);
+                            oleTemporaryCirculationHistory.setProxyPatronBarcode(olePatronDocument.getBarcode());
+                            oleTemporaryCirculationHistory.setProxyPatronName(olePatronDocument.getPatronName());
+                            oleTemporaryCirculationHistory.setProxyPatronBarcodeUrl(OLEConstants.ASSIGN_INQUIRY_PATRON_ID + olePatronDocument.getOlePatronId() + OLEConstants.ASSIGN_PATRON_INQUIRY);
+                        }
+                    }
 
                     OleCirculationDesk val = getCircDeskLocationResolver().getOleCirculationDesk(oleTemporaryCirculationHistory.getCirculationLocationId());
                     if (val != null) {

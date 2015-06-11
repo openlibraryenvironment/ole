@@ -1288,7 +1288,10 @@
                 <bean id="loanedItemChronology" parent="Uif-DataField" p:label="Chronology" p:width="10%" p:propertyName="chronology">
 
                 </bean>
-                <bean id="loanView_existing_realPatronName" parent="Uif-DataField" p:label="Proxy Brrower" p:width="10%" p:propertyName="realPatronName"/>
+                <bean id="loanView_existing_realPatronName" parent="Uif-DataField" p:label="Proxy Borrower Name" p:width="10%" p:propertyName="realPatronName"/>
+
+                <bean id="loanView_existing_realPatronBarcode" parent="Uif-LinkField" p:target="_blank" p:label="Proxy Borrower Barcode" p:href="@{#line.proxyPatronBarcodeUrl}" p:linkText="@{#line.proxyPatronBarcode}"/>
+
                 <bean id="previousNoOfrenew" parent="Uif-DataField" p:label="No Of Renew" p:width="5%" p:propertyName="numberOfRenewals"/>
 
                 <bean id="checkoutItemStatus" parent="Uif-DataField" p:label="Item Status" p:width="10%" p:propertyName="itemStatus"/>
@@ -1374,9 +1377,11 @@
                 </bean>
 
 
-                <bean id="loanView_realPatronName" parent="Uif-DataField" p:label="Proxy Brrower" p:width="10%" p:propertyName="realPatronName">
+                <bean id="loanView_realPatronName" parent="Uif-DataField" p:label="Proxy Borrower Name" p:width="10%" p:propertyName="realPatronName">
 
                 </bean>
+
+                <bean id="loanView_realPatronBarcode" parent="Uif-LinkField" p:target="_blank" p:label="Proxy Borrower Barcode" p:href="@{#line.proxyPatronBarcodeUrl}" p:linkText="@{#line.proxyPatronBarcode}"/>
 
                 <bean id="currentNoOfrenew" parent="Uif-DataField" p:label="No Of Renew" p:width="5%" p:propertyName="numberOfRenewals"/>
 

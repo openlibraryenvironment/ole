@@ -16,6 +16,7 @@ import org.kuali.ole.deliver.form.OleLoanForm;
 import org.kuali.ole.deliver.printSlip.OlePrintSlip;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
+import org.kuali.ole.deliver.service.OLEDeliverService;
 import org.kuali.ole.describe.bo.OleItemAvailableStatus;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
@@ -4307,6 +4308,21 @@ public class LoanController extends UifControllerBase {
                    /*if(loanForm.getLoanList().containsAll(loanForm.getExistingLoanList())){
                        loanForm.getExistingLoanList().removeAll(loanForm.getLoanList());
                    }*/
+                }
+                if(CollectionUtils.isNotEmpty(loanForm.getExistingLoanList())){
+                    for(OleLoanDocument loanDocument : loanForm.getExistingLoanList()){
+                        if(StringUtils.isNotEmpty(loanDocument.getRealPatronName())){
+                            Map patronMap = new HashMap();
+                            patronMap.put(OLEConstants.OlePatron.PATRON_ID, loanDocument.getRealPatronName());
+                            OlePatronDocument olePatronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
+                            if(olePatronDocument != null){
+                                olePatronDocument = OLEDeliverService.populatePatronName(olePatronDocument);
+                                loanDocument.setRealPatronName(olePatronDocument.getPatronName());
+                                loanDocument.setProxyPatronBarcode(olePatronDocument.getBarcode());
+                                loanDocument.setProxyPatronBarcodeUrl(OLEConstants.ASSIGN_INQUIRY_PATRON_ID + olePatronDocument.getOlePatronId() + OLEConstants.ASSIGN_PATRON_INQUIRY);
+                            }
+                        }
+                    }
                 }
             }
         } catch (Exception e) {

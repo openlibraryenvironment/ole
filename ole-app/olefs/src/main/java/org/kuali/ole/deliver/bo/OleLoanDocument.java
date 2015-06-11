@@ -74,6 +74,8 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private String itemCopyNumber;
     private List<OlePatronDocument> realPatron;
     private String realPatronBarcode;
+    private String proxyPatronBarcode;
+    private String proxyPatronBarcodeUrl;
     private String realPatronType;
     private String realPatronName;
     private String itemVolumeNumber;
@@ -1848,5 +1850,21 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
 
     public void setItemLevelLocationExist(boolean itemLevelLocationExist) {
         this.itemLevelLocationExist = itemLevelLocationExist;
+    }
+
+    public String getProxyPatronBarcode() {
+        return proxyPatronBarcode;
+    }
+
+    public void setProxyPatronBarcode(String proxyPatronBarcode) {
+        this.proxyPatronBarcode = proxyPatronBarcode;
+    }
+
+    public String getProxyPatronBarcodeUrl() {
+        return proxyPatronBarcodeUrl;
+    }
+
+    public void setProxyPatronBarcodeUrl(String proxyPatronBarcodeUrl) {
+        this.proxyPatronBarcodeUrl = proxyPatronBarcodeUrl;
     }
 }

@@ -5000,5 +5000,12 @@
         </createIndex>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="AddColumn_Temp_Circ_History">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_TEMP_CIRC_RECORD">
+            <column name="OLE_PROXY_PTRN_ID" type="VARCHAR(40)"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

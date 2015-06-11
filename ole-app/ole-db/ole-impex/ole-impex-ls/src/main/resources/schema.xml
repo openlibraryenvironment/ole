@@ -1121,6 +1121,7 @@
         <column name="CHECK_IN_DT_TIME"  type="TIMESTAMP"/>
         <column name="DUE_DT_TIME"  type="TIMESTAMP"/>
         <column name="CHECK_OUT_DT_TIME"  type="TIMESTAMP"/>
+        <column name="OLE_PROXY_PTRN_ID" size="40" type="VARCHAR"/>
         <column name="ITEM_UUID" required="true" size="100" type="VARCHAR"/>
         <foreign-key foreignTable="ole_ptrn_t" name="fk1_ole_ptrn_t">
             <reference foreign="OLE_PTRN_ID" local="OLE_PTRN_ID"/>
