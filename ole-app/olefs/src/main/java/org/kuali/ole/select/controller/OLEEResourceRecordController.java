@@ -1593,13 +1593,27 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             }
             if (linkedEresource.getRelationShipType().equalsIgnoreCase("child") && linkedEresource.isRemoveRelationShip()) {
                 if (oleeResourceRecordDocument.getRemoveOrRelinkToParent() != null && oleeResourceRecordDocument.getRemoveOrRelinkToParent().equalsIgnoreCase("relinkToParent")) {
-                    for (OLEEResourceInstance instance : linkedEresource.getOleeResourceRecordDocument().getOleERSInstances()) {
+                    ListIterator<OLEEResourceInstance> oleErsInstanceIterator = parentDocument.getOleERSInstances().listIterator();
+
+                  while(oleErsInstanceIterator.hasNext()){
+                      OLEEResourceInstance instance = oleErsInstanceIterator.next();
                         Map criteriaMap = new HashMap();
                         criteriaMap.put("oleEResourceInstanceId", instance.getOleEResourceInstanceId());
                         OLEEResourceInstance oleeResourceInstance = getBusinessObjectService().findByPrimaryKey(OLEEResourceInstance.class, criteriaMap);
                         oleeResourceInstance.setOleERSIdentifier(oleeResourceRecordDocument.getOleERSIdentifier());
-                        oleLinkedEresourceListIterator.remove();
+                        oleeResourceRecordDocument.getOleERSInstances().add(oleeResourceInstance);
+                        //getBusinessObjectService().save(oleeResourceInstance);
                     }
+
+                    Map criteriaMap = new HashMap();
+                    criteriaMap.put("linkedERSIdentifier", linkedEresource.getLinkedERSIdentifier());
+                    criteriaMap.put("oleERSIdentifier", linkedEresource.getOleERSIdentifier());
+                    getBusinessObjectService().deleteMatching(OLELinkedEresource.class, criteriaMap);
+                    criteriaMap.clear();
+                    criteriaMap.put("oleERSIdentifier", linkedEresource.getLinkedERSIdentifier());
+                    criteriaMap.put("linkedERSIdentifier", linkedEresource.getOleERSIdentifier());
+                    getBusinessObjectService().deleteMatching(OLELinkedEresource.class, criteriaMap);
+                    oleLinkedEresourceListIterator.remove();
                 } else if (oleeResourceRecordDocument.getRemoveOrRelinkToParent() != null && oleeResourceRecordDocument.getRemoveOrRelinkToParent().equalsIgnoreCase("removelink")) {
                     Map criteriaMap = new HashMap();
                     criteriaMap.put("linkedERSIdentifier", linkedEresource.getLinkedERSIdentifier());
@@ -2132,7 +2146,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
-
+        oleeResourceRecordDocument.setGoKbPlatformList(null);
         String packageName = oleEResourceRecordForm.getPackageName();
         String platformName = oleEResourceRecordForm.getPlatformName();
         String title = oleEResourceRecordForm.getTitle();
