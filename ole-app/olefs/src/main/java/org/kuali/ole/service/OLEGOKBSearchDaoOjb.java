@@ -62,8 +62,8 @@ public class OLEGOKBSearchDaoOjb extends PlatformAwareDaoBaseOjb {
 
         if(issnList.size()>0 && issnList.size()>0){
             goKbSearchCriteria.addIn("oleGokbTitle.issnOnline",issnList);
-            goKbSearchCriteria.addIn("oleGokbTitle.issnPrint",issnList);
-            goKbSearchCriteria.addIn("oleGokbTitle.issnL",issnList);
+/*            goKbSearchCriteria.addIn("oleGokbTitle.issnPrint",issnList);
+            goKbSearchCriteria.addIn("oleGokbTitle.issnL",issnList);*/
         }
 
         if(tippStatusList.size()>0 && tippStatusList.size()>0){
@@ -78,15 +78,29 @@ public class OLEGOKBSearchDaoOjb extends PlatformAwareDaoBaseOjb {
 
 
 
-    public List<OleGokbTipp> getTippsByPlatform(Integer platformId,Integer packageId) {
+    public List<OleGokbTipp> getTippsByPlatform(Integer platformId,Integer packageId,String title,String titleInstanceType,List<String> platformProviders) {
         Criteria goKbSearchCriteria = new Criteria();
-            goKbSearchCriteria.addEqualTo("gokbPlatformId",platformId);
+        goKbSearchCriteria.addEqualTo("gokbPlatformId",platformId);
         if(packageId !=null){
             goKbSearchCriteria.addEqualTo("gokbPackageId",packageId);
         }
+        if(StringUtils.isNotEmpty(title)){
+            title = title.replace("*","%").toUpperCase();
+            goKbSearchCriteria.addLike("UPPER(oleGokbTitle.titleName)",title);
+        }
+
+
+        if(StringUtils.isNotEmpty(titleInstanceType)){
+            titleInstanceType = titleInstanceType.replace("*","%").toUpperCase();
+            goKbSearchCriteria.addLike("UPPER(oleGokbTitle.medium)",titleInstanceType);
+        }
+
+        if(platformProviders.size()>0 && platformProviders.size()>0){
+            goKbSearchCriteria.addIn("oleGokbPlatform.oleGokbOrganization.organizationName", platformProviders);
+        }
         QueryByCriteria query = QueryFactory.newQuery(OleGokbTipp.class, goKbSearchCriteria);
         Collection results=  getPersistenceBrokerTemplate().getCollectionByQuery(query);
-    return ( List<OleGokbTipp>)results;
+        return ( List<OleGokbTipp>)results;
     }
 
 }

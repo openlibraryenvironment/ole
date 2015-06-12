@@ -2269,7 +2269,17 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                                  HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
-
+        String title = oleEResourceRecordForm.getTitle();
+        String platformProvider = oleEResourceRecordForm.getPlatformProvider();
+        String publisher = oleEResourceRecordForm.getPublisher();
+        String titleInstanceType = oleEResourceRecordForm.getTitleInstanceType();
+        List<String> platformProviderList = oleEResourceRecordForm.getPlatformProviderList();
+        if (StringUtils.isNotEmpty(platformProvider)) {
+            platformProviderList.add(platformProvider);
+        }
+        if (StringUtils.isNotEmpty(publisher)) {
+            platformProviderList.add(publisher);
+        }
         List<OLEGOKbPlatform> goKbPlatformList = new ArrayList<>();
         for (OLEGOKbPlatform gokbPlatform : oleeResourceRecordDocument.getGoKbPlatformList()) {
             if (gokbPlatform.isSelect() || goKbPlatformList.size()==1) {
@@ -2284,7 +2294,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                     }
                 }
                 oleeResourceRecordDocument.setGokbPackageId(packageId);
-                List<OleGokbTipp> oleGokbTippList = olegokbSearchDaoOjb.getTippsByPlatform(gokbPlatform.getPlatformId(), gokbPlatform.getPackageId());
+                List<OleGokbTipp> oleGokbTippList = olegokbSearchDaoOjb.getTippsByPlatform(gokbPlatform.getPlatformId(), gokbPlatform.getPackageId(),title,titleInstanceType,platformProviderList);
                 List<OLEGOKbTIPP> olegoKbTIPP;
                 if (oleGokbTippList != null && resultSetSize != null && oleGokbTippList.size() > resultSetSize) {
                     olegoKbTIPP = getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList.subList(0, resultSetSize));
