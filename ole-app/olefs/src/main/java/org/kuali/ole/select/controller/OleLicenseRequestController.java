@@ -626,6 +626,7 @@ public class OleLicenseRequestController extends MaintenanceDocumentController {
                                           HttpServletRequest request,
                                           HttpServletResponse response) {
         String selectedLineIndex = uifForm.getActionParamaterValue("selectedLineIndex");
+        String licenseID=null;
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) uifForm;
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) maintenanceForm.getDocument();
         OleLicenseRequestBo oleLicenseRequestBo = (OleLicenseRequestBo) document.getNewMaintainableObject().getDataObject();
@@ -638,10 +639,11 @@ public class OleLicenseRequestController extends MaintenanceDocumentController {
         try {
             InputStream fis = null;
             String[] uuidSplit = oleAgreementDocumentMetadata.getAgreementUUID().split("-");
+            licenseID=uuidSplit[1];
             Map<String, String> licenseCriteriaMap = new HashMap<>();
-            licenseCriteriaMap.put(OLEConstants.LICENSE_ID, uuidSplit[1]);
+            licenseCriteriaMap.put(OLEConstants.LICENSE_ID, licenseID);
             if (LOG.isInfoEnabled()) {
-                LOG.info("licenseId----->"+uuidSplit[1]);
+                LOG.info("licenseId----->"+licenseID);
             }
             LicenseRecord licenseRecordList = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(LicenseRecord.class, licenseCriteriaMap);
             fis = new ByteArrayInputStream(licenseRecordList.getContent());
@@ -653,7 +655,8 @@ public class OleLicenseRequestController extends MaintenanceDocumentController {
                     "attachment; filename=\"" + oleAgreementDocumentMetadata.getAgreementFileName() + "\"");
             FileCopyUtils.copy(fis, response.getOutputStream());
         } catch (Exception e) {
-            LOG.error("Exception while retrieving the attachment" + e);
+            LOG.error("Exception while retrieving the attachment for license id:"+licenseID+"--error--"+ e);
+            e.printStackTrace();
         } finally {
             updateEventLogForLocation(oleLicenseRequestBo, "agreement document", "Agreement Document Downloaded");
             performWorkflowAction(maintenanceForm, UifConstants.WorkflowAction.SAVE, true);
