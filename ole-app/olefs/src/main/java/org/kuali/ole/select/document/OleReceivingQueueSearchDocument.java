@@ -683,7 +683,6 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
                 }
             }
             bibIds.clear();
-            ;
             bibIds.addAll(newBibIds);
             this.setPurchaseOrders(results);
         } else {
@@ -799,7 +798,7 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
                 docSearchCriteria.setDateCreatedTo(new DateTime(this.endDate));
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
         //docSearchCriteria.setDocumentStatuses(documentStatuses);
@@ -856,10 +855,14 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
         int purAppNum = olePurchaseOrderDocument.getPurapDocumentIdentifier();
         olePurchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purAppNum);
         String docNumber = olePurchaseOrderDocument.getDocumentNumber();
+        StringBuffer specialNotesPOIDStringBuffer = new StringBuffer();
         isValid = isValid && validateRecords(purAppNum, docNumber);
         isValid = isValid && validatePurchaseOrderStatus(purchaseOrderTypeDocumentList, olePurchaseOrderDocument);
         isValid = isValid && validatePoByRetiredVersionStatus(olePurchaseOrderDocument);
-        isValid = isValid && !(checkSpecialHandlingNotesExsist(olePurchaseOrderItem));
+        isValid = isValid && !(checkSpecialHandlingNotesExsist(olePurchaseOrderItem,specialNotesPOIDStringBuffer));
+        if (specialNotesPOIDStringBuffer.length()>0) {
+            GlobalVariables.getMessageMap().putWarning("Notes warning:", "warning.poitem.specialhandling.notes",new String[]{specialNotesPOIDStringBuffer.toString()});
+        }
         //isValid =isValid && validateCopiesAndParts(olePurchaseOrderItem);
 
         if (isValid) {
@@ -1230,6 +1233,26 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
                     poNote.getNoteTypeId());
             String noteType = oleNoteType.getNoteType();
             if (noteType.equalsIgnoreCase(OLEConstants.SPECIAL_PROCESSING_INSTRUCTION_NOTE)) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("PO ID " + olePurchaseOrderItem.getPurapDocumentIdentifier()
+                            + "has special handling notes");
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkSpecialHandlingNotesExsist(OlePurchaseOrderItem olePurchaseOrderItem,StringBuffer specialNotesPOIDStringBuffer) {
+        for (OleNotes poNote : olePurchaseOrderItem.getNotes()) {
+            OleNoteType oleNoteType = SpringContext.getBean(OleNoteTypeService.class).getNoteTypeDetails(
+                    poNote.getNoteTypeId());
+            String noteType = oleNoteType.getNoteType();
+            if (noteType.equalsIgnoreCase(OLEConstants.SPECIAL_PROCESSING_INSTRUCTION_NOTE)) {
+                if(specialNotesPOIDStringBuffer.length()>0){
+                    specialNotesPOIDStringBuffer.append(",");
+                }
+                specialNotesPOIDStringBuffer.append(olePurchaseOrderItem.getPurchaseOrder().getPurapDocumentIdentifier());
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("PO ID " + olePurchaseOrderItem.getPurapDocumentIdentifier()
                             + "has special handling notes");
