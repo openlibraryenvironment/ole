@@ -766,6 +766,7 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
                                       HttpServletRequest request, HttpServletResponse response) throws InterruptedException {
         OLEPlatformRecordForm olePlatformRecordForm = (OLEPlatformRecordForm) uifForm;
         OLEPlatformRecordDocument olePlatformRecordDocument = (OLEPlatformRecordDocument) olePlatformRecordForm.getDocument();
+        olePlatformRecordDocument.setPlatformProviderFlag(false);
         olePlatformRecordDocument.setSaveValidationFlag(false);
         if (olePlatformRecordDocument.getGokbPlatformId() != 0) {
             OleGokbPlatform oleGokbPlatform = getBusinessObjectService().findBySinglePrimaryKey(OleGokbPlatform.class, olePlatformRecordDocument.getGokbPlatformId());
@@ -795,6 +796,46 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
             }
         }
         return super.navigate(olePlatformRecordForm, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=validatePlatformProvider")
+    public ModelAndView validatePlatformProvider(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response){
+        OLEPlatformRecordForm olePlatformRecordForm = (OLEPlatformRecordForm) uifForm;
+        OLEPlatformRecordDocument olePlatformRecordDocument = (OLEPlatformRecordDocument) olePlatformRecordForm.getDocument();
+        olePlatformRecordDocument.setPlatformProviderFlag(false);
+        olePlatformRecordDocument.setSaveValidationFlag(false);
+        olePlatformRecordDocument.setPlatformProviderMessage(null);
+        olePlatformRecordDocument.setVendorDetailAssignedIdentifier(null);
+        olePlatformRecordDocument.setVendorHeaderGeneratedIdentifier(null);
+        olePlatformRecordDocument.setVendorId(null);
+        if (StringUtils.isNotBlank(olePlatformRecordDocument.getPlatformProviderName())) {
+            Map vendorMap = new HashMap();
+            vendorMap.put(OLEConstants.VENDOR_NAME, olePlatformRecordDocument.getPlatformProviderName());
+            List<VendorDetail> vendorDetails = (List<VendorDetail>) KRADServiceLocator.getBusinessObjectService().findMatching(VendorDetail.class, vendorMap);
+            if (vendorDetails != null && vendorDetails.size() > 0) {
+                olePlatformRecordDocument.setPlatformProviderFlag(true);
+                olePlatformRecordDocument.setPlatformProviderMessage("You are about to link this platform to "+olePlatformRecordDocument.getPlatformProviderName()+"  Do you wish to proceed?");
+                olePlatformRecordDocument.setVendorHeaderGeneratedIdentifier(vendorDetails.get(0).getVendorHeaderGeneratedIdentifier());
+                olePlatformRecordDocument.setVendorDetailAssignedIdentifier(vendorDetails.get(0).getVendorDetailAssignedIdentifier());
+            }else {
+                olePlatformRecordForm.setMessage("Invalid Platform Provider " + olePlatformRecordDocument.getPlatformProviderName());
+                olePlatformRecordDocument.setSaveValidationFlag(true);
+            }
+        }
+        return getUIFModelAndView(olePlatformRecordForm);
+    }
+
+    @RequestMapping(params = "methodToCall=setVendorFields")
+    public ModelAndView setVendorFields(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                                 HttpServletRequest request, HttpServletResponse response){
+        OLEPlatformRecordForm olePlatformRecordForm = (OLEPlatformRecordForm) uifForm;
+        OLEPlatformRecordDocument olePlatformRecordDocument = (OLEPlatformRecordDocument) olePlatformRecordForm.getDocument();
+        olePlatformRecordDocument.setPlatformProviderName(null);
+        olePlatformRecordDocument.setVendorId(null);
+        olePlatformRecordDocument.setVendorHeaderGeneratedIdentifier(null);
+        olePlatformRecordDocument.setVendorDetailAssignedIdentifier(null);
+        return getUIFModelAndView(olePlatformRecordForm);
     }
 
 }

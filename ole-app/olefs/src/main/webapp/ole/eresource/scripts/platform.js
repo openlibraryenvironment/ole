@@ -45,7 +45,22 @@ jq(document).ready(function () {
         jq("#hdnGokbPlatformFlag_control").val("false");
         displayDialogWindow("div#popupToDisplayGOKBMessage");
     }
+    jq("#platformProviderName_control").live("blur", function () {
+        if(jq("#platformProviderName_control").val().length>0){
+            jq('#hdnPlatformProviderBtn').focus().click();
+        }
+    });
 });
+
+function displayPlatformProviderMessagePopup(){
+    if(jq("#hdnPlatformProviderFlag_control").val() == 'true') {
+        displayDialogWindow("div#popupToDisplayPlatformProviderMessage");
+        jq("#hdnPlatformProviderFlag_control").val("false");
+    } else if(jq("#hdnsaveValidationFlag_control").val() == 'true') {
+        displayDialogWindow("div#popupToDisplayLinkedRecords");
+        jq("#hdnsaveValidationFlag_control").val("false");
+    }
+}
 
 function closeDisplayLinkedRecordsPopup(){
     jq("div#popupToDisplayLinkedRecords").fadeOut(300);
@@ -59,6 +74,11 @@ function closeGOKBMessagePopup(){
         jq('#hiddenButtonForUpdateVendorDetails').focus().click();
     }
     jq("div#popupToDisplayGOKBMessage").fadeOut(300);
+    jq('#mask').fadeOut(300);
+}
+
+function closePlatformProviderMessagePopup(){
+    jq("div#popupToDisplayPlatformProviderMessage").fadeOut(300);
     jq('#mask').fadeOut(300);
 }
 

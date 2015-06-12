@@ -59,6 +59,8 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
 
     private String platformProviderName;
 
+    private String platformProviderMessage;
+
     private String vendorLink;
 
     private String vendorId;
@@ -168,6 +170,14 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
 
     public void setPlatformProviderName(String platformProviderName) {
         this.platformProviderName = platformProviderName;
+    }
+
+    public String getPlatformProviderMessage() {
+        return platformProviderMessage;
+    }
+
+    public void setPlatformProviderMessage(String platformProviderMessage) {
+        this.platformProviderMessage = platformProviderMessage;
     }
 
     public String getVendorLink() {

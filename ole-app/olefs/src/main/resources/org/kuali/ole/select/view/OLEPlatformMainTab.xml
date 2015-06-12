@@ -20,6 +20,8 @@
                 <ref bean="hdnGokbPlatformFlag"/>
                 <ref bean="popupToDisplayGOKBMessage"/>
                 <ref bean="gokbPlatformId"/>
+                <ref bean="hdnPlatformProviderBtn"/>
+                <ref bean="popupToDisplayPlatformProviderMessage"/>
             </list>
         </property>
     </bean>
@@ -81,7 +83,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-LinkField" p:linkText="@{document.platformProviderName}" p:target="_blank" p:href="@{document.vendorLink}" p:label=" "
-                                              p:render="@{document.gokbId ne null}"/>
+                                              p:render="@{document.gokbId ne null or (document.vendorHeaderGeneratedIdentifier ne null and document.vendorDetailAssignedIdentifier ne null)}"/>
                                         <!--<bean parent="Uif-InputField" p:propertyName="platformProviderName" p:label=" "
                                               p:render="@{!(document.gokbId ne null and !document.editableFlag or document.documentHeader.workflowDocument.final)}">
                                             <property name="quickfinder">
@@ -93,11 +95,11 @@
                                                 <bean parent="Uif-TextControl" p:size="40"/>
                                             </property>
                                         </bean>-->
-                                        <bean parent="Uif-InputField"
+                                        <bean id="platformProviderName" parent="Uif-InputField"
                                               p:propertyName="platformProviderName"
                                               p:label=" "
                                               p:instructionalText="Type * for all platform providers, other letters for matching platform providers"
-                                              p:render="@{document.gokbId eq null}">
+                                              p:render="@{!(document.gokbId ne null or (document.vendorHeaderGeneratedIdentifier ne null and document.vendorDetailAssignedIdentifier ne null))}">
                                             <property name="suggest">
                                                 <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
                                                     <property name="suggestQuery">
@@ -370,7 +372,28 @@
                                   p:actionLabel="Ok" p:successCallback="closeGOKBMessagePopup()"/>
                             <bean parent="Uif-SecondaryActionButton-Small" p:ajaxSubmit="true"
                                   p:actionScript="closeGOKBMessagePopup();"
-                                  p:actionLabel="cancel"/>
+                                  p:actionLabel="Cancel"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id ="hdnPlatformProviderBtn" parent="Uif-SecondaryActionButton" p:methodToCall="validatePlatformProvider" p:hidden="true" p:ajaxSubmit="true" p:successCallback="displayPlatformProviderMessagePopup()"/>
+
+    <bean id="popupToDisplayPlatformProviderMessage" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{document.platformProviderMessage}"/>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton-Small"
+                                  p:actionLabel="Yes" p:actionScript="closePlatformProviderMessagePopup();"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:ajaxSubmit="true" p:methodToCall="setVendorFields"
+                                  p:successCallback="closePlatformProviderMessagePopup();"
+                                  p:actionLabel="Cancel"/>
                         </list>
                     </property>
                 </bean>

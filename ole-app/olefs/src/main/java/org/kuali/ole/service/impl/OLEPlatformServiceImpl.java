@@ -569,9 +569,12 @@ public class OLEPlatformServiceImpl implements OLEPlatformService {
             if (vendorDetails != null && vendorDetails.size() > 0) {
                 olePlatformRecordDocument.setVendorId(vendorDetails.get(0).getVendorNumber());
             } else {
+                olePlatformRecordDocument.setVendorId(null);
                 errorMessage.append("Invalid Platform Provider " + olePlatformRecordDocument.getPlatformProviderName());
                 errorMessage.append(OLEConstants.BREAK);
             }
+        }else{
+            olePlatformRecordDocument.setVendorId(null);
         }
         return errorMessage;
     }
