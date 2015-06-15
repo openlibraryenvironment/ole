@@ -34,6 +34,12 @@
     <bean id="OleDeliverBatchJob-MaintenanceView" parent="Uif-OLEMaintenanceView">
         <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleBatchJobBo"/>
         <property name="headerText" value="Batch Job"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s02.html#_batchScheduledJobs"/>
+            </bean>
+        </property>
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-MaintenanceGridSection">
