@@ -1,8 +1,13 @@
 package org.kuali.ole.deliver.bo;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.deliver.api.OlePatronLocalIdentificationContract;
 import org.kuali.ole.deliver.api.OlePatronLocalIdentificationDefinition;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * OlePatronLocalIdentificationBo provides local id of patron through getter and setter.
@@ -75,6 +80,14 @@ public class OlePatronLocalIdentificationBo extends PersistableBusinessObjectBas
      * @return olePatronDocument
      */
     public OlePatronDocument getOlePatronDocument() {
+        if (null == olePatronDocument) {
+            String patronId = getOlePatronId();
+            if (StringUtils.isNotEmpty(patronId)) {
+                Map<String, String> parameterMap = new HashMap<>();
+                parameterMap.put("olePatronId", patronId);
+                olePatronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, parameterMap);
+            }
+        }
         return olePatronDocument;
     }
 

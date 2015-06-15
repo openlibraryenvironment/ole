@@ -603,7 +603,7 @@ public class LoanProcessor {
             Map barMap = new HashMap();
             barMap.put(OLEConstants.OlePatron.BARCODE, barcode);
             List<OlePatronDocument> matching = (List<OlePatronDocument>) getBusinessObjectService().findMatching(OlePatronDocument.class, barMap);
-            List<OleLoanDocument> loanDocuments = matching.get(0).getOleLoanDocumentsFromDb();
+            List<OleLoanDocument> loanDocuments = matching.get(0).getOleLoanDocuments();
             List<OleLoanDocument> LoanDocumentList = new ArrayList<>();
             List<OleLoanDocument> indefiniteLoanDocumentList = new ArrayList<>();
             for (OleLoanDocument loanDoc : loanDocuments) {

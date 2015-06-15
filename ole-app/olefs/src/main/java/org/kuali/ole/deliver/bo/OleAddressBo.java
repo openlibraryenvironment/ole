@@ -1,11 +1,15 @@
 package org.kuali.ole.deliver.bo;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.deliver.api.OleAddressContract;
 import org.kuali.ole.deliver.api.OleAddressDefinition;
 import org.kuali.rice.kim.impl.identity.address.EntityAddressBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * OleAddressBo provides OleAddressBo information through getter and setter.
@@ -35,6 +39,14 @@ public class OleAddressBo extends PersistableBusinessObjectBase implements OleAd
      * @return olePatronDocument
      */
     public OlePatronDocument getOlePatronDocument() {
+        if (null == olePatronDocument) {
+            String patronId = getOlePatronId();
+            if (StringUtils.isNotEmpty(patronId)) {
+                Map<String, String> parameterMap = new HashMap<>();
+                parameterMap.put("olePatronId", patronId);
+                olePatronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, parameterMap);
+            }
+        }
         return olePatronDocument;
     }
 

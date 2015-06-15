@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.bo;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
@@ -9,10 +10,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * The OleLoanDocument is a BO class that defines the loan document fields with getters and setters which
@@ -1137,6 +1135,14 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
      * @return Returns the olePatron
      */
     public OlePatronDocument getOlePatron() {
+        if (null == olePatron) {
+            String patronId = getPatronId();
+            if (StringUtils.isNotEmpty(patronId)) {
+                Map<String, String> parameterMap = new HashMap<>();
+                parameterMap.put("olePatronId", patronId);
+                olePatron = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, parameterMap);
+            }
+        }
         return olePatron;
     }
 

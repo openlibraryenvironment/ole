@@ -96,7 +96,7 @@ public class OlePatronLoanedRecordsController extends UifControllerBase {
             } catch (Exception e) {
                 LOG.error("Exception while setting loan documents", e);
             }
-            List<OleLoanDocument> oleLoanDocuments = olePatronDocument.getOleLoanDocumentsFromSolr(patronId);
+            List<OleLoanDocument> oleLoanDocuments = olePatronDocument.getOleLoanDocuments();
             olePatronLoanedRecordsForm.setLoanDocuments(oleLoanDocuments);
         } else {
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PATRON_NOT_FOUND);

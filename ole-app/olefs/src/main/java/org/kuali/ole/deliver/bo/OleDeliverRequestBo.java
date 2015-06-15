@@ -1,14 +1,18 @@
 package org.kuali.ole.deliver.bo;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.api.OleDeliverRequestContract;
 import org.kuali.ole.deliver.api.OleDeliverRequestDefinition;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -749,6 +753,18 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
     }
 
     public OlePatronDocument getOlePatron() {
+        if (null == olePatron || StringUtils.isEmpty(olePatron.getOlePatronId())) {
+            String patronId = getBorrowerId();
+            if (StringUtils.isNotEmpty(patronId)) {
+                Map<String, String> parameterMap = new HashMap<>();
+                parameterMap.put("olePatronId", patronId);
+                Long startingTime = System.currentTimeMillis();
+                olePatron = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, parameterMap);
+                Long endTimme = System.currentTimeMillis();
+                Long timeTaken = endTimme-startingTime;
+                System.out.println("The Time Taken for Fetching PatronObject : " + timeTaken);
+            }
+        }
         return olePatron;
     }
 
@@ -757,6 +773,14 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
     }
 
     public OlePatronDocument getOleProxyPatron() {
+        if (null == oleProxyPatron) {
+            String patronId = getProxyBorrowerId();
+            if (StringUtils.isNotEmpty(patronId)) {
+                Map<String, String> parameterMap = new HashMap<>();
+                parameterMap.put("olePatronId", patronId);
+                oleProxyPatron = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, parameterMap);
+            }
+        }
         return oleProxyPatron;
     }
 

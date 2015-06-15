@@ -1,16 +1,20 @@
 package org.kuali.ole.deliver.bo;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.deliver.api.OlePatronLostBarcodeContract;
 import org.kuali.ole.deliver.api.OlePatronLostBarcodeDefinition;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * OlePatronDocument provides OlePatronDocument information through getter and setter.
@@ -62,6 +66,14 @@ public class OlePatronLostBarcode extends PersistableBusinessObjectBase implemen
     }
 
     public OlePatronDocument getOlePatronDocument() {
+        if (null == olePatronDocument) {
+                String patronId = getOlePatronId();
+                if (StringUtils.isNotEmpty(patronId)) {
+                    Map<String, String> parameterMap = new HashMap<>();
+                    parameterMap.put("olePatronId", patronId);
+                    olePatronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, parameterMap);
+                }
+        }
         return olePatronDocument;
     }
 

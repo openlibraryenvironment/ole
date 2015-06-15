@@ -1,16 +1,16 @@
 package org.kuali.ole.deliver.bo;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * PatronBillMaintenance provides Patron bill  information through getter and setter.
@@ -485,6 +485,14 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
     }
 
     public OlePatronDocument getOlePatron() {
+        if (null == olePatron) {
+            String patronId = getPatronId();
+            if (StringUtils.isNotEmpty(patronId)) {
+                Map<String, String> parameterMap = new HashMap<>();
+                parameterMap.put("olePatronId", patronId);
+                olePatron = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, parameterMap);
+            }
+        }
         return olePatron;
     }
 

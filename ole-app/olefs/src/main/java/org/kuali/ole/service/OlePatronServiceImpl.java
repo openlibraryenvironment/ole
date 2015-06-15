@@ -790,7 +790,7 @@ public class OlePatronServiceImpl implements OlePatronService {
             olePatronDocument = patronIterator.next();
             if ((olePatronDocument.getExpirationDate() != null && fmt.format(new Date(System.currentTimeMillis())).compareTo(fmt.format(olePatronDocument.getExpirationDate())) > 0) || (olePatronDocument.getExpirationDate() == null)) {
                 List<OleLoanDocument> oleLoanDocuments = olePatronDocument.getOleLoanDocuments();
-                List<OleTemporaryCirculationHistory> oleTemporaryCirculationHistories = olePatronDocument.getOleTemporaryCirculationHistoryRecordsFromDB();
+                List<OleTemporaryCirculationHistory> oleTemporaryCirculationHistories = olePatronDocument.getOleTemporaryCirculationHistoryRecords();
                 List<OleDeliverRequestBo> oleDeliverRequestBos = olePatronDocument.getOleDeliverRequestBos();
                 Map billMap = new HashMap();
                 billMap.put(OLEConstants.OlePatron.PAY_BILL_PATRON_ID, olePatronDocument.getOlePatronId());

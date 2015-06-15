@@ -1,11 +1,7 @@
 package org.kuali.ole.deliver.bo;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.api.*;
-import org.kuali.ole.deliver.processor.LoanProcessor;
-import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.address.EntityAddress;
@@ -23,7 +19,6 @@ import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
 import org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.util.*;
 
@@ -31,8 +26,6 @@ import java.util.*;
  * OlePatronDocument provides OlePatronDocument information through getter and setter.
  */
 public class OlePatronDocument extends PersistableBusinessObjectBase implements OlePatronContract {
-
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OlePatronDocument.class);
 
     private String olePatronId;
     private String barcode;
@@ -193,18 +186,6 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private String borrowerTypeCode;
 
     public List<PatronBillPayment> getPatronBillPayments() {
-        if (CollectionUtils.isEmpty(patronBillPayments)) {
-            if (StringUtils.isNotEmpty(getOlePatronId())) {
-                if (StringUtils.isNotEmpty(getOlePatronId())) {
-                    Map<String, String> parameterMap = new HashMap<>();
-                    parameterMap.put("patronId", getOlePatronId());
-                    List<PatronBillPayment> olePatronBillPaymentList = (List<PatronBillPayment>) KRADServiceLocator.getBusinessObjectService().findMatching(PatronBillPayment.class, parameterMap);
-                    if (CollectionUtils.isNotEmpty(olePatronBillPaymentList)) {
-                        patronBillPayments = olePatronBillPaymentList;
-                    }
-                }
-            }
-        }
         return patronBillPayments;
     }
 
@@ -264,35 +245,6 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public List<OleTemporaryCirculationHistory> getOleTemporaryCirculationHistoryRecords() {
-        if (CollectionUtils.isEmpty(oleTemporaryCirculationHistoryRecords)) {
-            try {
-                oleTemporaryCirculationHistoryRecords = new OleLoanDocumentsFromSolrBuilder()
-                        .getPatronTemporaryCirculationHistoryRecords(getOlePatronId());
-            } catch (Exception e) {
-                oleTemporaryCirculationHistoryRecords = new ArrayList<>();
-
-                LOG.error(e.getStackTrace());
-            }
-        }
-        return oleTemporaryCirculationHistoryRecords;
-    }
-
-    //TODO: refactor this to be getOleTemporaryCirculationHistoryRecords and populate the solr info at the same time
-    //TODO: eliminating the need for 2 methods.
-    public List<OleTemporaryCirculationHistory> getOleTemporaryCirculationHistoryRecordsFromDB() {
-        if (CollectionUtils.isEmpty(oleTemporaryCirculationHistoryRecords)) {
-            if (StringUtils.isNotEmpty(getOlePatronId())) {
-                if (StringUtils.isNotEmpty(getOlePatronId())) {
-                    Map<String, String> parameterMap = new HashMap<>();
-                    parameterMap.put("olePatronId", getOlePatronId());
-                    List<OleTemporaryCirculationHistory> oleTemporaryCirculationHistoryList = (List<OleTemporaryCirculationHistory>) KRADServiceLocator.getBusinessObjectService().findMatching(OleTemporaryCirculationHistory.class, parameterMap);
-                    if (CollectionUtils.isNotEmpty(oleTemporaryCirculationHistoryList)) {
-                        oleTemporaryCirculationHistoryRecords = oleTemporaryCirculationHistoryList;
-                    }
-                }
-            }
-
-        }
         return oleTemporaryCirculationHistoryRecords;
     }
 
@@ -301,18 +253,6 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public List<OleDeliverRequestBo> getOleDeliverRequestBos() {
-        if (CollectionUtils.isEmpty(oleDeliverRequestBos)) {
-            if (StringUtils.isNotEmpty(getOlePatronId())) {
-                if (StringUtils.isNotEmpty(getOlePatronId())) {
-                    Map<String, String> parameterMap = new HashMap<>();
-                    parameterMap.put("borrowerId", getOlePatronId());
-                    List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleDeliverRequestBo.class, parameterMap);
-                    if (CollectionUtils.isNotEmpty(oleDeliverRequestBoList)) {
-                        oleDeliverRequestBos = oleDeliverRequestBoList;
-                    }
-                }
-            }
-        }
         return oleDeliverRequestBos;
     }
 
@@ -505,37 +445,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      * @return oleLoanDocuments(list of type OleLoanDocument)
      */
     public List<OleLoanDocument> getOleLoanDocuments() {
-        if (CollectionUtils.isEmpty(oleLoanDocuments)) {
-            oleLoanDocuments = getOleLoanDocumentsFromSolr(getOlePatronId());
-        }
         return oleLoanDocuments;
-    }
-
-    //TODO: refactor this to be getOleLoanDocuments and populate the solr info at the same time
-    //TODO: eliminating the need for 2 methods.
-    public List<OleLoanDocument> getOleLoanDocumentsFromDb() {
-        if (StringUtils.isNotEmpty(getOlePatronId())) {
-            if (StringUtils.isNotEmpty(getOlePatronId())) {
-                Map<String, String> parameterMap = new HashMap<>();
-                parameterMap.put("patronId", getOlePatronId());
-                List<OleLoanDocument> oleLoanDocumentList = (List<OleLoanDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleLoanDocument.class, parameterMap);
-                if (CollectionUtils.isNotEmpty(oleLoanDocumentList)) {
-                    oleLoanDocuments = oleLoanDocumentList;
-                }
-            }
-        }
-        return oleLoanDocuments;
-    }
-
-    public List<OleLoanDocument> getOleLoanDocumentsFromSolr(String patronId) {
-        List<OleLoanDocument> patronLoanedItemBySolr = new ArrayList<>();
-        try {
-            patronLoanedItemBySolr = new OleLoanDocumentsFromSolrBuilder().getPatronLoanedItemBySolr(patronId, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return patronLoanedItemBySolr;
-
     }
 
     /**
@@ -616,16 +526,6 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      * @return notes(list of type OlePatronNotes)
      */
     public List<OlePatronNotes> getNotes() {
-        if (StringUtils.isNotEmpty(getOlePatronId())) {
-            if (StringUtils.isNotEmpty(getOlePatronId())) {
-                Map<String, String> parameterMap = new HashMap<>();
-                parameterMap.put("olePatronId", getOlePatronId());
-                List<OlePatronNotes> olePatronNotesList = (List<OlePatronNotes>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronNotes.class, parameterMap);
-                if (CollectionUtils.isNotEmpty(olePatronNotesList)) {
-                    notes = olePatronNotesList;
-                }
-            }
-        }
         return notes;
     }
 
@@ -968,19 +868,6 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      * @return oleBorrowerType(OleBorrowerType)
      */
     public OleBorrowerType getOleBorrowerType() {
-        if (null == oleBorrowerType) {
-            if (StringUtils.isNotEmpty(getBorrowerType())) {
-                String borrowerTypeId = getBorrowerType();
-                if (StringUtils.isNotEmpty(borrowerTypeId)) {
-                    Map<String, String> parameterMap = new HashMap<>();
-                    parameterMap.put("borrowerTypeId", borrowerTypeId);
-                    List<OleBorrowerType> oleBorrowerTypeList = (List<OleBorrowerType>) KRADServiceLocator.getBusinessObjectService().findMatching(OleBorrowerType.class, parameterMap);
-                    if (CollectionUtils.isNotEmpty(oleBorrowerTypeList)) {
-                        oleBorrowerType = oleBorrowerTypeList.get(0);
-                    }
-                }
-            }
-        }
         return oleBorrowerType;
     }
 
@@ -1065,18 +952,6 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      * @return oleProxyPatronDocuments
      */
     public List<OleProxyPatronDocument> getOleProxyPatronDocuments() {
-        if (CollectionUtils.isEmpty(oleProxyPatronDocuments)) {
-            if (StringUtils.isNotEmpty(getOlePatronId())) {
-                if (StringUtils.isNotEmpty(getOlePatronId())) {
-                    Map<String, String> parameterMap = new HashMap<>();
-                    parameterMap.put("olePatronId", getOlePatronId());
-                    List<OleProxyPatronDocument> proxyPatronDocumentLists = (List<OleProxyPatronDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleProxyPatronDocument.class, parameterMap);
-                    if (CollectionUtils.isNotEmpty(proxyPatronDocumentLists)) {
-                        oleProxyPatronDocuments = proxyPatronDocumentLists;
-                    }
-                }
-            }
-        }
         return oleProxyPatronDocuments;
     }
 
@@ -1167,18 +1042,6 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      * @return sourceBo
      */
     public OleSourceBo getSourceBo() {
-        if (null == sourceBo) {
-            if (StringUtils.isNotEmpty(getSource())) {
-                if (StringUtils.isNotEmpty(getSource())) {
-                    Map<String, String> parameterMap = new HashMap<>();
-                    parameterMap.put("oleSourceId", getSource());
-                    List<OleSourceBo> oleSourceBoList = (List<OleSourceBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleSourceBo.class, parameterMap);
-                    if (CollectionUtils.isNotEmpty(oleSourceBoList)) {
-                        sourceBo = oleSourceBoList.get(0);
-                    }
-                }
-            }
-        }
         return sourceBo;
     }
 
@@ -1197,18 +1060,6 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      * @return statisticalCategoryBo
      */
     public OleStatisticalCategoryBo getStatisticalCategoryBo() {
-        if (null == statisticalCategoryBo) {
-            if (StringUtils.isNotEmpty(getStatisticalCategory())) {
-                if (StringUtils.isNotEmpty(getStatisticalCategory())) {
-                    Map<String, String> parameterMap = new HashMap<>();
-                    parameterMap.put("oleStatisticalCategoryId", getStatisticalCategory());
-                    List<OleStatisticalCategoryBo> oleStatisticalCategoryBoList = (List<OleStatisticalCategoryBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleStatisticalCategoryBo.class, parameterMap);
-                    if (CollectionUtils.isNotEmpty(oleStatisticalCategoryBoList)) {
-                        statisticalCategoryBo = oleStatisticalCategoryBoList.get(0);
-                    }
-                }
-            }
-        }
         return statisticalCategoryBo;
     }
 
@@ -1311,18 +1162,6 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public List<OlePatronLostBarcode> getLostBarcodes() {
-        if (CollectionUtils.isEmpty(lostBarcodes)) {
-            if (StringUtils.isNotEmpty(getOlePatronId())) {
-                if (StringUtils.isNotEmpty(getOlePatronId())) {
-                    Map<String, String> parameterMap = new HashMap<>();
-                    parameterMap.put("olePatronId", getOlePatronId());
-                    List<OlePatronLostBarcode> olePatronLostBarcodeList = (List<OlePatronLostBarcode>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronLostBarcode.class, parameterMap);
-                    if (CollectionUtils.isNotEmpty(olePatronLostBarcodeList)) {
-                        lostBarcodes = olePatronLostBarcodeList;
-                    }
-                }
-            }
-        }
         return lostBarcodes;
     }
 
@@ -1331,18 +1170,6 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public List<OleAddressBo> getOleAddresses() {
-        if (CollectionUtils.isEmpty(oleAddresses)) {
-            if (StringUtils.isNotEmpty(getOlePatronId())) {
-                if (StringUtils.isNotEmpty(getOlePatronId())) {
-                    Map<String, String> parameterMap = new HashMap<>();
-                    parameterMap.put("olePatronId", getOlePatronId());
-                    List<OleAddressBo> oleAddressBos = (List<OleAddressBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleAddressBo.class, parameterMap);
-                    if (CollectionUtils.isNotEmpty(oleAddressBos)) {
-                        oleAddresses = oleAddressBos;
-                    }
-                }
-            }
-        }
         return oleAddresses;
     }
 
@@ -1359,18 +1186,6 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public List<OlePatronLocalIdentificationBo> getOlePatronLocalIds() {
-        if (CollectionUtils.isEmpty(olePatronLocalIds)) {
-            if (StringUtils.isNotEmpty(getOlePatronId())) {
-                if (StringUtils.isNotEmpty(getOlePatronId())) {
-                    Map<String, String> parameterMap = new HashMap<>();
-                    parameterMap.put("olePatronId", getOlePatronId());
-                    List<OlePatronLocalIdentificationBo> olePatronLocalIdentificationBoList = (List<OlePatronLocalIdentificationBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronLocalIdentificationBo.class, parameterMap);
-                    if (CollectionUtils.isNotEmpty(olePatronLocalIdentificationBoList)) {
-                        olePatronLocalIds = olePatronLocalIdentificationBoList;
-                    }
-                }
-            }
-        }
         return olePatronLocalIds;
     }
 
@@ -1403,18 +1218,6 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public List<OleProxyPatronDocument> getOleProxyPatronDocumentList() {
-        if (CollectionUtils.isEmpty(oleProxyPatronDocumentList)) {
-            if (StringUtils.isNotEmpty(getOlePatronId())) {
-                if (StringUtils.isNotEmpty(getOlePatronId())) {
-                    Map<String, String> parameterMap = new HashMap<>();
-                    parameterMap.put("proxyPatronId", getOlePatronId());
-                    List<OleProxyPatronDocument> oleProxyPatronDocuments = (List<OleProxyPatronDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleProxyPatronDocument.class, parameterMap);
-                    if (CollectionUtils.isNotEmpty(oleProxyPatronDocuments)) {
-                        oleProxyPatronDocumentList = oleProxyPatronDocuments;
-                    }
-                }
-            }
-        }
         return oleProxyPatronDocumentList;
     }
 
@@ -1543,18 +1346,6 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public OLEPatronEntityViewBo getOlePatronEntityViewBo() {
-        if (null == olePatronEntityViewBo) {
-            if (StringUtils.isNotEmpty(getOlePatronId())) {
-                if (StringUtils.isNotEmpty(getOlePatronId())) {
-                    Map<String, String> parameterMap = new HashMap<>();
-                    parameterMap.put("patronId", getOlePatronId());
-                    List<OLEPatronEntityViewBo> olePatronEntityViewBoList = (List<OLEPatronEntityViewBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEPatronEntityViewBo.class, parameterMap);
-                    if (CollectionUtils.isNotEmpty(olePatronEntityViewBoList)) {
-                        olePatronEntityViewBo = olePatronEntityViewBoList.get(0);
-                    }
-                }
-            }
-        }
         return olePatronEntityViewBo;
     }
 

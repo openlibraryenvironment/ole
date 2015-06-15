@@ -740,10 +740,10 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
         <field-descriptor name="itemUuid" column="ITEM_UUID" jdbc-type="VARCHAR" />
-        <reference-descriptor name="olePatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
+        <!--<reference-descriptor name="olePatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="patronId"/>
-        </reference-descriptor>
+        </reference-descriptor>-->
         <collection-descriptor name="deliverNotices"
                                element-class-ref="org.kuali.ole.deliver.bo.OLEDeliverNotice"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
@@ -927,12 +927,12 @@
         <field-descriptor name="bibId" column="BIB_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="requestLevel" column="RQST_LVL" jdbc-type="VARCHAR" />
         <field-descriptor name="asrFlag" column="ASR_FLAG" jdbc-type="VARCHAR"   conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <reference-descriptor name="olePatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+        <!-- <reference-descriptor name="olePatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument" auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="borrowerId" target-field-ref="olePatronId"/>
         </reference-descriptor>
         <reference-descriptor name="oleProxyPatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="proxyBorrowerId" target-field-ref="olePatronId"/>
-        </reference-descriptor>
+        </reference-descriptor>-->
 
         <!--  <reference-descriptor name="operatorCreator" class-ref="org.kuali.rice.kim.impl.identity.PersonImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
              <foreignkey field-ref="operatorCreateId"/>
@@ -1045,69 +1045,69 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
         <reference-descriptor name="oleBorrowerType" class-ref="org.kuali.ole.deliver.bo.OleBorrowerType"
-                              auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
             <foreignkey field-ref="borrowerType" target-field-ref="borrowerTypeId"/>
         </reference-descriptor>
         <reference-descriptor name="sourceBo" class-ref="org.kuali.ole.deliver.bo.OleSourceBo"
-                              auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
             <foreignkey field-ref="source" target-field-ref="oleSourceId"/>
         </reference-descriptor>
         <reference-descriptor name="statisticalCategoryBo" class-ref="org.kuali.ole.deliver.bo.OleStatisticalCategoryBo"
-                              auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
             <foreignkey field-ref="statisticalCategory" target-field-ref="oleStatisticalCategoryId"/>
         </reference-descriptor>
         <reference-descriptor name="olePatronEntityViewBo" class-ref="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
-                              auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
             <foreignkey field-ref="olePatronId" target-field-ref="patronId"/>
         </reference-descriptor>
         <collection-descriptor name="notes" element-class-ref="org.kuali.ole.deliver.bo.OlePatronNotes"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="false" auto-update="object" auto-delete="object" proxy="false">
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
             <inverse-foreignkey field-ref="olePatronId"/>
         </collection-descriptor>
         <collection-descriptor name="lostBarcodes" element-class-ref="org.kuali.ole.deliver.bo.OlePatronLostBarcode"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="false" auto-update="object" auto-delete="object" proxy="false">
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
             <inverse-foreignkey field-ref="olePatronId"/>
         </collection-descriptor>
         <collection-descriptor name="oleProxyPatronDocuments" element-class-ref="org.kuali.ole.deliver.bo.OleProxyPatronDocument"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="false" auto-update="object" auto-delete="object" proxy="false">
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
             <inverse-foreignkey field-ref="olePatronId"/>
         </collection-descriptor>
         <collection-descriptor name="oleProxyPatronDocumentList" element-class-ref="org.kuali.ole.deliver.bo.OleProxyPatronDocument"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="false" auto-update="object" auto-delete="object" proxy="false">
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
             <inverse-foreignkey field-ref="proxyPatronId" target-field-ref="olePatronId"/>
         </collection-descriptor>
         <collection-descriptor name="oleAddresses" element-class-ref="org.kuali.ole.deliver.bo.OleAddressBo"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="false" auto-update="object" auto-delete="object" proxy="false">
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
             <inverse-foreignkey field-ref="olePatronId"/>
         </collection-descriptor>
         <collection-descriptor name="oleLoanDocuments" element-class-ref="org.kuali.ole.deliver.bo.OleLoanDocument"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="false" auto-update="none" auto-delete="object" proxy="false">
+                               auto-retrieve="true" auto-update="none" auto-delete="object" proxy="true">
             <inverse-foreignkey field-ref="patronId"/>
         </collection-descriptor>
         <collection-descriptor name="oleDeliverRequestBos" element-class-ref="org.kuali.ole.deliver.bo.OleDeliverRequestBo"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="false" auto-update="none" auto-delete="object" proxy="false">
+                               auto-retrieve="true" auto-update="none" auto-delete="object" proxy="true">
             <inverse-foreignkey field-ref="borrowerId"/>
         </collection-descriptor>
         <collection-descriptor name="oleTemporaryCirculationHistoryRecords" element-class-ref="org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="false" auto-update="none" auto-delete="object" proxy="false">
+                               auto-retrieve="true" auto-update="none" auto-delete="object" proxy="true">
             <inverse-foreignkey field-ref="olePatronId"/>
         </collection-descriptor>
         <collection-descriptor name="olePatronLocalIds" element-class-ref="org.kuali.ole.deliver.bo.OlePatronLocalIdentificationBo"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="false" auto-update="object" auto-delete="object" proxy="false">
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
             <inverse-foreignkey field-ref="olePatronId"/>
         </collection-descriptor>
         <collection-descriptor name="patronBillPayments" element-class-ref="org.kuali.ole.deliver.bo.PatronBillPayment"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="false" auto-update="object" auto-delete="object" proxy="false">
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
             <inverse-foreignkey field-ref="patronId"/>
         </collection-descriptor>
     </class-descriptor>
@@ -1123,10 +1123,10 @@
         <field-descriptor name="proxyPatronExpirationDate" column="OLE_PROXY_PTRN_EXP_DT" jdbc-type="DATE"/>
         <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <reference-descriptor name="olePatronDocument" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
+        <!--<reference-descriptor name="olePatronDocument" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="olePatronId"/>
-        </reference-descriptor>
+        </reference-descriptor>-->
     </class-descriptor>
 
 
@@ -1147,10 +1147,10 @@
                               auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="addressSource" target-field-ref="oleAddressSourceId" />
         </reference-descriptor>
-        <reference-descriptor name="olePatronDocument" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
+        <!--<reference-descriptor name="olePatronDocument" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
                               auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="olePatronId"/>
-        </reference-descriptor>
+        </reference-descriptor>-->
     </class-descriptor>
 
 
@@ -1232,10 +1232,10 @@
         <field-descriptor name="invalidOrLostBarcodeEffDate" column="OLE_PTRN_LOST_BAR_EFF_DT" jdbc-type="TIMESTAMP"></field-descriptor>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-        <reference-descriptor name="olePatronDocument" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
+<!--        <reference-descriptor name="olePatronDocument" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="olePatronId"/>
-        </reference-descriptor>
+        </reference-descriptor>-->
     </class-descriptor>
 
     <class-descriptor class="org.kuali.ole.deliver.bo.OlePatronLocalIdentificationBo" table="OLE_PTRN_LOCAL_ID_T">
@@ -1245,10 +1245,10 @@
         <field-descriptor name="localId" column="LOCAL_ID" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-        <reference-descriptor name="olePatronDocument" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
+        <!--<reference-descriptor name="olePatronDocument" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="olePatronId"/>
-        </reference-descriptor>
+        </reference-descriptor>-->
     </class-descriptor>
 
 
@@ -1273,10 +1273,10 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
         <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <reference-descriptor name="olePatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
+        <!--<reference-descriptor name="olePatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="olePatronId"/>
-        </reference-descriptor>
+        </reference-descriptor>-->
         <reference-descriptor name="olePatronNoteType" class-ref="org.kuali.ole.deliver.bo.OlePatronNoteType"
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="patronNoteTypeId"/>
@@ -1328,9 +1328,9 @@
                                auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="billNumber"/>
         </collection-descriptor>
-        <reference-descriptor name="olePatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument" auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
+        <!--<reference-descriptor name="olePatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument" auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="patronId" target-field-ref="olePatronId"/>
-        </reference-descriptor>
+        </reference-descriptor>-->
 
         <!--        <reference-descriptor name="olePaymentStatus" class-ref="org.kuali.ole.deliver.bo.OlePaymentStatus"
                                       auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">

@@ -626,7 +626,7 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
         List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class, parameterMap);
         if (olePatronDocumentList != null && olePatronDocumentList.size() > 0) {
             OlePatronDocument olePatronDocument = olePatronDocumentList.get(0);
-            for (OleLoanDocument oleLoanDocument : olePatronDocument.getOleLoanDocumentsFromDb()) {
+            for (OleLoanDocument oleLoanDocument : olePatronDocument.getOleLoanDocuments()) {
                 if (count == 1) {
                     itemBarcodes = oleLoanDocument.getItemId();
                     count = count + 1;
