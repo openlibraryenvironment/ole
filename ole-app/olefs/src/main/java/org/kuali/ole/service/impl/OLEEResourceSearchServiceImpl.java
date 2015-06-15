@@ -34,6 +34,7 @@ import org.kuali.ole.select.document.*;
 import org.kuali.ole.select.bo.OLECreatePO;
 import org.kuali.ole.select.form.OLEEResourceRecordForm;
 import org.kuali.ole.select.gokb.*;
+import org.kuali.ole.select.service.OLESelectDaoOjb;
 import org.kuali.ole.select.service.OleReqPOCreateDocumentService;
 import org.kuali.ole.service.OLEEResourceSearchService;
 import org.kuali.ole.sys.businessobject.Building;
@@ -3167,32 +3168,10 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
         List<String> fundCodes = new ArrayList<>();
         for(PurApAccountingLine purApAccountingLine : purApAccountingLines){
             List<OleFundCodeAccountingLine> oleFundCodeAccountingLines = new ArrayList<>();
-            Map criteria = new HashMap();
-            criteria.put(OLEConstants.CHART_CODE,purApAccountingLine.getChartOfAccountsCode());
-            criteria.put(OLEConstants.ACCOUNT_NUMBER,purApAccountingLine.getAccountNumber());
-            criteria.put(OLEConstants.OBJECT_CODE,purApAccountingLine.getFinancialObjectCode());
-            criteria.put(OLEConstants.ACCOUNT_LINE_PERCENT,purApAccountingLine.getAccountLinePercent());
-            if(StringUtils.isNotBlank(purApAccountingLine.getSubAccountNumber())){
-               criteria.put(OLEConstants.SUB_ACCOUNT,purApAccountingLine.getSubAccountNumber());
-            } else {
-                criteria.put(OLEConstants.SUB_ACCOUNT,"");
+            OLESelectDaoOjb oleSelectDaoOjb = (OLESelectDaoOjb) SpringContext.getBean("oleSelectDaoOjb");
+            if(oleSelectDaoOjb != null){
+                oleFundCodeAccountingLines = oleSelectDaoOjb.getFundCodeList(purApAccountingLine);
             }
-            if(StringUtils.isNotBlank(purApAccountingLine.getFinancialSubObjectCode())){
-                criteria.put(OLEConstants.SUB_OBJECT,purApAccountingLine.getFinancialSubObjectCode());
-            } else {
-                criteria.put(OLEConstants.SUB_OBJECT,"");
-            }
-            if(StringUtils.isNotBlank(purApAccountingLine.getProjectCode())){
-                criteria.put(OLEConstants.PROJECT,purApAccountingLine.getProjectCode());
-            } else {
-                criteria.put(OLEConstants.PROJECT,"");
-            }
-            if(StringUtils.isNotBlank(purApAccountingLine.getOrganizationReferenceId())){
-                criteria.put(OLEConstants.ORG_REF_ID,purApAccountingLine.getOrganizationReferenceId());
-            } else {
-                criteria.put(OLEConstants.ORG_REF_ID,"");
-            }
-            oleFundCodeAccountingLines = (List<OleFundCodeAccountingLine>) KRADServiceLocator.getBusinessObjectService().findMatching(OleFundCodeAccountingLine.class,criteria);
             if(CollectionUtils.isNotEmpty(oleFundCodeAccountingLines)){
                 List<String> fundCodeIdList = new ArrayList<>();
                 for (Iterator<OleFundCodeAccountingLine> iterator = oleFundCodeAccountingLines.iterator(); iterator.hasNext(); ) {
