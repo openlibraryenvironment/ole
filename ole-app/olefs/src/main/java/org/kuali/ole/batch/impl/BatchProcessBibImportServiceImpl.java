@@ -767,6 +767,10 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
                                 getOleeResourceHelperService().updateEHoldingsInEResource(holdingsTree.getHoldings());
                             }
                             setErrorMessage(bibMarcRecords, oleBatchbibImportStatistics, i, holdingsTree.getHoldings().getMessage());
+                            if(holdingsTree.getHoldings().getOperation().equals(DocstoreDocument.OperationType.DELETE) && DocstoreDocument.ResultType.SUCCESS.equals(holdingsTree.getHoldings().getResult())){
+                                oleBatchbibImportStatistics.getTotalRecordsDeleted().add(holdingsTree.getHoldings());
+                            }
+
                         }
 
 
