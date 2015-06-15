@@ -39,6 +39,7 @@
         <property name="documentTypeName" value="OLE_ERES_ACCESS_MD"/>
         <property name="documentAuthorizerClass"
                   value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="allowsNewOrCopy" value="false"/>
     </bean>
     <bean id="OLEEResourceAccess-MaintenanceView" parent="Uif-OLEMaintenanceView">
         <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEEResourceAccessActivation"/>
@@ -270,13 +271,13 @@
     </bean>
 
     <bean id="OLEEResourceAccess-Workflow-Description" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
-        <property name="headerText" value="Access Activation Workflow Decsription" />
+        <property name="headerText" value="Access Activation Workflow Description" />
         <property name="items">
             <list>
                 <bean id="accessWorkflow"  parent="Uif-GridGroup" p:layoutManager.numberOfColumns="1" >
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="workflowDescription" p:label="Workflow Description"/>
+                            <bean parent="Uif-InputField" p:propertyName="workflowDescription" p:label="Workflow Description" p:required="true"/>
                         </list>
                     </property>
                 </bean>

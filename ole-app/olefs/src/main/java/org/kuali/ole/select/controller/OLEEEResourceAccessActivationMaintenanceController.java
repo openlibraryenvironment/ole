@@ -107,9 +107,12 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
         MaintenanceDocumentForm forms = (MaintenanceDocumentForm) form;
         org.kuali.rice.krad.maintenance.MaintenanceDocument maintenanceDocument = ((MaintenanceDocumentForm) form).getDocument();
         org.kuali.rice.krad.maintenance.MaintenanceDocument oldMaintenanceDocument =  (MaintenanceDocument)documentService.getByDocumentHeaderId(maintenanceDocument.getDocumentNumber());
-        OLEEResourceAccessActivation oldOleeResourceAccess  = (OLEEResourceAccessActivation)oldMaintenanceDocument.getNewMaintainableObject().getDataObject();
+        OLEEResourceAccessActivation oldOleeResourceAccess  = new OLEEResourceAccessActivation();
+        if(oldMaintenanceDocument != null){
+            oldOleeResourceAccess = (OLEEResourceAccessActivation)oldMaintenanceDocument.getNewMaintainableObject().getDataObject();
+        }
         OLEEResourceAccessActivation oleeResourceAccess = (OLEEResourceAccessActivation) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
-        if(oleeResourceAccess.getLastRecordLoadDate() != null && !oleeResourceAccess.getLastRecordLoadDate().equals(oldOleeResourceAccess.getLastRecordLoadDate())){
+        if(oleeResourceAccess != null && oleeResourceAccess.getLastRecordLoadDate() != null && oldOleeResourceAccess != null && !oleeResourceAccess.getLastRecordLoadDate().equals(oldOleeResourceAccess.getLastRecordLoadDate())){
             OLEEResourceEventLog oleeResourceEventLog = new OLEEResourceEventLog();
             oleeResourceEventLog.setEventDate(oleeResourceAccess.getLastRecordLoadDate());
             oleeResourceEventLog.setEventUser(GlobalVariables.getUserSession().getPrincipalName());
@@ -187,9 +190,12 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
         DocumentService documentService = GlobalResourceLoader.getService(OLEConstants.DOCUMENT_HEADER_SERVICE);
         org.kuali.rice.krad.maintenance.MaintenanceDocument maintenanceDocument = ((MaintenanceDocumentForm) form).getDocument();
         org.kuali.rice.krad.maintenance.MaintenanceDocument oldMaintenanceDocument =  (MaintenanceDocument)documentService.getByDocumentHeaderId(maintenanceDocument.getDocumentNumber());
-        OLEEResourceAccessActivation oldOleeResourceAccess  = (OLEEResourceAccessActivation)oldMaintenanceDocument.getNewMaintainableObject().getDataObject();
+        OLEEResourceAccessActivation oldOleeResourceAccess = new OLEEResourceAccessActivation();
+        if(oldMaintenanceDocument != null){
+            oldOleeResourceAccess  = (OLEEResourceAccessActivation)oldMaintenanceDocument.getNewMaintainableObject().getDataObject();
+        }
         OLEEResourceAccessActivation oleeResourceAccess = (OLEEResourceAccessActivation) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
-        if(oleeResourceAccess.getLastRecordLoadDate() != null && !oleeResourceAccess.getLastRecordLoadDate().equals(oldOleeResourceAccess.getLastRecordLoadDate())){
+        if(oleeResourceAccess != null && oleeResourceAccess.getLastRecordLoadDate() != null && oldOleeResourceAccess != null && !oleeResourceAccess.getLastRecordLoadDate().equals(oldOleeResourceAccess.getLastRecordLoadDate())){
             OLEEResourceEventLog oleeResourceEventLog = new OLEEResourceEventLog();
             oleeResourceEventLog.setEventDate(oleeResourceAccess.getLastRecordLoadDate());
             oleeResourceEventLog.setEventUser(GlobalVariables.getUserSession().getPrincipalName());
@@ -201,14 +207,14 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
         }
         boolean flag = false;
         if (oleeResourceAccess.getWorkflowId() == null || (oleeResourceAccess.getWorkflowId() != null && oleeResourceAccess.getWorkflowId().trim().isEmpty())) {
-            GlobalVariables.getMessageMap().putError("workflowId", OLEConstants.NO_WORKFLOW);
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.workflowId", OLEConstants.NO_WORKFLOW);
             oleeResourceAccess.setWorkflowId(null);
             flag = true;
         }
-        /*if (oleeResourceAccess.getWorkflowDescription() == null || (oleeResourceAccess.getWorkflowDescription() != null && oleeResourceAccess.getWorkflowDescription().trim().isEmpty())) {
-            GlobalVariables.getMessageMap().putError("workflowDescription", OLEConstants.NO_DESCRIPTION);
+        if (oleeResourceAccess.getWorkflowDescription() == null || (oleeResourceAccess.getWorkflowDescription() != null && oleeResourceAccess.getWorkflowDescription().trim().isEmpty())) {
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.workflowDescription", OLEConstants.NO_DESCRIPTION);
             flag = true;
-        }*/
+        }
         if (flag) {
             return getUIFModelAndView(form);
         }

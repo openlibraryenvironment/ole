@@ -25,7 +25,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="dateAccessConfirmed"/>
-                <bean parent="Uif-InputField" p:propertyName="accessDescription" p:label="Access Description"/>
+                <bean parent="Uif-InputField" p:propertyName="accessDescription" p:label="Access Description" p:required="true"/>
                 <bean parent="Uif-InputField" p:propertyName="workflowConfigurationId" p:label="WorkFlow"
                       p:enableAutoQuickfinder="false">
                     <property name="optionsFinder">
