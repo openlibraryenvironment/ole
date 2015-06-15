@@ -262,6 +262,9 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
                     processItems(holdingsTree.getItems(), solrInputDocuments, holdingsSolrInputDocument, idsToDelete);
                 } else if (Holdings.OperationType.DELETE.equals(holdings.getOperation())) {
                     idsToDelete.add(holdings.getId());
+                    for(Item item:holdingsTree.getItems()){
+                        idsToDelete.add(item.getId());
+                    }
                     holdingsOlemlIndexer.processDelete(holdings.getId(), solrInputDocuments);
                 }
             }
