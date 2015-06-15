@@ -129,6 +129,7 @@ public class EditorForm extends UifFormBase {
 
     private boolean showDeleteTree = true;
     private boolean itemStatusNonEditable = false;
+    private boolean itemBarcodeNonEditable = false;
     private boolean holdingsDataInItemReadOnly = false;
 
 
@@ -876,6 +877,14 @@ public class EditorForm extends UifFormBase {
 
     public void setItemStatusNonEditable(boolean itemStatusNonEditable) {
         this.itemStatusNonEditable = itemStatusNonEditable;
+    }
+
+    public boolean isItemBarcodeNonEditable() {
+        return itemBarcodeNonEditable;
+    }
+
+    public void setItemBarcodeNonEditable(boolean itemBarcodeNonEditable) {
+        this.itemBarcodeNonEditable = itemBarcodeNonEditable;
     }
 
     public String getRecStatus() {

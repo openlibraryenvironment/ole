@@ -507,7 +507,7 @@ OLE-PURAP,Requisition,DEFAULT_ORDER_TYPE,OLE624,1,CONFG,1,The default Order Type
 "OLE-COA","Account","FUND_GRP_CD","OLE153","1","CONFG","DP","Fund Group Code DP.","A","OLE"
 OLE-PURAP,PurchaseOrder,APORules,OLE-PURAP_PurchaseOrder_APORules,1,CONFG,REQ_GT_PO;REQ_GT_ZE;ITM_REST;VEN_NOT_SEL_DB;ERR_RTV_VEN_DB;VEN_REST;REQ_NO_CONT;REQ_PAY_RECUR;PO_TOT_NOT_EXC;ALT_VEN_NAM;REQ_ENCUM_FISCAL_YEAR;REQ_TRAD_IN;REQ_CPT_ASST_ITM;REQ_CON_ACC_LN,,A,OLE
 "OLE-DESC","Describe","EDIT_HOLDINGS_INFO_IN_ITEM_SCREEN","6B889075D35B7AEBE0404F8189D81321","1","CONFG","TRUE","Edit Holdings info in Item screen in the Instance Editor","A","KUALI"
-"OLE-DESC","Describe","ITEM_STATUS_READONLY","5A689075D35B7AEBE0404F8189D81321","1","CONFG","LOANED,INTRANSIT,LOST,INTRANSIT-FOR-HOLD,INTRANSIT-PER-STAFF-REQUEST,ONHOLD,RETURNED-DAMAGED,RETURNED-WITH-MISSING-ITEMS","Item Status values that do not allow the Item Status field to be modified or set in the Instance Editor","A","KUALI"
+"OLE-DESC","Describe","ITEM_STATUS_READONLY","5A689075D35B7AEBE0404F8189D81322","1","CONFG","LOANED,INTRANSIT,LOST,INTRANSIT-FOR-HOLD,INTRANSIT-PER-STAFF-REQUEST,ONHOLD,RETURNED-DAMAGED,RETURNED-WITH-MISSING-ITEMS","Item Status values that do not allow the Item Barcode field to be modified or set in the Instance Editor","A","KUALI"
 "OLE-PRNT","Patron Bill Color","Item_Title_BGColor","2","1","CONFG","GRAY","This is the back ground color for Item Title","A","KUALI"
 "OLE-PRNT","Patron Bill Color","OverDue_Fine_BGColor","3","1","CONFG","GRAY","This is the back ground color for OverDue Fine","A","KUALI"
 "OLE-PRNT","Patron Bill Color","Patron_Name_BGColor","1","1","CONFG","GRAY","This is the back ground color for Patron Name","A","KUALI"

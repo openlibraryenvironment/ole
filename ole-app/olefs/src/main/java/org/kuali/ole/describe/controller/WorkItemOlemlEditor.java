@@ -157,39 +157,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                     workInstanceOlemlForm.setOldItemStatus(itemStatus);
                 }
 
-               /* if (item.getDueDateTime() != null && !item.getDueDateTime().equals("")) {
-                    String dueDate = item.getDueDateTime();
-                    if (dueDate.contains(" ")) {
-                        DateUtil dateUtil = new DateUtil();
-                        String dueTime = null;
-                        try {
-                            dueTime = dateUtil.convertTo12HoursFormat(dueDate.split(" ")[1]);
-                        } catch (ParseException e) {
-                            LOG.error("Exception :", e);
-                            e.printStackTrace();
-                        }
-                        item.setDueDateTime(dueDate.split(" ")[0] + " " + dueTime);
-                    }
-                }*/
-               /* SimpleDateFormat format1 = new SimpleDateFormat(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("info.DateFormat")+" HH:mm:ss");
-                SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String DATE_FORMAT_HH_MM_SS_REGX = "^(1[0-2]|0[1-9])/(3[0|1]|[1|2][0-9]|0[1-9])/[0-9]{4}(\\s)((([1|0][0-9])|([2][0-4]))):[0-5][0-9]:[0-5][0-9]:[0-5][0-9]$";
-                Date dueDateTime = null;
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mma");
-                DateFormat df1 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                try {
-                    dueDateTime = format2.parse(item.getDueDateTime());
-                   // item.setDueDateTime(format1.format(dueDateTime).toString());
-                    String dateString = format1.format(dueDateTime).toString();
-                    if (org.apache.commons.lang.StringUtils.isNotBlank(dateString) && dateString.matches(DATE_FORMAT_HH_MM_SS_REGX)) {
-                        dueDateTime = df1.parse(dateString);
-                        item.setDueDateTime(df.format(dueDateTime));
-                    }else {
-                        item.setDueDateTime(dateString);
-                    }
-                } catch (ParseException e) {
-                    LOG.error("format string to Date " + e);
-                }*/
+
                 String itemProperty = getInstanceEditorFormDataHandler().getParameter("OLE-DESC", "Describe", "ITEM_STATUS_READONLY");
                 String[] itemArray = itemProperty.split(",");
                 for (String status : itemArray) {
@@ -199,6 +167,17 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                     }
                     workInstanceOlemlForm.setItemStatusNonEditable(false);
                 }
+
+                itemProperty = getInstanceEditorFormDataHandler().getParameter("OLE-DESC", "Describe", "ITEM_BARCODE_READONLY");
+                String[] itemArrayBarcode = itemProperty.split(",");
+                for (String status : itemArrayBarcode) {
+                    if (status.equalsIgnoreCase(itemStatus)) {
+                        workInstanceOlemlForm.setItemBarcodeNonEditable(true);
+                        break;
+                    }
+                    workInstanceOlemlForm.setItemBarcodeNonEditable(false);
+                }
+
                 itemProperty = getInstanceEditorFormDataHandler().getParameter("OLE-DESC", "Describe", "EDIT_HOLDINGS_INFO_IN_ITEM_SCREEN");
                 boolean editable;
                 if (itemProperty != null) {
