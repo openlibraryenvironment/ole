@@ -739,6 +739,7 @@
         <property name="layoutManager.richTable.disableTableSort" value="false" />
         <property name="items">
             <list>
+                <bean id="patronLoanInquiry_isModified" parent="OlePatron-InputField" p:label=" " p:style="width:0px" p:propertyName="loanModified" p:hidden="true"/>
                 <bean id="patronLoanInquiry_itemId" parent="Uif-LinkField" p:label="Barcode" p:linkText="@{#line.itemId}" p:target="_blank" p:href="@{#ViewHelper.getHrefLink(#line.itemUuid,#line.instanceUuid,#line.bibUuid)}"/>
                 <bean id="patronLoanInquiry_title" parent="Uif-DataField" p:label="Title" p:propertyName="title" />
                 <bean id="patronLoanInquiry_author" parent="Uif-DataField" p:label="Author" p:propertyName="author" />
