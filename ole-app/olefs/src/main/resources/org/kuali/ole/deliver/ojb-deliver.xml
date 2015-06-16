@@ -1077,7 +1077,7 @@
         </collection-descriptor>
         <collection-descriptor name="oleProxyPatronDocumentList" element-class-ref="org.kuali.ole.deliver.bo.OleProxyPatronDocument"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+                               auto-retrieve="true" auto-update="none" auto-delete="object" proxy="true">
             <inverse-foreignkey field-ref="proxyPatronId" target-field-ref="olePatronId"/>
         </collection-descriptor>
         <collection-descriptor name="oleAddresses" element-class-ref="org.kuali.ole.deliver.bo.OleAddressBo"
