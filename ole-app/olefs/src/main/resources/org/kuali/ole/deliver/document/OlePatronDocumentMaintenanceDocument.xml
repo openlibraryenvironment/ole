@@ -1670,22 +1670,21 @@
     		</list>
     	</property>
     </bean>
-    
-    <bean id="OlePatronDocument-InvalidOrLostBarcodeSection" parent="Uif-TableCollectionSection" p:disclosure.defaultOpen="false" p:layoutManager.suppressLineWrapping="true" p:componentSecurity.editAuthz="true">
+    <bean id="OlePatronDocument-InvalidOrLostBarcodeSection" p:layoutManager.numberOfColumns="7" parent="Uif-TableCollectionSection" p:disclosure.defaultOpen="false" p:componentSecurity.editAuthz="true">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronLostBarcode" />
         <property name="propertyName" value="lostBarcodes" />
         <property name="renderAddLine" value="false"/>
         <!--  <property name="addLineLabel" value="false"/>-->
-        <property name="layoutManager.richTable.render" value="true" />
+        <!--<property name="layoutManager.richTable.render" value="true" />-->
         <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.richTable.templateOptions">
+       <!-- <property name="layoutManager.richTable.templateOptions">
             <map>
                 <entry key="aaSorting" value="[[0,'desc']]"/>
             </map>
-        </property>
+        </property>-->
         <property name="items">
             <list>
-                <bean id="invalidOrLostId" parent="OlePatron-DataField" p:propertyName="olePatronLostBarcodeId" p:label=" " p:style="width:0px" p:hidden="true"/>
+                <bean id="invalidOrLostSpaceForSort" parent="Uif-SpaceField" p:style="width:0px"/><!--<bean id="invalidOrLostId" parent="OlePatron-DataField" p:propertyName="active" p:label=" " p:style="width:0px" p:hidden="true"/>-->
                 <bean id="invalidOrLostBarcodeNumber" parent="OlePatron-DataField" p:propertyName="invalidOrLostBarcodeNumber" p:label="Lost/Invalid Barcode" p:readOnly="true"/>
                 <bean id="invalidOrLostBarcodeEffDate" parent="OlePatron-DataField" p:label="Effective date" p:propertyName="invalidOrLostBarcodeEffDate" p:readOnly="true"/>
                 <bean id="invalidOrLostStatusCode" parent="OlePatron-DataField" p:label="Status" p:propertyName="status" p:readOnly="true"/>

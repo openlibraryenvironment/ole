@@ -144,6 +144,16 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
                 if(olePatron.getOleDeliverRequestBos()!=null){
                     olePatron.setRequestedItemRecordsCount(olePatron.getOleDeliverRequestBos().size());
                 }
+                if(olePatron.getLostBarcodes()!=null){
+                  Collections.sort(olePatron.getLostBarcodes(), new Comparator<OlePatronLostBarcode>() {
+                      @Override
+                      public int compare(OlePatronLostBarcode o1, OlePatronLostBarcode o2) {
+
+                          return  Integer.parseInt(o2.getId()) - Integer.parseInt(o1.getId());
+                      }
+                  });
+
+                }
             }
         } catch (ClassNotPersistenceCapableException ex) {
             if (!document.getOldMaintainableObject().isExternalBusinessObject()) {
