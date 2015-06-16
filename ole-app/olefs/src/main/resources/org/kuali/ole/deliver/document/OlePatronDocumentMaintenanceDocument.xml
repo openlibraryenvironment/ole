@@ -1670,7 +1670,7 @@
     		</list>
     	</property>
     </bean>
-    <bean id="OlePatronDocument-InvalidOrLostBarcodeSection" p:layoutManager.numberOfColumns="7" parent="Uif-TableCollectionSection" p:disclosure.defaultOpen="false" p:componentSecurity.editAuthz="true">
+    <bean id="OlePatronDocument-InvalidOrLostBarcodeSection" p:layoutManager.numberOfColumns="7" p:filterModelProperty="filterInvalidOrLostBarcodeSection" parent="Uif-TableCollectionSection" p:disclosure.defaultOpen="false" p:componentSecurity.editAuthz="true">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronLostBarcode" />
         <property name="propertyName" value="lostBarcodes" />
         <property name="renderAddLine" value="false"/>
