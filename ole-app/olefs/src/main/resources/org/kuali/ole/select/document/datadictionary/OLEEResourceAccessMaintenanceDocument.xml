@@ -120,7 +120,7 @@
                         <bean parent="Uif-InputField" p:propertyName="accessStatus" p:readOnly="true"/>
                         <bean parent="Uif-InputField" p:propertyName="dateAccessConfirmed"/>
                         <bean parent="Uif-InputField" p:propertyName="workflowId" p:label="WorkFlow"
-                              p:enableAutoQuickfinder="false" p:readOnly="@{document.newMaintainableObject.dataObject.workflowId ne null and document.newMaintainableObject.dataObject.workflowDescription ne null }">
+                              p:enableAutoQuickfinder="false" p:readOnly="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
                             <property name="optionsFinder">
                                 <bean class="org.kuali.ole.select.keyvalue.OLEEResourceWorkflowConfigKeyValue"/>
                             </property>
@@ -270,14 +270,14 @@
         </property>
     </bean>
 
-    <bean id="OLEEResourceAccess-Workflow-Description" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
+    <bean id="OLEEResourceAccess-Workflow-Description" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="headerText" value="Access Activation Workflow Description" />
         <property name="items">
             <list>
                 <bean id="accessWorkflow"  parent="Uif-GridGroup" p:layoutManager.numberOfColumns="1" >
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="workflowDescription" p:label="Workflow Description" p:required="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="workflowDescription" p:label="Workflow Description" p:required="true" p:readOnly="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
                         </list>
                     </property>
                 </bean>
