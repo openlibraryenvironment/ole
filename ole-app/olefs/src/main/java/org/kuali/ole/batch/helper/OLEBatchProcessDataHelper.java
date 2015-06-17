@@ -524,14 +524,14 @@ public class OLEBatchProcessDataHelper {
         File fileToWrite = new File(filePath);
         FileOutputStream fileOutputStream = new FileOutputStream(fileToWrite);
         //String bibContent = StringUtils.join(bibDocList, "");
-        InputStream input = new ByteArrayInputStream(marcRecordContent.getBytes());
+        InputStream input = new ByteArrayInputStream(marcRecordContent.getBytes("UTF-8"));
         if (!fileToWrite.exists()) {
             fileToWrite.getParentFile().mkdirs();
             fileToWrite.createNewFile();
         }
         try {
             MarcXmlReader marcXmlReader = new MarcXmlReader(input);
-            MarcWriter writer = new MarcStreamWriter(fileOutputStream);
+            MarcWriter writer = new MarcStreamWriter(fileOutputStream, "UTF-8");
 
             while (marcXmlReader.hasNext()) {
                 Record record = marcXmlReader.next();
