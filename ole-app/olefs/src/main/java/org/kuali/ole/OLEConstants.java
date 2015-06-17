@@ -402,6 +402,17 @@ public class OLEConstants {
     public static final String MARC_EDITOR_TITLE_LETTER = "|a";
     public static final String MARC_EDITOR_INVALID_TITLE = "Minimum title field 245 and |a is required. ";
     public static final String MARC_EDITOR_TITLE_100 = "100";
+    public static final String MARC_EDITOR_EDITION_250 = "250";
+    public static final String MARC_EDITOR_SERIES_490 = "490";
+    public static final String MARC_EDITOR_PUBLISHER_260 = "260";
+    public static final String MARC_EDITOR_POP_260 = "260";
+    public static final String MARC_EDITOR_YOP_260 = "260";
+    public static final String MARC_EDITOR_024 = "024";
+    public static final String MARC_EDITOR_AUTHOR_100 = "100";
+    public static final String MARC_EDITOR_022 = "022";
+    public static final String MARC_EDITOR_020 = "020";
+    public static final String MARC_EDITOR_IND1_8 = "8";
+    public static final String MARC_EDITOR_IND1 = "";
 
     public static final String DOCSTORE_HELPER_SERVICE = "docstoreHelperService";
     public static final String DISCOVERY_HELPER_SERVICE = "discoveryHelperService";
@@ -1705,6 +1716,8 @@ public class OLEConstants {
     public static final String LEVEL_NAME = "levelName";
     public static final String LEVEL_ID = "levelId";
     public static final String A = "a";
+    public static final String C = "c";
+    public static final String B = "b";
     public static final String CAN_OVERRIDE_LOAN = "Can Override";
     public static final String CAN_DISPLAY_BILL = "Display Bill";
     public static final String CAN_CREATEORUPDATE_BILL = "Create/update Bill";

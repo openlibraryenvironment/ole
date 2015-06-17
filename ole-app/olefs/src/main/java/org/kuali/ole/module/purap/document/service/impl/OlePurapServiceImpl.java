@@ -410,18 +410,61 @@ public class OlePurapServiceImpl implements OlePurapService {
      * @param bibMarcRecord
      * @param bibInfoBean
      */
-    public void setBibMarcRecord(BibMarcRecord bibMarcRecord,BibInfoBean bibInfoBean){
+    public void setBibMarcRecord(BibMarcRecord bibMarcRecord,BibInfoBean bibInfoBean) {
         LOG.debug("Inside setBibMarcRecord method.....");
-        List<org.kuali.ole.docstore.common.document.content.bib.marc.DataField> dataFieldList = new ArrayList<DataField>();
-        if(bibInfoBean.getTitle() != null){
-            dataFieldList.add(setDataField(org.kuali.ole.OLEConstants.MARC_EDITOR_TITLE_245,bibInfoBean.getTitle()));
+        List<org.kuali.ole.docstore.common.document.content.bib.marc.DataField> dataFieldList = new ArrayList<DataField>()
+                ;
+        if (StringUtils.isNotEmpty(bibInfoBean.getTitle())) {
+            dataFieldList.add(setDataField(org.kuali.ole.OLEConstants.MARC_EDITOR_TITLE_245, bibInfoBean.getTitle(), org.kuali.ole.OLEConstants.A, org.kuali.ole.OLEConstants.MARC_EDITOR_IND1));
         }
-        if(bibInfoBean.getAuthor() !=null){
-            dataFieldList.add(setDataField(org.kuali.ole.OLEConstants.MARC_EDITOR_TITLE_100,bibInfoBean.getAuthor()));
+        if (StringUtils.isNotEmpty(bibInfoBean.getAuthor())) {
+            dataFieldList.add(setDataField(org.kuali.ole.OLEConstants.MARC_EDITOR_AUTHOR_100, bibInfoBean.getAuthor(), org.kuali.ole.OLEConstants.A, org.kuali.ole.OLEConstants.MARC_EDITOR_IND1));
+        }
+
+        if (StringUtils.isNotEmpty(bibInfoBean.getEdition())) {
+            dataFieldList.add(setDataField(org.kuali.ole.OLEConstants.MARC_EDITOR_EDITION_250, bibInfoBean.getEdition(), org.kuali.ole.OLEConstants.A, org.kuali.ole.OLEConstants.MARC_EDITOR_IND1));
+        }
+
+        if (StringUtils.isNotEmpty(bibInfoBean.getSeries())) {
+            dataFieldList.add(setDataField(org.kuali.ole.OLEConstants.MARC_EDITOR_SERIES_490, bibInfoBean.getSeries(), org.kuali.ole.OLEConstants.A, org.kuali.ole.OLEConstants.MARC_EDITOR_IND1));
+        }
+
+        if (StringUtils.isNotEmpty(bibInfoBean.getPublisher())) {
+            dataFieldList.add(setDataField(org.kuali.ole.OLEConstants.MARC_EDITOR_PUBLISHER_260, bibInfoBean.getPublisher(), org.kuali.ole.OLEConstants.B, org.kuali.ole.OLEConstants.MARC_EDITOR_IND1));
+        }
+
+        if (StringUtils.isNotEmpty(bibInfoBean.getPlaceOfPublication())) {
+            dataFieldList.add(setDataField(org.kuali.ole.OLEConstants.MARC_EDITOR_POP_260, bibInfoBean.getPlaceOfPublication(), org.kuali.ole.OLEConstants.A, org.kuali.ole.OLEConstants.MARC_EDITOR_IND1));
+        }
+
+        if (StringUtils.isNotEmpty(bibInfoBean.getYearOfPublication())) {
+            dataFieldList.add(setDataField(org.kuali.ole.OLEConstants.MARC_EDITOR_YOP_260, bibInfoBean.getYearOfPublication(), org.kuali.ole.OLEConstants.C, org.kuali.ole.OLEConstants.MARC_EDITOR_IND1));
+        }
+
+        if (StringUtils.isNotEmpty(bibInfoBean.getTypeOfStandardNumber())) {
+            String standardType = bibInfoBean.getTypeOfStandardNumber();
+            boolean isIssn = false;
+            boolean isIsbn = false;
+            if (standardType.equalsIgnoreCase(org.kuali.ole.OLEConstants.OLEBatchProcess.ISSN)) {
+                isIssn = true;
+            } else if (standardType.equalsIgnoreCase(org.kuali.ole.OLEConstants.ISBN)) {
+                isIsbn = true;
+            }
+            if (StringUtils.isNotEmpty(bibInfoBean.getStandardNumber())) {
+                if (isIssn) {
+                    dataFieldList.add(setDataField(org.kuali.ole.OLEConstants.MARC_EDITOR_020, bibInfoBean.getStandardNumber(), org.kuali.ole.OLEConstants.A, org.kuali.ole.OLEConstants.MARC_EDITOR_IND1));
+                } else if (isIsbn) {
+                    dataFieldList.add(setDataField(org.kuali.ole.OLEConstants.MARC_EDITOR_022, bibInfoBean.getStandardNumber(), org.kuali.ole.OLEConstants.A, org.kuali.ole.OLEConstants.MARC_EDITOR_IND1));
+                } else {
+                    dataFieldList.add(setDataField(org.kuali.ole.OLEConstants.MARC_EDITOR_024, bibInfoBean.getStandardNumber(), org.kuali.ole.OLEConstants.A, org.kuali.ole.OLEConstants.MARC_EDITOR_IND1_8));
+                }
+            }
         }
         bibMarcRecord.setDataFields(dataFieldList);
         LOG.debug("setBibMarcRecord method successfull.....");
     }
+
+
 
     /**
      * This method is used the set the Datafield for the given tag and value
@@ -429,16 +472,17 @@ public class OlePurapServiceImpl implements OlePurapService {
      * @param value
      * @return
      */
-    private DataField setDataField(String tag,String value){
+    private DataField setDataField(String tag,String value,String subFieldCode,String ind1){
         if(LOG.isDebugEnabled()){
             LOG.debug("inside setDataField method.....");
             LOG.debug("tag---->"+tag+" "+"value---->"+value);
         }
         DataField dataField = new DataField();
         dataField.setTag(tag);
+        dataField.setInd1(ind1);
         List<org.kuali.ole.docstore.common.document.content.bib.marc.SubField> subFields = new ArrayList<org.kuali.ole.docstore.common.document.content.bib.marc.SubField>();
         org.kuali.ole.docstore.common.document.content.bib.marc.SubField subField = new org.kuali.ole.docstore.common.document.content.bib.marc.SubField();
-        subField.setCode(org.kuali.ole.OLEConstants.A);
+        subField.setCode(subFieldCode);
         subField.setValue(value);
         subFields.add(subField);
         dataField.setSubFields(subFields);

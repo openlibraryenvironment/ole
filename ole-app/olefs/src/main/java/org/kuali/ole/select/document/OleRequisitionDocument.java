@@ -654,7 +654,7 @@ public class OleRequisitionDocument extends RequisitionDocument {
             }
             // Added for jira OLE-2811 starts
             //Modified for jiar OLE-6032
-            if (singleItem.getRequestorId() != null) {
+            if (StringUtils.isNotEmpty(singleItem.getRequestorId())) {
                 singleItem.setRequestorFirstName(getOlePurapService().getPatronName(singleItem.getRequestorId()));
             }
             if (singleItem.getItemUnitPrice() != null) {
