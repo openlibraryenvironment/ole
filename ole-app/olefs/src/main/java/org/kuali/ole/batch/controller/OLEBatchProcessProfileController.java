@@ -307,6 +307,22 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
             map.put("oleProfileProtectedFieldId",oleBatchProcessProfileProtectedField.getOleProfileProtectedFieldId());
             KRADServiceLocator.getBusinessObjectService().deleteMatching(OLEBatchProcessProfileProtectedField.class,map);
         }
+        List<OLEBatchProcessBibDataMappingNew> oleBatchProcessBibDataMappingNews = newOleBatchProcessProfileBo.getDeleteBatchProcessBibDataMappingNewList();
+        for(OLEBatchProcessBibDataMappingNew oleBatchProcessBibDataMappingNew:oleBatchProcessBibDataMappingNews) {
+            if (oleBatchProcessBibDataMappingNew!=null && StringUtils.isNotBlank(oleBatchProcessBibDataMappingNew.getOleBatchProcessBibDataMappingNewId())) {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("oleBatchProcessBibDataMappingNewId", oleBatchProcessBibDataMappingNew.getOleBatchProcessBibDataMappingNewId());
+                KRADServiceLocator.getBusinessObjectService().deleteMatching(OLEBatchProcessBibDataMappingNew.class, map);
+            }
+        }
+        List<OLEBatchProcessBibDataMappingOverlay> oleBatchProcessBibDataMappingOverlays = newOleBatchProcessProfileBo.getDeleteBatchProcessBibDataMappingOverlayList();
+        for (OLEBatchProcessBibDataMappingOverlay oleBatchProcessBibDataMappingOverlay : oleBatchProcessBibDataMappingOverlays) {
+            if (oleBatchProcessBibDataMappingOverlay!=null && StringUtils.isNotBlank(oleBatchProcessBibDataMappingOverlay.getOleBatchProcessBibDataMappingOverlayId())) {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("oleBatchProcessBibDataMappingOverlayId", oleBatchProcessBibDataMappingOverlay.getOleBatchProcessBibDataMappingOverlayId());
+                KRADServiceLocator.getBusinessObjectService().deleteMatching(OLEBatchProcessBibDataMappingOverlay.class, map);
+            }
+        }
         List<OLEBatchProcessProfileMatchPoint> oleBatchProcessProfileMatchPointList = newOleBatchProcessProfileBo.getDeletedBatchProcessProfileMatchPointList();
         newOleBatchProcessProfileBo.getOleBatchProcessProfileMatchPointList().removeAll(oleBatchProcessProfileMatchPointList);
         for (OLEBatchProcessProfileMatchPoint oleBatchProcessProfileMatchPoint : oleBatchProcessProfileMatchPointList) {
@@ -1164,6 +1180,28 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
         OLEBatchProcessProfileBo oleBatchProcessProfileBo=(OLEBatchProcessProfileBo)document.getNewMaintainableObject().getDataObject();
         oleBatchProcessProfileBo.getDeletedBatchProcessProfileMappingOptionsList().add(oleBatchProcessProfileBo.getOleBatchProcessProfileMappingOptionsList().get(Integer.parseInt(selectedLineIndex)));
         oleBatchProcessProfileBo.getDeletedBatchProcessProfileDataMappingOptionsList().addAll(oleBatchProcessProfileBo.getOleBatchProcessProfileMappingOptionsList().get(Integer.parseInt(selectedLineIndex)).getOleBatchProcessProfileDataMappingOptionsBoList());
+        return deleteLine(uifForm, result, request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=bibDataMappingDelete")
+    public ModelAndView bibDataMappingDelete(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) {
+        MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
+        String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
+        OLEBatchProcessProfileBo oleBatchProcessProfileBo=(OLEBatchProcessProfileBo)document.getNewMaintainableObject().getDataObject();
+        oleBatchProcessProfileBo.getDeleteBatchProcessBibDataMappingNewList().add(oleBatchProcessProfileBo.getOleBatchProcessBibDataMappingNewList().get(Integer.parseInt(selectedLineIndex)));
+        return deleteLine(uifForm, result, request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=bibDataMappingDeleteOverlay")
+    public ModelAndView bibDataMappingDeleteOverlay(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) {
+        MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
+        String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
+        OLEBatchProcessProfileBo oleBatchProcessProfileBo=(OLEBatchProcessProfileBo)document.getNewMaintainableObject().getDataObject();
+        oleBatchProcessProfileBo.getDeleteBatchProcessBibDataMappingOverlayList().add(oleBatchProcessProfileBo.getOleBatchProcessBibDataMappingOverlayList().get(Integer.parseInt(selectedLineIndex)));
         return deleteLine(uifForm, result, request, response);
     }
 

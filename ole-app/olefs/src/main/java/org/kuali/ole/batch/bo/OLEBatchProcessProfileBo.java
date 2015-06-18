@@ -89,8 +89,10 @@ public class OLEBatchProcessProfileBo extends PersistableBusinessObjectBase {
     private String dummyAttributeName;
 
     private List<OLEBatchProcessBibDataMappingNew> oleBatchProcessBibDataMappingNewList = new ArrayList<>();
+    private List<OLEBatchProcessBibDataMappingNew> deleteBatchProcessBibDataMappingNewList = new ArrayList<>();
 
     private List<OLEBatchProcessBibDataMappingOverlay> oleBatchProcessBibDataMappingOverlayList = new ArrayList<>();
+    private List<OLEBatchProcessBibDataMappingOverlay> deleteBatchProcessBibDataMappingOverlayList = new ArrayList<>();
 
     private String matchingProfile;
 
@@ -670,6 +672,22 @@ public class OLEBatchProcessProfileBo extends PersistableBusinessObjectBase {
 
     public void setOleBatchProcessBibDataMappingNewList(List<OLEBatchProcessBibDataMappingNew> oleBatchProcessBibDataMappingNewList) {
         this.oleBatchProcessBibDataMappingNewList = oleBatchProcessBibDataMappingNewList;
+    }
+
+    public List<OLEBatchProcessBibDataMappingNew> getDeleteBatchProcessBibDataMappingNewList() {
+        return deleteBatchProcessBibDataMappingNewList;
+    }
+
+    public void setDeleteBatchProcessBibDataMappingNewList(List<OLEBatchProcessBibDataMappingNew> deleteBatchProcessBibDataMappingNewList) {
+        this.deleteBatchProcessBibDataMappingNewList = deleteBatchProcessBibDataMappingNewList;
+    }
+
+    public List<OLEBatchProcessBibDataMappingOverlay> getDeleteBatchProcessBibDataMappingOverlayList() {
+        return deleteBatchProcessBibDataMappingOverlayList;
+    }
+
+    public void setDeleteBatchProcessBibDataMappingOverlayList(List<OLEBatchProcessBibDataMappingOverlay> deleteBatchProcessBibDataMappingOverlayList) {
+        this.deleteBatchProcessBibDataMappingOverlayList = deleteBatchProcessBibDataMappingOverlayList;
     }
 
     public List<OLEBatchProcessBibDataMappingOverlay> getOleBatchProcessBibDataMappingOverlayList() {

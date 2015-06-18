@@ -988,7 +988,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="bibDataMapping-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="dataMappingDelete" p:actionLabel="Delete"/>
+                <bean id="bibDataMapping-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="bibDataMappingDelete" p:actionLabel="Delete"/>
             </list>
         </property>
     </bean>
@@ -1028,7 +1028,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="bibDataMappingOverlay-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="dataMappingDelete" p:actionLabel="Delete"/>
+                <bean id="bibDataMappingOverlay-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="bibDataMappingDeleteOverlay" p:actionLabel="Delete"/>
             </list>
         </property>
     </bean>
