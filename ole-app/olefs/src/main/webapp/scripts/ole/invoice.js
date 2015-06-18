@@ -1,3 +1,4 @@
+var currencyType = null;
 function displayDialogWindow(divID){
     jq(divID).fadeIn(300);
     var popMargTop = (jq(divID).height() + 42) / 2;
@@ -46,6 +47,13 @@ jq("#invoice-vendorHeaderIdentifier_control").live("change",function() {
     jq('#invoiceVendorBtn').click();
     jq("#unsaved_control").val("true");
 });
+function revertCurrencyType(){
+
+    if(currencyType != null){
+        jq("#invoice-currencyType_control").val(currencyType);
+    }
+}
+
 
 jq("#invoice-currencyType_control").live("change", function() {
     jq('#invoiceCurrencyTypeBtn').click();
@@ -396,6 +404,8 @@ jq(document).ready(function(){
         jq("#unsaved_control").val("true");
     });
     window.onbeforeunload = unloadPage;
+    saveCurrencyType();
+
 });
 
 jq("#invoice-paymentMethod_control").live("change",function() {
@@ -433,4 +443,13 @@ function oleInvoiceRowDetails(lineId, collectionId, show) {
     	"selectRowDetails" : lineId,
     	"showSelectedRowDetails" : show
     }, true);
+}
+
+
+
+
+function saveCurrencyType() {
+    jq("#invoice-currencyType").live("change", function() {
+        currencyType=jq("#invoice-currencyType_control").val();
+    });
 }

@@ -620,7 +620,7 @@
                 </bean>
                 <bean id="invoice-invoiceForeignVendorAmount" parent="Uif-InputField" p:propertyName="foreignVendorAmount" p:required="true" p:label="Vendor Foreign Invoice Amount"
                       p:readOnly="@{!document.foreignCurrencyFlag or document.documentHeader.workflowDocument.enroute or document.documentHeader.workflowDocument.processed or document.documentHeader.workflowDocument.final}"/>
-                <bean id="invoice-currencyType" parent="Uif-InputField" p:propertyName="invoiceCurrencyType">
+                <bean id="invoice-currencyType" parent="Uif-InputField" p:propertyName="invoiceCurrencyType"  p:onChangeScript="saveCurrencyType()">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.vnd.businessobject.options.OleCurrencyTypeValuesFinder" />
                     </property>
@@ -922,7 +922,7 @@
         </property>
     </bean>
 
-    <bean id="invoiceVendorBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="searchVendor"  p:actionLabel="OK" p:hidden="true" />
+    <bean id="invoiceVendorBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="searchVendor"  p:ajaxSubmit="true"  p:successCallback="revertCurrencyType()" p:actionLabel="OK" p:hidden="true" />
 
     <bean id="invoiceCurrencyTypeBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="updateCurrencyTypeChange"  p:hidden="true"/> <!--p:ajaxSubmit="true" p:successCallback="MessageInvoiceCurrencyPopup();" -->
 
