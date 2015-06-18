@@ -130,6 +130,7 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.BIB_IDENTIFIER));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.TITLE_SORT));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Bib.AUTHOR));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Bib.PUBLICATIONPLACE));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Bib.PUBLISHER));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.HOLDINGS_LOCATION_DISPLAY));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.LOCATION_LEVEL_DISPLAY));
@@ -241,8 +242,10 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                             singleItemResultDisplayRow.setDueDate(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.NUMBER_OF_PIECES_DISPLAY)) {
                             singleItemResultDisplayRow.setNoOfPieces(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.PUBLISHER)) {
+                        }else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.PUBLICATIONPLACE)) {
                             singleItemResultDisplayRow.setPublication(searchResultField.getFieldValue());
+                        }else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.PUBLISHER)) {
+                            singleItemResultDisplayRow.setPublication(singleItemResultDisplayRow.getPublication()+" "+searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.PUBLICATIONDATE_DISPLAY)) {
                             bibSearchResultDisplayRow.setPublicationYear(searchResultField.getFieldValue());
                         }

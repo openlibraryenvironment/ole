@@ -125,8 +125,30 @@ public class BibMarcMapper {
 
             bib.setAuthor(author.toString());
         } else if (field.equalsIgnoreCase("Publisher_display")) {
-            HashMap<String, ArrayList<String>> publicDisplayMap = getTags("Publisher_display");
+            // Publisher and publisher are separate we want them as single
+            HashMap<String, ArrayList<String>> publicDisplayMap = getTags("PublicationPlace_display");
             StringBuilder publisher = new StringBuilder();
+            for (Map.Entry<String, ArrayList<String>> publicDisplayMapEntry : publicDisplayMap.entrySet()) {
+                String key = publicDisplayMapEntry.getKey();
+                Object value = publicDisplayMapEntry.getValue();
+                ArrayList<String> subFieldList = (ArrayList<String>) value;
+                dataField = bibMarc.getDataFieldForTag(key);
+                if (dataField != null) {
+                    for (SubField subField : dataField.getSubFields()) {
+                        for (String subFieldStr : subFieldList) {
+                            if (subField.getCode().equalsIgnoreCase(subFieldStr)) {
+                                if (publisher.length() > 0) {
+                                    publisher.append(" ");
+                                }
+                                publisher.append(subField.getValue());
+                                break;
+                            }
+                        }
+                    }
+
+                }
+            }
+            publicDisplayMap = getTags("Publisher_display");
             for (Map.Entry<String, ArrayList<String>> publicDisplayMapEntry : publicDisplayMap.entrySet()) {
                 String key = publicDisplayMapEntry.getKey();
                 Object value = publicDisplayMapEntry.getValue();

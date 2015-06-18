@@ -66,6 +66,7 @@ public class Bib
     public static final String SUBJECT = "SUBJECT";
     public static final String PUBLISHER = "PUBLISHER";
     public static final String PUBLICATIONDATE = "PUBLICATIONDATE";
+    public static final String PUBLICATIONPLACE = "PublicationPlace_display";
     public static final String EDITION = "EDITION";
     public static final String DESCRIPTION = "DESCRIPTION";
     public static final String FORMAT = "FORMAT";

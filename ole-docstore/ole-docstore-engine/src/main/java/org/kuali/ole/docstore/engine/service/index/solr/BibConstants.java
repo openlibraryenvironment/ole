@@ -57,6 +57,8 @@ public interface BibConstants {
     public static final String PUBLISHER_SEARCH = "Publisher_search";
     public static final String PUBLISHER_SORT = "Publisher_sort";
 
+    public static final String PUBLICATIONPLACE_DISPLAY = "PublicationPlace_display";
+
     public static final String SUBJECT_DISPLAY = "Subject_display";
     public static final String SUBJECT_SEARCH = "Subject_search";
     public static final String SUBJECT_FACET = "Subject_facet";
