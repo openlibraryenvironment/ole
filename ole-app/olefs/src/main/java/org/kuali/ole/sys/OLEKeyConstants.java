@@ -1139,5 +1139,6 @@ public class OLEKeyConstants {
     public static final String ERROR_EXCHANGE_RATE_EMPTY = "error.exchange.rate.empty";
     public static final String ERROR_VALID_FOREIGN_INVOICE_AMOUNT = "error.valid.foreign.invoice.amount";
     public static final String ERROR_NO_MATCHING_PO_VND_NM = "error.no.matching.po.vnd.name";
+    public static final String INV_NUM_REQ="error.inv.number.required";
 
 }

@@ -1266,6 +1266,6 @@ public class OLEPropertyConstants {
     public static final String BUD_REVIEW = "routing";
     public static final String NOTIFICATION = "notification";
     public static final String BAL_TYP_CODE                                                          = "CB";
-
+    public static final String DIS_VOUCHER_INV_NBR="invoiceNumber";
 }
 

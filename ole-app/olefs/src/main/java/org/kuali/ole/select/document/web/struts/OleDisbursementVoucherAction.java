@@ -104,16 +104,20 @@ public class OleDisbursementVoucherAction extends DisbursementVoucherAction {
         OleDisbursementVoucherDocument disbursementDocument = disbursementVoucherForm.getDisbursementVoucherDocument();
         boolean isValid = true;
         ActionForward forward = mapping.findForward(OLEConstants.MAPPING_BASIC);
+        if(!StringUtils.isNotEmpty(disbursementDocument.getInvoiceNumber())) {
+            GlobalVariables.getMessageMap().putError(OLEPropertyConstants.DIS_VOUCHER_INV_NBR, OLEKeyConstants.INV_NUM_REQ );
+            return forward;
+        }
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new OleDisbursementAccountPercentEvent(OLEConstants.ACCOUNT_NEW_SRC_LINE,
                 disbursementDocument, disbursementDocument.getSourceAccountingLines()));
         if(disbursementDocument.getSourceAccountingLines().size() > 0) {
             KualiDecimal totalAmount = KualiDecimal.ZERO;
             for (SourceAccountingLine accLine : disbursementDocument.getSourceAccountingLines()) {
                 totalAmount = totalAmount.add(accLine.getAmount());
-                if (!(totalAmount.equals(disbursementDocument.getDisbVchrCheckTotalAmount()))) {
-                    GlobalVariables.getMessageMap().putError(OLEPropertyConstants.DISB_VCHR_CHECK_TOTAL_AMOUNT, OLEKeyConstants.ERROR_ACC_LINE_TOTAL);
-                    isValid = false;
-                }
+            }
+            if (!(totalAmount.equals(disbursementDocument.getDisbVchrCheckTotalAmount()))) {
+                GlobalVariables.getMessageMap().putError(OLEPropertyConstants.DISB_VCHR_CHECK_TOTAL_AMOUNT, OLEKeyConstants.ERROR_ACC_LINE_TOTAL );
+                isValid = false;
             }
         }
         if (rulePassed) {
