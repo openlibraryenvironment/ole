@@ -850,36 +850,40 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
         } else {
             return "(*:*)";
         }
-        Collections.reverse(searchConditions);
+
+        modifySearchCondition(searchConditions);
+        //    Collections.reverse(searchConditions);
         int size = searchConditions.size();
-
         String previousOperator = "";
-        for(int i= size-1 ; i >= 0 ; i--) {
-
+        String docOperator ="AND";
+        for (int i = size - 1; i >= 0; i--) {
             boolean isInsert = false;
-
             SearchCondition searchCondition = null;
-            String searchText =null;
+            String searchText = null;
             String searchScope = null;
-
-            if(searchConditions.get(i)!=null  && searchConditions.get(i).getSearchField() !=null){
-                if((size-1) != i ) {
+            if (searchConditions.get(i) != null && searchConditions.get(i).getSearchField() != null) {
+                if ((size - 1) != i) {
                     query.insert(0, "(");
                     isInsert = true;
                 }
                 searchCondition = searchConditions.get(i);
                 searchText = searchCondition.getSearchField().getFieldValue();
                 searchScope = searchCondition.getSearchScope();
-            }else{
+                if (StringUtils.isNotEmpty(searchCondition.getOperator()) && searchCondition.getOperator().equalsIgnoreCase("NOT")) {
+                    previousOperator = searchCondition.getOperator();
+                    if(size == 1){
+                        docOperator = searchCondition.getOperator();
+                    }
+                }
+
+            } else {
                 continue;
             }
 
-            if(isInsert) {
+            if (isInsert) {
                 query.append(previousOperator);
             }
-            if (StringUtils.isNotBlank(searchCondition.getOperator())&&searchCondition.getOperator().equalsIgnoreCase("not")) {
-                query.append("!");
-            }
+
             query.append("(");
             if (StringUtils.isNotBlank(searchCondition.getSearchField().getFieldName())) {
                 if (searchCondition.getSearchField().getFieldName().equalsIgnoreCase("all") || searchCondition.getSearchField().getFieldName().equalsIgnoreCase("any")) {
@@ -909,25 +913,43 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
                     query.append(")");
                 }
                 query.append(")");
-            }
-            else {
+            } else {
                 query.append("(*:*)");
                 query.append(")");
             }
-            if(StringUtils.isNotBlank(searchCondition.getOperator())&&searchCondition.getOperator().equalsIgnoreCase("not")){
-                previousOperator="AND";
-            } else {
-                previousOperator = searchCondition.getOperator();
-            }
-            if(isInsert) {
+
+            previousOperator = searchCondition.getOperator();
+
+
+            if (isInsert) {
                 query.append(")");
             }
         }
         if (addDocType != null && addDocType.length() > 0) {
-            return addDocType.append("AND").append(query).toString();
+            return addDocType.append(docOperator).append(query).toString();
         } else {
             return query.toString();
         }
+    }
+
+    private void modifySearchCondition(List<SearchCondition> searchConditions) {
+        List<SearchCondition> tempSearchConditions = new ArrayList<>();
+        List<SearchCondition> notSearchConditions = new ArrayList<>();
+
+        for(SearchCondition searchCondition:searchConditions){
+            if(StringUtils.isNotEmpty(searchCondition.getOperator()) && searchCondition.getOperator().equalsIgnoreCase("NOT")){
+                notSearchConditions.add(searchCondition);
+            }else{
+                tempSearchConditions.add(searchCondition);
+            }
+        }
+
+        if(tempSearchConditions.size() >0){
+            notSearchConditions.addAll(tempSearchConditions);
+        }
+
+        searchConditions.clear();
+        searchConditions.addAll(notSearchConditions);
     }
 
 

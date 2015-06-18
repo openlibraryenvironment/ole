@@ -605,15 +605,15 @@ function bibSortBy(field) {
     if (field == 'title') {
         sortField = "Title_sort";
     } else if (field == 'author') {
-        sortField = "Author_sort";
+        sortField = "Author_sort "+sortOrder+ ",Title_sort";
     } else if (field == 'publicationDate') {
-        sortField = "PublicationDate_sort";
+        sortField = "PublicationDate_sort "+sortOrder+ ",Title_sort";
     } else if (field == 'journal') {
-        sortField = "JournalTitle_sort";
+        sortField = "JournalTitle_sort "+sortOrder+ ",Title_sort";
     } else if (field == 'publisher') {
-        sortField = "Publisher_sort";
+        sortField = "Publisher_sort "+sortOrder+ ",Title_sort";
     } else if (field == 'local') {
-        sortField = "LocalId_search";
+        sortField = "LocalId_search "+sortOrder+ ",Title_sort";
     }
 
     jq('#hiddenSearchFields_h3').val(sortField);
@@ -631,23 +631,23 @@ function itemSortBy(field) {
     if (field == 'title') {
         sortField = "Title_sort";
     } else if (field == 'location') {
-        sortField = "Location_sort";
+        sortField = "Location_sort " +sortOrder+ ",Title_sort";
     } else if (field == 'callNumber') {
-        sortField = "CallNumber_sort";
+        sortField = "CallNumber_sort " +sortOrder+ ",Title_sort";
     } else if (field == 'barcode') {
-        sortField = "ItemBarcode_sort";
+        sortField = "ItemBarcode_sort " +sortOrder+ ",Title_sort";
     } else if (field == 'itemStatus') {
-        sortField = "ItemStatus_sort";
+        sortField = "ItemStatus_sort " +sortOrder+ ",Title_sort";
     } else if (field == 'copyNumber') {
-        sortField = "CopyNumber_sort";
+        sortField = "CopyNumber_sort " +sortOrder+ ",Title_sort";
     } else if (field == 'enumeration') {
-        sortField = "Enumeration_sort";
+        sortField = "Enumeration_sort " +sortOrder+ ",Title_sort";
     } else if (field == 'chronology') {
-        sortField = "Chronology_sort";
+        sortField = "Chronology_sort " +sortOrder+ ",Title_sort";
     } else if (field == 'local') {
-        sortField = "LocalId_search";
+        sortField = "LocalId_search " +sortOrder+ ",Title_sort";
     } else if (field == 'shelvingOrder') {
-        sortField = "ShelvingOrder_sort";
+        sortField = "ShelvingOrder_sort " +sortOrder+ ",Title_sort";
     }
 
     jq('#hiddenSearchFields_h3').val(sortField);
@@ -665,13 +665,13 @@ function holdingsSortBy(field) {
     if (field == 'title') {
         sortField = "Title_sort";
     } else if (field == 'location') {
-        sortField = "Location_sort";
+        sortField = "Location_sort " +sortOrder+ ",Title_sort";
     } else if (field == 'callNumber') {
-        sortField = "CallNumber_sort";
+        sortField = "CallNumber_sort " +sortOrder+ ",Title_sort";
     } else if (field == 'local') {
-        sortField = "LocalId_search";
+        sortField = "LocalId_search " +sortOrder+ ",Title_sort";
     } else if (field == 'shelvingOrder') {
-        sortField = "ShelvingOrder_sort";
+        sortField = "ShelvingOrder_sort " +sortOrder+ ",Title_sort";
     }
     jq('#hiddenSearchFields_h3').val(sortField);
     jq('#hiddenSearchFields_h2').val(sortOrder);

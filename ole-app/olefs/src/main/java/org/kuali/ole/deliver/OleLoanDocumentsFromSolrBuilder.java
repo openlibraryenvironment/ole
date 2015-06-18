@@ -56,20 +56,18 @@ public class OleLoanDocumentsFromSolrBuilder {
             SearchParams searchParams = new SearchParams();
             List<SearchCondition> searchConditions = new ArrayList<>();
             int count = itemStatus.length;
-            searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField("item", "currentBorrower", patronId), "AND"));
-            List<SearchCondition> itemStatusSearchConditions = new ArrayList<>();
             for (int i = 0; i < count; i++) {
                 if (i == (count - 1)) {
-                    itemStatusSearchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", itemStatus[i]), "AND"));
+                    searchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", itemStatus[i]), "AND"));
                 } else {
-                    itemStatusSearchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", itemStatus[i]), "OR"));
+                    searchConditions.add(searchParams.buildSearchCondition("", searchParams.buildSearchField("item", "ItemStatus_search", itemStatus[i]), "OR"));
                 }
             }
-            Collections.reverse(itemStatusSearchConditions);
-            searchConditions.addAll(itemStatusSearchConditions);
+
+            searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField("item", "currentBorrower", patronId), "AND"));
             if (null != itemBarcode) {
                 searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org
-                                .kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), ItemOleml.ITEM_BARCODE,
+                        .kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), ItemOleml.ITEM_BARCODE,
                         itemBarcode), "AND"));
             }
             searchParams.setPageSize(Integer.parseInt(OLEConstants.MAX_PAGE_SIZE_FOR_LOAN));
