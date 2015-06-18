@@ -566,7 +566,9 @@ public class OLEEResourceHelperService {
             if(gokbTipp.getOleGokbTitle()!=null){
                 olegoKbTIPP.setTitle(gokbTipp.getOleGokbTitle().getTitleName());
                 olegoKbTIPP.setPublisherId(gokbTipp.getOleGokbTitle().getPublisherId());
+                olegoKbTIPP.setIssn(gokbTipp.getOleGokbTitle().getIssnOnline());
             }
+
             if(gokbTipp.getDateCreated()!=null)
                 olegoKbTIPP.setDateCreated(gokbTipp.getDateCreated().toString());
             if(gokbTipp.getDateUpdated()!=null)
