@@ -896,7 +896,7 @@ public class OLESearchController extends UifControllerBase {
         searchParams.getSearchResultFields().clear();
         searchParams.setPageSize(oleSearchForm.getPageSize());
         int startIndex = searchParams.getStartIndex();
-        if(oleSearchForm.getPageNumber().equalsIgnoreCase("1")){
+        if(StringUtils.isNotEmpty(oleSearchForm.getPageNumber()) && oleSearchForm.getPageNumber().equalsIgnoreCase("1")){
             searchParams.setStartIndex(0);
         }else{
             searchParams.setStartIndex(startIndex - startIndex % searchParams.getPageSize());
@@ -982,7 +982,7 @@ public class OLESearchController extends UifControllerBase {
                 searchResultDisplayRows.add(searchResultDisplayRow);
             }
         } else {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_INFIELD);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.DESCRIBE_SEARCH_MESSAGE);
             return;
         }
         oleSearchForm.setSearchResultDisplayRowList(searchResultDisplayRows);
