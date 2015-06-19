@@ -416,24 +416,22 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
             }
             int count=0;
             for(PurApAccountingLine account:purApItem.getSourceAccountingLines()){
+                OleInvoiceItem oleInvoiceItem = (OleInvoiceItem)purApItem;
+                BigDecimal discount = ((oleInvoiceItem.getItemListPrice().bigDecimalValue().multiply(oleInvoiceItem.getItemDiscount().bigDecimalValue()))).divide(new BigDecimal(100));
+                KualiDecimal totalAmount = new KualiDecimal(purApItem.getItemQuantity().bigDecimalValue().multiply(oleInvoiceItem.getItemListPrice().bigDecimalValue().subtract(discount)));
                 if (purApItem != null && purApItem.getExtendedPrice() != null && purApItem.getExtendedPrice().isZero()) {
                     account.setAmount(KualiDecimal.ZERO);
                 }
                 else if (ObjectUtils.isNotNull(account.getAccountLinePercent()) || ObjectUtils.isNotNull(account.getAmount())) {
                     if (account.getAmount()!=null&&count<existingAmount.size()&&existingAmount.size() != 0 && !existingAmount.get(count).toString().equals(account.getAmount().toString())) {
-                        KualiDecimal calculatedPercent = purApItem.getTotalAmount().isGreaterThan(AbstractKualiDecimal.ZERO) ? new KualiDecimal(account.getAmount().multiply(new KualiDecimal(100)).divide(purApItem.getTotalAmount()).toString()) : KualiDecimal.ZERO;
+                        KualiDecimal calculatedPercent = totalAmount.isGreaterThan(AbstractKualiDecimal.ZERO) ? new KualiDecimal(account.getAmount().multiply(new KualiDecimal(100)).divide(totalAmount).toString()) : KualiDecimal.ZERO;
                         account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(OLEConstants.BIG_DECIMAL_SCALE,BigDecimal.ROUND_CEILING));
                     }
-
                     else {
-                        if(account.getAccountLinePercent().intValue()==100&&(account.getAmount()==null||account.getAccount()!=null)){
-                            KualiDecimal calculatedPercent = purApItem.getTotalAmount().isGreaterThan(AbstractKualiDecimal.ZERO) ? new KualiDecimal(account.getAmount().multiply(new KualiDecimal(100)).divide(purApItem.getTotalAmount()).toString()) : KualiDecimal.ZERO;
-                            account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(OLEConstants.BIG_DECIMAL_SCALE,BigDecimal.ROUND_CEILING));
-                        }
-                        else{
-                            KualiDecimal calculatedAmount = new KualiDecimal(account.getAccountLinePercent().multiply(purApItem.getTotalAmount().bigDecimalValue()).divide(new BigDecimal(100)).toString());
-                            account.setAmount(calculatedAmount);
-                        }
+                        KualiDecimal calculatedAmount = new KualiDecimal((account.getAccountLinePercent().multiply(purApItem.getItemQuantity().bigDecimalValue().multiply(oleInvoiceItem.getItemListPrice().bigDecimalValue().subtract(discount))).divide(new BigDecimal(100))).toString());
+                        account.setAmount(calculatedAmount);
+                        KualiDecimal calculatedPercent = totalAmount.isGreaterThan(AbstractKualiDecimal.ZERO) ? new KualiDecimal(account.getAmount().multiply(new KualiDecimal(100)).divide(totalAmount).toString()) : KualiDecimal.ZERO;
+                        account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(OLEConstants.BIG_DECIMAL_SCALE,BigDecimal.ROUND_CEILING));
                     }
                 }
                 count++;
