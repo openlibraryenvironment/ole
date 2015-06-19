@@ -166,7 +166,7 @@
         <property name="items">
             <list>
                 <bean id="EResourceWorkflow" parent="Uif-InputField" p:propertyName="eresourceWorkflowIndication"
-                      p:label="E-Resource workflow indication" >
+                      p:label="E-Resource workflow indication" p:readOnly="@{!document.documentHeader.workflowDocument.saved}">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.select.keyvalue.OLEEResourceWorkflowKeyValue"/>
                     </property>
