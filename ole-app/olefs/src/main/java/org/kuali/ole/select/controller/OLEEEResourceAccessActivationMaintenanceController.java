@@ -9,7 +9,9 @@ import org.kuali.ole.select.document.OLEEResourceEventLog;
 import org.kuali.ole.select.service.OLEAccessActivationService;
 import org.kuali.ole.select.service.impl.OLEAccessActivationServiceImpl;
 import org.kuali.ole.service.OLEEResourceHelperService;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
@@ -39,6 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -114,9 +117,13 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
         OLEEResourceAccessActivation oleeResourceAccess = (OLEEResourceAccessActivation) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
         if(oleeResourceAccess != null && oleeResourceAccess.getLastRecordLoadDate() != null && oldOleeResourceAccess != null && !oleeResourceAccess.getLastRecordLoadDate().equals(oldOleeResourceAccess.getLastRecordLoadDate())){
             OLEEResourceEventLog oleeResourceEventLog = new OLEEResourceEventLog();
-            oleeResourceEventLog.setEventDate(oleeResourceAccess.getLastRecordLoadDate());
+            Timestamp timestamp = CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp();
+            oleeResourceEventLog.setEventDate(timestamp);
+            oleeResourceEventLog.setEventTypeId(OLEConstants.OLEEResourceRecord.ID_FOR_LOG_TYPE_SYSTEM);
+            oleeResourceEventLog.getEventTypeName();
             oleeResourceEventLog.setEventUser(GlobalVariables.getUserSession().getPrincipalName());
-            oleeResourceEventLog.setEventNote("Last Record Load Date has been updated");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE);
+            oleeResourceEventLog.setEventNote("Last Record Load Date has been updated : " +simpleDateFormat.format(oleeResourceAccess.getLastRecordLoadDate()));
             oleeResourceEventLog.setOleERSIdentifier(oleeResourceAccess.getOleERSIdentifier());
             oleeResourceEventLog.setLogTypeId(OLEConstants.OLEEResourceRecord.ID_FOR_LOG_TYPE_SYSTEM);
             oleeResourceEventLog.setSaveFlag(true);
@@ -195,16 +202,6 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
             oldOleeResourceAccess  = (OLEEResourceAccessActivation)oldMaintenanceDocument.getNewMaintainableObject().getDataObject();
         }
         OLEEResourceAccessActivation oleeResourceAccess = (OLEEResourceAccessActivation) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
-        if(oleeResourceAccess != null && oleeResourceAccess.getLastRecordLoadDate() != null && oldOleeResourceAccess != null && !oleeResourceAccess.getLastRecordLoadDate().equals(oldOleeResourceAccess.getLastRecordLoadDate())){
-            OLEEResourceEventLog oleeResourceEventLog = new OLEEResourceEventLog();
-            oleeResourceEventLog.setEventDate(oleeResourceAccess.getLastRecordLoadDate());
-            oleeResourceEventLog.setEventUser(GlobalVariables.getUserSession().getPrincipalName());
-            oleeResourceEventLog.setEventNote("Last Record Load Date has been updated");
-            oleeResourceEventLog.setOleERSIdentifier(oleeResourceAccess.getOleERSIdentifier());
-            oleeResourceEventLog.setLogTypeId(OLEConstants.OLEEResourceRecord.ID_FOR_LOG_TYPE_SYSTEM);
-            oleeResourceEventLog.setSaveFlag(true);
-            KRADServiceLocator.getBusinessObjectService().save(oleeResourceEventLog);
-        }
         boolean flag = false;
         if (oleeResourceAccess.getWorkflowId() == null || (oleeResourceAccess.getWorkflowId() != null && oleeResourceAccess.getWorkflowId().trim().isEmpty())) {
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.workflowId", OLEConstants.NO_WORKFLOW);
@@ -217,6 +214,20 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
         }
         if (flag) {
             return getUIFModelAndView(form);
+        }
+        if(oleeResourceAccess != null && oleeResourceAccess.getLastRecordLoadDate() != null && oldOleeResourceAccess != null && !oleeResourceAccess.getLastRecordLoadDate().equals(oldOleeResourceAccess.getLastRecordLoadDate())){
+            OLEEResourceEventLog oleeResourceEventLog = new OLEEResourceEventLog();
+            Timestamp timestamp = CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp();
+            oleeResourceEventLog.setEventDate(timestamp);
+            oleeResourceEventLog.setEventUser(GlobalVariables.getUserSession().getPrincipalName());
+            oleeResourceEventLog.setEventTypeId(OLEConstants.OLEEResourceRecord.ID_FOR_LOG_TYPE_SYSTEM);
+            oleeResourceEventLog.getEventTypeName();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE);
+            oleeResourceEventLog.setEventNote("Last Record Load Date has been updated : " +simpleDateFormat.format(oleeResourceAccess.getLastRecordLoadDate()));
+            oleeResourceEventLog.setOleERSIdentifier(oleeResourceAccess.getOleERSIdentifier());
+            oleeResourceEventLog.setLogTypeId(OLEConstants.OLEEResourceRecord.ID_FOR_LOG_TYPE_SYSTEM);
+            oleeResourceEventLog.setSaveFlag(true);
+            KRADServiceLocator.getBusinessObjectService().save(oleeResourceEventLog);
         }
         OLEAccessActivationWorkFlow accessActivationWorkFlow = null;
         getOleeResourceHelperService().deleteMaintenanceLock();
