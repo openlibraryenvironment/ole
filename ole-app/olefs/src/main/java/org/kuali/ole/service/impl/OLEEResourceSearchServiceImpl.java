@@ -1912,33 +1912,40 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
 
     public void saveEResourceInstanceToDocstore(OLEEResourceRecordDocument oleeResourceRecordDocument) throws Exception {
         if (oleeResourceRecordDocument.getOleERSInstances() != null && oleeResourceRecordDocument.getOleERSInstances().size() != 0) {
-            List<OLEEResourceInstance> oleeResourceInstanceList = new ArrayList<OLEEResourceInstance>();
-            oleeResourceInstanceList = oleeResourceRecordDocument.getOleERSInstances();
+            List<OLEEResourceInstance> oleeResourceInstanceList =oleeResourceRecordDocument.getOleERSInstances();
+            List<OLEEResourceInstance> oleeResourceInstanceDletedList = new ArrayList<>();
+
             for (OLEEResourceInstance oleeResourceInstance : oleeResourceInstanceList) {
                 if (oleeResourceInstance != null) {
                     HoldingOlemlRecordProcessor holdingOlemlRecordProcessor = new HoldingOlemlRecordProcessor();
                     if (StringUtils.isNotEmpty(oleeResourceInstance.getInstanceId()) && oleeResourceInstance.getInstanceId() != null) {
                         String eHoldingsId = oleeResourceInstance.getInstanceId();
-                        Holdings holdings = new EHoldings();
-                        holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(eHoldingsId);
-                        OleHoldings eHoldings = holdingOlemlRecordProcessor.fromXML(holdings.getContent());
-                        eHoldings.setEResourceId(oleeResourceRecordDocument.getOleERSIdentifier());
-                        StatisticalSearchingCode statisticalSearchingCode = new StatisticalSearchingCode();
-                        if (oleeResourceRecordDocument.getOleStatisticalCode() != null) {
-                            statisticalSearchingCode.setCodeValue(oleeResourceRecordDocument.getOleStatisticalCode().getStatisticalSearchingCode());
+                        Holdings holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(eHoldingsId);
+                        if (StringUtils.isNotEmpty(holdings.getId())) {
+                            OleHoldings eHoldings = holdingOlemlRecordProcessor.fromXML(holdings.getContent());
+                            eHoldings.setEResourceId(oleeResourceRecordDocument.getOleERSIdentifier());
+                            StatisticalSearchingCode statisticalSearchingCode = new StatisticalSearchingCode();
+                            if (oleeResourceRecordDocument.getOleStatisticalCode() != null) {
+                                statisticalSearchingCode.setCodeValue(oleeResourceRecordDocument.getOleStatisticalCode().getStatisticalSearchingCode());
+                            }
+                            if (eHoldings.getStatisticalSearchingCode() == null || eHoldings.getStatisticalSearchingCode().getCodeValue() == null) {
+                                eHoldings.setStatisticalSearchingCode(statisticalSearchingCode);
+                            }
+                            if (eHoldings != null && eHoldings.getHoldingsAccessInformation() == null && oleeResourceRecordDocument != null) {
+                                eHoldings.getHoldingsAccessInformation().setNumberOfSimultaneousUser(oleeResourceRecordDocument.getNumOfSimultaneousUsers());
+                                eHoldings.getHoldingsAccessInformation().setAccessLocation(oleeResourceRecordDocument.getAccessLocationId());
+                                eHoldings.getHoldingsAccessInformation().setAuthenticationType(oleeResourceRecordDocument.getOleAuthenticationType().getOleAuthenticationTypeName());
+                            }
+                            getHoldingsField(oleeResourceInstance, eHoldings);
+                            holdings.setId(eHoldingsId);
+                            holdings.setContent(holdingOlemlRecordProcessor.toXML(eHoldings));
+                            getDocstoreClientLocator().getDocstoreClient().updateHoldings(holdings);
+                        } else {
+                            oleeResourceInstanceDletedList.add(oleeResourceInstance);
                         }
-                        if (eHoldings.getStatisticalSearchingCode() == null || eHoldings.getStatisticalSearchingCode().getCodeValue() == null) {
-                            eHoldings.setStatisticalSearchingCode(statisticalSearchingCode);
+                        if (CollectionUtils.isNotEmpty(oleeResourceInstanceDletedList)) {
+                            oleeResourceRecordDocument.getOleERSInstances().removeAll(oleeResourceInstanceDletedList);
                         }
-                        if (eHoldings != null && eHoldings.getHoldingsAccessInformation() == null && oleeResourceRecordDocument != null) {
-                            eHoldings.getHoldingsAccessInformation().setNumberOfSimultaneousUser(oleeResourceRecordDocument.getNumOfSimultaneousUsers());
-                            eHoldings.getHoldingsAccessInformation().setAccessLocation(oleeResourceRecordDocument.getAccessLocationId());
-                            eHoldings.getHoldingsAccessInformation().setAuthenticationType(oleeResourceRecordDocument.getOleAuthenticationType().getOleAuthenticationTypeName());
-                        }
-                        getHoldingsField(oleeResourceInstance, eHoldings);
-                        holdings.setId(eHoldingsId);
-                        holdings.setContent(holdingOlemlRecordProcessor.toXML(eHoldings));
-                        getDocstoreClientLocator().getDocstoreClient().updateHoldings(holdings);
                     }
                 }
             }
