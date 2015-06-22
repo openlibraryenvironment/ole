@@ -286,6 +286,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                     bib.setContent(content);
                     bib.setUpdatedBy(GlobalVariables.getUserSession().getPrincipalName());
                     bib.setUpdatedOn(dateStr);
+                    bib.deserializeContent(bib);
                     long startTime = System.currentTimeMillis();
                     try {
                         bib = docstoreClient.updateBib(bib);
@@ -335,7 +336,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                         bib.setStatus("");
                     }
                     bibTree.setBib(bib);
-                    holdingsTree = getHoldingsTree(eResourceID);
+                        holdingsTree = getHoldingsTree(eResourceID);
                     if (holdingsTree != null && holdingsTree.getHoldings() != null) {
                         holdingsTree.getHoldings().setCreatedBy(user);
                         holdingsTree.getHoldings().setCreatedOn(dateStr);
@@ -437,12 +438,16 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                                         try {
                                             tempDocument.setSelectInstance(OLEConstants.OLEEResourceRecord.CREATE_NEW_INSTANCE);
                                             tempDocument.seteInstanceFlag(true);
+                                            List<Holdings> holdings = new ArrayList<>();
                                             for (OLEEResourceInstance oleERSInstance : tempDocument.getOleERSInstances()) {
                                                 if (oleERSInstance.getBibId().equals(bib.getId())) {
-                                                    processResponseForEResource(oleERSInstance.getInstanceId(), bib.getId(), tempDocument.getDocumentNumber());
+                                                    processResponseForEResource(oleERSInstance.getInstanceId(), bib, tempDocument.getDocumentNumber());
+                                                    holdings.add(docstoreClient.retrieveHoldings(oleERSInstance.getInstanceId()));
                                                 }
                                             }
-                                            getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber(), holdingsTree.getHoldings());
+                                            for(Holdings holdings1:holdings){
+                                                getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber(), holdings1);
+                                            }
                                             getDocumentService().updateDocument(tempDocument);
                                         } catch (Exception e) {
                                             LOG.error("Exception :", e);
@@ -466,7 +471,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                                 try {
                                     tempDocument.setSelectInstance(OLEConstants.OLEEResourceRecord.CREATE_NEW_INSTANCE);
                                     tempDocument.seteInstanceFlag(true);
-                                    processResponseForEResource(holdingsId, bib.getId(), tempDocument.getDocumentNumber());
+                                    processResponseForEResource(holdingsId, bib, tempDocument.getDocumentNumber());
                                     getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber(), holdingsTree.getHoldings());
                                     getDocumentService().updateDocument(tempDocument);
                                 } catch (Exception e) {
@@ -531,11 +536,11 @@ public class WorkBibMarcEditor extends AbstractEditor implements
             editorForm.setMessage(docStoreResponse.getMessage());
     }
 
-    public void processResponseForEResource(String instanceId, String bibId, String tokenId) throws Exception {
+    public void processResponseForEResource(String instanceId, Bib bib, String tokenId) throws Exception {
         OLEEditorResponse oleEditorResponse = new OLEEditorResponse();
         oleEditorResponse.setTokenId(tokenId);
         oleEditorResponse.setLinkedInstanceId(instanceId);
-        oleEditorResponse.setBib(docstoreClient.retrieveBib(bibId));
+        oleEditorResponse.setBib(bib);
         HashMap<String, OLEEditorResponse> oleEditorResponseMap = new HashMap<String, OLEEditorResponse>();
         oleEditorResponseMap.put(tokenId, oleEditorResponse);
         OleDocstoreResponse.getInstance().setEditorResponse(oleEditorResponseMap);
