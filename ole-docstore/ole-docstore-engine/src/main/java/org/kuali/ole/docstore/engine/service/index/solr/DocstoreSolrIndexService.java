@@ -618,7 +618,7 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
                 solrInputDocument.addField(LEVEL4LOCATION_DISPLAY, locationName);
                 solrInputDocument.addField(LEVEL4LOCATION_SEARCH, locationName);
                 appendData(loactionLevelStr,locationName.replace("-",""));
-            } else if (BibConstants.LOCATION_LEVEL_SHELVING.equalsIgnoreCase(locationLevel.getLevel())) {
+            } else if (BibConstants.LOCATION_LEVEL_SHELVING.equalsIgnoreCase(locationLevel.getLevel()) || BibConstants.LOCATION_LEVEL_SHELVING_1.equalsIgnoreCase(locationLevel.getLevel())) {
                 solrInputDocument.addField(LEVEL5LOCATION_DISPLAY, locationName);
                 solrInputDocument.addField(LEVEL5LOCATION_SEARCH, locationName);
                 appendData(loactionLevelStr,locationName.replace("-",""));

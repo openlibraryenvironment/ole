@@ -126,6 +126,7 @@ public interface BibConstants {
 
 
     public static final String LOCATION_LEVEL_SHELVING = "Shelving Location";
+    public static final String LOCATION_LEVEL_SHELVING_1 = "Shelving";
     public static final String LOCATION_LEVEL_COLLECTION = "Collection";
     public static final String LOCATION_LEVEL_LIBRARY = "Library";
     public static final String LOCATION_LEVEL_INSTITUTION = "Institution";
