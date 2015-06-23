@@ -194,7 +194,7 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
             Location location = oleHoldings.getLocation();
             buildLocationNameAndLocationLevel(location, locationName, locationLevel);
             buildLocationName(location, solrDocForHolding,loactionLevelStr);
-            solrDocForHolding.addField(LOCATION_LEVEL_SEARCH, locationName.toString());
+            solrDocForHolding.addField(LOCATION_LEVEL_SEARCH, locationName.toString().replaceAll("-",""));
             solrDocForHolding.addField(LOCATION_LEVEL_NAME_SEARCH, locationLevel.toString());
             solrDocForHolding.addField(LOCATION_LEVEL_DISPLAY, locationName.toString());
             solrDocForHolding.addField(LOCATION_LEVEL_NAME_DISPLAY, locationLevel.toString());

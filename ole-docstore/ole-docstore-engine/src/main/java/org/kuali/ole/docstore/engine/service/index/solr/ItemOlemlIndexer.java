@@ -10,6 +10,7 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.OleDocStoreException;
 import org.kuali.ole.docstore.common.document.Holdings;
 import org.kuali.ole.docstore.common.document.Item;
@@ -64,7 +65,12 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         Item itemDocument = (Item)object;
         LOG.info("Incoming Item Document " + itemDocument.toString());
         SolrInputDocument solrInputDocument = getSolrInputFieldsForItem(itemDocument);
-        SolrDocument solrDocument = getSolrDocumentByUUID(itemDocument.getId());
+        String id = itemDocument.getId();
+        if(!DocumentUniqueIDPrefix.hasPrefix(id)){
+            id="wio-" +itemDocument.getId();
+        }
+
+        SolrDocument solrDocument = getSolrDocumentByUUID(id);
         Object bibs=null;
         if (solrDocument != null && solrDocument.size() > 0) {
              bibs = solrDocument.getFieldValue(BIB_IDENTIFIER);
@@ -331,7 +337,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
             Location location = item.getLocation();
             buildLocationNameAndLocationLevel(location, locationName, locationLevel);
             buildLocationName(location, solrInputDocument,loactionLevelStr);
-            solrInputDocument.addField(LOCATION_LEVEL_SEARCH, locationName.toString());
+            solrInputDocument.addField(LOCATION_LEVEL_SEARCH, locationName.toString().replaceAll("-",""));
             solrInputDocument.addField(LOCATION_LEVEL_NAME_SEARCH, locationLevel.toString());
             solrInputDocument.addField(LOCATION_LEVEL_DISPLAY, locationName.toString());
             solrInputDocument.addField(LOCATION_LEVEL_NAME_DISPLAY, locationLevel.toString());
