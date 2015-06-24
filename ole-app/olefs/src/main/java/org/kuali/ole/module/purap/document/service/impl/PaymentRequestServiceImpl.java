@@ -38,6 +38,7 @@ import org.kuali.ole.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.ole.module.purap.util.PurApItemUtils;
 import org.kuali.ole.module.purap.util.VendorGroupingHelper;
 import org.kuali.ole.select.OleSelectConstant;
+import org.kuali.ole.select.document.OlePaymentRequestDocument;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.ole.sys.businessobject.AccountingLine;
@@ -68,10 +69,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KualiRuleService;
-import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -1779,6 +1777,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         StrBuilder routerHeaderIdBuilder = new StrBuilder().appendWithSeparators(lookupDocNumbers, DOC_NUM_DELIM);
 
         List<String> paymentRequestDocNumbers = new ArrayList<String>();
+        List<String> finalPaymentRequestDocNumbers = new ArrayList<String>();
 
         DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
         documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
@@ -1796,8 +1795,15 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             }
 
         }
-
-        return paymentRequestDocNumbers;
+        for(String documentNumber : paymentRequestDocNumbers) {
+            Map preqMap = new HashMap();
+            preqMap.put(OLEConstants.DOC_NUMBER, documentNumber);
+            OlePaymentRequestDocument olePaymentRequestDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePaymentRequestDocument.class, preqMap);
+            if (olePaymentRequestDocument != null && olePaymentRequestDocument.getDocumentHeader() != null && olePaymentRequestDocument.getDocumentHeader().getWorkflowDocument() != null && !olePaymentRequestDocument.getDocumentHeader().getWorkflowDocument().isException() && !olePaymentRequestDocument.getDocumentHeader().getWorkflowDocument().isEnroute()) {
+                finalPaymentRequestDocNumbers.add(olePaymentRequestDocument.getDocumentNumber());
+            }
+        }
+        return finalPaymentRequestDocNumbers;
     }
 
     /**
