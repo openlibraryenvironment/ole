@@ -248,7 +248,11 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                         }else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.PUBLICATIONPLACE)) {
                             singleItemResultDisplayRow.setPublication(searchResultField.getFieldValue());
                         }else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.PUBLISHER)) {
-                            singleItemResultDisplayRow.setPublication(singleItemResultDisplayRow.getPublication()+" "+searchResultField.getFieldValue());
+                            if(StringUtils.isNotEmpty(singleItemResultDisplayRow.getPublication())){
+                                singleItemResultDisplayRow.setPublication(singleItemResultDisplayRow.getPublication()+" "+searchResultField.getFieldValue());
+                            }else{
+                                singleItemResultDisplayRow.setPublication(searchResultField.getFieldValue());
+                            }
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.PUBLICATIONDATE_DISPLAY)) {
                             bibSearchResultDisplayRow.setPublicationYear(searchResultField.getFieldValue());
                         }
