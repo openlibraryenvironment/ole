@@ -132,60 +132,17 @@
                 <ref bean="PatronUserNote-HorizontalBoxSection"/>
                 <ref bean="RealPatronSection-HorizontalBoxSection"/>
                 <ref bean="ConfirmCirculationLocationChange"/>
-                <!--<ref bean="showDate"/>-->
-                <!--<ref bean="mapDate"/>-->
                 <ref bean="MessagePopupSection"/>
-                <!--<ref bean="showMessage"/>-->
-                <!--<ref bean="showBlockLoan"/>-->
-                <!--<ref bean="showAlterDueDateDialog"/>-->
-                <!--<ref bean="showClaimsReturnDialog"/>-->
-                <!--<ref bean="removeClaimsReturnFlag"/>-->
-                <!--<ref bean="fastAddItemIndicatorDialog"/>-->
-                <!--<ref bean="showOverRideLogin"/>-->
-                <!--<ref bean="newPrincipalId"/>-->
-                <!--<ref bean="oldPrincipalId"/>-->
-               <!-- <ref bean="showRenewalMessage"/>-->
-                <!--<ref bean="showOverrideRenewalItemMessage"/>-->
-                <!--<ref bean="showPatronUserNoteDialog"/>-->
-                <!--<ref bean="maxSessionTime"/>-->
-                <!--<ref bean="showRealPatronDialog"/>-->
-                <!--<ref bean="showChangeLocationDialog"/>-->
                 <ref bean="ChangeLocationButton"/>
                 <ref bean="SessionReset"/>
                 <ref bean="hiddenLoanField"/>
-                <!--<ref bean="showRenewDueDateDialog"/>-->
-                <!--<ref bean="hdnBackGroundCheckIn" />-->
-                <!--<ref bean="hdnItemFocus" />-->
-                <!--<ref bean="missingPieceDialog" />-->
-                <!--<ref bean="damagedItemDialog" />-->
-                <!--<ref bean="hdnPatronFocus"/>-->
-                <!--<ref bean="fastAddItemUrlFlag"/>-->
-               <!-- <ref bean="LoanLoginMessage"/>-->
-                <!--<ref bean="returnViewUrlFlag"/>-->
-          <!--      <ref bean="showReturn"/>-->
-                <!--<ref bean="loanaudioOption"/>-->
-     <!--           <ref bean="mapFormKey"/>-->
                 <ref bean="loanLoginBtn"/>
-                <!--<ref bean="loanLoginName"/>-->
-                <!--<ref bean="validLogin"/>-->
-<!--                <ref bean="showMessageForReturn"/>
-                <ref bean="showContinue"/>
-                <ref bean="mapCheckInNoteExists"/>
-                <ref bean="showContinueForCopy"/>
-                <ref bean="showCheckOut"/>
-                <ref bean="mapDamagedCheckIn"/>-->
                 <ref bean="loanLogOutBtn"/>
-                <!--<ref bean="loginUser"/>-->
-                <!--<ref bean="OLELoanView-RecordNote-MissingPiece-status-flag"/>-->
-                <!--<ref bean="OLELoanView-RecordNote-Damaged-status-flag"/>-->
-                <!--<ref bean="OLELoanView-RecordNote-status-missingPiece-flag"/>-->
-                <!--<ref bean="OLELoanView-RecordNote-status-damaged-flag"/>-->
                 <ref bean="OLELoanView-RecordNote-Damaged-MessageBox"/>
                 <ref bean="OLELoanView-RecordNote-MissingPiece-MessageBox"/>
                 <ref bean="MessagePopupSectionForLoan"/>
                 <ref bean="DueDateInformationSection"/>
                 <ref bean="hiddenReturnField"/>
-                <!--<ref bean="dueDateInfoMsg"/>-->
             </list>
         </property>
     </bean>
@@ -288,12 +245,6 @@
     <bean id="ChangeLocationButton" parent="Uif-SecondaryActionButton-Small" p:methodToCall="changeCirculationDeskLocation" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="changeLocation()" />
     <bean id="SessionReset" parent="Uif-SecondaryActionButton-Small" p:methodToCall="saveAndClear" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="sessionFadeOut()" />
 
-   <!-- <bean id="LoanLoginMessage" parent="Uif-InputField" p:propertyName="loanLoginMessage" >
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
     <bean id="ConfirmCirculationLocationChange" parent="ConfirmCirculationLocationChange-parent"/>
     <bean id="ConfirmCirculationLocationChange-parent" parent="Uif-VerticalBoxSection" p:render="@{changeLocationFlag}">
         <property name="items">
@@ -310,12 +261,6 @@
         </property>
     </bean>
 
-    <!--<bean id="loanaudioOption" parent="Uif-InputField" p:propertyName="audioEnable">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
     <bean id="ConfirmCirculationLocation-Change"  parent="ConfirmCirculationLocation-Change-parent"/>
     <bean id="ConfirmCirculationLocation-Change-parent" parent="Uif-HorizontalBoxSubSection">
         <property name="items">
@@ -331,7 +276,7 @@
     <bean id="CirculationLocationButton-parent" parent="Uif-HorizontalBoxSubSection">
         <property name="items">
             <list>
-                <bean id="ChangeCirculationLocationBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="clearUI" p:actionLabel="Yes" p:ajaxSubmit="true"  p:successCallback="closeCirculationLocationDialog()" />
+                <bean id="ChangeCirculationLocationBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="clearUI" p:actionLabel="Yes"  p:ajaxSubmit="true" p:successCallback="closeCirculationLocationDialog()" />
                 <bean id="CirculationLocationCloseBtn" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="resetLocation" p:actionLabel="No" p:ajaxSubmit="true"  p:successCallback="closeCirculationLocationDialog()" />
 
             </list>
@@ -398,9 +343,6 @@
         </property>
     </bean>
 
-
-
-
     <bean id="OverRideLogInSectionLink" parent="Uif-OverRideLogInSectionLink-parent"/>
     <bean id="Uif-OverRideLogInSectionLink-parent" parent="Uif-VerticalBoxSection" p:render="@{overrideFlag}">
         <property name="headerText" value="Override Log-in"/>
@@ -447,51 +389,6 @@
     <bean id="FastAddItemSectionLink" parent="Uif-SecondaryActionButton-Small" p:methodToCall="openFastAdd" p:actionEvent="openFastAdd" p:actionLabel="Fast-Add item"  p:render="@{patronName ne null and patronName ne ''}" p:ajaxSubmit="true"  p:successCallback="openFastAdd()" p:componentSecurity.performActionAuthz="true"/>
 
     <bean id="FastAddItemBarcode" parent="Uif-SecondaryActionButton-Small" p:methodToCall="setItemBarcode" p:actionLabel="Refresh Item Barcode"  p:ajaxSubmit="true" p:hidden="true" p:refreshPropertyName="item" p:successCallback="focusItem()"/>
-
-
-   <!-- <bean id="showRenewalMessage" parent="Uif-InputField" p:propertyName="renewalFlag" >
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="showOverrideRenewalItemMessage" parent="Uif-InputField" p:propertyName="overrideRenewItemFlag" >
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-   <!-- <bean id="newPrincipalId" parent="Uif-InputField" p:propertyName="newPrincipalId">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="oldPrincipalId" parent="Uif-InputField" p:propertyName="oldPrincipalId" >
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="showOverRideLogin" parent="Uif-InputField" p:propertyName="overrideFlag">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="showPatronUserNoteDialog" parent="Uif-InputField" p:propertyName="patronNoteFlag">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="maxSessionTime" parent="Uif-InputField" p:propertyName="maxSessionTime">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-
 
     <bean id="ClaimsReturn-HorizontalBoxSection" parent="ClaimsReturn-HorizontalBoxSection-parentBean" />
     <bean id="ClaimsReturn-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxSection" p:render="@{claimsReturnFlag}">
@@ -679,14 +576,12 @@
 
 
     <bean id="ProxyPatronSelfCheckOut-HorizontalBoxSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:style="width:700px">
-
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronDocument"/>
         <property name="propertyName" value="currentPatronList"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="layoutManager.richTable.render" value="true"/>
         <property name="layoutManager.richTable.disableTableSort" value="true" />
-        <!--<property name="collectionLookup.render" value="false"/>-->
         <property name="items">
             <list>
                 <bean id="selfCheckOutPatron" parent="Loan-Uif-InputField" p:label="Current Patron" p:propertyName="selfCheckOut">
@@ -722,7 +617,6 @@
         <property name="renderAddLine" value="false"/>
         <property name="layoutManager.richTable.render" value="true"/>
         <property name="layoutManager.richTable.disableTableSort" value="true" />
-        <!--<property name="collectionLookup.render" value="false"/>-->
         <property name="items">
             <list>
                 <bean id="selectRealPatron" parent="Loan-Uif-InputField" p:label="Choose Proxied Patron" p:propertyName="realPatronCheck">
@@ -966,120 +860,11 @@
         </property>
     </bean>
 
-    <!--<bean id="showMessage" parent="Uif-InputField" p:propertyName="success">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="showRenewDueDateDialog" parent="Uif-InputField" p:propertyName="renewDueDateFlag">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="fastAddItemIndicatorDialog" parent="Uif-InputField" p:propertyName="fastAddItemIndicator">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="fastAddItemUrlFlag" parent="Uif-InputField" p:propertyName="fastAddUrl">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-    <!--<bean id="returnViewUrlFlag" parent="Uif-InputField" p:propertyName="returnViewUrl">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="showAlterDueDateDialog" parent="Uif-InputField" p:propertyName="alterDueDateFlag">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="showBlockLoan" parent="Uif-InputField" p:propertyName="blockLoan">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-
     <bean id="mapAlterDueDate" parent="Loan-Uif-InputField" p:propertyName="mapAlterDueDateList" >
         <property name="control">
             <bean parent="Uif-HiddenControl"/>
         </property>
     </bean>
-
-    <!--<bean id="showDate" parent="Uif-InputField" p:propertyName="dueDateEmpty" >
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="mapDate" parent="Uif-InputField" p:propertyName="dueDateMap" >
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="hdnBackGroundCheckIn" parent="Uif-InputField" p:propertyName="backGroundCheckIn">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="missingPieceDialog" parent="Uif-InputField" p:propertyName="missingPieceDialog">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="damagedItemDialog" parent="Uif-InputField" p:propertyName="damagedItemDialog">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="hdnItemFocus" parent="Uif-InputField" p:propertyName="itemFocus">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-    <!--<bean id="hdnPatronFocus" parent="Uif-InputField" p:propertyName="patronFocus">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="showRealPatronDialog" parent="Uif-InputField" p:propertyName="realPatronFlag">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="showChangeLocationDialog" parent="Uif-InputField" p:propertyName="changeLocationFlag">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-
-
-    <!--<bean id="showClaimsReturnDialog" parent="Uif-InputField" p:propertyName="claimsReturnFlag">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="removeClaimsReturnFlag" parent="Uif-InputField" p:propertyName="removeClaimsReturnFlag">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
 
     <bean id="MessagePopupSection" parent="Uif-VerticalBoxSection">
         <property name="items">
@@ -1087,6 +872,7 @@
                 <bean parent="Uif-VerticalFieldGroup">
                     <property name="items">
                         <list>
+                            <ref bean="loanClaimsReturnNote"/>
                             <bean id="message_dueDate" parent="Uif-MessageField" p:messageText="Select due date or leave blank to set due date to Indefinite." p:render="@{nonCirculatingFlag}" p:cssClasses="alert-info" />
                             <bean parent="Uif-SpaceField" p:render="@{nonCirculatingFlag}" />
                             <bean id="message_return" parent="Uif-MessageField" p:messageText="@{message}" />
@@ -1099,6 +885,8 @@
             </list>
         </property>
     </bean>
+
+    <bean id="loanClaimsReturnNote" parent="Uif-DataField" p:propertyName="oleItem.claimsReturnedNote" p:label="The item has claims returned note " p:render="@{claimsFlag}"/>
 
     <bean id="loanClaimsOption" parent="Loan-Uif-InputField" p:propertyName="recordNote"
           p:label="Record a note or not"
@@ -1512,28 +1300,13 @@
 
     <bean id="loanLoginBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="loanLogin" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="refreshLoanScreen()" />
 
-    <!--<bean id="loanLoginName" parent="Uif-InputField" p:propertyName="loanLoginName">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-    <!--<bean id="validLogin" parent="Uif-InputField" p:propertyName="validLogin">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
     <bean id="loanLogOutBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="loanLogout" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="refreshScreen()" />
 
-    <!--<bean id="loginUser" parent="Uif-InputField" p:propertyName="loginUser">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
 
     <bean id="OLELoanView-RecordNote-MissingPiece-MessageBox" parent="Uif-VerticalBoxSection" p:render="@{displayMissingPieceNotePopup}">
         <property name="items">
             <list>
+                <bean id="OLELoanView-MissingPiece-MissingPieceNote" parent="Uif-DataField" p:label="The item has missing piece note " p:propertyName="oleItem.missingPieceFlagNote" />
                 <bean parent="Uif-MessageField" p:messageText="Missing Piece Found"/>
                 <bean id="OLELoanView-RecordNote-MissingPiece-MessageBoxOption" parent="Loan-Uif-InputField" p:propertyName="checkoutMissingPieceRecordFlag"
                       p:label="Record a note or not">
@@ -1548,7 +1321,7 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="OLELoanView-RecordNote-Damaged-MessageBox-Button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="flaggedNoteSave" p:actionLabel="Continue"  p:ajaxSubmit="true"  p:successCallback="closeDamagedItemBox();displayMissingDamagedBox();" />
+                <bean id="OLELoanView-RecordNote-MissingPiece-MessageBox-Button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="flaggedNoteSave" p:actionLabel="Continue"  p:ajaxSubmit="true"  p:successCallback="closeMissingPieceBox();displayMissingDamagedBox();" />
             </list>
         </property>
     </bean>
@@ -1557,7 +1330,8 @@
     <bean id="OLELoanView-RecordNote-Damaged-MessageBox" parent="Uif-VerticalBoxSection" p:render="@{displayDamagedRecordNotePopup}">
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="Item is Damaged"/>
+                <bean id="OLELoanView-DamagedItem-DamagedNote" parent="Uif-DataField" p:label="The item has damage note " p:propertyName="oleItem.damagedItemNote" />
+                <bean parent="Uif-MessageField" p:messageText="Item is Damaged .Do you want to continue"/>
                 <bean id="OLELoanView-RecordNote-Damaged-MessageBoxOption" parent="Loan-Uif-InputField" p:propertyName="checkoutDamagedRecordFlag"
                       p:label="Record a note or not">
                     <property name="control">
@@ -1571,39 +1345,10 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="OLELoanView-RecordNote-Damaged-MessageBox-Button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="flaggedNoteSave" p:actionLabel="Continue" p:ajaxSubmit="true"  p:successCallback="closeMissingPieceBox();displayMissingDamagedBox();" />
+                <bean id="OLELoanView-RecordNote-Damaged-MessageBox-Button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="flaggedNoteSave" p:actionLabel="Continue" p:ajaxSubmit="true"  p:successCallback="closeDamagedItemBox();displayMissingDamagedBox();" />
             </list>
         </property>
     </bean>
-
-    <!--<bean id="OLELoanView-RecordNote-MissingPiece-status-flag" parent="Uif-InputField" p:propertyName="displayMissingPieceNotePopup">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-    <!--<bean id="OLELoanView-RecordNote-Damaged-status-flag" parent="Uif-InputField" p:propertyName="displayDamagedRecordNotePopup">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="OLELoanView-RecordNote-status-missingPiece-flag" parent="Uif-InputField" p:propertyName="skipMissingPieceRecordPopup">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="OLELoanView-RecordNote-status-damaged-flag" parent="Uif-InputField" p:propertyName="skipDamagedRecordPopup">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
-
-    <!--<bean id="dueDateInfoMsg" parent="Uif-InputField" p:propertyName="successMessage">
-        <property name="control">
-            <bean parent="Uif-HiddenControl"/>
-        </property>
-    </bean>-->
 
     <bean id="Loan-Uif-InputField" parent="Uif-InputField">
         <property name="quickfinder">

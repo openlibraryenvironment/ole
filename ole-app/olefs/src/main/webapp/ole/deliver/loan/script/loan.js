@@ -790,40 +790,7 @@ function changeReturnLocation(){
         validateCheckInTime();
     }
 }
-/* commented for jira -4470
-   function printBill() {
-    if (jq("#mapLoanBill_control").val() == 'true') {
-        jq("#mapLoanBill_control").val("false");
-        var url=window.parent.location.href;
-        if (!url.toLowerCase().indexOf("retriveForm") >= 0) {
-            var url = url + "&retriveForm=" +jq("#mapFormKey_control").val();
-        }
-        alert("@@@"+url);
-        if (jq("#OLEReturnView-itemStatus-for-print_control").val() == 'true') {
-            window.open("loancontroller?viewId=PatronItemView&methodToCall=printLoanBill&formKey=" + jq("#mapFormKey_control").val());
-        }
-        if (jq("#OLEReturnView-itemStatus-for-print_control").val() == 'false') {
-            window.open("loancontroller?viewId=PatronItemView&methodToCall=printLoanBill&formKey=" + jq("#mapFormKey_control").val(), '_self');
-            window.open(url, '_blank');
-        }
-    }
-    var values=jq("#hdnBackGroundCheckIn_control").val().split(",");
-    jq("#hdnBackGroundCheckIn_control").val(values[0]);
-    if (jq("#mapBillAvailability_control").val() == 'true' && jq("#hdnBackGroundCheckIn_control").val() == 'false') {
-        var url=window.parent.location.href;
-        if (!url.toLowerCase().indexOf("retriveForm") >= 0) {
-            var url = url + "&retriveForm=" + jq("#mapFormKey_control").val()+"&billAvailability=false";
-        }
-        alert(url);
-        if (jq("#OLEReturnView-itemStatus-for-print_control").val() == 'true') {
-            window.open("loancontroller?viewId=PatronItemView&methodToCall=printBill&formKey=" + jq("#mapFormKey_control").val());
-        }
-        if (jq("#OLEReturnView-itemStatus-for-print_control").val() == 'false') {
-            window.open("loancontroller?viewId=PatronItemView&methodToCall=printBill&formKey=" + jq("#mapFormKey_control").val(), '_self');
-            window.open(url, '_blank');
-        }
-    }
-}*/
+
 //hiddenReturnField_h9 mapped to oleFormKey
 function printBill(){
     if(jq("#hiddenLoanField_control").val()=="true"){
@@ -925,7 +892,7 @@ function refreshScreen(){
     }
 }
 //hiddenReturnField_15 mapped to itemDamagedStatus
-//hiddenReturnField_16 mapped to skipDamagedCheckIn
+//hiddenReturnField_1 mapped to skipDamagedCheckIn
 function checkDamagedCheckIn(){
     if(jq("#hiddenReturnField_h15").val()=='true' && jq("#hiddenReturnField_h1").val()=='false'){
         jq('body').scrollTop(0);

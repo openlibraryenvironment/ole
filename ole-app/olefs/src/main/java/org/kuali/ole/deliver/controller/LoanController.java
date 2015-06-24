@@ -604,9 +604,7 @@ public class LoanController extends UifControllerBase {
             if (oleLoanForm.getLoanList() != null && !oleLoanForm.getLoanList().isEmpty())
                 existItemList.addAll(oleLoanForm.getLoanList());
             String item = oleLoanForm.getItem();
-          /*  Long trail = System.currentTimeMillis();*/
               for (OleLoanDocument oleLoanDocument : existItemList) {
-               // OleLoanDocument oleLoanDocument = existItemList.get(i);
                 if (oleLoanDocument.getItemId() != null && oleLoanDocument.getItemId().equals(item)) {
                     oleLoanForm.setRenewalFlag(true);
                     oleLoanForm.setBlockItem(true);
@@ -617,9 +615,6 @@ public class LoanController extends UifControllerBase {
                     break;
                 }
               }
-           /* Long trailEnd = System.currentTimeMillis();
-            Long timeTakenTrail = trailEnd - trail;
-            LOG.info("------------Trail Check---------------"+timeTakenTrail);*/
             if(!renewalFlag){
                 OleLoanDocument loanDocument = getLoanProcessor().retrieveByPatronAndItem(oleLoanForm.getPatronId(),item);
                 if (loanDocument!=null && loanDocument.getItemId() != null && loanDocument.getItemId().equals(item)) {
@@ -651,6 +646,7 @@ public class LoanController extends UifControllerBase {
                     } else {
                         oleLoanForm.setMessage("claims Returned Item");
                         oleLoanForm.setSuccess(false);
+                        oleLoanForm.setOleItem(oleLoanDocument.getOleItem());
                         oleLoanForm.setClaimsFlag(true);
                         oleLoanForm.setRecordNote(false);
                     }
@@ -1950,6 +1946,7 @@ public class LoanController extends UifControllerBase {
         oleLoanForm.setCheckoutDamagedRecordFlag(false);
         oleLoanForm.setPatronbill(false);
         oleLoanForm.setPopDateTimeInfo("");
+        oleLoanForm.setClaimsFlag(false);
         GlobalVariables.getUserSession().clearBackdoorUser();
         GlobalVariables.getUserSession().setBackdoorUser(oleLoanForm.getOldPrincipalId());
         oleLoanForm.setNewPrincipalId(null);
@@ -2029,12 +2026,8 @@ public class LoanController extends UifControllerBase {
         oleLoanForm.setPatronbill(false);
         oleLoanForm.setSuccessMessage(null);
         oleLoanForm.setPopDateTimeInfo("");
-        //GlobalVariables.getUserSession().clearBackdoorUser();
-        //GlobalVariables.getUserSession().setBackdoorUser( oleLoanForm.getOldPrincipalId() );
-        //oleLoanForm.setNewPrincipalId(null);
-        //return getUIFModelAndView(oleLoanForm, "PatronItemViewPage");\
+        oleLoanForm.setClaimsFlag(false);
         return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
-
     }
 
     /**
@@ -2883,14 +2876,6 @@ public class LoanController extends UifControllerBase {
         }
         oleLoanDocument.setCheckInDate(timestamp);
         try {
-            /*if (!loanProcessor.isValidCirculationDesk()) {
-                oleLoanForm.setLoanLoginMessage(true);
-                String loginInfo = loanProcessor.getErrorMessage();
-                oleLoanForm.setLoanLoginUserInfo(loginInfo);
-                return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
-                //throw new DocumentAuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "not Authorized", form.getViewId());
-                //return new OLEKRADAuthorizationResolver().resolveException(request,response,null,new Exception("is not authorized"));
-            }*/
             // Modified as per comments in Jira OLE-4901
             if (!getLoanProcessor().isValidCirculationDesk()) {
                 oleLoanForm.setLoanLoginUserInfo(GlobalVariables.getUserSession().getPrincipalName() + " " + OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_VALIDATIONS);
@@ -2905,6 +2890,7 @@ public class LoanController extends UifControllerBase {
             oleLoanForm.getErrorsAndPermission().clear();
             oleLoanDocument.setSkipDamagedCheckIn(oleLoanForm.isSkipDamagedCheckIn());
             oleLoanDocument = getLoanProcessor().returnLoan(oleLoanForm.getCheckInItem(), oleLoanDocument);
+            oleLoanForm.setOleItem(oleLoanDocument.getOleItem());
             if(oleLoanDocument!=null && oleLoanDocument.getOleItem()!=null && oleLoanDocument.getOleItem().getCheckinNote()==null){
                 getLoanProcessor().updateInTransitHistory(oleLoanDocument,oleLoanForm.getRouteToLocation());
             }
@@ -2934,18 +2920,6 @@ public class LoanController extends UifControllerBase {
                 oleLoanForm.setReturnMessage(OLEConstants.CLAIMS_RETURNED_MESSAGE);
                 return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
             }
-            //String requestCheck = oleLoanDocument.getOleDeliverRequestBo() != null ? OLEConstants.REQUEST_EXISTS : "";
-            /*if(!requestCheck.isEmpty()){
-                oleLoanForm.setPatronRequest(true);
-                oleLoanForm.setReturnSuccess(false);
-                oleLoanForm.setReturnMessage(requestCheck);
-            }*/
-           /* if (oleLoanDocument.getItemStatusCode().contains(OLEConstants.ITEM_STATUS_RETURNED_DAMAGED)) {
-                oleLoanForm.setReturnSuccess(false);
-                oleLoanForm.setReturnMessage(OLEConstants.DAMAGED_CHECK_IN_HEADER + requestCheck);
-                oleLoanForm.setRouteToLocation(oleLoanDocument.getRouteToLocation());
-                oleLoanForm.setDamagedCheckIn(true);
-            }*/
             oleLoanForm.setDummyLoan(oleLoanDocument);
             if (oleLoanDocument.isCopyRequest()) {
                 oleLoanForm.setCopyRequest(true);

@@ -130,7 +130,6 @@ public class FastAddItemController extends UifControllerBase {
             OleHoldings oleHoldings = loanProcessor.getHoldingRecord(oleLoanForm.getOleLoanFastAdd());
             oleHoldings.setHoldingsType("print");
             HoldingOlemlRecordProcessor holdingOlemlRecordProcessor = new HoldingOlemlRecordProcessor();
-            holdingOlemlRecordProcessor.toXML(oleHoldings);
             BibMarcRecord bibMarcRecord = loanProcessor.getBibMarcRecord(oleLoanForm.getOleLoanFastAdd().getTitle(), oleLoanForm.getOleLoanFastAdd().getAuthor());
             List<BibMarcRecord> bibMarcRecordList = new ArrayList<>();
             bibMarcRecordList.add(bibMarcRecord);
@@ -149,14 +148,12 @@ public class FastAddItemController extends UifControllerBase {
             itemXml.setLastUpdated(String.valueOf(dateFormat.format(new Date())));
             itemXml.setPublic(false);
             itemXml.setFastAdd(true);
-            //itemXml.setHarvestable("true");
             Holdings holdings = new PHoldings();
             holdings.setContent(holdingOlemlRecordProcessor.toXML(oleHoldings));
             holdings.setCreatedOn(String.valueOf(dateFormat.format(new Date())));
             holdings.setLastUpdated(String.valueOf(dateFormat.format(new Date())));
             holdings.setPublic(false);
             holdings.setFastAdd(true);
-            //holdings.setHarvestable("true");
             holdings.setStatus("n"); // new Record
             HoldingsTree holdingsTree = new HoldingsTree();
             holdingsTree.setHoldings(holdings);

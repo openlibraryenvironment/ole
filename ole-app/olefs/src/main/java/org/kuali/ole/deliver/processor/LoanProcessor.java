@@ -1125,14 +1125,6 @@ public class LoanProcessor {
 
         OleCirculationDesk oleCirculationDesk = oleLoanDocument.getCirculationLocationId() != null ? getCircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()) : null;
         oleLoanDocument.setOleCirculationDesk(oleCirculationDesk);
-      /* if (oleCirculationDesk != null && oleCirculationDesk.getCalendarGroupId() != null) {
-            OleCalendarService oleCalendarService = new OleCalendarServiceImpl();
-            OleCalendar oleCalendar = oleCalendarService.getActiveCalendar(new Timestamp(System.currentTimeMillis()), oleCirculationDesk.getCalendarGroupId());
-            if (oleCalendar == null) {
-                throw new Exception("Calendar does not exist");
-            }
-        }
-        getDataCarrierService().addData(OLEConstants.GROUP_ID, oleCirculationDesk != null ? oleCirculationDesk.getCalendarGroupId() : "");*/
         getDataCarrierService().addData(OLEConstants.GROUP_ID, oleCirculationDesk != null ? oleCirculationDesk.getCalendarGroupId() : "");
         String operatorsCirculationLocation = getCircDeskLocationResolver().circulationDeskLocations(oleCirculationDesk);
         if (LOG.isDebugEnabled()){
@@ -1340,6 +1332,19 @@ public class LoanProcessor {
             return oleLoanDocument;
         }
 
+        renewalCounterIncrement(oleLoanDocument, pastDueDate);
+        Long beginSaveLoan = System.currentTimeMillis();
+        if(oleLoanDocument.getManualRenewalDueDate()!=null && oleLoanDocument.getLoanDueDate() == null){
+           oleLoanDocument.setLoanDueDate(oleLoanDocument.getManualRenewalDueDate());
+        }
+        saveLoan(oleLoanDocument);
+        Long endSaveLoan = System.currentTimeMillis();
+        Long timeTakenSaveLoan = endSaveLoan-beginSaveLoan;
+        LOG.info("The Time Taken for save loan in Add Item"+timeTakenSaveLoan);
+        return oleLoanDocument;
+    }
+
+    private void renewalCounterIncrement(OleLoanDocument oleLoanDocument, Date pastDueDate) {
         if (oleLoanDocument.isRenewalItemFlag() && !oleLoanDocument.isIndefiniteCheckFlag() && !oleLoanDocument.isRenewNotFlag()) {
             if (oleLoanDocument.getNumberOfRenewals() == null) {
                 oleLoanDocument.setNumberOfRenewals(OLEConstants.ZERO);
@@ -1353,15 +1358,6 @@ public class LoanProcessor {
             oleLoanDocument.setPastDueDate(pastDueDate);
             oleLoanDocument.setRenewalItemFlag(false);
         }
-        Long beginSaveLoan = System.currentTimeMillis();
-        if(oleLoanDocument.getManualRenewalDueDate()!=null && oleLoanDocument.getLoanDueDate() == null){
-           oleLoanDocument.setLoanDueDate(oleLoanDocument.getManualRenewalDueDate());
-        }
-        saveLoan(oleLoanDocument);
-        Long endSaveLoan = System.currentTimeMillis();
-        Long timeTakenSaveLoan = endSaveLoan-beginSaveLoan;
-        LOG.info("The Time Taken for save loan in Add Item"+timeTakenSaveLoan);
-        return oleLoanDocument;
     }
 
     /**
@@ -3538,10 +3534,6 @@ public class LoanProcessor {
     }
 
     public boolean isClaimsReturnedItem(String itemBarcode, OleLoanDocument oleLoanDocument) throws Exception {
-       /* Map itemUuid = QueryServiceImpl.getInstance().getItemDetails(itemBarcode, oleLoanDocument.getItemUuid());
-        oleLoanDocument.setInstanceUuid((String) itemUuid.get(OLEConstants.INSTANCE_UUID));
-        oleLoanDocument.setItemUuid((String) itemUuid.get(OLEConstants.ITEM_UUID));
-        oleLoanDocument.setBibUuid((String) itemUuid.get(OLEConstants.BIB_UUID));*/
         LOG.debug("Inside the addLoan method");
         org.kuali.ole.docstore.common.document.Item item = new ItemOleml();
         org.kuali.ole.docstore.common.search.SearchParams search_Params = new org.kuali.ole.docstore.common.search.SearchParams();
@@ -3588,6 +3580,7 @@ public class LoanProcessor {
         org.kuali.ole.docstore.common.document.Item itemXML = new ItemOleml();
         itemXML.setContent(getItemOlemlRecordProcessor().toXML(oleItem));
         if (oleItem.isClaimsReturnedFlag()) {
+            oleLoanDocument.setOleItem(oleItem);
             return true;
         }
         return false;
