@@ -281,8 +281,28 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                     else {
                         GlobalVariables.getMessageMap().putError(OleSelectConstant.PO_ITEM_SECTION_ID, OLEKeyConstants.ERROR_NO_MATCHING_PO_VND);
                     }
-                }
-                else {
+                } else if (olePurchaseOrderDocument != null && olePurchaseOrderDocument.getDocumentHeader().getWorkflowDocument().isFinal() && (olePurchaseOrderDocument.getApplicationDocumentStatus().equalsIgnoreCase("VOID"))) {
+                    if (invoiceDocument.getVendorHeaderGeneratedIdentifier() == null && invoiceDocument.getVendorDetailAssignedIdentifier() == null && invoiceDocument.getPoId() != null && invoiceService.getPurchaseOrderVendor(invoiceDocument.getPoId()) != null) {
+                        GlobalVariables.getMessageMap().putError(OleSelectConstant.PO_ITEM_SECTION_ID,
+                                PurapKeyConstants.ERROR_PURCHASE_ORDER_FINAL_VOID);
+                    } else if (invoiceDocument.getVendorName().equalsIgnoreCase(invoiceService.getPurchaseOrderVendor(invoiceDocument.getPoId()))) {
+                        GlobalVariables.getMessageMap().putError(OleSelectConstant.PO_ITEM_SECTION_ID,
+                                PurapKeyConstants.ERROR_PURCHASE_ORDER_FINAL_VOID);
+                    } else {
+                        GlobalVariables.getMessageMap().putError(OleSelectConstant.PO_ITEM_SECTION_ID, OLEKeyConstants.ERROR_NO_MATCHING_PO_VND);
+                    }
+                } else if (olePurchaseOrderDocument != null && olePurchaseOrderDocument.getDocumentHeader().getWorkflowDocument().isFinal() && (olePurchaseOrderDocument.getApplicationDocumentStatus().equalsIgnoreCase("PENDING PRINT"))) {
+                    if (invoiceDocument.getVendorHeaderGeneratedIdentifier() == null && invoiceDocument.getVendorDetailAssignedIdentifier() == null && invoiceDocument.getPoId() != null && invoiceService.getPurchaseOrderVendor(invoiceDocument.getPoId()) != null) {
+                        GlobalVariables.getMessageMap().putError(OleSelectConstant.PO_ITEM_SECTION_ID,
+                                PurapKeyConstants.ERROR_PURCHASE_ORDER_PENDING_PRINT);
+                    } else if (invoiceDocument.getVendorName().equalsIgnoreCase(invoiceService.getPurchaseOrderVendor(invoiceDocument.getPoId()))) {
+                        GlobalVariables.getMessageMap().putError(OleSelectConstant.PO_ITEM_SECTION_ID,
+                                PurapKeyConstants.ERROR_PURCHASE_ORDER_PENDING_PRINT);
+                    } else {
+                        GlobalVariables.getMessageMap().putError(OleSelectConstant.PO_ITEM_SECTION_ID, OLEKeyConstants.ERROR_NO_MATCHING_PO_VND);
+                    }
+
+                } else {
                     GlobalVariables.getMessageMap().putError(OleSelectConstant.PO_ITEM_SECTION_ID,
                             PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_OPEN);
                 }
