@@ -64,9 +64,7 @@
                 <bean id="GlobalEditView-Remove-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
                       p:methodToCall="removeFromList" p:actionLabel="Remove From List" p:render="@{viewGlobalEditFlag}"/>
                 <bean id="GlobalEditView-Close-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
-                      p:methodToCall="close" p:actionLabel="Close" p:render="@{viewGlobalEditFlag}"
-                      p:successCallback="searchShowEntries()"/>
-
+                      p:methodToCall="close" p:actionLabel="Close" p:render="@{viewGlobalEditFlag}"/>
             </list>
         </property>
     </bean>
@@ -93,8 +91,7 @@
                     </property>
                 </bean>
                 <bean id="GlobalEditView-Add-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
-                      p:methodToCall="addGlobalEditRecords" p:actionLabel="Add To Global Edit List"
-                      p:successCallback="searchShowEntries()"/>
+                      p:methodToCall="addGlobalEditRecords" p:actionLabel="Add To Global Edit List"/>
                 <bean id="GlobalEditView-View-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
                       p:methodToCall="viewGlobalEditRecords" p:actionLabel="View Global Edit List"/>
             </list>
