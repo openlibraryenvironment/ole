@@ -788,6 +788,8 @@ public class BatchBibTreeDBUtil {
                 itemObj.setProxyBorrower(resultSet.getString("PROXY_BORROWER"));
                 String dueDateTime = resultSet.getString("DUE_DATE_TIME");
                 itemObj.setDueDateTime(convertDateFormat(dueDateTime));
+                String originalDueDate = resultSet.getString("ORG_DUE_DATE_TIME");
+                itemObj.setOriginalDueDate(convertDateFormat(originalDueDate));
                 String checkOutDateTime = resultSet.getString("CHECK_OUT_DATE_TIME");
                 itemObj.setCheckOutDateTime(convertDateFormat(checkOutDateTime));
                 itemObj.setDamagedItemNote(resultSet.getString("ITEM_DAMAGED_NOTE"));

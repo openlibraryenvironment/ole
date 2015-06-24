@@ -149,6 +149,7 @@ public class OLEDeliverItemResultController extends UifControllerBase {
                 oleSingleItemResultDisplayRow.setCurrentBorrowerId(itemPojo.getCurrentBorrower());
                 oleSingleItemResultDisplayRow.setProxyBorrowerId(itemPojo.getProxyBorrower());
                 oleSingleItemResultDisplayRow.setDueDate(itemPojo.getDueDateTime());
+                oleSingleItemResultDisplayRow.setOriginalDueDate(itemPojo.getOriginalDueDate());
                 oleSingleItemResultDisplayRow.setEnumeration(itemPojo.getEnumeration());
                 oleSingleItemResultDisplayRow.setChronology(itemPojo.getChronology());
                 oleSingleItemResultDisplayRow.setNoOfPieces(itemPojo.getNumberOfPieces());

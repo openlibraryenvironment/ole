@@ -69,6 +69,7 @@ public class OLESingleItemResultDisplayRow {
     private String pickUpLocationCode;
     private String finalStatus;
     private Date finalStatusDate;
+    private String originalDueDate;
 
     private List<OLEDeliverRequestResultDisplayRow> oleDeliverRequestResultDisplayRowList = new ArrayList<>();
     private List<OLEFeeTypeResultDisplayRow> oleFeeTypeResultDisplayRowList = new ArrayList<>();
@@ -509,6 +510,14 @@ public class OLESingleItemResultDisplayRow {
 
     public void setFinalStatusDate(Date finalStatusDate) {
         this.finalStatusDate = finalStatusDate;
+    }
+
+    public String getOriginalDueDate() {
+        return originalDueDate;
+    }
+
+    public void setOriginalDueDate(String originalDueDate) {
+        this.originalDueDate = originalDueDate;
     }
 
     public List<OLEHoldingsSearchResultDisplayRow> getOleHoldingsSearchResultDisplayRowList() {

@@ -5016,4 +5016,12 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_ITEM_T_ADD_ORGDUEDATE">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DS_ITEM_T">
+            <column name="ORG_DUE_DATE_TIME" type="TIMESTAMP"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

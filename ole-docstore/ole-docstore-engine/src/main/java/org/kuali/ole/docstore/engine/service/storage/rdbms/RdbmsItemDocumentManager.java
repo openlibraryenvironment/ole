@@ -33,6 +33,7 @@ import org.kuali.ole.docstore.common.search.SearchParams;
 import org.kuali.ole.docstore.common.search.SearchResponse;
 import org.kuali.ole.docstore.common.search.SearchResult;
 import org.kuali.ole.docstore.common.search.SearchResultField;
+import org.kuali.ole.docstore.engine.service.index.solr.ItemConstants;
 import org.kuali.ole.docstore.engine.service.search.DocstoreSearchService;
 import org.kuali.ole.docstore.engine.service.search.DocstoreSolrSearchService;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
@@ -462,6 +463,27 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
                 LOG.error(" getGregorianCalendar", e);
             }*/
         }
+        if (itemRecord.getOriginalDueDate() != null) {
+            SimpleDateFormat format1 = new SimpleDateFormat(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("info.DateFormat")+" HH:mm:ss");
+            SimpleDateFormat format2 = new SimpleDateFormat(ItemConstants.GREGORIAN_PATTERN);
+            String DATE_FORMAT_HH_MM_SS_REGX = "^(1[0-2]|0[1-9])/(3[0|1]|[1|2][0-9]|0[1-9])/[0-9]{4}(\\s)((([1|0][0-9])|([2][0-4]))):[0-5][0-9]:[0-5][0-9]$";
+            Date originalDueDateTime = null;
+            DateFormat df = new SimpleDateFormat(ItemConstants.DAT_FORMAT_EFFECTIVE);
+            DateFormat df1 = new SimpleDateFormat(ItemConstants.DAT_FORMAT_EFFECTIVE_NOTICE);
+            try {
+                originalDueDateTime = format2.parse(itemRecord.getOriginalDueDate().toString());
+                item.setOriginalDueDate(format1.format(originalDueDateTime).toString());
+                String dateString = item.getOriginalDueDate();
+                if (StringUtils.isNotBlank(dateString) && dateString.matches(DATE_FORMAT_HH_MM_SS_REGX)) {
+                    originalDueDateTime = df1.parse(dateString);
+                    item.setOriginalDueDate(df.format(originalDueDateTime));
+                }else {
+                    item.setOriginalDueDate(dateString);
+                }
+            } catch (ParseException e) {
+                LOG.error("format string to Date " + e);
+            }
+        }
         if (itemRecord.getCheckOutDateTime() != null) {
 
             SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
@@ -770,6 +792,20 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
         } else {
             itemRecord.setDueDateTime(null);
         }
+        String originalDueDateTime = item.getOriginalDueDate();
+        if(originalDueDateTime != null){
+            String[] originalDueDateTimeArray = originalDueDateTime.split(" ");
+            if(originalDueDateTimeArray.length == 1 && originalDueDateTimeArray[0] != "") {
+                originalDueDateTime = originalDueDateTime + ItemConstants.DESCRIBE_EFFECTIVE_DATE;
+                originalDueDateTime(item,itemRecord,originalDueDateTime);
+            } else if (originalDueDateTimeArray.length > 1) {
+                originalDueDateTime(item,itemRecord,originalDueDateTime);
+            } else {
+                itemRecord.setOriginalDueDate(null);
+            }
+        } else {
+            itemRecord.setOriginalDueDate(null);
+        }
         String checkOutDateItem = item.getCheckOutDateTime();
         if (checkOutDateItem != null) {
             String[] dueDateItemArray = checkOutDateItem.split(" ");
@@ -1074,6 +1110,11 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
     private void dueDateTime(org.kuali.ole.docstore.common.document.content.instance.Item item, ItemRecord itemRecord, String dueDateTime) {
         Timestamp dueDateTime1 = convertDateToTimeStamp(dueDateTime);
         itemRecord.setDueDateTime(dueDateTime1);
+    }
+
+    private void originalDueDateTime(org.kuali.ole.docstore.common.document.content.instance.Item item, ItemRecord itemRecord, String originalDueDateTime) {
+        Timestamp originalDueDateTime1 = convertDateToTimeStamp(originalDueDateTime);
+        itemRecord.setOriginalDueDate(originalDueDateTime1);
     }
 
     private Timestamp convertDateToTimeStamp(String dateString) {

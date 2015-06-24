@@ -207,6 +207,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         solrInputDocument.addField(CURRENT_BORROWER, item.getCurrentBorrower());
         solrInputDocument.addField(PROXY_BORROWER, item.getProxyBorrower());
         solrInputDocument.addField(DUE_DATE_TIME, item.getDueDateTime());
+        solrInputDocument.addField(ORG_DUE_DATE_TIME, item.getOriginalDueDate());
         solrInputDocument.addField(ITEM_STATUS_EFFECTIVE_DATE, item.getItemStatusEffectiveDate());
         solrInputDocument.addField(CHECK_OUT_DUE_DATE_TIME, item.getCheckOutDateTime());
         solrInputDocument.addField(STAFF_ONLY_FLAG, itemDocument.isStaffOnly());

@@ -786,6 +786,7 @@
         <field-descriptor name="updatedDate" column="DATE_UPDATED" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="createdBy" column="CREATED_BY" jdbc-type="VARCHAR"/>
         <field-descriptor name="updatedBy" column="UPDATED_BY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="originalDueDate" column="ORG_DUE_DATE_TIME" jdbc-type="TIMESTAMP"/>
         <reference-descriptor name="itemStatusRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="itemStatusId" />
         </reference-descriptor>

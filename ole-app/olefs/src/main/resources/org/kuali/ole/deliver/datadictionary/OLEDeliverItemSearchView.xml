@@ -335,7 +335,7 @@
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="oleSingleItemResultDisplayRow.itemStatusDate"
                                   p:label="Orig. Charge Date"/>
-                            <bean parent="Uif-DataField" p:propertyName="oleSingleItemResultDisplayRow.dueDate"
+                            <bean parent="Uif-DataField" p:propertyName="oleSingleItemResultDisplayRow.originalDueDate"
                                   p:label="Orig. Due Date"/>
                         </list>
                     </property>

@@ -78,6 +78,7 @@ public class ItemRecord extends PersistableBusinessObjectBase
     private List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords;
     private List<ItemDamagedRecord> itemDamagedRecords;
     private List<MissingPieceItemRecord> missingPieceItemRecordList;
+    private Timestamp originalDueDate;
 
     public List<MissingPieceItemRecord> getMissingPieceItemRecordList() {
         return missingPieceItemRecordList;
@@ -583,5 +584,13 @@ public class ItemRecord extends PersistableBusinessObjectBase
 
     public void setItemDamagedRecords(List<ItemDamagedRecord> itemDamagedRecords) {
         this.itemDamagedRecords = itemDamagedRecords;
+    }
+
+    public Timestamp getOriginalDueDate() {
+        return originalDueDate;
+    }
+
+    public void setOriginalDueDate(Timestamp originalDueDate) {
+        this.originalDueDate = originalDueDate;
     }
 }

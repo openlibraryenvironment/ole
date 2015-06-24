@@ -145,6 +145,7 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.CHRONOLOGY_DISPLAY));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.ITEM_STATUS_EFFECTIVE_DATE));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.DUE_DATE_TIME));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.ORG_DUE_DATE_TIME));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.NUMBER_OF_PIECES_DISPLAY));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.PUBLICATIONDATE_DISPLAY));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.CURRENT_BORROWER));
@@ -240,6 +241,8 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                             singleItemResultDisplayRow.setItemStatusDate(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.DUE_DATE_TIME)) {
                             singleItemResultDisplayRow.setDueDate(searchResultField.getFieldValue());
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.ORG_DUE_DATE_TIME)) {
+                            singleItemResultDisplayRow.setOriginalDueDate(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.NUMBER_OF_PIECES_DISPLAY)) {
                             singleItemResultDisplayRow.setNoOfPieces(searchResultField.getFieldValue());
                         }else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.PUBLICATIONPLACE)) {

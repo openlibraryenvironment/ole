@@ -99,6 +99,7 @@ public interface BibConstants {
     public static final String CURRENT_BORROWER="currentBorrower";
     public static final String PROXY_BORROWER="proxyBorrower";
     public static final String DUE_DATE_TIME="dueDateTime";
+    public static final String ORG_DUE_DATE_TIME="originalDueDate";
     public static final String ITEM_STATUS_EFFECTIVE_DATE="itemStatusEffectiveDate";
     public static final String CHECK_OUT_DUE_DATE_TIME="checkOutDateTime";
 

@@ -129,7 +129,8 @@ import java.util.List;
     "checkOutDateTime",
     "itemClaimsReturnedRecords",
     "itemDamagedRecords",
-    "missingPieceItemRecordList"
+    "missingPieceItemRecordList",
+    "originalDueDate"
 })
 @XStreamAlias("item")
 @XmlRootElement(name = "item")
@@ -238,6 +239,8 @@ public class Item {
     protected List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords;
     @XStreamImplicit(itemFieldName = "itemDamagedRecords")
     protected List<ItemDamagedRecord> itemDamagedRecords;
+    @XmlElement(required = true)
+    protected String originalDueDate;
 
     public List<MissingPieceItemRecord> getMissingPieceItemRecordList() {
         if(missingPieceItemRecordList == null){
@@ -1233,5 +1236,13 @@ public class Item {
 
     public void setItemDamagedRecords(List<ItemDamagedRecord> itemDamagedRecords) {
         this.itemDamagedRecords = itemDamagedRecords;
+    }
+
+    public String getOriginalDueDate() {
+        return originalDueDate;
+    }
+
+    public void setOriginalDueDate(String originalDueDate) {
+        this.originalDueDate = originalDueDate;
     }
 }

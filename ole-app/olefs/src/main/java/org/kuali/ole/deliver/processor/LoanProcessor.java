@@ -1785,6 +1785,10 @@ public class LoanProcessor {
                     generatePatronBillPayment(oleLoanDocument, OLEConstants.OVERDUE_FINE, oleLoanDocument.getFineRate());
             }
             compareExpirationDateWithDueDate(oleLoanDocument);
+            boolean isNewLoanDocument = false;
+            if(StringUtils.isEmpty(oleLoanDocument.getLoanId())){
+                isNewLoanDocument = true;
+            }
             getBusinessObjectService().save(oleLoanDocument);
             if (oleLoanDocument.isRequestPatron() || (!oleLoanDocument.isRequestPatron() && oleLoanDocument.getOleRequestId() != null && !"".equalsIgnoreCase(oleLoanDocument.getOleRequestId()))) {
                 try {
@@ -1812,8 +1816,14 @@ public class LoanProcessor {
                     oleItem.setCheckOutDateTime(convertDateToString(oleLoanDocument.getCreateDate(), "MM/dd/yyyy HH:mm:ss"));
                     if (oleLoanDocument.getLoanDueDate() != null) {
                         oleItem.setDueDateTime(convertToString(oleLoanDocument.getLoanDueDate()));
+                        if(isNewLoanDocument){
+                            oleItem.setOriginalDueDate(convertToString(oleLoanDocument.getLoanDueDate()));
+                        }
                     } else {
                         oleItem.setDueDateTime("");
+                        if(StringUtils.isEmpty(oleLoanDocument.getLoanId())){
+                            oleItem.setOriginalDueDate("");
+                        }
                     }
                     oleItem.setNumberOfRenew(Integer.parseInt(oleLoanDocument.getNumberOfRenewals()));
                     postLoan(oleItem);
