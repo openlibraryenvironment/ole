@@ -16,6 +16,7 @@
 package org.kuali.ole.select.document.service.impl;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.module.purap.PurapConstants;
@@ -33,6 +34,7 @@ import org.kuali.ole.module.purap.document.service.PurApWorkflowIntegrationServi
 import org.kuali.ole.module.purap.document.service.impl.PurchaseOrderServiceImpl;
 import org.kuali.ole.pojo.OleTxRecord;
 import org.kuali.ole.select.OleSelectConstant;
+import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.select.document.service.OlePurchaseOrderService;
 import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.OLEConstants;
@@ -50,16 +52,17 @@ import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.AutoPopulatingList;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.MessageFormat;
+import java.util.*;
 
 @Transactional
 public class OlePurchaseOrderServiceImpl extends PurchaseOrderServiceImpl implements OlePurchaseOrderService {
@@ -334,6 +337,40 @@ public class OlePurchaseOrderServiceImpl extends PurchaseOrderServiceImpl implem
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public String createPurchaseOrderAmendmentDocument(OlePurchaseOrderDocument olePurchaseOrderDocument,String docNumber) {
+        String errorString = null;
+        String newStatus = PurapConstants.PurchaseOrderStatuses.APPDOC_AMENDMENT;
+        String annotation = "Amended in batch by PO document "+olePurchaseOrderDocument.getDocumentNumber()+" and POBA document "+docNumber;
+        String documentType = "OLE_POA";
+        //PurchaseOrderDocument document = getPurchaseOrderByDocumentNumber(olePurchaseOrderDocument.getDocumentNumber());
+        createNoteForAutoCloseOrders(olePurchaseOrderDocument, annotation);
+        try {
+            synchronized (this) {
+                createAndRoutePotentialChangeDocument(olePurchaseOrderDocument, documentType, annotation, null, newStatus);
+            }
+
+        }  catch (Exception e) {
+            Map<String, AutoPopulatingList<ErrorMessage>> errorMessages = GlobalVariables.getMessageMap().getErrorMessages();
+            for (Iterator<String> errorMessageIterator = errorMessages.keySet().iterator(); errorMessageIterator.hasNext(); ) {
+                String errorKey = errorMessageIterator.next();
+                AutoPopulatingList<ErrorMessage> errorList = errorMessages.get(errorKey);
+                for (ErrorMessage errorMessage : errorList) {
+                    if(StringUtils.isNotEmpty(errorString)){
+                        errorString += MessageFormat.format(kualiConfigurationService.getPropertyValueAsString(errorMessage.getErrorKey()), errorMessage.getMessageParameters());
+                        errorString += "\n";
+                   }else{
+                        errorString = MessageFormat.format(kualiConfigurationService.getPropertyValueAsString(errorMessage.getErrorKey()), errorMessage.getMessageParameters());
+                        errorString += "\n";
+                    }
+                }
+
+            }
+            GlobalVariables.getMessageMap().clearErrorMessages();
+        }
+        return errorString;
+
     }
 
     public boolean getIsATypeOfRCVGDoc() {

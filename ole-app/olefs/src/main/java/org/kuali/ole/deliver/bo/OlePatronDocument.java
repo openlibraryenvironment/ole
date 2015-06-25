@@ -1,7 +1,11 @@
 package org.kuali.ole.deliver.bo;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.api.*;
+import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.address.EntityAddress;
@@ -19,6 +23,7 @@ import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
 import org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.util.*;
 
@@ -26,6 +31,8 @@ import java.util.*;
  * OlePatronDocument provides OlePatronDocument information through getter and setter.
  */
 public class OlePatronDocument extends PersistableBusinessObjectBase implements OlePatronContract {
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OlePatronDocument.class);
 
     private String olePatronId;
     private String barcode;
@@ -124,12 +131,12 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private List<OleEntityAddressBo> oleEntityAddressBo = new ArrayList<OleEntityAddressBo>();
     private List<OleEntityAddressBo> deletedOleEntityAddressBo = new ArrayList<OleEntityAddressBo>();
     private EntityNameBo name = new EntityNameBo();
-    private List<OleAddressBo> oleAddresses = new ArrayList<OleAddressBo>();
+    private List<OleAddressBo> oleAddresses;
     private List<EntityEmailBo> emails = new ArrayList<EntityEmailBo>();
     private List<EntityEmailBo> deletedEmails = new ArrayList<EntityEmailBo>();
-    private List<OlePatronNotes> notes = new ArrayList<OlePatronNotes>();
+    private List<OlePatronNotes> notes;
     private List<OlePatronNotes> deletedNotes = new ArrayList<OlePatronNotes>();
-    private List<OlePatronLostBarcode> lostBarcodes = new ArrayList<OlePatronLostBarcode>();
+    private List<OlePatronLostBarcode> lostBarcodes;
     private OleBorrowerType oleBorrowerType;
     private EntityBo entity = new EntityBo();
     private OleSourceBo sourceBo;
@@ -139,13 +146,13 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private List<EntityEmploymentBo> employments = new ArrayList<EntityEmploymentBo>();
     private List<EntityEmploymentBo> deletedEmployments = new ArrayList<EntityEmploymentBo>();
     private List<OleDeliverRequestBo> oleDeliverRequestBos = new ArrayList<OleDeliverRequestBo>();
-    private List<OleProxyPatronDocument> oleProxyPatronDocuments = new ArrayList<OleProxyPatronDocument>();
+    private List<OleProxyPatronDocument> oleProxyPatronDocuments;
     private List<OleProxyPatronDocument> deletedOleProxyPatronDocuments = new ArrayList<OleProxyPatronDocument>();
     private List<OleTemporaryCirculationHistory> oleTemporaryCirculationHistoryRecords = new ArrayList<OleTemporaryCirculationHistory>();
-    private List<OlePatronLocalIdentificationBo> olePatronLocalIds = new ArrayList<OlePatronLocalIdentificationBo>();
+    private List<OlePatronLocalIdentificationBo> olePatronLocalIds;
     private List<OlePatronLocalIdentificationBo> deletedOlePatronLocalIds = new ArrayList<OlePatronLocalIdentificationBo>();
     private List<OleProxyPatronDocument> oleProxyPatronDocumentList = new ArrayList<OleProxyPatronDocument>();
-    private List<PatronBillPayment> patronBillPayments = new ArrayList<>();
+    private List<PatronBillPayment> patronBillPayments;
     private OLEPatronEntityViewBo olePatronEntityViewBo;
     private String patronBillFileName;
     private String viewBillUrl;
@@ -186,6 +193,14 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private String borrowerTypeCode;
 
     public List<PatronBillPayment> getPatronBillPayments() {
+        if (null == patronBillPayments) {
+            if (StringUtils.isNotEmpty(getOlePatronId())) {
+                Map<String, String> parameterMap = new HashMap<>();
+                parameterMap.put("patronId", getOlePatronId());
+                List<PatronBillPayment> olePatronBillPaymentList = (List<PatronBillPayment>) KRADServiceLocator.getBusinessObjectService().findMatching(PatronBillPayment.class, parameterMap);
+                patronBillPayments = olePatronBillPaymentList;
+            } else patronBillPayments = new ArrayList<>();
+        }
         return patronBillPayments;
     }
 
@@ -245,6 +260,35 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public List<OleTemporaryCirculationHistory> getOleTemporaryCirculationHistoryRecords() {
+        if (CollectionUtils.isEmpty(oleTemporaryCirculationHistoryRecords)) {
+            try {
+                oleTemporaryCirculationHistoryRecords = new OleLoanDocumentsFromSolrBuilder()
+                        .getPatronTemporaryCirculationHistoryRecords(getOlePatronId());
+            } catch (Exception e) {
+                oleTemporaryCirculationHistoryRecords = new ArrayList<>();
+
+                LOG.error(e.getStackTrace());
+            }
+        }
+        return oleTemporaryCirculationHistoryRecords;
+    }
+
+    //TODO: refactor this to be getOleTemporaryCirculationHistoryRecords and populate the solr info at the same time
+    //TODO: eliminating the need for 2 methods.
+    public List<OleTemporaryCirculationHistory> getOleTemporaryCirculationHistoryRecordsFromDB() {
+        if (CollectionUtils.isEmpty(oleTemporaryCirculationHistoryRecords)) {
+            if (StringUtils.isNotEmpty(getOlePatronId())) {
+                if (StringUtils.isNotEmpty(getOlePatronId())) {
+                    Map<String, String> parameterMap = new HashMap<>();
+                    parameterMap.put("olePatronId", getOlePatronId());
+                    List<OleTemporaryCirculationHistory> oleTemporaryCirculationHistoryList = (List<OleTemporaryCirculationHistory>) KRADServiceLocator.getBusinessObjectService().findMatching(OleTemporaryCirculationHistory.class, parameterMap);
+                    if (CollectionUtils.isNotEmpty(oleTemporaryCirculationHistoryList)) {
+                        oleTemporaryCirculationHistoryRecords = oleTemporaryCirculationHistoryList;
+                    }
+                }
+            }
+
+        }
         return oleTemporaryCirculationHistoryRecords;
     }
 
@@ -253,6 +297,14 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public List<OleDeliverRequestBo> getOleDeliverRequestBos() {
+        if (null == oleDeliverRequestBos) {
+            if (StringUtils.isNotEmpty(getOlePatronId())) {
+                Map<String, String> parameterMap = new HashMap<>();
+                parameterMap.put("borrowerId", getOlePatronId());
+                List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleDeliverRequestBo.class, parameterMap);
+                oleDeliverRequestBos = oleDeliverRequestBoList;
+            } else oleDeliverRequestBos = new ArrayList<>();
+        }
         return oleDeliverRequestBos;
     }
 
@@ -336,6 +388,9 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         }
         if (CollectionUtils.isNotEmpty(immutable.getAddresses())) {
             for (EntityAddress entityAddr : immutable.getAddresses()) {
+                if(bo.addresses == null){
+                    bo.addresses = new ArrayList<>();
+                }
                 bo.addresses.add(EntityAddressBo.from(entityAddr));
             }
         }
@@ -352,11 +407,17 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
 
         if (CollectionUtils.isNotEmpty(immutable.getNotes())) {
             for (OlePatronNotesDefinition note : immutable.getNotes()) {
+                if(bo.notes == null){
+                    bo.notes = new ArrayList<>();
+                }
                 bo.notes.add(OlePatronNotes.from(note));
             }
         }
         if (CollectionUtils.isNotEmpty(immutable.getLostBarcodes())) {
             for (OlePatronLostBarcodeDefinition lostBarcode : immutable.getLostBarcodes()) {
+                if(bo.lostBarcodes == null){
+                    bo.lostBarcodes = new ArrayList<>();
+                }
                 bo.lostBarcodes.add(OlePatronLostBarcode.from(lostBarcode));
             }
         }
@@ -373,16 +434,25 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         }
         if (CollectionUtils.isNotEmpty(immutable.getOleProxyPatronDocuments())) {
             for (OleProxyPatronDefinition proxyPatron : immutable.getOleProxyPatronDocuments()) {
+                if(bo.oleProxyPatronDocuments ==  null){
+                    bo.oleProxyPatronDocuments = new ArrayList<>();
+                }
                 bo.oleProxyPatronDocuments.add(OleProxyPatronDocument.from(proxyPatron));
             }
         }
         if (CollectionUtils.isNotEmpty(immutable.getOleAddresses())) {
             for (OleAddressDefinition oleAddress : immutable.getOleAddresses()) {
+                if(bo.oleAddresses == null){
+                    bo.oleAddresses  = new ArrayList<>();
+                }
                 bo.oleAddresses.add(OleAddressBo.from(oleAddress));
             }
         }
         if (CollectionUtils.isNotEmpty(immutable.getOlePatronLocalIds())) {
             for (OlePatronLocalIdentificationDefinition olePatronLocalId : immutable.getOlePatronLocalIds()) {
+                if(bo.olePatronLocalIds == null){
+                    bo.olePatronLocalIds = new ArrayList<>();
+                }
                 bo.olePatronLocalIds.add(OlePatronLocalIdentificationBo.from(olePatronLocalId));
             }
         }
@@ -445,7 +515,37 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      * @return oleLoanDocuments(list of type OleLoanDocument)
      */
     public List<OleLoanDocument> getOleLoanDocuments() {
+        if (CollectionUtils.isEmpty(oleLoanDocuments)) {
+            oleLoanDocuments = getOleLoanDocumentsFromSolr(getOlePatronId());
+        }
         return oleLoanDocuments;
+    }
+
+    //TODO: refactor this to be getOleLoanDocuments and populate the solr info at the same time
+    //TODO: eliminating the need for 2 methods.
+    public List<OleLoanDocument> getOleLoanDocumentsFromDb() {
+        if (StringUtils.isNotEmpty(getOlePatronId())) {
+            if (StringUtils.isNotEmpty(getOlePatronId())) {
+                Map<String, String> parameterMap = new HashMap<>();
+                parameterMap.put("patronId", getOlePatronId());
+                List<OleLoanDocument> oleLoanDocumentList = (List<OleLoanDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleLoanDocument.class, parameterMap);
+                if (CollectionUtils.isNotEmpty(oleLoanDocumentList)) {
+                    oleLoanDocuments = oleLoanDocumentList;
+                }
+            }
+        }
+        return oleLoanDocuments;
+    }
+
+    public List<OleLoanDocument> getOleLoanDocumentsFromSolr(String patronId) {
+        List<OleLoanDocument> patronLoanedItemBySolr = new ArrayList<>();
+        try {
+            patronLoanedItemBySolr = new OleLoanDocumentsFromSolrBuilder().getPatronLoanedItemBySolr(patronId, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return patronLoanedItemBySolr;
+
     }
 
     /**
@@ -526,6 +626,14 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      * @return notes(list of type OlePatronNotes)
      */
     public List<OlePatronNotes> getNotes() {
+        if (null == notes) {
+            if (StringUtils.isNotEmpty(getOlePatronId())) {
+                Map<String, String> parameterMap = new HashMap<>();
+                parameterMap.put("olePatronId", getOlePatronId());
+                List<OlePatronNotes> olePatronNotesList = (List<OlePatronNotes>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronNotes.class, parameterMap);
+                notes = olePatronNotesList;
+            } else notes = new ArrayList<>();
+        }
         return notes;
     }
 
@@ -607,6 +715,14 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      * @param olePatronId
      */
     public void setOlePatronId(String olePatronId) {
+    	if (olePatronId != null && !olePatronId.equals(this.olePatronId)) {
+    		notes = null;
+    		oleProxyPatronDocuments = null;
+    		patronBillPayments = null;
+    		lostBarcodes = null;
+    		oleAddresses = null;
+    		olePatronLocalIds = null;
+    	}
         this.olePatronId = olePatronId;
     }
 
@@ -868,6 +984,19 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      * @return oleBorrowerType(OleBorrowerType)
      */
     public OleBorrowerType getOleBorrowerType() {
+        if (null == oleBorrowerType) {
+            if (StringUtils.isNotEmpty(getBorrowerType())) {
+                String borrowerTypeId = getBorrowerType();
+                if (StringUtils.isNotEmpty(borrowerTypeId)) {
+                    Map<String, String> parameterMap = new HashMap<>();
+                    parameterMap.put("borrowerTypeId", borrowerTypeId);
+                    List<OleBorrowerType> oleBorrowerTypeList = (List<OleBorrowerType>) KRADServiceLocator.getBusinessObjectService().findMatching(OleBorrowerType.class, parameterMap);
+                    if (CollectionUtils.isNotEmpty(oleBorrowerTypeList)) {
+                        oleBorrowerType = oleBorrowerTypeList.get(0);
+                    }
+                }
+            }
+        }
         return oleBorrowerType;
     }
 
@@ -952,6 +1081,14 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      * @return oleProxyPatronDocuments
      */
     public List<OleProxyPatronDocument> getOleProxyPatronDocuments() {
+        if (null == oleProxyPatronDocuments) {
+            if (StringUtils.isNotEmpty(getOlePatronId())) {
+                Map<String, String> parameterMap = new HashMap<>();
+                parameterMap.put("olePatronId", getOlePatronId());
+                List<OleProxyPatronDocument> proxyPatronDocumentLists = (List<OleProxyPatronDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleProxyPatronDocument.class, parameterMap);
+                oleProxyPatronDocuments = proxyPatronDocumentLists;
+            } else oleProxyPatronDocuments = new ArrayList<>();
+        }
         return oleProxyPatronDocuments;
     }
 
@@ -1042,6 +1179,18 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      * @return sourceBo
      */
     public OleSourceBo getSourceBo() {
+        if (null == sourceBo) {
+            if (StringUtils.isNotEmpty(getSource())) {
+                if (StringUtils.isNotEmpty(getSource())) {
+                    Map<String, String> parameterMap = new HashMap<>();
+                    parameterMap.put("oleSourceId", getSource());
+                    List<OleSourceBo> oleSourceBoList = (List<OleSourceBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleSourceBo.class, parameterMap);
+                    if (CollectionUtils.isNotEmpty(oleSourceBoList)) {
+                        sourceBo = oleSourceBoList.get(0);
+                    }
+                }
+            }
+        }
         return sourceBo;
     }
 
@@ -1060,6 +1209,18 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      * @return statisticalCategoryBo
      */
     public OleStatisticalCategoryBo getStatisticalCategoryBo() {
+        if (null == statisticalCategoryBo) {
+            if (StringUtils.isNotEmpty(getStatisticalCategory())) {
+                if (StringUtils.isNotEmpty(getStatisticalCategory())) {
+                    Map<String, String> parameterMap = new HashMap<>();
+                    parameterMap.put("oleStatisticalCategoryId", getStatisticalCategory());
+                    List<OleStatisticalCategoryBo> oleStatisticalCategoryBoList = (List<OleStatisticalCategoryBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleStatisticalCategoryBo.class, parameterMap);
+                    if (CollectionUtils.isNotEmpty(oleStatisticalCategoryBoList)) {
+                        statisticalCategoryBo = oleStatisticalCategoryBoList.get(0);
+                    }
+                }
+            }
+        }
         return statisticalCategoryBo;
     }
 
@@ -1162,6 +1323,14 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public List<OlePatronLostBarcode> getLostBarcodes() {
+        if (null == lostBarcodes) {
+            if (StringUtils.isNotEmpty(getOlePatronId())) {
+                Map<String, String> parameterMap = new HashMap<>();
+                parameterMap.put("olePatronId", getOlePatronId());
+                List<OlePatronLostBarcode> olePatronLostBarcodeList = (List<OlePatronLostBarcode>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronLostBarcode.class, parameterMap);
+                lostBarcodes = olePatronLostBarcodeList;
+            } else lostBarcodes = new ArrayList<>();
+        }
         return lostBarcodes;
     }
 
@@ -1170,6 +1339,14 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public List<OleAddressBo> getOleAddresses() {
+        if (null == oleAddresses) {
+            if (StringUtils.isNotEmpty(getOlePatronId())) {
+                Map<String, String> parameterMap = new HashMap<>();
+                parameterMap.put("olePatronId", getOlePatronId());
+                List<OleAddressBo> oleAddressBos = (List<OleAddressBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleAddressBo.class, parameterMap);
+                oleAddresses = oleAddressBos;
+            } else oleAddresses = null;
+        }
         return oleAddresses;
     }
 
@@ -1186,6 +1363,14 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public List<OlePatronLocalIdentificationBo> getOlePatronLocalIds() {
+        if (null == olePatronLocalIds) {
+            if (StringUtils.isNotEmpty(getOlePatronId())) {
+                Map<String, String> parameterMap = new HashMap<>();
+                parameterMap.put("olePatronId", getOlePatronId());
+                List<OlePatronLocalIdentificationBo> olePatronLocalIdentificationBoList = (List<OlePatronLocalIdentificationBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronLocalIdentificationBo.class, parameterMap);
+                olePatronLocalIds = olePatronLocalIdentificationBoList;
+            } else olePatronLocalIds = null;
+        }
         return olePatronLocalIds;
     }
 
@@ -1218,6 +1403,18 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public List<OleProxyPatronDocument> getOleProxyPatronDocumentList() {
+        if (CollectionUtils.isEmpty(oleProxyPatronDocumentList)) {
+            if (StringUtils.isNotEmpty(getOlePatronId())) {
+                if (StringUtils.isNotEmpty(getOlePatronId())) {
+                    Map<String, String> parameterMap = new HashMap<>();
+                    parameterMap.put("proxyPatronId", getOlePatronId());
+                    List<OleProxyPatronDocument> oleProxyPatronDocuments = (List<OleProxyPatronDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleProxyPatronDocument.class, parameterMap);
+                    if (CollectionUtils.isNotEmpty(oleProxyPatronDocuments)) {
+                        oleProxyPatronDocumentList = oleProxyPatronDocuments;
+                    }
+                }
+            }
+        }
         return oleProxyPatronDocumentList;
     }
 
@@ -1346,6 +1543,18 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public OLEPatronEntityViewBo getOlePatronEntityViewBo() {
+        if (null == olePatronEntityViewBo) {
+            if (StringUtils.isNotEmpty(getOlePatronId())) {
+                if (StringUtils.isNotEmpty(getOlePatronId())) {
+                    Map<String, String> parameterMap = new HashMap<>();
+                    parameterMap.put("patronId", getOlePatronId());
+                    List<OLEPatronEntityViewBo> olePatronEntityViewBoList = (List<OLEPatronEntityViewBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEPatronEntityViewBo.class, parameterMap);
+                    if (CollectionUtils.isNotEmpty(olePatronEntityViewBoList)) {
+                        olePatronEntityViewBo = olePatronEntityViewBoList.get(0);
+                    }
+                }
+            }
+        }
         return olePatronEntityViewBo;
     }
 

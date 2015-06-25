@@ -71,9 +71,9 @@
 		<property name="triggerNames">
 			<list>
 				<!--<value>pdpInactivatePayeeAchAccountsJobTrigger</value>-->
-				<value>pdpLoadPaymentsJobTrigger</value>
+				<!--<value>pdpLoadPaymentsJobTrigger</value>-->
 				<!--<value>pdpExtractAchPaymentsJobTrigger</value>-->
-				<value>pdpExtractCanceledChecksJobTrigger</value>
+				<!--<value>pdpExtractCanceledChecksJobTrigger</value>-->
 			</list>
 		</property>
         <property name="batchFileDirectories">

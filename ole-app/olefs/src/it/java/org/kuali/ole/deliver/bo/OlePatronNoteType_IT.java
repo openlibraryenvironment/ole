@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.bo;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -12,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static junit.framework.Assert.assertEquals;
 
-public class OlePatronNoteType_IT extends SpringBaseTestCase {
+public class OlePatronNoteType_IT extends KFSTestCaseBase {
     private BusinessObjectService boService ;
 
     @Test

@@ -416,4 +416,5 @@ public class OleSelectConstant {
     public static final String BUDGET_RECORDING_LEVEL_CODE = "O";
     public static final String FILE_UPLOAD_SECTION = "FiscalYearRolloverFileUpload";
     public static final String FISCAL_YR_ROLL_VIEW = "OLEFiscalYearRolloverView";
+    public static final String POBA_VIEW = "OLEPurchaseOrderBatchView";
 }

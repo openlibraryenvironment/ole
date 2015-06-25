@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEPurchaseOrderBatchDocument" parent="OLEPurchaseOrderBatchDocument-parentBean"/>
+    <bean id="OLEPurchaseOrderBatchDocument-parentBean" abstract="true" parent="uifTransactionalDocumentEntry">
+        <property name="documentTypeName" value="OLE_POBA"/>
+        <property name="documentClass" value="org.kuali.ole.select.document.OLEPurchaseOrderBatchDocument"/>
+        <property name="attributes">
+            <list>
+               <!-- <ref bean="OLEPurchaseOrderBatchDocument-id"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definition -->
+
+    <bean id="OLEPurchaseOrderBatchDocument-id" parent="OLEPurchaseOrderBatchDocument-id-parentBean"/>
+    <bean id="OLEPurchaseOrderBatchDocument-id-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="ID"/>
+        <property name="description" value="ID"/>
+        <property name="name" value="id"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="ID"/>
+    </bean>
+
+    </beans>

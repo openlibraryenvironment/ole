@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.deliver.api.OlePatronDefinition;
@@ -36,7 +37,7 @@ import static junit.framework.Assert.assertNotNull;
  * To change this template use File | Settings | File Templates.
  */
 @Transactional
-public class OleMyAccountController_IT extends SpringBaseTestCase{
+public class OleMyAccountController_IT extends KFSTestCaseBase{
 
     @Mock
     private OleMyAccountForm mockUifFormBase;

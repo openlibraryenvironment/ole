@@ -2,6 +2,7 @@ package org.kuali.ole.select;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.select.bo.OleGloballyProtectedField;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -23,7 +24,7 @@ import static junit.framework.Assert.*;
 
 
 
-public class OleGloballyProtectedField_IT extends SpringBaseTestCase{
+public class OleGloballyProtectedField_IT extends KFSTestCaseBase{
 
     private BusinessObjectService boService ;
     @Test

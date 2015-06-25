@@ -773,6 +773,7 @@ public class InvoiceDocument extends AccountsPayableDocumentBase {
                     }
                     if (StringUtils.isNotBlank(disapprovalStatus)) {
                         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, nodeName);
+                        updateAndSaveAppDocStatus(disapprovalStatus);
                     }
                 } else {
                     logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");

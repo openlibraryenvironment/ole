@@ -3,6 +3,7 @@ package org.kuali.ole.describe.controller;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.describe.form.WorkbenchForm;
 import org.kuali.ole.docstore.discovery.model.SearchCondition;
@@ -25,7 +26,7 @@ import java.util.List;
  * Time: 3:10 PM
  * To change this template use File | Settings | File Templates.
  */
-public class WorkbenchController_IT extends SpringBaseTestCase {
+public class WorkbenchController_IT extends KFSTestCaseBase {
 
     @Mock
     private BindingResult mockResult;

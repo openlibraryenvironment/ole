@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.bo;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.service.OlePatronHelperService;
 import org.kuali.ole.service.OlePatronHelperServiceImpl;
@@ -30,7 +31,7 @@ import static junit.framework.Assert.assertNotNull;
  */
 
 
-public class OlePatron_IT extends SpringBaseTestCase {
+public class OlePatron_IT extends KFSTestCaseBase {
     @Test
     @Transactional
     public void createPatronRecord() throws Exception {

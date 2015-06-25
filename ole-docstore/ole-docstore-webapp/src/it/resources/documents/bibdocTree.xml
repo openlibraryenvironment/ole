@@ -1,0 +1,46 @@
+<bibDocTree>
+    <active>false</active>
+    <fastAdd>false</fastAdd>
+    <bibDoc>
+        <active>false</active>
+        <fastAdd>false</fastAdd>
+        <operation>CREATE</operation>
+        <staffOnly>false</staffOnly>
+        <category>work</category>
+        <content>&lt;collection xmlns:marcxml="http://www.loc.gov/MARC21/slim"&gt;&lt;record&gt;&lt;leader&gt;00000cam^a2200397^^^4500&lt;/leader&gt;&lt;controlfield tag="001"&gt;&lt;/controlfield&gt;&lt;controlfield tag="005"&gt;20110722112956.0&lt;/controlfield&gt;&lt;controlfield tag="008"&gt;690325s1968^^^^ctu^^^^^^b^^^^000^0^eng^^&lt;/controlfield&gt;&lt;datafield tag="010" ind1=" " ind2=" "&gt;&lt;subfield code="a"&gt;66024150&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="016" ind1="7" ind2=" "&gt;&lt;subfield code="a"&gt;0165270&lt;/subfield&gt;&lt;subfield code="2"&gt;DNLM&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="035" ind1=" " ind2=" "&gt;&lt;subfield code="a"&gt;00000074&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="040" ind1=" " ind2=" "&gt;&lt;subfield code="a"&gt;DLC&lt;/subfield&gt;&lt;subfield code="c"&gt;DLC&lt;/subfield&gt;&lt;subfield code="d"&gt;MUQ&lt;/subfield&gt;&lt;subfield code="d"&gt;BTCTA&lt;/subfield&gt;&lt;subfield code="d"&gt;NLM&lt;/subfield&gt;&lt;subfield code="d"&gt;UBC&lt;/subfield&gt;&lt;subfield code="d"&gt;DEBBG&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="049" ind1=" " ind2=" "&gt;&lt;subfield code="a"&gt;NDLL&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="050" ind1="0" ind2="0"&gt;&lt;subfield code="a"&gt;RA418&lt;/subfield&gt;&lt;subfield code="b"&gt;.D56&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="060" ind1="0" ind2="0"&gt;&lt;subfield code="a"&gt;WA 30&lt;/subfield&gt;&lt;subfield code="b"&gt;D611 1968&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="082" ind1="0" ind2="0"&gt;&lt;subfield code="a"&gt;362&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="084" ind1=" " ind2=" "&gt;&lt;subfield code="a"&gt;MS 6000&lt;/subfield&gt;&lt;subfield code="2"&gt;rvk&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="245" ind1="0" ind2="0"&gt;&lt;subfield code="a"&gt;Disease, the individual, and society; social-psychological aspects of disease;&lt;/subfield&gt;&lt;subfield code="b"&gt;a summary and analysis of a decade of research,&lt;/subfield&gt;&lt;subfield code="c"&gt;by Gerald Gordon [and others]&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="260" ind1=" " ind2=" "&gt;&lt;subfield code="a"&gt;New Haven,&lt;/subfield&gt;&lt;subfield code="b"&gt;College &amp;amp; University Press&lt;/subfield&gt;&lt;subfield code="c"&gt;[1968]&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="300" ind1=" " ind2=" "&gt;&lt;subfield code="a"&gt;680 p.&lt;/subfield&gt;&lt;subfield code="c"&gt;23 cm.&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="500" ind1=" " ind2=" "&gt;&lt;subfield code="a"&gt;Summarizes 248 research projects listed in the 1953-60 issues of An inventory of social and economic research in health.&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="504" ind1=" " ind2=" "&gt;&lt;subfield code="a"&gt;Includes bibliographical references.&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="520" ind1=" " ind2=" "&gt;&lt;subfield code="a"&gt;Summarizes 248 research projects listed in the 1953-60 issues of An inventory of social and economic research in health.&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="650" ind1=" " ind2="0"&gt;&lt;subfield code="a"&gt;Diseases&lt;/subfield&gt;&lt;subfield code="x"&gt;Social aspects.&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="650" ind1=" " ind2="6"&gt;&lt;subfield code="a"&gt;Étiologie.&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="650" ind1=" " ind2="6"&gt;&lt;subfield code="a"&gt;Médecine sociale.&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="650" ind1=" " ind2="6"&gt;&lt;subfield code="a"&gt;Psychologie sociale.&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="650" ind1=" " ind2="2"&gt;&lt;subfield code="a"&gt;Disease&lt;/subfield&gt;&lt;subfield code="x"&gt;etiology.&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="650" ind1=" " ind2="2"&gt;&lt;subfield code="a"&gt;Psychology, Social.&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="650" ind1=" " ind2="2"&gt;&lt;subfield code="a"&gt;Social Medicine.&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="650" ind1="0" ind2="7"&gt;&lt;subfield code="a"&gt;Gesellschaft.&lt;/subfield&gt;&lt;subfield code="2"&gt;swd&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="650" ind1="0" ind2="7"&gt;&lt;subfield code="a"&gt;Krankheit.&lt;/subfield&gt;&lt;subfield code="2"&gt;swd&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="700" ind1="1" ind2=" "&gt;&lt;subfield code="a"&gt;Gordon, Gerald A.,&lt;/subfield&gt;&lt;subfield code="d"&gt;1939-&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="710" ind1="2" ind2=" "&gt;&lt;subfield code="a"&gt;Health Information Foundation.&lt;/subfield&gt;&lt;subfield code="t"&gt;Inventory of social and economic research in health.&lt;/subfield&gt;&lt;/datafield&gt;&lt;datafield tag="776" ind1="0" ind2="8"&gt;&lt;subfield code="i"&gt;Online version:&lt;/subfield&gt;&lt;subfield code="t"&gt;Disease, the individual, and society; social-psychological aspects of disease.&lt;/subfield&gt;&lt;subfield code="d"&gt;New Haven, College &amp;amp; University Press [1968]&lt;/subfield&gt;&lt;subfield code="w"&gt;(OCoLC)610603002&lt;/subfield&gt;&lt;/datafield&gt;&lt;/record&gt;&lt;/collection&gt;</content>
+        <format>marc</format>
+        <id></id>
+        <type>bibliographic</type>
+    </bibDoc>
+    <holdingsDocsTree>
+        <holdingsDocTree>
+            <active>false</active>
+            <fastAdd>false</fastAdd>
+            <holdingsDoc>
+                <active>false</active>
+                <fastAdd>false</fastAdd>
+                <operation>CREATE</operation>
+                <bibDoc>
+                    <id></id>
+                </bibDoc>
+                <category>work</category>
+                <content>&lt;oleHoldings&gt;&lt;callNumber&gt;&lt;number&gt;PN441.D388 2011&lt;/number&gt;&lt;shelvingScheme&gt;&lt;codeValue&gt;LCC&lt;/codeValue&gt;&lt;/shelvingScheme&gt;&lt;/callNumber&gt;&lt;interLibraryLoanAllowed&gt;true&lt;/interLibraryLoanAllowed&gt;&lt;location&gt;&lt;locationLevel&gt;&lt;name&gt;DUKE&lt;/name&gt;&lt;level&gt;Institution&lt;/level&gt;&lt;locationLevel&gt;&lt;name&gt;DIVINITY&lt;/name&gt;&lt;level&gt;Library&lt;/level&gt;&lt;locationLevel&gt;&lt;name&gt;PD&lt;/name&gt;&lt;level&gt;Shelving&lt;/level&gt;&lt;/locationLevel&gt;&lt;/locationLevel&gt;&lt;/locationLevel&gt;&lt;/location&gt;&lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;&lt;/oleHoldings&gt;</content>
+                <format>oleml</format>
+                <holdingsType>print</holdingsType>
+                <type>holdings</type>
+            </holdingsDoc>
+            <itemsDocs>
+                <itemsDoc>
+                    <active>false</active>
+                    <fastAdd>false</fastAdd>
+                    <operation>CREATE</operation>
+                    <staffOnly>false</staffOnly>
+                    <category>work</category>
+                    <content>&lt;item&gt;&lt;accessInformation&gt;&lt;/accessInformation&gt;&lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;&lt;copyNumber&gt;1&lt;/copyNumber&gt;&lt;itemType&gt;&lt;codeValue&gt;BOOK&lt;/codeValue&gt;&lt;/itemType&gt;&lt;itemStatus&gt;&lt;codeValue&gt;AVAILABLE&lt;/codeValue&gt;&lt;/itemStatus&gt;&lt;note type="nonPublic"&gt;Previously converted record&lt;/note&gt;&lt;/item&gt;</content>
+                    <format>oleml</format>
+                    <type>item</type>
+                </itemsDoc>
+            </itemsDocs>
+        </holdingsDocTree>
+    </holdingsDocsTree>
+</bibDocTree>

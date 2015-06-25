@@ -1,5 +1,6 @@
 package org.kuali.ole;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,6 +67,10 @@ public class OLETestCaseBase {
         }
         DocumentServiceImpl documentService = (DocumentServiceImpl) SpringContext.getBean("documentService");
         documentService.setDocumentDao((DocumentDao) SpringContext.getBean("documentDao"));
+    }
+
+    @After
+    public void tearDown() throws Exception {
     }
 
     @Test

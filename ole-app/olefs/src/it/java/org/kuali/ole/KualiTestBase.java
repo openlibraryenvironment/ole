@@ -15,7 +15,7 @@ import java.util.List;
  * Time: 11:56 AM
  * To change this template use File | Settings | File Templates.
  */
-public class KualiTestBase extends SpringBaseTestCase implements KualiTestConstants  {
+public class KualiTestBase extends OLETestCaseBase implements KualiTestConstants  {
     protected void changeCurrentUser(UserNameFixture sessionUser) throws Exception {
         Person p = sessionUser.getPerson();
         GlobalVariables.setUserSession(new UserSession(p.getPrincipalName()));

@@ -1,6 +1,7 @@
 package org.kuali.ole.ingest;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.ingest.krms.builder.OleKrmsBuilder;
@@ -23,7 +24,7 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 
-public class IngestProcessor_IT extends SpringBaseTestCase {
+public class IngestProcessor_IT extends KFSTestCaseBase {
 
     @Test
     @Transactional

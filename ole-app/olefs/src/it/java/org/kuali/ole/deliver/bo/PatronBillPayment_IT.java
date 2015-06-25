@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.bo;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -27,7 +28,7 @@ import static junit.framework.Assert.assertEquals;
  * To change this template use File | Settings | File Templates.
  */
 
-public class PatronBillPayment_IT extends SpringBaseTestCase {
+public class PatronBillPayment_IT extends KFSTestCaseBase {
 
     private BusinessObjectService boService ;
 

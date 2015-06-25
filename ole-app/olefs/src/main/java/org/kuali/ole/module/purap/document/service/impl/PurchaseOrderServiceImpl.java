@@ -36,6 +36,7 @@ import org.kuali.ole.module.purap.pdf.PurchaseOrderTransmitParameters;
 import org.kuali.ole.module.purap.util.PurApObjectUtils;
 import org.kuali.ole.module.purap.util.ThresholdHelper;
 import org.kuali.ole.module.purap.util.ThresholdHelper.ThresholdSummary;
+import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.select.service.OleTransmissionService;
 import org.kuali.ole.sys.OLEConstants;
@@ -706,6 +707,49 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             throw new RuntimeException(errorMsg, we);
         }
     }
+
+
+    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(OlePurchaseOrderDocument  olePurchaseOrderDocument, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
+        PurchaseOrderDocument currentDocument = olePurchaseOrderDocument;
+
+        try {
+            currentDocument.updateAndSaveAppDocStatus(currentDocumentStatusCode);
+        } catch (WorkflowException e) {
+            throw new RuntimeException("Error saving routing data while saving document with id " + currentDocument.getDocumentNumber(), e);
+        }
+
+        try {
+            PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
+            // newDocument.setStatusCode(PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
+            newDocument.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
+            if (ObjectUtils.isNotNull(newDocument)) {
+                try {
+                    // set the pending indictor before routing, so that when routing is done in synch mode, the pending indicator
+                    // won't be set again after route finishes and cause inconsistency
+                    currentDocument.setPendingActionIndicator(true);
+                    documentService.routeDocument(newDocument, annotation, adhocRoutingRecipients);
+                }
+                // if we catch a ValidationException it means the new PO doc found errors
+                catch (ValidationException ve) {
+                    // clear the pending indictor if an exception occurs, to leave the existing PO intact
+                    currentDocument.setPendingActionIndicator(false);
+                    //savePurchaseOrderData(currentDocument);
+                    saveDocumentNoValidationUsingClearMessageMap(currentDocument);
+                    throw ve;
+                }
+                return newDocument;
+            } else {
+                String errorMsg = "Attempting to create new PO of type '" + docType + "' from source PO doc id " + documentNumber + " returned null for new document";
+                LOG.error(errorMsg);
+                throw new RuntimeException(errorMsg);
+            }
+        } catch (WorkflowException we) {
+            String errorMsg = "Workflow Exception caught trying to create and route PO document of type '" + docType + "' using source document with doc id '" + documentNumber + "'";
+            LOG.error(errorMsg, we);
+            throw new RuntimeException(errorMsg, we);
+        }
+    }
+
 
     /**
      * @see org.kuali.ole.module.purap.document.service.PurchaseOrderService#createAndSavePurchaseOrderSplitDocument(java.util.List,

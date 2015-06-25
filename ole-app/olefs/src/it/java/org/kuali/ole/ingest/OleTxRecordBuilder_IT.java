@@ -1,6 +1,7 @@
 package org.kuali.ole.ingest;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.OLETranscationalRecordGenerator;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.converter.OLEEDIConverter;
@@ -25,7 +26,7 @@ import static junit.framework.Assert.assertNotNull;
  * To change this template use File | Settings | File Templates.
  */
 @Transactional
-public class OleTxRecordBuilder_IT extends SpringBaseTestCase {
+public class OleTxRecordBuilder_IT extends KFSTestCaseBase {
     @Test
     @Transactional
     public void testBuild() throws Exception {

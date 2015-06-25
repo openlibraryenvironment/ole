@@ -26,10 +26,10 @@ public class LoanProcessor_IT extends OLETestCaseBase{
 
     private static final Logger LOG = Logger.getLogger(LoanProcessor_IT.class);
 
-    private String PATRON_BARCODE="6010570002790936";
-    private String CHECKOUT_ITEM_BARCODE = "1216";
-    private String CHECKIN_ITEM_BARCODE = "1217";
-    private String PATRON_ID ="00001497Q";
+    private String PATRON_BARCODE="6010570002487301";
+    private String CHECKOUT_ITEM_BARCODE = "9093";
+    private String CHECKIN_ITEM_BARCODE = "8086";
+    private String PATRON_ID ="41752075D";
     private String ITEM_BARCODE="345";
     private String OPERATOR_ID="olequickstart";
     private String ALTER_DUE_DATE="2015-04-01"; //yyyy-mm-dd
@@ -63,7 +63,7 @@ public class LoanProcessor_IT extends OLETestCaseBase{
 
     private OleLoanDocument buildLoanDocument(){
         OleLoanDocument oleLoanDocument = new OleLoanDocument();
-        oleLoanDocument.setPatronId("51415157F");
+        oleLoanDocument.setPatronId(PATRON_ID);
         oleLoanDocument.setOperatorsCirculationLocation("B-EDUC/BED-TEACHMAT#B-EDUC/BED-STACKS#");
         oleLoanDocument.setCirculationLocationId("1");
         oleLoanDocument.setBorrowerTypeId("7");
@@ -84,7 +84,7 @@ public class LoanProcessor_IT extends OLETestCaseBase{
         loanForm.setPatronBarcode(PATRON_BARCODE);
         loanForm.setBorrowerCode("UGRAD");
         loanForm.setCirculationDesk("1");
-        loanForm.setPatronId("51415157F");
+        loanForm.setPatronId(PATRON_ID);
         loanForm.setItem(itemBarcode);
         return loanForm;
     }
@@ -298,7 +298,7 @@ public class LoanProcessor_IT extends OLETestCaseBase{
                     oleLoanDocument.setOlePatron(olePatronDocument);
                 }
                 oleLoanDocument.setCheckOut(false);
-                oleLoanDocument.setCirculationLocationId("7");
+                oleLoanDocument.setCirculationLocationId("1");
                 oleLoanDocument.setCirculationPolicyId("Check out Circulation Policy Set 1");
                 if (oleLoanDocument.getOlePatron() != null) {
                     oleLoanDocument.setBorrowerTypeCode(oleLoanDocument.getOlePatron().getBorrowerTypeCode());
@@ -312,7 +312,11 @@ public class LoanProcessor_IT extends OLETestCaseBase{
                 criteria.put("itemId", CHECKIN_ITEM_BARCODE);
                 List<OleLoanDocument> oleLoanDocuments = (List<OleLoanDocument>) loanProcessor.getBusinessObjectService().findMatching(OleLoanDocument.class, criteria);
                 boolean isEmpty = true;
-                if (oleLoanDocuments != null && oleLoanDocuments.size() > 0) {
+                if(!oleLoanDocument.getItemStatusCode().equalsIgnoreCase(OLEConstants.ITEM_STATUS_CHECKEDOUT)){
+                    if(oleLoanDocuments != null && oleLoanDocuments.size() > 0){
+                        loanProcessor.returnLoan(oleLoanDocument);
+                    }
+                } else if (oleLoanDocuments != null && oleLoanDocuments.size() > 0) {
                     isEmpty = false;
                 }
                 assertTrue(isEmpty);

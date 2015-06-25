@@ -4,12 +4,14 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.deliver.api.OlePatronDefinition;
 import org.kuali.ole.deliver.api.OlePatronDefintionHelper;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
+import org.kuali.ole.ncip.service.impl.OLECirculationHelperServiceImpl;
 import org.kuali.rice.kim.impl.identity.address.EntityAddressBo;
 import org.kuali.rice.kim.impl.identity.address.EntityAddressTypeBo;
 import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
@@ -17,13 +19,17 @@ import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
 import org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
 import static junit.framework.Assert.*;
@@ -35,7 +41,7 @@ import static junit.framework.Assert.*;
  * Time: 12:21 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTestCase {
+public class OleDeliverRequestDocumentHelperServiceimpl_IT extends KFSTestCaseBase {
     private BusinessObjectService businessObjectService;
     private OleDeliverRequestDocumentHelperServiceImpl service;
     private OlePatronDocument olePatronDocument;
@@ -78,7 +84,7 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTes
     public void validateDeliveryPrivilegeTest() {
         if (olePatronDocument != null) {
             olePatronDocument.setDeliveryPrivilege(true);
-            olePatronDocument = changeId(olePatronDocument);
+            //olePatronDocument = changeId(olePatronDocument);
             businessObjectService.save(olePatronDocument);
             OleDeliverRequestBo oleDeliverRequestBo = new OleDeliverRequestBo();
             oleDeliverRequestBo.setRequestId("13");
@@ -95,7 +101,7 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTes
         if (olePatronDocument != null) {
             olePatronDocument.setOlePatronId("114");
             olePatronDocument.setPagingPrivilege(true);
-            olePatronDocument = changeId(olePatronDocument);
+            //olePatronDocument = changeId(olePatronDocument);
             businessObjectService.save(olePatronDocument);
             OleDeliverRequestBo oleDeliverRequestBo = new OleDeliverRequestBo();
             oleDeliverRequestBo.setRequestId("21");
@@ -112,7 +118,7 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTes
         if (olePatronDocument != null) {
             olePatronDocument.setOlePatronId("108");
             olePatronDocument.setPagingPrivilege(true);
-            olePatronDocument = changeId(olePatronDocument);
+            //olePatronDocument = changeId(olePatronDocument);
             businessObjectService.save(olePatronDocument);
             OleDeliverRequestBo oleDeliverRequestBo = new OleDeliverRequestBo();
             oleDeliverRequestBo.setRequestId("11");
@@ -126,23 +132,24 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTes
 
 
     @Test
-    public void isRequestAlreadyRaisedByPatronTest() {
+    @Transactional
+    public void isRequestAlreadyRaisedByPatronTest() throws Exception{
         if (olePatronDocument != null) {
             olePatronDocument.setOlePatronId("101");
             olePatronDocument.setPagingPrivilege(true);
-            olePatronDocument = changeId(olePatronDocument);
+            //olePatronDocument = changeId(olePatronDocument);
             olePatronDocument.getEntity().getEntityTypeContactInfos().get(0).getPhoneNumbers().get(0).setId("20222");
             businessObjectService.save(olePatronDocument);
             OleDeliverRequestBo oleDeliverRequestBo = new OleDeliverRequestBo();
-            oleDeliverRequestBo.setRequestId("2");
+            oleDeliverRequestBo.setRequestId("3");
             oleDeliverRequestBo.setRequestTypeId("1");
-            oleDeliverRequestBo.setItemId("1");
+            oleDeliverRequestBo.setItemId("600011");
             oleDeliverRequestBo.setBorrowerId(olePatronDocument.getOlePatronId());
             oleDeliverRequestBo.setOlePatron(olePatronDocument);
             oleDeliverRequestBo.setItemUuid("1123");
             businessObjectService.save(oleDeliverRequestBo);
             OleDeliverRequestBo oleDeliverRequestBo1 = new OleDeliverRequestBo();
-            oleDeliverRequestBo1.setRequestId("3");
+            oleDeliverRequestBo1.setRequestId("5");
             oleDeliverRequestBo1.setRequestTypeId("1");
             oleDeliverRequestBo1.setItemId("1");
             oleDeliverRequestBo1.setItemUuid("1123");
@@ -302,7 +309,7 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTes
 
     @Test
     public void isRequestedRaisedTest() {
-        olePatronDocument = changeId(olePatronDocument);
+        //olePatronDocument = changeId(olePatronDocument);
         businessObjectService.save(olePatronDocument);
         OleCirculationDesk oleCirculationDesk = new OleCirculationDesk();
         oleCirculationDesk.setCirculationDeskId("14");
@@ -312,14 +319,14 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTes
         oleCirculationDesk.setActive(true);
         businessObjectService.save(oleCirculationDesk);
         OleDeliverRequestBo oleDeliverRequestBo = new OleDeliverRequestBo();
-        oleDeliverRequestBo.setRequestId("14");
+        oleDeliverRequestBo.setRequestId("26");
         oleDeliverRequestBo.setRequestTypeId("1");
         oleDeliverRequestBo.setPickUpLocationId("1");
         oleDeliverRequestBo.setItemId("1");
         oleDeliverRequestBo.setItemUuid("1123");
         oleDeliverRequestBo.setBorrowerId(olePatronDocument.getOlePatronId());
         OleDeliverRequestBo oleDeliverRequestBo1 = new OleDeliverRequestBo();
-        oleDeliverRequestBo1.setRequestId("15");
+        oleDeliverRequestBo1.setRequestId("27");
         oleDeliverRequestBo1.setRequestTypeId("1");
         oleDeliverRequestBo1.setPickUpLocationId("1");
         oleDeliverRequestBo1.setItemId("1");
@@ -333,7 +340,7 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTes
     @Test
     public void isItemAvailableTest() {
         olePatronDocument.setOlePatronId("110");
-        olePatronDocument = changeId(olePatronDocument);
+        //olePatronDocument = changeId(olePatronDocument);
         businessObjectService.save(olePatronDocument);
         OleDeliverRequestBo oleDeliverRequestBo = new OleDeliverRequestBo();
         oleDeliverRequestBo.setRequestId("16");
@@ -349,7 +356,7 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTes
     @Test
     public void isAlreadyLoanedTest() {
         olePatronDocument.setOlePatronId("105");
-        olePatronDocument = changeId(olePatronDocument);
+        //olePatronDocument = changeId(olePatronDocument);
         businessObjectService.save(olePatronDocument);
         OleDeliverRequestBo oleDeliverRequestBo = new OleDeliverRequestBo();
         oleDeliverRequestBo.setRequestId("8");
@@ -364,7 +371,7 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTes
     @Test
     public void canRaiseRequestTest() {
         olePatronDocument.setOlePatronId("116");
-        olePatronDocument = changeId(olePatronDocument);
+        //olePatronDocument = changeId(olePatronDocument);
         businessObjectService.save(olePatronDocument);
         OleDeliverRequestBo oleDeliverRequestBo = new OleDeliverRequestBo();
         oleDeliverRequestBo.setRequestId("23");
@@ -377,12 +384,13 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTes
     }
 
     @Test
+    @Transactional
     public void reOrderQueuePositionTest() {
         olePatronDocument.setOlePatronId("112");
-        olePatronDocument = changeId(olePatronDocument);
+        //olePatronDocument = changeId(olePatronDocument);
         businessObjectService.save(olePatronDocument);
         OleDeliverRequestBo oleDeliverRequestBo = new OleDeliverRequestBo();
-        oleDeliverRequestBo.setRequestId("18");
+        oleDeliverRequestBo.setRequestId("28");
         oleDeliverRequestBo.setRequestTypeId("1");
         oleDeliverRequestBo.setItemUuid("1123");
         oleDeliverRequestBo.setBorrowerQueuePosition(1);
@@ -393,7 +401,7 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTes
         oleDeliverRequestBo.setOleDeliverRequestType(oleDeliverRequestTypes.get(0));
         businessObjectService.save(oleDeliverRequestBo);
         OleDeliverRequestBo oleDeliverRequestBo1 = new OleDeliverRequestBo();
-        oleDeliverRequestBo1.setRequestId("19");
+        oleDeliverRequestBo1.setRequestId("29");
         oleDeliverRequestBo1.setRequestTypeId("5");
         oleDeliverRequestBo.setItemUuid("1123");
         oleDeliverRequestBo1.setBorrowerQueuePosition(2);
@@ -422,7 +430,7 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTes
     @Test
     public void validateQueuePositionTest() {
         olePatronDocument.setOlePatronId("104");
-        olePatronDocument = changeId(olePatronDocument);
+        //olePatronDocument = changeId(olePatronDocument);
         businessObjectService.save(olePatronDocument);
         List<OleDeliverRequestBo> oleDeliverRequestBoList = new ArrayList<OleDeliverRequestBo>();
         OleDeliverRequestBo oleDeliverRequestBo = new OleDeliverRequestBo();
@@ -451,17 +459,39 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTes
 
     }
 
+    public String createItem(String patronBarcode, String operatorId, String itemBarcode, String callNumber, String title, String author, String itemType, String itemLocation, String dateExpires, String requestType, String pickUpLocation) throws Exception{
+        OLECirculationHelperServiceImpl oleCirculationHelperServiceImpl = new OLECirculationHelperServiceImpl();
+        String itemIdentifier = oleCirculationHelperServiceImpl.acceptItem(patronBarcode,operatorId,itemBarcode,callNumber,title,author,itemType,itemLocation,dateExpires,requestType,pickUpLocation);
+        LOG.info("item--------->"+itemIdentifier);
+        return itemIdentifier;
+    }
+
     @Test
-    public void cancelDocumentTest() {
+    @Transactional
+    public void cancelDocumentTest() throws Exception{
+        GlobalVariables.setUserSession(new UserSession("dev2"));
         olePatronDocument.setOlePatronId("102");
-        olePatronDocument = changeId(olePatronDocument);
+        //olePatronDocument = changeId(olePatronDocument);
         businessObjectService.save(olePatronDocument);
         OleDeliverRequestBo oleDeliverRequestBo = new OleDeliverRequestBo();
         oleDeliverRequestBo.setRequestId("4");
         oleDeliverRequestBo.setRequestTypeId("1");
         oleDeliverRequestBo.setBorrowerQueuePosition(1);
-        oleDeliverRequestBo.setItemUuid("1123");
+        oleDeliverRequestBo.setItemId("900005");
+        String Uuid = createItem("6010570002790936","dev2","900005","123", "American History", "Chetan", "BOOK", "B-EDUC/BED-STACKS", null,null, "BL-EDUC");
+        oleDeliverRequestBo.setItemUuid(Uuid);
+
+        OleDeliverRequestType oleDeliverRequestType = new OleDeliverRequestType();
+        oleDeliverRequestType.setRequestTypeId("1");
+        oleDeliverRequestType.setRequestTypeCode("10101");
+
+        oleDeliverRequestBo.setOleDeliverRequestType(oleDeliverRequestType);
+        oleDeliverRequestBo.setCreateDate(new Date(System.currentTimeMillis()));
         oleDeliverRequestBo.setBorrowerId(olePatronDocument.getOlePatronId());
+        oleDeliverRequestBo.setOlePatron(olePatronDocument);
+
+
+
         businessObjectService.save(oleDeliverRequestBo);
 
         service.cancelDocument(oleDeliverRequestBo);
@@ -476,12 +506,13 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTes
 
 
     @Test
+    @Transactional
     public void isRequestRaisedTest() {
         olePatronDocument.setOlePatronId("109");
-        olePatronDocument = changeId(olePatronDocument);
+        //olePatronDocument = changeId(olePatronDocument);
         businessObjectService.save(olePatronDocument);
         OleDeliverRequestBo oleDeliverRequestBo = new OleDeliverRequestBo();
-        oleDeliverRequestBo.setRequestId("12");
+        oleDeliverRequestBo.setRequestId("24");
         oleDeliverRequestBo.setRequestTypeId("1");
         oleDeliverRequestBo.setItemId("1");
         oleDeliverRequestBo.setItemUuid("1123");
@@ -496,7 +527,7 @@ public class OleDeliverRequestDocumentHelperServiceimpl_IT extends SpringBaseTes
     @Transactional
     public void processItemTypeTest() {
         olePatronDocument.setOlePatronId("107");
-        olePatronDocument = changeId(olePatronDocument);
+        //olePatronDocument = changeId(olePatronDocument);
         businessObjectService.save(olePatronDocument);
         OleDeliverRequestBo oleDeliverRequestBo = new OleDeliverRequestBo();
         oleDeliverRequestBo.setRequestId("10");

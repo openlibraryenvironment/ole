@@ -382,7 +382,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
      */
     protected void generateEntriesCancelCreditMemo(VendorCreditMemoDocument cm) {
         LOG.debug("generateEntriesCancelCreditMemo() started");
-        generateEntriesCreditMemo(cm, CANCEL_CREDIT_MEMO);
+        if(!(cm != null && cm.getDocumentHeader() != null && cm.getDocumentHeader().getWorkflowDocument() != null && cm.getDocumentHeader().getWorkflowDocument().isDisapproved())) {
+            generateEntriesCreditMemo(cm, CANCEL_CREDIT_MEMO);
+        }
     }
 
     /**
@@ -422,7 +424,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(getNextAvailableSequence(preq.getDocumentNumber()));
 
         // when cancelling a PREQ, do not book encumbrances if PO is CLOSED
-        if (encumbrances != null && !(CANCEL_PAYMENT_REQUEST.equals(processType) && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(preq.getPurchaseOrderDocument().getApplicationDocumentStatus()))) {
+        if (encumbrances != null && !(CANCEL_PAYMENT_REQUEST.equals(processType) && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(preq.getPurchaseOrderDocument().getApplicationDocumentStatus()))  && preq.getDocumentHeader() != null && preq.getDocumentHeader().getWorkflowDocument()!= null && !preq.getDocumentHeader().getWorkflowDocument().isDisapproved()) {
             LOG.debug("generateEntriesPaymentRequest() generate encumbrance entries");
             if (CREATE_PAYMENT_REQUEST.equals(processType)) {
                 // on create, use CREDIT code for encumbrances
@@ -476,7 +478,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                     }
                 }
                 KualiDecimal summaryAmount = summaryAccount.getAccount().getAmount();
-                if (summaryAmount.isNonZero()) {
+                if (summaryAmount.isNonZero() && preq.getDocumentHeader() != null && preq.getDocumentHeader().getWorkflowDocument()!= null && !preq.getDocumentHeader().getWorkflowDocument().isDisapproved()) {
                     preq.generateGeneralLedgerPendingEntries(summaryAccount.getAccount(), sequenceHelper);
                     sequenceHelper.increment(); // increment for the next line
                 }
@@ -541,7 +543,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(getNextAvailableSequence(inv.getDocumentNumber()));
 
         // when cancelling a PREQ, do not book encumbrances if PO is CLOSED
-        if (encumbrances != null && !(CANCEL_INVOICE.equals(processType) && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(inv.getPurchaseOrderDocument().getApplicationDocumentStatus()))) {
+        if (encumbrances != null && !(CANCEL_INVOICE.equals(processType) )) {
             LOG.debug("generateEntriesInvoice() generate encumbrance entries");
             if (CREATE_INVOICE.equals(processType)) {
                 // on create, use CREDIT code for encumbrances
@@ -1857,13 +1859,18 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     protected List<SourceAccountingLine> reencumberEncumbrance(InvoiceDocument prqs) {
         LOG.debug("reencumberEncumbrance() started");
 
-        PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(prqs.getPurchaseOrderIdentifier());
+        PurchaseOrderDocument po = null;
+                //purchaseOrderService.getCurrentPurchaseOrder(prqs.getPurchaseOrderIdentifier());
         Map encumbranceAccountMap = new HashMap();
 
         // Get each item one by one
         for (Iterator items = prqs.getItems().iterator(); items.hasNext(); ) {
             InvoiceItem invItem = (InvoiceItem) items.next();
-            PurchaseOrderItem poItem = getPoItem(po, invItem.getItemLineNumber(), invItem.getItemType());
+            po = purchaseOrderService.getCurrentPurchaseOrder(invItem.getPurchaseOrderIdentifier());
+            PurchaseOrderItem poItem = null;
+            if(po != null) {
+                 poItem = getPoItem(po, invItem.getItemLineNumber(), invItem.getItemType());
+            }
 
             KualiDecimal itemReEncumber = null; // Amount to reencumber for this item
 

@@ -3,6 +3,7 @@ package org.kuali.ole.ingest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.ingest.pojo.OleLocationGroup;
 import org.kuali.ole.ingest.pojo.OleLocationIngest;
@@ -31,9 +32,9 @@ import static junit.framework.Assert.assertTrue;
  * To change this template use File | Settings | File Templates.
  */
 
-public class OleLocationConverterService_IT extends SpringBaseTestCase {
+public class OleLocationConverterService_IT extends KFSTestCaseBase {
    private OleLocationConverterService oleLocationConverterService;
-    @Autowired
+    //@Autowired
     private ApplicationContext applicationContext;
 
     @Before

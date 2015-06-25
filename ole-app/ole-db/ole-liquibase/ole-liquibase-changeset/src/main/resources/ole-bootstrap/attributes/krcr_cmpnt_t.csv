@@ -43,3 +43,10 @@ OLE-DLVR,Deliver,4,1,Deliver,Y
 OLE-SELECT,Select,6,1,Select,Y
 OLE-DESC,Describe,7,1,Describe,Y
 OLE-SELECT,E-Resource,8,1,E-Resource,Y
+OLE-AR,All,OLE61,1,All,Y
+OLE-LD,All,OLE62,1,All,Y
+OLE-BC,All,OLE63,1,All,Y
+OLE-CAB,All,OLE64,1,All,Y
+OLE-CAM,All,OLE65,1,All,Y
+OLE-EC,All,OLE66,1,All,Y
+OLE-ENDOW,All,OLE67,1,All,Y

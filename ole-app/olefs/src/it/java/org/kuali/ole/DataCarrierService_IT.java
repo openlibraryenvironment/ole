@@ -20,7 +20,7 @@ import static junit.framework.Assert.assertNotNull;
  * To change this template use File | Settings | File Templates.
  */
 
-public class DataCarrierService_IT extends SpringBaseTestCase {
+public class DataCarrierService_IT extends KFSTestCaseBase {
     //TODO: This test needs to test the methods. Also no need to get it from Spring.
     @Test
     @Transactional

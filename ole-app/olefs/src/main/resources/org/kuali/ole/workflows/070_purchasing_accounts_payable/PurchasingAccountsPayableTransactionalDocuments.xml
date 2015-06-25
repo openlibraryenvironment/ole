@@ -2507,5 +2507,31 @@
                 </simple>
             </routeNodes>
         </documentType>
+        <documentType>
+            <name>OLE_POBA</name>
+            <parent>OLE_PO</parent>
+            <description>Purchase Order Bulk Amendment</description>
+            <label>Purchase Order Bulk Amendment</label>
+            <docHandler>
+                ${kr.krad.url}/olePurchaseOrderBatchController?viewId=OLEPurchaseOrderBatchView&amp;methodToCall=docHandler
+            </docHandler>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <validApplicationStatuses>
+                <status>Initiated</status>
+                <status>Awaiting Fiscal Officer Approval</status>
+            </validApplicationStatuses>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc"/>
+                   <!-- <role name="BulkAmend"/>-->
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc"/>
+            </routeNodes>
+        </documentType>
+
     </documentTypes>
 </data>

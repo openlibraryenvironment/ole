@@ -21,6 +21,7 @@ import java.util.Calendar;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.coa.businessobject.AccountDelegate;
 import org.kuali.ole.coa.document.validation.impl.DelegateRule;
 import org.kuali.ole.fixture.UserNameFixture;
@@ -30,6 +31,7 @@ import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import static org.kuali.ole.KualiTestAssertionUtils.assertGlobalMessageMapContains;
 import static org.kuali.ole.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
@@ -37,7 +39,7 @@ import static org.kuali.ole.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
 /**
  * This class...
  */
-public class DelegateRuleTest extends ChartRuleTestBase {
+public class DelegateRuleTest extends KFSTestCaseBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegateRuleTest.class);
     private static final String ERROR_PREFIX = "document.newMaintainableObject.";
@@ -269,6 +271,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
      */
     @Test
     public void testCheckSimpleRules_validDelegate() {
+        GlobalVariables.getMessageMap().clearErrorMessages();
         DelegateRule rule = new DelegateRule();
         newDelegate = goodDelegate1();
         maintDoc = newMaintDoc(newDelegate);
@@ -289,6 +292,8 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testCheckSimpleRulesStartDateRule_startDateToday() {
+
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         DelegateRule rule = new DelegateRule();
         newDelegate = goodDelegate2();
 
@@ -312,6 +317,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testCheckSimpleRulesStartDateRule_startDateTomorrow() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         DelegateRule rule = new DelegateRule();
         Calendar cal = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
         cal.add(Calendar.DATE, 1);
@@ -339,6 +345,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testCheckSimpleRulesStartDateRule_startDateYesterday() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         DelegateRule rule = new DelegateRule();
         Calendar cal = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
         cal.add(Calendar.DATE, -1);
@@ -366,6 +373,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testCheckSimpleRulesStartDateRule_invalidFromAmt() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate4();
 
@@ -388,6 +396,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testCheckSimpleRulesStartDateRule_invalidToAmt() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate5();
 
@@ -410,6 +419,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testCheckSimpleRulesStartDateRule_validFromAmtLessThanToAmt() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate8();
 
@@ -436,6 +446,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
      */
     @Test
     public void testcheckDelegateUserRules_goodDelegate() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         DelegateRule rule = new DelegateRule();
         newDelegate = goodDelegate1();
         maintDoc = newMaintDoc(newDelegate);
@@ -454,6 +465,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testcheckDelegateUserRules_badDelegate1() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate1();
         maintDoc = newMaintDoc(newDelegate);
@@ -471,6 +483,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testcheckDelegateUserRules_badDelegate2() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate2();
         maintDoc = newMaintDoc(newDelegate);
@@ -489,6 +502,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testcheckDelegateUserRules_badDelegate3() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         DelegateRule rule = new DelegateRule();
         newDelegate = badDelegate3();
         maintDoc = newMaintDoc(newDelegate);
@@ -510,6 +524,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
      */
     @Test
     public void testCheckOnlyOnePrimaryRoute_allPrimaryAlreadyExists() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         DelegateRule rule = new DelegateRule();
         newDelegate = delegateWithDocTypeAll();
         maintDoc = newMaintDoc(newDelegate);
@@ -532,6 +547,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testCheckOnlyOnePrimaryRoute_specificPrimaryAlreadyExistsAllFails() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         DelegateRule rule = new DelegateRule();
         newDelegate = delegateWithSpecificTypeClosedAllSpecified();
         maintDoc = newMaintDoc(newDelegate);
@@ -554,6 +570,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testCheckOnlyOnePrimaryRoute_specificPrimaryAlreadyExistsSpecificFails() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         DelegateRule rule = new DelegateRule();
         newDelegate = delegateWithSpecificTypeClosed();
         maintDoc = newMaintDoc(newDelegate);
@@ -575,6 +592,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testCheckOnlyOnePrimaryRoute_allPrimaryDoesNotExist() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         DelegateRule rule = new DelegateRule();
         newDelegate = delegateWithAllDocTypeOpen();
         maintDoc = newMaintDoc(newDelegate);
@@ -596,6 +614,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testCheckOnlyOnePrimaryRoute_specificPrimaryDoesNotExist() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         DelegateRule rule = new DelegateRule();
         newDelegate = delegateWithSpecificDocTypeOpen();
         maintDoc = newMaintDoc(newDelegate);

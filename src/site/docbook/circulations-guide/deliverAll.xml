@@ -220,6 +220,11 @@
                             <imagedata fileref="../images/DeliverNoTitlePage-11.png"/>
                         </imageobject>
                     </inlinemediaobject></emphasis></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/OLECirculationProcessesTechDoc.pdf">here</link>
+                    for technical documentation about circulation processes.</para>
+            </note>
             <para role="Normal">A loan consists of identifying a patron and then creating temporary
                 links to the item(s) being loaned to the patron. The Loan interface allows for staff
                 to circulate materials to patrons.</para>
@@ -790,6 +795,11 @@
                         </imageobject>
                     </inlinemediaobject>
                 </emphasis></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/OLECirculationProcessesTechDoc.pdf">here</link>
+                    for technical documentation about circulation processes.</para>
+            </note>
             <para>** Helpful notes:</para>
             <itemizedlist>
                 <listitem>
@@ -1498,6 +1508,11 @@
                             <imagedata fileref="../images/DeliverNoTitlePage-73.png"/>
                         </imageobject>
                     </inlinemediaobject></emphasis></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/OLECirculationProcessesTechDoc.pdf">here</link>
+                    for technical documentation about circulation processes.</para>
+            </note>
             <para role="Normal">A return session begins with the identification of the item being
                 returned and ends when all the items to be checked in have been processed. Returns
                 utilize item barcode numbers as the primary identifier to begin processing a
@@ -1883,7 +1898,9 @@
                                     Holdings Location, Call number, Item Location (if there is a
                                     single item). Also note that, for multiple items on the same
                                     holdings record, the call number and item status displays on
-                                    this level of the table will be null. </para>
+                                    this level when there is only one match.  If there are multiple
+                                    holdings, the table will be null until you drill down to where
+                                    the data is unique. </para>
                             </listitem>
                             <listitem>
                                 <para>Click on the <emphasis role="bold">Details</emphasis> link
@@ -2058,7 +2075,17 @@
                         <para>The Item Flags shows the Item Flag details already included in the
                             item record in the Item and Holdings records, including notes. Item Flag
                             types are Claims Returned, Damaged, and Missing Pieces. </para>
-                        <para>Check the box to add a flag to the record.</para>
+                        <para>
+                            <note>
+                                <para>These flags are display only.  To mark an item as Claimed
+                                    Returned, Damaged, or Missing Pieces, operators must do so from
+                                    the loan screen.  See <link linkend="_claimsReturn">Claims
+                                        Return</link>, <link linkend="_damaged">Damaged</link>, or
+                                        <link linkend="_missingPiece">Missing Piece</link> sections
+                                    available under <link linkend="_Loan">Loan</link> in this
+                                    chapter.</para>
+                            </note>
+                        </para>
                         <para>
                             <screenshot>
                                 <mediaobject>
@@ -2179,6 +2206,11 @@
         </section>
         <section>
             <title><anchor xml:id="_ItemSearchRequest"/>Request</title>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/OLECirculationProcessesTechDoc.pdf">here</link>
+                    for technical documentation about circulation processes.</para>
+            </note>
             <note>
                 <para>While the "Place Request" from the <emphasis role="bold">Deliver Item
                         Search</emphasis> is ideal for working with patrons, for libraries that have
@@ -3749,6 +3781,11 @@
                         </imageobject>
                     </inlinemediaobject>
                 </emphasis></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/OLECirculationProcessesTechDoc.pdf">here</link>
+                    for technical documentation about circulation processes.</para>
+            </note>
             <para role="Body Text">Patron bills for overdue fines and replacement fees are generated
                 automatically by the system through check-in and renewal transactions using
                 information from loan transaction records, calculated based on information from the

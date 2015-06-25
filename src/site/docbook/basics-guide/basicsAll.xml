@@ -3916,8 +3916,8 @@
                             <para/>
                             <itemizedlist>
                                 <listitem>
-                                    <para>On KNS screens, this will be in another tab or window
-                                        (for example, Customer Number).</para>
+                                    <para>On KNS screens, this will be in another tab or window (for
+                                        example, Customer Number).</para>
                                     <para>
                                         <screenshot>
                                             <mediaobject>
@@ -8948,6 +8948,12 @@
                         xlink:href="https://svn.kuali.org/repos/ole/trunk/src/site/docbook/basics-guide/sample-data/iu%20librariesSampleLocations.xml"
                         >iu librariesSampleLocations.xml</link>
                 </para>
+            </section>
+            <section>
+                <title>License Rules</title>
+                <para> License Rules for License Request workflow - <link
+                        xlink:href="https://svn.kuali.org/repos/ole/trunk/src/site/docbook/basics-guide/sample-data/license.xml"
+                        >license.xml</link> (Not imported via Batch Process but XML Import)</para>
             </section>
         </section>
     </section>

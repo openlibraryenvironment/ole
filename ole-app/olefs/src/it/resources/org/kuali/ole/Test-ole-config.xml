@@ -63,4 +63,6 @@
 
     <param name="dev.mode">true</param>
 
+    <param name="test.spring.source.files">classpath:org/kuali/ole/Test-Custom-SpringBeans.xml</param>
+
 </config>

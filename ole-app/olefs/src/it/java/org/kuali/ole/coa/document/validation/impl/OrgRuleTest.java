@@ -21,18 +21,21 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestAssertionUtils;
 import org.kuali.ole.coa.businessobject.Organization;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 
-public class OrgRuleTest extends ChartRuleTestBase {
+public class OrgRuleTest extends KFSTestCaseBase {
 
 
 
@@ -101,6 +104,8 @@ public class OrgRuleTest extends ChartRuleTestBase {
      */
     @Test
     public void testCheckSimpleRules_topLevelHeirarchy_noMoreThanOne() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
         Organization oldBO = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
         Organization newBO = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getBadTopLevelOrgKeys()));
         maintDoc = this.newMaintDoc(oldBO, newBO);
@@ -117,6 +122,8 @@ public class OrgRuleTest extends ChartRuleTestBase {
      */
     @Test
     public void testCheckSimpleRules_topLevelHeirarchy_mayEdit() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
         rule = new OrgRule();
         Organization oldBO = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
         Organization newBO = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
@@ -133,6 +140,8 @@ public class OrgRuleTest extends ChartRuleTestBase {
      */
     @Test
     public void testCheckDefaultAccountNumber_canEditUniversity() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
         Organization oldBO = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
         Organization newBO = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
         newBO.setOrganizationDefaultAccountNumber(null); // simulate no organization default account number
@@ -147,6 +156,8 @@ public class OrgRuleTest extends ChartRuleTestBase {
      */
     @Test
     public void testCheckDefaultAccountNumber_canEditCampus() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
         Organization oldBO = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getCampusOrgKeys()));
         Organization newBO = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getCampusOrgKeys()));
         newBO.setOrganizationDefaultAccountNumber(null); // simulate no organization default account number
@@ -161,6 +172,8 @@ public class OrgRuleTest extends ChartRuleTestBase {
      */
     @Test
     public void testCheckDefaultAccountNumber_cannotEditDepartment() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
         Organization oldBO = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getDepartmentOrgKeys()));
         Organization newBO = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getDepartmentOrgKeys()));
         newBO.setOrganizationDefaultAccountNumber(null); // simulate no organization default account number

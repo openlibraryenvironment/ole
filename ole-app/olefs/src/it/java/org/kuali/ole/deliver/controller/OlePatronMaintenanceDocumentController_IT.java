@@ -3,6 +3,7 @@ package org.kuali.ole.deliver.controller;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.deliver.api.OlePatronDefinition;
@@ -35,7 +36,7 @@ import static junit.framework.Assert.assertNotNull;
  * Time: 2:23 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OlePatronMaintenanceDocumentController_IT extends SpringBaseTestCase {
+public class OlePatronMaintenanceDocumentController_IT extends KFSTestCaseBase {
 
     @Mock
     private MaintenanceDocumentForm mockUifFormBase;

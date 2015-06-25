@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.deliver.batch.OleOverDueNotice;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -22,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  * To change this template use File | Settings | File Templates.
  */
 @Transactional
-public class OleOverDueNotice_IT extends SpringBaseTestCase{
+public class OleOverDueNotice_IT extends KFSTestCaseBase{
     private OleOverDueNotice oleOverDueNoticeBean;
     private BusinessObjectService service;
 

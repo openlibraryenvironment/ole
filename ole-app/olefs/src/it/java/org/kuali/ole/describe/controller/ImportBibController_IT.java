@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.describe.bo.ImportBibSearch;
 import org.kuali.ole.describe.bo.ImportBibUserPreferences;
@@ -42,7 +43,7 @@ import static org.junit.Assert.*;
  * To change this template use File | Settings | File Templates.
  */
 @Transactional
-public class ImportBibController_IT extends SpringBaseTestCase {
+public class ImportBibController_IT extends KFSTestCaseBase {
 
     @Mock
     private BindingResult       mockResult;

@@ -212,6 +212,7 @@
   <param name="batch.file.lookup.root.directories">${staging.directory};${reports.directory}</param>
   <param name="ole.bibmarcxml.directory">${staging.directory}/select/bibInfo/</param>
   <param name="ole.externalizable.help.url">${externalizable.help.url}</param>
+  <param name="ole.fs.kns.lookup.help.url">${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch02s02.html#_lookupHelp</param>
 
   <param name="rice.portal.allowed.regex">^${application.url}(/.*|)</param>
   <param name="cas.rice.server.name">${application.url}</param>

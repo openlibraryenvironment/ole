@@ -18,7 +18,7 @@
 <h3><a name="Acknowledgements-"></a><font color="maroon">Acknowledgments</font></h3>
 
 <p><img src="http://opensource.org/trademarks/osi-certified/web/osi-certified-60x50.png" align="right"
-        border="0"/><br/>
+        border="0"</img><br/>
     Copyright 2010-${ConfigProperties.current.year} The Kuali Foundation. All rights reserved. Kuali is
     licensed for use pursuant to the <a href="http://www.opensource.org/licenses/ecl2.php">Educational
         Community License v. 2.0</a>. Portions of Kuali are copyrighted by other parties, including the
@@ -187,9 +187,6 @@ geronimo-stax-api_1.0_spec.jar, v1.0.1 &copy; 2003-2008 The Apache Software Foun
         httpclient.jar, v4.2 &copy; 1999-2012 The Apache Software Foundation Licensed under the terms of Apache License, Version 2.0
         (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
         <br/>
-httpcomponents.jar, v4.2. &copy; 1999-2012 The Apache Software Foundation Licensed under the terms of Apache License,
-Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
-<br/>
 httpcore.jar, v4.3. &copy; 2005-2013 The Apache Software Foundation Licensed under the terms of Apache License,
 Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
 <br/>
@@ -271,12 +268,6 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
         lucene-suggest.jar, v4.9.0. &copy; 2014 The Apache Software Foundation Licensed under the terms of Apache License,
         Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
         <br/>
-lucene-spellchecker.jar, v3.1.0. &copy; 2011 The Apache Software Foundation Licensed under the terms of Apache License,
-Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
-<br/>
-lucene-stempel.jar, v3.1.0. &copy; 2011 The Apache Software Foundation Licensed under the terms of Apache License,
-Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
-<br/>
 logkit.jar, v1.2. &copy; 2001 The Apache Software Foundation Licensed under the terms of Apache License,
 Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>)
 <br/>
@@ -664,13 +655,6 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
             href="http://www.bearcave.com/software/java/xml/xmlpull_license.html">http://www.bearcave.com/software/java/xml/xmlpull_license.html</a>)
 </p>
 
-<p>ITEXT</p>
-<p>This product includes software developed by iText (<a href="http://itextpdf.com/">http://itextpdf.com/</a>):
-    <br/>
-    itext, 1.3.  &copy; 1999-2005 Bruno Lowagie.  This version of itext was licensed under the terms of the Mozilla Public License (<a
-            href="http://www.mozilla.org/MPL/">http://www.mozilla.org/MPL/</a>)
-</p>
-
 <p>JACORB</p>
 
 <p>This product includes software developed by JacORB (<a href="http://www.jacorb.org/">http://www.jacorb.org/</a>):
@@ -741,18 +725,14 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
     Development and Disctribution License (CDDL - Version 1.1) and GNU General Public License (GPL -
     Version 2) (<a href="https://glassfish.java.net/public/CDDL+GPL_1_1.html">https://glassfish.java.net/public/CDDL+GPL_1_1.html</a>)
     <br/>
-    json.jar, 1.0.1. &copy; 2012-2013 Oracle Corporation Licensed under the terms of the Common
+    javax.json.jar, 1.0.1. &copy; 2012-2013 Oracle Corporation Licensed under the terms of the Common
     Development and Disctribution License (CDDL - Version 1.1) and GNU General Public License (GPL -
     Version 2) (<a href="https://jsonp.java.net/license.html">https://jsonp.java.net/license.html</a>)
     <br/>
-    json-api.jar, 1.0. &copy; 2011-2013 Oracle Corporation Licensed under the terms of the Common
+    javax.json-api.jar, 1.0. &copy; 2011-2013 Oracle Corporation Licensed under the terms of the Common
     Development and Disctribution License (CDDL - Version 1.1) and GNU General Public License (GPL -
     Version 2) (<a href="https://glassfish.java.net/public/CDDL+GPL_1_1.html">https://glassfish.java.net/public/CDDL+GPL_1_1.html</a>)
     <br/>
-        javax.json.jar, 1.0.1. &copy; 2011-2013 Oracle and/or its affiliates. Licensed under the terms of the Common
-        Development and Disctribution License (CDDL - Version 1.1) and GNU General Public License (GPL -
-        Version 2) (<a href="https://glassfish.java.net/public/CDDL+GPL_1_1.html">https://glassfish.java.net/public/CDDL+GPL_1_1.html</a>)
-        <br/>
     jstl-api.jar, v1.2. &copy; 2013 Oracle Corporation Licensed under the terms of the Common
     Development and Disctribution License (CDDL - Version 1.1) and GNU General Public License (GPL -
     Version 2) (<a href="https://jstl.java.net/license.html">https://jstl.java.net/license.html</a>)
@@ -821,14 +801,6 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
             href="http://www.gnu.org/licenses/lgpl.html">http://www.gnu.org/licenses/lgpl.html</a>)
 </p>
 
-<p>JLINE</p>
-
-<p>This product includes software developed by JLine (<a href="http://jline.sourceforge.net/">http://jline.sourceforge.net/</a>):
-    <br/>
-    jline.jar, v0.9.94. &copy; 2002-2007 Marc Prud'hommeaux Licensed under the BSD style license (<a
-            href="http://opensource.org/licenses/bsd-license.php">http://opensource.org/licenses/bsd-license.php</a>)
-</p>
-
 <p>THE JODA PROJECT</p>
 
 <p>This product includes software developed by the Joda Project (<a href="http://www.joda.org/">http://www.joda.org/</a>):
@@ -881,8 +853,8 @@ Version 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://ww
         <p>This product includes software developed by Lowagie (<a
                 href="http://www.lowagie.com/iText/">http://www.lowagie.com/iText/</a>):
                 <br/>
-                itext.jar, v1.3. &copy; 1999-2002 Bruno Lowagie Licensed under the terms of Lesser GNU Public
-                License (LGPL) (<a href="http://www.gnu.org/licenses/license-list.html#LGPL">http://www.gnu.org/licenses/license-list.html#LGPL</a>)
+                itext.jar, v1.3. &copy; 1999-2002 Bruno Lowagie This version of itext was licensed under the terms of the Mozilla Public License (<a
+                        href="http://www.mozilla.org/MPL/">http://www.mozilla.org/MPL/</a>)
         </p>
 
 <p>MARTIAN SOFTWARE</p>

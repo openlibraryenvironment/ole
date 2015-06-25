@@ -81,7 +81,7 @@
 
         <property name="triggerNames">
             <list>
-                <value>accountTemporaryRestrictedNotifyJobTrigger</value>
+                <!--<value>accountTemporaryRestrictedNotifyJobTrigger</value>-->
             </list>
         </property>
 

@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.deliver.bo.OleItemSearch;
 import org.kuali.ole.deliver.bo.OleLoanFastAdd;
@@ -42,7 +43,7 @@ import static junit.framework.Assert.assertNotNull;
  */
 
 @Transactional
-public class OleDeliveryDocstoreService_IT extends SpringBaseTestCase {
+public class OleDeliveryDocstoreService_IT extends KFSTestCaseBase {
 
 
    /* private DocstoreHelperService docstoreHelperService;

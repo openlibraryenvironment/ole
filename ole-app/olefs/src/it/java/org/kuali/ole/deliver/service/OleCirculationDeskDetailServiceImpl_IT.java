@@ -3,6 +3,7 @@ package org.kuali.ole.deliver.service;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleCirculationDeskDetail;
@@ -26,7 +27,7 @@ import static junit.framework.Assert.assertEquals;
  * To change this template use File | Settings | File Templates.
  */
 
-public class OleCirculationDeskDetailServiceImpl_IT extends SpringBaseTestCase {
+public class OleCirculationDeskDetailServiceImpl_IT extends KFSTestCaseBase {
 
     private BusinessObjectService boService;
     private OleCirculationDeskDetailServiceImpl service;

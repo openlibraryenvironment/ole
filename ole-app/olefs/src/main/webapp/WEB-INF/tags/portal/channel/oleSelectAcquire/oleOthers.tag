@@ -25,6 +25,8 @@
     <portal:portalLink displayTitle="true" title="General Ledger Correction Process" url="generalLedgerCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=OLE_GLCP" /><br/>
     <portal:portalLink displayTitle="true" title="General Ledger Entry" url="${OLEConstants.GL_MODIFIED_INQUIRY_ACTION}?methodToCall=start&businessObjectClassName=org.kuali.ole.gl.businessobject.Entry&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /><br/>
     <portal:olePortalLink  displayTitle="true" title="Pre-Encumbrance" url="financialPreEncumbrance.do?methodToCall=docHandler&command=initiate&docTypeName=OLE_PE" /><br/>
+    <portal:portalLink displayTitle="true" title="Purchase Order Bulk Amendment"
+                       url="${ConfigProperties.application.url}/ole-kr-krad/olePurchaseOrderBatchController?viewId=OLEPurchaseOrderBatchView&methodToCall=docHandler&command=initiate&documentClass=org.kuali.ole.select.document.OLEPurchaseOrderBatchDocument"/><br/>
     <portal:olePortalLink  displayTitle="true" title="Year End Budget Adjustment" url="financialYearEndBudgetAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=OLE_YEBA" /><br/>
     <portal:olePortalLink  displayTitle="true" title="Year End Distribution of Income and Expense" url="financialYearEndDistributionOfIncomeAndExpense.do?methodToCall=docHandler&command=initiate&docTypeName=OLE_YEDI" /><br/>
     <portal:olePortalLink  displayTitle="true" title="Year End General Error Correction" url="financialYearEndGeneralErrorCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=OLE_YEGE" /><br/>

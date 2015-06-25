@@ -42,11 +42,6 @@ public class DocstoreTestCaseBase {
         classesDir = getClass().getResource("/").getPath();
     }
 
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
     @Test
     public void applicationContextNotNull() throws Exception {
         assertNotNull(context);

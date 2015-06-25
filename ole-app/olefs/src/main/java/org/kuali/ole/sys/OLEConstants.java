@@ -1997,4 +1997,8 @@ public class OLEConstants {
     public static final String INVALID_FILE = "invalid.file";
     public static final String REENCUM_RECURR = "ReEncumberRecuring";
     public static final String ROLLOVER_DIRECTORY = "/rollover";
+    public static final String PO_BULK_AMEND_OUT_FILE_NM = "POBA-Report.txt";
+    public static final String POBA_DIRECTORY = "/poba";
+    public static final String POBA_FILE = "PurchaseOrderBulkAmendmentFile";
+    public static final String POBA_LOG_FILE = "PurchaseOrderBulkAmendmentLog";
 }

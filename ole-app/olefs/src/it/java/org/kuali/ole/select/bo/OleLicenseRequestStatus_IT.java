@@ -2,6 +2,7 @@ package org.kuali.ole.select.bo;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -20,7 +21,7 @@ import static junit.framework.Assert.assertEquals;
  * To change this template use File | Settings | File Templates.
  */
 
-public class OleLicenseRequestStatus_IT extends SpringBaseTestCase{
+public class OleLicenseRequestStatus_IT extends KFSTestCaseBase{
 
     private BusinessObjectService boService ;
     @Test

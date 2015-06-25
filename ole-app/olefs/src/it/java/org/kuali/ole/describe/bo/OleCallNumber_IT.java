@@ -1,6 +1,7 @@
 package org.kuali.ole.describe.bo;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.select.bo.OleCallNumber;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -20,7 +21,7 @@ import static junit.framework.Assert.assertNotNull;
  */
 
 @Transactional
-public class OleCallNumber_IT extends SpringBaseTestCase {
+public class OleCallNumber_IT extends KFSTestCaseBase {
     private BusinessObjectService boService ;
 
     @Test

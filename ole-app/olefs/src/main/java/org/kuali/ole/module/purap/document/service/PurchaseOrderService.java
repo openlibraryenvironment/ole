@@ -21,6 +21,7 @@ import org.kuali.ole.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
 import org.kuali.ole.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.ole.module.purap.document.RequisitionDocument;
+import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
 import org.kuali.ole.vnd.businessobject.VendorTransmissionFormatDetail;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -436,4 +437,6 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
     public void initiateTransmission(PurchaseOrderDocument po, PurApItem item);
 
     public boolean processFTPTransmission(VendorTransmissionFormatDetail vendorTransmissionFormatDetail, String file, String ediFileName);
+
+    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(OlePurchaseOrderDocument olePurchaseOrderDocument, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode);
 }

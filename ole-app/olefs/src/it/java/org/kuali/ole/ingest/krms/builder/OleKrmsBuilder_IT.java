@@ -4,6 +4,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.ole.DataCarrierService;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.ingest.FileUtil;
@@ -37,7 +38,7 @@ import static junit.framework.Assert.assertNotNull;
  * To change this template use File | Settings | File Templates.
  */
 @Transactional
-public class OleKrmsBuilder_IT extends SpringBaseTestCase{
+public class OleKrmsBuilder_IT extends KFSTestCaseBase{
 
     private static final String NAMESPACE_CODE_SELECTOR = "namespaceCode";
     private static final String NAME_SELECTOR = "name";

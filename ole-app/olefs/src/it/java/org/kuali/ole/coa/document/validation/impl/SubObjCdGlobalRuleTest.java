@@ -20,18 +20,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.TestUtils;
 import org.kuali.ole.coa.businessobject.AccountGlobalDetail;
 import org.kuali.ole.coa.businessobject.SubObjectCodeGlobal;
 import org.kuali.ole.coa.businessobject.SubObjectCodeGlobalDetail;
 import org.kuali.ole.coa.document.validation.impl.SubObjCdGlobalRule;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static org.kuali.ole.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
 import static org.kuali.ole.KualiTestAssertionUtils.assertGlobalMessageMapSize;
 
-public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
+public class SubObjCdGlobalRuleTest extends KFSTestCaseBase {
     private static class SOCDocument {
         private class ChartCode {
             private static final String GOOD1 = "BL";
@@ -53,8 +55,8 @@ public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
     public void testDefaultExistenceChecks_Chart_KnownGood() {
 
         // create new SubObjCdGlobal
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         SubObjectCodeGlobal socChangeDocument = new SubObjectCodeGlobal();
-
         socChangeDocument.setChartOfAccountsCode(SOCDocument.ChartCode.GOOD1);
         testDefaultExistenceCheck(socChangeDocument, "chartOfAccountsCode", false);
         assertGlobalMessageMapEmpty();
@@ -64,6 +66,7 @@ public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
     public void testDefaultExistenceChecks_Chart_KnownBad() {
 
         // create new SubObjCdGlobal
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         SubObjectCodeGlobal socChangeDocument = new SubObjectCodeGlobal();
 
         socChangeDocument.setChartOfAccountsCode(SOCDocument.ChartCode.BAD1);
@@ -77,6 +80,7 @@ public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
     public void testDefaultExistenceChecks_FiscalYear_KnownGood() {
 
         // create new SubObjCdGlobal
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         SubObjectCodeGlobal socChangeDocument = new SubObjectCodeGlobal();
 
         socChangeDocument.setUniversityFiscalYear(SOCDocument.FiscalYear.getFiscalYear_GOOD1());
@@ -88,6 +92,7 @@ public class SubObjCdGlobalRuleTest extends ChartRuleTestBase {
     public void testDefaultExistenceChecks_FiscalYear_KnownBad() {
 
         // create new SubObjCdGlobal
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         SubObjectCodeGlobal socChangeDocument = new SubObjectCodeGlobal();
 
         socChangeDocument.setUniversityFiscalYear(SOCDocument.FiscalYear.getFiscalYear_BAD1());

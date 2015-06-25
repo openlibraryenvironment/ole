@@ -1,6 +1,7 @@
 package org.kuali.ole.deliver;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.deliver.batch.OleDeliverBatchServiceImpl;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
@@ -17,7 +18,7 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 
-public class OleDeliverBatchService_IT extends SpringBaseTestCase {
+public class OleDeliverBatchService_IT extends KFSTestCaseBase {
 
     @Test
     @Transactional

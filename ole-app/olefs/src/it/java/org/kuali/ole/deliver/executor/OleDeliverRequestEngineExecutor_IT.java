@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.executor;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
@@ -23,7 +24,7 @@ import static org.junit.Assert.assertEquals;
  * To change this template use File | Settings | File Templates.
  */
 
-public class OleDeliverRequestEngineExecutor_IT extends SpringBaseTestCase {
+public class OleDeliverRequestEngineExecutor_IT extends KFSTestCaseBase {
     @Test
     public void testExecute(){
         OleDeliverRequestEngineExecutor oleDeliverRequestEngineExecutor = new OleDeliverRequestEngineExecutor();

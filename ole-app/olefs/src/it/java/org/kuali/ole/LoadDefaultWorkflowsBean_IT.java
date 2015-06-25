@@ -19,7 +19,7 @@ import java.io.File;
 * To change this template use File | Settings | File Templates.
 */
 @Transactional
-public class LoadDefaultWorkflowsBean_IT extends SpringBaseTestCase {
+public class LoadDefaultWorkflowsBean_IT extends KFSTestCaseBase {
 
 //    TODO: This test can be a simple test to unpack the xml files and verify they got unpacked. No need to get it
 //    from spring.

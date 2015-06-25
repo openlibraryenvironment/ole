@@ -130,7 +130,9 @@ public class OLEKRADAuthorizationResolver extends UifHandlerExceptionResolver {
             }else{
                 return super.resolveException(request,response,handler,ex);
             }
-         
+
+            //OJB operation; SQL []; Duplicate entry '100' for key 'ITM_ID_UNIQUE'; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '100' for key 'ITM_ID_UNIQUE'
+
         }
         else {
             return super.resolveException(request,response,handler,ex);

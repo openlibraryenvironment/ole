@@ -2,6 +2,8 @@ package org.kuali.ole.describe;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
+import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.describe.bo.OleAccessMethod;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -24,7 +26,7 @@ import static junit.framework.Assert.assertEquals;
  */
 
 
-public class OleAccessMethod_IT extends SpringBaseTestCase {
+public class OleAccessMethod_IT extends OLETestCaseBase {
 
     private BusinessObjectService boService ;
     @Test

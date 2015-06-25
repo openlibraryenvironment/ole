@@ -17,6 +17,7 @@ package org.kuali.ole.select.document.service;
 
 import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
 import org.kuali.ole.module.purap.document.service.PurchaseOrderService;
+import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 
 import java.io.ByteArrayOutputStream;
 
@@ -28,5 +29,7 @@ public interface OlePurchaseOrderService extends PurchaseOrderService {
     public void setStatusCompletePurchaseOrderAmendment(PurchaseOrderDocument poa);
 
     public void purchaseOrderFirstTransmitViaPrinting(String documentNumber, ByteArrayOutputStream baosPDF);
+
+    public String createPurchaseOrderAmendmentDocument(OlePurchaseOrderDocument olePurchaseOrderDocument,String docNumber);
 
 }

@@ -773,6 +773,7 @@ public class PurapServiceImpl implements PurapService {
             // in some cases (seem random) the doc header fields are null; and if doc header is refreshed, the workflow doc becomes null.
             // The root cause of this is that when some docs are retrieved manually using OJB criteria, ref objs such as doc header or workflow doc
             // aren't retrieved; the solution would be to add these refreshing when documents are retrieved in those OJB methods.
+            if(document != null) {
             if (document.getDocumentHeader() != null && document.getDocumentHeader().getDocumentNumber() == null) {
                 WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
                 document.refreshReferenceObject("documentHeader");
@@ -786,6 +787,7 @@ public class PurapServiceImpl implements PurapService {
             final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
 
             documentAttributeIndexingQueue.indexDocument(document.getDocumentNumber());
+            }
         } catch (WorkflowException we) {
             String errorMsg = "Workflow error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
             LOG.error(errorMsg, we);

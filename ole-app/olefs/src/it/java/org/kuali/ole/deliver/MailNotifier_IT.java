@@ -2,6 +2,7 @@ package org.kuali.ole.deliver;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.mail.*;
@@ -19,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
  * To change this template use File | Settings | File Templates.
  */
 
-public class MailNotifier_IT extends SpringBaseTestCase{
+public class MailNotifier_IT extends KFSTestCaseBase{
     private String sender = "kuali.ole@gmail.com";
     private String recipient = "kuali.ole@gmail.com";
     private String subject = "Test Subject";

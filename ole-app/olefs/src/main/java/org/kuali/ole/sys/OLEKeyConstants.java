@@ -1140,5 +1140,10 @@ public class OLEKeyConstants {
     public static final String ERROR_VALID_FOREIGN_INVOICE_AMOUNT = "error.valid.foreign.invoice.amount";
     public static final String ERROR_NO_MATCHING_PO_VND_NM = "error.no.matching.po.vnd.name";
     public static final String INV_NUM_REQ="error.inv.number.required";
+    public static final String INPUT_FILE_REQ = "error.input.file.required";
+    public static final String UPLD_ERROR = "error.file.upload";
+    public static final String SELECT_PROCESS = "error.begin.process";
+    public static final String ERROR_DATE = "error.date.requites";
+    public static final String ERROR_TIME_LENGTH = "error.time.length";
 
 }

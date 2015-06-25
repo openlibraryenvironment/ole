@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEPurchaseOrderBatchView" parent="Uif-TransactionalDocumentView">
+        <property name="headerText" value="Purchase Order Bulk Amendment"/>
+        <property name="formClass" value="org.kuali.ole.select.form.OLEPurchaseOrderBatchForm"/>
+        <property name="documentClass" value="org.kuali.ole.select.document.OLEPurchaseOrderBatchDocument"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEPurchaseOrderBatch-MainPage"/>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ole/batch/script/pobatch.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/batch/css/poba.css</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEPurchaseOrderBatchView-Uif-TransactionalDocumentView" abstract="true" parent="OLEPurchaseOrderBatchView-Uif-TransactionalDocumentView-parentBean"/>
+    <bean id="OLEPurchaseOrderBatchView-Uif-TransactionalDocumentView-parentBean" abstract="true"
+          class="org.kuali.rice.krad.uif.view.TransactionalDocumentView" parent="OLEPurchaseOrderBatchView-Uif-DocumentView">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-transactionalView</value>
+            </list>
+        </property>
+        <property name="viewTypeName" value="TRANSACTIONAL"/>
+        <property name="viewName" value="default"/>
+        <property name="presentationControllerClass"
+                  value="org.kuali.rice.krad.document.TransactionalDocumentViewPresentationControllerBase"/>
+        <property name="authorizerClass" value="org.kuali.rice.krad.document.TransactionalDocumentViewAuthorizerBase"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.TransactionalDocumentFormBase"/>
+    </bean>
+
+    <bean id="OLEPurchaseOrderBatchView-Uif-DocumentView" abstract="true" parent="OLEPurchaseOrderBatchView-Uif-DocumentView-parentBean"/>
+    <bean id="OLEPurchaseOrderBatchView-Uif-DocumentView-parentBean" abstract="true"
+          class="org.kuali.rice.krad.uif.view.DocumentView" parent="Uif-OLEFormView">
+        <!--       <property name="help">
+                   <bean parent="Uif-Help">
+                       <property name="externalHelpUrl"
+                                 value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s02.html#_batchProcess"/>
+                   </bean>
+               </property>-->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentView</value>
+            </list>
+        </property>
+        <property name="viewTypeName" value="DOCUMENT"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.DocumentFormBase"/>
+        <property name="defaultBindingObjectPath" value="document"/>
+        <property name="presentationControllerClass"
+                  value="org.kuali.rice.krad.document.DocumentViewPresentationControllerBase"/>
+        <property name="authorizerClass" value="org.kuali.rice.krad.document.DocumentViewAuthorizerBase"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.rice.krad.uif.service.impl.DocumentViewHelperServiceImpl"/>
+        <property name="header">
+            <bean parent="Uif-DocumentViewHeader"/>
+        </property>
+    </bean>
+
+    <bean id="OLEPurchaseOrderBatchView-Uif-DocumentPage" parent="Uif-Disclosure-Page">
+
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentPage</value>
+            </list>
+        </property>
+        <property name="defaultItemPosition" value="11"/>
+        <property name="items">
+            <list merge="true">
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="OLEPurchaseOrderBatchView-Uif-DocumentPageFooter"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLEPurchaseOrderBatch-MainPage" parent="OLEPurchaseOrderBatchView-Uif-DocumentPage">
+        <property name="items">
+            <list merge="false">
+                <!--<bean id="Uif-PurchaseOrderBatch-DocumentOverviewSection" parent="Uif-OLEPurchaseOrderBatch-DocumentOverviewSection" p:order="10"/>-->
+                <ref bean="OLEPurchaseOrderBatchMessageSection"/>
+                <ref bean="OLEPurchaseOrderBatch-batchProcessView"/>
+                <bean id="Uif-POBatch-DocumentRouteLogSection" parent="OLEPurchaseOrderBatch-Uif-DocumentRouteLogSection"  p:disclosure.defaultOpen="false" p:order="50"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEPurchaseOrderBatchMessageSection" parent="Uif-VerticalBoxSection"
+          p:render="@{document.message ne null and document.message ne ''}">
+        <property name="items">
+            <list>
+                <bean id="OLEPurchaseOrderBatchMessageFieldSection" parent="Uif-MessageField" p:messageText="@{document.message}"
+                      p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="POBatchMessageSection" parent="Uif-VerticalBoxSection"
+          p:render="@{document.message ne null and document.message ne ''}">
+        <property name="items">
+            <list>
+                <bean id="BatchMessageFieldSection" parent="Uif-MessageField" p:messageText="@{document.message}"
+                      p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEPurchaseOrderBatch-batchProcessView"
+          parent="OLEPurchaseOrderBatch-batchProcessView-parentBean"/>
+    <bean id="OLEPurchaseOrderBatch-batchProcessView-parentBean" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="OLEPurchaseOrderBatch-docIdUploadSection"/>
+                <ref bean="OLEPurchaseOrderBatch-batchUploadSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEPurchaseOrderBatch-selectIngestTypeSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Select a Upload Section"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean id="poBatchIngestUpload-Type-Section" parent="Uif-InputField"
+                                  p:propertyName="uploadType">
+                                <property name="control">
+                                    <bean parent="Uif-HorizontalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="docId" p:value="PO ID Upload"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="bulkAmend" p:value=""/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEPurchaseOrderBatch-Uif-DocumentOverviewSection" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="1"
+          p:layoutManager.applyDefaultCellWidths="false" p:disclosure.defaultOpen="true">
+    <property name="headerText" value="Document Overview"/>
+    <property name="items">
+    <list>
+    <bean id="Uif-POBatch-DocumentOverviewSection" parent="Uif-GridSection" p:layoutManager.numberOfColumns="4" p:layoutManager.applyDefaultCellWidths="false">
+        <!--<property name="headerText" value="Document Overview"/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-DocumentDescription" p:required="true" p:label="Description"
+                      p:width="25%" p:fieldLabel.width="55%"/>
+                <bean parent="Uif-DocumentExplaination" p:rowSpan="2" p:fieldLabel.rowSpan="2"
+                      p:width="40%" p:fieldLabel.width="30%"/>
+                <bean parent="Uif-OrganizationDocumentNumber" p:width="25%" p:fieldLabel.width="25%"/>
+            </list>
+        </property>
+        <property name="fieldBindingObjectPath" value="document.documentHeader"/>
+    </bean>
+    </list>
+    </property>
+    </bean>
+
+
+    <bean id="OLEPurchaseOrderBatch-docIdUploadSection" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{document.documentHeader.workflowDocument.initiated}" >
+        <property name="headerText" value="PO ID Upload Section"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean id="dicIDIngestInputFile" parent="Uif-InputField"
+                                  p:propertyName="docIdIngestFile" p:label="Upload File">
+                                <property name="control">
+                                    <bean parent="Uif-FileControl" p:size="40"/>
+                                </property>
+                            </bean>
+                            <bean id="upload_docIds" parent="Uif-SecondaryActionButton-Small" p:methodToCall="upload"
+                                  p:actionLabel="Upload"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEPurchaseOrderBatch-batchUploadSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Select File for Upload"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+
+                            <bean id="poBatchIngestInputFile" parent="Uif-InputField"
+                                  p:propertyName="ingestedFile" p:label="Upload File" p:render="@{document.documentHeader.workflowDocument.initiated}">
+                                <property name="control">
+                                    <bean parent="Uif-FileControl" p:size="40"/>
+                                </property>
+                            </bean>
+                            <bean id="poBatchIngestInputFileName" parent="Uif-InputField" p:propertyName="uploadFileName" p:label="File Name" p:render="@{document.documentHeader.workflowDocument.enroute or document.documentHeader.workflowDocument.final}" p:readOnly="true"/>
+                            <bean id="batchgoup" parent="Uif-HorizontalFieldGroup" p:label="Begin Process">
+                                <property name="items">
+                                    <list>
+                                        <bean id="poBatchIngestInputFile-Type-Section" parent="Uif-InputField"
+                                              p:propertyName="type">
+                                            <property name="control">
+                                                <bean parent="Uif-HorizontalRadioControl">
+                                                    <property name="options">
+                                                        <list>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="immediate"
+                                                                  p:value="Immediately"/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="specified time"
+                                                                  p:value="at a specified time"/>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean id="batchStartDate" parent="Uif-InputField"
+                                              p:propertyName="batchStartDate" p:label="Date">
+                                            <property name="control">
+                                                <bean parent="Uif-DateControl" p:size="10"/>
+                                            </property>
+                                        </bean>
+                                        <bean id="batchTime" parent="Uif-InputField" p:propertyName="time"
+                                              p:label="Time"
+                                              p:instructionalText="Enter Time in 24HR Format">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="08" p:watermarkText="HH:MM:SS"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEPurchaseOrderBatch-Uif-DocumentRouteLogSection" parent="Uif-Disclosure-VerticalBoxSection" >
+        <property name="headerText" value="Route Log"/>
+        <property name="items">
+            <list >
+                <bean parent="Uif-Iframe" p:height="500" p:width="95%" p:frameborder="0" >
+                    <property name="id" value="routeLogIFrame"/>
+                    <property name="source"
+                              value="@{#ConfigProperties['workflow.url']}/RouteLog.do?documentId=@{workflowDocument.documentId}"/>
+                    <property name="onLoadScript" value="setRouteLogIframeDimensions();"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEPurchaseOrderBatchView-Uif-DocumentPageFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="route" p:actionLabel="submit"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:focusOnIdAfterSubmit="TOP"
+                      p:jumpToIdAfterSubmit="TOP" p:performClientSideValidation="true"/>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="blanketApprove"
+                      p:actionLabel="blanket approve"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"
+                      p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" p:performClientSideValidation="true"/>
+                <bean id="poba_close_btn" parent="Uif-SecondaryActionButton" p:actionLabel="close"
+                      p:methodToCall="closeDocument" p:render="@{!#form.renderedInLightBox}"/>
+                <bean parent="Uif-CancelAction" p:ajaxSubmit="false"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="approveDocument"
+                      p:actionLabel="approve"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="disapprove"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

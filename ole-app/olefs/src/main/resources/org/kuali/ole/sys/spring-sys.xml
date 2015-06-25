@@ -67,6 +67,7 @@
 				<value>actionListBatchJob</value>
 				<value>reencumberRecurringOrdersJob</value>
 				<value>poRelinkJob</value>
+				<value>paymentRequestBatchJob</value>
             </list>
         </property>
         <property name="fiscalYearMakers">
@@ -918,6 +919,7 @@
 				<ref bean="lockPDPModuleStep" />
 				<ref bean="lockCGModuleStep" />
 				<ref bean="lockENDOWModuleStep" />
+                <ref bean="lockSELECTModuleStep" />
 			</list>
 		</property>
 	</bean>
@@ -967,6 +969,9 @@
 	<bean id="lockENDOWModuleStep" parent="lockModuleStep">
 	    <property name="namespaceCode" value="OLE-ENDOW"/>
 	</bean>
+    <bean id="lockSELECTModuleStep" parent="lockModuleStep">
+        <property name="namespaceCode" value="OLE-SELECT"/>
+    </bean>
 	
 	<bean id="modulesUnlockJob" parent="modulesUnlockJob-parentBean"/>
 	<bean id="modulesUnlockJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
@@ -987,6 +992,7 @@
 				<ref bean="unlockPDPModuleStep" />
 				<ref bean="unlockCGModuleStep" />
 				<ref bean="unlockENDOWModuleStep" />
+                <ref bean="unlockSELECTModuleStep" />
 			</list>
 		</property>
 	</bean>
@@ -1036,6 +1042,9 @@
 	<bean id="unlockENDOWModuleStep" parent="unlockModuleStep">
 	    <property name="namespaceCode" value="OLE-ENDOW"/>
 	</bean>
+    <bean id="unlockSELECTModuleStep" parent="unlockModuleStep">
+        <property name="namespaceCode" value="OLE-SELECT"/>
+    </bean>
 	
 	<bean id="lockModuleStep" class="org.kuali.ole.sys.batch.LockModuleStep" parent="step">
 		<property name="lockModuleService" ref="lockModuleService" />
@@ -1070,6 +1079,18 @@
 	</bean>
 
 	<bean id="poRelinkBatchJobStep" class="org.kuali.ole.select.service.impl.OLECopyRecordProcessor" parent="step"/>
+
+	<bean id="paymentRequestBatchJob" parent="paymentRequestBatchJob-parentBean"/>
+	<bean id="paymentRequestBatchJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
+		<property name="steps">
+			<list>
+				<ref bean="paymentRequestBatchJobBatchJobStep"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="paymentRequestBatchJobBatchJobStep" class="org.kuali.ole.sys.context.PaymentRequestBatchProcessor" parent="step"/>
+
 
 
 	<bean id="lockModuleService" parent="lockModuleService-parentBean"/>

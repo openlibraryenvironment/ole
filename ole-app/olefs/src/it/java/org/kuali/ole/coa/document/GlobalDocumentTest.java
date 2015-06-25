@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
 import org.kuali.ole.coa.businessobject.AccountDelegateGlobal;
 import org.kuali.ole.coa.businessobject.AccountDelegateGlobalDetail;
@@ -36,11 +37,12 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.DocumentService;
-
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.UserSession;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
-public class GlobalDocumentTest extends KualiTestBase {
+public class GlobalDocumentTest extends KFSTestCaseBase {
 
     private static final Log LOG = LogFactory.getLog(GlobalDocumentTest.class);
 
@@ -51,6 +53,7 @@ public class GlobalDocumentTest extends KualiTestBase {
 
     @Test
     public void testGlobalDelegateMaintenanceDocumentCreation_goodDocTypeName() throws Exception {
+        GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
         MaintenanceDocument doc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(KNOWN_DOCUMENT_TYPENAME);
         assertNotNull(doc);
         assertNotNull(doc.getNewMaintainableObject());
@@ -59,7 +62,7 @@ public class GlobalDocumentTest extends KualiTestBase {
 
     @Test
     public final void testGetNewDocument_globalDelegateMaintDoc() throws Exception {
-
+        GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
         MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
 
         // make sure the doc is setup
@@ -82,7 +85,7 @@ public class GlobalDocumentTest extends KualiTestBase {
 
     @Test
     public final void testGetNewDocument_globalAccountMaintDoc() throws Exception {
-
+        GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
         MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_ACCOUNT_TYPENAME);
 
         // make sure the doc is setup
@@ -104,7 +107,7 @@ public class GlobalDocumentTest extends KualiTestBase {
 
     @Test
     public final void testSaveDocument_globalDelegate() throws Exception {
-
+        GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
         MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
 
         // get local references to the Maintainable and the BO
@@ -120,7 +123,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         AccountDelegateGlobalDetail change = new AccountDelegateGlobalDetail();
         change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(KfsDateUtils.newDate(2006, 6, 1));
-        change.setAccountDelegateUniversalId("OLE6137600107");
+        change.setAccountDelegateUniversalId("olequickstart");
         change.setApprovalFromThisAmount(KualiDecimal.ZERO);
         change.setApprovalToThisAmount(KualiDecimal.ZERO);
         change.setFinancialDocumentTypeCode(OLEConstants.ROOT_DOCUMENT_TYPE);
@@ -148,7 +151,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
         SpringContext.getBean(DocumentService.class).saveDocument(document);
-        
+
         document = (MaintenanceDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber());
 
         // now that it worked, lets cancel the doc so it doesnt lock for others
@@ -158,7 +161,7 @@ public class GlobalDocumentTest extends KualiTestBase {
 
     @Test
     public final void testSaveAndLoadDocument_globalDelegate() throws Exception {
-
+        GlobalVariables.setUserSession(new UserSession("ole-quickstart"));
         MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
 
         // get local references to the Maintainable and the BO
@@ -172,7 +175,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         AccountDelegateGlobalDetail change = new AccountDelegateGlobalDetail();
         change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(KfsDateUtils.newDate(2006, 6, 1));
-        change.setAccountDelegateUniversalId("OLE6137600107");
+        change.setAccountDelegateUniversalId("olequickstart");
         change.setApprovalFromThisAmount(KualiDecimal.ZERO);
         change.setApprovalToThisAmount(KualiDecimal.ZERO);
         change.setFinancialDocumentTypeCode(OLEConstants.ROOT_DOCUMENT_TYPE);
@@ -202,7 +205,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         SpringContext.getBean(DocumentService.class).saveDocument(document);
 
         // clear the document, and re-load it from the DB
-        document = null;
+
         document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(finDocNumber);
         assertNotNull("Document should not be null after loaded from the DB.", document);
         assertNotNull("Document Header should not be null after loaded from the DB.", document.getDocumentHeader());
@@ -239,6 +242,7 @@ public class GlobalDocumentTest extends KualiTestBase {
 
         // now that it worked, lets cancel the doc so it doesnt lock for others
         SpringContext.getBean(DocumentService.class).cancelDocument(document, "cancelling test document");
+
 
     }
 }

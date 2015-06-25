@@ -253,7 +253,10 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
             for (DocumentSearchResult result : results.getSearchResults()) {
                 documentHeaderId = result.getDocument().getDocumentId();
                 Document document = findDocumentForAutoDisapproval(documentHeaderId);
-                if (document != null) {
+                if (document != null && document.getDocumentHeader() != null && document.getDocumentHeader().getWorkflowDocument() != null) {
+                    if(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(OLEConstants.FinancialDocumentTypeCodes.PAYMENT_REQUEST) ||
+                            document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(OLEConstants.FinancialDocumentTypeCodes.INVOICE) ||
+                            document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(OLEConstants.FinancialDocumentTypeCodes.VENDOR_CREDIT_MEMO))  {
                     if (checkIfDocumentEligibleForAutoDispproval(document)) {
                         if (!exceptionsToAutoDisapproveProcess(document, documentCompareDate)) {
                             try {
@@ -267,7 +270,8 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
                         }else {
                             LOG.info("Year End Auto Disapproval Exceptions:  The document: " + documentHeaderId + " is NOT AUTO DISAPPROVED.");
                         }
-                    } 
+                    }
+                }
                 }else{
                         LOG.error("Document is NULL.  It should never have been null");
                         String message = ("Error: Document with id: ").concat(documentHeaderId).concat(" - Document is NULL.  It should never have been null");

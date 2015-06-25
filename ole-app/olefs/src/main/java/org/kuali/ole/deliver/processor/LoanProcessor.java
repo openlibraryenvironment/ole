@@ -603,7 +603,7 @@ public class LoanProcessor {
             Map barMap = new HashMap();
             barMap.put(OLEConstants.OlePatron.BARCODE, barcode);
             List<OlePatronDocument> matching = (List<OlePatronDocument>) getBusinessObjectService().findMatching(OlePatronDocument.class, barMap);
-            List<OleLoanDocument> loanDocuments = matching.get(0).getOleLoanDocuments();
+            List<OleLoanDocument> loanDocuments = matching.get(0).getOleLoanDocumentsFromDb();
             List<OleLoanDocument> LoanDocumentList = new ArrayList<>();
             List<OleLoanDocument> indefiniteLoanDocumentList = new ArrayList<>();
             for (OleLoanDocument loanDoc : loanDocuments) {
@@ -2439,7 +2439,7 @@ public class LoanProcessor {
             search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), Bib.BIBIDENTIFIER));
             search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), Bib.TITLE));
             search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), Bib.AUTHOR));
-            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), Item.LOCATION));
+            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), OLEConstants.LOCATION_LEVEL));
             search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), Holdings.DESTINATION_FIELD_LOCATION_LEVEL_1));
             searchResponse = getDocstoreClientLocator().getDocstoreClient().search(search_Params);
             if (searchResponse.getSearchResults() != null && searchResponse.getSearchResults().size() > 0) {
@@ -2460,7 +2460,7 @@ public class LoanProcessor {
                             oleLoanDocument.setTitle(fieldValue);
                         } else if (fieldName.equalsIgnoreCase(Bib.AUTHOR) && !fieldValue.isEmpty()) {
                             oleLoanDocument.setAuthor(fieldValue);
-                        } else if (fieldName.equalsIgnoreCase(Item.LOCATION) && !fieldValue.isEmpty()) {
+                        } else if (fieldName.equalsIgnoreCase(OLEConstants.LOCATION_LEVEL) && !fieldValue.isEmpty()) {
                             oleLoanDocument.setItemLevelLocationExist(true);
                             isItemLevelLocationExist = true;
                             oleLoanDocument.setLocation(fieldValue);

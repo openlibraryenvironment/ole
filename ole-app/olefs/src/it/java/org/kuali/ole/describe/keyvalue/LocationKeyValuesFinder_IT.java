@@ -3,6 +3,7 @@ package org.kuali.ole.describe.keyvalue;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -23,7 +24,7 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 
-public class LocationKeyValuesFinder_IT extends SpringBaseTestCase {
+public class LocationKeyValuesFinder_IT extends KFSTestCaseBase {
 
     private List<OleLocation> temp;
 

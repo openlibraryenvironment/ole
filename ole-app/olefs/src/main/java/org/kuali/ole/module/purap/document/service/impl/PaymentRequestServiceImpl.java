@@ -1523,11 +1523,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
 
         if (StringUtils.isNotBlank(cancelledStatus)) {
-            try {
+            /*try {
+                //SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(preqDoc, currentNodeName);
                 preqDoc.updateAndSaveAppDocStatus(cancelledStatus);
             } catch (WorkflowException we) {
                 throw new RuntimeException("Unable to save the route status data for document: " + preqDoc.getDocumentNumber(), we);
-            }
+            }*/
             purapService.saveDocumentNoValidation(preqDoc);
         } else {
             logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + currentNodeName + "'");

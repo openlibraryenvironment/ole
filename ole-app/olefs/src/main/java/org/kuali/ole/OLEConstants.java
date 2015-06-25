@@ -447,6 +447,7 @@ public class OLEConstants {
     public static final String DOCUMENT_ITEM = "documentItem";
     public static final String GREGORIAN_PATTERN = "yyyy-mm-dd hh:mm:ss";
     public static final String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
+    public static final String DEFAULT_BULK_PO_CHANGE_THREAD_POOL_SIZE = "";
 
 
     public static final class OLEBatchProcess {
@@ -3437,14 +3438,71 @@ public class OLEConstants {
     public static final String RENCUM_DATE_FORMAT = "yyyy-MM-dd";
     public static final String LOST_NOTICE_TO_DATE="LOST_NOTICE_TO_DATE";
     public static final String NOTICE_THREAD_POOL_SIZE = "NOTICE_THREAD_POOL_SIZE";
-    public static final String COURTESY_NOTICE_TO_DATE="COURTESY_NOTICE_TO_DATE";
-    public static final String OVERDUE_NOTICE_TO_DATE= "OVERDUE_NOTICE_TO_DATE";
+    public static final String BULK_PO_CHANGE_THREAD_POOL_SIZE = "NOTICE_THREAD_POOL_SIZE";
+    public static final String COURTESY_NOTICE_TO_DATE = "COURTESY_NOTICE_TO_DATE";
+    public static final String OVERDUE_NOTICE_TO_DATE = "OVERDUE_NOTICE_TO_DATE";
     public static final String OLE_LOAN_DAO = "oleLoanDao";
     public static final String LOAN_WITH_NOTICES_DAO = "loanWithNoticesDAO";
+    public static final String POBA_DIRECTORY = "poba";
+    public static final String SUCCESSFULLEY_UPLOADED = "success.file.upload";
 
     public static final String N0_PROFILE_SELECTED = "error.no.profile";
     public static final String UPLOAD_FILE_AGAIN = "error.file.upload";
     public static final String SELECT_USER="error.select.user";
     public static final int DEFAULT_INV_ITM_LMT = 50;
+    public static final class OLEPurchaseOrderBulkAmendment {
+        public static final String CHART_CD = "chartOfAccountsCode";
+        public static final String ACC_NO = "accountNumber";
+        public static final String OBJ_CD = "financialObjectCode";
+        public static final String DATE_FORMAT = "yyyy-MM-ddHH:mm:ss";
+        public static final String PUR_AP_ID = "purapDocumentIdentifier";
+        public static final String PUR_AP_CUR_IND = "purchaseOrderCurrentIndicator";
+        public static final String FILE_NM = "POBA-Report.txt";
+        public static final String ACC_LIN_PERC = "accountLinePercent";
+        public static final String DOC_NO = "documentNumber";
+        public static final String ITM_LIN_NO = "itemLineNumber";
+        public static final String VENDOR_ITEM_NO = "vendorItemPoNumber";
+        public static final String ITM_LOC = "itemLocation";
+        public static final String ITM_LIST_PRC = "itemListPrice";
+        public static final String ITM_QTY = "itemQuantity";
+        public static final String ITM_NO_OF_PARTS = "itemNoOfParts";
+        public static final String ITEM_PUB_VIEW_IND = "itemPublicViewIndicator";
+        public static final String DO_NOT_CLAIM = "doNotClaim";
+        public static final String ITEM_ROUTE_IND = "itemRouteToRequestorIndicator";
+        public static final String ACC_LINE_INDEX = "accountingLineIndex";
+        public static final String DEL_ST_CD = "deliveryStateCode";
+        public static final String DEL_ROOM_NO = "deliveryBuildingRoomNumber";
+        public static final String DEL_LINE1_ADDR = "deliveryBuildingLine1Address";
+        public static final String DEL_LINE2_ADDR = "deliveryBuildingLine2Address";
+        public static final String DEL_CAMPUS_CD = "deliveryCampusCode";
+        public static final String DEL_COUNTRY_CD = "deliveryCountryCode";
+        public static final String DEL_POSTAL_CD = "deliveryPostalCode";
+        public static final String DEL_BUL_CD = "deliveryBuildingCode";
+        public static final String DEL_TO_EMAIL_ADDR = "deliveryToEmailAddress";
+        public static final String DEL_TO_NAME = "deliveryToName";
+        public static final String DEL_TO_PHONE_NO = "deliveryToPhoneNumber";
+        public static final String DEL_INST_NT = "deliveryInstructionText";
+        public static final String OUTPUT_FILE_NAME = "_PurchaseOrderBulkAmendmentFile.csv";
+        public static final String POBA = "poba";
+        public static final String DOC_DESC = "POBA";
+        public static final String SPEC_TIME = "specified time";
+        public static final String IMMEDIATE = "immediate";
+        public static final String FORMAT = "yyyy-MM-dd";
+        public static final String TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss";
+        public static final String VENDOR_NAME = "vendorName";
+        public static final String DOCUMENT_DESC = "documentDescription";
+        public static final String ASSIGN_TO_PRCPL_NM = "assignedUserPrincipalName";
+        public static final String RECUR_PAY_TYP_CD = "recurringPaymentTypeCode";
+        public static final String PO_BEGIN_DT = "poBeginDate";
+        public static final String PO_END_DATE = "poEndDate";
+        public static final String ITM_COPY_NO = "itemCopyNumber";
+        public static final String FORMAT_CD = "format";
+        public static final String CATEORY_CD = "category";
+        public static final String ITM_PRICE_SOURCE = "itemPriceSource";
+        public static final String REQUEST_SOURCE = "requestSource";
+        public static final String VENDOR_NUMBER = "vendorHeaderGeneratedIdentifier";
+        public static final String VEN_DTL_ASSIGN_ID = "vendorDetailAssignedIdentifier";
+
+    }
 
 }

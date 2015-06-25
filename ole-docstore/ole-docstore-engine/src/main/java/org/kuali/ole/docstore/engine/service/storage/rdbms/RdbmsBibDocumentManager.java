@@ -299,7 +299,7 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
             bibMarc = new BibDcUnqualified();
             bibMarc.setFormat(DocFormat.DUBLIN_UNQUALIFIED.getCode());
         } else {
-            bibMarc = new BibMarc();
+            bibMarc = new Bib();
             bibMarc.setFormat(DocFormat.MARC.getCode());
         }
         bibMarc.setCategory(DocCategory.WORK.getCode());

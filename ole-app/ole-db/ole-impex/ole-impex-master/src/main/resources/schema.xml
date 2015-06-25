@@ -12065,6 +12065,18 @@
         <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
     </table>
 
+    <table name="OLE_PUR_POBA_T">
+        <column name="FDOC_NBR" primaryKey="true" size="10" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="OLE_POBA_ID" size="10" type="DECIMAL"/>
+        <column name="UPLD_FILE_NM" size="60" type="VARCHAR"/>
+        <column name="UPLD_TYPE" size="40" type="VARCHAR"/>
+        <column name="POBA_START_DT"  type="DATE"/>
+        <column name="POBA_START_TM"  size="40" type="VARCHAR"/>
+        <column name="POBA_PRNCPL_NM"  size="50" type="VARCHAR"/>
+    </table>
+    
     <view name="CA_OBJECT_CODE_V" viewdefinition="( SELECT         C.UNIV_FISCAL_YR,         FIN_COA_CD,         FIN_OBJECT_CD,         FIN_OBJ_CD_NM,         FIN_OBJ_CD_SHRT_NM,         FIN_OBJ_LEVEL_CD,         RPTS_TO_FIN_COA_CD,         RPTS_TO_FIN_OBJ_CD ,         FIN_OBJ_TYP_CD,         FIN_OBJ_SUB_TYP_CD,         HIST_FIN_OBJECT_CD,         FIN_OBJ_ACTIVE_CD,         FOBJ_BDGT_AGGR_CD,         FOBJ_MNXFR_ELIM_CD,         FIN_FED_FUNDED_CD,         NXT_YR_FIN_OBJ_CD,         RSCH_BDGT_CTGRY_CD,         RSCH_OBJ_CD_DESC,         RSCH_ON_CMP_IND          FROM CA_OBJECT_CODE_T C, SH_UNIV_DATE_T S WHERE C.UNIV_FISCAL_YR = S.UNIV_FISCAL_YR AND UNIV_DT = TRUNC(SYSDATE) )&#xa;&#xa;&#xa;&#xa;"/>
     <view name="CA_SUB_OBJECT_CD_V" viewdefinition="( SELECT         C.UNIV_FISCAL_YR,         FIN_COA_CD,         ACCOUNT_NBR,         FIN_OBJECT_CD,         FIN_SUB_OBJ_CD,         FIN_SUB_OBJ_CD_NM,         FIN_SUBOBJ_SHRT_NM,         FIN_SUBOBJ_ACTV_CD FROM CA_SUB_OBJECT_CD_T C, SH_UNIV_DATE_T S WHERE C.UNIV_FISCAL_YR = S.UNIV_FISCAL_YR AND UNIV_DT = TRUNC(SYSDATE) )&#xa;&#xa;&#xa;&#xa;"/>
     <view name="PUR_PO_ITM_TOT_AMT_V" viewdefinition="(select fdoc_nbr, sum(&#xa;                     CASE&#xa;                     WHEN ITM_ACTV_IND = 'Y' AND ITM_ORD_QTY IS NULL THEN ITM_UNIT_PRC&#xa;                     WHEN ITM_ACTV_IND = 'Y' AND ITM_ORD_QTY IS NOT NULL THEN ITM_ORD_QTY * ITM_UNIT_PRC&#xa;                     WHEN ITM_ACTV_IND IS NULL AND ITM_ORD_QTY IS NULL THEN ITM_UNIT_PRC&#xa;                     WHEN ITM_ACTV_IND IS NULL AND ITM_ORD_QTY IS NOT NULL THEN ITM_ORD_QTY * ITM_UNIT_PRC&#xa;                     WHEN ITM_ACTV_IND ='N' THEN 0&#xa;                     ELSE 0&#xa;                       END) as TOTAL_AMOUNT&#xa;       from PUR_PO_ITM_T group by fdoc_nbr)&#xa;"/>
@@ -12273,5 +12285,5 @@
     <sequence name="OLE_ERES_SYNC_GOKB_LOG_S" nextval="1"/>
     <sequence name="OLE_GOKB_CONFIG_S" nextval="1"/>
     <sequence name="OLE_MARC_UPDT_FREQ_S" nextval="1"/>
-
+    <sequence name="OLE_POBA_ID" nextval="1000"/>
 </database>

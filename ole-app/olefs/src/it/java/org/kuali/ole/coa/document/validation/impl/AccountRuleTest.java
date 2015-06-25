@@ -25,6 +25,8 @@ import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
+import org.kuali.ole.ConfigureContext;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.TestUtils;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.coa.businessobject.AccountGuideline;
@@ -46,6 +48,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.transaction.annotation.Transactional;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertFalse;
@@ -53,8 +56,9 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertNull;
 import static org.kuali.ole.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
 import static org.kuali.ole.KualiTestAssertionUtils.assertGlobalMessageMapSize;
+import static org.kuali.ole.fixture.UserNameFixture.khuntley;
 
-public class AccountRuleTest extends ChartRuleTestBase {
+public class AccountRuleTest extends KFSTestCaseBase {
 
     private static final String TEST_DATE = "04/22/2013 07:48 PM";
     private class Accounts {
@@ -183,6 +187,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
     private static Person SUPERVISOR;
     private static Person MANAGER;
     Account newAccount;
+    Account oldAccount;
 
     /**
      * @see org.kuali.ole.coa.document.validation.impl.ChartRuleTestBase#setUp()
@@ -190,6 +195,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        oldAccount = new Account();
+        oldAccount.setAccountFiscalOfficerSystemIdentifier(Accounts.FiscalOfficer.GOOD1);
+        oldAccount.setAccountsSupervisorySystemsIdentifier(Accounts.Supervisor.GOOD1);
+        oldAccount.setAccountManagerSystemIdentifier(Accounts.Manager.GOOD1);
+
         newAccount = new Account();
         newAccount.setAccountFiscalOfficerSystemIdentifier(Accounts.FiscalOfficer.GOOD1);
         newAccount.setAccountsSupervisorySystemsIdentifier(Accounts.Supervisor.GOOD1);
@@ -197,10 +207,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
         changeCurrentUser(UserNameFixture.khuntley);
     }
 
+    @Transactional
     @Test
     public void testDefaultExistenceChecks_Org_KnownGood() {
 
         // create new account to test
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         newAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
         newAccount.setOrganizationCode(Accounts.Org.GOOD1);
 
@@ -210,9 +222,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testDefaultExistenceChecks_Org_KnownBad() {
 
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         // create new account to test
 
         newAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
@@ -224,10 +238,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testDefaultExistenceChecks_AccountPhysicalCampus_KnownGood() {
 
         // create new account to test
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
 
         newAccount.setAccountPhysicalCampusCode(Accounts.Campus.GOOD1);
 
@@ -237,6 +253,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testDefaultExistenceChecks_AccountPhysicalCampus_KnownBad() {
 
@@ -245,15 +262,18 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountPhysicalCampusCode(Accounts.Campus.BAD1);
 
         // run the test
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         testDefaultExistenceCheck(newAccount, "accountPhysicalCampusCode", true);
         assertGlobalMessageMapSize(1);
 
     }
 
+    @Transactional
     @Test
     public void testDefaultExistenceChecks_AccountState_KnownGood() {
 
         // create new account to test
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
 
         newAccount.setAccountStateCode(Accounts.State.GOOD1);
 
@@ -263,6 +283,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testDefaultExistenceChecks_AccountState_KnownBad() {
 
@@ -271,16 +292,18 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountStateCode(Accounts.State.BAD1);
 
         // run the test
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         testDefaultExistenceCheck(newAccount, "accountStateCode", true);
         assertGlobalMessageMapSize(1);
 
     }
 
+    @Transactional
     @Test
     public void testDefaultExistenceChecks_PostalZipCode_KnownGood() {
 
         // create new account to test
-
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         newAccount.setAccountZipCode(Accounts.Zip.GOOD1);
 
         // run the test
@@ -289,11 +312,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testDefaultExistenceChecks_PostalZipCode_KnownBad() {
 
         // create new account to test
-
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         newAccount.setAccountZipCode(Accounts.Zip.BAD1);
 
         // run the test
@@ -302,11 +326,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testDefaultExistenceChecks_AccountType_KnownGood() {
 
         // create new account to test
-
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         newAccount.setAccountTypeCode(Accounts.AccountType.GOOD1);
 
         // run the test
@@ -315,9 +340,10 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testDefaultExistenceChecks_AccountType_KnownBad() {
-
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         // create new account to test
 
         newAccount.setAccountTypeCode(Accounts.AccountType.BAD1);
@@ -329,12 +355,15 @@ public class AccountRuleTest extends ChartRuleTestBase {
     }
 
     // TODO: finish explicitly testing all the defaultExistenceChecks ... though this isnt hugely valuable
+    @Transactional
     @Test
     public void testGuidelinesConditionallyRequired_NullExpirationDate() {
 
         boolean result;
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         Account account = new Account();
-        MaintenanceDocument maintDoc = newMaintDoc(account);
+        //MaintenanceDocument maintDoc = newMaintDoc(account);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 
         account.setAccountExpirationDate(null);
@@ -343,12 +372,15 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testGuidelinesConditionallyRequired_FarPastDate() {
 
         boolean result;
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         Account account = new Account();
-        MaintenanceDocument maintDoc = newMaintDoc(account);
+        //MaintenanceDocument maintDoc = newMaintDoc(account);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 
         // get an arbitrarily early date
@@ -360,12 +392,15 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertEquals("Guidelines should not be required for Account with prior ExpirationDate", false, result);
     }
 
+    @Transactional
     @Test
     public void testGuidelinesConditionallyRequired_TodaysDate() {
 
         boolean result;
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         Account account = new Account();
-        MaintenanceDocument maintDoc = newMaintDoc(account);
+        //MaintenanceDocument maintDoc = newMaintDoc(account);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 
         // setup a var with today's date
@@ -377,12 +412,15 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testGuidelinesConditionallyRequired_FarFutureDate() {
 
         boolean result;
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         Account account = new Account();
-        MaintenanceDocument maintDoc = newMaintDoc(account);
+        //MaintenanceDocument maintDoc = newMaintDoc(account);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 
         // get an arbitrarily future date
@@ -395,11 +433,14 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testAccountNumberStartsWithAllowedPrefix() {
 
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         Account account = new Account();
-        MaintenanceDocument maintDoc = newMaintDoc(account);
+        //MaintenanceDocument maintDoc = newMaintDoc(account);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 
         boolean result;
@@ -437,10 +478,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
         return SpringContext.getBean(PersonService.class).getPersonByPrincipalName(userName);
     }
 
+    @Transactional
     @Test
     public void testNonSystemSupervisorReopeningClosedAccount_NotBeingReopened() {
         Account oldAccount = new Account();
-
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 
@@ -459,8 +501,10 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertEquals("Account is not closed, and is not being reopened.", false, result);
     }
 
+    @Transactional
     @Test
     public void testNonSystemSupervisorReopeningClosedAccount_BeingReopenedNotSupervisor() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         Account oldAccount = new Account();
 
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
@@ -481,10 +525,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertEquals("Account is being reopened by a non-System-Supervisor.", false, result);
     }
 
+    @Transactional
     @Test
     public void testNonSystemSupervisorReopeningClosedAccount_BeingReopenedBySupervisor() {
         Account oldAccount = new Account();
-
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 
@@ -503,9 +548,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertEquals("Account is being reopened by a System-Supervisor.", false, result);
     }
 
+    @Transactional
     @Test
     public void testHasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate_BothNull() {
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
 
         // restricted status code blank, date not set
@@ -517,11 +564,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testHasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate_NonTCodeAndNullDate() {
 
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -533,11 +581,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testHasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate_TCodeAndNullDate() {
 
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -549,11 +598,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testHasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate_TCodeAndRealDate() {
 
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -569,9 +619,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
      *
      * This method tests whether accountRestrictedStatusDate is greater than currentDate or not.
      */
+    @Transactional
     @Test
     public void testHasTemporaryRestrictedStatusCodeButRestrictedStatusDateisGreaterThanCurrentDate(){
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
         Date date= new Date(getTimestamp(TEST_DATE).getTime());
@@ -609,7 +661,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
     public void testCheckFringeBenefitAccountRule_FringeBenefitFlagTrue() {
 
 
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -623,7 +675,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
     public void testCheckFringeBenefitAccountRule_FringeBenefitChartCodeMissing() {
 
 
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -641,7 +693,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
     public void testCheckFringeBenefitAccountRule_FringeBenefitAccountNumberMissing() {
 
 
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -659,7 +711,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
     public void testCheckFringeBenefitAccountRule_FringeBenefitAccountDoesntExist() {
 
 
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -677,7 +729,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
     public void testCheckFringeBenefitAccountRule_FringeBenefitAccountClosed() {
 
 
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -695,7 +747,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
     public void testCheckFringeBenefitAccountRule_FringeBenefitGood() {
 
 
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -709,11 +761,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 */
-@Test
+    @Transactional
+    @Test
     public void testIsContinuationAccountExpired_MissingChartCode() {
 
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+    GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -725,11 +778,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testIsContinuationAccountExpired_MissingAccountNumber() {
 
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -741,11 +795,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testIsContinuationAccountExpired_InvalidContinuationAccount() {
 
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -757,11 +812,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testIsContinuationAccountExpired_ValidNonExpiredContinuationAccount() {
 
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -773,11 +829,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testIsContinuationAccountExpired_ValidExpiredContinuationAccount() {
 
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -789,11 +846,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testCheckAccountExpirationDateTodayOrEarlier_NullDate() {
 
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -806,11 +864,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testCheckAccountExpirationDateTodayOrEarlier_PastDate() {
 
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
         Calendar testCalendar;
@@ -830,11 +889,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testCheckAccountExpirationDateTodayOrEarlier_TodaysDate() {
 
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
         Calendar testCalendar;
@@ -854,11 +914,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testCheckAccountExpirationDateTodayOrEarlier_FutureDate() {
 
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
         Calendar testCalendar;
@@ -880,19 +941,22 @@ public class AccountRuleTest extends ChartRuleTestBase {
     }
 
     private void disableBeginBalanceLoadInd() {
+        //GlobalVariables.getMessageMap().getErrorMessages().clear();
         SystemOptions options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
         options.setFinancialBeginBalanceLoadInd(true);
         SpringContext.getBean(BusinessObjectService.class).save(options);
     }
 
+    @Transactional
     @Test
     public void testCheckCloseAccountContinuation_NullContinuationCoaCode() {
 
         // set preconditions
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         disableBeginBalanceLoadInd();
-        Account oldAccount = new Account();
+        Account account = new Account();
 
-        MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -911,12 +975,15 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public void testCheckCloseAccountContinuation_NullContinuationAccountNumber() {
 
         // set preconditions
-        disableBeginBalanceLoadInd();
-        Account oldAccount = new Account();
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        //disableBeginBalanceLoadInd();
+        Account account = new Account();
 
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
@@ -931,16 +998,18 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.GOOD1);
         newAccount.setContinuationAccountNumber(null);
         result = rule.checkCloseAccount(maintDoc);
+
         assertEquals("Null continuation account number should fail with one error.", false, result);
         assertFieldErrorExists("continuationAccountNumber", OLEKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
         assertGlobalMessageMapSize(1);
 
     }
 
+    @Transactional
     @Test
     public void testCheckCloseAccountContinuation_ValidContinuationAccount() {
-
-        Account oldAccount = new Account();
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        Account account = new Account();
 
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
@@ -964,11 +1033,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
      * Note that we are not testing any of the other elements in the AccountRule.checkCloseAccount(). This is because there is no
      * logic to them. They simple exercise GL service methods, and if those GL service methods return false, they add an error.
      */
+    @Transactional
     @Test
     public void testCGFields_RequiredCGFields_Missing() {
 
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -998,11 +1068,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertFieldErrorExists(OLEPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNTS, OLEKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY);
     }
 
+    @Transactional
     @Test
     public void testCGFields_RequiredCGFields_AllPresent() {
 
-
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -1038,6 +1109,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
      * @param newAccount
      */
     private void addIndirectCostRecoveryAccount(Account newAccount) {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         IndirectCostRecoveryAccount icr = new IndirectCostRecoveryAccount();
         icr.setIndirectCostRecoveryAccountNumber(Accounts.AccountNumber.GOOD1);
         icr.setIndirectCostRecoveryFinCoaCode(Accounts.ChartCode.GOOD1);
@@ -1049,9 +1121,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
      *            filled in. (The contrary test--that if we have an account with a CG fund group, all fields are now required--
      *            should be tested by testCGFields_RequiredCGFields_AllPresent()).
      */
+    @Transactional
     @Test
     public void testCGFields_NotCGSubFund_NoFieldsPresent() {
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -1089,9 +1163,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
      * @RelatesTo KULRNE-4662
      * @RelatesTo KULCG-111 This method makes sure that the new account can act as its own contract control account.
      */
+    @Transactional
     @Test
     public void testCGFields_AccountCanBeCGAccount() {
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -1132,9 +1208,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
     /**
      * @RelatesTo KULCG-111 This method makes sure that any account specified as the contract control account must actually exist.
      */
+    @Transactional
     @Test
     public void testCGFields_AccountMustBeReal() {
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -1163,9 +1241,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertFalse("Rule should require contract account to be real.", result);
     }
 
+    @Transactional
     @Test
     public void testCheckIncomeStreamRequired_NotApplicableAccount() {
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -1191,12 +1271,15 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
     public void testCheckIncomeStreamRequired_GFMPRACTException() {
-        TestUtils.setSystemParameter(Account.class, OLEConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
-        TestUtils.setSystemParameter(Account.class, OLEConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
 
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        //TestUtils.setSystemParameter(Account.class, OLEConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
+        //TestUtils.setSystemParameter(Account.class, OLEConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -1222,12 +1305,15 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
     public void testCheckIncomeStreamRequired_CGAcctNoIncomeStreamFields() {
-        TestUtils.setSystemParameter(Account.class, OLEConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
-        TestUtils.setSystemParameter(Account.class, OLEConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        //TestUtils.setSystemParameter(Account.class, OLEConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
+        //TestUtils.setSystemParameter(Account.class, OLEConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
 
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -1255,12 +1341,15 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
     public void testCheckIncomeStreamRequired_CGAcctInvalidIncomeStreamAccount() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         TestUtils.setSystemParameter(Account.class, OLEConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
         TestUtils.setSystemParameter(Account.class, OLEConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
 
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -1289,12 +1378,15 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
     public void testCheckIncomeStreamRequired_GFAcctNoIncomeStreamFields() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         TestUtils.setSystemParameter(Account.class, OLEConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS, "GF;CG");
         TestUtils.setSystemParameter(Account.class, OLEConstants.ChartApcParms.INCOME_STREAM_ACCOUNT_REQUIRING_SUB_FUND_GROUPS, "MPRACT");
 
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -1322,11 +1414,14 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
     public void testCheckUniqueAccountNumber_AccountsCanCrossCharts() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         TestUtils.setSystemParameter(OleParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND, "Y");
 
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -1353,11 +1448,14 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertGlobalMessageMapSize(0);
     }
 
+    @Transactional
     @Test
+    @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
     public void testCheckUniqueAccountNumber_AccountsCantCrossCharts() {
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         TestUtils.setSystemParameter(OleParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND, "N");
 
-        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        MaintenanceDocument maintDoc = newMaintDoc(oldAccount,newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
 
@@ -1384,11 +1482,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertGlobalMessageMapSize(1);
     }
 
+    @Transactional
     @Test
     public void testIsUpdateExpirationDateInvalid_BothExpirationDatesNull() {
 
-        Account oldAccount = new Account();
-
+        Account account = new Account();
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
@@ -1402,11 +1501,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testIsUpdateExpirationDateInvalid_ExpirationDatesSame() {
 
-        Account oldAccount = new Account();
-
+        Account account = new Account();
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
@@ -1423,11 +1523,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testIsUpdateExpirationDateInvalid_NewExpDateNull() {
 
-        Account oldAccount = new Account();
-
+        Account account = new Account();
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
@@ -1444,10 +1545,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testIsUpdateExpirationDateInvalid_SubFundGroupNull() {
-
-        Account oldAccount = new Account();
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        Account account = new Account();
 
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
@@ -1479,11 +1581,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testIsUpdateExpirationDateInvalid_ChangedNewInPast_CGSubFund() {
 
-        Account oldAccount = new Account();
-
+        Account account = new Account();
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
@@ -1521,11 +1624,12 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testIsUpdateExpirationDateInvalid_ChangedNewInPast_NonCGSubFund() {
 
-        Account oldAccount = new Account();
-
+        Account account = new Account();
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
@@ -1563,9 +1667,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
 
     }
 
+    @Transactional
     @Test
     public void testDataDictionaryValidation_AccountPurpose_TooLong() {
-        Account oldAccount = new Account();
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        Account account = new Account();
         newAccount.setAccountGuideline(new AccountGuideline());
         newAccount.getAccountGuideline().setAccountPurposeText("01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789");
         assertTrue("Purpose text should be more than 400 characters.  (was: " + newAccount.getAccountGuideline().getAccountPurposeText().length() + ")", newAccount.getAccountGuideline().getAccountPurposeText().length() > 400);
@@ -1586,9 +1692,11 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertFieldErrorExists("accountGuideline.accountPurposeText", OLEKeyConstants.ERROR_MAX_LENGTH);
     }
 
+    @Transactional
     @Test
     public void testDataDictionaryValidation_AccountPurpose_GoodLength() {
-        Account oldAccount = new Account();
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        Account account = new Account();
         newAccount.setAccountGuideline(new AccountGuideline());
         newAccount.getAccountGuideline().setAccountPurposeText("01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "013245678901234567890123456789013245678901324567890123456789012345678901324");
         System.out.println(newAccount.getAccountGuideline().getAccountPurposeText().length());

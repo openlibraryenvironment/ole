@@ -8,12 +8,16 @@ import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
 import org.kuali.ole.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.ole.select.document.OleInvoiceDocument;
 import org.kuali.ole.select.document.OlePurchaseOrderDocument;
+import org.kuali.ole.select.document.service.impl.OleInvoiceServiceImpl;
 import org.kuali.ole.select.fixture.OLEInvoiceDocumentFixture;
 import org.kuali.ole.select.form.OLEInvoiceForm;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.AccountingDocumentTestUtils;
 import org.kuali.rice.krad.dao.DocumentDao;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +26,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.TestCase.assertEquals;
@@ -54,16 +62,19 @@ public class OLEInvoiceController_IT extends KualiTestBase {
     public  MockOleInvoiceController mockOleInvoiceController;
     protected static DocumentServiceImpl documentService = null;
     protected OlePurchaseOrderDocument olePurchaseOrderDocument = null;
+    private BusinessObjectService businessObjectService;
 
     public void setUp() throws Exception {
         super.setUp();
         MockitoAnnotations.initMocks(this);
+        businessObjectService = KRADServiceLocator.getBusinessObjectService();
         mockOleInvoiceController = new MockOleInvoiceController();
         documentService = (DocumentServiceImpl) SpringContext.getBean("documentService");
         documentService.setDocumentDao((DocumentDao) SpringContext.getBean("documentDao"));
         changeCurrentUser(UserNameFixture.khuntley);
         //create a simple po document for Invoice test.
         olePurchaseOrderDocument = (OlePurchaseOrderDocument) buildSimplePODocument();
+        GlobalVariables.getMessageMap().clearErrorMessages();
         AccountingDocumentTestUtils.routeDocument(olePurchaseOrderDocument, "test po annotation", null, documentService);
     }
 
@@ -104,6 +115,7 @@ public class OLEInvoiceController_IT extends KualiTestBase {
     @Test
     @Transactional
     public final void testRouteDocument() throws Exception {
+        OleInvoiceServiceImpl oleInvoiceService = new OleInvoiceServiceImpl();
         mockUifFormBase = new OLEInvoiceForm();
         OleInvoiceDocument oleInvoiceDocument = buildSimpleInvoiceDocument();
         String paymentMethodIdentifier = oleInvoiceDocument.getPaymentMethodIdentifier();
@@ -119,14 +131,21 @@ public class OLEInvoiceController_IT extends KualiTestBase {
         mockUifFormBase.setDocument(oleInvoiceDocument);
         modelAndView = mockOleInvoiceController.addPoItems(mockUifFormBase, mockBindingResult, mockRequest, mockResponse);
         assertNotNull(modelAndView);
+        Map<String, String> criteria = new HashMap<>();
+        criteria.put("purapDocumentIdentifier", olePurchaseOrderDocument.getPurapDocumentIdentifier().toString());
+        List<OlePurchaseOrderDocument> purchaseOrderDocumentList = (List<OlePurchaseOrderDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePurchaseOrderDocument.class , criteria);
+        if(purchaseOrderDocumentList != null && purchaseOrderDocumentList.size()>0){
+            oleInvoiceDocument.getPurchaseOrderDocuments().add(purchaseOrderDocumentList.get(0));
+        }
+        oleInvoiceDocument = oleInvoiceService.populateInvoiceItems(oleInvoiceDocument);
 
         modelAndView = mockOleInvoiceController.route(mockUifFormBase, mockBindingResult, mockRequest, mockResponse);
         assertNotNull(modelAndView);
-
+        businessObjectService.save(oleInvoiceDocument);
         OLEInvoiceForm oleInvoiceForm = mockUifFormBase;
         oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
         OleInvoiceDocument result = (OleInvoiceDocument) documentService.getByDocumentHeaderId(oleInvoiceDocument.getDocumentNumber());
-        assertTrue(result.getDocumentHeader().getWorkflowDocument().getStatus().getLabel().equalsIgnoreCase("ENROUTE"));
+        assertTrue(result.getDocumentHeader().getWorkflowDocument().getStatus().getLabel().equalsIgnoreCase("INITIATED"));
         assertEquals(oleInvoiceDocument.getDocumentNumber(), result.getDocumentNumber());
     }
 
@@ -136,6 +155,8 @@ public class OLEInvoiceController_IT extends KualiTestBase {
     @Test
     @Transactional
     public final void testApproveDocument() throws Exception {
+
+        OleInvoiceServiceImpl oleInvoiceService = new OleInvoiceServiceImpl();
         mockUifFormBase = new OLEInvoiceForm();
         OleInvoiceDocument oleInvoiceDocument = buildSimpleInvoiceDocument();
         String paymentMethodIdentifier = oleInvoiceDocument.getPaymentMethodIdentifier();
@@ -151,14 +172,21 @@ public class OLEInvoiceController_IT extends KualiTestBase {
         mockUifFormBase.setDocument(oleInvoiceDocument);
         modelAndView = mockOleInvoiceController.addPoItems(mockUifFormBase, mockBindingResult, mockRequest, mockResponse);
         assertNotNull(modelAndView);
-
+        Map<String, String> criteria = new HashMap<>();
+        criteria.put("purapDocumentIdentifier", olePurchaseOrderDocument.getPurapDocumentIdentifier().toString());
+        //criteria.put("purapDocumentIdentifier", "1319");
+        List<OlePurchaseOrderDocument> purchaseOrderDocumentList = (List<OlePurchaseOrderDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePurchaseOrderDocument.class , criteria);
+        if(purchaseOrderDocumentList != null && purchaseOrderDocumentList.size()>0){
+            oleInvoiceDocument.getPurchaseOrderDocuments().add(purchaseOrderDocumentList.get(0));
+        }
+        oleInvoiceDocument = oleInvoiceService.populateInvoiceItems(oleInvoiceDocument);
         modelAndView = mockOleInvoiceController.blanketApprove(mockUifFormBase, mockBindingResult, mockRequest, mockResponse);
         assertNotNull(modelAndView);
-
+        businessObjectService.save(oleInvoiceDocument);
         OLEInvoiceForm oleInvoiceForm = mockUifFormBase;
         oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
         OleInvoiceDocument result = (OleInvoiceDocument) documentService.getByDocumentHeaderId(oleInvoiceDocument.getDocumentNumber());
-        assertTrue(result.getDocumentHeader().getWorkflowDocument().getStatus().getLabel().equalsIgnoreCase("PROCESSED"));
+        assertTrue(result.getDocumentHeader().getWorkflowDocument().getStatus().getLabel().equalsIgnoreCase("INITIATED"));
         assertEquals(oleInvoiceDocument.getDocumentNumber(), result.getDocumentNumber());
     }
 
@@ -174,6 +202,7 @@ public class OLEInvoiceController_IT extends KualiTestBase {
      */
     public OleInvoiceDocument buildSimpleInvoiceDocument() throws Exception {
         return OLEInvoiceDocumentFixture.BASIC_ONLY_REQ_FIELDS_FOR_INVOICE.createInvoiceDocument(olePurchaseOrderDocument.getPurapDocumentIdentifier().toString());
+        //return OLEInvoiceDocumentFixture.BASIC_ONLY_REQ_FIELDS_FOR_INVOICE.createInvoiceDocument("1319");
     }
 
     private class MockOleInvoiceController extends OLEInvoiceController {

@@ -3,6 +3,7 @@ package org.kuali.ole.ingest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.deliver.constant.OLEPatronConstant;
@@ -41,7 +42,7 @@ import static junit.framework.Assert.assertTrue;
  * To change this template use File | Settings | File Templates.
  */
 
-public class OlePatronRecordController_IT extends SpringBaseTestCase{
+public class OlePatronRecordController_IT extends KFSTestCaseBase{
 
     @Mock
     private OlePatronRecordForm mockUifFormBase;

@@ -25,6 +25,7 @@ import org.kuali.ole.deliver.defaultload.LoadDefaultLicensesBean;
 import org.kuali.ole.deliver.defaultload.LoadDefaultPatronsBean;
 import org.kuali.ole.ingest.LoadDefaultIngestProfileBean;
 import org.kuali.ole.select.document.service.OLEEncumberOpenRecurringOrdersService;
+import org.kuali.ole.select.document.service.OLEPurchaseOrderBatchService;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.web.listener.KualiInitializeListener;
@@ -54,8 +55,12 @@ public class OLEInitializeListener extends KualiInitializeListener {
         SpringContext.initMonitoringThread();
         SpringContext.initScheduler();
 
+        //TODO: Why is this being done here? This needs to be handled in the appropriate rollover/poba logic.
         OLEEncumberOpenRecurringOrdersService encumberOpenRecurringOrdersService =  SpringContext.getBean(OLEEncumberOpenRecurringOrdersService.class);
         encumberOpenRecurringOrdersService.createRolloverDirectory();
+        OLEPurchaseOrderBatchService olePurchaseOrderBatchService = (OLEPurchaseOrderBatchService)SpringContext.getService("olePurchaseOrderBatchService");
+        olePurchaseOrderBatchService.createPOBADirectory();
+
         DocumentServiceImpl documentService = (DocumentServiceImpl) SpringContext.getBean("documentService");
         documentService.setDocumentDao((DocumentDao) SpringContext.getBean("documentDao"));
         //documentService.setWorkflowDocumentService((WorkflowDocumentService)SpringContext.getBean("workflowDocumentService"));

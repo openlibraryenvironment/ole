@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.bo.OlePatronIngestSummaryRecord;
@@ -34,10 +35,10 @@ import static junit.framework.Assert.*;
  * Time: 12:39 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OlePatronConverterService_IT extends SpringBaseTestCase {
+public class OlePatronConverterService_IT extends KFSTestCaseBase {
     private OlePatronConverterService olePatronConverterService;
 
-    @Autowired
+    //@Autowired
     private ApplicationContext applicationContext;
 
     @Before

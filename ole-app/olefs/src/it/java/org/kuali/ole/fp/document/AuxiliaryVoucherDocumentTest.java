@@ -28,6 +28,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +89,7 @@ public class AuxiliaryVoucherDocumentTest extends KFSTestCaseBase {
 
     @Test
     public final void testAddAccountingLine() throws Exception {
+        GlobalVariables.getMessageMap().clearErrorMessages();
         List<SourceAccountingLine> sourceLines = generateSouceAccountingLines();
         List<TargetAccountingLine> targetLines = new ArrayList<TargetAccountingLine>();
         int expectedSourceTotal = sourceLines.size();
@@ -97,31 +99,37 @@ public class AuxiliaryVoucherDocumentTest extends KFSTestCaseBase {
 
     @Test
     public final void testGetNewDocument() throws Exception {
+        GlobalVariables.getMessageMap().clearErrorMessages();
         testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, SpringContext.getBean(DocumentService.class));
     }
 
     @Test
     public final void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
+        GlobalVariables.getMessageMap().clearErrorMessages();
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
     @Test
     public final void testConvertIntoErrorCorrection_errorCorrectionDisallowed() throws Exception {
+        GlobalVariables.getMessageMap().clearErrorMessages();
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
     }
 
     @Test
     public final void testRouteDocument() throws Exception {
+        GlobalVariables.getMessageMap().clearErrorMessages();
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
 
     @Test
     public void testSaveDocument() throws Exception {
+        GlobalVariables.getMessageMap().clearErrorMessages();
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
 
     @Test
     public void testConvertIntoCopy() throws Exception {
+        GlobalVariables.getMessageMap().clearErrorMessages();
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }
 

@@ -25,8 +25,10 @@ import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.fp.document.TransferOfFundsDocument;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.AccountingDocument;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,7 @@ public class ObjectCodeGlobalDetailTest extends KFSTestCaseBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        GlobalVariables.setUserSession(new UserSession("dev2"));
         document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), TransferOfFundsDocument.class);
         SpringContext.getBean(DocumentService.class).saveDocument(document);
         changeCurrentUser(UserNameFixture.khuntley);
@@ -44,6 +47,7 @@ public class ObjectCodeGlobalDetailTest extends KFSTestCaseBase {
 
     @Test
     public void testSave() {
+        GlobalVariables.setUserSession(new UserSession("dev2"));
         ObjectCodeGlobalDetail detail = new ObjectCodeGlobalDetail();
         ObjectCodeGlobal doc = new ObjectCodeGlobal();
 

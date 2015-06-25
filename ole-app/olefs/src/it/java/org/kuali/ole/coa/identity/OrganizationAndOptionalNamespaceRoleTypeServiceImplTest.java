@@ -19,7 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.context.SpringContext;
@@ -32,7 +34,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import static junit.framework.Assert.assertEquals;
 
-public class OrganizationAndOptionalNamespaceRoleTypeServiceImplTest extends KualiTestBase {
+public class OrganizationAndOptionalNamespaceRoleTypeServiceImplTest extends KFSTestCaseBase {
 
     protected static final String USER = "ole-khuntley";
     protected static final String USER_COA_CHART = "BL";
@@ -62,14 +64,6 @@ public class OrganizationAndOptionalNamespaceRoleTypeServiceImplTest extends Kua
     public void setUp() throws Exception {
         super.setUp();
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
-    }
-
-    /**
-     * TODO: Remove once other tests are fixed
-     */
-    @Test
-    public void testNothing() {
-
     }
 
     /**

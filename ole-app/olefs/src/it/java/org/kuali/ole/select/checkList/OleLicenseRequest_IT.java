@@ -2,6 +2,7 @@ package org.kuali.ole.select.checkList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.rice.kim.impl.role.RoleBo;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
@@ -27,7 +28,7 @@ import static junit.framework.Assert.assertNotNull;
  * To change this template use File | Settings | File Templates.
  */
 @Transactional
-public class OleLicenseRequest_IT extends SpringBaseTestCase {
+public class OleLicenseRequest_IT extends KFSTestCaseBase {
 
     @Test
     @Transactional

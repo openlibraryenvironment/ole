@@ -901,6 +901,7 @@ public class PurapConstants {
         public static final String NODE_VENDOR_TAX_REVIEW = "Tax";
         public static final String NODE_BUDGET_OFFICE_REVIEW = "Budget";
         public static final String NODE_PAYMENT_OFFICE_REVIEW = "Payment";
+        public static final String NODE_PAYMENT_RECEIVING = "Receiving";
 
         // keep these in the order of potential routing
         // Note it doesn't make much sense to compare auto_approved and dept_approved but this is
@@ -1053,7 +1054,7 @@ public class PurapConstants {
             appDocStatusMap.put(NODE_VENDOR_TAX_REVIEW, InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
             appDocStatusMap.put(InvoiceStatuses.NODE_BUDGET_OFFICE_REVIEW, InvoiceStatuses.APPDOC_DAPRVD_BUDGET);
             appDocStatusMap.put(InvoiceStatuses.NODE_PAYMENT_OFFICE_REVIEW, InvoiceStatuses.APPDOC_DAPRVD_PAYMENT);
-
+            appDocStatusMap.put(InvoiceStatuses.NODE_PAYMENT_RECEIVING,  InvoiceStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
 
             return appDocStatusMap;
 

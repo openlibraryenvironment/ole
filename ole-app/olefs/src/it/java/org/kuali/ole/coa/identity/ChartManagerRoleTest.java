@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
 import org.kuali.ole.coa.service.ChartService;
 import org.kuali.ole.sys.OLEConstants;
@@ -32,12 +33,13 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
-public class ChartManagerRoleTest extends KualiTestBase {
+public class ChartManagerRoleTest extends KFSTestCaseBase {
 
 
     @Test
@@ -49,6 +51,7 @@ public class ChartManagerRoleTest extends KualiTestBase {
 
         for ( String chart : SpringContext.getBean(ChartService.class).getAllChartCodes() ) {
 
+            GlobalVariables.getMessageMap().getErrorMessages().clear();
             qualification.put(OleKimAttributes.CHART_OF_ACCOUNTS_CODE, chart);
 
 //            System.out.println( chart );
@@ -56,7 +59,7 @@ public class ChartManagerRoleTest extends KualiTestBase {
             Collection<RoleMembership> chartManagers = rms.getRoleMembers(roleIds, qualification);
 //            System.out.println( chartManagers );
 
-            assertEquals( "There should be only one chart manager per chart: " + chart, 1, chartManagers.size() );
+            assertEquals( "There should be only one chart manager per chart: " + chart, 1, chartManagers.size());
 
             for ( RoleMembership rmi : chartManagers ) {
                 Person chartManager = SpringContext.getBean(PersonService.class).getPerson( rmi.getMemberId() );

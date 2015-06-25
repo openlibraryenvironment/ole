@@ -4,6 +4,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +34,10 @@ public class BibRecord extends PersistableBusinessObjectBase
     private String updatedBy;
     private String statusUpdatedBy;
     private List<HoldingsRecord> holdingsRecords;
+    private BibInfoRecord bibInfoRecord;
+
+
+
 
   /*  public byte[] getBinaryContent() {
         return binaryContent;
@@ -169,10 +174,21 @@ public class BibRecord extends PersistableBusinessObjectBase
     }
 
     public List<HoldingsRecord> getHoldingsRecords() {
+        if(holdingsRecords == null){
+            holdingsRecords = new ArrayList<>();
+        }
         return holdingsRecords;
     }
 
     public void setHoldingsRecords(List<HoldingsRecord> holdingsRecords) {
         this.holdingsRecords = holdingsRecords;
+    }
+
+    public BibInfoRecord getBibInfoRecord() {
+        return bibInfoRecord;
+    }
+
+    public void setBibInfoRecord(BibInfoRecord bibInfoRecord) {
+        this.bibInfoRecord = bibInfoRecord;
     }
 }

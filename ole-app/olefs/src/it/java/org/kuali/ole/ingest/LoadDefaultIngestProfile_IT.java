@@ -3,6 +3,7 @@ package org.kuali.ole.ingest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -29,7 +30,7 @@ import static junit.framework.Assert.assertTrue;
  * To change this template use File | Settings | File Templates.
  */
 @Transactional
-public class LoadDefaultIngestProfile_IT extends SpringBaseTestCase {
+public class LoadDefaultIngestProfile_IT extends KFSTestCaseBase {
     protected LoadDefaultIngestProfileBean loadDefaultIngestProfileBean;
     private BusinessObjectService businessObjectService;
 

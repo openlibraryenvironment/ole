@@ -21,6 +21,7 @@ import static org.kuali.ole.KualiTestAssertionUtils.assertGlobalMessageMapSize;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.coa.businessobject.A21SubAccount;
 import org.kuali.ole.coa.businessobject.SubAccount;
 import org.kuali.ole.coa.document.validation.impl.SubAccountRule;
@@ -30,7 +31,7 @@ import org.kuali.ole.sys.OLEKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class SubAccountRuleTest extends ChartRuleTestBase {
+public class SubAccountRuleTest extends KFSTestCaseBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountRuleTest.class);
 
@@ -106,6 +107,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         SubAccountRule rule = new SubAccountRule();
 
         // setup rule, document, and bo
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         newSubAccount = newSubAccount(null, null, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
@@ -123,6 +125,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         SubAccountRule rule = new SubAccountRule();
 
         // setup rule, document, and bo
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         newSubAccount = newSubAccount(GOOD_CHART, null, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
@@ -140,6 +143,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         SubAccountRule rule = new SubAccountRule();
 
         // setup rule, document, and bo
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         newSubAccount = newSubAccount(null, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
@@ -157,6 +161,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         SubAccountRule rule = new SubAccountRule();
 
         // setup rule, document, and bo
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
         newSubAccount = newSubAccount(GOOD_CHART, GOOD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
@@ -188,6 +193,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testCheckForPartiallyEnteredReportingFields_notAllFinReportCodesEntered() {
+        GlobalVariables.getMessageMap().clearErrorMessages();
 
         // setup rule, document, and bo
         newSubAccount = newSubAccount(null, null, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, "UA", null, null);
@@ -217,6 +223,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testCheckCgRules_badFundGroup() {
+        GlobalVariables.getMessageMap().clearErrorMessages();
         SubAccountRule rule = new SubAccountRule();
         // setup rule, document, and bo
         newSubAccount = SubAccountFixture.SUB_ACCOUNT_WITH_BAD_CG_FUND_GROUP.createSubAccount();
@@ -233,6 +240,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
 
     @Test
     public void testCheckCgRules_badA21SubAccountAccountType() throws Exception {
+        GlobalVariables.getMessageMap().clearErrorMessages();
         SubAccountRule rule = new SubAccountRule();
         // setup rule, document, and bo
         newSubAccount = SubAccountFixture.A21_SUB_ACCOUNT_WITH_BAD_CG_ACCOUNT_TYPE.createSubAccount();

@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.deliver.api.EntityHelper;
 import org.kuali.ole.deliver.api.OleLoanDefintionHelper;
@@ -49,7 +50,7 @@ import static junit.framework.Assert.*;
  * To change this template use File | Settings | File Templates.
  */
 
-public class OleLoanDocument_IT extends SpringBaseTestCase{
+public class OleLoanDocument_IT extends KFSTestCaseBase{
 
     private OlePatronService olePatronService;
     private OleLoanDefintionHelper oleLoanDefintionHelper;
@@ -88,6 +89,9 @@ public class OleLoanDocument_IT extends SpringBaseTestCase{
         return responseFromDocstore;
     }
     // To-do, Need to be modified this IT based on current loan and return functionality
+
+
+
 
     @Test
     @Transactional

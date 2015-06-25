@@ -2268,14 +2268,16 @@ public class LoanController extends UifControllerBase {
         for (int i = 0; i < existingItemList.size(); i++) {
             OleLoanDocument loanDocument = existingItemList.get(i);
             if (loanDocument.getItemId()!=null && loanDocument.getItemId().equals(oleLoanForm.getItem())) {
+                OleLoanDocument  oleLoanDocumentInDb = getLoanProcessor().getLoanDocumentsUsingItemIdAndPatronId(loanDocument.getItemUuid(),oleLoanForm.getPatronId());
                 if(loanDocument.getLoanId()==null){
-                    oleLoanDocument = getLoanProcessor().getLoanDocumentsUsingItemIdAndPatronId(loanDocument.getItemUuid(),oleLoanForm.getPatronId());
+                 oleLoanDocument = oleLoanDocumentInDb;
                     oleLoanDocument.setClaimsReturnNote(loanDocument.getClaimsReturnNote());
                     oleLoanDocument.setClaimsReturnedIndicator(loanDocument.isClaimsReturnedIndicator());
                     oleLoanDocument.setClaimsReturnedDate(loanDocument.getClaimsReturnedDate());
                     oleLoanDocument.setBibUuid(loanDocument.getBibUuid());
                 }else{
                     oleLoanDocument = loanDocument;
+                    oleLoanDocument.setVersionNumber(oleLoanDocumentInDb.getVersionNumber());
                 }
                 oleLoanDocument.setOleItem(loanDocument.getOleItem());
                 oleLoanDocument.setRenewalItemFlag(true);

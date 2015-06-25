@@ -76,8 +76,8 @@
         <property name="triggerNames">
             <list>
                 <!--<value>purchasingPreDisbursementImmediatesExtractJobTrigger</value>-->
-                <value>electronicInvoiceExtractJobTrigger</value>
-                <value>faxPendingDocumentTrigger</value>
+                <!--<value>electronicInvoiceExtractJobTrigger</value>-->
+                <!--<value>faxPendingDocumentTrigger</value>-->
             </list>
         </property>
         <property name="externalizableBusinessObjectImplementations">

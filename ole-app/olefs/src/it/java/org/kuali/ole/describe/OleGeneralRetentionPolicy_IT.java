@@ -2,6 +2,7 @@ package org.kuali.ole.describe;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.SpringBaseTestCase;
 import org.kuali.ole.describe.bo.OleGeneralRetentionPolicy;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -25,7 +26,7 @@ import static junit.framework.Assert.assertEquals;
  */
 
 
-public class OleGeneralRetentionPolicy_IT extends SpringBaseTestCase {
+public class OleGeneralRetentionPolicy_IT extends KFSTestCaseBase {
     private BusinessObjectService boService;
 
     @Test

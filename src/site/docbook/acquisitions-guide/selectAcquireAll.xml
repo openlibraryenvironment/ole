@@ -16730,7 +16730,7 @@
                     understand their purpose and content. </para>
                 <note>
                     <para>For more information about performing DocStore searches, see <link
-                            linkend="_Describe_Workbench">Search Workbench</link>under <emphasis
+                            linkend="_Describe_Workbench">Search Workbench</link> under <emphasis
                             role="italic">OLE Basic Functionality</emphasis>.</para>
                     <para>For more information about the <link linkend="_Editor">OLE MARC
                             Editor</link>, see the section under the <emphasis>Describe and
@@ -16830,6 +16830,11 @@
                                                 fileref="../images/DeliverNoTitlePage-164.png"/>
                                         </imageobject>
                                     </inlinemediaobject>.</para>
+                                <important>
+                                    <para>The Serial Receiving Record Search will only search for
+                                        bibliographic records with at least one attached holdings
+                                        record.</para>
+                                </important>
                             </listitem>
                             <listitem>
                                 <para>From the results list, click <emphasis role="bold"
@@ -18722,7 +18727,7 @@
             </section>
             <section>
                 <title>Implementation Information</title>
-                <para>The parameter GLPE_GENERATE_TRANSFER_IND is set to “Y” by default.  It was
+                <para>The parameter GLPE_GENERATE_TRANSFER_IND is set to “Y” by default. It was
                     discovered that institutions should set this parameter to “N” in order for any
                     Budget Adjustments that transfer money between Accounts to be properly entered
                     into the gl_entry_t table.</para>
@@ -29342,12 +29347,20 @@
         <section>
             <title><anchor xml:id="_fiscalYearRollover"/>Fiscal Year Rollover (Year End
                 Processes)</title>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/FYMakerJobTechDoc.pdf">here</link> for technical
+                    documentation.</para>
+                <para>Available here is a downloadable checklist of the steps detailed below: <link
+                        xlink:href="../../../pdfs/rolloverChecklist.pdf">Rollover
+                    Checklist</link>.</para>
+            </note>
             <para>OLE uses KFS code for Purchasing and Accounts Payable (PURAP), the General Ledger
                 (GL), Chart of Accounts (COA), and Financial Processing (FP) modules with some
                 modifications. OLE repurposed the Pre Disbursement Processing (PDP) code used by KFS
                 for payment disbursements. With OLE, the PDP is only used to extract data from
                 approved invoices and credit memos to send in a feed to an institution’s financial
-                system (KFS or another institutional financial systems such a Banner, PeopleSoft). </para>
+                system (sometimes KFS, but more often something else). </para>
             <para>For OLE’s use, the KFS Fiscal Year (FY) process has been adapted to: </para>
             <orderedlist>
                 <listitem>
@@ -29355,7 +29368,7 @@
                 </listitem>
                 <listitem>
                     <para>Roll open encumbrances from the current fiscal year to the new fiscal
-                        year, date set by library </para>
+                        year, with the date set by the library </para>
                 </listitem>
                 <listitem>
                     <para>Stop activity in the old year, with a date set by library</para>
@@ -29383,13 +29396,15 @@
             <itemizedlist>
                 <listitem>
                     <para>Allocate money in the new fiscal year based on the current fiscal year’s
-                        allocations (The assumption is that each library will set their allocation
-                        levels offline, and then load the final figures in via a Budget Adjustment
-                        document.) </para>
+                        allocations </para>
                 </listitem>
                 <listitem>
-                    <para>Manage a 13th month which is handled by the university financial system
-                    </para>
+                    <para>The assumption is that each library will set their allocation levels
+                        offline, and then load the final figures in via a Budget Adjustment
+                        document. </para>
+                </listitem>
+                <listitem>
+                    <para>Manage a 13th month, which is handled by the university financial system </para>
                 </listitem>
                 <listitem>
                     <para> Produce financial statements as libraries need only a snapshot of orders
@@ -29397,9 +29412,10 @@
                 </listitem>
             </itemizedlist>
             <para role="TableHeading"><emphasis role="bold">Jobs inherited from KFS for FY Rollover
-                    (See <link
+                    (See the <link
                         xlink:href="https://docs.google.com/a/kuali.org/spreadsheet/ccc?key=0AuCs4Q8X_DXJdHhqelc1Skwya2JpckpfYzY4bHVnQ2c&amp;usp=drive_web#gid=0"
-                        >Batch Job Description</link> for further description details)</emphasis>
+                        >Batch Job Description</link> document for further description
+                    details)</emphasis>
             </para>
             <informaltable frame="topbot">
                 <tgroup cols="2">
@@ -29547,25 +29563,26 @@
                 <itemizedlist>
                     <listitem>
                         <para>CURRENT_AND_LAST_YEAR</para>
+                        <para>Its function is to control some data on poster report – set it only
+                            once for the initial OLE setup. </para>
                     </listitem>
                 </itemizedlist>
-                <para>Its function is to control some data on poster report – set it only once for
-                    the initial OLE setup. </para>
                 <para>Populate these parameters: </para>
                 <itemizedlist>
                     <listitem>
-                        <para>NET_EXPENSE_OBJECT_CODE</para>
+                        <para> NET_EXPENSE_OBJECT_CODE </para>
                     </listitem>
                     <listitem>
                         <para>NET_REVENUE_OBJECT_CODE</para>
+                        <para>Each parameter should have one object code that will be used during
+                            rollover. They can either be object codes you use during regular
+                            processing or special ones you define specifically for rollover. If the
+                            latter, leave them inactive for most of the year and only activate them
+                            during the rollover process. </para>
+                        <para>The Expense Object Code must have an object code type of EX or ES. </para>
+                        <para>The Revenue Object Code must have an object code type of AS, CH or IN. </para>
                     </listitem>
                 </itemizedlist>
-                <para>Each parameter should have one object code that will be used during rollover.
-                    They can either be object codes you use during regular processing or special
-                    ones you define specifically for rollover. If the latter, leave them inactive
-                    for most of the year and only activate them during the rollover process. </para>
-                <para>The Expense Object Code must have an object code type of EX or ES. </para>
-                <para>The Revenue Object Code must have an object code type of AS, CH or IN. </para>
                 <para>Populate these parameters: </para>
                 <itemizedlist>
                     <listitem>
@@ -29576,11 +29593,11 @@
                     </listitem>
                     <listitem>
                         <para>OFFSET_OBJECT_CODE_FOR_PRE_ENCUMBRANCE</para>
+                        <para>Each parameter should have one object code of type=FB. You may want to
+                            create special object codes for these parameters (that is, codes you do
+                            not use for other purposes). </para>
                     </listitem>
                 </itemizedlist>
-                <para>Each parameter should have one object code of type=FB. You may want to create
-                    special object codes for these parameters (that is, codes you do not use for
-                    other purposes). </para>
                 <para>Populate the “object code” fields on each Chart document. </para>
                 <note>
                     <para>For additional information about the Chart document, see <link
@@ -29602,12 +29619,13 @@
                     </listitem>
                     <listitem>
                         <para>REENCUMBER_RECURRING_TO_DATE -- with a date far in the future</para>
+                        <para>The REENCUMBER_RECURRING_ORDERS job can produce a large data file, and
+                            running the whole job at once may impact system performance for some
+                            sites. These parameters allow you to break the job into chunks. However,
+                            if you do not set them to something by default, the job will
+                            fail.</para>
                     </listitem>
                 </itemizedlist>
-                <para>The REENCUMBER_RECURRING_ORDERS job can produce a large data file, and running
-                    the whole job at once may impact system performance for some sites. These
-                    parameters allow you to break the job into chunks.  However, if you do not set
-                    them to something by default, the job will fail.</para>
                 <para><emphasis role="bold">Optional Settings:</emphasis></para>
                 <para>Supply entry description text, if desired, in this parameter:</para>
                 <itemizedlist>
@@ -29616,10 +29634,10 @@
                     </listitem>
                     <listitem>
                         <para> GENERATED_TRANSACTION_LEDGER_ENTRY_DESCRIPTION </para>
+                        <para>The text will be added to ledger entries created by the encumbrance
+                            closing process. </para>
                     </listitem>
                 </itemizedlist>
-                <para>The text will be added to ledger entries created by the encumbrance closing
-                    process. </para>
                 <para>Set these balance types parameters to control what types of balances, if any,
                     roll forward:</para>
                 <itemizedlist>
@@ -29628,11 +29646,11 @@
                     </listitem>
                     <listitem>
                         <para>BALANCE_TYPES_TO_ROLL_FORWARD_FOR_INCOME_EXPENSE</para>
+                        <para>Since many OLE libraries will not be rolling balances forward, only
+                            encumbrances, and also will not be running the “balanceForward” job,
+                            these parameters are moot for them. </para>
                     </listitem>
                 </itemizedlist>
-                <para>Since many OLE libraries will not be rolling balances forward, only
-                    encumbrances, and also will not be running the “balanceForward” job, these
-                    parameters are moot for them. </para>
                 <para>Set one or both of these forward encumbrance parameters if you want to control
                     which types of encumbrances roll forward: </para>
                 <itemizedlist>
@@ -29641,10 +29659,10 @@
                     </listitem>
                     <listitem>
                         <para>FORWARDING_ENCUMBRANCE_BALANCE_TYPES</para>
+                        <para>If you do not need to exclude specific types of encumbrances from
+                            rolling over, you can leave these parameters blank. </para>
                     </listitem>
                 </itemizedlist>
-                <para>If you do not need to exclude specific types of encumbrances from rolling
-                    over, you can leave these parameters blank. </para>
                 <para><emphasis role="bold">Required Step:</emphasis>
                 </para>
                 <para>Check that these parameters are active: </para>
@@ -29675,41 +29693,41 @@
                     </listitem>
                     <listitem>
                         <para>SOURCE_FISCAL_YEAR</para>
+                        <para>They control fiscal years covered by later jobs.</para>
                     </listitem>
                 </itemizedlist>
-                <para>They control fiscal years covered by later jobs.</para>
                 <para><emphasis role="bold">Optional Settings:</emphasis></para>
                 <para>Set this parameter if desired:</para>
                 <itemizedlist>
                     <listitem>
                         <para>OVERRIDE_TARGET_YEAR_DATA_IND </para>
+                        <para>The parameter controls which mode the “FiscalYearMaker” batch process
+                            runs.</para>
+                        <para>Setting options: </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>N=copies values to the new fiscal year without overwriting any
+                                    values that already exist in the new year</para>
+                            </listitem>
+                            <listitem>
+                                <para>Y=copies values to the new fiscal year and overwrites any
+                                    values that already exist in the new year.</para>
+                            </listitem>
+                        </itemizedlist>
+                        <para>This setting may not affect OLE sites, since you will not have data in
+                            your new fiscal year until after rollover. But it could be important if
+                            you have to run “FiscalYearMaker” more than once (for instance, to add a
+                            new account to the new fiscal year).</para>
                     </listitem>
                 </itemizedlist>
-                <para>The parameter controls which mode the “FiscalYearMaker” batch process
-                    runs.</para>
-                <para>Setting options: </para>
-                <itemizedlist>
-                    <listitem>
-                        <para>N=copies values to the new fiscal year without overwriting any values
-                            that already exist in the new year</para>
-                    </listitem>
-                    <listitem>
-                        <para>Y=copies values to the new fiscal year and overwrites any values that
-                            already exist in the new year.</para>
-                    </listitem>
-                </itemizedlist>
-                <para>This setting may not affect OLE sites, since you will not have data in your
-                    new fiscal year until after rollover. But could be important if you have to run
-                    “FiscalYearMaker” more than once (for instance, to add a new account to the new
-                    fiscal year).</para>
                 <para>Set this parameter:</para>
                 <itemizedlist>
                     <listitem>
                         <para>ALLOW_ENCUMBER_NEXT_YEAR_DAYS</para>
+                        <para>This parameter allows you to start encumbering in the new fiscal year
+                            before rolling over.</para>
                     </listitem>
                 </itemizedlist>
-                <para>This parameter allows you to start encumbering in the new fiscal year before
-                    rolling over.</para>
                 <para><emphasis role="bold">Required Steps:</emphasis></para>
                 <para>Activate the object codes in the following two parameters ( if they are not
                     already active):</para>
@@ -29743,22 +29761,23 @@
                     </listitem>
                     <listitem>
                         <para>RUN_DATE</para>
+                        <para>The values for both parameters will be the date you are running
+                            rollover.</para>
                     </listitem>
                 </itemizedlist>
-                <para>The values will be the date you are running rollover.</para>
                 <para><emphasis role="bold">Optional Settings:</emphasis></para>
                 <para>Set this parameter:</para>
                 <itemizedlist>
                     <listitem>
                         <para>RECORD_COUNT_FUNCTIONALITY_LIMIT </para>
+                        <para>This parameter is needed if you intend to manually edit the rollover
+                            data via the General Ledger Correction Process (GLCP) document. This
+                            parameter sets the maximum number of lines the GLCP document will
+                            display. All lines over the minimum set in the parameter will roll over,
+                            but the additional lines cannot be edited within the document. (The
+                            limit prevents the document size from becoming unmanageable.)</para>
                     </listitem>
                 </itemizedlist>
-                <para>This parameter is needed if you intend to manually edit the rollover data via
-                    the General Ledger Correction Process (GLCP) document. This parameter sets the
-                    maximum number of lines the GLCP document will display. All lines over the
-                    minimum set in the parameter will roll over, but the additional lines cannot be
-                    edited within the document. (The limit prevents the document size from becoming
-                    unmanageable.)</para>
                 <para>Set these parameters:</para>
                 <itemizedlist>
                     <listitem>
@@ -29766,44 +29785,45 @@
                     </listitem>
                     <listitem>
                         <para>CURRENT_YEAR_LOWER</para>
+                        <para>Set these parameters if you want the GL summary report to include data
+                            from both the old and new fiscal years. Setting this parameter is only
+                            necessary if you expect to be working simultaneously in both fiscal
+                            years for a period of time.</para>
                     </listitem>
                 </itemizedlist>
-                <para>Set these parameters if you want the GL summary report to include data from
-                    both the old and new fiscal years. Setting this parameter is only necessary if
-                    you expect to be working simultaneously in both fiscal years for a period of
-                    time.</para>
                 <para>Set this parameter:</para>
                 <itemizedlist>
                     <listitem>
                         <para> REENCUMBER_RECURRING_ORDERS </para>
-                    </listitem>
-                </itemizedlist>
-                <para>Set this parameter if you want recurring orders (such as on-going serials)
-                    re-encumbered in the new fiscal year. This only affects orders that have been
-                    unencumbered in the current fiscal year (because they were paid for). Recurring
-                    orders that already have an encumbrance are covered by the “encumbranceForward”
-                    job step.</para>
-                <para>If this job takes a long time to complete, or slows the system down, you can
-                    limit it by using the REENCUMBER_RECURRING_FROM_DATE and
-                    REENCUMBER_RECURRING_TO_DATE parameters. You would then need to run the job
-                    multiple times, once for each time period defined by the parameters.</para>
-                <para>The
-                    parameter can be set to calculate the new encumbrance based on either the
-                    original price on the PO, or the amount invoiced during the current fiscal year,
-                    plus or minus a dollar amount or a percentage.</para>
-                <para>Examples:</para>
-                <itemizedlist>
-                    <listitem>
-                        <para>PO, + 3 %</para>
-                    </listitem>
-                    <listitem>
-                        <para>PO, + 5 $</para>
-                    </listitem>
-                    <listitem>
-                        <para>Invoice, + 2 %</para>
-                    </listitem>
-                    <listitem>
-                        <para>Invoice, + 10 $</para>
+                        <para>Set this parameter if you want recurring orders (such as on-going
+                            serials) re-encumbered in the new fiscal year. This only affects orders
+                            that have been unencumbered in the current fiscal year (because they
+                            were paid for). Recurring orders that already have an encumbrance are
+                            covered by the “encumbranceForward” job step.</para>
+                        <para>If this job takes a long time to complete, or slows the system down,
+                            you can limit it by using the REENCUMBER_RECURRING_FROM_DATE and
+                            REENCUMBER_RECURRING_TO_DATE parameters. You would then need to run the
+                            job multiple times, once for each time period defined by the
+                            parameters.</para>
+                        <para>The parameter can be set to calculate the new encumbrance based on
+                            either the original price on the PO, or the amount invoiced during the
+                            current fiscal year, plus or minus a dollar amount or a
+                            percentage.</para>
+                        <para>Examples:</para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>PO, + 3 %</para>
+                            </listitem>
+                            <listitem>
+                                <para>PO, + 5 $</para>
+                            </listitem>
+                            <listitem>
+                                <para>Invoice, + 2 %</para>
+                            </listitem>
+                            <listitem>
+                                <para>Invoice, + 10 $</para>
+                            </listitem>
+                        </itemizedlist>
                     </listitem>
                 </itemizedlist>
                 <para><emphasis role="bold">Optional Steps:</emphasis></para>
@@ -29812,89 +29832,95 @@
                 <itemizedlist>
                     <listitem>
                         <para>modulesLockJob</para>
+                        <para>Staff will still be able to do lookups, but will not be able to
+                            initiate documents. </para>
+                        <warning>
+                            <para>It appears to be possible to approve existing documents while the
+                                modules are locked. But the documents may not be able to perform all
+                                their functions once approved. If you approve an invoice, for
+                                instance, while the modules are locked, it will be unable to create
+                                corresponding payment request documents. Warn staff not to approve
+                                saved documents during rollover.</para>
+                        </warning>
                     </listitem>
                 </itemizedlist>
-                <para>Staff will still be able to do lookups, but will not be able to initiate
-                    documents. </para>
-                <warning>
-                    <para>It appears to be possible to approve existing documents while the modules
-                        are locked. But the documents may not be able to perform all their functions
-                        once approved. If you approve an invoice, for instance, while the modules
-                        are locked, it will be unable to create corresponding payment request
-                        documents. Warn staff not to approve saved documents during rollover.</para>
-                </warning>
                 <para>If you want to auto-disapprove documents that are currently enroute, run this
                     job: </para>
                 <itemizedlist>
                     <listitem>
                         <para>autoDisapproveJob </para>
-                    </listitem>
-                </itemizedlist>
-                <para>This job disapproves open document types *except* for those listed in the
-                    YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES parameter </para>
-                <para>This job is optional. If documents are not disapproved, they will still roll
-                    over to the new fiscal year. </para>
-                <para>Related parameters: </para>
-                <itemizedlist>
-                    <listitem>
-                        <para>YEAR_END_AUTO_DISAPPROVE_DOCUMENT_RUN_DATE -- specifies the date to
-                            run autoDisapproveJob</para>
-                        <note>
-                            <para>The format for this parameter is MM/DD/YYYY, even though the
-                                default value is 6/30/2010</para>
-                        </note>
-                    </listitem>
-                    <listitem>
-                        <para> YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES -- specifies document types
-                            not to be disapproved</para>
-                    </listitem>
-                    <listitem>
-                        <para> YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE -- specifies parent
-                            document types (by name) whose children should be disapproved </para>
-                        <note>
-                            <para>The default value for this parameter is:
-                                OLEFinancialProcessingTransactionalDocument </para>
-                            <para>If you also want invoices to be disapproved, you have to add:
-                                OLEPurchasingAccountsPayableTransactionalDocument as a second
-                                value.</para>
-                        </note>
-                    </listitem>
-                    <listitem>
-                        <para>YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE -- job will only
-                            disapprove documents created on or before this date. This parameter lets
-                            you run the disapprove job without affecting any end-of-year
-                            documents.</para>
-                        <note>
-                            <para>The format for this parameter is MM/DD/YYYY, even though the
-                                default value is 6/30/2010</para>
-                        </note>
-                    </listitem>
-                    <listitem>
-                        <para> YEAR_END_AUTO_DISAPPROVE_ANNOTATION -- provides the text that will be
-                            put in the route log of disapproved documents</para>
+                        <para>This job disapproves open document types *except* for those listed in
+                            the YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES parameter </para>
+                        <para>This job is optional. If documents are not disapproved, they will
+                            still roll over to the new fiscal year. </para>
+                        <para> The operator running this job must be assigned to a role with the
+                            permission “Super User Disapprove Document”. </para>
+                        <para>Related parameters: </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>YEAR_END_AUTO_DISAPPROVE_DOCUMENT_RUN_DATE -- specifies the
+                                    date to run autoDisapproveJob</para>
+                                <note>
+                                    <para>The format for this parameter is MM/DD/YYYY, even though
+                                        the default value is 6/30/2010</para>
+                                </note>
+                            </listitem>
+                            <listitem>
+                                <para> YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES -- specifies document
+                                    types not to be disapproved</para>
+                            </listitem>
+                            <listitem>
+                                <para> YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE -- specifies
+                                    parent document types (by name) whose children should be
+                                    disapproved </para>
+                                <note>
+                                    <para>The default value for this parameter is:
+                                        OLEFinancialProcessingTransactionalDocument </para>
+                                    <para>If you also want invoices to be disapproved, you have to
+                                        add: OLEPurchasingAccountsPayableTransactionalDocument as a
+                                        second value.</para>
+                                </note>
+                            </listitem>
+                            <listitem>
+                                <para>YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE -- job will only
+                                    disapprove documents created on or before this date. This
+                                    parameter lets you run the disapprove job without affecting any
+                                    end-of-year documents.</para>
+                                <note>
+                                    <para>The format for this parameter is MM/DD/YYYY, even though
+                                        the default value is 6/30/2010</para>
+                                </note>
+                            </listitem>
+                            <listitem>
+                                <para> YEAR_END_AUTO_DISAPPROVE_ANNOTATION -- provides the text that
+                                    will be put in the route log of disapproved documents</para>
+                            </listitem>
+                        </itemizedlist>
                     </listitem>
                 </itemizedlist>
                 <para> Set this parameter if desired: </para>
                 <itemizedlist>
                     <listitem>
                         <para>SUB_FUND_GROUPS_FOR_INCEPTION_TO_DATE_REPORTING </para>
+                        <para>This parameter allows you to define accounts that you want to carry
+                            all their balances forward each year (including income and expense).
+                            Accounts in the sub-fund groups designated here will carry forward any
+                            income and expense values into the new fiscal year. This happens for as
+                            long as the account is active. </para>
+                        <para>This is really designed for accounts that reflect projects or
+                            activities that for whatever reason do not necessarily conform to the
+                            standard fiscal year. (For example, grants with an unusual grant
+                            year)</para>
                     </listitem>
                 </itemizedlist>
-                <para>This parameter allows you to define accounts that you want to carry all their
-                    balances forward each year (including income and expense). Accounts in the
-                    sub-fund groups designated here will carry forward any income and expense values
-                    into the new fiscal year. This happens for as long as the account is active. </para>
-                <para>This is really designed for accounts that reflect projects or activities that
-                    for whatever reason do not necessarily conform to the standard fiscal year. (For
-                    example, grants with an unusual grant year)</para>
                 <para><emphasis role="bold">Required Step:</emphasis></para>
                 <itemizedlist>
                     <listitem>
                         <para>Schedule or run the populatePriorYearDataJob</para>
+                        <para>This creates copies of both active and closed accounts and
+                            organizations, for use by the closing jobs.</para>
                     </listitem>
                 </itemizedlist>
-                <para>This creates copies of both active and closed accounts and organizations, for
-                    use by the closing jobs.</para>
                 <para><emphasis role="bold">Optional Steps:</emphasis></para>
                 <itemizedlist>
                     <listitem>
@@ -29902,77 +29928,71 @@
                     </listitem>
                     <listitem>
                         <para>Schedule or run organizationReversionPriorYearAccountJob</para>
+                        <para>These two jobs are optional. Their purpose is to collect remaining
+                            budgets or cash and centralize them into a designated account. This
+                            would only be useful to sites that are allowed to carry money
+                            over.</para>
                     </listitem>
-                </itemizedlist>
-                <para>These two jobs are optional. Their purpose is to collect remaining budgets or
-                    cash and centralize them into a designated account. This would only be useful to
-                    sites that are allowed to carry money over.</para>
-                <itemizedlist>
                     <listitem>
                         <para>Run reencumberRecurringOrdersJob</para>
+                        <para>This job re-creates the encumbrances for recurring orders that have
+                            been unencumbered (by being paid in the current fiscal year).</para>
+                        <para>This job works by producing an output file. You then load the file
+                            into a General Ledger Correction Process (GLCP) document. When
+                            submitted, the GLCP document should make the changes.</para>
+                        <para>Once Submitted, the GLCP may take minutes to route before becoming
+                            Final. The job itself may take minutes or hours to run in the
+                            background.</para>
                     </listitem>
                 </itemizedlist>
-                <para>This job re-creates the encumbrances for recurring orders that have been
-                    unencumbered (by being paid in the current fiscal year).</para>
-                <para>This job works by producing an output file. You then load the file into a
-                    General Ledger Correction Process (GLCP) document. When submitted, the GLCP
-                    document should make the changes.</para>
-                <para>Once Submitted, the GLCP may take minutes to route before becoming Final. The
-                    job itself may take minutes or hours to run in the background.</para>
                 <para><emphasis role="bold">Required Steps:</emphasis></para>
                 <itemizedlist>
                     <listitem>
                         <para>Run nightlyOutJob, scrubberJob and posterJob, in that order</para>
+                        <para>The encumbranceForwardJob has a dependency on these jobs. All three
+                            run as part of the nightly job schedule. So if you run
+                            encumbranceForwardJob first thing in the morning, you don’t need to run
+                            them manually. But if you run encumbranceForwardJob later in the day,
+                            you should run them manually to catch any transactions done so far that
+                            day.</para>
                     </listitem>
-                </itemizedlist>
-                <para>The encumbranceForwardJob has a dependency on these jobs. All three run as
-                    part of the nightly job schedule. So if you run encumbranceForwardJob first
-                    thing in the morning, you don’t need to run them manually. But if you run
-                    encumbranceForwardJob later in the day, you should run them manually to catch
-                    any transactions done so far that day.</para>
-                <itemizedlist>
                     <listitem>
                         <para>Schedule or run encumbranceForwardJob</para>
+                        <para>This job creates encumbrances for open orders in the new fiscal year.
+                            It does not relieve the encumbrance in the previous fiscal year. Like
+                            the reencumberRecurringOrdersJob above, this job works by producing an
+                            output file. You then load the file into a General Ledger Correction
+                            Process (GLCP) document. When submitted, the GLCP document makes the
+                            changes.</para>
                     </listitem>
-                </itemizedlist>
-                <para>This job creates encumbrances for open orders in the new fiscal year. It does
-                    not relieve the encumbrance in the previous fiscal year. Like the
-                    reencumberRecurringOrdersJob above, this job works by producing an output file.
-                    You then load the file into a General Ledger Correction Process (GLCP) document.
-                    When submitted, the GLCP document makes the changes.</para>
-                <itemizedlist>
                     <listitem>
                         <para>Schedule or run nominalActivityClosingJob</para>
+                        <para>This job likewise produces a file, which you then submit via a GLCP.
+                            It closes the previous fiscal year for editing.</para>
+                        <para>Related parameters:</para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>NET_EXPENSE_OBJECT_CODE</para>
+                            </listitem>
+                            <listitem>
+                                <para>NET_REVENUE_OBJECT_CODE </para>
+                            </listitem>
+                        </itemizedlist>
                     </listitem>
-                </itemizedlist>
-                <para>This job likewise produces a file, which you then submit via a GLCP. It closes
-                    the previous fiscal year for editing.</para>
-                <para>Related parameters:</para>
-                <itemizedlist>
-                    <listitem>
-                        <para>NET_EXPENSE_OBJECT_CODE</para>
-                    </listitem>
-                    <listitem>
-                        <para>NET_REVENUE_OBJECT_CODE </para>
-                    </listitem>
-                </itemizedlist>
-                <para/>
-                <para/>
-                <itemizedlist>
                     <listitem>
                         <para>Schedule or run balanceForwardJob</para>
+                        <para>We believe this job is optional – if you are loading new budget
+                            amounts via a Budget Amendment (BA) document, you may not need any
+                            balances brought forward</para>
+                        <para>Like the previous jobs, it produces a data file, which must be
+                            submitted via a GLCP document</para>
                     </listitem>
                 </itemizedlist>
-                <para>We believe this job is optional – if you are loading new budget amounts via a
-                    Budget Amendment (BA) document, you may not need any balances brought
-                    forward</para>
-                <para>Like the previous jobs, it produces a data file, which must be submitted via a
-                    GLCP document</para>
             </section>
             <section>
                 <title>After Rolling Over</title>
                 <para><emphasis role="bold">Required Setting:</emphasis></para>
-                <para>Set parameter to new fiscal year</para>
+                <para>Set this parameter to the new fiscal year:</para>
                 <itemizedlist>
                     <listitem>
                         <para>FISCAL_YEAR</para>
@@ -29982,9 +30002,10 @@
                 <itemizedlist>
                     <listitem>
                         <para>Run nightlyOutJob, scrubberJob and posterJob again</para>
+                        <para>This ensures the new ledger updates have moved to approved
+                            status.</para>
                     </listitem>
                 </itemizedlist>
-                <para>This ensures the new ledger updates have moved to approved status.</para>
                 <para>Check the results. </para>
                 <para>After rolling over, you should see the following results:</para>
                 <itemizedlist>
@@ -30058,9 +30079,10 @@
                 <itemizedlist>
                     <listitem>
                         <para>PRIOR_YEAR_ACCOUNTS_TO_BE_ADDED</para>
+                        <para>Once the parameter has been updated, run the
+                            addPriorYearAccountsJob.</para>
                     </listitem>
                 </itemizedlist>
-                <para>Once the parameter has been updated, run the addPriorYearAccountsJob.</para>
                 <para>Change this parameter if you want to delete accounting data from your system
                     that is older than x years:</para>
                 <itemizedlist>
@@ -30075,6 +30097,17 @@
                             linkend="_BudgetAdjustment">Budget Adjustment</link> in this
                         chapter.</para>
                 </note>
+                <para>If
+                    you’re rolling over before the last possible date, and want to begin working in
+                    the new year immediately, you must manually change the fiscal years associated
+                    with the remaining University Dates between today and the end of the old
+                    year.</para>
+                <para>Example:</para>
+                <para>Your fiscal year ends June 30th.</para>
+                <para>You run rollover on June 26th, and want to immediately start
+                    ordering and paying in the new year.</para>
+                <para> You must edit the University Date entries for June 26, 27, 28, 29 and 30 to
+                    point to accounting period 01 of the new year. </para>
             </section>
             <section>
                 <title>Rollover Checklist</title>
@@ -37181,7 +37214,7 @@
                         </imageobject>
                     </inlinemediaobject></emphasis></para>
             <para role="Body Text">The Campus document defines basic identifying attributes of a
-                campus-level purchasing unit at your institution.  </para>
+                campus-level purchasing unit at your institution. </para>
             <section>
                 <title>Document Layout</title>
                 <para role="Illustration">
@@ -37363,7 +37396,7 @@
                     listed under "System" on the <emphasis role="bold">Maintenance</emphasis> tab.
                     The Campus Maintenance document is used in the Chart of Accounts in OLE's
                     financial module and also the KIM module. This document, the Campus Parameter,
-                    is only used for purchasing, receiving, and on the Vendor Contract tab.  The
+                    is only used for purchasing, receiving, and on the Vendor Contract tab. The
                     Campus Maintenance document must exist before creating any Campus Parameter
                     documents.</para>
                 <note>
@@ -54674,16 +54707,12 @@
             <section>
                 <title>Sample Chart/Account Codes</title>
                 <informaltable frame="none">
-                    <tgroup cols="4">
-                        <colspec colname="col1" colnum="1"/>
-                        <colspec colname="col2" colnum="2"/>
-                        <colspec colname="col3" colnum="3"/>
-                        <colspec colname="col4" colnum="4"/>
+                    <tgroup cols="3">
+                        <colspec colname="col2" colnum="1"/>
+                        <colspec colname="col3" colnum="2"/>
+                        <colspec colname="col4" colnum="3"/>
                         <tbody>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal"><emphasis role="bold">Type</emphasis></para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal"><emphasis role="bold"
                                         >Chart</emphasis></para>
@@ -54697,9 +54726,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">university acct      </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL </para>
                                 </entry>
@@ -54707,13 +54733,10 @@
                                     <para role="Normal">1047410   </para>
                                 </entry>
                                 <entry colname="col4" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Library Monographs</para>
+                                    <para role="Normal">Library Acquisitions</para>
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">university acct      </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL </para>
                                 </entry>
@@ -54725,9 +54748,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54739,9 +54759,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54753,9 +54770,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54767,9 +54781,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54781,9 +54792,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54795,9 +54803,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54809,9 +54814,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54823,9 +54825,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54837,9 +54836,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54851,9 +54847,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54865,9 +54858,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54879,9 +54869,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54893,9 +54880,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54907,9 +54891,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54921,9 +54902,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54935,9 +54913,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54949,9 +54924,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54963,9 +54935,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>
@@ -54977,9 +54946,6 @@
                                 </entry>
                             </row>
                             <row>
-                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                    <para role="Normal">Fund code   </para>
-                                </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Normal">BL</para>
                                 </entry>

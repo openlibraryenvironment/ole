@@ -4,6 +4,7 @@ package org.kuali.ole.select.controller;
 import junit.framework.TestCase;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.SpringBaseTestCase;
@@ -47,7 +48,7 @@ import static org.kuali.ole.fixture.UserNameFixture.khuntley;
  * Created with IntelliJ IDEA.
  * User: meenau
  * Date: 5/29/14
- * Time: 1:28 PM
+ * TiOLEEResourceRecordController_ITme: 1:28 PM
  * To change this template use File | Settings | File Templates.
  */
 
@@ -55,7 +56,7 @@ import static org.kuali.ole.fixture.UserNameFixture.khuntley;
  * This test case tests the relation between EResource document and License Request
  */
 
-public class OLEEResourceRecordController_IT extends KualiTestBase {
+public class OLEEResourceRecordController_IT extends KFSTestCaseBase {
 
     @Mock
     private OLEEResourceRecordForm mockUifFormBase;
@@ -82,6 +83,7 @@ public class OLEEResourceRecordController_IT extends KualiTestBase {
         documentService.setDocumentDao((DocumentDao) SpringContext.getBean("documentDao"));
         oleLicenseRequestWebService = GlobalResourceLoader.getService(OLEConstants.OleLicenseRequest.HELPER_SERVICE);
         changeCurrentUser(UserNameFixture.khuntley);
+        DocstoreRestClient.getDocstoreUrl();
     }
 
     /**

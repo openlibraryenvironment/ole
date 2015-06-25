@@ -62,7 +62,7 @@ public class TestUtils {
             try {
                 Class clazz = Class.forName( ste.getClassName() );
                 // for efficiency, only check classes that extend from KualiTestBase
-                if ( KualiTestBase.class.isAssignableFrom(clazz) ) {
+                if ( OLETestCaseBase.class.isAssignableFrom(clazz) ) {
                     //System.err.println( "Checking Method: " + ste.toString() );
                     // check the class-level annotation to set the default for test methods in that class
                     ConfigureContext a = (ConfigureContext)clazz.getAnnotation(ConfigureContext.class);

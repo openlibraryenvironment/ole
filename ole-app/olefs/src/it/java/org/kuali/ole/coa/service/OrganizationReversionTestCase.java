@@ -16,6 +16,7 @@
 package org.kuali.ole.coa.service;
 
 import org.junit.Test;
+import org.kuali.ole.KFSTestCaseBase;
 import org.kuali.ole.KualiTestBase;
 import org.kuali.ole.coa.businessobject.OrganizationReversion;
 import org.kuali.ole.coa.service.OrganizationReversionService;
@@ -27,14 +28,14 @@ import static org.junit.Assert.assertNull;
 /**
  * This class...
  */
-public class OrganizationReversionTestCase extends KualiTestBase {
+public class OrganizationReversionTestCase extends KFSTestCaseBase {
 
     @Test
     public void testGetByPrimaryKey() throws Exception {
         OrganizationReversionService organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
         assertNotNull("Service shouldn't be null", organizationReversionService);
 
-        Integer fiscalYear = new Integer("2004");
+        Integer fiscalYear = new Integer("2015");
 
         OrganizationReversion notexist = organizationReversionService.getByPrimaryId(fiscalYear, "BL", "TEST");
         assertNull("BL-TEST org reversion shouldn't exist in table", notexist);

@@ -130,6 +130,11 @@
                         </imageobject>
                     </inlinemediaobject>
                 </emphasis></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/BatchProcessTechnicalDocument.pdf">here</link> for
+                    technical documentation.</para>
+            </note>
             <para role="Body Text">The <emphasis role="bold">Batch Process</emphasis> interface,
                 available from the <emphasis role="bold">Admin</emphasis> menu, allows staff to run
                 import and export jobs via the OLE user interface. Once the job has run, staff may
@@ -3133,6 +3138,11 @@
                             <imagedata fileref="../images/admin-47.png"/>
                         </imageobject>
                     </inlinemediaobject></emphasis></para>
+            <note>
+                <para role="Normal">Please click <link
+                        xlink:href="../../../pdfs/ScheduledJobsTechnicalDocument.pdf">here</link>
+                    for technical documentation.</para>
+            </note>
             <para>The Batch/Scheduled Jobs document allows users to edit the cron expression that
                 specifies when the particular job should be scheduled. This interface is only for
                 OLE-created jobs (Circulation jobs for example) and not KFS-inherited jobs. To learn
@@ -11147,7 +11157,7 @@
         </section>
     </section>
     <section>
-        <title>System Administration Documents</title>
+        <title>Identity Administration Documents</title>
         <para role="Body Text"><emphasis role="bold"><inlinemediaobject>
                     <alt>Admin</alt>
                     <imageobject>
