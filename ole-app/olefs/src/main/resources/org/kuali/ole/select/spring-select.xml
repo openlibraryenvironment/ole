@@ -771,6 +771,8 @@
         <property name="batchFileDirectoryName" value="${staging.directory}/rollover"/>
     </bean>
 
+    <bean id="olePurchaseOrderBatchService" parent="olePurchaseOrderBatchService-parentBean" />
+    <bean id="olePurchaseOrderBatchService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OLEPurchaseOrderBatchServiceImpl"/>
     <bean id="oleSelectDaoOjb" parent="platformAwareDao" class="org.kuali.ole.select.service.OLESelectDaoOjb" />
 
 </beans>
