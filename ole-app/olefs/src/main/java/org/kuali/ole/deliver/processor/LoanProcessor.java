@@ -1266,6 +1266,7 @@ public class LoanProcessor {
             errorsAndPermission.clear();
         }
         List<String> errorMessage = (List<String>) engineResults.getAttribute(OLEConstants.ERROR_ACTION);
+        appendFlaggedItemNoteInErrorMessage(item, errorMessage);
         if (errorMessage != null && errorMessage.size() > 0) {
             for (String errMsg : errorMessage) {
                 if (StringUtils.isNotEmpty(errMsg)) {
@@ -1357,6 +1358,20 @@ public class LoanProcessor {
             oleLoanDocument.setCourtesyNoticeFlag(false);
             oleLoanDocument.setPastDueDate(pastDueDate);
             oleLoanDocument.setRenewalItemFlag(false);
+        }
+    }
+
+    private void appendFlaggedItemNoteInErrorMessage(org.kuali.ole.docstore.common.document.content.instance.Item item, List<String> errorMessage) {
+        if(item != null) {
+            if (item.isItemDamagedStatus() && StringUtils.isNotBlank(item.getDamagedItemNote())) {
+                errorMessage.add(OLEConstants.DAMAGED_NOTE + item.getDamagedItemNote());
+            }
+            if (item.isClaimsReturnedFlag() && StringUtils.isNotBlank(item.getClaimsReturnedNote())) {
+                errorMessage.add(OLEConstants.CLAIMS_NOTE + item.getClaimsReturnedNote());
+            }
+            if (item.isMissingPieceFlag() && StringUtils.isNotBlank(item.getMissingPieceFlagNote())) {
+                errorMessage.add(OLEConstants.MISSING_PIECE_NOTE + item.getMissingPieceFlagNote());
+            }
         }
     }
 
@@ -3053,6 +3068,10 @@ public class LoanProcessor {
             oleCirculationHistory.setOverdueNoticeDate(oleLoanDocument.getOverDueNoticeDate());
             oleCirculationHistory.setOleRequestId(oleLoanDocument.getOleRequestId());
             oleCirculationHistory.setItemUuid(oleLoanDocument.getItemUuid());
+           /* oleCirculationHistory.setCheckInOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+            oleCirculationHistory.setOperatorCreateId(oleLoanDocument.getLoanOperatorId());
+            oleCirculationHistory.setOverrideOperatorId(oleLoanDocument.getLoanApproverId());
+            oleCirculationHistory.setCheckInMachineId(oleLoanDocument.getCheckInMachineId());*/
             if(oleLoanDocument.isItemLevelLocationExist()){
 
             oleCirculationHistory.setItemLocation(getLocationId(oleLoanDocument.getItemFullPathLocation()));

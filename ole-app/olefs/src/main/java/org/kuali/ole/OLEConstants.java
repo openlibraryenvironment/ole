@@ -1463,6 +1463,10 @@ public class OLEConstants {
 
     public static final String DOC_TYP_ID = "documentTypeId";
     public static final String DOC_ID = "documentId";
+    public static final String DAMAGED_NOTE ="<b>The item has damage note: </b>";
+    public static final String CLAIMS_NOTE ="<b>The item has claims return note: </b>";
+    public static final String MISSING_PIECE_NOTE ="<b>The item has missing piece note: </b>";
+
 
     public static final class OleLicenseRequest {
         public static final String LICENSE_REQUEST_DOC_TYPE = "LicenseRequestDocument";
