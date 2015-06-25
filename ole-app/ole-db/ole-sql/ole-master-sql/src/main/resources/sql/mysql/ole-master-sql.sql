@@ -18076,6 +18076,35 @@ CREATE TABLE OLE_GOKB_CONFIG_T
 
 
 # -----------------------------------------------------------------------
+# OLE_PUR_POBA_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_PUR_POBA_T
+/
+
+CREATE TABLE OLE_PUR_POBA_T
+(
+      FDOC_NBR VARCHAR(10)
+        , OBJ_ID VARCHAR(36) NOT NULL
+        , VER_NBR DECIMAL(8) default 1 NOT NULL
+        , OLE_POBA_ID DECIMAL(10)
+        , UPLD_FILE_NM VARCHAR(60)
+        , UPLD_TYPE VARCHAR(40)
+        , POBA_START_DT DATETIME
+        , POBA_START_TM VARCHAR(40)
+        , POBA_PRNCPL_NM VARCHAR(50)
+    
+    , CONSTRAINT OLE_PUR_POBA_TP1 PRIMARY KEY(FDOC_NBR)
+
+
+
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
 # CA_OBJECT_CODE_V
 # -----------------------------------------------------------------------
 drop view if exists CA_OBJECT_CODE_V
@@ -20991,4 +21020,18 @@ CREATE TABLE OLE_MARC_UPDT_FREQ_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_MARC_UPDT_FREQ_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_POBA_ID
+# -----------------------------------------------------------------------
+drop table if exists OLE_POBA_ID
+/
+
+CREATE TABLE OLE_POBA_ID
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_POBA_ID auto_increment = 1000
 /

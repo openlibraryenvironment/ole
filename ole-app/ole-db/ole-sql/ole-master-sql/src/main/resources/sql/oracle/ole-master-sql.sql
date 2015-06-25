@@ -22093,6 +22093,43 @@ PRIMARY KEY (GOKB_CONFIG_ID)
 
 
 
+-----------------------------------------------------------------------------
+-- OLE_PUR_POBA_T
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'OLE_PUR_POBA_T';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE OLE_PUR_POBA_T CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE OLE_PUR_POBA_T
+(
+      FDOC_NBR VARCHAR2(10)
+        , OBJ_ID VARCHAR2(36) NOT NULL
+        , VER_NBR NUMBER(8) default 1 NOT NULL
+        , OLE_POBA_ID NUMBER(10)
+        , UPLD_FILE_NM VARCHAR2(60)
+        , UPLD_TYPE VARCHAR2(40)
+        , POBA_START_DT DATE
+        , POBA_START_TM VARCHAR2(40)
+        , POBA_PRNCPL_NM VARCHAR2(50)
+    
+
+)
+/
+
+ALTER TABLE OLE_PUR_POBA_T
+    ADD CONSTRAINT OLE_PUR_POBA_TP1
+PRIMARY KEY (FDOC_NBR)
+/
+
+
+
+
+
+
+
 -- -----------------------------------------------------------------------
 -- CA_OBJECT_CODE_V
 -- -----------------------------------------------------------------------
@@ -24181,5 +24218,15 @@ END;
 /
 
 CREATE SEQUENCE OLE_MARC_UPDT_FREQ_S INCREMENT BY 1 START WITH 1 NOMAXVALUE NOCYCLE NOCACHE ORDER
+/
+
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_sequences WHERE sequence_name = 'OLE_POBA_ID';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP SEQUENCE OLE_POBA_ID'; END IF;
+END;
+/
+
+CREATE SEQUENCE OLE_POBA_ID INCREMENT BY 1 START WITH 1000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
