@@ -1,5 +1,7 @@
 package org.kuali.ole.deliver.controller;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
@@ -7,6 +9,7 @@ import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.form.OlePatronLoanedRecordsForm;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.OLEDeliverService;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -93,6 +96,21 @@ public class OlePatronLoanedRecordsController extends UifControllerBase {
             try {
                 olePatronDocument.setOleLoanDocuments(getOleLoanDocumentsFromSolrBuilder().getPatronLoanedItemBySolr(olePatronDocument
                         .getOlePatronId(), null));
+                if(CollectionUtils.isNotEmpty(olePatronDocument.getOleLoanDocuments())) {
+                    for(OleLoanDocument oleLoanDocument : olePatronDocument.getOleLoanDocuments()) {
+                        if(StringUtils.isNotEmpty(oleLoanDocument.getRealPatronName())) {
+                            Map patronMap = new HashMap();
+                            patronMap.put(OLEConstants.OlePatron.PATRON_ID, oleLoanDocument.getRealPatronName());
+                            OlePatronDocument patronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
+                            if(patronDocument != null){
+                                patronDocument = OLEDeliverService.populatePatronName(patronDocument);
+                                oleLoanDocument.setRealPatronName(patronDocument.getPatronName());
+                                oleLoanDocument.setProxyPatronBarcode(patronDocument.getBarcode());
+                                oleLoanDocument.setProxyPatronBarcodeUrl(OLEConstants.ASSIGN_INQUIRY_PATRON_ID + patronDocument.getOlePatronId() + OLEConstants.ASSIGN_PATRON_INQUIRY);
+                            }
+                        }
+                    }
+                }
             } catch (Exception e) {
                 LOG.error("Exception while setting loan documents", e);
             }

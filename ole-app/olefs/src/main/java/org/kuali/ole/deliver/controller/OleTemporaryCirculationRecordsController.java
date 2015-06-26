@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.controller;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
@@ -7,6 +8,7 @@ import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory;
 import org.kuali.ole.deliver.form.OleTemporaryCirculationRecordsForm;
 import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.OLEDeliverService;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -93,6 +95,21 @@ public class OleTemporaryCirculationRecordsController extends UifControllerBase 
             try {
                 olePatronDocument.setOleTemporaryCirculationHistoryRecords(getOleLoanDocumentsFromSolrBuilder()
                         .getPatronTemporaryCirculationHistoryRecords(olePatronDocument.getOlePatronId()));
+                if(CollectionUtils.isNotEmpty(olePatronDocument.getOleTemporaryCirculationHistoryRecords())) {
+                    for(OleTemporaryCirculationHistory oleTemporaryCirculationHistory : olePatronDocument.getOleTemporaryCirculationHistoryRecords()) {
+                        if(oleTemporaryCirculationHistory.getOleProxyPatronId() != null){
+                            Map<String, String> criteria = new HashMap<>();
+                            criteria.put(OLEConstants.OlePatron.PATRON_ID,oleTemporaryCirculationHistory.getOleProxyPatronId());
+                            OlePatronDocument patronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, criteria);
+                            if(olePatronDocument != null){
+                                patronDocument = OLEDeliverService.populatePatronName(patronDocument);
+                                oleTemporaryCirculationHistory.setProxyPatronBarcode(patronDocument.getBarcode());
+                                oleTemporaryCirculationHistory.setProxyPatronName(patronDocument.getPatronName());
+                                oleTemporaryCirculationHistory.setProxyPatronBarcodeUrl(OLEConstants.ASSIGN_INQUIRY_PATRON_ID + patronDocument.getOlePatronId() + OLEConstants.ASSIGN_PATRON_INQUIRY);
+                            }
+                        }
+                    }
+                }
             } catch (Exception e) {
                 LOG.error("Exception while setting temporary circulation history records", e);
             }
