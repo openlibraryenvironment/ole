@@ -5024,4 +5024,12 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="E_RES_RNW_NTC_PRD_INC_SIZE">
+        <modifyDataType catalogName="ole"
+                        columnName="E_RES_RNW_NTC_PRD"
+                        newDataType="VARCHAR(4)"
+                        schemaName="ole"
+                        tableName="OLE_E_RES_REC_T"/>
+    </changeSet>
+
 </databaseChangeLog>
