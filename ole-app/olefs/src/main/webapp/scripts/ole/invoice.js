@@ -390,7 +390,7 @@ jq(document).keypress(function(e) {
 
 jq(document).ready(function(){
     jq(":input").live("keypress",function(){
-        jq("#unsaved_control").val("true");
+        jq("#unsaved_control").val("false");
     });
     function unloadPage(){
         if(jq("#unsaved_control").val()=='true'){
