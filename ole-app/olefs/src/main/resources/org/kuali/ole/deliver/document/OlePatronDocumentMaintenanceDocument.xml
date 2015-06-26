@@ -1032,11 +1032,11 @@
 
             </list>
         </property>
-        <!--<property name="lineActions">
+        <property name="lineActions">
             <list>
                 <bean id="OlePatronDocument-NotesSection-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteNotes" p:actionLabel="Delete"  />
             </list>
-        </property>-->
+        </property>
     </bean>
 
     <bean id="OlePatronDocument-Name" parent="Uif-Disclosure-HorizontalBoxSection" p:componentSecurity.editAuthz="true">

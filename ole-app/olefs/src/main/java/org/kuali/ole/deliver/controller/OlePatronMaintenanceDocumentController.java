@@ -1085,9 +1085,9 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                     if(newOlePatronDocument.getDeletedPhones().size()>0){
                         KRADServiceLocator.getBusinessObjectService().delete(newOlePatronDocument.getDeletedPhones());
                     }
-                    /*if(newOlePatronDocument.getDeletedNotes().size()>0){
+                    if(newOlePatronDocument.getDeletedNotes().size()>0){
                         KRADServiceLocator.getBusinessObjectService().delete(newOlePatronDocument.getDeletedNotes());
-                    }*/
+                    }
 
                     List<OlePatronLostBarcode> lostBarcodeList = tempDocument.getLostBarcodes();
                     if (lostBarcodeList.size() > 0) {
@@ -1643,7 +1643,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
 
     }
 
-/*    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteNotes")
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteNotes")
     public ModelAndView deleteNotes(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) {
         LOG.debug("Initialized addLine method");
@@ -1654,7 +1654,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         newOlePatronDocument.getDeletedNotes().add(newOlePatronDocument.getNotes().get(Integer.parseInt(selectedLineIndex)));
         return deleteLine(uifForm, result, request, response);
 
-    }*/
+    }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteOlePatronLocalIds")
     public ModelAndView deleteOlePatronLocalIds(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
