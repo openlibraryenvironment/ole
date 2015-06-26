@@ -437,8 +437,15 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
             int count=0;
             for(PurApAccountingLine account:purApItem.getSourceAccountingLines()){
                 OleInvoiceItem oleInvoiceItem = (OleInvoiceItem)purApItem;
-                BigDecimal discount = ((oleInvoiceItem.getItemListPrice().bigDecimalValue().multiply(oleInvoiceItem.getItemDiscount().bigDecimalValue()))).divide(new BigDecimal(100));
-                KualiDecimal totalAmount = new KualiDecimal(purApItem.getItemQuantity().bigDecimalValue().multiply(oleInvoiceItem.getItemListPrice().bigDecimalValue().subtract(discount)));
+                KualiDecimal totalAmount = KualiDecimal.ZERO;
+                BigDecimal discount = BigDecimal.ZERO;
+                if(oleInvoiceItem.getItemDiscount() != null) {
+                    discount = ((oleInvoiceItem.getItemListPrice().bigDecimalValue().multiply(oleInvoiceItem.getItemDiscount().bigDecimalValue()))).divide(new BigDecimal(100));
+                    totalAmount = new KualiDecimal(purApItem.getItemQuantity().bigDecimalValue().multiply(oleInvoiceItem.getItemListPrice().bigDecimalValue().subtract(discount)));
+                }
+                else{
+                    totalAmount = new KualiDecimal(purApItem.getItemQuantity().bigDecimalValue().multiply(oleInvoiceItem.getItemListPrice().bigDecimalValue()));
+                }
                 if (purApItem != null && purApItem.getExtendedPrice() != null && purApItem.getExtendedPrice().isZero()) {
                     account.setAmount(KualiDecimal.ZERO);
                 }
@@ -713,7 +720,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
      */
     @RequestMapping(params = "methodToCall=route")
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) {
+                              HttpServletRequest request, HttpServletResponse response)  {
         OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) form;
         OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
         oleInvoiceDocument.setDbRetrieval(false);
@@ -835,7 +842,8 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         getInvoiceService().deleteInvoiceItem(oleInvoiceDocument);
         ModelAndView mv =  super.route(oleInvoiceForm,result,request,response);
         oleInvoiceDocument.loadInvoiceDocument();
-        return  mv;
+        //return  mv;
+        return closeDocument(oleInvoiceForm,result,request,response);
 
         /*
         if (oleInvoiceDocument.getDocumentHeader() != null && oleInvoiceDocument.getDocumentHeader().getWorkflowDocument() != null &&
@@ -872,7 +880,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         getInvoiceService().deleteInvoiceItem(oleInvoiceDocument);
         ModelAndView mv = super.route(oleInvoiceForm, result, request, response);
         oleInvoiceDocument.loadInvoiceDocument();
-        return mv;
+        return closeDocument(oleInvoiceForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=continueRoute")
@@ -900,7 +908,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
             oleInvoiceDocument.setValidationFlag(false);
             performWorkflowAction(form, UifConstants.WorkflowAction.ROUTE, true);
         }
-        return getUIFModelAndView(form);
+        return closeDocument(oleInvoiceForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=cancelRoute")
@@ -1066,7 +1074,8 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         }
         GlobalVariables.getMessageMap().clearErrorMessages();
         oleInvoiceDocument.setUnsaved(false);
-        return getUIFModelAndView(oleInvoiceForm);
+        //return getUIFModelAndView(oleInvoiceForm);
+        return closeDocument(oleInvoiceForm,result,request,response);
     }
 
 
@@ -1105,7 +1114,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         if(oleInvoiceDocument.isValidationFlag() || oleInvoiceDocument.isBlanketApproveValidationFlag() || oleInvoiceDocument.isBlanketApproveSubscriptionDateValidationFlag()){
             return getUIFModelAndView(oleInvoiceForm);
         }
-        return  getUIFModelAndView(oleInvoiceForm);
+        return closeDocument(oleInvoiceForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=cancelBlanketApprove")
@@ -1132,7 +1141,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
             oleInvoiceDocument.setValidationFlag(false);
             performWorkflowAction(form, UifConstants.WorkflowAction.ROUTE, true);
         }
-        return getUIFModelAndView(form);
+        return closeDocument(oleInvoiceForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=cancelInvoiceRoute")
@@ -1191,7 +1200,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
             return getUIFModelAndView(oleInvoiceForm);
         }
         GlobalVariables.getMessageMap().clearErrorMessages();
-        return  getUIFModelAndView(oleInvoiceForm);
+        return closeDocument(oleInvoiceForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=cancelInvoiceBlanketApprove")
@@ -1238,7 +1247,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         }
         GlobalVariables.getMessageMap().clearErrorMessages();
         oleInvoiceDocument.setUnsaved(false);
-        return getUIFModelAndView(oleInvoiceForm);
+        return closeDocument(oleInvoiceForm,result,request,response);
     }
 
     @RequestMapping(params = "methodToCall=cancelInvoiceSubscriptionBlanketApprove")
@@ -2080,7 +2089,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
     }
     @RequestMapping(params = "methodToCall=" + "closeDocument")
     public ModelAndView closeDocument(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                      HttpServletRequest request, HttpServletResponse response)  {
 
         String baseUrl = ConfigContext.getCurrentContextConfig().getProperty(org.kuali.ole.OLEPropertyConstants.OLE_URL_BASE);
         String url = baseUrl + "/portal.do";
@@ -2975,8 +2984,11 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                         oleInvoiceItem.setItemExchangeRate(new KualiDecimal(exchangeRate));
                 }
             }
-            calculate(oleInvoiceForm, result, request, response);
-            proratedSurchargeRefresh(oleInvoiceForm, result, request, response);
+            if(oleInvoiceDocument.getItems().size() > 4) {
+                calculate(oleInvoiceForm, result, request, response);
+                proratedSurchargeRefresh(oleInvoiceForm, result, request, response);
+            }
+
             if (StringUtils.isNotBlank(oleInvoiceDocument.getInvoiceCurrencyType())) {
                 String currencyType = getInvoiceService().getCurrencyType(oleInvoiceDocument.getInvoiceCurrencyType());
                 if (StringUtils.isNotBlank(currencyType)) {
