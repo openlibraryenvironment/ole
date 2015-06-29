@@ -345,7 +345,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                     ItemOlemlRecordProcessor itemOlemlRecordProcessor1 = new ItemOlemlRecordProcessor();
                     org.kuali.ole.docstore.common.document.content.instance.Item oleItem = itemOlemlRecordProcessor1.fromXML(item.getContent());
                     String numberOfPiecesString = ((WorkInstanceOlemlForm) editorForm.getDocumentForm()).getSelectedItem().getNumberOfPieces();
-
+                    if(itemData.isMissingPieceFlag()){
                         if(org.apache.commons.lang.StringUtils.isNotBlank(numberOfPiecesString)){
                             if(Integer.parseInt(numberOfPiecesString) >= 1){
                                 noOfPieces = Integer.parseInt(numberOfPiecesString);
@@ -358,7 +358,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, DocstoreResources.INVALID_NO_OF_PIECE);
                             return workInstanceOlemlForm;
                         }
-
+                    }
 
                     MissingPieceItemRecord missingPieceItemRecord = new MissingPieceItemRecord();
                     List<MissingPieceItemRecord> missingPieceItemRecordList = new ArrayList<>();
