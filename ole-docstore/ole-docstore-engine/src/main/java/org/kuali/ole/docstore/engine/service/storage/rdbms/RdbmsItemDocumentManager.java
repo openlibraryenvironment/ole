@@ -1058,7 +1058,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
 
 
     private void effectiveDateItem(org.kuali.ole.docstore.common.document.content.instance.Item item, ItemRecord itemRecord, String effectiveDateForItem) {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
         Timestamp effectiveDate = null;
         try {
             if (!"".equals(item.getItemStatusEffectiveDate()) && item.getItemStatusEffectiveDate() != null) {
