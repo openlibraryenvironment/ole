@@ -32,6 +32,8 @@ import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
+import org.kuali.ole.docstore.common.exception.DocstoreResources;
+import org.kuali.ole.docstore.common.exception.DocstoreValidationException;
 import org.kuali.ole.docstore.engine.client.DocstoreLocalClient;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.select.bo.OLELinkPurapDonor;
@@ -294,6 +296,9 @@ public class WorkItemOlemlEditor extends AbstractEditor {
         String callNumber;
         String prefix;
         Bib bib = null;
+        int noOfPieces = 0;
+        boolean isExceedMaxCount = false;
+        boolean isNoOfPiecesCount = false;
 //        editorForm.setHeaderText("Instance Editor (Item)- OLEML Format");
         editorForm.setHeaderText("Item");
         try {
@@ -313,7 +318,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
             return workInstanceOlemlForm;
         } catch (Exception e) {
             LOG.error("Exception ", e);
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,"docstore.response", e.getMessage() );
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "docstore.response", e.getMessage());
         }
 
         try {
@@ -323,7 +328,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                     Format formatter = new SimpleDateFormat("MM/dd/yyyy");
                     itemData.setItemStatusEffectiveDate(formatter.format(new Date()));
                 }
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+
                 if (!itemData.isClaimsReturnedFlag()) {
                     itemData.setClaimsReturnedNote(null);
                     itemData.setClaimsReturnedFlagCreateDate(null);
@@ -332,72 +337,128 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                     getOleDeliverRequestDocumentHelperService().cancelPendingRequestForClaimsReturnedItem(itemData.getItemIdentifier());
                 }
 
-                if(itemData.isItemDamagedStatus()){
+                if (itemData.isItemDamagedStatus()) {
                     addItemDamagedHistory(itemData, user);
                 }
                 try {
                     org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemData.getItemIdentifier());
                     ItemOlemlRecordProcessor itemOlemlRecordProcessor1 = new ItemOlemlRecordProcessor();
                     org.kuali.ole.docstore.common.document.content.instance.Item oleItem = itemOlemlRecordProcessor1.fromXML(item.getContent());
+                    String numberOfPiecesString = ((WorkInstanceOlemlForm) editorForm.getDocumentForm()).getSelectedItem().getNumberOfPieces();
+
+                        if(org.apache.commons.lang.StringUtils.isNotBlank(numberOfPiecesString)){
+                            if(Integer.parseInt(numberOfPiecesString) >= 1){
+                                noOfPieces = Integer.parseInt(numberOfPiecesString);
+                            }else{
+                                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, DocstoreResources.INVALID_NO_OF_PIECE);
+                                return workInstanceOlemlForm;
+                            }
+
+                        }else{
+                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, DocstoreResources.INVALID_NO_OF_PIECE);
+                            return workInstanceOlemlForm;
+                        }
+
+
                     MissingPieceItemRecord missingPieceItemRecord = new MissingPieceItemRecord();
                     List<MissingPieceItemRecord> missingPieceItemRecordList = new ArrayList<>();
+                    DateFormat parsedDate = new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE);
+
                     if (itemData.isMissingPieceFlag() && !oleItem.isMissingPieceFlag()) {
                         missingPieceItemRecord.setMissingPieceFlagNote(itemData.getMissingPieceFlagNote());
                         missingPieceItemRecord.setMissingPieceCount(itemData.getMissingPiecesCount());
-                        String parsedDate = df.format((new Date()));
-                        missingPieceItemRecord.setMissingPieceDate(parsedDate);
+                        missingPieceItemRecord.setMissingPieceDate(parsedDate.format(getDateTimeService().getCurrentDate()));
                         missingPieceItemRecord.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
                         missingPieceItemRecord.setPatronBarcode(null);
                         missingPieceItemRecord.setPatronId(itemData.getCurrentBorrower());
                         missingPieceItemRecord.setItemId(itemData.getItemIdentifier());
-                        if (itemData.getMissingPieceItemRecordList() != null && itemData.getMissingPieceItemRecordList().size() > 0) {
-                            itemData.getMissingPieceItemRecordList().add(missingPieceItemRecord);
+                       if(org.apache.commons.lang.StringUtils.isNotBlank(missingPieceItemRecord.getMissingPieceCount()) && (Integer.parseInt(missingPieceItemRecord.getMissingPieceCount()) > 1)){
+                        if (noOfPieces >= Integer.parseInt(missingPieceItemRecord.getMissingPieceCount())) {
+                            if (!missingPieceItemRecord.getMissingPieceCount().isEmpty() ) {
+                                if (itemData.getMissingPieceItemRecordList() != null && itemData.getMissingPieceItemRecordList().size() > 0) {
+                                    itemData.getMissingPieceItemRecordList().add(missingPieceItemRecord);
+                                } else {
+                                    missingPieceItemRecordList.add(missingPieceItemRecord);
+                                    itemData.setMissingPieceItemRecordList(missingPieceItemRecordList);
+                                }
+                            }
                         } else {
-                            missingPieceItemRecordList.add(missingPieceItemRecord);
-                            itemData.setMissingPieceItemRecordList(missingPieceItemRecordList);
+                            isExceedMaxCount = true;
                         }
+                       }   else{
+                           GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, DocstoreResources.INVALID_MISSING_PIECE_COUNT);
+                           return workInstanceOlemlForm;
+                       }
 
 
                     } else {
                         if (itemData.isMissingPieceFlag() && oleItem.isMissingPieceFlag()) {
                             Map<String, String> map = new HashMap<>();
                             map.put("itemId", DocumentUniqueIDPrefix.getDocumentId(itemData.getItemIdentifier()));
-                            List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordList1 = (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord>) KRADServiceLocator.getBusinessObjectService()
+                            List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecordList1 =
+                                    (List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord>) KRADServiceLocator.getBusinessObjectService()
                                     .findMatchingOrderBy(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord.class, map, "missingPieceItemId", true);
                             List<MissingPieceItemRecord> missingPieceItemRecords = new ArrayList<>();
                             for (int index = 0; index < missingPieceItemRecordList1.size(); index++) {
                                 MissingPieceItemRecord missingPieceItemRecord1 = new MissingPieceItemRecord();
                                 if (index == missingPieceItemRecordList1.size() - 1) {
-                                    DateFormat dfs = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                                    String missingPieceItemDate = dfs.format((new Date()));
+                                    DateFormat dfs = new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE);
+                                    String missingPieceItemDate = dfs.format(getDateTimeService().getCurrentDate());
                                     missingPieceItemRecord1.setMissingPieceDate(missingPieceItemDate);
-                                    missingPieceItemRecord1.setMissingPieceCount(itemData.getMissingPiecesCount());
+                                    if(org.apache.commons.lang.StringUtils.isNotBlank(itemData.getMissingPiecesCount()) && (Integer.parseInt(itemData.getMissingPiecesCount()) > 1 )){
+                                    if (noOfPieces > Integer.parseInt(itemData.getMissingPiecesCount()) ) {
+
+                                        missingPieceItemRecord1.setMissingPieceCount(itemData.getMissingPiecesCount());
+                                    } else {
+                                        missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecordList1.get(index).getMissingPieceCount());
+                                        isExceedMaxCount = true;
+                                    }
+                                    }else{
+                                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, DocstoreResources.INVALID_MISSING_PIECE_COUNT);
+                                        return workInstanceOlemlForm;
+                                    }
                                     missingPieceItemRecord1.setPatronBarcode(null);
                                     missingPieceItemRecord1.setPatronId(itemData.getCurrentBorrower());
                                     missingPieceItemRecord1.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
                                     missingPieceItemRecord1.setItemId(itemData.getItemIdentifier());
                                     missingPieceItemRecord1.setMissingPieceFlagNote(itemData.getMissingPieceFlagNote());
-                                    missingPieceItemRecords.add(missingPieceItemRecord1);
+                                        missingPieceItemRecords.add(missingPieceItemRecord1);
 
                                 } else {
                                     if (missingPieceItemRecordList1.get(index).getMissingPieceDate() != null && !missingPieceItemRecordList1.get(index).getMissingPieceDate().toString().isEmpty()) {
-                                        SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-                                        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                                        SimpleDateFormat dateToSimpleDateFormat = new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE);
                                         Date missingPieceItemDate = null;
-                                        try {
-                                            missingPieceItemDate = format2.parse(missingPieceItemRecordList1.get(index).getMissingPieceDate().toString());
-                                        } catch (org.kuali.ole.sys.exception.ParseException e) {
-                                            LOG.error("format string to Date " + e);
+                                        if(null != missingPieceItemRecordList1.get(index).getMissingPieceDate()){
+                                            try {
+                                                missingPieceItemDate = new Date(missingPieceItemRecordList1.get(index).getMissingPieceDate().getTime());
+                                            } catch (org.kuali.ole.sys.exception.ParseException e) {
+                                                LOG.error("format string to Date " + e);
+                                            }
                                         }
-                                        missingPieceItemRecord1.setMissingPieceDate(format1.format(missingPieceItemDate).toString());
+                                        missingPieceItemRecord1.setMissingPieceDate(dateToSimpleDateFormat.format(missingPieceItemDate));
                                     }
                                     missingPieceItemRecord1.setMissingPieceFlagNote(missingPieceItemRecordList1.get(index).getMissingPieceFlagNote());
-                                    missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecordList1.get(index).getMissingPieceCount());
+
+
                                     missingPieceItemRecord1.setOperatorId(missingPieceItemRecordList1.get(index).getOperatorId());
                                     missingPieceItemRecord1.setPatronBarcode(missingPieceItemRecordList1.get(index).getPatronBarcode());
                                     missingPieceItemRecord1.setPatronId(missingPieceItemRecordList1.get(index).getPatronId());
                                     missingPieceItemRecord1.setItemId(missingPieceItemRecordList1.get(index).getItemId());
-                                    missingPieceItemRecords.add(missingPieceItemRecord1);
+                                    missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecordList1.get(index).getMissingPieceCount());
+                                    if(org.apache.commons.lang.StringUtils.isNotBlank(missingPieceItemRecordList1.get(index).getMissingPieceCount()) && (Integer.parseInt(missingPieceItemRecordList1.get(index).getMissingPieceCount()) > 1 )){
+                                    if (noOfPieces >= Integer.parseInt(missingPieceItemRecordList1.get(index).getMissingPieceCount())) {
+
+                                            missingPieceItemRecords.add(missingPieceItemRecord1);
+
+                                    } else {
+                                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,OLEConstants.EXCEED_MAX_COUNT);
+                                        return workInstanceOlemlForm;
+                                    }
+                                    }  else{
+                                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, DocstoreResources.INVALID_MISSING_PIECE_COUNT);
+                                        return workInstanceOlemlForm;
+                                    }
+
                                 }
                             }
                             itemData.setMissingPieceItemRecordList(missingPieceItemRecords);
@@ -406,153 +467,157 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                 } catch (Exception e) {
                     LOG.error("Exception ", e);
                 }
-                workInstanceOlemlForm.setViewId("WorkItemViewPage");
-                if (!isValidItemData(workInstanceOlemlForm)) {
+                if (!isExceedMaxCount) {
+                    workInstanceOlemlForm.setViewId("WorkItemViewPage");
+                    if (!isValidItemData(workInstanceOlemlForm)) {
 //                    getInstanceEditorFormDataHandler().setLocationDetails(workInstanceOlemlForm);
-                    return workInstanceOlemlForm;
-                }
-
-                String itemId = editorForm.getDocId();
-                itemData.setItemIdentifier(itemId);
-                String itemXmlContent = getInstanceEditorFormDataHandler().buildItemContent(itemData);
-
-                ItemOleml itemOleml = new ItemOleml();
-                itemOleml.setContent(itemXmlContent);
-                itemOleml.setId(itemId);
-                itemOleml.setType(editorForm.getDocType());
-                itemOleml.setFormat(editorForm.getDocFormat());
-                itemOleml.setUpdatedBy(user);
-                itemOleml.setUpdatedOn(dateStr);
-                itemOleml.setStaffOnly(editorForm.isStaffOnlyFlagForItem());
-                itemOleml.setCategory(editorForm.getDocCategory());
-                long startTime = System.currentTimeMillis();
-                try {
-                    docstoreClient.updateItem(itemOleml);
-                } catch (DocstoreException e) {
-                    LOG.error(e);
-                    DocstoreException docstoreException = (DocstoreException) e;
-                    if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
-                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, docstoreException.getErrorCode());
-                    } else {
-                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
+                        return workInstanceOlemlForm;
                     }
 
-                    Holdings holdings = null;
+                    String itemId = editorForm.getDocId();
+                    itemData.setItemIdentifier(itemId);
+                    String itemXmlContent = getInstanceEditorFormDataHandler().buildItemContent(itemData);
+
+                    ItemOleml itemOleml = new ItemOleml();
+                    itemOleml.setContent(itemXmlContent);
+                    itemOleml.setId(itemId);
+                    itemOleml.setType(editorForm.getDocType());
+                    itemOleml.setFormat(editorForm.getDocFormat());
+                    itemOleml.setUpdatedBy(user);
+                    itemOleml.setUpdatedOn(dateStr);
+                    itemOleml.setStaffOnly(editorForm.isStaffOnlyFlagForItem());
+                    itemOleml.setCategory(editorForm.getDocCategory());
+                    long startTime = System.currentTimeMillis();
                     try {
-                        holdings = docstoreClient.retrieveHoldings(editorForm.getInstanceId());
-                    } catch (Exception e1) {
-                        LOG.error("Exception :", e1);
-                        docstoreException = (DocstoreException) e1;
+                        docstoreClient.updateItem(itemOleml);
+                    } catch (DocstoreException e) {
+                        LOG.error(e);
+                        DocstoreException docstoreException = (DocstoreException) e;
                         if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
                             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, docstoreException.getErrorCode());
                         } else {
                             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
                         }
+
+                        Holdings holdings = null;
+                        try {
+                            holdings = docstoreClient.retrieveHoldings(editorForm.getInstanceId());
+                        } catch (Exception e1) {
+                            LOG.error("Exception :", e1);
+                            docstoreException = (DocstoreException) e1;
+                            if (org.apache.commons.lang3.StringUtils.isNotEmpty(docstoreException.getErrorCode())) {
+                                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, docstoreException.getErrorCode());
+                            } else {
+                                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, e.getMessage());
+                            }
+                        }
+                        String docStoreData = holdings.getContent();
+                        OleHoldings oleHoldings = new HoldingOlemlRecordProcessor().fromXML(docStoreData);
+                        workInstanceOlemlForm.setSelectedHolding(oleHoldings);
+
+                        getInstanceEditorFormDataHandler().setLocationDetails(workInstanceOlemlForm);
+                        return workInstanceOlemlForm;
+                    } catch (Exception e) {
+                        LOG.error("Exception ", e);
+                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "docstore.response", e.getMessage());
                     }
-                    String docStoreData = holdings.getContent();
-                    OleHoldings oleHoldings = new HoldingOlemlRecordProcessor().fromXML(docStoreData);
-                    workInstanceOlemlForm.setSelectedHolding(oleHoldings);
+                    long endTime = System.currentTimeMillis();
+                    editorForm.setSolrTime(String.valueOf((endTime - startTime) / 1000));
+                    if (itemData.getLocation() != null) {
+                        String location = instanceEditorFormDataHandler.getLocationCode(itemData.getLocation().getLocationLevel());
+                        if (asrHelperService.isAnASRItem(location)) {
 
-                    getInstanceEditorFormDataHandler().setLocationDetails(workInstanceOlemlForm);
-                    return workInstanceOlemlForm;
-                } catch (Exception e) {
-                    LOG.error("Exception ", e);
-                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,"docstore.response", e.getMessage() );
-                }
-                long endTime = System.currentTimeMillis();
-                editorForm.setSolrTime(String.valueOf((endTime - startTime) / 1000));
-                if(itemData.getLocation()!=null){
-                    String location = instanceEditorFormDataHandler.getLocationCode(itemData.getLocation().getLocationLevel());
-                    if(asrHelperService.isAnASRItem(location)){
+                            Map<String, String> asrItemMap = new HashMap<String, String>();
+                            asrItemMap.put("itemBarcode", itemData.getAccessInformation().getBarcode());
+                            List<ASRItem> asrItems = (List<ASRItem>) businessObjectService.findMatching(ASRItem.class, asrItemMap);
+                            if (asrItems.size() == 0) {
+                                ASRItem asrItem = new ASRItem();
+                                if (itemData.getAccessInformation() != null && itemData.getAccessInformation().getBarcode() != null) {
+                                    asrItem.setItemBarcode(itemData.getAccessInformation().getBarcode());
+                                }
+                                if (bib.getTitle() != null) {
+                                    asrItem.setTitle((bib.getTitle().length() > 37) ? bib.getTitle().substring(0, 36) : bib.getTitle());
+                                }
+                                if (bib.getAuthor() != null) {
+                                    asrItem.setAuthor((bib.getAuthor().length() > 37) ? bib.getAuthor().substring(0, 36) : bib.getAuthor());
+                                }
+                                if (itemData.getCallNumber() != null && itemData.getCallNumber().getNumber() != null && !itemData.getCallNumber().getNumber().isEmpty()) {
+                                    callNumber = (itemData.getCallNumber().getNumber().length() > 37) ? itemData.getCallNumber().getNumber().substring(0, 36) : itemData.getCallNumber().getNumber();
+                                    prefix = itemData.getCallNumber().getPrefix() != null && !itemData.getCallNumber().getPrefix().isEmpty() ? itemData.getCallNumber().getPrefix() : "";
+                                    asrItem.setCallNumber(prefix + " " + callNumber);
+                                } else if (workInstanceOlemlForm.getSelectedHolding() != null && workInstanceOlemlForm.getSelectedHolding().getCallNumber() != null && workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber() != null && !workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().isEmpty()) {
+                                    callNumber = (workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().length() > 37) ? workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().substring(0, 36) : workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber();
+                                    prefix = workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix() != null && !workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix().isEmpty() ? workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix() : "";
+                                    asrItem.setCallNumber(prefix + " " + callNumber);
+                                }
+                                businessObjectService.save(asrItem);
+                            }
+                        }
+                    } else if (workInstanceOlemlForm.getSelectedHolding().getLocation() != null) {
+                        OleHoldings oleHoldings = workInstanceOlemlForm.getSelectedHolding();
+                        String location = oleHoldings.getLocation().getLocationLevel().getName();
+                        if (asrHelperService.isAnASRItem(location)) {
+                            Map<String, String> asrItemMap = new HashMap<String, String>();
+                            asrItemMap.put("itemBarcode", itemData.getAccessInformation().getBarcode());
+                            List<ASRItem> asrItems = (List<ASRItem>) businessObjectService.findMatching(ASRItem.class, asrItemMap);
+                            if (asrItems.size() == 0) {
+                                ASRItem asrItem = new ASRItem();
+                                if (itemData.getAccessInformation() != null && itemData.getAccessInformation().getBarcode() != null) {
+                                    asrItem.setItemBarcode(itemData.getAccessInformation().getBarcode());
+                                }
+                                if (bib.getTitle() != null) {
+                                    asrItem.setTitle((bib.getTitle().length() > 37) ? bib.getTitle().substring(0, 36) : bib.getTitle());
+                                }
+                                if (bib.getAuthor() != null) {
+                                    asrItem.setAuthor((bib.getAuthor().length() > 37) ? bib.getAuthor().substring(0, 36) : bib.getAuthor());
+                                }
+                                if (itemData.getCallNumber() != null && itemData.getCallNumber().getNumber() != null && !itemData.getCallNumber().getNumber().isEmpty()) {
+                                    callNumber = (itemData.getCallNumber().getNumber().length() > 37) ? itemData.getCallNumber().getNumber().substring(0, 36) : itemData.getCallNumber().getNumber();
+                                    prefix = itemData.getCallNumber().getPrefix() != null && !itemData.getCallNumber().getPrefix().isEmpty() ? itemData.getCallNumber().getPrefix() : "";
+                                    asrItem.setCallNumber(prefix + " " + callNumber);
+                                } else if (workInstanceOlemlForm.getSelectedHolding() != null && workInstanceOlemlForm.getSelectedHolding().getCallNumber() != null && workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber() != null && !workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().isEmpty()) {
+                                    callNumber = (workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().length() > 37) ? workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().substring(0, 36) : workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber();
+                                    prefix = workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix() != null && !workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix().isEmpty() ? workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix() : "";
+                                    asrItem.setCallNumber(prefix + " " + callNumber);
 
-                        Map<String,String> asrItemMap = new HashMap<String,String>();
-                        asrItemMap.put("itemBarcode",itemData.getAccessInformation().getBarcode());
-                        List<ASRItem> asrItems = (List<ASRItem>)businessObjectService.findMatching(ASRItem.class,asrItemMap);
-                        if(asrItems.size()==0){
-                            ASRItem asrItem = new ASRItem();
-                            if(itemData.getAccessInformation()!=null && itemData.getAccessInformation().getBarcode()!=null){
-                                asrItem.setItemBarcode(itemData.getAccessInformation().getBarcode());
+                                }
+                                businessObjectService.save(asrItem);
                             }
-                            if(bib.getTitle()!=null){
-                                asrItem.setTitle((bib.getTitle().length()>37)?bib.getTitle().substring(0,36):bib.getTitle());
-                            }
-                            if(bib.getAuthor()!=null){
-                                asrItem.setAuthor((bib.getAuthor().length()>37)?bib.getAuthor().substring(0,36):bib.getAuthor());
-                            }
-                            if (itemData.getCallNumber() != null && itemData.getCallNumber().getNumber() != null && !itemData.getCallNumber().getNumber().isEmpty()){
-                                callNumber=(itemData.getCallNumber().getNumber().length() > 37) ? itemData.getCallNumber().getNumber().substring(0, 36) : itemData.getCallNumber().getNumber();
-                                prefix=itemData.getCallNumber().getPrefix()!=null&&!itemData.getCallNumber().getPrefix().isEmpty()?itemData.getCallNumber().getPrefix():"";
-                                asrItem.setCallNumber(prefix+" "+callNumber);
-                            }
-                            else if(workInstanceOlemlForm.getSelectedHolding()!=null && workInstanceOlemlForm.getSelectedHolding().getCallNumber()!=null && workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber()!=null && !workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().isEmpty()){
-                                callNumber=(workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().length() > 37) ? workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().substring(0, 36) : workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber();
-                                prefix=workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix()!=null&&!workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix().isEmpty()?workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix():"";
-                                asrItem.setCallNumber(prefix+" "+callNumber);
-                            }
-                            businessObjectService.save(asrItem);
                         }
                     }
-                }else if(workInstanceOlemlForm.getSelectedHolding().getLocation()!=null){
-                    OleHoldings oleHoldings = workInstanceOlemlForm.getSelectedHolding();
-                    String location = oleHoldings.getLocation().getLocationLevel().getName();
-                    if(asrHelperService.isAnASRItem(location)){
-                        Map<String,String> asrItemMap = new HashMap<String,String>();
-                        asrItemMap.put("itemBarcode",itemData.getAccessInformation().getBarcode());
-                        List<ASRItem> asrItems = (List<ASRItem>)businessObjectService.findMatching(ASRItem.class,asrItemMap);
-                        if(asrItems.size()==0){
-                            ASRItem asrItem = new ASRItem();
-                            if(itemData.getAccessInformation()!=null && itemData.getAccessInformation().getBarcode()!=null){
-                                asrItem.setItemBarcode(itemData.getAccessInformation().getBarcode());
-                            }
-                            if(bib.getTitle()!=null){
-                                asrItem.setTitle((bib.getTitle().length()>37)?bib.getTitle().substring(0,36):bib.getTitle());
-                            }
-                            if(bib.getAuthor()!=null){
-                                asrItem.setAuthor((bib.getAuthor().length()>37)?bib.getAuthor().substring(0,36):bib.getAuthor());
-                            }
-                            if (itemData.getCallNumber() != null && itemData.getCallNumber().getNumber() != null && !itemData.getCallNumber().getNumber().isEmpty()){
-                                callNumber=(itemData.getCallNumber().getNumber().length() > 37) ? itemData.getCallNumber().getNumber().substring(0, 36) : itemData.getCallNumber().getNumber();
-                                prefix=itemData.getCallNumber().getPrefix()!=null&&!itemData.getCallNumber().getPrefix().isEmpty()?itemData.getCallNumber().getPrefix():"";
-                                asrItem.setCallNumber(prefix+" "+callNumber);
-                            }
-                            else if(workInstanceOlemlForm.getSelectedHolding()!=null && workInstanceOlemlForm.getSelectedHolding().getCallNumber()!=null && workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber()!=null && !workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().isEmpty()){
-                                callNumber=(workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().length() > 37) ? workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().substring(0, 36) : workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber();
-                                prefix=workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix()!=null&&!workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix().isEmpty()?workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix():"";
-                                asrItem.setCallNumber(prefix+" "+callNumber);
-
-                            }
-                            businessObjectService.save(asrItem);
+                    String itemProperty = getInstanceEditorFormDataHandler().getParameter("OLE-DESC", "Describe", "EDIT_HOLDINGS_INFO_IN_ITEM_SCREEN");
+                    String[] itemArray = null;
+                    if (itemProperty != null) {
+                        itemArray = itemProperty.split(",");
+                    }
+                    for (String status : itemArray) {
+                        if (status.equalsIgnoreCase("TRUE")) {
+                            workInstanceOlemlForm.setHoldingsDataInItemReadOnly(true);
+                        } else if (status.equalsIgnoreCase("FALSE")) {
+                            workInstanceOlemlForm.setHoldingsDataInItemReadOnly(false);
                         }
                     }
-                }
-                String itemProperty = getInstanceEditorFormDataHandler().getParameter("OLE-DESC", "Describe", "EDIT_HOLDINGS_INFO_IN_ITEM_SCREEN");
-                String[] itemArray = null;
-                if (itemProperty != null) {
-                    itemArray = itemProperty.split(",");
-                }
-                for (String status : itemArray) {
-                    if (status.equalsIgnoreCase("TRUE")) {
-                        workInstanceOlemlForm.setHoldingsDataInItemReadOnly(true);
-                    } else if (status.equalsIgnoreCase("FALSE")) {
-                        workInstanceOlemlForm.setHoldingsDataInItemReadOnly(false);
-                    }
-                }
-                String holdingId = workInstanceOlemlForm.getSelectedHolding().getHoldingsIdentifier();
-                OleHoldings holdingData = workInstanceOlemlForm.getSelectedHolding();
-                String holdingXmlContent = getInstanceEditorFormDataHandler().buildHoldingContent(holdingData);
-                Holdings holdings = docstoreClient.retrieveHoldings(holdingId);
-                holdings.setBib(bib);
-                holdings.setContent(holdingXmlContent);
-                holdings.setCategory(editorForm.getDocCategory());
-                holdings.setType(DocType.HOLDINGS.getCode());
-                holdings.setFormat(editorForm.getDocFormat());
-                docstoreClient.updateHoldings(holdings);
-                getInstanceEditorFormDataHandler().setLocationDetails(workInstanceOlemlForm);
-                if (!isValidHoldingsData(workInstanceOlemlForm)) {
+                    String holdingId = workInstanceOlemlForm.getSelectedHolding().getHoldingsIdentifier();
+                    OleHoldings holdingData = workInstanceOlemlForm.getSelectedHolding();
+                    String holdingXmlContent = getInstanceEditorFormDataHandler().buildHoldingContent(holdingData);
+                    Holdings holdings = docstoreClient.retrieveHoldings(holdingId);
+                    holdings.setBib(bib);
+                    holdings.setContent(holdingXmlContent);
+                    holdings.setCategory(editorForm.getDocCategory());
+                    holdings.setType(DocType.HOLDINGS.getCode());
+                    holdings.setFormat(editorForm.getDocFormat());
+                    docstoreClient.updateHoldings(holdings);
                     getInstanceEditorFormDataHandler().setLocationDetails(workInstanceOlemlForm);
+                    if (!isValidHoldingsData(workInstanceOlemlForm)) {
+                        getInstanceEditorFormDataHandler().setLocationDetails(workInstanceOlemlForm);
+                        return workInstanceOlemlForm;
+                    }
+                    editorMessage = "item.record.update.message";
+                } else {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,OLEConstants.EXCEED_MAX_COUNT);
+                    //editorMessage = ;
                     return workInstanceOlemlForm;
                 }
-                editorMessage = "item.record.update.message";
 
             } else {
 
@@ -611,9 +676,9 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                     return workInstanceOlemlForm;
                 }
                 long endtime = System.currentTimeMillis();
-                editorForm.setSolrTime(String.valueOf((endtime-startTime)/1000));
-                if(oleItem.getLocation()!=null){
-                    String location =  oleItem.getLocation().getLocationLevel().getName();
+                editorForm.setSolrTime(String.valueOf((endtime - startTime) / 1000));
+                if (oleItem.getLocation() != null) {
+                    String location = oleItem.getLocation().getLocationLevel().getName();
                     if (asrHelperService.isAnASRItem(location)) {
                         Map<String, String> asrItemMap = new HashMap<String, String>();
                         asrItemMap.put("itemBarcode", oleItem.getAccessInformation().getBarcode());
@@ -629,20 +694,19 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                             if (bib.getAuthor() != null) {
                                 asrItem.setAuthor((bib.getAuthor().length() > 37) ? bib.getAuthor().substring(0, 36) : bib.getAuthor());
                             }
-                            if (oleItem.getCallNumber() != null && oleItem.getCallNumber().getNumber() != null && !oleItem.getCallNumber().getNumber().isEmpty()){
-                                callNumber=(oleItem.getCallNumber().getNumber().length() > 37) ? oleItem.getCallNumber().getNumber().substring(0, 36) : oleItem.getCallNumber().getNumber();
-                                prefix=oleItem.getCallNumber().getPrefix()!=null&&!oleItem.getCallNumber().getPrefix().isEmpty()?oleItem.getCallNumber().getPrefix():"";
-                                asrItem.setCallNumber(prefix+" "+callNumber);
-                            }
-                            else if(workInstanceOlemlForm.getSelectedHolding()!=null && workInstanceOlemlForm.getSelectedHolding().getCallNumber()!=null && workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber()!=null && !workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().isEmpty()){
-                                callNumber=(workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().length() > 37) ? workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().substring(0, 36) : workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber();
-                                prefix=workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix()!=null&&!workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix().isEmpty()?workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix():"";
-                                asrItem.setCallNumber(prefix+" "+callNumber);
+                            if (oleItem.getCallNumber() != null && oleItem.getCallNumber().getNumber() != null && !oleItem.getCallNumber().getNumber().isEmpty()) {
+                                callNumber = (oleItem.getCallNumber().getNumber().length() > 37) ? oleItem.getCallNumber().getNumber().substring(0, 36) : oleItem.getCallNumber().getNumber();
+                                prefix = oleItem.getCallNumber().getPrefix() != null && !oleItem.getCallNumber().getPrefix().isEmpty() ? oleItem.getCallNumber().getPrefix() : "";
+                                asrItem.setCallNumber(prefix + " " + callNumber);
+                            } else if (workInstanceOlemlForm.getSelectedHolding() != null && workInstanceOlemlForm.getSelectedHolding().getCallNumber() != null && workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber() != null && !workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().isEmpty()) {
+                                callNumber = (workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().length() > 37) ? workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().substring(0, 36) : workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber();
+                                prefix = workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix() != null && !workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix().isEmpty() ? workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix() : "";
+                                asrItem.setCallNumber(prefix + " " + callNumber);
                             }
                             businessObjectService.save(asrItem);
                         }
                     }
-                }else if(workInstanceOlemlForm.getSelectedHolding().getLocation()!=null){
+                } else if (workInstanceOlemlForm.getSelectedHolding().getLocation() != null) {
                     OleHoldings oleHoldings = workInstanceOlemlForm.getSelectedHolding();
                     String location = oleHoldings.getLocation().getLocationLevel().getName();
                     if (asrHelperService.isAnASRItem(location)) {
@@ -660,15 +724,14 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                             if (bib.getAuthor() != null) {
                                 asrItem.setAuthor((bib.getAuthor().length() > 37) ? bib.getAuthor().substring(0, 36) : bib.getAuthor());
                             }
-                            if (oleItem.getCallNumber() != null && oleItem.getCallNumber().getNumber() != null && !oleItem.getCallNumber().getNumber().isEmpty()){
-                                callNumber=(oleItem.getCallNumber().getNumber().length() > 37) ? oleItem.getCallNumber().getNumber().substring(0, 36) : oleItem.getCallNumber().getNumber();
-                                prefix=oleItem.getCallNumber().getPrefix()!=null&&!oleItem.getCallNumber().getPrefix().isEmpty()?oleItem.getCallNumber().getPrefix():"";
-                                asrItem.setCallNumber(prefix+" "+callNumber);
-                            }
-                            else if(workInstanceOlemlForm.getSelectedHolding()!=null && workInstanceOlemlForm.getSelectedHolding().getCallNumber()!=null && workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber()!=null && !workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().isEmpty()){
-                                callNumber=(workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().length() > 37) ? workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().substring(0, 36) : workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber();
-                                prefix=workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix()!=null&&!workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix().isEmpty()?workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix():"";
-                                asrItem.setCallNumber(prefix+" "+callNumber);
+                            if (oleItem.getCallNumber() != null && oleItem.getCallNumber().getNumber() != null && !oleItem.getCallNumber().getNumber().isEmpty()) {
+                                callNumber = (oleItem.getCallNumber().getNumber().length() > 37) ? oleItem.getCallNumber().getNumber().substring(0, 36) : oleItem.getCallNumber().getNumber();
+                                prefix = oleItem.getCallNumber().getPrefix() != null && !oleItem.getCallNumber().getPrefix().isEmpty() ? oleItem.getCallNumber().getPrefix() : "";
+                                asrItem.setCallNumber(prefix + " " + callNumber);
+                            } else if (workInstanceOlemlForm.getSelectedHolding() != null && workInstanceOlemlForm.getSelectedHolding().getCallNumber() != null && workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber() != null && !workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().isEmpty()) {
+                                callNumber = (workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().length() > 37) ? workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber().substring(0, 36) : workInstanceOlemlForm.getSelectedHolding().getCallNumber().getNumber();
+                                prefix = workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix() != null && !workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix().isEmpty() ? workInstanceOlemlForm.getSelectedHolding().getCallNumber().getPrefix() : "";
+                                asrItem.setCallNumber(prefix + " " + callNumber);
 
                             }
                             businessObjectService.save(asrItem);
@@ -721,7 +784,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                 return workInstanceOlemlForm;
             } catch (Exception e) {
                 LOG.error("Exception ", e);
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,"docstore.response", e.getMessage() );
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "docstore.response", e.getMessage());
             }
             Item item = itemOlemlRecordProcessor.fromXML(itemDocument.getContent());
             editorForm.setItemLocalIdentifier(DocumentUniqueIDPrefix.getDocumentId(item.getItemIdentifier()));

@@ -3693,8 +3693,8 @@ public class LoanProcessor {
             org.kuali.ole.docstore.common.document.content.instance.Item item = getItemPojo(itemXmlContent);
             boolean isMissingPieceFlagEnabled=(item != null && item.isMissingPieceFlag())?true:false;
             item.setMissingPieceFlag(true);
-            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-            String parsedDate = df.format((new Date()));
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE);
+            String parsedDate = simpleDateFormat.format((new Date()));
             item.setMissingPieceEffectiveDate(parsedDate);
             if (oleLoanDocument.getMissingPieceNote() != null && !oleLoanDocument.getMissingPieceNote().isEmpty()) {
                 item.setMissingPieceFlagNote(oleLoanDocument.getMissingPieceNote());

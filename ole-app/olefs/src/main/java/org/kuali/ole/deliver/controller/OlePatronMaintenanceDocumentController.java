@@ -411,15 +411,12 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                 String itemXmlContent = getLoanProcessor().getItemXML(oleLoanDocument.getItemUuid());
                 Item oleItem = getLoanProcessor().getItemPojo(itemXmlContent);
                 boolean isMissingPieceFlagEnabled=(oleItem != null && oleItem.isMissingPieceFlag())?true:false;
-                SimpleDateFormat dfs = new SimpleDateFormat("MM/dd/yyyy");
-                String parsedDate = dfs.format((new Date()));
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-                String parsedDate1 = dateFormat.format((new Date()));
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE);
                 if(oleLoanDocument.isMissingPieceFlag() && !isMissingPieceFlagEnabled){
                     MissingPieceItemRecord missingPieceItemRecord = new MissingPieceItemRecord();
                     missingPieceItemRecord.setMissingPieceFlagNote(oleLoanDocument.getMissingPieceNote());
                     missingPieceItemRecord.setMissingPieceCount(oleLoanDocument.getMissingPiecesCount());
-                    missingPieceItemRecord.setMissingPieceDate(parsedDate1);
+                    missingPieceItemRecord.setMissingPieceDate(simpleDateFormat.format(getDateTimeService().getCurrentDate()));
                     missingPieceItemRecord.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
                     missingPieceItemRecord.setPatronBarcode(newOlePatronDocument.getBarcode());
                     missingPieceItemRecord.setPatronId(newOlePatronDocument.getOlePatronId());
@@ -452,8 +449,8 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                             if(!oleLoanDocument.isMissingPieceFlag()){
                                 oleLoanDocument.setMissingPieceNote(null);
                             }
-                            DateFormat dateFormat1 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                            String missingPieceItemDate = dateFormat1.format((new Date()));
+                            DateFormat dateFormat = new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE);
+                            String missingPieceItemDate = dateFormat.format(getDateTimeService().getCurrentDate());
                             missingPieceItemRecord1.setMissingPieceDate(missingPieceItemDate);
                             missingPieceItemRecord1.setPatronBarcode(newOlePatronDocument.getBarcode());
                             missingPieceItemRecord1.setMissingPieceCount(oleLoanDocument.getMissingPiecesCount());
@@ -465,15 +462,16 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
 
                         } else {
                             if (missingPieceItemRecordList1.get(index).getMissingPieceDate() != null && !missingPieceItemRecordList1.get(index).getMissingPieceDate().toString().isEmpty()) {
-                                SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-                                SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                                SimpleDateFormat dateToSimpleDateFormat = new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE);
                                 Date missingPieceItemDate = null;
-                                try {
-                                    missingPieceItemDate = format2.parse(missingPieceItemRecordList1.get(index).getMissingPieceDate().toString());
-                                } catch (org.kuali.ole.sys.exception.ParseException e) {
-                                    LOG.error("format string to Date " + e);
+                                if(null != (missingPieceItemRecordList1.get(index).getMissingPieceDate())){
+                                    try {
+                                        missingPieceItemDate = new Date(missingPieceItemRecordList1.get(index).getMissingPieceDate().getTime());
+                                    } catch (org.kuali.ole.sys.exception.ParseException e) {
+                                        LOG.error("format string to Date " + e);
+                                    }
                                 }
-                                missingPieceItemRecord1.setMissingPieceDate(format1.format(missingPieceItemDate).toString());
+                                missingPieceItemRecord1.setMissingPieceDate(dateToSimpleDateFormat.format(missingPieceItemDate).toString());
                             }
                             missingPieceItemRecord1.setMissingPieceFlagNote(missingPieceItemRecordList1.get(index).getMissingPieceFlagNote());
                             missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecordList1.get(index).getMissingPieceCount());
@@ -766,8 +764,8 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                         oleItem.setClaimsReturnedNote(null);
                         oleItem.setClaimsReturnedFlagCreateDate(null);
                     }
-                    SimpleDateFormat dfs = new SimpleDateFormat("MM/dd/yyyy");
-                    String parsedDate = dfs.format((new Date()));
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE);
+                    String parsedDate = simpleDateFormat.format((new Date()));
                     if(oleLoanDocument.isMissingPieceFlag() && !isMissingPieceFlagEnabled){
                         MissingPieceItemRecord missingPieceItemRecord = new MissingPieceItemRecord();
                         missingPieceItemRecord.setMissingPieceFlagNote(oleLoanDocument.getMissingPieceNote());
@@ -804,7 +802,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                                 if(!oleLoanDocument.isMissingPieceFlag()){
                                     oleLoanDocument.setMissingPieceNote(null);
                                 }
-                                DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                                DateFormat dateFormat = new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE);
                                 String missingPieceItemDate = dateFormat.format((new Date()));
                                 missingPieceItemRecord1.setMissingPieceDate(missingPieceItemDate);
                                 missingPieceItemRecord1.setMissingPieceCount(oleLoanDocument.getMissingPiecesCount());
@@ -817,15 +815,16 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
 
                             } else {
                                 if (missingPieceItemRecordList1.get(index).getMissingPieceDate() != null && !missingPieceItemRecordList1.get(index).getMissingPieceDate().toString().isEmpty()) {
-                                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-                                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                                    SimpleDateFormat dateToSimpleDateFormat = new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE);
                                     Date missingPieceItemDate = null;
-                                    try {
-                                        missingPieceItemDate = format2.parse(missingPieceItemRecordList1.get(index).getMissingPieceDate().toString());
-                                    } catch (org.kuali.ole.sys.exception.ParseException e) {
-                                        LOG.error("format string to Date " + e);
+                                    if(null != (missingPieceItemRecordList1.get(index).getMissingPieceDate())){
+                                        try {
+                                            missingPieceItemDate = new Date(missingPieceItemRecordList1.get(index).getMissingPieceDate().getTime());
+                                        } catch (org.kuali.ole.sys.exception.ParseException e) {
+                                            LOG.error("format string to Date " + e);
+                                        }
                                     }
-                                    missingPieceItemRecord1.setMissingPieceDate(format1.format(missingPieceItemDate).toString());
+                                    missingPieceItemRecord1.setMissingPieceDate(dateToSimpleDateFormat.format(missingPieceItemDate).toString());
                                 }
                                 missingPieceItemRecord1.setMissingPieceFlagNote(missingPieceItemRecordList1.get(index).getMissingPieceFlagNote());
                                 missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecordList1.get(index).getMissingPieceCount());

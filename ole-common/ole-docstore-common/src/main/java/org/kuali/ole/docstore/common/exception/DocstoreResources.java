@@ -35,6 +35,8 @@ public class DocstoreResources {
     public static final String MISSING_PIECE_FLAG_BASED_ERROR = "ds.error.missing.piece.error";
     public static final String MISSING_PIECE_FLAG_BASED_ERROR_COUNT = "ds.error.missing.piece.count.error";
     public static final String MISSING_PIECE_FLAG_BASED_ERROR_BLANK = "ds.error.missing.piece.blank";
+    public static final String INVALID_NO_OF_PIECE = "ds.error.no.of.missing.piece";
+    public static final String INVALID_MISSING_PIECE_COUNT = "ds.invalid.missing.piece.count";
     public static final String MISSING_PIECE_FLAG_BASED_ERROR_GREATER = "ds.error.missing.piece.greater.error";
     public static final String NO_PIECE_FLAG_BASED_ERROR_GREATER = "ds.error.no.piece.greater.error";
     public static final String NO_PIECE_FLAG_BASED_ERROR_VALIDATION = "ds.error.no.piece.blank";

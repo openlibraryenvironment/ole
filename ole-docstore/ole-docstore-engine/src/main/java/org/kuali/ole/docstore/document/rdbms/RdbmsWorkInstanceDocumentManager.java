@@ -1730,8 +1730,8 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
         }
         List<MissingPieceItemRecord> missingPieceItemRecordList = new ArrayList<>();
         if(itemRecord.getMissingPieceItemRecordList() != null){
-            SimpleDateFormat dfs = new SimpleDateFormat("MM/dd/yyyy");
-            String parsedDate = dfs.format((new Date()));
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+            String parsedDate = simpleDateFormat.format((new Date()));
             List<org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord> missingPieceItemRecords = itemRecord.getMissingPieceItemRecordList();
             for(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord missingPieceItemRecord : missingPieceItemRecords){
                 MissingPieceItemRecord missingPieceItemRecord1 = new MissingPieceItemRecord();

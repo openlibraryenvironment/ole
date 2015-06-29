@@ -163,6 +163,7 @@ public interface ItemConstants {
     public static final String NUMBER_OF_RENEW = "NumberOfRenew_display";
     public static final String GREGORIAN_PATTERN = "yyyy-MM-dd HH:mm:ss";
     public static final String DAT_FORMAT_EFFECTIVE = "MM/dd/yyyy hh:mm:ssa";
+    public static final String DATE_FORMAT_EFFECTIVE = "MM/dd/yyyy hh:mm:ss a";
     public static final String DAT_FORMAT_EFFECTIVE_NOTICE = "MM/dd/yyyy HH:mm:ss";
     public static final String DESCRIBE_EFFECTIVE_DATE = "00:00:00";
 

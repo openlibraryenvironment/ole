@@ -23,6 +23,7 @@ import java.util.*;
  */
 public class OLEConstants {
 
+    public static final String EXCEED_MAX_COUNT = "exceed.max.count";
     public static final String LICENSE_ID = "licenseId";
 	public static final String EMPTY_ITEM_BARCODE ="empty.item.barcode";
     public static final String ERES_ACCESS_ACTIVATION_CONFIG_ACTION_LINK = "oleAccessActivationConfiguration";

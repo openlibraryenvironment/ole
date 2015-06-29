@@ -1461,8 +1461,9 @@ public class LoanController extends UifControllerBase {
         }
         if (maxSessionTime != null && !maxSessionTime.equalsIgnoreCase(""))
             oleLoanForm.setMaxSessionTime(Integer.parseInt(maxSessionTime));*/
-        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-        String parsedDate = df.format((new Date()));
+        //SimpleDateFormat df = new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE_NOTICE);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat (OLEConstants.DAT_FORMAT_EFFECTIVE);
+        String parsedDate = simpleDateFormat.format((new Date()));
         OleLoanDocument loanDocument = oleLoanForm.getMissingPieceLoanDocument();
         if (oleLoanForm.getDialogItemNoOfPieces() == null || oleLoanForm.getDialogItemNoOfPieces() != null && oleLoanForm.getDialogItemNoOfPieces().equalsIgnoreCase("")) {
             oleLoanForm.setDialogErrorMessage("Provide information for no of pieces");
@@ -4336,8 +4337,8 @@ public class LoanController extends UifControllerBase {
             MissingPieceItemRecord missingPieceItemRecord1 = new MissingPieceItemRecord();
             if(index == missingPieceItemRecordList.size()-1){
 
-                DateFormat dfs = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                String missingPieceItemDate = dfs.format((new Date()));
+                DateFormat dateFormat = new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE);
+                String missingPieceItemDate = dateFormat.format((new Date()));
                 missingPieceItemRecord1.setMissingPieceDate(missingPieceItemDate);
                 missingPieceItemRecord1.setMissingPieceCount(oleLoanForm.getDialogMissingPieceCount());
                 missingPieceItemRecord1.setPatronBarcode(oleLoanForm.getPatronBarcode());
@@ -4348,15 +4349,16 @@ public class LoanController extends UifControllerBase {
 
             } else {
                 if (missingPieceItemRecordList.get(index).getMissingPieceDate() != null && !missingPieceItemRecordList.get(index).getMissingPieceDate().toString().isEmpty()) {
-                    SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
-                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                    SimpleDateFormat dateToSimpleDateFormat = new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE);
                     Date missingPieceItemDate = null;
-                    try {
-                        missingPieceItemDate = format2.parse(missingPieceItemRecordList.get(index).getMissingPieceDate().toString());
-                    } catch (ParseException e) {
-                        LOG.error("format string to Date " + e);
+                    if(null != (missingPieceItemRecordList.get(index).getMissingPieceDate())){
+                        try {
+                            missingPieceItemDate = new Date(missingPieceItemRecordList.get(index).getMissingPieceDate().getTime());
+                        } catch (ParseException e) {
+                            LOG.error("format string to Date " + e);
+                        }
                     }
-                    missingPieceItemRecord1.setMissingPieceDate(format1.format(missingPieceItemDate).toString());
+                    missingPieceItemRecord1.setMissingPieceDate(dateToSimpleDateFormat.format(missingPieceItemDate).toString());
                 }
                 missingPieceItemRecord1.setMissingPieceFlagNote(missingPieceItemRecordList.get(index).getMissingPieceFlagNote());
                 missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecordList.get(index).getMissingPieceCount());

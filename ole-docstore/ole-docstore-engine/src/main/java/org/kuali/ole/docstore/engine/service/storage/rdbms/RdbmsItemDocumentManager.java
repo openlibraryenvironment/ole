@@ -268,13 +268,18 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
         }
 
         List<MissingPieceItemRecord> missingPieceItemRecordList = new ArrayList<>();
-        SimpleDateFormat dfs = new SimpleDateFormat("MM/dd/yyyy");
-        String parsedDate = dfs.format((new Date()));
-        if(itemRecord.getMissingPieceItemRecordList() != null){
+
+
+        if(CollectionUtils.isNotEmpty(itemRecord.getMissingPieceItemRecordList())){
+
             for(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord missingPieceItemRecord : itemRecord.getMissingPieceItemRecordList()){
+                SimpleDateFormat dateToSimpleDateFormat = new SimpleDateFormat(ItemConstants.DATE_FORMAT_EFFECTIVE);
+                SimpleDateFormat timestampToDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+                Date missingPieceDate = null;
+                missingPieceDate = new Date(missingPieceItemRecord.getMissingPieceDate().getTime());
                 MissingPieceItemRecord missingPieceItemRecord1 = new MissingPieceItemRecord();
                 missingPieceItemRecord1.setMissingPieceFlagNote(missingPieceItemRecord.getMissingPieceFlagNote());
-                missingPieceItemRecord1.setMissingPieceDate(parsedDate);
+                missingPieceItemRecord1.setMissingPieceDate(dateToSimpleDateFormat.format(missingPieceDate).toString());
                 missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecord.getMissingPieceCount());
                 missingPieceItemRecord1.setPatronBarcode(missingPieceItemRecord.getPatronBarcode());
                 missingPieceItemRecord1.setPatronId(missingPieceItemRecord.getPatronId());
@@ -686,7 +691,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
                       missingPieceRecord.setOperatorId(missingPieceItemRecord.getOperatorId());
                       missingPieceRecord.setItemId(DocumentUniqueIDPrefix.getDocumentId(missingPieceItemRecord.getItemId()));
                       if (missingPieceItemRecord.getMissingPieceDate() != null && !missingPieceItemRecord.getMissingPieceDate().equalsIgnoreCase("")) {
-                          SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+                          SimpleDateFormat df = new SimpleDateFormat(ItemConstants.DATE_FORMAT_EFFECTIVE);
                           Date parsedDate = null;
                           try {
                               parsedDate = df.parse(missingPieceItemRecord.getMissingPieceDate());
@@ -1060,7 +1065,6 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
                 effectiveDate = new Timestamp(df.parse(effectiveDateForItem).getTime());
                 itemRecord.setEffectiveDate(effectiveDate);
             }
-
         } catch (Exception e) {
             LOG.error("Effective Date for Item" + e);
         }
