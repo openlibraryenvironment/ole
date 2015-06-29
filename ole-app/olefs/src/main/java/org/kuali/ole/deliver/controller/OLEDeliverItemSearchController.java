@@ -108,9 +108,13 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                     searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.PHRASE, searchParams.buildSearchField(DocType.ITEM.getCode(), ItemConstants.LOCATION_LEVEL_SEARCH, itemLocation), OLEConstants.OR_SEARCH_SCOPE));
                     searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.PHRASE, searchParams.buildSearchField(DocType.ITEM.getCode(),ItemConstants.HOLDINGS_LOCATION_SEARCH, itemLocation), OLEConstants.OR_SEARCH_SCOPE));
                 }
-                searchParams.setPageSize(100000);
+                searchParams.setPageSize(oleDeliverItemSearchForm.getPageSize());
+                searchParams.setStartIndex(oleDeliverItemSearchForm.getStart());
+                oleDeliverItemSearchForm.setSearchParams(searchParams);
+                buildSortCondition(oleDeliverItemSearchForm);
                 getSearchResultFields(searchParams);
                 SearchResponse searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+                oleDeliverItemSearchForm.setTotalRecordCount(searchResponse.getTotalRecordCount());
                 getSearchResults(searchResponse, oleDeliverItemSearchForm);
                 if(oleDeliverItemSearchForm.getOleBibSearchResultDisplayRowList()!=null && oleDeliverItemSearchForm.getOleBibSearchResultDisplayRowList().size()>0){
                     oleDeliverItemSearchForm.setMultipleItemFlag(true);
@@ -150,7 +154,7 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.PUBLICATIONDATE_DISPLAY));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.CURRENT_BORROWER));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.PROXY_BORROWER));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), "mdf_035a"));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.MDF_035A));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.ISBN_DISPLAY));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.ITEMNOTE_VALUE_DISPLAY));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.ITEMNOTE_TYPE_DISPLAY));
@@ -166,13 +170,17 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.DATE_ENTERED));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.UPDATED_BY));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.DATE_UPDATED));
-        buildSortCondition(searchParams);
-    }
+     }
 
-    private void buildSortCondition(SearchParams searchParams) {
+    private void buildSortCondition(OLEDeliverItemSearchForm oleDeliverItemSearchForm) {
+        SearchParams searchParams = oleDeliverItemSearchForm.getSearchParams();
         SortCondition sortCondition = new SortCondition();
-        sortCondition.setSortField(BibConstants.TITLE_SORT);
-        sortCondition.setSortOrder("asc");
+        if(org.apache.commons.lang.StringUtils.isEmpty(oleDeliverItemSearchForm.getSortField())){
+            oleDeliverItemSearchForm.setSortField(BibConstants.TITLE_SORT);
+            oleDeliverItemSearchForm.setSortOrder("asc");
+        }
+        sortCondition.setSortField(oleDeliverItemSearchForm.getSortField());
+        sortCondition.setSortOrder(oleDeliverItemSearchForm.getSortOrder());
         searchParams.getSortConditions().add(sortCondition);
     }
 
@@ -260,7 +268,7 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                             singleItemResultDisplayRow.setCurrentBorrowerId(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.PROXY_BORROWER)) {
                             singleItemResultDisplayRow.setProxyBorrowerId(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase("mdf_035a")) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.MDF_035A)) {
                             singleItemResultDisplayRow.setOclcNumber(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.ISBN_DISPLAY)) {
                             singleItemResultDisplayRow.setIsbn(searchResultField.getFieldValue());
@@ -417,6 +425,73 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
         oleDeliverItemSearchForm.setOleSingleItemResultDisplayRow(new OLESingleItemResultDisplayRow());
         return getUIFModelAndView(oleDeliverItemSearchForm);
     }
+
+
+    @RequestMapping(params = "methodToCall=pageNumberSearch")
+    public ModelAndView pageNumberSearch(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        OLEDeliverItemSearchForm oleDeliverItemSearchForm  = (OLEDeliverItemSearchForm) form;
+        SearchParams searchParams = oleDeliverItemSearchForm.getSearchParams();
+        try {
+            int start = Math.max(0,
+                    (Integer.parseInt(oleDeliverItemSearchForm.getPageNumber()) - 1)
+                            * searchParams.getPageSize());
+            oleDeliverItemSearchForm.setStart(start);
+        } catch (NumberFormatException e) {
+            LOG.warn("Invalid page number " + oleDeliverItemSearchForm.getPageNumber(), e);
+        }
+        return search(oleDeliverItemSearchForm, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=lastPageSearch")
+    public ModelAndView lastPageSearch(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        OLEDeliverItemSearchForm oleDeliverItemSearchForm = (OLEDeliverItemSearchForm) form;
+        SearchParams searchParams = oleDeliverItemSearchForm.getSearchParams();
+        try {
+            int totalcount = oleDeliverItemSearchForm.getTotalRecordCount();
+            int pageSize = searchParams.getPageSize();
+            int totlaPages = totalcount/pageSize;
+            int lastNumber= pageSize*totlaPages;
+            int lastPage = totalcount - pageSize;
+            oleDeliverItemSearchForm.setPageNumber(Integer.toString(totlaPages));
+            if(lastNumber < totalcount){
+                lastPage = lastNumber;
+                oleDeliverItemSearchForm.setPageNumber(Integer.toString(totlaPages+1));
+            }
+            int start = Math.max(0, lastPage);
+            oleDeliverItemSearchForm.setStart(start);
+        } catch (NumberFormatException e) {
+            LOG.warn("Invalid page number " + oleDeliverItemSearchForm.getPageNumber(), e);
+        }
+        return search(oleDeliverItemSearchForm, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=nextSearch")
+    public ModelAndView nextSearch(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        OLEDeliverItemSearchForm oleDeliverItemSearchForm = (OLEDeliverItemSearchForm) form;
+        SearchParams searchParams = oleDeliverItemSearchForm.getSearchParams();
+        int start = Math.max(0, searchParams.getStartIndex() + searchParams.getPageSize());
+        oleDeliverItemSearchForm.setStart(start);
+        return search(oleDeliverItemSearchForm, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=previousSearch")
+    public ModelAndView previousSearch(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        OLEDeliverItemSearchForm oleDeliverItemSearchForm = (OLEDeliverItemSearchForm) form;
+        SearchParams searchParams = oleDeliverItemSearchForm.getSearchParams();
+        int start = Math.max(0, searchParams.getStartIndex() - oleDeliverItemSearchForm.getPageSize());
+        oleDeliverItemSearchForm.setStart(start);
+        return search(oleDeliverItemSearchForm, result, request, response);
+    }
+
+
 
 
 }

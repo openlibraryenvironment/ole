@@ -458,6 +458,7 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
         solrInputDocument.addField(FORMAT_SEARCH, sourceDocument.getFieldValues(FORMAT_SEARCH));
         solrInputDocument.addField(LANGUAGE_SEARCH, sourceDocument.getFieldValues(LANGUAGE_SEARCH));
         solrInputDocument.addField(PUBLICATIONDATE_SEARCH, sourceDocument.getFieldValues(PUBLICATIONDATE_SEARCH));
+        solrInputDocument.addField(MDF_035A, sourceDocument.getFieldValues(MDF_035A));
 
         solrInputDocument.addField(TITLE_DISPLAY, sourceDocument.getFieldValues(TITLE_DISPLAY));
         solrInputDocument.addField(AUTHOR_DISPLAY, sourceDocument.getFieldValues(AUTHOR_DISPLAY));
@@ -489,6 +490,7 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
         solrInputDocument.addField(FORMAT_SEARCH, sourceInputDocument.getFieldValues(FORMAT_SEARCH));
         solrInputDocument.addField(LANGUAGE_SEARCH, sourceInputDocument.getFieldValues(LANGUAGE_SEARCH));
         solrInputDocument.addField(PUBLICATIONDATE_SEARCH, sourceInputDocument.getFieldValues(PUBLICATIONDATE_SEARCH));
+        solrInputDocument.addField(MDF_035A, sourceInputDocument.getFieldValues(MDF_035A));
 
         solrInputDocument.addField(TITLE_DISPLAY, sourceInputDocument.getFieldValues(TITLE_DISPLAY));
         solrInputDocument.addField(AUTHOR_DISPLAY, sourceInputDocument.getFieldValues(AUTHOR_DISPLAY));

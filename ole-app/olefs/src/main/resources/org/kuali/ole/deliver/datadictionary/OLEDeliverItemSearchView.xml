@@ -23,6 +23,7 @@
                             <ref bean="OLEDeliverItemSearchButtons"/>
                             <ref bean="OLEDeliverBibSearchResults"/>
                             <ref bean="OLEDeliverItemSearchResult"/>
+                            <ref bean="hiddenSearchFieldsItem"/>
                         </list>
                     </property>
                 </bean>
@@ -122,51 +123,47 @@
             </list>
         </property>
     </bean>
-
-    <bean id="OLEDeliverBibSearchResults" parent="Uif-TableCollectionSection"
-          p:layoutManager.applyDefaultCellWidths="false" p:render="@{multipleItemFlag}">
-        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEBibSearchResultDisplayRow"/>
-        <property name="propertyName" value="oleBibSearchResultDisplayRowList"/>
-        <property name="layoutManager.renderSequenceField" value="false"/>
-        <property name="layoutManager.generateAutoSequence" value="false"/>
+    <bean id="OLEDeliverBibSearchResults" parent="Uif-CollectionGroupBase"
+          p:render="@{multipleItemFlag}">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.deliver.bo.OLEBibSearchResultDisplayRow" />
+        <property name="propertyName" value="oleBibSearchResultDisplayRowList" />
         <property name="renderAddLine" value="false"/>
-        <property name="layoutManager.richTable.render" value="true"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{#line.id}&amp;editable=true"
-                      p:label="Bib ID" p:linkText="@{#line.id}" p:target="_blank"/>
-                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title"/>
-                <bean parent="Uif-DataField" p:label="Author" p:propertyName="author"/>
-                <bean parent="Uif-DataField" p:label="Pub Year" p:propertyName="publicationYear"/>
-                <bean parent="Uif-DataField" p:label="Holdings Location" p:propertyName="holdingsLocation"/>
-                <bean parent="Uif-DataField" p:label="Item Location" p:propertyName="itemLocation"/>
-                <bean parent="Uif-DataField" p:label="Call Number" p:propertyName="itemCallNumber"/>
-                <bean parent="Uif-DataField" p:label="Status" p:propertyName="itemStatus"/>
-                <bean parent="Uif-DataField" p:label="Item Type" p:propertyName="itemType"/>
-            </list>
-        </property>
         <property name="renderLineActions" value="false"/>
-        <property name="layoutManager.rowDetailsOpen" value="false"/>
-        <property name="layoutManager.rowDetailsGroup">
-            <bean parent="Uif-VerticalBoxGroup">
-                <property name="items">
-                    <list>
-                        <ref bean="OLEDeliverHoldingsSearchResults"/>
-                    </list>
+        <property name="layoutManager">
+            <bean class="org.kuali.ole.describe.krad.OleDeliverSearchLayout"
+                  p:template="/WEB-INF/ftl/ole-deliver-item-search.ftl" p:templateName="ole_deliver_bib_search">
+                <property name="pager">
+                    <bean parent="Uif-Pager" p:linkScript="oleItemSearchPager(this,'OLEDeliverItemSearchPage')" />
+                </property>
+               <property name="rowDetailsGroup">
+                    <bean parent="Uif-VerticalBoxGroup">
+                        <property name="items">
+                            <list>
+                                <ref bean="OLEDeliverHoldingsSearchResults"/>
+                            </list>
+                        </property>
+                    </bean>
                 </property>
             </bean>
         </property>
     </bean>
 
     <bean id="OLEDeliverHoldingsSearchResults" parent="Uif-TableSubCollection-WithinSection"
-          p:layoutManager.applyDefaultCellWidths="false">
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEHoldingsSearchResultDisplayRow"/>
         <property name="propertyName" value="oleHoldingsSearchResultDisplayRowList"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.generateAutoSequence" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bFilter" value="false"/>
+                <entry key="oTableTools"
+                       value="{&quot;aButtons&quot; : [ &quot;csv&quot;, &quot;xls&quot; ]}"/>
+            </map>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
@@ -198,6 +195,13 @@
         <property name="layoutManager.generateAutoSequence" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bFilter" value="false"/>
+                <entry key="oTableTools"
+                       value="{&quot;aButtons&quot; : [ &quot;csv&quot;, &quot;xls&quot; ]}"/>
+            </map>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;" p:render="@{singleItemFlag}"
@@ -710,5 +714,7 @@
             </list>
         </property>
     </bean>
+
+    <bean id="hiddenSearchFieldsItem" parent="Base-Uif-InputField" p:hidden="true" p:propertyName="pageNumber" p:additionalHiddenPropertyNames="pageSize,sortOrder,sortField"/>
 
 </beans>

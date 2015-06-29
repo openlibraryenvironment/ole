@@ -66,6 +66,7 @@ public interface BibConstants {
     public static final String TITLE_SORT = "Title_sort";
     public static final String TITLE_DISPLAY = "Title_display";
     public static final String TITLE_SEARCH = "Title_search";
+    public static final String MDF_035A = "mdf_035a";
 
     public static final String TYPE_SEARCH = "Type_search";
     public static final String TYPE_DISPLAY = "Type_display";

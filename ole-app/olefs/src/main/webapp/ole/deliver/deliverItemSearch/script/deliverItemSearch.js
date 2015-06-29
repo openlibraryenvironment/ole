@@ -18,6 +18,18 @@ jq(document).ready(function(){
     if(jq("#firstNameFinePlaceRequest_line0").val() == undefined) {
         jq("#OLEDeliverItemSearchResult-OutstandingFines span").css("color", "#808080");
     }
+
+
+    jq(".dataTables_length select").live("change", function () {
+        var rows = jq(".dataTables_length select").val();
+        jq("#hiddenSearchFieldsItem_h0").val(rows); //hiddenSearchFields_h0 is mapped to pageSize
+        submitForm('search', null, null, true, function () {
+
+        });
+    });
+
+    sessionStorage.setItem("sortOrder", "asc");
+    sessionStorage.setItem("field", "title");
 })
 
 function collapseAll(){
@@ -138,3 +150,84 @@ function disableLink(){
         jq("#OLEDeliverItemSearchResult-OutstandingFines span").css("color", "#808080");
     }
 }
+
+function oleItemRowDetails(lineId, collectionId, show) {
+    retrieveComponent(collectionId, "refresh", null, {
+        "selectRowDetails" : lineId,
+        "showSelectedRowDetails" : show
+    }, true);
+}
+
+
+function oleItemSearchPager(linkElement, collectionId) {
+    var link = jQuery(linkElement);
+    if (link.parent().is(kradVariables.ACTIVE_CLASS)) return;
+    var pageNumber = link.data(kradVariables.PAGE_NUMBER_DATA);
+    if (pageNumber == 'next')
+        submitForm('nextSearch', null, null, true, function () {
+
+        });
+
+    else if (pageNumber == 'prev')
+        submitForm('previousSearch', null, null, true, function () {
+
+        });
+    else if (pageNumber == 'first') {
+        jQuery('#hiddenSearchFieldsItem_control').val('1');
+        submitForm('pageNumberSearch', null, null, true, function () {
+
+        });
+    } else if (pageNumber == 'last')
+        submitForm('lastPageSearch', null, null, true, function () {
+
+        });
+    else {
+        jQuery('#hiddenSearchFieldsItem_control').val(pageNumber);
+        submitForm('pageNumberSearch', null, null, true, function () {
+
+        });
+    }
+
+}
+
+
+function sortBy(field) {
+    var sortField = "";
+    setFieldAndSort(field);
+    var sortOrder = sessionStorage.getItem("sortOrder");
+    if (field == 'title') {
+        sortField = "Title_sort";
+    } else if (field == 'author') {
+        sortField = "Author_sort "+sortOrder+ ",Title_sort";
+    } else if (field == 'pubYear') {
+        sortField = "PublicationDate_sort "+sortOrder+ ",Title_sort";
+    } else if (field == 'ItemLocation') {
+        sortField = "Location_sort "+sortOrder+ ",Title_sort";
+    } else if (field == 'callNumber') {
+        sortField = "CallNumber_sort "+sortOrder+ ",Title_sort";
+    } else if (field == 'status') {
+        sortField = "ItemStatus_sort "+sortOrder+ ",Title_sort";
+    }
+
+    jq('#hiddenSearchFieldsItem_h2').val(sortField);
+    jq('#hiddenSearchFieldsItem_h1').val(sortOrder);
+    submitForm('search', null, null, true, function () {
+    });
+
+}
+
+
+function setFieldAndSort(field) {
+    if (sessionStorage.getItem("field") == field) {
+        if (sessionStorage.getItem("sortOrder") == "asc") {
+            sessionStorage.setItem("sortOrder", "desc");
+        } else if (sessionStorage.getItem("sortOrder") == "desc") {
+            sessionStorage.setItem("sortOrder", "asc");
+        }
+    } else {
+        sessionStorage.setItem("field", field)
+        sessionStorage.setItem("sortOrder", "asc");
+    }
+}
+
+
