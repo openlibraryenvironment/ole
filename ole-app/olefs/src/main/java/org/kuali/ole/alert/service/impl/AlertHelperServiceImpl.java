@@ -1,5 +1,7 @@
 package org.kuali.ole.alert.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -16,6 +18,7 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.identity.principal.PrincipalBo;
 import org.kuali.rice.krad.service.*;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -69,17 +72,74 @@ public class AlertHelperServiceImpl implements AlertHelperService {
     @Override
     public void approveActionListAlert(ActionListAlertBo actionListAlertBo){
         LOG.info("Inside approveActionListAlert for the alert with alert id : " + actionListAlertBo.getAlertId());
-        AlertBo alertBo = getAlertBo(actionListAlertBo.getAlertId());
+        AlertBo alertBo = new AlertBo();
+        List<AlertBo> alertBos = new ArrayList<>();
+        List<ActionListAlertBo> actionListAlertBos = new ArrayList<>();
+        Map<String,String> alertMap = new HashMap<>();
+        alertMap.put("documentId", actionListAlertBo.getDocumentId());
+        alertBos = (List<AlertBo>)businessObjectService.findMatching(AlertBo.class, alertMap);
+        actionListAlertBos = (List<ActionListAlertBo>)businessObjectService.findMatching(ActionListAlertBo.class, alertMap);
+        if(CollectionUtils.isNotEmpty(alertBos)) {
+            for(AlertBo alertBo1 : alertBos) {
+                if(actionListAlertBo.getAlertId().equals(alertBo1.getAlertId())) {
+                    alertBo = alertBo1;
+                    break;
+                }
+            }
+        }
+        if(StringUtils.isNotEmpty(alertBo.getReceivingRoleId())) {
+            approveAlertBaseOnRole(alertBos, alertBo, actionListAlertBos);
+        } else if(StringUtils.isNotEmpty(alertBo.getReceivingGroupId())) {
+            approveAlertBaseOnGroup(alertBos, alertBo, actionListAlertBos);
+        } else {
+            saveAlert(actionListAlertBo, alertBo);
+        }
+    }
+
+    public void approveAlertBaseOnRole(List<AlertBo> alertBos, AlertBo alertBo, List<ActionListAlertBo> actionListAlertBos) {
+        for(AlertBo alertBo1 : alertBos) {
+            if(alertBo.getReceivingRoleId().equals(alertBo1.getReceivingRoleId())) {
+                if(alertBo.getAlertCreateDate().equals(alertBo1.getAlertCreateDate())) {
+                    for(ActionListAlertBo actionListAlertBo : actionListAlertBos) {
+                        if(StringUtils.isNotEmpty(actionListAlertBo.getAlertId()) && actionListAlertBo.getAlertId().equals(alertBo1.getAlertId())) {
+                            saveAlert(actionListAlertBo, alertBo1);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void approveAlertBaseOnGroup(List<AlertBo> alertBos, AlertBo alertBo, List<ActionListAlertBo> actionListAlertBos) {
+        for(AlertBo alertBo1 : alertBos) {
+            if(alertBo.getReceivingGroupId().equals(alertBo1.getReceivingGroupId())) {
+                if(alertBo.getAlertCreateDate().equals(alertBo1.getAlertCreateDate())) {
+                    for(ActionListAlertBo actionListAlertBo : actionListAlertBos) {
+                        if(StringUtils.isNotEmpty(actionListAlertBo.getAlertId()) && actionListAlertBo.getAlertId().equals(alertBo1.getAlertId())) {
+                            saveAlert(actionListAlertBo,alertBo1);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void saveAlert(ActionListAlertBo actionListAlertBo, AlertBo alertBo) {
+        actionListAlertBo.setActive(false);
+        actionListAlertBo.setAlertApprovedDate(new Date(System.currentTimeMillis()));
+        actionListAlertBo.setAlertApproverId(GlobalVariables.getUserSession().getPrincipalId());
         alertBo.setAlertStatus(false);
-        alertBo.setAlertApproverId(actionListAlertBo.getAlertApproverId());
-        alertBo.setAlertApprovedDate(actionListAlertBo.getAlertApprovedDate());
+        alertBo.setAlertApproverId(GlobalVariables.getUserSession().getPrincipalId());
+        alertBo.setAlertApprovedDate(new Date(System.currentTimeMillis()));
         businessObjectService.save(alertBo);
         businessObjectService.save(actionListAlertBo);
-        if(alertBo.isRepeatable()){
-        AlertBo alertBo1 = createNewAlertBo(alertBo);
-        businessObjectService.save(alertBo1);
-        ActionListAlertBo actionListAlertBo1 = getActionListAlertBo(alertBo1,actionListAlertBo.getRecordType(),actionListAlertBo.getTitle(),actionListAlertBo.getAlertUserId());
-        businessObjectService.save(actionListAlertBo1);
+        if(alertBo.isRepeatable()) {
+            AlertBo alertBo1 = createNewAlertBo(alertBo);
+            businessObjectService.save(alertBo1);
+            ActionListAlertBo actionListAlertBo1 = getActionListAlertBo(alertBo1,actionListAlertBo.getRecordType(),actionListAlertBo.getTitle(),actionListAlertBo.getAlertUserId());
+            businessObjectService.save(actionListAlertBo1);
         }
     }
 

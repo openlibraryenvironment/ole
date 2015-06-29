@@ -114,13 +114,16 @@ public class DocumentServiceImpl implements DocumentService {
         UserSessionUtils.addWorkflowDocument(GlobalVariables.getUserSession(),
                 savedDocument.getDocumentHeader().getWorkflowDocument());
         if(document instanceof OleTransactionalDocumentBase){
-        OleTransactionalDocumentBase oleTransactionalDocumentBase = (OleTransactionalDocumentBase)document;
-        getAlertService().deleteAlerts(document.getDocumentNumber());
-        getAlertService().saveAlert(oleTransactionalDocumentBase);
-        List<AlertBo> alertBos = oleTransactionalDocumentBase.getAlertBoList();
-        oleTransactionalDocumentBase = (OleTransactionalDocumentBase)savedDocument;
-        oleTransactionalDocumentBase.setAlertBoList(alertBos);
-
+            OleTransactionalDocumentBase oleTransactionalDocumentBase = (OleTransactionalDocumentBase)document;
+            if(!oleTransactionalDocumentBase.getAlertBoList().containsAll(oleTransactionalDocumentBase.getTempAlertBoList())) {
+                oleTransactionalDocumentBase.getAlertBoList().addAll(oleTransactionalDocumentBase.getTempAlertBoList());
+            }
+            getAlertService().deleteAlerts(document.getDocumentNumber());
+            getAlertService().saveAlert(oleTransactionalDocumentBase);
+            List<AlertBo> alertBos = oleTransactionalDocumentBase.getAlertBoList();
+            oleTransactionalDocumentBase = (OleTransactionalDocumentBase)savedDocument;
+            alertBos.removeAll(oleTransactionalDocumentBase.getTempAlertBoList());
+            oleTransactionalDocumentBase.setAlertBoList(alertBos);
         }
 
         if(document instanceof MaintenanceDocumentBase){
@@ -198,10 +201,14 @@ public class DocumentServiceImpl implements DocumentService {
         removeAdHocPersonsAndWorkgroups(savedDocument);
         if(document instanceof OleTransactionalDocumentBase){
             OleTransactionalDocumentBase oleTransactionalDocumentBase = (OleTransactionalDocumentBase)document;
+            if(!oleTransactionalDocumentBase.getAlertBoList().containsAll(oleTransactionalDocumentBase.getTempAlertBoList())) {
+                oleTransactionalDocumentBase.getAlertBoList().addAll(oleTransactionalDocumentBase.getTempAlertBoList());
+            }
             getAlertService().deleteAlerts(document.getDocumentNumber());
             getAlertService().saveAlert(oleTransactionalDocumentBase);
             List<AlertBo> alertBos = oleTransactionalDocumentBase.getAlertBoList();
             oleTransactionalDocumentBase = (OleTransactionalDocumentBase)savedDocument;
+            alertBos.removeAll(oleTransactionalDocumentBase.getTempAlertBoList());
             oleTransactionalDocumentBase.setAlertBoList(alertBos);
             processGlobalAlerts(document);
         }

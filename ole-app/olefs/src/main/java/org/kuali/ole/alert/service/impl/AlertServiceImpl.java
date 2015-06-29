@@ -1,5 +1,6 @@
 package org.kuali.ole.alert.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.alert.bo.ActionListAlertBo;
@@ -78,34 +79,54 @@ public class AlertServiceImpl implements AlertService{
         }
         if(unModifiableList!=null && unModifiableList.size()>0){
             for(AlertBo alertBo : unModifiableList){
-                String status = null;
-                if(alertBo.getAlertDate()!=null){
-                    int dateCompare= alertBo.getAlertDate().compareTo(new Date(System.currentTimeMillis()));
-                    if(dateCompare>0){
-                        status = "Future";
-                    }else if(dateCompare<0){
-                        status="Complete";
-                    }else if(dateCompare==0){
-                        status = "Active";
-                    }
+                if (StringUtils.isEmpty(alertBo.getAlertApproverId())) {
+                    String status = null;
+                    if (alertBo.getAlertDate() != null) {
+                        int dateCompare = alertBo.getAlertDate().compareTo(new Date(System.currentTimeMillis()));
+                        if (dateCompare > 0) {
+                            status = "Future";
+                        } else if (dateCompare <= 0) {
+                            status = "Active";
+                        }
 
-                    alertBo.setStatus(status);
-                    alertBo.setAlertInitiatorName(getName(alertBo.getAlertInitiatorId()));
-                    if(alertBo.getAlertModifierId()!=null){
-                        alertBo.setAlertModifierName(getName(alertBo.getAlertModifierId()));
+                        alertBo.setStatus(status);
+                        alertBo.setAlertInitiatorName(getName(alertBo.getAlertInitiatorId()));
+                        if (alertBo.getAlertModifierId() != null) {
+                            alertBo.setAlertModifierName(getName(alertBo.getAlertModifierId()));
+                        }
+                        if (StringUtils.isNotBlank(alertBo.getReceivingUserId())) {
+                            alertBo.setReceivingUserName(getName(alertBo.getReceivingUserId()));
+                        }
+                        if (StringUtils.isNotBlank(alertBo.getReceivingGroupId())) {
+                            alertBo.setReceivingGroupName(getGroupName(alertBo.getReceivingGroupId()));
+                        }
+                        if (StringUtils.isNotBlank(alertBo.getReceivingRoleId())) {
+                            alertBo.setReceivingRoleName(getRoleName(alertBo.getReceivingRoleId()));
+                        }
                     }
-                    if(StringUtils.isNotBlank(alertBo.getReceivingUserId())){
-                        alertBo.setReceivingUserName(getName(alertBo.getReceivingUserId()));
-                    }
-                    if(StringUtils.isNotBlank(alertBo.getReceivingGroupId())){
-                        alertBo.setReceivingGroupName(getGroupName(alertBo.getReceivingGroupId()));
-                    }
-                    if(StringUtils.isNotBlank(alertBo.getReceivingRoleId())){
-                        alertBo.setReceivingRoleName(getRoleName(alertBo.getReceivingRoleId()));
-                    }
+                    alertBos.add(alertBo);
                 }
+            }
+        }
+        return alertBos;
+    }
 
-                alertBos.add(alertBo);
+    public List<AlertBo> retrieveApprovedAlertList(String documentNumber) {
+        List<AlertBo> alertBos = new ArrayList<AlertBo>();
+        List<AlertBo> approvedAlertBos = new ArrayList<AlertBo>();
+        try{
+            Map<String,String> actionMap = new HashMap();
+            actionMap.put("documentId",documentNumber);
+            approvedAlertBos = (List<AlertBo>)businessObjectService.findMatching(AlertBo.class,actionMap);
+        }catch(Exception e){
+            LOG.info("Exception occured while getting the alert information to the user : " + documentNumber);
+            LOG.error(e,e);
+        }
+        if(CollectionUtils.isNotEmpty(approvedAlertBos)) {
+            for(AlertBo alertBo : approvedAlertBos) {
+                if(StringUtils.isNotEmpty(alertBo.getAlertApproverId())) {
+                    alertBos.add(alertBo);
+                }
             }
         }
         return alertBos;

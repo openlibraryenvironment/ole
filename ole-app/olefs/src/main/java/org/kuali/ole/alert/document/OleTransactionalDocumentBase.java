@@ -17,6 +17,9 @@ public class OleTransactionalDocumentBase extends TransactionalDocumentBase {
     @Transient
     public List<AlertBo> alertBoList = new ArrayList();
 
+    @Transient
+    public List<AlertBo> tempAlertBoList = new ArrayList<AlertBo>();
+
     public List<AlertBo> getAlertBoList() {
         return alertBoList;
     }
@@ -28,5 +31,13 @@ public class OleTransactionalDocumentBase extends TransactionalDocumentBase {
     public OleTransactionalDocumentBase(){
         super();
         alertBoList = new ArrayList<>();
+    }
+
+    public List<AlertBo> getTempAlertBoList() {
+        return tempAlertBoList;
+    }
+
+    public void setTempAlertBoList(List<AlertBo> tempAlertBoList) {
+        this.tempAlertBoList = tempAlertBoList;
     }
 }

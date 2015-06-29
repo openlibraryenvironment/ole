@@ -61,6 +61,7 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
             loadDocument(form);
             OleTransactionalDocumentBase oleTransactionalDocumentBase = (OleTransactionalDocumentBase)form.getDocument();
             oleTransactionalDocumentBase.setAlertBoList(alertService.retrieveAlertList(form.getDocument().getDocumentNumber()));
+            oleTransactionalDocumentBase.setTempAlertBoList(alertService.retrieveApprovedAlertList(form.getDocument().getDocumentNumber()));
 
         } else if (KewApiConstants.INITIATE_COMMAND.equals(command)) {
             createDocument(form);
@@ -98,15 +99,13 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
         String status = null;
         if(alertBo.getAlertDate()!=null){
             Date alertDate = alertBo.getAlertDate();
-            if(alertDate.toString().equals(new Date(System.currentTimeMillis()).toString())){
+            int dateCompare= alertDate.compareTo(new Date(System.currentTimeMillis()));
+            if(dateCompare <= 0){
                 status = "Active";
             }else{
-            int dateCompare= alertBo.getAlertDate().compareTo(new Date(System.currentTimeMillis()));
-            if(dateCompare>0){
-                status = "Future";
-            }else if(dateCompare<0){
-                status="Complete";
-            }
+                if(dateCompare>0){
+                    status = "Future";
+                }
             }
         }
         alertBo.setStatus(status);
@@ -175,16 +174,71 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
         TransactionalDocumentFormBase transactionalDocumentFormBase = (TransactionalDocumentFormBase)uifForm;
         OleTransactionalDocumentBase oleTransactionalDocumentBase = (OleTransactionalDocumentBase) transactionalDocumentFormBase.getDocument();
         int index = Integer.parseInt(transactionalDocumentFormBase.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        oleTransactionalDocumentBase.getAlertBoList().get(index).setAlertStatus(false);
-        oleTransactionalDocumentBase.getAlertBoList().get(index).setAlertModifierId(GlobalVariables.getUserSession().getPrincipalId());
-        if(oleTransactionalDocumentBase.getAlertBoList().get(index).isRepeatable()){
-        alertBo = alertHelperService.createNewAlertBo(oleTransactionalDocumentBase.getAlertBoList().get(index));
-            oleTransactionalDocumentBase.getAlertBoList().add(alertBo);
+        List<AlertBo> tempAlertBoList = new ArrayList<>();
+        if(StringUtils.isNotEmpty((oleTransactionalDocumentBase.getAlertBoList().get(index).getReceivingRoleName()))) {
+            if(StringUtils.isNotEmpty(oleTransactionalDocumentBase.getAlertBoList().get(index).getReceivingRoleId())) {
+                tempAlertBoList.addAll(approveAlertBaseOnRole(oleTransactionalDocumentBase, index));
+            }
+        } else if(StringUtils.isNotEmpty(oleTransactionalDocumentBase.getAlertBoList().get(index).getReceivingGroupName())) {
+            if(StringUtils.isNotEmpty(oleTransactionalDocumentBase.getAlertBoList().get(index).getReceivingGroupId())) {
+                tempAlertBoList.addAll(approveAlertBaseOnGroup(oleTransactionalDocumentBase, index));
+            }
+        } else {
+            oleTransactionalDocumentBase.getAlertBoList().get(index).setAlertStatus(false);
+            oleTransactionalDocumentBase.getAlertBoList().get(index).setAlertApproverId(GlobalVariables.getUserSession().getPrincipalId());
+            oleTransactionalDocumentBase.getAlertBoList().get(index).setAlertApprovedDate(new Date(System.currentTimeMillis()));
+            if(oleTransactionalDocumentBase.getAlertBoList().get(index).isRepeatable()){
+                alertBo = alertHelperService.createNewAlertBo(oleTransactionalDocumentBase.getAlertBoList().get(index));
+                oleTransactionalDocumentBase.getAlertBoList().add(alertBo);
+            }
+            tempAlertBoList.add(oleTransactionalDocumentBase.getAlertBoList().get(index));
+            oleTransactionalDocumentBase.getAlertBoList().remove(index);
         }
+        oleTransactionalDocumentBase.getTempAlertBoList().addAll(tempAlertBoList);
         return super.navigate(uifForm, result, request, response);
     }
 
+    private List<AlertBo> approveAlertBaseOnRole(OleTransactionalDocumentBase oleTransactionalDocumentBase, int actualIndex) {
+        List<AlertBo> tempAlertBoList = new ArrayList<>();
+        AlertBo alertBo = null;
+        for(int index=0 ; index < oleTransactionalDocumentBase.getAlertBoList().size() ; index++) {
+            if(oleTransactionalDocumentBase.getAlertBoList().get(actualIndex).getReceivingRoleId().equals(oleTransactionalDocumentBase.getAlertBoList().get(index).getReceivingRoleId())) {
+                if(oleTransactionalDocumentBase.getAlertBoList().get(actualIndex).getAlertCreateDate().equals(oleTransactionalDocumentBase.getAlertBoList().get(index).getAlertCreateDate())) {
+                    oleTransactionalDocumentBase.getAlertBoList().get(index).setAlertStatus(false);
+                    oleTransactionalDocumentBase.getAlertBoList().get(index).setAlertApproverId(GlobalVariables.getUserSession().getPrincipalId());
+                    oleTransactionalDocumentBase.getAlertBoList().get(index).setAlertApprovedDate(new Date(System.currentTimeMillis()));
+                    if(oleTransactionalDocumentBase.getAlertBoList().get(index).isRepeatable()){
+                        alertBo = alertHelperService.createNewAlertBo(oleTransactionalDocumentBase.getAlertBoList().get(index));
+                        oleTransactionalDocumentBase.getAlertBoList().add(alertBo);
+                    }
+                    tempAlertBoList.add(oleTransactionalDocumentBase.getAlertBoList().get(index));
+                }
+            }
+        }
+        oleTransactionalDocumentBase.getAlertBoList().removeAll(tempAlertBoList);
+        return tempAlertBoList;
+    }
 
+    private List<AlertBo> approveAlertBaseOnGroup(OleTransactionalDocumentBase oleTransactionalDocumentBase, int actualIndex) {
+        List<AlertBo> tempAlertBoList = new ArrayList<>();
+        AlertBo alertBo = null;
+        for(int index=0 ; index < oleTransactionalDocumentBase.getAlertBoList().size() ; index++) {
+            if(oleTransactionalDocumentBase.getAlertBoList().get(actualIndex).getReceivingGroupId().equals(oleTransactionalDocumentBase.getAlertBoList().get(index).getReceivingGroupId())) {
+                if(oleTransactionalDocumentBase.getAlertBoList().get(actualIndex).getAlertCreateDate().equals(oleTransactionalDocumentBase.getAlertBoList().get(index).getAlertCreateDate())) {
+                    oleTransactionalDocumentBase.getAlertBoList().get(index).setAlertStatus(false);
+                    oleTransactionalDocumentBase.getAlertBoList().get(index).setAlertApproverId(GlobalVariables.getUserSession().getPrincipalId());
+                    oleTransactionalDocumentBase.getAlertBoList().get(index).setAlertApprovedDate(new Date(System.currentTimeMillis()));
+                    if(oleTransactionalDocumentBase.getAlertBoList().get(index).isRepeatable()){
+                        alertBo = alertHelperService.createNewAlertBo(oleTransactionalDocumentBase.getAlertBoList().get(index));
+                        oleTransactionalDocumentBase.getAlertBoList().add(alertBo);
+                    }
+                    tempAlertBoList.add(oleTransactionalDocumentBase.getAlertBoList().get(index));
+                }
+            }
+        }
+        oleTransactionalDocumentBase.getAlertBoList().removeAll(tempAlertBoList);
+        return tempAlertBoList;
+    }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addAlertLine")
     public ModelAndView addAlertLine(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
@@ -221,14 +275,12 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
         String status = null;
         if(alertBo.getAlertDate()!=null){
             Date alertDate = alertBo.getAlertDate();
-            if(alertDate.toString().equals(new Date(System.currentTimeMillis()).toString())){
+            int dateCompare= alertDate.compareTo(new Date(System.currentTimeMillis()));
+            if(dateCompare <= 0){
                 status = "Active";
             }else{
-                int dateCompare= alertBo.getAlertDate().compareTo(new Date(System.currentTimeMillis()));
                 if(dateCompare>0){
                     status = "Future";
-                }else if(dateCompare<0){
-                    status="Complete";
                 }
             }
         }

@@ -80,9 +80,6 @@ public class ActionListAlertController extends UifControllerBase {
         for (int i=0;i<alertForm.getActionListAlertList().size();i++){
             ActionListAlertBo actionListAlertBo = alertForm.getActionListAlertList().get(i);
             if(index == i){
-                actionListAlertBo.setActive(false);
-                actionListAlertBo.setAlertApprovedDate(new Date(System.currentTimeMillis()));
-                actionListAlertBo.setAlertApproverId(GlobalVariables.getUserSession().getPrincipalId());
                 alertHelperService.approveActionListAlert(actionListAlertBo);
             }else{
             actionListAlertBos.add(actionListAlertBo);

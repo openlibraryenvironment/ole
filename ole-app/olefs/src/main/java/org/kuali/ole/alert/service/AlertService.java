@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface AlertService {
     public List<AlertBo> retrieveAlertList(String documentNumber);
+    public List<AlertBo> retrieveApprovedAlertList(String documentNumber);
     public void deleteAlerts(String documentNumber);
     public void deleteActionListAlerts(String documentNumber);
 
