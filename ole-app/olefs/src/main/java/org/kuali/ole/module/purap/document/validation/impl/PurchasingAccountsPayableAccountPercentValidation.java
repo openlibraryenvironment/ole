@@ -19,6 +19,7 @@ import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.PurapKeyConstants;
 import org.kuali.ole.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.ole.module.purap.businessobject.PurApItem;
+import org.kuali.ole.select.businessobject.OleInvoiceItem;
 import org.kuali.ole.sys.document.validation.GenericValidation;
 import org.kuali.ole.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -51,7 +52,8 @@ public class PurchasingAccountsPayableAccountPercentValidation extends GenericVa
             }
         }
         if (desiredPercent.compareTo(totalPercent) != 0) {
-            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL, itemForValidation.getItemIdentifierString());
+            String errorMessage = itemForValidation.getItemIdentifierString()+" from PO "+((OleInvoiceItem) itemForValidation).getPurchaseOrderIdentifier();
+            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL, errorMessage);
             valid = false;
         }
 
