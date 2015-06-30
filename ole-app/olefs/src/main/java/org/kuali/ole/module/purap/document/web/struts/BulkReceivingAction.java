@@ -220,7 +220,10 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
             blkRecDoc.setVendorName(blkRecDoc.getVendorDetail().getVendorName());
 
             // populate default address based on selected vendor
-            VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(blkRecDoc.getVendorDetail().getVendorAddresses(), blkRecDoc.getVendorDetail().getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+            VendorAddress defaultAddress = null;
+            if (blkRecDoc.getVendorDetail() != null && blkRecDoc.getVendorDetail().getVendorAddresses() != null && blkRecDoc.getVendorDetail().getVendorHeader() != null && blkRecDoc.getVendorDetail().getVendorHeader().getVendorType() != null && blkRecDoc.getVendorDetail().getVendorHeader().getVendorType().getAddressType() != null && blkRecDoc.getVendorDetail().getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode() != null) {
+                defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(blkRecDoc.getVendorDetail().getVendorAddresses(), blkRecDoc.getVendorDetail().getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+            }
             if (ObjectUtils.isNotNull(defaultAddress)) {
                 blkRecDoc.setVendorLine1Address(defaultAddress.getVendorLine1Address());
                 blkRecDoc.setVendorLine2Address(defaultAddress.getVendorLine2Address());

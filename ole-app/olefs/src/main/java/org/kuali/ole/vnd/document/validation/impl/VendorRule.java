@@ -402,8 +402,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * @return boolean false if there is no tax number and the indicator is true.
      */
     boolean validateTaxNumberRequiredness(VendorDetail vendorDetail) {
-        if (!vendorDetail.getVendorHeader().getVendorForeignIndicator() && vendorDetail.getVendorHeader().getVendorType().isVendorTaxNumberRequiredIndicator() && StringUtils.isBlank(vendorDetail.getVendorHeader().getVendorTaxNumber())) {
-            if (vendorDetail.isVendorParentIndicator()) {
+        if (!vendorDetail.getVendorHeader().getVendorForeignIndicator() && vendorDetail.getVendorHeader().getVendorType()!=null && vendorDetail.getVendorHeader().getVendorType().isVendorTaxNumberRequiredIndicator() && StringUtils.isBlank(vendorDetail.getVendorHeader().getVendorTaxNumber())) {
+            if (vendorDetail.isVendorParentIndicator() && vendorDetail.getVendorHeader().getVendorType()!=null) {
                 putFieldError(VendorPropertyConstants.VENDOR_TAX_NUMBER, VendorKeyConstants.ERROR_VENDOR_TYPE_REQUIRES_TAX_NUMBER, vendorDetail.getVendorHeader().getVendorType().getVendorTypeDescription());
             }
             else {
@@ -716,7 +716,10 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     boolean processCommodityCodeValidation(MaintenanceDocument document) {
         boolean valid = true;
         List<VendorCommodityCode> vendorCommodities = newVendor.getVendorCommodities();
-        boolean commodityCodeRequired = newVendor.getVendorHeader().getVendorType().isCommodityRequiredIndicator();
+        boolean commodityCodeRequired = false;
+        if(newVendor.getVendorHeader()!=null && newVendor.getVendorHeader().getVendorType()!=null){
+            commodityCodeRequired = newVendor.getVendorHeader().getVendorType().isCommodityRequiredIndicator();
+        }
         if (commodityCodeRequired) {
             if (vendorCommodities.size() == 0) {
                 //display error that the commodity code is required for this type of vendor.
@@ -797,7 +800,10 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
         List<VendorAddress> addresses = newVendor.getVendorAddresses();
         String vendorTypeCode = newVendor.getVendorHeader().getVendorTypeCode();
-        String vendorAddressTypeRequiredCode = newVendor.getVendorHeader().getVendorType().getVendorAddressTypeRequiredCode();
+        String vendorAddressTypeRequiredCode = null;
+        if(newVendor.getVendorHeader()!=null && newVendor.getVendorHeader().getVendorType()!=null){
+            vendorAddressTypeRequiredCode = newVendor.getVendorHeader().getVendorType().getVendorAddressTypeRequiredCode();
+        }
         if(addresses.size()==0){
             putFieldError(VendorPropertyConstants.VENDOR_ADDRESS, VendorKeyConstants.OLE_VENDOR_ADDRESS);
             //GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_ADDRESS, VendorKeyConstants.OLE_VENDOR_ADDRESS, "");
@@ -817,7 +823,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 valid = false;
             }
 
-            if (address.getVendorAddressTypeCode().equals(vendorAddressTypeRequiredCode)) {
+            if (vendorAddressTypeRequiredCode!=null && address.getVendorAddressTypeCode()!=null && address.getVendorAddressTypeCode().equals(vendorAddressTypeRequiredCode)) {
                 validAddressType = true;
             }
 
@@ -1260,7 +1266,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         }
 
         // If the vendorContractAllowedIndicator is false, it cannot have vendor contracts, return false;
-        if (contracts.size() > 0 && !newVendor.getVendorHeader().getVendorType().isVendorContractAllowedIndicator()) {
+        if (contracts.size() > 0 && newVendor.getVendorHeader()!=null && newVendor.getVendorHeader().getVendorType()!=null && !newVendor.getVendorHeader().getVendorType().isVendorContractAllowedIndicator()) {
             valid = false;
             String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_CONTRACT + "[0]";
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
@@ -1581,7 +1587,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             VendorDetail vendorDetail = (VendorDetail)document.getDocumentBusinessObject();
             vendorDetail.getVendorHeader().refreshReferenceObject("vendorType");
             VendorType vendorType = vendorDetail.getVendorHeader().getVendorType();
-            if (!vendorType.isVendorContractAllowedIndicator()) {
+            if (vendorType!=null && !vendorType.isVendorContractAllowedIndicator()) {
                 String propertyName = "add." + collectionName + "." + VendorPropertyConstants.VENDOR_CONTRACT_NAME;
                 putFieldError(propertyName, VendorKeyConstants.ERROR_VENDOR_CONTRACT_NOT_ALLOWED);
                 return false;

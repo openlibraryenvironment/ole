@@ -1091,7 +1091,10 @@ public class OleRequisitionAction extends RequisitionAction {
             document.templateVendorDetail(document.getVendorDetail());
 
             // populate default address based on selected vendor
-            VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(document.getVendorDetail().getVendorAddresses(), document.getVendorDetail().getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), document.getDeliveryCampusCode());
+            VendorAddress defaultAddress = null;
+            if(document.getVendorDetail()!=null && document.getVendorDetail().getVendorAddresses()!=null && document.getVendorDetail().getVendorHeader()!=null && document.getVendorDetail().getVendorHeader().getVendorType()!=null && document.getVendorDetail().getVendorHeader().getVendorType().getAddressType()!=null && document.getVendorDetail().getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode()!=null){
+                defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(document.getVendorDetail().getVendorAddresses(), document.getVendorDetail().getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), document.getDeliveryCampusCode());
+            }
             document.templateVendorAddress(defaultAddress);
         }
         return refresh(mapping, form, request, response);

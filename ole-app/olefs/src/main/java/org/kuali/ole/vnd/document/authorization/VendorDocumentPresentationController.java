@@ -79,7 +79,7 @@ public class VendorDocumentPresentationController extends FinancialSystemMainten
             conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_PARENT_INDICATOR);
 
             // For existing vendors, don't allow vendor type code to be changed if maint table indicates it shouldn't be changed
-            if (ObjectUtils.isNotNull(vendor.getVendorHeaderGeneratedIdentifier()) && !vendor.getVendorHeader().getVendorType().isVendorTypeChangeAllowedIndicator()) {
+            if (ObjectUtils.isNotNull(vendor.getVendorHeaderGeneratedIdentifier()) && vendor.getVendorHeader()!=null && vendor.getVendorHeader().getVendorType()!=null && !vendor.getVendorHeader().getVendorType().isVendorTypeChangeAllowedIndicator()) {
                 conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_TYPE_CODE);
             }
         }

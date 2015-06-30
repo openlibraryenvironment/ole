@@ -44,13 +44,15 @@ public class DebarredVendorUnmatchedLookupableHelperServiceImpl extends KualiLoo
     protected List<? extends BusinessObject> getDebarredVendorUnmatchedSearchResults(Map<String, String> fieldValues) {
         List<VendorDetail> vendorResultList = vendorExcludeService.getDebarredVendorsUnmatched();
         List<VendorDetail> filteredVendorList = new ArrayList<VendorDetail> ();
-        VendorAddress defaultAddress;
+        VendorAddress defaultAddress = null;
         String vendorType = fieldValues.get("vendorTypeCode");
         for (VendorDetail vendor : vendorResultList) {
             if (!StringUtils.isEmpty(vendorType) && !vendor.getVendorHeader().getVendorTypeCode().equals(vendorType)) {
                 continue;
             }
-            defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+            if(vendor.getVendorAddresses()!=null && vendor.getVendorHeader()!=null && vendor.getVendorHeader().getVendorType()!=null && vendor.getVendorHeader().getVendorType().getAddressType()!=null && vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode()!=null){
+                defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+            }
             if (defaultAddress != null ) {
                 vendor.setDefaultAddressLine1(defaultAddress.getVendorLine1Address());
                 vendor.setDefaultAddressCity(defaultAddress.getVendorCityName());

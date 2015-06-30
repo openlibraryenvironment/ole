@@ -1782,7 +1782,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param vendor The VendorDetail object whose default address we'll obtain and set the fields.
      */
     protected void updateDefaultVendorAddress(VendorDetail vendor) {
-        VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+        VendorAddress defaultAddress = null;
+        if(vendor.getVendorAddresses()!=null && vendor.getVendorHeader()!=null && vendor.getVendorHeader().getVendorType()!=null && vendor.getVendorHeader().getVendorType().getAddressType()!=null && vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode()!=null){
+            defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+        }
         if (defaultAddress != null) {
             if (defaultAddress.getVendorState() != null) {
                 vendor.setVendorStateForLookup(defaultAddress.getVendorState().getName());
