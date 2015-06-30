@@ -28,8 +28,19 @@ public abstract class RequestNoticesExecutor implements Runnable {
     private OleMailer oleMailer;
     private ParameterValueResolver parameterResolverInstance;
     private CircDeskLocationResolver circDeskLocationResolver;
+    protected RequestEmailContentFormatter requestEmailContentFormatter;
 
+    public List<OleDeliverRequestBo> getDeliverRequestBos() {
+        return deliverRequestBos;
+    }
 
+    public void setDeliverRequestBos(List<OleDeliverRequestBo> deliverRequestBos) {
+        this.deliverRequestBos = deliverRequestBos;
+    }
+
+    public void setRequestEmailContentFormatter(RequestEmailContentFormatter requestEmailContentFormatter) {
+        this.requestEmailContentFormatter = requestEmailContentFormatter;
+    }
 
     public RequestNoticesExecutor(List<OleDeliverRequestBo> oleDeliverRequestBos){
         this.deliverRequestBos = oleDeliverRequestBos;
@@ -83,6 +94,8 @@ public abstract class RequestNoticesExecutor implements Runnable {
 
           String mailContent = generateMailContent(deliverRequestBos);
 
+        System.out.println(mailContent);
+
           sendMail(mailContent);
         
           postProcess(); 
@@ -97,6 +110,7 @@ public abstract class RequestNoticesExecutor implements Runnable {
     public String generateMailContent(List<OleDeliverRequestBo> oleDeliverRequestBos) {
 
         String mailContent = getRequestEmailContentFormatter().generateRequestMailContentForPatron(oleDeliverRequestBos,getTitle(), getBody());
+        System.out.println(mailContent);
         return mailContent;
 
     }

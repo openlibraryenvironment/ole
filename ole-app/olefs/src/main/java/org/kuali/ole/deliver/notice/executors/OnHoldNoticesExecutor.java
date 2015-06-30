@@ -19,7 +19,10 @@ public class OnHoldNoticesExecutor extends RequestNoticesExecutor {
 
     @Override
     public RequestEmailContentFormatter getRequestEmailContentFormatter() {
-            return new OnHoldRequestEmailContentFormatter();
+        if(requestEmailContentFormatter ==null){
+            requestEmailContentFormatter =  new OnHoldRequestEmailContentFormatter();
+        }
+        return requestEmailContentFormatter;
     }
 
     @Override

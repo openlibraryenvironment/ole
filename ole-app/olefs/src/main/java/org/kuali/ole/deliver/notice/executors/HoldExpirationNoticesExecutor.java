@@ -28,8 +28,10 @@ public class HoldExpirationNoticesExecutor extends RequestNoticesExecutor {
 
     @Override
     public RequestEmailContentFormatter getRequestEmailContentFormatter() {
-        return new RequestExpirationEmailContentFormatter();
-    }
+        if(requestEmailContentFormatter == null){
+        requestEmailContentFormatter =  new RequestExpirationEmailContentFormatter();
+        }return requestEmailContentFormatter;
+        }
 
     @Override
     protected void postProcess() {

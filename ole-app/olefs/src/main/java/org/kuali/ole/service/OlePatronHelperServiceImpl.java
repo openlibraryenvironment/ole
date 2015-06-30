@@ -632,7 +632,7 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
     public String getPatronPreferredAddress(EntityTypeContactInfoBo entityTypeContactInfoBo) throws Exception {
         LOG.debug("Inside the getPatronPreferredAddress method");
         String address = "";
-        if (entityTypeContactInfoBo.getAddresses() != null) {
+        if (entityTypeContactInfoBo!=null && entityTypeContactInfoBo.getAddresses() != null) {
             for (int i = 0; i < entityTypeContactInfoBo.getAddresses().size(); i++) {
                 if (entityTypeContactInfoBo.getAddresses().get(i).isDefaultValue()) {
                     if (entityTypeContactInfoBo.getAddresses().get(i).getLine1() != null)
@@ -672,7 +672,7 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
     public String getPatronHomePhoneNumber(EntityTypeContactInfoBo entityTypeContactInfoBo) throws Exception {
         LOG.debug("Inside the getPatronHomePhoneNumber method");
         String phoneNumber = "";
-        if (entityTypeContactInfoBo.getPhoneNumbers() != null) {
+        if (entityTypeContactInfoBo!=null && entityTypeContactInfoBo.getPhoneNumbers() != null) {
             for (int j = 0; j < entityTypeContactInfoBo.getPhoneNumbers().size(); j++) {
                 if (entityTypeContactInfoBo.getPhoneNumbers().get(j).getPhoneTypeCode().equalsIgnoreCase("HM")) {
                     phoneNumber = (entityTypeContactInfoBo.getPhoneNumbers().get(j).getPhoneNumber());
@@ -685,7 +685,7 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
     public String getPatronHomeEmailId(EntityTypeContactInfoBo entityTypeContactInfoBo) throws Exception {
         LOG.debug("Inside the getPatronHomeEmailId method");
         String emailId = "";
-        if (entityTypeContactInfoBo.getEmailAddresses() != null) {
+        if (entityTypeContactInfoBo!=null && entityTypeContactInfoBo.getEmailAddresses() != null) {
             for (int j = 0; j < entityTypeContactInfoBo.getEmailAddresses().size(); j++) {
                 if (entityTypeContactInfoBo.getEmailAddresses().get(j).getDefaultValue()) {
                     emailId = (entityTypeContactInfoBo.getEmailAddresses().get(j).getEmailAddress());

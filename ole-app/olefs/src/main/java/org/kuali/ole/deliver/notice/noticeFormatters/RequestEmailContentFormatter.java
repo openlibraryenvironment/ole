@@ -89,24 +89,32 @@ public abstract class RequestEmailContentFormatter {
         //Add patron info
         stringBuffer.append(getPatronInfo(oleDeliverRequestBos.get(0).getOlePatron(), title, body));
         for(OleDeliverRequestBo oleDeliverRequestBo : oleDeliverRequestBos){
-            if(null != getCustomItemHeaderInfo(oleDeliverRequestBo)){
-                stringBuffer.append(getCustomItemHeaderInfo(oleDeliverRequestBo));
-            }
-            stringBuffer.append(generateItemInfoHTML(oleDeliverRequestBo));
-            if(null != getCustomItemFooterInfo(oleDeliverRequestBo)){
-                stringBuffer.append(getCustomItemFooterInfo(oleDeliverRequestBo));
-            }
+            setItemContent(oleDeliverRequestBo,stringBuffer);
         }
-
         return stringBuffer.toString();
 
     }
 
 
+public void setItemContent(OleDeliverRequestBo oleDeliverRequestBo,StringBuffer stringBuffer){
+    stringBuffer.append("<table>");
+    if(null != getCustomItemHeaderInfo(oleDeliverRequestBo)){
+        stringBuffer.append(getCustomItemHeaderInfo(oleDeliverRequestBo));
+    }
+    stringBuffer.append(generateItemInfoHTML(oleDeliverRequestBo));
+    if(null != getCustomItemFooterInfo(oleDeliverRequestBo)){
+        stringBuffer.append(getCustomItemFooterInfo(oleDeliverRequestBo));
+    }
+    stringBuffer.append("</table>");
+
+}
+
+
+
     public String generateItemInfoHTML(OleDeliverRequestBo oleDeliverRequestBo) {
         StringBuffer stringBuffer = new StringBuffer();
         try {
-            stringBuffer.append("<table>");
+
             stringBuffer.append("<TR><TD>Circulation Location / Library Name :</TD><TD>" + (oleDeliverRequestBo.getOlePickUpLocation() != null ? oleDeliverRequestBo.getOlePickUpLocation().getCirculationDeskPublicName() : "") + "</TD></TR>");
             stringBuffer.append("<TR><TD>Circulation Reply-To Email :</TD><TD>" + (oleDeliverRequestBo.getOlePickUpLocation() != null ? oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail()!=null ? oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail() : "" : "") + "</TD></TR>");
             stringBuffer.append("<TR><TD>Title :</TD><TD>" + (oleDeliverRequestBo.getTitle() != null ? oleDeliverRequestBo.getTitle() : "") + "</TD></TR>");
@@ -128,7 +136,7 @@ public abstract class RequestEmailContentFormatter {
             }
             stringBuffer.append("<TR><TD>Item Barcode :</TD><TD>" + (oleDeliverRequestBo.getItemId() != null ? oleDeliverRequestBo.getItemId() : "") + "</TD></TR>");
             stringBuffer.append("<TR><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>");
-            stringBuffer.append("</table>");
+
         } catch (Exception e) {
             LOG.error("Error---->While generating HTML overdue content  ");
             if (oleDeliverRequestBo != null) {
