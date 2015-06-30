@@ -2907,7 +2907,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 }
             }
         } else {
-        GlobalVariables.getMessageMap().putError("accessActivationConfigurationId", "Invalid workflow");
+        GlobalVariables.getMessageMap().putError("accessActivationConfigurationId", OLEConstants.OLEEResourceRecord.ERROR_INVALID_WORKFLOW);
         return getUIFModelAndView(form);
     }
     return getUIFModelAndView(form);
