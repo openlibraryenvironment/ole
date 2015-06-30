@@ -76,10 +76,17 @@ public class OLEAccessActivationConfigurationController extends MaintenanceDocum
         String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
         Object eventObject = ObjectPropertyUtils.getPropertyValue(form, addLinePath);
         OLEAccessActivationWorkFlow accessWorkflow = (OLEAccessActivationWorkFlow) eventObject;
-        if (!validateEmptyFieldActivationWorkFlow(accessWorkflow)) {
+        if(StringUtils.isNotBlank(accessActivation.getSelector()) && accessActivation.getSelector().equals(OLEConstants.SELECTOR_ROLE)) {
+            accessWorkflow.setPersonName(null);
+            accessWorkflow.setPersonId(null);
+        } else if(StringUtils.isNotBlank(accessActivation.getSelector()) && accessActivation.getSelector().equals(OLEConstants.SELECTOR_PERSON)) {
+            accessWorkflow.setRoleName(null);
+            accessWorkflow.setRoleId(null);
+        }
+        if (!validateEmptyFieldActivationWorkFlow(accessWorkflow, accessActivation.getSelector())) {
             return getUIFModelAndView(form);
         }
-        if (!getOleAccessActivationService().validateAccessActivationWorkFlow(accessActivation.getAccessActivationWorkflowList(), accessWorkflow)) {
+        if (!getOleAccessActivationService().validateAccessActivationWorkFlow(accessActivation.getAccessActivationWorkflowList(), accessWorkflow, accessActivation.getSelector())) {
             return getUIFModelAndView(form);
         }
         View view = form.getPostedView();
@@ -90,10 +97,10 @@ public class OLEAccessActivationConfigurationController extends MaintenanceDocum
 
 
 
-    private boolean validateEmptyFieldActivationWorkFlow(OLEAccessActivationWorkFlow accessActivationWorkFlow) {
+    private boolean validateEmptyFieldActivationWorkFlow(OLEAccessActivationWorkFlow accessActivationWorkFlow, String selector) {
         boolean emptyOrderNumber = false;
         boolean emptyStatus = false;
-        boolean emptyRole = false;
+        boolean emptyRoleOrPerson = false;
         if (accessActivationWorkFlow.getOrderNo() == null) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION, OLEConstants.ERROR_EMPTY_ORDER_NO);
             emptyOrderNumber = true;
@@ -102,11 +109,15 @@ public class OLEAccessActivationConfigurationController extends MaintenanceDocum
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION, OLEConstants.ERROR_EMPTY_STATUS);
             emptyStatus = true;
         }
-        if (StringUtils.isBlank(accessActivationWorkFlow.getRoleName())) {
+        if (StringUtils.isNotBlank(selector) && selector.equals(OLEConstants.SELECTOR_ROLE) && StringUtils.isBlank(accessActivationWorkFlow.getRoleName())) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION, OLEConstants.ERROR_EMPTY_ROLE_NAME);
-            emptyRole = true;
+            emptyRoleOrPerson = true;
         }
-        if (emptyOrderNumber || emptyStatus || emptyRole) {
+        if(StringUtils.isNotBlank(selector) && selector.equals(OLEConstants.SELECTOR_PERSON) && StringUtils.isBlank(accessActivationWorkFlow.getPersonName())) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ACCESS_ACTIVATION, OLEConstants.ERROR_EMPTY_PERSON_NAME);
+            emptyRoleOrPerson = true;
+        }
+        if ((emptyOrderNumber || emptyStatus) || emptyRoleOrPerson) {
             return false;
         }
         return true;

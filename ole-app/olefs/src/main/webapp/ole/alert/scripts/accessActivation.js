@@ -11,3 +11,37 @@ jq("#create_orderNo_add_control").live('keydown',function(event) {
         }
     }
 });
+jq(document).ready(function() {
+    if(jq("#selectRequest-MaintenanceViews-selector_control").val() == "Role") {
+        jq("#selectRequest-MaintenanceViews-personName_add_control").val("");
+        jq("#selectRequest-MaintenanceViews-personName_add").hide();
+        jq("#selectRequest-MaintenanceViews-roleName_add").show();
+    } else if(jq("#selectRequest-MaintenanceViews-selector_control").val() == "Person") {
+        jq("#selectRequest-MaintenanceViews-roleName_add_control").val("");
+        jq("#selectRequest-MaintenanceViews-roleName_add").hide();
+        jq("#selectRequest-MaintenanceViews-personName_add").show();
+    }
+    jq("#selectRequest-MaintenanceViews-selector_control").change(function() {
+        if(jq("#selectRequest-MaintenanceViews-selector_control").val() == "Role") {
+            jq("#selectRequest-MaintenanceViews-personName_add_control").val("");
+            jq("#selectRequest-MaintenanceViews-personName_add").hide();
+            jq("#selectRequest-MaintenanceViews-roleName_add").show();
+        } else if(jq("#selectRequest-MaintenanceViews-selector_control").val() == "Person") {
+            jq("#selectRequest-MaintenanceViews-roleName_add_control").val("");
+            jq("#selectRequest-MaintenanceViews-roleName_add").hide();
+            jq("#selectRequest-MaintenanceViews-personName_add").show();
+        }
+    });
+});
+
+function setSelectorValue() {
+    if(jq("#selectRequest-MaintenanceViews-selector_control").val() == "Role") {
+        jq("#selectRequest-MaintenanceViews-personName_add_control").val("");
+        jq("#selectRequest-MaintenanceViews-personName_add").hide();
+        jq("#selectRequest-MaintenanceViews-roleName_add").show();
+    } else if(jq("#selectRequest-MaintenanceViews-selector_control").val() == "Person") {
+        jq("#selectRequest-MaintenanceViews-roleName_add_control").val("");
+        jq("#selectRequest-MaintenanceViews-roleName_add").hide();
+        jq("#selectRequest-MaintenanceViews-personName_add").show();
+    }
+}

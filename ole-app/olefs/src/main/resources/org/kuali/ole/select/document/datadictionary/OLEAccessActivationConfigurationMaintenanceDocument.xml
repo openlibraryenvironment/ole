@@ -58,12 +58,21 @@
                         </list>
                     </property>
                 </bean>
-                <ref bean="OLEAccessActivationConfigurationMaintenanceDocument-AccessActivationWorkflow" />
+                <ref bean="OLEAccessActivationConfigurationMaintenanceDocument-WorkflowConfiguration"/>
             </list>
 
         </property>
     </bean>
 
+    <bean id="OLEAccessActivationConfigurationMaintenanceDocument-WorkflowConfiguration" parent="Uif-VerticalBoxSection" p:disclosure.defaultOpen="true">
+        <property name="headerText" value="Workflow Configuration" />
+        <property name="items">
+            <list>
+                <ref bean="selectRequest-MaintenanceViews-selector"/>
+                <ref bean="OLEAccessActivationConfigurationMaintenanceDocument-AccessActivationWorkflow" />
+            </list>
+        </property>
+    </bean>
 
 
 
@@ -80,36 +89,35 @@
         </property>
     </bean>
 
-    <bean id="OLEAccessActivationConfigurationMaintenanceDocument-AccessActivationWorkflow" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="true">
-        <property name="headerText" value="Workflow Configuration" />
+    <bean id="OLEAccessActivationConfigurationMaintenanceDocument-AccessActivationWorkflow" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2">
         <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEAccessActivationWorkFlow" />
         <property name="propertyName" value="accessActivationWorkflowList" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="items">
              <list>
-                 <bean id="create_orderNo" parent="Uif-InputField" p:propertyName="orderNo" p:enableAutoDirectInquiry="false" p:required="true"/>
-                 <bean id="create_status" parent="Uif-InputField" p:propertyName="status" p:required="true"/>
+                 <bean id="create_orderNo" parent="Uif-InputField" p:propertyName="orderNo" p:enableAutoDirectInquiry="false" p:required="true" p:readOnly="@{!#isAddLine}"/>
+                 <bean id="create_status" parent="Uif-InputField" p:propertyName="status" p:required="true" p:readOnly="@{!#isAddLine}"/>
                  <ref bean="selectRequest-MaintenanceViews-roleName"/>
                  <ref bean="selectRequest-MaintenanceViews-personName"/>
              </list>
         </property>
         <property name="addLineActions">
             <list>
-                <bean id="accessActivationconfig_add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addWorkflow" p:actionLabel="Add" p:title="Add Access Activation" p:ajaxSubmit="true"/>
+                <bean id="accessActivationconfig_add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addWorkflow" p:actionLabel="Add" p:title="Add Access Activation" p:ajaxSubmit="true" p:successCallback="setSelectorValue();"/>
             </list>
         </property>
-        <!--<property name="lineActions">
+        <property name="lineActions">
             <list>
-                <bean id="bibMatchPoint_delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteBibMatch" p:actionLabel="Delete"  />
+                <bean id="accessActivationConfig_delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="Delete" p:successCallback="setSelectorValue();"/>
             </list>
-        </property>-->
+        </property>
 
 
     </bean>
     <bean id="selectRequest-MaintenanceViews-roleName" parent="Uif-InputField"
-          p:propertyName="roleName" p:label="Role Name" p:required="true"
-          p:enableAutoDirectInquiry="false" >
+          p:propertyName="roleName" p:label="Role Name"
+          p:enableAutoDirectInquiry="false" p:readOnly="@{!#isAddLine}">
         <property name="quickfinder">
             <bean parent="Uif-QuickFinder"
                   p:dataObjectClassName="org.kuali.ole.select.bo.OLERoleBo"
@@ -119,10 +127,21 @@
 
     </bean>
 
-    <bean id="selectRequest-MaintenanceViews-personName" p:propertyName="personName" parent="Uif-InputField" p:label="Person Name" >
+    <bean id="selectRequest-MaintenanceViews-selector" parent="Uif-InputField"
+          p:propertyName="selector" p:label="Selector" >
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.select.keyvalue.OLEEResourceWorkflowSelectorKeyValues"/>
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+
+    <bean id="selectRequest-MaintenanceViews-personName" p:propertyName="personName" parent="Uif-InputField" p:label="Person Name" p:readOnly="@{!#isAddLine}">
         <property name="quickfinder">
             <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
-                  p:fieldConversions="principalId:personId,principalName:personName"/>
+                  p:fieldConversions="principalName:personName,principalId:personId"
+                  p:lookupParameters="personName:principalName,personId:principalId" />
         </property>
     </bean>
 

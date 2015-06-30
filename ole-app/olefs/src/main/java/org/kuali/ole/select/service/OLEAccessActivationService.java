@@ -12,6 +12,6 @@ import java.util.List;
 public interface OLEAccessActivationService {
 
     public OLEAccessActivationConfiguration setRoleAndPersonName(OLEAccessActivationConfiguration oleAccessActivationConfiguration);
-    public boolean validateAccessActivationWorkFlow(List<OLEAccessActivationWorkFlow> accessActivationWorkFlowList, OLEAccessActivationWorkFlow accessActivationWorkFlow);
+    public boolean validateAccessActivationWorkFlow(List<OLEAccessActivationWorkFlow> accessActivationWorkFlowList, OLEAccessActivationWorkFlow accessActivationWorkFlow, String selector);
     public List<Principal> getPrincipals(OLEAccessActivationWorkFlow oleAccessActivationWorkFlow);
 }

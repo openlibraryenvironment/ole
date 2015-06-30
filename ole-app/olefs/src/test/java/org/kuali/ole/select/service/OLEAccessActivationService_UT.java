@@ -52,9 +52,9 @@ public class OLEAccessActivationService_UT extends OLETestCaseBase{
         oleAccessActivationWorkFlow.setPersonId(person.getPrincipalId());
         oleAccessActivationWorkFlow.setRoleId(role.getId());
         oleAccessActivationWorkFlows.add(oleAccessActivationWorkFlow);
-        Assert.assertTrue(oleAccessActivationService.validateAccessActivationWorkFlow(oleAccessActivationWorkFlows,oleAccessActivationWorkFlow));
+        Assert.assertTrue(oleAccessActivationService.validateAccessActivationWorkFlow(oleAccessActivationWorkFlows,oleAccessActivationWorkFlow,"Role"));
         oleAccessActivationWorkFlow.setRoleName("Test Role");
-        Assert.assertFalse(oleAccessActivationService.validateAccessActivationWorkFlow(oleAccessActivationWorkFlows, oleAccessActivationWorkFlow));
+        Assert.assertFalse(oleAccessActivationService.validateAccessActivationWorkFlow(oleAccessActivationWorkFlows, oleAccessActivationWorkFlow,"Role"));
 
 
     }

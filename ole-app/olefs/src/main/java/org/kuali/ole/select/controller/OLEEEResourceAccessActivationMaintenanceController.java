@@ -1,5 +1,6 @@
 package org.kuali.ole.select.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.select.bo.OLEAccessActivationWorkFlow;
 import org.kuali.ole.select.bo.OLEEResourceAccessActivation;
@@ -144,7 +145,6 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
                         List<OLEEResourceAccessWorkflow> accessWorkflowList = oleeResourceAccess.getOleERSAccessWorkflows();
                         List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
                         org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
-                        Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
                         List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
                         OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = accessWorkflowList.get(accessWorkflowList.size() - 1);
                         StringBuffer currentOwnerBuffer = new StringBuffer();
@@ -167,7 +167,12 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
                             List<AdHocRouteRecipient> adHocRouteRecipientList = combineAdHocRecipients(form);
                             adHocRouteRecipientList.addAll(adHocRouteRecipients);
                             actionRequestService.deleteByDocumentId(maintenanceDocument.getDocumentNumber());
-                            getDocumentService().approveDocument(form.getDocument(), "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the  Role :" + role.getName(), adHocRouteRecipientList);
+                            if(StringUtils.isNotEmpty(accessActivationWorkFlow.getRoleId())) {
+                                Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
+                                getDocumentService().approveDocument(form.getDocument(), "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the  Role :" + role.getName(), adHocRouteRecipientList);
+                            } else {
+                                getDocumentService().approveDocument(form.getDocument(), "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the  Role :" + "", adHocRouteRecipientList);
+                            }
                             List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(maintenanceDocument.getDocumentNumber());
                             ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
                             actionTakenValue.setAnnotation("Approved Status : " + previousStatus);
@@ -245,7 +250,6 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
                 oleeResourceAccess.setAccessStatus(accessActivationWorkFlow.getStatus());
                 List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
                 org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
-                Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
                 List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
                 StringBuffer currentOwnerBuffer = new StringBuffer();
                 AdHocRoutePerson adHocRoutePerson;
@@ -268,7 +272,12 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
                     List<AdHocRouteRecipient> adHocRouteRecipientList = new ArrayList<AdHocRouteRecipient>();
                     adHocRouteRecipientList.addAll(adHocRouteRecipients);
                     try {
-                        getDocumentService().routeDocument(maintenanceDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + role.getName(), adHocRouteRecipientList);
+                        if(StringUtils.isNotEmpty(accessActivationWorkFlow.getRoleId())) {
+                            Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
+                            getDocumentService().routeDocument(maintenanceDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + role.getName(), adHocRouteRecipientList);
+                        } else {
+                            getDocumentService().routeDocument(maintenanceDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + "", adHocRouteRecipientList);
+                        }
                         List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(maintenanceDocument.getDocumentNumber());
                         ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
                         actionTakenValue.setAnnotation("Initiated the access activation workflow");

@@ -18,6 +18,7 @@ public class OLEAccessActivationConfiguration extends PersistableBusinessObjectB
     private String workflowCompletionStatus;
     private List<OLEAccessActivationWorkFlow> accessActivationWorkflowList = new ArrayList<OLEAccessActivationWorkFlow>();
     private boolean active;
+    private String selector;
 
     public String getAccessActivationConfigurationId() {
         return accessActivationConfigurationId;
@@ -72,5 +73,13 @@ public class OLEAccessActivationConfiguration extends PersistableBusinessObjectB
         List<Collection<PersistableBusinessObject>> collectionList = new ArrayList<>();
         collectionList.add((Collection)getAccessActivationWorkflowList());
         return collectionList;
+    }
+
+    public String getSelector() {
+        return selector;
+    }
+
+    public void setSelector(String selector) {
+        this.selector = selector;
     }
 }

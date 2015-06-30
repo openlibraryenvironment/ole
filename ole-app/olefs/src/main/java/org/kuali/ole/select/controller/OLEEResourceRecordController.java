@@ -2756,7 +2756,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 oleeResourceAccess.setAccessStatus(accessActivationWorkFlow.getStatus());
                 List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
                 org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
-                Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
                 List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
                 AdHocRoutePerson adHocRoutePerson;
                 StringBuffer currentOwnerBuffer = new StringBuffer();
@@ -2779,7 +2778,12 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                     List<AdHocRouteRecipient> adHocRouteRecipientList = new ArrayList<AdHocRouteRecipient>();
                     adHocRouteRecipientList.addAll(adHocRouteRecipients);
                     try {
-                        getDocumentService().routeDocument(newDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + role.getName(), adHocRouteRecipientList);
+                        if(StringUtils.isNotEmpty(accessActivationWorkFlow.getRoleId())) {
+                            Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
+                            getDocumentService().routeDocument(newDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + role.getName(), adHocRouteRecipientList);
+                        } else {
+                            getDocumentService().routeDocument(newDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + "", adHocRouteRecipientList);
+                        }
                         List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(newDocument.getDocumentNumber());
                         ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
                         actionTakenValue.setAnnotation("Initiated the access activation workflow");
@@ -2827,7 +2831,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 oleeResourceRecordDocument.setWorkflowStatus(accessActivationWorkFlow.getStatus());
                 List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
                 org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
-                Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
                 List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
                 AdHocRoutePerson adHocRoutePerson;
                 StringBuffer currentOwnerBuffer = new StringBuffer();
@@ -2845,7 +2848,12 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                     }                    List<AdHocRouteRecipient> adHocRouteRecipientList = new ArrayList<AdHocRouteRecipient>();
                     adHocRouteRecipientList.addAll(adHocRouteRecipients);
                     try {
-                        getDocumentService().routeDocument(oleeResourceRecordDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + role.getName(), adHocRouteRecipientList);
+                        if(StringUtils.isNotEmpty(accessActivationWorkFlow.getRoleId())) {
+                            Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
+                            getDocumentService().routeDocument(oleeResourceRecordDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + role.getName(), adHocRouteRecipientList);
+                        } else {
+                            getDocumentService().routeDocument(oleeResourceRecordDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + "", adHocRouteRecipientList);
+                        }
                    /*    ActionRequestValue actionRequestValue = new ActionRequestValue();
                         KEWServiceLocator.getActionListService().createActionItemForActionRequest(actionRequestValue);
                    */     List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(oleeResourceRecordDocument.getDocumentNumber());
@@ -2945,7 +2953,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                         oleeResourceRecordDocument.setWorkflowStatus(accessActivationWorkFlow.getStatus());
                         List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
                         org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
-                        Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
                         List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
                         StringBuffer currentOwnerBuffer = new StringBuffer();
                         List<String> principalIds = new ArrayList<String>();
@@ -2966,12 +2973,17 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                             adHocRouteRecipientList.addAll(adHocRouteRecipients);
                             actionRequestService.deleteByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
                             try{
-                            getDocumentService().approveDocument(form.getDocument(), "Needed Approval for the status : " + oleeResourceRecordDocument.getWorkflowStatus() + " from the members of the  Role :" + role.getName(), adHocRouteRecipientList);
+                                if(StringUtils.isNotEmpty(accessActivationWorkFlow.getRoleId())) {
+                                    Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
+                                    getDocumentService().approveDocument(form.getDocument(), "Needed Approval for the status : " + oleeResourceRecordDocument.getWorkflowStatus() + " from the members of the  Role :" + role.getName(), adHocRouteRecipientList);
+                                } else {
+                                    getDocumentService().approveDocument(form.getDocument(), "Needed Approval for the status : " + oleeResourceRecordDocument.getWorkflowStatus() + " from the members of the  Role :" + "", adHocRouteRecipientList);
+                                }
                                 List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(oleeResourceRecordDocument.getDocumentNumber());
-                            ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
-                            actionTakenValue.setAnnotation("Approved Status : " + previousStatus);
-                            KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
-                            KEWServiceLocator.getActionListService().deleteByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
+                                ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
+                                actionTakenValue.setAnnotation("Approved Status : " + previousStatus);
+                                KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
+                                KEWServiceLocator.getActionListService().deleteByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
                             }catch(Exception e){
 
                             }

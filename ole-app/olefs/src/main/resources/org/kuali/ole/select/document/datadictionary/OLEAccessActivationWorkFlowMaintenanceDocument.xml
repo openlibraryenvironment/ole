@@ -32,11 +32,11 @@
                     <property name="headerText" value="Add/Edit Access Activation Work Flow"/>
                     <property name="items">
                         <list>
-                            <bean id="create_orderNo" parent="Uif-InputField" p:propertyName="orderNo" p:enableAutoDirectInquiry="false" p:required="true"/>
-                            <bean id="create_status" parent="Uif-InputField" p:propertyName="status" p:required="true"/>
+                            <bean id="access_workflow_create_orderNo" parent="Uif-InputField" p:propertyName="orderNo" p:enableAutoDirectInquiry="false" p:required="true"/>
+                            <bean id="access_workflow_create_status" parent="Uif-InputField" p:propertyName="status" p:required="true"/>
 
                        <!--     <bean id="create_roleId" parent="Uif-InputField" p:propertyName="roleId"/>-->
-                            <ref bean="selectRequest-MaintenanceViews-roleName"/>
+                            <ref bean="access_workflow_selectRequest-MaintenanceViews-roleName"/>
                             <bean id="create_active" parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
                         </list>
                     </property>
@@ -44,7 +44,7 @@
             </list>
         </property>
     </bean>
-    <bean id="selectRequest-MaintenanceViews-roleName" parent="Uif-InputField"
+    <bean id="access_workflow_selectRequest-MaintenanceViews-roleName" parent="Uif-InputField"
           p:propertyName="roleName" p:label="Role Name" p:required="true"
           p:enableAutoDirectInquiry="false" >
         <property name="quickfinder">

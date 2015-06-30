@@ -41,6 +41,8 @@ public class OLEConstants {
     public static final String ACCESS_NAME_FIELD="dataobject.workflowName";
     public static final String ORDER_NO_FIELD="dataobject.orderNo";
     public static final String ORDER_NO="orderNo";
+    public static final String SELECTOR_ROLE = "Role";
+    public static final String SELECTOR_PERSON = "Person";
     public static final String PATRON_ID_POLICY = "patronId";
     public static final String ITEM_ID_POLICY = "itemId";
     public static final String DUE_DATE_INFO = " Due date may be different than usual because of requests on this item. No renewals allowed.";
@@ -2122,6 +2124,7 @@ public class OLEConstants {
     public static final String ERROR_EMPTY_ORDER_NO="empty.order.no";
     public static final String ERROR_EMPTY_STATUS="empty.status";
     public static final String ERROR_EMPTY_ROLE_NAME="empty.role.name";
+    public static final String ERROR_EMPTY_PERSON_NAME="empty.person.name";
     public static final String ERROR_EMPTY_ROLE="empty.role";
     public static final String ERROR_EMPTY_PERSON="empty.person";
     public static final String ERROR_EMPTY_GROUP="empty.group";
