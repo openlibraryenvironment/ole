@@ -14,7 +14,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
+            <property name="paramType">multi-value</property>
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
@@ -111,6 +111,12 @@
                     <text-property name="displayName">Hold Expiration Date</text-property>
                     <text-property name="heading">Hold Expiration Date</text-property>
                 </structure>
+                <structure>
+                    <property name="columnName">Hold Creation Date</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Hold Creation Date</text-property>
+                    <text-property name="heading">Hold Creation Date</text-property>
+                </structure>
             </list-property>
             <list-property name="parameters"/>
             <structure name="cachedMetaData">
@@ -162,14 +168,26 @@
                     </structure>
                     <structure>
                         <property name="position">10</property>
+                        <property name="name">Hold Creation Date</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
                         <property name="name">Library</property>
                         <property name="dataType">string</property>
                     </structure>
                 </list-property>
             </structure>
             <method name="beforeOpen"><![CDATA[deliverReport = new Packages.org.kuali.ole.OLEDeliverReportHelper();
-this.queryText = this.queryText+" and (ODI.LOCATION LIKE CONCAT('%',CONCAT('?','%')) or ODH.LOCATION LIKE CONCAT('%',CONCAT('?','%')))";
-this.queryText = this.queryText.replace("?",params["Library"].value);]]></method>
+dbVendor = deliverReport.getDbVendor();
+if(dbVendor!=null){
+	if(dbVendor.equalsIgnoreCase("oracle")){
+		this.queryText = this.queryText+" and (REGEXP_LIKE(ODI.LOCATION,'"+params["Library"].value.join("|")+"') or REGEXP_LIKE(ODH.LOCATION,'"+params["Library"].value.join("|")+"'))";
+	}else if(dbVendor.equalsIgnoreCase("mysql")){
+	    this.queryText = this.queryText+" and (ODI.LOCATION REGEXP '"+params["Library"].value.join("|")+"' or ODH.LOCATION REGEXP '"+params["Library"].value.join("|")+"')";
+	}
+}
+]]></method>
             <method name="onFetch"><![CDATA[dataSetRow["Library"] = deliverReport.getLibraryLocation(dataSetRow["Location"],dataSetRow["Location Level"]);]]></method>
             <property name="dataSource">OutstandingHolds</property>
             <list-property name="resultSet">
@@ -236,6 +254,13 @@ this.queryText = this.queryText.replace("?",params["Library"].value);]]></method
                     <property name="dataType">date-time</property>
                     <property name="nativeDataType">93</property>
                 </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">Hold Creation Date</property>
+                    <property name="nativeName">Hold Creation Date</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select 
 ODR.ITM_ID as "Barcode",
@@ -256,7 +281,8 @@ END as "Call Number",
 ODBI.TITLE as "Title",
 CONCAT(OPEV.FIRST_NM,CONCAT(' ',OPEV.LAST_NM)) as "Patron Name",
 ODR.OLE_PTRN_ID as "Patron Id",
-ODR.HOLD_EXP_DATE as "Hold Expiration Date"
+ODR.HOLD_EXP_DATE as "Hold Expiration Date",
+ODR.CRTE_DT_TIME as "Hold Creation Date"
 from
 OLE_DLVR_RQST_T ODR,
 OLE_DLVR_ITEM_AVAIL_STAT_T ODIAS,
@@ -421,6 +447,12 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                     <expression name="expression" type="javascript">dataSetRow["Hold Expiration Date"]</expression>
                     <property name="dataType">date-time</property>
                 </structure>
+                <structure>
+                    <property name="name">Hold Creation Date</property>
+                    <text-property name="displayName">Hold Creation Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Hold Creation Date"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
             </list-property>
             <column id="61"/>
             <column id="62"/>
@@ -429,6 +461,7 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
             <column id="65"/>
             <column id="66"/>
             <column id="84"/>
+            <column id="89"/>
             <header>
                 <row id="40">
                     <cell id="41">
@@ -520,6 +553,19 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderTopWidth">thin</property>
                         <label id="85">
                             <text-property name="text">Hold Expiration Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="87">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="92">
+                            <text-property name="text">Hold Creation Date</text-property>
                         </label>
                     </cell>
                 </row>
@@ -619,6 +665,19 @@ OL.LEVEL_ID = OLL.LEVEL_ID]]></xml-property>
                         <property name="borderTopWidth">thin</property>
                         <data id="86">
                             <property name="resultSetColumn">Hold Expiration Date</property>
+                        </data>
+                    </cell>
+                    <cell id="88">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="93">
+                            <property name="resultSetColumn">Hold Creation Date</property>
                         </data>
                     </cell>
                 </row>

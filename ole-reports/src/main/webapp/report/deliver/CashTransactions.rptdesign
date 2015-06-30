@@ -38,7 +38,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
+            <property name="paramType">multi-value</property>
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
@@ -218,13 +218,13 @@
                 </list-property>
             </structure>
             <method name="beforeOpen"><![CDATA[deliverReport = new Packages.org.kuali.ole.OLEDeliverReportHelper();
-this.queryText = this.queryText+" and (ODI.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%')) or ODH.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%')))";
-
 dbVendor = deliverReport.getDbVendor();
 if(dbVendor!=null){
 	if(dbVendor.equalsIgnoreCase("oracle")){
+		this.queryText = this.queryText+" and (REGEXP_LIKE(ODI.LOCATION,'"+params["Library"].value.join("|")+"') or REGEXP_LIKE(ODH.LOCATION,'"+params["Library"].value.join("|")+"'))";
 		this.queryText = this.queryText+" and (trunc(ODPB.CRTE_DT_TIME) between to_date('"+params["From"].value+"', 'YYYY-MM-DD') and to_date('"+params["To"].value+"', 'YYYY-MM-DD'))";
 	}else if(dbVendor.equalsIgnoreCase("mysql")){
+	    this.queryText = this.queryText+" and (ODI.LOCATION REGEXP '"+params["Library"].value.join("|")+"' or ODH.LOCATION REGEXP '"+params["Library"].value.join("|")+"')";
 	    this.queryText = this.queryText+" and (ODPB.CRTE_DT_TIME between '"+params["From"].value+"' AND '"+params["To"].value+"')";
 	}
 }

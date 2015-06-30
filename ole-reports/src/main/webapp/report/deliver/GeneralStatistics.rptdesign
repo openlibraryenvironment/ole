@@ -38,7 +38,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
+            <property name="paramType">multi-value</property>
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
@@ -53,7 +53,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
+            <property name="paramType">multi-value</property>
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
@@ -68,7 +68,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
+            <property name="paramType">multi-value</property>
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
@@ -111,9 +111,9 @@
 dbVendor = deliverReport.getDbVendor();
 if(dbVendor!=null){
 	if(dbVendor.equalsIgnoreCase("oracle")){
-		this.queryText = this.queryText.replace("?","between to_date('"+params["From"].value+"', 'YYYY-MM-DD') and to_date('"+params["To"].value+"', 'YYYY-MM-DD') and (ODI.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%')) or ODH.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%'))) and ODBT.DLVR_BORR_TYP_NM = '"+params["Patron Type"].value+"' and ODSC.OLE_DLVR_STAT_CAT_NM='"+params["Patron Statistical Category"].value+"'");
+		this.queryText = this.queryText.replace("?","between to_date('"+params["From"].value+"', 'YYYY-MM-DD') and to_date('"+params["To"].value+"', 'YYYY-MM-DD') and (REGEXP_LIKE(ODI.LOCATION,'"+params["Library"].value.join("|")+"') or REGEXP_LIKE(ODH.LOCATION,'"+params["Library"].value.join("|")+"')) and ODBT.DLVR_BORR_TYP_NM IN ('"+params["Patron Type"].value.join("','")+"') and ODSC.OLE_DLVR_STAT_CAT_NM IN ('"+params["Patron Statistical Category"].value.join("','")+"')");
 	}else if(dbVendor.equalsIgnoreCase("mysql")){
-		this.queryText = this.queryText.replace("?","between '"+params["From"].value+"' AND '"+params["To"].value+"' and (ODI.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%')) or ODH.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%'))) and ODBT.DLVR_BORR_TYP_NM = '"+params["Patron Type"].value+"' and ODSC.OLE_DLVR_STAT_CAT_NM = '"+params["Patron Statistical Category"].value+"'");
+		this.queryText = this.queryText.replace("?","between '"+params["From"].value+"' AND '"+params["To"].value+"' and (ODI.LOCATION REGEXP '"+params["Library"].value.join("|")+"' or ODH.LOCATION REGEXP '"+params["Library"].value.join("|")+"') and ODBT.DLVR_BORR_TYP_NM IN ('"+params["Patron Type"].value.join("','")+"') and ODSC.OLE_DLVR_STAT_CAT_NM IN ('"+params["Patron Statistical Category"].value.join("','")+"')");
 	}
 }
 ]]></method>

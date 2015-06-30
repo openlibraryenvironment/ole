@@ -14,7 +14,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
+            <property name="paramType">multi-value</property>
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
@@ -29,7 +29,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
-            <property name="paramType">simple</property>
+            <property name="paramType">multi-value</property>
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
@@ -103,12 +103,13 @@ dbVendor = deliverReport.getDbVendor();
 if(dbVendor!=null){
 	if(dbVendor.equalsIgnoreCase("oracle")){
 		this.queryText = this.queryText.replace("?","between to_date('"+params["From"].value+"', 'YYYY-MM-DD') and to_date('"+params["To"].value+"', 'YYYY-MM-DD')");
+        this.queryText = this.queryText+" and (REGEXP_LIKE(ODI.LOCATION,'"+params["Library"].value.join("|")+"') or REGEXP_LIKE(ODH.LOCATION,'"+params["Library"].value.join("|")+"'))";
 	}else if(dbVendor.equalsIgnoreCase("mysql")){
 		this.queryText = this.queryText.replace("?","between '"+params["From"].value+"' AND '"+params["To"].value+"'");
+        this.queryText = this.queryText+" and (ODI.LOCATION REGEXP '"+params["Library"].value.join("|")+"' or ODH.LOCATION REGEXP '"+params["Library"].value.join("|")+"')";
 	}
 }
-this.queryText = this.queryText+ " and  OCIT.ITM_TYP_NM = '"+params["Item Type"].value+"'";
-this.queryText = this.queryText+" and (ODI.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%')) or ODH.LOCATION LIKE CONCAT('%',CONCAT('"+params["Library"].value+"','%')))";]]></method>
+this.queryText = this.queryText+ " and  OCIT.ITM_TYP_NM IN ('"+params["Item Type"].value.join("','")+"')";]]></method>
             <property name="dataSource">ItemTypeStatistics</property>
             <list-property name="resultSet"/>
             <xml-property name="queryText"><![CDATA[select 
