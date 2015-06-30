@@ -5573,7 +5573,7 @@
         <column default="N" name="DV_EXCPT_IND" required="true" size="1" type="VARCHAR"/>
         <column default="N" name="IMD_PMT_IND" size="1" type="VARCHAR"/>
         <column name="DV_PMT_MTHD_ID" size="10" type="DECIMAL"/>
-        <column name="INV_NO" size="10" type="VARCHAR" required="true"/>
+        <column name="INV_NO" size="30" type="VARCHAR" />
         <foreign-key foreignTable="OLE_PMT_MTHD_T" name="DV_PMT_MTHD_ID_FK">
             <reference foreign="OLE_PMT_MTHD_ID" local="DV_PMT_MTHD_ID"/>
         </foreign-key>

@@ -5032,4 +5032,21 @@
                         tableName="OLE_E_RES_REC_T"/>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="FP_DV_DOC_T_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE FP_DV_DOC_T MODIFY INV_NO varchar(30)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="FP_DV_DOC_T_ORACLE" dbms="oracle">
+        <sql>ALTER TABLE FP_DV_DOC_T MODIFY INV_NO varchar2(30)</sql>
+    </changeSet>
+
+    <changeSet author="ole" id="FP_DV_DOC_T_REMOVE_NOT_NULL_CONDITION">
+        <dropNotNullConstraint catalogName="ole"
+                               columnDataType="VARCHAR(30)"
+                               columnName="INV_NO"
+                               tableName="FP_DV_DOC_T"/>
+    </changeSet>
+
+
+
 </databaseChangeLog>
