@@ -1,6 +1,5 @@
 package org.kuali.ole.select.controller;
 
-import org.eclipse.jdt.internal.eval.GlobalVariable;
 import org.kuali.ole.select.document.OLEPurchaseOrderBatchDocument;
 import org.kuali.ole.select.document.service.impl.OLEPurchaseOrderBatchServiceImpl;
 import org.kuali.rice.krad.UserSession;

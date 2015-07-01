@@ -461,6 +461,17 @@ This file contains custom application specific web.xml content.
         </taglib>
     </jsp-config>
     <servlet>
+        <servlet-name>rest</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>6</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>rest</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>asrServlet</servlet-name>
         <servlet-class>
             com.sun.jersey.spi.container.servlet.ServletContainer

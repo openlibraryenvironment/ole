@@ -531,7 +531,7 @@ public class LoanController extends UifControllerBase {
             oleLoanForm.setItem(null);
             oleLoanForm.setOleItem(null);
             oleLoanForm.getErrorsAndPermission().putAll(oleLoanDocument.getErrorsAndPermission());
-            if (oleLoanDocument.getErrorMessage() != null) {
+            if (StringUtils.isNotBlank(oleLoanDocument.getErrorMessage())) {
                 oleLoanForm.setSuccess(false);
                 oleLoanForm.setInformation("");
                 oleLoanForm.setMessage(oleLoanDocument.getErrorMessage());
@@ -742,7 +742,7 @@ public class LoanController extends UifControllerBase {
                         oleLoanForm.getErrorsAndPermission().clear();
                         oleLoanDocument = getLoanProcessor().returnLoan(oleLoanForm.getCheckInItem(), oleLoanDocument);
                         oleLoanForm.setDummyLoan(oleLoanDocument);
-                        if (oleLoanDocument.getErrorMessage() != null) {
+                        if (StringUtils.isNotBlank(oleLoanDocument.getErrorMessage())) {
                             oleLoanForm.setSuccess(true);
                             oleLoanForm.setMessage(null);
                             oleLoanForm.setReturnSuccess(false);
@@ -2376,7 +2376,7 @@ public class LoanController extends UifControllerBase {
                         oleLoanForm.setRenewPermission(oleLoanDocument.isRenewPermission());
                         oleLoanForm.setSuccessInfo(OLEConstants.RENEWAL_INDEFINITE_INFO);
                     }
-                    if (oleLoanDocument.getErrorMessage() == null && !oleLoanDocument.isRenewNotFlag()) {
+                    if (StringUtils.isBlank(oleLoanDocument.getErrorMessage()) && !oleLoanDocument.isRenewNotFlag()) {
                         oleLoanForm.setRenewalFlag(false);
                         oleLoanForm.setOverrideRenewItemFlag(false);
                         oleLoanForm.setSuccess(true);
@@ -2400,7 +2400,11 @@ public class LoanController extends UifControllerBase {
                       /*  if (currentDate.before(oleLoanDocument.getLoanDueDate()))
                             oleLoanForm.setRenewalFlag(true);*/
                         oleLoanForm.setRenewPermission(oleLoanDocument.isRenewPermission());
-                        String errMsg = oleLoanDocument.getErrorMessage().substring(0, oleLoanDocument.getErrorMessage().lastIndexOf("(OR)"));
+                        // errMsg = null;
+                        if (StringUtils.isBlank(oleLoanDocument.getErrorMessage())) {
+                            String errMsg = oleLoanDocument.getErrorMessage().substring(0, oleLoanDocument.getErrorMessage().lastIndexOf("(OR)"));
+                            oleLoanForm.setMessage(errMsg);
+                        }
                         if(getLoanProcessor().checkPendingRequestforItem(oleLoanDocument.getItemUuid())){
                             PermissionService service = KimApiServiceLocator.getPermissionService();
                             boolean hasPermission = service.hasPermission(GlobalVariables.getUserSession().getPrincipalId(),OLEConstants.DLVR_NMSPC,OLEConstants.PENDING_RQST_RENEWAL_ITM_INFO);
@@ -2411,7 +2415,7 @@ public class LoanController extends UifControllerBase {
                                 oleLoanForm.setRenewPermission(true);
                             }
                         }
-                      oleLoanForm.setMessage(errMsg);
+
                     }
                     if(!oleLoanDocument.isIndefiniteCheckFlag()) {
                         if (oleLoanForm.getExistingLoanList() != null && oleLoanForm.getExistingLoanList().size() > 0) {
@@ -2608,7 +2612,7 @@ public class LoanController extends UifControllerBase {
                         oleLoanForm.setOverrideRenewal(false);
                         oleLoanForm.setOverrideRenewItemFlag(false);*/
                         oleLoanForm.setNonCirculatingFlag(false);
-                    } else if (loanDocument.getErrorMessage() == null) {
+                    } else if (StringUtils.isBlank(loanDocument.getErrorMessage())) {
                         errMsg = errMsg + (i + 1) + ". " + OLEConstants.RENEWAL_ITM_SUCCESS_INFO + "  (" + loanDocument.getItemId() + ")<br/>";
                         OleRenewalHistory oleRenewalHistory = new OleRenewalHistory();
                         oleRenewalHistory.setItemBarcode(loanDocument.getItemId());
@@ -2647,7 +2651,9 @@ public class LoanController extends UifControllerBase {
                                 loanDocument.setRenewPermissionForRequestedItem(true);
                             }
                         }
-                        loanDocument.setErrorMessage(loanDocument.getErrorMessage().substring(0, loanDocument.getErrorMessage().lastIndexOf("(OR)")));
+                        if(StringUtils.isNotBlank(loanDocument.getErrorMessage())) {
+                            loanDocument.setErrorMessage(loanDocument.getErrorMessage().substring(0, loanDocument.getErrorMessage().lastIndexOf("(OR)")));
+                        }
                         oleLoanForm.setRenewDueDateFlag(true);
                         renewalItemList.add(loanDocument);
                         oleLoanForm.setRenewDueDateList(renewalItemList);
@@ -2943,18 +2949,18 @@ public class LoanController extends UifControllerBase {
                 return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
             }
             String checkInNote = oleLoanDocument.getOleItem().getCheckinNote();
-            if (checkInNote != null && !checkInNote.isEmpty() && oleLoanForm.getReturnMessage() == null) {
+            if (checkInNote != null && !checkInNote.isEmpty() && StringUtils.isBlank(oleLoanForm.getReturnMessage())) {
                 oleLoanForm.setCheckInNote(OLEConstants.CHECK_IN_NOTE_HEADER + checkInNote);
                 oleLoanForm.setRouteToLocation(oleLoanDocument.getRouteToLocation());
                 String principalId = GlobalVariables.getUserSession().getPrincipalId();
                 oleLoanForm.setOkOrRemoveNote(getLoanProcessor().checkPermissionForRemoveNote(principalId));
             }
-            if (!oleLoanDocument.isBackGroundCheckOut() && oleLoanDocument.getErrorMessage() != null) {
+            if (!oleLoanDocument.isBackGroundCheckOut() && StringUtils.isNotBlank(oleLoanDocument.getErrorMessage())) {
                 oleLoanForm.setReturnSuccess(false);
                 oleLoanForm.setReturnMessage(oleLoanDocument.getErrorMessage());
             } else {
                 List<OleLoanDocument> oleLoanDocuments = new ArrayList<OleLoanDocument>();
-                if (!oleLoanDocument.isCheckOut() || oleLoanDocument.getErrorMessage() == null)
+                if (!oleLoanDocument.isCheckOut() || StringUtils.isBlank(oleLoanDocument.getErrorMessage()))
                     oleLoanDocuments.add(oleLoanDocument);
                 if (oleLoanForm.getItemReturnList() != null) {
                     oleLoanDocuments.addAll(oleLoanForm.getItemReturnList());
@@ -2991,7 +2997,7 @@ public class LoanController extends UifControllerBase {
             }
             return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
         }
-        if (!oleLoanForm.isCheckInNoteExists() && oleLoanForm.getCheckInNote() != null && oleLoanForm.getReturnMessage() == null) {
+        if (!oleLoanForm.isCheckInNoteExists() && oleLoanForm.getCheckInNote() != null && StringUtils.isBlank(oleLoanForm.getReturnMessage())) {
             oleLoanForm.setDummyLoan(oleLoanDocument);
             oleLoanForm.setCheckInNoteExists(true);
             oleLoanForm.setReturnSuccess(false);
@@ -3001,7 +3007,7 @@ public class LoanController extends UifControllerBase {
             LOG.info("Time taken Inside Validate Item - checkin note"+total);
             return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
         }
-        if (oleLoanDocument.isCheckOut() && oleLoanDocument.getErrorMessage() != null && oleLoanForm.getReturnMessage() == null) {
+        if (oleLoanDocument.isCheckOut() && StringUtils.isNotBlank(oleLoanDocument.getErrorMessage()) && StringUtils.isBlank(oleLoanForm.getReturnMessage())) {
             oleLoanForm.setDueDateEmpty(oleLoanDocument.isDueDateEmpty());
             oleLoanForm.setDummyLoan(oleLoanDocument);
             oleLoanForm.setReturnSuccess(false);
@@ -3011,7 +3017,7 @@ public class LoanController extends UifControllerBase {
             oleLoanForm.setOleItem(oleLoanDocument.getOleItem());
             return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
         }
-        if ((oleLoanForm.getReturnMessage() == null) && oleLoanDocument.getOleCirculationDesk() != null && oleLoanDocument.getOleCirculationDesk().isPrintSlip()) {
+        if ((StringUtils.isBlank(oleLoanForm.getReturnMessage())) && oleLoanDocument.getOleCirculationDesk() != null && oleLoanDocument.getOleCirculationDesk().isPrintSlip()) {
             if (oleLoanDocument.getOleItem().isMissingPieceFlag()) {
                 OleNoticeBo oleNoticeBo = getLoanProcessor().getNotice(oleLoanDocument);
                 // SimpleDateFormat simpleDateFormat=new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT);
@@ -3119,7 +3125,7 @@ public class LoanController extends UifControllerBase {
                 oleLoanForm.setOkOrRemoveNote(getLoanProcessor().checkPermissionForRemoveNote(principalId));
             }
             List<OleLoanDocument> oleLoanDocuments = new ArrayList<OleLoanDocument>();
-            if (!oleLoanDocument.isCheckOut() || oleLoanDocument.getErrorMessage() == null)
+            if (!oleLoanDocument.isCheckOut() || StringUtils.isBlank(oleLoanDocument.getErrorMessage()))
                 oleLoanDocuments.add(oleLoanDocument);
             if (oleLoanForm.getItemReturnList() != null) {
                 oleLoanDocuments.addAll(oleLoanForm.getItemReturnList());
@@ -3144,7 +3150,7 @@ public class LoanController extends UifControllerBase {
             oleLoanForm.setReturnMessage(oleLoanForm.getCheckInNote());
             return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
         }
-        if (oleLoanDocument.isCheckOut() && oleLoanDocument.getErrorMessage() != null) {
+        if (oleLoanDocument.isCheckOut() && StringUtils.isNotBlank(oleLoanDocument.getErrorMessage())) {
             oleLoanForm.setDueDateEmpty(oleLoanDocument.isDueDateEmpty());
             oleLoanForm.setDummyLoan(oleLoanDocument);
             oleLoanForm.setReturnSuccess(false);
@@ -3459,7 +3465,7 @@ public class LoanController extends UifControllerBase {
                 oleLoanForm.setOkOrRemoveNote(getLoanProcessor().checkPermissionForRemoveNote(principalId));
             }
             List<OleLoanDocument> oleLoanDocuments = new ArrayList<OleLoanDocument>();
-            if (!oleLoanDocument.isCheckOut() || oleLoanDocument.getErrorMessage() == null)
+            if (!oleLoanDocument.isCheckOut() || StringUtils.isBlank(oleLoanDocument.getErrorMessage()))
                 oleLoanDocuments.add(oleLoanDocument);
             if (oleLoanForm.getItemReturnList() != null) {
                 oleLoanDocuments.addAll(oleLoanForm.getItemReturnList());
@@ -3502,7 +3508,7 @@ public class LoanController extends UifControllerBase {
         }
         if (oleLoanForm.isTempClaimsFlag()) {
            /* oleLoanForm.setTempClaimsFlag(false);*/
-            if (!oleLoanDocument.isBackGroundCheckOut() && oleLoanDocument.getErrorMessage() != null) {
+            if (!oleLoanDocument.isBackGroundCheckOut() && StringUtils.isNotBlank(oleLoanDocument.getErrorMessage())) {
                 oleLoanForm.setReturnSuccess(false);
                 oleLoanForm.setReturnMessage(oleLoanDocument.getErrorMessage());
                 return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
@@ -3515,7 +3521,7 @@ public class LoanController extends UifControllerBase {
             oleLoanForm.setReturnMessage(oleLoanForm.getCheckInNote());
             return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
         }
-        if (oleLoanDocument.isCheckOut() && oleLoanDocument.getErrorMessage() != null) {
+        if (oleLoanDocument.isCheckOut() && StringUtils.isNotBlank(oleLoanDocument.getErrorMessage())) {
             oleLoanForm.setDueDateEmpty(oleLoanDocument.isDueDateEmpty());
             oleLoanForm.setDummyLoan(oleLoanDocument);
             oleLoanForm.setReturnSuccess(false);
@@ -3735,7 +3741,7 @@ public class LoanController extends UifControllerBase {
                 LOG.error("Exception while removing check-in note", e);
             }
         }
-        if (oleLoanDocument.isCheckOut() && oleLoanDocument.getErrorMessage() != null) {
+        if (oleLoanDocument.isCheckOut() && StringUtils.isNotBlank(oleLoanDocument.getErrorMessage())) {
             oleLoanForm.setDueDateEmpty(oleLoanDocument.isDueDateEmpty());
             oleLoanForm.setDummyLoan(oleLoanDocument);
             oleLoanForm.setReturnSuccess(false);
@@ -3832,7 +3838,7 @@ public class LoanController extends UifControllerBase {
         } else {
             oleLoanForm.setInTransit(false);
         }*/
-        if (oleLoanDocument.isCheckOut() && oleLoanDocument.getErrorMessage() != null) {
+        if (oleLoanDocument.isCheckOut() && StringUtils.isNotBlank(oleLoanDocument.getErrorMessage())) {
             oleLoanForm.setDueDateEmpty(oleLoanDocument.isDueDateEmpty());
             oleLoanForm.setDummyLoan(oleLoanDocument);
             oleLoanForm.setReturnSuccess(false);

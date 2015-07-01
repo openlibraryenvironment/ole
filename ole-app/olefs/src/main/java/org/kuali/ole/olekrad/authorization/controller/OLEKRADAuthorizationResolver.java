@@ -55,17 +55,19 @@ public class OLEKRADAuthorizationResolver extends UifHandlerExceptionResolver {
 
             OLEKRADAuthorizationForm oleKradAuthorizationForm = new OLEKRADAuthorizationForm();
             oleKradAuthorizationForm.setDocId(incidentDocId);
-            oleKradAuthorizationForm.setPrincipalId(userSession.getPrincipalId());
+            String principalId = userSession.getPrincipalId();
+            String principalName = userSession.getPrincipalName();
+            oleKradAuthorizationForm.setPrincipalId(principalId);
             oleKradAuthorizationForm.setError("Error Message      :");
             if(form instanceof LookupForm){
-                oleKradAuthorizationForm.setInformation("You are not authorized to view \" "+((LookupForm) form).getView().getHeaderText()+" \"");
+                oleKradAuthorizationForm.setInformation(principalName + " is not authorized to view \" "+ form.getView().getHeaderText()+" \"");
 
             }
             else if(form instanceof UifFormBase){
-                oleKradAuthorizationForm.setInformation("You are not authorized to view \" "+((UifFormBase) form).getView().getHeaderText()+" \"");
+                oleKradAuthorizationForm.setInformation(principalName + " is not authorized to view \" "+ form.getView().getHeaderText()+" \"");
             }
             else{
-                oleKradAuthorizationForm.setInformation("You are not authorized to view this Document");
+                oleKradAuthorizationForm.setInformation(principalName + " is not authorized to view this Document");
             }
 
 

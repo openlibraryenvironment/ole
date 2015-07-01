@@ -1,0 +1,29 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.ErrorMessage
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "Check out Circ Policy Set ILL"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("ILL"))
+
+$n: NoticeInfo()
+
+$l: OleLoanDocument()
+
+$i: OleItemRecordForCirc(getItemType() in ("stks"),
+getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"))
+
+then
+$l.setCirculationPolicyId("Check out Circ Policy Set ILL");
+$l.loanPeriod("70-D",null);
+$n.setLoanType(DroolsConstants.ILL_NOTICE_CONFIG);
+ end

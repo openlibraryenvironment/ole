@@ -147,4 +147,7 @@
         </property>
     </bean>
 
+    <bean id="circulationRestService" class="org.kuali.ole.ncip.service.impl.CirculationRestServiceImpl">
+    </bean>
+
 </beans>

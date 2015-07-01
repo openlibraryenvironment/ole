@@ -42,7 +42,7 @@ public class OlePatronLookupableImpl extends OleLookupableImpl {
 
     @Override
     public Collection<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
-        LOG.debug("Inside performSearch()");
+        long startTime = System.currentTimeMillis();
         List<OlePatronDocument> finalResult=new ArrayList<OlePatronDocument>();
         LookupUtils.preprocessDateFields(searchCriteria);
         String borrowerType = searchCriteria.get(OLEConstants.OlePatron.BORROWER_TYPE);
@@ -136,6 +136,8 @@ public class OlePatronLookupableImpl extends OleLookupableImpl {
         }
         finalResult = (List<OlePatronDocument>) displayList;
         searchResults = finalResult;
+        long endTime = System.currentTimeMillis();
+        System.out.println("Time taken for Patron lookup: " + (endTime-startTime) + " ms");
         return finalResult;
     }
 

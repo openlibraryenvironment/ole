@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="currentLoanListSection-HorizontalBoxSection" parent="currentLoanListSection-HorizontalBoxSection-parentBean" p:style="width:1300px"/>
+    <bean id="currentLoanListSection-HorizontalBoxSection-parentBean" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="17" p:style="width:1000px" p:render="@{loanDocumentListForCurrentSession.size() > 0}">
+        <property name="headerText" value="Items Checked Out This Session" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
+        <property name="propertyName" value="loanDocumentListForCurrentSession"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <!--<property name="footer">-->
+            <!--<bean id="footers" parent="Uif-LookupResultsFooter">-->
+                <!--<property name="items">-->
+                    <!--<list>-->
+                        <!--&lt;!&ndash;<bean parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="selectAllLoanedItem();"/>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<bean parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="deSelectAllLoanedItem();"/>&ndash;&gt;-->
+                        <!--<bean parent="Uif-SecondaryActionButton" p:actionLabel="Select All"/>-->
+                        <!--<bean parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All"/>-->
+                    <!--</list>-->
+                <!--</property>-->
+            <!--</bean>-->
+        <!--</property>-->
+        <property name="items">
+            <list>
+                <!--<bean id="loanCheckId" parent="Loan-Uif-InputField" p:propertyName="checkNo" p:label="Select" p:width="3%" p:defaultValue="false">-->
+                    <!--<property name="control">-->
+                        <!--<bean parent="Uif-CheckboxControl" p:cssClasses="loaningItemCBClass"/>-->
+                    <!--</property>-->
+                <!--</bean>-->
+                <bean id="currentyLoanedBarcode" parent="Uif-LinkField" p:label="Barcode" p:width="10%" p:linkText="@{#line.itemId}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;editable=false&amp;docFormat=oleml&amp;docId=@{#line.itemUuid}&amp;instanceId=@{#line.instanceUuid}&amp;bibId=@{#line.bibUuid}" >
+
+                </bean>
+                <bean id="currentyLoanedTitle" parent="Uif-DataField" p:label="Title" p:width="25%" p:propertyName="title">
+
+                </bean>
+                <bean id="currentyLoanedAuthor" parent="Uif-DataField" p:label="Author" p:width="12%" p:propertyName="author">
+
+                </bean>
+                <bean id="currentyLoanedItemLocation" parent="Uif-DataField" p:label="Location" p:width="25%" p:propertyName="location">
+
+                </bean>
+                <bean id="currentyLoanedItemCallNumber" parent="Uif-DataField" p:label="Call Number" p:width="10%" p:propertyName="itemCallNumber">
+
+                </bean>
+                <bean id="currentyLoanedItemCopyNumber" parent="Uif-DataField" p:label="Copy Number" p:width="10%" p:propertyName="itemCopyNumber">
+
+                </bean>
+
+                <bean id="currentyLoanedItemEnumeration" parent="Uif-DataField" p:label="Enumeration" p:width="10%" p:propertyName="enumeration">
+
+                </bean>
+                <bean id="currentyLoanedItemChronology" parent="Uif-DataField" p:label="Chronology" p:width="10%" p:propertyName="chronology">
+
+                </bean>
+
+
+                <bean id="currentyLoanedProxyPatronName" parent="Uif-DataField" p:label="Proxy Borrower" p:width="10%" p:propertyName="realPatronName">
+
+                </bean>
+
+                <bean id="currentyLoanedNoOfrenew" parent="Uif-DataField" p:label="No Of Renew" p:width="5%" p:propertyName="numberOfRenewals"/>
+
+                <bean id="currentyLoanedCheckoutItemStatus" parent="Uif-DataField" p:label="Item Status" p:width="10%" p:propertyName="itemStatus"/>
+
+                <bean id="currentyLoanedLoanDueDate" parent="Uif-DataField" p:label="Due Date" p:width="10%" p:propertyName="loanDueDate" p:render="@{#line.loanDueDate ne null}">
+
+                </bean>
+
+                <bean id="currentyLoanedInDefiniteDueDate" parent="Uif-DataField" p:label="Due Date" p:width="10%"  p:propertyName="dueDateType" p:render="@{#line.loanDueDate eq null}">
+
+
+                </bean>
+                <bean id="currentyLoanedClaimsReturnNote" parent="Uif-DataField" p:label="Claims Return Note" p:width="10%"  p:propertyName="claimsReturnNote">
+
+                </bean>
+                <bean id="currentyLoanedClaimsReturnDate" parent="Uif-DataField" p:label="Claims Return Date" p:width="10%"  p:propertyName="claimsReturnedDate">
+
+                </bean>
+                <bean id="currentyLoanedMissingNote" parent="Uif-DataField" p:label="Missing Piece Note" p:width="10%"  p:propertyName="missingPieceNote">
+
+                </bean>
+                <bean id="currentyLoanedDamagedNote" parent="Uif-DataField" p:label="Item Damaged Note" p:width="10%"  p:propertyName="itemDamagedNote">
+
+                </bean>
+                <bean id="currentyLoanedItemRequest" parent="Uif-LinkField" p:label="Pending Requests" p:width="10%" p:linkText="@{#line.requestFlag}" p:target="_blank" p:href="lookup?methodToCall=search&amp;itemId=@{#line.itemId}&amp;flag=true&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo" p:style="font-weight:bold;">
+                    <property name="cssClasses" value="uif-secondaryActionButton"/>
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+
+</beans>

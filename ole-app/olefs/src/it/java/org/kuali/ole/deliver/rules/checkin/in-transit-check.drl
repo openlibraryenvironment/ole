@@ -1,0 +1,53 @@
+package org.kuali.ole.deliver.checkin
+
+
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OleCirculationDesk
+
+ rule "Check existing request on item"
+agenda-group "checkin validation"
+activation-group "checkin"
+salience 1
+when
+$p: OleLoanDocument(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation())
+then
+$p.setItemStatusCode("RECENTLY-RETURNED");
+ end
+
+
+ rule "Recently returned Check based on shelving lag time"
+agenda-group "checkin validation"
+activation-group "checkin"
+salience 10
+when
+$p: OleLoanDocument(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
+$c:getOleCirculationDesk())
+OleLoanDocument(!$c.getShelvingLagTime().equals("0"))
+then
+$p.setItemStatusCode("RECENTLY-RETURNED");
+ end
+
+ rule "Available Check based on shelving lag time"
+agenda-group "checkin validation"
+activation-group "checkin"
+ salience 10
+when
+$p: OleLoanDocument(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
+$c:getOleCirculationDesk())
+OleLoanDocument($c.getShelvingLagTime().equals("0"))
+then
+$p.setItemStatusCode("AVAILABLE");
+ end
+
+ rule "InTransitCheck"
+agenda-group "checkin validation"
+activation-group "checkin"
+salience 10
+when
+$p: OleLoanDocument(null!= isCheckinLocationSameAsHomeLocation(),!isCheckinLocationSameAsHomeLocation())
+then
+$p.setItemStatusCode("INTRANSIT");
+ end
+
+
+

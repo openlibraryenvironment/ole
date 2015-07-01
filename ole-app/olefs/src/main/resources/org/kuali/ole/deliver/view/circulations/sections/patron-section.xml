@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="circPatronDetails-HorizontalBoxSection" parent="circPatronDetails-HorizontalBoxSection-parentBean" />
+    <bean id="circPatronDetails-HorizontalBoxSection-parentBean" parent="Uif-Disclosure-HorizontalBoxSection" p:render="@{patronDocument.barcode ne null}" >
+        <property name="headerText" value="Patron Details"/>
+        <property name="items">
+            <list>
+                <bean id="currentPatronName" parent="Uif-LinkField" p:target="_blank" p:style="font-weight:bold;text-align:left;" p:fieldLabel.renderColon="false" p:href="@{patronDocument.patronRecordURL}" p:linkText="@{patronDocument.patronName}" p:label="Name" p:labelPlacement="TOP" />
+                <bean id="currentPatronType" parent="Uif-DataField" p:propertyName="patronDocument.oleBorrowerType.borrowerTypeName" p:label="Type" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="currentPreferredAddress" parent="Uif-DataField" p:propertyName="patronDocument.preferredAddress" p:label="Preferred Address" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="currentPatronPhone" parent="Uif-DataField" p:propertyName="patronDocument.phoneNumber" p:label="Phone" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="currentPatronEmail" parent="Uif-DataField" p:propertyName="patronDocument.email" p:label="Email" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="currentProxyForPatronName" parent="Uif-DataField" p:style="background:#FFCC99" p:propertyName="patronDocument.selectedProxyForPatron.entity.names[0].firstName" p:label="Proxy For Patron Name" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:render="@{patronDocument.selectedProxyForPatron ne null and patronDocument.selectedProxyForPatron.olePatronId ne null and patronDocument.selectedProxyForPatron.olePatronId ne ''}"/>
+                <bean id="currentProxyForPatronBarcode" parent="Uif-DataField" p:style="background:#FFCC99"  p:propertyName="patronDocument.selectedProxyForPatron.barcode" p:label="Proxy For Patron Barcode" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:render="@{patronDocument.selectedProxyForPatron ne null and patronDocument.selectedProxyForPatron.olePatronId ne null and patronDocument.selectedProxyForPatron.olePatronId ne ''}"/>
+                <bean id="currentLoanPatronImage" parent="Uif-ImageField" p:altText=""
+                      p:captionHeaderText="" p:cutlineText="" p:source="patronMaintenance?methodToCall=getImageForLoan&amp;olePatronId=@{patronDocument.olePatronId}"  p:rowSpan="2"  p:label="Photograph" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="circPatronBarcodeSearch-HorizontalBoxSection" parent="circPatronBarcodeSearch-HorizontalBoxSection-parentBean" />
+    <bean id="circPatronBarcodeSearch-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxGroup" class="org.kuali.ole.deliver.OleGroup" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <ref bean="barcodeFieldSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="barcodeFieldSection" parent="barcodeFieldSection-parentBean" />
+    <bean id="barcodeFieldSection-parentBean" parent="Uif-InputField" p:maxLength="24"
+          p:propertyName="patronBarcode"
+          p:label="Patron"
+          p:render="@{loggedInUser ne null OR loggedInUser ne ''}">
+
+        <property name="control">
+            <bean parent="Uif-TextControl">
+                <property name="onKeyPressScript" value="
+                if(e.which==13){
+                    e.preventDefault();
+                    submitForm('searchPatron',null,null,null,null);};" />
+            </bean>
+        </property>
+
+        <property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument">
+                <property name="fieldConversions">
+                    <map>
+                        <entry key="barcode" value="patronBarcode"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+</beans>

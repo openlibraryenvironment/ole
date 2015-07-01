@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
+import org.kuali.ole.deliver.bo.OleCirculationDeskDetail;
 import org.kuali.ole.deliver.bo.OleCirculationDeskLocation;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
@@ -264,6 +265,21 @@ public class CircDeskLocationResolver {
             }
         }
         return locationLevel;
+    }
+
+    public OleCirculationDesk getCircDeskForOpertorId(String principalId) {
+        OleCirculationDesk circkDesk = null;
+        Map<String, String> userMap = new HashMap<String, String>();
+        userMap.put("operatorId", principalId);
+        Collection<OleCirculationDeskDetail> oleCirculationDeskDetails = KRADServiceLocator.getBusinessObjectService().findMatching(OleCirculationDeskDetail.class, userMap);
+
+        for (OleCirculationDeskDetail oleCirculationDeskDetail : oleCirculationDeskDetails) {
+            if (oleCirculationDeskDetail.isDefaultLocation() && oleCirculationDeskDetail.getOleCirculationDesk().isActive()) {
+                circkDesk = (oleCirculationDeskDetail.getOleCirculationDesk());
+                break;
+            }
+        }
+        return circkDesk;
     }
 
     public BusinessObjectService getBusinessObjectService() {

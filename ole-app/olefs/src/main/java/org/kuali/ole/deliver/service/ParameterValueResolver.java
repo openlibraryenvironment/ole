@@ -29,4 +29,11 @@ public class ParameterValueResolver {
         return parameter!=null?parameter.getValue():null;
     }
 
+    public Boolean getParameterAsBoolean(String applicationId, String namespace, String componentId, String
+            parameterName) {
+        ParameterKey parameterKey = ParameterKey.create(applicationId, namespace, componentId, parameterName);
+        Boolean parameterValueAsBoolean = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameterValueAsBoolean(parameterKey);
+        return parameterValueAsBoolean;
+    }
+
 }

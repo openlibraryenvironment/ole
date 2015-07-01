@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="proxyForPatronListDialog" parent="Uif-DialogGroup">
+        <property name="promptText" value=""/>
+        <property name="availableResponses">
+            <list>
+                <!--Empty-->
+            </list>
+        </property>
+        <property name="items">
+            <list merge="false">
+                <ref bean="patronsAndProxyPatronsListSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="patronsAndProxyPatronsListSection" parent="patronsAndProxyPatronsListSection-HorizontalBoxSection-parentBean" />
+    <bean id="patronsAndProxyPatronsListSection-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxSection" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="selfCheckOut-HorizontalBoxSection"/>
+                            <ref bean="proxyForPatronList-HorizontalBoxSection"/>
+                            <ref bean="btnForProxyPatronCheckout-HorizontalBoxSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="selfCheckOut-HorizontalBoxSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronDocument"/>
+        <property name="propertyName" value="patronDocument.currentPatronList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="items">
+            <list>
+                <bean id="selfCheckout" parent="Loan-Uif-InputField" p:label="Current Patron" p:propertyName="checkoutForSelf">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="patronCheckBoxClass"/>
+                    </property>
+                </bean>
+                <bean id="patronId" parent="Uif-DataField" p:label="Current Patron Id"  p:propertyName="olePatronId"/>
+
+                <bean id="patronFirstName" parent="Uif-DataField" p:label="First Name" p:propertyName="entity.names[0].firstName"/>
+
+                <bean id="patronLastName" parent="Uif-DataField" p:label="Last Name"  p:propertyName="entity.names[0].lastName"/>
+
+                <bean id="patronBarcode" parent="Uif-DataField" p:label="Barcode" p:propertyName="barcode"/>
+
+                <bean id="patronType" parent="Uif-DataField" p:label="Current Patron Type" p:propertyName="oleBorrowerType.borrowerTypeName"/>
+
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="proxyForPatronList-HorizontalBoxSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6">
+
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleProxyPatronDocument"/>
+        <property name="propertyName" value="patronDocument.oleProxyPatronDocumentList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="items">
+            <list>
+                <bean id="realPatron" parent="Loan-Uif-InputField" p:label="Choose Proxy For Patron" p:propertyName="olePatronDocument.checkoutForSelf">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="patronCheckBoxClass"/>
+                    </property>
+                </bean>
+                <bean id="proxyForPatronId" parent="Uif-DataField" p:label="Proxied Patron Id"  p:propertyName="proxyPatronId"/>
+
+                <bean id="proxyForPatronFirstName" parent="Uif-DataField" p:label="First Name" p:propertyName="olePatronDocument.entity.names[0].firstName"/>
+
+                <bean id="proxyForPatronLastName" parent="Uif-DataField" p:label="Last Name"  p:propertyName="olePatronDocument.entity.names[0].lastName"/>
+
+                <bean id="proxyForPatronBarcode" parent="Uif-DataField" p:label="Barcode" p:propertyName="olePatronDocument.barcode"/>
+
+                <bean id="proxyForPatronType" parent="Uif-DataField" p:label="Proxied Patron Type" p:propertyName="olePatronDocument.oleBorrowerType.borrowerTypeName"/>
+
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="btnForProxyPatronCheckout-HorizontalBoxSection" parent="btnForProxyPatronCheckout-HorizontalBoxSection-parentBean" />
+    <bean id="btnForProxyPatronCheckout-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean id="btnProceed" parent="Uif-SecondaryActionButton-Small"
+                      p:actionScript="submitForm('processPatronSearchPostProxyHandling',null,null,true,function () {
+                });jq.fancybox.close();"
+                      p:actionLabel="OK"/>
+                <bean id="realPatronCloseBtn"
+                      parent="Uif-SecondaryActionButton-Small"
+                      p:actionScript="submitForm('clearUI',null,null,true,function () {
+                });jq.fancybox.close();"
+                      p:actionLabel="Cancel"  />
+
+            </list>
+        </property>
+    </bean>
+
+</beans>

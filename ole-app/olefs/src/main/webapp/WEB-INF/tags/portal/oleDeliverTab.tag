@@ -21,5 +21,9 @@
     <%--<oleDeliverChannel:oleImport />--%>
 </td>
 <td class="content" valign="top">
+    <oleDeliverChannel:oleCirculationNew />
+</td>
+
+<td class="content" valign="top">
     <oleDeliverChannel:olePatron />
 </td>

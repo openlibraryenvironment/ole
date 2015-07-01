@@ -1,9 +1,13 @@
 package org.kuali.ole.deliver.bo;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.drools.LoanPeriodUtil;
+import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
+import org.kuali.ole.service.OleCirculationPolicyServiceImpl;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -88,6 +92,7 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
      * New Fields added
      */
     private boolean addressVerified;
+    private boolean generalBlock;
     private String preferredAddress;
     private String email;
     private String phoneNumber;
@@ -441,6 +446,14 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
 
     public void setAddressVerified(boolean addressVerified) {
         this.addressVerified = addressVerified;
+    }
+
+    public boolean isGeneralBlock() {
+        return generalBlock;
+    }
+
+    public void setGeneralBlock(boolean generalBlock) {
+        this.generalBlock = generalBlock;
     }
 
     public boolean isRequestPatron() {
@@ -1040,6 +1053,9 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
      * @return Returns the errorMessage
      */
     public String getErrorMessage() {
+        if (null == errorMessage) {
+            return "";
+        }
         return errorMessage;
     }
 
@@ -1049,7 +1065,18 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
      * @param errorMessage The errorMessage to set.
      */
     public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+        StringBuilder stringBuilder = new StringBuilder();
+        if (null != this.errorMessage && !StringUtils.isBlank(this.errorMessage)) {
+            stringBuilder.append(this
+                    .errorMessage).append
+                    (OLEConstants.BREAK);
+        }
+        stringBuilder.append(errorMessage);
+        if(StringUtils.isNotBlank(errorMessage)) {
+            this.errorMessage = stringBuilder.toString();
+        }else{
+            this.errorMessage = null;
+        }
     }
 
     /**
@@ -1873,4 +1900,138 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     public void setProxyPatronBarcodeUrl(String proxyPatronBarcodeUrl) {
         this.proxyPatronBarcodeUrl = proxyPatronBarcodeUrl;
     }
+    public void loanPeriod(String defaultLoanPeriod, String recallLoanPeriod) {
+        LoanPeriodUtil loanPeriodUtil = getLoanPeriodUtil();
+        if(null == oleCirculationDesk){
+            OleCirculationDesk oleCirculationDesk = getCirculationLocationId() != null ? new CircDeskLocationResolver().getOleCirculationDesk(getCirculationLocationId()) : null;
+            setOleCirculationDesk(oleCirculationDesk);
+        }
+        if (isRequestPatron()) {
+            if (null == defaultLoanPeriod) {
+                setLoanDueDate(null);
+            }
+            setLoanDueDate(loanPeriodUtil.calculateDueDate(recallLoanPeriod, getCirculationPolicyId(), oleCirculationDesk
+                    .getCalendarGroupId()));
+        } else {
+            setLoanDueDate(loanPeriodUtil.calculateDueDate(defaultLoanPeriod, getCirculationPolicyId(),
+                    oleCirculationDesk
+                            .getCalendarGroupId()));
+
+        }
+    }
+
+    protected LoanPeriodUtil getLoanPeriodUtil() {
+        return new LoanPeriodUtil();
+    }
+
+    public Integer getOverdueFineAmount(OleCirculationPolicyServiceImpl oleCirculationPolicyService) {
+        Integer overdueFineAmt = 0;
+        if (null != oleDeliverRequestBo) {
+            List<FeeType> feeTypeList = oleCirculationPolicyService.getPatronBillPayment(oleDeliverRequestBo.getBorrowerId());
+            for (FeeType feeType : feeTypeList) {
+                Integer fineAmount = feeType.getFeeAmount().subtract(feeType.getPaidAmount()).intValue();
+                overdueFineAmt += feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.OVERDUE_FINE) ? fineAmount : 0;
+            }
+        }
+        return overdueFineAmt;
+    }
+
+    public Integer getReplacementFineAmount(OleCirculationPolicyServiceImpl oleCirculationPolicyService) {
+        Integer replacementFeeAmt = 0;
+        if (null != oleDeliverRequestBo) {
+            List<FeeType> feeTypeList = oleCirculationPolicyService.getPatronBillPayment(oleDeliverRequestBo.getBorrowerId());
+            for (FeeType feeType : feeTypeList) {
+                Integer fineAmount = feeType.getFeeAmount().subtract(feeType.getPaidAmount()).intValue();
+                replacementFeeAmt += feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.REPLACEMENT_FEE) ? fineAmount : 0;
+            }
+        }
+        return replacementFeeAmt;
+    }
+
+    public Integer getServiceFeeAmount(OleCirculationPolicyServiceImpl oleCirculationPolicyService) {
+        Integer serviceFeeAmt = 0;
+        if (null != oleDeliverRequestBo) {
+            List<FeeType> feeTypeList = oleCirculationPolicyService.getPatronBillPayment(oleDeliverRequestBo.getBorrowerId());
+            for (FeeType feeType : feeTypeList) {
+                Integer fineAmount = feeType.getFeeAmount().subtract(feeType.getPaidAmount()).intValue();
+                serviceFeeAmt += feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.SERVICE_FEE) ? fineAmount : 0;
+            }
+        }
+        return serviceFeeAmt;
+    }
+
+    public Integer getAllCharges(OleCirculationPolicyServiceImpl oleCirculationPolicyService) {
+        Integer allCharges = 0;
+
+        allCharges = getOverdueFineAmount(oleCirculationPolicyService) + getReplacementFineAmount
+                (oleCirculationPolicyService);
+
+        return allCharges;
+    }
+
+    public void addErrorsAndPermission(String errorsAndPermissions) {
+        getErrorsAndPermission().put("permissionName", errorsAndPermissions);
+    }
+
+    public Boolean isCheckinLocationSameAsHomeLocation() {
+        String itemFullPathLocation = getItemFullPathLocation();
+
+        String operatorCircLocations = getOperatorsCirculationLocation();
+
+        if (null != itemFullPathLocation && null != operatorCircLocations) {
+            StringTokenizer strTokenizer = new StringTokenizer(operatorCircLocations, "#");
+            while (strTokenizer.hasMoreTokens()) {
+                String nextToken = strTokenizer.nextToken();
+                if (nextToken.equals(itemFullPathLocation)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+    public String getRealPatronWithLoan() {
+        StringBuilder message = new StringBuilder();
+        if (getItemLoanStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_CHECKEDOUT) && !isRenewalItemFlag()) {
+            Map barMap = new HashMap();
+            barMap.put("itemId", getItemId());
+            List<OleLoanDocument> oleLoanDocuments = (List<OleLoanDocument>) KRADServiceLocator.getBusinessObjectService()
+                    .findMatching(OleLoanDocument.class, barMap);
+            if (oleLoanDocuments != null && oleLoanDocuments.size() > 0) {
+                String url = "<a target=\"_blank\" href=" + OLEConstants.ASSIGN_INQUIRY_PATRON_ID + oleLoanDocuments.get(0).getPatronId() + OLEConstants.ASSIGN_PATRON_INQUIRY + ">" + oleLoanDocuments.get(0).getPatronId() + "</a>";
+                message.append(OLEConstants.ITEM_STATUS_LOANED_ANOTHER_PATRON_PERMISSION + "&nbsp;&nbsp;:&nbsp;" + url + OLEConstants.BREAK);
+            }
+        }
+        return message.toString();
+    }
+
+    private Timestamp calculateLoanDueDate(String loanPeriod) {
+        Calendar calendar = Calendar.getInstance();
+        String loanPeriodType[]=null;
+        Timestamp dueDate = null;
+        if(loanPeriod != null && loanPeriod.trim().length()>0){
+            loanPeriodType =  loanPeriod.split("-");
+            int loanPeriodValue =  Integer.parseInt(loanPeriodType[0].toString());
+            String loanPeriodTypeValue =  loanPeriodType[1].toString();
+            if(loanPeriodTypeValue.equalsIgnoreCase("M")){
+                calendar.add(Calendar.MINUTE, loanPeriodValue);
+            } else if(loanPeriodTypeValue.equalsIgnoreCase("H")) {
+                calendar.add(Calendar.HOUR, loanPeriodValue);
+            } else if(loanPeriodTypeValue.equalsIgnoreCase("W")) {
+                calendar.add(Calendar.WEEK_OF_MONTH, loanPeriodValue);
+            } else {
+                calendar.add(Calendar.DATE, loanPeriodValue);
+            }
+            dueDate =  new Timestamp(calendar.getTime().getTime());
+        }
+        return dueDate;
+    }
+
+    @Override
+    public int hashCode() {
+        return itemId != null ? itemId.hashCode() : 0;
+    }
 }
+

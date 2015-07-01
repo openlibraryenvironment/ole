@@ -481,6 +481,9 @@
     <!-- This parameter is used to set solr max page size for the batch job 'updateStatusIntoAvailableAfterReShelvingJob' -->
     <param name="solr.max.page.size.for.update.item.status.job">100000</param>
 
+  <!--Drools rule file directory-->
+  <param name="rules.directory">${project.home}/rules</param>
+
 
     <!-- Gokb url-->
     <param name="gokb.url">https://test-gokb.kuali.org/gokb/oai/</param>

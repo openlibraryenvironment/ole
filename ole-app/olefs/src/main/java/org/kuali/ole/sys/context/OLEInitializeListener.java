@@ -23,6 +23,7 @@ import org.kuali.ole.deliver.defaultload.LoadDefaultCirculationPoliciesBean;
 import org.kuali.ole.deliver.defaultload.LoadDefaultEResourceBean;
 import org.kuali.ole.deliver.defaultload.LoadDefaultLicensesBean;
 import org.kuali.ole.deliver.defaultload.LoadDefaultPatronsBean;
+import org.kuali.ole.deliver.drools.DroolsEngine;
 import org.kuali.ole.ingest.LoadDefaultIngestProfileBean;
 import org.kuali.ole.select.document.service.OLEEncumberOpenRecurringOrdersService;
 import org.kuali.ole.select.document.service.OLEPurchaseOrderBatchService;
@@ -55,7 +56,8 @@ public class OLEInitializeListener extends KualiInitializeListener {
         SpringContext.initMonitoringThread();
         SpringContext.initScheduler();
 
-        //TODO: Why is this being done here? This needs to be handled in the appropriate rollover/poba logic.
+        //This initializes the drools engine;
+        DroolsEngine.getInstance().initKnowledgeBase();
         OLEEncumberOpenRecurringOrdersService encumberOpenRecurringOrdersService =  SpringContext.getBean(OLEEncumberOpenRecurringOrdersService.class);
         encumberOpenRecurringOrdersService.createRolloverDirectory();
         OLEPurchaseOrderBatchService olePurchaseOrderBatchService = (OLEPurchaseOrderBatchService)SpringContext.getService("olePurchaseOrderBatchService");

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <!--OleGenericDialogs-->
+    <bean id="operatorOverrideMessageDialog" parent="errorMessageDialog">
+        <property name="promptText" value="The current operator doesn't have the permissions to loan. Please ask a supervisor!"/>
+        <property name="availableResponses">
+            <list>
+                <!--Empty-->
+            </list>
+        </property>
+        <property name="items">
+            <list merge="true">
+                <ref bean="overrideUserSection"/>
+                <ref bean="overrideBtnLayoutSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="overrideUserSection" parent="overrideUserSection-parent"/>
+    <bean id="overrideUserSection-parent" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="patronOverrideLogin" parent="Loan-Uif-InputField" p:label="Overriding Operator" p:required="true" p:propertyName="overridingPrincipalName">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="overrideBtnLayoutSection" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="loginBtn" parent="Uif-SecondaryActionButton" p:actionLabel="Login" p:style="width:50px"
+                       p:actionScript="
+                      var value = jq('#patronOverrideLogin_control').val();
+                      jq.fancybox.close();
+                      submitForm('validateOveridePermission',{overridingPrincipalName:value},null,true,function () {
+                });"
+                    />
+                <bean id="closeBtn" parent="Uif-SecondaryActionButton" p:actionLabel="Close"
+                      p:style="width:120px"
+                      p:methodToCall="clearUI" p:ajaxSubmit="true" p:successCallback="jq.fancybox.close();"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

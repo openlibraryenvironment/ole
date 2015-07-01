@@ -65,80 +65,80 @@ public class OleGroup extends Group {
 
         super.performInitialization(view, form);
 
-        boolean alterDueDate = ((OleLoanForm) form).isAlterDueDateFlag();
-        boolean renewDueDateFlag = ((OleLoanForm) form).isRenewDueDateFlag();
-        boolean realPatronFlag =  ((OleLoanForm) form).isRealPatronFlag();
-        boolean missingPieceDialog = ((OleLoanForm) form).isMissingPieceDialog();
-        boolean damagedItemDialog =  ((OleLoanForm) form).isDamagedItemDialog();
-        boolean claimsReturnFlag = ((OleLoanForm) form).isClaimsReturnFlag();
-        boolean overrideFlag = ((OleLoanForm) form).isOverrideFlag();
-        boolean patronNoteFlag = ((OleLoanForm) form).isPatronNoteFlag();
-        boolean changeLocationFlag = ((OleLoanForm) form).isChangeLocationFlag();
-        boolean displayMissingPieceNotePopup = ((OleLoanForm) form).isDisplayMissingPieceNotePopup();
-        boolean displayDamagedRecordNotePopup = ((OleLoanForm) form).isDisplayDamagedRecordNotePopup();
-        boolean claimsFlag = ((OleLoanForm) form).isClaimsFlag();
-        LOG.info("alterDueDate " + alterDueDate);
-        List<? extends Component> items = getItems();
-        Iterator<? extends Component> itemIterator = items.iterator();
-        while (itemIterator.hasNext()) {
-            Component component = itemIterator.next();
-            if (component == null) {
-                continue;
-            }
-
-            LOG.info("checking component " + component.getId());
-
-
-            if (ALTER_DUE_DATE_ID.equals(component.getId())
-                    && !alterDueDate) {
-                LOG.info("Omitting "+component.getId()+" from lifecycle");
-                itemIterator.remove();
-            }else if(RENEWAL_ID.equals(component.getId())
-                    && !renewDueDateFlag){
-                LOG.info("Omitting "+component.getId()+" from lifecycle");
-                itemIterator.remove();
-            }else if(PROXY_PATRON_ID.equals(component.getId())
-                    && !realPatronFlag){
-                LOG.info("Omitting "+component.getId()+" from lifecycle");
-                itemIterator.remove();
-            }else if(DAMAGED_ITEM_ID.equals(component.getId())
-                    && !damagedItemDialog){
-                LOG.info("Omitting "+component.getId()+" from lifecycle");
-                itemIterator.remove();
-            }else if(MISSING_PIECE_ID.equals(component.getId())
-                    && !missingPieceDialog){
-                LOG.info("Omitting "+component.getId()+" from lifecycle");
-                itemIterator.remove();
-            }else if(CLAIMS_RETURN_ID.equals(component.getId())
-                    && !claimsReturnFlag){
-                LOG.info("Omitting "+component.getId()+" from lifecycle");
-                itemIterator.remove();
-            }else if(OVERRIDE_LOGIN.equals(component.getId())
-                    && !overrideFlag){
-                LOG.info("Omitting "+component.getId()+" from lifecycle");
-                itemIterator.remove();
-            }else if(PATRON_NOTE_ID.equals(component.getId())
-                    && !patronNoteFlag){
-                LOG.info("Omitting "+component.getId()+" from lifecycle");
-                itemIterator.remove();
-            }else if(CONFIRM_CIRULATION_LOCATION.equals(component.getId())
-                    && !changeLocationFlag){
-                LOG.info("Omitting "+component.getId()+" from lifecycle");
-                itemIterator.remove();
-            }else if(MISSING_PIECE_RECORD_NOTE.equals(component.getId())
-                    && !displayMissingPieceNotePopup){
-                LOG.info("Omitting "+component.getId()+" from lifecycle");
-                itemIterator.remove();
-            }else if(DAMAGED_RECORD_NOTE.equals(component.getId())
-                    && !displayDamagedRecordNotePopup){
-                LOG.info("Omitting "+component.getId()+" from lifecycle");
-                itemIterator.remove();
-            }else if(LOAN_CLAIMS_OPTIONS.equals(component.getId())
-                    && !claimsFlag){
-                LOG.info("Omitting "+component.getId()+" from lifecycle");
-                itemIterator.remove();
-            }
-        }
+//        boolean alterDueDate = ((OleLoanForm) form).isAlterDueDateFlag();
+//        boolean renewDueDateFlag = ((OleLoanForm) form).isRenewDueDateFlag();
+//        boolean realPatronFlag =  ((OleLoanForm) form).isRealPatronFlag();
+//        boolean missingPieceDialog = ((OleLoanForm) form).isMissingPieceDialog();
+//        boolean damagedItemDialog =  ((OleLoanForm) form).isDamagedItemDialog();
+//        boolean claimsReturnFlag = ((OleLoanForm) form).isClaimsReturnFlag();
+//        boolean overrideFlag = ((OleLoanForm) form).isOverrideFlag();
+//        boolean patronNoteFlag = ((OleLoanForm) form).isPatronNoteFlag();
+//        boolean changeLocationFlag = ((OleLoanForm) form).isChangeLocationFlag();
+//        boolean displayMissingPieceNotePopup = ((OleLoanForm) form).isDisplayMissingPieceNotePopup();
+//        boolean displayDamagedRecordNotePopup = ((OleLoanForm) form).isDisplayDamagedRecordNotePopup();
+//        boolean claimsFlag = ((OleLoanForm) form).isClaimsFlag();
+//        LOG.info("alterDueDate " + alterDueDate);
+//        List<? extends Component> items = getItems();
+//        Iterator<? extends Component> itemIterator = items.iterator();
+//        while (itemIterator.hasNext()) {
+//            Component component = itemIterator.next();
+//            if (component == null) {
+//                continue;
+//            }
+//
+//            LOG.info("checking component " + component.getId());
+//
+//
+//            if (ALTER_DUE_DATE_ID.equals(component.getId())
+//                    && !alterDueDate) {
+//                LOG.info("Omitting "+component.getId()+" from lifecycle");
+//                itemIterator.remove();
+//            }else if(RENEWAL_ID.equals(component.getId())
+//                    && !renewDueDateFlag){
+//                LOG.info("Omitting "+component.getId()+" from lifecycle");
+//                itemIterator.remove();
+//            }else if(PROXY_PATRON_ID.equals(component.getId())
+//                    && !realPatronFlag){
+//                LOG.info("Omitting "+component.getId()+" from lifecycle");
+//                itemIterator.remove();
+//            }else if(DAMAGED_ITEM_ID.equals(component.getId())
+//                    && !damagedItemDialog){
+//                LOG.info("Omitting "+component.getId()+" from lifecycle");
+//                itemIterator.remove();
+//            }else if(MISSING_PIECE_ID.equals(component.getId())
+//                    && !missingPieceDialog){
+//                LOG.info("Omitting "+component.getId()+" from lifecycle");
+//                itemIterator.remove();
+//            }else if(CLAIMS_RETURN_ID.equals(component.getId())
+//                    && !claimsReturnFlag){
+//                LOG.info("Omitting "+component.getId()+" from lifecycle");
+//                itemIterator.remove();
+//            }else if(OVERRIDE_LOGIN.equals(component.getId())
+//                    && !overrideFlag){
+//                LOG.info("Omitting "+component.getId()+" from lifecycle");
+//                itemIterator.remove();
+//            }else if(PATRON_NOTE_ID.equals(component.getId())
+//                    && !patronNoteFlag){
+//                LOG.info("Omitting "+component.getId()+" from lifecycle");
+//                itemIterator.remove();
+//            }else if(CONFIRM_CIRULATION_LOCATION.equals(component.getId())
+//                    && !changeLocationFlag){
+//                LOG.info("Omitting "+component.getId()+" from lifecycle");
+//                itemIterator.remove();
+//            }else if(MISSING_PIECE_RECORD_NOTE.equals(component.getId())
+//                    && !displayMissingPieceNotePopup){
+//                LOG.info("Omitting "+component.getId()+" from lifecycle");
+//                itemIterator.remove();
+//            }else if(DAMAGED_RECORD_NOTE.equals(component.getId())
+//                    && !displayDamagedRecordNotePopup){
+//                LOG.info("Omitting "+component.getId()+" from lifecycle");
+//                itemIterator.remove();
+//            }else if(LOAN_CLAIMS_OPTIONS.equals(component.getId())
+//                    && !claimsFlag){
+//                LOG.info("Omitting "+component.getId()+" from lifecycle");
+//                itemIterator.remove();
+//            }
+//        }
     }
 
 	/**

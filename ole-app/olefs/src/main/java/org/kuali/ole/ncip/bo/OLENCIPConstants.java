@@ -115,8 +115,7 @@ public class OLENCIPConstants {
     public static final String USD="USD";
 
 
-
-
-
-
+    public static final String REQUEST_FORMAT_TYPE = "requestFormatType";
+    public static final String RESPONSE_FORMAT_TYPE = "responseFormatType";
+    public static final String CIRC_ITEM_BARCODES = "itemBarcodes";
 }

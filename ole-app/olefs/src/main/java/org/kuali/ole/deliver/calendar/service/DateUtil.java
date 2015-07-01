@@ -1,10 +1,14 @@
 package org.kuali.ole.deliver.calendar.service;
 
+import freemarker.template.SimpleDate;
+import org.kuali.rice.core.api.util.RiceConstants;
+
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -15,6 +19,9 @@ import java.util.Calendar;
  * To change this template use File | Settings | File Templates.
  */
 public class DateUtil {
+
+    private SimpleDateFormat simpleDateFormat;
+
     public static Timestamp addDays(Timestamp date, int days) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -54,4 +61,24 @@ public class DateUtil {
     }
 
 
+    public Date getDate(String dateString) {
+        SimpleDateFormat dateFormat = getDateFormat();
+        try {
+            return dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return  null;
+    }
+
+    private SimpleDateFormat getDateFormat() {
+        if(simpleDateFormat == null){
+            simpleDateFormat = new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE);
+        }
+        return simpleDateFormat;
+    }
+
+    public void setSimpleDateFormat(SimpleDateFormat simpleDateFormat) {
+        this.simpleDateFormat = simpleDateFormat;
+    }
 }

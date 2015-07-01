@@ -4,6 +4,7 @@ import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OleLoanFastAdd;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 import java.math.BigDecimal;
@@ -17,6 +18,9 @@ import java.util.List;
  * and is involved in passing the data to the UI layer
  */
 public class OleLoanForm extends UifFormBase {
+
+    private OlePatronDocument olePatronDocument;
+    private ItemRecord itemRecord;
 
     private String patronBarcode;
     private String patronFirstName;
@@ -107,6 +111,9 @@ public class OleLoanForm extends UifFormBase {
     private boolean showExistingLoan = false;
     private OleLoanDocument renewalLoan;
 
+    private boolean processDocumentForProxyFlag = false;
+    private List<OleLoanDocument> loansToBeSavedList;
+    private List<String> newErrorsAndPermission;
 
     /*
     private boolean itemStatusLost = false;
@@ -328,6 +335,7 @@ public class OleLoanForm extends UifFormBase {
      */
     private String newPrincipalId;
     private String newPrincipalName;
+    private String overridingPrincipalName;
     private String overideMethodCall;
     private boolean overrideFlag = false;
     private String oldPrincipalId;
@@ -336,6 +344,11 @@ public class OleLoanForm extends UifFormBase {
      * Edit patron
      */
     private boolean addressVerified = false;
+
+
+     /* Edit patron for General Block
+     */
+    private boolean generalBlock = false;
 
     /**
      * Print due date slip
@@ -650,6 +663,14 @@ public class OleLoanForm extends UifFormBase {
 
     public void setAddressVerified(boolean addressVerified) {
         this.addressVerified = addressVerified;
+    }
+
+    public boolean isGeneralBlock() {
+        return generalBlock;
+    }
+
+    public void setGeneralBlock(boolean generalBlock) {
+        this.generalBlock = generalBlock;
     }
 
     public String getCopyCheck() {
@@ -1742,6 +1763,55 @@ public class OleLoanForm extends UifFormBase {
 
     public void setNewPrincipalName(String newPrincipalName) {
         this.newPrincipalName = newPrincipalName;
+    }
+
+    public String getOverridingPrincipalName() {
+        return overridingPrincipalName;
+    }
+
+    public void setOverridingPrincipalName(String overridingPrincipalName) {
+        this.overridingPrincipalName = overridingPrincipalName;
+    }
+
+    public void setOlePatronDocument(OlePatronDocument olePatronDocument) {
+        this.olePatronDocument = olePatronDocument;
+    }
+
+    public OlePatronDocument getOlePatronDocument() {
+        return olePatronDocument;
+    }
+
+    public boolean isProcessDocumentForProxyFlag() {
+        return processDocumentForProxyFlag;
+    }
+
+    public void setProcessDocumentForProxyFlag(boolean processDocumentForProxyFlag) {
+        this.processDocumentForProxyFlag = processDocumentForProxyFlag;
+    }
+
+
+    public void setLoansToBeSavedList(List<OleLoanDocument> loansToBeSavedList) {
+        this.loansToBeSavedList = loansToBeSavedList;
+    }
+
+    public List<OleLoanDocument> getLoansToBeSavedList() {
+        return loansToBeSavedList;
+    }
+
+    public ItemRecord getItemRecord() {
+        return itemRecord;
+    }
+
+    public void setItemRecord(ItemRecord itemRecord) {
+        this.itemRecord = itemRecord;
+    }
+
+    public void setNewErrorsAndPermission(List<String> newErrorsAndPermission) {
+        this.newErrorsAndPermission = newErrorsAndPermission;
+    }
+
+    public List<String> getNewErrorsAndPermission() {
+        return newErrorsAndPermission;
     }
 }
 

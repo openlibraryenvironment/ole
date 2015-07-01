@@ -1,6 +1,7 @@
 package org.kuali.ole.service;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.FeeType;
@@ -30,6 +31,7 @@ import java.util.regex.Pattern;
 public class OleCirculationPolicyServiceImpl implements OleCirculationPolicyService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OleLocationServiceImpl.class);
     private LoanProcessor loanProcessor;
+    public HashMap keyMap;
 
     private LoanProcessor getLoanProcessor() {
         if (loanProcessor == null) {
@@ -298,6 +300,24 @@ public class OleCirculationPolicyServiceImpl implements OleCirculationPolicyServ
         return false;
     }
 
+    public boolean isGeneralBlock(String patronId) throws Exception {
+        int count = 0;
+        Map<String, String> criteria = new HashMap<String, String>();
+        Map<String, String> addressCriteria = new HashMap<String, String>();
+        criteria.put("olePatronId", patronId);
+        List<OlePatronDocument> olePatronDocument = (List<OlePatronDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class, criteria);
+        if (olePatronDocument != null && olePatronDocument.size() > 0) {
+            for (Iterator<OlePatronDocument> iterator = olePatronDocument.iterator(); iterator.hasNext(); ) {
+                OlePatronDocument patronDocument = iterator.next();
+                if (patronDocument.isGeneralBlock()) {
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
 
     public boolean isAddressVerified(OlePatronDocument olePatronDocument,String patronId) throws Exception{
         if (olePatronDocument == null){
@@ -399,17 +419,17 @@ public class OleCirculationPolicyServiceImpl implements OleCirculationPolicyServ
             }
         }
         //total loaned item count
-        keyMap.put("loanedItemCount",loanedItems);
-        keyMap.put("recallCount", recallCount);
-        keyMap.put("oleLoanDocumentList", recallOverdueLoanedItem);
-        keyMap.put("listOfRecalledOverdueDays", listOfRecalledOverdueDays);
+        keyMap.put(OLEConstants.LOANED_ITEM_COUNT,loanedItems);
+        keyMap.put(OLEConstants.RECALL_COUNT, recallCount);
+        keyMap.put(OLEConstants.OLE_LOAN_DOCUMENT_LIST, recallOverdueLoanedItem);
+        keyMap.put(OLEConstants.LIST_RECALLED_OVERDUE_DAYS, listOfRecalledOverdueDays);
         //overdue Item
-        keyMap.put("overdueCount",overdueCount);
-        keyMap.put("oleLoanDocumentList",overdueLoanedItem);
-        keyMap.put("listOfOverdueDays",listOfOverdueDays);
+        keyMap.put(OLEConstants.OVERDUE_COUNT,overdueCount);
+        keyMap.put(OLEConstants.OLE_LOAN_DOCUMENT_LIST,overdueLoanedItem);
+        keyMap.put(OLEConstants.LIST_OF_OVERDUE_DAYS,listOfOverdueDays);
 
-        keyMap.put("patronDetails",olePatronDocument);
-        keyMap.put("itemTypeMap",itemTypeMap);
+//        keyMap.put("patronDetails",olePatronDocument);
+//        keyMap.put("itemTypeMap",itemTypeMap);
         keyMap.put("claimsCount",claimsCount);
         Long end = System.currentTimeMillis();
         Long timeTaken = end-begin;

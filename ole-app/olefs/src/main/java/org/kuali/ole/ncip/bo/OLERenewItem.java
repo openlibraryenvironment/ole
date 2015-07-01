@@ -30,12 +30,12 @@ public class OLERenewItem {
     @JsonProperty("renewalCount")
     private String renewalCount;
 
+    @JsonProperty("itemBarcode")
+    private String itemBarcode;
+
     /*This following fields are only for SIP2*/
     @JsonIgnore
     private String patronBarcode;
-
-    @JsonIgnore
-    private String itemBarcode;
 
     @JsonIgnore
     private String titleIdentifier;

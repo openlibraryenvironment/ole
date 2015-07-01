@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="droolUploadView-MessageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="droolUploadView-MessageFieldSection" parent="Uif-MessageField" p:messageText="@{message}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="droolUploadView-MainSection" parent="Uif-GridSection" p:layoutManager.numberOfColumns="2"
+          p:layoutManager.style="border:1px solid;">
+        <property name="items">
+            <list>
+                <ref bean="droolUploadView-dropDown"/>
+                <ref bean="droolUploadView-File"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="droolUploadView-File" parent="droolUploadView-File-parentBean" />
+    <bean id="droolUploadView-File-parentBean" parent="Uif-InputField" p:propertyName="droolFile" p:label="Rule File">
+        <property name="control">
+            <bean parent="Uif-FileControl"/>
+        </property>
+    </bean>
+
+    <bean id="droolUploadView-dropDown"  parent="Uif-InputField" p:propertyName="selectedRuleDirectory" p:label="Rule Directory">
+        <property name="control">
+            <bean parent="Uif-DropdownControl" >
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="checkout" p:value="Checkout"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="general" p:value="General"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="notices" p:value="Notices"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="renewal" p:value="Renewal"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+</beans>

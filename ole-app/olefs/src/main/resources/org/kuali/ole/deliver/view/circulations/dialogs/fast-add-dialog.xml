@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="fastAddItemDialog" parent="Uif-DialogGroup">
+        <property name="headerText" value="Fast-Add item"/>
+        <property name="promptText" value=""/>
+        <property name="availableResponses">
+            <list>
+                <!--Empty-->
+            </list>
+        </property>
+        <property name="items">
+            <list merge="false">
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="fastAddItemSection"/>
+                            <ref bean="fastAddItem-HorizontalBoxSection-button"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="fastAddItemSection" parent="Uif-GridSection" p:layoutManager.numberOfColumns="2">
+
+        <property name="items">
+            <list>
+                <bean id="addFastAddTitle" parent="Uif-InputField" p:label="Title" p:propertyName="oleLoanFastAdd.title" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+
+                <bean id="addFastAddAuthor" parent="Uif-InputField" p:label="Author" p:propertyName="oleLoanFastAdd.author" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+
+                <bean id="addFastAddShelvingLocation" parent="Uif-InputField" p:propertyName="oleLoanFastAdd.locationName"
+                      p:label="Location"  p:required="true" p:instructionalText="Type * for all locations, other letters for matching locations">
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig"
+                                      p:queryMethodToCall="retrieveLocationDetailsForSuggest"
+                                      p:queryMethodInvokerConfig.targetClass="org.kuali.ole.describe.keyvalue.LocationValuesBuilder"/>
+                            </property>
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="minLength" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean id="addFastAddBarcode" parent="Uif-InputField" p:label="Barcode" p:propertyName="oleLoanFastAdd.barcode" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <bean id="addFastAddItemType" parent="Uif-InputField" p:label="Item Type" p:propertyName="oleLoanFastAdd.itemType" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleItemSearchKeyValue"/>
+                    </property>
+                </bean>
+                <bean id="addFastAddCallNumberType" parent="Uif-InputField" p:label="Call Number Type" p:propertyName="oleLoanFastAdd.callNumberType" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.ShelvingScheme"/>
+                    </property>
+                </bean>
+                <bean id="addFastAddCallNumberPrefix" parent="Uif-InputField"   p:propertyName="oleLoanFastAdd.callNumberPrefix"   p:label="Call Number Prefix" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength=""/>
+                    </property>
+                </bean>
+                <bean id="addFastAddCallNumber" parent="Uif-InputField" p:label="Call Number" p:propertyName="oleLoanFastAdd.callNumber" p:required="true" p:defaultValue="X">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <bean id="addFastAddCopyNumber" parent="Uif-InputField" p:label="Copy Number" p:propertyName="oleLoanFastAdd.copyNumber">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <bean id="addFastAddLabelForCopyNumber" parent="Uif-InputField" p:label="Copy Number Label" p:propertyName="oleLoanFastAdd.labelForCopyNumber">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+
+                <bean id="addFastAddCheckinNote" parent="Uif-InputField" p:label="Checkin Note" p:propertyName="oleLoanFastAdd.checkinNote" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" />
+                    </property>
+                </bean>
+                <bean id="addFastAddNote" parent="Uif-InputField" p:label="Note" p:propertyName="oleLoanFastAdd.note" >
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" />
+                    </property>
+                </bean>
+
+                <bean id="addFastAddNnumeration" parent="Uif-InputField" p:label="Enumeration" p:propertyName="oleLoanFastAdd.enumeration">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <bean id="addFastAddNumberOfPieces" parent="Uif-InputField" p:label="Number Of Pieces" p:propertyName="oleLoanFastAdd.numberOfPieces">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="fastAddItem-HorizontalBoxSection-button" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean id="saveFastAddBtn" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:27em;width:10%"
+                      p:actionScript="
+                      var itemType = jq('#addFastAddItemType_control').val();
+                      var callNumberType = jq('#addFastAddCallNumberType_control').val();
+                      var note = jq('#addFastAddNote_control').val();
+                      var checkinNote = jq('#addFastAddCheckinNote_control').val();
+                      submitForm('createFastAddItem', {itemType:itemType, callNumberType:callNumberType,checkinNote:checkinNote,note:note}, null, true, function () {
+                      jq.fancybox.close();
+                });"
+                      p:actionLabel="Submit"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

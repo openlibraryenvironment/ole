@@ -1,7 +1,6 @@
 package org.kuali.ole.ncip;
 
 import org.apache.log4j.Logger;
-import org.eclipse.jdt.internal.core.Assert;
 import org.junit.Test;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLETestCaseBase;
@@ -11,7 +10,7 @@ import org.kuali.ole.ncip.service.impl.OLECirculationServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
-import java.sql.Date;
+import static junit.framework.TestCase.assertNotNull;
 
 /**
  * Created by sheiksalahudeenm on 22/4/15.
@@ -36,7 +35,7 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  : " + timeTaken);
-        Assert.isNotNull(outputString.contains("<code>000</code>"));
+        assertNotNull(outputString.contains("<code>000</code>"));
         LOG.info("Output String : " + outputString);
     }
 
@@ -48,7 +47,7 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  : " + timeTaken);
-        Assert.isNotNull(outputString.contains("<code>000</code>"));
+        assertNotNull(outputString.contains("<code>000</code>"));
         LOG.info("Output String : " + outputString);
     }
 
@@ -60,7 +59,7 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  : " + timeTaken);
-        Assert.isNotNull(outputString.contains("<code>021</code>"));
+        assertNotNull(outputString.contains("<code>021</code>"));
         LOG.info("Output String : " + outputString);
     }
 
@@ -72,7 +71,7 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  : " + timeTaken);
-        Assert.isNotNull(outputString.contains("<code>021</code>"));
+        assertNotNull(outputString.contains("<code>021</code>"));
         LOG.info("Output String : " + outputString);
     }
 
@@ -84,7 +83,7 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  : " + timeTaken);
-        Assert.isNotNull(outputString.contains("<code>007</code>"));
+        assertNotNull(outputString.contains("<code>007</code>"));
         LOG.info("Output String : " + outputString);
     }
 
@@ -96,7 +95,7 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  : " + timeTaken);
-        Assert.isNotNull(outputString.contains("<code>003</code>"));
+        assertNotNull(outputString.contains("<code>003</code>"));
         LOG.info("Output String : " + outputString);
     }
 
@@ -108,7 +107,7 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  : " + timeTaken);
-        Assert.isNotNull(outputString.contains("<code>003</code>"));
+        assertNotNull(outputString.contains("<code>003</code>"));
         LOG.info("Output String : " + outputString);
     }
 
@@ -120,7 +119,7 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  : " + timeTaken);
-        Assert.isNotNull(outputString.contains("<code>021</code>"));
+        assertNotNull(outputString.contains("<code>021</code>"));
         LOG.info("Output String : " + outputString);
     }
 
@@ -132,7 +131,7 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  for CheckIn  : " + timeTaken);
-        Assert.isNotNull(outputString.contains("<code>024</code>"));
+        assertNotNull(outputString.contains("<code>024</code>"));
         LOG.info("Output String : " + outputString);
     }
 
@@ -144,7 +143,7 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken for CheckOut  : " + timeTaken);
-        Assert.isNotNull(outputString.contains("<code>000</code>"));
+        assertNotNull(outputString.contains("<code>000</code>"));
         LOG.info("Output String : " + outputString);
     }
 
@@ -156,7 +155,7 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  : " + timeTaken);
-        Assert.isNotNull(outputString.contains("<code>000</code>"));
+        assertNotNull(outputString.contains("<code>000</code>"));
         LOG.info("Output String : " + outputString);
     }
 
@@ -168,7 +167,7 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  : " + timeTaken);
-        Assert.isNotNull(outputString.contains("<code>000</code>"));
+        assertNotNull(outputString.contains("<code>000</code>"));
         LOG.info("Output String : " + outputString);
     }
 
@@ -180,7 +179,7 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  : " + timeTaken);
-        Assert.isNotNull(outputString.contains("<code>007</code>"));
+        assertNotNull(outputString.contains("<code>007</code>"));
         LOG.info("Output String : " + outputString);
     }
 

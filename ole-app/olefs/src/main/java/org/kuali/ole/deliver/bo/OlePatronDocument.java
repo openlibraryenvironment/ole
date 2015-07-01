@@ -1,7 +1,13 @@
 package org.kuali.ole.deliver.bo;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.api.*;
+import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.address.EntityAddress;
@@ -19,9 +25,12 @@ import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
 import org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
+import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * OlePatronDocument provides OlePatronDocument information through getter and setter.
@@ -31,6 +40,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OlePatronDocument.class);
 
     private String olePatronId;
+    private String patronRecordURL;
     private String barcode;
     private String borrowerType;
     private String affiliationType;
@@ -84,7 +94,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private boolean showLoanedRecords;
     private boolean showRequestedItems;
     private boolean showTemporaryCirculationHistoryRecords;
-
+    private OlePatronDocument selectedProxyForPatron;
     private HashMap<String,String> errorsAndPermission = new HashMap<>();
     private String errorMessage;
     private boolean blockPatron;
@@ -96,6 +106,11 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private int tempCirculationHistoryCount;
 
     private transient IdentityService identityService;
+    private boolean lostPatron = false;
+    private BusinessObjectService businessObjectService;
+    private boolean addressVerified;
+    private String preferredAddress;
+    private String email;
     private boolean deleteImageFlag;
     public IdentityService getIdentityService() {
         if (identityService == null) {
@@ -148,6 +163,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private List<OlePatronLocalIdentificationBo> olePatronLocalIds = new ArrayList<OlePatronLocalIdentificationBo>();
     private List<OlePatronLocalIdentificationBo> deletedOlePatronLocalIds = new ArrayList<OlePatronLocalIdentificationBo>();
     private List<OleProxyPatronDocument> oleProxyPatronDocumentList = new ArrayList<OleProxyPatronDocument>();
+    private List<OlePatronDocument> currentPatronList = new ArrayList<OlePatronDocument>();
     private List<PatronBillPayment> patronBillPayments = new ArrayList<>();
     private OLEPatronEntityViewBo olePatronEntityViewBo;
     private String patronBillFileName;
@@ -155,6 +171,8 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private String createBillUrl;
     private String namePrefix;
     private String nameSuffix;
+    private OleDeliverRequestBo oleDeliverRequestBo;
+    private boolean checkoutForSelf;
 
     public HashMap<String, String> getErrorsAndPermission() {
         return errorsAndPermission;
@@ -224,6 +242,10 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public String getPatronName() {
+        if (null == patronName) {
+            EntityNameBo entityNameBo = getEntity().getNames().get(0);
+            patronName = entityNameBo.getFirstName() + "," + entityNameBo.getLastName();
+        }
         return patronName;
     }
 
@@ -636,6 +658,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      *
      * @return generalBlock
      */
+    @Override
     public boolean isGeneralBlock() {
         return generalBlock;
     }
@@ -983,6 +1006,14 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      */
     public void setOleProxyPatronDocuments(List<OleProxyPatronDocument> oleProxyPatronDocuments) {
         this.oleProxyPatronDocuments = oleProxyPatronDocuments;
+    }
+
+    public OlePatronDocument getSelectedProxyForPatron() {
+        return selectedProxyForPatron;
+    }
+
+    public void setSelectedProxyForPatron(OlePatronDocument selectedProxyForPatron) {
+        this.selectedProxyForPatron = selectedProxyForPatron;
     }
 
     /**
@@ -1562,5 +1593,276 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
 
     public void setLostOperatorId(String lostOperatorId) {
         this.lostOperatorId = lostOperatorId;
+    }
+
+    public boolean isCheckoutForSelf() {
+        return checkoutForSelf;
+    }
+
+    public void setCheckoutForSelf(boolean checkoutForSelf) {
+        this.checkoutForSelf = checkoutForSelf;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (null == businessObjectService) {
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+        }
+        return businessObjectService;
+    }
+
+    public boolean isLostPatron() {
+        LOG.debug("Inside the checkLostPatronBarcode method");
+        Map barMap = new HashMap();
+        barMap.put("invalidOrLostBarcodeNumber", barcode);
+        List<OlePatronLostBarcode> olePatronLostBarcodes = (List<OlePatronLostBarcode>) getBusinessObjectService().findMatching(OlePatronLostBarcode.class, barMap);
+
+        return olePatronLostBarcodes.size() > 0;
+    }
+
+    public String getPatronRecordURL() {
+        return patronRecordURL;
+    }
+
+    public void setPatronRecordURL(String patronRecordURL) {
+        this.patronRecordURL = patronRecordURL;
+    }
+
+    public boolean isAddressVerified() {
+        Map<String, String> addressCriteria = new HashMap<String, String>();
+        EntityBo entityBo = getEntity();
+        if (null != entityBo) {
+            List<EntityTypeContactInfoBo> entityTypeContactInfos = entityBo.getEntityTypeContactInfos();
+            if (null != entityTypeContactInfos && entityTypeContactInfos.size() > 0) {
+                List<EntityAddressBo> addresses = entityTypeContactInfos.get(0).getAddresses();
+                if (addresses != null && addresses
+                        .size() > 0) {
+                    for (int address = 0; address < addresses.size(); address++) {
+                        addressCriteria.put("id", addresses.get(address).getId());
+                        List<OleAddressBo> oleAddressBos = (List<OleAddressBo>) KRADServiceLocator.getBusinessObjectService().findMatching(OleAddressBo.class, addressCriteria);
+                        if (oleAddressBos != null && oleAddressBos.size() > 0 && addresses.get(address).isDefaultValue() && oleAddressBos.get(0).isAddressVerified()) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public String getPreferredAddress() {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (null == preferredAddress) {
+            EntityTypeContactInfoBo entityTypeContactInfoBo = getEntity().getEntityTypeContactInfos().get(0);
+            if (entityTypeContactInfoBo.getAddresses() != null) {
+                for (EntityAddressBo entityAddressBo : entityTypeContactInfoBo.getAddresses()) {
+                    if (entityAddressBo.isDefaultValue()) {
+                        String address = "";
+                        if (entityAddressBo.getLine1() != null) {
+                            if (!entityAddressBo.getLine1().isEmpty()) {
+                                stringBuilder.append(entityAddressBo.getLine1() + OLEConstants.COMMA);
+                            }
+                        }
+
+                        if (entityAddressBo.getLine2() != null) {
+                            if (!entityAddressBo.getLine2().isEmpty()) {
+                                stringBuilder.append(entityAddressBo.getLine2() + OLEConstants.COMMA);
+                            }
+                        }
+
+                        if (entityAddressBo.getLine3() != null) {
+                            if (!entityAddressBo.getLine3().isEmpty()) {
+                                stringBuilder.append(entityAddressBo.getLine3() + OLEConstants.COMMA);
+                            }
+                        }
+
+                        if (entityAddressBo.getCity() != null) {
+                            if (!entityAddressBo.getCity().isEmpty()) {
+                                stringBuilder.append(entityAddressBo.getCity() + OLEConstants.COMMA);
+                            }
+                        }
+
+                        if (entityAddressBo.getStateProvinceCode() != null) {
+                            if (!entityAddressBo.getStateProvinceCode().isEmpty()) {
+                                stringBuilder.append(entityAddressBo.getStateProvinceCode() + OLEConstants.COMMA);
+                            }
+                        }
+
+                        if (entityAddressBo.getCountryCode() != null) {
+                            if (!entityAddressBo.getCountryCode().isEmpty()) {
+                                stringBuilder.append(entityAddressBo.getCountryCode() + OLEConstants.COMMA);
+                            }
+                        }
+
+                        if (entityAddressBo.getPostalCode() != null) {
+                            if (!entityAddressBo.getPostalCode().isEmpty()) {
+                                stringBuilder.append(entityAddressBo.getPostalCode());
+                            }
+                        }
+                        preferredAddress = stringBuilder.toString();
+                        break;
+                    }
+                }
+            }
+        }
+        return preferredAddress;
+    }
+
+    public String getEmail() {
+        if (null == email) {
+            EntityTypeContactInfoBo entityTypeContactInfoBo = getEntity().getEntityTypeContactInfos().get(0);
+            if (entityTypeContactInfoBo.getEmailAddresses() != null) {
+                for (EntityEmailBo entityEmailBo : entityTypeContactInfoBo.getEmailAddresses()) {
+                    if (entityEmailBo.isDefaultValue()) {
+                        email = entityEmailBo.getEmailAddress();
+                        break;
+                    }
+                }
+            }
+
+        }
+        return email;
+    }
+
+    public List<OlePatronDocument> getCurrentPatronList() {
+        if (CollectionUtils.isEmpty(currentPatronList)) {
+            currentPatronList.add(this);
+        }
+        return currentPatronList;
+    }
+
+    public void setCurrentPatronList(List<OlePatronDocument> currentPatronList) {
+        this.currentPatronList = currentPatronList;
+    }
+
+    public int getLoanedItemsCountByItemType(String itemType) {
+        Integer itemCount = 0;
+        List<OleLoanDocument> oleLoanDocuments = getOleLoanDocuments();
+        for (Iterator<OleLoanDocument> iterator = oleLoanDocuments.iterator(); iterator.hasNext(); ) {
+            OleLoanDocument oleLoanDocument = iterator.next();
+            String itemId = oleLoanDocument.getItemId();
+            String itemTypeCode = getItemTypeFromItemId(itemId);
+            if (itemTypeCode.equalsIgnoreCase(itemType)) {
+                itemCount = itemCount + 1;
+            }
+        }
+        return itemCount;
+    }
+
+    private String getItemTypeFromItemId(String itemId) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("barCode", itemId);
+        List<ItemRecord> itemRecords = (List<ItemRecord>) getBusinessObjectService().findMatching(ItemRecord.class, map);
+        ItemRecord itemRecord = itemRecords.get(0);
+        return itemRecord.getItemTypeRecord().getCode();
+    }
+
+    public int getTotalLoanedItemsCount() {
+        return getOleLoanDocuments().size();
+    }
+
+    public String getRequestTypeCode(String itemUUID) {
+        OleDeliverRequestBo prioritizedRequest = getPrioritizedRequest(itemUUID);
+        return prioritizedRequest.getRequestTypeCode();
+    }
+
+    public OleDeliverRequestBo getPrioritizedRequest(String itemUuid) {
+        LOG.debug("Inside the getPrioritizedRequest method");
+        Map requestMap = new HashMap();
+        requestMap.put("itemUuid", itemUuid);
+        requestMap.put("borrowerQueuePosition", 1);
+        List<OleDeliverRequestBo> oleDeliverRequestBos = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, requestMap);
+        return oleDeliverRequestBos != null && oleDeliverRequestBos.size() > 0 ?
+                oleDeliverRequestBos.get(0) : null;
+    }
+
+    public Integer getAllCharges() {
+        Integer allCharges = 0;
+
+        allCharges = getOverdueFineAmount() + getReplacementFineAmount
+                ();
+
+        return allCharges;
+    }
+
+    public Integer getOverdueFineAmount() {
+        Integer overdueFineAmt = 0;
+        List<FeeType> feeTypeList = getPatronBillPayment();
+        for (FeeType feeType : feeTypeList) {
+            Integer fineAmount = feeType.getFeeAmount().subtract(feeType.getPaidAmount()).intValue();
+            overdueFineAmt += feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.OVERDUE_FINE) ? fineAmount : 0;
+        }
+        return overdueFineAmt;
+    }
+
+    public List<FeeType> getPatronBillPayment() {
+        List<FeeType> feeTypeList = new ArrayList<FeeType>();
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("patronId", olePatronId);
+        List<PatronBillPayment> patronBillPayments = (List<PatronBillPayment>) KRADServiceLocator.getBusinessObjectService().findMatching(PatronBillPayment.class, criteria);
+        for (PatronBillPayment patronBillPayment : patronBillPayments) {
+            feeTypeList.addAll(patronBillPayment.getFeeType());
+        }
+        return feeTypeList;
+    }
+
+    public Integer getReplacementFineAmount() {
+        Integer replacementFeeAmt = 0;
+        List<FeeType> feeTypeList = getPatronBillPayment();
+        for (FeeType feeType : feeTypeList) {
+            Integer fineAmount = feeType.getFeeAmount().subtract(feeType.getPaidAmount()).intValue();
+            replacementFeeAmt += feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.REPLACEMENT_FEE) ? fineAmount : 0;
+
+        }
+        return replacementFeeAmt;
+    }
+
+    public Boolean isOverDueDays(Integer allowedOverDueDays) {
+        List<OleLoanDocument> oleLoanDocuments = getOleLoanDocuments();
+        for (Iterator<OleLoanDocument> iterator = oleLoanDocuments.iterator(); iterator.hasNext(); ) {
+            OleLoanDocument oleLoanDocument = iterator.next();
+            if (oleLoanDocument.getLoanDueDate() != null) {
+                Integer timeDiff = new Integer(getTimeDiff(oleLoanDocument.getLoanDueDate(), new Date()));
+                if (timeDiff > allowedOverDueDays) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public Boolean isRecalledAndOverDue(Integer days) {
+        List<OleLoanDocument> oleLoanDocuments = getOleLoanDocuments();
+        for (Iterator<OleLoanDocument> iterator = oleLoanDocuments.iterator(); iterator.hasNext(); ) {
+            OleLoanDocument oleLoanDocument = iterator.next();
+            if (oleLoanDocument.getLoanDueDate() != null) {
+                Integer timeDiff = new Integer(getTimeDiff(oleLoanDocument.getLoanDueDate(), new Date()));
+                if (timeDiff > days && recallRequestExists(oleLoanDocument)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean recallRequestExists(OleLoanDocument oleLoanDocument) {
+        String oleRequestId = oleLoanDocument.getOleRequestId();
+        if (null != oleRequestId) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("requestId", oleRequestId);
+            OleDeliverRequestBo oleDeliverRequestBo = getBusinessObjectService().findByPrimaryKey(OleDeliverRequestBo.class, map);
+            if (oleDeliverRequestBo.getRequestTypeCode().contains("Recall")) {
+                return true;
+
+            }
+        }
+        return false;
+    }
+
+    public String getTimeDiff(Date dateOne, Date dateTwo) {
+        String diff = "";
+        long timeDiff = Math.abs(dateOne.getTime() - dateTwo.getTime());
+        diff = String.format("%d", TimeUnit.MILLISECONDS.toDays(timeDiff),
+                -TimeUnit.HOURS.toDays(timeDiff));
+        return diff;
     }
 }

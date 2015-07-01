@@ -1,0 +1,59 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.ErrorMessage
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "Check out Circ Policy Set 2-H for Max Loaned Items less than 3"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$n: NoticeInfo()
+
+$i: OleItemRecordForCirc(getItemType() in ("res2"),
+getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"),
+getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"))
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF,","QOTHER",
+  "QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC"),
+getLoanedItemsCountByItemType($i.getItemType()) < 3)
+
+then
+$l.setCirculationPolicyId("Check out Circ Policy Set 2-H");
+$l.loanPeriod("2-H",null); // This method takes due date and recall period as arguments.
+$n.setLoanType(DroolsConstants.SHORT_TERM_LOANS_NOTICE_CONFIG);
+ end
+
+
+rule "Check out Circ Policy Set 2-H for Max Loaned Items Greater than 3"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$n: NoticeInfo()
+
+$i: OleItemRecordForCirc(getItemType() in ("res2"),
+getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"),
+getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"))
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF,","QOTHER",
+"QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC"),
+getLoanedItemsCountByItemType($i.getItemType()) > 3)
+
+$e: ErrorMessage()
+
+then
+$e.setErrorMessage("Patron has more than 3 items of 2-H reserve loan items type checked out");
+$e.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+$l.setCirculationPolicyId("Check out Circ Policy Set 2-H");
+$l.loanPeriod("2-H",null); // This method takes due date and recall period as arguments.
+$n.setLoanType(DroolsConstants.SHORT_TERM_LOANS_NOTICE_CONFIG);
+ end

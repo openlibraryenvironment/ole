@@ -30,6 +30,7 @@ public interface OleCirculationPolicyService {
     public Integer getHoursDiff(Date dateOne, Date dateTwo);
     public List<OlePatronDocument> isProxyPatron(String patronId) throws Exception;
     public boolean isAddressVerified(String patronId) throws Exception;
+    public boolean isGeneralBlock(String patronId) throws Exception;
     public HashMap getRecalledOverdueItemsCheckedOut(List<OleLoanDocument> oleLoanDocuments);
     public List<OlePatronDocument> isProxyPatron(OlePatronDocument olePatronDocument) throws Exception;
     public boolean isAddressVerified(OlePatronDocument olePatronDocument,String patronId) throws Exception;
