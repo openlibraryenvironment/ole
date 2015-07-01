@@ -1746,6 +1746,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         oleInvoiceDocument.setItems(oleInvoiceItems);
         OLEInvoiceOffsetAccountingLineVendor vendor = new OLEInvoiceOffsetAccountingLineVendor();
         vendor.setVendorName(oleInvoiceDocument.getVendorName());
+        oleInvoiceDocument.setPoId("");
         return getUIFModelAndView(oleInvoiceForm);
     }
 
