@@ -56,7 +56,8 @@ public class CircController extends CheckoutValidationController {
             CircForm circForm = (CircForm) form;
             circForm.setShowExistingLoan(true);
             if (circForm.getPatronDocument().getOleLoanDocuments().size() > 0) {
-               circForm.setExistingLoanList(circForm.getPatronDocument().getOleLoanDocuments());
+                circForm.setExistingLoanList(getOleLoanDocumentsFromSolrBuilder().getPatronLoanedItemBySolr
+                        (circForm.getPatronDocument().getOlePatronId(), null));
             }
         } catch (Exception e) {
             e.printStackTrace();
