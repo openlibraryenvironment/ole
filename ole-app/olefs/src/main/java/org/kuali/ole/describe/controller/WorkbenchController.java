@@ -205,8 +205,8 @@ public class WorkbenchController extends UifControllerBase {
         }*/
         //String docType = workbenchForm.getSearchParams().getSearchConditions().add(workbenchForm.getSearchParams().buildSearchCondition(workbenchForm.getSearchParams().buildSearchField(DocType.BIB.getDescription());
         //String docType = workbenchForm.getSearchParams().getSearchConditions().add(workbenchForm.getSearchParams().buildSearchCondition("",workbenchForm.getSearchParams().buildSearchField(DocType.BIB.getDescription(),"",""),""));
-        boolean hasSearchPermission = canSearch(GlobalVariables.getUserSession().getPrincipalId());
-        if (!hasSearchPermission && docType.equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
+
+        if ( docType.equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
             boolean hasLinkPermission = canLinkBibForRequisition(GlobalVariables.getUserSession().getPrincipalId());
             /*boolean hasPermission = canSearchBib(GlobalVariables.getUserSession().getPrincipalId());*/
             if (!hasLinkPermission) {
@@ -259,10 +259,6 @@ public class WorkbenchController extends UifControllerBase {
         return service.hasPermission(principalId, OLEConstants.OlePatron.PATRON_NAMESPACE, OLEConstants.SEARCH_ITEM);
     }*/
 
-    private boolean canSearch(String principalId) {
-        PermissionService service = KimApiServiceLocator.getPermissionService();
-        return service.hasPermission(principalId, OLEConstants.CAT_NAMESPACE, OLEConstants.DESC_WORKBENCH_SEARCH);
-    }
 
     private boolean canLinkBibForRequisition(String principalId) {
         PermissionService service = KimApiServiceLocator.getPermissionService();
@@ -285,8 +281,7 @@ public class WorkbenchController extends UifControllerBase {
         SearchResponse searchResponse = null;
         //String docType = workbenchForm.getSearchParams().getSearchConditions().get(0).getSearchField().getDocType();
         String docType = workbenchForm.getDocType();
-        boolean hasSearchPermission = canSearch(GlobalVariables.getUserSession().getPrincipalId());
-        if (!hasSearchPermission && docType.equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
+        if (docType.equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
             boolean hasLinkPermission = canLinkBibForRequisition(GlobalVariables.getUserSession().getPrincipalId());
             if (!hasLinkPermission) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_AUTHORIZATION);

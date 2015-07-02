@@ -5048,5 +5048,13 @@
     </changeSet>
 
 
+    <changeSet context="bootstrap" id="KRIM_PERM_T_deleteParm" author="ole">
+        <delete tableName="KRIM_PERM_T">
+            <where>PERM_ID = 'OLE10224'</where>
+        </delete>
+
+    </changeSet>
+
+
 
 </databaseChangeLog>

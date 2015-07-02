@@ -2556,7 +2556,6 @@ public class OLEConstants {
     public static final String OLE_SERIALS_RECEIVING_NO_RECORD = "No Records Found";
 
     public static final String CAT_NAMESPACE = "OLE-CAT";
-    public static final String DESC_WORKBENCH_SEARCH = "DESC_WORKBENCH_SEARCH";
     public static final String SEARCH_AUTHORIZATION_ERROR = "Current user is not authorized to perform this action.";
     public static final String INSTANCE_EDITOR_DELETE_ITEM = "INSTANCE_EDITOR_DELETE_ITEM";
     public static final String INSTANCE_EDITOR_DELETE_INSTANCE = "INSTANCE_EDITOR_DELETE_INSTANCE";

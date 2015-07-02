@@ -222,7 +222,6 @@ OLE10212,OLE90088,1,1,OLE-PTRN,Can update item status,Can update item status,Y
 OLE10214,OLE90090,1,42,OLE-PTRN,Edit Request Document,Edit Request Document,Y
 OLE404,OLE404,1,1,OLE-SELECT,SERIAL_RECEIVING_SEARCH,Allows user to perform serial receiving search,Y
 OLE10223,OLE70004,1,58,OLE-CAT,DESC_WORKBENCH_EXPORT_XML,Exports requested record to requestXml,Y
-OLE10224,OLE70005,1,1,OLE-CAT,DESC_WORKBENCH_SEARCH,User can search the bib/holding/item record,Y
 OLE10225,OLE70006,1,1,OLE-CAT,MARC_EDITOR_ADD_BIB,User can create a bib record,Y
 OLE10226,OLE70007,1,62,OLE-CAT,MARC_EDITOR_EDIT_BIB,User can edit a bib record,Y
 OLE10227,OLE70008,1,62,OLE-CAT,MARC_EDITOR_DELETE_BIB,User can delete a bib record,Y

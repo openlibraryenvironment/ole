@@ -218,16 +218,13 @@ public class OLESearchController extends UifControllerBase {
         }
         clearForm(oleSearchForm);
         GlobalVariables.getMessageMap().clearErrorMessages();
-        boolean hasSearchPermission = canSearch(GlobalVariables.getUserSession().getPrincipalId());
-        if (!hasSearchPermission && oleSearchForm.getDocType().equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
+
+        if ( oleSearchForm.getDocType().equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
             boolean hasLinkPermission = canLinkBibForRequisition(GlobalVariables.getUserSession().getPrincipalId());
             if (!hasLinkPermission) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_AUTHORIZATION);
                 return super.navigate(oleSearchForm, result, request, response);
             }
-        } else if (!hasSearchPermission) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_AUTHORIZATION);
-            return super.navigate(oleSearchForm, result, request, response);
         }
         oleSearchForm.setMessage(null);
         oleSearchForm.setSearchResultDisplayRowList(null);
@@ -237,10 +234,6 @@ public class OLESearchController extends UifControllerBase {
         return super.navigate(oleSearchForm, result, request, response);
     }
 
-    private boolean canSearch(String principalId) {
-        PermissionService service = KimApiServiceLocator.getPermissionService();
-        return service.hasPermission(principalId, OLEConstants.CAT_NAMESPACE, OLEConstants.DESC_WORKBENCH_SEARCH);
-    }
 
     private boolean canLinkBibForRequisition(String principalId) {
         PermissionService service = KimApiServiceLocator.getPermissionService();
@@ -299,16 +292,13 @@ public class OLESearchController extends UifControllerBase {
                                HttpServletRequest request, HttpServletResponse response) {
         float start = System.currentTimeMillis()/1000;
         OLESearchForm oleSearchForm = (OLESearchForm) form;
-        boolean hasSearchPermission = canSearch(GlobalVariables.getUserSession().getPrincipalId());
-        if (!hasSearchPermission && oleSearchForm.getDocType().equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
+
+        if (oleSearchForm.getDocType().equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
             boolean hasLinkPermission = canLinkBibForRequisition(GlobalVariables.getUserSession().getPrincipalId());
             if (!hasLinkPermission) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_AUTHORIZATION);
                 return super.navigate(oleSearchForm, result, request, response);
             }
-        } else if (!hasSearchPermission) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_AUTHORIZATION);
-            return super.navigate(oleSearchForm, result, request, response);
         }
         oleSearchForm.getSearchParams().setFacetOffset(0);
         searchDocstoreData(oleSearchForm, request);
@@ -1090,16 +1080,13 @@ public class OLESearchController extends UifControllerBase {
         oleSearchForm.setCallNumberBrowseText(null);
         oleSearchForm.setLocation(null);
         GlobalVariables.getMessageMap().clearErrorMessages();
-        boolean hasSearchPermission = canSearch(GlobalVariables.getUserSession().getPrincipalId());
-        if (!hasSearchPermission && oleSearchForm.getDocType().equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
+
+        if (oleSearchForm.getDocType().equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
             boolean hasLinkPermission = canLinkBibForRequisition(GlobalVariables.getUserSession().getPrincipalId());
             if (!hasLinkPermission) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_AUTHORIZATION);
                 return search(oleSearchForm, result, request, response);
             }
-        } else if (!hasSearchPermission) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_AUTHORIZATION);
-            return search(oleSearchForm, result, request, response);
         }
         return search(oleSearchForm,result,request,response);
     }
