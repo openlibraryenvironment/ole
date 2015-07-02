@@ -96,12 +96,13 @@ public class DroolsEngine {
         KnowledgeBuilder builder = KnowledgeBuilderFactory.newKnowledgeBuilder();
 
         File rulesDirectory = FileUtils.getFile(getRulesDirectory());
-        if (null != rulesDirectory) {
+        if (null != rulesDirectory && rulesDirectory.isDirectory() && FileUtils.sizeOfDirectory(rulesDirectory) > 0) {
             File[] files = rulesDirectory.listFiles();
             loadRules(builder, files);
 
             if (builder.hasErrors()) {
-                throw new RuntimeException(builder.getErrors().toString());
+                LOG.error("Could not load Circulation Rules as directory doest not exist or is unreadable.");
+                LOG.error(builder.getErrors().toString());
             }
 
             // create a knowledgeBase from our builder packages
