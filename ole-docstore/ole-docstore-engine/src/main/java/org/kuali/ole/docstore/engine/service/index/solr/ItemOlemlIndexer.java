@@ -64,11 +64,12 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         LOG.info("Method - updateRecordInSolr");
         Item itemDocument = (Item)object;
         LOG.info("Incoming Item Document " + itemDocument.toString());
-        SolrInputDocument solrInputDocument = getSolrInputFieldsForItem(itemDocument);
         String id = itemDocument.getId();
         if(!DocumentUniqueIDPrefix.hasPrefix(id)){
             id="wio-" +itemDocument.getId();
+            itemDocument.setId(id);
         }
+        SolrInputDocument solrInputDocument = getSolrInputFieldsForItem(itemDocument);
 
         SolrDocument solrDocument = getSolrDocumentByUUID(id);
         Object bibs=null;

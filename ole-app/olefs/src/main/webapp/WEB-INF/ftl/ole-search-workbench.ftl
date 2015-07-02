@@ -7,7 +7,7 @@
         <tr>
             <th></th>
             <#if manager.searchResultDisplayFields.title><th><a style="text-decoration:underline;" onclick="bibSortBy('title');">Title</a></th></#if>
-            <#if manager.searchResultDisplayFields.localId><th><a style="text-decoration:underline;" onclick="bibSortBy('local');">Local Identifier</a></th><</th></#if>
+            <#if manager.searchResultDisplayFields.localId><th><a style="text-decoration:underline;" onclick="bibSortBy('local');">Local Identifier</a></th></th></#if>
             <#if manager.searchResultDisplayFields.journalTitle><th><a style="text-decoration:underline;" onclick="bibSortBy('journal');">Journal Title</a></th></#if>
             <#if manager.searchResultDisplayFields.author><th><a style="text-decoration:underline;" onclick="bibSortBy('author');">Author</a></th></#if>
             <#if manager.searchResultDisplayFields.publisher><th><a style="text-decoration:underline;" onclick="bibSortBy('publisher');">Publisher</a></th></#if>

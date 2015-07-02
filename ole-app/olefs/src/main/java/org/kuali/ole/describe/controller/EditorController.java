@@ -7,6 +7,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEPropertyConstants;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
@@ -36,6 +37,7 @@ import org.kuali.ole.docstore.model.enums.DocFormat;
 import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.ole.select.bo.OLEDonor;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.util.StringUtil;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -322,8 +324,16 @@ public class EditorController extends UifControllerBase {
         }*/
 
         if (docType.equalsIgnoreCase("holdings")) {
-
+            if(StringUtils.isNotEmpty(docId) && !DocumentUniqueIDPrefix.hasPrefix(docId)){
+                docId="who-" +docId;
+            }
             ((EditorForm) form).setInstanceId(docId);
+        }
+
+        if (docType.equalsIgnoreCase("item")) {
+            if(StringUtils.isNotEmpty(docId) && !DocumentUniqueIDPrefix.hasPrefix(docId)){
+                docId="wio-" +docId;
+            }
         }
         if (docType.equalsIgnoreCase("instance")) {
             ((EditorForm) form).setInstanceId(docId);
