@@ -69,6 +69,7 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -167,6 +168,7 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
     private List<OleInvoiceItem> deletedInvoiceItems =  new ArrayList<>();
     private boolean duplicateRouteFlag;
     private boolean duplicateSaveFlag;
+    private String currencyFormat;
 
     public boolean isBlanketApproveFlag() {
         return blanketApproveFlag;
@@ -2720,5 +2722,12 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
 
     public void setDuplicateSaveFlag(boolean duplicateSaveFlag) {
         this.duplicateSaveFlag = duplicateSaveFlag;
+    }
+
+    public String getCurrencyFormat() {
+        if(org.apache.commons.lang3.StringUtils.isBlank(currencyFormat)){
+            currencyFormat = CurrencyFormatter.getSymbolForCurrencyPattern();
+        }
+        return currencyFormat;
     }
 }

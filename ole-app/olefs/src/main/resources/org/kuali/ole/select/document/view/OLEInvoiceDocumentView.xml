@@ -210,6 +210,7 @@
                 <!--<ref bean="MessagePopUpSectionForCurrencyOverride"/>-->
                 <!--<ref bean="hiddenCurrencyOverrideBtn"/>-->
                 <ref bean="updateExchangeRateBtn"/>
+                <ref bean="hdnCurrencyFormatFlag"/>
             </list>
         </property>
         <property name="footer">
@@ -663,7 +664,7 @@
 		      				</property>
 		      			</bean>
 		      			<bean parent="Uif-ActionLink" p:actionLabel="Process Items"
-			      				p:refreshId="OLEInvoiceView-processItems-Wrapper" p:methodToCall="refresh">
+			      				p:refreshId="OLEInvoiceView-processItems-Wrapper" p:methodToCall="refresh" p:ajaxSubmit="true" p:successCallback="removeDollarSymbol();">
 		      				<property name="additionalSubmitData">
 		      					<map>
 		      						<entry key="filterProcessItems" value="@{!filterProcessItems}" />
@@ -1178,6 +1179,12 @@
     </bean>-->
 
     <bean id="updateExchangeRateBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="updateExchangeRate" p:hidden="true" />
+
+    <bean id="hdnCurrencyFormatFlag" parent="Uif-InputField" p:propertyName="currencyFormat" p:hidden="true">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
 
 </beans>
 

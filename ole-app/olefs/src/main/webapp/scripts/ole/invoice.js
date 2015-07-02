@@ -1,4 +1,5 @@
 var currencyType = null;
+var currencySymbol = jq("#hdnCurrencyFormatFlag_control").val();
 function displayDialogWindow(divID){
     jq(divID).fadeIn(300);
     var popMargTop = (jq(divID).height() + 42) / 2;
@@ -405,6 +406,9 @@ jq(document).ready(function(){
     });
     window.onbeforeunload = unloadPage;
     saveCurrencyType();
+    jq("OLEInvoiceView-ProcessItem").live("click",function(){
+        removeDollarSymbol();
+    });
 
 });
 
@@ -453,3 +457,20 @@ function saveCurrencyType() {
         currencyType=jq("#invoice-currencyType_control").val();
     });
 }
+
+jq(window).load(function () {
+    removeDollarSymbol();
+});
+
+function removeDollarSymbol() {
+    for (var i = 0; i < 2000; i++) {
+        var itemDiscount = jq("#OleInvoiceView-invoiceItems_line" + i + "_itemDiscount_control").val();
+        if (itemDiscount != null) {
+            itemDiscount = itemDiscount.replace(currencySymbol, "");
+            jq("#OleInvoiceView-invoiceItems_line" + i + "_itemDiscount_control").val(itemDiscount);
+        } else {
+            break;
+        }
+    }
+}
+

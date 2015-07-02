@@ -68,7 +68,7 @@
                                 <property name="items">
                                     <list>
                                         <bean id="addPOItems_button_test" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addPoItems" p:actionLabel="Add P.O" p:title="Add selected PO Items" 
-											p:refreshId="OLEInvoiceView-processItems-Wrapper" />
+											p:refreshId="OLEInvoiceView-processItems-Wrapper"  p:successCallback="removeDollarSymbol()"/>
                                         <bean id="CurrentItem_deletePurchaseOrder" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Delete P.O" p:methodToCall="deletePO"/>
                                     </list>
                                 </property>
