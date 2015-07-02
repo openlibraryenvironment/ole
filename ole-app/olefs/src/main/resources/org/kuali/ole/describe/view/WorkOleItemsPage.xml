@@ -285,7 +285,7 @@
                       p:propertyName="callNumber.shelvingOrder.fullValue" p:label="Shelving Order"
                       p:required="false">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="100"/>
+                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="300"/>
                     </property>
                 </bean>
                 <bean id="OleHoldingShelvingScheme" parent="Uif-InputField"
