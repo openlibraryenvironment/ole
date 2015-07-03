@@ -44,6 +44,7 @@ import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
@@ -72,6 +73,7 @@ public class OLEEResourceHelperService {
     private static final Logger LOG = Logger.getLogger(OLEEResourceHelperService.class);
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
+    private DocumentDao documentDao;
 
     private GokbRdbmsService gokbRdbmsService;
     private GokbLocalService gokbLocalService;
@@ -118,6 +120,13 @@ public class OLEEResourceHelperService {
             this.documentService = KRADServiceLocatorWeb.getDocumentService();
         }
         return this.documentService;
+    }
+
+    public DocumentDao getDocumentDao(){
+        if(documentDao == null){
+            documentDao = (DocumentDao) SpringContext.getBean("documentDao");
+        }
+        return documentDao;
     }
 
     /**
@@ -1944,21 +1953,30 @@ public class OLEEResourceHelperService {
         }
     }
 
-    public void createOrUpdateAccessWorkflow(OLEEResourceRecordDocument oleeResourceRecordDocument) {
+    public void createOrUpdateAccessWorkflow(OLEEResourceRecordDocument oleeResourceRecordDocument, boolean titleChange) {
         if (StringUtils.isNotBlank(oleeResourceRecordDocument.getOleAccessActivationDocumentNumber())) {
             try {
+                String titleDesc = OLEConstants.ACCESS_ACTIVATION_DESCRIPTION + " for E-Resource Name : "+oleeResourceRecordDocument.getTitle();
                 MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) getDocumentService().getByDocumentHeaderId(oleeResourceRecordDocument.getOleAccessActivationDocumentNumber());
                 String accessActivationDocumentStatus = maintenanceDocumentBase.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
                 if (accessActivationDocumentStatus.equalsIgnoreCase("s")) {
                     OLEEResourceAccessActivation oleeResourceAccessActivation = (OLEEResourceAccessActivation) maintenanceDocumentBase.getNewMaintainableObject().getDataObject();
                     if (oleeResourceAccessActivation != null) {
+                        maintenanceDocumentBase.getDocumentHeader().setDocumentDescription(titleDesc);
                         oleeResourceAccessActivation.setAccessStatus(oleeResourceRecordDocument.getAccessStatus());
                         oleeResourceAccessActivation.setAuthenticationTypeId(oleeResourceRecordDocument.getAuthenticationTypeId());
                         oleeResourceAccessActivation.setAccessLocation(oleeResourceRecordDocument.getAccessLocation());
                         oleeResourceAccessActivation.setAccessTypeId(oleeResourceRecordDocument.getAccessTypeId());
                         oleeResourceAccessActivation.setNumOfSimultaneousUsers(oleeResourceRecordDocument.getNumOfSimultaneousUsers());
                         oleeResourceAccessActivation.setTechRequirements(oleeResourceRecordDocument.getTechRequirements());
-                        getDocumentService().saveDocument(maintenanceDocumentBase);
+                        getDocumentService().validateAndPersistDocument((Document)maintenanceDocumentBase,new SaveDocumentEvent(maintenanceDocumentBase));
+                    }
+                } else if(titleChange){
+                    OLEEResourceAccessActivation oleeResourceAccessActivation = (OLEEResourceAccessActivation) maintenanceDocumentBase.getNewMaintainableObject().getDataObject();
+                    if (oleeResourceAccessActivation != null) {
+                        maintenanceDocumentBase.getDocumentHeader().setDocumentDescription(titleDesc);
+                        getDocumentService().validateAndPersistDocument((Document)maintenanceDocumentBase,new SaveDocumentEvent(maintenanceDocumentBase));
+                        KEWServiceLocator.getActionListService().updateActionItemsForTitleChange(maintenanceDocumentBase.getDocumentNumber(),titleDesc);
                     }
                 }
             } catch (Exception e) {
@@ -1972,7 +1990,7 @@ public class OLEEResourceHelperService {
                 DocumentService documentService = GlobalResourceLoader.getService(OLEConstants.DOCUMENT_HEADER_SERVICE);
                 try {
                     MaintenanceDocument newDocument = (MaintenanceDocument) documentService.getNewDocument("OLE_ERES_ACCESS_MD");
-                    newDocument.getDocumentHeader().setDocumentDescription(OLEConstants.ACCESS_ACTIVATION_DESCRIPTION);
+                    newDocument.getDocumentHeader().setDocumentDescription(OLEConstants.ACCESS_ACTIVATION_DESCRIPTION + " for E-Resource Name : "+oleeResourceRecordDocument.getTitle());
                     OLEEResourceAccessActivation oleeResourceAccessActivation = (OLEEResourceAccessActivation) newDocument.getNewMaintainableObject().getDataObject();
                     oleeResourceAccessActivation.setAccessStatus(oleeResourceRecordDocument.getAccessStatus());
                     oleeResourceAccessActivation.setAuthenticationTypeId(oleeResourceRecordDocument.getAuthenticationTypeId());

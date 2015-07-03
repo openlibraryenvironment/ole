@@ -515,11 +515,15 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         oleERSform.setBibId(null);
         oleERSform.setInstanceId(null);
         oleERSform.setLinkInstance(false);
+        boolean titleChange = false;
         if (oleeResourceRecordDocument.getOleERSIdentifier() != null && !oleeResourceRecordDocument.getOleERSIdentifier().isEmpty()) {
             oleeResourceRecordDocument = getOleEResourceSearchService().getNewOleERSDoc(oleeResourceRecordDocument);
             Map<String, String> tempId = new HashMap<String, String>();
             tempId.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, oleeResourceRecordDocument.getOleERSIdentifier());
             OLEEResourceRecordDocument tempDocument = (OLEEResourceRecordDocument) getBusinessObjectService().findByPrimaryKey(OLEEResourceRecordDocument.class, tempId);
+            if (!tempDocument.getTitle().equalsIgnoreCase(oleeResourceRecordDocument.getTitle())){
+                titleChange = true;
+            }
             int instancesSize = tempDocument.getOleERSInstances().size();
             int instanceSize = oleeResourceRecordDocument.getOleERSInstances().size();
             if (!oleERSform.isDefaultDatesFlag() && oleERSform.getPageId() != null && oleERSform.getPageId().equalsIgnoreCase("OLEEResourceRecordView-E-ResourceInstanceTab")) {
@@ -561,7 +565,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             }
         }
         getOleEResourceSearchService().getPOInvoiceForERS(oleeResourceRecordDocument);
-        getOleeResourceHelperService().createOrUpdateAccessWorkflow(oleeResourceRecordDocument);
+        getOleeResourceHelperService().createOrUpdateAccessWorkflow(oleeResourceRecordDocument, titleChange);
         /*if(StringUtils.isNotEmpty(eResId)) {
             getOleeResourceHelperService().insertOrUpdateGokbElementsForEResource(oleeResourceRecordDocument, true);
         }
@@ -625,11 +629,15 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         oleERSform.setBibId(null);
         oleERSform.setInstanceId(null);
         oleERSform.setLinkInstance(false);
+        boolean titleChange = false;
         if (oleeResourceRecordDocument.getOleERSIdentifier() != null && !oleeResourceRecordDocument.getOleERSIdentifier().isEmpty()) {
             oleeResourceRecordDocument = getOleEResourceSearchService().getNewOleERSDoc(oleeResourceRecordDocument);
             Map<String, String> tempId = new HashMap<String, String>();
             tempId.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, oleeResourceRecordDocument.getOleERSIdentifier());
             OLEEResourceRecordDocument tempDocument = (OLEEResourceRecordDocument) getBusinessObjectService().findByPrimaryKey(OLEEResourceRecordDocument.class, tempId);
+            if (!tempDocument.getTitle().equalsIgnoreCase(oleeResourceRecordDocument.getTitle())){
+                titleChange = true;
+            }
             int instancesSize = tempDocument.getOleERSInstances().size();
             int instanceSize = oleeResourceRecordDocument.getOleERSInstances().size();
             if (tempDocument.iseInstanceFlag() && instancesSize > instanceSize && !oleERSform.isRemoveInstanceFlag()) {
@@ -642,7 +650,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             oleERSform.setRemoveInstanceFlag(false);
         }
         getOleEResourceSearchService().processEventAttachments(oleeResourceRecordDocument.getOleERSEventLogs());
-        getOleeResourceHelperService().createOrUpdateAccessWorkflow(oleeResourceRecordDocument);
+        getOleeResourceHelperService().createOrUpdateAccessWorkflow(oleeResourceRecordDocument, titleChange);
         return super.route(oleERSform, result, request, response);
     }
 
@@ -696,11 +704,15 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         oleERSform.setBibId(null);
         oleERSform.setInstanceId(null);
         oleERSform.setLinkInstance(false);
+        boolean titleChange = false;
         if (oleeResourceRecordDocument.getOleERSIdentifier() != null && !oleeResourceRecordDocument.getOleERSIdentifier().isEmpty()) {
             oleeResourceRecordDocument = getOleEResourceSearchService().getNewOleERSDoc(oleeResourceRecordDocument);
             Map<String, String> tempId = new HashMap<String, String>();
             tempId.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, oleeResourceRecordDocument.getOleERSIdentifier());
             OLEEResourceRecordDocument tempDocument = (OLEEResourceRecordDocument) getBusinessObjectService().findByPrimaryKey(OLEEResourceRecordDocument.class, tempId);
+            if (!tempDocument.getTitle().equalsIgnoreCase(oleeResourceRecordDocument.getTitle())){
+                titleChange = true;
+            }
             int instancesSize = tempDocument.getOleERSInstances().size();
             int instanceSize = oleeResourceRecordDocument.getOleERSInstances().size();
             if (tempDocument.iseInstanceFlag() && instancesSize > instanceSize && !oleERSform.isRemoveInstanceFlag()) {
@@ -713,7 +725,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             oleERSform.setRemoveInstanceFlag(false);
         }
         getOleEResourceSearchService().processEventAttachments(oleeResourceRecordDocument.getOleERSEventLogs());
-        getOleeResourceHelperService().createOrUpdateAccessWorkflow(oleeResourceRecordDocument);
+        getOleeResourceHelperService().createOrUpdateAccessWorkflow(oleeResourceRecordDocument, titleChange);
         super.approve(oleERSform, result, request, response);
         if(oleeResourceRecordDocument.getDocumentHeader().getWorkflowDocument().getStatus().getCode().equals("F")){
             DocumentRouteHeaderValue documentBo = KEWServiceLocator.getRouteHeaderService().getRouteHeader(oleeResourceRecordDocument.getDocumentNumber());
@@ -2737,7 +2749,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         } catch (Exception e) {
             e.printStackTrace();
         }
-        newDocument.getDocumentHeader().setDocumentDescription(OLEConstants.ACCESS_ACTIVATION_DESCRIPTION);
+        newDocument.getDocumentHeader().setDocumentDescription(OLEConstants.ACCESS_ACTIVATION_DESCRIPTION + " for E-Resource Name : "+oleeResourceRecordDocument.getTitle());
         OLEEResourceAccessActivation oleeResourceAccess = (OLEEResourceAccessActivation) newDocument.getNewMaintainableObject().getDataObject();
         oleeResourceAccess.setDateAccessConfirmed(oleeResourceRecordDocument.getDateAccessConfirmed());
         oleeResourceAccess.setWorkflowId(oleeResourceRecordDocument.getWorkflowConfigurationId());

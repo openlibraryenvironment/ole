@@ -3433,7 +3433,7 @@ public class OLEConstants {
 
     public static final String NO_WORKFLOW="error.no.workflow";
     public static final String NO_DESCRIPTION="error.no.description";
-    public static final String ACCESS_ACTIVATION_DESCRIPTION="New Access Activation Record";
+    public static final String ACCESS_ACTIVATION_DESCRIPTION="Access Activation Record";
     public static final String INVALID_WORK_FLOW ="error.invalid.workflow";
     public static final String NEW_ALERT_DESCRIPTION = "New Alert Document";
     public static final String EDIT_ALERT_DESCRIPTION = "Edited Alert Document";

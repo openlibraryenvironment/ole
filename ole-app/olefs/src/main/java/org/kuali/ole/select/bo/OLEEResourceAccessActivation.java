@@ -17,6 +17,8 @@ public class OLEEResourceAccessActivation extends PersistableBusinessObjectBase 
 
     private String oleERSAccessIdentifier;
     private String oleERSIdentifier;
+    private String eResourceTitle;
+    private String eResourceDocumentNumber;
     private String accessStatus;
     private Timestamp dateAccessConfirmed;
     private String accessTypeId;
@@ -69,6 +71,22 @@ public class OLEEResourceAccessActivation extends PersistableBusinessObjectBase 
 
     public void setOleERSIdentifier(String oleERSIdentifier) {
         this.oleERSIdentifier = oleERSIdentifier;
+    }
+
+    public String geteResourceTitle() {
+        return eResourceTitle;
+    }
+
+    public void seteResourceTitle(String eResourceTitle) {
+        this.eResourceTitle = eResourceTitle;
+    }
+
+    public String geteResourceDocumentNumber() {
+        return eResourceDocumentNumber;
+    }
+
+    public void seteResourceDocumentNumber(String eResourceDocumentNumber) {
+        this.eResourceDocumentNumber = eResourceDocumentNumber;
     }
 
     public String getAccessStatus() {

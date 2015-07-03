@@ -53,6 +53,19 @@
         </property>
         <property name="items">
             <list merge="true">
+                <bean parent="Uif-DocumentOverviewSection" p:order="10" p:render="false"/>
+                <bean id="OLEEResourceAccess-DocumentOverviewSection" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="4"
+                      p:layoutManager.applyDefaultCellWidths="false" p:order="10">
+                    <property name="headerText" value="Document Overview"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DocumentDescription" p:required="true" p:label="Description" p:readOnly="true"/>
+                            <bean parent="Uif-DocumentExplaination" p:rowSpan="2" p:fieldLabel.rowSpan="2"/>
+                            <bean parent="Uif-OrganizationDocumentNumber"/>
+                        </list>
+                    </property>
+                    <property name="fieldBindingObjectPath" value="document.documentHeader"/>
+                </bean>
                 <ref bean="OLEEResourceAccess-access"/>
                 <ref bean="OLEEResourceAccess-configuration"/>
                 <ref bean="OLEEResourceAccess-marcRecords"/>
@@ -116,7 +129,9 @@
             <bean id="access"  parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" >
                 <property name="items">
                     <list>
-                        <bean parent="Uif-InputField" p:propertyName="oleERSIdentifier" p:readOnly="true"/>
+                        <bean parent="Uif-LinkField" p:link.linkText="@{document.newMaintainableObject.dataObject.eResourceTitle}" p:label="E-Resource Name"
+                              p:href="@{#ConfigProperties['ole.eresource.url']}oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{document.newMaintainableObject.dataObject.eResourceDocumentNumber}&amp;command=displayDocSearchView"
+                              p:target="_blank"/>
                         <bean parent="Uif-InputField" p:propertyName="accessStatus" p:readOnly="true"/>
                         <bean parent="Uif-InputField" p:propertyName="dateAccessConfirmed"/>
                         <bean parent="Uif-InputField" p:propertyName="workflowId" p:label="WorkFlow"

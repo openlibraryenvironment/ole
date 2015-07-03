@@ -7,6 +7,7 @@ import org.kuali.ole.select.bo.OLEEResourceAccessActivation;
 import org.kuali.ole.select.bo.OLEEResourceNotes;
 import org.kuali.ole.select.document.OLEEResourceAccessWorkflow;
 import org.kuali.ole.select.document.OLEEResourceEventLog;
+import org.kuali.ole.select.document.OLEEResourceRecordDocument;
 import org.kuali.ole.select.service.OLEAccessActivationService;
 import org.kuali.ole.select.service.impl.OLEAccessActivationServiceImpl;
 import org.kuali.ole.service.OLEEResourceHelperService;
@@ -71,6 +72,22 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
             oleAccessActivationService = new OLEAccessActivationServiceImpl();
         }
         return oleAccessActivationService;
+    }
+
+    @Override
+    public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase formBase, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        MaintenanceDocumentForm form = (MaintenanceDocumentForm) formBase;
+        ModelAndView modelAndView = super.docHandler(formBase, result, request, response);
+        MaintenanceDocument maintenanceDocument = form.getDocument();
+        OLEEResourceAccessActivation oleEResourceAccessActivation = (OLEEResourceAccessActivation) maintenanceDocument.getNewMaintainableObject().getDataObject();
+        if (oleEResourceAccessActivation!=null && StringUtils.isNotBlank(oleEResourceAccessActivation.getOleERSIdentifier())){
+            OLEEResourceRecordDocument oleEResourceRecordDocument = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OLEEResourceRecordDocument.class,oleEResourceAccessActivation.getOleERSIdentifier());
+            if (oleEResourceRecordDocument!=null){
+                oleEResourceAccessActivation.seteResourceTitle(oleEResourceRecordDocument.getTitle());
+                oleEResourceAccessActivation.seteResourceDocumentNumber(oleEResourceRecordDocument.getDocumentNumber());
+            }
+        }
+        return modelAndView;
     }
 
     public void setOleAccessActivationService(OLEAccessActivationService oleAccessActivationService) {
