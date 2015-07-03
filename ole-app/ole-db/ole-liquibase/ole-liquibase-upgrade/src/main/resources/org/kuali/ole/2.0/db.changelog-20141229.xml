@@ -5047,13 +5047,19 @@
                                tableName="FP_DV_DOC_T"/>
     </changeSet>
 
+    <changeSet context="bootstrap" id="KRIM_ROLE_PERM_T_deleterole" author="ole">
+        <delete tableName="KRIM_ROLE_PERM_T">
+            <where>PERM_ID = 'OLE10224'</where>
+        </delete>
+    </changeSet>
+
 
     <changeSet context="bootstrap" id="KRIM_PERM_T_deleteParm" author="ole">
         <delete tableName="KRIM_PERM_T">
             <where>PERM_ID = 'OLE10224'</where>
         </delete>
-
     </changeSet>
+
 
 
 
