@@ -4233,6 +4233,7 @@ CREATE TABLE OLE_BAT_PRCS_DT_MAP_OPT_T
         , SRC_VAL VARCHAR(70)
         , DEST_FLD VARCHAR(70)
         , DEST_VAL VARCHAR(70)
+        , GOKB_FIELD VARCHAR(100)
         , PRIORITY INTEGER default 1
         , IS_LOOKUP VARCHAR(1)
         , OBJ_ID VARCHAR(36) NOT NULL
@@ -4246,7 +4247,7 @@ CREATE TABLE OLE_BAT_PRCS_DT_MAP_OPT_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                            
                                     
 , INDEX MAP_FK_CONSTRAINT (OLE_BAT_PRCS_DT_MAP_ID )
 
@@ -4418,7 +4419,8 @@ drop table if exists OLE_BAT_PRF_BIB_DT_MAP_T
 CREATE TABLE OLE_BAT_PRF_BIB_DT_MAP_T
 (
       OLE_BAT_PRF_BIB_DT_MAP_ID VARCHAR(40)
-        , TAG VARCHAR(3)
+        , TAG VARCHAR(10)
+        , GOKB_FIELD VARCHAR(100)
         , BAT_PRCS_PRF_ID VARCHAR(40)
         , OBJ_ID VARCHAR(36) NOT NULL
         , VER_NBR DECIMAL(8) default 1 NOT NULL
@@ -4430,7 +4432,7 @@ CREATE TABLE OLE_BAT_PRF_BIB_DT_MAP_T
 
 
     
-                                                                                                                                                                                            
+                                                                                                                                                                                                                
                                     
 , INDEX OLE_BAT_PRCS_BIB_DT_MAP_I (BAT_PRCS_PRF_ID )
 
@@ -4447,7 +4449,7 @@ drop table if exists OLE_BAT_PRF_BIB_DT_MAP_OVER_T
 CREATE TABLE OLE_BAT_PRF_BIB_DT_MAP_OVER_T
 (
       OLE_BAT_PRF_BIB_DT_MAP_OVER_ID VARCHAR(40)
-        , TAG VARCHAR(3)
+        , TAG VARCHAR(10)
         , ADD_OR_REPLACE VARCHAR(10)
         , BAT_PRCS_PRF_ID VARCHAR(40)
         , OBJ_ID VARCHAR(36) NOT NULL
