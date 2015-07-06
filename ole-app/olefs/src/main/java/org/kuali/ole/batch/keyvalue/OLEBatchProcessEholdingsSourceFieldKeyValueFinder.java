@@ -39,6 +39,7 @@ public class OLEBatchProcessEholdingsSourceFieldKeyValueFinder extends KeyValues
         keyValues.add(new ConcreteKeyValue("Coverage End Volume","Coverage End Volume"));
         keyValues.add(new ConcreteKeyValue("Statistical Code","Statistical Code"));
         keyValues.add(new ConcreteKeyValue("Platform","Platform"));
+        keyValues.add(new ConcreteKeyValue("Publisher","Publisher"));
         keyValues.add(new ConcreteKeyValue("Donor Code","Donor Code"));
         keyValues.add(new ConcreteKeyValue("Donor Public Display","Donor Public Display"));
         keyValues.add(new ConcreteKeyValue("Donor Note","Donor Note"));

@@ -5060,6 +5060,24 @@
         </delete>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRF_BIB_DT_MAP_T_ALTER" dbms="mysql">
+        <sql>ALTER TABLE OLE_BAT_PRF_BIB_DT_MAP_T MODIFY TAG varchar(20)</sql>
+        <sql>ALTER TABLE OLE_BAT_PRF_BIB_DT_MAP_T ADD GOKB_FIELD varchar(100)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRF_BIB_DT_MAP_T_ALTER" dbms="oracle">
+        <sql>ALTER TABLE OLE_BAT_PRF_BIB_DT_MAP_T MODIFY TAG varchar2(20)</sql>
+        <sql>ALTER TABLE OLE_BAT_PRF_BIB_DT_MAP_T ADD GOKB_FIELD varchar2(100)</sql>
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRF_BIB_DT_MAP_OVER_T_ALTER" dbms="mysql">
+        <sql>ALTER TABLE OLE_BAT_PRCS_DT_MAP_OPT_T ADD GOKB_FIELD varchar(100)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRF_BIB_DT_MAP_OVER_T_ALTER" dbms="oracle">
+        <sql>ALTER TABLE OLE_BAT_PRCS_DT_MAP_OPT_T ADD GOKB_FIELD varchar2(100)</sql>
+    </changeSet>
 
 
 

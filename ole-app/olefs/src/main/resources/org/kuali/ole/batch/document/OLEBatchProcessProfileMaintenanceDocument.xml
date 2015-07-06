@@ -978,9 +978,18 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="items">
             <list>
-                <bean id="bibDataFields_tag" parent="Uif-InputField" p:label="Field Name" p:propertyName="tag" p:readOnly="@{!#isAddLine}">
+                <bean id="bibDataFields_tag" parent="Uif-InputField" p:label="Source Field" p:propertyName="tag" p:readOnly="@{!#isAddLine}">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="3" p:maxLength="3"/>
+                        <bean parent="Uif-TextControl" p:size="9" p:maxLength="9"/>
+                    </property>
+                </bean>
+
+                <bean id="bibData-Gokbfield" parent="Uif-InputField" p:propertyName="gokbFieldBib" p:label="Gokb Field" p:readOnly="@{!#isAddLine}" p:render="@{ document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessGokbValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutDataType" />
                     </property>
                 </bean>
 
@@ -1035,7 +1044,7 @@
 
 
     <bean id="OLEBatchProcessProfileBo-MaintenanceView-dataMappingSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false"
-          p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Export' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Order Record Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Invoice Import'}" p:readOnly="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'}" >
+          p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Export' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Order Record Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Invoice Import'}"  >
         <property name="headerText" value="Data Mapping" />
         <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileMappingOptionsBo" />
         <property name="propertyName" value="oleBatchProcessProfileMappingOptionsList" />
@@ -1084,25 +1093,27 @@
                         <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutDataType" />
                     </property>
                 </bean>
-                <!--<bean id="dataMappingOptions_sourceField" parent="Uif-InputField" p:propertyName="sourceField" p:label="Select Source Field" >
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchDataMappingSourceFieldValuesFinder" />
-                    </property>
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
-                    </property>
-                </bean>-->
+
                 <ref bean="bibmarc-sourcefield"/>
                 <ref bean="holding-sourcefield"/>
                 <ref bean="item-sourcefield"/>
                 <ref bean="einstance-sourcefield"/>
                 <ref bean="remaining-sourcefield"/>
                 <bean id="dataMappingOptions_sourceField1" parent="Uif-InputField" p:propertyName="sourceFieldText" p:label="Enter Source Field" p:style="width:80px" p:readOnly="@{!#isAddLine}"/>
-                <bean id="dataMappingOptions_sourceFieldValue" parent="Uif-InputField" p:propertyName="sourceFieldValue" p:label="Source field Value" p:style="width:80px" p:readOnly="@{!#isAddLine}"/>
+                <bean id="dataMappingOptions_sourceFieldValue" parent="Uif-InputField" p:propertyName="sourceFieldValue" p:label="Source field Value" p:style="width:80px" p:readOnly="@{!#isAddLine}" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType ne 'GOKB Import'  }" />
 
                 <bean id="bibImportDataType-destinationfield" parent="Uif-InputField" p:propertyName="dataTypeDestinationField" p:label="Destination Data Type" p:readOnly="@{!#isAddLine}" p:required="true" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'  }">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessDataTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutDataType" />
+                    </property>
+                </bean>
+
+                <bean id="bibImportDataType-Gokbfield" parent="Uif-InputField" p:propertyName="gokbField" p:label="Gokb Field" p:readOnly="@{!#isAddLine}" p:render="@{ document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessGokbValuesFinder" />
                     </property>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutDataType" />

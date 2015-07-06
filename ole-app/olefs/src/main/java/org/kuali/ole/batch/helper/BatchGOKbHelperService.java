@@ -49,7 +49,7 @@ public class BatchGOKbHelperService extends BatchBibImportHelper {
 
         for(OLEBatchProcessBibDataMappingOverlay oleBatchProcessBibDataMappingOverlay : oleBatchProcessBibDataMappingOverlays) {
             if(oleBatchProcessBibDataMappingOverlay.getAddOrReplace().equalsIgnoreCase("add")) {
-                addFieldsInOverlay.add(oleBatchProcessBibDataMappingOverlay.getTag());
+                addFieldsInOverlay.add(oleBatchProcessBibDataMappingOverlay.getTag().substring(0,3));
             }
         }
         return addFieldsInOverlay;
@@ -62,13 +62,13 @@ public class BatchGOKbHelperService extends BatchBibImportHelper {
         List<String> tags = new ArrayList<>();
 
         for(OLEBatchProcessBibDataMappingNew oleBatchProcessBibDataMappingNew : profile.getOleBatchProcessBibDataMappingNewList()) {
-            tags.add(oleBatchProcessBibDataMappingNew.getTag());
+            tags.add(oleBatchProcessBibDataMappingNew.getTag().substring(0,3));
         }
 
         while(iterator.hasNext()) {
 
             DataField dataField = iterator.next();
-            if(!dataField.getTag().equals("856") && !tags.contains(dataField.getTag())) {
+            if(!dataField.getTag().equals(profile.getOleBatchProcessProfileMappingOptionsList().get(0).getOleBatchProcessProfileDataMappingOptionsBoList().get(0).getSourceField().substring(0, 3)) && !tags.contains(dataField.getTag())) {
                 iterator.remove();
             }
         }
@@ -82,7 +82,7 @@ public class BatchGOKbHelperService extends BatchBibImportHelper {
     private OLEBatchProcessBibDataMappingOverlay getMatchedBibDataMappingOverlayField(String tag, List<OLEBatchProcessBibDataMappingOverlay> oleBatchProcessBibDataMappingOverlayList) {
 
         for (OLEBatchProcessBibDataMappingOverlay batchProcessBibDataMappingOverlay : oleBatchProcessBibDataMappingOverlayList) {
-            if(batchProcessBibDataMappingOverlay.getTag().equals(tag)) {
+            if(batchProcessBibDataMappingOverlay.getTag().substring(0,3).equals(tag)) {
                 return batchProcessBibDataMappingOverlay;
             }
         }

@@ -22,6 +22,7 @@ public class OLEBatchProcessProfileDataMappingOptionsBo  extends PersistableBusi
     private String destinationField;
     private String destinationFieldText;
     private String destinationFieldValue;
+    private String gokbField;
     private int priority;
     private boolean lookUp;
     private OLEBatchProcessProfileMappingOptionsBo oleBatchProcessProfileMappingOptionsBo;
@@ -160,6 +161,14 @@ public class OLEBatchProcessProfileDataMappingOptionsBo  extends PersistableBusi
 
     public void setDataTypeDestinationField(String dataTypeDestinationField) {
         this.dataTypeDestinationField = dataTypeDestinationField;
+    }
+
+    public String getGokbField() {
+        return gokbField;
+    }
+
+    public void setGokbField(String gokbField) {
+        this.gokbField = gokbField;
     }
 
     @Override

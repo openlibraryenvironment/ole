@@ -3,10 +3,14 @@ package org.kuali.ole.service;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.batch.bo.OLEBatchProcessBibDataMappingNew;
 import org.kuali.ole.batch.bo.OLEBatchProcessProfileBo;
+import org.kuali.ole.batch.bo.OLEBatchProcessProfileDataMappingOptionsBo;
 import org.kuali.ole.batch.ingest.OLEBatchGOKBImport;
+import org.kuali.ole.batch.util.BatchBibImportUtil;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.Bib;
+import org.kuali.ole.docstore.common.document.EHoldings;
 import org.kuali.ole.docstore.common.document.Holdings;
 import org.kuali.ole.docstore.common.document.content.bib.marc.*;
 import org.kuali.ole.docstore.common.document.content.instance.Coverage;
@@ -655,7 +659,7 @@ public class OLEEResourceHelperService {
     }
 
 
-    public List<BibMarcRecord> buildBibMarcRecords(List<OLEGOKbPlatform> olegoKbPlatforms, String eResourceId) {
+    public List<BibMarcRecord> buildBibMarcRecords(List<OLEGOKbPlatform> olegoKbPlatforms, String eResourceId, OLEBatchProcessProfileBo oleBatchProcessProfile) {
 
         List<BibMarcRecord> bibMarcRecords = new ArrayList<>();
 
@@ -676,18 +680,18 @@ public class OLEEResourceHelperService {
 
                     if (bibMarcRecordMap.containsKey(olegoKbTIPP.getOleGokbTipp().getGokbTitleId())) {
                         BibMarcRecord bibMarcRecord = bibMarcRecordMap.get(titleId);
-                        DataField dataField = addEHoldingsFields(olegoKbTIPP, platformName, eResourceId, imprint, publisher);
+                        DataField dataField = addEHoldingsFields(olegoKbTIPP, platformName, eResourceId, imprint, publisher,oleBatchProcessProfile.getOleBatchProcessProfileMappingOptionsList().get(0).getOleBatchProcessProfileDataMappingOptionsBoList());
                         bibMarcRecord.getDataFields().add(dataField);
                     } else {
                         OleGokbTitle oleGokbTitle = getOleGokbTitle(titleId);
                         if(oleGokbTitle !=null){
-                        BibMarcRecord bibMarcRecord = buildBibMarcRecord(oleGokbTitle);
+                        BibMarcRecord bibMarcRecord = buildBibMarcRecord(oleGokbTitle,oleBatchProcessProfile.getOleBatchProcessBibDataMappingNewList());
                         bibMarcRecords.add(bibMarcRecord);
 
                         imprint = String.valueOf(oleGokbTitle.getImprint());
                         publisher = String.valueOf(oleGokbTitle.getPublisherId());
 
-                        DataField dataField = addEHoldingsFields(olegoKbTIPP, platformName, eResourceId, imprint, publisher);
+                        DataField dataField = addEHoldingsFields(olegoKbTIPP, platformName, eResourceId, imprint, publisher,oleBatchProcessProfile.getOleBatchProcessProfileMappingOptionsList().get(0).getOleBatchProcessProfileDataMappingOptionsBoList());
                         bibMarcRecord.getDataFields().add(dataField);
                         bibMarcRecordMap.put(titleId, bibMarcRecord);
                         }
@@ -704,56 +708,84 @@ public class OLEEResourceHelperService {
         return bibMarcRecords;
     }
 
-    private DataField addEHoldingsFields(OLEGOKbTIPP olegoKbTIPP, String platformName, String eResourceId, String imprint, String publisher) {
+    private DataField addEHoldingsFields(OLEGOKbTIPP olegoKbTIPP, String platformName, String eResourceId, String imprint, String publisher, List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBoList) {
 
         OleGokbTipp goKbTIPP = olegoKbTIPP.getOleGokbTipp();
-        DataField dataField = getDataFieldForTipp(platformName, eResourceId, goKbTIPP, imprint, publisher);
+        DataField dataField = getDataFieldForTipp(platformName, eResourceId, goKbTIPP, imprint, publisher, oleBatchProcessProfileDataMappingOptionsBoList);
         return dataField;
 
     }
 
-    public DataField getDataFieldForTipp(String platformName, String eResourceId, OleGokbTipp goKbTIPP, String imprint, String publisher) {
+    public DataField getDataFieldForTipp(String platformName, String eResourceId, OleGokbTipp goKbTIPP, String imprint, String publisher, List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBoList) {
         DataField dataField = new DataField();
-        dataField.setTag(OLEConstants.OLEBatchProcess.CONSTANT_DATAMAPPING_FOR_EHOLDINGS);
-
+        String docField = null;
+        if (oleBatchProcessProfileDataMappingOptionsBoList.size() > 0) {
+            for (OLEBatchProcessProfileDataMappingOptionsBo oleBatchProcessProfileDataMappingOptionsBo : oleBatchProcessProfileDataMappingOptionsBoList){
+                docField = oleBatchProcessProfileDataMappingOptionsBo.getDestinationField();
+                if (EHoldings.DESTINATION_FIELD_LINK_URL.equalsIgnoreCase(docField)) {
+                    dataField.setTag(oleBatchProcessProfileDataMappingOptionsBo.getSourceField().substring(0, 3));
+                    break;
+                }
+            }
+        } else {
+            dataField.setTag(OLEConstants.OLEBatchProcess.CONSTANT_DATAMAPPING_FOR_EHOLDINGS);
+        }
+        DataField tempDataField = null;
         List<SubField> subFields = new ArrayList<>();
 
-        subFields.add(buildSubField("u", goKbTIPP.getPlatformHostUrl()));
-
-        if (goKbTIPP.getEndDate() != null) {
-            subFields.add(buildSubField("d", goKbTIPP.getEndDate().toString()));
+        for (OLEBatchProcessProfileDataMappingOptionsBo oleBatchProcessProfileDataMappingOptionsBo : oleBatchProcessProfileDataMappingOptionsBoList) {
+            tempDataField = BatchBibImportUtil.getDataField(oleBatchProcessProfileDataMappingOptionsBo.getSourceField());
+            docField = oleBatchProcessProfileDataMappingOptionsBo.getDestinationField();
+            for (SubField subField : tempDataField.getSubFields()) {
+                if (EHoldings.DESTINATION_FIELD_LINK_URL.equalsIgnoreCase(docField)) {
+                    subFields.add(buildSubField(subField.getCode(), goKbTIPP.getPlatformHostUrl()));
+                } else if (EHoldings.DESTINATION_FIELD_IMPRINT.equalsIgnoreCase(docField)) {
+                    if (imprint != null) {
+                        subFields.add(buildSubField(subField.getCode(), imprint));
+                    }
+                } else if (EHoldings.DESTINATION_FIELD_ERESOURCE_ID.equalsIgnoreCase(docField)) {
+                    if (StringUtils.isNotEmpty(eResourceId)) {
+                        subFields.add(buildSubField(subField.getCode(), eResourceId));
+                    }
+                } else if (EHoldings.DESTINATION_FIELD_PLATFORM.equalsIgnoreCase(docField)) {
+                    if (StringUtils.isNotEmpty(platformName)) {
+                        subFields.add(buildSubField(subField.getCode(), platformName));
+                    }
+                } else if (EHoldings.DESTINATION_FIELD_GOKB_ID.equalsIgnoreCase(docField)) {
+                    if (goKbTIPP.getGokbTippId() != null) {
+                        subFields.add(buildSubField(subField.getCode(), goKbTIPP.getGokbTippId().toString()));
+                    }
+                } else if (EHoldings.DESTINATION_FIELD_COVERAGE_END_DATE.equalsIgnoreCase(docField)) {
+                    if (goKbTIPP.getEndDate() != null) {
+                        subFields.add(buildSubField(subField.getCode(), goKbTIPP.getEndDate().toString()));
+                    }
+                } else if (EHoldings.DESTINATION_FIELD_COVERAGE_END_ISSUE.equalsIgnoreCase(docField)) {
+                    if (goKbTIPP.getEndIssue() != null) {
+                        subFields.add(buildSubField(subField.getCode(), goKbTIPP.getEndIssue().toString()));
+                    }
+                } else if (EHoldings.DESTINATION_FIELD_COVERAGE_END_VOLUME.equalsIgnoreCase(docField)) {
+                    if (goKbTIPP.getEndVolume() != null) {
+                        subFields.add(buildSubField(subField.getCode(), goKbTIPP.getEndVolume().toString()));
+                    }
+                } else if (EHoldings.DESTINATION_FIELD_COVERAGE_START_DATE.equalsIgnoreCase(docField)) {
+                    if (goKbTIPP.getStartdate() != null) {
+                        subFields.add(buildSubField(subField.getCode(), goKbTIPP.getStartdate().toString()));
+                    }
+                } else if (EHoldings.DESTINATION_FIELD_COVERAGE_END_ISSUE.equalsIgnoreCase(docField)) {
+                    if (goKbTIPP.getStartIssue() != null) {
+                        subFields.add(buildSubField(subField.getCode(), goKbTIPP.getStartIssue().toString()));
+                    }
+                } else if (EHoldings.DESTINATION_FIELD_COVERAGE_START_VOLUME.equalsIgnoreCase(docField)) {
+                    if (goKbTIPP.getStartVolume() != null) {
+                        subFields.add(buildSubField(subField.getCode(), goKbTIPP.getStartVolume().toString()));
+                    }
+                } else if (EHoldings.DESTINATION_FIELD_PUBLISHER.equalsIgnoreCase(docField)) {
+                    if (publisher != null) {
+                        subFields.add(buildSubField(subField.getCode(), publisher));
+                    }
+                }
+            }
         }
-        if (goKbTIPP.getEndIssue() != null) {
-            subFields.add(buildSubField("f", goKbTIPP.getEndIssue().toString()));
-        }
-        if (goKbTIPP.getEndVolume() != null) {
-            subFields.add(buildSubField("e", goKbTIPP.getEndVolume().toString()));
-        }
-        if (goKbTIPP.getStartdate() != null) {
-            subFields.add(buildSubField("a", goKbTIPP.getStartdate().toString()));
-        }
-        if (goKbTIPP.getStartIssue() != null) {
-            subFields.add(buildSubField("c", goKbTIPP.getStartIssue().toString()));
-        }
-        if (goKbTIPP.getStartVolume() != null) {
-            subFields.add(buildSubField("b", goKbTIPP.getStartVolume().toString()));
-        }
-        if (StringUtils.isNotEmpty(platformName)) {
-            subFields.add(buildSubField("g", platformName));
-        }
-        if (StringUtils.isNotEmpty(eResourceId)) {
-            subFields.add(buildSubField("h", eResourceId));
-        }
-        if (goKbTIPP.getGokbTippId() != null) {
-            subFields.add(buildSubField("i", goKbTIPP.getGokbTippId().toString()));
-        }
-        if (imprint != null) {
-            subFields.add(buildSubField("k", imprint));
-        }
-        if (publisher != null) {
-            subFields.add(buildSubField("j", publisher));
-        }
-
         dataField.setSubFields(subFields);
         return dataField;
     }
@@ -765,43 +797,56 @@ public class OLEEResourceHelperService {
         return subField;
     }
 
-    private BibMarcRecord buildBibMarcRecord(OleGokbTitle oleGokbTitle) {
+    private BibMarcRecord buildBibMarcRecord(OleGokbTitle oleGokbTitle, List<OLEBatchProcessBibDataMappingNew> oleBatchProcessBibDataMappingNewList) {
 
-        BibMarcRecord bibMarcRecord = buildBibMarcRecordFromTitle(oleGokbTitle);
+        BibMarcRecord bibMarcRecord = buildBibMarcRecordFromTitle(oleGokbTitle, oleBatchProcessBibDataMappingNewList);
 
         return bibMarcRecord;
     }
 
-    public BibMarcRecord buildBibMarcRecordFromTitle(OleGokbTitle oleGokbTitle) {
+    public BibMarcRecord buildBibMarcRecordFromTitle(OleGokbTitle oleGokbTitle, List<OLEBatchProcessBibDataMappingNew> oleBatchProcessBibDataMappingNewList) {
         BibMarcRecord bibMarcRecord = new BibMarcRecord();
         bibMarcRecord.setLeader("#####nam#a22######a#4500");
-        bibMarcRecord.getDataFields().add(buildDataField(OLEConstants.TAG_035, "(" + OLEConstants.GOKBID + ")" + oleGokbTitle.getGokbTitleId(), "a"));
-        bibMarcRecord.getDataFields().add(buildDataField(OLEConstants.TAG_035, "(OCLC)" + oleGokbTitle.getOclcNumber(), "a"));
-        bibMarcRecord.getDataFields().add(buildDataField(OLEConstants.TAG_035, "(DOI)" + oleGokbTitle.getDoi(), "a"));
-        bibMarcRecord.getDataFields().add(buildDataField(OLEConstants.TAG_035, "(PublisherID)" + oleGokbTitle.getPublisherId(), "a"));
-        bibMarcRecord.getDataFields().add(buildDataField(OLEConstants.TAG_035, "(ProprietaryID)" + oleGokbTitle.getProprietaryId(), "a"));
-        bibMarcRecord.getDataFields().add(buildDataField(OLEConstants.TAG_035, "(SUNCAT)" + oleGokbTitle.getSuncat(), "a"));
-        bibMarcRecord.getDataFields().add(buildDataField(OLEConstants.TAG_245, oleGokbTitle.getTitleName(), "a"));
-        bibMarcRecord.getDataFields().add(buildDataField(OLEConstants.TAG_246, oleGokbTitle.getVariantName(), "a"));
-        bibMarcRecord.getDataFields().add(buildDataField(OLEConstants.TAG_500, oleGokbTitle.getPureQa(), "a"));
-        bibMarcRecord.getDataFields().add(buildDataField(OLEConstants.TAG_022, oleGokbTitle.getIssnOnline(), "a"));
-        bibMarcRecord.getDataFields().add(buildDataField(OLEConstants.TAG_022, oleGokbTitle.getIssnPrint(), "a"));
-        bibMarcRecord.getDataFields().add(buildDataField(OLEConstants.TAG_022, oleGokbTitle.getIssnL(), "l"));
-        bibMarcRecord.getDataFields().add(buildDataField(OLEConstants.TAG_010, oleGokbTitle.getLccn(), "a"));
+
+        for (OLEBatchProcessBibDataMappingNew oleBatchProcessBibDataMappingNew : oleBatchProcessBibDataMappingNewList) {
+            String tag = oleBatchProcessBibDataMappingNew.getTag();
+            String gokbFiled = oleBatchProcessBibDataMappingNew.getGokbFieldBib();
+
+            if (gokbFiled.equalsIgnoreCase("TI Publisher ID") && oleGokbTitle.getPublisherId() > 0) {
+                bibMarcRecord.getDataFields().add(buildDataField(tag, "(PublisherID)" + oleGokbTitle.getPublisherId()));
+            } else if (gokbFiled.equalsIgnoreCase("variantName") && StringUtils.isNotEmpty(oleGokbTitle.getVariantName())) {
+                bibMarcRecord.getDataFields().add(buildDataField(tag, oleGokbTitle.getVariantName()));
+            } else if (gokbFiled.equalsIgnoreCase("name") && StringUtils.isNotEmpty(oleGokbTitle.getTitleName())) {
+                bibMarcRecord.getDataFields().add(buildDataField(tag, oleGokbTitle.getTitleName()));
+            } else if (gokbFiled.equalsIgnoreCase("GOKb UID") && oleGokbTitle.getGokbTitleId() > 0) {
+                bibMarcRecord.getDataFields().add(buildDataField(tag, "(" + OLEConstants.GOKBID + ")" + oleGokbTitle.getGokbTitleId()));
+            } else if (gokbFiled.equalsIgnoreCase("TI ISSN (Online)") && StringUtils.isNotEmpty(oleGokbTitle.getIssnOnline())) {
+                bibMarcRecord.getDataFields().add(buildDataField(tag, oleGokbTitle.getIssnOnline()));
+            } else if (gokbFiled.equalsIgnoreCase("TI ISSN (Print)") && StringUtils.isNotEmpty( oleGokbTitle.getIssnPrint())) {
+                bibMarcRecord.getDataFields().add(buildDataField(tag, oleGokbTitle.getIssnPrint()));
+            } else if (gokbFiled.equalsIgnoreCase("TI ISSN-L")  && StringUtils.isNotEmpty( oleGokbTitle.getIssnL())) {
+                bibMarcRecord.getDataFields().add(buildDataField(tag, oleGokbTitle.getIssnL()));
+            } else if (gokbFiled.equalsIgnoreCase("OCLC Number") && oleGokbTitle.getOclcNumber() >0) {
+                bibMarcRecord.getDataFields().add(buildDataField(tag, "(OCLC)" + oleGokbTitle.getOclcNumber()));
+            } else if (gokbFiled.equalsIgnoreCase("TI DOI")  && StringUtils.isNotEmpty(oleGokbTitle.getDoi())) {
+                bibMarcRecord.getDataFields().add(buildDataField(tag, "(DOI)" + oleGokbTitle.getDoi()));
+            } else if (gokbFiled.equalsIgnoreCase("TI Proprietary ID") && oleGokbTitle.getProprietaryId() >0) {
+                bibMarcRecord.getDataFields().add(buildDataField(tag, "(ProprietaryID)" + oleGokbTitle.getProprietaryId()));
+            } else if (gokbFiled.equalsIgnoreCase("TI SUNCAT") && StringUtils.isNotEmpty( oleGokbTitle.getSuncat())) {
+                bibMarcRecord.getDataFields().add(buildDataField(tag, "(SUNCAT)" + oleGokbTitle.getSuncat()));
+            } else if (gokbFiled.equalsIgnoreCase("TI LCCN") && StringUtils.isNotEmpty( oleGokbTitle.getLccn())) {
+                bibMarcRecord.getDataFields().add(buildDataField(tag, oleGokbTitle.getLccn()));
+            }
+        }
+
         return bibMarcRecord;
     }
 
-    private DataField buildDataField(String tag, String data, String subfieldCode) {
-        DataField dataField = new DataField();
-        dataField.setTag(tag);
-
-        List<SubField> subFields = new ArrayList<>();
-        SubField subField = new SubField();
-        subField.setCode(subfieldCode);
-        subField.setValue(data);
-        subFields.add(subField);
-
-        dataField.setSubFields(subFields);
+    private DataField buildDataField(String tag, String data) {
+        DataField dataField = BatchBibImportUtil.getDataField(tag);
+        for (SubField subField : dataField.getSubFields()) {
+            subField.setValue(data);
+        }
         return dataField;
     }
 
@@ -1297,6 +1342,7 @@ public class OLEEResourceHelperService {
 
         if (oleeResourceRecordDocument.getGokbconfig().equalsIgnoreCase("sync")) {
             List<BibMarcRecord> bibMarcRecords = new ArrayList<>();
+            OLEBatchProcessProfileBo gokbImportProfile = getGOKBImportProfile(oleeResourceRecordDocument.getGokbProfile());
             for (OleGokbTipp oleGokbTipp : oleGokbTipps) {
                 OleGokbPlatform oleGokbPlatform = fetchPlatformForTipp(oleGokbTipp);
                 createOrUpdateVendor(oleGokbPlatform.getPlatformProviderId(), logId);
@@ -1323,15 +1369,15 @@ public class OLEEResourceHelperService {
                 }
                 String platformName = oleGokbPlatform.getPlatformName();
                 if (oleGokbTitle != null) {
-                    BibMarcRecord bibMarcRecord = buildBibMarcRecordFromTitle(oleGokbTitle);
+                    BibMarcRecord bibMarcRecord = buildBibMarcRecordFromTitle(oleGokbTitle,gokbImportProfile.getOleBatchProcessBibDataMappingNewList());
                     String imprint = String.valueOf(oleGokbTitle.getImprint());
                     String publisher = String.valueOf(oleGokbTitle.getPublisherId());
-                    DataField dataField = getDataFieldForTipp(platformName, oleeResourceRecordDocument.getOleERSIdentifier(), oleGokbTipp, imprint, publisher);
+                    DataField dataField = getDataFieldForTipp(platformName, oleeResourceRecordDocument.getOleERSIdentifier(), oleGokbTipp, imprint, publisher,gokbImportProfile.getOleBatchProcessProfileDataMappingOptionsBoList());
                     bibMarcRecord.getDataFields().add(dataField);
                     bibMarcRecords.add(bibMarcRecord);
                 }
             }
-            OLEBatchProcessProfileBo gokbImportProfile = getGOKBImportProfile(oleeResourceRecordDocument.getGokbProfile());
+
             importTipps(gokbImportProfile, bibMarcRecords);
             updateLog(logId, oleeResourceRecordDocument.getOleERSIdentifier(), "eHoldingsAddedCount", oleGokbTipps.size());
             updateLog(logId, oleeResourceRecordDocument.getOleERSIdentifier(), "bibAddedCount", oleGokbTipps.size());

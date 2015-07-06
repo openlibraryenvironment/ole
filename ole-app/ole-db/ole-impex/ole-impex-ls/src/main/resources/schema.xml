@@ -2235,6 +2235,7 @@
         <column name="SRC_VAL" size="70" type="VARCHAR"/>
         <column name="DEST_FLD" size="70" type="VARCHAR"/>
         <column name="DEST_VAL" size="70" type="VARCHAR"/>
+        <column name="GOKB_FIELD" size="100" type="VARCHAR"/>
         <column default="1" name="PRIORITY" type="INTEGER"/>
         <column name="IS_LOOKUP" size="1" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -2331,7 +2332,8 @@
     <table name="OLE_BAT_PRF_BIB_DT_MAP_T">
         <column name="OLE_BAT_PRF_BIB_DT_MAP_ID" primaryKey="true"
                 size="40" type="VARCHAR"/>
-        <column name="TAG" size="3" type="VARCHAR"/>
+        <column name="TAG" size="10" type="VARCHAR"/>
+        <column name="GOKB_FIELD" size="100" type="VARCHAR"/>
         <column name="BAT_PRCS_PRF_ID" size="40" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -2346,7 +2348,7 @@
     <table name="OLE_BAT_PRF_BIB_DT_MAP_OVER_T">
         <column name="OLE_BAT_PRF_BIB_DT_MAP_OVER_ID" primaryKey="true"
                 size="40" type="VARCHAR"/>
-        <column name="TAG" size="3" type="VARCHAR"/>
+        <column name="TAG" size="10" type="VARCHAR"/>
         <column name="ADD_OR_REPLACE" size="10" type="VARCHAR"/>
         <column name="BAT_PRCS_PRF_ID" size="40" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>

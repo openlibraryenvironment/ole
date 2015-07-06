@@ -63,13 +63,15 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
     private OleOrderRecordService oleOrderRecordService;
     private OleInvoiceService oleInvoiceService;
     private OLEBatchProcessProfileRecordProcessor oleBatchProcessProfileRecordProcessor;
-
+    private static List<OLEBatchProcessBibDataMappingNew> oleBatchProcessBibDataMappingNewList= new ArrayList<>();
 
 
     private static List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBoList = new ArrayList<>();
 
     static {
-        Map<String, String> eHoldingsMapping = new HashMap<>();
+        Map<String, String> eHoldingsMapping = new TreeMap<>();
+        Map<String, String> gokbMapping = new TreeMap<>();
+        Map<String, String> gokbMappingForBib = new TreeMap<>();
 
         eHoldingsMapping.put(E_HOLDINGS_URL_MAPPING, DESTINATION_FIELD_LINK_URL);
         eHoldingsMapping.put(E_HOLDINGS_START_DATE_MAPPING, DESTINATION_FIELD_COVERAGE_START_DATE);
@@ -84,18 +86,50 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
         eHoldingsMapping.put(E_HOLDINGS_PUBLISHER , DESTINATION_FIELD_PUBLISHER);
         eHoldingsMapping.put(E_HOLDINGS_IMPRINT , DESTINATION_FIELD_IMPRINT);
 
+
+
+        gokbMapping.put(E_HOLDINGS_URL_MAPPING, "Platform.host.URL");
+        gokbMapping.put(E_HOLDINGS_START_DATE_MAPPING, "Start date");
+        gokbMapping.put(E_HOLDINGS_START_VOLUME_MAPPING, "Start volume");
+        gokbMapping.put(E_HOLDINGS_START_ISSUE_MAPPING, "Start issue");
+        gokbMapping.put(E_HOLDINGS_END_DATE_MAPPING, "End date");
+        gokbMapping.put(E_HOLDINGS_END_VOLUME_MAPPING, "End volume");
+        gokbMapping.put(E_HOLDINGS_END_ISSUE_MAPPING, "End issue");
+        gokbMapping.put(E_HOLDINGS_GOKB_ID , "GOKb UID");
+        gokbMapping.put(E_HOLDINGS_PUBLISHER , DESTINATION_FIELD_PUBLISHER);
+        gokbMapping.put(E_HOLDINGS_IMPRINT , DESTINATION_FIELD_IMPRINT);
+
+
+        gokbMappingForBib.put("GOKb UID","035 ## $a");
+        gokbMappingForBib.put("Name","245 00 $a");
+        gokbMappingForBib.put("VariantName","246 3# $a");
+        gokbMappingForBib.put("TI ISSN (Online)","022 ## $a");
+        gokbMappingForBib.put("TI ISSN (Print)","022 ## $a");
+        gokbMappingForBib.put("TI ISSN-L","022 ## $l");
+        gokbMappingForBib.put("OCLC Number","035 ## $a");
+        gokbMappingForBib.put("TI DOI","035 ## $a");
+        gokbMappingForBib.put("TI Publisher ID","035 ## $a");
+        gokbMappingForBib.put("TI Proprietary ID","035 ## $a");
+        gokbMappingForBib.put("TI SUNCAT","035 ## $a");
+        gokbMappingForBib.put("TI LCCN","010 ## $a");
+
+
+
         for (String key : eHoldingsMapping.keySet()) {
-
             OLEBatchProcessProfileDataMappingOptionsBo oleBatchProcessProfileDataMappingOptionsBo = new OLEBatchProcessProfileDataMappingOptionsBo();
-
             oleBatchProcessProfileDataMappingOptionsBo.setDataType(BATCH_PROCESS_PROFILE_DATATYPE_BIBMARC);
             oleBatchProcessProfileDataMappingOptionsBo.setSourceFieldText(key);
-
             oleBatchProcessProfileDataMappingOptionsBo.setDataTypeDestinationField(BATCH_PROCESS_PROFILE_DATATYPE_EHOLDINGS);
             oleBatchProcessProfileDataMappingOptionsBo.setDestinationField(eHoldingsMapping.get(key));
-
+            oleBatchProcessProfileDataMappingOptionsBo.setGokbField(gokbMapping.get(key));
             oleBatchProcessProfileDataMappingOptionsBoList.add(oleBatchProcessProfileDataMappingOptionsBo);
+        }
 
+        for (String key : gokbMappingForBib.keySet()) {
+            OLEBatchProcessBibDataMappingNew oleBatchProcessBibDataMappingNew = new OLEBatchProcessBibDataMappingNew();
+            oleBatchProcessBibDataMappingNew.setGokbFieldBib(key);
+            oleBatchProcessBibDataMappingNew.setTag(gokbMappingForBib.get(key));
+            oleBatchProcessBibDataMappingNewList.add(oleBatchProcessBibDataMappingNew);
         }
     }
 
@@ -1114,7 +1148,7 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
             OLEBatchProcessProfileMappingOptionsBo oleBatchProcessProfileMappingOptionsBo = new OLEBatchProcessProfileMappingOptionsBo();
             oleBatchProcessProfileMappingOptionsBo.getOleBatchProcessProfileDataMappingOptionsBoList().addAll(oleBatchProcessProfileBo.getOleBatchProcessProfileDataMappingOptionsBoList());
             oleBatchProcessProfileBo.getOleBatchProcessProfileMappingOptionsList().add(oleBatchProcessProfileMappingOptionsBo);
-
+            oleBatchProcessProfileBo.getOleBatchProcessBibDataMappingNewList().addAll(oleBatchProcessBibDataMappingNewList);
             oleBatchProcessProfileBo.setDataToImport(DATA_TO_IMPORT_BIB_EINSTANCE);
         }
 

@@ -13,6 +13,15 @@ public class OLEBatchProcessBibDataMappingNew extends PersistableBusinessObjectB
     private String tag;
     private String batchProcessProfileId;
     private OLEBatchProcessProfileBo oleBatchProcessProfileBo;
+    private String gokbFieldBib;
+
+    public String getGokbFieldBib() {
+        return gokbFieldBib;
+    }
+
+    public void setGokbFieldBib(String gokbFieldBib) {
+        this.gokbFieldBib = gokbFieldBib;
+    }
 
     public String getTag() {
         return tag;

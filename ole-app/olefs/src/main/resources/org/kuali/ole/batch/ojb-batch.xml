@@ -152,6 +152,7 @@
     <class-descriptor class="org.kuali.ole.batch.bo.OLEBatchProcessBibDataMappingNew" table="OLE_BAT_PRF_BIB_DT_MAP_T">
         <field-descriptor name="oleBatchProcessBibDataMappingNewId" column="OLE_BAT_PRF_BIB_DT_MAP_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_BAT_PRF_BIB_DT_MAP_S" />
         <field-descriptor name="tag" column="TAG" jdbc-type="VARCHAR" />
+        <field-descriptor name="gokbFieldBib" column="GOKB_FIELD" jdbc-type="VARCHAR" />
         <field-descriptor name="batchProcessProfileId" column="BAT_PRCS_PRF_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -211,6 +212,7 @@
         <field-descriptor name="oleBatchProcessProfileDataMappingOptionId" column="BATCH_PRCS_DT_MAP_OPT_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_BAT_PRCS_DT_MAP_OPT_S" />
         <field-descriptor name="dataType" column="BAT_PRCS_DT_MAP_DATA_TYP" jdbc-type="VARCHAR" />
         <field-descriptor name="sourceField" column="SRC_FLD" jdbc-type="VARCHAR" />
+        <field-descriptor name="gokbField" column="GOKB_FIELD" jdbc-type="VARCHAR" />
         <field-descriptor name="sourceFieldValue" column="SRC_VAL" jdbc-type="VARCHAR" />
         <field-descriptor name="destinationField" column="DEST_FLD" jdbc-type="VARCHAR" />
         <field-descriptor name="destinationFieldValue" column="DEST_VAL" jdbc-type="VARCHAR" />

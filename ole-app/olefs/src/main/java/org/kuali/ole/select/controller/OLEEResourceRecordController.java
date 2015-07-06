@@ -2367,7 +2367,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         if(gokbImportProfile == null){
             oleEResourceRecordForm.setProfileErrorMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.N0_PROFILE_SELECTED));
         }else{
-        List<BibMarcRecord> bibMarcRecords = getOleeResourceHelperService().buildBibMarcRecords(oleeResourceRecordDocument.getGoKbPlatformList(), oleeResourceRecordDocument.getOleERSIdentifier());
+        List<BibMarcRecord> bibMarcRecords = getOleeResourceHelperService().buildBibMarcRecords(oleeResourceRecordDocument.getGoKbPlatformList(), oleeResourceRecordDocument.getOleERSIdentifier(),gokbImportProfile);
         if (oleEResourceRecordForm.isImportPackageMetaDataOnly() || (bibMarcRecords != null && bibMarcRecords.size() > 0)) {
 
             OleGokbPackage oleGokbPackage = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OleGokbPackage.class, oleeResourceRecordDocument.getGoKbPackageList().get(0).getPackageId());
