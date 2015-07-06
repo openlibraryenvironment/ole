@@ -338,4 +338,80 @@ public class OLEDeliverItemSearchServiceImpl implements OLEDeliverItemSearchServ
 
         }
     }
+
+    public boolean validateItemStatusForPlaceRequest(String OleItemStatus) {
+        boolean valid = false;
+        String copyRequestItemStatus = getLoanProcessor().getParameter(OLEConstants.COPY_REQUEST_ITEM_STATUS);
+        if (org.apache.commons.lang.StringUtils.isNotBlank(copyRequestItemStatus)) {
+            String[] itemStatusArray = copyRequestItemStatus.split(";");
+            for(String itemStatus : itemStatusArray){
+                if(itemStatus.trim().equalsIgnoreCase(OleItemStatus)){
+                    valid = true;
+                    return valid;
+                }
+            }
+        }
+
+        String holdDeliveryItemStatus = getLoanProcessor().getParameter(OLEConstants.HOLD_DELIVERY_ITEM_STATUS);
+        if (org.apache.commons.lang.StringUtils.isNotBlank(holdDeliveryItemStatus)) {
+            String[] itemStatusArray = holdDeliveryItemStatus.split(";");
+            for(String itemStatus : itemStatusArray){
+                if(itemStatus.trim().equalsIgnoreCase(OleItemStatus)){
+                    valid = true;
+                    return valid;
+                }
+            }
+        }
+        String holdHoldItemStatus = getLoanProcessor().getParameter(OLEConstants.HOLD_HOLD_ITEM_STATUS);
+        if (org.apache.commons.lang.StringUtils.isNotBlank(holdHoldItemStatus)) {
+            String[] itemStatusArray = holdHoldItemStatus.split(";");
+            for(String itemStatus : itemStatusArray){
+                if(itemStatus.trim().equalsIgnoreCase(OleItemStatus)){
+                    valid = true;
+                    return valid;
+                }
+            }
+        }
+        String pageDeliveryItemStatus = getLoanProcessor().getParameter(OLEConstants.PAGE_DELIVERY_ITEM_STATUS);
+        if (org.apache.commons.lang.StringUtils.isNotBlank(pageDeliveryItemStatus)) {
+            String[] itemStatusArray = pageDeliveryItemStatus.split(";");
+            for(String itemStatus : itemStatusArray){
+                if(itemStatus.trim().equalsIgnoreCase(OleItemStatus)){
+                    valid = true;
+                    return valid;
+                }
+            }
+        }
+        String pageHoldItemStatus = getLoanProcessor().getParameter(OLEConstants.PAGE_HOLD_ITEM_STATUS);
+        if (org.apache.commons.lang.StringUtils.isNotBlank(pageHoldItemStatus)) {
+            String[] itemStatusArray = pageHoldItemStatus.split(";");
+            for(String itemStatus : itemStatusArray){
+                if(itemStatus.trim().equalsIgnoreCase(OleItemStatus)){
+                    valid = true;
+                    return valid;
+                }
+            }
+        }
+        String recallDeliveryItemStatus = getLoanProcessor().getParameter(OLEConstants.RECALL_DELIVERY_ITEM_STATUS);
+        if (org.apache.commons.lang.StringUtils.isNotBlank(recallDeliveryItemStatus)) {
+            String[] itemStatusArray = recallDeliveryItemStatus.split(";");
+            for(String itemStatus : itemStatusArray){
+                if(itemStatus.trim().equalsIgnoreCase(OleItemStatus)){
+                    valid = true;
+                    return valid;
+                }
+            }
+        }
+        String recallHoldItemStatus = getLoanProcessor().getParameter(OLEConstants.RECALL_HOLD_ITEM_STATUS);
+        if (org.apache.commons.lang.StringUtils.isNotBlank(recallHoldItemStatus)) {
+            String[] itemStatusArray = recallHoldItemStatus.split(";");
+            for(String itemStatus : itemStatusArray){
+                if(itemStatus.trim().equalsIgnoreCase(OleItemStatus)){
+                    valid = true;
+                    return valid;
+                }
+            }
+        }
+        return valid;
+    }
 }

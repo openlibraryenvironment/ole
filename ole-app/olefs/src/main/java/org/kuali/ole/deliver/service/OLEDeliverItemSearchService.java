@@ -29,4 +29,6 @@ public interface OLEDeliverItemSearchService {
 
     public void setMissingPieceItemInfo(OLESingleItemResultDisplayRow singleItemResultDisplayRow);
 
+    public boolean validateItemStatusForPlaceRequest(String itemStatus);
+
 }

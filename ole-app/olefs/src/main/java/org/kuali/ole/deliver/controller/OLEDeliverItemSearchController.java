@@ -118,6 +118,21 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                 getSearchResults(searchResponse, oleDeliverItemSearchForm);
                 if(oleDeliverItemSearchForm.getOleBibSearchResultDisplayRowList()!=null && oleDeliverItemSearchForm.getOleBibSearchResultDisplayRowList().size()>0){
                     oleDeliverItemSearchForm.setMultipleItemFlag(true);
+                    for(OLEBibSearchResultDisplayRow oleBibSearchResultDisplayRow : oleDeliverItemSearchForm.getOleBibSearchResultDisplayRowList()) {
+                        if(CollectionUtils.isNotEmpty(oleBibSearchResultDisplayRow.getOleHoldingsSearchResultDisplayRowList())) {
+                            for(OLEHoldingsSearchResultDisplayRow oleHoldingsSearchResultDisplayRow : oleBibSearchResultDisplayRow.getOleHoldingsSearchResultDisplayRowList()) {
+                                if(CollectionUtils.isNotEmpty(oleHoldingsSearchResultDisplayRow.getOleItemSearchResultDisplayRowList())) {
+                                    for(OLEItemSearchResultDisplayRow oleItemSearchResultDisplayRow : oleHoldingsSearchResultDisplayRow.getOleItemSearchResultDisplayRowList()) {
+                                        oleItemSearchResultDisplayRow.setPlaceRequest(getOleDeliverItemSearchService().validateItemStatusForPlaceRequest(oleItemSearchResultDisplayRow.getItemStatus()));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if(oleDeliverItemSearchForm.getOleSingleItemResultDisplayRow() != null) {
+                        oleDeliverItemSearchForm.getOleSingleItemResultDisplayRow().setPlaceRequest(getOleDeliverItemSearchService().validateItemStatusForPlaceRequest(oleDeliverItemSearchForm.getOleSingleItemResultDisplayRow().getItemStatus()));
+                    }
                 }
             } else {
                 oleDeliverItemSearchForm.setSingleItemFlag(false);
