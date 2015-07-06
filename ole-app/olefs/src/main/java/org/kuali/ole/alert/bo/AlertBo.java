@@ -1,5 +1,7 @@
 package org.kuali.ole.alert.bo;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.ole.OLEConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import javax.persistence.Transient;
@@ -58,7 +60,9 @@ public class AlertBo extends PersistableBusinessObjectBase {
 
     private boolean repeatable;
 
+    private String alertSelector;
 
+    private String alertDetails;
 
     public String getDocumentId() {
         return documentId;
@@ -250,5 +254,32 @@ public class AlertBo extends PersistableBusinessObjectBase {
 
     public void setReceivingRoleName(String receivingRoleName) {
         this.receivingRoleName = receivingRoleName;
+    }
+
+    public String getAlertSelector() {
+        if(StringUtils.isBlank(alertSelector)) {
+            if(StringUtils.isNotBlank(receivingRoleId)){
+                alertSelector = OLEConstants.SELECTOR_ROLE;
+            }
+            else if(StringUtils.isNotBlank(receivingGroupId)){
+                alertSelector = OLEConstants.SELECTOR_GROUP;
+            }
+            else if(StringUtils.isNotBlank(receivingUserId)){
+                alertSelector = OLEConstants.SELECTOR_PERSON;
+            }
+        }
+        return alertSelector;
+    }
+
+    public void setAlertSelector(String alertSelector) {
+        this.alertSelector = alertSelector;
+    }
+
+    public String getAlertDetails() {
+        return alertDetails;
+    }
+
+    public void setAlertDetails(String alertDetails) {
+        this.alertDetails = alertDetails;
     }
 }

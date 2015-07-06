@@ -3,6 +3,7 @@ package org.kuali.ole.alert.service.impl;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.alert.bo.ActionListAlertBo;
 import org.kuali.ole.alert.bo.AlertBo;
 import org.kuali.ole.alert.document.OlePersistableBusinessObjectBase;
@@ -13,6 +14,8 @@ import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.impl.group.GroupBo;
+import org.kuali.rice.kim.impl.role.RoleBo;
 import org.kuali.rice.krad.document.DocumentBase;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -232,6 +235,7 @@ public class AlertServiceImpl implements AlertService{
             alertBo1.setAlertApproverId(alertBo.getAlertApproverId());
             alertBo1.setAlertApprovedDate(alertBo.getAlertApprovedDate());
             alertBo1.setReceivingUserName(getName(receivingUserId));
+            alertBo1.setAlertDetails(alertBo.getAlertDetails());
             if(groupMember){
             alertBo1.setReceivingGroupId(alertBo.getReceivingGroupId());
             alertBo1.setReceivingGroupName(getGroupName(alertBo.getReceivingGroupId()));
@@ -275,7 +279,11 @@ public class AlertServiceImpl implements AlertService{
      */
     public String getName(String principalId){
         Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(principalId);
-        return   principal.getPrincipalName();
+        if(principal != null) {
+            return principal.getPrincipalName();
+        } else {
+            return null;
+        }
     }
 
 
@@ -286,29 +294,62 @@ public class AlertServiceImpl implements AlertService{
      */
     public String getGroupName(String groupId){
         Group group = groupService.getGroup(groupId);
-        return  group.getName();
+        if(group != null) {
+            return  group.getName();
+        } else {
+            return null;
+        }
     }
 
 
     public String getRoleName(String roleId){
         Role role = KimApiServiceLocator.getRoleService().getRole(roleId);
-        return role.getName();
+        if(role != null) {
+            return role.getName();
+        } else {
+            return null;
+        }
     }
 
 
     public String getPersonId(String personName){
         Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(personName);
-        return principal.getPrincipalId();
+        if(principal != null) {
+            return principal.getPrincipalId();
+        } else {
+            return null;
+        }
     }
 
     public String getGroupId(String groupName){
-        Group group = groupService.getGroupByNamespaceCodeAndName(null,groupName);
-        return group.getId();
+        GroupBo group = null;
+        Map<String,String> map = new HashMap<>();
+        map.put(OLEConstants.ALERT_GROUP_NAME, groupName);
+        List<GroupBo> groupBoList = (List<GroupBo>) KRADServiceLocator.getBusinessObjectService().findMatching(GroupBo.class, map);
+        if(CollectionUtils.isNotEmpty(groupBoList)) {
+            group = groupBoList.get(0);
+        }
+        if(group != null) {
+            return group.getId();
+        } else {
+            return null;
+        }
     }
 
     public String getRoleId(String roleName){
-        Role role = KimApiServiceLocator.getRoleService().getRoleByNamespaceCodeAndName(null,roleName);
-        return role.getId();
+        RoleBo role = null;
+        Map<String,String> map = new HashMap<>();
+        map.put(OLEConstants.ALERT_ROLE_NAME,roleName);
+        List<RoleBo> roleBoList = (List<RoleBo>) KRADServiceLocator.getBusinessObjectService()
+                .findMatching(RoleBo.class, map);
+        if(CollectionUtils.isNotEmpty(roleBoList)) {
+             role = roleBoList.get(0);
+        }
+        if(role != null) {
+            return role.getId();
+        } else {
+            return null;
+        }
     }
 
 }

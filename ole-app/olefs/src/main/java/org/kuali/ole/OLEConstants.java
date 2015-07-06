@@ -28,10 +28,13 @@ public class OLEConstants {
 	public static final String EMPTY_ITEM_BARCODE ="empty.item.barcode";
     public static final String ERES_ACCESS_ACTIVATION_CONFIG_ACTION_LINK = "oleAccessActivationConfiguration";
     public static final String OLE_ACCESS_ACTIVATION = "OLEAccessActivationConfigurationMaintenanceDocument-AccessActivationWorkflow";
+    public static final String OLE_ALERT_SECTION = "OLE-AlertSection";
     public static final String ACCESS_ACTIVATION_CONFIGURATION_CONTROLLER = "oleAccessActivationConfiguration";
     public static final String NO_WORKFLOW_SELECTED = "error.workflow.not.selected";
     public static final String ACCESS_ROLE_ID="id";
     public static final String ACCESS_ROLE_NAME="name";
+    public static final String ALERT_GROUP_NAME="name";
+    public static final String ALERT_ROLE_NAME="name";
     public static final String ACCESS_ROLE_NAME_ID_FIELD="dataobject.name";
     public static final String ACCESS_ROLE_NAME_FIELD="dataobject.name";
     public static final String ACCESS_ROLE_ID_FIELD="dataobject.name";
@@ -43,6 +46,7 @@ public class OLEConstants {
     public static final String ORDER_NO="orderNo";
     public static final String SELECTOR_ROLE = "Role";
     public static final String SELECTOR_PERSON = "Person";
+    public static final String SELECTOR_GROUP = "Group";
     public static final String PATRON_ID_POLICY = "patronId";
     public static final String ITEM_ID_POLICY = "itemId";
     public static final String DUE_DATE_INFO = " Due date may be different than usual because of requests on this item. No renewals allowed.";
@@ -2126,6 +2130,7 @@ public class OLEConstants {
     public static final String ERROR_EMPTY_STATUS="empty.status";
     public static final String ERROR_EMPTY_ROLE_NAME="empty.role.name";
     public static final String ERROR_EMPTY_PERSON_NAME="empty.person.name";
+    public static final String ERROR_EMPTY_GROUP_NAME="empty.group.name";
     public static final String ERROR_EMPTY_ROLE="empty.role";
     public static final String ERROR_EMPTY_PERSON="empty.person";
     public static final String ERROR_EMPTY_GROUP="empty.group";
@@ -2146,6 +2151,8 @@ public class OLEConstants {
     public static final String ERROR_DUPLICATE_ROLE = "error.role";
     public static final String NAME_FIELD = "dataObject.name";
     public static final String ERROR_EMPTY_ROLE_PERSON_GROUP = "error.empty.role.person.group";
+    public static final String NO_USER_FOR_GROUP = "error.no.user.group";
+    public static final String NO_USER_FOR_ROLE = "error.no.user.role";
 
     public static final class OleAgreementDocTypeRule {
         public static final String AGR_DOC_TYPE_NAME_FIELD = "dataObject.agreementDocTypeName";

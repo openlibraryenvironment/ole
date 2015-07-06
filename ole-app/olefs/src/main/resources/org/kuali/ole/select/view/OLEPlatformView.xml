@@ -26,6 +26,7 @@
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ole/eresource/scripts/platform.js</value>
+                <value>ole/alert/scripts/alert.js</value>
             </list>
         </property>
     </bean>
