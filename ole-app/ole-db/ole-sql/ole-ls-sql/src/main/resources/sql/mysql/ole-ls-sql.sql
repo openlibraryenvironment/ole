@@ -5405,6 +5405,7 @@ CREATE TABLE OLE_DLVR_LOAN_NOTICE_T
         , PTRN_ID VARCHAR(37)
         , NTC_TYP VARCHAR(37)
         , NTC_SND_TYP VARCHAR(37)
+        , RQST_ID VARCHAR(37)
         , RPLCMNT_FEE_AMNT DECIMAL(8)
         , NTC_TO_SND_DT DATETIME
         , VER_NBR DECIMAL(8)
@@ -5417,19 +5418,19 @@ CREATE TABLE OLE_DLVR_LOAN_NOTICE_T
 
 
     
-                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                            
                                     
 , INDEX NTC_TO_SND_DT_INDX (NTC_TO_SND_DT )
     
-                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                
                                     
 , INDEX NTC_TYP_INDX (NTC_TYP )
     
-                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                
                                     
 , INDEX PTRN_ID_INDX (PTRN_ID )
     
-                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                
                                     
 , INDEX ODLN_LOAN_ID_INDX (LOAN_ID )
 
@@ -5448,6 +5449,7 @@ CREATE TABLE OLE_DLVR_LOAN_NOTICE_HSTRY_T
       ID VARCHAR(40)
         , LOAN_ID VARCHAR(40)
         , PTRN_ID VARCHAR(37)
+        , RQST_ID VARCHAR(37)
         , NTC_SNT_DT DATETIME
         , NTC_TYP VARCHAR(37)
         , NTC_SND_TYP VARCHAR(37)
