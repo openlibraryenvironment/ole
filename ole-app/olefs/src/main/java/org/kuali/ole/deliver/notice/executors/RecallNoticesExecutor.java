@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.notice.executors;
 
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
+import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.notice.noticeFormatters.RecallRequestEmailContentFormatter;
 import org.kuali.ole.deliver.notice.noticeFormatters.RequestEmailContentFormatter;
@@ -12,8 +13,10 @@ import java.util.List;
  * Created by maheswarang on 6/26/15.
  */
 public class RecallNoticesExecutor extends RequestNoticesExecutor {
-    public RecallNoticesExecutor(List<OleDeliverRequestBo> oleDeliverRequestBos) {
-        super(oleDeliverRequestBos);
+
+
+    public RecallNoticesExecutor(List<OLEDeliverNotice> deliverNotices) {
+        super(deliverNotices);
     }
 
     @Override
@@ -23,6 +26,11 @@ public class RecallNoticesExecutor extends RequestNoticesExecutor {
         }else {
             return requestEmailContentFormatter;
         }
+    }
+
+    @Override
+    public boolean isValidRequestToSendNotice(OleDeliverRequestBo oleDeliverRequestBo) {
+        return false;
     }
 
     @Override

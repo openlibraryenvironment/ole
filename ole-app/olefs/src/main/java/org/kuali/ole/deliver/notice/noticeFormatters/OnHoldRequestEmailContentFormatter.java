@@ -13,6 +13,6 @@ public class OnHoldRequestEmailContentFormatter extends RequestEmailContentForma
 
     @Override
     public String getCustomItemFooterInfo(OleDeliverRequestBo oleDeliverRequestBo) {
-        return "<TR><TD>Title :</TD><TD>" + (oleDeliverRequestBo.getHoldExpirationDate() != null ? oleDeliverRequestBo.getHoldExpirationDate() : "") + "</TD></TR>";
+        return "<TR><TD>Hold Expiration Date :</TD><TD>" + (oleDeliverRequestBo.getHoldExpirationDate() != null ? oleDeliverRequestBo.getHoldExpirationDate() : "") + "</TD></TR>";
     }
 }

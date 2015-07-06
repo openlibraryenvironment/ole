@@ -1,11 +1,15 @@
 package org.kuali.ole.deliver.rule;
 
+import org.apache.commons.net.ntp.TimeStamp;
 import org.kuali.asr.ASRConstants;
 import org.kuali.asr.service.ASRHelperServiceImpl;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.ASRTypeRequest;
+import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.notice.service.OleNoticeService;
+import org.kuali.ole.deliver.notice.service.impl.OleNoticeServiceImpl;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -15,6 +19,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +35,7 @@ public class OleDeliverRequestDocumentRule extends MaintenanceDocumentRuleBase {
 
       private ASRHelperServiceImpl asrHelperService = getAsrHelperService();
       private LoanProcessor loanProcessor =getLoanProcessor();
+      private OleNoticeService oleNoticeService = getOleNoticeService();
 
     public ASRHelperServiceImpl getAsrHelperService(){
         if(asrHelperService == null ){
@@ -43,6 +49,13 @@ public class OleDeliverRequestDocumentRule extends MaintenanceDocumentRuleBase {
             loanProcessor = new LoanProcessor();
         }
         return loanProcessor;
+    }
+
+    public OleNoticeService getOleNoticeService(){
+        if(oleNoticeService == null){
+            oleNoticeService = new OleNoticeServiceImpl();
+        }
+        return oleNoticeService;
     }
 
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -126,7 +139,7 @@ public class OleDeliverRequestDocumentRule extends MaintenanceDocumentRuleBase {
                 asrTypeRequest.setRequestId(oleDeliverRequestBo.getRequestId());
                 businessObjectService.save(asrTypeRequest);
             }
-
+          getOleNoticeService().processNoticeForRequest(oleDeliverRequestBo);
         }
         return processed;
     }

@@ -5080,5 +5080,21 @@
     </changeSet>
 
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_T_NEW">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_LOAN_NOTICE_T">
+            <column name="RQST_ID" type="varchar(37)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_HSTRY_T_NEW">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_LOAN_NOTICE_HSTRY_T">
+            <column name="RQST_ID" type="varchar(37)"/>
+        </addColumn>
+    </changeSet>
+
 
 </databaseChangeLog>

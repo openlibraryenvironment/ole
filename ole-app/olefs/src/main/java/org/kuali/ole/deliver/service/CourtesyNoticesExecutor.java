@@ -7,6 +7,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
+import org.kuali.ole.deliver.notice.executors.LoanNoticesExecutor;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Created by maheswarang on 4/8/15.
  */
-public class CourtesyNoticesExecutor extends NoticesExecutor {
+public class CourtesyNoticesExecutor extends LoanNoticesExecutor {
     private static final Logger LOG = Logger.getLogger(CourtesyNoticesExecutor.class);
     private NoticeMailContentFormatter noticeMailContentFormatter;
     public CourtesyNoticesExecutor(List<OleLoanDocument> loanDocuments) {

@@ -16,6 +16,8 @@ public class OLEDeliverNoticeHistory extends PersistableBusinessObjectBase {
     private String noticeType;
     private String noticeSendType;
     private byte[] noticeContent;
+    private String requestId;
+    private String itemBarcode;
 
     public String getId() {
         return id;
@@ -69,4 +71,23 @@ public class OLEDeliverNoticeHistory extends PersistableBusinessObjectBase {
         this.noticeContent = noticeContent;
     }
 
+    public byte[] getNoticeContent() {
+        return noticeContent;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
+    public String getItemBarcode() {
+        return itemBarcode;
+    }
+
+    public void setItemBarcode(String itemBarcode) {
+        this.itemBarcode = itemBarcode;
+    }
 }

@@ -12,6 +12,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -109,6 +110,7 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
     private String bibId;
     private String requestLevel;
     private Date holdExpirationDate;
+    private List<OLEDeliverNotice> deliverNotices;
 
     public String getItemInstitution() {
         return itemInstitution;
@@ -1009,5 +1011,13 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
 
     public void setHoldExpirationDate(Date holdExpirationDate) {
         this.holdExpirationDate = holdExpirationDate;
+    }
+
+    public List<OLEDeliverNotice> getDeliverNotices() {
+        return deliverNotices;
+    }
+
+    public void setDeliverNotices(List<OLEDeliverNotice> deliverNotices) {
+        this.deliverNotices = deliverNotices;
     }
 }

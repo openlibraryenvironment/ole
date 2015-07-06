@@ -18,6 +18,7 @@ import org.kuali.ole.deliver.batch.OleSms;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.notice.executors.HoldExpirationNoticesExecutor;
 import org.kuali.ole.deliver.notice.executors.OnHoldNoticesExecutor;
+import org.kuali.ole.deliver.notice.executors.RequestExpirationNoticesExecutor;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.impl.OLEDeliverNoticeHelperServiceImpl;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
@@ -677,6 +678,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         } catch (Exception e) {
             LOG.error("Cancellation of Request" + e.getMessage());
         }
+
     }
 
     /**
@@ -956,7 +958,6 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 }
             }
         }
-
     }
 
 
@@ -1415,48 +1416,11 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
 
     public void generateOnHoldNoticesBasedOnPickupLocation(String pickupLocationId) throws Exception {
-        List<OleDeliverRequestBo> finalDeliverRequestBoList = new ArrayList<OleDeliverRequestBo>();
-        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
-        String requestTypeParameter = getLoanProcessor().getParameter(OLEConstants.ON_HOLD_NOTICE_REQUEST_TYPE);
-        String onHoldItemStatusParameter = getLoanProcessor().getParameter(OLEConstants.ON_HOLD_NOTICE_ITEM_STATUS);
-        List<String> requestTypeIds = new ArrayList<String>();
-        List<String> requestTypeCodes = new ArrayList<String>();
-        Map<String, String> itemStatuses = new HashMap<String, String>();
-        if (requestTypeParameter != null && !requestTypeParameter.trim().isEmpty()) {
-            String[] requestType = requestTypeParameter.split(";");
-            requestTypeCodes = getList(requestType);
-            requestTypeIds = oleLoanDocumentDaoOjb.getRequestTypeIdsForHoldNotice(requestTypeCodes);
-        }
-        if (onHoldItemStatusParameter != null && !onHoldItemStatusParameter.trim().isEmpty()) {
-            String[] itemStatus = onHoldItemStatusParameter.split(";");
-            itemStatuses = getMap(itemStatus);
-        }
-        Collection oleDeliverRequestBoList = oleLoanDocumentDaoOjb.getHoldRequestsByPickupLocation(requestTypeIds, pickupLocationId);
-        OleDeliverRequestBo oleDeliverRequestBo;
-        Item item;
-        for (Object obj : oleDeliverRequestBoList) {
-            OleDeliverRequestBo deliverRequestBo = (OleDeliverRequestBo) obj;
-            if (setItemInformations(deliverRequestBo)) {
-                item = deliverRequestBo.getOleItem();
-                if (item != null && item.getItemStatus() != null && item.getItemStatus().getCodeValue() != null /*&& deliverRequestBo.getOnHoldNoticeSentDate() == null*/) {
-                    if (itemStatuses.containsKey(item.getItemStatus().getCodeValue())) {
-                        OleCirculationDesk oleCirculationDesk = deliverRequestBo.getOlePickUpLocation();
-                        int noDays = Integer.parseInt(oleCirculationDesk.getOnHoldDays());
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.add(Calendar.DATE, noDays);
-                        Date date = calendar.getTime();
-                        deliverRequestBo.setHoldExpirationDate(new java.sql.Date(date.getTime()));
-                        deliverRequestBo.setOleItem(null);
-                        oleDeliverRequestBo = (OleDeliverRequestBo) ObjectUtils.deepCopy(deliverRequestBo);
-                        oleDeliverRequestBo.setOnHoldNoticeSentDate(new java.sql.Date(System.currentTimeMillis()));
-                        finalDeliverRequestBoList.add(oleDeliverRequestBo);
-                    }
-                }
-            }
-        }
+             OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
+        Collection finalDeliverNoticeList = oleLoanDocumentDaoOjb.getOnHoldNoticeByPickUpLocation(pickupLocationId);
         int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
         String threadPoolSizeValue = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
-                .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.NOTICE_THREAD_POOL_SIZE);
+                .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.NOTICE_THREAD_POOL_SIZE);
         if (StringUtils.isNotBlank(threadPoolSizeValue)) {
             try {
                 threadPoolSize = Integer.parseInt(threadPoolSizeValue);
@@ -1465,59 +1429,25 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                 threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
             }
         }
-        Map<String, List<OleDeliverRequestBo>> mapofNoticesForEachPatron = buildMapofRequestForEachPatron(finalDeliverRequestBoList);
-        ExecutorService overDueNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
+
+        Map<String, List<OLEDeliverNotice>> mapofNoticesForEachPatron = buildMapofNoticeForEachPatron((List<OLEDeliverNotice>)finalDeliverNoticeList);
+
+        ExecutorService onHoldNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
+
         for (Iterator<String> iterator = mapofNoticesForEachPatron.keySet().iterator(); iterator.hasNext(); ) {
             String patronId = iterator.next();
-            List<OleDeliverRequestBo> oleDeliverRequestBos = mapofNoticesForEachPatron.get
+            List<OLEDeliverNotice> onHoldNotices = mapofNoticesForEachPatron.get
                     (patronId);
-            Runnable deliverOverDueNoticesExecutor = new OnHoldNoticesExecutor(oleDeliverRequestBos);
-            overDueNoticesExecutorService.execute(deliverOverDueNoticesExecutor);
+            Runnable onHoldNoticesExecutor = new OnHoldNoticesExecutor(onHoldNotices);
+            onHoldNoticesExecutorService.execute(onHoldNoticesExecutor);
         }
     }
 
 
     public void generateOnHoldNotice() throws Exception {
-        List<OleDeliverRequestBo> finalDeliverRequestBoList = new ArrayList<OleDeliverRequestBo>();
-        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
-        String requestTypeParameter = getLoanProcessor().getParameter(OLEConstants.ON_HOLD_NOTICE_REQUEST_TYPE);
-        String onHoldItemStatusParameter = getLoanProcessor().getParameter(OLEConstants.ON_HOLD_NOTICE_ITEM_STATUS);
-        List<String> requestTypeIds = new ArrayList<String>();
-        List<String> requestTypeCodes = new ArrayList<String>();
-        Map<String,String> itemStatuses = new HashMap<String,String>();
-        if(requestTypeParameter!=null && !requestTypeParameter.trim().isEmpty()){
-            String[] requestType = requestTypeParameter.split(";");
-            requestTypeCodes = getList(requestType);
-            requestTypeIds = oleLoanDocumentDaoOjb.getRequestTypeIdsForHoldNotice(requestTypeCodes);
-        }
-        if(onHoldItemStatusParameter!=null && !onHoldItemStatusParameter.trim().isEmpty()){
-            String[] itemStatus =  onHoldItemStatusParameter.split(";");
-            itemStatuses = getMap(itemStatus);
-        }
-        Collection oleDeliverRequestBoList = oleLoanDocumentDaoOjb.getHoldRequests(requestTypeIds);
-        OleDeliverRequestBo oleDeliverRequestBo ;
-        Item item;
-        for (Object obj : oleDeliverRequestBoList) {
-            OleDeliverRequestBo deliverRequestBo = (OleDeliverRequestBo) obj;
-            if (setItemInformations(deliverRequestBo)) {
-                item = deliverRequestBo.getOleItem();
-                if (item != null && item.getItemStatus() != null && item.getItemStatus().getCodeValue() != null /*&& deliverRequestBo.getOnHoldNoticeSentDate() == null*/) {
-                    if (itemStatuses.containsKey(item.getItemStatus().getCodeValue())) {
-                        OleCirculationDesk oleCirculationDesk = deliverRequestBo.getOlePickUpLocation();
-                        int noDays = Integer.parseInt(oleCirculationDesk.getOnHoldDays());
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.add(Calendar.DATE, noDays);
-                        Date date = calendar.getTime();
-                        deliverRequestBo.setHoldExpirationDate(new java.sql.Date(date.getTime()));
-                        deliverRequestBo.setOleItem(null);
-                        oleDeliverRequestBo = (OleDeliverRequestBo) ObjectUtils.deepCopy(deliverRequestBo);
-                        oleDeliverRequestBo.setOnHoldNoticeSentDate(new java.sql.Date(System.currentTimeMillis()));
-                        finalDeliverRequestBoList.add(oleDeliverRequestBo);
-                    }
-                }
-            }
-        }
 
+        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
+        Collection finalDeliverNoticeList = oleLoanDocumentDaoOjb.getOnHoldNotice();
         int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
         String threadPoolSizeValue = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                 .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.NOTICE_THREAD_POOL_SIZE);
@@ -1530,19 +1460,18 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             }
         }
 
-        Map<String, List<OleDeliverRequestBo>> mapofNoticesForEachPatron = buildMapofRequestForEachPatron(finalDeliverRequestBoList);
+        Map<String, List<OLEDeliverNotice>> mapofNoticesForEachPatron = buildMapofNoticeForEachPatron((List<OLEDeliverNotice>)finalDeliverNoticeList);
 
-        ExecutorService overDueNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
+        ExecutorService onHoldNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
 
         for (Iterator<String> iterator = mapofNoticesForEachPatron.keySet().iterator(); iterator.hasNext(); ) {
             String patronId = iterator.next();
-            List<OleDeliverRequestBo> oleDeliverRequestBos = mapofNoticesForEachPatron.get
+            List<OLEDeliverNotice> onHoldNotices = mapofNoticesForEachPatron.get
                     (patronId);
-            Runnable deliverOverDueNoticesExecutor = new OnHoldNoticesExecutor(oleDeliverRequestBos);
-            overDueNoticesExecutorService.execute(deliverOverDueNoticesExecutor);
+            Runnable onHoldNoticesExecutor = new OnHoldNoticesExecutor(onHoldNotices);
+            onHoldNoticesExecutorService.execute(onHoldNoticesExecutor);
         }
-
-    }
+    } 
     private void generateNoticesBasedOnNoticeType(List<OleNoticeBo> noticesList, String noticeName, String replyToEmail) throws Exception {
         OleDeliverBatchServiceImpl oleDeliverBatchService = new OleDeliverBatchServiceImpl();
         OleNoticeBo oleNoticeBo = noticesList.get(0);
@@ -1594,12 +1523,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
     public void generateRequestExpirationNotice() throws Exception {
         OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
-        Collection oleDeliverRequestBoList = oleLoanDocumentDaoOjb.getExpiredRequests();
-
-        for(Object obj : oleDeliverRequestBoList){
-            setItemInformations((OleDeliverRequestBo) obj);
-        }
-
+        Collection requestExpirationDeliverNotices = oleLoanDocumentDaoOjb.getRequestExpiredNotice();
         int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
         String threadPoolSizeValue = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                 .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.NOTICE_THREAD_POOL_SIZE);
@@ -1612,16 +1536,16 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             }
         }
 
-        Map<String, List<OleDeliverRequestBo>> mapofNoticesForEachPatron = buildMapofRequestForEachPatron((List<OleDeliverRequestBo>)oleDeliverRequestBoList);
+        Map<String, List<OLEDeliverNotice>> mapofNoticesForEachPatron = buildMapofNoticeForEachPatron((List<OLEDeliverNotice>) requestExpirationDeliverNotices);
 
-        ExecutorService overDueNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
+        ExecutorService requestExpirationNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
 
         for (Iterator<String> iterator = mapofNoticesForEachPatron.keySet().iterator(); iterator.hasNext(); ) {
             String patronId = iterator.next();
-            List<OleDeliverRequestBo> oleDeliverRequestBos = mapofNoticesForEachPatron.get
+            List<OLEDeliverNotice> oleDeliverNotices = mapofNoticesForEachPatron.get
                     (patronId);
-            Runnable deliverOverDueNoticesExecutor = new HoldExpirationNoticesExecutor(oleDeliverRequestBos);
-            overDueNoticesExecutorService.execute(deliverOverDueNoticesExecutor);
+            Runnable requestExpirationNoticesExecutor = new RequestExpirationNoticesExecutor(oleDeliverNotices);
+            requestExpirationNoticesExecutorService.execute(requestExpirationNoticesExecutor);
         }
     }
 
@@ -1912,16 +1836,8 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
 
     public void generateHoldCourtesyNotice() throws Exception {
-        List<OleDeliverRequestBo> oleDeliverRequestBos = (List<OleDeliverRequestBo>) KRADServiceLocator.getBusinessObjectService().findAll(OleDeliverRequestBo.class);
-        List<OleDeliverRequestBo> expiredOnHoldNoticeBos = new ArrayList<>();
-        List<OleDeliverRequestBo> requestToSendNotices = new ArrayList<OleDeliverRequestBo>();
-        for (OleDeliverRequestBo oleDeliverRequestBo : oleDeliverRequestBos) {
-            List<OleNoticeBo> oleNoticeBos = new ArrayList<OleNoticeBo>();
-            DataCarrierService dataCarrierService = GlobalResourceLoader.getService(OLEConstants.DATA_CARRIER_SERVICE);
-            if (setItemInformations(oleDeliverRequestBo) && oleDeliverRequestBo.getHoldExpirationDate() != null &&  new Date(oleDeliverRequestBo.getHoldExpirationDate().getTime()).compareTo(getDateTimeService().getCurrentDate())<=0) {
-                requestToSendNotices.add(oleDeliverRequestBo);
-            }
-        }
+        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService(OLEConstants.OLE_LOAN_DAO);
+       Collection onHoldExpirationNotices = oleLoanDocumentDaoOjb.getOnHoldExpiredNotice();
 
         int threadPoolSize = OLEConstants.DEFAULT_NOTICE_THREAD_POOL_SIZE;
         String threadPoolSizeValue = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
@@ -1935,18 +1851,17 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
             }
         }
 
-        Map<String, List<OleDeliverRequestBo>> mapofNoticesForEachPatron = buildMapofRequestForEachPatron(requestToSendNotices);
+        Map<String, List<OLEDeliverNotice>> mapofNoticesForEachPatron = buildMapofNoticeForEachPatron((List<OLEDeliverNotice>) onHoldExpirationNotices);
 
-        ExecutorService overDueNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
+        ExecutorService onHoldExpirationNoticesExecutorService = Executors.newFixedThreadPool(threadPoolSize);
 
         for (Iterator<String> iterator = mapofNoticesForEachPatron.keySet().iterator(); iterator.hasNext(); ) {
             String patronId = iterator.next();
-            List<OleDeliverRequestBo> oleLoanDocuments = mapofNoticesForEachPatron.get
+            List<OLEDeliverNotice> onHoldNotices = mapofNoticesForEachPatron.get
                     (patronId);
-            Runnable deliverOverDueNoticesExecutor = new HoldExpirationNoticesExecutor(oleLoanDocuments);
-            overDueNoticesExecutorService.execute(deliverOverDueNoticesExecutor);
+            Runnable onHoldExpirationNoticesExecutor = new HoldExpirationNoticesExecutor(onHoldNotices);
+            onHoldExpirationNoticesExecutorService.execute(onHoldExpirationNoticesExecutor);
         }
-
     }
 
     public void deleteExpiredOnHoldNotices(List<OleDeliverRequestBo> expiredOnHoldNoticeBos) {
@@ -4364,17 +4279,17 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
     }
 
 
-    private Map<String, List<OleDeliverRequestBo>> buildMapofRequestForEachPatron(List<OleDeliverRequestBo> oleDeliverRequestBos) {
-        Map<String, List<OleDeliverRequestBo>> map = new HashMap<>();
+    private Map<String, List<OLEDeliverNotice>> buildMapofNoticeForEachPatron(List<OLEDeliverNotice> oleDeliverNotices) {
+        Map<String, List<OLEDeliverNotice>> map = new HashMap<>();
         String patronId;
-        for (Iterator<OleDeliverRequestBo> iterator = oleDeliverRequestBos.iterator(); iterator.hasNext(); ) {
-            OleDeliverRequestBo oleDeliverRequestBo = iterator.next();
-            patronId = oleDeliverRequestBo.getBorrowerId();
+        for (Iterator<OLEDeliverNotice> iterator = oleDeliverNotices.iterator(); iterator.hasNext(); ) {
+            OLEDeliverNotice oleliverNotice = iterator.next();
+            patronId = oleliverNotice.getPatronId();
             if (map.containsKey(patronId)) {
-                map.get(patronId).add(oleDeliverRequestBo);
+                map.get(patronId).add(oleliverNotice);
             } else {
-                List<OleDeliverRequestBo> oleLoanDocumentList = new ArrayList<>();
-                oleLoanDocumentList.add(oleDeliverRequestBo);
+                List<OLEDeliverNotice> oleLoanDocumentList = new ArrayList<>();
+                oleLoanDocumentList.add(oleliverNotice);
                 map.put(patronId, oleLoanDocumentList);
             }
         }

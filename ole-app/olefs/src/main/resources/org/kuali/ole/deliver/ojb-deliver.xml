@@ -885,6 +885,7 @@
         <field-descriptor name="checkInMachineId" column="CHECK_IN_MACH_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="itemUuid" column="ITEM_UUID" jdbc-type="VARCHAR" />
     </class-descriptor>
+
     <class-descriptor class="org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory" table="OLE_DLVR_TEMP_CIRC_RECORD">
         <field-descriptor name="temporaryCirculationHistoryId" column="TMP_CIR_HIS_REC_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_TEMP_CIRC_RECORD_S"/>
         <field-descriptor name="olePatronId" column="OLE_PTRN_ID" jdbc-type="VARCHAR"/>
@@ -896,6 +897,7 @@
         <field-descriptor name="checkOutDate"  column="CHECK_OUT_DT_TIME" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="oleProxyPatronId"  column="OLE_PROXY_PTRN_ID" jdbc-type="VARCHAR"/>
     </class-descriptor>
+
     <class-descriptor class="org.kuali.ole.deliver.bo.OleDeliverRequestBo" table="OLE_DLVR_RQST_T">
         <field-descriptor name="requestId" column="OLE_RQST_ID" jdbc-type="VARCHAR" primarykey="true"/>
         <field-descriptor name="poLineItemNo" column="PO_LN_ITM_NO" jdbc-type="VARCHAR" />
@@ -950,7 +952,12 @@
         <reference-descriptor name="oleCirculationLocation" class-ref="org.kuali.ole.deliver.bo.OleCirculationDesk" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="circulationLocationId" target-field-ref="circulationDeskId"/>
         </reference-descriptor>
-
+        <collection-descriptor name="deliverNotices"
+                               element-class-ref="org.kuali.ole.deliver.bo.OLEDeliverNotice"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="requestId"/>
+        </collection-descriptor>
     </class-descriptor>
 
 
@@ -1607,6 +1614,7 @@
     <class-descriptor class="org.kuali.ole.deliver.bo.OLEDeliverNotice" table="OLE_DLVR_LOAN_NOTICE_T">
         <field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_LOAN_NOTICE_S" />
         <field-descriptor name="loanId" column="LOAN_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="requestId" column="RQST_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="patronId" column="PTRN_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="noticeType" column="NTC_TYP" jdbc-type="VARCHAR" />
         <field-descriptor name="noticeSendType" column="NTC_SND_TYP" jdbc-type="VARCHAR" />
@@ -1618,6 +1626,10 @@
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="loanId"/>
         </reference-descriptor>
+        <reference-descriptor name="oleDeliverRequestBo" class-ref="org.kuali.ole.deliver.bo.OleDeliverRequestBo"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="requestId"/>
+        </reference-descriptor>
     </class-descriptor>
 
 
@@ -1628,7 +1640,8 @@
         <field-descriptor name="patronId" column="PTRN_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="noticeType" column="NTC_TYP" jdbc-type="VARCHAR" />
         <field-descriptor name="noticeSendType" column="NTC_SND_TYP" jdbc-type="VARCHAR" />
-	<field-descriptor name="noticeContent" column="NTC_CNTNT" jdbc-type="BLOB" />
+        <field-descriptor name="requestId" column="RQST_ID" jdbc-type="VARCHAR" />
+	   <field-descriptor name="noticeContent" column="NTC_CNTNT" jdbc-type="BLOB" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     </class-descriptor>

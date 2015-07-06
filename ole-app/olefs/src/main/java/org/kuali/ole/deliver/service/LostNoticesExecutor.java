@@ -1,12 +1,10 @@
 package org.kuali.ole.deliver.service;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jfree.util.Log;
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.bo.*;
-import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.notice.executors.LoanNoticesExecutor;
 import org.kuali.ole.docstore.common.document.BibTree;
 import org.kuali.ole.docstore.common.document.BibTrees;
 import org.kuali.ole.docstore.common.document.DocstoreDocument;
@@ -26,7 +24,7 @@ import java.util.*;
 /**
  * Created by pvsubrah on 4/8/15.
  */
-public class LostNoticesExecutor extends NoticesExecutor {
+public class LostNoticesExecutor extends LoanNoticesExecutor {
     private static final Logger LOG = Logger.getLogger(LostNoticesExecutor.class);
     private NoticeMailContentFormatter noticeMailContentFormatter;
     private ItemOlemlRecordProcessor itemOlemlRecordProcessor;

@@ -2,20 +2,21 @@ package org.kuali.ole.deliver.notice.executors;
 
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
+import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.notice.noticeFormatters.RequestEmailContentFormatter;
 import org.kuali.ole.deliver.notice.noticeFormatters.RequestExpirationEmailContentFormatter;
 
 import java.util.List;
 
-/**
+/**o
  * Created by maheswarang on 6/23/15.
  */
 public class RequestExpirationNoticesExecutor extends RequestNoticesExecutor{
 
 
-    public RequestExpirationNoticesExecutor(List<OleDeliverRequestBo> oleDeliverRequestBos) {
-       super(oleDeliverRequestBos);
+    public RequestExpirationNoticesExecutor(List<OLEDeliverNotice> deliverNotices) {
+        super(deliverNotices);
     }
 
     @Override
@@ -24,6 +25,11 @@ public class RequestExpirationNoticesExecutor extends RequestNoticesExecutor{
         requestEmailContentFormatter = new RequestExpirationEmailContentFormatter();
         }
         return requestEmailContentFormatter;
+    }
+
+    @Override
+    public boolean isValidRequestToSendNotice(OleDeliverRequestBo oleDeliverRequestBo) {
+        return true;
     }
 
     @Override

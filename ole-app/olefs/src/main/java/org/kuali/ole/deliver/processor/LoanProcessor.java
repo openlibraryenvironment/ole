@@ -14,9 +14,12 @@ import org.kuali.ole.deliver.batch.OleMailer;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.calendar.bo.OleCalendar;
+import org.kuali.ole.deliver.calendar.service.DateUtil;
 import org.kuali.ole.deliver.calendar.service.OleCalendarService;
 import org.kuali.ole.deliver.calendar.service.impl.OleCalendarServiceImpl;
 import org.kuali.ole.deliver.form.OleLoanForm;
+import org.kuali.ole.deliver.notice.service.OleNoticeService;
+import org.kuali.ole.deliver.notice.service.impl.OleNoticeServiceImpl;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OLEDeliverNoticeHelperService;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
@@ -117,6 +120,7 @@ public class LoanProcessor {
     private CircDeskLocationResolver circDeskLocationResolver;
     private OlePatronHelperServiceImpl olePatronHelperService;
     private DocstoreClientLocator docstoreClientLocator;
+    private OleNoticeService oleNoticeService;
 
     private ItemOlemlRecordProcessor itemOlemlRecordProcessor;
 
@@ -256,6 +260,16 @@ public class LoanProcessor {
         this.circDeskLocationResolver = circDeskLocationResolver;
     }
 
+    public OleNoticeService getOleNoticeService() {
+        if(oleNoticeService == null){
+            oleNoticeService = new OleNoticeServiceImpl();
+        }
+        return oleNoticeService;
+    }
+
+    public void setOleNoticeService(OleNoticeService oleNoticeService) {
+        this.oleNoticeService = oleNoticeService;
+    }
 
     /**
      * Validates the patron barcode for general blocks and address verified.
@@ -2889,6 +2903,10 @@ public class LoanProcessor {
             oleItem.setDueDateTime(null);
             oleItem.setCheckOutDateTime(null);
             updateItemStatus(oleItem, oleLoanDocument.getItemStatusCode());
+            List<OLEDeliverNotice> oleDeliverNoticeList = new ArrayList<OLEDeliverNotice>();
+            if(oleLoanDocument.getItemStatusCode().equals("ONHOLD")){
+                getOleNoticeService().updateHoldNoticesDate(oleLoanDocument.getOleDeliverRequestBo().getRequestId());
+            }
             //updateMissingPiecesItemInfo(oleLoanDocument);
             OleItemAvailableStatus itemAvailableStatus = validateAndGetItemStatus(oleLoanDocument.getItemStatusCode());
             oleLoanDocument.setItemStatus(itemAvailableStatus != null ? itemAvailableStatus.getItemAvailableStatusName() : null);

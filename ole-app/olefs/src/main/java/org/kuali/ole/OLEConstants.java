@@ -3517,7 +3517,11 @@ public class OLEConstants {
         public static final String REQUEST_SOURCE = "requestSource";
         public static final String VENDOR_NUMBER = "vendorHeaderGeneratedIdentifier";
         public static final String VEN_DTL_ASSIGN_ID = "vendorDetailAssignedIdentifier";
-
     }
+
+    public static final String RECALL_NOTICE = "RecallNotice";
+    public static final String ONHOLD_NOTICE = "OnHoldNotice";
+    public static final String REQUEST_EXPIRATION_NOTICE="RequestExpirationNotice";
+    public static final String ONHOLD_EXPIRATION_NOTICE="OnHoldExpirationNotice";
 
 }

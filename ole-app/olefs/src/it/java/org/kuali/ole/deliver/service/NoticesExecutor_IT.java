@@ -3,6 +3,7 @@ package org.kuali.ole.deliver.service;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
@@ -45,11 +46,11 @@ public class NoticesExecutor_IT {
         oleDeliverRequestBo.setOlePickUpLocation(oleCirculationDesk);
         List<OleDeliverRequestBo> oleDeliverRequestBoList = new ArrayList<OleDeliverRequestBo>();
         oleDeliverRequestBoList.add(oleDeliverRequestBo);
-        RequestExpirationNoticesExecutor requestExpirationNoticesExecutor = new RequestExpirationNoticesExecutor(oleDeliverRequestBoList);
+        RequestExpirationNoticesExecutor requestExpirationNoticesExecutor = new RequestExpirationNoticesExecutor(new ArrayList<OLEDeliverNotice>());
         ParameterValueResolver parameterValueResolver = Mockito.mock(ParameterValueResolver.class);
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(),Mockito.eq(" EXP_REQ_TITLE"))).thenReturn("Request Expiration Notice");
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(), Mockito.eq("EXP_REQ_BODY"))).thenReturn("Your Request Place on the item 1 is expired");
-        requestExpirationNoticesExecutor.setParameterResolverInstance(parameterValueResolver);
+       // requestExpirationNoticesExecutor.setParameterResolverInstance(parameterValueResolver);
         RequestExpirationEmailContentFormatter noticeRequestExpirationEmailContentFormatter = Mockito.spy(new RequestExpirationEmailContentFormatter());
         Mockito.when(noticeRequestExpirationEmailContentFormatter.getEntityTypeContactInfo(Mockito.any(OlePatronDocument.class))).thenReturn(new EntityTypeContactInfoBo());
         OlePatronHelperService olePatronHelperService = Mockito.mock(OlePatronHelperService.class);
@@ -61,7 +62,7 @@ public class NoticesExecutor_IT {
 
         }
         noticeRequestExpirationEmailContentFormatter.setOlePatronHelperService(olePatronHelperService);
-        requestExpirationNoticesExecutor.generateMailContent(oleDeliverRequestBoList);
+        requestExpirationNoticesExecutor.generateMailContent();
 
     }
 
@@ -77,11 +78,11 @@ public class NoticesExecutor_IT {
         oleDeliverRequestBo.setOlePickUpLocation(oleCirculationDesk);
         List<OleDeliverRequestBo> oleDeliverRequestBoList = new ArrayList<OleDeliverRequestBo>();
         oleDeliverRequestBoList.add(oleDeliverRequestBo);
-        HoldExpirationNoticesExecutor holdExpirationNoticesExecutor = new HoldExpirationNoticesExecutor(oleDeliverRequestBoList);
+        HoldExpirationNoticesExecutor holdExpirationNoticesExecutor = new HoldExpirationNoticesExecutor(new ArrayList<OLEDeliverNotice>());
         ParameterValueResolver parameterValueResolver = Mockito.mock(ParameterValueResolver.class);
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(),Mockito.eq("EXPIRED_TITLE"))).thenReturn("Hold Courtesy Notice");
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(), Mockito.eq("EXP_HOLD_NOTICE_CONTENT"))).thenReturn("The item is kept hold in the circulation desk for you to pick up .since you haven't picked up the book the item is moved to shelf.Place a new Request for that item");
-        holdExpirationNoticesExecutor.setParameterResolverInstance(parameterValueResolver);
+        //holdExpirationNoticesExecutor.setParameterResolverInstance(parameterValueResolver);
         RequestExpirationEmailContentFormatter noticeRequestExpirationEmailContentFormatter = Mockito.spy(new RequestExpirationEmailContentFormatter());
         Mockito.when(noticeRequestExpirationEmailContentFormatter.getEntityTypeContactInfo(Mockito.any(OlePatronDocument.class))).thenReturn(new EntityTypeContactInfoBo());
         OlePatronHelperService olePatronHelperService = Mockito.mock(OlePatronHelperService.class);
@@ -93,7 +94,7 @@ public class NoticesExecutor_IT {
 
         }
         noticeRequestExpirationEmailContentFormatter.setOlePatronHelperService(olePatronHelperService);
-        holdExpirationNoticesExecutor.generateMailContent(oleDeliverRequestBoList);
+        holdExpirationNoticesExecutor.generateMailContent();
     }
 
     @Test
@@ -105,11 +106,11 @@ public class NoticesExecutor_IT {
         oleDeliverRequestBo.setOlePickUpLocation(oleCirculationDesk);
         List<OleDeliverRequestBo> oleDeliverRequestBoList = new ArrayList<OleDeliverRequestBo>();
         oleDeliverRequestBoList.add(oleDeliverRequestBo);
-        HoldExpirationNoticesExecutor holdExpirationNoticesExecutor = new HoldExpirationNoticesExecutor(oleDeliverRequestBoList);
+        HoldExpirationNoticesExecutor holdExpirationNoticesExecutor = new HoldExpirationNoticesExecutor(new ArrayList<OLEDeliverNotice>());
         ParameterValueResolver parameterValueResolver = Mockito.mock(ParameterValueResolver.class);
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(),Mockito.eq("ONHOLD_TITLE"))).thenReturn("On Hold Notice");
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(), Mockito.eq("ONHOLD_BODY"))).thenReturn("The request you have on the item is available to pick up and the item will be on hold for you till 22nd of june ");
-        holdExpirationNoticesExecutor.setParameterResolverInstance(parameterValueResolver);
+        //holdExpirationNoticesExecutor.setParameterResolverInstance(parameterValueResolver);
         RecallRequestEmailContentFormatter noticeRequestExpirationEmailContentFormatter = Mockito.spy(new RecallRequestEmailContentFormatter());
         Mockito.when(noticeRequestExpirationEmailContentFormatter.getEntityTypeContactInfo(Mockito.any(OlePatronDocument.class))).thenReturn(new EntityTypeContactInfoBo());
         OlePatronHelperService olePatronHelperService = Mockito.mock(OlePatronHelperService.class);
@@ -121,7 +122,7 @@ public class NoticesExecutor_IT {
 
         }
         noticeRequestExpirationEmailContentFormatter.setOlePatronHelperService(olePatronHelperService);
-        holdExpirationNoticesExecutor.generateMailContent(oleDeliverRequestBoList);
+        holdExpirationNoticesExecutor.generateMailContent();
     }
 
 
@@ -136,11 +137,11 @@ public class NoticesExecutor_IT {
         Mockito.when(oleDeliverRequestBo.getRecallDueDate()).thenReturn(new Timestamp(2015,7,1,0,0,0,0));
         List<OleDeliverRequestBo> oleDeliverRequestBoList = new ArrayList<OleDeliverRequestBo>();
         oleDeliverRequestBoList.add(oleDeliverRequestBo);
-        RecallNoticesExecutor holdExpirationNoticesExecutor = new RecallNoticesExecutor(oleDeliverRequestBoList);
+        RecallNoticesExecutor holdExpirationNoticesExecutor = new RecallNoticesExecutor(new ArrayList<OLEDeliverNotice>());
         ParameterValueResolver parameterValueResolver = Mockito.mock(ParameterValueResolver.class);
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(),Mockito.eq("RECALL_TITLE"))).thenReturn("Recall Notice");
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(), Mockito.eq("RECALL_BODY"))).thenReturn("Item is needed by another patron .so kindly return the item before the date specified below");
-        holdExpirationNoticesExecutor.setParameterResolverInstance(parameterValueResolver);
+        //holdExpirationNoticesExecutor.setParameterResolverInstance(parameterValueResolver);
         RecallRequestEmailContentFormatter noticeRequestExpirationEmailContentFormatter = Mockito.spy(new RecallRequestEmailContentFormatter());
         Mockito.when(noticeRequestExpirationEmailContentFormatter.getEntityTypeContactInfo(Mockito.any(OlePatronDocument.class))).thenReturn(new EntityTypeContactInfoBo());
         OlePatronHelperService olePatronHelperService = Mockito.mock(OlePatronHelperServiceImpl.class);
@@ -152,7 +153,7 @@ public class NoticesExecutor_IT {
         }catch(Exception e){
         }
         holdExpirationNoticesExecutor.setRequestEmailContentFormatter(noticeRequestExpirationEmailContentFormatter);
-        holdExpirationNoticesExecutor.generateMailContent(oleDeliverRequestBoList);
+        holdExpirationNoticesExecutor.generateMailContent();
     }
 
 }

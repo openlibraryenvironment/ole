@@ -7,6 +7,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
+import org.kuali.ole.deliver.notice.executors.LoanNoticesExecutor;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
 
 import java.sql.Timestamp;
@@ -15,7 +16,7 @@ import java.util.*;
 /**
  * Created by premkb on 3/30/15.
  */
-public class OverdueNoticesExecutor extends NoticesExecutor {
+public class OverdueNoticesExecutor extends LoanNoticesExecutor {
     private static final Logger LOG = Logger.getLogger(OverdueNoticesExecutor.class);
     private NoticeMailContentFormatter noticeMailContentFormatter;
 
@@ -66,17 +67,6 @@ public class OverdueNoticesExecutor extends NoticesExecutor {
         return oleDeliverNotices;
     }
 
-    public String getItemTypeCodeByName(String itemTypeName) {
-        String itemTypeCode = "";
-        List<OleInstanceItemType> instanceItemTypeList = null;
-        Map<String, String> instanceItemTypeMap = new HashMap<String, String>();
-        instanceItemTypeMap.put("instanceItemTypeName", itemTypeName);
-        instanceItemTypeList = (List<OleInstanceItemType>) getBusinessObjectService().findMatching(OleInstanceItemType.class, instanceItemTypeMap);
-        if (instanceItemTypeList != null && instanceItemTypeList.size() > 0) {
-            itemTypeCode = instanceItemTypeList.get(0).getInstanceItemTypeCode();
-        }
-        return itemTypeCode;
-    }
 
 
     public String generateMailContent(List<OleLoanDocument> oleLoanDocuments) {

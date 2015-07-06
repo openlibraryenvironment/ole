@@ -98,6 +98,43 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
     }
 
 
+    public Collection<Object> getOnHoldNotice(){
+        Criteria criteria = new Criteria();
+      /*  criteria.addColumnIsNull("ONHLD_NTC_SNT_DT");*/
+        criteria.addEqualTo("oleDeliverRequestBo.borrowerQueuePosition", "1");
+        criteria.addEqualTo("noticeType",OLEConstants.ONHOLD_NOTICE);
+        String pickupLocation = getPickUpLocation();
+        if (pickupLocation != null && !pickupLocation.trim().isEmpty()) {
+            criteria.addEqualTo("oleDeliverRequestBo.pickUpLocationId", pickupLocation);
+        }
+        QueryByCriteria query = QueryFactory.newQuery(OLEDeliverNotice.class, criteria);
+        query.addOrderBy("patronId");
+        Collection results = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return results;
+    }
+
+    public Collection<Object> getOnHoldNoticeByPickUpLocation(String pickupLocation){
+        Criteria criteria = new Criteria();
+       /* criteria.addColumnIsNull("ONHLD_NTC_SNT_DT");*/
+        criteria.addEqualTo("oleDeliverRequestBo.borrowerQueuePosition", "1");
+        criteria.addEqualTo("noticeType",OLEConstants.ONHOLD_NOTICE);
+        if (pickupLocation != null && !pickupLocation.trim().isEmpty()) {
+            criteria.addEqualTo("oleDeliverRequestBo.pickUpLocationId", pickupLocation);
+        }
+        QueryByCriteria query = QueryFactory.newQuery(OLEDeliverNotice.class, criteria);
+        query.addOrderBy("patronId");
+        Collection results = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return results;
+    }
+
+    /*public Collection<Object> getOnHoldExpirationNotices(){
+        Criteria criteria = new Criteria();
+
+
+    }*/
+
+
+
     public Collection<Object> getHoldRequestsByPickupLocation(List<String> requestTypeIds, String pickupLocationId) {
         Criteria criteria = new Criteria();
         criteria.addIn("requestTypeId", requestTypeIds);
@@ -111,6 +148,8 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         Collection results = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return results;
     }
+
+
 
     public String getPickUpLocation() {
         String pickupLocation = null;
@@ -131,6 +170,31 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         Collection results = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return results;
     }
+
+
+    public Collection<Object> getRequestExpiredNotice() {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("noticeType",OLEConstants.REQUEST_EXPIRATION_NOTICE);
+        criteria.addLessOrEqualThan("noticeToBeSendDate", new Timestamp(System.currentTimeMillis()));
+        QueryByCriteria query = QueryFactory.newQuery(OLEDeliverNotice.class, criteria);
+        query.addOrderBy("patronId");
+        Collection results = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return results;
+    }
+
+
+    public Collection<Object> getOnHoldExpiredNotice() {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("noticeType",OLEConstants.ONHOLD_EXPIRATION_NOTICE);
+        criteria.addLessOrEqualThan("noticeToBeSendDate", new Timestamp(System.currentTimeMillis()));
+        QueryByCriteria query = QueryFactory.newQuery(OLEDeliverNotice.class, criteria);
+        query.addOrderBy("patronId");
+        Collection results = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return results;
+    }
+
+
+
 
 
     public Collection<Object> getDeliverNotices(String noticeType) {

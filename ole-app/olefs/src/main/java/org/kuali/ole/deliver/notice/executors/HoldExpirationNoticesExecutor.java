@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.notice.executors;
 
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
+import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.notice.noticeFormatters.RequestEmailContentFormatter;
 import org.kuali.ole.deliver.notice.noticeFormatters.RequestExpirationEmailContentFormatter;
@@ -14,16 +15,12 @@ import java.util.List;
  */
 public class HoldExpirationNoticesExecutor extends RequestNoticesExecutor {
 
-    public OleDeliverRequestDocumentHelperServiceImpl getOleDeliverRequestHelperService(){
-        return new OleDeliverRequestDocumentHelperServiceImpl();
+    public HoldExpirationNoticesExecutor(List<OLEDeliverNotice> deliverNotices) {
+        super(deliverNotices);
     }
 
-
-
-
-    public HoldExpirationNoticesExecutor(List<OleDeliverRequestBo> oleDeliverRequestBoList){
-        super(oleDeliverRequestBoList);
-
+    public OleDeliverRequestDocumentHelperServiceImpl getOleDeliverRequestHelperService(){
+        return new OleDeliverRequestDocumentHelperServiceImpl();
     }
 
     @Override
@@ -32,6 +29,11 @@ public class HoldExpirationNoticesExecutor extends RequestNoticesExecutor {
         requestEmailContentFormatter =  new RequestExpirationEmailContentFormatter();
         }return requestEmailContentFormatter;
         }
+
+    @Override
+    public boolean isValidRequestToSendNotice(OleDeliverRequestBo oleDeliverRequestBo) {
+        return true;
+    }
 
     @Override
     protected void postProcess() {
