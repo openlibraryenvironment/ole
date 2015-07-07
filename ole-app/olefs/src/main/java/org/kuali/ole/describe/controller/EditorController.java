@@ -2616,4 +2616,30 @@ public class EditorController extends UifControllerBase {
 
     }
 
+
+    @RequestMapping(params = "methodToCall=cancel")
+    public ModelAndView cancel(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) {
+        String docCategory = request.getParameter("docCategory");
+        String docType = request.getParameter("docType");
+        String docFormat = request.getParameter("docFormat");
+        String docId = request.getParameter("docId");
+        String bibId = request.getParameter("bibId");
+        String instanceId = request.getParameter("instanceId");
+        String editable = request.getParameter("editable");
+
+        String requestUrl="/ole-kr-krad/editorcontroller?viewId=EditorView&methodToCall=load&docCategory="+docCategory+"&docType="+docType+"&docFormat="+docFormat+"&docId="+docId+"&bibId="+bibId+"&instanceId="+instanceId+"&editable="+editable;
+        String baseUrl = ConfigContext.getCurrentContextConfig().getProperty(OLEPropertyConstants.OLE_URL_BASE);
+        String url = baseUrl + requestUrl;
+        Properties props = new Properties();
+        props.put(UifParameters.METHOD_TO_CALL, "load");
+        if (org.apache.commons.lang.StringUtils.isNotBlank(form.getReturnFormKey())) {
+            props.put(UifParameters.FORM_KEY, form.getReturnFormKey());
+        }
+
+
+        return performRedirect(form, url, props);
+    }
+
+
 }
