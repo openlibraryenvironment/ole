@@ -1903,19 +1903,24 @@ public class OLEEResourceHelperService {
         return parameter!=null?parameter.getValue():null;
     }
 
-    public void setWorkflowCompletedStatus(OLEEResourceAccessActivation oleeResourceAccess, MaintenanceDocument maintenanceDocument,boolean newDocument) throws Exception {
+    public void setWorkflowCompletedStatus(OLEEResourceAccessActivation oleeResourceAccess, MaintenanceDocument maintenanceDocument, boolean newDocument) throws Exception {
+        OLEAccessActivationConfiguration oleAccessActivationConfiguration = getBusinessObjectService().findBySinglePrimaryKey(OLEAccessActivationConfiguration.class, oleeResourceAccess.getWorkflowId());
+        if (oleAccessActivationConfiguration != null) {
+            oleeResourceAccess.setAccessStatus(oleAccessActivationConfiguration.getWorkflowCompletionStatus());
+        } else {
+            oleeResourceAccess.setAccessStatus("Workflow Completed");
+        }
         oleeResourceAccess.setWorkflowName(null);
         oleeResourceAccess.setWorkflowId(null);
         oleeResourceAccess.setWorkflowDescription(null);
-        oleeResourceAccess.setAccessStatus("Workflow Completed");
         List<OLEEResourceAccessWorkflow> accessWorkflowList = oleeResourceAccess.getOleERSAccessWorkflows();
         OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = accessWorkflowList.get(accessWorkflowList.size() - 1);
         oleeResourceAccessWorkflow.setStatus("Workflow Completed");
         oleeResourceAccessWorkflow.setCurrentOwner(maintenanceDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        if (newDocument){
+        if (newDocument) {
             getDocumentService().saveDocument(maintenanceDocument);
-        }else{
-            getDocumentService().validateAndPersistDocument((Document)maintenanceDocument,new SaveDocumentEvent(maintenanceDocument));
+        } else {
+            getDocumentService().validateAndPersistDocument((Document) maintenanceDocument, new SaveDocumentEvent(maintenanceDocument));
         }
         deleteMaintenanceLock();
     }
@@ -1925,15 +1930,20 @@ public class OLEEResourceHelperService {
         DocumentRouteHeaderValue documentBo = KEWServiceLocator.getRouteHeaderService().getRouteHeader(maintenanceDocument.getDocumentNumber());
         documentBo.setDocRouteStatus("S");
         KEWServiceLocator.getRouteHeaderService().saveRouteHeader(documentBo);
+        OLEAccessActivationConfiguration oleAccessActivationConfiguration = getBusinessObjectService().findBySinglePrimaryKey(OLEAccessActivationConfiguration.class, oleeResourceAccess.getWorkflowId());
+        if (oleAccessActivationConfiguration != null) {
+            oleeResourceAccess.setAccessStatus(oleAccessActivationConfiguration.getWorkflowCompletionStatus());
+        } else {
+            oleeResourceAccess.setAccessStatus("Workflow Completed");
+        }
         oleeResourceAccess.setWorkflowName(null);
         oleeResourceAccess.setWorkflowId(null);
         oleeResourceAccess.setWorkflowDescription(null);
-        oleeResourceAccess.setAccessStatus("Workflow Completed");
         List<OLEEResourceAccessWorkflow> accessWorkflowList = oleeResourceAccess.getOleERSAccessWorkflows();
         OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = accessWorkflowList.get(accessWorkflowList.size() - 1);
         oleeResourceAccessWorkflow.setStatus("Workflow Completed");
         oleeResourceAccessWorkflow.setCurrentOwner(maintenanceDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        getDocumentService().validateAndPersistDocument((Document)maintenanceDocument,new SaveDocumentEvent(maintenanceDocument));
+        getDocumentService().validateAndPersistDocument((Document) maintenanceDocument, new SaveDocumentEvent(maintenanceDocument));
         List<ActionRequestValue> actionRequestValueList = actionRequestService.findAllPendingRequests(maintenanceDocument.getDocumentNumber());
         KEWServiceLocator.getActionRequestService().deleteByDocumentId(maintenanceDocument.getDocumentNumber());
         KEWServiceLocator.getActionListService().deleteByDocumentId(maintenanceDocument.getDocumentNumber());
@@ -2007,7 +2017,6 @@ public class OLEEResourceHelperService {
                     OLEEResourceAccessActivation oleeResourceAccessActivation = (OLEEResourceAccessActivation) maintenanceDocumentBase.getNewMaintainableObject().getDataObject();
                     if (oleeResourceAccessActivation != null) {
                         maintenanceDocumentBase.getDocumentHeader().setDocumentDescription(titleDesc);
-                        oleeResourceAccessActivation.setAccessStatus(oleeResourceRecordDocument.getAccessStatus());
                         oleeResourceAccessActivation.setAuthenticationTypeId(oleeResourceRecordDocument.getAuthenticationTypeId());
                         oleeResourceAccessActivation.setAccessLocation(oleeResourceRecordDocument.getAccessLocation());
                         oleeResourceAccessActivation.setAccessTypeId(oleeResourceRecordDocument.getAccessTypeId());
@@ -2036,7 +2045,6 @@ public class OLEEResourceHelperService {
                     MaintenanceDocument newDocument = (MaintenanceDocument) documentService.getNewDocument("OLE_ERES_ACCESS_MD");
                     newDocument.getDocumentHeader().setDocumentDescription(OLEConstants.ACCESS_ACTIVATION_DESCRIPTION + " for E-Resource Name : "+oleeResourceRecordDocument.getTitle());
                     OLEEResourceAccessActivation oleeResourceAccessActivation = (OLEEResourceAccessActivation) newDocument.getNewMaintainableObject().getDataObject();
-                    oleeResourceAccessActivation.setAccessStatus(oleeResourceRecordDocument.getAccessStatus());
                     oleeResourceAccessActivation.setAuthenticationTypeId(oleeResourceRecordDocument.getAuthenticationTypeId());
                     oleeResourceAccessActivation.setAccessLocation(oleeResourceRecordDocument.getAccessLocation());
                     oleeResourceAccessActivation.setAccessTypeId(oleeResourceRecordDocument.getAccessTypeId());
