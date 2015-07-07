@@ -1915,9 +1915,7 @@ public class OLEEResourceHelperService {
         if (newDocument){
             getDocumentService().saveDocument(maintenanceDocument);
         }else{
-            DocumentRouteHeaderValue documentBo = KEWServiceLocator.getRouteHeaderService().getRouteHeader(maintenanceDocument.getDocumentNumber());
-            documentBo.setDocRouteStatus("S");
-            getBusinessObjectService().save(documentBo);
+            getDocumentService().validateAndPersistDocument((Document)maintenanceDocument,new SaveDocumentEvent(maintenanceDocument));
         }
         deleteMaintenanceLock();
     }
