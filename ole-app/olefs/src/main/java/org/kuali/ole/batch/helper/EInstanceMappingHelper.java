@@ -230,7 +230,7 @@ public class EInstanceMappingHelper {
                     }
                 } else if (entry.getValue().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PUBLIC_DISPLAY_NOTE)) {
                     for (Note note : oleHoldings.getNote()) {
-                        if (note.getType().equalsIgnoreCase(OLEConstants.NOTE_TYPE)) {
+                        if (StringUtils.isNotEmpty(note.getType()) && note.getType().equalsIgnoreCase(OLEConstants.NOTE_TYPE)) {
                             dataField = checkDataField(dataFieldList, StringUtils.trim(entry.getKey()).substring(0, 3));
                             if (dataField == null) {
                                 dataField = getDataField(entry);
