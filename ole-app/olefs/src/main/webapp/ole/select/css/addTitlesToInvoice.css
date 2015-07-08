@@ -269,7 +269,7 @@ div#OLEInvoice-DuplicationApprovePopUp{
     width: auto;
     height: auto;
     position: fixed;
-    top: 50%; left: 50%;
+    top: 15%; left: 50%;
     z-index: 99999;
     box-shadow: 0px 0px 20px #999;
     -moz-box-shadow: 0px 0px 20px #999;
@@ -362,7 +362,7 @@ div#OLEInvoice-DuplicationRoutePopUp{
     width: auto;
     height: auto;
     position: fixed;
-    top: 50%; left: 50%;
+    top: 15%; left: 50%;
     z-index: 99999;
     box-shadow: 0px 0px 20px #999;
     -moz-box-shadow: 0px 0px 20px #999;
@@ -381,7 +381,7 @@ div#OLEInvoice-DuplicationSavePopUp{
     width: auto;
     height: auto;
     position: fixed;
-    top: 50%; left: 50%;
+    top: 15%; left: 50%;
     z-index: 99999;
     box-shadow: 0px 0px 20px #999;
     -moz-box-shadow: 0px 0px 20px #999;
@@ -402,7 +402,7 @@ div#OLEInvoice-DuplicationSavePopUp{
     width: auto;
     height: auto;
     position: fixed;
-    top: 50%; left: 50%;
+    top: 15%; left: 50%;
     z-index: 99999;
     box-shadow: 0px 0px 20px #999;
     -moz-box-shadow: 0px 0px 20px #999;
