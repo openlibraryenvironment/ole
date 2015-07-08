@@ -747,12 +747,11 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
 
     @Override
     public List<BibMarcRecord> saveBatch(List<BibMarcRecord> bibMarcRecords, OLEBatchBibImportDataObjects oleBatchBibImportDataObjects, OLEBatchBibImportStatistics oleBatchbibImportStatistics) {
-
+        Date dNow = new Date();
         docstoreClientLocator = getDocstoreClientLocator();
         try {
             oleBatchBibImportDataObjects.setBibTreesObj(docstoreClientLocator.getDocstoreClient().processBibTrees(oleBatchBibImportDataObjects.getBibTrees()));
         } catch (Exception e) {
-            Date dNow = new Date(System.currentTimeMillis() - 3600 * 1000);
             SimpleDateFormat formatter = new SimpleDateFormat("yy-mm-dd hh:mm:ss");
             String updateDate = formatter.format(dNow);
             BatchBibTreeDBUtil bibTreeDBUtil = new BatchBibTreeDBUtil();

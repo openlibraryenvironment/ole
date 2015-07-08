@@ -296,7 +296,6 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
             } catch (Exception e) {
                 LOG.info("Exception :", e);
                 rollback(solr);
-                throw new DocstoreIndexException(e);
             }
         }
     }
