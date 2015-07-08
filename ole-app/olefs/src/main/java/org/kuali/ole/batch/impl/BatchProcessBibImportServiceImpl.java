@@ -14,6 +14,7 @@ import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.content.bib.marc.*;
 import org.kuali.ole.docstore.common.document.content.bib.marc.xstream.BibMarcRecordProcessor;
 
+import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.ole.docstore.common.search.SearchParams;
 import org.kuali.ole.docstore.common.search.SearchResponse;
 import org.kuali.ole.docstore.common.search.SearchResult;
@@ -751,7 +752,7 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
         docstoreClientLocator = getDocstoreClientLocator();
         try {
             oleBatchBibImportDataObjects.setBibTreesObj(docstoreClientLocator.getDocstoreClient().processBibTrees(oleBatchBibImportDataObjects.getBibTrees()));
-        } catch (Exception e) {
+        } catch (DocstoreIndexException docexp) {
             SimpleDateFormat formatter = new SimpleDateFormat("yy-mm-dd hh:mm:ss");
             String updateDate = formatter.format(dNow);
             BatchBibTreeDBUtil bibTreeDBUtil = new BatchBibTreeDBUtil();
@@ -759,8 +760,11 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
                 bibTreeDBUtil.init(0, 0, updateDate);
             } catch (SQLException e1) {
                 LOG.error("Batch Process", e1);
-                oleBatchbibImportStatistics.getErrorBuilder().append(OLEConstants.OLEBatchProcess.PROCESS_FAILURE).append(System.lineSeparator());
+
             }
+        } catch (Exception e) {
+            LOG.error("Batch Process", e);
+            oleBatchbibImportStatistics.getErrorBuilder().append(OLEConstants.OLEBatchProcess.PROCESS_FAILURE).append(System.lineSeparator());
         }
 
         for (int i = 0; i < oleBatchBibImportDataObjects.getBibTrees().getBibTrees().size(); i++) {
