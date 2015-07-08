@@ -18,6 +18,7 @@ import org.kuali.ole.docstore.common.search.SearchParams;
 import org.kuali.ole.docstore.common.search.SearchResponse;
 import org.kuali.ole.docstore.common.search.SearchResult;
 import org.kuali.ole.docstore.common.search.SearchResultField;
+import org.kuali.ole.docstore.common.util.BatchBibTreeDBUtil;
 import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.ole.service.OLEEResourceHelperService;
 import org.kuali.ole.sys.context.SpringContext;
@@ -26,8 +27,11 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -748,8 +752,16 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
         try {
             oleBatchBibImportDataObjects.setBibTreesObj(docstoreClientLocator.getDocstoreClient().processBibTrees(oleBatchBibImportDataObjects.getBibTrees()));
         } catch (Exception e) {
-            LOG.error("Batch Process", e);
-            oleBatchbibImportStatistics.getErrorBuilder().append(OLEConstants.OLEBatchProcess.PROCESS_FAILURE).append(System.lineSeparator());
+            Date dNow = new Date(System.currentTimeMillis() - 3600 * 1000);
+            SimpleDateFormat formatter = new SimpleDateFormat("yy-mm-dd hh:mm:ss");
+            String updateDate = formatter.format(dNow);
+            BatchBibTreeDBUtil bibTreeDBUtil = new BatchBibTreeDBUtil();
+            try {
+                bibTreeDBUtil.init(0, 0, updateDate);
+            } catch (SQLException e1) {
+                LOG.error("Batch Process", e1);
+                oleBatchbibImportStatistics.getErrorBuilder().append(OLEConstants.OLEBatchProcess.PROCESS_FAILURE).append(System.lineSeparator());
+            }
         }
 
         for (int i = 0; i < oleBatchBibImportDataObjects.getBibTrees().getBibTrees().size(); i++) {
