@@ -110,6 +110,57 @@ public class BatchBibImportUtil {
         return dataFieldValue;
     }
 
+    public static String getDataFieldValue(DataField dataField, String enteredDataField) {
+        String[] dataFiledsArray = enteredDataField.split(" ");
+        String entryDataField = null;
+        String entryInds = null;
+        String entrySubField = null;
+        if (dataFiledsArray.length == 3) {
+            entryDataField = dataFiledsArray[0];
+            entryInds = dataFiledsArray[1];
+            entrySubField = dataFiledsArray[2];
+        } else if (dataFiledsArray.length == 2) {
+            entryDataField = dataFiledsArray[0];
+            entryInds = "##";
+            entrySubField = dataFiledsArray[1];
+        }
+        StringBuffer subFieldValue = new StringBuffer("");
+        String ind1 = "";
+        String ind2 = "";
+        String dataFieldInds = "";
+
+        if (dataField.getTag().equalsIgnoreCase(entryDataField)) {
+            ind1 = dataField.getInd1();
+            ind2 = dataField.getInd2();
+            if (entryInds.equals("##")) {
+                ind1 = "#";
+                ind2 = "#";
+            } else if (entryInds.startsWith("#")) {
+                ind1 = "#";
+            } else if (entryInds.endsWith("#")) {
+                ind2 = "#";
+            }
+            if (ind1.equalsIgnoreCase(" ") || StringUtils.isEmpty(ind1) || ind1.equalsIgnoreCase("\\")) ind1 = "#";
+            if (ind2.equalsIgnoreCase(" ") || StringUtils.isEmpty(ind2) || ind2.equalsIgnoreCase("\\")) ind2 = "#";
+            dataFieldInds = ind1 + ind2;
+            if (dataFieldInds.equalsIgnoreCase(entryInds)) {
+                if (StringUtils.isNotEmpty(entrySubField)) {
+                    entrySubField = entrySubField.replace("$", " ");
+                    String[] subFieldsArray = entrySubField.split(" ");
+                    for (int i = 1; i < subFieldsArray.length; i++) {
+                        String code = subFieldsArray[i];
+                        for (SubField subField : dataField.getSubFields()) {
+                            if (subField.getCode().equalsIgnoreCase(code)) {
+                                subFieldValue.append(subField.getValue());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return subFieldValue.toString();
+    }
+
 
     public static void buildLocationLevels(List<HoldingsTree> holdingsTreeList) {
         List<String> matchingLocationLevel = getLocationLevel();
@@ -503,4 +554,13 @@ public class BatchBibImportUtil {
         return dataField;
     }
 
+    public static List<DataField> getMatchedUrlDataFields(String tag, BibMarcRecord bibRecord){
+        List<DataField> dataFieldList = new ArrayList<>();
+        for(DataField dataField:bibRecord.getDataFields()){
+            if(dataField.getTag().equalsIgnoreCase(tag)){
+                dataFieldList.add(dataField);
+            }
+        }
+        return dataFieldList;
+    }
 }

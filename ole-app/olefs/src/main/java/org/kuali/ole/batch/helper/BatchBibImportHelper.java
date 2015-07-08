@@ -20,7 +20,6 @@ import org.kuali.ole.select.document.OLEEResourceRecordDocument;
 import org.kuali.ole.select.document.OLEPlatformRecordDocument;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -616,10 +615,11 @@ public class BatchBibImportHelper {
      */
     protected List<HoldingsTree> buildEHoldingsTreesForBib(BibMarcRecord bibRecord, OLEBatchProcessProfileBo profile, boolean withItem) {
         List<HoldingsTree> holdingsTreeList = new ArrayList<>();
+        StringBuilder urlMappedDataTag = new StringBuilder();
         if ((profile.getDataToImport().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DATA_TO_IMPORT_BIB_EINSTANCE))
                 || (profile.getDataToImport().equalsIgnoreCase(OLEConstants.OLEBatchProcess.DATA_TO_IMPORT_BIB_INSTANCE_EINSTANCE))) {
-            buildEHoldings(bibRecord, dataMapping, holdingsTreeList, profile);
-            applyDataMapping(holdingsTreeList, dataMapping);
+            buildEHoldings(bibRecord, dataMapping, holdingsTreeList, profile, urlMappedDataTag);
+            applyDataMapping(holdingsTreeList, dataMapping, urlMappedDataTag);
             applyDefaultsAndConstants(profile, holdingsTreeList);
         }
         return holdingsTreeList;
@@ -1092,68 +1092,49 @@ public class BatchBibImportHelper {
      * @param holdingsTreeList
      * @param profile
      */
-    private void buildEHoldings(BibMarcRecord bibRecord, List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBos, List<HoldingsTree> holdingsTreeList, OLEBatchProcessProfileBo profile) {
-        String docField = null;
-        String bibField = null;
-        List<String> dataFields = new ArrayList<>();
-        List<String> dataFieldsLinkText = new ArrayList<>();
+    private void buildEHoldings(BibMarcRecord bibRecord, List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBos, List<HoldingsTree> holdingsTreeList, OLEBatchProcessProfileBo profile, StringBuilder urlMappedDataTag) {
+        String urlDocField = null;
+        String urlTagField = null;
+        List<DataField> dataFields = new ArrayList<>();
         for (OLEBatchProcessProfileDataMappingOptionsBo oleBatchProcessProfileDataMappingOptionsBo : oleBatchProcessProfileDataMappingOptionsBos) {
 
-            docField = oleBatchProcessProfileDataMappingOptionsBo.getDestinationField();
-            if (!EHoldings.DESTINATION_FIELD_LINK_URL.equalsIgnoreCase(docField))
+            urlDocField = oleBatchProcessProfileDataMappingOptionsBo.getDestinationField();
+            if (!EHoldings.DESTINATION_FIELD_LINK_URL.equalsIgnoreCase(urlDocField))
                 continue;
 
-            bibField = oleBatchProcessProfileDataMappingOptionsBo.getSourceField();
-            dataFields = BatchBibImportUtil.getMatchedDataField(bibRecord, bibField);
-
-            Map<String, List<String>> map = buildDataFieldValuesForLink(bibRecord, oleBatchProcessProfileDataMappingOptionsBos.get(0).getOleBatchProcessProfileMappingOptionsBo().getOleBatchProcessProfileDataMappingOptionsBoList());
-
-            dataFieldsLinkText = map.get(EHoldings.DESTINATION_FIELD_LINK_TEXT);
-
-            List<String> eResourceNameDataFields = map.get(EHoldings.DESTINATION_FIELD_ERESOURCE_NAME);
-            List<String> eResourceIdDataFields = map.get(EHoldings.DESTINATION_FIELD_ERESOURCE_ID);
-            List<String> platformDataFields = map.get(EHoldings.DESTINATION_FIELD_PLATFORM);
-            List<String> gokbIdDataFields = map.get(EHoldings.DESTINATION_FIELD_GOKB_ID);
-
-            int count = 0;
-
-            for (String dataField : dataFields) {
-                HoldingsTree eHoldingTree = BatchBibImportUtil.buildHoldingsTree(DocType.EHOLDINGS.getCode());
-                EHoldings eHoldings = (EHoldings) eHoldingTree.getHoldings();
-                bibImportStatistics.getTotalRecordsCreated().add(eHoldings);
-                if (eHoldings != null) {
-                    eHoldingTree.getHoldings().setStaffOnly(profile.isInstanceStaffOnly());
-                    eHoldings.setField(docField, dataField);
-                    if (dataFieldsLinkText != null && dataFieldsLinkText.size() > count) {
-                        eHoldings.setField(EHoldings.DESTINATION_FIELD_LINK_TEXT, dataFieldsLinkText.get(count));
+            urlTagField = oleBatchProcessProfileDataMappingOptionsBo.getSourceField().substring(0, 3);
+            urlMappedDataTag.append(urlTagField);
+            dataFields = BatchBibImportUtil.getMatchedUrlDataFields(urlTagField, bibRecord);
+            for (DataField dataField : dataFields) {
+                String urlSourceFieldValue = BatchBibImportUtil.getDataFieldValue(dataField, oleBatchProcessProfileDataMappingOptionsBo.getSourceField());
+                if (StringUtils.isNotBlank(urlSourceFieldValue)) {
+                    HoldingsTree eHoldingTree = BatchBibImportUtil.buildHoldingsTree(DocType.EHOLDINGS.getCode());
+                    EHoldings eHoldings = (EHoldings) eHoldingTree.getHoldings();
+                    bibImportStatistics.getTotalRecordsCreated().add(eHoldings);
+                    if (eHoldings != null) {
+                        eHoldingTree.getHoldings().setStaffOnly(profile.isInstanceStaffOnly());
+                        eHoldings.setField(urlDocField, urlSourceFieldValue);
+                        for (OLEBatchProcessProfileDataMappingOptionsBo batchProcessProfileDataMappingOptionsBo : oleBatchProcessProfileDataMappingOptionsBos) {
+                            if (batchProcessProfileDataMappingOptionsBo.getSourceField().substring(0, 3).equals(dataField.getTag()) && !batchProcessProfileDataMappingOptionsBo.getDestinationField().equalsIgnoreCase(urlDocField)) {
+                                String docField = batchProcessProfileDataMappingOptionsBo.getDestinationField();
+                                String sourceFieldValue = BatchBibImportUtil.getDataFieldValue(dataField, batchProcessProfileDataMappingOptionsBo.getSourceField());
+                                if (docField.equalsIgnoreCase(EHoldings.DESTINATION_FIELD_ERESOURCE_NAME)) {
+                                    validateAndSetEResource(sourceFieldValue, eHoldings);
+                                } else if (docField.equalsIgnoreCase(EHoldings.DESTINATION_FIELD_ERESOURCE_ID)) {
+                                    validateAndSetEResourceId(sourceFieldValue, eHoldings);
+                                } else if (docField.equalsIgnoreCase(EHoldings.DESTINATION_FIELD_PLATFORM)) {
+                                    validateAndSetPlatform(sourceFieldValue, eHoldings);
+                                } else {
+                                    eHoldings.setField(docField, sourceFieldValue);
+                                }
+                            }
+                        }
                     }
-                    if (eResourceNameDataFields != null && eResourceNameDataFields.size() > count) {
-                        //set the eResourceId if eResource name exists in OLE
-                        String eResourceName = eResourceNameDataFields.get(count);
-                        validateAndSetEResource(eResourceName, eHoldings);
-                    }
-                    if (eResourceIdDataFields != null && eResourceIdDataFields.size() > count) {
-                        //set the eResourceId if eResource name exists in OLE
-                        String eResourceId = eResourceIdDataFields.get(count);
-                        validateAndSetEResourceId(eResourceId, eHoldings);
-                    }
-                    if (platformDataFields != null && platformDataFields.size() > count) {
-
-                        //set platformId if platform name if exists in OLE
-                        String platformName = platformDataFields.get(count);
-                        validateAndSetPlatform(platformName, eHoldings);
-                    }
-                    if (gokbIdDataFields != null && gokbIdDataFields.size() > count) {
-
-                        //set platformId if platform name if exists in OLE
-                        String gokbId = gokbIdDataFields.get(count);
-                        eHoldings.setField(EHoldings.DESTINATION_FIELD_GOKB_ID, gokbId);
-                    }
+                    holdingsTreeList.add(eHoldingTree);
                 }
-                count++;
-                holdingsTreeList.add(eHoldingTree);
             }
-            if (dataFields.size() > 1) {
+
+            if (holdingsTreeList.size() > 1) {
                 bibImportStatistics.getRecordsCreatedWithMoreThanOneLink().add(bibRecord);
             }
         }
@@ -1164,25 +1145,23 @@ public class BatchBibImportHelper {
      * @param holdingsTreeList
      * @param OleBatchProcessProfileDataMappingOptionsBoList
      */
-    private void applyDataMapping(List<HoldingsTree> holdingsTreeList, List<OLEBatchProcessProfileDataMappingOptionsBo> OleBatchProcessProfileDataMappingOptionsBoList) {
+    private void applyDataMapping(List<HoldingsTree> holdingsTreeList, List<OLEBatchProcessProfileDataMappingOptionsBo> OleBatchProcessProfileDataMappingOptionsBoList, StringBuilder urlMappedDataTag) {
         String docType = null;
         String docField = null;
+        String sourceTag = null;
 
         String bibFieldValue = null;
         for (OLEBatchProcessProfileDataMappingOptionsBo oleBatchProcessProfileDataMappingOptionsBo : OleBatchProcessProfileDataMappingOptionsBoList) {
             docType = oleBatchProcessProfileDataMappingOptionsBo.getDataTypeDestinationField();
             docField = oleBatchProcessProfileDataMappingOptionsBo.getDestinationField();
+            sourceTag = oleBatchProcessProfileDataMappingOptionsBo.getSourceField().substring(0,3);
 
             bibFieldValue = oleBatchProcessProfileDataMappingOptionsBo.getSourceFieldValue();
             if (docType.equalsIgnoreCase(DocType.EHOLDINGS.getCode())) {
                 for (HoldingsTree holdingsTree : holdingsTreeList) {
                     EHoldings eHoldings = (EHoldings) BatchBibImportUtil.getHoldings(holdingsTree, DocType.EHOLDINGS.getCode());
 
-                    if(EHoldings.DESTINATION_FIELD_ERESOURCE_ID.equals(docField) || EHoldings.DESTINATION_FIELD_ERESOURCE_NAME.equals(docField)  || EHoldings.DESTINATION_FIELD_PLATFORM.equals(docField) || EHoldings.DESTINATION_FIELD_LINK_URL.equalsIgnoreCase(docField) || EHoldings.DESTINATION_FIELD_LINK_TEXT.equalsIgnoreCase(docField) || EHoldings.DESTINATION_FIELD_GOKB_ID.equalsIgnoreCase(docField)) {
-                        continue;
-                    }
-
-                    if (EHoldings.DESTINATION_FIELD_LINK_TEXT.equalsIgnoreCase(docField))
+                    if (StringUtils.isNotBlank(sourceTag) && urlMappedDataTag!=null && sourceTag.equalsIgnoreCase(urlMappedDataTag.toString()))
                         continue;
 
                     if (eHoldings != null) {
@@ -1295,61 +1274,6 @@ public class BatchBibImportHelper {
         else {
             eHoldings.setMessage(failureMessage);
         }
-    }
-
-    /**
-     * @param bibRecord
-     * @param oleBatchProcessProfileDataMappingOptionsBos
-     * @return
-     */
-    private List<String> buildLinkText(BibMarcRecord bibRecord, List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBos) {
-        String docField = null;
-        String bibField = null;
-        List<String> dataFields = new ArrayList<>();
-        for (OLEBatchProcessProfileDataMappingOptionsBo oleBatchProcessProfileDataMappingOptionsBo : oleBatchProcessProfileDataMappingOptionsBos) {
-            bibField = oleBatchProcessProfileDataMappingOptionsBo.getSourceField();
-            docField = oleBatchProcessProfileDataMappingOptionsBo.getDestinationField();
-            if (!EHoldings.DESTINATION_FIELD_LINK_TEXT.equalsIgnoreCase(docField))
-                continue;
-
-            dataFields = BatchBibImportUtil.getMatchedDataField(bibRecord, bibField);
-
-        }
-        return dataFields;
-    }
-
-    private Map<String, List<String>> buildDataFieldValuesForLink(BibMarcRecord bibRecord, List<OLEBatchProcessProfileDataMappingOptionsBo> oleBatchProcessProfileDataMappingOptionsBos) {
-        String docField = null;
-        String bibField = null;
-        Map<String, List<String>> dataFieldValues = new HashMap<>();
-
-        for (OLEBatchProcessProfileDataMappingOptionsBo oleBatchProcessProfileDataMappingOptionsBo : oleBatchProcessProfileDataMappingOptionsBos) {
-            bibField = oleBatchProcessProfileDataMappingOptionsBo.getSourceField();
-            docField = oleBatchProcessProfileDataMappingOptionsBo.getDestinationField();
-
-            if (EHoldings.DESTINATION_FIELD_LINK_TEXT.equalsIgnoreCase(docField)) {
-                putDataFieldValues(bibRecord, bibField, dataFieldValues, EHoldings.DESTINATION_FIELD_LINK_TEXT);
-            }
-            else if(EHoldings.DESTINATION_FIELD_ERESOURCE_NAME.equalsIgnoreCase(docField)) {
-                putDataFieldValues(bibRecord, bibField, dataFieldValues, EHoldings.DESTINATION_FIELD_ERESOURCE_NAME);
-            }
-            else if(EHoldings.DESTINATION_FIELD_ERESOURCE_ID.equalsIgnoreCase(docField)) {
-                putDataFieldValues(bibRecord, bibField, dataFieldValues, EHoldings.DESTINATION_FIELD_ERESOURCE_ID);
-            }
-            else if(EHoldings.DESTINATION_FIELD_PLATFORM.equalsIgnoreCase(docField)) {
-                putDataFieldValues(bibRecord, bibField, dataFieldValues, EHoldings.DESTINATION_FIELD_PLATFORM);
-            }
-            else if(EHoldings.DESTINATION_FIELD_GOKB_ID.equalsIgnoreCase(docField)) {
-                putDataFieldValues(bibRecord, bibField, dataFieldValues, EHoldings.DESTINATION_FIELD_GOKB_ID);
-            }
-
-        }
-        return dataFieldValues;
-    }
-
-    private void putDataFieldValues(BibMarcRecord bibRecord, String bibField, Map<String, List<String>> dataFieldValues, String key) {
-        List<String> dataFields = BatchBibImportUtil.getMatchedDataField(bibRecord, bibField);
-        dataFieldValues.put(key, dataFields);
     }
 
     /**
