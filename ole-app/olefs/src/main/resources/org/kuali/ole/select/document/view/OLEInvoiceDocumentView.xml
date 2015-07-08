@@ -929,7 +929,7 @@
 
     <bean id="routeLogDisplayBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="enableRouteLogDisplay"  p:refreshId="Uif-Inv-DocumentRouteLogSection"  p:hidden="true"/>
 
-    <bean id="updatePriceBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="updatePrice" p:hidden="true" />
+    <bean id="updatePriceBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="updatePrice" p:ajaxSubmit="true"  p:successCallback="removeDollarSymbol()" p:hidden="true" />
 
     <bean id="overviewFlag"  parent="Uif-InputField" p:propertyName="overviewFlag" p:hidden="true">
         <property name="control">
