@@ -3266,6 +3266,44 @@
     AND
     ENT.ENTITY_ID = ENT_NM.ENTITY_ID)&#xa;&#xa;&#xa;&#xa;"/>
 
+
+    <table name="OLE_NOTC_FIELD_LABEL_MAPNG_T">
+        <column default="0" name="OLE_NOTC_FIELD_LABEL_MAPNG_ID"
+                primaryKey="true" size="40" type="VARCHAR"/>
+        <column name="FLD_NM" required="true" size="40" type="VARCHAR"/>
+        <column name="FLD_LBL"  size="40" type="VARCHAR"/>
+        <column name="OLE_NOTC_CNTNT_CONFIG_ID"  size="40" type="VARCHAR"/>
+        <column name="VER_NBR" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="OLE_NOTC_CNTNT_CONFIG_T" name="OLE_NOTC_CNTNT_CONFIG_FK">
+            <reference foreign="OLE_NOTC_CNTNT_CONFIG_ID" local="OLE_NOTC_CNTNT_CONFIG_ID"/>
+        </foreign-key>
+        <index name="FLD_NM_INDX">
+            <index-column name="FLD_NM"/>
+        </index>
+
+    </table>
+
+    <table name="OLE_NOTC_CNTNT_CONFIG_T">
+        <column name="OLE_NOTC_CNTNT_CONFIG_ID" primaryKey="true" size="40" type="VARCHAR"/>
+        <column name="NOTC_TYP" required="true" size="40" type="VARCHAR"/>
+        <column name="NOTC_NM" required="true" size="400" type="VARCHAR"/>
+        <column name="NOTC_TITL" required="true" size="400" type="VARCHAR"/>
+        <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column name="NOTC_BDY" required="true" size="4000" type="VARCHAR"/>
+        <column name="NOTC_SUBJ_LN" required="true" size="4000" type="VARCHAR"/>
+        <column name="VRSN" required="true" size="40" type="VARCHAR"/>
+        <column name="VER_NBR" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <index name="NOTC_TYP_INDX">
+            <index-column name="NOTC_TYP"/>
+        </index>
+        <index name="NOTC_NM_INDEX">
+            <index-column name="NOTC_NM"/>
+        </index>
+    </table>
+
+
     <sequence name="OLE_ACC_LOC_S" nextval="1"/>
     <sequence name="OLE_E_RES_ACC_ACT_WRKFLW_S" nextval="1"/>
     <sequence name="OLE_E_RES_ACC_ACT_CONFIG_S" nextval="1"/>
@@ -3454,5 +3492,9 @@
     <sequence name="ALRT_EVENT_S" nextval="1"/>
     <sequence name="ALRT_EVENT_FIELD_S" nextval="1"/>
     <sequence name="OLE_RNWL_HISTORY_S" nextval="1"/>
+    <sequence name="OLE_NOTC_FIELD_LABEL_MAPNG_S" nextval="1"/>
+    <sequence name="OLE_NOTC_CNTNT_CONFIG_S" nextval="1"/>
+
+
 
 </database>

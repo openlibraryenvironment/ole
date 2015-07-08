@@ -6096,6 +6096,73 @@ CREATE TABLE OLE_GOKB_ARCHIVE_T
 
 
 # -----------------------------------------------------------------------
+# OLE_NOTC_FIELD_LABEL_MAPNG_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_NOTC_FIELD_LABEL_MAPNG_T
+/
+
+CREATE TABLE OLE_NOTC_FIELD_LABEL_MAPNG_T
+(
+      OLE_NOTC_FIELD_LABEL_MAPNG_ID VARCHAR(40) default '0'
+        , FLD_NM VARCHAR(40) NOT NULL
+        , FLD_LBL VARCHAR(40)
+        , OLE_NOTC_CNTNT_CONFIG_ID VARCHAR(40)
+        , VER_NBR DECIMAL(8)
+        , OBJ_ID VARCHAR(36)
+    
+    , CONSTRAINT OLE_NOTC_FIELD_LABEL_MAPNG_P1 PRIMARY KEY(OLE_NOTC_FIELD_LABEL_MAPNG_ID)
+
+
+
+
+
+    
+                                                                                                                                                                                                                
+                                    
+, INDEX FLD_NM_INDX (FLD_NM )
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_NOTC_CNTNT_CONFIG_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_NOTC_CNTNT_CONFIG_T
+/
+
+CREATE TABLE OLE_NOTC_CNTNT_CONFIG_T
+(
+      OLE_NOTC_CNTNT_CONFIG_ID VARCHAR(40)
+        , NOTC_TYP VARCHAR(40) NOT NULL
+        , NOTC_NM VARCHAR(400) NOT NULL
+        , NOTC_TITL VARCHAR(400) NOT NULL
+        , ACTV_IND VARCHAR(1) default 'Y' NOT NULL
+        , NOTC_BDY VARCHAR(4000) NOT NULL
+        , VRSN VARCHAR(40) NOT NULL
+        , VER_NBR DECIMAL(8)
+        , OBJ_ID VARCHAR(36)
+    
+    , CONSTRAINT OLE_NOTC_CNTNT_CONFIG_TP1 PRIMARY KEY(OLE_NOTC_CNTNT_CONFIG_ID)
+
+
+
+
+
+    
+                                                                                                                                                                                                                                                                            
+                                    
+, INDEX NOTC_TYP_INDX (NOTC_TYP )
+    
+                                                                                                                                                                                                                                                                                                
+                                    
+, INDEX NOTC_NM_INDEX (NOTC_NM (255))
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
 # OLE_GOKB_V
 # -----------------------------------------------------------------------
 drop view if exists OLE_GOKB_V
@@ -8721,4 +8788,32 @@ CREATE TABLE OLE_RNWL_HISTORY_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_RNWL_HISTORY_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_NOTC_FIELD_LABEL_MAPNG_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_NOTC_FIELD_LABEL_MAPNG_S
+/
+
+CREATE TABLE OLE_NOTC_FIELD_LABEL_MAPNG_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_NOTC_FIELD_LABEL_MAPNG_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_NOTC_CNTNT_CONFIG_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_NOTC_CNTNT_CONFIG_S
+/
+
+CREATE TABLE OLE_NOTC_CNTNT_CONFIG_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_NOTC_CNTNT_CONFIG_S auto_increment = 1
 /

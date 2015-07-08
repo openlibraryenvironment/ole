@@ -5097,4 +5097,158 @@
     </changeSet>
 
 
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_CNTNT_CONFIG_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_NOTC_CNTNT_CONFIG_T">
+            <column name="OLE_NOTC_CNTNT_CONFIG_ID"   type="VARCHAR(40)"/>
+            <column name="NOTC_TYP"   type="VARCHAR(40)"/>
+            <column name="NOTC_NM"   type="VARCHAR(400)"/>
+            <column name="NOTC_TITL"   type="VARCHAR(400)"/>
+            <column name="NOTC_BDY"   type="VARCHAR(4000)"/>
+            <column name="NOTC_SUBJ_LN"   type="VARCHAR(400)"/>
+            <column name="VRSN"   type="VARCHAR(40)"/>
+            <column name="ROW_ACT_IND"   type="VARCHAR(1)"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_CNTNT_CONFIG_T_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="OLE_NOTC_CNTNT_CONFIG_ID"
+                       constraintName="OLE_NOTC_CNTNT_CONFIG_T_PK"
+                       schemaName="ole"
+                       tableName="OLE_NOTC_CNTNT_CONFIG_T"/>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_NOTC_CNTNT_CONFIG_T_I">
+        <createIndex catalogName="ole"
+                     indexName="OLE_NOTC_CNTNT_CONFIG_T_I1"
+                     schemaName="ole"
+                     tableName="OLE_NOTC_CNTNT_CONFIG_T">
+            <column name="NOTC_TYP" type="VARCHAR(40)"/>
+            <column name="NOTC_TYP" type="VARCHAR(400)"/>
+        </createIndex>
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_CNTNT_CONFIG_T_S" dbms="oracle">
+        <createSequence catalogName="ole"
+                        incrementBy="1"
+                        ordered="true"
+                        schemaName="ole"
+                        sequenceName="OLE_E_RES_ACC_ACT_CONFIG_S"
+                        startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_CNTNT_CONFIG_S" dbms="mysql">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_NOTC_CNTNT_CONFIG_S">
+            <column name="ID"   type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_CNTNT_CONFIG_S_PK" dbms="mysql">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="OLE_NOTC_CNTNT_CONFIG_ID"
+                       constraintName="OLE_NOTC_CNTNT_CONFIG_S_PK"
+                       schemaName="ole"
+                       tableName="OLE_NOTC_CNTNT_CONFIG_S"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_CNTNT_CONFIG_S_AUTO_INCREMENT" dbms="mysql">
+        <addAutoIncrement catalogName="ole"
+                          columnDataType="BIGINT(19)"
+                          columnName="OLE_NOTC_CNTNT_CONFIG_ID"
+                          incrementBy="1"
+                          schemaName="ole"
+                          startWith="1"
+                          tableName="OLE_NOTC_CNTNT_CONFIG_S"/>
+    </changeSet>
+
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_FIELD_LABEL_MAPNG_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_NOTC_FIELD_LABEL_MAPNG_T">
+            <column name="OLE_NOTC_FIELD_LABEL_MAPNG_ID"   type="VARCHAR(40)"/>
+            <column name="FLD_NM"   type="VARCHAR(40)"/>
+            <column name="FLD_LBL"   type="VARCHAR(40)"/>
+            <column name="OLE_NOTC_CNTNT_CONFIG_ID"   type="VARCHAR(40)"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_FIELD_LABEL_MAPNG_T_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="OLE_NOTC_FIELD_LABEL_MAPNG_ID"
+                       constraintName="OLE_NOTC_FIELD_LABEL_MAPNG_T_PK"
+                       schemaName="ole"
+                       tableName="OLE_NOTC_FIELD_LABEL_MAPNG_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_FIELD_LABEL_MAPNG_T_FK">
+        <addForeignKeyConstraint baseTableCatalogName="ole"
+                                 baseTableSchemaName="ole"
+                                 baseColumnNames="OLE_NOTC_CNTNT_CONFIG_ID"
+                                 baseTableName="OLE_NOTC_FIELD_LABEL_MAPNG_T"
+                                 constraintName="OLE_NOTC_FIELD_LABEL_MAPNG_T_FK"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="OLE_NOTC_CNTNT_CONFIG_ID"
+                                 referencedTableName="OLE_NOTC_CNTNT_CONFIG_T"/>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_NOTC_FIELD_LABEL_MAPNG_T_I">
+        <createIndex catalogName="ole"
+                     indexName="OLE_NOTC_FIELD_LABEL_MAPNG_T_I1"
+                     schemaName="ole"
+                     tableName="OLE_NOTC_FIELD_LABEL_MAPNG_T">
+            <column name="FLD_NM" type="VARCHAR(40)"/>
+
+        </createIndex>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_FIELD_LABEL_MAPNG_S" dbms="oracle">
+        <createSequence catalogName="ole"
+                        incrementBy="1"
+                        ordered="true"
+                        schemaName="ole"
+                        sequenceName="OLE_NOTC_FIELD_LABEL_MAPNG_S"
+                        startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_FIELD_LABEL_MAPNG_S" dbms="mysql">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_NOTC_FIELD_LABEL_MAPNG_S">
+            <column name="ID"   type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_FIELD_LABEL_MAPNG_S_PK" dbms="mysql">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="OLE_NOTC_FIELD_LABEL_MAPNG_ID"
+                       constraintName="OLE_NOTC_FIELD_LABEL_MAPNG_S_PK"
+                       schemaName="ole"
+                       tableName="OLE_NOTC_FIELD_LABEL_MAPNG_S"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_FIELD_LABEL_MAPNG_S_AUTO_INCREMENT" dbms="mysql">
+        <addAutoIncrement catalogName="ole"
+                          columnDataType="BIGINT(19)"
+                          columnName="OLE_NOTC_FIELD_LABEL_MAPNG_ID"
+                          incrementBy="1"
+                          schemaName="ole"
+                          startWith="1"
+                          tableName="OLE_NOTC_FIELD_LABEL_MAPNG_S"/>
+    </changeSet>
+
+
 </databaseChangeLog>
