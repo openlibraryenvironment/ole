@@ -99,6 +99,20 @@
                 <a class="green"
                    href="portal.do?selectedTab=oleAdmin"
                    title="Admin">Admin</a>
+                </li>
+            </c:if>
+
+            <c:if test='${selectedTab == "Reports"}'>
+                <li class="red">
+                    <a class="red" href="${reportsUrl}"
+                       title="Reports">Reports</a>
+                </li>
+            </c:if>
+            <c:if test='${selectedTab != "Reports"}'>
+                <li class="green">
+                    <a class="green"
+                       href="${reportsUrl}"
+                       title="Reports">Reports</a>
             </li>
         </c:if>
 
