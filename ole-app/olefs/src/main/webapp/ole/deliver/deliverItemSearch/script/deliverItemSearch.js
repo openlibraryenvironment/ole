@@ -195,10 +195,7 @@ function oleItemSearchPager(linkElement, collectionId) {
 
         });
     }
-
 }
-
-
 function sortBy(field) {
     var sortField = "";
     setFieldAndSort(field);
@@ -223,8 +220,6 @@ function sortBy(field) {
     });
 
 }
-
-
 function setFieldAndSort(field) {
     if (sessionStorage.getItem("field") == field) {
         if (sessionStorage.getItem("sortOrder") == "asc") {
@@ -237,6 +232,12 @@ function setFieldAndSort(field) {
         sessionStorage.setItem("sortOrder", "asc");
     }
 }
+
+function openHelpWindow(url) {
+
+}
+
+
 
 
 
