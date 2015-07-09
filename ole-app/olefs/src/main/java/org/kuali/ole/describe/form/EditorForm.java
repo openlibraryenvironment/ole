@@ -1087,6 +1087,7 @@ public class EditorForm extends UifFormBase {
         if (!StringUtils.isBlank(bibId) && !StringUtils.isBlank(instanceId)) {
             docMap.put("bibId", bibId);
             docMap.put("instanceId", this.getInstanceId());
+            docMap.put("active", Boolean.TRUE);
             OLESerialReceivingDocument oleSerialReceivingDocument = getBusinessObjectService().findByPrimaryKey(OLESerialReceivingDocument.class, docMap);
             if (oleSerialReceivingDocument != null) {
                 return oleSerialReceivingDocument.getDocumentNumber();
