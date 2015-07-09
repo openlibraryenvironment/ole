@@ -5128,7 +5128,7 @@
                      schemaName="ole"
                      tableName="OLE_NOTC_CNTNT_CONFIG_T">
             <column name="NOTC_TYP" type="VARCHAR(40)"/>
-            <column name="NOTC_TYP" type="VARCHAR(400)"/>
+            <column name="NOTC_NM" type="VARCHAR(400)"/>
         </createIndex>
     </changeSet>
 
@@ -5138,7 +5138,7 @@
                         incrementBy="1"
                         ordered="true"
                         schemaName="ole"
-                        sequenceName="OLE_E_RES_ACC_ACT_CONFIG_S"
+                        sequenceName="OLE_NOTC_CNTNT_CONFIG_S"
                         startValue="1"/>
     </changeSet>
 
@@ -5152,7 +5152,7 @@
 
     <changeSet context="bootstrap" author="ole" id="OLE_NOTC_CNTNT_CONFIG_S_PK" dbms="mysql">
         <addPrimaryKey catalogName="ole"
-                       columnNames="OLE_NOTC_CNTNT_CONFIG_ID"
+                       columnNames="ID"
                        constraintName="OLE_NOTC_CNTNT_CONFIG_S_PK"
                        schemaName="ole"
                        tableName="OLE_NOTC_CNTNT_CONFIG_S"/>
@@ -5162,7 +5162,7 @@
     <changeSet context="bootstrap" author="ole" id="OLE_NOTC_CNTNT_CONFIG_S_AUTO_INCREMENT" dbms="mysql">
         <addAutoIncrement catalogName="ole"
                           columnDataType="BIGINT(19)"
-                          columnName="OLE_NOTC_CNTNT_CONFIG_ID"
+                          columnName="ID"
                           incrementBy="1"
                           schemaName="ole"
                           startWith="1"
@@ -5187,7 +5187,7 @@
     <changeSet context="bootstrap" author="ole" id="OLE_NOTC_FIELD_LABEL_MAPNG_T_PK">
         <addPrimaryKey catalogName="ole"
                        columnNames="OLE_NOTC_FIELD_LABEL_MAPNG_ID"
-                       constraintName="OLE_NOTC_FIELD_LABEL_MAPNG_T_PK"
+                       constraintName="OLE_NOTC_FIELD_LABEL_MAPNG_PK"
                        schemaName="ole"
                        tableName="OLE_NOTC_FIELD_LABEL_MAPNG_T"/>
     </changeSet>
@@ -5197,7 +5197,7 @@
                                  baseTableSchemaName="ole"
                                  baseColumnNames="OLE_NOTC_CNTNT_CONFIG_ID"
                                  baseTableName="OLE_NOTC_FIELD_LABEL_MAPNG_T"
-                                 constraintName="OLE_NOTC_FIELD_LABEL_MAPNG_T_FK"
+                                 constraintName="OLE_NOTC_FIELD_LABEL_MAPNG_FK"
                                  onDelete="CASCADE"
                                  onUpdate="RESTRICT"
                                  referencedColumnNames="OLE_NOTC_CNTNT_CONFIG_ID"
@@ -5206,7 +5206,7 @@
 
     <changeSet author="ole" id="OLE_NOTC_FIELD_LABEL_MAPNG_T_I">
         <createIndex catalogName="ole"
-                     indexName="OLE_NOTC_FIELD_LABEL_MAPNG_T_I1"
+                     indexName="OLE_NOTC_FIELD_LABEL_MAPNG_I1"
                      schemaName="ole"
                      tableName="OLE_NOTC_FIELD_LABEL_MAPNG_T">
             <column name="FLD_NM" type="VARCHAR(40)"/>
@@ -5233,7 +5233,7 @@
 
     <changeSet context="bootstrap" author="ole" id="OLE_NOTC_FIELD_LABEL_MAPNG_S_PK" dbms="mysql">
         <addPrimaryKey catalogName="ole"
-                       columnNames="OLE_NOTC_FIELD_LABEL_MAPNG_ID"
+                       columnNames="ID"
                        constraintName="OLE_NOTC_FIELD_LABEL_MAPNG_S_PK"
                        schemaName="ole"
                        tableName="OLE_NOTC_FIELD_LABEL_MAPNG_S"/>
@@ -5243,7 +5243,7 @@
     <changeSet context="bootstrap" author="ole" id="OLE_NOTC_FIELD_LABEL_MAPNG_S_AUTO_INCREMENT" dbms="mysql">
         <addAutoIncrement catalogName="ole"
                           columnDataType="BIGINT(19)"
-                          columnName="OLE_NOTC_FIELD_LABEL_MAPNG_ID"
+                          columnName="ID"
                           incrementBy="1"
                           schemaName="ole"
                           startWith="1"
