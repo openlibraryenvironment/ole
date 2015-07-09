@@ -58,6 +58,7 @@
                             <bean id="create_shelvingLagTime" parent="Uif-InputField" p:propertyName="shelvingLagTime" p:required="true"/>
                             <bean id="create_isPickUpLocation" parent="Uif-InputField" p:propertyName="pickUpLocation"/>
                             <bean id="create_asrPickupLocation" parent="Uif-InputField" p:propertyName="asrPickupLocation"/>
+                            <bean id="create_renewLostItem" parent="Uif-InputField" p:propertyName="renewLostItem"/>
                             <bean id="create_printSlip" parent="Uif-InputField" p:propertyName="printSlip"/>
                             <bean id="create_active" parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
                             <bean id="CalendarGroupId" parent="Uif-InputField" p:propertyName="calendarGroupId" p:label="Group Name">

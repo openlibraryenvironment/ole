@@ -20,10 +20,7 @@ import org.kuali.ole.deliver.calendar.service.impl.OleCalendarServiceImpl;
 import org.kuali.ole.deliver.form.OleLoanForm;
 import org.kuali.ole.deliver.notice.service.OleNoticeService;
 import org.kuali.ole.deliver.notice.service.impl.OleNoticeServiceImpl;
-import org.kuali.ole.deliver.service.CircDeskLocationResolver;
-import org.kuali.ole.deliver.service.OLEDeliverNoticeHelperService;
-import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
-import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
+import org.kuali.ole.deliver.service.*;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.bo.OleItemAvailableStatus;
 import org.kuali.ole.describe.bo.OleLocation;
@@ -100,7 +97,7 @@ import java.util.regex.Pattern;
  * The Loan Processor  class acts between the controller and the service layers in delegating the appropriate service
  * to the functions called from the controller.
  */
-public class LoanProcessor {
+public class LoanProcessor extends PatronBillResolver {
     private static final Logger LOG = Logger.getLogger(LoanProcessor.class);
 
     private BusinessObjectService businessObjectService;
@@ -667,17 +664,6 @@ public class LoanProcessor {
 
     }
 
-    /**
-     * This method returns BorrowerTypeName using borrowerId
-     *
-     * @param borrowerId
-     * @return String
-     */
-    public OleBorrowerType getborrowerTypeName(String borrowerId) {
-        LOG.debug("Inside the getborrowerTypeName method");
-        OleBorrowerType oleBorrowerType = getBusinessObjectService().findBySinglePrimaryKey(OleBorrowerType.class, borrowerId);
-        return oleBorrowerType;
-    }
 
     /**
      * This method returns PatronName using entityId
@@ -758,17 +744,6 @@ public class LoanProcessor {
         updateItemStatus(oleItem,itemStatus);
     }
 
-    private String getPatronBarcodeByPatronId(String patronId) throws Exception{
-        Map barMap = new HashMap();
-        barMap.put("olePatronId", patronId);
-        List<OlePatronDocument> patronDocument = (List<OlePatronDocument>) getBusinessObjectService().findMatching(OlePatronDocument.class, barMap);
-        if(patronDocument != null && patronDocument.size()>0){
-            return patronDocument.get(0).getBarcode();
-        }
-        return null;
-    }
-
-
     /**
      * This method returns PatronRequestRecords  using patronId
      *
@@ -812,28 +787,8 @@ public class LoanProcessor {
         return matchingLoan;
     }
 
-   /* public String getShelvingLocation(LocationLevel oleLocationLevel) {
-        String location = null;
-        if (oleLocationLevel != null) {
-            if (OLEConstants.LOCATION_LEVEL_SHELVING.equalsIgnoreCase(oleLocationLevel.getLevel()))
-                location = oleLocationLevel.getName();
-        } else {
-            location = getShelvingLocation(oleLocationLevel.getLocationLevel());
-        }
-        if ("".equals(location) || location == null) {
-            return null;
-        }
-        return location;
-    }*/
 
     public String getItemCallNumber(org.kuali.ole.docstore.common.document.content.instance.Item oleItem, String instanceUUID) throws Exception {
-       /* CallNumber callNumber = null;
-        if (oleItem.getCallNumber() != null && oleItem.getCallNumber().getNumber() != null && !oleItem.getCallNumber().getNumber().isEmpty()) {
-            callNumber = oleItem.getCallNumber();
-        } else {
-            OleHoldings oleHoldings = getOleHoldings(instanceUUID);
-            callNumber = oleHoldings.getCallNumber();
-        }*/
         OleHoldings oleHoldings = getOleHoldings(instanceUUID);
         return getItemCallNumber(oleItem.getCallNumber(),oleHoldings.getCallNumber());
     }
@@ -973,10 +928,6 @@ public class LoanProcessor {
                             bibauthor = searchResultField.getFieldValue();
                         }
                         oleLoanDocument.setItemUuid(itemUUID);
-//                        if (fieldName.equalsIgnoreCase("id") && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase("holdings")) {
-//                            holdingsId = fieldValue;
-//                        } else {
-//                        }
                     }
                 }
                 if(searchResponse.getSearchResults()!= null && searchResponse.getSearchResults().size() == 0){
@@ -1107,12 +1058,9 @@ public class LoanProcessor {
             patronType = oleLoanDocument.getBorrowerTypeCode();
 
         }
-
-
         oleLoanDocument.setExpirationDate(expirationDate);
         StringBuffer failures = new StringBuffer();
         List<FeeType> feeTypeList = oleCirculationPolicyService.getPatronBillPayment(oleLoanDocument.getPatronId());
-
         List<Integer> listOfOverDueDays = (List<Integer>)keyLoanMap.get(OLEConstants.LIST_OF_OVERDUE_DAYS);
         getDataCarrierService().addData(OLEConstants.LIST_OVERDUE_DAYS, listOfOverDueDays);
         getDataCarrierService().addData(OLEConstants.HOURS_DIFF, oleCirculationPolicyService.getHoursDiff(oleLoanDocument.getLoanDueDate(), new Date()));
@@ -1136,7 +1084,6 @@ public class LoanProcessor {
             replacementFeeAmt += feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.REPLACEMENT_FEE) ? fineAmount : 0;
             serviceFeeAmt += feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.SERVICE_FEE) ? fineAmount : 0;
         }
-
         OleCirculationDesk oleCirculationDesk = oleLoanDocument.getCirculationLocationId() != null ? getCircDeskLocationResolver().getOleCirculationDesk(oleLoanDocument.getCirculationLocationId()) : null;
         oleLoanDocument.setOleCirculationDesk(oleCirculationDesk);
         getDataCarrierService().addData(OLEConstants.GROUP_ID, oleCirculationDesk != null ? oleCirculationDesk.getCalendarGroupId() : "");
@@ -1213,7 +1160,7 @@ public class LoanProcessor {
             termValues.put(OLEConstants.IS_PATRON_POSITION_ONE, OLEConstants.FALSE);
             termValues.put(OLEConstants.REQUEST_TYPE, requestType);
         }
-      /*  termValues.put(OLEConstants.ITEM_STATUS, oleLoanDocument.getItemLoanStatus());*/
+        termValues.put(OLEConstants.ITEM_STATUS, oleLoanDocument.getItemLoanStatus());
         termValues.put(OLEConstants.ITEM_SHELVING, oleLoanDocument.getItemLocation());
         termValues.put(OLEConstants.ITEM_COLLECTION, oleLoanDocument.getItemCollection());
         termValues.put(OLEConstants.ITEM_LIBRARY, oleLoanDocument.getItemLibrary());
@@ -1342,12 +1289,25 @@ public class LoanProcessor {
         if ((!oleLoanDocument.isRenewalItemFlag() || (oleLoanDocument.isRenewalItemFlag()))) {
             oleLoanDocument.setRenewalLoanDueDate(dueDate != null ? dueDate : null);
         }
+        if(oleLoanDocument.isReplacementFeeExist()) {
+            if (oleLoanDocument.getFeeType() != null && oleLoanDocument.getFeeType().size() > 0) {
+                for(FeeType feeType:oleLoanDocument.getFeeType()){
+                    if(feeType.getPatronBillPayment()!=null && feeType.getPatronBillPayment().getPatronId().equals(patronId)){
+                        oleLoanDocument.setReplacementFeeExist(true);
+                        oleLoanDocument.setBillName(OLEConstants.REPLACEMENT_FEE);
+                        break;
+                    }
+                }
+            }
+        }
         if (!failures.toString().isEmpty()) {
             oleLoanDocument.setErrorMessage(failures.toString());
             return oleLoanDocument;
         }
 
-        renewalCounterIncrement(oleLoanDocument, pastDueDate);
+        if(oleLoanDocument.isRenewalItemFlag() && !oleLoanDocument.isIndefiniteCheckFlag() && !oleLoanDocument.isRenewNotFlag()) {
+            renewalCounterIncrement(oleLoanDocument, pastDueDate);
+        }
         Long beginSaveLoan = System.currentTimeMillis();
         if(oleLoanDocument.getManualRenewalDueDate()!=null && oleLoanDocument.getLoanDueDate() == null){
            oleLoanDocument.setLoanDueDate(oleLoanDocument.getManualRenewalDueDate());
@@ -1360,7 +1320,6 @@ public class LoanProcessor {
     }
 
     private void renewalCounterIncrement(OleLoanDocument oleLoanDocument, Date pastDueDate) {
-        if (oleLoanDocument.isRenewalItemFlag() && !oleLoanDocument.isIndefiniteCheckFlag() && !oleLoanDocument.isRenewNotFlag()) {
             if (oleLoanDocument.getNumberOfRenewals() == null) {
                 oleLoanDocument.setNumberOfRenewals(OLEConstants.ZERO);
             }
@@ -1372,7 +1331,6 @@ public class LoanProcessor {
             oleLoanDocument.setCourtesyNoticeFlag(false);
             oleLoanDocument.setPastDueDate(pastDueDate);
             oleLoanDocument.setRenewalItemFlag(false);
-        }
     }
 
     private void appendFlaggedItemNoteInErrorMessage(org.kuali.ole.docstore.common.document.content.instance.Item item, List<String> errorMessage) {
@@ -1398,50 +1356,13 @@ public class LoanProcessor {
      */
     public OleHoldings getOleHoldings(String instanceUUID) throws Exception {
         LOG.debug("--Inside getOleHoldings---");
-
         Holdings holdings = new Holdings();
-
-
         holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(instanceUUID);
-
-
         HoldingOlemlRecordProcessor holdingOlemlRecordProcessor = new HoldingOlemlRecordProcessor();
         OleHoldings oleHoldings = holdingOlemlRecordProcessor.fromXML(holdings.getContent());
-
-
         return oleHoldings;
     }
 
-
-    /*private boolean CheckItemStatusIsCheckedOut(Item oleItem) {
-        LOG.debug("Inside the CheckItemStatusIsCheckedOut method");
-        String itemStatus = oleItem.getItemStatus();
-        if(itemStatus.equalsIgnoreCase(OLEConstants.ITEM_STATUS_CHECKEDOUT)){
-            return true;
-        }else {
-            return false;
-        }
-    }*/
-
-   /* *//**
-     * Check item barcode exist in docstore.
-     * @param barcode
-     * @return
-     * @throws Exception
-     *//*
-    public boolean validateFastAddItem(String barcode) throws Exception{
-        LOG.debug("Inside the validateFastAddItem method");
-        SolrRequestReponseHandler solrRequestReponseHandler = new SolrRequestReponseHandler();
-        List<HashMap<String, Object>> documentList = null;
-        if(barcode != null){
-          documentList= solrRequestReponseHandler.retriveResults(OLEConstants.ITEM_BARCODE_DISPLAY+barcode);
-        }
-        if(documentList != null && documentList.size() >0){
-            return false;
-        }else{
-            return true;
-        }
-    }*/
 
     /**
      * Compares expiration date with due date.
@@ -2883,20 +2804,7 @@ public class LoanProcessor {
             oleLoanDocument.setBillName(oleLoanDocument.getFineRate().toString());
             updateReplacementFeeBill(oleLoanDocument);
         }
-        if (oleLoanDocument.getReplacementBill() != null && oleLoanDocument.getFineRate() != null && oleLoanDocument.getFineRate().compareTo(BigDecimal.ZERO) > 0) {
-            generatePatronBillPayment(oleLoanDocument, OLEConstants.REPLACEMENT_FEE, oleLoanDocument.getReplacementBill());
-            BigDecimal fineRate = oleLoanDocument.getFineRate() != null ? oleLoanDocument.getFineRate() : OLEConstants.BIGDECIMAL_DEF_VALUE;
-            oleLoanDocument.setBillName(oleLoanDocument.getReplacementBill().add(fineRate).toString());
-            if (oleItem.isStaffOnlyFlag()) {
-                oleItem.setStaffOnlyFlag(false);
-            }
-        }
-        if (oleLoanDocument.getRepaymentFeePatronBillId() != null) {
-            if (oleItem.isStaffOnlyFlag()) {
-                oleItem.setStaffOnlyFlag(false);
-            }
-            oleLoanDocument.setBillName(OLEConstants.REPLACEMENT_FEE);
-        }
+        generateReplacementBillForPatron(oleLoanDocument, oleItem);
         if (oleLoanDocument.getItemStatusCode() != null) {
             incrementNumberOfCirculations(oleLoanDocument);
             oleItem.setCurrentBorrower(null);
@@ -2939,6 +2847,23 @@ public class LoanProcessor {
         long total = end - begin;
         LOG.info("Time taken Inside inner returnloan"+total);
         return oleLoanDocument;
+    }
+
+    private void generateReplacementBillForPatron(OleLoanDocument oleLoanDocument, org.kuali.ole.docstore.common.document.content.instance.Item oleItem) {
+        if (oleLoanDocument.getReplacementBill() != null && oleLoanDocument.getFineRate() != null && oleLoanDocument.getFineRate().compareTo(BigDecimal.ZERO) > 0) {
+            generatePatronBillPayment(oleLoanDocument, OLEConstants.REPLACEMENT_FEE, oleLoanDocument.getReplacementBill());
+            BigDecimal fineRate = oleLoanDocument.getFineRate() != null ? oleLoanDocument.getFineRate() : OLEConstants.BIGDECIMAL_DEF_VALUE;
+            oleLoanDocument.setBillName(oleLoanDocument.getReplacementBill().add(fineRate).toString());
+            if (oleItem.isStaffOnlyFlag()) {
+                oleItem.setStaffOnlyFlag(false);
+            }
+        }
+        if (oleLoanDocument.getRepaymentFeePatronBillId() != null) {
+            if (oleItem.isStaffOnlyFlag()) {
+                oleItem.setStaffOnlyFlag(false);
+            }
+            oleLoanDocument.setBillName(OLEConstants.REPLACEMENT_FEE);
+        }
     }
 
     private void rollbackCirculationHistoryAndTempHistory(OleLoanDocument oleLoanDocument) {
@@ -3317,16 +3242,7 @@ public class LoanProcessor {
             }
             compareExpirationDateWithDueDate(oleLoanDocument);
             if (oleLoanDocument.isRenewalItemFlag()) {
-                if (oleLoanDocument.getNumberOfRenewals() == null)
-                    oleLoanDocument.setNumberOfRenewals("0");
-                String noOfRenewal = "" + (Integer.parseInt(oleLoanDocument.getNumberOfRenewals()) + 1);
-                if (noOfRenewal != null && !noOfRenewal.isEmpty()) {
-                    oleLoanDocument.setNumberOfOverdueNoticesSent("0");
-                }
-                oleLoanDocument.setNumberOfRenewals(noOfRenewal);
-                oleLoanDocument.setCourtesyNoticeFlag(false);
-                oleLoanDocument.setPastDueDate(pastDueDate);
-                oleLoanDocument.setRenewalItemFlag(false);
+                renewalCounterIncrement(oleLoanDocument, pastDueDate);
                 saveLoan(oleLoanDocument);
             }
         }
@@ -3508,50 +3424,6 @@ public class LoanProcessor {
             }
         }
         return circkDesk;
-    }
-
-    public void checkReplacementFineExist(OleLoanDocument oleLoanDocument) {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put(OLEConstants.ITEM_BARCODE, oleLoanDocument.getItemId());
-        map.put(OLEConstants.FEE_TYPE_FIELD, getOleFeeTypeCode(OLEConstants.FEE_TYPE_CODE_REPL_FEE));
-        List<FeeType> feeTypes = (List<FeeType>) KRADServiceLocator.getBusinessObjectService().findMatching(FeeType.class, map);
-        if (feeTypes != null && feeTypes.size() > 0) {
-           /* feeTypes.get(feeTypes.size())
-            oleLoanDocument.setReplacementFeeExist(true);*/
-            for(FeeType feeType:feeTypes){
-                if(feeType.getBalFeeAmount().isGreaterThan(new KualiDecimal(0.00))){
-                    oleLoanDocument.setReplacementFeeExist(true);
-                    break;
-                }
-            }
-        }
-
-    }
-
-    public void checkOverdueExist(OleLoanDocument oleLoanDocument) {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put(OLEConstants.ITEM_BARCODE, oleLoanDocument.getItemId());
-        map.put(OLEConstants.FEE_TYPE_FIELD, getOleFeeTypeCode(OLEConstants.FEE_TYPE_CODE_OVERDUE));
-        List<FeeType> feeTypes = (List<FeeType>) KRADServiceLocator.getBusinessObjectService().findMatching(FeeType.class, map);
-        if (feeTypes != null && feeTypes.size() > 0) {
-            for (FeeType feeType : feeTypes) {
-                if (feeType.getBalFeeAmount().compareTo(OLEConstants.KUALI_BIGDECIMAL_DEF_VALUE) != 0) {
-                    oleLoanDocument.setOverdueFineExist(true);
-                    break;
-                }
-            }
-        }
-
-    }
-
-    public String getOleFeeTypeCode(String typeCode){
-        Map<String, String> map = new HashMap<String, String>();
-        map.put(OLEConstants.FEE_TYPE_CODE, typeCode);
-        List<OleFeeType> feeTypes = (List<OleFeeType>) KRADServiceLocator.getBusinessObjectService().findMatching(OleFeeType.class, map);
-        if(CollectionUtils.isNotEmpty(feeTypes)){
-            return feeTypes.get(0).getFeeTypeId();
-        }
-        return "";
     }
 
     public void isItemLoanedByDifferentPatron(OleLoanDocument oleLoanDocument) {

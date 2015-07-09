@@ -31,7 +31,7 @@ public class SearchParmsBuilder {
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "Location_display"));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "HoldingsCopyNumber_search"));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "HoldingsCallNumber_search"));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "HoldingsLocation_search"));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "HoldingsLocation_display"));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "MissingPieceCount_search"));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "NumberOfPieces_search"));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "CallNumberPrefix_display"));

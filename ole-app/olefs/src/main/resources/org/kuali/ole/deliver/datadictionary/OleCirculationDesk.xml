@@ -40,6 +40,7 @@
                 <ref bean="OleCirculationDesk-printSlip"/>
                 <ref bean="OleCirculationDesk-holdFormat"/>
                 <ref bean="OleCirculationDesk-holdQueue"/>
+                <ref bean="OleCirculationDesk-renewLostItem"/>
                 <ref bean="OleCirculationDesk-replyToEmail"/>
             </list>
         </property>
@@ -190,12 +191,31 @@
         <property name="controlField">
             <bean  parent="Uif-CheckboxControl"/>
         </property>
-        <property name="summary" value="Active Indicator"/>
+        <property name="summary" value="ASR PickUp Location"/>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
         <property name="label" value="ASR PickUp Location"/>
         <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
     </bean>
 
+
+    <bean id="OleCirculationDesk-renewLostItem" parent="OleCirculationDesk-renewLostItem-parentBean"/>
+
+    <bean id="OleCirculationDesk-renewLostItem-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="renewLostItem"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Renew Lost Item"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Renew Lost Item"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Renew Lost Item"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
 
     <bean id="OleCirculationDesk-onHoldDays" parent="OleCirculationDesk-onHoldDays-parentBean"/>
 
@@ -380,6 +400,7 @@
                                         <bean id="inquiry_printSlip" parent="Uif-InputField" p:propertyName="printSlip"/>
                                         <bean id="inquiry_holdFormat" parent="Uif-InputField" p:propertyName="holdFormat"/>
                                         <bean id="inquiry_holdQueue" parent="Uif-InputField" p:propertyName="holdQueue"/>
+                                        <bean id="inquiry_renewLostItem" parent="Uif-InputField" p:propertyName="renewLostItem"/>
                                         <bean id="inquiry_replyToEmail" parent="Uif-InputField" p:propertyName="replyToEmail"/>
                                      </list>
                                 </property>

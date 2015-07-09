@@ -746,6 +746,10 @@
 
                 <bean id="renewNoofRenew" parent="Uif-DataField" p:label="No Of Renew" p:width="5%" p:propertyName="numberOfRenewals"/>
 
+                <bean id="renewReplacementBill" parent="Uif-LinkField" p:label="Replacement Bill"   p:width="17%" p:linkText="@{#line.billName}"  p:target="_blank" p:href="patronbill?viewId=BillView&amp;methodToCall=start&amp;patronId=@{#line.patronId}" >
+
+                </bean>
+
                 <bean id="renewloanDueDateRenewal" parent="Uif-DataField" p:label="Message(s)" p:width="25%" p:propertyName="errorMessage"/>
 
             </list>
@@ -1103,6 +1107,9 @@
                 <bean id="loanView_existing_DamagedNote" parent="Uif-DataField" p:label="Item Damaged Note" p:width="10%"  p:propertyName="itemDamagedNote">
 
                 </bean>
+                <bean id="loanView_existing_ReplacementBill" parent="Uif-LinkField" p:label="Replacement Bill"   p:width="17%" p:linkText="@{#line.billName}"  p:target="_blank" p:href="patronbill?viewId=BillView&amp;methodToCall=start&amp;patronId=@{#line.patronId}" >
+
+                </bean>
                 <bean id="viewItemRequest" parent="Uif-LinkField" p:label="Pending Requests" p:width="10%" p:linkText="@{#line.requestFlag}" p:target="_blank" p:href="lookup?methodToCall=search&amp;itemId=@{#line.itemId}&amp;flag=true&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo" p:style="font-weight:bold;">
                     <property name="cssClasses" value="uif-secondaryActionButton"/>
                 </bean>
@@ -1113,7 +1120,7 @@
 
 
     <bean id="Patron-LoanItemListSection-HorizontalBoxSection" parent="Patron-LoanItemListSection-HorizontalBoxSection-parentBean" p:style="width:1300px"/>
-    <bean id="Patron-LoanItemListSection-HorizontalBoxSection-parentBean" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="17" p:style="width:1000px" p:render="@{patronName ne null and patronName ne '' and loanList ne null and loanList.size() > 0}" p:componentSecurity.viewAuthz="true">
+    <bean id="Patron-LoanItemListSection-HorizontalBoxSection-parentBean" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="18" p:style="width:1000px" p:render="@{patronName ne null and patronName ne '' and loanList ne null and loanList.size() > 0}" p:componentSecurity.viewAuthz="true">
         <property name="headerText" value="Items Checked Out This Session" />
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
         <property name="propertyName" value="loanList"/>
@@ -1193,6 +1200,9 @@
 
                 </bean>
                 <bean id="loanView_DamagedNote" parent="Uif-DataField" p:label="Item Damaged Note" p:width="10%"  p:propertyName="itemDamagedNote">
+
+                </bean>
+                <bean id="loanview_ReplacementBill" parent="Uif-LinkField" p:label="Replacement Bill"   p:width="17%" p:linkText="@{#line.billName}"  p:target="_blank" p:href="patronbill?viewId=BillView&amp;methodToCall=start&amp;patronId=@{#line.patronId}" >
 
                 </bean>
                 <bean id="loanView_ItemRequest" parent="Uif-LinkField" p:label="Pending Requests" p:width="10%" p:linkText="@{#line.requestFlag}" p:target="_blank" p:href="lookup?methodToCall=search&amp;itemId=@{#line.itemId}&amp;flag=true&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo" p:style="font-weight:bold;">

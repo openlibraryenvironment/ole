@@ -5250,5 +5250,13 @@
                           tableName="OLE_NOTC_FIELD_LABEL_MAPNG_S"/>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_DESK_LOST_RENEW">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_CRCL_DSK_T">
+            <column name="RENEW_LOST_ITM" type="varchar(1)"/>
+        </addColumn>
+    </changeSet>
+
 
 </databaseChangeLog>

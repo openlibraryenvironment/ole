@@ -100,6 +100,7 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private boolean validateProxyPatron = false;
     private String circulationLocationId;
     private String machineId;
+    private String checkInMachineId;
     private String numberOfRenewals;
     private String numberOfOverdueNoticesSent;
     private String oleRequestId;
@@ -174,6 +175,7 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private boolean indefiniteCheckFlag= false;
     private String holdingsLocation;
     private boolean itemLevelLocationExist;
+    private List<FeeType> feeType;
     public Date getDummyPastDueDate() {
         return dummyPastDueDate;
     }
@@ -1900,6 +1902,22 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     public void setProxyPatronBarcodeUrl(String proxyPatronBarcodeUrl) {
         this.proxyPatronBarcodeUrl = proxyPatronBarcodeUrl;
     }
+
+    public String getCheckInMachineId() {
+        return checkInMachineId;
+    }
+
+    public void setCheckInMachineId(String checkInMachineId) {
+        this.checkInMachineId = checkInMachineId;
+    }
+
+    public List<FeeType> getFeeType() {
+        return feeType;
+    }
+
+    public void setFeeType(List<FeeType> feeType) {
+        this.feeType = feeType;
+    }
     public void loanPeriod(String defaultLoanPeriod, String recallLoanPeriod) {
         LoanPeriodUtil loanPeriodUtil = getLoanPeriodUtil();
         if(null == oleCirculationDesk){
@@ -2034,4 +2052,3 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
         return itemId != null ? itemId.hashCode() : 0;
     }
 }
-

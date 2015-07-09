@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
@@ -7,6 +8,7 @@ import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OLEDeliverService;
+import org.kuali.ole.deliver.service.PatronBillResolver;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.keyvalue.LocationValuesBuilder;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
@@ -18,6 +20,7 @@ import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOl
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.search.*;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.api.parameter.ParameterKey;
@@ -40,7 +43,16 @@ public class OleLoanDocumentsFromSolrBuilder {
     private BusinessObjectService businessObjectService;
     private CircDeskLocationResolver circDeskLocationResolver;
     private ItemOlemlRecordProcessor itemOlemlRecordProcessor;
+    private PatronBillResolver patronBillResolver;
     private static Map<String, String> locationName = new HashMap<>();
+
+
+    private PatronBillResolver getPatronBillResolver() {
+        if (patronBillResolver == null) {
+            patronBillResolver = new PatronBillResolver();
+        }
+        return patronBillResolver;
+    }
 
     public List<OleLoanDocument> getPatronLoanedItemBySolr(String patronId, String itemBarcode) throws Exception {
         LOG.debug("Inside the getPatronLoanedItemBySolr method");
@@ -75,7 +87,7 @@ public class OleLoanDocumentsFromSolrBuilder {
             searchParams.getSearchConditions().addAll(searchConditions);
             searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
         }
-        List<OleLoanDocument> matchingLoan = getOleLoanDocumentsFromSearchResponse(searchResponse, loanMap);
+        List<OleLoanDocument> matchingLoan = getOleLoanDocumentsFromSearchResponse(searchResponse, patronId);
 
 
         Long b2 = System.currentTimeMillis();
@@ -114,7 +126,7 @@ public class OleLoanDocumentsFromSolrBuilder {
             searchParams.getSearchConditions().addAll(searchConditions);
             searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
         }
-        List<OleLoanDocument> matchingLoan = getOleLoanDocumentsFromSearchResponse(searchResponse, loanMap);
+        List<OleLoanDocument> matchingLoan = getOleLoanDocumentsFromSearchResponse(searchResponse, patronId);
         Long b2 = System.currentTimeMillis();
         Long b3 = b2 - b1;
         LOG.info("The Time taken retrieveByPatronAndItem--" + b3);
@@ -132,9 +144,8 @@ public class OleLoanDocumentsFromSolrBuilder {
         return parameter != null ? parameter.getValue() : null;
     }
 
-    public List<OleLoanDocument> getOleLoanDocumentsFromSearchResponse(SearchResponse searchResponse, HashMap<String, Object> loanMap) throws Exception {
+    public List<OleLoanDocument> getOleLoanDocumentsFromSearchResponse(SearchResponse searchResponse, String patronId) throws Exception {
         int count = 0;
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         List<OleLoanDocument> oleLoanDocuments = new ArrayList<>();
         if (searchResponse != null) {
             for (SearchResult searchResult : searchResponse.getSearchResults()) {
@@ -146,17 +157,11 @@ public class OleLoanDocumentsFromSolrBuilder {
                         if (searchResultField.getFieldName().equalsIgnoreCase("ItemBarcode_display")) {
                             oleLoanDocument = new OleLoanDocument();
                             oleLoanDocument.setItemId(searchResultField.getFieldValue());
-                            Map itemMap = new HashMap();
-                            itemMap.put(OLEConstants.OleDeliverRequest.ITEM_ID, oleLoanDocument.getItemId());
-                            List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, itemMap);
-                            if (oleDeliverRequestBoList != null && oleDeliverRequestBoList.size() > 0) {
-                                oleLoanDocument.setRequestFlag(OLEConstants.VIEW_ALL_REQUESTS);
-                            } else {
-                                oleLoanDocument.setRequestFlag(" ");
-                            }
+                            oleLoanDocument.setPatronId(patronId);
+                            checkRequestExistForItem(oleLoanDocument);
+                            getPatronBillResolver().checkReplacementFineExistForPatron(oleLoanDocument,patronId);
                         }
                         if (searchResultField.getFieldName().equalsIgnoreCase("id")) {
-                            //(OleLoanDocument)loanMap.get((searchResultField.getFieldValue()));
                             if (null == oleLoanDocument) {
                                 oleLoanDocument = new OleLoanDocument();
                             }
@@ -171,14 +176,13 @@ public class OleLoanDocumentsFromSolrBuilder {
                             oleLoanDocument.setInstanceUuid(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase("claimsReturnedNote")) {
                             oleLoanDocument.setClaimsReturnNote(searchResultField.getFieldValue());
-                            //  count++;
                         } else if (searchResultField.getFieldName().equalsIgnoreCase("ClaimsReturnedFlag_display") && searchResultField.getFieldValue().equalsIgnoreCase("true")) {
                             oleLoanDocument.setClaimsReturnedIndicator(true);
                             count++;
                         } else if (searchResultField.getFieldName().equalsIgnoreCase("Location_display")) {
                             getLocationBySolr(searchResultField, oleLoanDocument);
                             oleLoanDocument.setItemFullLocation(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase("HoldingsLocation_search") &&
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase("HoldingsLocation_display") &&
                                 (oleLoanDocument.getItemLocation() == null || oleLoanDocument.getItemLocation().isEmpty())) {
                             getLocationBySolr(searchResultField, oleLoanDocument);
                             oleLoanDocument.setItemFullLocation(searchResultField.getFieldValue());
@@ -262,10 +266,21 @@ public class OleLoanDocumentsFromSolrBuilder {
         return oleLoanDocuments;
     }
 
+    private void checkRequestExistForItem(OleLoanDocument oleLoanDocument) {
+        Map itemMap = new HashMap();
+        itemMap.put(OLEConstants.OleDeliverRequest.ITEM_ID, oleLoanDocument.getItemId());
+        List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, itemMap);
+        if (oleDeliverRequestBoList != null && oleDeliverRequestBoList.size() > 0) {
+            oleLoanDocument.setRequestFlag(OLEConstants.VIEW_ALL_REQUESTS);
+        } else {
+            oleLoanDocument.setRequestFlag(" ");
+        }
+    }
+
     public void getLocationBySolr(SearchResultField searchResultField, OleLoanDocument oleLoanDocument) throws Exception {
         String locationCode = searchResultField.getFieldValue().split("/")[searchResultField.getFieldValue().split("/").length - 1];
         String levelFullName = "";
-        if (locationName.containsKey(locationCode)) {
+        if (locationName.containsKey(locationCode) && StringUtils.isNotBlank(locationName.get(locationCode))) {
             levelFullName = locationName.get(locationCode);
         } else {
             OleLocation oleLocation = getCircDeskLocationResolver().getLocationByLocationCode(locationCode);

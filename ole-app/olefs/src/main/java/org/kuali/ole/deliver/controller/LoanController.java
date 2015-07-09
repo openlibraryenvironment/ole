@@ -686,7 +686,7 @@ public class LoanController extends UifControllerBase {
         }
         StringBuffer buffer = new StringBuffer();
         OleLoanForm oleLoanForm = (OleLoanForm) form;
-        String newPrincipalId = oleLoanForm.getNewPrincipalId();
+        //String newPrincipalId = oleLoanForm.getNewPrincipalId();
         oleLoanForm.setInformation("");
         oleLoanForm.setSuccessInfo("");
         oleLoanForm.setReturnInformation("");
@@ -804,7 +804,7 @@ public class LoanController extends UifControllerBase {
                     if (oleLoanForm.getItem() != null && !oleLoanForm.getItem().isEmpty() && oleLoanForm.getDueDateMap() == null && oleLoanDocument.getExpirationDate() == null) {
                         indefinite = true;
                     }
-                    if ((oleLoanForm.getItem() != null && !oleLoanForm.getItem().isEmpty()) || (oleLoanForm.getOleItem() != null && !oleLoanForm.getOleItem().getItemIdentifier().isEmpty()) || indefinite) {
+                    if ((oleLoanForm.getItem() != null && !oleLoanForm.getItem().isEmpty()) || (oleLoanForm.getOleItem() != null && !oleLoanForm.getItem().isEmpty() && !oleLoanForm.getOleItem().getItemIdentifier().isEmpty()) || indefinite) {
                         if (oleLoanForm.getDueDateMap() != null) {
                             Timestamp timestamp;
                             Pattern pattern;
@@ -2045,12 +2045,6 @@ public class LoanController extends UifControllerBase {
                                  HttpServletRequest request, HttpServletResponse response) {
         LOG.debug("Inside the override method");
         OleLoanForm oleLoanForm = (OleLoanForm) form;
-       /* String maxSessionTime = oleLoanForm.getMaxTimeForCheckOutConstant();
-        if (LOG.isInfoEnabled()){
-            LOG.info("session timeout" + maxSessionTime);
-        }
-        if (maxSessionTime != null && !maxSessionTime.equalsIgnoreCase(""))
-            oleLoanForm.setMaxSessionTime(Integer.parseInt(maxSessionTime));*/
         oleLoanForm.setInformation("");
         oleLoanForm.setSuccessInfo("");
         oleLoanForm.setReturnInformation("");
@@ -2078,10 +2072,10 @@ public class LoanController extends UifControllerBase {
         if(StringUtils.isNotBlank(principalId)){
             Person people = SpringContext.getBean(PersonService.class).getPerson(principalId);
             if(people == null) {
-                    oleLoanForm.setOverrideLoginMessage(people.getPrincipalName() + " is invalid user Name.Please enter your user Name.");
+                oleLoanForm.setOverrideLoginMessage(people.getPrincipalName() + " is invalid user Name.Please enter your user Name.");
                 oleLoanForm.setOverrideErrorMessage(null);
                 oleLoanForm.setNewPrincipalId(null);
-                    oleLoanForm.setNewPrincipalName(null);
+                oleLoanForm.setNewPrincipalName(null);
                 return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
             }
         }
@@ -2103,17 +2097,18 @@ public class LoanController extends UifControllerBase {
                // GlobalVariables.getUserSession().clearBackdoorUser();
             }
             oleLoanForm.setNewPrincipalId("");
+            oleLoanForm.setNewPrincipalName("");
             oleLoanForm.setOverrideFlag(false);
             oleLoanForm.setOverideMethodCall("");
             return null;
         }
          oleLoanForm.setNewPrincipalId(null);
+        oleLoanForm.setNewPrincipalName(null);
         //GlobalVariables.getUserSession().clearBackdoorUser();
         if (!"".equals(oleLoanForm.getNewPrincipalId())) {
             oleLoanForm.setOverrideLoginMessage(principalId + " " + OLEConstants.OVERRIDE_LOGIN_ERR_INFO + OLEConstants.BREAK + oleLoanForm.getOverrideErrorMessage());
             oleLoanForm.setOverrideErrorMessage(null);
         }
-        /*return getUIFModelAndView(oleLoanForm, "PatronItemViewPage");*/
         return getUIFModelAndView(oleLoanForm, oleLoanForm.getPageId());
     }
 
@@ -2389,16 +2384,12 @@ public class LoanController extends UifControllerBase {
                         oleLoanForm.setOverrideRenewItemFlag(false);
                         oleLoanForm.setSuccess(true);
                         oleLoanForm.setMessage("");
-                        // oleLoanForm.getExistingLoanList().remove(renewCurrentCount);
                         oleLoanForm.setRenewPermission(oleLoanDocument.isRenewPermission());
                         oleLoanForm.setSuccessInfo(OLEConstants.RENEWAL_DUEDATE_SAME_INFO);
                     } else {
                         if (!oleLoanForm.isOverrideRenewal())
                             oleLoanForm.setOverrideRenewal(true);
                         oleLoanForm.setOverrideRenewItemFlag(true);
-                        // Timestamp currentDate = new Timestamp(System.currentTimeMillis());
-                      /*  if (currentDate.before(oleLoanDocument.getLoanDueDate()))
-                            oleLoanForm.setRenewalFlag(true);*/
                         oleLoanForm.setRenewPermission(oleLoanDocument.isRenewPermission());
                         // errMsg = null;
                         if (StringUtils.isBlank(oleLoanDocument.getErrorMessage())) {
@@ -2416,6 +2407,9 @@ public class LoanController extends UifControllerBase {
                             }
                         }
 
+                    }
+                    if(oleLoanDocument.getOleCirculationDesk()!=null && !oleLoanDocument.getOleCirculationDesk().isRenewLostItem()){
+                        oleLoanForm.setRenewalFlag(true);
                     }
                     if(!oleLoanDocument.isIndefiniteCheckFlag()) {
                         if (oleLoanForm.getExistingLoanList() != null && oleLoanForm.getExistingLoanList().size() > 0) {
@@ -2444,14 +2438,10 @@ public class LoanController extends UifControllerBase {
                 }
         } else {
             try {
-                ModelAndView overrideModelView = this.overRide(form, result, request, response);
-                //Timestamp currentDate = new Timestamp(System.currentTimeMillis());
-                //if (currentDate.after(oleLoanDocument.getLoanDueDate())) {
+                ModelAndView overrideModelView = this.overRide(oleLoanForm, result, request, response);
                 if (overrideModelView == null) {
                     getLoanProcessor().overrideSaveLoanForRenewal(oleLoanDocument);
-                    //existingItemList.addAll(oleLoanForm.getLoanList());
                     if (oleLoanForm.getExistingLoanList() != null && oleLoanForm.getExistingLoanList().size() > 0) {
-                        //  oleLoanForm.getExistingLoanList().remove(renewCurrentCount);
                         for (int i = 0; i < oleLoanForm.getExistingLoanList().size(); i++) {
                             if ((oleLoanForm.getExistingLoanList().get(i).getItemId()).equalsIgnoreCase(oleLoanDocument.getItemId())) {
                                 oleLoanForm.getExistingLoanList().remove(i);
@@ -2757,6 +2747,7 @@ public class LoanController extends UifControllerBase {
                                     if(loanDocument.getItemId().equals(oleLoanForm.getExistingLoanList().get(j).getItemId())){
                                         OleLoanDocument existingLoan = oleLoanForm.getExistingLoanList().get(j);
                                         existingLoan.setLoanDueDate(loanDocument.getLoanDueDate());
+                                        existingLoan.setItemStatus(loanDocument.getItemStatus());
                                         existingLoan.setNumberOfRenewals(loanDocument.getNumberOfRenewals());
                                         existingLoan.setCourtesyNoticeFlag(false);
                                     }
@@ -2767,6 +2758,7 @@ public class LoanController extends UifControllerBase {
                                             OleLoanDocument existingLoan = oleLoanForm.getLoanList().get(loanList);
                                             existingLoan.setLoanDueDate(loanDocument.getLoanDueDate());
                                             existingLoan.setCourtesyNoticeFlag(false);
+                                            existingLoan.setItemStatus(loanDocument.getItemStatus());
                                             existingLoan.setNumberOfRenewals(loanDocument.getNumberOfRenewals());
                                             break;
                                         }
@@ -2842,9 +2834,6 @@ public class LoanController extends UifControllerBase {
         OleLoanForm oleLoanForm = (OleLoanForm) form;
         oleLoanForm.setRouteToLocation(null);
         oleLoanForm.setSuccessMessage(null);
-       /* String parameter = getLoanProcessor().getParameter(OLEConstants.MAX_TIME_CHECK_IN);
-        oleLoanForm.setMaxTimeForCheckInDate(Integer.parseInt(parameter) * 60);*/
-
         String audioOption = getLoanProcessor().getParameter(OLEConstants.AUDIO_OPTION);
         oleLoanForm.setAudioEnable(audioOption != null && !audioOption.isEmpty() && audioOption.equalsIgnoreCase(OLEConstants.TRUE));
         oleLoanForm.setOleFormKey(oleLoanForm.getFormKey());
@@ -2895,6 +2884,11 @@ public class LoanController extends UifControllerBase {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Check-in Item Barcode Number --->" + oleLoanForm.getCheckInItem());
             }
+            /*String ipAddress = request.getHeader("X-FORWARDED-FOR");
+            if (ipAddress == null) {
+                ipAddress = request.getRemoteAddr();
+            }
+            oleLoanDocument.setCheckInMachineId(ipAddress);*/
             oleLoanDocument.setItemUuid(oleLoanForm.getReturnItemUuid());
             oleLoanForm.getErrorsAndPermission().clear();
             oleLoanDocument.setSkipDamagedCheckIn(oleLoanForm.isSkipDamagedCheckIn());
@@ -4288,9 +4282,6 @@ public class LoanController extends UifControllerBase {
                             loanForm.getExistingLoanList().remove(oleLoanDocument1);
                         }
                     }
-                   /*if(loanForm.getLoanList().containsAll(loanForm.getExistingLoanList())){
-                       loanForm.getExistingLoanList().removeAll(loanForm.getLoanList());
-                   }*/
                 }
                 if(CollectionUtils.isNotEmpty(loanForm.getExistingLoanList())){
                     for(OleLoanDocument loanDocument : loanForm.getExistingLoanList()){
@@ -4309,7 +4300,8 @@ public class LoanController extends UifControllerBase {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();        }
+            e.printStackTrace();
+        }
         return getUIFModelAndView(form);
     }
 

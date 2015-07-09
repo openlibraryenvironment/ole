@@ -1,14 +1,23 @@
 package org.kuali.ole.deliver.processor;
 
+import junit.framework.Assert;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
+import org.kuali.ole.deliver.bo.OleLoanFastAdd;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.form.OleLoanForm;
+import org.kuali.ole.describe.bo.OleItemAvailableStatus;
+import org.kuali.ole.docstore.common.document.Item;
+import org.kuali.ole.docstore.common.document.ItemOleml;
+import org.kuali.ole.docstore.common.document.content.enums.DocType;
+import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.ncip.service.impl.OLECirculationHelperServiceImpl;
+import org.kuali.ole.pojo.bib.BibliographicRecord;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.ole.util.DocstoreUtil;
@@ -18,6 +27,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by hemalathas on 4/21/15.
@@ -59,6 +69,77 @@ public class LoanProcessor_IT extends OLETestCaseBase{
         //TODO: Assert the expected behaviour
         List<OleLoanDocument> loanList = loanForm.getLoanList();
         return loanList;
+    }
+
+
+
+
+
+
+
+
+
+    @Test
+    public void renewLostItem() throws Exception{
+        /*LoanProcessor loanProcessor = (LoanProcessor) SpringContext.getBean("loanProcessor");
+        BibliographicRecord bibliographicRecord= getBibliographicRecord(loanProcessor);
+        assertNotNull(bibliographicRecord);
+
+        org.kuali.ole.docstore.common.document.content.instance.Item itemRecord=getItem();
+        assertNotNull(itemRecord);
+        OleHoldings oleHolding = getHoldingRecord(itemRecord);
+        assertNotNull(oleHolding);
+        businessObjectService.save(asrItem);*/
+
+
+
+
+        LoanProcessor loanProcessor = (LoanProcessor) SpringContext.getBean("loanProcessor");
+        Map map=new HashMap<>();
+        map.put("itemId",CHECKOUT_ITEM_BARCODE);
+        map.put("patronId", PATRON_ID);
+        List<OleLoanDocument> oleLoanDocumentList=(List<OleLoanDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleLoanDocument.class,map);
+        OleLoanForm loanForm = new OleLoanForm();
+        //loanForm.setItemUuid("wio-1");
+        loanForm.setBorrowerTypeId("7");
+        loanForm.setBorrowerType("UnderGrad");
+        loanForm.setNonCirculatingFlag(false);
+        //loanForm.setInstanceUuid("wio-1");
+        loanForm.setLoanList(new ArrayList<OleLoanDocument>());
+        loanForm.setPatronName("Salinda Lample");
+        loanForm.setPatronBarcode(PATRON_BARCODE);
+        loanForm.setBorrowerCode("UGRAD");
+        loanForm.setCirculationDesk("1");
+        loanForm.setPatronId(PATRON_ID);
+        loanForm.setItem(CHECKOUT_ITEM_BARCODE);
+
+
+        OleLoanDocument oleLoanDocument = new OleLoanDocument();
+        oleLoanDocument.setPatronId(PATRON_ID);
+        oleLoanDocument.setOperatorsCirculationLocation("B-EDUC/BED-TEACHMAT#B-EDUC/BED-STACKS#");
+        oleLoanDocument.setCirculationLocationId("1");
+        oleLoanDocument.setBorrowerTypeId("7");
+        oleLoanDocument.setBorrowerTypeName("UnderGrad");
+        oleLoanDocument.setBorrowerTypeCode("UGRAD");
+        oleLoanDocument.setItemUuid(loanForm.getItemUuid());
+        if(oleLoanDocumentList!=null && oleLoanDocumentList.size()>0) {
+            oleLoanDocument.setLoanId(oleLoanDocumentList.get(0).getLoanId());
+            oleLoanDocument.setVersionNumber(oleLoanDocumentList.get(0).getVersionNumber());
+            GlobalVariables.setUserSession(new UserSession("dev2"));
+            OleLoanForm oleLoanForm = loanProcessor.processLoan(loanForm, oleLoanDocument);
+            // oleLoanForm.getItemUuid()
+            String noOfRenewalCountStringBefore = oleLoanDocument.getNumberOfRenewals();
+            assertNotNull(oleLoanForm.getMessage());
+            oleLoanDocument.setIndefiniteCheckFlag(false);
+            oleLoanDocument.setRenewNotFlag(false);
+            oleLoanDocument.setRenewalItemFlag(true);
+            loanProcessor.overrideSaveLoanForRenewal(oleLoanDocument);
+            assertEquals(oleLoanDocument.getItemLoanStatus(), "LOANED");
+            String noOfRenewalCountStringAfter = oleLoanDocument.getNumberOfRenewals();
+            int noOfRenewalCountBefore = Integer.parseInt(noOfRenewalCountStringBefore);
+            int noOfRenewalCountAfter = Integer.parseInt(noOfRenewalCountStringAfter);
+            assertEquals((noOfRenewalCountBefore + 1), noOfRenewalCountAfter);
+        }
     }
 
     private OleLoanDocument buildLoanDocument(){
