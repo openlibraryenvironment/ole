@@ -1,3 +1,4 @@
+<%@ page import="org.kuali.rice.core.api.config.property.ConfigContext" %>
 <%--
  Copyright 2005 The Kuali Foundation
  
@@ -26,8 +27,10 @@
    if (request.getParameter("selectedTab") != null && request.getParameter("selectedTab").length() > 0) {
        session.setAttribute("selectedTab", request.getParameter("selectedTab"));
    }
-      
-   request.setAttribute("gotoUrl", gotoUrl);
+    String reportsUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.reports.url");
+
+    request.setAttribute("gotoUrl", gotoUrl);
+    request.setAttribute("reportsUrl", reportsUrl);
 %>
 <c:choose>
 	<c:when test="${ConfigProperties.environment == 'local'}">
