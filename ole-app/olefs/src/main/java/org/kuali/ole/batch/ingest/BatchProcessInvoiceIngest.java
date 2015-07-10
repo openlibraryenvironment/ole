@@ -439,6 +439,11 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                             invoiceAccount.setFinancialObjectCode(!StringUtils.isBlank(invoiceRecord.getObjectCode()) ? invoiceRecord.getObjectCode()  : invoiceAccount.getFinancialObjectCode());
                             accountingLine.add(invoiceAccount);
                         }
+                    }else{
+                        for (PurApAccountingLine poa : poItem.getSourceAccountingLines()) {
+                            InvoiceAccount invoiceAccount = new InvoiceAccount(oleInvoiceItem, (PurchaseOrderAccount) poa);
+                            accountingLine.add(invoiceAccount);
+                        }
                     }
                 }
                 oleInvoiceItem.setSourceAccountingLines(accountingLine);
