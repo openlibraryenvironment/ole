@@ -774,12 +774,6 @@ public class LoanProcessor extends PatronBillResolver {
                 if (oleDeliverRequestBo.getCirculationLocationCode() != null && !oleDeliverRequestBo.getCirculationLocationCode().equals("")) {
                     LocationValuesBuilder locationValuesBuilder = new LocationValuesBuilder();
                     locationValuesBuilder.getLocation(itemContent, oleDeliverRequestBo, item.getHolding().getId());
-                   /* oleDeliverRequestBo.setShelvingLocation(getShelvingLocation(itemContent.getLocation().getLocationLevel().getName()));
-                    if (oleDeliverRequestBo.getShelvingLocation() == null || (oleDeliverRequestBo.getShelvingLocation() != null && oleDeliverRequestBo.getShelvingLocation().isEmpty())) {
-
-
-                        oleDeliverRequestBo.setShelvingLocation(getShelvingLocation(oleHoldings.getLocation().getLocationLevel().getName()));
-                    }*/
                 }
                 break;
             }
@@ -1901,7 +1895,6 @@ public class LoanProcessor extends PatronBillResolver {
                     i++;
                     String itemXmlContent = getItemXML(existingLoanObject.getItemUuid());
                     org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(existingLoanObject.getItemUuid());
-
                     org.kuali.ole.docstore.common.document.content.instance.Item oleItem = getItemPojo(itemXmlContent);
                     if (claimsReturn && !removeClaimsReturnFlag) {
                         updateClaimsReturnedHistory(oleItem,existingLoanObject,patronId);
@@ -3521,7 +3514,9 @@ public class LoanProcessor extends PatronBillResolver {
         oleLoanForm.setInstanceUuid(oleLoanDocument.getInstanceUuid());
         oleLoanForm.setOleItem(oleLoanDocument.getOleItem());
         oleLoanForm.setDueDateMap(oleLoanDocument.getLoanDueDate());
-        oleLoanForm.setMessage(oleLoanDocument.getErrorMessage());
+        if(StringUtils.isNotBlank(oleLoanDocument.getErrorMessage())) {
+            oleLoanForm.setMessage(oleLoanDocument.getErrorMessage());
+        }
         oleLoanForm.setRoleName(oleLoanDocument.getRoleName());
         oleLoanForm.getErrorsAndPermission().putAll(oleLoanDocument.getErrorsAndPermission());
         if (oleLoanForm.getPatronName() == null) {
