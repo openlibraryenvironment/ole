@@ -3527,7 +3527,7 @@ public class LoanProcessor extends PatronBillResolver {
             oleLoanDocument.setProxyPatronBarcode(oleLoanForm.getPatronBarcode());
             oleLoanDocument.setProxyPatronBarcodeUrl(OLEConstants.ASSIGN_INQUIRY_PATRON_ID + oleLoanForm.getPatronId() + OLEConstants.ASSIGN_PATRON_INQUIRY);
         }
-        if (oleLoanDocument.getErrorMessage() == null) {
+        if (StringUtils.isBlank(oleLoanDocument.getErrorMessage())) {
             existingItemList.add(oleLoanDocument);
             oleLoanForm.setBlockItem(false);
             oleLoanForm.setBlockPatron(false);
