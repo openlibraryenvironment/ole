@@ -388,12 +388,20 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                 OleInvoiceItem oleInvoiceItem = new OleInvoiceItem();
                 oleInvoiceItem.setItemTypeCode(poItem.getItemTypeCode());
                 oleInvoiceItem.setItemType(poItem.getItemType());
-                oleInvoiceItem.setItemQuantity(new KualiDecimal(invoiceRecord.getQuantity()));
-                oleInvoiceItem.setItemListPrice(new KualiDecimal(invoiceRecord.getListPrice()));
+
+                if (olePurchaseOrderItems.size()==1) {
+                    oleInvoiceItem.setItemQuantity(new KualiDecimal(invoiceRecord.getQuantity()));
+                    oleInvoiceItem.setItemListPrice(new KualiDecimal(invoiceRecord.getListPrice()));
+                    oleInvoiceItem.setItemUnitPrice(new BigDecimal(invoiceRecord.getUnitPrice()));
+                    oleInvoiceItem.setPoItemIdentifier(poItem.getItemIdentifier());
+                } else {
+                    oleInvoiceItem.setItemQuantity(poItem.getItemQuantity());
+                    oleInvoiceItem.setItemListPrice(poItem.getItemListPrice());
+                    oleInvoiceItem.setItemUnitPrice(poItem.getItemUnitPrice());
+                }
                 oleInvoiceItem.setItemDescription(poItem.getItemDescription());      // invoiceRecord.getItemDescription()
                 oleInvoiceItem.setItemDiscount(invoiceRecord.getLineItemAdditionalCharge() != null ? new KualiDecimal(invoiceRecord.getLineItemAdditionalCharge()) : null);
                 oleInvoiceItem.setItemDiscountType(invoiceRecord.getDiscountType());
-                oleInvoiceItem.setItemUnitPrice(new BigDecimal(invoiceRecord.getUnitPrice()));
                 oleInvoiceItem.setItemTitleId(poItem.getItemTitleId());
                 if(invoiceRecord.getItemNote()!=null && invoiceRecord.getItemNote().size()>0) {
                     oleInvoiceItem.setNotes(invoiceRecord.getItemNote());
@@ -406,7 +414,6 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                 oleInvoiceItem.setPurchaseOrderIdentifier(purchaseOrderDocument.getPurapDocumentIdentifier());
                 oleInvoiceItem.setItemLineNumber(poItem.getItemLineNumber());
                 oleInvoiceItem.setItemNoOfParts(poItem.getItemNoOfParts());
-                oleInvoiceItem.setPoItemIdentifier(poItem.getItemIdentifier());
                 oleInvoiceItem.setAccountsPayablePurchasingDocumentLinkIdentifier(purchaseOrderDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
                 oleInvoiceItem.setOlePoOutstandingQuantity(new KualiInteger(poItem.getOutstandingQuantity().bigDecimalValue()));
                 //call populate VendorInfo
@@ -425,11 +432,13 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                     accountingLine.add(invoiceAccount);
 
                 } else {
-                    for (PurApAccountingLine poa : poItem.getSourceAccountingLines()) {
-                        InvoiceAccount invoiceAccount = new InvoiceAccount(oleInvoiceItem, (PurchaseOrderAccount) poa);
-                        invoiceAccount.setAccountNumber(!StringUtils.isBlank(invoiceRecord.getAccountNumber()) ? invoiceRecord.getAccountNumber() : invoiceAccount.getAccountNumber());
-                        invoiceAccount.setFinancialObjectCode(!StringUtils.isBlank(invoiceRecord.getObjectCode()) ? invoiceRecord.getObjectCode()  : invoiceAccount.getFinancialObjectCode());
-                        accountingLine.add(invoiceAccount);
+                    if (olePurchaseOrderItems.size()==1) {
+                        for (PurApAccountingLine poa : poItem.getSourceAccountingLines()) {
+                            InvoiceAccount invoiceAccount = new InvoiceAccount(oleInvoiceItem, (PurchaseOrderAccount) poa);
+                            invoiceAccount.setAccountNumber(!StringUtils.isBlank(invoiceRecord.getAccountNumber()) ? invoiceRecord.getAccountNumber() : invoiceAccount.getAccountNumber());
+                            invoiceAccount.setFinancialObjectCode(!StringUtils.isBlank(invoiceRecord.getObjectCode()) ? invoiceRecord.getObjectCode()  : invoiceAccount.getFinancialObjectCode());
+                            accountingLine.add(invoiceAccount);
+                        }
                     }
                 }
                 oleInvoiceItem.setSourceAccountingLines(accountingLine);
