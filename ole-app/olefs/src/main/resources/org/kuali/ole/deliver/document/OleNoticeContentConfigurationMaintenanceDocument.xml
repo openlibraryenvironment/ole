@@ -45,7 +45,12 @@
             </bean>
         </property>
         <property name="items">
-            <list merge="true">
+            <list>
+                <bean parent="Uif-DocumentOverviewSection" p:order="10" p:render="false"/>
+                <bean parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"
+                      p:render="false"/>
+                <bean parent="Uif-DocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30" p:render="false"/>
+                <bean parent="Uif-DocumentRouteLogSection" p:order="50" p:render="false"/>
                 <bean parent="Uif-MaintenanceGridSection">
                     <property name="headerText" value="Add/Edit Notice Content Configuration"/>
                     <property name="items">
@@ -70,10 +75,24 @@
                 <ref bean="OleNoticeContentConfiguration-maintenance-mappingFieldLabels" />
             </list>
         </property>
+        <property name="page.footer">
+            <bean parent="Uif-DocumentPageFooter">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="route"
+                              p:actionLabel="submit" p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
+                              p:successCallback="printResponseString()"/>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:performClientSideValidation="true" p:actionLabel="Cancel" p:methodToCall="cancel"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]} "/>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
     <bean id="OleNoticeContentConfigurationMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo"/>
-        <!--<property name="maintainableClass" value="org.kuali.ole.deliver.maintenance.OleCirculationDeskMaintenanceImpl"/>-->
+        <property name="maintainableClass" value="org.kuali.ole.deliver.notice.maintenance.OleNoticeContentConfigurationMaintenanceImpl"/>
         <property name="documentTypeName" value="OLE_NOTC_CNTNT_CNFG_MD"/>
         <property name="documentAuthorizerClass"
                   value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>

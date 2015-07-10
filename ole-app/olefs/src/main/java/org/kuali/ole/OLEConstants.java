@@ -3524,4 +3524,8 @@ public class OLEConstants {
     public static final String REQUEST_EXPIRATION_NOTICE="RequestExpirationNotice";
     public static final String ONHOLD_EXPIRATION_NOTICE="OnHoldExpirationNotice";
 
+    public static final String NEW_NOTICE_CONTENT_CONFIG_DOC="New Notice Content Configuration Document";
+    public static final String COPY_NOTICE_CONTENT_CONFIG_DOC="Copied Notice Content Configuration Document";
+    public static final String EDIT_NOTICE_CONTENT_CONFIG_DOC="Edited Notice Content Configuration Document";
+
 }

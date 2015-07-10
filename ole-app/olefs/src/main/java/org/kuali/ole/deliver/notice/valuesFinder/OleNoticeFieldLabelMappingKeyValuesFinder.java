@@ -21,6 +21,8 @@ public class OleNoticeFieldLabelMappingKeyValuesFinder extends KeyValuesBase {
         keyValues.add(new ConcreteKeyValue("Email","Email"));
         keyValues.add(new ConcreteKeyValue("Phone #","Phone #"));
         keyValues.add(new ConcreteKeyValue("Title/Item Information","Title/Item Information"));
+        keyValues.add(new ConcreteKeyValue("Circulation Location/Library Name","Circulation Location/Library Name"));
+        keyValues.add(new ConcreteKeyValue("Circulation Reply-To Email","Circulation Reply-To Email"));
         keyValues.add(new ConcreteKeyValue("Title","Title"));
         keyValues.add(new ConcreteKeyValue("Author","Author"));
         keyValues.add(new ConcreteKeyValue("Volume/Issue/Copy #","Volume/Issue/Copy #"));
@@ -29,8 +31,6 @@ public class OleNoticeFieldLabelMappingKeyValuesFinder extends KeyValuesBase {
         keyValues.add(new ConcreteKeyValue("Original Due Date","Original Due Date"));
         keyValues.add(new ConcreteKeyValue("New Due Date","New Due Date"));
         keyValues.add(new ConcreteKeyValue("Item was due","Item was due"));
-        keyValues.add(new ConcreteKeyValue("Circulation Location/Library Name","Circulation Location/Library Name"));
-        keyValues.add(new ConcreteKeyValue("Circulation Reply-To Email","Circulation Reply-To Email"));
         keyValues.add(new ConcreteKeyValue("Hold Expiration Date","Hold Expiration Date"));
         return keyValues;
     }
