@@ -452,6 +452,7 @@ public class LoanController extends UifControllerBase {
             }else {
                 oleLoanForm.setBlockUser(false);
             }
+          //  oleLoanDocument.getHoldRequestForPatron(oleLoanDocument.getOlePatron(),oleLoanForm.getCirculationDesk(),oleLoanDocument.getOleCirculationDesk());
             if (oleLoanDocument.getPatronUserNotes() != null) {
                 oleLoanForm.setPatronNoteFlag(true);
                 oleLoanForm.setPatronUserNote(oleLoanDocument.getPatronUserNotes());
@@ -2392,7 +2393,7 @@ public class LoanController extends UifControllerBase {
                         oleLoanForm.setOverrideRenewItemFlag(true);
                         oleLoanForm.setRenewPermission(oleLoanDocument.isRenewPermission());
                         // errMsg = null;
-                        if (StringUtils.isBlank(oleLoanDocument.getErrorMessage())) {
+                        if (StringUtils.isNotBlank(oleLoanDocument.getErrorMessage())) {
                             String errMsg = oleLoanDocument.getErrorMessage().substring(0, oleLoanDocument.getErrorMessage().lastIndexOf("(OR)"));
                             oleLoanForm.setMessage(errMsg);
                         }
@@ -2408,8 +2409,9 @@ public class LoanController extends UifControllerBase {
                         }
 
                     }
-                    if(oleLoanDocument.getOleCirculationDesk()!=null && !oleLoanDocument.getOleCirculationDesk().isRenewLostItem()){
+                    if(oleLoanDocument.getOleCirculationDesk()!=null && !oleLoanDocument.getOleCirculationDesk().isRenewLostItem() && oleLoanDocument.getItemLoanStatus().equals("LOST")){
                         oleLoanForm.setRenewalFlag(true);
+                        oleLoanForm.setOverrideRenewItemFlag(true);
                     }
                     if(!oleLoanDocument.isIndefiniteCheckFlag()) {
                         if (oleLoanForm.getExistingLoanList() != null && oleLoanForm.getExistingLoanList().size() > 0) {
@@ -2458,7 +2460,7 @@ public class LoanController extends UifControllerBase {
                         }
                     }
                     oleLoanForm.setOleLoanDocumentToLoanList(oleLoanDocument);
-                    oleLoanForm.setMessage("");
+                    oleLoanForm.setMessage(null);
                     oleLoanForm.setSuccess(true);
                     oleLoanForm.setOverrideRenewal(false);
                     oleLoanForm.setRenewalFlag(false);
@@ -2645,6 +2647,10 @@ public class LoanController extends UifControllerBase {
                             loanDocument.setErrorMessage(loanDocument.getErrorMessage().substring(0, loanDocument.getErrorMessage().lastIndexOf("(OR)")));
                         }
                         oleLoanForm.setRenewDueDateFlag(true);
+                        if(loanDocument.getOleCirculationDesk()!=null && !loanDocument.getOleCirculationDesk().isRenewLostItem() && loanDocument.getItemLoanStatus().equals("LOST")){
+                            oleLoanForm.setRenewalFlag(true);
+                            oleLoanForm.setOverrideRenewItemFlag(true);
+                        }
                         renewalItemList.add(loanDocument);
                         oleLoanForm.setRenewDueDateList(renewalItemList);
                     }

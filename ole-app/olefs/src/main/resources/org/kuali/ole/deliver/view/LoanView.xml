@@ -130,6 +130,7 @@
                 <ref bean="MissingPiece-HorizontalBoxSection"/>
                 <ref bean="DamagedItem-HorizontalBoxSection"/>
                 <ref bean="PatronUserNote-HorizontalBoxSection"/>
+                <!--<ref bean="PatronOnHoldItem-HorizontalBoxSection"/>-->
                 <ref bean="RealPatronSection-HorizontalBoxSection"/>
                 <ref bean="ConfirmCirculationLocationChange"/>
                 <ref bean="MessagePopupSection"/>
@@ -283,6 +284,21 @@
         </property>
     </bean>
 
+   <!-- <bean id="PatronOnHoldItem-HorizontalBoxSection" parent="PatronOnHoldItem-HorizontalBoxSection-parent"/>
+    <bean id="PatronOnHoldItem-HorizontalBoxSection-parent" parent="Uif-VerticalBoxSection" p:render="@{}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="patronOnHoldItemConfirmationMessage" parent="Uif-MessageField" p:messageText="" />
+                            <ref bean="patronOnHoldItemButton"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>-->
     <bean id="PatronUserNote-HorizontalBoxSection" parent="PatronUserNote-HorizontalBoxSection-parent"/>
     <bean id="PatronUserNote-HorizontalBoxSection-parent" parent="Uif-VerticalBoxSection" p:render="@{patronNoteFlag}">
         <property name="items">
@@ -742,7 +758,7 @@
 
                 <bean id="renewloanDueDateRenewal" parent="Uif-DataField" p:label="Due Date" p:width="10%" p:propertyName="loanDueDate" p:render="@{#line.nonCirculatingItem eq false}"/>
 
-                <bean id="renewItemSatus" parent="Uif-DataField" p:label="Item Status" p:width="10%" p:propertyName="itemStatus"/>
+                <bean id="renewItemSatus" parent="Uif-DataField" p:label="Item Status" p:width="10%" p:propertyName="itemLoanStatus"/>
 
                 <bean id="renewNoofRenew" parent="Uif-DataField" p:label="No Of Renew" p:width="5%" p:propertyName="numberOfRenewals"/>
 
