@@ -39,12 +39,12 @@ public abstract class NoticeMailContentFormatter {
     }
 
 
-    public String generateMailContentForPatron(List<OleLoanDocument> oleLoanDocuments,String title,String body){
+    public String generateMailContentForPatron(List<OleLoanDocument> oleLoanDocuments,Map<String,String> fieldLabelMap){
         StringBuffer stringBuffer = new StringBuffer();
         //Add header
-        stringBuffer.append(getHeaderContent(title));
+        stringBuffer.append(getHeaderContent(fieldLabelMap.get("noticeTitle")));
         //Add patron info
-        stringBuffer.append(getPatronInfo(oleLoanDocuments.get(0).getOlePatron(),title,body));
+        stringBuffer.append(getPatronInfo(oleLoanDocuments.get(0).getOlePatron(),fieldLabelMap));
         for(OleLoanDocument oleLoanDocument : oleLoanDocuments){
             //add custom HTML (Overdue or Replacement or Courtsey)
             String generateCustomHTML = generateCustomHTML(oleLoanDocument);
@@ -52,7 +52,7 @@ public abstract class NoticeMailContentFormatter {
                 stringBuffer.append(generateCustomHTML);
             }
             //add item info
-            stringBuffer.append(generateItemInfoHTML(oleLoanDocument));
+            stringBuffer.append(generateItemInfoHTML(oleLoanDocument,fieldLabelMap));
         }
         return stringBuffer.toString();
 
@@ -82,24 +82,24 @@ public abstract class NoticeMailContentFormatter {
         this.parameterValueResolver = parameterValueResolver;
     }
 
-    public String getPatronInfo(OlePatronDocument olePatronDocument,String title,String body) {
+    public String getPatronInfo(OlePatronDocument olePatronDocument,Map<String,String> fieldLabelMap) {
         StringBuffer stringBuffer = new StringBuffer();
         try {
             OleDeliverRequestDocumentHelperServiceImpl deliverService = getOleDeliverRequestDocumentHelperService();
             EntityTypeContactInfoBo entityTypeContactInfoBo = olePatronDocument.getEntity().getEntityTypeContactInfos().get(0);
 
             stringBuffer.append("<HTML>");
-            stringBuffer.append("<TITLE>" + title + "</TITLE>");
+            stringBuffer.append("<TITLE>" + fieldLabelMap.get("noticeTitle") + "</TITLE>");
             stringBuffer.append("<HEAD></HEAD>");
             stringBuffer.append("<BODY>");
 
             try {
-                stringBuffer.append("<TABLE></BR></BR>");
-                stringBuffer.append("<TR><TD>Patron Name :</TD><TD>" + olePatronDocument.getEntity().getNames().get(0).getFirstName() + " " + olePatronDocument.getEntity().getNames().get(0).getLastName() + "</TD></TR>");
-                stringBuffer.append("<TR><TD>Address :</TD><TD>" + (getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) : "") + "</TD></TR>");
-                stringBuffer.append("<TR><TD>EMAIL :</TD><TD>" + (getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) : "") + "</TD></TR>");
+                stringBuffer.append("<TABLE></BR></BR><TR><TD>");
+                stringBuffer.append(fieldLabelMap.get(OLEConstants.PATRON_NAME)!=null ? fieldLabelMap.get(OLEConstants.PATRON_NAME):OLEConstants.PATRON_NAME +":</TD><TD>"  + olePatronDocument.getEntity().getNames().get(0).getFirstName() + " " + olePatronDocument.getEntity().getNames().get(0).getLastName() + "</TD></TR><TR><TD>");
+                stringBuffer.append(fieldLabelMap.get(OLEConstants.NOTICE_ADDRESS)!=null ? fieldLabelMap.get(OLEConstants.NOTICE_ADDRESS) :OLEConstants.NOTICE_ADDRESS+":</TD><TD>" + (getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) : "") + "</TD></TR><TR><TD>");
+                stringBuffer.append(fieldLabelMap.get(OLEConstants.NOTICE_EMAIL)!=null ? fieldLabelMap.get(OLEConstants.NOTICE_EMAIL) :OLEConstants.NOTICE_EMAIL +":</TD><TD>" + (getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) : "") + "</TD></TR><TR><TD>");
 
-                stringBuffer.append("<TR><TD>Phone Number :</TD><TD>" + (getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) : "") + "</TD></TR>");
+                stringBuffer.append(fieldLabelMap.get(OLEConstants.NOTICE_PHONE_NUMBER)!=null ? fieldLabelMap.get(OLEConstants.NOTICE_PHONE_NUMBER) : OLEConstants.NOTICE_PHONE_NUMBER +":</TD><TD>" + (getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) : "") + "</TD></TR><TR><TD>");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -107,8 +107,8 @@ public abstract class NoticeMailContentFormatter {
 
             stringBuffer.append("<TR><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>");
             stringBuffer.append("<TABLE width=\"100%\">");
-            stringBuffer.append("<TR><TD><CENTER>" + title + "</CENTER></TD></TR>");
-            stringBuffer.append("<TR><TD><p>" + body + "</p></TD></TR>");
+            stringBuffer.append("<TR><TD><CENTER>" + fieldLabelMap.get("noticeTitle") + "</CENTER></TD></TR>");
+            stringBuffer.append("<TR><TD><p>" + fieldLabelMap.get("noticeBody") + "</p></TD></TR>");
             stringBuffer.append("<TR><TD>&nbsp;</TD><TD>&nbsp;</TD></TR></TABLE>");
         } catch (Exception e) {
             LOG.error("Error---->While generating overdue content for email(Patron Information) ");
@@ -127,30 +127,30 @@ public abstract class NoticeMailContentFormatter {
         this.oleDeliverRequestDocumentHelperService = oleDeliverRequestDocumentHelperService;
     }
 
-    public String generateItemInfoHTML(OleLoanDocument oleLoanDocument) {
+    public String generateItemInfoHTML(OleLoanDocument oleLoanDocument,Map<String,String> fieldLabelMap) {
         StringBuffer stringBuffer = new StringBuffer();
         SimpleDateFormat sdf = getSimpleDateFormat();
         try {
-            stringBuffer.append("<table>");
-            stringBuffer.append("<TR><TD>Title :</TD><TD>" + (oleLoanDocument.getTitle() != null ? oleLoanDocument.getTitle() : "") + "</TD></TR>");
-            stringBuffer.append("<TR><TD>Author :</TD><TD>" + (oleLoanDocument.getAuthor() != null ? oleLoanDocument.getAuthor() : "") + "</TD></TR>");
+            stringBuffer.append("<table><TR><TD>");
+            stringBuffer.append(fieldLabelMap.get(OLEConstants.NOTICE_TITLE)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_TITLE):OLEConstants.NOTICE_TITLE +":</TD><TD>" + (oleLoanDocument.getTitle() != null ? oleLoanDocument.getTitle() : "") + "</TD></TR><TR><TD>");
+            stringBuffer.append(fieldLabelMap.get(OLEConstants.NOTICE_AUTHOR)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_AUTHOR):OLEConstants.NOTICE_AUTHOR+":</TD><TD>" + (oleLoanDocument.getAuthor() != null ? oleLoanDocument.getAuthor() : "") + "</TD></TR><TR><TD>");
             String volume = oleLoanDocument.getEnumeration() != null && !oleLoanDocument.getEnumeration().equals("") ? oleLoanDocument.getEnumeration() : "";
             String issue = new String(" ");
             String copyNumber = oleLoanDocument.getItemCopyNumber() != null && !oleLoanDocument.getItemCopyNumber().equals("") ? oleLoanDocument.getItemCopyNumber() : "";
             String volumeNumber = volume + "/" + issue + "/" + copyNumber;
-            stringBuffer.append("<TR><TD>Volume/Issue/Copy Number :</TD><TD>" + (volumeNumber != null ? volumeNumber : "") + "</TD></TR>");
-            stringBuffer.append("<TR><TD>Item was due :</TD><TD>" + (oleLoanDocument.getLoanDueDate() != null ? sdf.format(oleLoanDocument.getLoanDueDate()).toString() : "") + "</TD></TR>");
-            stringBuffer.append("<TR><TD>Library shelving location :</TD><TD>" + (itemShelvingLocationName(oleLoanDocument.getItemLocation()) != null ? itemShelvingLocationName(oleLoanDocument.getItemLocation()) : "") + "</TD></TR>");
+            stringBuffer.append(fieldLabelMap.get(OLEConstants.VOLUME_ISSUE_COPY)!=null ?fieldLabelMap.get(OLEConstants.VOLUME_ISSUE_COPY):OLEConstants.VOLUME_ISSUE_COPY+":</TD><TD>"  + (volumeNumber != null ? volumeNumber : "") + "</TD></TR><TR><TD>");
+            stringBuffer.append(fieldLabelMap.get(OLEConstants.ITEM_WAS_DUE)!=null ?fieldLabelMap.get(OLEConstants.ITEM_WAS_DUE):OLEConstants.ITEM_WAS_DUE+":</TD><TD>" + (oleLoanDocument.getLoanDueDate() != null ? sdf.format(oleLoanDocument.getLoanDueDate()).toString() : "") + "</TD></TR><TR><TD>");
+            stringBuffer.append(fieldLabelMap.get(OLEConstants.LIBRARY_SHELVING_LOCATION)!=null ?fieldLabelMap.get(OLEConstants.LIBRARY_SHELVING_LOCATION):OLEConstants.LIBRARY_SHELVING_LOCATION+":</TD><TD>" + (itemShelvingLocationName(oleLoanDocument.getItemLocation()) != null ? itemShelvingLocationName(oleLoanDocument.getItemLocation()) : "") + "</TD></TR><TR><TD>");
             try {
                 String callNumber = "";
                 if (oleLoanDocument.getItemCallNumber() != null && !oleLoanDocument.getItemCallNumber().equals("")) {
                     callNumber = oleLoanDocument.getItemCallNumber();
                 }
-                stringBuffer.append("<TR><TD>Call Number :</TD><TD>" + (callNumber != null ? callNumber : "") + "</TD></TR>");
+                stringBuffer.append(fieldLabelMap.get(OLEConstants.NOTICE_CALL_NUMBER)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_CALL_NUMBER):OLEConstants.NOTICE_CALL_NUMBER +":</TD><TD>"  + (callNumber != null ? callNumber : "") + "</TD></TR><TR><TD>");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            stringBuffer.append("<TR><TD>Item Barcode :</TD><TD>" + (oleLoanDocument.getItemId() != null ? oleLoanDocument.getItemId() : "") + "</TD></TR>");
+            stringBuffer.append(fieldLabelMap.get(OLEConstants.NOTICE_ITEM_BARCODE)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_ITEM_BARCODE):OLEConstants.NOTICE_ITEM_BARCODE+":</TD><TD>" + (oleLoanDocument.getItemId() != null ? oleLoanDocument.getItemId() : "") + "</TD></TR>");
             stringBuffer.append("<TR><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>");
             stringBuffer.append("</table>");
         } catch (Exception e) {

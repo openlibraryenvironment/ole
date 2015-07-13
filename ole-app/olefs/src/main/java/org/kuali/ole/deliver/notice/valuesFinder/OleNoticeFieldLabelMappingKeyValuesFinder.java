@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.notice.valuesFinder;
 
+import org.kuali.ole.OLEConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -15,23 +16,23 @@ public class OleNoticeFieldLabelMappingKeyValuesFinder extends KeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("Patron Information","Patron Information"));
-        keyValues.add(new ConcreteKeyValue("Patron Name","Patron Name"));
-        keyValues.add(new ConcreteKeyValue("Address","Address"));
-        keyValues.add(new ConcreteKeyValue("Email","Email"));
-        keyValues.add(new ConcreteKeyValue("Phone #","Phone #"));
-        keyValues.add(new ConcreteKeyValue("Title/Item Information","Title/Item Information"));
-        keyValues.add(new ConcreteKeyValue("Circulation Location/Library Name","Circulation Location/Library Name"));
-        keyValues.add(new ConcreteKeyValue("Circulation Reply-To Email","Circulation Reply-To Email"));
-        keyValues.add(new ConcreteKeyValue("Title","Title"));
-        keyValues.add(new ConcreteKeyValue("Author","Author"));
-        keyValues.add(new ConcreteKeyValue("Volume/Issue/Copy #","Volume/Issue/Copy #"));
-        keyValues.add(new ConcreteKeyValue("Call #","Call #"));
-        keyValues.add(new ConcreteKeyValue("Item Barcode","Item Barcode"));
-        keyValues.add(new ConcreteKeyValue("Original Due Date","Original Due Date"));
-        keyValues.add(new ConcreteKeyValue("New Due Date","New Due Date"));
-        keyValues.add(new ConcreteKeyValue("Item was due","Item was due"));
-        keyValues.add(new ConcreteKeyValue("Hold Expiration Date","Hold Expiration Date"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.PATRON_INFORMATION,OLEConstants.PATRON_INFORMATION));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.PATRON_NAME,OLEConstants.PATRON_NAME));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_ADDRESS,OLEConstants.NOTICE_ADDRESS));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_EMAIL,OLEConstants.NOTICE_EMAIL));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_PHONE_NUMBER,OLEConstants.NOTICE_PHONE_NUMBER));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.TITLE_ITEM_INFORMATION,OLEConstants.TITLE_ITEM_INFORMATION));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.CIRCULATION_LOCATION_LIBRARY_NAME,OLEConstants.CIRCULATION_LOCATION_LIBRARY_NAME));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.CIRCULATION_REPLY_TO_EMAIL,OLEConstants.CIRCULATION_REPLY_TO_EMAIL));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_TITLE,OLEConstants.NOTICE_TITLE));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_AUTHOR,OLEConstants.NOTICE_AUTHOR));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.VOLUME_ISSUE_COPY,OLEConstants.VOLUME_ISSUE_COPY));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_CALL_NUMBER,OLEConstants.NOTICE_CALL_NUMBER));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_ITEM_BARCODE,OLEConstants.NOTICE_ITEM_BARCODE));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.ORIGINAL_DUE_DATE,OLEConstants.ORIGINAL_DUE_DATE));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.NEW_DUE_DATE,OLEConstants.NEW_DUE_DATE));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.ITEM_WAS_DUE,OLEConstants.ITEM_WAS_DUE));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.HOLD_EXPIRATION_DATE,OLEConstants.HOLD_EXPIRATION_DATE));
         return keyValues;
     }
 }

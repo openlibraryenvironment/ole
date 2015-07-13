@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 import org.jfree.util.Log;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
+import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
+import org.kuali.ole.deliver.notice.bo.OleNoticeFieldLabelMapping;
 import org.kuali.ole.deliver.notice.executors.LoanNoticesExecutor;
 import org.kuali.ole.docstore.common.document.BibTree;
 import org.kuali.ole.docstore.common.document.BibTrees;
@@ -158,11 +160,32 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
         }
         return oleDeliverNotices;
     }
-
+    @Override
+    public void populateFieldLabelMapping() {
+        List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
+        Map<String,String> noticeConfigurationMap = new HashMap<String,String>();
+        noticeConfigurationMap.put("noticeType",OLEConstants.RECALL_NOTICE);
+        oleNoticeContentConfigurationBoList= (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeConfigurationMap);
+        if(oleNoticeContentConfigurationBoList!=null && oleNoticeContentConfigurationBoList.size()>0){
+            if(oleNoticeContentConfigurationBoList.get(0)!=null){
+                fieldLabelMap.put("noticeTitle",oleNoticeContentConfigurationBoList.get(0).getNoticeTitle());
+                fieldLabelMap.put("noticeBody",oleNoticeContentConfigurationBoList.get(0).getNoticeBody());
+                fieldLabelMap.put("noticeSubjectLine",oleNoticeContentConfigurationBoList.get(0).getNoticeSubjectLine());
+                if(oleNoticeContentConfigurationBoList.get(0).getOleNoticeFieldLabelMappings()!=null && oleNoticeContentConfigurationBoList.get(0).getOleNoticeFieldLabelMappings().size()>0){
+                    for(OleNoticeFieldLabelMapping oleNoticeFieldLabelMapping : oleNoticeContentConfigurationBoList.get(0).getOleNoticeFieldLabelMappings()){
+                        fieldLabelMap.put(oleNoticeFieldLabelMapping.getFieldLabel(),oleNoticeFieldLabelMapping.getFieldName());
+                    }
+                }
+            }
+        }else{
+            fieldLabelMap.put("noticeTitle","");
+            fieldLabelMap.put("noticeBody","");
+        }
+    }
 
     @Override
     public String generateMailContent(List<OleLoanDocument> oleLoanDocuments) {
-        String mailContent = getNoticeMailContentFormatter().generateMailContentForPatron(oleLoanDocuments, "", "");
+        String mailContent = getNoticeMailContentFormatter().generateMailContentForPatron(oleLoanDocuments,fieldLabelMap);
         return mailContent;
     }
 

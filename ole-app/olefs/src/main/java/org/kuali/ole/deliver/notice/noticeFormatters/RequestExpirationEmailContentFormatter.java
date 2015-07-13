@@ -10,6 +10,7 @@ import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by maheswarang on 6/23/15.
@@ -18,12 +19,12 @@ public class RequestExpirationEmailContentFormatter extends RequestEmailContentF
 
 
     @Override
-    public String getCustomItemHeaderInfo(OleDeliverRequestBo oleDeliverRequestBo) {
+    public String getCustomItemHeaderInfo(OleDeliverRequestBo oleDeliverRequestBo,Map<String,String> fieldLabelMap) {
         return null;
     }
 
     @Override
-    public String getCustomItemFooterInfo(OleDeliverRequestBo oleDeliverRequestBo) {
+    public String getCustomItemFooterInfo(OleDeliverRequestBo oleDeliverRequestBo,Map<String,String> fieldLabelMap) {
         return null;
     }
 }

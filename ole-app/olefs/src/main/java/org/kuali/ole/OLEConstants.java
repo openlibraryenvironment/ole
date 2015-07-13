@@ -3528,4 +3528,26 @@ public class OLEConstants {
     public static final String COPY_NOTICE_CONTENT_CONFIG_DOC="Copied Notice Content Configuration Document";
     public static final String EDIT_NOTICE_CONTENT_CONFIG_DOC="Edited Notice Content Configuration Document";
 
+
+    public static final String PATRON_INFORMATION = "Patron Information";
+    public static final String PATRON_NAME = "Patron Name";
+    public static final String NOTICE_ADDRESS = "Address";
+    public static final String NOTICE_EMAIL = "Email";
+    public static final String NOTICE_PHONE_NUMBER = "Phone #";
+    public static final String TITLE_ITEM_INFORMATION = "Title/Item Information";
+    public static final String CIRCULATION_LOCATION_LIBRARY_NAME = "Circulation Location/Library Name";
+    public static final String CIRCULATION_REPLY_TO_EMAIL = "Circulation Reply-To Email";
+    public static final String NOTICE_TITLE = "Title";
+    public static final String NOTICE_AUTHOR = "Author";
+    public static final String VOLUME_ISSUE_COPY = "Volume/Issue/Copy #";
+    public static final String NOTICE_CALL_NUMBER = "Call #";
+    public static final String NOTICE_ITEM_BARCODE = "Item_Barcode";
+    public static final String ORIGINAL_DUE_DATE = "Original Due Date";
+    public static final String NEW_DUE_DATE = "New Due Date";
+    public static final String ITEM_WAS_DUE = "Item was due";
+    public static final String HOLD_EXPIRATION_DATE = "Hold Expiration Date";
+    public static final String NOTICE_RECALL_DUE_DATE = "Hold Expiration Date";
+    public static final String LIBRARY_SHELVING_LOCATION ="Library shelving location";
+
+
 }

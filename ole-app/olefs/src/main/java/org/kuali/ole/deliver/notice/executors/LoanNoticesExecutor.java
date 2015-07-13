@@ -32,6 +32,7 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
 
     private static final Logger LOG = Logger.getLogger(LoanNoticesExecutor.class);
     protected List<OleLoanDocument> loanDocuments;
+    protected Map<String,String> fieldLabelMap = new HashMap<String,String>();
 
     public LoanNoticesExecutor(List<OleLoanDocument> loanDocuments) {
         this.loanDocuments = loanDocuments;
@@ -43,19 +44,21 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
 
         //1. Pre process
         preProcess(loanDocuments);
-        //2. generate email content
+        //2. building FieldLabel Map
+        populateFieldLabelMapping();
+        //3. generate email content
         String mailContent = generateMailContent(loanDocuments);
-        //3. Generate notices
+        //4. Generate notices
         List<OLEDeliverNotice> oleDeliverNotices = buildNoticesForDeletion();
-        //4. Save loan document
+        //5. Save loan document
         getBusinessObjectService().save(loanDocuments);
-        //5. Delete notices
+        //6. Delete notices
         deleteNotices(oleDeliverNotices);
-        //6. update notice history
+        //7. update notice history
         saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
-        //7. send mail
+        //8. send mail
         sendMail(mailContent);
-        //8 Post process
+        //9 Post process
         postProcess(loanDocuments);
     }
 
@@ -82,5 +85,6 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
     protected abstract void preProcess(List<OleLoanDocument> loanDocuments);
     public abstract List<OLEDeliverNotice> buildNoticesForDeletion();
     public abstract String generateMailContent(List<OleLoanDocument> oleLoanDocuments);
+    public abstract void populateFieldLabelMapping();
 
 }

@@ -7,6 +7,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.batch.OleMailer;
 import org.kuali.ole.deliver.bo.*;
+import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.noticeFormatters.RequestEmailContentFormatter;
 import org.kuali.ole.deliver.notice.util.NoticeUtil;
 import org.kuali.ole.deliver.processor.LoanProcessor;
@@ -46,6 +47,7 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
     protected List<OLEDeliverNotice> filteredDeliverNotices = new ArrayList<OLEDeliverNotice>();
     protected RequestEmailContentFormatter requestEmailContentFormatter;
     protected List<OleDeliverRequestBo> deliverRequestBos = new ArrayList<OleDeliverRequestBo>();
+    protected Map<String,String> fieldLabelMap = new HashMap<String,String>();
 
     public void setRequestEmailContentFormatter(RequestEmailContentFormatter requestEmailContentFormatter) {
         this.requestEmailContentFormatter = requestEmailContentFormatter;
@@ -91,6 +93,7 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
 
     protected abstract void postProcess();
 
+    public abstract void populateFieldLabelMapping();
 
 
     private void preProcess() {
@@ -108,7 +111,7 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
 
 
     public String generateMailContent() {
-        String mailContent = getRequestEmailContentFormatter().generateRequestMailContentForPatron(deliverRequestBos,getTitle(), getBody());
+        String mailContent = getRequestEmailContentFormatter().generateRequestMailContentForPatron(deliverRequestBos, fieldLabelMap);
         System.out.println(mailContent);
         return mailContent;
     }
@@ -140,6 +143,8 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
     public void run() {
 
         preProcess();
+
+        populateFieldLabelMapping();
 
         String mailContent = generateMailContent();
 
