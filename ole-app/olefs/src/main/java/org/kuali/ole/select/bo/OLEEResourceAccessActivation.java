@@ -53,6 +53,7 @@ public class OLEEResourceAccessActivation extends PersistableBusinessObjectBase 
     private String workflowName;
     private boolean workflowNameReadOnly = true;
     private String workflowDescription;
+    private boolean adHocUserExists;
     public OLEEResourceAccessActivation(){
         getEresNotes().add(new OLEEResourceNotes());
     }
@@ -363,5 +364,13 @@ public class OLEEResourceAccessActivation extends PersistableBusinessObjectBase 
 
     public void setWorkflowDescription(String workflowDescription) {
         this.workflowDescription = workflowDescription;
+    }
+
+    public boolean isAdHocUserExists() {
+        return adHocUserExists;
+    }
+
+    public void setAdHocUserExists(boolean adHocUserExists) {
+        this.adHocUserExists = adHocUserExists;
     }
 }

@@ -2766,32 +2766,28 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             for (int i = 0; i < oleAccessActivationWorkFlows.size(); i++) {
                 accessActivationWorkFlow = oleAccessActivationWorkFlows.get(i);
                 oleeResourceAccess.setAccessStatus(accessActivationWorkFlow.getStatus());
-                List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
-                org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
                 List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
-                AdHocRoutePerson adHocRoutePerson;
                 StringBuffer currentOwnerBuffer = new StringBuffer();
                 if (principals != null && principals.size() > 0) {
                     oleeResourceAccessWorkflow.setStatus(accessActivationWorkFlow.getStatus());
                     found = true;
+                    List<AdHocRouteRecipient> adHocRouteRecipientList = new ArrayList<AdHocRouteRecipient>();
                     for (Principal principal : principals) {
                         currentOwnerBuffer.append(principal.getPrincipalName() + ",");
-                        adHocRoutePerson = new AdHocRoutePerson();
+                        AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
                         adHocRoutePerson.setId(principal.getPrincipalId());
                         adHocRoutePerson.setName(principal.getPrincipalName());
                         adHocRoutePerson.setActionRequested("A");
                         adHocRoutePerson.setdocumentNumber(newDocument.getDocumentNumber());
                         adHocRoutePerson.setType(0);
-                        adHocRouteRecipients.add(adHocRoutePerson);
+                        adHocRouteRecipientList.add(adHocRoutePerson);
                     }
                     if (currentOwnerBuffer.length() > 0) {
                         oleeResourceAccessWorkflow.setCurrentOwner(currentOwnerBuffer.substring(0, currentOwnerBuffer.length() - 1));
                     }
-                    List<AdHocRouteRecipient> adHocRouteRecipientList = new ArrayList<AdHocRouteRecipient>();
-                    adHocRouteRecipientList.addAll(adHocRouteRecipients);
                     try {
                         if(StringUtils.isNotEmpty(accessActivationWorkFlow.getRoleId())) {
-                            Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
+                            Role role = KimApiServiceLocator.getRoleService().getRole(accessActivationWorkFlow.getRoleId());
                             getDocumentService().routeDocument(newDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + role.getName(), adHocRouteRecipientList);
                         } else {
                             getDocumentService().routeDocument(newDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + "", adHocRouteRecipientList);
@@ -2842,7 +2838,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 accessActivationWorkFlow = oleAccessActivationWorkFlows.get(i);
                 oleeResourceRecordDocument.setWorkflowStatus(accessActivationWorkFlow.getStatus());
                 List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
-                org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
                 List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
                 AdHocRoutePerson adHocRoutePerson;
                 StringBuffer currentOwnerBuffer = new StringBuffer();
@@ -2861,7 +2856,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                     adHocRouteRecipientList.addAll(adHocRouteRecipients);
                     try {
                         if(StringUtils.isNotEmpty(accessActivationWorkFlow.getRoleId())) {
-                            Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
+                            Role role = KimApiServiceLocator.getRoleService().getRole(accessActivationWorkFlow.getRoleId());
                             getDocumentService().routeDocument(oleeResourceRecordDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + role.getName(), adHocRouteRecipientList);
                         } else {
                             getDocumentService().routeDocument(oleeResourceRecordDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + "", adHocRouteRecipientList);
@@ -2964,7 +2959,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                         accessActivationWorkFlow = oleAccessActivationWorkFlows.get(i + 1);
                         oleeResourceRecordDocument.setWorkflowStatus(accessActivationWorkFlow.getStatus());
                         List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
-                        org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
                         List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
                         StringBuffer currentOwnerBuffer = new StringBuffer();
                         List<String> principalIds = new ArrayList<String>();
@@ -2986,7 +2980,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                             actionRequestService.deleteByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
                             try{
                                 if(StringUtils.isNotEmpty(accessActivationWorkFlow.getRoleId())) {
-                                    Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
+                                    Role role = KimApiServiceLocator.getRoleService().getRole(accessActivationWorkFlow.getRoleId());
                                     getDocumentService().approveDocument(form.getDocument(), "Needed Approval for the status : " + oleeResourceRecordDocument.getWorkflowStatus() + " from the members of the  Role :" + role.getName(), adHocRouteRecipientList);
                                 } else {
                                     getDocumentService().approveDocument(form.getDocument(), "Needed Approval for the status : " + oleeResourceRecordDocument.getWorkflowStatus() + " from the members of the  Role :" + "", adHocRouteRecipientList);

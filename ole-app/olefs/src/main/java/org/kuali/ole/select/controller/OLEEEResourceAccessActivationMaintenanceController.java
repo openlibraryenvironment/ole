@@ -18,12 +18,14 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
+import org.kuali.rice.krad.bo.AdHocRouteWorkgroup;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -59,6 +61,7 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
 
     private OLEEResourceHelperService oleeResourceHelperService;
     private OLEAccessActivationService oleAccessActivationService;
+    private PersonService personService;
 
     public OLEEResourceHelperService getOleeResourceHelperService() {
         if (oleeResourceHelperService == null) {
@@ -72,6 +75,13 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
             oleAccessActivationService = new OLEAccessActivationServiceImpl();
         }
         return oleAccessActivationService;
+    }
+
+    public PersonService getPersonService() {
+        if(personService == null){
+            personService = KimApiServiceLocator.getPersonService();
+        }
+        return personService;
     }
 
     @Override
@@ -147,61 +157,66 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
             oleeResourceEventLog.setSaveFlag(true);
             KRADServiceLocator.getBusinessObjectService().save(oleeResourceEventLog);
         }
-        String previousStatus = oleeResourceAccess.getAccessStatus();
-        ActionRequestService actionRequestService = KEWServiceLocator.getActionRequestService();
-        Map<String, String> accessConfigMap = new HashMap<String, String>();
-        accessConfigMap.put("accessActivationConfigurationId", oleeResourceAccess.getWorkflowId());
-        List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows = (List<OLEAccessActivationWorkFlow>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(OLEAccessActivationWorkFlow.class, accessConfigMap, "orderNo", true);
-        OLEAccessActivationWorkFlow accessActivationWorkFlow = null;
-        if (oleAccessActivationWorkFlows != null && oleAccessActivationWorkFlows.size() > 0) {
-            for (int i = 0; i < oleAccessActivationWorkFlows.size(); i++) {
-                if (oleAccessActivationWorkFlows.get(i).getStatus().equals(oleeResourceAccess.getAccessStatus())) {
-                    if (i + 1 < oleAccessActivationWorkFlows.size()) {
-                        accessActivationWorkFlow = oleAccessActivationWorkFlows.get(i + 1);
-                        oleeResourceAccess.setAccessStatus(accessActivationWorkFlow.getStatus());
-                        List<OLEEResourceAccessWorkflow> accessWorkflowList = oleeResourceAccess.getOleERSAccessWorkflows();
-                        List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
-                        org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
-                        List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
-                        OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = accessWorkflowList.get(accessWorkflowList.size() - 1);
-                        StringBuffer currentOwnerBuffer = new StringBuffer();
-                        AdHocRoutePerson adHocRoutePerson;
-                        if (principals != null && principals.size() > 0) {
-                            oleeResourceAccessWorkflow.setStatus(accessActivationWorkFlow.getStatus());
-                            for (Principal principal : principals) {
-                                currentOwnerBuffer.append(principal.getPrincipalName() + ",");
-                                adHocRoutePerson = new AdHocRoutePerson();
-                                adHocRoutePerson.setId(principal.getPrincipalId());
-                                adHocRoutePerson.setName(principal.getPrincipalName());
-                                adHocRoutePerson.setActionRequested("A");
-                                adHocRoutePerson.setdocumentNumber(form.getDocument().getDocumentNumber());
-                                adHocRoutePerson.setType(0);
-                                adHocRouteRecipients.add(adHocRoutePerson);
-                            }
-                            if (currentOwnerBuffer.length() > 0) {
-                                oleeResourceAccessWorkflow.setCurrentOwner(currentOwnerBuffer.substring(0, currentOwnerBuffer.length() - 1));
-                            }
-                            List<AdHocRouteRecipient> adHocRouteRecipientList = combineAdHocRecipients(form);
-                            adHocRouteRecipientList.addAll(adHocRouteRecipients);
-                            actionRequestService.deleteByDocumentId(maintenanceDocument.getDocumentNumber());
-                            if(StringUtils.isNotEmpty(accessActivationWorkFlow.getRoleId())) {
-                                Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
-                                getDocumentService().approveDocument(form.getDocument(), "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the  Role :" + role.getName(), adHocRouteRecipientList);
-                            } else {
-                                getDocumentService().approveDocument(form.getDocument(), "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the  Role :" + "", adHocRouteRecipientList);
-                            }
-                            List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(maintenanceDocument.getDocumentNumber());
-                            ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
-                            actionTakenValue.setAnnotation("Approved Status : " + previousStatus);
-                            KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
-                            KEWServiceLocator.getActionListService().deleteByDocumentId(maintenanceDocument.getDocumentNumber());
-                            getOleeResourceHelperService().deleteMaintenanceLock();
-                            break;
+        if (!processAdHocRecipients(form, false, oleeResourceAccess)){
+            String previousStatus = oleeResourceAccess.getAccessStatus();
+            ActionRequestService actionRequestService = KEWServiceLocator.getActionRequestService();
+            Map<String, String> accessConfigMap = new HashMap<String, String>();
+            accessConfigMap.put("accessActivationConfigurationId", oleeResourceAccess.getWorkflowId());
+            List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows = (List<OLEAccessActivationWorkFlow>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(OLEAccessActivationWorkFlow.class, accessConfigMap, "orderNo", true);
+            OLEAccessActivationWorkFlow accessActivationWorkFlow = null;
+            if (oleAccessActivationWorkFlows != null && oleAccessActivationWorkFlows.size() > 0) {
+                for (int i = 0; i < oleAccessActivationWorkFlows.size(); i++) {
+                    if (oleeResourceAccess.isAdHocUserExists() || oleAccessActivationWorkFlows.get(i).getStatus().equals(oleeResourceAccess.getAccessStatus())) {
+                        int desiredPosition;
+                        if (oleeResourceAccess.isAdHocUserExists()) {
+                            desiredPosition = i;
+                        } else {
+                            desiredPosition = i + 1;
                         }
-                    } else {
-                        getOleeResourceHelperService().setWorkflowCompletedStatusAfterApproval(oleeResourceAccess, maintenanceDocument);
-                        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_ROUTE_APPROVED);
-                        return getUIFModelAndView(form);
+                        oleeResourceAccess.setAdHocUserExists(false);
+                        if (desiredPosition < oleAccessActivationWorkFlows.size()) {
+                            accessActivationWorkFlow = oleAccessActivationWorkFlows.get(desiredPosition);
+                            oleeResourceAccess.setAccessStatus(accessActivationWorkFlow.getStatus());
+                            List<OLEEResourceAccessWorkflow> accessWorkflowList = oleeResourceAccess.getOleERSAccessWorkflows();
+                            List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
+                            OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = accessWorkflowList.get(accessWorkflowList.size() - 1);
+                            StringBuffer currentOwnerBuffer = new StringBuffer();
+                            if (principals != null && principals.size() > 0) {
+                                oleeResourceAccessWorkflow.setStatus(accessActivationWorkFlow.getStatus());
+                                List<AdHocRouteRecipient> adHocRouteRecipientList = combineAdHocRecipients(form);
+                                for (Principal principal : principals) {
+                                    currentOwnerBuffer.append(principal.getPrincipalName() + ",");
+                                    AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
+                                    adHocRoutePerson.setId(principal.getPrincipalId());
+                                    adHocRoutePerson.setName(principal.getPrincipalName());
+                                    adHocRoutePerson.setActionRequested("A");
+                                    adHocRoutePerson.setdocumentNumber(form.getDocument().getDocumentNumber());
+                                    adHocRoutePerson.setType(0);
+                                    adHocRouteRecipientList.add(adHocRoutePerson);
+                                }
+                                if (currentOwnerBuffer.length() > 0) {
+                                    oleeResourceAccessWorkflow.setCurrentOwner(currentOwnerBuffer.substring(0, currentOwnerBuffer.length() - 1));
+                                }
+                                actionRequestService.deleteByDocumentId(maintenanceDocument.getDocumentNumber());
+                                if(StringUtils.isNotEmpty(accessActivationWorkFlow.getRoleId())) {
+                                    Role role = KimApiServiceLocator.getRoleService().getRole(accessActivationWorkFlow.getRoleId());
+                                    getDocumentService().approveDocument(form.getDocument(), "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the  Role :" + role.getName(), adHocRouteRecipientList);
+                                } else {
+                                    getDocumentService().approveDocument(form.getDocument(), "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the  Role :" + "", adHocRouteRecipientList);
+                                }
+                                List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(maintenanceDocument.getDocumentNumber());
+                                ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
+                                actionTakenValue.setAnnotation("Approved Status : " + previousStatus);
+                                KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
+                                KEWServiceLocator.getActionListService().deleteByDocumentId(maintenanceDocument.getDocumentNumber());
+                                getOleeResourceHelperService().deleteMaintenanceLock();
+                                break;
+                            }
+                        } else {
+                            getOleeResourceHelperService().setWorkflowCompletedStatusAfterApproval(oleeResourceAccess, maintenanceDocument);
+                            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_ROUTE_APPROVED);
+                            return getUIFModelAndView(form);
+                        }
                     }
                 }
             }
@@ -251,69 +266,159 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
             oleeResourceEventLog.setSaveFlag(true);
             KRADServiceLocator.getBusinessObjectService().save(oleeResourceEventLog);
         }
-        OLEAccessActivationWorkFlow accessActivationWorkFlow = null;
-        getOleeResourceHelperService().deleteMaintenanceLock();
-        Map<String, String> accessConfigMap = new HashMap<String, String>();
-        accessConfigMap.put("accessActivationConfigurationId", oleeResourceAccess.getWorkflowId());
-        List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows = (List<OLEAccessActivationWorkFlow>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(OLEAccessActivationWorkFlow.class, accessConfigMap, "orderNo", true);
-        if (oleAccessActivationWorkFlows != null && oleAccessActivationWorkFlows.size() > 0) {
-            boolean found = false;
-            OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = new OLEEResourceAccessWorkflow();
-            oleeResourceAccessWorkflow.setDescription(oleeResourceAccess.getWorkflowDescription());
-            oleeResourceAccessWorkflow.setLastApproved(new Timestamp(System.currentTimeMillis()));
-            oleeResourceAccess.getOleERSAccessWorkflows().add(oleeResourceAccessWorkflow);
-            for (int i = 0; i < oleAccessActivationWorkFlows.size(); i++) {
-                accessActivationWorkFlow = oleAccessActivationWorkFlows.get(i);
-                oleeResourceAccess.setAccessStatus(accessActivationWorkFlow.getStatus());
-                List<AdHocRoutePerson> adHocRouteRecipients = new ArrayList<AdHocRoutePerson>();
-                org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
-                List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
-                StringBuffer currentOwnerBuffer = new StringBuffer();
-                AdHocRoutePerson adHocRoutePerson;
-                if (principals != null && principals.size() > 0) {
-                    oleeResourceAccessWorkflow.setStatus(accessActivationWorkFlow.getStatus());
-                    found = true;
-                    for (Principal principal : principals) {
-                        currentOwnerBuffer.append(principal.getPrincipalName() + ",");
-                        adHocRoutePerson = new AdHocRoutePerson();
-                        adHocRoutePerson.setId(principal.getPrincipalId());
-                        adHocRoutePerson.setName(principal.getPrincipalName());
-                        adHocRoutePerson.setActionRequested("A");
-                        adHocRoutePerson.setdocumentNumber(maintenanceDocument.getDocumentNumber());
-                        adHocRoutePerson.setType(0);
-                        adHocRouteRecipients.add(adHocRoutePerson);
-                    }
-                    if (currentOwnerBuffer.length() > 0) {
-                        oleeResourceAccessWorkflow.setCurrentOwner(currentOwnerBuffer.substring(0, currentOwnerBuffer.length() - 1));
-                    }
-                    List<AdHocRouteRecipient> adHocRouteRecipientList = new ArrayList<AdHocRouteRecipient>();
-                    adHocRouteRecipientList.addAll(adHocRouteRecipients);
-                    try {
-                        if(StringUtils.isNotEmpty(accessActivationWorkFlow.getRoleId())) {
-                            Role role = roleService.getRole(accessActivationWorkFlow.getRoleId());
-                            getDocumentService().routeDocument(maintenanceDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + role.getName(), adHocRouteRecipientList);
-                        } else {
-                            getDocumentService().routeDocument(maintenanceDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + "", adHocRouteRecipientList);
+        if (!processAdHocRecipients(form, true, oleeResourceAccess)){
+            oleeResourceAccess.setAdHocUserExists(false);
+            OLEAccessActivationWorkFlow accessActivationWorkFlow = null;
+            getOleeResourceHelperService().deleteMaintenanceLock();
+            Map<String, String> accessConfigMap = new HashMap<String, String>();
+            accessConfigMap.put("accessActivationConfigurationId", oleeResourceAccess.getWorkflowId());
+            List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows = (List<OLEAccessActivationWorkFlow>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(OLEAccessActivationWorkFlow.class, accessConfigMap, "orderNo", true);
+            if (oleAccessActivationWorkFlows != null && oleAccessActivationWorkFlows.size() > 0) {
+                boolean found = false;
+                OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = new OLEEResourceAccessWorkflow();
+                oleeResourceAccessWorkflow.setDescription(oleeResourceAccess.getWorkflowDescription());
+                oleeResourceAccessWorkflow.setLastApproved(new Timestamp(System.currentTimeMillis()));
+                oleeResourceAccess.getOleERSAccessWorkflows().add(oleeResourceAccessWorkflow);
+                for (int i = 0; i < oleAccessActivationWorkFlows.size(); i++) {
+                    accessActivationWorkFlow = oleAccessActivationWorkFlows.get(i);
+                    oleeResourceAccess.setAccessStatus(accessActivationWorkFlow.getStatus());
+                    List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
+                    StringBuffer currentOwnerBuffer = new StringBuffer();
+                    if (principals != null && principals.size() > 0) {
+                        oleeResourceAccessWorkflow.setStatus(accessActivationWorkFlow.getStatus());
+                        found = true;
+                        List<AdHocRouteRecipient> adHocRouteRecipientList = new ArrayList<AdHocRouteRecipient>();
+                        for (Principal principal : principals) {
+                            currentOwnerBuffer.append(principal.getPrincipalName() + ",");
+                            AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
+                            adHocRoutePerson.setId(principal.getPrincipalId());
+                            adHocRoutePerson.setName(principal.getPrincipalName());
+                            adHocRoutePerson.setActionRequested("A");
+                            adHocRoutePerson.setdocumentNumber(maintenanceDocument.getDocumentNumber());
+                            adHocRoutePerson.setType(0);
+                            adHocRouteRecipientList.add(adHocRoutePerson);
                         }
-                        List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(maintenanceDocument.getDocumentNumber());
-                        ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
-                        actionTakenValue.setAnnotation("Initiated the access activation workflow");
-                        KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
-                        getOleeResourceHelperService().deleteMaintenanceLock();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        if (currentOwnerBuffer.length() > 0) {
+                            oleeResourceAccessWorkflow.setCurrentOwner(currentOwnerBuffer.substring(0, currentOwnerBuffer.length() - 1));
+                        }
+                        try {
+                            if(StringUtils.isNotEmpty(accessActivationWorkFlow.getRoleId())) {
+                                Role role = KimApiServiceLocator.getRoleService().getRole(accessActivationWorkFlow.getRoleId());
+                                getDocumentService().routeDocument(maintenanceDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + role.getName(), adHocRouteRecipientList);
+                            } else {
+                                getDocumentService().routeDocument(maintenanceDocument, "Needed Approval for the status : " + accessActivationWorkFlow.getStatus() + " from the members of the Role : " + "", adHocRouteRecipientList);
+                            }
+                            List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(maintenanceDocument.getDocumentNumber());
+                            ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
+                            actionTakenValue.setAnnotation("Initiated the access activation workflow");
+                            KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
+                            getOleeResourceHelperService().deleteMaintenanceLock();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
                     }
-                    break;
                 }
-            }
-            if (!found) {
-                getOleeResourceHelperService().setWorkflowCompletedStatus(oleeResourceAccess, maintenanceDocument, false);
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL);
-                return getUIFModelAndView(form);
+                if (!found) {
+                    getOleeResourceHelperService().setWorkflowCompletedStatus(oleeResourceAccess, maintenanceDocument, false);
+                    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL);
+                    return getUIFModelAndView(form);
+                }
             }
         }
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL);
         return getUIFModelAndView(form);
+    }
+
+    private boolean processAdHocRecipients(DocumentFormBase form, boolean startAccessActivation, OLEEResourceAccessActivation oleEResourceAccess) {
+        boolean processedAdHocRecipients = false;
+        MaintenanceDocument document = ((MaintenanceDocumentForm) form).getDocument();
+        AdHocRouteWorkgroup adHocRouteWorkgroup;
+        StringBuffer currentOwnerBuffer = new StringBuffer();
+        List<AdHocRouteRecipient> adHocRouteRecipientList = new ArrayList<>();
+        List<AdHocRouteRecipient> adHocRouteRecipients = combineAdHocRecipients(form);
+        document.setAdHocRoutePersons(new ArrayList<AdHocRoutePerson>());
+        if (adHocRouteRecipients != null && adHocRouteRecipients.size() > 0) {
+            for (AdHocRouteRecipient adHocRouteRecipient : adHocRouteRecipients) {
+                if (adHocRouteRecipient instanceof AdHocRoutePerson) {
+                    Person person = null;
+                    if (StringUtils.isNotBlank(adHocRouteRecipient.getId())) {
+                        person = getPersonService().getPerson(adHocRouteRecipient.getId());
+                    } else if (StringUtils.isNotBlank(adHocRouteRecipient.getName())) {
+                        person = getPersonService().getPersonByPrincipalName(adHocRouteRecipient.getName());
+                    }
+                    if (person != null) {
+                        currentOwnerBuffer.append(person.getPrincipalName() + ",");
+                        AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
+                        adHocRoutePerson.setId(person.getPrincipalId());
+                        adHocRoutePerson.setName(person.getPrincipalName());
+                        adHocRoutePerson.setActionRequested("A");
+                        adHocRoutePerson.setdocumentNumber(document.getDocumentNumber());
+                        adHocRoutePerson.setType(0);
+                        adHocRouteRecipientList.add(adHocRoutePerson);
+                    }
+                } else if (adHocRouteRecipient instanceof AdHocRouteWorkgroup) {
+                    adHocRouteWorkgroup = (AdHocRouteWorkgroup) adHocRouteRecipient;
+                    List<String> memberIds = KimApiServiceLocator.getGroupService().getMemberPrincipalIds(adHocRouteWorkgroup.getId());
+                    List<Principal> principals = KimApiServiceLocator.getIdentityService().getPrincipals(memberIds);
+                    if (principals != null && principals.size() > 0) {
+                        for (Principal principal : principals) {
+                            currentOwnerBuffer.append(principal.getPrincipalName() + ",");
+                            AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
+                            adHocRoutePerson.setId(principal.getPrincipalId());
+                            adHocRoutePerson.setName(principal.getPrincipalName());
+                            adHocRoutePerson.setActionRequested("A");
+                            adHocRoutePerson.setdocumentNumber(document.getDocumentNumber());
+                            adHocRoutePerson.setType(0);
+                            adHocRouteRecipientList.add(adHocRoutePerson);
+                        }
+                    }
+                }
+            }
+            if (adHocRouteRecipientList.size() > 0) {
+                processedAdHocRecipients = true;
+                try {
+                    if (startAccessActivation) {
+                        oleEResourceAccess.setAdHocUserExists(true);
+                        OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = new OLEEResourceAccessWorkflow();
+                        oleeResourceAccessWorkflow.setDescription(oleEResourceAccess.getWorkflowDescription());
+                        oleeResourceAccessWorkflow.setLastApproved(new Timestamp(System.currentTimeMillis()));
+                        oleeResourceAccessWorkflow.setCurrentOwner(currentOwnerBuffer.substring(0, currentOwnerBuffer.length() - 1));
+                        oleEResourceAccess.getOleERSAccessWorkflows().add(oleeResourceAccessWorkflow);
+                        oleEResourceAccess.setAccessStatus("");
+                        getDocumentService().routeDocument(document, "Needed Approval from the members : " + "", adHocRouteRecipientList);
+                        List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(document.getDocumentNumber());
+                        ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
+                        actionTakenValue.setAnnotation("Initiated the access activation workflow");
+                        KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
+                    } else {
+                        if (StringUtils.isBlank(oleEResourceAccess.getAccessStatus())){
+                            oleEResourceAccess.setAdHocUserExists(true);
+                        }else{
+                            oleEResourceAccess.setAdHocUserExists(false);
+                        }
+                        List<OLEEResourceAccessWorkflow> accessWorkflowList = oleEResourceAccess.getOleERSAccessWorkflows();
+                        OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = accessWorkflowList.get(accessWorkflowList.size() - 1);
+                        oleeResourceAccessWorkflow.setCurrentOwner(currentOwnerBuffer.substring(0, currentOwnerBuffer.length() - 1));
+
+                        ActionRequestService actionRequestService = KEWServiceLocator.getActionRequestService();
+                        actionRequestService.deleteByDocumentId(document.getDocumentNumber());
+                        getOleeResourceHelperService().deleteMaintenanceLock();
+                        getDocumentService().approveDocument(document, "Needed Approval from the members : " + "", adHocRouteRecipientList);
+                        List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(document.getDocumentNumber());
+                        ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
+                        actionTakenValue.setAnnotation("Approved Status : " + oleEResourceAccess.getAccessStatus());
+                        KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
+                        KEWServiceLocator.getActionListService().deleteByDocumentId(document.getDocumentNumber());
+                    }
+                    getOleeResourceHelperService().deleteMaintenanceLock();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return processedAdHocRecipients;
     }
 
 }
