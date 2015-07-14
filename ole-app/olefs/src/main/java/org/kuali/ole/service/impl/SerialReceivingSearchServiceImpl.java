@@ -265,7 +265,7 @@ public class SerialReceivingSearchServiceImpl implements SerialReceivingSearchSe
                 } else if (sc.getDocField().equalsIgnoreCase(OLEConstants.PO_SEARCH) && sc.getSearchText() != null && !sc.getSearchText().isEmpty()) {
                     serialMap.put(OLEConstants.PO_ID, sc.getSearchText());
                 } else if (sc.getDocField().equalsIgnoreCase(OLEConstants.SERIAL_SEARCH) && sc.getSearchText() != null && !sc.getSearchText().isEmpty()) {
-                    serialMap.put(OLEConstants.SERIAL_RECEIVING_RECORD_ID, sc.getSearchText());
+                    serialMap.put(OLEConstants.SERIAL_RECEIVING_RECORD, sc.getSearchText());
                 }
             }
         }

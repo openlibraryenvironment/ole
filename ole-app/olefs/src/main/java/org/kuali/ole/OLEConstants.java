@@ -3163,6 +3163,7 @@ public class OLEConstants {
     public static final String INVOICE_IMPORT_INV_DESC = "INVOICE_IMPORT_INV_DESC";
     public static final String PO_ID = "poId";
     public static final String SERIAL_RECEIVING_RECORD_ID = "serialReceivingRecordId";
+    public static final String SERIAL_RECEIVING_RECORD = "serialReceivingRecord";
     public static final String RECEIPT_PRINTER = "ReceiptPrinter";
     public static final String NORMAL_PRINTER = "NormalPrinter";
     public static final String ALL="All";
