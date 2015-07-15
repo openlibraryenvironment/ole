@@ -173,6 +173,7 @@ public class OlePatronRecordHandler {
         xStream.omitField(OlePatronDocument.class, "namePrefix");
         xStream.omitField(OlePatronDocument.class, "nameSuffix");
         xStream.addImplicitCollection(OlePatronDocuments.class, "olePatronDocuments");
+        xStream.addImplicitCollection(OlePatronDocument.class, "currentPatronList");
         xStream.omitField(OlePatronDocument.class, "deletedPhones");
         xStream.omitField(OlePatronDocument.class, "deletedOleEntityAddressBo");
         xStream.omitField(OlePatronDocument.class, "deletedEmails");
@@ -193,6 +194,9 @@ public class OlePatronRecordHandler {
         xStream.omitField(OlePatronDocument.class, "requestedItemRecordsCount");
         xStream.omitField(OlePatronDocument.class, "tempCirculationHistoryCount");
         xStream.omitField(OlePatronDocument.class, "deleteImageFlag");
+        xStream.omitField(OlePatronDocument.class, "lostPatron");
+        xStream.omitField(OlePatronDocument.class, "addressVerified");
+        xStream.omitField(OlePatronDocument.class, "checkoutForSelf");
         String xml = xStream.toXML(olePatronDocuments);
         stringBuffer.append(xml);
         stringBuffer.append("\n");
