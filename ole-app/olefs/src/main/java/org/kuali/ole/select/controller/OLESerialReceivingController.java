@@ -38,6 +38,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.TransactionalDocumentControllerBase;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -760,7 +761,8 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oldSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
         oldSerialReceivingDocument.setCurrentActionPerformed("");
-        ModelAndView modelAndView = super.disapprove(form, result, request, response);
+        performWorkflowAction(form, UifConstants.WorkflowAction.DISAPPROVE, true);
+        //ModelAndView modelAndView = super.disapprove(form, result, request, response);
         form.setDocId(null);
         form.setCommand(KewApiConstants.INITIATE_COMMAND);
         super.docHandler(form, result, request, response);
@@ -774,7 +776,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
         oleSerialReceivingService.disapproveCreateNewWithExisting(newDocument, oldSerialReceivingDocument);
         documentService.saveDocument(newDocument);
         form.setDocument(newDocument);
-        return modelAndView;
+        return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=linkPO")
@@ -929,5 +931,14 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
         oleSerialReceivingDocument.setCurrentActionPerformed("");
         return getUIFModelAndView(oleSerialReceivingForm);
     }
+
+    @RequestMapping(params = "methodToCall=approve")
+    public ModelAndView approve(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+        performWorkflowAction(form, UifConstants.WorkflowAction.APPROVE, true);
+
+        return getUIFModelAndView(form);
+    }
+
 
 }
