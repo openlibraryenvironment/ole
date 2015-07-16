@@ -221,7 +221,7 @@ public class OLESearchController extends UifControllerBase {
 
         if ( oleSearchForm.getDocType().equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
             boolean hasLinkPermission = canLinkBibForRequisition(GlobalVariables.getUserSession().getPrincipalId());
-            if (!hasLinkPermission) {
+            if (!hasLinkPermission && !oleSearchForm.getViewId().equalsIgnoreCase("OLESearchView")) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_AUTHORIZATION);
                 return super.navigate(oleSearchForm, result, request, response);
             }
@@ -295,7 +295,7 @@ public class OLESearchController extends UifControllerBase {
 
         if (oleSearchForm.getDocType().equalsIgnoreCase(OLEConstants.BIB_DOC_TYPE)) {
             boolean hasLinkPermission = canLinkBibForRequisition(GlobalVariables.getUserSession().getPrincipalId());
-            if (!hasLinkPermission) {
+            if (!hasLinkPermission && !oleSearchForm.getViewId().equalsIgnoreCase("OLESearchView")) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_AUTHORIZATION);
                 return super.navigate(oleSearchForm, result, request, response);
             }
