@@ -978,7 +978,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="items">
             <list>
-                <bean id="bibDataFields_tag" parent="Uif-InputField" p:label="Source Field" p:propertyName="tag" p:readOnly="@{!#isAddLine}">
+                <bean id="bibDataFields_tag" parent="Uif-InputField" p:label="Target MARC field" p:propertyName="tag" p:readOnly="@{!#isAddLine}">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="9" p:maxLength="9"/>
                     </property>
@@ -986,7 +986,7 @@
 
                 <bean id="bibData-Gokbfield" parent="Uif-InputField" p:propertyName="gokbFieldBib" p:label="Gokb Field" p:readOnly="@{!#isAddLine}" p:render="@{ document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'}">
                     <property name="optionsFinder">
-                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessGokbValuesFinder" />
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessGokbBibValuesFinder" />
                     </property>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutDataType" />

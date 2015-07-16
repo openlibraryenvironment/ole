@@ -949,7 +949,7 @@ public class OLEConstants {
         public static final String ENUM_CAPTN_LVL5 = "ENUM_CAPTN_LVL5";
         public static final String ENUM_CAPTN_LVL6 = "ENUM_CAPTN_LVL6";
 
-        public static final String CONSTANT_DATAMAPPING_FOR_EHOLDINGS = "856";
+        public static final String CONSTANT_DATAMAPPING_FOR_EHOLDINGS = "956";
         public static final String E_HOLDINGS_URL_MAPPING = CONSTANT_DATAMAPPING_FOR_EHOLDINGS + " $u";
         public static final String E_HOLDINGS_START_DATE_MAPPING = CONSTANT_DATAMAPPING_FOR_EHOLDINGS + " $a";
         public static final String E_HOLDINGS_START_VOLUME_MAPPING = CONSTANT_DATAMAPPING_FOR_EHOLDINGS + " $b";
