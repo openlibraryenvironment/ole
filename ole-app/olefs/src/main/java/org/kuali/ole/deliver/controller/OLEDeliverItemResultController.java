@@ -164,6 +164,7 @@ public class OLEDeliverItemResultController extends UifControllerBase {
                     oleSingleItemResultDisplayRow.setOleItemNoteResultDisplayRowList(itemNoteResultDisplayRowList);
                 }
             }
+            oleSingleItemResultDisplayRow.setPlaceRequest(getOleDeliverItemSearchService().validateItemStatusForPlaceRequest(oleSingleItemResultDisplayRow.getItemStatus()));
             getOleDeliverItemSearchService().setBorrowerInfo(oleSingleItemResultDisplayRow);
             getOleDeliverItemSearchService().setAdditionalCopiesInfo(oleSingleItemResultDisplayRow);
             getOleDeliverItemSearchService().setDeliverRequestInfo(itemIdMap, oleSingleItemResultDisplayRow);

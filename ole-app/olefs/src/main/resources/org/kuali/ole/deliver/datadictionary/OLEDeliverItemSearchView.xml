@@ -219,7 +219,7 @@
                 <bean id="placeRequest" parent="Uif-LinkField" p:label="Place"
                       p:linkText="Place Request"
                       p:href="@{#ConfigProperties['ole.fs.url.base']}/portal.do?channelTitle=Place Request&amp;channelUrl=@{#ConfigProperties['ole.fs.url.base']}/ole-kr-krad/placeRequestController?viewId=OLEPlaceRequestView&amp;methodToCall=start&amp;itemId=@{#line.id}&amp;bibId=@{#line.bibIdentifier}"
-                      p:target="_blank" p:render="@{#line.placeRequest}">
+                      p:target="_blank" p:hidden="@{!#line.placeRequest}">
                     <property name="cssClasses" value="buttonForLink"/>
                 </bean>
                 <bean parent="Uif-LinkField" p:hidden="@{!#line.requestExists}" p:label="View"
