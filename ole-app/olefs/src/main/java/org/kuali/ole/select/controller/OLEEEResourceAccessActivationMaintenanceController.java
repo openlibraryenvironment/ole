@@ -165,7 +165,7 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
             List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows = (List<OLEAccessActivationWorkFlow>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(OLEAccessActivationWorkFlow.class, accessConfigMap, "orderNo", true);
             OLEAccessActivationWorkFlow accessActivationWorkFlow = null;
             if (oleAccessActivationWorkFlows != null && oleAccessActivationWorkFlows.size() > 0) {
-                for (int i = 0; i < oleAccessActivationWorkFlows.size(); i++) {
+                for (int i = 0; i <= oleAccessActivationWorkFlows.size(); i++) {
                     if (oleeResourceAccess.isAdHocUserExists() || oleAccessActivationWorkFlows.get(i).getStatus().equals(oleeResourceAccess.getAccessStatus())) {
                         int desiredPosition;
                         if (oleeResourceAccess.isAdHocUserExists()) {
@@ -173,15 +173,15 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
                         } else {
                             desiredPosition = i + 1;
                         }
-                        oleeResourceAccess.setAdHocUserExists(false);
                         if (desiredPosition < oleAccessActivationWorkFlows.size()) {
                             accessActivationWorkFlow = oleAccessActivationWorkFlows.get(desiredPosition);
-                            oleeResourceAccess.setAccessStatus(accessActivationWorkFlow.getStatus());
                             List<OLEEResourceAccessWorkflow> accessWorkflowList = oleeResourceAccess.getOleERSAccessWorkflows();
                             List<Principal> principals = getOleAccessActivationService().getPrincipals(accessActivationWorkFlow);
                             OLEEResourceAccessWorkflow oleeResourceAccessWorkflow = accessWorkflowList.get(accessWorkflowList.size() - 1);
                             StringBuffer currentOwnerBuffer = new StringBuffer();
                             if (principals != null && principals.size() > 0) {
+                                oleeResourceAccess.setAccessStatus(accessActivationWorkFlow.getStatus());
+                                oleeResourceAccess.setAdHocUserExists(false);
                                 oleeResourceAccessWorkflow.setStatus(accessActivationWorkFlow.getStatus());
                                 List<AdHocRouteRecipient> adHocRouteRecipientList = combineAdHocRecipients(form);
                                 for (Principal principal : principals) {
@@ -213,6 +213,7 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
                                 break;
                             }
                         } else {
+                            oleeResourceAccess.setAdHocUserExists(false);
                             getOleeResourceHelperService().setWorkflowCompletedStatusAfterApproval(oleeResourceAccess, maintenanceDocument);
                             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_ROUTE_APPROVED);
                             return getUIFModelAndView(form);
