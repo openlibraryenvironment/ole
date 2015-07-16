@@ -153,6 +153,10 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
         Note note = documentService.createNoteFromDocument(oleSerialReceivingDocument, OLEConstants.SRR_ROUTE_NOTES);;
         oleSerialReceivingDocument.addNote(note);
         ModelAndView modelAndView = super.route(oleSerialReceivingForm, result, request, response);
+        if (oleSerialReceivingDocument.getSerialReceivingRecord() == null || oleSerialReceivingDocument.getSerialReceivingRecord().isEmpty()) {
+            oleSerialReceivingDocument.setSerialReceivingRecord(oleSerialReceivingDocument.getSerialReceivingRecordId());
+            getBusinessObjectService().save(oleSerialReceivingDocument);
+        }
         return modelAndView;
     }
 
@@ -444,6 +448,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
             modelAndView = super.save(oleSerialReceivingForm, result, request, response);
             if (oleSerialReceivingDocument.getSerialReceivingRecord() == null || oleSerialReceivingDocument.getSerialReceivingRecord().isEmpty()) {
                 oleSerialReceivingDocument.setSerialReceivingRecord(oleSerialReceivingDocument.getSerialReceivingRecordId());
+                getBusinessObjectService().save(oleSerialReceivingDocument);
             }
             oleSerialReceivingService.updateSerialIdInCopy(oleSerialReceivingDocument);
             oleSerialReceivingDocument.setTempInstanceId(oleSerialReceivingDocument.getInstanceId());
