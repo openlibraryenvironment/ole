@@ -68,6 +68,7 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                                HttpServletRequest request, HttpServletResponse response) {
         OLEDeliverItemSearchForm oleDeliverItemSearchForm = (OLEDeliverItemSearchForm) form;
         oleDeliverItemSearchForm.setSingleItemFlag(false);
+        oleDeliverItemSearchForm.setMultipleItemFlag(false);
         oleDeliverItemSearchForm.setOleBibSearchResultDisplayRowList(new ArrayList<OLEBibSearchResultDisplayRow>());
         oleDeliverItemSearchForm.setOleSingleItemResultDisplayRow(new OLESingleItemResultDisplayRow());
         try {
