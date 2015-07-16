@@ -234,7 +234,20 @@ function setFieldAndSort(field) {
 }
 
 function openHelpWindow(url) {
+    if (jq("input.uif-helpAction").is(":focus")) {
+        var windowWidth = screen.availWidth / 2;
+        var windowHeight = screen.availHeight / 2;
+        var windowPositionY = parseInt((screen.availWidth / 2) - (windowWidth / 2));
+        var windowPositionX = parseInt((screen.availHeight / 2) - (windowHeight / 2));
 
+        var windowUrl = url;
+        var windowName = 'HelpWindow';
+        var windowOptions = 'width=' + windowWidth + ',height=' + windowHeight + ',top=' + windowPositionX + ',left=' + windowPositionY + ',scrollbars=yes,resizable=yes';
+
+        var myWindow = window.open('', windowName);
+        myWindow.close();
+        myWindow = window.open(windowUrl, windowName, windowOptions);
+    }
 }
 
 
