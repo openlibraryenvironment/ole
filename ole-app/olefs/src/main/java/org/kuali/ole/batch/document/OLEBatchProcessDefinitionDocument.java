@@ -2,7 +2,7 @@ package org.kuali.ole.batch.document;
 
 import org.kuali.ole.batch.bo.*;
 import org.kuali.ole.batch.form.OLEBatchProcessDefinitionForm;
-import org.kuali.rice.krad.document.TransactionalDocumentBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,9 +18,10 @@ import java.util.Map;
  * Time: 6:39 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OLEBatchProcessDefinitionDocument extends TransactionalDocumentBase {
+public class OLEBatchProcessDefinitionDocument extends PersistableBusinessObjectBase {
 
     private String batchProcessId;
+    private String documentNumber;
     private String batchProcessName;
     private String batchProcessProfileName;
     private String batchProcessType;
@@ -278,6 +279,14 @@ public class OLEBatchProcessDefinitionDocument extends TransactionalDocumentBase
 
     public void setBatchProcessId(String batchProcessId) {
         this.batchProcessId = batchProcessId;
+    }
+
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     public String getBatchProcessProfileId() {

@@ -2364,7 +2364,7 @@
 
     <table name="OLE_BAT_PRCS_T">
         <column name="BAT_PRCS_ID" primaryKey="true" size="40" type="VARCHAR"/>
-        <column name="FDOC_NBR" required="true" size="14" type="VARCHAR"/>
+        <column name="FDOC_NBR" size="14" type="VARCHAR"/>
         <column name="USER_NAME" size="40" type="VARCHAR"/>
         <column name="BAT_PRCS_NM" size="200" type="VARCHAR"/>
         <column name="BAT_PRCS_PRF_NM" size="40" type="VARCHAR"/>

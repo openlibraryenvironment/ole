@@ -3,10 +3,15 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="OLEBatchProcessDefinitionView" parent="BP-Uif-TransactionalDocumentView">
+    <bean id="OLEBatchProcessDefinitionView" parent="Uif-OLEFormView">
         <property name="headerText" value="Batch Process"/>
         <property name="formClass" value="org.kuali.ole.batch.form.OLEBatchProcessDefinitionForm"/>
-        <property name="documentClass" value="org.kuali.ole.batch.document.OLEBatchProcessDefinitionDocument"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s02.html#batchProcess"/>
+            </bean>
+        </property>
         <property name="items">
             <list>
                 <ref bean="OLEBatchProcessDefinition-MainPage"/>
@@ -24,76 +29,7 @@
         </property>
     </bean>
 
-    <bean id="BP-Uif-TransactionalDocumentView" abstract="true" parent="BP-Uif-TransactionalDocumentView-parentBean"/>
-    <bean id="BP-Uif-TransactionalDocumentView-parentBean" abstract="true"
-          class="org.kuali.rice.krad.uif.view.TransactionalDocumentView" parent="BP-Uif-DocumentView">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-transactionalView</value>
-            </list>
-        </property>
-        <property name="viewTypeName" value="TRANSACTIONAL"/>
-        <property name="viewName" value="default"/>
-        <property name="presentationControllerClass"
-                  value="org.kuali.rice.krad.document.TransactionalDocumentViewPresentationControllerBase"/>
-        <property name="authorizerClass" value="org.kuali.rice.krad.document.TransactionalDocumentViewAuthorizerBase"/>
-        <property name="formClass" value="org.kuali.rice.krad.web.form.TransactionalDocumentFormBase"/>
-    </bean>
-
-    <bean id="BP-Uif-DocumentView" abstract="true" parent="BP-Uif-DocumentView-parentBean"/>
-    <!--<bean id="BP-Uif-DocumentView-parentBean" abstract="true"
-          class="org.kuali.rice.krad.uif.view.DocumentView" parent="Uif-FormView-KnsTheme">-->
-    <bean id="BP-Uif-DocumentView-parentBean" abstract="true"
-          class="org.kuali.rice.krad.uif.view.DocumentView" parent="Uif-OLEFormView">
-    <property name="help">
-        <bean parent="Uif-Help">
-            <property name="externalHelpUrl"
-                      value="${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s02.html#batchProcess"/>
-            <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
-        </bean>
-    </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-documentView</value>
-            </list>
-        </property>
-        <property name="viewTypeName" value="DOCUMENT"/>
-        <property name="formClass" value="org.kuali.rice.krad.web.form.DocumentFormBase"/>
-        <property name="defaultBindingObjectPath" value="document"/>
-        <property name="presentationControllerClass"
-                  value="org.kuali.rice.krad.document.DocumentViewPresentationControllerBase"/>
-        <property name="authorizerClass" value="org.kuali.rice.krad.document.DocumentViewAuthorizerBase"/>
-        <property name="viewHelperServiceClass"
-                  value="org.kuali.rice.krad.uif.service.impl.DocumentViewHelperServiceImpl"/>
-        <property name="header">
-            <bean parent="Uif-DocumentViewHeader"/>
-        </property>
-    </bean>
-
-    <bean id="BP-Uif-DocumentPage" parent="Uif-Disclosure-Page">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-documentPage</value>
-            </list>
-        </property>
-        <property name="defaultItemPosition" value="11"/>
-        <property name="items">
-            <list>
-            </list>
-        </property>
-        <property name="footer">
-            <bean parent="BP-Uif-DocumentPageFooter"/>
-        </property>
-    </bean>
-
-    <bean id="BP-Uif-DocumentPageFooter" parent="Uif-FooterBase">
-        <property name="items">
-            <list>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="OLEBatchProcessDefinition-MainPage" parent="BP-Uif-DocumentPage">
+    <bean id="OLEBatchProcessDefinition-MainPage" parent="Uif-Disclosure-Page">
         <property name="items">
             <list merge="true">
                 <ref bean="BatchMessageSection"/>
@@ -107,7 +43,7 @@
                 <ref bean="BatchProcessDefinition-batchProcessProfileName_processName"/>
                 <ref bean="BatchProcessDefinition-batchProcessProfileName_processType"/>
                 <ref bean="processId_hidden"/>
-
+                <ref bean="hdnSchedule"/>
             </list>
         </property>
     </bean>
@@ -151,14 +87,14 @@
                     <property name="items">
                         <list>
                             <bean id="BatchProcessDefinition-batchProcessName" parent="Uif-InputField"
-                                  p:propertyName="batchProcessName" p:label="Batch Process Name" p:readOnly="@{document.batchProcessId ne null}">
+                                  p:propertyName="document.batchProcessName" p:label="Batch Process Name" p:readOnly="@{document.batchProcessId ne null}">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="30" p:maxLength="40"/>
                                 </property>
                             </bean>
 
                             <bean id="BatchProcessDefinition-batchProcessType" parent="Uif-InputField"
-                                  p:propertyName="batchProcessType" p:label="Batch Process Type" >
+                                  p:propertyName="document.batchProcessType" p:label="Batch Process Type" >
 
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
@@ -182,18 +118,18 @@
 
 
                             <bean id="BatchProcessDefinition-batchProcessKRMSProfile" parent="Uif-InputField"
-                                  p:propertyName="batchProcessKRMSProfile" p:label="Batch Process KRMS Profile"
+                                  p:propertyName="document.batchProcessKRMSProfile" p:label="Batch Process KRMS Profile"
                                   p:readOnly="true" p:render="@{document.batchProcessType eq 'Order Record Import'}">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="30" p:maxLength="40"/>
                                 </property>
                             </bean>
 
-                            <bean id="chunkSizeField" parent="Uif-InputField" p:propertyName="chunkSize"
+                            <bean id="chunkSizeField" parent="Uif-InputField" p:propertyName="document.chunkSize" p:label="Batch Size"
                                   p:defaultValue="1000" p:readOnly="@{document.batchProcessId ne null}"/>
 
-                            <bean id="emailField" parent="Uif-InputField" p:propertyName="emailIds" p:readOnly="@{document.batchProcessId ne null}" p:constraintText="Please enter multiple email id's separated by comma (,)"/>
-                            <bean id="BatchProcessDefinition-patron-input" parent="Uif-InputField"  p:label="Add unmatched patrons" p:propertyName="addUnmatchedPatron" p:readOnly="@{document.batchProcessId ne null}" p:render="@{document.batchProcessType eq 'Patron Import'}">
+                            <bean id="emailField" parent="Uif-InputField" p:propertyName="document.emailIds" p:label="Send Job Report To" p:readOnly="@{document.batchProcessId ne null}" p:constraintText="Please enter multiple email id's separated by comma (,)"/>
+                            <bean id="BatchProcessDefinition-patron-input" parent="Uif-InputField"  p:label="Add unmatched patrons" p:propertyName="document.addUnmatchedPatron" p:readOnly="@{document.batchProcessId ne null}" p:render="@{document.batchProcessType eq 'Patron Import'}">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl"/>
                                 </property>
@@ -212,13 +148,13 @@
         <property name="items">
             <list>
                 <bean id="ingestInputFile" parent="Uif-InputField" p:style="float:left;margin-left:45em"
-                      p:propertyName="ingestedFile" p:label="Upload File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                      p:propertyName="document.ingestedFile" p:label="Upload File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
                     <property name="control">
                         <bean parent="Uif-FileControl" p:size="40"/>
                     </property>
                 </bean>
 
-                <bean id="ingestInputFileName" p:style="float:left;margin-left:50em" p:label="Upload File"  parent="Uif-InputField" p:propertyName="uploadFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+                <bean id="ingestInputFileName" p:style="float:left;margin-left:50em" p:label="Upload File"  parent="Uif-InputField" p:propertyName="document.uploadFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
 
             </list>
         </property>
@@ -231,22 +167,22 @@
         <property name="items">
             <list>
                 <bean id="marcFileField" parent="Uif-InputField" p:style="float:left;margin-left:45em"
-                      p:propertyName="marcFile" p:label="Upload Marc File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                      p:propertyName="document.marcFile" p:label="Upload Marc File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
                     <property name="control">
                         <bean parent="Uif-FileControl" p:size="40"/>
                     </property>
                 </bean>
 
-                <bean id="mrcInputFileName" p:style="float:left;margin-left:50em" p:label="Upload Marc File"  parent="Uif-InputField" p:propertyName="marcFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+                <bean id="mrcInputFileName" p:style="float:left;margin-left:50em" p:label="Upload Marc File"  parent="Uif-InputField" p:propertyName="document.marcFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
 
                 <bean id="ediFileField" parent="Uif-InputField" p:style="float:left;margin-left:45em"
-                      p:propertyName="ediFile" p:label="Upload Edi File" p:render="@{document.batchProcessId eq null and !marcOnly}" p:readOnly="@{document.batchProcessId ne null}">
+                      p:propertyName="document.ediFile" p:label="Upload Edi File" p:render="@{document.batchProcessId eq null and !marcOnly}" p:readOnly="@{document.batchProcessId ne null}">
                     <property name="control">
                         <bean parent="Uif-FileControl" p:size="40"/>
                     </property>
                 </bean>
 
-                <bean id="ediInputFileName" p:style="float:left;margin-left:50em" p:label="Upload Edi File"  parent="Uif-InputField" p:propertyName="ediFileName" p:render="@{document.batchProcessId ne null and !marcOnly}" p:readOnly="true"/>
+                <bean id="ediInputFileName" p:style="float:left;margin-left:50em" p:label="Upload Edi File"  parent="Uif-InputField" p:propertyName="document.ediFileName" p:render="@{document.batchProcessId ne null and !marcOnly}" p:readOnly="true"/>
             </list>
         </property>
     </bean>
@@ -260,7 +196,7 @@
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
                     <property name="items">
                         <list>
-                            <bean id="outputField" parent="Uif-InputField" p:propertyName="outputFormat" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                            <bean id="outputField" parent="Uif-InputField" p:propertyName="document.outputFormat" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -276,16 +212,16 @@
                <!--             <bean id="maxNumberOfThreads" parent="Uif-InputField" p:propertyName="maxNumberOfThreads"
                                   p:defaultValue="10" p:readOnly="@{document.batchProcessId ne null}"/>   -->
 
-                            <bean id="maxRecordsInFileField" parent="Uif-InputField" p:propertyName="maxRecordsInFile"
+                            <bean id="maxRecordsInFileField" parent="Uif-InputField" p:propertyName="document.maxRecordsInFile"
                                   p:defaultValue="100000" p:readOnly="@{document.batchProcessId ne null}"/>
 
 
-                            <bean id="outputFormatField" parent="Uif-InputField" p:propertyName="outputFormat" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+                            <bean id="outputFormatField" parent="Uif-InputField" p:propertyName="document.outputFormat" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
 
                             <bean id="outputFileField" parent="Uif-InputField"
-                                  p:propertyName="destinationDirectoryPath" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}"/>
+                                  p:propertyName="document.destinationDirectoryPath" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}"/>
 
-                            <bean id="outputFilePath" parent="Uif-InputField" p:propertyName="destinationDirectoryPath" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+                            <bean id="outputFilePath" parent="Uif-InputField" p:propertyName="document.destinationDirectoryPath" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
                         </list>
                     </property>
                 </bean>
@@ -302,7 +238,7 @@
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
                     <property name="items">
                         <list>
-                            <bean id="inputField" parent="Uif-InputField" p:propertyName="inputFormat" p:label="Input Format" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                            <bean id="inputField" parent="Uif-InputField" p:propertyName="document.inputFormat" p:label="Input Format" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -327,13 +263,13 @@
         <property name="items">
             <list>
                             <bean id="inputXMLFile" parent="Uif-InputField" p:style="float:left;margin-left:45em"
-                                  p:propertyName="ingestedFile" p:label="Upload Xml File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                                  p:propertyName="document.ingestedFile" p:label="Upload Xml File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
                                 <property name="control">
                                     <bean parent="Uif-FileControl" p:size="40"/>
                                 </property>
                             </bean>
 
-                            <bean id="inputXMLFileName" p:style="float:left;margin-left:50em" p:label="Upload Xml File"  parent="Uif-InputField" p:propertyName="uploadFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+                            <bean id="inputXMLFileName" p:style="float:left;margin-left:50em" p:label="Upload Xml File"  parent="Uif-InputField" p:propertyName="document.uploadFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
 
             </list>
         </property>
@@ -345,31 +281,31 @@
             <list>
 
                             <bean id="inputCSVFile1" parent="Uif-InputField" p:style="float:left;margin-left:45em" p:required="true"
-                                  p:propertyName="serialRecordDocumentFile" p:label="Upload Serial Receiving Record Csv File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                                  p:propertyName="document.serialRecordDocumentFile" p:label="Upload Serial Receiving Record Csv File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
                                 <property name="control">
                                     <bean parent="Uif-FileControl" p:size="40"/>
                                 </property>
                             </bean>
 
-                            <bean id="ingestInputFileName1" p:style="float:left;margin-left:50em" p:label="Upload Serial Receiving Record Csv File"  parent="Uif-InputField" p:propertyName="serialRecordDocumentFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+                            <bean id="ingestInputFileName1" p:style="float:left;margin-left:50em" p:label="Upload Serial Receiving Record Csv File"  parent="Uif-InputField" p:propertyName="document.serialRecordDocumentFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
 
                             <bean id="inputCSVFile2" parent="Uif-InputField" p:style="float:left;margin-left:45em"
-                                  p:propertyName="serialRecordTypeFile" p:label="Upload Serial Receiving Type Csv File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                                  p:propertyName="document.serialRecordTypeFile" p:label="Upload Serial Receiving Type Csv File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
                                 <property name="control">
                                     <bean parent="Uif-FileControl" p:size="40"/>
                                 </property>
                             </bean>
 
-                            <bean id="ingestInputFileName2" p:style="float:left;margin-left:50em" p:label="Upload Serial Receiving Type Csv File"  parent="Uif-InputField" p:propertyName="serialRecordTypeFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+                            <bean id="ingestInputFileName2" p:style="float:left;margin-left:50em" p:label="Upload Serial Receiving Type Csv File"  parent="Uif-InputField" p:propertyName="document.serialRecordTypeFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
 
                             <bean id="inputCSVFile3" parent="Uif-InputField" p:style="float:left;margin-left:45em"
-                                  p:propertyName="serialRecordHistoryFile" p:label="Upload Serial Record History Csv File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                                  p:propertyName="document.serialRecordHistoryFile" p:label="Upload Serial Record History Csv File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
                                 <property name="control">
                                     <bean parent="Uif-FileControl" p:size="40"/>
                                 </property>
                             </bean>
 
-                            <bean id="ingestInputFileName3" p:style="float:left;margin-left:50em" p:label="Upload Serial Record History Csv File"  parent="Uif-InputField" p:propertyName="serialRecordHistoryFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+                            <bean id="ingestInputFileName3" p:style="float:left;margin-left:50em" p:label="Upload Serial Record History Csv File"  parent="Uif-InputField" p:propertyName="document.serialRecordHistoryFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
 
             </list>
         </property>
@@ -381,13 +317,13 @@
                 <!--<bean id="runNowButton" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:50em" p:methodToCall="runNow" p:actionLabel="Run Now"/>
                 <bean id="scheduleButton" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:2em"
                       p:methodToCall="schedule" p:actionLabel="Schedule"/>-->
-                <bean id="hdnScheduleFlag" parent="Uif-InputField" p:propertyName="scheduleFlag" p:hidden="true"/>
-                <bean id="hdnRescheduleFlag" parent="Uif-InputField" p:propertyName="rescheduleFlag" p:hidden="true"/>
-                <bean id="hdnRunNowFlag" parent="Uif-InputField" p:propertyName="runNowFlag" p:hidden="true"/>
-                <bean id="hdnAfterSubmitFlag" parent="Uif-InputField" p:propertyName="afterSubmitFlag" p:hidden="true"/>
-                <bean id="hdnJobDetails" parent="Uif-InputField" p:propertyName="linkToJob" p:hidden="true"/>
-                <bean id="hdn" parent="Uif-InputField" p:propertyName="fileFlag" p:hidden="true"/>
-                <bean id="hdnfla" parent="Uif-InputField" p:propertyName="continueImportFlag" p:hidden="true"/>
+                <bean id="hdnScheduleFlag" parent="Uif-InputField" p:propertyName="document.scheduleFlag" p:hidden="true"/>
+                <bean id="hdnRescheduleFlag" parent="Uif-InputField" p:propertyName="document.rescheduleFlag" p:hidden="true"/>
+                <bean id="hdnRunNowFlag" parent="Uif-InputField" p:propertyName="document.runNowFlag" p:hidden="true"/>
+                <bean id="hdnAfterSubmitFlag" parent="Uif-InputField" p:propertyName="document.afterSubmitFlag" p:hidden="true"/>
+                <bean id="hdnJobDetails" parent="Uif-InputField" p:propertyName="document.linkToJob" p:hidden="true"/>
+                <bean id="hdn" parent="Uif-InputField" p:propertyName="document.fileFlag" p:hidden="true"/>
+                <bean id="hdnfla" parent="Uif-InputField" p:propertyName="document.continueImportFlag" p:hidden="true"/>
 
                 <bean id="hdn_runNow_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="runNowRoute" p:hidden="true" p:ajaxSubmit="true" p:successCallback="openJobDetails()"/>
             </list>
@@ -409,7 +345,7 @@
                     <property name="items">
                         <list>
                             <bean id="RunNow_Schedule" parent="Uif-InputField"
-                                  p:propertyName="document.runNowOrSchedule" p:onClickScript="selectRunNowOrSchedule()" >
+                                  p:propertyName="document.runNowOrSchedule" p:onClickScript="selectRunNowOrSchedule(); refreshSchedule();" >
                                 <property name="bindingInfo.bindToForm" value="true"/>
                                 <property name="control">
                                     <bean parent="Uif-HorizontalRadioControl">
@@ -429,9 +365,9 @@
         </property>
     </bean>
 
-    <bean id="BatchProcessDefinition-schedule" parent="Uif-VerticalBoxSection" p:render="@{document.scheduleFlag}"  p:readOnly="@{document.rescheduleFlag}"
+    <bean id="BatchProcessDefinition-schedule" parent="Uif-VerticalBoxSection" p:hidden="@{!document.scheduleFlag}"  p:readOnly="@{document.rescheduleFlag}"
           p:layoutManager.cssClasses="fl-container-flex"
-          p:layoutManager.style="border:1px solid;" p:progressiveRenderViaAJAX="true" p:progressiveRender="@{#form.document.runNowOrSchedule eq 'Scheduled'}" >
+          p:layoutManager.style="border:1px solid;">
         <property name="headerText" value="Schedule"/>
         <property name="items">
             <list>
@@ -462,7 +398,7 @@
         </property>
     </bean>
 
-    <bean id="Schedule-cronExpField" parent="Uif-InputField" p:propertyName="enteredCronExp"
+    <bean id="Schedule-cronExpField" parent="Uif-InputField" p:propertyName="document.enteredCronExp"
           p:label="Enter Cron Expression" p:progressiveRenderAndRefresh="true"
           p:progressiveRender="@{#form.document.cronOrSchedule eq 'ProvidedCron'}" p:style="float:left;margin-left:50em"/>
 
@@ -481,7 +417,7 @@
         </property>
     </bean>
 
-    <bean id="Schedule-DateField" parent="Uif-InputField" p:propertyName="oleBatchProcessScheduleBo.oneTimeDate"
+    <bean id="Schedule-DateField" parent="Uif-InputField" p:propertyName="document.oleBatchProcessScheduleBo.oneTimeDate"
           p:label="Date" p:progressiveRenderAndRefresh="true"
           p:progressiveRender="@{#form.document.cronOrSchedule eq 'Scheduled' and #form.document.oneTimeOrRecurring eq 'onetime'}"
           p:style="float:left;margin-left:50em"  >
@@ -489,7 +425,7 @@
             <bean parent="Uif-DateControl" p:size="10"/>
         </property>
     </bean>
-    <bean id="Schedule-timeField" parent="Uif-InputField" p:propertyName="oleBatchProcessScheduleBo.oneTimeStartTime"
+    <bean id="Schedule-timeField" parent="Uif-InputField" p:propertyName="document.oleBatchProcessScheduleBo.oneTimeStartTime"
           p:instructionalText="Enter Time in 24HR Format" p:progressiveRenderAndRefresh="true"
           p:progressiveRender="@{#form.document.cronOrSchedule eq 'Scheduled' and #form.document.oneTimeOrRecurring eq 'onetime'}"
           p:style="float:left;margin-left:50em">
@@ -516,7 +452,7 @@
         </property>
     </bean>
 
-    <bean id="Schedule-startTimeField" parent="Uif-InputField" p:propertyName="oleBatchProcessScheduleBo.startTime"
+    <bean id="Schedule-startTimeField" parent="Uif-InputField" p:propertyName="document.oleBatchProcessScheduleBo.startTime"
           p:instructionalText="Enter Time in 24HR Format" p:progressiveRenderAndRefresh="true"
           p:progressiveRender="@{#form.document.cronOrSchedule eq 'Scheduled' and #form.document.oneTimeOrRecurring eq 'recurring'
           and (#form.document.scheduleType eq 'Daily' or #form.document.scheduleType eq 'Weekly'
@@ -539,7 +475,7 @@
         </property>
     </bean>
 
-    <bean id="weekDaysField" parent="Uif-InputField-LabelTop" p:propertyName="oleBatchProcessScheduleBo.weekDaysList"
+    <bean id="weekDaysField" parent="Uif-InputField-LabelTop" p:propertyName="document.oleBatchProcessScheduleBo.weekDaysList"
           p:label="Week days" p:style="float:left;margin-left:9em">
         <property name="control">
             <bean parent="Uif-VerticalCheckboxesControl">
@@ -567,7 +503,7 @@
         <property name="items">
             <list>
                 <bean id="dayFieldSection" parent="Uif-MessageField" p:messageText="Day " />
-                <bean id="weekNumberField" parent="Uif-InputField" p:propertyName="oleBatchProcessScheduleBo.dayNumber"
+                <bean id="weekNumberField" parent="Uif-InputField" p:propertyName="document.oleBatchProcessScheduleBo.dayNumber"
                       p:defaultValue="">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessMonthValuesFinder"/>
@@ -580,7 +516,7 @@
                 <bean id="ofEveryFieldSection" parent="Uif-MessageField" p:messageText="of every"
                         />
                 <bean id="monthNumberField" parent="Uif-InputField"
-                      p:propertyName="oleBatchProcessScheduleBo.monthNumber">
+                      p:propertyName="document.oleBatchProcessScheduleBo.monthNumber">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="2" p:maxLength="5"/>
                     </property>
@@ -674,10 +610,10 @@
     <bean id ="hiddenButtonRefresh" parent="Uif-SecondaryActionButton" p:methodToCall="refreshPageView" p:hidden="true" />
     <bean id ="hiddenProfileId" parent="Uif-SecondaryActionButton" p:methodToCall="profileId" p:hidden="true" />
     <bean id ="storeProfileId" parent="Uif-SecondaryActionButton" p:methodToCall="populateField" p:hidden="true" />
-    <bean id="BatchProcessDefinition-batchProcessProfileName_processName" parent="Uif-InputField" p:propertyName="processNameHidden" p:hidden="true"/>
-    <bean id="BatchProcessDefinition-batchProcessProfileName_processType" parent="Uif-InputField" p:propertyName="processTypeHidden" p:hidden="true"/>
+    <bean id="BatchProcessDefinition-batchProcessProfileName_processName" parent="Uif-InputField" p:propertyName="document.processNameHidden" p:hidden="true"/>
+    <bean id="BatchProcessDefinition-batchProcessProfileName_processType" parent="Uif-InputField" p:propertyName="document.processTypeHidden" p:hidden="true"/>
 
-    <bean id="BatchProcessDefinition-batchProcessProfileName_orderImport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+    <bean id="BatchProcessDefinition-batchProcessProfileName_orderImport" parent="Uif-InputField" p:propertyName="document.batchProcessProfileName"
           p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Order Record Import'}"  p:instructionalText="Type * for all. Other Letters for matching" >
         <property name="suggest">
             <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
@@ -695,7 +631,7 @@
         </property>
     </bean>
 
-    <bean id="BatchProcessDefinition-batchProcessProfileName_invoiceImport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+    <bean id="BatchProcessDefinition-batchProcessProfileName_invoiceImport" parent="Uif-InputField" p:propertyName="document.batchProcessProfileName"
           p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Invoice Import'}"  p:instructionalText="Type * for all. Other Letters for matching" >
         <property name="suggest">
             <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
@@ -713,7 +649,7 @@
         </property>
     </bean>
 
-    <bean id="BatchProcessDefinition-batchProcessProfileName_batchDelete" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+    <bean id="BatchProcessDefinition-batchProcessProfileName_batchDelete" parent="Uif-InputField" p:propertyName="document.batchProcessProfileName"
           p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Batch Delete'}"  p:instructionalText="Type * for all. Other Letters for matching" >
         <property name="suggest">
             <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
@@ -731,7 +667,7 @@
         </property>
     </bean>
 
-    <bean id="BatchProcessDefinition-batchProcessProfileName_batchExport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+    <bean id="BatchProcessDefinition-batchProcessProfileName_batchExport" parent="Uif-InputField" p:propertyName="document.batchProcessProfileName"
           p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Batch Export'}"  p:instructionalText="Type * for all. Other Letters for matching">
         <property name="suggest">
             <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
@@ -749,7 +685,7 @@
         </property>
     </bean>
 
-    <bean id="BatchProcessDefinition-batchProcessProfileName_patronImport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+    <bean id="BatchProcessDefinition-batchProcessProfileName_patronImport" parent="Uif-InputField" p:propertyName="document.batchProcessProfileName"
           p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Patron Import'}"  p:instructionalText="Type * for all. Other Letters for matching">
         <property name="suggest">
             <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
@@ -767,7 +703,7 @@
         </property>
     </bean>
 
-    <bean id="BatchProcessDefinition-batchProcessProfileName_bibImport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+    <bean id="BatchProcessDefinition-batchProcessProfileName_bibImport" parent="Uif-InputField" p:propertyName="document.batchProcessProfileName"
           p:label="Batch Process Profile Name" p:render="@{(document.batchProcessType eq 'Bib Import')}" p:instructionalText="Type * for all. Other Letters for matching" >
         <property name="suggest">
             <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
@@ -785,7 +721,7 @@
         </property>
     </bean>
 
-    <bean id="BatchProcessDefinition-batchProcessProfileName_locationImport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+    <bean id="BatchProcessDefinition-batchProcessProfileName_locationImport" parent="Uif-InputField" p:propertyName="document.batchProcessProfileName"
           p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Location Import'}"  p:instructionalText="Type * for all. Other Letters for matching" >
         <property name="suggest">
             <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
@@ -803,7 +739,7 @@
         </property>
     </bean>
 
-    <bean id="BatchProcessDefinition-batchProcessProfileName_claimReport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+    <bean id="BatchProcessDefinition-batchProcessProfileName_claimReport" parent="Uif-InputField" p:propertyName="document.batchProcessProfileName"
           p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Claim Report'}"  p:instructionalText="Type * for all. Other Letters for matching">
         <property name="suggest">
             <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
@@ -821,7 +757,7 @@
         </property>
     </bean>
 
-    <bean id="BatchProcessDefinition-batchProcessProfileName_serialRecordImport" parent="Uif-InputField" p:propertyName="batchProcessProfileName"
+    <bean id="BatchProcessDefinition-batchProcessProfileName_serialRecordImport" parent="Uif-InputField" p:propertyName="document.batchProcessProfileName"
           p:label="Batch Process Profile Name" p:render="@{document.batchProcessType eq 'Serial Record Import'}" p:instructionalText="Type * for all. Other Letters for matching">
         <property name="suggest">
             <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
@@ -843,6 +779,6 @@
         <property name="bindingInfo.bindToForm" value="true"/>
     </bean>
 
-
+    <bean id="hdnSchedule" parent="Uif-SecondaryActionButton-Small" p:hidden="true" p:ajaxSubmit="true" p:refreshId="BatchProcessDefinition-schedule" p:methodToCall="scheduleOrRunNow"/>
 
 </beans>

@@ -5,13 +5,14 @@ import org.kuali.ole.pojo.OleTxRecord;
 import org.kuali.ole.pojo.edi.EDIOrder;
 import org.kuali.ole.pojo.edi.LineItemOrder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by chenchulakshmig on 8/1/14.
  */
-public class OrderImportHelperBo {
+public class OrderImportHelperBo implements Serializable{
 
     private int orderImportSuccessCount;
 

@@ -545,6 +545,10 @@ function selectRunNowOrSchedule() {
     }
 }
 
+function refreshSchedule() {
+    jq('#hdnSchedule').focus().click();
+}
+
 jq("#matchingAddOverlaySection-incomingHoldingNotMatched-addHolding").click(function(){
     if(jq("#matchingAddOverlaySection-incomingHoldingNotMatched-addHolding_control_0").val() == "holdingsNotMatched_addHoldings") {
 //        jq("#matchingAddOverlaySection-incomingHoldingNotMatched-addItem_control").val(true);

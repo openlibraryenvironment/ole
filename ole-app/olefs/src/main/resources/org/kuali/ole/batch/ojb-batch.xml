@@ -301,7 +301,7 @@
 
     <class-descriptor class="org.kuali.ole.batch.document.OLEBatchProcessDefinitionDocument" table="OLE_BAT_PRCS_T">
         <field-descriptor name="batchProcessId" column="BAT_PRCS_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_BAT_PRCS_S" />
-        <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+        <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="user" column="USER_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="batchProcessName" column="BAT_PRCS_NM" jdbc-type="VARCHAR" />
         <field-descriptor name="batchProcessProfileId" column="BAT_PRCS_PRF_ID" jdbc-type="VARCHAR" />

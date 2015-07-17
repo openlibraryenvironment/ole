@@ -1,10 +1,7 @@
 package org.kuali.ole.batch.form;
 
 import org.kuali.ole.batch.document.OLEBatchProcessDefinitionDocument;
-import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.rice.krad.web.form.UifFormBase;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,15 +10,23 @@ import java.util.List;
  * Time: 4:12 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OLEBatchProcessDefinitionForm extends TransactionalDocumentFormBase {
+public class OLEBatchProcessDefinitionForm extends UifFormBase {
 
-    private OLEBatchProcessDefinitionDocument oleBatchProcessDefinitionDocument;
+    private OLEBatchProcessDefinitionDocument document;
 
     private String batchProcessId;
     private String batchProcessType;
     private boolean permissionFlag =true;
     private boolean marcOnly;
     private String navigationBatchProcessId;
+
+    public OLEBatchProcessDefinitionDocument getDocument() {
+        return document;
+    }
+
+    public void setDocument(OLEBatchProcessDefinitionDocument document) {
+        this.document = document;
+    }
 
     public String getBatchProcessId() {
         return batchProcessId;
@@ -37,22 +42,6 @@ public class OLEBatchProcessDefinitionForm extends TransactionalDocumentFormBase
 
     public void setBatchProcessType(String batchProcessType) {
         this.batchProcessType = batchProcessType;
-    }
-
-    public OLEBatchProcessDefinitionForm() {
-        super();
-    }
-    @Override
-    protected String getDefaultDocumentTypeName() {
-        return "OLE_BCH_PRCS_PRFL_DOC";
-    }
-
-    public OLEBatchProcessDefinitionDocument getOleBatchProcessDefinitionDocument() {
-        return oleBatchProcessDefinitionDocument;
-    }
-
-    public void setOleBatchProcessDefinitionDocument(OLEBatchProcessDefinitionDocument oleBatchProcessDefinitionDocument) {
-        this.oleBatchProcessDefinitionDocument = oleBatchProcessDefinitionDocument;
     }
 
     public boolean isPermissionFlag() {

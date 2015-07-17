@@ -511,6 +511,7 @@ public class OLEConstants {
         public static final String BATCH_PROCESS_PROFILE_CONTROLLER = "oleBatchProcessProfile";
 
         public static final String BATCH_PROCESS_SCHEDULE_SECTION_ID = "BatchProcessDefinition-schedule";
+        public static final String BATCH_PROCESS_SCHEDULED = "Scheduled";
         public static final String SCHEDULE_ONETIME = "onetime";
         public static final String SCHEDULE_RECURRING = "recurring";
         public static final String SCHEDULE_TYPE_DAILY = "Daily";

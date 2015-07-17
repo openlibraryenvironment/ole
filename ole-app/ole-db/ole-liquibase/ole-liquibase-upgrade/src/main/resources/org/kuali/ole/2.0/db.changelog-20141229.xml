@@ -5258,5 +5258,13 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_T_DROP_NOTNULL">
+        <dropNotNullConstraint catalogName="ole"
+                               columnDataType="VARCHAR(14)"
+                               columnName="FDOC_NBR"
+                               schemaName="ole"
+                               tableName="OLE_BAT_PRCS_T"/>
+    </changeSet>
+
 
 </databaseChangeLog>
