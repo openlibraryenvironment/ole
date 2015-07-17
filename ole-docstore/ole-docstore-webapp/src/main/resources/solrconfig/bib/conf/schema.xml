@@ -462,7 +462,7 @@ but may be good for SKUs.  Can insert dashes in the wrong place and still match.
         <field name="ShelvingSchemeValue_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="ShelvingOrderCode_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="ShelvingOrder_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
-        <field name="Location_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Location_search" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="Level1Location_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="Level2Location_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="Level3Location_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
