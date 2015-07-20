@@ -1738,7 +1738,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                 oleInvoiceItems.add(oleInvoiceItem);
             } else {
                 oleInvoiceAdditionalItems.add(oleInvoiceItem);
-                oleInvoiceItem.setAdditionalUnitPrice(oleInvoiceItem.getExtendedPrice() != null ? oleInvoiceItem.getExtendedPrice().toString() : "");
+              //  oleInvoiceItem.setAdditionalUnitPrice(oleInvoiceItem.getExtendedPrice() != null ? oleInvoiceItem.getExtendedPrice().toString() : "");
 
             }
         }
