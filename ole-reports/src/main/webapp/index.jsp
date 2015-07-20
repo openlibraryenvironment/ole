@@ -25,6 +25,9 @@
             width: 95%;
         }
         p {
+            font-size: 125%;
+        }
+        h5 {
             font-size: 200%;
         }
     </style>
@@ -56,8 +59,13 @@
 <div id="iframe_portlet_container_div">
     <br/>
     <div class="center">
+
+        <%   if (request != null && request.getRequestURL() != null && request.getRequestURL().toString().contains("reports.staging.ole.kuali.org")) {%>
+        <p>Note: The reports data source is pointing to the staging environment at the moment.</p>
+        <% } %>
+
         <ul>
-            <p>Deliver</p>
+            <h5>Deliver</h5>
             <ul>
                 <%--<li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/itemTypeDropDown.rptdesign"%>" target="_blank">Item Type Drop Down</a></li>
 
@@ -86,14 +94,14 @@
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CourtesyNotices.rptdesign"%>" target="_blank">Courtesy Notices</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/OverdueRecallNoticeForCustomer.rptdesign"%>" target="_blank">Overdue Recall Notice For Customer</a></li>--%>
 
-                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/OutstandingHolds.rptdesign"%>" target="_blank">Outstanding Holds</a></li>
-                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CashTransactions.rptdesign"%>" target="_blank">Cash Transactions</a></li>
-                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/LostOrMissingItems.rptdesign"%>" target="_blank">Lost/Missing Items</a></li>
-                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ItemTypeStatistics.rptdesign"%>" target="_blank">Item Type Statistics</a></li>
-                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CollectionStatistics.rptdesign"%>" target="_blank">Collection Statistics</a></li>
-                    <%--<li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/LostItems.rptdesign"%>" target="_blank">Lost Items</a></li>--%>
-                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/GeneralStatistics.rptdesign"%>" target="_blank">General Statistics</a></li>
-                    <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/StandardLoanBooks.rptdesign"%>" target="_blank">Standard Loan Books</a></li>
+                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/OutstandingHolds.rptdesign"%>" target="_blank">Outstanding Holds</a></li>
+                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CashTransactions.rptdesign"%>" target="_blank">Cash Transactions</a></li>
+                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/LostOrMissingItems.rptdesign"%>" target="_blank">Lost/Missing Items</a></li>
+                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ItemTypeStatistics.rptdesign"%>" target="_blank">Item Type Statistics</a></li>
+                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/CollectionStatistics.rptdesign"%>" target="_blank">Collection Statistics</a></li>
+                <%--<li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/LostItems.rptdesign"%>" target="_blank">Lost Items</a></li>--%>
+                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/GeneralStatistics.rptdesign"%>" target="_blank">General Statistics</a></li>
+                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/StandardLoanBooks.rptdesign"%>" target="_blank">Standard Loan Books</a></li>
 
             </ul>
         </ul>
