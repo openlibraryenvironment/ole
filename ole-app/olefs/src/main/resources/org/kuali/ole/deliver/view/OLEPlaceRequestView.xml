@@ -303,7 +303,7 @@
     </bean>
 </property>
 </bean>-->
-                <bean  id="recallRequestTyp" parent="Uif-InputField" p:propertyName="recallRequestType" p:hidden="@{!recallRequest}">
+                <bean  id="recallRequestTyp" parent="Uif-InputField" p:propertyName="recallRequestType" p:hidden="@{!recallRequest and !displayRequestType}">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl">
                             <property name="options">
@@ -314,7 +314,7 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="holdRequestTyp" parent="Uif-InputField" p:propertyName="holdRequestType" p:hidden="@{!holdRequest}">
+                <bean id="holdRequestTyp" parent="Uif-InputField" p:propertyName="holdRequestType" p:hidden="@{!holdRequest and !displayRequestType}">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl">
                             <property name="options">
@@ -325,7 +325,7 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="pageRequestTyp" parent="Uif-InputField" p:propertyName="pageRequestType" p:hidden="@{!pageRequest}" >
+                <bean id="pageRequestTyp" parent="Uif-InputField" p:propertyName="pageRequestType" p:hidden="@{!pageRequest and !displayRequestType}" >
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl">
                             <property name="options">
@@ -336,7 +336,7 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="copyRequestTyp" parent="Uif-InputField" p:propertyName="copyRequestType"  p:hidden="@{!copyRequest}">
+                <bean id="copyRequestTyp" parent="Uif-InputField" p:propertyName="copyRequestType"  p:hidden="@{!copyRequest and !displayRequestType}">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl">
                             <property name="options">

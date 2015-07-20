@@ -1290,13 +1290,16 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         Map<String, String> loanMap = new HashMap<String, String>();
         loanMap.put(OLEConstants.ITEM_UUID, oleDeliverRequestBo.getItemUuid());
         List<OleLoanDocument> loanDocuments = (List<OleLoanDocument>) getBusinessObjectService().findMatching(OleLoanDocument.class, loanMap);
-        OleLoanDocument oleLoanDocument = loanDocuments.get(0);
-        Map<String, String> patronMap = new HashMap<String, String>();
-        patronMap.put(OLEConstants.OleDeliverRequest.PATRON_ID, oleLoanDocument.getPatronId());
-        List<OlePatronDocument> patronDocumentList = (List<OlePatronDocument>) getBusinessObjectService().findMatching(OlePatronDocument.class, patronMap);
+        List<OlePatronDocument> patronDocumentList = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(loanDocuments)) {
+            OleLoanDocument oleLoanDocument = loanDocuments.get(0);
+            Map<String, String> patronMap = new HashMap<String, String>();
+            patronMap.put(OLEConstants.OleDeliverRequest.PATRON_ID, oleLoanDocument.getPatronId());
+            patronDocumentList = (List<OlePatronDocument>) getBusinessObjectService().findMatching(OlePatronDocument.class, patronMap);
+        }
         OleNoticeBo oleNoticeBo = new OleNoticeBo();
         Item item;
-        if (patronDocumentList.size() > 0) {
+        if (patronDocumentList != null && patronDocumentList.size() > 0) {
             OlePatronDocument olePatronDocument = patronDocumentList.get(0);
             EntityTypeContactInfoBo entityTypeContactInfoBo = olePatronDocument.getEntity().getEntityTypeContactInfos().get(0);
             oleNoticeBo.setPatronName(olePatronDocument.getEntity().getNames().get(0).getFirstName() + " " + olePatronDocument.getEntity().getNames().get(0).getLastName());

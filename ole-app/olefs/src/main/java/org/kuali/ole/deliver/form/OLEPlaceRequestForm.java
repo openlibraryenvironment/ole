@@ -64,6 +64,7 @@ public class OLEPlaceRequestForm extends UifFormBase {
     private String overrideErrorMessage;
     private boolean blockSubmit=false;
     private String existingAddressType;
+    private boolean displayRequestType=false;
 
     public String getPatronFirstName() {
         return PatronFirstName;
@@ -447,5 +448,13 @@ public class OLEPlaceRequestForm extends UifFormBase {
 
     public void setExistingAddressType(String existingAddressType) {
         this.existingAddressType = existingAddressType;
+    }
+
+    public boolean isDisplayRequestType() {
+        return displayRequestType;
+    }
+
+    public void setDisplayRequestType(boolean displayRequestType) {
+        this.displayRequestType = displayRequestType;
     }
 }
