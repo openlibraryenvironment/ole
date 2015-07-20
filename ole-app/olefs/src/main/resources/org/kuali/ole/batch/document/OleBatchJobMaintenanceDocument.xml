@@ -179,7 +179,7 @@
         <property name="headerText" value="Select Days of Week"/>
         <property name="items">
             <list>
-                <ref bean="weekDaysField"/>
+                <ref bean="BatchJob-weekDaysField"/>
             </list>
         </property>
     </bean>
