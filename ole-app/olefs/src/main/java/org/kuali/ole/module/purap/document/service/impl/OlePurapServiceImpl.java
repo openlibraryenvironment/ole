@@ -33,6 +33,7 @@ import org.kuali.ole.select.document.OleInvoiceDocument;
 import org.kuali.ole.select.document.OlePaymentRequestDocument;
 import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.select.document.OleRequisitionDocument;
+import org.kuali.ole.select.document.OleVendorCreditMemoDocument;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
@@ -536,6 +537,7 @@ public class OlePurapServiceImpl implements OlePurapService {
                                 paidDocuments.put(invoiceDocument.getPurapDocumentIdentifier().toString(),
                                         invoiceDocument);
                                 invoiceDocument.setPaymentRequestDocuments(new ArrayList<OlePaymentRequestDocument>());
+                                invoiceDocument.setCreditMemoDocuments(new ArrayList<OleVendorCreditMemoDocument>());
                             }
                         }
                     }
@@ -587,6 +589,7 @@ public class OlePurapServiceImpl implements OlePurapService {
                                 paidDocuments.put(invoiceDocument.getPurapDocumentIdentifier().toString(),
                                         invoiceDocument);
                                 invoiceDocument.setPaymentRequestDocuments(new ArrayList<OlePaymentRequestDocument>());
+                                invoiceDocument.setCreditMemoDocuments(new ArrayList<OleVendorCreditMemoDocument>());
                             }
                         }
                     }
@@ -627,6 +630,10 @@ public class OlePurapServiceImpl implements OlePurapService {
                                     List<OlePaymentRequestDocument> olePaymentRequestDocumentList = getOlePaymentRequestDocumentList(oleInvoiceDocument);
                                     oleInvoiceDocument.setPaymentRequestDocuments(olePaymentRequestDocumentList);
                                 }
+                                if(oleInvoiceDocument.getCreditMemoDocuments()!=null){
+                                    List<OleVendorCreditMemoDocument> oleVendorCreditMemoDocumentList = getOleVendorCreditMemoDocumentList(oleInvoiceDocument);
+                                    oleInvoiceDocument.setCreditMemoDocuments(oleVendorCreditMemoDocumentList);
+                                }
                                 invoiceDocMap.put(oleInvoiceItem.getInvoiceDocument().getPurapDocumentIdentifier().toString(), oleInvoiceDocument);
                             }
                         }
@@ -660,6 +667,14 @@ public class OlePurapServiceImpl implements OlePurapService {
         List<OlePaymentRequestDocument> olePaymentRequestDocumentList = (List<OlePaymentRequestDocument>)getBusinessObjectService().findMatching(OlePaymentRequestDocument.class,paymentRequestMap);
         return olePaymentRequestDocumentList;
     }
+
+    private List<OleVendorCreditMemoDocument> getOleVendorCreditMemoDocumentList(OleInvoiceDocument oleInvoiceDocument){
+        Map<String,String> creditMemoMap = new HashMap<>();
+        creditMemoMap.put(org.kuali.ole.OLEConstants.PurapInvoiceHistory.INVOICE_ID,Integer.toString(oleInvoiceDocument.getPurapDocumentIdentifier()));
+        List<OleVendorCreditMemoDocument> oleVendorCreditMemoDocumentList = (List<OleVendorCreditMemoDocument>)getBusinessObjectService().findMatching(OleVendorCreditMemoDocument.class,creditMemoMap);
+        return oleVendorCreditMemoDocumentList;
+    }
+
     /**
      * This method is used to get the requestor type id for the given requestor type
      * @param requestorType

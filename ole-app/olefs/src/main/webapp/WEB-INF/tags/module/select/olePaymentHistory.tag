@@ -137,7 +137,7 @@
                               </c:if>
                               <c:if test="${requisition eq 'false'}">--%>
                                   <logic:iterate id="invoiceItem" name="invoiceHistory" property="items" indexId="itemctr">
-                                      <c:if test="${((not empty itemIdentifier) and (not empty invoiceItem.poItemIdentifier) and invoiceItem.itemType.itemTypeCode eq 'ITEM') and itemTitleId eq invoiceItem.itemTitleId}">
+                                      <c:if test="${((not empty itemIdentifier) and (not empty invoiceItem.poItemIdentifier) and invoiceItem.itemTypeCode eq 'ITEM') and itemTitleId eq invoiceItem.itemTitleId}">
                                           <c:if test="${invoiceItem.debitItem}">
                                           <c:out value="${invoiceItem.extendedPrice}" />
                                           </c:if>
@@ -150,7 +150,7 @@
                               <%--</c:if>--%>
                           <td align="left" valign="middle" class="datacell">
                           <logic:iterate id="invoiceItem" name="invoiceHistory" property="items" indexId="itemctr">
-                              <c:if test="${((not empty itemIdentifier) and (not empty invoiceItem.poItemIdentifier) and invoiceItem.itemType.itemTypeCode eq 'ITEM') and itemTitleId eq invoiceItem.itemTitleId}">
+                              <c:if test="${((not empty itemIdentifier) and (not empty invoiceItem.poItemIdentifier) and invoiceItem.itemTypeCode eq 'ITEM') and itemTitleId eq invoiceItem.itemTitleId}">
 
                               <c:out value="${invoiceItem.subscriptionFromDate}" />
                                   </td>
@@ -163,20 +163,16 @@
 
                           </td>
                             <td align="left" valign="middle" class="datacell">
-                               <%-- <c:if test="${invoiceItem.debitItem}">--%>
                                     <logic:iterate id="paymentHistory" name="invoiceHistory" property="paymentRequestDocuments" indexId="paymentctr">
                                         <a href="<c:url value="${ConfigProperties.workflow.url}/DocHandler.do?docId=${paymentHistory.documentNumber}&command=displayDocSearchView" ></c:url>"
                                         target="_blank" class="showvisit"> <c:out value="${paymentHistory.documentNumber}" />
                                         </a>
                                     </logic:iterate>
-                               <%-- </c:if>
-                                <c:if test="${!invoiceItem.debitItem}">
                                     <logic:iterate id="creditMemoHistory" name="invoiceHistory" property="creditMemoDocuments" indexId="creditmemoctr">
                                         <a href="<c:url value="${ConfigProperties.workflow.url}/DocHandler.do?docId=${creditMemoHistory.documentNumber}&command=displayDocSearchView" ></c:url>"
                                         target="_blank" class="showvisit"> <c:out value="${creditMemoHistory.documentNumber}" />
                                         </a>
                                     </logic:iterate>
-                                </c:if>--%>
                             </td> <%--
                             <td align="left" valign="middle" class="datacell">
                                 <c:out value="${invoiceHistory.vendorCustomerNumber}" />

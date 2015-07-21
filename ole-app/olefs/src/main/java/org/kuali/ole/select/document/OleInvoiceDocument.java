@@ -202,6 +202,8 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
 
     private BigDecimal priorTotal = new BigDecimal(0);
 
+    private List<OleVendorCreditMemoDocument> creditMemoDocuments = new ArrayList<OleVendorCreditMemoDocument>();
+
     public String getAcquisitionUnit() {
         return acquisitionUnit;
     }
@@ -216,6 +218,14 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
 
     public void setPriorTotal(BigDecimal priorTotal) {
         this.priorTotal = priorTotal;
+    }
+
+    public List<OleVendorCreditMemoDocument> getCreditMemoDocuments() {
+        return creditMemoDocuments;
+    }
+
+    public void setCreditMemoDocuments(List<OleVendorCreditMemoDocument> creditMemoDocuments) {
+        this.creditMemoDocuments = creditMemoDocuments;
     }
 
     public String getEmpty() {
