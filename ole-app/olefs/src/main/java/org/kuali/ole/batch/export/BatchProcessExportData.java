@@ -626,8 +626,7 @@ public class BatchProcessExportData extends AbstractBatchProcess {
                 getSolrQuery();
                 if (!(processDef.getOleBatchProcessProfileBo().getExportScope().equalsIgnoreCase(EXPORT_FULL)
                         || processDef.getOleBatchProcessProfileBo().getExportScope().equalsIgnoreCase(EXPORT_EX_STAFF))) {
-
-                    response = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+                    processResults();
                     if (response.getSearchResults().size() == 0) {
                         job.setTotalNoOfRecords("0");
                     } else {
@@ -1082,9 +1081,29 @@ public class BatchProcessExportData extends AbstractBatchProcess {
         searchParams.getSearchConditions().add(searchCondition);
     }
 
-
-
-
+    private void processResults() throws Exception {
+        List<SearchResult> searchResultList = new ArrayList<>();
+        List<SearchCondition> searchConditions = new ArrayList<>();
+        searchConditions.addAll(searchParams.getSearchConditions());
+        int chunkSize = 2000;
+        int totalSize = searchConditions.size();
+        int count = 0;
+        while (count < totalSize) {
+            searchParams.getSearchConditions().clear();
+            for (int i = 0; i < chunkSize; i++) {
+                if (count < totalSize) {
+                    searchParams.getSearchConditions().add(searchConditions.get(count));
+                    count++;
+                } else {
+                    break;
+                }
+            }
+            SearchResponse responseLocal = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
+            searchResultList.addAll(responseLocal.getSearchResults());
+        }
+        response = new SearchResponse();
+        response.getSearchResults().addAll(searchResultList);
+    }
 
     public StringBuilder getErrBuilder() {
         return errBuilder;
