@@ -741,7 +741,9 @@ public class LoanProcessor extends PatronBillResolver {
                 oleItem.setProxyBorrower(matchingLoan.get(0).getProxyPatronId());
             }
         }
-        updateItemStatus(oleItem,itemStatus);
+        if(StringUtils.isNotBlank(oleItem.getCurrentBorrower())||StringUtils.isNotBlank(oleItem.getProxyBorrower())) {
+            updateItemStatus(oleItem, itemStatus);
+        }
     }
 
     /**
@@ -2448,11 +2450,6 @@ public class LoanProcessor extends PatronBillResolver {
             throw new Exception(OLEConstants.INVAL_ITEM);
         oleLoanDocument.setOleItem(oleItem);
         try {
-           /* if(oleItem.getCallNumber()!=null && !StringUtils.isEmpty(oleItem.getCallNumber().getNumber())){
-                oleLoanDocument.setItemCallNumber(getItemCallNumber(oleItem.getCallNumber()));
-            }else {
-                oleLoanDocument.setItemCallNumber(getItemCallNumber(oleHoldings.getCallNumber()));
-            }*/
             oleLoanDocument.setItemCallNumber(getItemCallNumber(oleItem.getCallNumber(),oleHoldings.getCallNumber()));
             oleLoanDocument.setHoldingsLocation(getLocations(oleHoldings.getLocation()));
             getCopyNumber(oleItem,oleHoldings,oleLoanDocument);
@@ -2488,10 +2485,6 @@ public class LoanProcessor extends PatronBillResolver {
             getDefaultHoldingLocation(oleLoanDocument);
         }
         if (oleLoanDocument.getOleLocation() != null && oleLoanDocument.getOleLocation().getLocationId() != null) {
-            /*Map<String, String> map = new HashMap<String, String>();
-            map.put("parentLocationId", oleLoanDocument.getOleLocation().getLocationId());
-            map.put("locationCode", oleLoanDocument.getItemLocation());
-            List<OleLocation> oleLocations = (List<OleLocation>) getBusinessObjectService().findMatching(OleLocation.class, map);*/
             OleLocation oleLocation = getCircDeskLocationResolver().getLocationByParentIdAndLocationCode(oleLoanDocument.getOleLocation().getLocationId(),oleLoanDocument.getItemLocation());
             oleLoanDocument.setLocationId(oleLocation != null ? oleLocation.getLocationId() : oleLoanDocument.getOleLocation().getLocationId());
         }
@@ -3780,6 +3773,7 @@ public class LoanProcessor extends PatronBillResolver {
                 throw new Exception("Calendar does not exist");
             }
         }
+       // return oleCirculationDesk;
        /* getDataCarrierService().addData(OLEConstants.GROUP_ID, oleCirculationDesk != null ? oleCirculationDesk.getCalendarGroupId() : "");*/
     }
 

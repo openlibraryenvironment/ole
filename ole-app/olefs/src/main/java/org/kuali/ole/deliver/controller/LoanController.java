@@ -17,6 +17,7 @@ import org.kuali.ole.deliver.printSlip.OlePrintSlip;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OLEDeliverService;
+import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.describe.bo.OleItemAvailableStatus;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
@@ -370,6 +371,22 @@ public class LoanController extends UifControllerBase {
         return super.refresh(oleLoanForm, result, request, response);
     }
 
+   /* @RequestMapping(params = "methodToCall=showOnHoldRequest")
+    public ModelAndView showOnHoldRequest(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response){
+        OleLoanForm oleLoanForm = (OleLoanForm) form;
+       // oleLoanForm.setOleFormKey(oleLoanForm.getFormKey());
+        OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService = new OleDeliverRequestDocumentHelperServiceImpl();
+        List<OleDeliverRequestBo> oleDeliverRequestBoList = oleLoanForm.getOnHoldRequestForPatron();
+        List<OleDeliverRequestBo> populateItemRecords=new ArrayList<>();
+        for(OleDeliverRequestBo deliverOnHoldRequestBo : oleDeliverRequestBoList) {
+            populateItemRecords.add(oleDeliverRequestDocumentHelperService.
+                    processItem(deliverOnHoldRequestBo));
+        }
+        oleLoanForm.setOnHoldRequestForPatron(populateItemRecords);
+        return getUIFModelAndView(oleLoanForm, "OnHoldRequestPage");
+    }*/
+
     /**
      * This method displays information about a patron in UI.
      *
@@ -408,7 +425,8 @@ public class LoanController extends UifControllerBase {
                 oleLoanForm.setLoanLoginUserInfo(GlobalVariables.getUserSession().getPrincipalName() + " " + OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_VALIDATIONS);
                 return super.start(oleLoanForm, result, request, response);
             }
-            getLoanProcessor().validateCalanderForCirculationDesk(oleLoanForm.getCirculationDesk());
+            //OleCirculationDesk oleCirculationDesk =
+             getLoanProcessor().validateCalanderForCirculationDesk(oleLoanForm.getCirculationDesk());
             OleLoanDocument oleProxyLoanDocument = null;
             List<OlePatronDocument> oleRealPatron = oleLoanForm.getRealPatronList();
             List<OlePatronDocument> oleCurrentPatronDocumentList = oleLoanForm.getCurrentPatronList();
@@ -452,7 +470,11 @@ public class LoanController extends UifControllerBase {
             }else {
                 oleLoanForm.setBlockUser(false);
             }
-          //  oleLoanDocument.getHoldRequestForPatron(oleLoanDocument.getOlePatron(),oleLoanForm.getCirculationDesk(),oleLoanDocument.getOleCirculationDesk());
+           /* List<OleDeliverRequestBo> oleDeliverRequestBoList = oleLoanDocument.getHoldRequestForPatron(oleLoanDocument.getOlePatron(), oleCirculationDesk);
+            if(oleDeliverRequestBoList!=null && oleDeliverRequestBoList.size() > 0) {
+                oleLoanForm.setOnHoldRequestMessage(oleDeliverRequestBoList.get(0).getOnHoldRequestForPatronMessage());
+                oleLoanForm.setOnHoldRequestForPatron(oleDeliverRequestBoList);
+            }*/
             if (oleLoanDocument.getPatronUserNotes() != null) {
                 oleLoanForm.setPatronNoteFlag(true);
                 oleLoanForm.setPatronUserNote(oleLoanDocument.getPatronUserNotes());
@@ -2987,7 +3009,7 @@ public class LoanController extends UifControllerBase {
             oleLoanForm.setBillAvailability(false);
             try {
                 org.kuali.ole.docstore.common.document.content.instance.Item oleItem = getLoanProcessor().checkItemStatusForItemBarcode(oleLoanForm.getCheckInItem());
-                if(oleItem != null && oleItem.getItemStatus() != null && !oleItem.getItemStatus().getCodeValue().equalsIgnoreCase(OLEConstants.ITEM_STATUS_CHECKEDOUT)){
+                if(oleItem != null && oleItem.getItemStatus() != null && StringUtils.isNotBlank(oleLoanDocument.getPatronId()) && !oleItem.getItemStatus().getCodeValue().equalsIgnoreCase(OLEConstants.ITEM_STATUS_CHECKEDOUT)){
                     getLoanProcessor().rollbackItemStatus(oleItem,OLEConstants.ITEM_STATUS_CHECKEDOUT,oleLoanForm.getCheckInItem());
                     oleLoanForm.setReturnInformation(OLEConstants.RETURN_PROCESS_FAILURE);
                 }
