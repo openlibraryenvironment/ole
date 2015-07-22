@@ -29,6 +29,16 @@ public class OleLoanFastAdd extends PersistableBusinessObjectBase {
     private String chronology;
     private String numberOfPieces;
     private String author;
+    private String callNumberRequired = "false";
+
+
+    public String getCallNumberRequired() {
+        return callNumberRequired;
+    }
+
+    public void setCallNumberRequired(String callNumberRequired) {
+        this.callNumberRequired = callNumberRequired;
+    }
 
     public String getAuthor() {
         return author;

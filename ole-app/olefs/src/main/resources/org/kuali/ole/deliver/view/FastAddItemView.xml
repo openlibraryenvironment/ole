@@ -142,7 +142,12 @@
                         <bean parent="Uif-TextControl" p:size="5" p:maxLength="40"/>
                     </property>
                 </bean>
-                <bean id="callNumber" parent="Uif-InputField" p:label="Call Number" p:propertyName="oleLoanFastAdd.callNumber" p:required="true">
+                <bean parent="Uif-InputField" p:label="Call Number" p:propertyName="oleLoanFastAdd.callNumber" p:required="true" p:render="@{oleLoanFastAdd.callNumberRequired eq 'true'}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:maxLength="100"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Call Number" p:propertyName="oleLoanFastAdd.callNumber" p:required="false"  p:render="@{oleLoanFastAdd.callNumberRequired eq 'false' }">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:maxLength="100"/>
                     </property>

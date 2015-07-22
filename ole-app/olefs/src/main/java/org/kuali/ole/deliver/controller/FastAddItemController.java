@@ -1,7 +1,6 @@
 package org.kuali.ole.deliver.controller;
 
 import org.apache.log4j.Logger;
-import org.codehaus.plexus.util.StringUtils;
 import org.kuali.asr.service.ASRHelperServiceImpl;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.ASRItem;
@@ -10,23 +9,15 @@ import org.kuali.ole.deliver.form.OleLoanForm;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.describe.bo.InstanceEditorFormDataHandler;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
-import org.kuali.ole.docstore.common.client.DocstoreClientLocatorService;
-import org.kuali.ole.docstore.common.client.impl.DocstoreClientLocatorServiceImpl;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecord;
 import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecords;
 import org.kuali.ole.docstore.common.document.content.bib.marc.xstream.BibMarcRecordProcessor;
-import org.kuali.ole.docstore.common.document.content.enums.DocCategory;
-import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
-import org.kuali.ole.docstore.common.document.content.enums.DocType;
+import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
-import org.kuali.ole.docstore.model.xmlpojo.ingest.Response;
-import org.kuali.ole.docstore.common.document.content.instance.Item;
-import org.kuali.ole.docstore.model.xstream.ingest.ResponseHandler;
-import org.kuali.ole.pojo.bib.BibliographicRecord;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.utility.Constants;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -43,7 +34,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -92,7 +82,7 @@ public class FastAddItemController extends UifControllerBase {
         OleLoanForm oleLoanForm = (OleLoanForm) form;
         OleLoanFastAdd oleLoanFastAdd = new OleLoanFastAdd();
         oleLoanFastAdd.setCallNumberType(OLEConstants.DEFAULT_CALL_NUMBER_TYPE);
-        oleLoanFastAdd.setCallNumber(OLEConstants.DEFAULT_CALL_NUMBER);
+        oleLoanFastAdd.setCallNumberRequired(getInstanceEditorFormDataHandler().getParameter("OLE-DLVR", "Deliver", "CALL_NUMBER_REQUIRED"));
         oleLoanForm.setOleLoanFastAdd(oleLoanFastAdd);
         return getUIFModelAndView(oleLoanForm, "FastAddItemViewPage");
     }
@@ -124,11 +114,16 @@ public class FastAddItemController extends UifControllerBase {
         oleLoanForm.setInformation("");
         oleLoanForm.setReturnInformation("");
         LoanProcessor loanProcessor = new LoanProcessor();
-        if (!oleLoanForm.getOleLoanFastAdd().getBarcode().isEmpty() && !oleLoanForm.getOleLoanFastAdd().getCallNumberType().isEmpty() && !oleLoanForm.getOleLoanFastAdd().getCallNumberType().equalsIgnoreCase("#") && !oleLoanForm.getOleLoanFastAdd().getCallNumber().isEmpty() && !oleLoanForm.getOleLoanFastAdd().getCheckinNote().isEmpty() && !oleLoanForm.getOleLoanFastAdd().getLocationName().isEmpty() && !oleLoanForm.getOleLoanFastAdd().getItemType().isEmpty()&&!oleLoanForm.getOleLoanFastAdd().getTitle().isEmpty()) {
+        boolean callNumberRequired = true;
+        if(oleLoanForm.getOleLoanFastAdd().getCallNumberRequired().equalsIgnoreCase("true") && oleLoanForm.getOleLoanFastAdd().getCallNumber().isEmpty() ){
+            callNumberRequired = false;
+        }
+
+        if (!oleLoanForm.getOleLoanFastAdd().getBarcode().isEmpty() && !oleLoanForm.getOleLoanFastAdd().getCallNumberType().isEmpty() && !oleLoanForm.getOleLoanFastAdd().getCallNumberType().equalsIgnoreCase("#") && !oleLoanForm.getOleLoanFastAdd().getCheckinNote().isEmpty() && !oleLoanForm.getOleLoanFastAdd().getLocationName().isEmpty() && !oleLoanForm.getOleLoanFastAdd().getItemType().isEmpty()&&!oleLoanForm.getOleLoanFastAdd().getTitle().isEmpty() && callNumberRequired) {
             DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT);
             Item item = loanProcessor.getItemRecord(oleLoanForm.getOleLoanFastAdd());
             OleHoldings oleHoldings = loanProcessor.getHoldingRecord(oleLoanForm.getOleLoanFastAdd());
-            oleHoldings.setHoldingsType("print");
+            oleHoldings.setHoldingsType(PHoldings.PRINT);
             HoldingOlemlRecordProcessor holdingOlemlRecordProcessor = new HoldingOlemlRecordProcessor();
             BibMarcRecord bibMarcRecord = loanProcessor.getBibMarcRecord(oleLoanForm.getOleLoanFastAdd().getTitle(), oleLoanForm.getOleLoanFastAdd().getAuthor());
             List<BibMarcRecord> bibMarcRecordList = new ArrayList<>();
@@ -137,9 +132,6 @@ public class FastAddItemController extends UifControllerBase {
             bibMarcRecords.setRecords(bibMarcRecordList);
             BibMarcRecordProcessor bibMarcRecordProcessor = new BibMarcRecordProcessor();
             Bib bib = new BibMarc();
-            bib.setCategory(DocCategory.WORK.getCode());
-            bib.setType(DocType.BIB.getCode());
-            bib.setFormat(DocFormat.MARC.getCode());
             bib.setContent(bibMarcRecordProcessor.toXml(bibMarcRecords));
             ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
             org.kuali.ole.docstore.common.document.Item itemXml = new ItemOleml();
