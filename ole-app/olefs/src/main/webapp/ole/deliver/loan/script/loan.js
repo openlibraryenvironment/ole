@@ -64,6 +64,9 @@ function displayDialogWindow(divID){
     if(jq(divID).height()<300){
         top='100px';
     }
+    if(divID == "div#RealPatronSection-HorizontalBoxSection"){
+        top='75px';
+    }
     jq(divID).css({
         /* 'margin-top' : '100px',
          'margin-left' : '100px',*/
