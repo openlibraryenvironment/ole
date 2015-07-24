@@ -2038,10 +2038,10 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
                        if(isPickupCirculationLocationMatched(oleCirculationDeskLocations,deliverRequestBo)) {
                            deliverRequestBo.setOnHoldRequestForPatronMessage(OLEConstants.PTRN_RQST_MSG_CURR_CIR_DESK);
                            holdRequestForPatron.add(deliverRequestBo);
-                       } else if (oleCirculationDesk.getShowItemOnHold().equals(OLEConstants.ALL_CIR_DESK)) {
-                           deliverRequestBo.setOnHoldRequestForPatronMessage(OLEConstants.PTRN_RQST_MSG_ALL_CIR_DESK);
-                           holdRequestForPatron.add(deliverRequestBo);
                        }
+                   }else if (oleCirculationDesk.getShowItemOnHold().equals(OLEConstants.ALL_CIR_DESK)) {
+                       deliverRequestBo.setOnHoldRequestForPatronMessage(OLEConstants.PTRN_RQST_MSG_ALL_CIR_DESK);
+                       holdRequestForPatron.add(deliverRequestBo);
                    }
                }
            }
