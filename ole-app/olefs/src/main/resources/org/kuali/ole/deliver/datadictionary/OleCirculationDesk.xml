@@ -415,7 +415,8 @@
                                         <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
                                         <bean id="inquiry_isPickUpLocation" parent="Uif-InputField" p:propertyName="pickUpLocation"/>
                                         <bean id="inquiry_asrPickUpLocation" parent="Uif-InputField" p:propertyName="asrPickupLocation"/>
-                                        <bean id="inquiry_onHoldDays" parent="Uif-InputField" p:propertyName="onHoldDays"/>
+                                        <bean id="inquiry_onHoldDays" parent="Uif-InputField" p:propertyName="showItemOnHold"/>
+                                        <bean id="inquiry_showOnHoldDays" parent="Uif-InputField" p:propertyName="onHoldDays"/>
                                         <bean id="inquiry_requestExpirationDays" parent="Uif-InputField" p:propertyName="requestExpirationDays"/>
                                         <bean id="inquiry_shelvingLagTime" parent="Uif-InputField" p:propertyName="shelvingLagTime"/>
                                         <bean id="inquiry_printSlip" parent="Uif-InputField" p:propertyName="printSlip"/>

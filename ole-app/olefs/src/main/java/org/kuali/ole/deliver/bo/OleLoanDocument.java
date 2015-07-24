@@ -2033,13 +2033,13 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
         if(olePatronDocument.getOleDeliverRequestBos() != null && olePatronDocument.getOleDeliverRequestBos().size()>0) {
            for(OleDeliverRequestBo deliverRequestBo : olePatronDocument.getOleDeliverRequestBos()) {
                if (deliverRequestBo.getRequestTypeCode() != null && deliverRequestBo.getRequestTypeCode().contains("Hold")) {
-                   if (oleCirculationDesk.getShowItemOnHold().equals(OLEConstants.CURR_CIR_DESK) && oleCirculationDesk.getOlePickupCirculationDeskLocations() != null){
+                   if (StringUtils.isNotBlank(oleCirculationDesk.getShowItemOnHold()) && oleCirculationDesk.getShowItemOnHold().equals(OLEConstants.CURR_CIR_DESK) && oleCirculationDesk.getOlePickupCirculationDeskLocations() != null){
                        Collection<Object> oleCirculationDeskLocations =  getOleLoanDocumentDaoOjb().getPickUpLocationForCirculationDesk(oleCirculationDesk);
                        if(isPickupCirculationLocationMatched(oleCirculationDeskLocations,deliverRequestBo)) {
                            deliverRequestBo.setOnHoldRequestForPatronMessage(OLEConstants.PTRN_RQST_MSG_CURR_CIR_DESK);
                            holdRequestForPatron.add(deliverRequestBo);
                        }
-                   }else if (oleCirculationDesk.getShowItemOnHold().equals(OLEConstants.ALL_CIR_DESK)) {
+                   }else if (StringUtils.isNotBlank(oleCirculationDesk.getShowItemOnHold()) && oleCirculationDesk.getShowItemOnHold().equals(OLEConstants.ALL_CIR_DESK)) {
                        deliverRequestBo.setOnHoldRequestForPatronMessage(OLEConstants.PTRN_RQST_MSG_ALL_CIR_DESK);
                        holdRequestForPatron.add(deliverRequestBo);
                    }
