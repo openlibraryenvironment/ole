@@ -304,7 +304,7 @@
     <bean id="PatronOnHoldItemButton-parent" parent="Uif-HorizontalBoxSubSection">
         <property name="items">
             <list>
-                <bean id="proceedTransaction" parent="Uif-SecondaryActionButton-Small" p:actionScript="jq('div#PatronOnHoldItem-HorizontalBoxSection').fadeOut(300);jq('#mask').fadeOut(300);" p:actionLabel="Proceed"  />
+                <bean id="proceedTransaction" parent="Uif-SecondaryActionButton-Small" p:actionScript="jq('div#PatronOnHoldItem-HorizontalBoxSection').fadeOut(300);jq('#mask').fadeOut(300);jq('#hiddenLoanField_h35').val(null)" p:actionLabel="Proceed"  />
                 <bean id="viewPatronOnHoldRequest" parent="Uif-LinkField" p:target="_blank" p:href="loancontroller?viewId=OnHoldRequestView&amp;methodToCall=showOnHoldRequest&amp;formKey=@{oleFormKey}" p:linkText="View On-Hold Request" >
                     <property name="cssClasses">
                         <list merge="true">

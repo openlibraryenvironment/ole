@@ -1946,6 +1946,7 @@ public class LoanController extends UifControllerBase {
         oleLoanForm.setExistingLoanList(null);
         oleLoanForm.setDueDateMap(null);
         oleLoanForm.setMessage(null);
+        oleLoanForm.setOnHoldRequestMessage(null);
         oleLoanForm.setSuccess(true);
         oleLoanForm.setChangeLocationFlag(false);
         oleLoanForm.setBlockLoan(false);
@@ -2008,6 +2009,7 @@ public class LoanController extends UifControllerBase {
         }
         //oleLoanForm.setNewPrincipalId("");
         oleLoanForm.setAddressVerified(false);
+        oleLoanForm.setOnHoldRequestMessage(null);
         oleLoanForm.setOverrideRenewItemFlag(false);
         oleLoanForm.setInformation("");
         oleLoanForm.setSuccessInfo("");
