@@ -371,11 +371,10 @@ public class LoanController extends UifControllerBase {
         return super.refresh(oleLoanForm, result, request, response);
     }
 
-   /* @RequestMapping(params = "methodToCall=showOnHoldRequest")
+    @RequestMapping(params = "methodToCall=showOnHoldRequest")
     public ModelAndView showOnHoldRequest(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response){
         OleLoanForm oleLoanForm = (OleLoanForm) form;
-       // oleLoanForm.setOleFormKey(oleLoanForm.getFormKey());
         OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService = new OleDeliverRequestDocumentHelperServiceImpl();
         List<OleDeliverRequestBo> oleDeliverRequestBoList = oleLoanForm.getOnHoldRequestForPatron();
         List<OleDeliverRequestBo> populateItemRecords=new ArrayList<>();
@@ -385,7 +384,7 @@ public class LoanController extends UifControllerBase {
         }
         oleLoanForm.setOnHoldRequestForPatron(populateItemRecords);
         return getUIFModelAndView(oleLoanForm, "OnHoldRequestPage");
-    }*/
+    }
 
     /**
      * This method displays information about a patron in UI.
@@ -425,8 +424,7 @@ public class LoanController extends UifControllerBase {
                 oleLoanForm.setLoanLoginUserInfo(GlobalVariables.getUserSession().getPrincipalName() + " " + OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_VALIDATIONS);
                 return super.start(oleLoanForm, result, request, response);
             }
-            //OleCirculationDesk oleCirculationDesk =
-             getLoanProcessor().validateCalanderForCirculationDesk(oleLoanForm.getCirculationDesk());
+            OleCirculationDesk oleCirculationDesk = getLoanProcessor().validateCalanderForCirculationDesk(oleLoanForm.getCirculationDesk());
             OleLoanDocument oleProxyLoanDocument = null;
             List<OlePatronDocument> oleRealPatron = oleLoanForm.getRealPatronList();
             List<OlePatronDocument> oleCurrentPatronDocumentList = oleLoanForm.getCurrentPatronList();
@@ -470,11 +468,11 @@ public class LoanController extends UifControllerBase {
             }else {
                 oleLoanForm.setBlockUser(false);
             }
-           /* List<OleDeliverRequestBo> oleDeliverRequestBoList = oleLoanDocument.getHoldRequestForPatron(oleLoanDocument.getOlePatron(), oleCirculationDesk);
+            List<OleDeliverRequestBo> oleDeliverRequestBoList = oleLoanDocument.getHoldRequestForPatron(oleLoanDocument.getOlePatron(), oleCirculationDesk);
             if(oleDeliverRequestBoList!=null && oleDeliverRequestBoList.size() > 0) {
                 oleLoanForm.setOnHoldRequestMessage(oleDeliverRequestBoList.get(0).getOnHoldRequestForPatronMessage());
                 oleLoanForm.setOnHoldRequestForPatron(oleDeliverRequestBoList);
-            }*/
+            }
             if (oleLoanDocument.getPatronUserNotes() != null) {
                 oleLoanForm.setPatronNoteFlag(true);
                 oleLoanForm.setPatronUserNote(oleLoanDocument.getPatronUserNotes());

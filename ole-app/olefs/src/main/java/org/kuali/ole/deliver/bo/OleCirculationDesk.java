@@ -38,6 +38,7 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
     private boolean holdQueue;
     private String replyToEmail;
     private boolean renewLostItem;
+    private String showItemOnHold;
 
     public String getErrorMessage() {
         return errorMessage;
@@ -297,5 +298,13 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
 
     public void setRenewLostItem(boolean renewLostItem) {
         this.renewLostItem = renewLostItem;
+    }
+
+    public String getShowItemOnHold() {
+        return showItemOnHold;
+    }
+
+    public void setShowItemOnHold(String showItemOnHold) {
+        this.showItemOnHold = showItemOnHold;
     }
 }

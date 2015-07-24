@@ -130,7 +130,7 @@
                 <ref bean="MissingPiece-HorizontalBoxSection"/>
                 <ref bean="DamagedItem-HorizontalBoxSection"/>
                 <ref bean="PatronUserNote-HorizontalBoxSection"/>
-                <!--<ref bean="PatronOnHoldItem-HorizontalBoxSection"/>-->
+                <ref bean="PatronOnHoldItem-HorizontalBoxSection"/>
                 <ref bean="RealPatronSection-HorizontalBoxSection"/>
                 <ref bean="ConfirmCirculationLocationChange"/>
                 <ref bean="MessagePopupSection"/>
@@ -148,7 +148,7 @@
         </property>
     </bean>
 
-    <bean id="hiddenLoanField" parent="Loan-Uif-InputField" p:propertyName="dueDateSlip" p:additionalHiddenPropertyNames="loanLoginMessage,audioEnable,renewalFlag,overrideRenewItemFlag,newPrincipalName,oldPrincipalId,overrideFlag,patronNoteFlag,maxSessionTime,success,renewDueDateFlag,fastAddItemIndicator,fastAddUrl,returnViewUrl,alterDueDateFlag,blockLoan,dueDateEmpty,dueDateMap,backGroundCheckIn,missingPieceDialog,damagedItemDialog,itemFocus,patronFocus,realPatronFlag,changeLocationFlag,claimsReturnFlag,removeClaimsReturnFlag,loanLoginName,validLogin,loginUser,displayMissingPieceNotePopup,displayDamagedRecordNotePopup,skipMissingPieceRecordPopup,skipDamagedRecordPopup,successMessage">
+    <bean id="hiddenLoanField" parent="Loan-Uif-InputField" p:propertyName="dueDateSlip" p:additionalHiddenPropertyNames="loanLoginMessage,audioEnable,renewalFlag,overrideRenewItemFlag,newPrincipalName,oldPrincipalId,overrideFlag,patronNoteFlag,maxSessionTime,success,renewDueDateFlag,fastAddItemIndicator,fastAddUrl,returnViewUrl,alterDueDateFlag,blockLoan,dueDateEmpty,dueDateMap,backGroundCheckIn,missingPieceDialog,damagedItemDialog,itemFocus,patronFocus,realPatronFlag,changeLocationFlag,claimsReturnFlag,removeClaimsReturnFlag,loanLoginName,validLogin,loginUser,displayMissingPieceNotePopup,displayDamagedRecordNotePopup,skipMissingPieceRecordPopup,skipDamagedRecordPopup,successMessage,onHoldRequestMessage">
         <property name="control">
             <bean parent="Uif-HiddenControl"/>
         </property>
@@ -284,21 +284,39 @@
         </property>
     </bean>
 
-   <!-- <bean id="PatronOnHoldItem-HorizontalBoxSection" parent="PatronOnHoldItem-HorizontalBoxSection-parent"/>
-    <bean id="PatronOnHoldItem-HorizontalBoxSection-parent" parent="Uif-VerticalBoxSection" p:render="@{}">
+    <bean id="PatronOnHoldItem-HorizontalBoxSection" parent="PatronOnHoldItem-HorizontalBoxSection-parent"/>
+    <bean id="PatronOnHoldItem-HorizontalBoxSection-parent" parent="Uif-VerticalBoxSection" p:render="@{onHoldRequestMessage ne null and onHoldRequestMessage ne ''}">
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean id="patronOnHoldItemConfirmationMessage" parent="Uif-MessageField" p:messageText="" />
+                            <bean id="patronOnHoldItemConfirmationMessage" parent="Uif-MessageField" p:messageText="@{onHoldRequestMessage}" />
                             <ref bean="patronOnHoldItemButton"/>
                         </list>
                     </property>
                 </bean>
             </list>
         </property>
-    </bean>-->
+    </bean>
+
+    <bean id="patronOnHoldItemButton" parent="PatronOnHoldItemButton-parent"/>
+    <bean id="PatronOnHoldItemButton-parent" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="proceedTransaction" parent="Uif-SecondaryActionButton-Small" p:actionScript="jq('div#PatronOnHoldItem-HorizontalBoxSection').fadeOut(300);jq('#mask').fadeOut(300);" p:actionLabel="Proceed"  />
+                <bean id="viewPatronOnHoldRequest" parent="Uif-LinkField" p:target="_blank" p:href="loancontroller?viewId=OnHoldRequestView&amp;methodToCall=showOnHoldRequest&amp;formKey=@{oleFormKey}" p:linkText="View On-Hold Request" >
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-smallActionButton</value>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
     <bean id="PatronUserNote-HorizontalBoxSection" parent="PatronUserNote-HorizontalBoxSection-parent"/>
     <bean id="PatronUserNote-HorizontalBoxSection-parent" parent="Uif-VerticalBoxSection" p:render="@{patronNoteFlag}">
         <property name="items">
@@ -331,9 +349,9 @@
             <list>
                 <bean id="PatronDeleteBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="setPatronUserNoteDelete();" p:actionLabel="Delete"/>
 
-                <bean id="hdnPatronDeleteBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deletePatronUserNote" p:actionLabel="user Note Delete" p:hidden="true" />
+                <bean id="hdnPatronDeleteBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deletePatronUserNote" p:actionLabel="user Note Delete" p:hidden="true" p:ajaxSubmit="true" p:successCallback="displayOnHoldRequest();"/>
 
-                <bean id="PatronNoteCloseBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="closePatronUserNoteDialog();" p:actionLabel="Close" />
+                <bean id="PatronNoteCloseBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="closePatronUserNoteDialog();displayOnHoldRequest();" p:actionLabel="Close"/>
             </list>
         </property>
     </bean>

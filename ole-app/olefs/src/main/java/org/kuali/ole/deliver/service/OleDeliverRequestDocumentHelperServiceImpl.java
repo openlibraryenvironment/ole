@@ -786,6 +786,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
 
                 if (itemSearchList != null) {
                     oleItemSearch = itemSearchList;
+                    oleDeliverRequestBo.setItemId(itemSearchList.getItemBarCode());
                     oleDeliverRequestBo.setTitle(itemSearchList.getTitle());
                     oleDeliverRequestBo.setAuthor(itemSearchList.getAuthor());
                     oleDeliverRequestBo.setCallNumber(itemSearchList.getCallNumber());

@@ -224,6 +224,10 @@ public class OLEConstants {
     public static final String ITM_CHECKIN_MSG = "Item is not loaned.";
     public static final String MARC_XML = "marc_xml";
     public static final String FINE_AMOUNT="fineAmount";
+    public static final String CURR_CIR_DESK="CurrentCirculationDesk";
+    public static final String ALL_CIR_DESK="AllCirculationDesk";
+    public static final String PTRN_RQST_MSG_CURR_CIR_DESK="This patron has hold(s) waiting for pickup at this location.  Do you want to proceed?";
+    public static final String PTRN_RQST_MSG_ALL_CIR_DESK="This patron has hold(s) waiting for pickup at another location.  Do you want to proceed?";
     //public static final String FIELD_035 = "035";
     public static final String OLE_BIB_RECORD = "oleBibRecord";
     public static final String ID = "id";

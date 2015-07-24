@@ -8,6 +8,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.calendar.service.DateUtil;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import java.sql.Timestamp;
@@ -27,7 +28,7 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
     private static final Logger LOG = Logger.getLogger(OleLoanDocumentDaoOjb.class);
 
     public BusinessObjectService businessObjectService;
-
+    private OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb;
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
             businessObjectService = KRADServiceLocator.getBusinessObjectService();
@@ -37,6 +38,17 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public OleLoanDocumentDaoOjb getOleLoanDocumentDaoOjb() {
+        if(oleLoanDocumentDaoOjb == null){
+            oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean("oleLoanDao");
+        }
+        return oleLoanDocumentDaoOjb;
+    }
+
+    public void setOleLoanDocumentDaoOjb(OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb) {
+        this.oleLoanDocumentDaoOjb = oleLoanDocumentDaoOjb;
     }
 
     public Collection<Object> getOverdueLoanDocument() {
@@ -69,6 +81,15 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         criteria.addEqualTo("patronId", patronId);
         criteria.addIn("itemUuid", itemIds);
         QueryByCriteria query = QueryFactory.newQuery(OleLoanDocument.class, criteria);
+        Collection results = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return results;
+    }
+
+    public Collection<Object> getPickUpLocationForCirculationDesk(OleCirculationDesk oleCirculationDesk){
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("circulationDeskId", oleCirculationDesk.getCirculationDeskId());
+        criteria.addNotNull("circulationPickUpDeskLocation");
+        QueryByCriteria query = QueryFactory.newQuery(OleCirculationDeskLocation.class, criteria);
         Collection results = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return results;
     }

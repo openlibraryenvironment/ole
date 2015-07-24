@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.form;
 
+import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OleLoanFastAdd;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
@@ -114,18 +115,9 @@ public class OleLoanForm extends UifFormBase {
     private boolean processDocumentForProxyFlag = false;
     private List<OleLoanDocument> loansToBeSavedList;
     private List<String> newErrorsAndPermission;
-
-    /*
-    private boolean itemStatusLost = false;
-
-    public boolean isItemStatusLost() {
-        return itemStatusLost;
-    }
-
-    public void setItemStatusLost(boolean itemStatusLost) {
-        this.itemStatusLost = itemStatusLost;
-    }
-*/
+    private List<OleDeliverRequestBo> oleDeliverRequestBoList;
+    private String onHoldRequestMessage;
+    private List<OleDeliverRequestBo> onHoldRequestForPatron;
 
     public boolean isPatronbill() {
         return patronbill;
@@ -1812,6 +1804,30 @@ public class OleLoanForm extends UifFormBase {
 
     public List<String> getNewErrorsAndPermission() {
         return newErrorsAndPermission;
+    }
+
+    public List<OleDeliverRequestBo> getOleDeliverRequestBoList() {
+        return oleDeliverRequestBoList;
+    }
+
+    public void setOleDeliverRequestBoList(List<OleDeliverRequestBo> oleDeliverRequestBoList) {
+        this.oleDeliverRequestBoList = oleDeliverRequestBoList;
+    }
+
+    public String getOnHoldRequestMessage() {
+        return onHoldRequestMessage;
+    }
+
+    public void setOnHoldRequestMessage(String onHoldRequestMessage) {
+        this.onHoldRequestMessage = onHoldRequestMessage;
+    }
+
+    public List<OleDeliverRequestBo> getOnHoldRequestForPatron() {
+        return onHoldRequestForPatron;
+    }
+
+    public void setOnHoldRequestForPatron(List<OleDeliverRequestBo> onHoldRequestForPatron) {
+        this.onHoldRequestForPatron = onHoldRequestForPatron;
     }
 }
 

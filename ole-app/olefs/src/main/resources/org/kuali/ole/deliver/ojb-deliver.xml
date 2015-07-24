@@ -807,6 +807,7 @@
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="renewLostItem" column="RENEW_LOST_ITM" jdbc-type="VARCHAR"
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="showItemOnHold" column="SHOW_ONHOLD_ITM" jdbc-type="VARCHAR"/>
         <field-descriptor name="replyToEmail" column="REPLY_TO_EMAIL" jdbc-type="VARCHAR"/>
         <collection-descriptor name="oleCirculationDeskLocations" element-class-ref="org.kuali.ole.deliver.bo.OleCirculationDeskLocation"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"

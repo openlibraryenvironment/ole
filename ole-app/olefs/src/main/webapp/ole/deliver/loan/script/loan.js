@@ -615,11 +615,31 @@ function validPatronItem(){
         displayDialogWindow( "div#PatronUserNote-HorizontalBoxSection" );
         return false;
     }
+
+    displayOnHoldRequest();
+
     displayDueDateInfo();
     playAudio();
     focusItem();
 
 }
+
+function displayOnHoldRequest(){
+    //hiddenLoanField_h35 mapped to onHoldRequestMessage
+    if(jq("#hiddenLoanField_h35").val()!=null && jq("#hiddenLoanField_h35").val()!='') {
+        jq('body').scrollTop(0);
+        jq(window.parent).scrollTop(0);
+        displayDialogWindow("div#PatronOnHoldItem-HorizontalBoxSection");
+        return false;
+    }
+}
+
+function closeOnHoldRequestDialog(){
+    jq("div#PatronOnHoldItem-HorizontalBoxSection").fadeOut(300);
+    jq('#mask').fadeOut(300);
+}
+
+
 
 function setRenewalDueDate(){
     if(jq( "#popUpDate_control").val() != null){

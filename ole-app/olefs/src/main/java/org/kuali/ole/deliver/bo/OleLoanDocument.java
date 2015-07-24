@@ -4,10 +4,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.drools.LoanPeriodUtil;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
+import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.service.OleCirculationPolicyServiceImpl;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -176,6 +178,8 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private String holdingsLocation;
     private boolean itemLevelLocationExist;
     private List<FeeType> feeType;
+    private OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb;
+    private List<OleDeliverRequestBo> holdRequestForPatron = new ArrayList<>();
     public Date getDummyPastDueDate() {
         return dummyPastDueDate;
     }
@@ -2010,6 +2014,43 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
 
     }
 
+
+    public boolean isPickupCirculationLocationMatched(Collection<Object> pickUpLocation,OleDeliverRequestBo deliverRequestBo) {
+
+        for (Object oleCirculationDeskLoc : pickUpLocation){
+            OleCirculationDeskLocation oleCirculationDeskLocation = (OleCirculationDeskLocation)oleCirculationDeskLoc;
+            if (StringUtils.isNotBlank(oleCirculationDeskLocation.getCirculationPickUpDeskLocation()) &&
+                    oleCirculationDeskLocation.getOleCirculationDesk() !=null &&
+                    oleCirculationDeskLocation.getOleCirculationDesk().getCirculationDeskCode()!= null &&
+                    oleCirculationDeskLocation.getOleCirculationDesk().getCirculationDeskCode().contains(deliverRequestBo.getPickUpLocationCode())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<OleDeliverRequestBo> getHoldRequestForPatron(OlePatronDocument olePatronDocument,OleCirculationDesk oleCirculationDesk) {
+        if(olePatronDocument.getOleDeliverRequestBos() != null && olePatronDocument.getOleDeliverRequestBos().size()>0) {
+           for(OleDeliverRequestBo deliverRequestBo : olePatronDocument.getOleDeliverRequestBos()) {
+               if (deliverRequestBo.getRequestTypeCode() != null && deliverRequestBo.getRequestTypeCode().contains("Hold")) {
+                   if (oleCirculationDesk.getShowItemOnHold().equals(OLEConstants.CURR_CIR_DESK) && oleCirculationDesk.getOlePickupCirculationDeskLocations() != null){
+                       Collection<Object> oleCirculationDeskLocations =  getOleLoanDocumentDaoOjb().getPickUpLocationForCirculationDesk(oleCirculationDesk);
+                       if(isPickupCirculationLocationMatched(oleCirculationDeskLocations,deliverRequestBo)) {
+                           deliverRequestBo.setOnHoldRequestForPatronMessage(OLEConstants.PTRN_RQST_MSG_CURR_CIR_DESK);
+                           holdRequestForPatron.add(deliverRequestBo);
+                       } else if (oleCirculationDesk.getShowItemOnHold().equals(OLEConstants.ALL_CIR_DESK)) {
+                           deliverRequestBo.setOnHoldRequestForPatronMessage(OLEConstants.PTRN_RQST_MSG_ALL_CIR_DESK);
+                           holdRequestForPatron.add(deliverRequestBo);
+                       }
+                   }
+               }
+           }
+        }
+        return holdRequestForPatron;
+    }
+
+
+
     public String getRealPatronWithLoan() {
         StringBuilder message = new StringBuilder();
         if (getItemLoanStatus().equalsIgnoreCase(OLEConstants.ITEM_STATUS_CHECKEDOUT) && !isRenewalItemFlag()) {
@@ -2047,8 +2088,20 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
         return dueDate;
     }
 
+    public OleLoanDocumentDaoOjb getOleLoanDocumentDaoOjb() {
+        if(oleLoanDocumentDaoOjb == null){
+            oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getBean("oleLoanDao");
+        }
+        return oleLoanDocumentDaoOjb;
+    }
+
+    public void setOleLoanDocumentDaoOjb(OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb) {
+        this.oleLoanDocumentDaoOjb = oleLoanDocumentDaoOjb;
+    }
+
     @Override
     public int hashCode() {
         return itemId != null ? itemId.hashCode() : 0;
     }
+
 }

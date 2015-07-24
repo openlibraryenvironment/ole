@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!--
+
+            Copyright 2005-2012 The Kuali Foundation
+
+            Licensed under the Educational Community License, Version 2.0 (the "License");
+            you may not use this file except in compliance with the License.
+            You may obtain a copy of the License at
+
+            http://www.opensource.org/licenses/ecl2.php
+
+            Unless required by applicable law or agreed to in writing, software
+            distributed under the License is distributed on an "AS IS" BASIS,
+            WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+            See the License for the specific language governing permissions and
+            limitations under the License.
+
+        -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OnHoldRequestView" parent="OnHoldRequestView-parentBean" />
+    <bean id="OnHoldRequestView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Item on hold"/>
+        <property name="items">
+            <list>
+                <bean id="OnHoldRequestPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="OnHoldRequestSection"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="OnHoldRequestSection-HorizontalBoxSection-button" />
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.OleLoanForm"/>
+    </bean>
+
+
+    <bean id="OnHoldRequestSection" parent="Uif-VerticalBoxSection" p:render="true">
+        <property name="items">
+            <list>
+                <ref bean="OnHoldRequestSection-OverviewSection"/>
+                <ref bean="OnHoldRequestSection-RequestSection"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OnHoldRequestSection-OverviewSection" parent="Uif-VerticalBoxSection" >
+        <property name="headerText" value="Patron Overview"/>
+        <property name="items">
+            <list>
+                <bean id="OnHoldRequestSectionPatronSection" parent="Uif-HorizontalFieldGroup" >
+                    <property name="items">
+                        <list>
+                            <bean id="OnHoldRequestSection_patronId" parent="Uif-DataField" p:propertyName="patronId" p:label="Patron Id" />
+                            <bean id="OnHoldRequestSection_barcode" parent="Uif-DataField" p:propertyName="patronBarcode" p:label="Barcode" />
+                            <bean id="OnHoldRequestSection_patronName" parent="Uif-DataField" p:propertyName="patronName" p:label="Name" />
+                            <bean id="OnHoldRequestSection_borrowerType" parent="Uif-DataField" p:propertyName="borrowerType" p:label="BorrowerType" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OnHoldRequestSection-RequestSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="11" >
+        <property name="headerText" value="Hold Request Records" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
+        <property name="propertyName" value="onHoldRequestForPatron"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value="false"/>-->
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="viewOnHoldRequest_itemBarcode" parent="Uif-DataField" p:label="Item Barcode" p:propertyName="itemId" />
+                <bean id="viewOnHoldRequest_requestType" parent="Uif-DataField" p:label="Request Type" p:propertyName="oleDeliverRequestType.requestTypeCode" />
+                <bean id="viewOnHoldRequest_borrowerQueuePosition" parent="Uif-DataField" p:label="Borrower Queue Position" p:propertyName="borrowerQueuePosition"/>
+                <bean id="viewOnHoldRequest_itemTitle" parent="Uif-DataField" p:label="Title" p:propertyName="title" />
+                <bean id="viewOnHoldRequest_author" parent="Uif-DataField" p:label="Author" p:propertyName="author" />
+                <bean id="viewOnHoldRequest_copyNumber" parent="Uif-DataField" p:label="Copy Number" p:propertyName="copyNumber" />
+                <bean id="viewOnHoldRequest_shelvingLocation" parent="Uif-DataField" p:label="Shelving Location" p:propertyName="shelvingLocation" />
+                <bean id="viewOnHoldRequest_callNumber" parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber" />
+                <bean id="viewOnHoldRequest_volumeNumber" parent="Uif-DataField" p:label="Volume Number" p:propertyName="volumeNumber" />
+                <bean id="viewOnHoldRequest_itemType" parent="Uif-DataField" p:label="Item Type" p:propertyName="itemType" />
+                <bean id="viewOnHoldRequest_itemStatus" parent="Uif-DataField" p:label="Item Status" p:propertyName="itemStatus" />
+
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OnHoldRequestSection-HorizontalBoxSection-button" parent="Uif-HorizontalBoxSection" >
+        <property name="items">
+            <list>
+                <bean id="OnHoldRequestSection_close" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:15em" p:onClickScript="parent.window.close();" p:actionLabel="Close"  />
+            </list>
+        </property>
+    </bean>
+</beans>

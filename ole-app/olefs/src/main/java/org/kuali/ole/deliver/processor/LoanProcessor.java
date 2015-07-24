@@ -3764,7 +3764,7 @@ public class LoanProcessor extends PatronBillResolver {
         this.oleLoanDocumentDaoOjb = oleLoanDocumentDaoOjb;
     }
 
-    public void validateCalanderForCirculationDesk(String circulationDeskLocationId) throws Exception{
+    public OleCirculationDesk validateCalanderForCirculationDesk(String circulationDeskLocationId) throws Exception{
         OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getOleCirculationDesk(circulationDeskLocationId);
         if (oleCirculationDesk != null && oleCirculationDesk.getCalendarGroupId() != null) {
             OleCalendarService oleCalendarService = new OleCalendarServiceImpl();
@@ -3773,8 +3773,7 @@ public class LoanProcessor extends PatronBillResolver {
                 throw new Exception("Calendar does not exist");
             }
         }
-       // return oleCirculationDesk;
-       /* getDataCarrierService().addData(OLEConstants.GROUP_ID, oleCirculationDesk != null ? oleCirculationDesk.getCalendarGroupId() : "");*/
+        return oleCirculationDesk;
     }
 
     public OleLoanDocument retrieveByPatronAndItem(String patronId,String itemBarcode) throws Exception{

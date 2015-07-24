@@ -5266,5 +5266,14 @@
                                tableName="OLE_BAT_PRCS_T"/>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_DESK_HOLD_REQ_TYP">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_CRCL_DSK_T">
+            <column name="SHOW_ONHOLD_ITM" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+
+
 
 </databaseChangeLog>
