@@ -7,8 +7,8 @@ import static com.xlson.groovycsv.CsvParser.parseCsv
 File dataDirectory = new File("/Users/pvsubrah/Development/kuali/ole-1.5/ole-app/ole-db/ole-liquibase/ole-liquibase-changeset/src/main/resources/");
 println "Scanning Dir: $dataDirectory"
 
-def sourceFiscalYear = "2014"
-def destFiscalYear = "2015"
+def sourceFiscalYear = "2015"
+def destFiscalYear = "2016"
 
 def deepcopy(orig) {
     bos = new ByteArrayOutputStream()

@@ -7,8 +7,8 @@ import groovy.xml.XmlUtil
 File dataDirectory = new File( "/Users/pvsubrah/Development/kuali/ole-1.5/ole-app/ole-db/ole-impex/ole-impex-master/src/main/resources" )
 println "Scanning Dir: $dataDirectory"
 
-def sourceFiscalYear = 2014
-def destFiscalYear = 2015
+def sourceFiscalYear = 2015
+def destFiscalYear = 2016
 
 dataDirectory.eachFile( FileType.FILES ) { file ->
     if ( file.text.contains( """UNIV_FISCAL_YR="$sourceFiscalYear.0" """ )
