@@ -20,6 +20,7 @@ dataDirectory.eachFile( FileType.FILES ) { file ->
         fileXml.children().findAll { rec -> rec.@UNIV_FISCAL_YR == "$sourceFiscalYear.0" }.each { rec ->
             println XmlUtil.serialize( rec )
             def clonedNode = new XmlParser().parseText( XmlUtil.serialize( rec ) )
+            clonedNode.@UNIV_DT = (Integer.parseInt(rec.@UNIV_DT.substring(0,4))+1).toString()+rec.@UNIV_DT.substring(4,rec.@UNIV_DT.length());
             clonedNode.@UNIV_FISCAL_YR = "$destFiscalYear.0"
             if ( clonedNode.attributes().containsKey( "OBJ_ID" ) ) {
                 clonedNode.@OBJ_ID = UUID.randomUUID() as String
