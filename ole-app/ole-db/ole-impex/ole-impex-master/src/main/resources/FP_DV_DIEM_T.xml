@@ -5,4 +5,7 @@
   <FP_DV_DIEM_T UNIV_FISCAL_YR="2015.0" DV_DIEM_CNTRY_NM="Foreign" OBJ_ID="226a8654-6b06-4533-8042-2e0774d2d3ce" VER_NBR="1.0" DV_DIEM_CNTRY_TXT="http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&amp;contentId=17943&amp;noc=T"/>
   <FP_DV_DIEM_T UNIV_FISCAL_YR="2015.0" DV_DIEM_CNTRY_NM="U.S. 48" OBJ_ID="76e5c698-a403-4914-b8ad-8d82ca263c36" VER_NBR="1.0" DV_DIEM_CNTRY_TXT="http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&amp;contentId=17943&amp;noc=T"/>
   <FP_DV_DIEM_T UNIV_FISCAL_YR="2015.0" DV_DIEM_CNTRY_NM="US-AK &amp; HI" OBJ_ID="e6eb2913-ee7c-4ccf-8d28-2a3b25cbedec" VER_NBR="1.0" DV_DIEM_CNTRY_TXT="http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&amp;contentId=17943&amp;noc=T"/>
+  <FP_DV_DIEM_T UNIV_FISCAL_YR="2016.0" DV_DIEM_CNTRY_NM="Foreign" OBJ_ID="5d736595-53bc-4945-85b4-892233f3a946" VER_NBR="1.0" DV_DIEM_CNTRY_TXT="http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&amp;contentId=17943&amp;noc=T"/>
+  <FP_DV_DIEM_T UNIV_FISCAL_YR="2016.0" DV_DIEM_CNTRY_NM="U.S. 48" OBJ_ID="9596c8c0-3a72-4bde-9682-285f1d0a6ac6" VER_NBR="1.0" DV_DIEM_CNTRY_TXT="http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&amp;contentId=17943&amp;noc=T"/>
+  <FP_DV_DIEM_T UNIV_FISCAL_YR="2016.0" DV_DIEM_CNTRY_NM="US-AK &amp; HI" OBJ_ID="6d3cdb72-4c37-4a14-a716-7dd929d2ccf3" VER_NBR="1.0" DV_DIEM_CNTRY_TXT="http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&amp;contentId=17943&amp;noc=T"/>
 </dataset>
