@@ -1773,7 +1773,6 @@
         <field-descriptor name="noticeTitle" column="NOTC_TITL" jdbc-type="VARCHAR"/>
         <field-descriptor name="noticeBody" column="NOTC_BDY" jdbc-type="VARCHAR"/>
         <field-descriptor name="noticeSubjectLine" column="NOTC_SUBJ_LN" jdbc-type="VARCHAR"/>
-        <field-descriptor name="version" column="VRSN" jdbc-type="VARCHAR"/>
         <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

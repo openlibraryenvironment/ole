@@ -6142,7 +6142,6 @@ CREATE TABLE OLE_NOTC_CNTNT_CONFIG_T
         , ACTV_IND VARCHAR(1) default 'Y' NOT NULL
         , NOTC_BDY VARCHAR(4000) NOT NULL
         , NOTC_SUBJ_LN VARCHAR(4000) NOT NULL
-        , VRSN VARCHAR(40) NOT NULL
         , VER_NBR DECIMAL(8)
         , OBJ_ID VARCHAR(36)
     
@@ -6153,11 +6152,11 @@ CREATE TABLE OLE_NOTC_CNTNT_CONFIG_T
 
 
     
-                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                            
                                     
 , INDEX NOTC_TYP_INDX (NOTC_TYP )
     
-                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                
                                     
 , INDEX NOTC_NM_INDEX (NOTC_NM (255))
 

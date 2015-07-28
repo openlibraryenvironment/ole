@@ -67,7 +67,7 @@
                             <bean id="create_noticeTitle" parent="Uif-InputField" p:propertyName="noticeTitle"/>
                             <bean id="create_noticeBody" parent="Uif-InputField" p:propertyName="noticeBody"/>
                             <bean id="create_noticeSubjectLine" parent="Uif-InputField" p:propertyName="noticeSubjectLine"/>
-                            <bean id="create_version" parent="Uif-InputField" p:propertyName="version" p:required="true"/>
+                            <bean id="create_version" parent="Uif-InputField" p:propertyName="versionNumber" p:readOnly="true"/>
                             <bean id="create_active" parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
                         </list>
                     </property>

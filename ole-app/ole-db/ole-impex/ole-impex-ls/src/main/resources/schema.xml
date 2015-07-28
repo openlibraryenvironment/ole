@@ -3294,7 +3294,6 @@
         <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column name="NOTC_BDY" required="true" size="4000" type="VARCHAR"/>
         <column name="NOTC_SUBJ_LN" required="true" size="4000" type="VARCHAR"/>
-        <column name="VRSN" required="true" size="40" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <index name="NOTC_TYP_INDX">

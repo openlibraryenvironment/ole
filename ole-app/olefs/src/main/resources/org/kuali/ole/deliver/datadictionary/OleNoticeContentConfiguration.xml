@@ -219,7 +219,7 @@
         <property name="controlField">
             <bean parent="Uif-TextControl" p:size="10"/>
         </property>
-        <property name="name" value="version"/>
+        <property name="name" value="versionNumber"/>
         <property name="label" value="Version"/>
         <property name="description" value="Version"/>
     </bean>
@@ -244,7 +244,7 @@
                                         <bean id="inquiry_noticeTitle" parent="Uif-InputField" p:propertyName="noticeTitle"/>
                                         <bean id="inquiry_noticeBody" parent="Uif-InputField" p:propertyName="noticeBody"/>
                                         <bean id="inquiry_noticeSubjectLine" parent="Uif-InputField" p:propertyName="noticeSubjectLine"/>
-                                        <bean id="inquiry_version" parent="Uif-InputField" p:propertyName="version"/>
+                                        <bean id="inquiry_version" parent="Uif-InputField" p:propertyName="versionNumber"/>
                                         <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
                                     </list>
                                 </property>

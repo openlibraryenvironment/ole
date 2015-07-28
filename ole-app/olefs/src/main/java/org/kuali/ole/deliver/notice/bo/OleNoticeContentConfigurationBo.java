@@ -16,7 +16,6 @@ public class OleNoticeContentConfigurationBo extends OlePersistableBusinessObjec
     private String noticeTitle;
     private String noticeBody;
     private String noticeSubjectLine;
-    private String version;
     private boolean active;
     private List<OleNoticeFieldLabelMapping> oleNoticeFieldLabelMappings = new ArrayList<OleNoticeFieldLabelMapping>();
 
@@ -66,14 +65,6 @@ public class OleNoticeContentConfigurationBo extends OlePersistableBusinessObjec
 
     public void setNoticeSubjectLine(String noticeSubjectLine) {
         this.noticeSubjectLine = noticeSubjectLine;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
     }
 
     public boolean isActive() {
