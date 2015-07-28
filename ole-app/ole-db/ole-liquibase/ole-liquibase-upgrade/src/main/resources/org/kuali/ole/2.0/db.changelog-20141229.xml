@@ -5107,8 +5107,7 @@
             <column name="NOTC_TITL"   type="VARCHAR(400)"/>
             <column name="NOTC_BDY"   type="VARCHAR(4000)"/>
             <column name="NOTC_SUBJ_LN"   type="VARCHAR(400)"/>
-            <column name="VRSN"   type="VARCHAR(40)"/>
-            <column name="ROW_ACT_IND"   type="VARCHAR(1)"/>
+            <column name="ACTV_IND"  type="VARCHAR(1)"/>
             <column name="VER_NBR" type="DECIMAL(8)"/>
             <column name="OBJ_ID"  type="VARCHAR(36)"/>
         </createTable>
@@ -5274,6 +5273,54 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_CNTNT_CONFIG_T_NOTNULL">
+        <addNotNullConstraint catalogName="ole"
+                              columnDataType="VARCHAR(40)"
+                              columnName="NOTC_TYP"
+                              schemaName="ole"
+                              tableName="OLE_NOTC_CNTNT_CONFIG_T"/>
+        <addNotNullConstraint catalogName="ole"
+                              columnDataType="VARCHAR(400)"
+                              columnName="NOTC_NM"
+                              schemaName="ole"
+                              tableName="OLE_NOTC_CNTNT_CONFIG_T"/>
+        <addNotNullConstraint catalogName="ole"
+                              columnDataType="VARCHAR(400)"
+                              columnName="NOTC_TITL"
+                              schemaName="ole"
+                              tableName="OLE_NOTC_CNTNT_CONFIG_T"/>
+        <addNotNullConstraint catalogName="ole"
+                              columnDataType="VARCHAR(4000)"
+                              columnName="NOTC_BDY"
+                              schemaName="ole"
+                              tableName="OLE_NOTC_CNTNT_CONFIG_T"/>
+        <addNotNullConstraint catalogName="ole"
+                              columnDataType="VARCHAR(400)"
+                              columnName="NOTC_SUBJ_LN"
+                              schemaName="ole"
+                              tableName="OLE_NOTC_CNTNT_CONFIG_T"/>
+        <addNotNullConstraint catalogName="ole"
+                              columnDataType="VARCHAR(1)"
+                              columnName="ACTV_IND"
+                              schemaName="ole"
+                              tableName="OLE_NOTC_CNTNT_CONFIG_T"/>
+    </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_CNTNT_CONFIG_T_DEFAULTVAL">
+        <addDefaultValue catalogName="ole"
+                         columnDataType="VARCHAR(1)"
+                         columnName="ACTV_IND"
+                         defaultValue="Y"
+                         schemaName="ole"
+                         tableName="OLE_NOTC_CNTNT_CONFIG_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_FIELD_LABEL_MAPNG_T_NOTNULL">
+        <addNotNullConstraint catalogName="ole"
+                              columnDataType="VARCHAR(40)"
+                              columnName="FLD_NM"
+                              schemaName="ole"
+                              tableName="OLE_NOTC_FIELD_LABEL_MAPNG_T"/>
+    </changeSet>
 
 </databaseChangeLog>
