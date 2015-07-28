@@ -678,7 +678,7 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) maintenanceForm.getDocument();
         OleDeliverRequestBo oleDeliverRequestBo = (OleDeliverRequestBo) maintenanceDocument.getDocumentDataObject();
-
+        oleDeliverRequestBo.setRequestTypePopulated(false);
         oleDeliverRequestBo.setRequestTypeId(null);
         if (oleDeliverRequestBo.getRequestTypeId() == null && oleDeliverRequestBo.getRequestTypeCode() != null && !oleDeliverRequestBo.getRequestTypeCode().trim().isEmpty()) {
             Map<String, String> requestTypeMap = new HashMap<String, String>();

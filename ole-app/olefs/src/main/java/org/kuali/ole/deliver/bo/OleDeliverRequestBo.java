@@ -112,6 +112,7 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
     private Date holdExpirationDate;
     private List<OLEDeliverNotice> deliverNotices;
     private String onHoldRequestForPatronMessage;
+    private boolean requestTypePopulated = true;
 
     public String getItemInstitution() {
         return itemInstitution;
@@ -1028,5 +1029,13 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
 
     public void setOnHoldRequestForPatronMessage(String onHoldRequestForPatronMessage) {
         this.onHoldRequestForPatronMessage = onHoldRequestForPatronMessage;
+    }
+
+    public boolean isRequestTypePopulated() {
+        return requestTypePopulated;
+    }
+
+    public void setRequestTypePopulated(boolean requestTypePopulated) {
+        this.requestTypePopulated = requestTypePopulated;
     }
 }

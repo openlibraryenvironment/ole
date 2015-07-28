@@ -96,7 +96,13 @@ INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'CALL_NUMBER_REQUIRED', '5A689075D35B7AEBE0404F8189D81323', '1', 'CONFG', 'false', 'This is for making  Call number required in Fast Add', 'A', 'OLE')
 /
 
-INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_mysql', 'ole', 'org/kuali/ole/2.0/db.changelog-20141229.xml', NOW(), 1, '7:e285a2764e68a988a2a33f23ecc18055', 'sql, loadData', '', 'EXECUTED', '3.2.0')
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'DEFAULT_REQUEST_TYPE', 'OLE7033', '1', 'CONFG', '', 'This parameter value is used for configuring the default request type while placing a request through Request screen.', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'DEFAULT_PICK_UP_LOCATION', 'OLE7034', '1', 'CONFG', '', 'This parameter value is used for configuring the default pickup location while placing a request through Request screen.', 'A', 'OLE')
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_mysql', 'ole', 'org/kuali/ole/2.0/db.changelog-20141229.xml', NOW(), 1, '7:c0c09acfb136e72c12ecc094da066820', 'sql, loadData', '', 'EXECUTED', '3.2.0')
 /
 
 --  Changeset org/kuali/ole/2.0/db.changelog-20141229.xml::OLE_GOKB_PKG_T::ole

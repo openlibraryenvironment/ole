@@ -1266,6 +1266,8 @@ public class OLEConstants {
     public static final String COPY_REQUEST_ITEM_STATUS = "COPY_REQUEST_ITEM_STATUS";
     public static final String ASR_REQUEST_ITEM_STATUS = "ASR_REQUEST_ITEM_STATUS";
     public static final String REQUEST_DOC_TYPE = "OLE_DLVR_REQS";
+    public static final String DEFAULT_REQUEST_TYPE = "DEFAULT_REQUEST_TYPE";
+    public static final String DEFAULT_PICK_UP_LOCATION = "DEFAULT_PICK_UP_LOCATION";
 
 
     //Docstore operations

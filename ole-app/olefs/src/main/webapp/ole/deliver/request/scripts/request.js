@@ -179,6 +179,18 @@ jq(document).ready(function(){
 
 });
 
+jq(window).load(function() {
+    if(jq("#hiddenRequestTypePopulated_control").val() == "true") {
+        if(jq("#selectRequestBorrower-MaintenanceView-requestTypeIds_control").val() !== null && jq("#selectRequestBorrower-MaintenanceView-requestTypeIds_control").val() !== undefined && jq("#selectRequestBorrower-MaintenanceView-requestTypeIds_control").val() !== '') {
+            submitForm('refreshPageView', null, null, null, null);
+        } else if(jq("#selectRequest-MaintenanceView-requestTypeIds_control").val() !== null && jq("#selectRequest-MaintenanceView-requestTypeIds_control").val() !== undefined && jq("#selectRequest-MaintenanceView-requestTypeIds_control").val() != '') {
+            submitForm('refreshPageView', null, null, null, null);
+        } else if(jq("#selectRequestOperator-MaintenanceView-requestTypeIds_control").val() !== null && jq("#selectRequestOperator-MaintenanceView-requestTypeIds_control").val() !== undefined && jq("#selectRequestOperator-MaintenanceView-requestTypeIds_control").val() != '') {
+            submitForm('refreshPageView', null, null, null, null);
+        }
+    }
+});
+
 
 /*
 
