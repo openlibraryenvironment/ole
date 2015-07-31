@@ -11,6 +11,9 @@ import java.util.List;
  */
 public class OleInvoiceRecord {
 
+    public OleInvoiceRecord(){
+        this.validDoc=true;
+    }
     //Vendor Address Section
     private String vendor;               // determined based on vendor number.
     private String vendorNumber;         // EDIFACT
@@ -79,6 +82,8 @@ public class OleInvoiceRecord {
 
     // Summary of all Charges
     private String summaryAmount;
+
+    private boolean validDoc;
 
     public String getVendorAlias() {
         return vendorAlias;
@@ -511,5 +516,13 @@ public class OleInvoiceRecord {
 
     public void setForeignListPrice(String foreignListPrice) {
         this.foreignListPrice = foreignListPrice;
+    }
+
+    public boolean isValidDoc() {
+        return validDoc;
+    }
+
+    public void setValidDoc(boolean validDoc) {
+        this.validDoc = validDoc;
     }
 }
