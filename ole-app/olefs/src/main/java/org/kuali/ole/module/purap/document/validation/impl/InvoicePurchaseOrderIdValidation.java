@@ -46,6 +46,7 @@ public class InvoicePurchaseOrderIdValidation extends GenericValidation {
         Integer POID = document.getPurchaseOrderIdentifier();
         if (document.getItems().size() > 0) {
             Set closedVendorIds = new TreeSet();
+            Set pendingActionPoIds = new TreeSet();
             for (OleInvoiceItem invoiceItem : (List<OleInvoiceItem>) document.getItems()) {
                 if (invoiceItem.getItemType().isLineItemIndicator()) {
                     lineItemtypeIndicator = true;
@@ -68,12 +69,15 @@ public class InvoicePurchaseOrderIdValidation extends GenericValidation {
                 }
                 //OlePurchaseOrderDocument purchaseOrderDocument = (OlePurchaseOrderDocument) purchaseOrderDocument1;
                 if (purchaseOrderDocument != null && purchaseOrderDocument.isPendingActionIndicator()) {
-                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_PENDING_ACTION);
-                    valid &= false;
+                    pendingActionPoIds.add(purchaseOrderDocument.getPurapDocumentIdentifier());
                 } else if (purchaseOrderDocument != null && !StringUtils.equals(purchaseOrderDocument.getApplicationDocumentStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN)) {
                     closedVendorIds.add(purchaseOrderDocument.getPurapDocumentIdentifier());
                     // if the PO is pending and it is not a Retransmit, we cannot generate a Invoice for it
                 }
+            }
+            if(pendingActionPoIds.size() > 0) {
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_PENDING_ACTION,pendingActionPoIds.toString().replace("[","").replace("]",""));
+                valid &= false;
             }
             if(closedVendorIds.size() > 0){
                 GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_POS_NOT_OPEN,closedVendorIds.toString().replace("[" ,"").replace("]",""));
