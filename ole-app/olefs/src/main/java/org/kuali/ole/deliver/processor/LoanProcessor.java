@@ -585,18 +585,17 @@ public class LoanProcessor extends PatronBillResolver {
      * @return
      * @throws Exception
      */
-    private OleLoanDocument getPatronNote(List<OlePatronNotes> olePatronNotes, OleLoanDocument loanDocument) throws Exception {
+    public OleLoanForm getPatronNote(List<OlePatronNotes> olePatronNotes, OleLoanForm oleLoanForm) throws Exception {
         LOG.debug("Inside the getPatronNote method");
+        oleLoanForm.setOlePatronNotes(new ArrayList<OlePatronNotes>());
         for (OlePatronNotes patronNotes : olePatronNotes) {
             if (patronNotes.getOlePatronNoteType() != null) {
                 if (patronNotes.getOlePatronNoteType().getPatronNoteTypeCode().equalsIgnoreCase(OLEConstants.USER)) {
-                    loanDocument.setPatronUserNotes(patronNotes.getPatronNoteText());
-                    loanDocument.setPatronNoteTypeId((String) patronNotes.getPatronNoteTypeId());
-                    break;
+                    oleLoanForm.getOlePatronNotes().add(patronNotes);
                 }
             }
         }
-        return loanDocument;
+        return oleLoanForm;
     }
 
     /**
@@ -640,10 +639,6 @@ public class LoanProcessor extends PatronBillResolver {
                 EntityBo entityBo = olePatronDocument.getEntity();
                 loanDocument.setPatronName(getPatronName(entityBo));
                 loanDocument.setPatronId(olePatronDocument.getOlePatronId());
-                List<OlePatronNotes> olePatronNotes = olePatronDocument.getNotes();
-                if (olePatronNotes != null) {
-                    loanDocument = getPatronNote(olePatronNotes, loanDocument);
-                }
                 EntityTypeContactInfoBo entityTypeContactInfoBo = entityBo!=null ? entityBo.getEntityTypeContactInfos().get(0) : null;
                 if (entityTypeContactInfoBo != null) {
                     loanDocument = getPatronPreferredAddress(entityTypeContactInfoBo, loanDocument);
@@ -2349,15 +2344,6 @@ public class LoanProcessor extends PatronBillResolver {
             itemValidation = itemValidation && false;
 
         return itemValidation;
-    }
-
-
-    public void deletePatronUserNote(String patronId, String patronNoteTypeId) throws Exception {
-        LOG.debug("Inside the deletePatronUserNote method");
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put(OLEConstants.OlePatron.PATRON_ID, patronId);
-        map.put(OLEConstants.PATRON_NOTE_TYPE_ID, patronNoteTypeId);
-        getBusinessObjectService().deleteMatching(OlePatronNotes.class, map);
     }
 
     /**

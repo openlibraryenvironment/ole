@@ -324,6 +324,7 @@
                 <bean parent="Uif-VerticalFieldGroup">
                     <property name="items">
                         <list>
+                            <bean id="message_patronUserNote" parent="Uif-MessageField" p:messageText="Please select a patron user note to delete" p:hidden="true" p:cssClasses="alert-error" />
                             <ref bean="PatronUserNoteDisplay"/>
                             <ref bean="PatronUserNoteButton"/>
                         </list>
@@ -334,10 +335,30 @@
     </bean>
 
     <bean id="PatronUserNoteDisplay" parent="PatronUserNoteDisplay-HorizontalBoxSection-parent"/>
-    <bean id="PatronUserNoteDisplay-HorizontalBoxSection-parent" parent="Uif-HorizontalBoxSubSection">
+    <bean id="PatronUserNoteDisplay-HorizontalBoxSection-parent" parent="Uif-TableCollectionSection">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronNotes"/>
+        <property name="propertyName" value="olePatronNotes"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bPaginate" value="true"/>
+                <entry key="sPaginationType" value="full_numbers"/>
+                <entry key="bFilter" value="false"/>
+                <entry key="bLengthChange" value="false"/>
+            </map>
+        </property>
         <property name="items">
             <list>
-                <bean id="patronUserNote" parent="Uif-DataField" p:style="font-weight:bold;" p:propertyName="patronUserNote">
+                <bean id="selectPatronUserNote" parent="Loan-Uif-InputField" p:propertyName="selected" p:label="Select" p:width="3%" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="patronNotesCheckBoxClass" />
+                    </property>
+                </bean>
+                <bean id="patronUserNote" parent="Uif-DataField" p:style="font-weight:bold;" p:propertyName="patronNoteText" p:label="Patron User Notes">
                 </bean>
             </list>
         </property>

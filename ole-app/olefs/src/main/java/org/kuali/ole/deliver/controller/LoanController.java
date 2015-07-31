@@ -473,10 +473,14 @@ public class LoanController extends UifControllerBase {
                 oleLoanForm.setOnHoldRequestMessage(oleDeliverRequestBoList.get(0).getOnHoldRequestForPatronMessage());
                 oleLoanForm.setOnHoldRequestForPatron(oleDeliverRequestBoList);
             }
-            if (oleLoanDocument.getPatronUserNotes() != null) {
-                oleLoanForm.setPatronNoteFlag(true);
-                oleLoanForm.setPatronUserNote(oleLoanDocument.getPatronUserNotes());
-                oleLoanForm.setPatronNoteTypeId(oleLoanDocument.getPatronNoteTypeId());
+            if (oleLoanDocument.getOlePatron() != null) {
+                List<OlePatronNotes> olePatronNotes = oleLoanDocument.getOlePatron().getNotes();
+                if(CollectionUtils.isNotEmpty(olePatronNotes)) {
+                    oleLoanForm = getLoanProcessor().getPatronNote(olePatronNotes, oleLoanForm);
+                    if(CollectionUtils.isNotEmpty(oleLoanForm.getOlePatronNotes())) {
+                        oleLoanForm.setPatronNoteFlag(true);
+                    }
+                }
             }
             boolean activeProxyValue = true;
             int proxyPatronCount = 0;
@@ -1134,9 +1138,19 @@ public class LoanController extends UifControllerBase {
                                              HttpServletRequest request, HttpServletResponse response) {
         LOG.debug("Inside the delete patron user note method");
         OleLoanForm oleLoanForm = (OleLoanForm) form;
-        oleLoanForm.setPatronNoteFlag(false);
         try {
-            getLoanProcessor().deletePatronUserNote(oleLoanForm.getPatronId(), oleLoanForm.getPatronNoteTypeId());
+            List<OlePatronNotes> olePatronNotesList = new ArrayList<>();
+            if(CollectionUtils.isNotEmpty(oleLoanForm.getOlePatronNotes())) {
+                for(OlePatronNotes olePatronNotes : oleLoanForm.getOlePatronNotes()) {
+                    if(olePatronNotes.isSelected()) {
+                        olePatronNotesList.add(olePatronNotes);
+                    }
+                }
+                if(CollectionUtils.isNotEmpty(olePatronNotesList)) {
+                    oleLoanForm.setPatronNoteFlag(false);
+                    KRADServiceLocator.getBusinessObjectService().delete(olePatronNotesList);
+                }
+            }
         } catch (Exception e) {
             oleLoanForm.setInformation(e.getMessage());
             LOG.error("Exception while deleting patron user note", e);

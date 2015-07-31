@@ -67,6 +67,9 @@ function displayDialogWindow(divID){
     if(divID == "div#RealPatronSection-HorizontalBoxSection"){
         top='75px';
     }
+    if(divID == "div#PatronUserNote-HorizontalBoxSection"){
+        top='75px';
+    }
     jq(divID).css({
         /* 'margin-top' : '100px',
          'margin-left' : '100px',*/
@@ -409,9 +412,13 @@ function setRenewalDueDateLoanList(){
 }
 
 function setPatronUserNoteDelete(){
-    jq('#hdnPatronDeleteBtn').focus().click();
-    jq( "div#PatronUserNote-HorizontalBoxSection" ).fadeOut(300);
-    jq('#mask').fadeOut(300);
+    if(!jq(".patronNotesCheckBoxClass:checked").length == 0){
+        jq('#hdnPatronDeleteBtn').focus().click();
+        jq( "div#PatronUserNote-HorizontalBoxSection" ).fadeOut(300);
+        jq('#mask').fadeOut(300);
+    }else{
+        jq('#message_patronUserNote').attr('style','display:inline');
+    }
 }
 
 function saveFastAddItem(){

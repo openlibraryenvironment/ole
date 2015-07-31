@@ -18,6 +18,7 @@ public class OlePatronNotes extends PersistableBusinessObjectBase implements Ole
     private boolean active;
     private OlePatronNoteType olePatronNoteType;
     private OlePatronDocument olePatron;
+    private boolean selected;
 
     /**
      * Gets the value of patronNoteId property
@@ -197,4 +198,11 @@ public class OlePatronNotes extends PersistableBusinessObjectBase implements Ole
         return this.getPatronNoteId();
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 }

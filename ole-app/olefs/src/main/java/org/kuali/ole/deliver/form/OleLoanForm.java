@@ -1,9 +1,6 @@
 package org.kuali.ole.deliver.form;
 
-import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
-import org.kuali.ole.deliver.bo.OleLoanDocument;
-import org.kuali.ole.deliver.bo.OleLoanFastAdd;
-import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -302,8 +299,7 @@ public class OleLoanForm extends UifFormBase {
     /**
      * Patron User Note Display attributes
      */
-    private String patronUserNote;
-    private String patronNoteTypeId;
+    private List<OlePatronNotes> olePatronNotes;
     private boolean patronNoteFlag = false;
     /**
      * Proxy patron  attributes
@@ -851,20 +847,15 @@ public class OleLoanForm extends UifFormBase {
         this.realPatronList = realPatronList;
     }
 
-    public String getPatronNoteTypeId() {
-        return patronNoteTypeId;
+    public List<OlePatronNotes> getOlePatronNotes() {
+        if(null == olePatronNotes){
+            olePatronNotes = new ArrayList<>();
+        }
+        return olePatronNotes;
     }
 
-    public void setPatronNoteTypeId(String patronNoteTypeId) {
-        this.patronNoteTypeId = patronNoteTypeId;
-    }
-
-    public String getPatronUserNote() {
-        return patronUserNote;
-    }
-
-    public void setPatronUserNote(String patronUserNote) {
-        this.patronUserNote = patronUserNote;
+    public void setOlePatronNotes(List<OlePatronNotes> olePatronNotes) {
+        this.olePatronNotes = olePatronNotes;
     }
 
     public boolean isPatronNoteFlag() {

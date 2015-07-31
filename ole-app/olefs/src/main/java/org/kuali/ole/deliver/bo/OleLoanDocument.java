@@ -50,8 +50,6 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private String itemLoanStatus;
     private String errorMessage;
     private String successMessage;
-    private String patronUserNotes;
-    private String patronNoteTypeId;
     private String itemUuid;
     private String bibUuid;
     private transient Item oleItem;
@@ -644,22 +642,6 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
 
     public void setRealPatron(List<OlePatronDocument> realPatron) {
         this.realPatron = realPatron;
-    }
-
-    public String getPatronNoteTypeId() {
-        return patronNoteTypeId;
-    }
-
-    public void setPatronNoteTypeId(String patronNoteTypeId) {
-        this.patronNoteTypeId = patronNoteTypeId;
-    }
-
-    public String getPatronUserNotes() {
-        return patronUserNotes;
-    }
-
-    public void setPatronUserNotes(String patronUserNotes) {
-        this.patronUserNotes = patronUserNotes;
     }
 
     //For Check-in
