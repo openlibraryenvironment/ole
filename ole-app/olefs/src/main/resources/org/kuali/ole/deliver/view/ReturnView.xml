@@ -242,6 +242,7 @@
             <list>
                 <ref bean="CheckInDate"/>
                 <ref bean="CheckInTime"/>
+                <bean id="restoreSystemDateTime" parent="Uif-PrimaryActionButton" p:methodToCall="restoreSystemDateTime" p:actionLabel="Restore System Date/Time"/>
             </list>
         </property>
     </bean>

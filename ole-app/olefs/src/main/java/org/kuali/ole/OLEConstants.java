@@ -5,6 +5,7 @@ import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory;
 import org.kuali.ole.deliver.bo.PatronBillPayment;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
@@ -3556,6 +3557,10 @@ public class OLEConstants {
     public static final String HOLD_EXPIRATION_DATE = "Hold Expiration Date";
     public static final String NOTICE_RECALL_DUE_DATE = "Hold Expiration Date";
     public static final String LIBRARY_SHELVING_LOCATION ="Library shelving location";
+
+    public static final String SIMPLE_DATE_FORMAT_FOR_TIME_24H = "HH:mm";
+    public static final String DEFAULT_DATE_FORMAT_24H = RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE +" "+ SIMPLE_DATE_FORMAT_FOR_TIME_24H;
+
 
 
 }

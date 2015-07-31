@@ -29,6 +29,7 @@ import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOleml
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.exception.ParseException;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.mail.EmailBody;
 import org.kuali.rice.core.api.mail.EmailFrom;
 import org.kuali.rice.core.api.mail.EmailSubject;
@@ -4411,6 +4412,28 @@ public class LoanController extends UifControllerBase {
         }
         oleItem.setMissingPieceItemRecordList(missingPieceItemRecords);
 
+    }
+
+    @RequestMapping(params = "methodToCall=restoreSystemDateTime")
+    public ModelAndView restoreSystemDateTime(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                          HttpServletRequest request, HttpServletResponse response) {
+        OleLoanForm loanForm=(OleLoanForm)form;
+        DateFormat df = new SimpleDateFormat(OLEConstants.DEFAULT_DATE_FORMAT_24H);
+        String currentDate = df.format(getDateTimeService().getCurrentDate());
+        if(StringUtils.isNotBlank(currentDate)) {
+            String[] currentDateTime = currentDate.split(" ");
+            if(currentDateTime != null && currentDateTime.length > 0) {
+                loanForm.setCheckInDate(new Date(currentDateTime[0]));
+                if(currentDateTime.length > 1) {
+                    loanForm.setCheckInTime(currentDateTime[1]);
+                }
+            }
+        }
+        return getUIFModelAndView(loanForm);
+    }
+
+    public DateTimeService getDateTimeService() {
+        return (DateTimeService)SpringContext.getService("dateTimeService");
     }
 
 }
