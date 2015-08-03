@@ -20,11 +20,11 @@ public class OLEBatchProcessDataToImportValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("Bibliographic Data Only","Bibliographic Data Only"));
-        keyValues.add(new ConcreteKeyValue("Bibliographic and Instance Data","Bibliographic and Instance Data"));
+        keyValues.add(new ConcreteKeyValue("Bibliographic, Holdings, and Item Data","Bibliographic, Holdings, and Item Data"));
 //        keyValues.add(new ConcreteKeyValue("Instance Data Only","Instance Data Only"));
-        keyValues.add(new ConcreteKeyValue("Bibliographic and EInstance Data","Bibliographic and EInstance Data"));
+        keyValues.add(new ConcreteKeyValue("Bibliographic and EHoldings Data","Bibliographic and EHoldings Data"));
 //        keyValues.add(new ConcreteKeyValue("EInstance Data Only","EInstance Data Only"));
-        keyValues.add(new ConcreteKeyValue("Bibliographic,Instance and EInstance Data","Bibliographic,Instance and EInstance Data"));
+        keyValues.add(new ConcreteKeyValue("Bibliographic,Holdings and EHoldings Data","Bibliographic,Holdings and EHoldings"));
         return keyValues;
     }
 }
