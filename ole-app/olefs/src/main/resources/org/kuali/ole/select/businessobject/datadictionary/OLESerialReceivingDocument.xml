@@ -176,8 +176,8 @@
     <bean id="OLESerialReceivingDocument-instanceId" parent="OLESerialReceivingDocument-instanceId-parentBean"/>
     <bean id="OLESerialReceivingDocument-instanceId-parentBean" parent="AttributeDefinition">
         <property name="name" value="instanceId"/>
-        <property name="label" value="Instance Record ID"/>
-        <property name="shortLabel" value="Instance Record"/>
+        <property name="label" value="Holdings Record ID"/>
+        <property name="shortLabel" value="Holdings Record"/>
         <property name="maxLength" value="40"/>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="30"/>

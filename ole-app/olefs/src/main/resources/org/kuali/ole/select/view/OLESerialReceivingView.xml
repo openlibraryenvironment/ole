@@ -221,7 +221,7 @@
                                     <bean parent="Uif-DropdownControl" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-Label" p:labelText="Instance Record" />
+                            <bean parent="Uif-Label" p:labelText="Holdings Record" />
                             <bean id="instanceId_relink" parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
