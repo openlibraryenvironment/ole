@@ -703,7 +703,7 @@
 
             <list>
                 <bean id="oleBatchProcessProfileBoInquiry_bibStaffOnly" parent="Uif-DataField" p:label="For new Bib set Staff Only" p:propertyName="bibStaffOnly"/>
-                <bean id="oleBatchProcessProfileBoInquiry_instanceStaffOnly" parent="Uif-DataField" p:label="For new Instance set Staff Only" p:propertyName="instanceStaffOnly"/>
+                <bean id="oleBatchProcessProfileBoInquiry_instanceStaffOnly" parent="Uif-DataField" p:label="For new Holdings set Staff Only" p:propertyName="instanceStaffOnly"/>
                 <bean id="oleBatchProcessProfileBoInquiry_itemStaffOnly" parent="Uif-DataField" p:label="For new Item set Staff Only" p:propertyName="itemStaffOnly"/>
             </list>
 

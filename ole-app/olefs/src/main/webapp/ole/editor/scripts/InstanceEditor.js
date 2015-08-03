@@ -98,7 +98,7 @@ jq(document).ready(function(){
         if( jq(this).children().size() == 1 ) {
             // alert(jq(this).children().text());
             newItems--;
-            var exists = (jq('#ExistingRecordTreeNavigation_div ul li :contains("Delete Instance")').length);
+            var exists = (jq('#ExistingRecordTreeNavigation_div ul li :contains("Delete Holdings")').length);
             if (newItems < 1 && exists < 0) {
                 //alert('Cannot delete instance. Unsaved item exists.');
             } else {
@@ -107,7 +107,7 @@ jq(document).ready(function(){
                 var i = jq('#hdnIndex1').val()-1;
                 /*jq("#ExistingRecordTreeNavigation_div ul li:first").
                  append("<ul><li><a id='new_item' class='newItem'>New Item</a></li></ul>");*/
-                jq(".holdingClass").after("<ul><li><a id='delete_instance' class='deleteInstance'>Delete Instance</a></li></ul>"); //Revert this back to original
+                jq(".holdingClass").after("<ul><li><a id='delete_instance' class='deleteInstance'>Delete Holdings</a></li></ul>"); //Revert this back to original
                 jq(".current").removeClass('current');
                 jq(".deleteInstance").addClass('current');
                 jq('#hdnDeleteInstanceButton').focus().click();

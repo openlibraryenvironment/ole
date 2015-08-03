@@ -638,7 +638,7 @@
         </property>
         <property name="addLineActions">
             <list>
-                <bean id="addLineInstance" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLineInstance" p:actionLabel="Add" p:title="Add Instance" />
+                <bean id="addLineInstance" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLineInstance" p:actionLabel="Add" p:title="Add Holdings" />
             </list>
         </property>
     </bean>
@@ -733,7 +733,7 @@
                             <property name="options">
                                 <list>
                                     <bean parent="Uif-KeyLabelPair" p:key="none" p:value="None"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="add" p:value="Add new Instance"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="add" p:value="Add new Holdings"/>
                                 </list>
                             </property>
                         </bean>
@@ -863,7 +863,7 @@
                     <property name="items">
                         <list>
                             <bean id="bibSetStaffOnly-bibStaffOnly" parent="Uif-CheckboxInputField" p:label="For new Bib set Staff Only" p:propertyName="bibStaffOnly"/>
-                            <bean id="instanceSetStaffOnly-instanceStaffOnly" parent="Uif-CheckboxInputField" p:label="For new Instance set Staff Only" p:propertyName="instanceStaffOnly"/>
+                            <bean id="instanceSetStaffOnly-instanceStaffOnly" parent="Uif-CheckboxInputField" p:label="For new Holdings set Staff Only" p:propertyName="instanceStaffOnly"/>
                             <bean id="itemSetStaffOnly-itemStaffOnly" parent="Uif-CheckboxInputField" p:label="For new Item set Staff Only" p:propertyName="itemStaffOnly"/>
                         </list>
                     </property>

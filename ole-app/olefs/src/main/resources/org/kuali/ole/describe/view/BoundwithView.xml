@@ -24,7 +24,7 @@
 
     <bean id="BoundwithView" parent="BoundwithView-parentBean"/>
     <bean id="BoundwithView-parentBean" parent="Uif-OLEFormView">
-        <property name="headerText" value="Bound-with Instance"/>
+        <property name="headerText" value="Bound-with Holdings"/>
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
@@ -320,7 +320,7 @@
                                 <bean id="unbind_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:25em" p:methodToCall="unbind" p:actionLabel="Unbind" />
                 -->
                 <bean id="delete_button2" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:10em"
-                      p:actionLabel="Delete Instance" p:actionScript="showDeleteTabs('deleteVerify');"/>
+                      p:actionLabel="Delete Holdings" p:actionScript="showDeleteTabs('deleteVerify');"/>
             </list>
         </property>
     </bean>

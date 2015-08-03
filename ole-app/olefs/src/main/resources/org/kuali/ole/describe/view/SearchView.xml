@@ -184,7 +184,7 @@
                 <bean id="FastAddItemSectionLinkForOverLay" parent="Uif-ActionLink"
                       p:actionScript="viewWorkbenchBibOverlay('@{#line.bibIdentifier}','@{#line.bibIdentifier}');" p:actionLabel="OverLay" />
                 <bean id="FastAddItemSectionLinkForInstance" parent="Uif-ActionLink"
-                      p:actionScript="viewWorkbenchBibCreateInstance('@{#line.localId}');" p:actionLabel="Create Instance" />
+                      p:actionScript="viewWorkbenchBibCreateInstance('@{#line.localId}');" p:actionLabel="Create Holdings" />
             </list>
         </property>
        <!-- <property name="renderLineActions" value="false"/>-->

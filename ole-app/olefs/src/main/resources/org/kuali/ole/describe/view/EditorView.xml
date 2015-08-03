@@ -173,13 +173,13 @@
             <list>
                 <bean parent="Uif-ActionImage"  p:actionScript="addInstance()" p:actionEvent="addInstance" p:componentSecurity.performActionAuthz="true">
                     <property name="actionImage">
-                        <bean parent="Uif-Image" p:cssClasses="add" p:title="Add Instance"
+                        <bean parent="Uif-Image" p:cssClasses="add" p:title="Add Holdings"
                               p:source="@{#ConfigProperties['rice.server.url']}/krms/images/add.png"/>
                     </property>
                 </bean>
                 <bean parent="Uif-ActionImage"  p:actionScript="addEInstance()" p:actionEvent="addEInstance" p:componentSecurity.performActionAuthz="true">
                     <property name="actionImage">
-                        <bean parent="Uif-Image" p:cssClasses="add" p:title="Add EInstance"
+                        <bean parent="Uif-Image" p:cssClasses="add" p:title="Add E-Holdings"
                               p:source="@{#ConfigProperties['rice.server.url']}/krms/images/add.png"/>
                     </property>
                 </bean>

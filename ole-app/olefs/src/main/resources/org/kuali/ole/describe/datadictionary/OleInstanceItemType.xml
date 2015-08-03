@@ -24,7 +24,7 @@
     <bean id="OleInstanceItemType-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleInstanceItemType"/>
         <property name="titleAttribute" value="instanceItemTypeCode"/>
-        <property name="objectLabel" value="Ole Instance Item Type"/>
+        <property name="objectLabel" value="Ole Holdings Item Type"/>
 
         <property name="attributes">
             <list>

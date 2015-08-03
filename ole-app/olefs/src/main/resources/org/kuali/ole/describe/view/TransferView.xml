@@ -24,7 +24,7 @@
 
     <bean id="TransferView" parent="TransferView-parentBean" />
     <bean id="TransferView-parentBean" parent="Uif-OLEFormView">
-        <property name="headerText" value="Transfer Instance/Item"/>
+        <property name="headerText" value="Transfer Holdings/Item"/>
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
