@@ -3426,7 +3426,7 @@ public class LoanController extends UifControllerBase {
                 oleLoanDocument.setContinueCheckIn(true);
                 oleLoanDocument.getOleItem().setMissingPieceFlag(false);
                 oleLoanDocument.getOleItem().setMissingPiecesCount("0");
-
+                oleLoanDocument.getOleItem().setMissingPieceFlagNote(null);
                 oleLoanDocument = getLoanProcessor().returnLoan(oleLoanDocument);
                 oleLoanForm.setMatchCheck(null);
                 oleLoanForm.setErrorMessage("");
