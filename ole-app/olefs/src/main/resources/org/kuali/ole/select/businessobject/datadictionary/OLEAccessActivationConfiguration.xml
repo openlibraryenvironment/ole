@@ -26,7 +26,7 @@
         <property name="forceUppercase" value="true"/>
         <property name="label" value="WorkFlow Name"/>
         <property name="shortLabel" value="workflowName"/>
-        <property name="maxLength" value="50"/>
+        <property name="maxLength" value="100"/>
         <property name="required" value="false"/>
         <property name="validCharactersConstraint">
             <bean  parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
@@ -44,7 +44,7 @@
         <property name="forceUppercase" value="true"/>
         <property name="label" value="Workflow Completion Status"/>
         <property name="shortLabel" value="Workflow Completion Status"/>
-        <property name="maxLength" value="50"/>
+        <property name="maxLength" value="100"/>
         <property name="required" value="false"/>
         <property name="validCharactersConstraint">
             <bean  parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
@@ -63,7 +63,7 @@
         <property name="forceUppercase" value="true"/>
         <property name="label" value="Workflow Type"/>
         <property name="shortLabel" value="workflowType"/>
-        <property name="maxLength" value="50"/>
+        <property name="maxLength" value="40"/>
         <property name="required" value="false"/>
         <property name="validCharactersConstraint">
             <bean  parent="AnyCharacterPatternConstraint"/>

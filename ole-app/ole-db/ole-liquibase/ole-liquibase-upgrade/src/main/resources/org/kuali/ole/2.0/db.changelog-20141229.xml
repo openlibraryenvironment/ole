@@ -5323,6 +5323,24 @@
                               tableName="OLE_NOTC_FIELD_LABEL_MAPNG_T"/>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_E_RES_ACC_ACT_WRKFLW_T_STATUS_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE OLE_E_RES_ACC_ACT_WRKFLW_T MODIFY STATUS varchar(100)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_E_RES_ACC_ACT_WRKFLW_T_STATUS_ORACLE" dbms="oracle">
+        <sql>ALTER TABLE OLE_E_RES_ACC_ACT_WRKFLW_T MODIFY STATUS varchar2(100)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_E_RES_ACC_ACT_CONFIG_T_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE OLE_E_RES_ACC_ACT_CONFIG_T MODIFY WRK_FLW_NAME varchar(100)</sql>
+        <sql>ALTER TABLE OLE_E_RES_ACC_ACT_CONFIG_T MODIFY WRK_FLW_STATUS varchar(100)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_E_RES_ACC_ACT_CONFIG_T_ORACLE" dbms="oracle">
+        <sql>ALTER TABLE OLE_E_RES_ACC_ACT_CONFIG_T MODIFY WRK_FLW_NAME varchar2(100)</sql>
+        <sql>ALTER TABLE OLE_E_RES_ACC_ACT_CONFIG_T MODIFY WRK_FLW_STATUS varchar2(100)</sql>
+    </changeSet>
+
     <changeSet context="bootstrap" author="ole" id="OLE_PTRN_NTE_T_ADD_COLUMN">
         <addColumn catalogName="ole"
                    schemaName="ole"

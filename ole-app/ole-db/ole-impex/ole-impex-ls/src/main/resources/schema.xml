@@ -17,16 +17,16 @@
         <column name="ACC_ACT_ID" primaryKey="true" size="10" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
-        <column name="WRK_FLW_NAME" size="40" type="VARCHAR"/>
+        <column name="WRK_FLW_NAME" size="100" type="VARCHAR"/>
         <column name="WRK_FLW_TYPE" size="40" type="VARCHAR"/>
-        <column name="WRK_FLW_STATUS" size="40" type="VARCHAR"/>
+        <column name="WRK_FLW_STATUS" size="100" type="VARCHAR"/>
         <column default="Y" name="ROW_ACT_IND" size="1" type="VARCHAR"/>
     </table>
 
     <table name="OLE_E_RES_ACC_ACT_WRKFLW_T">
         <column name="ACCESS_ID" primaryKey="true" size="10" type="VARCHAR"/>
         <column name="ORDER_NO" size="10" type="INTEGER"/>
-        <column name="STATUS" size="36" type="VARCHAR"/>
+        <column name="STATUS" size="100" type="VARCHAR"/>
         <column name="ACC_ACT_ID" size="30" type="VARCHAR"/>
         <column name="ROLE_ID" size="100" type="VARCHAR"/>
         <column name="PRSN_ID" size="100" type="VARCHAR"/>

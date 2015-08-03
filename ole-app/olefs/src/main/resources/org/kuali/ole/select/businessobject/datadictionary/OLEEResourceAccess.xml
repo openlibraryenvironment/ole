@@ -92,7 +92,7 @@
     <bean id="OLEEResourceAccess-accessStatus-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="accessStatus"/>
         <property name="label" value="Access Status"/>
-        <property name="maxLength" value="40"/>
+        <property name="maxLength" value="100"/>
         <property name="controlField">
             <bean parent="Uif-TextControl" p:size="20"/>
         </property>

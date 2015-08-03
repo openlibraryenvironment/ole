@@ -28,7 +28,7 @@
         <property name="forceUppercase" value="true"/>
         <property name="label" value="Order No"/>
         <property name="shortLabel" value="orderNo"/>
-        <property name="maxLength" value="8"/>
+        <property name="maxLength" value="10"/>
         <property name="required" value="false"/>
         <property name="validationPattern">
             <ref bean="NumericValidation" />
@@ -97,7 +97,7 @@
     <bean id="AccessActivationWorkFlow-status-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="forceUppercase" value="false"/>
         <property name="shortLabel" value="Status"/>
-        <property name="maxLength" value="50"/>
+        <property name="maxLength" value="100"/>
         <property name="name" value="status"/>
         <property name="label" value="Status"/>
         <property name="description" value="Status"/>
