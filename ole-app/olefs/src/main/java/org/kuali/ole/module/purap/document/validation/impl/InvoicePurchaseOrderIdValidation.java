@@ -76,7 +76,7 @@ public class InvoicePurchaseOrderIdValidation extends GenericValidation {
                 }
             }
             if(pendingActionPoIds.size() > 0) {
-                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_PENDING_ACTION,pendingActionPoIds.toString().replace("[","").replace("]",""));
+                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_PENDING_ACTION,pendingActionPoIds.toString().replace("[","").replace("]",""));
                 valid &= false;
             }
             if(closedVendorIds.size() > 0){
