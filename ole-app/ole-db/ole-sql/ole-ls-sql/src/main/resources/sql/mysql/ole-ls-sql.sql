@@ -3704,6 +3704,8 @@ CREATE TABLE OLE_PTRN_NTE_T
         , OBJ_ID VARCHAR(36)
         , VER_NBR DECIMAL(8)
         , OLE_PTRN_ID VARCHAR(40)
+        , OPTR_ID VARCHAR(40)
+        , NTE_CRT_OR_UPDT_DATE DATETIME
         , OLE_PTRN_NTE_TYP_ID VARCHAR(40)
         , OLE_PTRN_NTE_TXT VARCHAR(800)
         , ACTV_IND VARCHAR(1) NOT NULL
@@ -3715,11 +3717,11 @@ CREATE TABLE OLE_PTRN_NTE_T
 
 
     
-                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                            
                                     
 , INDEX OLE_PTRN_NTE_FK1 (OLE_PTRN_ID )
     
-                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                            
                                     
 , INDEX OLE_PTRN_NTE_FK2 (OLE_PTRN_NTE_TYP_ID )
 
