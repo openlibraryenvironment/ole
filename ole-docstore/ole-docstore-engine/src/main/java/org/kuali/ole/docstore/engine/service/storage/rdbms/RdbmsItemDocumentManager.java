@@ -718,6 +718,8 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
 
             }
 
+        }else{
+            itemRecord.setMissingPiecesCount(item.getMissingPiecesCount());
         }
 
         if (item.getCallNumber() != null) {

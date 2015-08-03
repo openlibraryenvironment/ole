@@ -828,13 +828,12 @@
                     <bean id="missingPieceDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceDate" p:label="Missing Piece Item Date"/>
                     <bean id="missingPieceCount" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceCount" p:label="Missing Piece Item Count"/>
                     <bean id="missingPieceFlagNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceFlagNote" p:label="Missing Piece Item Note"/>
-                    <bean id="operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
-                    <bean id="patronId" parent="Uif-LinkField" p:label="Associated Patron Barcode" p:style="word-break: break-all;word-wrap: break-word"
+                    <bean id="missingPieceOperatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
+                    <bean id="missingPiecePatronId" parent="Uif-LinkField" p:label="Associated Patron Barcode" p:style="word-break: break-all;word-wrap: break-word"
                           p:linkText="@{#line.patronBarcode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;olePatronId=@{#line.patronId}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument"/>
                 </list>
         </property>
     </bean>
-
 
 
     <bean  id="OLEIntransitLoanRecords"  parent="Uif-Disclosure-TableCollectionSection"  p:layoutManager.numberOfColumns="10"

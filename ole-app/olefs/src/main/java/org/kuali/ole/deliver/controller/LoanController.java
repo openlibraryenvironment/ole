@@ -3424,6 +3424,9 @@ public class LoanController extends UifControllerBase {
 
             if (matchCheck != null && matchCheck.equalsIgnoreCase(OLEConstants.TRUE)) {
                 oleLoanDocument.setContinueCheckIn(true);
+                oleLoanDocument.getOleItem().setMissingPieceFlag(false);
+                oleLoanDocument.getOleItem().setMissingPiecesCount("0");
+
                 oleLoanDocument = getLoanProcessor().returnLoan(oleLoanDocument);
                 oleLoanForm.setMatchCheck(null);
                 oleLoanForm.setErrorMessage("");

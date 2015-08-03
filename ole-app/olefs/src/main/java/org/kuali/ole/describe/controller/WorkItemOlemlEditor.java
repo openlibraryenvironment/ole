@@ -372,7 +372,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                         missingPieceItemRecord.setPatronBarcode(null);
                         missingPieceItemRecord.setPatronId(itemData.getCurrentBorrower());
                         missingPieceItemRecord.setItemId(itemData.getItemIdentifier());
-                       if(org.apache.commons.lang.StringUtils.isNotBlank(missingPieceItemRecord.getMissingPieceCount()) && (Integer.parseInt(missingPieceItemRecord.getMissingPieceCount()) > 1)){
+                       if(org.apache.commons.lang.StringUtils.isNotBlank(missingPieceItemRecord.getMissingPieceCount()) && (Integer.parseInt(missingPieceItemRecord.getMissingPieceCount()) >= 1)){
                         if (noOfPieces >= Integer.parseInt(missingPieceItemRecord.getMissingPieceCount())) {
                             if (!missingPieceItemRecord.getMissingPieceCount().isEmpty() ) {
                                 if (itemData.getMissingPieceItemRecordList() != null && itemData.getMissingPieceItemRecordList().size() > 0) {
@@ -405,7 +405,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                                     DateFormat dfs = new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE);
                                     String missingPieceItemDate = dfs.format(getDateTimeService().getCurrentDate());
                                     missingPieceItemRecord1.setMissingPieceDate(missingPieceItemDate);
-                                    if(org.apache.commons.lang.StringUtils.isNotBlank(itemData.getMissingPiecesCount()) && (Integer.parseInt(itemData.getMissingPiecesCount()) > 1 )){
+                                    if(org.apache.commons.lang.StringUtils.isNotBlank(itemData.getMissingPiecesCount()) && (Integer.parseInt(itemData.getMissingPiecesCount()) >= 1 )){
                                     if (noOfPieces > Integer.parseInt(itemData.getMissingPiecesCount()) ) {
 
                                         missingPieceItemRecord1.setMissingPieceCount(itemData.getMissingPiecesCount());
@@ -445,7 +445,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                                     missingPieceItemRecord1.setPatronId(missingPieceItemRecordList1.get(index).getPatronId());
                                     missingPieceItemRecord1.setItemId(missingPieceItemRecordList1.get(index).getItemId());
                                     missingPieceItemRecord1.setMissingPieceCount(missingPieceItemRecordList1.get(index).getMissingPieceCount());
-                                    if(org.apache.commons.lang.StringUtils.isNotBlank(missingPieceItemRecordList1.get(index).getMissingPieceCount()) && (Integer.parseInt(missingPieceItemRecordList1.get(index).getMissingPieceCount()) > 1 )){
+                                    if(org.apache.commons.lang.StringUtils.isNotBlank(missingPieceItemRecordList1.get(index).getMissingPieceCount()) && (Integer.parseInt(missingPieceItemRecordList1.get(index).getMissingPieceCount()) >= 1 )){
                                     if (noOfPieces >= Integer.parseInt(missingPieceItemRecordList1.get(index).getMissingPieceCount())) {
 
                                             missingPieceItemRecords.add(missingPieceItemRecord1);
