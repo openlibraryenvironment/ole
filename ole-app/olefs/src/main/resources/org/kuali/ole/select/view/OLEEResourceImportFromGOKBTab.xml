@@ -101,7 +101,7 @@
                                 <property name="bindingInfo.bindToForm" value="true"/>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="titleInstanceType"
-                                  p:label="Title Instance Type">
+                                  p:label="Title Holdings Type">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">

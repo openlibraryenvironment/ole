@@ -42,7 +42,7 @@
                             <bean id="SaveInstance-button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="save"
                                   p:actionLabel="Save" p:performClientSideValidation="true" p:successCallback="displayLink(true);"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
-                            <bean id="CreateInstance-button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="createInstance" p:actionLabel="Add OLE Instance"
+                            <bean id="CreateInstance-button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="createInstance" p:actionLabel="Add OLE E-Holdings"
                                   p:performClientSideValidation="true" p:successCallback="instance()"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final) }"/>
                             <bean id="CreateChildEresource-button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="true"
@@ -104,7 +104,7 @@
                                     <bean parent="Uif-VerticalRadioControl">
                                         <property name="options">
                                             <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="Sync" p:value="&lt;b&gt;Sync&lt;/b&gt;&lt;br&gt; This option will keep the E-Instance record associatted with this E-Resource exactly in sync with the TIPP's associted with the GOKb package.E-Instance will be created and deleted automaticallly. you will have the option to review these changes on the Review Dashboard Change Log."/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="Sync" p:value="&lt;b&gt;Sync&lt;/b&gt;&lt;br&gt; This option will keep the E-Holdings record associatted with this E-Resource exactly in sync with the TIPP's associted with the GOKb package.E-Holdings will be created and deleted automaticallly. you will have the option to review these changes on the Review Dashboard Change Log."/>
                                                 <bean parent="Uif-KeyLabelPair" p:key="Review" p:value="&lt;b&gt;Review&lt;/b&gt;&lt;br&gt; This option will provide notifications of added, deleted and retired TIPP's associated with the GOKb package that  corresponds to this E-Resource. You will be able to review these changes on the To-Do tab of the Review DashBoard."/>
                                             </list>
                                         </property>
@@ -316,9 +316,9 @@
                                     <bean parent="Uif-VerticalRadioControl">
                                         <property name="options">
                                             <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="linkExistingInstance" p:value="Link to existing Instance"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="createNewInstance" p:value="Create new Instance (existing bib)"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="createNewBibEInstance" p:value="Create new Instance (new bib)"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="linkExistingInstance" p:value="Link to existing E-Holdings"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="createNewInstance" p:value="Create new E-Holdings (existing bib)"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="createNewBibEInstance" p:value="Create new E-Holdings (new bib)"/>
                                             </list>
                                         </property>
                                     </bean>
@@ -352,7 +352,7 @@
             <bean parent="Uif-HiddenControl"/>
         </property>
     </bean>
-    <bean id="OLEEResourceRecordView-InstanceId" parent="Uif-InputField" p:propertyName="instanceId" p:label="Instance" p:hidden="true" >
+    <bean id="OLEEResourceRecordView-InstanceId" parent="Uif-InputField" p:propertyName="instanceId" p:label="E-Holdings" p:hidden="true" >
         <property name="bindingInfo.bindToForm" value="true"/>
         <property name="quickfinder">
             <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.select.bo.OLEInstanceSearch"
@@ -383,7 +383,7 @@
     </bean>
 
     <bean id="OLEEResourceRecordView-InstanceDetails" parent="Uif-Disclosure-VerticalBoxSection" >
-        <property name="headerText" value="Instance Details" />
+        <property name="headerText" value="E-Holdings Details" />
         <property name="items">
             <list>
                 <ref bean="OLEEResourceRecordView-InstanceDetailSection"/>
@@ -431,7 +431,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="RemoveLine_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="removeInstance" p:actionLabel="Remove" p:title="Remove Instance" p:render="@{#line.oleERSDocument.oleERSIdentifier eq document.oleERSIdentifier}"/>
+                <bean id="RemoveLine_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="removeInstance" p:actionLabel="Remove" p:title="Remove E-Holdings" p:render="@{#line.oleERSDocument.oleERSIdentifier eq document.oleERSIdentifier}"/>
 
             </list>
         </property>
@@ -478,7 +478,7 @@
     </bean>
 
     <bean id="OLEEResourceRecordView-E-Resource-Child-InstanceDetails" parent="Uif-Disclosure-TableCollectionSection">
-        <property name="headerText" value="Instance Details"/>
+        <property name="headerText" value="E-Holdings Details"/>
         <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceInstance"/>
         <property name="propertyName" value="oleERSInstances"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -544,7 +544,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField"
-                      p:messageText="The Selected Instance/E-Instance will be permanently deleted. Press Ok to confirm the deletion." p:style="float:left;margin-left:5em"/>
+                      p:messageText="The Selected Holdings/E-Holdings will be permanently deleted. Press Ok to confirm the deletion." p:style="float:left;margin-left:5em"/>
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
@@ -572,7 +572,7 @@
                       p:messageText="The following instances were not deleted because they have one or more purchase order attached @{deletedInstanceInfo}." p:style="float:left;margin-left:5em"/>-->
                 <ref bean="OLEEResourceRecordView-DeletedInstance"/>
                 <bean parent="Uif-VerticalBoxSection">
-                    <property name="headerText" value="Not Deleted Instance Details"/>
+                    <property name="headerText" value="Not Deleted E-Holdings Details"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField"
@@ -587,7 +587,7 @@
     </bean>
 
     <bean id="OLEEResourceRecordView-DeletedInstance" parent="Uif-Disclosure-TableCollectionSection">
-        <property name="headerText" value="Deleted Instance Details" />
+        <property name="headerText" value="Deleted E-Holdings Details" />
         <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceInstance" />
         <property name="propertyName" value="deletedInstances" />
         <property name="layoutManager.renderSequenceField" value="false" />
@@ -647,7 +647,7 @@
     </bean>
 
     <bean id="OLEEResourceRecordView-DeleteInstanceDetails" parent="Uif-Disclosure-TableCollectionSection">
-        <property name="headerText" value="Instance Details" />
+        <property name="headerText" value="E-Holdings Details" />
         <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceInstance" />
         <property name="propertyName" value="oleERSInstances" />
         <property name="layoutManager.renderSequenceField" value="false" />
