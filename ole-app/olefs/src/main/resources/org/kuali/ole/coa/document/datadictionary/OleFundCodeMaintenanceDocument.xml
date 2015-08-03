@@ -146,6 +146,7 @@
 
     <bean id="OleFundCodeMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.ole.coa.businessobject.OleFundCode"/>
+        <property name="maintainableClass" value="org.kuali.ole.coa.maintenance.OleFundCodeMaintenanceImpl"/>
         <property name="documentTypeName" value="OLE_FUND_CD_MD"/>
         <property name="businessRulesClass" value="org.kuali.ole.select.rule.OleFundCodeRule"/>
         <property name="lockingKeys">
