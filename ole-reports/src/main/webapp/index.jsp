@@ -102,6 +102,7 @@
                 <%--<li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/LostItems.rptdesign"%>" target="_blank">Lost Items</a></li>--%>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/GeneralStatistics.rptdesign"%>" target="_blank">General Statistics</a></li>
                 <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/StandardLoanBooks.rptdesign"%>" target="_blank">Standard Loan Books</a></li>
+                <li><a href="<%= request.getContextPath() + "/frameset?__report=deliver/ExpiredOnHolds.rptdesign"%>" target="_blank">Expired On-Holds</a></li>
 
             </ul>
         </ul>

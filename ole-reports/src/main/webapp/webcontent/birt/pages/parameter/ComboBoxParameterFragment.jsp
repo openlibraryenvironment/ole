@@ -188,7 +188,7 @@
 			        SELECTED><%= outputLabel %></OPTION>
 <%
 				}
-				else
+				else if (!outputValue.equals(IBirtConstants.NULL_VALUE))
 				{
 %>
 			<OPTION VALUE="<%= outputValue %>"

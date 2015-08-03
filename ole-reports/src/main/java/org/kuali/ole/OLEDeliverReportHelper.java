@@ -25,6 +25,19 @@ public class OLEDeliverReportHelper {
         return "";
     }
 
+    public String getShelvingLocation(String location, String locationLevel) {
+        if (StringUtils.isNotBlank(locationLevel)) {
+            String[] locationLevels = locationLevel.split("/");
+            for (int index = 0; index < locationLevels.length; index++) {
+                if (locationLevels[index].equalsIgnoreCase("Shelving Location")) {
+                    String[] locations = location.split("/");
+                    return locations[index];
+                }
+            }
+        }
+        return "";
+    }
+
     public String getDbVendor() {
         String dbVendor = oleReportDBConfig.getPropertyByKey("db.vendor");
         if (StringUtils.isNotBlank(dbVendor)) {
