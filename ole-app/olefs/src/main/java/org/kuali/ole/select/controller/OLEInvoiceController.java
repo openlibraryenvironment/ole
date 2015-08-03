@@ -458,8 +458,8 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                         KualiDecimal calculatedAmount = new KualiDecimal((account.getAccountLinePercent().multiply(purApItem.getItemQuantity().bigDecimalValue().multiply(oleInvoiceItem.getItemListPrice().bigDecimalValue().subtract(discount))).divide(new BigDecimal(100))).toString());
                         account.setAmount(calculatedAmount);
                         KualiDecimal calculatedPercent = totalAmount.isGreaterThan(AbstractKualiDecimal.ZERO) ? new KualiDecimal(account.getAmount().multiply(new KualiDecimal(100)).divide(totalAmount).toString()) : KualiDecimal.ZERO;
-                        account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(OLEConstants.BIG_DECIMAL_SCALE,BigDecimal.ROUND_CEILING));
-                    }
+                            account.setAccountLinePercent(calculatedPercent.bigDecimalValue().setScale(OLEConstants.BIG_DECIMAL_SCALE,BigDecimal.ROUND_CEILING));
+                        }
                 }
                 count++;
             }
@@ -842,7 +842,9 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         getInvoiceService().deleteInvoiceItem(oleInvoiceDocument);
         ModelAndView mv =  super.route(oleInvoiceForm,result,request,response);
         oleInvoiceDocument.loadInvoiceDocument();
-        //return  mv;
+        if(GlobalVariables.getMessageMap().getErrorMessages().size() > 0){
+            return  mv;
+        }
         return closeDocument(oleInvoiceForm,result,request,response);
 
         /*
