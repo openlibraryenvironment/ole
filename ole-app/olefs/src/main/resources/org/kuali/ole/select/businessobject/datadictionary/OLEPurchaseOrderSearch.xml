@@ -137,7 +137,7 @@
             <list>
                 <bean id="po_search_po" parent="Uif-LookupCriteriaInputField" p:propertyName="poId" p:label="PO ID" />
                 <bean id="po_search_vendorName" parent="Uif-LookupCriteriaInputField" p:propertyName="vendorName" p:label="Vendor Name" />
-                <bean id="po_search_instanceId" parent="Uif-LookupCriteriaInputField" p:propertyName="instanceId" p:label="Instance Id" />
+                <bean id="po_search_instanceId" parent="Uif-LookupCriteriaInputField" p:propertyName="instanceId" p:label="Holdings Id" />
                 <bean id="po_search_title" parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Title" />
                 <bean id="po_search_author" parent="Uif-LookupCriteriaInputField" p:propertyName="author" p:label="Author" />
                 <bean id="po_search_issn" parent="Uif-LookupCriteriaInputField" p:propertyName="issn" p:label="ISSN" />
@@ -149,7 +149,7 @@
                 <bean id="po_result_po" parent="Uif-LinkField"  p:linkText="@{#line.poId}" p:target="_blank" p:href="@{#line.poIdLink}" p:label="PO ID"/>
                 <bean id="po_result_vendorName" parent="Uif-DataField" p:propertyName="vendorName" p:label="Vendor Name"/>
                 <bean id="po_result_title" parent="Uif-DataField" p:propertyName="title" p:label="Title" />
-                <bean id="po_result_instanceId" parent="Uif-LinkField"  p:linkText="@{#line.instanceId}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=instance&amp;editable=true&amp;docFormat=oleml&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}"  p:label="Instance Id" />
+                <bean id="po_result_instanceId" parent="Uif-LinkField"  p:linkText="@{#line.instanceId}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=instance&amp;editable=true&amp;docFormat=oleml&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}"  p:label="Holdings Id" />
                 <bean id="po_result_author" parent="Uif-DataField" p:propertyName="author" p:label="Author" />
                 <bean id="po_result_issn" parent="Uif-DataField" p:propertyName="issn" p:label="ISSN" />
             </list>

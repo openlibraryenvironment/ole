@@ -33,7 +33,7 @@
     </bean>
     <bean id="InstanceStatus-MaintenanceView" parent="Uif-OLEMaintenanceView">
         <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEInstanceSearch"/>
-        <property name="headerText" value="Instance Search"/>
+        <property name="headerText" value="Holdings Search"/>
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-MaintenanceGridSection">

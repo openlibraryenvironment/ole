@@ -986,8 +986,8 @@
     <bean id="RequisitionItem-instanceId" parent="RequisitionItem-instanceId-parentBean"/>
     <bean id="RequisitionItem-instanceId-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="instanceId"/>
-        <property name="label" value="Instance ID"/>
-        <property name="shortLabel" value="Instance ID"/>
+        <property name="label" value="Holdings ID"/>
+        <property name="shortLabel" value="Holdings ID"/>
         <property name="maxLength" value="200"/>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="40"/>

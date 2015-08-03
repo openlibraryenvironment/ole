@@ -46,7 +46,7 @@
 
     <bean id="OleInstanceItemType-instanceItemTypeId-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="forceUppercase" value="false"/>
-        <property name="shortLabel" value="Instance Item Type Id"/>
+        <property name="shortLabel" value="Holdings Item Type Id"/>
         <property name="maxLength" value="10"/>
         <property name="validCharactersConstraint">
             <bean parent="NumericPatternConstraint"/>
@@ -56,7 +56,7 @@
         </property>
         <property name="name" value="instanceItemTypeId"/>
         <property name="label" value="Item Type Id"/>
-        <property name="description" value="Instance Item Type Id"/>
+        <property name="description" value="Holdings Item Type Id"/>
     </bean>
 
 
@@ -64,7 +64,7 @@
 
     <bean id="OleInstanceItemType-instanceItemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="forceUppercase" value="false"/>
-        <property name="shortLabel" value="Instance Item Type Code"/>
+        <property name="shortLabel" value="Holdings Item Type Code"/>
         <property name="maxLength" value="30"/>
         <property name="validationPattern">
             <bean parent="AnyCharacterValidationPattern"/>
@@ -78,7 +78,7 @@
         </property>
         <property name="name" value="instanceItemTypeCode"/>
         <property name="label" value="Item Type Code"/>
-        <property name="description" value="Instance Item Type Code"/>
+        <property name="description" value="Holdings Item Type Code"/>
 
     </bean>
 
@@ -87,7 +87,7 @@
 
     <bean id="OleInstanceItemType-instanceItemTypeName-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="forceUppercase" value="false"/>
-        <property name="shortLabel" value="Instance Item Type Name"/>
+        <property name="shortLabel" value="Holdings Item Type Name"/>
         <property name="maxLength" value="100"/>
         <property name="validationPattern">
             <bean parent="AnyCharacterValidationPattern"/>
@@ -101,7 +101,7 @@
         </property>
         <property name="name" value="instanceItemTypeName"/>
         <property name="label" value="Item Type Name"/>
-        <property name="description" value="Instance Item Type Name"/>
+        <property name="description" value="Holdings Item Type Name"/>
 
     </bean>
 
@@ -109,7 +109,7 @@
 
     <bean id="OleInstanceItemType-instanceItemTypeDesc-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="forceUppercase" value="false"/>
-        <property name="shortLabel" value="Instance Item Type Desc"/>
+        <property name="shortLabel" value="Holdings Item Type Desc"/>
         <property name="maxLength" value="30"/>
         <property name="validationPattern">
             <bean parent="AnyCharacterValidationPattern"/>
@@ -123,7 +123,7 @@
         </property>
         <property name="name" value="instanceItemTypeDesc"/>
         <property name="label" value="Item Type Desc"/>
-        <property name="description" value="Instance Item Type Desc"/>
+        <property name="description" value="Holdings Item Type Desc"/>
 
     </bean>
 

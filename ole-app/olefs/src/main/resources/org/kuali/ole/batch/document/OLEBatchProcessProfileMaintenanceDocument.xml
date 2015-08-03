@@ -625,7 +625,7 @@
 
     <!--<bean id="OLEBatchProcessProfileBo-MaintenanceView-instanceMatchPointSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import'}">-->
     <bean id="OLEBatchProcessProfileBo-MaintenanceView-instanceMatchPointSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="false">
-        <property name="headerText" value="Instance Match Point" />
+        <property name="headerText" value="Holdings Match Point" />
         <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileInstanceMatchPoint" />
         <property name="propertyName" value="oleBatchProcessProfileInstanceMatchPointList" />
         <property name="layoutManager.richTable.disableTableSort" value="true" />
@@ -688,7 +688,7 @@
     </bean>
 
     <bean id="OLEBatchProcessProfileBo-MaintenanceView-instanceAddOverlaySection" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:render="false">
-        <property name="headerText" value="Instance Overlay/Add" />
+        <property name="headerText" value="Holdings Overlay/Add" />
         <property name="items">
             <list>
                 <!--<bean id="bibAddOverlaySectionMatch-instanceMatch" parent="Uif-InputField" p:propertyName="instanceMatch" p:label="If there is a match perform this operation" p:readOnly="true"/>
@@ -793,14 +793,14 @@
     </bean>
 
     <bean id="instanceAddOverlaySection-instanceWorkUnit" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:render="@{document.newMaintainableObject.dataObject.instanceOverlayOrAddOrNone eq 'keepOldAddNew'}">
-        <property name="headerText" value="Instance Overlay Work Unit" />
+        <property name="headerText" value="Holdings Overlay Work Unit" />
         <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileInstanceWorkUnit" />
         <property name="propertyName" value="oleBatchProcessProfileInstanceWorkUnitList" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="items">
             <list>
-                <bean id="instanceAddOverlaySectionWorkUnit-batchProcessInstanceWorkUnit" parent="Uif-InputField" p:propertyName="batchProcessInstanceWorkUnit" p:label="Instance Owned By Work Units" p:readOnly="@{!#isAddLine}">
+                <bean id="instanceAddOverlaySectionWorkUnit-batchProcessInstanceWorkUnit" parent="Uif-InputField" p:propertyName="batchProcessInstanceWorkUnit" p:label="Holdings Owned By Work Units" p:readOnly="@{!#isAddLine}">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessProfileWorkUnitValuesFinder" />
                     </property>

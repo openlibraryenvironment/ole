@@ -259,10 +259,10 @@
 
     <bean id="OLEBatchProcessProfileBo-instanceAddOverlayOption-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="instanceAddOverlayOption"/>
-        <property name="label" value="Instance Add Overlay Option"/>
-        <property name="description" value="Instance Add Overlay Option"/>
+        <property name="label" value="Holdings Add Overlay Option"/>
+        <property name="description" value="Holdings Add Overlay Option"/>
         <property name="forceUppercase" value="false"/>
-        <property name="shortLabel" value="Instance Add Overlay Option"/>
+        <property name="shortLabel" value="Holdings Add Overlay Option"/>
         <property name="maxLength" value="40"/>
         <property name="validationPattern">
             <bean parent="AnyCharacterValidationPattern"/>
@@ -655,7 +655,7 @@
         <property name="renderLineActions" value="false"/>
     </bean>
     <bean id="OLEBatchProcessProfileBo-InquiryView-InstanceOverlayAdd" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:render="@{(dataObject.batchProcessProfileType eq 'Bib Import')}">
-        <property name="headerText" value="Instance Overlay/Add" />
+        <property name="headerText" value="Holdings Overlay/Add" />
 
         <property name="items">
             <list>

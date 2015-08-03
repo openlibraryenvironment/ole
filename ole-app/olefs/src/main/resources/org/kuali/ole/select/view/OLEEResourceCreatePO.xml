@@ -165,10 +165,10 @@
                       p:label="PO No" p:href="@{#line.redirectUrl}"/>
 
                 <bean parent="Uif-DataField" p:label="GOKb ID" p:propertyName="gokbId"/>
-                <bean parent="Uif-DataField" p:label="Instance Name" p:propertyName="title"
+                <bean parent="Uif-DataField" p:label="Holdings Name" p:propertyName="title"
                       p:onMouseOverScript="showLightBox('@{#index}', 'instance')"
                       p:render="@{#line.poId ne null}"/>
-                <bean parent="Uif-DataField" p:label="Instance Name" p:propertyName="title"
+                <bean parent="Uif-DataField" p:label="Holdings Name" p:propertyName="title"
                       p:render="@{#line.poId eq null}"/>
                 <bean parent="Uif-DataField" p:label="ISSN/ISBN" p:propertyName="isbnNIssn"/>
                 <bean parent="Uif-InputField" p:label="Estimated Price" p:propertyName="price">

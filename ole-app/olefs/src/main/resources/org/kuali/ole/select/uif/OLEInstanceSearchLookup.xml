@@ -22,7 +22,7 @@
 
 
     <bean id="OLEInstanceSearch-LookupView" parent="Uif-OLELookupView">
-        <property name="headerText" value="Instance Search" />
+        <property name="headerText" value="Holdings Search" />
         <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEInstanceSearch" />
         <property name="viewHelperServiceClass" value="org.kuali.ole.select.lookup.OLEInstanceSearchLookupableImpl"/>
         <property name="criteriaFields">
