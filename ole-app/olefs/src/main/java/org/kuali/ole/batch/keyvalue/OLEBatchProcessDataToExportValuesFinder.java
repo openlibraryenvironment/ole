@@ -21,8 +21,8 @@ public class OLEBatchProcessDataToExportValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue(OLEBatchProcess.EXPORT_BIB_ONLY,"Bibliographic Data Only"));
-        keyValues.add(new ConcreteKeyValue(OLEBatchProcess.EXPORT_BIB_AND_INSTANCE,"Bibliographic and Instance Data"));
-        keyValues.add(new ConcreteKeyValue(OLEBatchProcess.EXPORT_BIB_INSTANCE_AND_EINSTANCE,"Bibliographic,Instance and EInstance Data"));
+        keyValues.add(new ConcreteKeyValue(OLEBatchProcess.EXPORT_BIB_AND_INSTANCE,"Bibliographic , Holdings and Item Data"));
+        keyValues.add(new ConcreteKeyValue(OLEBatchProcess.EXPORT_BIB_INSTANCE_AND_EINSTANCE,"Bibliographic,Holdings and EHoldings Data"));
         return keyValues;
     }
 }

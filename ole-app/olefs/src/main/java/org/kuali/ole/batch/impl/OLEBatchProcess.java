@@ -20,8 +20,8 @@ public interface OLEBatchProcess {
     String EXPORT_EX_STAFF = "ex_staff";
     String EXT_ERR_TXT = "_ERROR.txt";
     String EXPORT_BIB_ONLY = "BIBONLY";
-    String EXPORT_BIB_AND_INSTANCE = "BIBANDINSTANCE";
-    String EXPORT_BIB_INSTANCE_AND_EINSTANCE = "BIBINSTANCEEINSTANCE";
+    String EXPORT_BIB_AND_INSTANCE = "BIBANDHOLDINGS";
+    String EXPORT_BIB_INSTANCE_AND_EINSTANCE = "BIBHOLDINGSEHOLDINGS";
 
     public void process(OLEBatchProcessDefinitionDocument oleBatchProcessDefinitionDocument, OLEBatchProcessJobDetailsBo jobBo) throws Exception;
 }
