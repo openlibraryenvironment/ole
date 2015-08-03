@@ -1,5 +1,6 @@
 package org.kuali.ole.service;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.processor.LoanProcessor;
@@ -26,7 +27,6 @@ import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.kim.api.identity.phone.EntityPhone;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.identity.address.EntityAddressBo;
 import org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationBo;
 import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
@@ -40,6 +40,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -132,6 +133,7 @@ public class OlePatronServiceImpl implements OlePatronService {
             olePatronDocument.setOleAddresses(oleAddressBoList);
             olePatronDocument.setOlePatronId(entity2.getId());
             olePatronDocument.setEntity(kimEntity);
+            populateOperatorIdAndTimeStampForNotes(olePatronDocument, false);
             OlePatronDocument savedPatronDocument = businessObjectService.save(olePatronDocument);
             savedOlePatronDefinition = OlePatronDocument.to(savedPatronDocument);
         }catch(Exception e){
@@ -139,6 +141,47 @@ public class OlePatronServiceImpl implements OlePatronService {
         }
 
         return savedOlePatronDefinition;
+    }
+
+    private void populateOperatorIdAndTimeStampForNotes(OlePatronDocument olePatronDocument, boolean isUpdate) {
+        List<OlePatronNotes> notes = olePatronDocument.getNotes();
+        if(CollectionUtils.isNotEmpty(notes)){
+            if (!isUpdate) {
+                populateCurrentTimeStamp(notes);
+            }else{
+                Map<String,String> notesMap=new HashMap<String,String>();
+                notesMap.put("olePatronId", olePatronDocument.getOlePatronId());
+                List<OlePatronNotes>  olePatronNotesList = (List<OlePatronNotes>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronNotes.class,notesMap);
+                if(CollectionUtils.isNotEmpty(olePatronNotesList)){
+                    Map<String,OlePatronNotes> patronNotesMap = new HashMap<>();
+                    for(OlePatronNotes olePatronNotes  : olePatronNotesList){
+                        patronNotesMap.put(olePatronNotes.getPatronNoteId(),olePatronNotes);
+                    }
+                    if(CollectionUtils.isNotEmpty(olePatronDocument.getNotes())){
+                        for(OlePatronNotes olePatronNotes : olePatronDocument.getNotes()){
+                            if(patronNotesMap.containsKey(olePatronNotes.getPatronNoteId())){
+                                OlePatronNotes patronDbNote = patronNotesMap.get(olePatronNotes.getPatronNoteId());
+                                if(!patronDbNote.getPatronNoteTypeId().equals(olePatronNotes.getPatronNoteTypeId()) ||
+                                        !patronDbNote.getPatronNoteText().equals(olePatronNotes.getPatronNoteText())){
+                                    olePatronNotes.setOperatorId(OLEConstants.PATRON_NOTE_DEFAULT_OPERATOR);
+                                    olePatronNotes.setNoteCreatedOrUpdatedDate(new Timestamp(System.currentTimeMillis()));
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    populateCurrentTimeStamp(olePatronDocument.getNotes());
+                }
+            }
+        }
+    }
+
+    private void populateCurrentTimeStamp(List<OlePatronNotes> notes) {
+        for (Iterator<OlePatronNotes> iterator = notes.iterator(); iterator.hasNext(); ) {
+            OlePatronNotes olePatronNotes = iterator.next();
+            olePatronNotes.setOperatorId(OLEConstants.PATRON_NOTE_DEFAULT_OPERATOR);
+            olePatronNotes.setNoteCreatedOrUpdatedDate(new Timestamp(System.currentTimeMillis()));
+        }
     }
 
     /**
@@ -263,6 +306,7 @@ public class OlePatronServiceImpl implements OlePatronService {
                             }
                         newPatronBo.setOleAddresses(oleAddressBos);
                         }
+                    populateOperatorIdAndTimeStampForNotes(newPatronBo,true);
                     updatedPatronDocument =  getBusinessObjectService().save(newPatronBo);
                 }
             }

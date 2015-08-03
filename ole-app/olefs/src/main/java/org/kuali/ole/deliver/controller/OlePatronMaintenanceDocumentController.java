@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,17 +20,7 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
-import org.kuali.ole.deliver.bo.OleAddressBo;
-import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
-import org.kuali.ole.deliver.bo.OleEntityAddressBo;
-import org.kuali.ole.deliver.bo.OleItemSearch;
-import org.kuali.ole.deliver.bo.OleLoanDocument;
-import org.kuali.ole.deliver.bo.OlePatronAffiliation;
-import org.kuali.ole.deliver.bo.OlePatronDocument;
-import org.kuali.ole.deliver.bo.OlePatronLocalIdentificationBo;
-import org.kuali.ole.deliver.bo.OlePatronLostBarcode;
-import org.kuali.ole.deliver.bo.OleProxyPatronDocument;
-import org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory;
+import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.form.OlePatronMaintenanceDocumentForm;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.OLEDeliverService;
@@ -1139,6 +1130,31 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
             }
             prepareOleAddressForSave(newOlePatronDocument);
         }
+
+        if(StringUtils.isNotBlank(newOlePatronDocument.getOlePatronId())){
+            Map<String,String> notesMap=new HashMap<String,String>();
+            notesMap.put("olePatronId", newOlePatronDocument.getOlePatronId());
+            List<OlePatronNotes>  olePatronNotesList = (List<OlePatronNotes>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronNotes.class,notesMap);
+            if(CollectionUtils.isNotEmpty(olePatronNotesList)){
+                Map<String,OlePatronNotes> patronNotesMap = new HashMap<>();
+                for(OlePatronNotes olePatronNotes  : olePatronNotesList){
+                    patronNotesMap.put(olePatronNotes.getPatronNoteId(),olePatronNotes);
+                }
+                if(CollectionUtils.isNotEmpty(newOlePatronDocument.getNotes())){
+                    for(OlePatronNotes olePatronNotes : newOlePatronDocument.getNotes()){
+                        if(patronNotesMap.containsKey(olePatronNotes.getPatronNoteId())){
+                            OlePatronNotes patronDbNote = patronNotesMap.get(olePatronNotes.getPatronNoteId());
+                            if(!patronDbNote.getPatronNoteTypeId().equals(olePatronNotes.getPatronNoteTypeId()) ||
+                                    !patronDbNote.getPatronNoteText().equals(olePatronNotes.getPatronNoteText())){
+                                olePatronNotes.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+                                olePatronNotes.setNoteCreatedOrUpdatedDate(new Timestamp(System.currentTimeMillis()));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         ModelAndView model = null;
         try {
             model = super.route(mainForm, result, request, response);
@@ -1868,5 +1884,23 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         
         return super.refresh(uifForm, result, request, response);
     }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addNotes")
+    public ModelAndView addNotes(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) {
+        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
+        MaintenanceDocument maintenanceDocument = (MaintenanceDocument) maintenanceForm.getDocument();
+        OlePatronDocument olePatronDocument = (OlePatronDocument) maintenanceDocument.getNewMaintainableObject().getDataObject();
+        String selectedCollectionPath = maintenanceForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        CollectionGroup collectionGroup = maintenanceForm.getPostedView().getViewIndex().getCollectionGroupByPath(
+                selectedCollectionPath);
+        String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
+        Object eventObject = ObjectPropertyUtils.getPropertyValue(maintenanceForm, addLinePath);
+        OlePatronNotes olePatronNotes = (OlePatronNotes) eventObject;
+        olePatronNotes.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
+        olePatronNotes.setNoteCreatedOrUpdatedDate(new Timestamp(System.currentTimeMillis()));
+        return super.addLine(form, result, request, response);
+    }
+
 
 }

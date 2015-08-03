@@ -3563,4 +3563,7 @@ public class OLEConstants {
 
 
 
+    public static final String PATRON_NOTE_DEFAULT_OPERATOR ="Bulk Upload";
+
+
 }

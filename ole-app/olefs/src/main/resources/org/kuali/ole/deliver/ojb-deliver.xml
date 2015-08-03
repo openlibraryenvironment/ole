@@ -1279,6 +1279,8 @@
         <field-descriptor name="olePatronId" column="OLE_PTRN_ID" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="patronNoteTypeId" column="OLE_PTRN_NTE_TYP_ID" jdbc-type="VARCHAR"></field-descriptor>
         <field-descriptor name="patronNoteText" column="OLE_PTRN_NTE_TXT" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="operatorId" column="OPTR_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="noteCreatedOrUpdatedDate" column="NTE_CRT_OR_UPDT_DATE" jdbc-type="TIMESTAMP"></field-descriptor>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
         <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"

@@ -5323,4 +5323,17 @@
                               tableName="OLE_NOTC_FIELD_LABEL_MAPNG_T"/>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_PTRN_NTE_T_ADD_COLUMN">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_PTRN_NTE_T">
+            <column name="OPTR_ID" type="varchar(40)"/>
+        </addColumn>
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_PTRN_NTE_T">
+            <column name="NTE_CRT_OR_UPDT_DATE" type="TIMESTAMP"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

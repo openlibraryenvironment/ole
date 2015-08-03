@@ -1029,7 +1029,16 @@
                         <bean parent="Uif-LargeTextAreaControl" p:cssClasses="comments" p:watermarkText="size 800"/>
                     </property>
                 </bean>
+                <bean id="noteOperatorId" parent="OlePatron-DataField" p:propertyName="operatorId" p:label="Operator Id">
+                </bean>
+                <bean id="noteAddedDate" parent="OlePatron-DataField" p:propertyName="noteCreatedOrUpdatedDate" p:label="Note Added/Updated Date">
+                </bean>
 
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="OlePatronDocument-NotesSection-add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addNotes" p:actionLabel="Add"  />
             </list>
         </property>
         <property name="lineActions">

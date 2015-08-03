@@ -224,7 +224,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
 
     public String getBorrowerTypeCode() {
         if (getOleBorrowerType() != null) {
-            borrowerTypeCode =  oleBorrowerType.getBorrowerTypeCode();
+            borrowerTypeCode =  getOleBorrowerType().getBorrowerTypeCode();
         }
         return borrowerTypeCode;
     }

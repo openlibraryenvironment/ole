@@ -4,6 +4,7 @@ import org.kuali.ole.deliver.api.OlePatronNotesContract;
 import org.kuali.ole.deliver.api.OlePatronNotesDefinition;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 /**
@@ -15,6 +16,8 @@ public class OlePatronNotes extends PersistableBusinessObjectBase implements Ole
     private String olePatronId;
     private String patronNoteTypeId;
     private String patronNoteText;
+    private String operatorId;
+    private Timestamp noteCreatedOrUpdatedDate;
     private boolean active;
     private OlePatronNoteType olePatronNoteType;
     private OlePatronDocument olePatron;
@@ -204,5 +207,21 @@ public class OlePatronNotes extends PersistableBusinessObjectBase implements Ole
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public String getOperatorId() {
+        return operatorId;
+    }
+
+    public void setOperatorId(String operatorId) {
+        this.operatorId = operatorId;
+    }
+
+    public Timestamp getNoteCreatedOrUpdatedDate() {
+        return noteCreatedOrUpdatedDate;
+    }
+
+    public void setNoteCreatedOrUpdatedDate(Timestamp noteCreatedOrUpdatedDate) {
+        this.noteCreatedOrUpdatedDate = noteCreatedOrUpdatedDate;
     }
 }
