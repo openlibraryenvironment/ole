@@ -598,7 +598,7 @@
     </bean>
 
     <bean id="OLEEResourceMainTab-AccountingLines" parent="Uif-Disclosure-TableSubCollection-WithinSection"
-          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;" p:disclosure.defaultOpen="false">
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;" p:disclosure.defaultOpen="@{document.accountingLines.size()>0}">
         <property name="headerText" value="Accounting Lines"/>
         <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEEResourceAccountingLine"/>
         <property name="propertyName" value="accountingLines"/>
