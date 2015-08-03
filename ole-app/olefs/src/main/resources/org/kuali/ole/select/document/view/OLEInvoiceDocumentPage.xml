@@ -14,7 +14,7 @@
                     </property>
                 </bean>
                 <bean id="addProcessItem-button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addProcessItem"
-                	p:actionLabel="add"  p:hidden="true" p:refreshId="OleInvoiceView-POItems" />
+                	p:actionLabel="add"  p:hidden="true" p:refreshId="OleInvoiceView-POItems" p:successCallback="removeDollarSymbolsForProcessItem()" />
                 	<!--  p:ajaxSubmit="true"
                 	p:successCallback="toggleCollapseAllSections()"/ -->
             </list>
