@@ -103,16 +103,16 @@
 
                             <bean id="noOfEinstanceAdded-popup" parent="Uif-DataField"
                                   p:propertyName="oleBatchProcessJobDetailsBo.noOfEinstanceAdded"
-                                  p:label="Einstances Added"/>
+                                  p:label="E-Holdings Added"/>
                             <bean id="noOfEinstanceDeleted-popup" parent="Uif-DataField"
                                   p:propertyName="oleBatchProcessJobDetailsBo.noOfEinstanceDeleted"
-                                  p:label="Instances Deleted"/>
+                                  p:label="Holdings Deleted"/>
                             <bean id="noOfEinstanceCreatedWithOutLink-popup" parent="Uif-DataField"
                                   p:propertyName="oleBatchProcessJobDetailsBo.noOfEinstanceCreatedWithOutLink"
-                                  p:label="EInstances Created With Out Link Element"/>
+                                  p:label="E-Holdings Created With Out Link Element"/>
                             <bean id="noOfbibsHaveMoreThanOneEinstance-popup" parent="Uif-DataField"
                                   p:propertyName="oleBatchProcessJobDetailsBo.noOfbibsHaveMoreThanOneEinstance"
-                                  p:label="Bibs Created With More Than One EInstances"/>
+                                  p:label="Bibs Created With More Than One E-Holdings"/>
 
 
                             <bean id="perCompletedField-popup" parent="Uif-DataField"
