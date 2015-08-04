@@ -226,7 +226,8 @@
                 <bean id="patronLoan_itemLocation" parent="OlePatron-DataField" p:label="Location" p:propertyName="location"/>
                 <bean id="patronLoan_itemCallNumberId" parent="OlePatron-DataField" p:label="Call Number" p:propertyName="itemCallNumber"/>
                 <bean id="patronLoan_itemCopyNumberId" parent="OlePatron-DataField" p:label="Copy Number" p:propertyName="itemCopyNumber"/>
-                <bean id="patronLoan_itemVolumeNumberId" parent="OlePatron-DataField" p:label="Volume Number" p:propertyName="itemVolumeNumber"/>
+                <bean id="patronLoan_enumeration" parent="OlePatron-DataField" p:label="Enumeration" p:propertyName="enumeration"/>
+                <bean id="patronLoan_chronology" parent="OlePatron-DataField" p:label="Chronology" p:propertyName="chronology"/>
                 <bean id="patronLoan_realPatronName" parent="OlePatron-DataField" p:label="Proxy Borrower Name" p:width="10%" p:propertyName="realPatronName"/>
                 <bean id="patronLoan_realPatronBarcode" parent="Uif-LinkField" p:target="_blank" p:label="Proxy Borrower Barcode" p:href="@{#line.proxyPatronBarcodeUrl}" p:linkText="@{#line.proxyPatronBarcode}"/>
                 <bean id="patronLoan_itemStatus" parent="OlePatron-DataField" p:label="Item Status" p:propertyName="itemStatus"/>
@@ -461,7 +462,8 @@
                 <bean id="patronTemp_author" parent="OlePatron-DataField" p:label="Author" p:propertyName="author"/>
                 <bean id="patronTemp_callNumberId" parent="OlePatron-DataField" p:label="Call Number" p:propertyName="callNumber"/>
                 <bean id="patronTemp_copyNumberId" parent="OlePatron-DataField" p:label="Copy Number" p:propertyName="copyNumber"/>
-                <bean id="patronTemp_volumeNumberId" parent="OlePatron-DataField" p:label="Volume Number" p:propertyName="volumeNumber"/>
+                <bean id="patronTemp_enumeration" parent="OlePatron-DataField" p:label="Enumeration" p:propertyName="enumeration"/>
+                <bean id="patronTemp_chronology" parent="OlePatron-DataField" p:label="Chronology" p:propertyName="chronology"/>
                 <bean id="patronTemp_realPatronName" parent="OlePatron-DataField" p:label="Proxy Borrower Name" p:width="10%" p:propertyName="proxyPatronName"/>
                 <bean id="patronTemp_realPatronBarcode" parent="Uif-LinkField" p:target="_blank" p:label="Proxy Borrower Barcode" p:href="@{#line.proxyPatronBarcodeUrl}" p:linkText="@{#line.proxyPatronBarcode}"/>
                 <bean id="patronTemp_shelvingLocation" parent="OlePatron-DataField" p:label="Shelving Location" p:propertyName="shelvingLocation" />

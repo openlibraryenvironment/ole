@@ -35,6 +35,8 @@ public class OleTemporaryCirculationHistory extends PersistableBusinessObjectBas
     private String proxyPatronBarcodeUrl;
     private String proxyPatronName;
     private String oleProxyPatronId;
+    private String enumeration;
+    private String chronology;
 
     public String getCirculationLocationCode() {
         return circulationLocationCode;
@@ -202,5 +204,21 @@ public class OleTemporaryCirculationHistory extends PersistableBusinessObjectBas
 
     public void setOleProxyPatronId(String oleProxyPatronId) {
         this.oleProxyPatronId = oleProxyPatronId;
+    }
+
+    public String getEnumeration() {
+        return enumeration;
+    }
+
+    public void setEnumeration(String enumeration) {
+        this.enumeration = enumeration;
+    }
+
+    public String getChronology() {
+        return chronology;
+    }
+
+    public void setChronology(String chronology) {
+        this.chronology = chronology;
     }
 }

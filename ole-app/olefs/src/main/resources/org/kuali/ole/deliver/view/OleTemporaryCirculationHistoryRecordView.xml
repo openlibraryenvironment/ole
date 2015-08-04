@@ -94,7 +94,8 @@
                 <bean id="viewTemp_author" parent="Uif-DataField" p:label="Author" p:propertyName="author"/>
                 <bean id="viewTemp_callNumberId" parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber"/>
                 <bean id="viewTemp_copyNumberId" parent="Uif-DataField" p:label="Copy Number" p:propertyName="copyNumber"/>
-                <bean id="viewTemp_volumeNumberId" parent="Uif-DataField" p:label="Volume Number" p:propertyName="volumeNumber"/>
+                <bean id="viewTemp_enumeration" parent="Uif-DataField" p:label="Enumeration" p:propertyName="enumeration"/>
+                <bean id="viewTemp_chronology" parent="Uif-DataField" p:label="Chronology" p:propertyName="chronology"/>
                 <bean id="viewTemp_realPatronName" parent="OlePatron-DataField" p:label="Proxy Borrower Name" p:width="10%" p:propertyName="proxyPatronName"/>
                 <bean id="viewTemp_realPatronBarcode" parent="Uif-LinkField" p:target="_blank" p:label="Proxy Borrower Barcode" p:href="@{#line.proxyPatronBarcodeUrl}" p:linkText="@{#line.proxyPatronBarcode}"/>
                 <bean id="viewTemp_shelvingLocation" parent="Uif-DataField" p:label="Shelving Location" p:propertyName="shelvingLocation" />

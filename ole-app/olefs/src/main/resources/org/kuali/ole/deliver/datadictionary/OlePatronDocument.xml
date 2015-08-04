@@ -746,7 +746,8 @@
                 <bean id="patronLoanInquiry_itemLocation" parent="Uif-DataField" p:label="Location" p:propertyName="location"/>
                 <bean id="patronLoanInquiry_itemCallNumberId" parent="Uif-DataField" p:label="Call Number" p:propertyName="itemCallNumber"/>
                 <bean id="patronLoanInquiry_itemCopyNumberId" parent="Uif-DataField" p:label="Copy Number" p:propertyName="itemCopyNumber"/>
-                <bean id="patronLoanInquiry_itemVolumeNumberId" parent="Uif-DataField" p:label="Volume Number" p:propertyName="itemVolumeNumber"/>
+                <bean id="patronLoanInquiry_enumeration" parent="Uif-DataField" p:label="Enumeration" p:propertyName="enumeration"/>
+                <bean id="patronLoanInquiry_chronology" parent="Uif-DataField" p:label="Chronology" p:propertyName="chronology"/>
                 <bean id="patronLoanInquiry_realPatronName" parent="Uif-DataField" p:label="Proxy Borrower Name" p:width="10%" p:propertyName="realPatronName"/>
                 <bean id="patronLoanInquiry_realPatronBarcode" parent="Uif-LinkField" p:target="_blank" p:label="Proxy Borrower Barcode" p:href="@{#line.proxyPatronBarcodeUrl}" p:linkText="@{#line.proxyPatronBarcode}"/>
                 <bean id="patronLoanInquiry_itemStatus" parent="Uif-DataField" p:label="Item Status" p:propertyName="itemStatus"/>
@@ -942,7 +943,8 @@
                 <bean id="patronTempInquiry_author" parent="Uif-DataField" p:label="Author" p:propertyName="author"/>
                 <bean id="patronTempInquiry_callNumberId" parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber"/>
                 <bean id="patronTempInquiry_copyNumberId" parent="Uif-DataField" p:label="Copy Number" p:propertyName="copyNumber"/>
-                <bean id="patronTempInquiry_volumeNumberId" parent="Uif-DataField" p:label="Volume Number" p:propertyName="volumeNumber"/>
+                <bean id="patronTempInquiry_enumeration" parent="Uif-DataField" p:label="Enumeration" p:propertyName="enumeration"/>
+                <bean id="patronTempInquiry_chronology" parent="Uif-DataField" p:label="Chronology" p:propertyName="chronology"/>
                 <bean id="patronTempInquiry_realPatronName" parent="Uif-DataField" p:label="Proxy Borrower Name" p:width="10%" p:propertyName="proxyPatronName"/>
                 <bean id="patronTempInquiry_realPatronBarcode" parent="Uif-LinkField" p:target="_blank" p:label="Proxy Borrower Barcode" p:href="@{#line.proxyPatronBarcodeUrl}" p:linkText="@{#line.proxyPatronBarcode}"/>
                 <bean id="patronTempInquiry_shelvingLocation" parent="Uif-DataField" p:label="Shelving Location" p:propertyName="shelvingLocation" />

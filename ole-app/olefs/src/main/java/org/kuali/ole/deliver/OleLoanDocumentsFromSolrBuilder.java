@@ -386,6 +386,8 @@ public class OleLoanDocumentsFromSolrBuilder {
                     oleTemporaryCirculationHistory.setVolumeNumber(itemContent.getVolumeNumber());
                     oleTemporaryCirculationHistory.setItemStatus(itemContent.getItemStatus().getFullValue());
                     oleTemporaryCirculationHistory.setItemType(itemContent.getItemType().getCodeValue());
+                    oleTemporaryCirculationHistory.setEnumeration(itemContent.getEnumeration());
+                    oleTemporaryCirculationHistory.setChronology(itemContent.getChronology());
                     if(oleTemporaryCirculationHistory.getOleProxyPatronId() != null){
                         Map<String, String> criteria = new HashMap<>();
                         criteria.put(OLEConstants.OlePatron.PATRON_ID,oleTemporaryCirculationHistory.getOleProxyPatronId());

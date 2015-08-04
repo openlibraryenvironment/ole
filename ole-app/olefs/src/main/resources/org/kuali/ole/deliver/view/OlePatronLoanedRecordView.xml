@@ -93,7 +93,8 @@
                 <bean id="viewLoan_itemLocation" parent="Uif-DataField" p:label="Location" p:propertyName="location"/>
                 <bean id="viewLoan_itemCallNumberId" parent="Uif-DataField" p:label="Call Number" p:propertyName="itemCallNumber"/>
                 <bean id="viewLoan_itemCopyNumberId" parent="Uif-DataField" p:label="Copy Number" p:propertyName="itemCopyNumber"/>
-                <bean id="viewLoan_itemVolumeNumberId" parent="Uif-DataField" p:label="Volume Number" p:propertyName="itemVolumeNumber"/>
+                <bean id="viewLoan_enumeration" parent="Uif-DataField" p:label="Enumeration" p:propertyName="enumeration"/>
+                <bean id="viewLoan_chronology" parent="Uif-DataField" p:label="Chronology" p:propertyName="chronology"/>
                 <bean id="viewLoan_realPatronName" parent="OlePatron-DataField" p:label="Proxy Borrower Name" p:width="10%" p:propertyName="realPatronName"/>
                 <bean id="viewLoan_realPatronBarcode" parent="Uif-LinkField" p:target="_blank" p:label="Proxy Borrower Barcode" p:href="@{#line.proxyPatronBarcodeUrl}" p:linkText="@{#line.proxyPatronBarcode}"/>
                 <bean id="viewLoan_itemStatus" parent="Uif-DataField" p:label="Item Status" p:propertyName="itemStatus"/>
