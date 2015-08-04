@@ -177,7 +177,7 @@
             <column name="TI_SUNCAT"  type="VARCHAR(50)"/>
             <column name="TI_LCCN"  type="VARCHAR(50)"/>
             <column name="PUBLSHR_ID" type="INTEGER"/>
-            <column name="IMPRINT" type="INTEGER"/>
+            <column name="IMPRINT" type="VARCHAR(1000)"/>
             <column name="DATE_CREATED" type="DATE"/>
             <column name="DATE_UPDATED" type="DATE"/>
             <column name="VER_NBR" type="DECIMAL(8)"/>
@@ -5321,6 +5321,24 @@
                               columnName="FLD_NM"
                               schemaName="ole"
                               tableName="OLE_NOTC_FIELD_LABEL_MAPNG_T"/>
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_TITLE_T_IMPRINT" dbms="mysql">
+        <sql>ALTER TABLE OLE_GOKB_TITLE_T MODIFY IMPRINT varchar(1000)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_TITLE_T_IMPRINT" dbms="oracle">
+        <sql>ALTER TABLE OLE_GOKB_TITLE_T MODIFY IMPRINT varchar2(1000)</sql>
+    </changeSet>
+
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRF_T_HOLDINGS">
+        <sql>UPDATE OLE_BAT_PRCS_PRF_T SET BAT_PRCS_PRF_DESC="Test_Desc_Batch_BibAndHoldings_Filter", BAT_PRCS_PRF_DT_TO_EXPRT="BIBANDHOLDINGS", BAT_PRCS_PRF_NM ="Test_Batch_Export_BibAndHoldings_Filter" WHERE BAT_PRCS_PRF_ID=12</sql>
+        <sql>UPDATE OLE_BAT_PRCS_PRF_T SET BAT_PRCS_PRF_DESC="Test_Desc_Batch_BibHoldings_Incremental", BAT_PRCS_PRF_DT_TO_EXPRT="BIBANDHOLDINGS", BAT_PRCS_PRF_NM ="Test_Bat_Export_BibHoldings_Incremental" WHERE BAT_PRCS_PRF_ID=14</sql>
+        <sql>UPDATE OLE_BAT_PRCS_PRF_T SET BAT_PRCS_PRF_DESC="Test_Desc_Batch_BibAndHoldings_Full", BAT_PRCS_PRF_DT_TO_EXPRT="BIBANDHOLDINGS", BAT_PRCS_PRF_NM ="Test_Batch_Export_BibAndHoldings_Full" WHERE BAT_PRCS_PRF_ID=16</sql>
+        <sql>UPDATE OLE_BAT_PRCS_PRF_T SET BAT_PRCS_PRF_DESC="Test_Desc_Batch_BibAndHoldings_ex_staff", BAT_PRCS_PRF_DT_TO_EXPRT="BIBANDHOLDINGS", BAT_PRCS_PRF_NM ="Test_Batch_Export_BibInstance_ex_staff" WHERE BAT_PRCS_PRF_ID=18</sql>
     </changeSet>
 
     <changeSet context="bootstrap" author="ole" id="OLE_E_RES_ACC_ACT_WRKFLW_T_STATUS_MYSQL" dbms="mysql">

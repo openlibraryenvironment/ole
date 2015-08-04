@@ -17,6 +17,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -691,12 +692,8 @@ public class GokbLocalServiceImpl implements GokbLocalService {
             if (nodeName.equalsIgnoreCase(OLEConstants.OleGokb.NAME)) {
                 oleGokbTitle.setTitleName(titleChildNode.getTextContent());
             } else if (nodeName.equalsIgnoreCase(OLEConstants.OleGokb.IMPRINT)) {
-                try {
-                    if (StringUtils.isNotEmpty(titleChildNode.getTextContent())) {
-                        oleGokbTitle.setImprint(Integer.parseInt(titleChildNode.getTextContent()));
-                    }
-                } catch (Exception e) {
-                    LOG.error("Exception while parsing int of imprint for title with id : " + oleGokbTitle.getGokbTitleId() + " " + e);
+                if (StringUtils.isNotEmpty(titleChildNode.getTextContent())) {
+                    oleGokbTitle.setImprint(titleChildNode.getTextContent());
                 }
             } else if (nodeName.equalsIgnoreCase(OLEConstants.OleGokb.MEDIUM)) {
                 oleGokbTitle.setMedium(titleChildNode.getTextContent());

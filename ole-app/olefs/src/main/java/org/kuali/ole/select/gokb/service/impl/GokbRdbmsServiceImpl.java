@@ -350,7 +350,7 @@ public class GokbRdbmsServiceImpl implements GokbRdbmsService {
             pstmt.setString(11, oleGokbTitle.getSuncat());
             pstmt.setString(12, oleGokbTitle.getLccn());
             pstmt.setInt(13, oleGokbTitle.getPublisherId());
-            pstmt.setInt(14, oleGokbTitle.getImprint());
+            pstmt.setString(14, oleGokbTitle.getImprint());
             pstmt.setTimestamp(15, oleGokbTitle.getDateCreated());
             pstmt.setTimestamp(16, oleGokbTitle.getDateUpdated());
             pstmt.setInt(17, oleGokbTitle.getGokbTitleId());
@@ -872,7 +872,7 @@ public class GokbRdbmsServiceImpl implements GokbRdbmsService {
             pstmt.setString(12, oleGokbTitle.getSuncat());
             pstmt.setString(13, oleGokbTitle.getLccn());
             pstmt.setInt(14, oleGokbTitle.getPublisherId());
-            pstmt.setInt(15, oleGokbTitle.getImprint());
+            pstmt.setString(15, oleGokbTitle.getImprint());
             pstmt.setTimestamp(16, oleGokbTitle.getDateUpdated());//oleGokbTitle.getDateCreated()
             pstmt.setTimestamp(17, oleGokbTitle.getDateUpdated());
         } catch (SQLException ex) {

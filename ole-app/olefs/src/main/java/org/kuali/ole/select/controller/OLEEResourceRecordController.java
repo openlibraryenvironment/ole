@@ -2303,12 +2303,12 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 if (StringUtils.isEmpty(oleEResourceRecordForm.getPackageId())) {
                     if (oleeResourceRecordDocument.getGoKbPackageList() != null && oleeResourceRecordDocument.getGoKbPackageList().size() > 0) {
                         packageId = oleeResourceRecordDocument.getGoKbPackageList().get(0).getPackageId();
-                    } else {
-                        packageId = Integer.valueOf(oleEResourceRecordForm.getPackageId());
                     }
+                } else {
+                    packageId = Integer.valueOf(oleEResourceRecordForm.getPackageId());
                 }
                 oleeResourceRecordDocument.setGokbPackageId(packageId);
-                List<String> isbnList = new ArrayList<>();
+                             List<String> isbnList = new ArrayList<>();
                 for (OLEStandardIdentifier oleStandardIdentifier : oleeResourceRecordDocument.getStandardIdentifiers()) {
                     if (oleStandardIdentifier.getIdentifier() != null && oleStandardIdentifier.getIdentifierType() != null && oleStandardIdentifier.getIdentifierType().equalsIgnoreCase("issn") && StringUtils.isNotEmpty(oleStandardIdentifier.getIdentifier())) {
                         isbnList.add(oleStandardIdentifier.getIdentifier());
@@ -2364,21 +2364,20 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
         KRADServiceLocatorWeb.getDocumentService().updateDocument(oleeResourceRecordDocument);
         OLEBatchProcessProfileBo gokbImportProfile = getOleeResourceHelperService().getGOKBImportProfile(oleeResourceRecordDocument.getProfile());
-        if(gokbImportProfile == null){
+        if (gokbImportProfile == null) {
             oleEResourceRecordForm.setProfileErrorMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.N0_PROFILE_SELECTED));
-        }else{
-        List<BibMarcRecord> bibMarcRecords = getOleeResourceHelperService().buildBibMarcRecords(oleeResourceRecordDocument.getGoKbPlatformList(), oleeResourceRecordDocument.getOleERSIdentifier(),gokbImportProfile);
-        if (oleEResourceRecordForm.isImportPackageMetaDataOnly() || (bibMarcRecords != null && bibMarcRecords.size() > 0)) {
+        } else {
+            List<BibMarcRecord> bibMarcRecords = getOleeResourceHelperService().buildBibMarcRecords(oleeResourceRecordDocument.getGoKbPlatformList(), oleeResourceRecordDocument.getOleERSIdentifier(), gokbImportProfile);
+            if (oleEResourceRecordForm.isImportPackageMetaDataOnly() || (bibMarcRecords != null && bibMarcRecords.size() > 0)) {
+                OleGokbPackage oleGokbPackage = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OleGokbPackage.class, oleeResourceRecordDocument.getGokbPackageId());
+                getOleeResourceHelperService().overwriteEresourceWithPackage(oleeResourceRecordDocument, oleGokbPackage, "");
+                getOleeResourceHelperService().insertOrUpdateGokbElementsForEResource(oleeResourceRecordDocument, false);
+                getOleeResourceHelperService().createOrUpdateVendorAndPlatform(oleeResourceRecordDocument);
+            }
 
-            OleGokbPackage oleGokbPackage = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OleGokbPackage.class, oleeResourceRecordDocument.getGoKbPackageList().get(0).getPackageId());
-            getOleeResourceHelperService().overwriteEresourceWithPackage(oleeResourceRecordDocument, oleGokbPackage, "");
-            getOleeResourceHelperService().insertOrUpdateGokbElementsForEResource(oleeResourceRecordDocument, false);
-            getOleeResourceHelperService().createOrUpdateVendorAndPlatform(oleeResourceRecordDocument);
-        }
-
-        if (bibMarcRecords != null && bibMarcRecords.size() > 0) {
-            getOleeResourceHelperService().importTipps(gokbImportProfile, bibMarcRecords);
-        }
+            if (bibMarcRecords != null && bibMarcRecords.size() > 0) {
+                getOleeResourceHelperService().importTipps(gokbImportProfile, bibMarcRecords);
+            }
         }
         return getUIFModelAndView(oleEResourceRecordForm);
     }
@@ -3078,6 +3077,20 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             }
             return getUIFModelAndView(form);
         }
+
+
+    @RequestMapping(params = "methodToCall=selectAll")
+    public ModelAndView selectAll(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                  HttpServletRequest request, HttpServletResponse response) {
+        OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
+        for (OLEGOKbPlatform olegoKbPlatform : oleeResourceRecordDocument.getGoKbPlatformList()) {
+            for (OLEGOKbTIPP olegoKbTIPP : olegoKbPlatform.getGoKbTIPPList()) {
+                    olegoKbTIPP.setSelect(true);
+            }
+        }
+        return getUIFModelAndView(oleEResourceRecordForm);
+    }
 }
 
 

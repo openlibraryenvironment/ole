@@ -23,7 +23,7 @@ public class OleGokbTitle extends PersistableBusinessObjectBase {
     private String suncat;
     private String lccn;
     private Integer publisherId=0;
-    private Integer imprint=0;
+    private String imprint;
     private Timestamp dateCreated;
     private Timestamp dateUpdated;
 
@@ -139,11 +139,11 @@ public class OleGokbTitle extends PersistableBusinessObjectBase {
         this.publisherId = publisherId;
     }
 
-    public Integer getImprint() {
+    public String getImprint() {
         return imprint;
     }
 
-    public void setImprint(Integer imprint) {
+    public void setImprint(String imprint) {
         this.imprint = imprint;
     }
 

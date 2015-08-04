@@ -6416,7 +6416,7 @@
         <field-descriptor name="suncat" column="TI_SUNCAT" jdbc-type="VARCHAR" />
         <field-descriptor name="lccn" column="TI_LCCN" jdbc-type="VARCHAR" />
         <field-descriptor name="publisherId" column="PUBLSHR_ID" jdbc-type="INTEGER" />
-        <field-descriptor name="imprint" column="IMPRINT" jdbc-type="INTEGER" />
+        <field-descriptor name="imprint" column="IMPRINT" jdbc-type="VARCHAR" />
         <field-descriptor name="dateCreated" column="DATE_CREATED" jdbc-type="TIMESTAMP" />
         <field-descriptor name="dateUpdated" column="DATE_UPDATED" jdbc-type="TIMESTAMP" />
     </class-descriptor>

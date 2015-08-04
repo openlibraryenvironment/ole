@@ -237,9 +237,11 @@
         <list>
             <ref bean="GokbTippProileSection"/>
             <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="importData"
-                  p:actionLabel="Import Data" p:style="float:left;margin-left:10em" p:successCallback="closeLightBoxComponentTipp('div#tiipResults')"/>
+                  p:actionLabel="Import Data" p:style="float:left;margin-left:5em" p:successCallback="closeLightBoxComponentTipp('div#tiipResults')"/>
+            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="selectAll"
+                  p:actionLabel="Select All" p:style="float:left;margin-left:5em"  p:successCallback="showTippPopup('PLATFORM')"/>
              <bean parent="Uif-SecondaryActionButton-Small" p:actionScript="closeLightBoxComponentTipp('div#tiipResults')"
-                  p:actionLabel="Cancel" p:style="float:left;margin-left:30em"/>
+                  p:actionLabel="Cancel" p:style="float:left;margin-left:5em"/>
         </list>
         </property>
     </bean>
@@ -299,8 +301,6 @@
                 <bean id="getTipps_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="getTipps"
                       p:actionLabel="Get TIPPs" p:successCallback="showTippPopup('PLATFORM')"
                       />
-
-                <!--p:render="@{document.goKbPlatformList ne null and  document.goKbPlatformList.size()>0}"-->
             </list>
         </property>
     </bean>

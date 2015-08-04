@@ -3138,7 +3138,7 @@
         <column name="TI_SUNCAT" size="50" type="VARCHAR"/>
         <column name="TI_LCCN" size="50" type="VARCHAR"/>
         <column name="PUBLSHR_ID" type="INTEGER"/>
-        <column name="IMPRINT" type="INTEGER"/>
+        <column name="IMPRINT" size="1000" type="VARCHAR"/>
         <column name="DATE_CREATED" type="DATE"/>
         <column name="DATE_UPDATED" type="DATE"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>

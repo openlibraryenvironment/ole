@@ -568,33 +568,40 @@ public class OLEEResourceHelperService {
     }
 
 
-    public List<OLEGOKbTIPP> buildOLEGOKBTIPP(List<OleGokbTipp> oleGokbTippList){
+    public List<OLEGOKbTIPP> buildOLEGOKBTIPP(List<OleGokbTipp> oleGokbTippList) {
         List<OLEGOKbTIPP> olegoKbTIPPs = new ArrayList<>();
-        OLEGOKbTIPP olegoKbTIPP ;
-        for(OleGokbTipp gokbTipp : oleGokbTippList){
+        OLEGOKbTIPP olegoKbTIPP;
+        for (OleGokbTipp gokbTipp : oleGokbTippList) {
             olegoKbTIPP = new OLEGOKbTIPP();
             boolean isTippExists = verifyTippExistsInOle(gokbTipp.getGokbTippId());
 
-            if(!isTippExists){
-            olegoKbTIPP.setTippExists(isTippExists);
+            if (!isTippExists) {
+                olegoKbTIPP.setTippExists(isTippExists);
 
-            if(gokbTipp.getOleGokbTitle()!=null){
-                olegoKbTIPP.setTitle(gokbTipp.getOleGokbTitle().getTitleName());
-                olegoKbTIPP.setPublisherId(gokbTipp.getOleGokbTitle().getPublisherId());
-                olegoKbTIPP.setIssn(gokbTipp.getOleGokbTitle().getIssnOnline());
-            }
+                if (gokbTipp.getOleGokbTitle() != null) {
+                    olegoKbTIPP.setTitle(gokbTipp.getOleGokbTitle().getTitleName());
+                    olegoKbTIPP.setPublisherId(gokbTipp.getOleGokbTitle().getPublisherId());
+                    if (StringUtils.isNotEmpty(gokbTipp.getOleGokbTitle().getIssnOnline())) {
+                        olegoKbTIPP.setIssn(gokbTipp.getOleGokbTitle().getIssnOnline());
+                    } else {
+                        olegoKbTIPP.setIssn(gokbTipp.getOleGokbTitle().getIssnPrint());
+                    }
+                    if(StringUtils.isNotEmpty(gokbTipp.getOleGokbTitle().getMedium())){
+                        olegoKbTIPP.setType(gokbTipp.getOleGokbTitle().getMedium());
+                    }
+                }
 
-            if(gokbTipp.getDateCreated()!=null)
-                olegoKbTIPP.setDateCreated(gokbTipp.getDateCreated().toString());
-            if(gokbTipp.getDateUpdated()!=null)
-                olegoKbTIPP.setDateUpdated(gokbTipp.getDateUpdated().toString());
-            olegoKbTIPP.setGokbStatus(gokbTipp.getStatus());
-            olegoKbTIPP.setUrl(gokbTipp.getPlatformHostUrl());
-            if(gokbTipp.getEndDate()!=null)
-                olegoKbTIPP.setEndDate(gokbTipp.getEndDate().toString());
-            if(gokbTipp.getStartdate()!=null)
-                olegoKbTIPP.setStartDate(gokbTipp.getStartdate().toString());
-            olegoKbTIPP.setOleGokbTipp(gokbTipp);
+                if (gokbTipp.getDateCreated() != null)
+                    olegoKbTIPP.setDateCreated(gokbTipp.getDateCreated().toString());
+                if (gokbTipp.getDateUpdated() != null)
+                    olegoKbTIPP.setDateUpdated(gokbTipp.getDateUpdated().toString());
+                olegoKbTIPP.setGokbStatus(gokbTipp.getStatus());
+                olegoKbTIPP.setUrl(gokbTipp.getPlatformHostUrl());
+                if (gokbTipp.getEndDate() != null)
+                    olegoKbTIPP.setEndDate(gokbTipp.getEndDate().toString());
+                if (gokbTipp.getStartdate() != null)
+                    olegoKbTIPP.setStartDate(gokbTipp.getStartdate().toString());
+                olegoKbTIPP.setOleGokbTipp(gokbTipp);
                 olegoKbTIPPs.add(olegoKbTIPP);
             }
 
