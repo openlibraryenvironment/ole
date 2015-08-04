@@ -475,7 +475,9 @@ function removeDollarSymbol() {
 }
 
 function removeDollarSymbolsForProcessItem() {
-    var itemDiscount = jq("#OLEInvoiceView-processItems-currentItems_line0_line0_itemDiscount_control").val();
-    itemDiscount = itemDiscount.replace(currencySymbol, "");
-    jq("#OLEInvoiceView-processItems-currentItems_line0_line0_itemDiscount_control").val(itemDiscount);
+    if(document.getElementById('OLEInvoiceView-processItems-currentItems_line0_line0_itemDiscount_control')!=null){
+        var itemDiscount = jq("#OLEInvoiceView-processItems-currentItems_line0_line0_itemDiscount_control").val();
+        itemDiscount = itemDiscount.replace(currencySymbol, "");
+        jq("#OLEInvoiceView-processItems-currentItems_line0_line0_itemDiscount_control").val(itemDiscount);
+    }
 }
