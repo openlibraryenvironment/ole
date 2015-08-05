@@ -13,6 +13,7 @@ import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OLEDeliverNoticeHelperService;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.deliver.service.impl.OLEDeliverNoticeHelperServiceImpl;
+import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.ingest.pojo.MatchBo;
 import org.kuali.ole.service.OleCirculationPolicyService;
@@ -48,8 +49,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import java.io.ByteArrayInputStream;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -504,7 +506,29 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
             Timestamp recallDueDate = (Timestamp) engineResult.getAttribute(OLEConstants.RECALL_DUE_DATE);
             String notice = (String) engineResult.getAttribute(OLEConstants.NOTICE);
             oleDeliverRequestBo.setNoticeType(notice);
-            oleDeliverRequestBo.setRequestExpiryDate(d);
+            if(oleDeliverRequestBo.getRequestExpiryDate()==null){
+            Map<String,String> locationMap = new HashMap<String,String>();
+            locationMap.put("locationCode",oleDeliverRequestBo.getShelvingLocation());
+            List<OleLocation> oleLocationBos = (List<OleLocation>)KRADServiceLocator.getBusinessObjectService().findMatching(OleLocation.class,locationMap);
+            if(oleLocationBos!=null && oleLocationBos.size()>0){
+                Map<String,String> circulationDeskLocationMap = new HashMap<String,String>();
+                circulationDeskLocationMap.put("circulationDeskLocation",oleLocationBos.get(0).getLocationId());
+                List<OleCirculationDeskLocation> oleCirculationDeskLocationList = (List<OleCirculationDeskLocation>) KRADServiceLocator.getBusinessObjectService().findMatching(OleCirculationDeskLocation.class,circulationDeskLocationMap);
+                if(oleCirculationDeskLocationList!=null && oleCirculationDeskLocationList.size()>0){
+                    for(OleCirculationDeskLocation oleCirculationDeskLocation : oleCirculationDeskLocationList){
+                        if(oleCirculationDeskLocation.getCirculationPickUpDeskLocation()==null || (oleCirculationDeskLocation.getCirculationPickUpDeskLocation() !=null && oleCirculationDeskLocation.getCirculationPickUpDeskLocation().trim().isEmpty())) {
+                            String requestExpirationDays= oleCirculationDeskLocation.getOleCirculationDesk().getRequestExpirationDays();
+                            if(requestExpirationDays!=null && !requestExpirationDays.equalsIgnoreCase("0")){
+                                oleDeliverRequestBo.setRequestExpiryDate(service.addDate(new java.sql.Date(System.currentTimeMillis()), Integer.parseInt(requestExpirationDays)));
+                            }
+                        }
+                    }
+                }
+            }
+            }
+            if(oleDeliverRequestBo.getRequestExpiryDate() == null){
+                oleDeliverRequestBo.setRequestExpiryDate(d);
+            }
             StringBuffer failures = new StringBuffer();
             if (errorMessage != null && errorMessage.size() > 0) {
                 int i = 1;
