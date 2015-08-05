@@ -306,7 +306,12 @@ public class OLEEResourceHelperService {
         if (oleHoldings.getGokbIdentifier() != null) {
             oleeResourceInstance.setGokbId(oleHoldings.getGokbIdentifier());
         }
-        oleeResourceInstance.setIsbn(holdings.getBib().getIsbn());
+        if(StringUtils.isNotEmpty(holdings.getBib().getIsbn())){
+            oleeResourceInstance.setIsbn(holdings.getBib().getIsbn());
+        }else{
+            oleeResourceInstance.setIsbn(holdings.getBib().getIssn());
+        }
+
         oleeResourceInstance.setStatus(oleHoldings.getAccessStatus());
         oleeResourceInstance.setSubscriptionStatus(oleHoldings.getSubscriptionStatus());
         oleeResourceInstance.setBibId(holdings.getBib().getId());
@@ -747,7 +752,7 @@ public class OLEEResourceHelperService {
                 if (EHoldings.DESTINATION_FIELD_LINK_URL.equalsIgnoreCase(docField)) {
                     subFields.add(buildSubField(subField.getCode(), goKbTIPP.getPlatformHostUrl()));
                 } else if (EHoldings.DESTINATION_FIELD_IMPRINT.equalsIgnoreCase(docField)) {
-                    if (imprint != null) {
+                    if (StringUtils.isNotEmpty(imprint)) {
                         subFields.add(buildSubField(subField.getCode(), imprint));
                     }
                 } else if (EHoldings.DESTINATION_FIELD_ERESOURCE_ID.equalsIgnoreCase(docField)) {
