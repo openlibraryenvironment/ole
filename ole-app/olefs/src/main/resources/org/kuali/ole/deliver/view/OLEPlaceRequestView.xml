@@ -45,8 +45,7 @@
                             <ref bean="OLEPlaceRequestView_RequestLevel"/>
                             <ref bean="OLEPlaceRequestView_RequestType"/>
                             <ref bean="OLEPlaceRequestView_request_details"/>
-                            <bean id="request_submit_button" parent="Uif-SecondaryActionButton"
-                                  p:methodToCall="submit" p:actionLabel="Submit" p:style="" p:successCallback="showRequestErrorMessage()" p:render="@{patronFound and processRequest and !blockSubmit and (successMessage eq null or (successMessage ne null and successMessage eq ''))}"/>
+                          <ref bean="RequestDecideButtons"/>
                             <bean id="item_level_request_button" parent="Uif-SecondaryActionButton-Small"
                                   p:methodToCall="getItemsForTitleLevelRequest" p:actionLabel="Submit" p:hidden="true" p:successCallback="showItemsDialog()" p:render="@{patronFound and processRequest and  successMessage eq null or (successMessage ne null and successMessage eq '')}"/>
                             <bean id="item_level_request_Clear_button" parent="Uif-SecondaryActionButton-Small"
@@ -101,6 +100,18 @@
                 <bean id="OLEPlaceRequestCancelButton" parent="Uif-SecondaryActionButton-Small" p:actionScript="cancelOverride();" p:actionLabel="cancel"/>
             </list>
         </property>
+    </bean>
+
+
+
+    <bean id="RequestDecideButtons" parent="Uif-HorizontalBoxSection">
+    <property name="items">
+    <list>
+    <bean id="request_submit_button" parent="Uif-SecondaryActionButton"
+          p:methodToCall="submit" p:actionLabel="Submit" p:style="" p:successCallback="showRequestErrorMessage()" p:render="@{patronFound and processRequest and !blockSubmit and (successMessage eq null or (successMessage ne null and successMessage eq ''))}"/>
+    <bean id="OLEPlaceRequestCancelButton" parent="Uif-SecondaryActionButton"  p:actionLabel="cancel" p:onClickScript="parent.window.close();"/>
+    </list>
+    </property>
     </bean>
 
     <bean id="OLEPlaceRequestView_successMessage" parent="Uif-VerticalBoxSection"
