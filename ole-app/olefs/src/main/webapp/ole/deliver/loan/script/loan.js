@@ -100,7 +100,7 @@ jq(document).ready(function(){
     validationsForPop();
 
     jq(".fancybox-close").live("click" ,function(e) {
-        jq('#Patron-item_control').focus();
+        jq('#Patron-item_control').select().focus();
     });
 
     //hiddenLoanField_h8 mapped to maxSessionTime
@@ -170,7 +170,7 @@ jq(document).ready(function(){
                     jq(this).blur();
                     jq('#SecondarySearchPatron').focus().click();
                 }else{
-                    jq("#Patron-barcode_control").focus();
+                    jq('#Patron-barcode_control').select().focus();
                     return false;
                 }
             }else if(e.target.id == "Patron-item_control"){
@@ -180,11 +180,11 @@ jq(document).ready(function(){
                         jq('#SecondarySearchItem').focus().click();
                     }else{
                         jq("#LoanMessageFieldSection").text("Please enter patron barcode.");
-                        jq("#Patron-barcode_control").focus();
+                        jq('#Patron-barcode_control').select().focus();
                         return false;
                     }
                 }else{
-                    jq('#Patron-item_control').focus();
+                    jq( '#Patron-item_control').select().focus();
                     return false;
                 }
             }
@@ -194,11 +194,11 @@ jq(document).ready(function(){
 
     //hiddenLoanField_h21 mapped to itemFocus
     if(jq("#hiddenLoanField_h21").val()=="true"){
-        jq('#Patron-item_control').focus();
+        jq( '#Patron-item_control').select().focus();
     }
     //hiddenLoanField_h22 mapped to patronFocus
     if(jq("#hiddenLoanField_h22").val()=="true"){
-        jq('#Patron-barcode_control').focus();
+        jq('#Patron-barcode_control').select().focus();
     }
 
 
@@ -218,8 +218,7 @@ jq(document).ready(function(){
             }
         }
     });
-
-    jq( "#CheckInItem_control").focus();
+    jq( "#CheckInItem_control").select().focus();
 
 
     if(jq("#RenewalDueDateCollection-HorizontalBoxSection").length > 0) {
@@ -752,7 +751,7 @@ function validateRenew(){
     }
 }
 function doNotLoan(){
-    jq('#hdnNoLoanBtn').focus().click();
+    jq('#hdnNoLoanBtn').select().focus();
     closeMessageBox();
 }
 function proceed(){
@@ -785,19 +784,19 @@ function closeOverrideDialog(){
 function focusItem(){
     jq("input#hiddenLoanField_h20").val('false');
     jq("input#hiddenLoanField_h19").val('false');
-    jq('#Patron-item_control').focus();
+    jq('#Patron-item_control').select().focus();
 
 }
 
 function focusPatron(){
-    jq('#Patron-barcode_control').focus();
+    jq('#Patron-barcode_control').select().focus();
 }
 //hiddenReturnField_h4 mapped to returnCheck
 function closeMessageBoxForReturn(){
     jq("div#MessagePopupSectionForReturn").fadeOut(300);
     jq('#mask').fadeOut(300);
     validationsForPop();
-    jq( "#CheckInItem_control").focus();
+    jq( "#CheckInItem_control").select().focus();
     jq("#hiddenReturnField_h4").val("true");
 }
 //hiddenLoanField_h24 mapped to changeLocationFlag
@@ -875,7 +874,7 @@ function backGroundCheckOut(){
 
 function setCheckinItemFocus(){
     if(jq("#okCheckInNoteBtn").val() == undefined && jq("#returnBtn").val() == undefined && jq("#okClaimsBtn").val() == undefined && jq("#continueBtn").val() == undefined && jq("#OLEReturnView-DamagedItem-Loan").val() == undefined && jq("#returnLoanBtn").val() == undefined && jq("#closeBtn").val() == undefined){
-        jq("#CheckInItem_control").focus();
+        jq('#CheckInItem_control').select().focus();
     }else{
         jq("#CheckInItem_control").blur();
     }
