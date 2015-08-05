@@ -285,6 +285,11 @@
                 <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/batch/css/profile.css</value>
+            </list>
+        </property>
         <property name="dataObjectClassName" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileBo" />
         <property name="viewHelperServiceClass" value="org.kuali.ole.batch.lookup.OLEBatchProcessProfileLookupableImpl"/>
         <property name="criteriaFields">
