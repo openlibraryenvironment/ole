@@ -308,7 +308,7 @@
         <property name="layoutManager.richTable.disableTableSort" value="true" />
         <property name="items">
             <list>
-                <bean id="returnBarcode" parent="Uif-LinkField" p:label="Barcode" p:width="10%" p:linkText="@{#line.itemId}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;editable=false&amp;docFormat=oleml&amp;docId=@{#line.itemUuid}&amp;instanceId=@{#line.instanceUuid}&amp;bibId=@{#line.bibUuid}" >
+                <bean id="returnBarcode" parent="Uif-LinkField" p:label="Barcode" p:width="10%" p:linkText="@{#line.itemId}" p:target="_blank" p:href="@{#ConfigProperties['ole.fs.url.base']}/portal.do?channelTitle=Item Result&amp;channelUrl=@{#ConfigProperties['ole.fs.url.base']}/ole-kr-krad/deliverItemResultController?viewId=OLEDeliverItemResultView&amp;methodToCall=start&amp;itemId=@{#line.itemId}" >
 
                 </bean>
                 <bean id="returnTitle" parent="Uif-DataField" p:label="Title" p:width="12%" p:propertyName="title">
