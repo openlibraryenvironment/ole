@@ -5372,4 +5372,12 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_KRCR_PARM_T">
+        <update tableName="KRCR_PARM_T">
+            <column name="VAL" value="EXPIRED REQUEST NOTICE" />
+            <column name="PARM_DESC_TXT" value="EXPIRED REQUEST NOTICE" />
+            <where>PARM_NM = 'EXP_REQ_TITLE'</where>
+        </update>
+    </changeSet>
+
 </databaseChangeLog>

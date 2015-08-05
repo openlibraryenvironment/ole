@@ -534,7 +534,7 @@ OLE-PURAP,PurchaseOrder,APORules,OLE-PURAP_PurchaseOrder_APORules,1,CONFG,REQ_GT
 "OLE-DLVR","Deliver","DELIVER_NOTICE_FROM_ADDRESS","81","1","CONFG","dev.ole@kuali.org","This is for setting the from mail address for the notices related deliver module","A","KUALI"
 "OLE-DLVR","Deliver","EXPIRED_TITLE","51","1","CONFG","EXPIRED HOLD NOTICE","Expired Hold Notice","A","KUALI"
 "OLE-DLVR","Deliver","EXP_REQ_BODY","54","1","CONFG","The library regrets that it was unable to fulfill your request for the following item(s).Please initiate an InterLibrary Loan request or contact the library shown above for other options.","Recall Notice Body","A","KUALI"
-"OLE-DLVR","Deliver","EXP_REQ_TITLE","53","1","CONFG","EXPIRED REQUIRED NOTICE","EXPIRED REQUIRED NOTICE","A","KUALI"
+"OLE-DLVR","Deliver","EXP_REQ_TITLE","53","1","CONFG","EXPIRED REQUEST NOTICE","EXPIRED REQUEST NOTICE","A","KUALI"
 "OLE-DLVR","Deliver","ExportProfileCode","64","1","CONFG"," ","This is for configuring the export profile code for docstore data export","A","KUALI"
 "OLE-DLVR","Deliver","FAST_ADD_ITEM_DEFAULT_STATUS","63","1","CONFG","AVAILABLE","This is for configuring the default item status  ","A","KUALI"
 "OLE-DLVR","Deliver","HOLDCOURTESY_NOTICE_TYPE","70","1","CONFG","mail","HOLDCOURTESY_NOTICE_TYPE","A","KUALI"
