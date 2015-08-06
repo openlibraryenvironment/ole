@@ -882,6 +882,9 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         getInvoiceService().deleteInvoiceItem(oleInvoiceDocument);
         ModelAndView mv = super.route(oleInvoiceForm, result, request, response);
         oleInvoiceDocument.loadInvoiceDocument();
+        if(GlobalVariables.getMessageMap().getErrorMessages().size() > 0){
+            return  mv;
+        }
         return closeDocument(oleInvoiceForm, result, request, response);
     }
 
@@ -909,6 +912,9 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         else {
             oleInvoiceDocument.setValidationFlag(false);
             performWorkflowAction(form, UifConstants.WorkflowAction.ROUTE, true);
+        }
+        if(GlobalVariables.getMessageMap().getErrorMessages().size() > 0){
+            return getUIFModelAndView(form);
         }
         return closeDocument(oleInvoiceForm, result, request, response);
     }
@@ -1142,6 +1148,9 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         else {
             oleInvoiceDocument.setValidationFlag(false);
             performWorkflowAction(form, UifConstants.WorkflowAction.ROUTE, true);
+        }
+        if(GlobalVariables.getMessageMap().getErrorMessages().size() > 0){
+            return getUIFModelAndView(form);
         }
         return closeDocument(oleInvoiceForm, result, request, response);
     }
