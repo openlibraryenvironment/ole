@@ -5380,4 +5380,23 @@
         </update>
     </changeSet>
 
+
+    <changeSet context="bootstrap" author="ole" id="OLE_E_RES_ACCESS_TABLE">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_E_RES_ACCESS_T">
+            <column name="MARC_REC_UPDT_REGULARITY" type="varchar(200)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_E_RES_ACCESS_T_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE OLE_E_RES_ACCESS_T CHANGE COLUMN MARC_REC_UPDT_FREQ_ID MARC_REC_UPDT_FREQ INTEGER DEFAULT NULL</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_E_RES_ACCESS_T_ORACLE" dbms="oracle">
+        <sql>ALTER TABLE OLE_E_RES_ACCESS_T RENAME COLUMN MARC_REC_UPDT_FREQ_ID TO  MARC_REC_UPDT_FREQ</sql>
+        <sql>ALTER TABLE OLE_E_RES_ACCESS_T MODIFY MARC_REC_UPDT_FREQ NUMBER(10) DEFAULT NULL</sql>
+    </changeSet>
+
+
 </databaseChangeLog>

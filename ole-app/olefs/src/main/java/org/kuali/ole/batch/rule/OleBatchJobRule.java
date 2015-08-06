@@ -45,6 +45,7 @@ public class OleBatchJobRule extends MaintenanceDocumentRuleBase {
         }
         if (StringUtils.isNotBlank(oleBatchJobBo.getCronOrSchedule()) && oleBatchJobBo.getCronOrSchedule().equalsIgnoreCase("Scheduled")) {
             OLEBatchProcessScheduleBo oleBatchProcessScheduleBo = oleBatchJobBo.getOleBatchProcessScheduleBo();
+            oleBatchProcessScheduleBo.setScheduleType(oleBatchJobBo.getScheduleType());
             oleBatchProcessScheduleBo.setOneTimeOrRecurring(oleBatchJobBo.getOneTimeOrRecurring());
             oleBatchJobBo.setJobCronExpression(OLESchedulerHelper.getInstance().getCronExpression(oleBatchJobBo.getOleBatchProcessScheduleBo()));
         }

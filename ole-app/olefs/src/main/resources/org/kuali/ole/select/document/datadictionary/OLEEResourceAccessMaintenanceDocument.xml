@@ -265,19 +265,33 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="lastRecordLoadDate"/>
+
                             <bean parent="Uif-InputField" p:propertyName="marcRecordSource"/>
-                            <bean parent="Uif-InputField" p:propertyName="marcRecordUpdateFreqId">
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.ole.select.keyvalue.OLEMarcUpdateFrequencyKeyValues" />
-                                </property>
+                            <bean parent="Uif-InputField" p:propertyName="marcRecordUpdateFrequency">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="25"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="NumericPatternConstraint"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="marcRecordURL"/>
                             <bean parent="Uif-InputField" p:propertyName="marcRecordUserName"/>
                             <bean parent="Uif-InputField" p:propertyName="marcRecordNote"/>
                             <bean parent="Uif-InputField" p:propertyName="marcRecordPassword"/>
+                            <bean parent="Uif-InputField" p:propertyName="marcRecordUpdateRegularity" p:defaultValue="Regular" p:label="Marc Record Update Regularity ">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="Regular" p:value="Regular" />
+                                                <bean parent="Uif-KeyLabelPair" p:key="Irregular" p:value="Irregular"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
                         </list>
                     </property>
                 </bean>

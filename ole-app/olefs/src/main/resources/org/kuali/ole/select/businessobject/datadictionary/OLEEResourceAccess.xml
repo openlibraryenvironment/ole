@@ -49,7 +49,7 @@
                 <ref bean="OLEEResourceAccess-marcRecordSourceTypeId"/>
                 <ref bean="OLEEResourceAccess-lastRecordLoadDate"/>               
                 <ref bean="OLEEResourceAccess-marcRecordSource"/>
-                <ref bean="OLEEResourceAccess-marcRecordUpdateFreqId"/>
+                <ref bean="OLEEResourceAccess-marcRecordUpdateFrequency"/>
                 <ref bean="OLEEResourceAccess-marcRecordURL"/>
                 <ref bean="OLEEResourceAccess-marcRecordUserName"/>
                 <ref bean="OLEEResourceAccess-marcRecordNote"/>
@@ -316,11 +316,14 @@
         </property>
     </bean>
 
-    <bean id="OLEEResourceAccess-marcRecordUpdateFreqId" parent="OLEEResourceAccess-marcRecordUpdateFreqId-parentBean"/>
-    <bean id="OLEEResourceAccess-marcRecordUpdateFreqId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="marcRecordUpdateFreqId"/>
+    <bean id="OLEEResourceAccess-marcRecordUpdateFrequency" parent="OLEEResourceAccess-marcRecordUpdateFrequency-parentBean"/>
+    <bean id="OLEEResourceAccess-marcRecordUpdateFrequency-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="marcRecordUpdateFrequency"/>
         <property name="label" value="MARC Record Update Frequency"/>
         <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
         <property name="controlField">
             <bean parent="Uif-TextControl" p:size="20"/>
         </property>
@@ -471,7 +474,7 @@
                             <bean id="inquiry_marcRecordSourceTypeId" parent="Uif-InputField" p:propertyName="marcRecordSourceTypeId"/>
                             <bean id="inquiry_lastRecordLoadDate" parent="Uif-InputField" p:propertyName="lastRecordLoadDate"/>
                             <bean id="inquiry_marcRecordSource" parent="Uif-InputField" p:propertyName="marcRecordSource"/>
-                            <bean id="inquiry_marcRecordUpdateFreqId" parent="Uif-InputField" p:propertyName="marcRecordUpdateFreqId"/>
+                            <bean id="inquiry_marcRecordUpdateFreqId" parent="Uif-InputField" p:propertyName="marcRecordUpdateFrequency"/>
                             <bean id="inquiry_marcRecordURL" parent="Uif-InputField" p:propertyName="marcRecordURL"/>
                             <bean id="inquiry_marcRecordUserName" parent="Uif-InputField" p:propertyName="marcRecordUserName"/>
                             <bean id="inquiry_marcRecordNote" parent="Uif-DataField" p:propertyName="marcRecordNote"/>

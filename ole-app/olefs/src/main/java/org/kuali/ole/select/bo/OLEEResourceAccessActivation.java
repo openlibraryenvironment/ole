@@ -39,7 +39,8 @@ public class OLEEResourceAccessActivation extends PersistableBusinessObjectBase 
     private String marcRecordSourceTypeId;
     private Timestamp lastRecordLoadDate;
     private String marcRecordSource;
-    private String marcRecordUpdateFreqId;
+    private Integer marcRecordUpdateFrequency;
+    private String marcRecordUpdateRegularity;
     private String marcRecordURL;
     private String marcRecordUserName;
     private String marcRecordNote;
@@ -254,12 +255,12 @@ public class OLEEResourceAccessActivation extends PersistableBusinessObjectBase 
         this.marcRecordSource = marcRecordSource;
     }
 
-    public String getMarcRecordUpdateFreqId() {
-        return marcRecordUpdateFreqId;
+    public Integer getMarcRecordUpdateFrequency() {
+        return marcRecordUpdateFrequency;
     }
 
-    public void setMarcRecordUpdateFreqId(String marcRecordUpdateFreqId) {
-        this.marcRecordUpdateFreqId = marcRecordUpdateFreqId;
+    public void setMarcRecordUpdateFrequency(Integer marcRecordUpdateFrequency) {
+        this.marcRecordUpdateFrequency = marcRecordUpdateFrequency;
     }
 
     public String getMarcRecordURL() {
@@ -372,5 +373,13 @@ public class OLEEResourceAccessActivation extends PersistableBusinessObjectBase 
 
     public void setAdHocUserExists(boolean adHocUserExists) {
         this.adHocUserExists = adHocUserExists;
+    }
+
+    public String getMarcRecordUpdateRegularity() {
+        return marcRecordUpdateRegularity;
+    }
+
+    public void setMarcRecordUpdateRegularity(String marcRecordUpdateRegularity) {
+        this.marcRecordUpdateRegularity = marcRecordUpdateRegularity;
     }
 }

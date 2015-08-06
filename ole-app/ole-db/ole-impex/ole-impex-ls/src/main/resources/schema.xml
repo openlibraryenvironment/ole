@@ -1484,7 +1484,8 @@
         <column name="MARC_REC_SRC_TYPE_ID" size="40" type="VARCHAR"/>
         <column name="LAST_REC_LOAD_DT" type="TIMESTAMP"/>
         <column name="MARC_REC_SRC" size="40" type="VARCHAR"/>
-        <column name="MARC_REC_UPDT_FREQ_ID" size="40" type="VARCHAR"/>
+        <column name="MARC_REC_UPDT_FREQ"  type="INTEGER"/>
+        <column name="MARC_REC_UPDT_REGULARITY" size="200" type="VARCHAR"/>
         <column name="MARC_REC_URL" size="200" type="VARCHAR"/>
         <column name="MARC_REC_USR_NM" size="50" type="VARCHAR"/>
         <column name="MARC_REC_PWD" size="50" type="VARCHAR"/>

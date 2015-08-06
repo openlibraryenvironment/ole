@@ -5275,7 +5275,8 @@
         <field-descriptor name="marcRecordSourceTypeId" column="MARC_REC_SRC_TYPE_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="lastRecordLoadDate" column="LAST_REC_LOAD_DT" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="marcRecordSource" column="MARC_REC_SRC" jdbc-type="VARCHAR"/>
-        <field-descriptor name="marcRecordUpdateFreqId" column="MARC_REC_UPDT_FREQ_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="marcRecordUpdateFrequency" column="MARC_REC_UPDT_FREQ" jdbc-type="INTEGER"/>
+        <field-descriptor name="marcRecordUpdateRegularity" column="MARC_REC_UPDT_REGULARITY" jdbc-type="VARCHAR"/>
         <field-descriptor name="marcRecordURL" column="MARC_REC_URL" jdbc-type="VARCHAR"/>
         <field-descriptor name="marcRecordUserName" column="MARC_REC_USR_NM" jdbc-type="VARCHAR"/>
         <field-descriptor name="marcRecordNote" column="MARC_REC_NOTE" jdbc-type="VARCHAR"/>
