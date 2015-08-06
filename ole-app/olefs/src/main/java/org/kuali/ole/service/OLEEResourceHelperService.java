@@ -708,8 +708,7 @@ public class OLEEResourceHelperService {
                         if(oleGokbTitle !=null){
                         BibMarcRecord bibMarcRecord = buildBibMarcRecord(oleGokbTitle,oleBatchProcessProfile.getOleBatchProcessBibDataMappingNewList());
                         bibMarcRecords.add(bibMarcRecord);
-
-                        imprint = String.valueOf(oleGokbTitle.getImprint());
+                        imprint = oleGokbTitle.getImprint();
                         publisher = String.valueOf(oleGokbTitle.getPublisherId());
 
                         DataField dataField = addEHoldingsFields(olegoKbTIPP, platformName, eResourceId, imprint, publisher,oleBatchProcessProfile.getOleBatchProcessProfileMappingOptionsList().get(0).getOleBatchProcessProfileDataMappingOptionsBoList());
@@ -761,7 +760,7 @@ public class OLEEResourceHelperService {
                 if (EHoldings.DESTINATION_FIELD_LINK_URL.equalsIgnoreCase(docField)) {
                     subFields.add(buildSubField(subField.getCode(), goKbTIPP.getPlatformHostUrl()));
                 } else if (EHoldings.DESTINATION_FIELD_IMPRINT.equalsIgnoreCase(docField)) {
-                    if (StringUtils.isNotEmpty(imprint)) {
+                    if (StringUtils.isNotBlank(imprint)) {
                         subFields.add(buildSubField(subField.getCode(), imprint));
                     }
                 } else if (EHoldings.DESTINATION_FIELD_ERESOURCE_ID.equalsIgnoreCase(docField)) {
