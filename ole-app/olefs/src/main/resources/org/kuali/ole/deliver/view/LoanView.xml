@@ -843,6 +843,7 @@
                 <bean parent="Uif-VerticalFieldGroup">
                     <property name="items">
                         <list>
+                            <bean id="AlterDueDateConfirmationMessage" parent="Uif-MessageField" p:messageText="Select due date or leave blank to set due date to Indefinite." p:cssClasses="alert-info"/>
                             <bean id="AlterDueDateInformationSection" parent="Uif-MessageField" p:messageText="@{alterDueDateTimeInfo}" p:cssClasses="messageClass"/>
                             <ref bean="AlterDueDateCollection-HorizontalBoxSection"/>
                             <ref bean="AlterLoanDueDateButton-HorizontalBoxSection"/>

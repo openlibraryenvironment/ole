@@ -1908,6 +1908,8 @@ public class LoanProcessor extends PatronBillResolver {
                     } else {
                         if (existingLoanObject.getLoanDueDate() != null) {
                             oleItem.setDueDateTime(convertToString(existingLoanObject.getLoanDueDate()));
+                        }else{
+                            oleItem.setDueDateTime(null);
                         }
                     }
                     item.setId(existingLoanObject.getItemUuid());
