@@ -377,13 +377,17 @@ public class LoanController extends UifControllerBase {
                                           HttpServletRequest request, HttpServletResponse response){
         OleLoanForm oleLoanForm = (OleLoanForm) form;
         OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService = new OleDeliverRequestDocumentHelperServiceImpl();
-        List<OleDeliverRequestBo> oleDeliverRequestBoList = oleLoanForm.getOnHoldRequestForPatron();
-        List<OleDeliverRequestBo> populateItemRecords=new ArrayList<>();
-        for(OleDeliverRequestBo deliverOnHoldRequestBo : oleDeliverRequestBoList) {
-            populateItemRecords.add(oleDeliverRequestDocumentHelperService.
-                    processItem(deliverOnHoldRequestBo));
+        String formKey = request.getParameter("formKey");
+        OleLoanForm loanForm = (OleLoanForm) GlobalVariables.getUifFormManager().getSessionForm(formKey);
+        if (loanForm!=null) {
+            List<OleDeliverRequestBo> oleDeliverRequestBoList = loanForm.getOnHoldRequestForPatron();
+            List<OleDeliverRequestBo> populateItemRecords=new ArrayList<>();
+            for(OleDeliverRequestBo deliverOnHoldRequestBo : oleDeliverRequestBoList) {
+                populateItemRecords.add(oleDeliverRequestDocumentHelperService.
+                        processItem(deliverOnHoldRequestBo));
+            }
+            oleLoanForm.setOnHoldRequestForPatron(populateItemRecords);
         }
-        oleLoanForm.setOnHoldRequestForPatron(populateItemRecords);
         return getUIFModelAndView(oleLoanForm, "OnHoldRequestPage");
     }
 
@@ -581,6 +585,7 @@ public class LoanController extends UifControllerBase {
             oleLoanForm.setPhoneNumber(oleLoanDocument.getPhoneNumber());
             oleLoanForm.setItemFocus(true);
             oleLoanForm.setPatronFocus(false);
+            oleLoanForm.setOleFormKey(oleLoanForm.getFormKey());
            /* oleLoanForm.setExistingLoanList(oleLoanForm.getDummyLoan().getOlePatron().getOleLoanDocuments());*/
             Long b5 = System.currentTimeMillis();
             Long total = b5 - b4;

@@ -114,7 +114,7 @@ public class OleLoanForm extends UifFormBase {
     private List<String> newErrorsAndPermission;
     private List<OleDeliverRequestBo> oleDeliverRequestBoList;
     private String onHoldRequestMessage;
-    private List<OleDeliverRequestBo> onHoldRequestForPatron;
+    private List<OleDeliverRequestBo> onHoldRequestForPatron=new ArrayList<>();
 
     public boolean isPatronbill() {
         return patronbill;
