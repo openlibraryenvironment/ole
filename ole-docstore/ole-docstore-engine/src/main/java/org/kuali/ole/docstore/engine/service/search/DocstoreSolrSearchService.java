@@ -957,19 +957,20 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
         String docType = searchParams.getDocType(); // second
         String key = "";
         String firstDocType = "";
-        String secondDocType = "";
+        String secondDocType = searchParams.getDocType();
         String query = "";
         List<SearchCondition> filterSearchConditions = new ArrayList<>();
         List<SearchCondition> querySearchConditions = new ArrayList<>();
         int size = searchParams.getSearchConditions().size();
         for (int i = size - 1; i >= 0; i--) {
             SearchCondition searchCondition = searchParams.getSearchConditions().get(i);
+            if (!searchCondition.getSearchField().getDocType().equalsIgnoreCase(secondDocType)) {
+                firstDocType = searchCondition.getSearchField().getDocType();
+            }
             if (searchCondition.getSearchField() != null && searchCondition.getSearchField().getDocType() != null && docType.equals(searchCondition.getSearchField().getDocType())) {
                 filterSearchConditions.add(searchCondition);
-                firstDocType = searchCondition.getSearchField().getDocType();
             } else {
                 querySearchConditions.add(searchCondition);
-                firstDocType = searchCondition.getSearchField().getDocType();
             }
         }
         if (StringUtils.isEmpty(secondDocType)) {
@@ -979,16 +980,16 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
         if (StringUtils.isEmpty(secondDocType)) {
             secondDocType = firstDocType;
         }
-        if(StringUtils.isEmpty(docType)){
-            docType=firstDocType;
+        if (StringUtils.isEmpty(docType)) {
+            docType = firstDocType;
         }
         if (StringUtils.isNotEmpty(firstDocType) && StringUtils.isNotEmpty(secondDocType)) {
             key = secondDocType + firstDocType;
-            String crossDocumentJoinQuery=joinQueryMap.get(key);
-            if(StringUtils.isNotEmpty(crossDocumentJoinQuery)){
+            String crossDocumentJoinQuery = joinQueryMap.get(key);
+            if (StringUtils.isNotEmpty(crossDocumentJoinQuery)) {
                 query = joinQueryMap.get(key) + buildQueryWithSearchConditions(querySearchConditions);
-            }else{
-                query =  buildQueryWithSearchConditions(querySearchConditions);
+            } else {
+                query = buildQueryWithSearchConditions(querySearchConditions);
             }
 
             String filterQuery = "";
