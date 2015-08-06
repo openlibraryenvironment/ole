@@ -332,6 +332,15 @@ public class OLEEResourceHelperService {
     }
 
 
+    public void deleteEHoldingsInEResource(Holdings holdings) {
+        Map<String, String> criteriaMap = new HashMap<>();
+        if (StringUtils.isNotEmpty(holdings.getId())) {
+            criteriaMap.put(OLEConstants.INSTANCE_ID, holdings.getId());
+            getBusinessObjectService().deleteMatching(OLEEResourceInstance.class, criteriaMap);
+        }
+    }
+
+
     /**
      * This method returns Bib Import Profile based on which we can create the bib.
      */
