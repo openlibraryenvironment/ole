@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,7 +40,16 @@ public class OLEVendorValuesBuilder extends KeyValuesBase {
         if (!vendorVal.equalsIgnoreCase("*")) {
             vendorValues = Lists.newArrayList(Collections2.filter(vendorValues, Predicates.contains(Pattern.compile(vendorVal, Pattern.CASE_INSENSITIVE))));
         }
-        Collections.sort(vendorValues);
+        //Collections.sort(vendorValues);
+        Collections.sort(vendorValues, new SortIgnoreCase());
         return vendorValues;
+    }
+
+    public static class SortIgnoreCase implements Comparator<Object> {
+        public int compare(Object o1, Object o2) {
+            String s1 = (String) o1;
+            String s2 = (String) o2;
+            return s1.toLowerCase().compareTo(s2.toLowerCase());
+        }
     }
 }

@@ -103,12 +103,43 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="oleERSIdentifier" p:readOnly="true"/>
-                            <bean parent="Uif-InputField" p:propertyName="publisherId">
+                            <!--<bean parent="Uif-InputField" p:propertyName="publisherId">
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceVendorTypeFinder" />
                                 </property>
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:cssClasses="vendorDropDownField" p:disabled="@{document.gokbIdentifier ne null}"/>
+                                </property>
+                            </bean>-->
+
+                            <bean parent="Uif-Label" p:labelText="Publisher"/>
+                            <bean parent="Uif-HorizontalBoxSection">
+
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-LinkField"  p:target="_blank"  p:label=" "
+                                              p:render="@{document.documentHeader.workflowDocument.final}"/>
+                                        <bean parent="Uif-InputField"
+                                              p:propertyName="publisherId"
+                                              p:label=" "
+
+                                              p:render="@{!document.documentHeader.workflowDocument.final}">
+                                            <property name="suggest">
+                                                <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                                                    <property name="suggestQuery">
+                                                        <bean parent="Uif-AttributeQueryConfig"
+                                                              p:queryMethodToCall="retrieveVendorDetailsForSuggest"
+                                                              p:queryMethodInvokerConfig.targetClass="org.kuali.ole.select.keyvalue.OLEVendorValuesBuilder"/>
+                                                    </property>
+                                                    <property name="templateOptions">
+                                                        <map merge="true">
+                                                            <entry key="minLength" value="1"/>
+                                                        </map>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
                             <bean id="eresource-statusDate" parent="Uif-DataField" p:propertyName="statusDate" p:label="Status Date">
@@ -117,7 +148,7 @@
                             <bean parent="Uif-InputField" p:propertyName="isbn" p:readOnly="true"/>
                             <!--<bean parent="Uif-InputField" p:propertyName="vendorId" p:label="Vendor Name" p:enableAutoQuickfinder="false">
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceVendorTypeFinder" />
+                                    <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceVendorTypeFinder"/>
                                 </property>
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:cssClasses="vendorDropDownField"/>
