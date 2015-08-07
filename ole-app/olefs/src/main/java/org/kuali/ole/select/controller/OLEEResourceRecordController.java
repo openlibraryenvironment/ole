@@ -2296,25 +2296,21 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         }
         List<OLEGOKbPlatform> goKbPlatformList = new ArrayList<>();
         for (OLEGOKbPlatform gokbPlatform : oleeResourceRecordDocument.getGoKbPlatformList()) {
-            if (gokbPlatform.isSelect() || goKbPlatformList.size()==1) {
+            if (gokbPlatform.isSelect() || goKbPlatformList.size() == 1) {
                 OLEGOKBSearchDaoOjb olegokbSearchDaoOjb = (OLEGOKBSearchDaoOjb) SpringContext.getBean("oleGOKBSearchDaoOjb");
                 Integer resultSetSize = OJBUtility.getResultLimit();
-                Integer packageId = 0;
+
                 if (StringUtils.isEmpty(oleEResourceRecordForm.getPackageId())) {
-                    if (oleeResourceRecordDocument.getGoKbPackageList() != null && oleeResourceRecordDocument.getGoKbPackageList().size() > 0) {
-                        packageId = oleeResourceRecordDocument.getGoKbPackageList().get(0).getPackageId();
-                    }
-                } else {
-                    packageId = Integer.valueOf(oleEResourceRecordForm.getPackageId());
+                    oleeResourceRecordDocument.setGokbPackageId(Integer.valueOf(gokbPlatform.getPackageId()));
                 }
-                oleeResourceRecordDocument.setGokbPackageId(packageId);
-                             List<String> isbnList = new ArrayList<>();
+
+                List<String> isbnList = new ArrayList<>();
                 for (OLEStandardIdentifier oleStandardIdentifier : oleeResourceRecordDocument.getStandardIdentifiers()) {
                     if (oleStandardIdentifier.getIdentifier() != null && oleStandardIdentifier.getIdentifierType() != null && oleStandardIdentifier.getIdentifierType().equalsIgnoreCase("issn") && StringUtils.isNotEmpty(oleStandardIdentifier.getIdentifier())) {
                         isbnList.add(oleStandardIdentifier.getIdentifier());
                     }
                 }
-                List<OleGokbTipp> oleGokbTippList = olegokbSearchDaoOjb.getTippsByPlatform(gokbPlatform.getPlatformId(), gokbPlatform.getPackageId(),title,titleInstanceType,platformProviderList,isbnList);
+                List<OleGokbTipp> oleGokbTippList = olegokbSearchDaoOjb.getTippsByPlatform(gokbPlatform.getPlatformId(), gokbPlatform.getPackageId(), title, titleInstanceType, platformProviderList, isbnList);
                 List<OLEGOKbTIPP> olegoKbTIPP;
                 if (oleGokbTippList != null && resultSetSize != null && oleGokbTippList.size() > resultSetSize) {
                     olegoKbTIPP = getOleeResourceHelperService().buildOLEGOKBTIPP(oleGokbTippList.subList(0, resultSetSize));
