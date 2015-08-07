@@ -572,9 +572,9 @@ public class OLEConstants {
         public static final String CHECKIN = "checkIn";
         public static final String INSTANCE_INGEST = "instanceIngest";
         public static final String INGEST = "ingest";
-        public static final String DATA_TO_IMPORT_BIB_INSTANCE = "Bibliographic and Instance Data";
-        public static final String DATA_TO_IMPORT_BIB_EINSTANCE = "Bibliographic and EInstance Data";
-        public static final String DATA_TO_IMPORT_BIB_INSTANCE_EINSTANCE = "Bibliographic,Instance and EInstance Data";
+        public static final String DATA_TO_IMPORT_BIB_INSTANCE = "Bibliographic, Holdings, and Item Data";
+        public static final String DATA_TO_IMPORT_BIB_EINSTANCE = "Bibliographic and EHoldings Data";
+        public static final String DATA_TO_IMPORT_BIB_INSTANCE_EINSTANCE = "Bibliographic,Holdings and EHoldings Data";
         public static final String BIB_OVERLAY = "overlay";
         public static final String BIB_ADD = "add";
         public static final String BIB_NONE = "none";
