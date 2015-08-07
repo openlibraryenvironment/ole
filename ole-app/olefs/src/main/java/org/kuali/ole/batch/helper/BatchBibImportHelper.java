@@ -1037,7 +1037,15 @@ public class BatchBibImportHelper {
 
                     if (eHoldings != null) {
                         if (defaultValue.equalsIgnoreCase(OLEConstants.OLEBatchProcess.CONSTANT)) {
-                            eHoldings.setField(docField, fieldValue);
+                            if (docField.equalsIgnoreCase(EHoldings.DESTINATION_FIELD_ERESOURCE_NAME)) {
+                                validateAndSetEResource(docField, eHoldings);
+                            } else if (docField.equalsIgnoreCase(EHoldings.DESTINATION_FIELD_ERESOURCE_ID)) {
+                                validateAndSetEResourceId(docField, eHoldings);
+                            } else if (docField.equalsIgnoreCase(EHoldings.DESTINATION_FIELD_PLATFORM)) {
+                                validateAndSetPlatform(docField, eHoldings);
+                            } else {
+                                eHoldings.setField(docField, fieldValue);
+                            }
                         } else {
                             eHoldings.setDefaultField(docField, fieldValue);
                         }
