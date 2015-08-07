@@ -599,7 +599,7 @@
         <column name="HOLD_QUEUE" required="true" size="1" type="VARCHAR"/>
         <column name="REPLY_TO_EMAIL" size="100" type="VARCHAR"/>
         <column name="RENEW_LOST_ITM" size="1" type="VARCHAR"/>
-        <column name="SHOW_ONHOLD_ITM" size="50" type="VARCHAR"/>
+        <column name="SHOW_ONHOLD_ITM" size="50" type="VARCHAR" default="CurrentCirculationDesk"/>
     </table>
 
     <table name="OLE_DATAFIELD_T">

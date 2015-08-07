@@ -5273,6 +5273,15 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_DESK_HOLD_REQ_TYP_DEFAULTVAL">
+        <addDefaultValue catalogName="ole"
+                         columnDataType="VARCHAR(50)"
+                         columnName="SHOW_ONHOLD_ITM"
+                         defaultValue="CurrentCirculationDesk"
+                         schemaName="ole"
+                         tableName="OLE_CRCL_DSK_T"/>
+    </changeSet>
+
     <changeSet context="bootstrap" author="ole" id="OLE_NOTC_CNTNT_CONFIG_T_NOTNULL">
         <addNotNullConstraint catalogName="ole"
                               columnDataType="VARCHAR(40)"
