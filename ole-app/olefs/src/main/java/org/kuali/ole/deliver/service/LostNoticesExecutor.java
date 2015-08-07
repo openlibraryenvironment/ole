@@ -162,7 +162,7 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
     }
     @Override
     public void populateFieldLabelMapping() {
-        List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
+/*        List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
         Map<String,String> noticeConfigurationMap = new HashMap<String,String>();
         noticeConfigurationMap.put("noticeType",OLEConstants.RECALL_NOTICE);
         oleNoticeContentConfigurationBoList= (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeConfigurationMap);
@@ -180,7 +180,7 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
         }else{
             fieldLabelMap.put("noticeTitle","");
             fieldLabelMap.put("noticeBody","");
-        }
+        }*/
     }
 
     @Override

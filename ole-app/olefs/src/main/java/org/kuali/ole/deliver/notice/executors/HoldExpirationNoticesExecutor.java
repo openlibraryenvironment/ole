@@ -49,7 +49,7 @@ public class HoldExpirationNoticesExecutor extends RequestNoticesExecutor {
     public void populateFieldLabelMapping() {
         List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
         Map<String,String> noticeConfigurationMap = new HashMap<String,String>();
-        noticeConfigurationMap.put("noticeType",OLEConstants.ONHOLD_EXPIRATION_NOTICE);
+        noticeConfigurationMap.put("noticeType",OLEConstants.NOTICE_HOLD_COURTESY);
         oleNoticeContentConfigurationBoList= (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeConfigurationMap);
         if(oleNoticeContentConfigurationBoList!=null && oleNoticeContentConfigurationBoList.size()>0){
             if(oleNoticeContentConfigurationBoList.get(0)!=null){
@@ -58,7 +58,7 @@ public class HoldExpirationNoticesExecutor extends RequestNoticesExecutor {
                 fieldLabelMap.put("noticeSubjectLine",oleNoticeContentConfigurationBoList.get(0).getNoticeSubjectLine());
                 if(oleNoticeContentConfigurationBoList.get(0).getOleNoticeFieldLabelMappings()!=null && oleNoticeContentConfigurationBoList.get(0).getOleNoticeFieldLabelMappings().size()>0){
                     for(OleNoticeFieldLabelMapping oleNoticeFieldLabelMapping : oleNoticeContentConfigurationBoList.get(0).getOleNoticeFieldLabelMappings()){
-                        fieldLabelMap.put(oleNoticeFieldLabelMapping.getFieldLabel(),oleNoticeFieldLabelMapping.getFieldName());
+                        fieldLabelMap.put(oleNoticeFieldLabelMapping.getFieldName(),oleNoticeFieldLabelMapping.getFieldLabel());
                     }
                 }
             }

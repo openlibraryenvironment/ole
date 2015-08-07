@@ -63,11 +63,11 @@ public abstract class RequestEmailContentFormatter {
 
             try {
                 stringBuffer.append("<TABLE></BR></BR><TR><TD>");
-                stringBuffer.append(fieldLabelMap.get(OLEConstants.PATRON_NAME)!=null ? fieldLabelMap.get(OLEConstants.PATRON_NAME):OLEConstants.PATRON_NAME +":</TD><TD>" + getPatronName(olePatronDocument)  + "</TD></TR><TR><TD>");
-                stringBuffer.append(fieldLabelMap.get(OLEConstants.NOTICE_ADDRESS)!=null ? fieldLabelMap.get(OLEConstants.NOTICE_ADDRESS) :OLEConstants.NOTICE_ADDRESS+":</TD><TD>" + (getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) : "") + "</TD></TR><TR><TD>");
-                stringBuffer.append(fieldLabelMap.get(OLEConstants.NOTICE_EMAIL)!=null ? fieldLabelMap.get(OLEConstants.NOTICE_EMAIL) :OLEConstants.NOTICE_EMAIL +":</TD><TD>" + (getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) : "") + "</TD></TR><TR><TD>");
+                stringBuffer.append((fieldLabelMap.get(OLEConstants.PATRON_NAME)!=null ? fieldLabelMap.get(OLEConstants.PATRON_NAME):OLEConstants.PATRON_NAME) +":</TD><TD>" + getPatronName(olePatronDocument)  + "</TD></TR><TR><TD>");
+                stringBuffer.append((fieldLabelMap.get(OLEConstants.NOTICE_ADDRESS)!=null ? fieldLabelMap.get(OLEConstants.NOTICE_ADDRESS) :OLEConstants.NOTICE_ADDRESS)+":</TD><TD>" + (getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) : "") + "</TD></TR><TR><TD>");
+                stringBuffer.append((fieldLabelMap.get(OLEConstants.NOTICE_EMAIL)!=null ? fieldLabelMap.get(OLEConstants.NOTICE_EMAIL) :OLEConstants.NOTICE_EMAIL) +":</TD><TD>" + (getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) : "") + "</TD></TR><TR><TD>");
 
-                stringBuffer.append(fieldLabelMap.get(OLEConstants.NOTICE_PHONE_NUMBER)!=null ? fieldLabelMap.get(OLEConstants.NOTICE_PHONE_NUMBER) : OLEConstants.NOTICE_PHONE_NUMBER +":</TD><TD>" + (getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) : "") + "</TD></TR>");
+                stringBuffer.append((fieldLabelMap.get(OLEConstants.NOTICE_PHONE_NUMBER)!=null ? fieldLabelMap.get(OLEConstants.NOTICE_PHONE_NUMBER) : OLEConstants.NOTICE_PHONE_NUMBER) +":</TD><TD>" + (getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) : "") + "</TD></TR>");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -118,26 +118,26 @@ public void setItemContent(OleDeliverRequestBo oleDeliverRequestBo,StringBuffer 
         StringBuffer stringBuffer = new StringBuffer();
         try {
             stringBuffer.append("<TR><TD>");
-            stringBuffer.append(fieldLabelMap.get(OLEConstants.CIRCULATION_LOCATION_LIBRARY_NAME)!=null ?fieldLabelMap.get(OLEConstants.CIRCULATION_LOCATION_LIBRARY_NAME):OLEConstants.CIRCULATION_LOCATION_LIBRARY_NAME +":</TD><TD>" + (oleDeliverRequestBo.getOlePickUpLocation() != null ? oleDeliverRequestBo.getOlePickUpLocation().getCirculationDeskPublicName() : "") + "</TD></TR><TR><TD>");
-            stringBuffer.append(fieldLabelMap.get(OLEConstants.CIRCULATION_REPLY_TO_EMAIL)!=null ?fieldLabelMap.get(OLEConstants.CIRCULATION_REPLY_TO_EMAIL): OLEConstants.CIRCULATION_REPLY_TO_EMAIL +":</TD><TD>" + (oleDeliverRequestBo.getOlePickUpLocation() != null ? oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail()!=null ? oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail() : "" : "") + "</TD></TR><TR><TD>");
-            stringBuffer.append(fieldLabelMap.get(OLEConstants.NOTICE_TITLE)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_TITLE):OLEConstants.NOTICE_TITLE +":</TD><TD>" + (oleDeliverRequestBo.getTitle() != null ? oleDeliverRequestBo.getTitle() : "") + "</TD></TR><TR><TD>");
-            stringBuffer.append(fieldLabelMap.get(OLEConstants.NOTICE_AUTHOR)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_AUTHOR):OLEConstants.NOTICE_AUTHOR+":</TD><TD>" + (oleDeliverRequestBo.getAuthor() != null ? oleDeliverRequestBo.getAuthor() : "") + "</TD></TR><TR><TD>");
+            stringBuffer.append((fieldLabelMap.get(OLEConstants.CIRCULATION_LOCATION_LIBRARY_NAME)!=null ?fieldLabelMap.get(OLEConstants.CIRCULATION_LOCATION_LIBRARY_NAME):OLEConstants.CIRCULATION_LOCATION_LIBRARY_NAME) +":</TD><TD>" + (oleDeliverRequestBo.getOlePickUpLocation() != null ? oleDeliverRequestBo.getOlePickUpLocation().getCirculationDeskPublicName() : "") + "</TD></TR><TR><TD>");
+            stringBuffer.append((fieldLabelMap.get(OLEConstants.CIRCULATION_REPLY_TO_EMAIL)!=null ?fieldLabelMap.get(OLEConstants.CIRCULATION_REPLY_TO_EMAIL): OLEConstants.CIRCULATION_REPLY_TO_EMAIL )+":</TD><TD>" + (oleDeliverRequestBo.getOlePickUpLocation() != null ? oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail()!=null ? oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail() : "" : "") + "</TD></TR><TR><TD>");
+            stringBuffer.append((fieldLabelMap.get(OLEConstants.NOTICE_TITLE)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_TITLE):OLEConstants.NOTICE_TITLE) +":</TD><TD>" + (oleDeliverRequestBo.getTitle() != null ? oleDeliverRequestBo.getTitle() : "") + "</TD></TR><TR><TD>");
+            stringBuffer.append((fieldLabelMap.get(OLEConstants.NOTICE_AUTHOR)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_AUTHOR):OLEConstants.NOTICE_AUTHOR)+":</TD><TD>" + (oleDeliverRequestBo.getAuthor() != null ? oleDeliverRequestBo.getAuthor() : "") + "</TD></TR><TR><TD>");
             String volume = oleDeliverRequestBo.getEnumeration() != null && !oleDeliverRequestBo.getEnumeration().equals("") ? oleDeliverRequestBo.getEnumeration() : "";
             String issue = new String(" ");
             String copyNumber = oleDeliverRequestBo.getCopyNumber() != null && !oleDeliverRequestBo.getCopyNumber().equals("") ? oleDeliverRequestBo.getCopyNumber() : "";
             String volumeNumber = volume + "/" + issue + "/" + copyNumber;
-            stringBuffer.append(fieldLabelMap.get(OLEConstants.VOLUME_ISSUE_COPY)!=null ?fieldLabelMap.get(OLEConstants.VOLUME_ISSUE_COPY):OLEConstants.VOLUME_ISSUE_COPY+":</TD><TD>" + (volumeNumber != null ? volumeNumber : "") + "</TD></TR><TR><TD>");
-            stringBuffer.append(fieldLabelMap.get(OLEConstants.LIBRARY_SHELVING_LOCATION)!=null ?fieldLabelMap.get(OLEConstants.LIBRARY_SHELVING_LOCATION):OLEConstants.LIBRARY_SHELVING_LOCATION+":</TD><TD>" + ( oleDeliverRequestBo.getShelvingLocation()!= null ? oleDeliverRequestBo.getShelvingLocation() : "") + "</TD></TR><TR><TD>");
+            stringBuffer.append((fieldLabelMap.get(OLEConstants.VOLUME_ISSUE_COPY)!=null ?fieldLabelMap.get(OLEConstants.VOLUME_ISSUE_COPY):OLEConstants.VOLUME_ISSUE_COPY)+":</TD><TD>" + (volumeNumber != null ? volumeNumber : "") + "</TD></TR><TR><TD>");
+            stringBuffer.append((fieldLabelMap.get(OLEConstants.LIBRARY_SHELVING_LOCATION)!=null ?fieldLabelMap.get(OLEConstants.LIBRARY_SHELVING_LOCATION):OLEConstants.LIBRARY_SHELVING_LOCATION)+":</TD><TD>" + ( oleDeliverRequestBo.getShelvingLocation()!= null ? oleDeliverRequestBo.getShelvingLocation() : "") + "</TD></TR><TR><TD>");
             try {
                 String callNumber = "";
                 if (oleDeliverRequestBo.getCallNumber() != null && !oleDeliverRequestBo.getCallNumber().equals("")) {
                     callNumber = oleDeliverRequestBo.getCallNumber();
                 }
-                stringBuffer.append(fieldLabelMap.get(OLEConstants.NOTICE_CALL_NUMBER)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_CALL_NUMBER):OLEConstants.NOTICE_CALL_NUMBER +":</TD><TD>" + (callNumber != null ? callNumber : "") + "</TD></TR><TR><TD>");
+                stringBuffer.append((fieldLabelMap.get(OLEConstants.NOTICE_CALL_NUMBER)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_CALL_NUMBER):OLEConstants.NOTICE_CALL_NUMBER) +":</TD><TD>" + (callNumber != null ? callNumber : "") + "</TD></TR><TR><TD>");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            stringBuffer.append(fieldLabelMap.get(OLEConstants.NOTICE_ITEM_BARCODE)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_ITEM_BARCODE):OLEConstants.NOTICE_ITEM_BARCODE+":</TD><TD>" + (oleDeliverRequestBo.getItemId() != null ? oleDeliverRequestBo.getItemId() : "") + "</TD></TR><TR><TD>");
+            stringBuffer.append((fieldLabelMap.get(OLEConstants.NOTICE_ITEM_BARCODE)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_ITEM_BARCODE):OLEConstants.NOTICE_ITEM_BARCODE)+":</TD><TD>" + (oleDeliverRequestBo.getItemId() != null ? oleDeliverRequestBo.getItemId() : "") + "</TD></TR><TR><TD>");
             stringBuffer.append("<TR><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>");
 
         } catch (Exception e) {

@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.notice.valuesFinder;
 
+import org.kuali.ole.OLEConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -15,12 +16,12 @@ public class OleNoticeTypeKeyValuesFinder  extends KeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("Recall Notice","Recall Notice"));
-        keyValues.add(new ConcreteKeyValue("OnHold Notice","OnHold Notice"));
-        keyValues.add(new ConcreteKeyValue("Hold Courtesy Notice","Hold Courtesy Notice"));
-        keyValues.add(new ConcreteKeyValue("Request Expiration Notice","Request Expiration Notice"));
-        keyValues.add(new ConcreteKeyValue("Courtesy Notice","Courtesy Notice"));
-        keyValues.add(new ConcreteKeyValue("Overdue Notice","Overdue Notice"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.RECALL_NOTICE,"Recall Notice"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.ONHOLD_NOTICE,"OnHold Notice"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_HOLD_COURTESY,"Hold Courtesy Notice"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.REQUEST_EXPIRATION_NOTICE,"Request Expiration Notice"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_COURTESY,"Courtesy Notice"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_OVERDUE,"Overdue Notice"));
         return keyValues;
     }
 }
