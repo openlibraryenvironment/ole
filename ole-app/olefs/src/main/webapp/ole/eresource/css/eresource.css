@@ -224,7 +224,7 @@ div#tiipResults{
     width: 1000px;
     height: 1000px;
     position: fixed;
-    top: 47%; left: 50%;
+    top: 40%; left: 50%;
     z-index: 99999;
     box-shadow: 0px 0px 20px #999;
     -moz-box-shadow: 0px 0px 20px #999;

@@ -2299,11 +2299,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             if (gokbPlatform.isSelect() || goKbPlatformList.size() == 1) {
                 OLEGOKBSearchDaoOjb olegokbSearchDaoOjb = (OLEGOKBSearchDaoOjb) SpringContext.getBean("oleGOKBSearchDaoOjb");
                 Integer resultSetSize = OJBUtility.getResultLimit();
-
-                if (StringUtils.isEmpty(oleEResourceRecordForm.getPackageId())) {
-                    oleeResourceRecordDocument.setGokbPackageId(Integer.valueOf(gokbPlatform.getPackageId()));
-                }
-
+                oleeResourceRecordDocument.setGokbPackageId(Integer.valueOf(gokbPlatform.getPackageId()));
                 List<String> isbnList = new ArrayList<>();
                 for (OLEStandardIdentifier oleStandardIdentifier : oleeResourceRecordDocument.getStandardIdentifiers()) {
                     if (oleStandardIdentifier.getIdentifier() != null && oleStandardIdentifier.getIdentifierType() != null && oleStandardIdentifier.getIdentifierType().equalsIgnoreCase("issn") && StringUtils.isNotEmpty(oleStandardIdentifier.getIdentifier())) {
@@ -2365,7 +2361,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         } else {
             List<BibMarcRecord> bibMarcRecords = getOleeResourceHelperService().buildBibMarcRecords(oleeResourceRecordDocument.getGoKbPlatformList(), oleeResourceRecordDocument.getOleERSIdentifier(), gokbImportProfile);
             if (oleEResourceRecordForm.isImportPackageMetaDataOnly() || (bibMarcRecords != null && bibMarcRecords.size() > 0)) {
-                OleGokbPackage oleGokbPackage = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OleGokbPackage.class, oleeResourceRecordDocument.getGokbIdentifier());
+                OleGokbPackage oleGokbPackage = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OleGokbPackage.class, oleeResourceRecordDocument.getGokbPackageId());
                 getOleeResourceHelperService().overwriteEresourceWithPackage(oleeResourceRecordDocument, oleGokbPackage, "");
                 getOleeResourceHelperService().insertOrUpdateGokbElementsForEResource(oleeResourceRecordDocument, false);
                 getOleeResourceHelperService().createOrUpdateVendorAndPlatform(oleeResourceRecordDocument);

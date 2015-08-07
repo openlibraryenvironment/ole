@@ -239,7 +239,9 @@ public class BatchProcessBibImport extends AbstractBatchProcess {
 
     @Override
     protected void createBatchFailureFile(String misMatchMarcRecords) throws Exception {
-        getOleBatchProcessDataHelper().createBatchBibImportFailureFile(misMatchMarcRecords, processDef.getBatchProcessType(), job.getJobId() + "_FailureRecord" + "_" + job.getUploadFileName(), job.getJobId());
+        if (job != null) {
+            getOleBatchProcessDataHelper().createBatchBibImportFailureFile(misMatchMarcRecords, processDef.getBatchProcessType(), job.getJobId() + "_FailureRecord" + "_" + job.getUploadFileName(), job.getJobId());
+        }
     }
 
     protected void createBatchMismatchFile(String misMatchMarcRecords, String recordName) throws Exception {
