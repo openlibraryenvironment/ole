@@ -281,7 +281,7 @@
                             <bean parent="Uif-InputField" p:propertyName="marcRecordPassword"/>
                             <bean parent="Uif-InputField" p:propertyName="marcRecordUpdateRegularity" p:defaultValue="Regular" p:label="Marc Record Update Regularity ">
                                 <property name="control">
-                                    <bean parent="Uif-VerticalRadioControl">
+                                    <bean parent="Uif-HorizontalRadioControl">
                                         <property name="options">
                                             <list>
                                                 <bean parent="Uif-KeyLabelPair" p:key="Regular" p:value="Regular" />
@@ -291,10 +291,10 @@
                                     </bean>
                                 </property>
                             </bean>
-
                         </list>
                     </property>
                 </bean>
+
             </list>
         </property>
     </bean>
