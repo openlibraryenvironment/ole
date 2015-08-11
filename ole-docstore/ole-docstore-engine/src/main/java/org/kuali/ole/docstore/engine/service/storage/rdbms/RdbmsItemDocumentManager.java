@@ -1026,7 +1026,11 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
                     StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchRecord();
                     statisticalSearchRecord.setCode(statisticalSearchingCodes.get(0).getCodeValue());
                     statisticalSearchRecord.setName(statisticalSearchingCodes.get(0).getFullValue());
-                    getBusinessObjectService().save(statisticalSearchRecord);
+                    try {
+                        getBusinessObjectService().save(statisticalSearchRecord);
+                    } catch (Exception e) {
+                        throw new DocstoreException("Exception while processing Statistical Search:: " +statisticalSearchRecord.getCode());
+                    }
                     return statisticalSearchRecord;
                 } else {
                     return null;
@@ -1180,7 +1184,11 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
                 CallNumberTypeRecord callNumberTypeRecord = new CallNumberTypeRecord();
                 callNumberTypeRecord.setCode(scheme.getCodeValue());
                 callNumberTypeRecord.setName(scheme.getFullValue());
-                getBusinessObjectService().save(callNumberTypeRecord);
+                try {
+                    getBusinessObjectService().save(callNumberTypeRecord);
+                } catch (Exception e) {
+                    throw new DocstoreException("Exception while processing call Number Type :: " +callNumberTypeRecord.getCode());
+                }
                 return callNumberTypeRecord;
             } else
                 return null;
@@ -1238,7 +1246,11 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
                 ItemStatusRecord itemStatusRecord = new ItemStatusRecord();
                 itemStatusRecord.setCode(itemStatus);
                 itemStatusRecord.setName(itemStatus);
-                getBusinessObjectService().save(itemStatusRecord);
+                try {
+                    getBusinessObjectService().save(itemStatusRecord);
+                } catch (Exception e) {
+                    throw new DocstoreException("Exception while processing Item status :: " +itemStatusRecord.getCode());
+                }
                 return itemStatusRecord;
             } else {
                 return null;
@@ -1366,7 +1378,11 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
                 ItemTypeRecord itemTypeRecord = new ItemTypeRecord();
                 itemTypeRecord.setCode(itemType.getCodeValue());
                 itemTypeRecord.setName(itemType.getFullValue());
-                getBusinessObjectService().save(itemTypeRecord);
+                try {
+                    getBusinessObjectService().save(itemTypeRecord);
+                } catch (Exception e) {
+                    throw new DocstoreException("Exception while processing Item Type :: " +itemType.getCodeValue());
+                }
                 return itemTypeRecord;
             } else {
                 return null;

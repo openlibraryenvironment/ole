@@ -1330,6 +1330,23 @@ public class DocstoreServiceImpl implements DocstoreService {
             }
         } catch (Exception e) {
             LOG.error("Exception occurred while processing bib trees ", e);
+            for(BibTree bibTree:bibTrees.getBibTrees()){
+                Bib bib = bibTree.getBib();
+                if(bib.getResult().equals(Holdings.ResultType.FAILURE)){
+                    throw new DocstoreException("Exception while processing BIB "+bib.getMessage());
+                }
+                for(HoldingsTree holdingsTree:bibTree.getHoldingsTrees()){
+                        Holdings holdings = holdingsTree.getHoldings();
+                    if(holdings.getResult().equals(Holdings.ResultType.FAILURE)){
+                        throw new DocstoreException("Exception while processing Holdings  :"+holdings.getMessage());
+                    }
+                    for(Item item:holdingsTree.getItems()){
+                        if(item.getResult().equals(Holdings.ResultType.FAILURE)){
+                            throw new DocstoreException("Exception while processing Item  :"+item.getMessage());
+                        }
+                    }
+                }
+            }
             throw e;
         }
         return bibTrees;

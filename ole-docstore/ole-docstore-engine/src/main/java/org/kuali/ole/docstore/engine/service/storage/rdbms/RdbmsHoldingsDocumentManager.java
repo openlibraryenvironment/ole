@@ -355,7 +355,11 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
                 StatisticalSearchRecord statisticalSearchRecord = new StatisticalSearchRecord();
                 statisticalSearchRecord.setCode(statisticalSearchingCode.getCodeValue());
                 statisticalSearchRecord.setName(statisticalSearchingCode.getFullValue());
-                getBusinessObjectService().save(statisticalSearchRecord);
+                try {
+                    getBusinessObjectService().save(statisticalSearchRecord);
+                } catch (Exception e) {
+                    throw new DocstoreException("Exception while processing statistical Search :: " + statisticalSearchingCode.getCodeValue());
+                }
                 return statisticalSearchRecord;
             } else {
                 return null;
@@ -641,7 +645,11 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
                 CallNumberTypeRecord callNumberTypeRecord = new CallNumberTypeRecord();
                 callNumberTypeRecord.setCode(scheme.getCodeValue());
                 callNumberTypeRecord.setName(scheme.getFullValue());
-                getBusinessObjectService().save(callNumberTypeRecord);
+                try {
+                    getBusinessObjectService().save(callNumberTypeRecord);
+                } catch (Exception e) {
+                    throw new DocstoreException("Exception while processing Call Number :: " + scheme.getCodeValue());
+                }
                 return callNumberTypeRecord;
             } else
                 return null;
@@ -738,7 +746,11 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
                 ReceiptStatusRecord receiptStatusRecord = new ReceiptStatusRecord();
                 receiptStatusRecord.setCode(receiptStatus);
                 receiptStatusRecord.setName(receiptStatus);
-                getBusinessObjectService().save(receiptStatusRecord);
+                try {
+                    getBusinessObjectService().save(receiptStatusRecord);
+                } catch (Exception e) {
+                    throw new DocstoreException("Exception while processing receipt Status :: " + receiptStatus);
+                }
                 return receiptStatusRecord;
             } else {
                 return null;
@@ -756,7 +768,11 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
                 ExtentOfOwnerShipTypeRecord extentOfOwnerShipTypeRecord = new ExtentOfOwnerShipTypeRecord();
                 extentOfOwnerShipTypeRecord.setCode(type);
                 extentOfOwnerShipTypeRecord.setName(type);
-                getBusinessObjectService().save(extentOfOwnerShipTypeRecord);
+                try {
+                    getBusinessObjectService().save(extentOfOwnerShipTypeRecord);
+                } catch (Exception e) {
+                    throw new DocstoreException("Exception while processing Extent Of OwnerShip  :: " + type);
+                }
                 return extentOfOwnerShipTypeRecord;
             } else {
                 return null;
