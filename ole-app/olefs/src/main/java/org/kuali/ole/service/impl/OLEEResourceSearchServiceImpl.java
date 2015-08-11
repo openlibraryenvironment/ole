@@ -1591,6 +1591,14 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                             oleeResourcePO.setTitle(title);
                             oleeResourcePO.setOlePOItemId(olePurchaseOrderDocument.getPurapDocumentIdentifier());
                             oleeResourcePO.setPoStatus(olePurchaseOrderDocument.getApplicationDocumentStatus());
+                            if(StringUtils.isNotBlank(olePurchaseOrderItem.getPurposeId())) {
+                                Map<String,String> purposeMap = new HashMap<>();
+                                purposeMap.put(OLEConstants.OlePurchaseOrderPurpose.PURCHASE_ORDER_PURPOSE_ID, olePurchaseOrderItem.getPurposeId());
+                                OlePurchaseOrderPurpose olePurchaseOrderPurpose = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePurchaseOrderPurpose.class, purposeMap);
+                                if(olePurchaseOrderPurpose != null) {
+                                    oleeResourcePO.setPurpose(olePurchaseOrderPurpose.getPurchaseOrderPurposeCode());
+                                }
+                            }
                             Integer poCreatedYear = olePurchaseOrderDocument.getPostingYear();
                             Integer currentYear = Calendar.getInstance().get(Calendar.YEAR);
                             if (currentYear.compareTo(poCreatedYear) == 0) {
