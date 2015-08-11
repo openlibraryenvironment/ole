@@ -129,7 +129,7 @@ public class OLEEResourceChangeDashBoardController extends UifControllerBase {
                     OleGokbTipp oleGokbTipp = getBusinessObjectService().findBySinglePrimaryKey(OleGokbTipp.class, oleGokbReview.getGokbTippId());
                     oleGokbTipps.add(oleGokbTipp);
                     getOleeResourceHelperService().addTippToEresource(oleeResourceRecordDocument, oleGokbTipps, "");
-                    createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "New E-Instance", "E-Instance added to OLE");
+                    createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "New E-Holdings", "E-Holdings added to OLE");
                 }
             }
             if(oleGokbReview.isClear()){

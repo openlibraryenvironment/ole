@@ -53,7 +53,7 @@
                             <bean id="Synchronize-Gokb-button" parent="Uif-PrimaryActionButton" p:methodToCall="synchronizeWithGokb"
                                   p:actionLabel="Synchronize with GOKb" p:render="@{document.gokbIdentifier ne null}"/>
                             <bean id="DeleteInstance-Button" parent="Uif-PrimaryActionButton"
-                                  p:actionScript="displayDialogWindow('div#OLEEResourceRecordView-DeleteRelatedInstancesPopUp')" p:actionLabel="Delete Related Instances"
+                                  p:actionScript="displayDialogWindow('div#OLEEResourceRecordView-DeleteRelatedInstancesPopUp')" p:actionLabel="Delete Related Holdings"
                                   p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final) and (document.oleERSInstances ne null)}"
                                   p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteInstance"/>
                         </list>

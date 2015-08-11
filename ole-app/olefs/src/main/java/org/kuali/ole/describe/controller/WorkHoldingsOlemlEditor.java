@@ -889,7 +889,7 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
         String dateStr = sdf.format(date);
         String user = GlobalVariables.getUserSession().getPrincipalName();
         workInstanceOlemlForm.setBibTreeList(bibTreeList);
-        editorForm.setHeaderText("Global Instance Editor");
+        editorForm.setHeaderText("Global Holdings Editor");
         String docId = editorForm.getDocId();
             Holdings holdings = new PHoldings();
             OleHoldings holdingData = workInstanceOlemlForm.getSelectedHolding();

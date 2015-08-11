@@ -710,8 +710,8 @@ public class OLEConstants {
         public static final String TIME_STAMP = " ::TIME STAMP:: ";
         public static final String ERR_CAUSE = " ::Error Caused:: ";
         public static final String lineSeparator = System.getProperty("line.separator");
-        public static final String ERR_INSTANCE = "Err Instance ID:: ";
-        public static final String ERR_HOLDING = "Err Holding ID:: ";
+        public static final String ERR_INSTANCE = "Err Holdings ID:: ";
+        public static final String ERR_HOLDING = "Err Holdings ID:: ";
         public static final String ERR_ITEM = "Err Item ID:: ";
         public static final String COMMA = ",";
 
@@ -2464,7 +2464,7 @@ public class OLEConstants {
         public static final List<String> ERESOURCE_STATUSES = getEresourceClosedStatuses();
         public static final String LICENSE_FINAL_STATUS = "Complete";
         public static final String BLANK_SELECTED_INDEX = "Selected collection was not set for delete line action, cannot delete line";
-        public static final String INSTANCE_ID_REMOVE_NOTE = " (Instance Id :";
+        public static final String INSTANCE_ID_REMOVE_NOTE = " (Holdings Id :";
         public static final String REMOVE_NOTE = ") was removed";
         public static final String SYSTEM = "System";
         public static final String STATUS_IS = "status is ";
@@ -2822,16 +2822,16 @@ public class OLEConstants {
 
     public static final String GLOBAL_EDIT_ADD_RECORDS_MESSAGE = "info.globalEdit.edit.selected.records";
     public static final String GLOBAL_EDIT_VIEW_RECORDS_MESSAGE = "info.globalEdit.view.selected.records";
-    public static final String GLOBAL_EDIT_HOLDINGS_HEADER_MESSAGE = "Global Instance Editor (Holdings) - OLEML Format";
-    public static final String GLOBAL_EDIT_ITEM_HEADER_MESSAGE = "Global Instance Editor (Item) - OLEML Format";
-    public static final String GLOBAL_EDIT_EHOLDINGS_HEADER_MESSAGE = "Global Instance Editor (EHoldings) - OLEML Format";
+    public static final String GLOBAL_EDIT_HOLDINGS_HEADER_MESSAGE = "Global Holdings Editor  - OLEML Format";
+    public static final String GLOBAL_EDIT_ITEM_HEADER_MESSAGE = "Global Item Editor - OLEML Format";
+    public static final String GLOBAL_EDIT_EHOLDINGS_HEADER_MESSAGE = "Global EHoldings Editor  - OLEML Format";
 
 
     public static final String NO_RCVNG_RCRD_TYP = "Receiving Record Type is not available";
     public static final String NO_SRL_RCPT_LOCN = "Serial Receipt Location is not available";
     public static final String INVLD_SUBS_STAT = "Invalid Subscription Status";
     public static final String INVLD_PO = "No matching purchase order found for the given combination";
-    public static final String INVLD_BIB_INS = "Instance is not linked to the corresponding bib";
+    public static final String INVLD_BIB_INS = "Holdings is not linked to the corresponding bib";
     public static final String LINK_DOC_FAILURE = "Linked Serial Receiving Document failed ";
     public static final String LINK_DOC_MISS = "Linked Serial Receiving Document is missing in the current uploaded files";
     public static final String SERIAL_DOC_ALRDY_EXIST = "Serial Receiving Record for the corresponding instance and bib already exist";
@@ -3194,10 +3194,10 @@ public class OLEConstants {
     public static final String ORDER_RECORD_IMPORT_MARC_EDI_PRINT_ELECTRONIC = "ORDER_RECORD_IMPORT_MARC_EDI_PRINT_ELECTRONIC";
     public static final String BIB_IMP_RESP = "bibImportResponse";
     public static final String BIB_DATA_ONLY = "Bibliographic Data Only";
-    public static final String BIB_INS = "Bibliographic and Instance Data";
-    public static final String BIB_EINS = "Bibliographic and EInstance Data";
-    public static final String BIB_INS_EINS = "Bibliographic,Instance and EInstance Data";
-    public static final String ORDER_IMPORT_VALIDATION_MSG = "In bib import profile, Data To Import value should be either 'Bibliographic and Instance Data' or 'Bibliographic and EInstance Data' to process Order Record Import.";
+    public static final String BIB_INS = "Bibliographic, Holdings, and Item Data";
+    public static final String BIB_EINS = "Bibliographic and EHoldings Data";
+    public static final String BIB_INS_EINS = "Bibliographic,Holdings and EHoldings Data";
+    public static final String ORDER_IMPORT_VALIDATION_MSG = "In bib import profile, Data To Import value should be either 'Bibliographic, Holdings, and Item Data' or 'Bibliographic,Holdings and EHoldings Data' to process Order Record Import.";
     public static final String CURR_ALPHA_CD = "currencyAlphaCode";
 
     public static final String PREFIX_FOR_DATA_FIELD = "mdf_";

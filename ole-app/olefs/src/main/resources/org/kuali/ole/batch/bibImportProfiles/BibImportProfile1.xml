@@ -161,7 +161,7 @@
         <matchIncomingItems>performMatchingOfItem</matchIncomingItems>
         <incomingItemNotMatchedProcessItem>itemNotMatched_addItem</incomingItemNotMatchedProcessItem>
     </matchingProfileObj>
-    <dataToImport>Bibliographic and Instance Data</dataToImport>
+    <dataToImport>Bibliographic, Holdings, and Item Data</dataToImport>
     <bibOverlayOrAddOrNone>add</bibOverlayOrAddOrNone>
     <oleBatchProcessProfileBibStatusList/>
     <oleBatchProcessProfileBibWorkUnitList/>

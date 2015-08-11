@@ -1511,7 +1511,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 oleeResourceRecordForm.setPoErrorMessage(poErrorMessage.toString());
             }
         } else {
-            oleeResourceRecordForm.setPoErrorMessage("Atleast one E-Resource/Instance should be selected.");
+            oleeResourceRecordForm.setPoErrorMessage("Atleast one E-Resource/Holdings should be selected.");
         }
         return super.navigate(oleeResourceRecordForm, result, request, response);
     }
@@ -1568,7 +1568,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         if (selectFlag) {
             oleeResourceRecordForm.setPoSuccessMessage("Changes have been saved successfully");
         } else {
-            oleeResourceRecordForm.setPoErrorMessage("Atleast one E-Resource/Instance should be selected");
+            oleeResourceRecordForm.setPoErrorMessage("Atleast one E-Resource/Holdings should be selected");
         }
         return super.navigate(oleeResourceRecordForm, result, request, response);
     }

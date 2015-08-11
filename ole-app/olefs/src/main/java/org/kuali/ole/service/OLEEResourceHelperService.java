@@ -1368,8 +1368,8 @@ public class OLEEResourceHelperService {
                 createOrUpdateVendor(oleGokbPlatform.getPlatformProviderId(), logId);
                 OleGokbTitle oleGokbTitle = getOleGokbTitle(oleGokbTipp.getGokbTitleId());
                 if (oleGokbTitle != null) {
-                    String details = "[" + oleGokbTitle.getTitleName() + "]: E-Instance added to OLE";
-                    createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "New E-Instance", details);
+                    String details = "[" + oleGokbTitle.getTitleName() + "]: E-Holdings added to OLE";
+                    createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "New E-Holdings", details);
                     createOrUpdateVendor(oleGokbTitle.getPublisherId(), logId);
                     oleeResourceSearchService.updatePublisherDetails(oleeResourceRecordDocument, oleGokbTitle.getPublisherId());
                 }
@@ -1404,7 +1404,7 @@ public class OLEEResourceHelperService {
         } else {
             for (OleGokbTipp oleGokbTipp : oleGokbTipps) {
                 OleGokbTitle oleGokbTitle = getBusinessObjectService().findBySinglePrimaryKey(OleGokbTitle.class, oleGokbTipp.getGokbTitleId());
-                String details = "[" + oleGokbTitle.getTitleName() + "]: TIPP added to GOKb package. E-Instance not created. Review TIPP and approve to create associated E-Instance";
+                String details = "[" + oleGokbTitle.getTitleName() + "]: TIPP added to GOKb package. E-Holdings not created. Review TIPP and approve to create associated E-Holdings";
                 createToDo(oleeResourceRecordDocument.getOleERSIdentifier(), "New TIPP", details, oleGokbTipp.getGokbTippId());
             }
         }
@@ -1431,7 +1431,7 @@ public class OLEEResourceHelperService {
                     copyMap.put("instanceId", oleeResourceInstance.getInstanceId());
                     List<OleCopy> copies = (List<OleCopy>) getBusinessObjectService().findMatching(OleCopy.class, copyMap);
                     if (copies.get(0).getPoItemId() != null) {
-                        String details = "[" + eHolding.getBib().getTitle() + "] TIPP deleted from GOKb package. E-Instance could not be deleted because of an attached purchase order";
+                        String details = "[" + eHolding.getBib().getTitle() + "] TIPP deleted from GOKb package. E-Holdings could not be deleted because of an attached purchase order";
                         createToDo(oleeResourceRecordDocument.getOleERSIdentifier(), "Deleted TIPP", details, null);
                     } else {
                         try {
@@ -1440,13 +1440,13 @@ public class OLEEResourceHelperService {
                             e.printStackTrace();
                         }
                         String details = "[" + eHolding.getBib().getTitle() + "]: E-Holding deleted from OLE";
-                        createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Deleted E-Instance", details);
+                        createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Deleted E-Holdings", details);
                     }
                     updateLog(logId, oleeResourceRecordDocument.getOleERSIdentifier(), "eHoldingsDeletedCount", 1);
                 }
             }
         } else {
-            String details = "[" + eHolding.getBib().getTitle() + "] TIPP deleted from GOKb package. E-Instance could not be deleted because of an attached purchase order";
+            String details = "[" + eHolding.getBib().getTitle() + "] TIPP deleted from GOKb package. E-Holdings could not be deleted because of an attached purchase order";
             createToDo(oleeResourceRecordDocument.getOleERSIdentifier(), "Deleted TIPP", details, null);
         }
     }
@@ -1460,7 +1460,7 @@ public class OLEEResourceHelperService {
                     copyMap.put("instanceId", oleeResourceInstance.getInstanceId());
                     List<OleCopy> copies = (List<OleCopy>) getBusinessObjectService().findMatching(OleCopy.class, copyMap);
                     if (copies.get(0).getPoItemId() != null) {
-                        String details = "[" + eHolding.getBib().getTitle() + "] TIPP retired from GOKb package. E-Instance could not be deleted because of an attached purchase order";
+                        String details = "[" + eHolding.getBib().getTitle() + "] TIPP retired from GOKb package. E-Holdings could not be deleted because of an attached purchase order";
                         createToDo(oleeResourceRecordDocument.getOleERSIdentifier(), "Retired TIPP", details, null);
                     } else {
                         try {
@@ -1469,14 +1469,14 @@ public class OLEEResourceHelperService {
                             e.printStackTrace();
                         }
                         String details = "[" + eHolding.getBib().getTitle() + "]: E-Holding deleted from OLE";
-                        createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Retired E-Instance", details);
+                        createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Retired E-Holdings", details);
                     }
                     updateLog(logId, oleeResourceRecordDocument.getOleERSIdentifier(), "eHoldingsRetiredCount", 1);
                 }
             }
 
         } else {
-            String details = "[<" + eHolding.getBib().getTitle() + ">]: TIPP retired from GOKb package. No changes to E-Instance. Review E-Instance to determine if action is needed";
+            String details = "[<" + eHolding.getBib().getTitle() + ">]: TIPP retired from GOKb package. No changes to E-Holdings. Review E-Holdings to determine if action is needed";
             createToDo(oleeResourceRecordDocument.getOleERSIdentifier(), "Retired TIPP", details, null);
         }
     }
@@ -1551,33 +1551,33 @@ public class OLEEResourceHelperService {
         if (oleHoldings.getExtentOfOwnership() != null && oleHoldings.getExtentOfOwnership().size()>0) {
             Coverage coverage = oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0);
             if (!coverage.getCoverageStartDate().equalsIgnoreCase(tipp.getStartdate().toString())) {
-                String details = "[" + eHolding.getDisplayLabel() + "]]: E-Instance start date has changed from [" + coverage.getCoverageStartDate() + "] to [" + tipp.getStartdate() + "]";
-                createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Metadata change: E-Instance start date", details);
+                String details = "[" + eHolding.getDisplayLabel() + "]]: E-Holdings start date has changed from [" + coverage.getCoverageStartDate() + "] to [" + tipp.getStartdate() + "]";
+                createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Metadata change: E-Holdings start date", details);
             }
             if (!coverage.getCoverageStartIssue().equalsIgnoreCase(tipp.getStartIssue())) {
-                String details = "[" + eHolding.getDisplayLabel() + "]]: E-Instance start issue has changed from [" + coverage.getCoverageStartIssue() + "] to [" + tipp.getStartIssue() + "]";
-                createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Metadata change: E-Instance start issue", details);
+                String details = "[" + eHolding.getDisplayLabel() + "]]: E-Holdings start issue has changed from [" + coverage.getCoverageStartIssue() + "] to [" + tipp.getStartIssue() + "]";
+                createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Metadata change: E-Holdings start issue", details);
             }
             if (!coverage.getCoverageStartVolume().equalsIgnoreCase(tipp.getStartVolume())) {
-                String details = "[" + eHolding.getDisplayLabel() + "]]: E-Instance start volume has changed from [" + coverage.getCoverageStartVolume() + "] to [" + tipp.getStartVolume() + "]";
-                createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Metadata change: E-Instance start volume", details);
+                String details = "[" + eHolding.getDisplayLabel() + "]]: E-Holdings start volume has changed from [" + coverage.getCoverageStartVolume() + "] to [" + tipp.getStartVolume() + "]";
+                createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Metadata change: E-Holdings start volume", details);
             }
             if (!coverage.getCoverageEndDate().equalsIgnoreCase(tipp.getEndDate().toString())) {
-                String details = "[" + eHolding.getDisplayLabel() + "]]: E-Instance end date has changed from [" + coverage.getCoverageEndDate() + "] to [" + tipp.getEndDate() + "]";
-                createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Metadata change: E-Instance end date", details);
+                String details = "[" + eHolding.getDisplayLabel() + "]]: E-Holdings end date has changed from [" + coverage.getCoverageEndDate() + "] to [" + tipp.getEndDate() + "]";
+                createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Metadata change: E-Holdings end date", details);
             }
             if (!coverage.getCoverageEndVolume().equalsIgnoreCase(tipp.getEndVolume())) {
-                String details = "[" + eHolding.getDisplayLabel() + "]]: E-Instance end volume has changed from [" + coverage.getCoverageEndIssue() + "] to [" + tipp.getEndVolume() + "]";
-                createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Metadata change: E-Instance end volume", details);
+                String details = "[" + eHolding.getDisplayLabel() + "]]: E-Holdings end volume has changed from [" + coverage.getCoverageEndIssue() + "] to [" + tipp.getEndVolume() + "]";
+                createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Metadata change: E-Holdings end volume", details);
             }
             if (!coverage.getCoverageEndIssue().equalsIgnoreCase(tipp.getEndIssue())) {
-                String details = "[" + eHolding.getDisplayLabel() + "]]: E-Instance end issue has changed from [" + coverage.getCoverageEndIssue() + "] to [" + tipp.getEndIssue() + "]";
-                createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Metadata change: E-Instance end issue", details);
+                String details = "[" + eHolding.getDisplayLabel() + "]]: E-Holdings end issue has changed from [" + coverage.getCoverageEndIssue() + "] to [" + tipp.getEndIssue() + "]";
+                createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Metadata change: E-Holdings end issue", details);
             }
             if (oleHoldings.getLink() != null) {
                 if (!oleHoldings.getLink().get(0).getUrl().equalsIgnoreCase(tipp.getPlatformHostUrl())) {
-                    String details = "[" + eHolding.getDisplayLabel() + "]]: E-Instance URL has changed from [" + oleHoldings.getLink().get(0).getUrl() + "] to [" + tipp.getPlatformHostUrl() + "]";
-                    createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Metadata change: E-Instance URL", details);
+                    String details = "[" + eHolding.getDisplayLabel() + "]]: E-Holdings URL has changed from [" + oleHoldings.getLink().get(0).getUrl() + "] to [" + tipp.getPlatformHostUrl() + "]";
+                    createChangeLog(oleeResourceRecordDocument.getOleERSIdentifier(), "Metadata change: E-Holdings URL", details);
                 }
             }
         }
