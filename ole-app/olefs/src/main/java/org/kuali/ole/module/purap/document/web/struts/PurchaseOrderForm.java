@@ -768,24 +768,23 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(getPurchaseOrderDocument());
 
             can = documentAuthorizer.canInitiate(OLEConstants.FinancialDocumentTypeCodes.LINE_ITEM_RECEIVING, GlobalVariables.getUserSession().getPerson());
+            if (can) {
+                PurchaseOrderDocument po = getPurchaseOrderDocument();
+                Integer activeItems = 0;
+                for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) po.getItems()) {
+                    if (poi.isItemActiveIndicator() &&
+                            poi.getItemType().isQuantityBasedGeneralLedgerIndicator() &&
+                            poi.getItemType().isLineItemIndicator()) {
 
-            PurchaseOrderDocument po = getPurchaseOrderDocument();
-            Integer activeItems = 0;
-            for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) po.getItems()) {
-                if (poi.isItemActiveIndicator() &&
-                        poi.getItemType().isQuantityBasedGeneralLedgerIndicator() &&
-                        poi.getItemType().isLineItemIndicator()) {
-
-                    activeItems = activeItems + 1;
+                        activeItems = activeItems + 1;
+                    }
+                }
+                if (activeItems > 0) {
+                    can = Boolean.TRUE;
+                } else {
+                    can = Boolean.FALSE;
                 }
             }
-            if (activeItems > 0) {
-                can = Boolean.TRUE;
-            }
-            else {
-                can = Boolean.FALSE;
-            }
-
         }
 
         return can;
