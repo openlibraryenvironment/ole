@@ -671,12 +671,16 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
                 List<OlePurchaseOrderItem> items = (List<OlePurchaseOrderItem>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePurchaseOrderItem.class, poItemMap);
                 if (CollectionUtils.isNotEmpty(items)) {
                     for (OlePurchaseOrderItem orderItem : items) {
-                        orderItem.setDocData(docData);
-                        int purAppNum = orderItem.getPurchaseOrder().getPurapDocumentIdentifier();
-                        String docNumber = orderItem.getPurchaseOrder().getDocumentNumber();
-                        if (validatePurchaseOrderItem(orderItem) && validateRecords(purAppNum, docNumber)) {
-                            newBibIds.add(orderItem.getItemTitleId());
-                            results.add(orderItem);
+                        if (orderItem.isItemActiveIndicator() &&
+                                orderItem.getItemType().isQuantityBasedGeneralLedgerIndicator() &&
+                                orderItem.getItemType().isLineItemIndicator()) {
+                            orderItem.setDocData(docData);
+                            int purAppNum = orderItem.getPurchaseOrder().getPurapDocumentIdentifier();
+                            String docNumber = orderItem.getPurchaseOrder().getDocumentNumber();
+                            if (validatePurchaseOrderItem(orderItem) && validateRecords(purAppNum, docNumber)) {
+                                newBibIds.add(orderItem.getItemTitleId());
+                                results.add(orderItem);
+                            }
                         }
 
                     }
@@ -700,52 +704,57 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
                 if (CollectionUtils.isNotEmpty(bibIds)) {
                     List<Bib> bibs = new ArrayList<>();
                     bibs.addAll(getDocstoreClientLocator().getDocstoreClient().acquisitionSearchRetrieveBibs(new ArrayList<String>(bibIds)));
-                    if (bibIds!=null && bibs!=null) {
+                    if (bibIds != null && bibs != null) {
                         for (OlePurchaseOrderItem orderItem : results) {
-                            inner:
-                            for (Bib bib : bibs) {
-                                if (bib.getId().equals(orderItem.getItemTitleId())) {
-                                    boolean isAllowed = true;
-                                    boolean isTitle = true;
-                                    boolean isIsbn = true;
-                                    if (StringUtils.isNotBlank(this.title)) {
-                                        if (!bib.getTitle().contains(this.title)) {
-                                            isTitle = false;
+                            if (orderItem.isItemActiveIndicator() &&
+                                    orderItem.getItemType().isQuantityBasedGeneralLedgerIndicator() &&
+                                    orderItem.getItemType().isLineItemIndicator()) {
+                                inner:
+                                for (Bib bib : bibs) {
+                                    if (bib.getId().equals(orderItem.getItemTitleId())) {
+                                        boolean isAllowed = true;
+                                        boolean isTitle = true;
+                                        boolean isIsbn = true;
+                                        if (StringUtils.isNotBlank(this.title)) {
+                                            if (!bib.getTitle().contains(this.title)) {
+                                                isTitle = false;
+                                            }
+                                            isAllowed = false;
                                         }
-                                        isAllowed = false;
-                                    }
-                                    if (StringUtils.isNotBlank(this.standardNumber)) {
-                                        if (!bib.getIsbn().equals(this.standardNumber)) {
-                                            isIsbn = false;
+                                        if (StringUtils.isNotBlank(this.standardNumber)) {
+                                            if (!bib.getIsbn().equals(this.standardNumber)) {
+                                                isIsbn = false;
+                                            }
+                                            isAllowed = false;
                                         }
-                                        isAllowed = false;
-                                    }
-                                    if (!isAllowed) {
-                                        isAllowed = isIsbn && isTitle;
-                                    }
-                                    if (isAllowed) {
-                                        DocData docData = new DocData();
-                                        docData.setTitle(bib.getTitle());
-                                        docData.setAuthor(bib.getAuthor());
-                                        docData.setPublisher(bib.getPublisher());
-                                        if(StringUtils.isNotBlank(bib.getIsbn())){
-                                            docData.setIsbn(bib.getIsbn());
-                                        } else {
-                                            docData.setIsbn(bib.getIssn());
+                                        if (!isAllowed) {
+                                            isAllowed = isIsbn && isTitle;
+                                        }
+                                        if (isAllowed) {
+                                            DocData docData = new DocData();
+                                            docData.setTitle(bib.getTitle());
+                                            docData.setAuthor(bib.getAuthor());
+                                            docData.setPublisher(bib.getPublisher());
+                                            if (StringUtils.isNotBlank(bib.getIsbn())) {
+                                                docData.setIsbn(bib.getIsbn());
+                                            } else {
+                                                docData.setIsbn(bib.getIssn());
+                                            }
+
+                                            docData.setLocalIdentifier(DocumentUniqueIDPrefix.getDocumentId(bib.getId()));
+                                            docData.setBibIdentifier(bib.getId());
+                                            orderItem.setDocData(docData);
+                                            purchaseOrderItemList.add(orderItem);
+                                            break inner;
                                         }
 
-                                        docData.setLocalIdentifier(DocumentUniqueIDPrefix.getDocumentId(bib.getId()));
-                                        docData.setBibIdentifier(bib.getId());
-                                        orderItem.setDocData(docData);
-                                        purchaseOrderItemList.add(orderItem);
-                                        break inner;
                                     }
-
                                 }
                             }
                         }
                     }
                 }
+
             } catch (Exception e) {
 
             }

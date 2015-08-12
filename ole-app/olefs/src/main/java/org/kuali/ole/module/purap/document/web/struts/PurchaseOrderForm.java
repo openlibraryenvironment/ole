@@ -769,6 +769,23 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
             can = documentAuthorizer.canInitiate(OLEConstants.FinancialDocumentTypeCodes.LINE_ITEM_RECEIVING, GlobalVariables.getUserSession().getPerson());
 
+            PurchaseOrderDocument po = getPurchaseOrderDocument();
+            Integer activeItems = 0;
+            for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) po.getItems()) {
+                if (poi.isItemActiveIndicator() &&
+                        poi.getItemType().isQuantityBasedGeneralLedgerIndicator() &&
+                        poi.getItemType().isLineItemIndicator()) {
+
+                    activeItems = activeItems + 1;
+                }
+            }
+            if (activeItems > 0) {
+                can = Boolean.TRUE;
+            }
+            else {
+                can = Boolean.FALSE;
+            }
+
         }
 
         return can;

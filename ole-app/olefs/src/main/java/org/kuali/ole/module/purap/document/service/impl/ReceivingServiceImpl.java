@@ -110,15 +110,26 @@ public class ReceivingServiceImpl implements ReceivingService {
     @Override
     public void populateReceivingLineFromPurchaseOrder(LineItemReceivingDocument rlDoc) {
 
-        if (rlDoc == null) {
-            rlDoc = new LineItemReceivingDocument();
-        }
 
         //retrieve po by doc id
         PurchaseOrderDocument poDoc = null;
         poDoc = purchaseOrderService.getCurrentPurchaseOrder(rlDoc.getPurchaseOrderIdentifier());
+        Integer activeItems = 0;
+        for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) poDoc.getItems()) {
+            //TODO: Refactor this check into a service call. route FYI during submit
+            if (poi.isItemActiveIndicator() &&
+                    poi.getItemType().isQuantityBasedGeneralLedgerIndicator() &&
+                    poi.getItemType().isLineItemIndicator()) {
+                activeItems = activeItems + 1;
+            }
+        }
 
-        if (poDoc != null) {
+        if (rlDoc == null && activeItems > 0) {
+            rlDoc = new LineItemReceivingDocument();
+        }
+
+
+        if (poDoc != null && activeItems > 0) {
             rlDoc.populateReceivingLineFromPurchaseOrder(poDoc);
         }
 
