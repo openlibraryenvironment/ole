@@ -172,85 +172,103 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                         List<OlePurchaseOrderItem> items = (List<OlePurchaseOrderItem>) olePurchaseOrderDocument.getItems();
                         List<OlePurchaseOrderItem> finalItem = new ArrayList<OlePurchaseOrderItem>();
                         olePurchaseOrderDocument.setItems(finalItem);
+                        Integer active_item_count = 0;
                         for (OlePurchaseOrderItem item : items) {
-                            if (item.getItemTypeCode().equalsIgnoreCase(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) {
-                                item.setPoOutstandingQuantity(item.getItemQuantity().subtract(item.getItemInvoicedTotalQuantity()));
-                                item.setNoOfCopiesInvoiced(new KualiInteger(item.getItemQuantity().bigDecimalValue()));
-                                item.setNoOfPartsInvoiced(item.getItemNoOfParts());
-                                item.setInvoiceItemListPrice(item.getItemListPrice().toString());
-                                if (StringUtils.isNotBlank(invoiceDocument.getInvoiceCurrencyType())) {
-                                    invoiceDocument.setInvoiceCurrencyTypeId(new Long(invoiceDocument.getInvoiceCurrencyType()));
-                                    String currencyType = getInvoiceService().getCurrencyType(invoiceDocument.getInvoiceCurrencyType());
-                                    if (StringUtils.isNotBlank(currencyType)) {
-                                        if (!currencyType.equalsIgnoreCase(OleSelectConstant.CURRENCY_TYPE_NAME)) {
-                                            item.setInvoiceForeignCurrency(currencyType);
-                                            invoiceDocument.setForeignCurrencyFlag(true);
-                                            item.setItemDiscount(new KualiDecimal(0.0));
-                                            if (StringUtils.isBlank(invoiceDocument.getInvoiceCurrencyExchangeRate())) {
+                            if (item.isItemActiveIndicator() &&
+                                    item.getItemType().isQuantityBasedGeneralLedgerIndicator() &&
+                                    item.getItemType().isLineItemIndicator()) {
+                                active_item_count = active_item_count + 1;
+
+                            }
+                            }
+                        if(active_item_count == 0) {
+                            GlobalVariables.getMessageMap().putError(OleSelectConstant.PO_ITEM_SECTION_ID, OLEKeyConstants.NO_ACTIVE_ITEMS, invoiceDocument.getPoId());
+                            return getUIFModelAndView(oleInvoiceForm);
+
+                        }
+                        else {
+                        for (OlePurchaseOrderItem item : items) {
+                            if (item.isItemActiveIndicator() &&
+                                    item.getItemType().isQuantityBasedGeneralLedgerIndicator() &&
+                                    item.getItemType().isLineItemIndicator()) {
+                                if (item.getItemTypeCode().equalsIgnoreCase(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) {
+                                    item.setPoOutstandingQuantity(item.getItemQuantity().subtract(item.getItemInvoicedTotalQuantity()));
+                                    item.setNoOfCopiesInvoiced(new KualiInteger(item.getItemQuantity().bigDecimalValue()));
+                                    item.setNoOfPartsInvoiced(item.getItemNoOfParts());
+                                    item.setInvoiceItemListPrice(item.getItemListPrice().toString());
+                                    if (StringUtils.isNotBlank(invoiceDocument.getInvoiceCurrencyType())) {
+                                        invoiceDocument.setInvoiceCurrencyTypeId(new Long(invoiceDocument.getInvoiceCurrencyType()));
+                                        String currencyType = getInvoiceService().getCurrencyType(invoiceDocument.getInvoiceCurrencyType());
+                                        if (StringUtils.isNotBlank(currencyType)) {
+                                            if (!currencyType.equalsIgnoreCase(OleSelectConstant.CURRENCY_TYPE_NAME)) {
+                                                item.setInvoiceForeignCurrency(currencyType);
+                                                invoiceDocument.setForeignCurrencyFlag(true);
+                                                item.setItemDiscount(new KualiDecimal(0.0));
+                                                if (StringUtils.isBlank(invoiceDocument.getInvoiceCurrencyExchangeRate())) {
                                                 /*BigDecimal exchangeRate = getInvoiceService().getExchangeRate(invoiceDocument.getInvoiceCurrencyType()).getExchangeRate();
                                                 invoiceDocument.setInvoiceCurrencyExchangeRate(exchangeRate.toString());
                                                 item.setInvoiceExchangeRate(exchangeRate.toString());*/
-                                                GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_INFO_SECTION_ID, OLEKeyConstants.ERROR_EXCHANGE_RATE_EMPTY, currencyType);
-                                                return getUIFModelAndView(oleInvoiceForm);
-                                            } else {
-                                                try {
-                                                    Double.parseDouble(invoiceDocument.getInvoiceCurrencyExchangeRate());
-                                                    BigDecimal exchangeRate = new BigDecimal(invoiceDocument.getInvoiceCurrencyExchangeRate());
-                                                    if (new KualiDecimal(exchangeRate).isZero()) {
+                                                    GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_INFO_SECTION_ID, OLEKeyConstants.ERROR_EXCHANGE_RATE_EMPTY, currencyType);
+                                                    return getUIFModelAndView(oleInvoiceForm);
+                                                } else {
+                                                    try {
+                                                        Double.parseDouble(invoiceDocument.getInvoiceCurrencyExchangeRate());
+                                                        BigDecimal exchangeRate = new BigDecimal(invoiceDocument.getInvoiceCurrencyExchangeRate());
+                                                        if (new KualiDecimal(exchangeRate).isZero()) {
+                                                            GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_INFO_SECTION_ID, OLEKeyConstants.ERROR_ENTER_VALID_EXCHANGE_RATE);
+                                                            return getUIFModelAndView(oleInvoiceForm);
+                                                        }
+                                                        item.setInvoiceExchangeRate(exchangeRate.toString());
+                                                    } catch (NumberFormatException nfe) {
                                                         GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_INFO_SECTION_ID, OLEKeyConstants.ERROR_ENTER_VALID_EXCHANGE_RATE);
                                                         return getUIFModelAndView(oleInvoiceForm);
                                                     }
-                                                    item.setInvoiceExchangeRate(exchangeRate.toString());
                                                 }
-                                                catch (NumberFormatException nfe) {
-                                                    GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_INFO_SECTION_ID, OLEKeyConstants.ERROR_ENTER_VALID_EXCHANGE_RATE);
-                                                    return getUIFModelAndView(oleInvoiceForm);
-                                                }
-                                            }
 
-                                            // if the PO has Foreign Currency
-                                            if (item.getItemForeignListPrice() != null) {
-                                                item.setInvoiceForeignItemListPrice(item.getItemForeignListPrice().toString());
-                                                item.setInvoiceForeignDiscount(item.getItemForeignDiscount()!=null? item.getItemForeignDiscount().toString(): new KualiDecimal("0.0").toString());
-                                                item.setInvoiceForeignUnitCost(item.getItemForeignUnitCost().toString());
-                                                item.setInvoiceForeignCurrency(currencyType);
+                                                // if the PO has Foreign Currency
+                                                if (item.getItemForeignListPrice() != null) {
+                                                    item.setInvoiceForeignItemListPrice(item.getItemForeignListPrice().toString());
+                                                    item.setInvoiceForeignDiscount(item.getItemForeignDiscount() != null ? item.getItemForeignDiscount().toString() : new KualiDecimal("0.0").toString());
+                                                    item.setInvoiceForeignUnitCost(item.getItemForeignUnitCost().toString());
+                                                    item.setInvoiceForeignCurrency(currencyType);
 
-                                                if (item.getInvoiceExchangeRate() != null && item.getInvoiceForeignUnitCost() != null) {
-                                                    item.setItemUnitCostUSD(new KualiDecimal(new BigDecimal(item.getInvoiceForeignUnitCost()).divide(new BigDecimal(item.getInvoiceExchangeRate()), 4, RoundingMode.HALF_UP)));
-                                                    item.setItemUnitPrice(new BigDecimal(item.getInvoiceForeignUnitCost()).divide(new BigDecimal(item.getInvoiceExchangeRate()), 4, RoundingMode.HALF_UP));
-                                                    item.setItemListPrice(item.getItemUnitCostUSD());
-                                                    item.setInvoiceItemListPrice(item.getItemListPrice().toString());
+                                                    if (item.getInvoiceExchangeRate() != null && item.getInvoiceForeignUnitCost() != null) {
+                                                        item.setItemUnitCostUSD(new KualiDecimal(new BigDecimal(item.getInvoiceForeignUnitCost()).divide(new BigDecimal(item.getInvoiceExchangeRate()), 4, RoundingMode.HALF_UP)));
+                                                        item.setItemUnitPrice(new BigDecimal(item.getInvoiceForeignUnitCost()).divide(new BigDecimal(item.getInvoiceExchangeRate()), 4, RoundingMode.HALF_UP));
+                                                        item.setItemListPrice(item.getItemUnitCostUSD());
+                                                        item.setInvoiceItemListPrice(item.getItemListPrice().toString());
+                                                    }
+                                                } else {
+                                                    item.setItemForeignUnitCost(new KualiDecimal(item.getItemUnitPrice().multiply(new BigDecimal(item.getInvoiceExchangeRate()))));
+                                                    item.setItemForeignListPrice(item.getItemForeignUnitCost());
+                                                    item.setInvoiceForeignItemListPrice(item.getItemForeignListPrice().toString());
+                                                    item.setInvoiceForeignDiscount(new KualiDecimal(0.0).toString());
+                                                    item.setInvoiceForeignUnitCost(item.getItemForeignUnitCost().toString());
                                                 }
+                                                getInvoiceService().calculateAccount(item);
+
                                             } else {
-                                                item.setItemForeignUnitCost(new KualiDecimal(item.getItemUnitPrice().multiply(new BigDecimal(item.getInvoiceExchangeRate()))));
-                                                item.setItemForeignListPrice(item.getItemForeignUnitCost());
-                                                item.setInvoiceForeignItemListPrice(item.getItemForeignListPrice().toString());
-                                                item.setInvoiceForeignDiscount(new KualiDecimal(0.0).toString());
-                                                item.setInvoiceForeignUnitCost(item.getItemForeignUnitCost().toString());
+                                                invoiceDocument.setForeignCurrencyFlag(false);
+                                                invoiceDocument.setInvoiceCurrencyExchangeRate(null);
+                                                item.setItemDiscount(item.getItemDiscount() != null ? item.getItemDiscount() : new KualiDecimal(0.0));
                                             }
-                                            getInvoiceService().calculateAccount(item);
-
-                                        } else {
-                                            invoiceDocument.setForeignCurrencyFlag(false);
-                                            invoiceDocument.setInvoiceCurrencyExchangeRate(null);
-                                            item.setItemDiscount(item.getItemDiscount() != null ? item.getItemDiscount() : new KualiDecimal(0.0));
                                         }
+                                    } else {
+                                        invoiceDocument.setForeignCurrencyFlag(false);
+                                        invoiceDocument.setInvoiceCurrencyType(invoiceDocument.getVendorDetail().getCurrencyType().getCurrencyTypeId().toString());
+                                        invoiceDocument.setInvoiceCurrencyTypeId(invoiceDocument.getVendorDetail().getCurrencyType().getCurrencyTypeId());
+                                        invoiceDocument.setInvoiceCurrencyExchangeRate(null);
+                                        item.setInvoiceExchangeRate(null);
+                                        item.setItemExchangeRate(null);
                                     }
+                                    if (item.getItemTitleId() != null) {
+                                        item.setItemDescription(SpringContext.getBean(OlePurapService.class).getItemDescription(item));
+                                        // item.setDocFormat(DocumentUniqueIDPrefix.getBibFormatType(item.getItemTitleId()));
+                                    }
+                                    olePurchaseOrderDocument.getItems().add(item);
                                 }
-                                else {
-                                    invoiceDocument.setForeignCurrencyFlag(false);
-                                    invoiceDocument.setInvoiceCurrencyType(invoiceDocument.getVendorDetail().getCurrencyType().getCurrencyTypeId().toString());
-                                    invoiceDocument.setInvoiceCurrencyTypeId(invoiceDocument.getVendorDetail().getCurrencyType().getCurrencyTypeId());
-                                    invoiceDocument.setInvoiceCurrencyExchangeRate(null);
-                                    item.setInvoiceExchangeRate(null);
-                                    item.setItemExchangeRate(null);
-                                }
-                                if(item.getItemTitleId()!=null){
-                                    item.setItemDescription(SpringContext.getBean(OlePurapService.class).getItemDescription(item));
-                                   // item.setDocFormat(DocumentUniqueIDPrefix.getBibFormatType(item.getItemTitleId()));
-                                }
-                                olePurchaseOrderDocument.getItems().add(item);
                             }
+                        }
                         }
                     //    List<Note> note = olePurchaseOrderDocument.getNotes();
                         if ((olePurchaseOrderDocument.getPurchaseOrderEndDate() != null)) {
@@ -275,7 +293,9 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                         invoiceDocument.setRouteLogFlag(getInvoiceService().canCollapse(OLEConstants.ROUTE_LOG_SECTION,collapseSections));
                         invoiceDocument.setNotesAndAttachmentFlag(getInvoiceService().canCollapse(OLEConstants.NOTES_AND_ATTACH_SECTION,collapseSections));
 
-                    } else if(invoiceDocument.getVendorHeaderGeneratedIdentifier() == null && invoiceDocument.getVendorDetailAssignedIdentifier() == null && invoiceDocument.getPoId() != null && invoiceService.getPurchaseOrderVendor(invoiceDocument.getPoId()) != null) {
+                    }
+
+                        else if(invoiceDocument.getVendorHeaderGeneratedIdentifier() == null && invoiceDocument.getVendorDetailAssignedIdentifier() == null && invoiceDocument.getPoId() != null && invoiceService.getPurchaseOrderVendor(invoiceDocument.getPoId()) != null) {
                         GlobalVariables.getMessageMap().putError(OleSelectConstant.PO_ITEM_SECTION_ID, OLEKeyConstants.ERROR_NO_MATCHING_PO_VND_NM, new String[]{invoiceService.getPurchaseOrderVendor(invoiceDocument.getPoId())});
                     }
                     else {
