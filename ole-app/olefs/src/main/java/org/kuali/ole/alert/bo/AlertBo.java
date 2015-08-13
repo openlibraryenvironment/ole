@@ -2,6 +2,7 @@ package org.kuali.ole.alert.bo;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import javax.persistence.Transient;
@@ -63,6 +64,8 @@ public class AlertBo extends PersistableBusinessObjectBase {
     private String alertSelector;
 
     private String alertDetails;
+
+    private String linkUrl;
 
     public String getDocumentId() {
         return documentId;
@@ -281,5 +284,20 @@ public class AlertBo extends PersistableBusinessObjectBase {
 
     public void setAlertDetails(String alertDetails) {
         this.alertDetails = alertDetails;
+    }
+
+    public String getLinkUrl() {
+        if(getAlertSelector().equalsIgnoreCase(OLEConstants.SELECTOR_ROLE)) {
+            linkUrl = ConfigContext.getCurrentContextConfig().getProperty("kim.url") + OLEConstants.ALERT_ROLE_URL + receivingRoleId;
+        } else if(getAlertSelector().equalsIgnoreCase(OLEConstants.SELECTOR_GROUP)) {
+            linkUrl = ConfigContext.getCurrentContextConfig().getProperty("kim.url") + OLEConstants.ALERT_GROUP_URL + receivingGroupId;
+        } else if(getAlertSelector().equalsIgnoreCase(OLEConstants.SELECTOR_PERSON)) {
+            linkUrl = ConfigContext.getCurrentContextConfig().getProperty("kim.url") + OLEConstants.ALERT_PERSON_URL + receivingUserId;
+        }
+        return linkUrl;
+    }
+
+    public void setLinkUrl(String linkUrl) {
+        this.linkUrl = linkUrl;
     }
 }

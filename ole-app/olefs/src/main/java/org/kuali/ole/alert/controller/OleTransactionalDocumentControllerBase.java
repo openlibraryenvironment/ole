@@ -96,8 +96,6 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
         TransactionalDocumentFormBase transactionalDocumentFormBase = (TransactionalDocumentFormBase)uifForm;
         OleTransactionalDocumentBase oleTransactionalDocumentBase = (OleTransactionalDocumentBase) transactionalDocumentFormBase.getDocument();
         int index = Integer.parseInt(transactionalDocumentFormBase.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        List<String> principalIds = new ArrayList<String>();
-        List<AlertBo> alerts = new ArrayList<AlertBo>();
         String oldSelector = null;
         String oldRecipientName = null;
         String oldRecipientId = null;
@@ -124,11 +122,11 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
             oldAlertBo.getAlertSelector();
             if(StringUtils.isNotBlank(alertBo.getAlertSelector())) {
                 if(alertBo.getAlertSelector().equals(oldAlertBo.getAlertSelector())) {
-                    if(!validateAndSaveAlertForSameSelector(alertBo, oldRecipientName, oldRecipientId, oleTransactionalDocumentBase, principalIds, index, alerts)) {
+                    if(!validateAndSaveAlertForSameSelector(alertBo, oldRecipientName, oldRecipientId, oleTransactionalDocumentBase, index)) {
                         return getUIFModelAndView(uifForm);
                     }
                 } else {
-                    if(!validateAndSaveAlertForDiffSelector(alertBo, oleTransactionalDocumentBase, principalIds, index, alerts)) {
+                    if(!validateAndSaveAlertForDiffSelector(alertBo, oleTransactionalDocumentBase, index)) {
                         return getUIFModelAndView(uifForm);
                     }
                 }
@@ -149,11 +147,11 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
                 }
                 if(StringUtils.isNotBlank(alertBo.getAlertSelector())) {
                     if(alertBo.getAlertSelector().equals(oldSelector)) {
-                        if(!validateAndSaveAlertForSameSelector(alertBo, oldRecipientName, oldRecipientId, oleTransactionalDocumentBase, principalIds, index, alerts)) {
+                        if(!validateAndSaveAlertForSameSelector(alertBo, oldRecipientName, oldRecipientId, oleTransactionalDocumentBase, index)) {
                             return getUIFModelAndView(uifForm);
                         }
                     } else {
-                        if(!validateAndSaveAlertForDiffSelector(alertBo, oleTransactionalDocumentBase, principalIds, index, alerts)) {
+                        if(!validateAndSaveAlertForDiffSelector(alertBo, oleTransactionalDocumentBase, index)) {
                             return getUIFModelAndView(uifForm);
                         }
                     }
@@ -163,70 +161,88 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
         return super.navigate(transactionalDocumentFormBase, result, request, response);
     }
 
-    private boolean validateAndSaveAlertForDiffSelector(AlertBo alertBo, OleTransactionalDocumentBase oleTransactionalDocumentBase, List<String> principalIds, int index, List<AlertBo> alerts) {
+    private boolean validateAndSaveAlertForDiffSelector(AlertBo alertBo, OleTransactionalDocumentBase oleTransactionalDocumentBase, int index) {
         if (alertBo.getAlertSelector().equals(OLEConstants.SELECTOR_ROLE)) {
-            if (!checkAndAddRole(principalIds, alertBo)) {
+            alertBo.setReceivingGroupName(null);
+            alertBo.setReceivingGroupId(null);
+            alertBo.setReceivingUserName(null);
+            alertBo.setReceivingUserId(null);
+            if (!checkAndAddRole(alertBo)) {
                 return false;
             }
-            alerts.addAll(alertService.getAlertBo(alertBo, principalIds, true, false));
             oleTransactionalDocumentBase.getAlertBoList().remove(index);
         } else if (alertBo.getAlertSelector().equals(OLEConstants.SELECTOR_GROUP)) {
-            if (!checkAndAddGroup(principalIds, alertBo)) {
+            alertBo.setReceivingRoleName(null);
+            alertBo.setReceivingRoleId(null);
+            alertBo.setReceivingUserName(null);
+            alertBo.setReceivingUserId(null);
+            if (!checkAndAddGroup(alertBo)) {
                 return false;
             }
-            alerts.addAll(alertService.getAlertBo(alertBo, principalIds, false, true));
             oleTransactionalDocumentBase.getAlertBoList().remove(index);
         } else if (alertBo.getAlertSelector().equals(OLEConstants.SELECTOR_PERSON)) {
-            if (!checkAndAddPerson(principalIds, alertBo)) {
+            alertBo.setReceivingRoleName(null);
+            alertBo.setReceivingRoleId(null);
+            alertBo.setReceivingGroupName(null);
+            alertBo.setReceivingGroupId(null);
+            if (!checkAndAddPerson(alertBo)) {
                 return false;
             }
-            alerts.addAll(alertService.getAlertBo(alertBo, principalIds, false, false));
             oleTransactionalDocumentBase.getAlertBoList().remove(index);
         }
-        oleTransactionalDocumentBase.getAlertBoList().addAll(alerts);
+        oleTransactionalDocumentBase.getAlertBoList().add(alertBo);
         return true;
     }
 
-    private boolean validateAndSaveAlertForSameSelector(AlertBo alertBo, String oldRecipientName, String oldRecipientId, OleTransactionalDocumentBase oleTransactionalDocumentBase, List<String> principalIds, int index, List<AlertBo> alerts) {
+    private boolean validateAndSaveAlertForSameSelector(AlertBo alertBo, String oldRecipientName, String oldRecipientId, OleTransactionalDocumentBase oleTransactionalDocumentBase, int index) {
         if(alertBo.getAlertSelector().equals(OLEConstants.SELECTOR_ROLE)) {
+            alertBo.setReceivingGroupName(null);
+            alertBo.setReceivingGroupId(null);
+            alertBo.setReceivingUserName(null);
+            alertBo.setReceivingUserId(null);
             if(StringUtils.isBlank(oldRecipientName) && StringUtils.isNotBlank(oldRecipientId)) {
                 oldRecipientName = alertService.getRoleName(oldRecipientId);
             }
             if(StringUtils.isNotBlank(oldRecipientName) && !oldRecipientName.equals(alertBo.getReceivingRoleName())) {
-                if(!checkAndAddRole(principalIds, alertBo)) {
+                if(!checkAndAddRole(alertBo)) {
                     return false;
                 }
-                alerts.addAll(alertService.getAlertBo(alertBo, principalIds, true, false));
                 oleTransactionalDocumentBase.getAlertBoList().remove(index);
-                oleTransactionalDocumentBase.getAlertBoList().addAll(alerts);
+                oleTransactionalDocumentBase.getAlertBoList().add(alertBo);
             } else {
                 oleTransactionalDocumentBase.getAlertBoList().get(index).setEditFlag(false);
             }
         } else if(alertBo.getAlertSelector().equals(OLEConstants.SELECTOR_GROUP)) {
+            alertBo.setReceivingRoleName(null);
+            alertBo.setReceivingRoleId(null);
+            alertBo.setReceivingUserName(null);
+            alertBo.setReceivingUserId(null);
             if(StringUtils.isBlank(oldRecipientName) && StringUtils.isNotBlank(oldRecipientId)) {
                 oldRecipientName = alertService.getGroupName(oldRecipientId);
             }
             if(StringUtils.isNotBlank(oldRecipientName) && !oldRecipientName.equals(alertBo.getReceivingGroupName())) {
-                if(!checkAndAddGroup(principalIds, alertBo)) {
+                if(!checkAndAddGroup(alertBo)) {
                     return false;
                 }
-                alerts.addAll(alertService.getAlertBo(alertBo, principalIds, false, true));
                 oleTransactionalDocumentBase.getAlertBoList().remove(index);
-                oleTransactionalDocumentBase.getAlertBoList().addAll(alerts);
+                oleTransactionalDocumentBase.getAlertBoList().add(alertBo);
             } else {
                 oleTransactionalDocumentBase.getAlertBoList().get(index).setEditFlag(false);
             }
         } else if(alertBo.getAlertSelector().equals(OLEConstants.SELECTOR_PERSON)) {
+            alertBo.setReceivingRoleName(null);
+            alertBo.setReceivingRoleId(null);
+            alertBo.setReceivingGroupName(null);
+            alertBo.setReceivingGroupId(null);
             if(StringUtils.isBlank(oldRecipientName) && StringUtils.isNotBlank(oldRecipientId)) {
                 oldRecipientName = alertService.getName(oldRecipientId);
             }
             if(StringUtils.isNotBlank(oldRecipientName) && !oldRecipientName.equals(alertBo.getReceivingUserName())) {
-                if(!checkAndAddPerson(principalIds, alertBo)) {
+                if(!checkAndAddPerson(alertBo)) {
                     return false;
                 }
-                alerts.addAll(alertService.getAlertBo(alertBo, principalIds, false, false));
                 oleTransactionalDocumentBase.getAlertBoList().remove(index);
-                oleTransactionalDocumentBase.getAlertBoList().addAll(alerts);
+                oleTransactionalDocumentBase.getAlertBoList().add(alertBo);
             } else {
                 oleTransactionalDocumentBase.getAlertBoList().get(index).setEditFlag(false);
             }
@@ -234,7 +250,7 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
         return true;
     }
 
-    private boolean checkAndAddPerson(List<String> principalIds, AlertBo alertBo) {
+    private boolean checkAndAddPerson(AlertBo alertBo) {
         alertBo.setAlertCreateDate(new Date(System.currentTimeMillis()));
         alertBo.setAlertInitiatorId(GlobalVariables.getUserSession().getPrincipalId());
         alertBo.setAlertInitiatorName(alertService.getName(GlobalVariables.getUserSession().getPrincipalId()));
@@ -247,12 +263,13 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ALERT_SECTION, OLEConstants.ERROR_INVALID_PERSON_NAME);
             return false;
         }
-        principalIds.add(alertBo.getReceivingUserId());
+        alertBo.setEditFlag(false);
         alertBo.setAlertDetails(alertBo.getAlertSelector()+"/"+alertBo.getReceivingUserName()+"/"+alertBo.getReceivingUserId());
         return true;
     }
 
-    private boolean checkAndAddGroup(List<String> principalIds, AlertBo alertBo) {
+    private boolean checkAndAddGroup(AlertBo alertBo) {
+        List<String> principalIds = new ArrayList<>();
         alertBo.setAlertCreateDate(new Date(System.currentTimeMillis()));
         alertBo.setAlertInitiatorId(GlobalVariables.getUserSession().getPrincipalId());
         alertBo.setAlertInitiatorName(alertService.getName(GlobalVariables.getUserSession().getPrincipalId()));
@@ -271,11 +288,13 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ALERT_SECTION, OLEConstants.NO_USER_FOR_GROUP);
             return false;
         }
+        alertBo.setEditFlag(false);
         alertBo.setAlertDetails(alertBo.getAlertSelector() + "/" + alertBo.getReceivingGroupName() + "/" + alertBo.getReceivingGroupId());
         return true;
     }
 
-    private boolean checkAndAddRole(List<String> principalIds, AlertBo alertBo) {
+    private boolean checkAndAddRole(AlertBo alertBo) {
+        List<String> principalIds = new ArrayList<>();
         alertBo.setAlertCreateDate(new Date(System.currentTimeMillis()));
         alertBo.setAlertInitiatorId(GlobalVariables.getUserSession().getPrincipalId());
         alertBo.setAlertInitiatorName(alertService.getName(GlobalVariables.getUserSession().getPrincipalId()));
@@ -299,6 +318,7 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLE_ALERT_SECTION, OLEConstants.NO_USER_FOR_ROLE);
             return false;
         }
+        alertBo.setEditFlag(false);
         alertBo.setAlertDetails(alertBo.getAlertSelector()+"/"+alertBo.getReceivingRoleName()+"/"+alertBo.getReceivingRoleId());
         return true;
     }
@@ -439,8 +459,6 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
         oleTransactionalDocumentBase.getDocumentHeader().getWorkflowDocument().getDocument().getStatus().getCode();
         ModelAndView modelAndView =  super.addLine(uifForm,result,request,response);
         transactionalDocumentFormBase = (TransactionalDocumentFormBase)modelAndView.getModel().get("KualiForm");
-        List<String> principalIds = new ArrayList<String>();
-        List<AlertBo> alerts = new ArrayList<AlertBo>();
         AlertBo alertBo = oleTransactionalDocumentBase.getAlertBoList().get(0);
         oleTransactionalDocumentBase.getAlertBoList().remove(0);
         String status = null;
@@ -463,31 +481,28 @@ private AlertServiceImpl alertService = new AlertServiceImpl();
                 alertBo.setReceivingGroupId(null);
                 alertBo.setReceivingUserName(null);
                 alertBo.setReceivingUserId(null);
-                if(!checkAndAddRole(principalIds, alertBo)) {
+                if(!checkAndAddRole(alertBo)) {
                     return getUIFModelAndView(uifForm);
                 }
-                alerts.addAll(alertService.getAlertBo(alertBo,principalIds,true,false));
             } else if(alertBo.getAlertSelector().equals(OLEConstants.SELECTOR_GROUP)) {
                 alertBo.setReceivingRoleName(null);
                 alertBo.setReceivingRoleId(null);
                 alertBo.setReceivingUserName(null);
                 alertBo.setReceivingUserId(null);
-                if(!checkAndAddGroup(principalIds,alertBo)) {
+                if(!checkAndAddGroup(alertBo)) {
                     return getUIFModelAndView(uifForm);
                 }
-                alerts.addAll(alertService.getAlertBo(alertBo,principalIds,false,true));
             } else if(alertBo.getAlertSelector().equals(OLEConstants.SELECTOR_PERSON)) {
                 alertBo.setReceivingRoleName(null);
                 alertBo.setReceivingRoleId(null);
                 alertBo.setReceivingGroupName(null);
                 alertBo.setReceivingGroupId(null);
-                if(!checkAndAddPerson(principalIds,alertBo)) {
+                if(!checkAndAddPerson(alertBo)) {
                     return getUIFModelAndView(uifForm);
                 }
-                alerts.addAll(alertService.getAlertBo(alertBo,principalIds,false,false));
             }
         }
-        oleTransactionalDocumentBase.getAlertBoList().addAll(alerts);
+        oleTransactionalDocumentBase.getAlertBoList().add(alertBo);
         if(StringUtils.isNotBlank(alertBo.getReceivingUserId()) && StringUtils.isNotBlank(alertBo.getReceivingGroupId())){
             alertBo.setReceivingGroupName(null);
             alertBo.setReceivingGroupId(null);

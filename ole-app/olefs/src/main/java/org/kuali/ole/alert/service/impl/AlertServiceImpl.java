@@ -21,10 +21,7 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by maheswarang on 11/10/14.
@@ -33,6 +30,7 @@ public class AlertServiceImpl implements AlertService{
     private static final Logger LOG = Logger.getLogger(AlertHelperServiceImpl.class);
     private BusinessObjectService businessObjectService = KRADServiceLocator.getBusinessObjectService();
     private GroupService groupService = KimApiServiceLocator.getGroupService();
+    private org.kuali.rice.kim.api.role.RoleService roleService = KimApiServiceLocator.getRoleService();
 
     /**
      * This method is used to update the alert table for the transaction document
@@ -40,14 +38,17 @@ public class AlertServiceImpl implements AlertService{
      */
     public void saveAlert(DocumentBase documentBase){
         LOG.info("Inside saveAlert for updating the alert table for the document with document Number :  " +documentBase.getDocumentNumber());
+        List<AlertBo> alertBoList = new ArrayList<>();
         if(documentBase instanceof OleTransactionalDocumentBase){
             OleTransactionalDocumentBase oleTransactionalDocumentBase = (OleTransactionalDocumentBase)documentBase;
-        if(oleTransactionalDocumentBase.getAlertBoList()!=null && oleTransactionalDocumentBase.getAlertBoList().size()>0){
-            for(AlertBo alertBo : oleTransactionalDocumentBase.getAlertBoList()){
-                alertBo.setDocumentId(oleTransactionalDocumentBase.getDocumentNumber());
-                updateActionList(alertBo, oleTransactionalDocumentBase);
+            if(oleTransactionalDocumentBase.getAlertBoList()!=null && oleTransactionalDocumentBase.getAlertBoList().size()>0){
+                for(AlertBo alertBo : oleTransactionalDocumentBase.getAlertBoList()){
+                    alertBo.setDocumentId(oleTransactionalDocumentBase.getDocumentNumber());
+                    alertBoList.add(updateActionList(alertBo, oleTransactionalDocumentBase));
+                }
             }
-        }
+            oleTransactionalDocumentBase.setAlertBoList(alertBoList);
+            oleTransactionalDocumentBase.setTempAlertBoList(retrieveApprovedAlertList(oleTransactionalDocumentBase.getDocumentNumber()));
         }
         else if(documentBase instanceof MaintenanceDocumentBase){
             MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase)documentBase;
@@ -56,11 +57,13 @@ public class AlertServiceImpl implements AlertService{
                 if(olePersistableBusinessObjectBase!=null && olePersistableBusinessObjectBase.getAlertBoList()!=null && olePersistableBusinessObjectBase.getAlertBoList().size()>0){
                     for(AlertBo alertBo : olePersistableBusinessObjectBase.getAlertBoList()){
                         alertBo.setDocumentId(maintenanceDocumentBase.getDocumentNumber());
-                        updateActionList(alertBo, maintenanceDocumentBase);
+                        alertBoList.add(updateActionList(alertBo, maintenanceDocumentBase));
                     }
                 }
+                olePersistableBusinessObjectBase.setAlertBoList(alertBoList);
             }
         }
+
     }
 
     /**
@@ -164,9 +167,8 @@ public class AlertServiceImpl implements AlertService{
      * @param alertBo
      * @param documentBase
      */
-    public void updateActionList(AlertBo alertBo,DocumentBase documentBase){
+    public AlertBo updateActionList(AlertBo alertBo,DocumentBase documentBase){
         LOG.info("Inside the updateActionList for  updating the alerts in the action list related to the document with the document number : "+documentBase.getDocumentNumber() + " for an alert with the alert id : " +alertBo.getAlertId());
-        List<String> principalIds = new ArrayList<String>();
         List<ActionListAlertBo> actionListAlertBos = new ArrayList<ActionListAlertBo>();
         ActionListAlertBo actionListAlertBo = new ActionListAlertBo();
         AlertBo alertBo1 = new AlertBo();
@@ -185,34 +187,74 @@ public class AlertServiceImpl implements AlertService{
         alertBo1.setReceivingGroupId(alertBo.getReceivingGroupId());
         alertBo1.setReceivingRoleId(alertBo.getReceivingRoleId());
         alertBo1.setReceivingRoleName(alertBo.getReceivingRoleName());
+        alertBo1.setReceivingGroupName(alertBo.getReceivingGroupName());
+        alertBo1.setReceivingUserName(alertBo.getReceivingUserName());
+        alertBo1.setAlertSelector(alertBo.getAlertSelector());
         alertBo1 = businessObjectService.save(alertBo1);
 
         if(documentBase instanceof  OleTransactionalDocumentBase){
-        OleTransactionalDocumentBase oleTransactionalDocumentBase = (OleTransactionalDocumentBase)documentBase;
-            actionListAlertBo =  getActionListAlertBo(alertBo1,oleTransactionalDocumentBase.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(),oleTransactionalDocumentBase.getDocumentTitle(),alertBo1.getReceivingUserId());
+            OleTransactionalDocumentBase oleTransactionalDocumentBase = (OleTransactionalDocumentBase)documentBase;
+            if(StringUtils.isNotBlank(alertBo.getAlertSelector())) {
+                if(alertBo.getAlertSelector().equalsIgnoreCase(OLEConstants.SELECTOR_ROLE)) {
+                    List<String> roleIds = new ArrayList<String>();
+                    roleIds.add(alertBo.getReceivingRoleId());
+                    Role role =  roleService.getRole(alertBo.getReceivingRoleId());
+                    Collection collection  =  (Collection)roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(),role.getName(),new HashMap<String, String>());
+                    List<String> memberIds = new ArrayList<String>();
+                    memberIds.addAll(collection);
+                    if(CollectionUtils.isNotEmpty(memberIds)) {
+                        for(String receivingUserId : memberIds) {
+                            actionListAlertBo = getActionListAlertBo(alertBo1, oleTransactionalDocumentBase.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), oleTransactionalDocumentBase.getDocumentTitle(), receivingUserId);
+                            actionListAlertBos.add(actionListAlertBo);
+                        }
+                    }
+                } else if(alertBo.getAlertSelector().equalsIgnoreCase(OLEConstants.SELECTOR_GROUP)) {
+                    List<String> memberIds = groupService.getMemberPrincipalIds(alertBo.getReceivingGroupId());
+                    if(CollectionUtils.isNotEmpty(memberIds)) {
+                        for(String receivingUserId : memberIds) {
+                            actionListAlertBo = getActionListAlertBo(alertBo1, oleTransactionalDocumentBase.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), oleTransactionalDocumentBase.getDocumentTitle(), receivingUserId);
+                            actionListAlertBos.add(actionListAlertBo);
+                        }
+                    }
+                } else if(alertBo.getAlertSelector().equalsIgnoreCase(OLEConstants.SELECTOR_PERSON)) {
+                    actionListAlertBo = getActionListAlertBo(alertBo1, oleTransactionalDocumentBase.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), oleTransactionalDocumentBase.getDocumentTitle(), alertBo1.getReceivingUserId());
+                    actionListAlertBos.add(actionListAlertBo);
+                }
+            }
         }
 
         if(documentBase instanceof  MaintenanceDocumentBase){
             MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase)documentBase;
-            actionListAlertBo =  getActionListAlertBo(alertBo1,maintenanceDocumentBase.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(),maintenanceDocumentBase.getDocumentTitle(),alertBo1.getReceivingUserId());
-        }
-
-        actionListAlertBos.add(actionListAlertBo);
-/*        if(alertBo.getReceivingGroupId()!=null){
-         List<String> memberIds = groupService.getMemberPrincipalIds(alertBo.getReceivingGroupId());
-            principalIds.addAll(memberIds);
-        }
-        if (alertBo.getReceivingUserId()!=null){
-        principalIds.add(alertBo.getReceivingUserId());
-        }
-        if(principalIds.size()>0){
-            for(String receivingUserId : principalIds){
-         actionListAlertBo =  getActionListAlertBo(alertBo,oleTransactionalDocumentBase.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(),oleTransactionalDocumentBase.getDocumentTitle(),receivingUserId);
-         actionListAlertBo.setAlertId(alertBo1.getAlertId());
-         actionListAlertBos.add(actionListAlertBo);
+            if(StringUtils.isNotBlank(alertBo.getAlertSelector())) {
+                if(alertBo.getAlertSelector().equalsIgnoreCase(OLEConstants.SELECTOR_ROLE)) {
+                    List<String> roleIds = new ArrayList<String>();
+                    roleIds.add(alertBo.getReceivingRoleId());
+                    Role role =  roleService.getRole(alertBo.getReceivingRoleId());
+                    Collection collection  =  (Collection)roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(),role.getName(),new HashMap<String, String>());
+                    List<String> memberIds = new ArrayList<String>();
+                    memberIds.addAll(collection);
+                    if(CollectionUtils.isNotEmpty(memberIds)) {
+                        for(String receivingUserId : memberIds) {
+                            actionListAlertBo = getActionListAlertBo(alertBo1, maintenanceDocumentBase.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), maintenanceDocumentBase.getDocumentTitle(), receivingUserId);
+                            actionListAlertBos.add(actionListAlertBo);
+                        }
+                    }
+                } else if(alertBo.getAlertSelector().equalsIgnoreCase(OLEConstants.SELECTOR_GROUP)) {
+                    List<String> memberIds = groupService.getMemberPrincipalIds(alertBo.getReceivingGroupId());
+                    if(CollectionUtils.isNotEmpty(memberIds)) {
+                        for(String receivingUserId : memberIds) {
+                            actionListAlertBo = getActionListAlertBo(alertBo1, maintenanceDocumentBase.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), maintenanceDocumentBase.getDocumentTitle(), receivingUserId);
+                            actionListAlertBos.add(actionListAlertBo);
+                        }
+                    }
+                } else if(alertBo.getAlertSelector().equalsIgnoreCase(OLEConstants.SELECTOR_PERSON)) {
+                    actionListAlertBo = getActionListAlertBo(alertBo1, maintenanceDocumentBase.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), maintenanceDocumentBase.getDocumentTitle(), alertBo1.getReceivingUserId());
+                    actionListAlertBos.add(actionListAlertBo);
+                }
             }
-        }*/
+        }
         businessObjectService.save(actionListAlertBos);
+        return alertBo1;
     }
 
 

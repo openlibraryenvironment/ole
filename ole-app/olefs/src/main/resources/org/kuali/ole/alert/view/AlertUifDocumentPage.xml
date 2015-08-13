@@ -58,23 +58,34 @@
                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
                     </property>
                 </bean>
-                <bean id="alert_receivingRoleName" p:propertyName="receivingRoleName" parent="Uif-InputField" p:label="Role" p:readOnly="@{!#isAddLine and !#line.editFlag}">
+                <bean id="alert_receivingRoleName" p:propertyName="receivingRoleName" parent="Uif-InputField" p:label="Role" p:render="@{(#isAddLine or #line.editFlag)}">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.impl.role.RoleBo" p:fieldConversions="id:receivingRoleId,name:receivingRoleName"/>
                     </property>
                 </bean>
-                <bean id="alert_receivingGroupName" p:propertyName="receivingGroupName" parent="Uif-InputField" p:label="Group" p:readOnly="@{!#isAddLine and !#line.editFlag}">
+
+                <bean id="alert_receivingRoleName_link" parent="Uif-LinkField" p:linkText="@{#line.receivingRoleName}" p:target="_blank"
+                      p:label="Role" p:href="@{#line.linkUrl}" p:render="@{!#isAddLine and !#line.editFlag}"/>
+
+                <bean id="alert_receivingGroupName" p:propertyName="receivingGroupName" parent="Uif-InputField" p:label="Group" p:render="@{(#isAddLine or #line.editFlag)}">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.impl.group.GroupBo" p:fieldConversions="id:receivingGroupId,name:receivingGroupName"/>
 
                     </property>
                 </bean>
-                <bean id="alert_receivingUserName" p:propertyName="receivingUserName" parent="Uif-InputField" p:label="Person" p:readOnly="@{!#isAddLine and !#line.editFlag}">
+
+                <bean id="alert_receivingGroupName_link" parent="Uif-LinkField" p:linkText="@{#line.receivingGroupName}" p:target="_blank"
+                      p:label="Group" p:href="@{#line.linkUrl}" p:render="@{!#isAddLine and !#line.editFlag}"/>
+
+                <bean id="alert_receivingUserName" p:propertyName="receivingUserName" parent="Uif-InputField" p:label="Person" p:render="@{(#isAddLine or #line.editFlag)}">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
                               p:fieldConversions="principalId:receivingUserId;,principalName:receivingUserName"/>
                     </property>
                 </bean>
+
+                <bean id="alert_receivingUserName_link" parent="Uif-LinkField" p:linkText="@{#line.receivingUserName}" p:target="_blank"
+                      p:label="Person" p:href="@{#line.linkUrl}" p:render="@{!#isAddLine and !#line.editFlag}"/>
 
                 <bean id="alert_Notes" parent="Uif-InputField" p:propertyName="alertNote" p:label="Note"
                       p:fieldLabel.renderColon="false" p:readOnly="@{!#isAddLine and !#line.editFlag}" p:required="true">

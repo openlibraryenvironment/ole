@@ -48,6 +48,9 @@ public class OLEConstants {
     public static final String SELECTOR_ROLE = "Role";
     public static final String SELECTOR_PERSON = "Person";
     public static final String SELECTOR_GROUP = "Group";
+    public static final String ALERT_ROLE_URL = "/" + "identityManagementRoleInquiry.do?methodToCall=inquiry&amp;id=";
+    public static final String ALERT_GROUP_URL = "/" + "identityManagementGroupInquiry.do?methodToCall=inquiry&amp;id=";
+    public static final String ALERT_PERSON_URL = "/" + "identityManagementPersonInquiry.do?principalId=";
     public static final String PATRON_ID_POLICY = "patronId";
     public static final String ITEM_ID_POLICY = "itemId";
     public static final String DUE_DATE_INFO = " Due date may be different than usual because of requests on this item. No renewals allowed.";
