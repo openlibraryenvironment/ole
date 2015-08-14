@@ -3574,6 +3574,7 @@
         <!--Commented for issue in clone after Receiving PO -->
        <!-- <field-descriptor name="receiptStatusId" column="OLE_REQ_RCPT_STATUS_ID" jdbc-type="INTEGER"/>-->
         <field-descriptor name="purchaseOrderEndDate" column="OLE_ITM_PO_END_DT" jdbc-type="DATE"/>
+        <field-descriptor name="sequenceNumber" column="OLE_SEQ_NBR" jdbc-type="INTEGER"/>
         <reference-descriptor name="purapDocument" class-ref="org.kuali.ole.select.document.OleInvoiceDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
             <foreignkey field-ref="purapDocumentIdentifier" />
         </reference-descriptor>

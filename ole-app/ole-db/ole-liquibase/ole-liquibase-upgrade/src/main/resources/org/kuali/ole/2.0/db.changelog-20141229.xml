@@ -5407,5 +5407,12 @@
         <sql>ALTER TABLE OLE_E_RES_ACCESS_T MODIFY MARC_REC_UPDT_FREQ NUMBER(10) DEFAULT NULL</sql>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_AP_INV_PO_ITM_TABLE_ID">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_AP_INV_PO_ITM_T">
+            <column name="OLE_SEQ_NBR" type="decimal(8,0)"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

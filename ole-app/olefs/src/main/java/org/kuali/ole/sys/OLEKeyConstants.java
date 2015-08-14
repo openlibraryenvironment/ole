@@ -1146,5 +1146,7 @@ public class OLEKeyConstants {
     public static final String ERROR_DATE = "error.date.requites";
     public static final String ERROR_TIME_LENGTH = "error.time.length";
     public static final String NO_ACTIVE_ITEMS = "error.inactive.items";
+    public static final String INV_SEQ_NBR = "error.invalid.seq.nbr";
+    public static final String INV_SEQ_NBR_ERR = "error.invalid.seq.nbr.err";
 
 }

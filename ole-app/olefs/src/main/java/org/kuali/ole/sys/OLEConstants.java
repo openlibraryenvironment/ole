@@ -2001,4 +2001,6 @@ public class OLEConstants {
     public static final String POBA_DIRECTORY = "/poba";
     public static final String POBA_FILE = "PurchaseOrderBulkAmendmentFile";
     public static final String POBA_LOG_FILE = "PurchaseOrderBulkAmendmentLog";
+    public static final String SEQ_NBR = "sequenceObject";
+    public static final String INDEX_NBR = "indexNo";
 }

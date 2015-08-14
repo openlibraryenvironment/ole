@@ -1321,9 +1321,12 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         invoiceDocument.refreshAccountSummmary();
 
         // Sorting the purchase order item base on item identifier. Modified for Jira OLE-5297
-        Collections.sort(invoiceDocument.getItems(),new Comparator<PurApItem>(){
-            public int compare(PurApItem item1,PurApItem item2){
-                return item1.getItemIdentifier().compareTo(item2.getItemIdentifier());
+        Collections.sort(invoiceDocument.getItems(),new Comparator<OleInvoiceItem>(){
+            public int compare(OleInvoiceItem item1,OleInvoiceItem item2){
+                if(item1.getSequenceNumber() != null && item2.getSequenceNumber() != null) {
+                    return item1.getSequenceNumber().compareTo(item2.getSequenceNumber());
+                }
+                return 0;
             }
         });
 
@@ -1766,11 +1769,15 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         List<OleInvoiceItem> oleInvoiceAdditionalItems=new ArrayList<OleInvoiceItem>();
         for(OleInvoiceItem oleInvoiceItem:(List<OleInvoiceItem>)oleInvoiceDocument.getItems()){
             if(oleInvoiceItem.getItemLineNumber()!=null){
+                if(oleInvoiceItem.getSequenceNumber() == null || oleInvoiceItem.getSequenceNumber() == 0){
+                    int sequenceNumber = oleInvoiceDocument.getLineOrderSequenceNumber();
+                    oleInvoiceDocument.setLineOrderSequenceNumber(++sequenceNumber);
+                    oleInvoiceItem.setSequenceNumber(sequenceNumber);
+                }
                 oleInvoiceItems.add(oleInvoiceItem);
             } else {
                 oleInvoiceAdditionalItems.add(oleInvoiceItem);
               //  oleInvoiceItem.setAdditionalUnitPrice(oleInvoiceItem.getExtendedPrice() != null ? oleInvoiceItem.getExtendedPrice().toString() : "");
-
             }
         }
         oleInvoiceItems.addAll(oleInvoiceAdditionalItems);
@@ -2009,6 +2016,12 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         List<OleInvoiceItem> oleInvoiceItems = oleInvoiceDocument.getItems();
         oleInvoiceDocument.getDeletedInvoiceItems().add((OleInvoiceItem) oleInvoiceDocument.getItems().get(deleteDocument));
         oleInvoiceItems.remove(deleteDocument);
+        int sequenceNumber = 0;
+        for(OleInvoiceItem item : oleInvoiceItems) {
+            if(item.getItemLineNumber() != null) {
+                item.setSequenceNumber(++sequenceNumber);
+            }
+        }
         oleInvoiceDocument.setItems(oleInvoiceItems);
         if (oleInvoiceDocument.isProrateDollar() || oleInvoiceDocument.isProrateQty()) {
             SpringContext.getBean(OleInvoiceService.class).calculateInvoice(oleInvoiceDocument, true);
@@ -3182,5 +3195,67 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
         getBusinessObjectService().delete(oleInvoiceNote);
         return getUIFModelAndView(oleInvoiceForm);
     }
+
+    @RequestMapping(params = "methodToCall=modifySequenceOrder")
+    public ModelAndView modifySequenceOrder(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                HttpServletRequest request, HttpServletResponse response) {
+
+        OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) form;
+        OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
+        int sequenceNumber = oleInvoiceDocument.getIndexNumberFromJsonObject(request.getParameter(OLEConstants.SEQ_NBR));
+        int modifiedSequenceNumber = ((OleInvoiceItem) oleInvoiceDocument.getItems().get(sequenceNumber)).getSequenceNumber();
+        if (modifiedSequenceNumber < 1) {
+            String poId = ((OleInvoiceItem) oleInvoiceDocument.getItems().get(sequenceNumber)).getPurchaseOrderIdentifier().toString();
+            GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_ITEM_SECTION_ID,
+                    OLEKeyConstants.INV_SEQ_NBR,poId);
+            return getUIFModelAndView(oleInvoiceForm);
+        }
+        int count = 0;
+        for(OleInvoiceItem item : (List<OleInvoiceItem>)oleInvoiceDocument.getItems()) {
+            if(item.getItemLineNumber() != null) {
+               count++;
+            }
+        }
+        if(modifiedSequenceNumber > count) {
+            String poId = ((OleInvoiceItem) oleInvoiceDocument.getItems().get(sequenceNumber)).getPurchaseOrderIdentifier().toString();
+            GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_ITEM_SECTION_ID,
+                    OLEKeyConstants.INV_SEQ_NBR_ERR,poId);
+            return getUIFModelAndView(oleInvoiceForm);
+        }
+        if(modifiedSequenceNumber <= sequenceNumber) {
+            List<OleInvoiceItem> oleInvoiceItemList = new ArrayList<>();
+            oleInvoiceItemList.addAll(oleInvoiceDocument.getItems());
+            oleInvoiceItemList.add(modifiedSequenceNumber - 1, oleInvoiceItemList.get(sequenceNumber));
+            oleInvoiceItemList.remove(sequenceNumber + 1);
+            oleInvoiceDocument.getItems().clear();
+            oleInvoiceDocument.getItems().addAll(oleInvoiceItemList);
+        } else {
+            List<OleInvoiceItem> oleInvoiceItemList = new ArrayList<>();
+            oleInvoiceItemList.addAll(oleInvoiceDocument.getItems());
+            oleInvoiceItemList.add(modifiedSequenceNumber , oleInvoiceItemList.get(sequenceNumber));
+            oleInvoiceItemList.remove(sequenceNumber);
+            oleInvoiceDocument.getItems().clear();
+            oleInvoiceDocument.getItems().addAll(oleInvoiceItemList);
+
+        }
+        int seqNo = 0;
+        for (OleInvoiceItem item : (List<OleInvoiceItem>) oleInvoiceDocument.getItems()) {
+            if (item.getItemLineNumber() != null) {
+                item.setSequenceNumber(++seqNo);
+            }
+        }
+        return getUIFModelAndView(oleInvoiceForm);
+    }
+
+    /*public Integer getIndexNumberFromJsonObject(String sequenceObject) {
+        Integer returnValue = null;
+        try {
+            JSONObject jsonObject = new JSONObject(sequenceObject);
+            returnValue = jsonObject.getInt(OLEConstants.INDEX_NBR);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnValue;
+    }*/
 
 }

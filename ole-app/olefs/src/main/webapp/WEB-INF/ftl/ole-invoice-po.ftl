@@ -185,6 +185,7 @@
         <thead>
         <tr>
             <th></th>
+            <th><span class="infoline"><label>Seq No</label></span></th>
             <th></th>
             <th><span class="infoline"><label>PO #</label></span></th>
             <th><span class="infoline"><label>Open Qty</label></span></th>
@@ -215,6 +216,13 @@
 			<#list manager.itemLines as line>
             <tr class="odd">
                 <td>${line.lineNumber + 1}</td>
+                <td>
+                    <#if container.readOnly>
+                ${line.item.sequenceNumber!}
+                <#else>
+                        <@text_control line 'sequenceNumber' container "Seq No" false "5" "25" "onChangeSequenceScript(${line.lineNumber});" />
+                    </#if>
+                </td>
                 <td><a onclick="oleInvoiceRowDetails('${line.lineId}','${container.id}',${(!line.rowDetails??)?string('true','false')})">Details</a></td>
                 <td><#if line.item.tempPurchaseOrderIdentifier?? && line.item.poItemLink??>
                     <a href="${line.item.poItemLink}" target="_blank">${line.item.tempPurchaseOrderIdentifier}</a>

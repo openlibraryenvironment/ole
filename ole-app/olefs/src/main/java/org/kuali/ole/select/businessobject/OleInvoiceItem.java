@@ -143,6 +143,7 @@ public class OleInvoiceItem extends InvoiceItem {
     private Integer tempItemIdentifier;
     public String itemTitle;
     private boolean enableDetailsSection=false;
+    private Integer sequenceNumber;
 
     private BibInfoRecord bibInfoRecord;
 
@@ -1314,5 +1315,11 @@ public class OleInvoiceItem extends InvoiceItem {
         return extendedPrice;
     }
 
+    public Integer getSequenceNumber() {
+        return sequenceNumber;
+    }
 
+    public void setSequenceNumber(Integer sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
 }

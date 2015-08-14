@@ -480,4 +480,13 @@ function removeDollarSymbolsForProcessItem() {
         itemDiscount = itemDiscount.replace(currencySymbol, "");
         jq("#OLEInvoiceView-processItems-currentItems_line0_line0_itemDiscount_control").val(itemDiscount);
     }
+
+}
+
+function onChangeSequenceScript(id) {
+    var indexValue = id;
+    var sequenceObject={};
+    sequenceObject['indexNo'] = id;
+    submitForm('modifySequenceOrder', {sequenceObject:JSON.stringify(sequenceObject)}, null, null, null);
+
 }

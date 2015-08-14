@@ -18,6 +18,8 @@ package org.kuali.ole.select.document;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.document.BibMarc;
@@ -169,6 +171,7 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
     private boolean duplicateRouteFlag;
     private boolean duplicateSaveFlag;
     private String currencyFormat;
+    private Integer lineOrderSequenceNumber = 0;
 
     public boolean isBlanketApproveFlag() {
         return blanketApproveFlag;
@@ -973,9 +976,12 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
                 //    items.setExchangeRate(exchangeRate.toString());
             }
         }
-
+        int count=0;
         for (int i = 0; item.size() > i; i++) {
             OleInvoiceItem items = (OleInvoiceItem) this.getItem(i);
+            if(items.getSequenceNumber() == null) {
+                items.setSequenceNumber(++count);
+            }
             if (this.getInvoiceCurrencyTypeId() != null) {
                 items.setItemCurrencyType(oleCurrencyType.getCurrencyType());
                 items.setInvoicedCurrency(oleCurrencyType.getCurrencyType());
@@ -2739,5 +2745,24 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
             currencyFormat = CurrencyFormatter.getSymbolForCurrencyPattern();
         }
         return currencyFormat;
+    }
+
+    public Integer getLineOrderSequenceNumber() {
+        return lineOrderSequenceNumber;
+    }
+
+    public void setLineOrderSequenceNumber(Integer lineOrderSequenceNumber) {
+        this.lineOrderSequenceNumber = lineOrderSequenceNumber;
+    }
+
+    public Integer getIndexNumberFromJsonObject(String sequenceObject) {
+        Integer returnValue = null;
+        try {
+            JSONObject jsonObject = new JSONObject(sequenceObject);
+            returnValue = jsonObject.getInt(OLEConstants.INDEX_NBR);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return returnValue;
     }
 }
