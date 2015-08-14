@@ -31,6 +31,7 @@ import org.kuali.ole.sys.OLEPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kew.actionitem.ActionItem;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
@@ -293,5 +294,13 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     private String formatDateForOracle(String overdueNoticeToDate) {
         String forOracle = DateFormatHelper.getInstance().generateDateStringsForOracle(overdueNoticeToDate);
         return forOracle;
+    }
+
+    public void deleteFromWorkflowItem(String documentNumber) {
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.DOC_HDR_ID, documentNumber);
+        getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(ActionItem.class, criteria));
+        getPersistenceBrokerTemplate().clearCache();
     }
 }

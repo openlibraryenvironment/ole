@@ -102,4 +102,6 @@ public interface PurchaseOrderDao {
      * @return List of POs
      */
     public List<PurchaseOrderDocument> getPendingPurchaseOrdersForFaxing();
+
+    public void deleteFromWorkflowItem(String documentNumber);
 }

@@ -974,7 +974,9 @@ public class OlePurchaseOrderAction extends PurchaseOrderAction {
         String poDocId = ((PurchaseOrderForm) form).getDocId();
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
-            SpringContext.getBean(OlePurchaseOrderService.class).purchaseOrderFirstTransmitViaPrinting(poDocId, baosPDF);
+            SpringContext.getBean(OlePurchaseOrderService.class).performPurchaseOrderFirstTransmitViaPrinting(poDocId, baosPDF);
+            //SpringContext.getBean(OlePurchaseOrderService.class).purchaseOrderFirstTransmitViaPrinting(poDocId, baosPDF);
+
         } finally {
             if (baosPDF != null) {
                 baosPDF.reset();

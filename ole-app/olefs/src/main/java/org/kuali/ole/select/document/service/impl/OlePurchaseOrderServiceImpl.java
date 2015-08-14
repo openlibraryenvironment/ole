@@ -181,6 +181,9 @@ public class OlePurchaseOrderServiceImpl extends PurchaseOrderServiceImpl implem
         po.setPurchaseOrderLastTransmitTimestamp(currentDate);
         po.setOverrideWorkflowButtons(Boolean.FALSE);
         boolean performedAction = purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission", PurapConstants.PurchaseOrderStatuses.NODE_DOCUMENT_TRANSMISSION, GlobalVariables.getUserSession().getPerson(), null);
+        if(!performedAction) {
+            purchaseOrderDao.deleteFromWorkflowItem(documentNumber);
+        }
         performedAction=true;
         po.setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
         if (!performedAction) {

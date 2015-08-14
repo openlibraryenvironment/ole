@@ -253,5 +253,7 @@ public class PurapPropertyConstants {
     //MSU Contribution OLEMI-5041 DTT-3371 OLECNTRB-955
     public static final String ITEM_UNIT_OF_MEASURE_CODE = "itemUnitOfMeasureCode";
 
+    public static final String DOC_HDR_ID = "doc_hdr_id";
+
 }
 
