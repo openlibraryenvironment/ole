@@ -146,13 +146,27 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
     @Override
     @RequestMapping(params = "methodToCall=route")
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-                                   HttpServletRequest request, HttpServletResponse response){
+                                   HttpServletRequest request, HttpServletResponse response) {
         OLESerialReceivingForm oleSerialReceivingForm = (OLESerialReceivingForm) form;
         OLESerialReceivingDocument oleSerialReceivingDocument = (OLESerialReceivingDocument) oleSerialReceivingForm.getDocument();
         oleSerialReceivingDocument.setCurrentActionPerformed("");
         Note note = documentService.createNoteFromDocument(oleSerialReceivingDocument, OLEConstants.SRR_ROUTE_NOTES);;
         oleSerialReceivingDocument.addNote(note);
         ModelAndView modelAndView = super.route(oleSerialReceivingForm, result, request, response);
+        try {
+            if (oleSerialReceivingDocument.getSubscriptionStatus() != null) {
+                PHoldings holdings = (PHoldings) getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(oleSerialReceivingDocument.getInstanceId());
+                OleHoldings oleHoldings = holdings.getContentObject();
+                if (!oleSerialReceivingDocument.getSubscriptionStatus().equals(oleHoldings.getReceiptStatus())) {
+                    oleHoldings.setReceiptStatus(oleSerialReceivingDocument.getSubscriptionStatus());
+                    holdings.serializeContent();
+                    getDocstoreClientLocator().getDocstoreClient().updateHoldings(holdings);
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception occured while setting Receipt status to OleHoldings :" + e.getMessage());
+        }
+
         if (oleSerialReceivingDocument.getSerialReceivingRecord() == null || oleSerialReceivingDocument.getSerialReceivingRecord().isEmpty()) {
             oleSerialReceivingDocument.setSerialReceivingRecord(oleSerialReceivingDocument.getSerialReceivingRecordId());
             getBusinessObjectService().save(oleSerialReceivingDocument);
@@ -220,6 +234,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
         String copyNumber = null;
         String callNumber = null;
         String holdingId = null;
+        String receiptSatusId = null;
         if (bibTree != null) {
             if (bibTree.getHoldingsTrees() != null) {
                 for (HoldingsTree holdingsTree : bibTree.getHoldingsTrees()) {
@@ -233,6 +248,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
                         callNumber = oleHoldings != null && oleHoldings.getCallNumber() != null && oleHoldings.getCallNumber().getNumber() != null ? oleHoldings.getCallNumber().getNumber() : "";
                         copyNumber = oleHoldings != null && oleHoldings.getCopyNumber() != null ? oleHoldings.getCopyNumber() : "";
                         holdingId = holdingsTree.getHoldings().getId();
+                        receiptSatusId = oleHoldings != null && oleHoldings.getReceiptStatus() != null? oleHoldings.getReceiptStatus() : "";
                     }
                 }
             }
@@ -255,6 +271,7 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
             oleSerialReceivingDocument.setPublisher(bibTree.getBib() != null ? bibTree.getBib().getPublisher() : "");
             oleSerialReceivingDocument.setCopyNumber(copyNumber != null ? copyNumber : "");
             oleSerialReceivingDocument.setCallNumber(callNumber != null ? callNumber : "");
+            oleSerialReceivingDocument.setSubscriptionStatus(receiptSatusId != null ? receiptSatusId : "");
             if (StringUtils.isNotBlank(instanceId)) {
                 //oleSerialReceivingDocument.setInstanceId(instanceId);
                 oleSerialReceivingDocument.setInstanceId(holdingsId);
