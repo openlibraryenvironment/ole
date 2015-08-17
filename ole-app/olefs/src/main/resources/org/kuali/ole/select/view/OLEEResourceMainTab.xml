@@ -120,7 +120,7 @@
                                         <bean parent="Uif-LinkField"  p:target="_blank"  p:label=" "
                                               p:render="@{document.documentHeader.workflowDocument.final}"/>
                                         <bean parent="Uif-InputField"
-                                              p:propertyName="publisherId"
+                                              p:propertyName="publisher"
                                               p:label=" "
 
                                               p:render="@{!document.documentHeader.workflowDocument.final}">

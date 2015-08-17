@@ -1847,6 +1847,18 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
         }else {
             oleeResourceRecordDocument.setVendorId(null);
         }
+        oleeResourceRecordDocument.setPublisherId(null);
+        if (StringUtils.isNotBlank(oleeResourceRecordDocument.getPublisher())) {
+            Map vendorMap = new HashMap();
+            vendorMap.put(OLEConstants.VENDOR_NAME, oleeResourceRecordDocument.getPublisher());
+            List<VendorDetail> vendorDetails = (List<VendorDetail>) getBusinessObjectService().findMatching(VendorDetail.class, vendorMap);
+            if (vendorDetails != null && vendorDetails.size() > 0) {
+                oleeResourceRecordDocument.setPublisherId(vendorDetails.get(0).getVendorNumber());
+            } else {
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(OLEConstants.OLEEResourceRecord.OLEERMAINTAB_OVERVIEW, OLEConstants.OLEEResourceRecord.INVALID_PUBLISHER);
+                flag = true;
+            }
+        }
         if (oleeResourceRecordDocument.getRequestors().size() > 0) {
             for (OLEEResourceRequestor oleeResourceRequestor : oleeResourceRecordDocument.getRequestors()) {
                 if (oleeResourceRequestor.getRequestorId() == null || oleeResourceRequestor.getRequestorId().equalsIgnoreCase("")) {

@@ -273,10 +273,10 @@
         <property name="label" value="Publisher"/>
         <property name="maxLength" value="40"/>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="15"/>
+            <bean parent="Uif-TextControl" p:size="39"/>
         </property>
         <property name="control">
-            <bean parent="TextControlDefinition" p:size="15"/>
+            <bean parent="TextControlDefinition" p:size="39"/>
         </property>
     </bean>
 

@@ -2332,6 +2332,7 @@ public class OLEConstants {
         public static final String CONTENT_TYPE_REQUIRED = "error.content.type.required";
         public static final String FORMAT_TYPE_REQUIRED = "error.format.type.required";
         public static final String INVALID_VENDOR = "invalid.vendor";
+        public static final String INVALID_PUBLISHER = "invalid.publisher";
         public static final String OLEERMAINTAB_OVERVIEW = "OLEEResourceMainTab-OverviewSection";
         public static final String ERESOURCE_TITLE = "title";
         public static final String ERESOURCE_ISBN = "ISBN";
@@ -2626,6 +2627,7 @@ public class OLEConstants {
     public static final String LINK_TO_ORDER_OPTION = "linkToOrderOption";
     public static final String HOLDINGS_DOC_TYPE = "holdings";
     public static final String VENDOR_NAME = "vendorName";
+    public static final String PUBLISHER_ID = "publisherId" ;
     public static final String VENDOR_HEADER_GENERATED_ID = "vendorHeaderGeneratedIdentifier";
     public static final String VENDOR_DETAILED_ASSIGNED_ID = "vendorDetailAssignedIdentifier";
 
