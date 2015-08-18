@@ -547,13 +547,9 @@ public class LoanController extends UifControllerBase {
                     }
                 }
                 if (oleLoanForm.getRealPatronId() != null && (oleLoanForm.getRealPatronId() != null && !oleLoanForm.getRealPatronId().equalsIgnoreCase(""))) {
-                 //   oleLoanForm.setExistingLoanList(getLoanProcessor().getPatronLoanedItemBySolr(oleLoanForm.getRealPatronId()));
                     oleLoanDocument.setRealPatronName(oleLoanForm.getRealPatronName());
                 }
-
-            }// else {
-              //  oleLoanForm.setExistingLoanList(getLoanProcessor().getPatronLoanedItemBySolr(oleLoanDocument.getPatronId()));
-          //  }
+            }
             oleLoanForm.setDummyLoan(oleLoanDocument);
             oleLoanForm.setBlockItem(false);
             oleLoanForm.setBlockPatron(false);
@@ -586,6 +582,13 @@ public class LoanController extends UifControllerBase {
             oleLoanForm.setItemFocus(true);
             oleLoanForm.setPatronFocus(false);
             oleLoanForm.setOleFormKey(oleLoanForm.getFormKey());
+            if (oleLoanForm.getProxyPatronId() != null) {
+                String proxyPatronId = oleLoanForm.getProxyPatronId();
+                oleLoanDocument.setProxyPatronId(oleLoanForm.getPatronId());
+                oleLoanDocument.setPatronId(proxyPatronId);
+                oleLoanForm.setProxyPatronId(oleLoanDocument.getProxyPatronId());
+                oleLoanForm.setPatronId(oleLoanDocument.getPatronId());
+            }
            /* oleLoanForm.setExistingLoanList(oleLoanForm.getDummyLoan().getOlePatron().getOleLoanDocuments());*/
             Long b5 = System.currentTimeMillis();
             Long total = b5 - b4;
@@ -1236,7 +1239,7 @@ public class LoanController extends UifControllerBase {
         boolean timeFlag = true;
         try {
             oleLoanForm.setAlterDueDateTimeInfo("");
-            timeFlag = getLoanProcessor().updateLoan(oleLoanForm.getAlterDueDateList(),oleLoanForm.getPatronId(), false, false,oleLoanForm.getBorrowerCode());
+                timeFlag = getLoanProcessor().updateLoan(oleLoanForm.getAlterDueDateList(), oleLoanForm.getPatronId(), false, false, oleLoanForm.getBorrowerCode());
             if (!timeFlag) {
                 oleLoanForm.setAlterDueDateTimeInfo(OLEConstants.ALTER_DUE_DATE_TIME_FORMAT_MESSAGE);
                 return getUIFModelAndView(oleLoanForm, "PatronItemViewPage");
@@ -1649,12 +1652,6 @@ public class LoanController extends UifControllerBase {
         }
         StringBuffer buffer = new StringBuffer();
         OleLoanForm oleLoanForm = (OleLoanForm) form;
-        /*String maxSessionTime = oleLoanForm.getMaxTimeForCheckOutConstant();
-        if (LOG.isInfoEnabled()){
-            LOG.info("session timeout" + maxSessionTime);
-        }
-        if (maxSessionTime != null && !maxSessionTime.equalsIgnoreCase(""))
-            oleLoanForm.setMaxSessionTime(Integer.parseInt(maxSessionTime));*/
         oleLoanForm.setDialogFlag(false);
         updateDamagedItem(form, result, request, response);
         return getUIFModelAndView(oleLoanForm, "PatronItemViewPage");
@@ -1667,14 +1664,7 @@ public class LoanController extends UifControllerBase {
         if (loginUserList == null) {
             loginUserList = new ArrayList<>();
         }
-        StringBuffer buffer = new StringBuffer();
         OleLoanForm oleLoanForm = (OleLoanForm) form;
-       /* String maxSessionTime = oleLoanForm.getMaxTimeForCheckOutConstant();
-        if (LOG.isInfoEnabled()){
-            LOG.info("session timeout" + maxSessionTime);
-        }
-        if (maxSessionTime != null && !maxSessionTime.equalsIgnoreCase(""))
-            oleLoanForm.setMaxSessionTime(Integer.parseInt(maxSessionTime));*/
         if (oleLoanForm.getLoanList().size() > 0) {
             if (oleLoanForm.getLoanList().size() > 0) {
                 for (OleLoanDocument oleLoanDocument : oleLoanForm.getLoanList()) {
@@ -1764,12 +1754,6 @@ public class LoanController extends UifControllerBase {
 
         LOG.debug("Inside the apply claims return method");
         OleLoanForm oleLoanForm = (OleLoanForm) form;
-        /*String maxSessionTime = oleLoanForm.getMaxTimeForCheckOutConstant();
-        if (LOG.isInfoEnabled()){
-            LOG.info("session timeout" + maxSessionTime);
-        }
-        if (maxSessionTime != null && !maxSessionTime.equalsIgnoreCase(""))
-            oleLoanForm.setMaxSessionTime(Integer.parseInt(maxSessionTime));*/
         int count = 0;
         oleLoanForm.setDialogFlag(false);
         oleLoanForm.setDialogItemNoOfPieces(null);
@@ -1837,13 +1821,6 @@ public class LoanController extends UifControllerBase {
 
         LOG.debug("Inside the apply claims return method");
         OleLoanForm oleLoanForm = (OleLoanForm) form;
-       /* String maxSessionTime = oleLoanForm.getMaxTimeForCheckOutConstant();
-        if (LOG.isInfoEnabled()){
-            LOG.info("session timeout" + maxSessionTime);
-        }
-        if (maxSessionTime != null && !maxSessionTime.equalsIgnoreCase(""))
-            oleLoanForm.setMaxSessionTime(Integer.parseInt(maxSessionTime));*/
-        // int count=0;
         oleLoanForm.setDialogFlag(false);
         oleLoanForm.setDialogItemNoOfPieces(null);
         oleLoanForm.setDialogMissingPieceCount(null);
@@ -1880,14 +1857,6 @@ public class LoanController extends UifControllerBase {
         OleLoanForm oleLoanForm = (OleLoanForm) form;
         oleLoanForm.setConfirmMessage(OLEConstants.CHANGE_LOC_MESS);
         oleLoanForm.setChangeLocationFlag(true);
-
-       /* String maxSessionTime = oleLoanForm.getMaxTimeForCheckOutConstant();
-        if (LOG.isInfoEnabled()){
-            LOG.info("session timeout" + maxSessionTime);
-        }
-        if (maxSessionTime != null && !maxSessionTime.equalsIgnoreCase(""))
-            oleLoanForm.setMaxSessionTime(Integer.parseInt(maxSessionTime));*/
-
         return getUIFModelAndView(oleLoanForm, "PatronItemViewPage");
     }
 

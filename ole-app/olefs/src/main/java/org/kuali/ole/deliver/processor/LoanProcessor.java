@@ -1713,11 +1713,11 @@ public class LoanProcessor extends PatronBillResolver {
     public void saveLoan(OleLoanDocument oleLoanDocument) throws Exception {
         LOG.debug("Inside the saveLoan method");
         if (oleLoanDocument != null) {
-            if (oleLoanDocument.getProxyPatronId() != null) {
+           /* if (oleLoanDocument.getProxyPatronId() != null) {
                 String proxyPatronId = oleLoanDocument.getProxyPatronId();
                 oleLoanDocument.setProxyPatronId(oleLoanDocument.getPatronId());
                 oleLoanDocument.setPatronId(proxyPatronId);
-            }
+            }*/
             if (oleLoanDocument.getFineRate() != null) {
                 if (oleLoanDocument.getOlePatron() == null) {
                     oleLoanDocument.setOlePatron(getOlePatronDocument(oleLoanDocument.getPatronId()));
