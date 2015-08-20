@@ -618,6 +618,14 @@
         <sql>ALTER TABLE OLE_E_RES_REC_T MODIFY TITLE varchar2(200)</sql>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_E_RES_REC_T_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE OLE_E_RES_REC_T MODIFY VNDR_NM VARCHAR(45)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_E_RES_REC_T_ORACLE" dbms="oracle">
+        <sql>ALTER TABLE OLE_E_RES_REC_T MODIFY VNDR_NM varchar2(45)</sql>
+    </changeSet>
+
     <changeSet context="bootstrap" author="ole" id="OLE_DLVR_RQST_HSTRY_REC_T_CRTE_DT_TIME">
         <addColumn catalogName="ole"
                    schemaName="ole"
@@ -5414,5 +5422,7 @@
             <column name="OLE_SEQ_NBR" type="decimal(8,0)"/>
         </addColumn>
     </changeSet>
+
+
 
 </databaseChangeLog>

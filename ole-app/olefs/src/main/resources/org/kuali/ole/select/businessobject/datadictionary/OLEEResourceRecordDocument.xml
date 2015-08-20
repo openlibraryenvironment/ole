@@ -271,12 +271,12 @@
     <bean id="OLEEResourceRecordDocument-publisher-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="publisher"/>
         <property name="label" value="Publisher"/>
-        <property name="maxLength" value="40"/>
+        <property name="maxLength" value="45"/>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="39"/>
+            <bean parent="Uif-TextControl" p:size="40"/>
         </property>
         <property name="control">
-            <bean parent="TextControlDefinition" p:size="39"/>
+            <bean parent="TextControlDefinition" p:size="40"/>
         </property>
     </bean>
 
