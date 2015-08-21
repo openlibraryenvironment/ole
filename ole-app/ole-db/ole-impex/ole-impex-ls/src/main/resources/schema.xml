@@ -3062,7 +3062,7 @@
     <table name="ACTN_LST_ALRT_T">
         <column name="ACTN_LST_ALRT_ID" primaryKey="true" size="10" type="VARCHAR"/>
         <column name="DCMNT_ID" size="40" type="VARCHAR"/>
-        <column name="TITL" size="80" type="VARCHAR"/>
+        <column name="TITL" size="800" type="VARCHAR"/>
         <column name="RCRD_TYP" size="80" type="VARCHAR"/>
         <column name="ALRT_DT"  type="DATE"/>
         <column name="NTE" size="800" type="VARCHAR"/>

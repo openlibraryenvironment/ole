@@ -5423,6 +5423,12 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="ACTN_LST_ALRT_T_MYSQL" dbms="mysql" >
+        <sql>ALTER TABLE ACTN_LST_ALRT_T MODIFY TITL varchar(800)</sql>
+    </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="ACTN_LST_ALRT_T_TITL_ORACLE" dbms="oracle">
+        <sql>ALTER TABLE ACTN_LST_ALRT_T MODIFY TITL varchar2(800)</sql>
+    </changeSet>
 
 </databaseChangeLog>
