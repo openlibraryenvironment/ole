@@ -1347,6 +1347,13 @@
                 <para>Text of a Donor Note to acknowledge a specific donor</para>
             </glossdef>
         </glossentry>
+        <glossentry>
+            <glossterm>Drools</glossterm>
+            <glossdef>
+                <para>Drools is a Business Rules Management System (BRMS) solution that OLE uses for
+                    circulation policies.</para>
+            </glossdef>
+        </glossentry>
         <glossentry xml:id="drupal">
             <glossterm>Drupal</glossterm>
             <glossdef>

@@ -61,8 +61,8 @@
             </note>
             <tip>
                 <para role="Body Text"> You will notice the left panel navigation. This navigation
-                    panel will allow you to navigate to other editors (bibliographic,OLE Instance:
-                    holding or item, or E-Instance) as well as add (click the <inlinemediaobject>
+                    panel will allow you to navigate to other editors (bibliographic, holdings or
+                    item, or E-holdings) as well as add (click the <inlinemediaobject>
                         <alt>Green Plus Sign</alt>
                         <imageobject>
                             <imagedata fileref="../images/DescribeNoTitlePage-105.png"/>
@@ -168,9 +168,9 @@
                             modify the Holdings record. Click <emphasis role="bold">Item</emphasis>
                             to modify the Item record.</para>
                         <note>
-                            <para>For more information about the OLE Instance Holdings and Item
-                                Editor, see <link linkend="_Instance_Editor_1">Instance
-                                    Editor</link></para>
+                            <para>For more information about the OLE Holdings and Item Editor, see
+                                    <link linkend="_Instance_Editor_1">Holdings and Item
+                                    Records</link></para>
                         </note>
                     </listitem>
                     <listitem>
@@ -179,8 +179,8 @@
                                 <imageobject>
                                     <imagedata fileref="../images/DescribeNoTitlePage-113.png"/>
                                 </imageobject>
-                            </inlinemediaobject>s to add additional OLE Instance (Holdings or Item)
-                            or E-Instance (E-Holdings) records.</para>
+                            </inlinemediaobject>s to add additional Holdings or E-Holdings
+                            records.</para>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
@@ -247,16 +247,16 @@
                         <imageobject>
                             <imagedata fileref="../images/DescribeNoTitlePage-83.png"/>
                         </imageobject>
-                    </inlinemediaobject>) OLE Instance (Holding and Item) and E-Instance records or
-                    delete (click the <inlinemediaobject>
+                    </inlinemediaobject>) Holdings and Item and E-Holdings records or delete (click
+                    the <inlinemediaobject>
                         <alt>White X on Grey</alt>
                         <imageobject>
                             <imagedata fileref="../images/DescribeNoTitlePage-84.png"/>
                         </imageobject>
                     </inlinemediaobject>) Bibliographic Records. While hovering over these icons, a
                     pop-up note will inform the user which icon to click to <emphasis role="bold"
-                        >Add Instance</emphasis>, <emphasis role="bold">Add EInstance</emphasis>, or
-                        <emphasis role="bold">Delete Bib</emphasis>.</para>
+                        >Add Holdings</emphasis>, <emphasis role="bold">Add E-Holdings</emphasis>,
+                    or <emphasis role="bold">Delete Bib</emphasis>.</para>
                 <para/>
                 <para role="Body Text">
                     <screenshot>
@@ -264,7 +264,7 @@
                             <alt>Left pane navigation displaying the green plus signs and white
                                 X</alt>
                             <imageobject>
-                                <imagedata fileref="../images/DescribeNoTitlePage-85.png"/>
+                                <imagedata fileref="../images/DescribeNoTitlePage-107.png"/>
                             </imageobject>
                         </mediaobject>
                     </screenshot>
@@ -627,8 +627,8 @@
                             </para>
                             <note>
                                 <para>For more information about the OLE Holdings and Item Editor,
-                                    see <link linkend="_Instance_Editor_1">Instance
-                                    Editor</link></para>
+                                    see <link linkend="_Instance_Editor_1">Holdings and Item
+                                        Records</link></para>
                             </note>
                             <para role="Normal"> Click the second top level plus sign <inlinemediaobject>
                                     <alt>Green Plus Sign</alt>
@@ -662,7 +662,7 @@
                             <para role="Normal">
                                 <screenshot>
                                     <mediaobject>
-                                        <alt>Delete Instance/Add Item Menu available by
+                                        <alt>Delete Holdings/Add Item Menu available by
                                             right-clicking on a holdings record.</alt>
                                         <imageobject>
                                             <imagedata
@@ -794,31 +794,28 @@
             </section>
         </section>
         <section>
-            <title><anchor xml:id="_Instance_Editor_1"/>Instance Editor: Holdings and Item
-                Records</title>
-            <para role="Normal (Web)">The OLE Instance document is a collective term for the
-                holdings and item records associated with a bibliographic record. Holdings and item
-                records may be created automatically when bibliographic records are imported
-                individually or in batch, but they can also be created, edited, or deleted manually.
-                A bibliographic record may have zero, one, or many holdings records associated with
-                and subordinate to it. A holdings record may have zero, one, or many item records
-                associated with and subordinate to it.  In the case of a “bound-with,” a holdings
-                record can be attached to more than one bibliographic record.  In OLE, there is
-                another kind of Instance in addition to the OLE Instance, and that is the
-                E-Instance.  The E-Instance is intended to support a workflow for electronic
+            <title><anchor xml:id="_Instance_Editor_1"/>Holdings and Item Records</title>
+            <para role="Normal (Web)">In OLE, holdings and item records may be created automatically
+                when bibliographic records are imported individually or in batch, but they can also
+                be created, edited, or deleted manually. A bibliographic record may have zero, one,
+                or many holdings records associated with and subordinate to it. A holdings record
+                may have zero, one, or many item records associated with and subordinate to it.  In
+                the case of a “bound-with,” a holdings record can be attached to more than one
+                bibliographic record.  In OLE, there is an additional record, and that is the
+                E-Holdings.  The E-Holdings is intended to support a workflow for electronic
                 resources (see <link linkend="_EInstanceEditor">E-Holding Editor
-                    documentation</link> for more details). While the use of the E-Instance is not
+                    documentation</link> for more details). While the use of the E-Holdings is not
                 required -- a library may choose to describe its holdings of an electronic resource
-                using an OLE Instance -- it is recommended that institutions utilize the E-Instance
-                for electronic resources. </para>
-            <para> In this example below, Bibliographic Record #1 has one E-Instance and one
-                Instance Holding attached to it.  This might occur if a library chose to attach its
-                holdings for electronic and print versions of a work to the same record.  The
-                example also shows that Bibliographic Record #1 and Bibliographic Record #2 share an
-                Instance Holding because of a bound-with situation.  A Loan Transaction Record is
-                shown temporarily linked to the item record for the print copy because the item has
-                been checked out to a borrower.  A purchase order for the item is also linked to
-                that item record.</para>
+                using Holdings and Item records -- it is recommended that institutions utilize the
+                E-Holdings for electronic resources. </para>
+            <para> In this example below, Bibliographic Record #1 has one E-Holdings and one
+                Holdings attached to it.  This might occur if a library chose to attach its holdings
+                for electronic and print versions of a work to the same record.  The example also
+                shows that Bibliographic Record #1 and Bibliographic Record #2 share a Holdings
+                because of a bound-with situation.  A Loan Transaction Record is shown temporarily
+                linked to the item record for the print copy because the item has been checked out
+                to a borrower.  A purchase order for the item is also linked to that item
+                record.</para>
             <para/>
             <para role="Normal"><inlinemediaobject>
                     <alt>Diagram displaying sample records connections</alt>
@@ -836,11 +833,11 @@
                 physical piece. </para>
             <para/>
             <para> Because holdings and item records do not exist independently within OLE but are
-                always linked to bibliographic records, the Instance Editor is usually not invoked
-                directly but is most often invoked from the display of a particular bibliographic
-                record.  However, it is possible to search holdings and item records separately from
-                bibliographic records, and thus invoke the Instance Editor that way.  The Instance
-                Editor is not directly accessible from the OLE main menu. </para>
+                always linked to bibliographic records, their editors are not invoked directly but
+                are invoked from the display of a particular bibliographic record.  However, it is
+                possible to search holdings and item records separately from bibliographic records,
+                and thus invoke the Editors that way.  The Editors are not directly accessible from
+                the OLE main menu. </para>
             <section>
                 <title>Document Layout</title>
                 <para role="Normal"/>
@@ -848,16 +845,16 @@
                 <para> Navigation among the holdings and item records associated with a
                     bibliographic record is done by means of the links provided in the left pane.
                     For a given bibliographic record, this menu will appear on the Bibliographic
-                    Editor screen, the Instance Editor (Holdings) screen, and the Instance Editor
-                    (Item) screen. The complete list of holdings and items associated with the
-                    bibliographic record is always available from the left pane regardless of which
-                    screen you are viewing, although the list of items linked to a particular
-                    holdings record may be “hidden” under the holdings record and not displayed. To
-                    display any hidden items associated with a holdings record, click on the small
-                    hollow triangle next to the holdings. If there is no such triangle next to the
-                    holdings, that means that the holdings record does not have any item records
-                    linked to it. If the items linked to a holdings are displayed, you can hide them
-                    by clicking on the small filled-in triangle next to the holdings. </para>
+                    Editor screen, the Holdings Editor screen, and the Item Editor screen. The
+                    complete list of holdings and items associated with the bibliographic record is
+                    always available from the left pane regardless of which screen you are viewing,
+                    although the list of items linked to a particular holdings record may be
+                    “hidden” under the holdings record and not displayed. To display any hidden
+                    items associated with a holdings record, click on the small hollow triangle next
+                    to the holdings. If there is no such triangle next to the holdings, that means
+                    that the holdings record does not have any item records linked to it. If the
+                    items linked to a holdings are displayed, you can hide them by clicking on the
+                    small filled-in triangle next to the holdings. </para>
                 <para role="Normal">
                     <screenshot>
                         <mediaobject>
@@ -889,7 +886,7 @@
                         <imageobject>
                             <imagedata fileref="../images/DescribeNoTitlePage-113.png"/>
                         </imageobject>
-                    </inlinemediaobject> to add an OLE Instance Holding records.</para>
+                    </inlinemediaobject> to add a Holdings records.</para>
                 <para/>
                 <para role="Normal">
                     <screenshot>
@@ -905,8 +902,7 @@
                 </para>
                 <para/>
                 <note>
-                    <para>To add an E-Instance E-Holding Record, click the second top level plus
-                        sign <inlinemediaobject>
+                    <para>To add an E-Holding Record, click the second top level plus sign <inlinemediaobject>
                             <alt>Green Plus Sign</alt>
                             <imageobject>
                                 <imagedata fileref="../images/DescribeNoTitlePage-113.png"/>
@@ -920,7 +916,7 @@
                 <para role="Normal">
                     <screenshot>
                         <mediaobject>
-                            <alt>Delete Instance/Add Item Menu: available by right-clicking on a
+                            <alt>Delete Holdings/Add Item Menu: available by right-clicking on a
                                 holdings record.</alt>
                             <imageobject>
                                 <imagedata fileref="../images/DescribeNoTitlePage-99.png"/>
@@ -1009,9 +1005,9 @@
                         record from end users in the library's discovery layer (OPAC). </para>
                     <para> The Local Identifier is a system-generated number assigned by OLE to the
                         holdings record. It is stored within the OLE system.</para>
-                    <para>The OLE Instance Holding record includes the following tabs: <emphasis
-                            role="bold">Location Information</emphasis>, <emphasis role="bold">Call
-                            Number Information</emphasis>, <emphasis role="bold">Extent of
+                    <para>The Holding record includes the following tabs: <emphasis role="bold"
+                            >Location Information</emphasis>, <emphasis role="bold">Call Number
+                            Information</emphasis>, <emphasis role="bold">Extent of
                             Ownership</emphasis>, <emphasis role="bold">Extended
                             Information</emphasis>, <emphasis role="bold">Holding Notes</emphasis>,
                         and <emphasis role="bold">Serial Receiving</emphasis>.</para>
@@ -1339,8 +1335,7 @@
                                                 for accessing the same item. Click <emphasis
                                                   role="bold">Test Link</emphasis> to test the link.
                                                 See <link linkend="_TestingURIsInTheInstanceEditor"
-                                                  >Testing URIs in the Instance
-                                                Editor</link>.</para>
+                                                  >Testing URIs in the Editors</link>.</para>
                                         </entry>
                                     </row>
                                 </tbody>
@@ -1452,10 +1447,10 @@
                         record from end users in the library's discovery layer (OPAC). </para>
                     <para> The Local Identifier is the number of the item record within the OLE
                         system. </para>
-                    <para>The OLE Instance Item record includes unique tabs with some information
-                        inherited from the Holding record: <emphasis role="bold">Holding
-                            Location/Call Number Information</emphasis>, <emphasis role="bold">Item
-                            Location/Call Number Information</emphasis>, <emphasis role="bold">Item
+                    <para>The Item record includes unique tabs with some information inherited from
+                        the Holding record: <emphasis role="bold">Holding Location/Call Number
+                            Information</emphasis>, <emphasis role="bold">Item Location/Call Number
+                            Information</emphasis>, <emphasis role="bold">Item
                             Information</emphasis>, <emphasis role="bold">Acquisition
                             Information</emphasis>, <emphasis role="bold">Circulation
                             Information</emphasis>, <emphasis role="bold">Claims Returned
@@ -1731,7 +1726,7 @@
                                                 Click <emphasis role="bold">Test Link</emphasis> to
                                                 test the link. See <link
                                                   linkend="_TestingURIsInTheInstanceEditor">Testing
-                                                  URIs in the Instance Editor</link></para>
+                                                  URIs in the Editors</link></para>
                                         </entry>
                                     </row>
                                     <row>
@@ -2327,8 +2322,8 @@
                         Existing Bibliographic Description</emphasis></para>
                 <orderedlist>
                     <listitem>
-                        <para role="Normal">Identify the bibliographic description to which an OLE
-                            Instance is to be added.</para>
+                        <para role="Normal">Identify the bibliographic description to which a
+                            Holdings and Item is to be added.</para>
                     </listitem>
                     <listitem>
                         <para role="Normal">Click the <inlinemediaobject>
@@ -2336,8 +2331,8 @@
                                 <imageobject>
                                     <imagedata fileref="../images/DescribeNoTitlePage-141.png"/>
                                 </imageobject>
-                            </inlinemediaobject> to call up Instance Editor from the bibliographic
-                            record.</para>
+                            </inlinemediaobject> to call up the Holdings Editor from the
+                            bibliographic record.</para>
                     </listitem>
                     <listitem>
                         <para role="Normal">Input required and optional data elements on the
@@ -2406,7 +2401,7 @@
                 </section>
                 <section>
                     <title><anchor xml:id="_TestingURIsInTheInstanceEditor"/>Testing URIs in the
-                        Instance Editor</title>
+                        Editors</title>
                     <para>OLE gives the user the opportunity to test Uniform Resource Identifiers
                         (URIs) that are entered in holdings and item records. Both Holdings and Item
                         records have a specified field for recording a URI. In that specified field,
@@ -2520,17 +2515,16 @@
             </section>
         </section>
         <section>
-            <title><anchor xml:id="_EInstanceEditor"/>E-Holding Editor (E-Instance)</title>
-            <para> The E-Instance / E-Holdings Editor are intended to support electronic resources.
-                The E-Holdings (also called E-Instance) stands on its own; it does not have any
-                associated item records. Instead, it combines some information from both OLE
-                holdings and item records into a single record and adds other fields that are useful
-                for managing electronic resources. A bibliographic record may have zero, one, or
-                many E-Holdings records associated with and subordinate to it, in addition to OLE
-                Instances. An E-Instance can also be linked to an E-Resource record to represent its
-                participation in a larger electronic resource package. E-Instances can be created
-                automatically when bibliographic records are imported or manually using the
-                E-Holdings editor. </para>
+            <title><anchor xml:id="_EInstanceEditor"/>E-Holding Editor</title>
+            <para> The E-Holdings Editor are intended to support electronic resources. The
+                E-Holdings stands on its own; it does not have any associated item records. Instead,
+                it combines some information from both OLE holdings and item records into a single
+                record and adds other fields that are useful for managing electronic resources. A
+                bibliographic record may have zero, one, or many E-Holdings records associated with
+                and subordinate to it, in addition to Holdings and Items. An E-Holdings can also be
+                linked to an E-Resource record to represent its participation in a larger electronic
+                resource package. E-Holdings can be created automatically when bibliographic records
+                are imported or manually using the E-Holdings editor. </para>
             <para/>
             <para role="Normal"><inlinemediaobject>
                     <alt>Diagram displaying sample records connections</alt>
@@ -2539,13 +2533,13 @@
                     </imageobject>
                 </inlinemediaobject></para>
             <para/>
-            <para> A user can create E-Instance records to store and view data about individual
-                titles that make up an E-Resource purchase. The E-Instance record stores data that
+            <para> A user can create E-Holdings records to store and view data about individual
+                titles that make up an E-Resource purchase. The E-Holdings record stores data that
                 is unique to the title level, such as URL, coverage dates, and post-cancellation
-                access dates. The E-Instance also inherits data from its parent E-Resource record.
+                access dates. The E-Holdings also inherits data from its parent E-Resource record.
                 In some cases, however, this inherited data could vary and will require
-                customization at the E-Instance level. </para>
-            <para> Because E-Instance records do not exist independently within OLE but are always
+                customization at the E-Holdings level. </para>
+            <para> Because E-Holdings records do not exist independently within OLE but are always
                 linked to bibliographic records, the E-Holding Editor is most often invoked from the
                 display of a particular bibliographic record.  However, it is possible to search
                 E-Holdings records separately from bibliographic records, and thus invoke the
@@ -2553,16 +2547,16 @@
                 the OLE main menu. </para>
             <section>
                 <title>Getting Started</title>
-                <para>Users may create an E-Instance from two different locations. </para>
+                <para>Users may create an E-Holdings from two different locations. </para>
                 <itemizedlist>
                     <listitem>
                         <para>From an E-Resource Record: On the <emphasis role="bold"
                                 >Select/Acquire</emphasis> tab, under the <emphasis role="bold"
                                 >Acquisition</emphasis> menu, click <emphasis role="bold"
                                 >E-Resource</emphasis>. </para>
-                        <para>On the <emphasis role="bold">Instance</emphasis> tab of the <emphasis
-                                role="bold">E-Resource Record</emphasis>, click <inlinemediaobject>
-                                <alt>Add OLE Instance</alt>
+                        <para>On the <emphasis role="bold">E-Holdings</emphasis> tab of the
+                                <emphasis role="bold">E-Resource Record</emphasis>, click <inlinemediaobject>
+                                <alt>Add OLE E-Holdings</alt>
                                 <imageobject>
                                     <imagedata
                                         fileref="../images/LicensingNoTitlePage-AddOLEInstance.png"
@@ -2596,13 +2590,13 @@
                 <title>Document Layout</title>
                 <para role="Normal"/>
                 <para/>
-                <para> Navigation among the Bibliographic record, OLE Instances (holdings and items)
-                    and E-Instances is done by means of the links provided in the left pane. For a
-                    given bibliographic record, this menu will appear on the Bibliographic Editor
-                    screen, the Instance Editor (Holdings) screen, the Instance Editor (Item)
-                    screen, and the E-Holdings Editor screen. The complete list of holdings, items,
-                    and E-Instances associated with the bibliographic record is always available
-                    from the left pane regardless of which screen you are viewing </para>
+                <para> Navigation among the Bibliographic record, holdings and items, and E-Holdings
+                    is done by means of the links provided in the left pane. For a given
+                    bibliographic record, this menu will appear on the Bibliographic Editor screen,
+                    the Holdings Editor screen, the Item Editor screen, and the E-Holdings Editor
+                    screen. The complete list of holdings, items, and E-Holdings associated with the
+                    bibliographic record is always available from the left pane regardless of which
+                    screen you are viewing </para>
                 <para role="Normal">
                     <screenshot>
                         <mediaobject>
@@ -2615,10 +2609,10 @@
                         </mediaobject>
                     </screenshot>
                 </para>
-                <para> In the left pane, an E-Instance record is shown at the same level as a
+                <para> In the left pane, an E-Holdings record is shown at the same level as a
                     holdings record. It is identified by Location and E-Resource name elements in
-                    the E-Instance record. Not all of these data elements may be present. If neither
-                    of them are present, the E-Instance record will be identified by the word
+                    the E-Holdings record. Not all of these data elements may be present. If neither
+                    of them are present, the E-Holdings record will be identified by the word
                     “E-Holdings” in the left pane until you add a Location or link it to an
                     E-Resource and save it by clicking on the “Save” button.</para>
                 <para role="Normal"> Click the second top level plus sign <inlinemediaobject>
@@ -2626,12 +2620,9 @@
                         <imageobject>
                             <imagedata fileref="../images/DescribeNoTitlePage-113.png"/>
                         </imageobject>
-                    </inlinemediaobject> to attach a new E-Instance E-Holdings record to a
-                    bibliographic record in the Bib/Instance Editor. Hover over either of the two
-                    "+" signs to see a pop-up note identifying which creates an Instance verses an
-                    E-Instance. When creating a new E-Instance, the ‘E-Holdings’ label will appear
-                    in the left pane after clicking <emphasis role="bold">Save</emphasis> if you do
-                    not add a Location field and the E-Instance is not linked to an E-Resource. </para>
+                    </inlinemediaobject> to attach a new E-Holdings record to a bibliographic record
+                    in the Editors screens. Hover over either of the two "+" signs to see a pop-up
+                    note identifying which creates an Holdings verses an E-Holdings. </para>
                 <para/>
                 <para role="Normal">
                     <screenshot>
@@ -2647,21 +2638,22 @@
                 </para>
                 <para/>
                 <note>
-                    <para>To add an Instance Holding Record, click the first top level plus sign <inlinemediaobject>
+                    <para>To add a Holding Record, click the first top level plus sign <inlinemediaobject>
                             <alt>Green Plus Sign</alt>
                             <imageobject>
                                 <imagedata fileref="../images/DescribeNoTitlePage-113.png"/>
                             </imageobject>
-                        </inlinemediaobject>. For more information about the OLE Instance Editor,
-                        see <link linkend="_Instance_Editor_1">Instance Editor</link></para>
+                        </inlinemediaobject>. For more information about the Holdings Editor, see
+                            <link linkend="_Instance_Editor_1">Holdings and Item
+                        Records</link></para>
                 </note>
-                <para>Right click on the call number to delete an Instance or E-Instance record or
+                <para>Right click on the call number to delete an Holdings or E-Holdings record or
                     add an item record.</para>
                 <para/>
                 <para role="Normal">
                     <screenshot>
                         <mediaobject>
-                            <alt>Delete Instance/Add Item Menu: available by right-clicking on a
+                            <alt>Delete Holdings/Add Item Menu: available by right-clicking on a
                                 holdings record.</alt>
                             <imageobject>
                                 <imagedata fileref="../images/DescribeNoTitlePage-99.png"/>
@@ -2670,10 +2662,10 @@
                     </screenshot>
                 </para>
                 <para/>
-                <para> If you delete the E-Instance, it will be removed immediately without
-                    requiring any confirmation. You can also select the E-Instance in the left pane
+                <para> If you delete the E-Holdings, it will be removed immediately without
+                    requiring any confirmation. You can also select the E-Holdings in the left pane
                     and click the <emphasis role="bold">Delete</emphasis> button in the E-Holdings
-                    Editor. This will also delete the E-Instance immediately without requiring
+                    Editor. This will also delete the E-Holdings immediately without requiring
                     confirmation. </para>
                 <para>Click the top level <inlinemediaobject>
                         <alt>White X on Grey</alt>
@@ -2699,13 +2691,8 @@
                 </para>
                 <para/>
                 <note>
-                    <para> Although you will still be viewing the E-Instance in the editor, if you
+                    <para> Although you will still be viewing the E-Holdings in the editor, if you
                         navigate away from it you will find it has been fully deleted. </para>
-                </note>
-                <para/>
-                <note>
-                    <para> In future releases, you will receive an error message if you attempt to
-                        delete an EInstance that is linked to a PO. </para>
                 </note>
                 <para/>
                 <para> You can hide the entire left pane from the screen display by clicking on the
@@ -2725,8 +2712,8 @@
                         </screenshot>
                     </para>
                     <para> The E-Holdings ID is a system generated identification number. </para>
-                    <para>The E-Instance E-Holdings record includes these tabs -- <emphasis
-                            role="bold">Overview</emphasis>, <emphasis role="bold">Location
+                    <para>The E-Holdings record includes these tabs -- <emphasis role="bold"
+                            >Overview</emphasis>, <emphasis role="bold">Location
                             Information</emphasis>, <emphasis role="bold">Call Number
                             Information</emphasis>, <emphasis role="bold">Extent of
                             Ownership</emphasis>, <emphasis role="bold">Relationships</emphasis>,
@@ -2791,7 +2778,7 @@
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                             <para role="Table Cells"> Staff only indicator. Check to
-                                                keep the E-Instance from being displayed in the
+                                                keep the E-Holdings from being displayed in the
                                                 public view. </para>
                                         </entry>
                                     </row>
@@ -2849,7 +2836,7 @@
                                                 Code. </para>
                                             <note>
                                                 <para>If no Statistical Code has been set on the
-                                                  E-Instance and the E-Instance is tied to an
+                                                  E-Holdings and the E-Holdings is tied to an
                                                   E-Resource, the Statistical Code set on the
                                                   E-Resource will display here. </para>
                                             </note>
@@ -3000,10 +2987,10 @@
                             stored as specific dates, volumes, and issues, rather than as textual
                             summary holdings, to allow for data that could be utilized by a link
                             resolver in the future. There can be multiple Coverage dates and
-                            multiple Perpetual Access dates for a single E-Instance. </para>
+                            multiple Perpetual Access dates for a single E-Holdings. </para>
                         <note>
                             <para> If no Perpetual Access or Coverage Dates have been set on the
-                                E-Instance and the E-Instance is tied to an E-Resource, any dates
+                                E-Holdings and the E-Holdings is tied to an E-Resource, any dates
                                 set on the E-Resource will display here. </para>
                         </note>
                         <para/>
@@ -3146,13 +3133,13 @@
                     <section>
                         <title>Relationships tab</title>
                         <para role="Normal">The Relationships tab identifies any associated
-                            E-Resource and Instance records. No data on this tab can be modified
-                            from the E-Holdings editor. If an E-Resource is linked to this
-                            E-Holdings, the name and ID of that E-Resource will display in this
-                            section. Click the name to open the linked E-Resource record. </para>
+                            E-Resource records. No data on this tab can be modified from the
+                            E-Holdings editor. If an E-Resource is linked to this E-Holdings, the
+                            name and ID of that E-Resource will display in this section. Click the
+                            name to open the linked E-Resource record. </para>
                         <note>
                             <para>For additional information about the <link linkend="_E-Resource"
-                                    >E-Resources</link> and linking E-Instances, see the section
+                                    >E-Resources</link> and linking E-Holdings, see the section
                                 under the <emphasis>Select and Acquire Module</emphasis>.</para>
                         </note>
                         <para role="Normal"/>
@@ -3171,35 +3158,135 @@
                     <section>
                         <title>Acquisition Information tab</title>
                         <para role="Normal">The Acquisition Information tab contains the relevant
-                            purchasing information from the Purchase Order and Invoice. Additionally
-                            the Acquisition Information tab contains information about any donors.
-                            Remember, you must click <inlinemediaobject>
-                                <alt>Add</alt>
-                                <imageobject>
-                                    <imagedata fileref="../images/DescribeNoTitlePage-122.png"/>
-                                </imageobject>
-                            </inlinemediaobject> to add donor information.</para>
-                        <note>
-                            <para>In 1.6, Purchase Orders and Invoices cannot be linked to
-                                E-Instances, so this data will not appear in the E-Instance. (see
-                                    <link xlink:href="https://jira.kuali.org/browse/OLE-4934"
-                                    >OLE-4934</link>)</para>
-                        </note>
+                            purchasing information from the Purchase Order and Invoice.</para>
                         <para role="Normal"/>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
                                     <alt>E-Holdings Editor: Acquisitions Information Tab</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/DescribeNoTitlePage-41.png"
-                                            width="100%"/>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-41.png"/>
                                     </imageobject>
                                 </mediaobject>
                             </screenshot>
                         </para>
                         <para role="Normal"/>
                         <para role="TableHeading"><emphasis role="bold">Acquisition Information tab
-                                definition</emphasis></para>
+                                definitions</emphasis></para>
+                        <informaltable frame="topbot">
+                            <tgroup cols="2">
+                                <colspec colname="col1" colnum="1"/>
+                                <colspec colname="col2" colnum="2"/>
+                                <tbody>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Title </para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Description </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Payment Status</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Display-only from the Invoice.
+                                                If a current FY payment has been made, status will
+                                                be Paid; if no current FY payment, status will be
+                                                Not Paid </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">PO Number(s)</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para> Display-only. ID of the purchase order(s) to
+                                                which the E-Holdings is linked. </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Vendor</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Display-only from the PO(s).
+                                                The vendor of the electronic resource.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Order Type</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells"> Display-only from the PO(s).
+                                                Order type of the purchase order(s) to which the
+                                                E-Holdings is linked. For example "subscription" or
+                                                "one-time purchase".</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Current FY Cost</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Display-only from the Invoice.
+                                                The sum total of the current year's payment for the
+                                                electronic resource.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Order Format</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Display-only from the PO(s).
+                                                Format of the current purchase order(s) to which the
+                                                E-Holdings is linked. </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Fund Code</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Display-only from the Invoice.
+                                                The account number for the electronic
+                                                resource.</para>
+                                        </entry>
+                                    </row>
+                                </tbody>
+                            </tgroup>
+                        </informaltable>
+                        <para role="Normal"/>
+                    </section>
+                    <section>
+                        <title>Subscription Tab</title>
+                        <para>The Subscription Tab includes subscription information for the
+                            E-Holdings record.</para>
+                        <para>Additionally the Subscription tab contains information about any
+                            donors. Remember, you must click <inlinemediaobject>
+                                <alt>Add</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-122.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to add donor information</para>
+                        <para role="Normal"/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>E-Holdings Editor: Subscription Tab</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-233.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para role="Normal"/>
+                        <para role="TableHeading"><emphasis role="bold">Subscription tab
+                                definitions</emphasis></para>
                         <informaltable frame="topbot">
                             <tgroup cols="2">
                                 <colspec colname="col1" colnum="1"/>
@@ -3224,72 +3311,55 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">PO Number(s)</para>
+                                            <para role="Table Cells">Initial Subscription Start
+                                                Date</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para> Display-only. ID of the purchase order(s) to
-                                                which the E-Instance is linked. </para>
+                                            <para> </para>
                                         </entry>
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Order Type</para>
+                                            <para role="Table Cells">Current Subscription Start
+                                                Date</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells"> Display-only from the PO(s).
-                                                Order type of the purchase order(s) to which the
-                                                E-Instance is linked. For example "subscription" or
-                                                "one-time purchase".</para>
+                                            <para role="Table Cells"/>
                                         </entry>
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Order Format</para>
+                                            <para role="Table Cells">Current Subscription End
+                                                Date</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Display-only from the PO(s).
-                                                Format of the current purchase order(s) to which the
-                                                E-instance is linked. </para>
+                                            <para role="Table Cells"/>
                                         </entry>
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Payment Status</para>
+                                            <para role="Table Cells">Cancellation Decision
+                                                Date</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Display-only from the Invoice.
-                                                If a current FY payment has been made, status will
-                                                be Paid; if no current FY payment, status will be
-                                                Not Paid </para>
+                                            <para role="Table Cells"/>
                                         </entry>
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Vendor</para>
+                                            <para role="Table Cells">Cancellation Effective
+                                                Date</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Display-only from the PO(s).
-                                                The vendor of the electronic resource.</para>
+                                            <para role="Table Cells"/>
                                         </entry>
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Current FY Cost</para>
+                                            <para role="Table Cells">Cancellation Reason</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Display-only from the Invoice.
-                                                The sum total of the current year's payment for the
-                                                electronic resource.</para>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Fund Code</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Display-only from the Invoice.
-                                                The account number for the electronic
-                                                resource.</para>
+                                            <para role="Table Cells"/>
                                         </entry>
                                     </row>
                                     <row>
@@ -3328,19 +3398,12 @@
                                 </tbody>
                             </tgroup>
                         </informaltable>
-                        <para role="Normal"/>
                     </section>
                     <section>
                         <title>Access Information tab</title>
                         <para role="Normal">The Access Information tab contains all information
                             about accessing the electronic title including the links, user names and
                             passwords.</para>
-                        <note>
-                            <para> A number of the fields on the Access Information tab are
-                                inherited from the E-Resource so that if they have not been set on
-                                the E-Instance and the E-Instance is tied to an E-Resource, any
-                                dates set on the E-Resource will display here. </para>
-                        </note>
                         <para role="Normal"/>
                         <para role="Normal">
                             <screenshot>
@@ -3430,8 +3493,10 @@
                                             <para role="Table Cells">Persistent Link</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para> The locally assigned persistent URL for the
-                                                electronic resource. </para>
+                                            <para> The locally assigned persistent link for the
+                                                electronic resource. See <link
+                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
+                                                  URIs in the E-Holdings Editor</link></para>
                                         </entry>
                                     </row>
                                     <row>
@@ -3464,7 +3529,9 @@
                                                 resource. This is site users would go to enter their
                                                 IP ranges, input their link-resolver URL, manage the
                                                 look and feel of the platform for their users,
-                                                gather usage stats, etc.</para>
+                                                gather usage stats, etc.  See <link
+                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
+                                                  URIs in the E-Holdings Editor</link></para>
                                         </entry>
                                     </row>
                                     <row>
@@ -3482,7 +3549,9 @@
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                             <para>The URL for users to access the electronic
-                                                resource.</para>
+                                                resource.  See <link
+                                                  linkend="_testingURIsInTheEHoldingsEditor">Testing
+                                                  URIs in the E-Holdings Editor</link></para>
                                         </entry>
                                     </row>
                                     <row>
@@ -3507,10 +3576,10 @@
                             that are associated with an E-Resource to which this E-Holdings is
                             linked and stores manually entered simple ILL permissions (check the box
                             to allow).</para>
-                        <para>License Requests are pulled from the linked E-Resource Record. In 1.6,
-                            this is the only way to link E-Instances with License Requests (see
-                                <link xlink:href="https://jira.kuali.org/browse/OLE-2700"
-                                >OLE-2700</link>).</para>
+                        <para>License Requests are pulled from the linked E-Resource Record. In 2.0,
+                            this is the only way to link E-Holdings with License Requests (see <link
+                                xlink:href="https://jira.kuali.org/browse/OLE-2700"
+                            >OLE-2700</link>).</para>
                         <note>
                             <para>For more information on <link linkend="_Standard_Licensing_E-Docs"
                                     >Licensing</link> and <link linkend="_E-Resource"
@@ -3534,7 +3603,7 @@
                     <section>
                         <title>Note tab</title>
                         <para role="Normal">The Note tab contains public and nonpublic notes that
-                            apply to the E-Instance record.</para>
+                            apply to the E-Holdings record.</para>
                         <para role="Normal">Click <inlinemediaobject>
                                 <alt>Add</alt>
                                 <imageobject>
@@ -3587,7 +3656,7 @@
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                             <para> A free-text field to record information about
-                                                this E-Instance.</para>
+                                                this E-Holdings.</para>
                                         </entry>
                                     </row>
                                 </tbody>
@@ -3599,12 +3668,12 @@
             </section>
             <section>
                 <title>Process Overview</title>
-                <para role="Normal"><emphasis role="bold">Adding a New E-Instance to an Existing
+                <para role="Normal"><emphasis role="bold">Adding a New E-Holdings to an Existing
                         Bibliographic Description</emphasis></para>
                 <orderedlist>
                     <listitem>
                         <para role="Normal">Identify the bibliographic description to which an
-                            E-Instance is to be added.</para>
+                            E-Holdings is to be added.</para>
                     </listitem>
                     <listitem>
                         <para role="Normal">Click the <inlinemediaobject>
@@ -3629,10 +3698,10 @@
                     </listitem>
                 </orderedlist>
                 <para role="Normal"><emphasis role="bold">Editing an Existing
-                    E-Instance</emphasis></para>
+                    E-Holdings</emphasis></para>
                 <orderedlist>
                     <listitem>
-                        <para role="Normal">Identify bibliographic description and E-Instance to be
+                        <para role="Normal">Identify bibliographic description and E-Holdings to be
                             edited.</para>
                     </listitem>
                     <listitem>
@@ -3648,14 +3717,14 @@
                             </inlinemediaobject>.</para>
                     </listitem>
                     <listitem>
-                        <para>You may revert all E-Instance fields back to the default OLE record
+                        <para>You may revert all E-Holdings fields back to the default OLE record
                             values by clicking button labeled <emphasis role="bold">Restore OLE
                                 defaults</emphasis>. </para>
                     </listitem>
                 </orderedlist>
                 <section>
                     <title>Buttons / Actions</title>
-                    <para>Unlike the Instance Editor, the E-Holdings Editor has a repeated series of
+                    <para>Unlike the Holdings Editor, the E-Holdings Editor has a repeated series of
                         buttons at the top <emphasis role="bold">and</emphasis> bottom of the
                         editor.</para>
                     <para/>
@@ -3677,7 +3746,7 @@
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-57.png"/>
                                     </imageobject>
-                                </inlinemediaobject> button will re-set any fields on the E-instance
+                                </inlinemediaobject> button will re-set any fields on the E-Holdings
                                 that are inherited from the E-Resource back to the default values
                                 specified on the E-Resource, overwriting any local changes. This
                                 includes fields like Statistical Code, Coverage Dates, Perpetual
@@ -3691,7 +3760,7 @@
                                         <imagedata fileref="../images/DeliverNoTitlePage-31.png"/>
                                     </imageobject>
                                 </inlinemediaobject> button will save any edits to the
-                                E-Instance.</para>
+                                E-Holdings.</para>
                         </listitem>
                         <listitem>
                             <para>The <inlinemediaobject>
@@ -3700,7 +3769,7 @@
                                         <imagedata fileref="../images/DescribeNoTitlePage-60.png"/>
                                     </imageobject>
                                 </inlinemediaobject> button will close the E-Holdings Editor without
-                                saving any changes to the E-Instance.</para>
+                                saving any changes to the E-Holdings.</para>
                         </listitem>
                         <listitem>
                             <para>The <inlinemediaobject>
@@ -3708,10 +3777,10 @@
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-45.png"/>
                                     </imageobject>
-                                </inlinemediaobject> button will create a new E-Instance with all of
-                                the same metadata except the E-Instance ID. The new E-Instance will
+                                </inlinemediaobject> button will create a new E-Holdings with all of
+                                the same metadata except the E-Holdings ID. The new E-Holdings will
                                 retain any linkages to the E-Resource Record that were part of the
-                                original E-Instance. </para>
+                                original E-Holdings. </para>
                         </listitem>
                         <listitem>
                             <para>The <inlinemediaobject>
@@ -3719,14 +3788,57 @@
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-61.png"/>
                                     </imageobject>
-                                </inlinemediaobject> button will delete the E-Instance immediately. <note>
-                                    <para> Although you will still be viewing the E-Instance in the
+                                </inlinemediaobject> button will delete the E-Holdings immediately. <note>
+                                    <para> Although you will still be viewing the E-Holdings in the
                                         editor, if you navigate away from it you will find it has
                                         been fully deleted. </para>
                                 </note>
                             </para>
                         </listitem>
                     </itemizedlist>
+                </section>
+                <section>
+                    <title><anchor xml:id="_testingURIsInTheEHoldingsEditor"/>Testing URIs in the
+                        E-Holdings Editor</title>
+                    <para>OLE gives the user the opportunity to test Uniform Resource Identifiers
+                        (URIs) that are entered in e-holdings records. The editor has specified
+                        fields for recording a URI. In that specified field, when recorded
+                        correctly, the URI will be hyperlinked. This provides the user an efficient
+                        means of testing the validity of a URI.</para>
+                    <para>The E-Holdings record contains several field for a URI. These fields are
+                        located in the Access Information tab.</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>E-Holdings Editor: Test link on the Access Information Tab </alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-238.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="Normal"/>
+                    <para>When a URI is entered in any of these fields and <emphasis role="bold"
+                            >Test Link</emphasis>, pictured below the field in the screenshot, is
+                        clicked, a new browser window or tab will open with the web location
+                        requested by the URI. In order for OLE to recognize a URI as a web address
+                        to be linked, it must begin with the protocol directive of http:// or
+                        https://.</para>
+                    <para>Example: <link xlink:href="http://catalog.hathitrust.org/Record/001101443"
+                            >http://catalog.hathitrust.org/Record/001101443</link></para>
+                    <para><emphasis role="bold">Test Link</emphasis> could appear below or to the
+                        right of the fields, depending on the size of the browser window. Note that
+                        the Submit button at the bottom of the holdings record does
+                            <emphasis>not</emphasis> have to be clicked in order for the hyperlink
+                        to work.</para>
+                    <para> If a URI is entered without http:// or https://, OLE will not recognize
+                        that text string as a web address and the user will not get a response when
+                        clicking on <emphasis role="bold">Test Link</emphasis>. If a URI is entered
+                        properly, but does not lead to a valid web page, clicking <emphasis
+                            role="bold">Test Link</emphasis> will cause the browser to open a new
+                        tab or window with an error message.</para>
                 </section>
                 <section>
                     <title>Business Rules</title>
@@ -4829,7 +4941,8 @@
                                 the series, or a record for a title in the series.</para>
                         </listitem>
                         <listitem>
-                            <para> In the left navigation pane, click on <emphasis>either</emphasis>
+                            <para> In the left navigation pane, click on <emphasis
+                                    >either</emphasis>
                                 “SH” or “AI” (it does not matter which you choose):</para>
                             <para/>
                             <para>
@@ -4905,39 +5018,44 @@
                             <imagedata fileref="../images/DescribeNoTitlePage-46.png"/>
                         </imageobject>
                     </inlinemediaobject> &gt; <inlinemediaobject>
-                        <alt>Bound-with Instance</alt>
+                        <alt>Bound-with Holdings</alt>
                         <imageobject>
                             <imagedata fileref="../images/DescribeNoTitlePage-47.png"/>
                         </imageobject>
                     </inlinemediaobject></emphasis></para>
-            <para role="Normal">In special cases it is necessary to link a single OLE Instance
-                (Holdings and Item records) to multiple bibliographic records to account for
-                situations when titles with multiple bibliographic records (i.e., bibliographically
-                unrelated works) are joined together in a single physical volume (i.e., are
-                “bound-with” each other).</para>
+            <para role="Normal">In special cases it is necessary to link a single Holdings record to
+                multiple bibliographic records to account for situations when titles with multiple
+                bibliographic records (i.e., bibliographically unrelated works) are joined together
+                in a single physical volume (i.e., are “bound-with” each other).</para>
             <para role="Normal"/>
             <para role="Normal">Depending on an OLE site’s cataloging policies, it would also be
-                possible for two or more OLE Instances to share an Item record because of a
-                bound-with situation, and also for one or more of those OLE Instances to have
-                additional Item records attached because the library holds multiple copies of a
-                work, some of which are not bound-withs.</para>
+                possible for two or more Holdings to share an Item record because of a bound-with
+                situation, and also for one or more of those Holdings to have additional Item
+                records attached because the library holds multiple copies of a work, some of which
+                are not bound-withs.</para>
             <para role="Normal"/>
             <tip>
                 <para role="Normal"> Bound-withs will always need to be setup manually by a library
                     staff member through this interface.</para>
+                <para>If you would like to have multiple items associated with multiple
+                    bibliographic records, you can create additional holdings/items on the linked
+                    bound-with bibliographic records. </para>
             </tip>
+            <note>
+                <para>Once you have created a bound-with record, there is not a way to break the
+                    link.</para>
+            </note>
             <section>
                 <title>Process Overview</title>
                 <orderedlist>
                     <listitem>
                         <para role="Normal">Call up the <emphasis role="bold">Bound-with
-                                Instance</emphasis> interface.</para>
+                                Holdings</emphasis> interface.</para>
                         <para role="Normal"/>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Bound-with Instance with sample search results
-                                        displayed</alt>
+                                    <alt>Bound-with Holdings interface</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-49.png"
                                             width="100%"/>
@@ -4947,7 +5065,7 @@
                         </para>
                     </listitem>
                     <listitem>
-                        <para role="Body Text">Search for the OLE Instance that will be shared by
+                        <para role="Body Text">Search for the Holdings record that will be shared by
                             multiple bibliographic records. You may select a <emphasis role="bold"
                                 >Document Type</emphasis> and search using Boolean operators as
                             needed. Search results appear below the <emphasis role="bold">Search
@@ -4959,7 +5077,7 @@
                     </listitem>
                     <listitem>
                         <para role="Normal">Search for the additional bibliographic records with
-                            which the OLE Instance will be shared (in some cases these may not
+                            which the Holdings record will be shared (in some cases these may not
                             exist. You will need to create the records prior to beginning the
                             bound-with process).</para>
                     </listitem>
@@ -4967,13 +5085,13 @@
                         <para role="Normal">When the correct record is displayed, select it and
                             click <emphasis role="bold">Copy to Tree2</emphasis>.</para>
                         <para role="Normal">Each Tree will show the bibliographic record. You may
-                            branch down to the Instance or item level by clicking the arrow next to
+                            branch down to the Holdings or Item level by clicking the arrow next to
                             the folder. </para>
                         <para role="Normal"/>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Bound-with Instance: Titles copied to Tree1 and Tree2</alt>
+                                    <alt>Bound-with Holdings: Titles copied to Tree1 and Tree2</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-50.png"
                                             width="100%"/>
@@ -4993,7 +5111,7 @@
                         <para>
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Bound-with Instance: Holding is checked in tree1,
+                                    <alt>Bound-with Holdings: Holding is checked in tree1,
                                         bibliographic record is checked in tree2</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-48.png"
@@ -5015,7 +5133,7 @@
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Bound-with Instance: In Tree1, Bounded titles are
+                                    <alt>Bound-with Holdings: In Tree1, Bounded titles are
                                         displayed.</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-52.png"
@@ -5032,14 +5150,14 @@
                             items attached to these holdings will also be deleted.</para>
                     </listitem>
                     <listitem>
-                        <para role="Normal">Select the extraneous instances attached to the
+                        <para role="Normal">Select the extraneous records attached to the
                             bibliographic descriptions. </para>
                         <para/>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Bound-with Instance: Check the holdings to remove the
-                                        extraneous instance</alt>
+                                    <alt>Bound-with Holdings: Check the holdings to remove the
+                                        extraneous records</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-54.png"
                                             width="100%"/>
@@ -5049,7 +5167,7 @@
                         </para>
                         <para/>
                         <para role="Normal">Click<inlinemediaobject>
-                                <alt>Delete Instance</alt>
+                                <alt>Delete Holdings</alt>
                                 <imageobject>
                                     <imagedata fileref="../images/DescribeNoTitlePage-53.png"/>
                                 </imageobject>
@@ -5062,9 +5180,10 @@
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Bound-with Instance: Instance Deletion confirmation</alt>
+                                    <alt>Bound-with Holdings: Holdings Deletion confirmation</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/DescribeNoTitlePage-55.png"/>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-55.png"
+                                            width="100%"/>
                                     </imageobject>
                                 </mediaobject>
                             </screenshot>
@@ -5081,8 +5200,7 @@
                             <alt>In the Editor, "BIBS(2)" code will display in the left pane
                                 navigation. Click to bring up the Bound-With Summary</alt>
                             <imageobject>
-                                <imagedata fileref="../images/DeliverNoTitlePage-71.png"
-                                    width="100%"/>
+                                <imagedata fileref="../images/DeliverNoTitlePage-71.png"/>
                             </imageobject>
                         </mediaobject>
                     </screenshot>
@@ -5121,8 +5239,7 @@
                 <itemizedlist>
                     <listitem>
                         <para role="List Paragraph"> A Bibliographic record is not required to have
-                            an OLE Instance, but it may have one, zero, or many OLE Instances.
-                             </para>
+                            a Holdings record, but it may have one, zero, or many Holdings.  </para>
                     </listitem>
                     <listitem>
                         <para role="Normal (Web)"> A Holdings record may have zero, one, or many
@@ -5149,7 +5266,7 @@
             </section>
         </section>
         <section>
-            <title><anchor xml:id="_Transfer_Instance-Item"/>Transfer Item/Instance</title>
+            <title><anchor xml:id="_Transfer_Instance-Item"/>Transfer Holdings/Item</title>
             <para role="Body Text"><inlinemediaobject>
                     <alt>Describe</alt>
                     <imageobject>
@@ -5167,25 +5284,25 @@
                             <imagedata fileref="../images/DescribeNoTitlePage-149.png"/>
                         </imageobject>
                     </inlinemediaobject> &gt; <inlinemediaobject>
-                        <alt>Transfer Instance/Item</alt>
+                        <alt>Transfer Holdings/Item</alt>
                         <imageobject>
                             <imagedata fileref="../images/DescribeNoTitlePage-150.png"/>
                         </imageobject>
                     </inlinemediaobject></emphasis></para>
-            <para role="Normal">The Transfer Instance/Item interface allows OLE users to transfer
-                Instance records from one bibliographic record to another and transfer Item record
-                from one Instance to another. </para>
+            <para role="Normal">The Transfer Holdings/Item interface allows OLE users to transfer
+                Holdings records from one bibliographic record to another and transfer Item record
+                from one Holdings to another. </para>
             <section>
                 <title>Process Overview</title>
                 <orderedlist>
                     <listitem>
                         <para role="Normal">Call up the <emphasis role="bold">Transfer
-                                Instance/Item</emphasis> interface.</para>
+                                Holdings/Item</emphasis> interface.</para>
                         <para role="Normal"/>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Transfer Instance/Item Interface</alt>
+                                    <alt>Transfer Holdings/Item Interface</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-151.png"
                                             width="100%"/>
@@ -5211,7 +5328,7 @@
                     </listitem>
                     <listitem>
                         <para role="Normal">Search for the additional bibliographic records with
-                            which the OLE Instance or Item will be transferred. </para>
+                            which the OLE Holdings or Item will be transferred. </para>
                     </listitem>
                     <listitem>
                         <para role="Normal">When the correct record is displayed, select it and
@@ -5228,12 +5345,12 @@
                     </listitem>
                     <listitem>
                         <para role="Normal">Each Tree will show the bibliographic record. You may
-                            branch down to the Instance or item level by clicking the arrow next to
+                            branch down to the Holdings or item level by clicking the arrow next to
                             the folder.</para>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Transfer Instance/Item Interface: Records in both tree1 and
+                                    <alt>Transfer Holdings/Item Interface: Records in both tree1 and
                                         tree2. Click the arrow next to expand the record
                                         information</alt>
                                     <imageobject>
@@ -5249,7 +5366,7 @@
                             the transfer on.</para>
                     </listitem>
                     <listitem>
-                        <para role="Normal">Click the appropriate button to transfer the Instance or
+                        <para role="Normal">Click the appropriate button to transfer the Holdings or
                             Item from the left to the right or vice versa. In this example, the Item
                             record in Tree 2 is selected and will be transferred Right to Left to
                             the checked Holding record in Tree 1.</para>
@@ -5257,7 +5374,7 @@
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Transfer Instance/Item Interface: Holdings record selected
+                                    <alt>Transfer Holdings/Item Interface: Holdings record selected
                                         in Tree1, Item record selected in Tree2. Ready to
                                         transfer</alt>
                                     <imageobject>
@@ -5281,7 +5398,7 @@
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Transfer Instance/Item Interface: Select Delete to confirm
+                                    <alt>Transfer Holdings/Item Interface: Select Delete to confirm
                                         the tranfer and delete the extraneous record</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-153a.png"
@@ -5299,7 +5416,7 @@
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Transfer Instance/Item Interface: Confirmation message is
+                                    <alt>Transfer Holdings/Item Interface: Confirmation message is
                                         displayed when the transfer is completed</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-154.png"
@@ -5315,7 +5432,7 @@
                 <title>Business Rules</title>
                 <itemizedlist>
                     <listitem>
-                        <para role="List Paragraph">An OLE Instance must have one Item record and
+                        <para role="List Paragraph">An OLE Holdings must have one Item record and
                             may have many Item records. </para>
                         <note>
                             <para role="Normal"> This rule is under review for future
@@ -5324,37 +5441,37 @@
                     </listitem>
                     <listitem>
                         <para role="List Paragraph">An Item record can only be transferred to an OLE
-                            Instance.</para>
+                            Holdings.</para>
                     </listitem>
                     <listitem>
                         <para role="List Paragraph">If the transfer of an Item record would result
-                            in an OLE Instance with no Item records, that OLE Instance will be
+                            in an OLE Holdings with no Item records, that OLE Holdings will be
                             deleted.</para>
                     </listitem>
                     <listitem>
-                        <para role="List Paragraph">An OLE Instance must have at least one
-                            associated Bibliographic Description. One OLE Instance may be associated
+                        <para role="List Paragraph">An OLE Holdings must have at least one
+                            associated Bibliographic Description. One OLE Holdings may be associated
                             with many Bibliographic Descriptions (to account for
                             “bound-withs”).</para>
                     </listitem>
                     <listitem>
                         <para role="List Paragraph">A Bibliographic Description must have at least
-                            one OLE Instance and may have many OLE Instances.</para>
+                            one OLE Holdings and may have many OLE Holdings.</para>
                     </listitem>
                     <listitem>
-                        <para role="List Paragraph">An OLE Instance may only be transferred to a
+                        <para role="List Paragraph">An OLE Holdings may only be transferred to a
                             Bibliographic Description.</para>
                     </listitem>
                     <listitem>
-                        <para role="List Paragraph">If the transfer of an OLE Instance would result
-                            in a Bibliographic Description with no OLE Instance, that Bibliographic
+                        <para role="List Paragraph">If the transfer of an OLE Holdings would result
+                            in a Bibliographic Description with no OLE Holdings, that Bibliographic
                             Description will be deleted.</para>
                     </listitem>
                     <listitem>
-                        <para role="List Paragraph">A user may not transfer an OLE Instance to or
+                        <para role="List Paragraph">A user may not transfer an OLE Holdings to or
                             from Bibliographic Descriptions that the user’s work unit does not
-                            “own”. A user may not transfer Item records to or from OLE Instances
-                            that the user’s work unit does not own.</para>
+                            “own”. A user may not transfer Item records to or from OLE Holdings that
+                            the user’s work unit does not own.</para>
                         <note>
                             <para role="Normal"> Work units are being defined for a future
                                 release.</para>
@@ -5417,16 +5534,16 @@
                 allows catalogers to download records from outside sources such as OCLC. The import
                 may be to add a new title, in which case, a new OLE holdings record and item record
                 will also be created, or to replace an existing Bibliographic Description from a
-                different source. If the Bibliographic Description is replacing another, no OLE
-                Instance will be created. If you need to add an additional OLE Instance or Item or
+                different source. If the Bibliographic Description is replacing another, no Holdings
+                or Item record will be created. If you need to add an additional Holdings or Item or
                 modify an existing one, you will need to do so through the editor.</para>
             <para role="Normal"/>
             <para role="Normal">You will be able to edit both the Bibliographic Description being
-                imported and any OLE Instance(s) linked to it during the import process.  Once the
-                import process has been completed, only those fields designated as “protected from
-                overlay” will remain from the original Bibliographic Description when replacing an
-                existing bibliographic description. Linkages to purchase orders, circulation
-                records, etc. will also be unaffected.</para>
+                imported and any Holdings and Item records linked to it during the import process.
+                 Once the import process has been completed, only those fields designated as
+                “protected from overlay” will remain from the original Bibliographic Description
+                when replacing an existing bibliographic description. Linkages to purchase orders,
+                circulation records, etc. will also be unaffected.</para>
             <para role="Normal"/>
             <note>
                 <para role="Normal"> Import Bib is not intended for batch imports.</para>
@@ -5607,7 +5724,7 @@
                                 have values chosen from the drop-down lists.</para>
                             <note>
                                 <para role="Normal"> For more information about the Item Editors,
-                                    see the <link linkend="_Item">Instance Editor</link></para>
+                                    see <link linkend="_Item">OLE Items</link></para>
                             </note>
                         </listitem>
                         <listitem>
@@ -5823,22 +5940,19 @@
                                     Bibliographic Record.</para>
                                 <note>
                                     <para role="Normal"> For more information about record editors,
-                                        see <link linkend="_Editors">Editors</link></para>
+                                        see <link linkend="_Editors">MARC Editor</link></para>
                                 </note>
                             </listitem>
                             <listitem>
                                 <para role="Normal">In order to edit the Holdings and Item record(s)
-                                    attached to the overlaid record, you will need to use the
-                                        <emphasis role="bold">Instance Editor</emphasis>. These
-                                    records cannot be edited during the import process when existing
-                                    records are overlaid. You may search for the record to edit from
-                                    the search workbench.</para>
+                                    attached to the overlaid record, you will need to use their
+                                    corresponding editor. These records cannot be edited during the
+                                    import process when existing records are overlaid. You may
+                                    search for the record to edit from the search workbench.</para>
                                 <note>
-                                    <para role="Normal"> For more information about Instance Editors
-                                        or E-Holdings Editors, see <link
-                                            linkend="_Instance_Editor_1">Instance Editor</link> or
-                                            <link linkend="_EInstanceEditor">E-Holding
-                                        Editor</link></para>
+                                    <para role="Normal"> For more information about Holdings or Item
+                                        Editors, see <link linkend="_Instance_Editor_1">Holdings and
+                                            Item Records</link>.</para>
                                     <para>For more information about the Search Workbench, <link
                                             linkend="_Describe_Workbench">Search Workbench</link>
                                         under <emphasis>OLE Basic Functionality</emphasis>.</para>
@@ -5869,15 +5983,11 @@
                     </listitem>
                     <listitem>
                         <para>A Bibliographic record may have zero, one, or many OLE
-                            Instances.</para>
+                            Holdings.</para>
                     </listitem>
                     <listitem>
-                        <para>An OLE Instance cannot exist without being linked to a Bibliographic
+                        <para>An OLE Holdings cannot exist without being linked to a Bibliographic
                             record.</para>
-                    </listitem>
-                    <listitem>
-                        <para>An OLE Instance must have one Holdings record, but it cannot have more
-                            than one Holdings record.</para>
                     </listitem>
                     <listitem>
                         <para>A Holdings record may have zero, one, or many Item records.</para>
@@ -5923,9 +6033,9 @@
                     <imagedata fileref="../images/DescribeNoTitlePage-CatalogingAdminMenu.png"/>
                 </imageobject>
             </inlinemediaobject></para>
-        <para role="Body Text">Bibliographic and Instance attribute maintenance e-docs are available
-            via the Cataloging submenu on the <emphasis role="bold">Rice 2</emphasis> menu
-            tab.</para>
+        <para role="Body Text">Bibliographic, Holdings, Item, and E-Holdings attribute maintenance
+            e-docs are available via the Cataloging submenu on the <emphasis role="bold"
+                >Maintenance</emphasis> menu tab.</para>
         <section>
             <title><anchor xml:id="_Bibliographic_Record_Status"/>Bibliographic Record
                 Status</title>
@@ -6778,8 +6888,8 @@
                                     <para role="Table Cells">Item Type Code </para>
                                 </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">The code to identify the Instance item
-                                        type. Maximum length is 30 characters.</para>
+                                    <para role="Table Cells">The code to identify the item type.
+                                        Maximum length is 30 characters.</para>
                                 </entry>
                             </row>
                             <row>
@@ -6788,7 +6898,7 @@
                                 </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">Required. The familiar title of the
-                                        Instance item type. Maximum length is 100 characters.</para>
+                                        item type. Maximum length is 100 characters.</para>
                                 </entry>
                             </row>
                             <row>
@@ -6796,8 +6906,8 @@
                                     <para role="Table Cells">Item Type Desc</para>
                                 </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">The familiar description of the
-                                        Instance item type</para>
+                                    <para role="Table Cells">The familiar description of the item
+                                        type</para>
                                 </entry>
                             </row>
                             <row>
@@ -6805,8 +6915,8 @@
                                     <para role="Table Cells">Source</para>
                                 </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">Required. The source of the Instance
-                                        item type.</para>
+                                    <para role="Table Cells">Required. The source of the item
+                                        type.</para>
                                 </entry>
                             </row>
                             <row>
@@ -6814,8 +6924,8 @@
                                     <para role="Table Cells">Source Date</para>
                                 </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">Required. The date for which the
-                                        Instance item type was retrieved from the source.</para>
+                                    <para role="Table Cells">Required. The date for which the item
+                                        type was retrieved from the source.</para>
                                 </entry>
                             </row>
                             <row>
@@ -6823,9 +6933,9 @@
                                     <para role="Table Cells">Active Indicator</para>
                                 </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                    <para role="Table Cells">Indicates whether the Instance item
-                                        type is active or inactive. Remove the checkmark to
-                                        deactivate this code</para>
+                                    <para role="Table Cells">Indicates whether the item type is
+                                        active or inactive. Remove the checkmark to deactivate this
+                                        code</para>
                                 </entry>
                             </row>
                         </tbody>

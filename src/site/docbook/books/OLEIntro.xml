@@ -2,7 +2,7 @@
 <chapter xmlns="http://docbook.org/ns/docbook"
     xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
      <title>Introduction to OLE</title>
-    <para role="No Spacing"><emphasis role="bold">April 2015, Release 1.6</emphasis></para>
+    <para role="No Spacing"><emphasis role="bold">September 2015, Release 2.0</emphasis></para>
     <para>The user documentation is broken down into 6 chapters and also includes the Technical
         Documentation (a work in progress) and the Glossary of Terms</para>
     <note>
@@ -683,8 +683,8 @@
                     and maintenance of various kinds of core metadata that are used to support the
                     business activities of the library as well as the library’s OPAC.</para>
                 <para role="Normal">The OLE Describe-Manage module incorporates the creation and
-                    management of bibliographic, OLE Instance (holdings and item) records as well as
-                    electronic Instances. Support is confined to MARC 21 but will extend to Dublin
+                    management of bibliographic, holdings and item records as well as electronic
+                    holdings (E-Holdings). Support is confined to MARC 21 but will extend to Dublin
                     Core in a later release. Ultimately OLE will be flexible to support multiple
                     formats of bibliographic and holdings records along with licenses and authority
                     records. Reporting functionality will also be included within OLE but
@@ -753,26 +753,24 @@
                     </note>
                 </section>
                 <section>
-                    <title>E-Instances</title>
-                    <para role="No Spacing">OLE E-Instances (Electronic Instances) store and view
-                        data about individual titles that make up an E-Resource purchase. The
-                        E-Instance record stores data that is unique to the title level, such as
-                        URL, coverage dates, and post-cancellation access dates. The E-Instance also
-                        inherits data from its parent E-Resource record. This inherited data can be
-                        customized with the E-Instance editor. In future releases, the link to the
-                        parent E-Resource will provide a convenient link to the license, trial,
-                        access, and purchase information that pertains to the E-Instance.</para>
+                    <title>E-Holdings</title>
+                    <para role="No Spacing">OLE E-Holdings (Electronic Holdings) store and view data
+                        about individual titles that make up an E-Resource purchase. The E-Holdings
+                        record stores data that is unique to the title level, such as URL, coverage
+                        dates, and post-cancellation access dates. The E-Holdings also inherits data
+                        from its parent E-Resource record. This inherited data can be customized
+                        with the E-Holdings editor. In future releases, the link to the parent
+                        E-Resource will provide a convenient link to the license, trial, access, and
+                        purchase information that pertains to the E-Holdings.</para>
                     <note>
                         <para role="Normal"> To learn more about <link linkend="_EInstanceEditor"
-                                >E-Instance records</link> and how to create and modify them, see
+                                >E-Holdings records</link> and how to create and modify them, see
                             the section under the <emphasis>Describe and Manage
-                                Module</emphasis>.</para>
+                            Module</emphasis>.</para>
                     </note>
                 </section>
                 <section>
-                    <title>OLE Instances</title>
-                    <para role="No Spacing">OLE Instances serve as containers for Holdings and Item
-                        records.</para>
+                    <title>OLE Holdings and Item Records</title>
                     <section>
                         <title>Holdings records</title>
                         <para role="Normal">OLE Holding Records store information about particular
@@ -819,9 +817,10 @@
                         </itemizedlist>
                         <note>
                             <para role="Normal"> To learn more about <link
-                                    linkend="_Instance_Editor_1">Instance records</link> and how to
-                                create and modify them, see the section under the <emphasis
-                                    role="italic">Describe and Manage Module</emphasis>.</para>
+                                    linkend="_Instance_Editor_1">Holdings and Item records</link>
+                                and how to create and modify them, see the section under the
+                                    <emphasis role="italic">Describe and Manage
+                                Module</emphasis>.</para>
                         </note>
                     </section>
                 </section>
@@ -918,8 +917,8 @@
                             MARC validation is planned for a future release.</para>
                     </listitem>
                     <listitem>
-                        <para role="List Paragraph">The ability to make global changes to OLE
-                            Instance holdings records.</para>
+                        <para role="List Paragraph">The ability to make global changes to holdings
+                            records.</para>
                     </listitem>
                     <listitem>
                         <para role="List Paragraph">Locally defined status codes (e.g. “Not yet
@@ -1311,9 +1310,9 @@
                     <para role="Normal">Serials Acquisitions Features:</para>
                     <itemizedlist mark="disc" spacing="normal">
                         <listitem>
-                            <para role="List Paragraph">DocStore supports Bibliographic record and
-                                Instance records: Holdings and Items as well as E-Instances for
-                                electronic materials.</para>
+                            <para role="List Paragraph">DocStore supports Bibliographic
+                                record,Holdings and Items as well as E-Holdings for electronic
+                                materials.</para>
                         </listitem>
                         <listitem>
                             <para role="List Paragraph">Serials single title order</para>
@@ -1382,8 +1381,8 @@
                     </listitem>
                     <listitem>
                         <para role="List Paragraph">Receiving staff can update full cataloging
-                            records during processing of bibliographic OLE Instance (holding and
-                            item) cataloging</para>
+                            records during processing of bibliographic, holdings and item
+                            cataloging</para>
                     </listitem>
                 </itemizedlist>
                 <note>

@@ -690,8 +690,8 @@
                                 </inlinemediaobject> from the top row of buttons available.</para>
                         </listitem>
                         <listitem>
-                            <para role="List Paragraph">Type a notes to record specific
-                                circumstances in the pop up window:</para>
+                            <para role="List Paragraph">Type a note to record specific circumstances
+                                in the pop up window:</para>
                             <para role="Normal"/>
                             <para role="Normal">
                                 <screenshot>
@@ -1557,7 +1557,13 @@
                 <para role="Normal">The system automatically assumes today’s date/time as the
                     default date/time of any check-in. An operator can change the date/time as
                     needed (e.g., items returned overnight while the library is closed may be
-                    checked-in as if returned yesterday).</para>
+                    checked-in as if returned yesterday).  </para>
+                <para role="Normal">Click <inlinemediaobject>
+                        <alt>Restore System Date/Time</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-229.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to return the date/time to the default.</para>
                 <tip>
                     <para role="Normal"> Clicking on the green <emphasis role="bold">Loan</emphasis>
                         button will take you to the Loan menu, allowing you to check-out
@@ -1998,8 +2004,8 @@
                     <para>
                         <note>
                             <para role="Normal"> For more information about the Holdings and Item
-                                Editors, see <link linkend="_Instance_Editor_1">Instance
-                                    records</link> under the <emphasis>Describe and Manage
+                                Editors, see <link linkend="_Instance_Editor_1">Holdings and Item
+                                    Records</link> under the <emphasis>Describe and Manage
                                     Module</emphasis>.</para>
                         </note>
                     </para>
@@ -2369,6 +2375,8 @@
                                     <imagedata fileref="../images/DeliverNoTitlePage-187.png"/>
                                 </imageobject>
                             </inlinemediaobject>.</para>
+                        <para>If you need to add or update the patron's address, you may do so here.
+                            The Patron record will also be updated.</para>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
@@ -2403,9 +2411,14 @@
                                 </note>
                             </listitem>
                             <listitem>
-                                <para> Delivery/Pickup details: options based on patron privileges.
-                                    Delivery is the default if patron is eligible for
-                                    delivery.</para>
+                                <para> Delivery/Pickup details: options are based on patron
+                                    privileges.  If the patron does not have a "Deliver Address"
+                                    selected on their patron record, the field will not appear on
+                                    the request screen.  The <emphasis role="bold">Deliver to
+                                        patron</emphasis> box is checked as a default if the patron
+                                    is eligible for delivery, however you may still opt to select a
+                                        <emphasis role="bold">Pickup Location</emphasis> from the
+                                    dropdown list.</para>
                             </listitem>
                             <listitem>
                                 <para> Request Expiration Date: default will display but can be
@@ -2694,7 +2707,7 @@
                 <para>Permissions to create and maintain Patron records are given to several roles. 
                     Patron Manager has all privileges to modify Patrons and the maintenance
                     documents.  Full Circulation Attendant has permission to edit patron
-                    records</para>
+                    records.</para>
                 <para/>
             </section>
             <section>
@@ -3412,6 +3425,28 @@
                                     Circulation History Records Tabs</alt>
                                 <imageobject>
                                     <imagedata fileref="../images/DeliverNoTitlePage-122.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </section>
+                <section>
+                    <title>Notes</title>
+                    <para>The <emphasis role="bold">Notes</emphasis> tab displays notes added by
+                        staff or generated by the system.  </para>
+                    <para>You must select the <emphasis role="bold">Note Type</emphasis> from the
+                        drop down list and enter the <emphasis role="bold">Note Text</emphasis>.
+                        The Operator ID and Note Added/Updated Date will automatically be generated
+                        by the system.</para>
+                    <para>User notes will appear at the time of checkout and can be deleted from the
+                        loan screen</para>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Patron Document: Notes Tabs</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-230.png"
+                                        width="100%"/>
                                 </imageobject>
                             </mediaobject>
                         </screenshot>
@@ -4207,61 +4242,6 @@
         <para role="Body Text">On the Maintenance menu, Circulation Admin provides access to a
             number of circulation functions that allow users to view and maintain a variety of
             standard Circulation E-Docs.</para>
-        <section>
-            <title><anchor xml:id="_Barcode_Status"/>Barcode Status</title>
-            <para role="Body Text">
-                <inlinemediaobject>
-                    <alt>Maintenance</alt>
-                    <imageobject>
-                        <imagedata fileref="../images/maintenanceMenu.png"/>
-                    </imageobject>
-                </inlinemediaobject> &gt; <inlinemediaobject>
-                    <alt>Circulation Admin</alt>
-                    <imageobject>
-                        <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
-                    </imageobject>
-                </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
-                        <alt>Barcode Status</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-140.png"/>
-                        </imageobject>
-                    </inlinemediaobject> &gt;<inlinemediaobject>
-                        <alt>Barcode Status Lookup</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-143.png"/>
-                        </imageobject>
-                    </inlinemediaobject>&gt; <inlinemediaobject>
-                        <alt>Barcode Status</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-141.png"/>
-                        </imageobject>
-                    </inlinemediaobject>
-                </emphasis></para>
-            <para>The Barcode Status lookup is used to review available statuses for a barcode.
-                Barcode statuses are used in the <emphasis role="bold">Patron</emphasis> document to
-                indicate active, lost or stolen patron barcodes.</para>
-            <note>
-                <para>Users cannot add or edit the barcode statuses without making changes to the
-                    underlying code. This maintenance document is to be removed in 2.0. See <link
-                        xlink:href="https://jira.kuali.org/browse/OLE-6788">OLE-6788</link>.</para>
-            </note>
-            <para/>
-            <section>
-                <title role="Heading 4circ">Document Layout</title>
-                <para role="Normal"/>
-                <para role="Normal">
-                    <screenshot>
-                        <mediaobject>
-                            <alt>Barcode Status Document</alt>
-                            <imageobject>
-                                <imagedata fileref="../images/DeliverNoTitlePage-142.png"
-                                    width="100%"/>
-                            </imageobject>
-                        </mediaobject>
-                    </screenshot>
-                </para>
-            </section>
-        </section>
         <section>
             <title><anchor xml:id="_Calendar"/>Calendar</title>
             <para role="Body Text"><inlinemediaobject>
@@ -5424,6 +5404,14 @@
                                 </imageobject>
                             </inlinemediaobject>.</para>
                     </listitem>
+                    <listitem>
+                        <para role="Body Text">Click <inlinemediaobject>
+                                <alt>Clear All Circulation Desk Mapping</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-228.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to uncheck all circulation desks.</para>
+                    </listitem>
                 </orderedlist>
             </section>
         </section>
@@ -5568,8 +5556,8 @@
                     start and end dates of the fixed due date schedule will use the fixed due
                     date.</para>
                 <tip>
-                    <para>You need to be familiar with the circulation policy KRMS rules built into
-                        your local implementation to assign fixed due dates.</para>
+                    <para>You need to be familiar with the circulation policy rules built into your
+                        local implementation to assign fixed due dates.</para>
                 </tip>
                 <para>Because fixed due dates are tied into circulation policies, the <emphasis
                         role="bold">Fixed Due Date Lookup</emphasis> only allows uses to search by
@@ -5615,12 +5603,13 @@
                         staff to assign the fixed due date to a circulation policy set. A fixed due
                         date must be tied to a policy set. Select the <emphasis role="bold"
                             >Circulation Policy Set</emphasis> from the dropdown list.</para>
-                    <para>Circulation Policy Sets are created from the KRMS rules written in xml and
-                        loaded into OLE by an administrator. While all KRMS rules display in the
-                        dropdown, not all of them can have fixed due dates applied. You will need to
-                        select a Circulation Policy Set that is applicable to checkouts/loans, see
-                        an administrator familiar with your institution's circulation policy xml to
-                        determine which circulation policy set to select.</para>
+                    <para>Circulation Policy Sets are created from the KRMS or Drools rules written
+                        in xml and loaded into OLE by an administrator. While all rules display in
+                        the dropdown, not all of them can have fixed due dates applied. You will
+                        need to select a Circulation Policy Set that is applicable to
+                        checkouts/loans, see an administrator familiar with your institution's
+                        circulation policy xml to determine which circulation policy set to
+                        select.</para>
                     <para role="Normal"/>
                     <para role="Body Text">
                         <screenshot>
@@ -5865,8 +5854,9 @@
                                 </entry>
                                 <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                     <para role="Table Cells">The code to identify the location of
-                                        the Instance Record. Each location must have a unique code
-                                        with a maximum length of 40 characters.</para>
+                                        the Holdings, Item or E-Holdings Record. Each location must
+                                        have a unique code with a maximum length of 40
+                                        characters.</para>
                                 </entry>
                             </row>
                             <row>
@@ -6877,6 +6867,146 @@
                     </tgroup>
                 </informaltable>
             </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="circulationNew"/>Circulation New</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Deliver</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt; <inlinemediaobject>
+                <alt>Circulation New</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DeliverNoTitlePage-CirculationNew.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt;<inlinemediaobject>
+                <alt>Circulation New Links</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DeliverNoTitlePage-CirculationNewMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+        </para>
+        <para role="Body Text">On the Deliver menu, Circulation New provides access to circulation
+            options that uses Drools as the circulation policy instead of KRMS.</para>
+        <note>
+            <para>For information regarding implementing Drools and a link to the technical
+                documentation, see <link
+                    xlink:href="https://wiki.kuali.org/display/OLE/Circulation+policies">Circulation
+                    Policies</link> on the wiki.</para>
+        </note>
+        <para role="Normal"/>
+        <section>
+            <title><anchor xml:id="_checkoutItems"/>Checkout Item(s)</title>
+            <para role="Body Text">
+                <inlinemediaobject>
+                    <alt>Deliver</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Circulation New</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-CirculationNew.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                        <alt>Checkout Item(s)</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-222.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt;<inlinemediaobject>
+                        <alt>Checkout Item(s)</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-225.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Normal">The <emphasis role="bold">Checkout Item(s)</emphasis> screen mimics
+                the Loan screen described under <emphasis role="bold">Circulation</emphasis>.  The
+                difference is that Checkout Item(s) is set up to use Drools Circulation Policy
+                instead of KRMS.  This screen is intended for testing purposes.</para>
+            <note>
+                <para>For information about loaning items, see <link linkend="_Loan"
+                    >Loan</link>.</para>
+            </note>
+        </section>
+        <section>
+            <title><anchor xml:id="_checkinItems"/>Checkin Item(s)</title>
+            <para role="Body Text">
+                <inlinemediaobject>
+                    <alt>Deliver</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Circulation New</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-CirculationNew.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                        <alt>Checkin Item(s)</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-223.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt;<inlinemediaobject>
+                        <alt>Checkout Item(s)</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-226.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Normal">The <emphasis role="bold">Checkin Item(s)</emphasis> screen mimics
+                the Return screen described under <emphasis role="bold">Circulation</emphasis>.  The
+                difference is that Checkin Item(s) is set up to use Drools Circulation Policy
+                instead of KRMS.  This screen is intended for testing purposes.</para>
+            <note>
+                <para>For information about returning items, see <link linkend="_Return"
+                        >Return</link>.</para>
+            </note>
+        </section>
+        <section>
+            <title><anchor xml:id="_droolsEditor"/>Drools Editor</title>
+            <para role="Body Text">
+                <inlinemediaobject>
+                    <alt>Deliver</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Circulation New</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-CirculationNew.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                        <alt>Drools Editor</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-224.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt;<inlinemediaobject>
+                        <alt>Drool Editor Lookup</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-220.png"/>
+                        </imageobject>
+                    </inlinemediaobject>&gt;<inlinemediaobject>
+                        <alt>Drools Editor</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-219.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para/>
+            <note>
+                <para>The Drools Editor is a placeholder for work in progress.  It is not fully
+                    functioning in 1.6.2</para>
+            </note>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Drools Editor</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-227.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
         </section>
     </section>
 </chapter>

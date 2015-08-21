@@ -1454,8 +1454,9 @@
             </para>
             <para/>
             <para>For the Editors, the left pane navigation is used to navigate between
-                bibliographic records, Instances and E-Instances. For the E-Resource, the left pane
-                allows for the large amount of information to be broken down into manageable pieces. </para>
+                bibliographic records, Holdings, Items and E-Holdingss. For the E-Resource, the left
+                pane allows for the large amount of information to be broken down into manageable
+                pieces. </para>
             <note>
                 <para>The left pane navigation on the different Editors will allow users to delete
                     and add as well as navigate between records. For additional instructions, see
@@ -3077,7 +3078,7 @@
                                 <imageobject>
                                     <imagedata fileref="../images/basic-24.png"/>
                                 </imageobject>
-                            </inlinemediaobject> to route the document for approval. </para>
+                            </inlinemediaobject>. </para>
                         <para> The system creates a new document with a new document ID. The
                             document ID information for the copied-from document is displayed in the
                             document header and also in the <emphasis role="bold">Notes and
@@ -3338,6 +3339,14 @@
                             viewing it. You do not need to view the transactions sent for FYI
                             routing. </para>
                     </listitem>
+                    <listitem>
+                        <para>
+                            <emphasis>Complete:</emphasis> Complete the document.  You may cancel a
+                            document when you have a Complete action request on it. </para>
+                        <para>Complete and Approve are essentially the same: A Complete action
+                            satisfies an Approve request, and an Approve action satisfies a Complete
+                            request.</para>
+                    </listitem>
                 </itemizedlist>
                 <note>
                     <para> For more information about the action list, see <link
@@ -3351,8 +3360,7 @@
             <itemizedlist>
                 <listitem>
                     <para>Docstore Search / Search Workbench – full Bibliographic searching, edit
-                        and modify bibliographic, instance and e-instance (holdings, items, and
-                        e-holdings) records</para>
+                        and modify bibliographic, holdings, items, and e-holdings records</para>
                 </listitem>
                 <listitem>
                     <para>Acquisitions Search – includes limited Bibliographic searching</para>
@@ -4358,6 +4366,15 @@
                                     </screenshot>
                                 </para>
                                 <para/>
+                                <note>
+                                    <para>In the current version of OLE, if you search for an
+                                        EHoldings record by Local Identifier do not include the
+                                        prefix (who-).  Instead only search by the number after the
+                                        prefix.  This issue has been reported and will be fixed in a
+                                        future release, see <link
+                                            xlink:href="https://jira.kuali.org/browse/OLE-8047"
+                                            >OLE-8047</link>. </para>
+                                </note>
                             </listitem>
                             <listitem>
                                 <para>Next, select from the drop down list with the following
@@ -4472,7 +4489,7 @@
                                         </para>
                                         <para/>
                                         <note>
-                                            <para>OLE 1.6.0 supports a limited version of
+                                            <para>OLE 1.6 supports a limited version of
                                                 cross-document-type searching. If you select the
                                                 Document Type: Item, then the following
                                                 Bibliographic fields will be available for search in
@@ -4567,6 +4584,9 @@
                                         </imageobject>
                                     </inlinemediaobject> below the search results – each record will
                                     open in a separate tab or window.</para>
+                                <warning>
+                                    <para>Do not open more than 20 records at one time.</para>
+                                </warning>
                                 <para>To the right of the search results, you can click on any blue
                                     facet to narrow the search results. You can click <emphasis
                                         role="bold">more </emphasis>above any facet section for
@@ -4701,7 +4721,7 @@
                             <para>Enter the beginning word(s) of the title in the <emphasis
                                     role="bold">Title starting with:</emphasis> box.</para>
                             <note>
-                                <para>Enter only lower case letters. The title browse functionality
+                                <para>Enter only lowercase letters. The title browse functionality
                                     does not currently work with upper case letters.</para>
                             </note>
                             <para>Your browse results will display.</para>
@@ -4842,12 +4862,12 @@
                                 <para role="Body Text">When searching by Document Type <emphasis
                                         role="bold">EHoldings</emphasis>, click the title to open
                                     the record. Click <emphasis role="bold">edit</emphasis> on the
-                                    E-Instance Editor to edit the eholding.</para>
+                                    E-Holdings Editor to edit the eholding.</para>
                                 <para>
                                     <note>
                                         <para role="Normal"> For more information about the
-                                            E-Instance Editors, see the <link
-                                                linkend="_EInstanceEditor">E-Instance Editors</link>
+                                            E-Holdings Editors, see the <link
+                                                linkend="_EInstanceEditor">E-Holdings Editors</link>
                                             under the <emphasis>Describe and Manage
                                                 Module</emphasis>.</para>
                                     </note>
@@ -4857,13 +4877,13 @@
                                 <para role="Body Text">When searching by Document Type <emphasis
                                         role="bold">Holdings</emphasis> or <emphasis role="bold"
                                         >Item</emphasis>, click the title to open the record. Click
-                                        <emphasis role="bold">edit </emphasis>on the Instance Editor
+                                        <emphasis role="bold">edit </emphasis>on the Holdings Editor
                                     to edit the Holdings or Item.</para>
                                 <para>
                                     <note>
-                                        <para role="Normal"> For more information about the Instance
-                                            Editors, see the <link linkend="_Instance_Editor_1"
-                                                >Instance records</link> under the <emphasis
+                                        <para role="Normal"> For more information about the Holdings
+                                            Editors, see <link linkend="_Instance_Editor_1">Holdings
+                                                and Item Records</link> under the <emphasis
                                                 role="italic">Describe and Manage
                                             Module</emphasis>.</para>
                                     </note>
@@ -5526,6 +5546,9 @@
                         >KFS Knowledge Transfer - KIM functions (roles permissions,
                         responsibilities)</link> a video conference about roles and workflows. The
                     video also contains a visual demonstration on responsibilities. </para>
+                <para>For the user documentation on KIM, see <link linkend="_basicKIMConcepts">Basic
+                        KIM Concepts</link> and the additional KIM sections following it under
+                        <emphasis>Administrative Functions</emphasis>.</para>
             </note>
         </section>
         <section>
@@ -8941,6 +8964,11 @@
                 <para> Circulation loan policy - <link
                         xlink:href="https://svn.kuali.org/repos/ole/trunk/src/site/docbook/basics-guide/sample-data/deliver.xml"
                         >deliver.xml</link> (Not imported via Batch Process but XML Import) </para>
+                <note>
+                    <para>Beginning in 1.6.2, OLE will begin using Drools for circulation policies.
+                        While this policy will work, changes will be available in the next few
+                        releases.</para>
+                </note>
             </section>
             <section>
                 <title>Location</title>

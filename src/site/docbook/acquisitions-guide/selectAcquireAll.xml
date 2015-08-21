@@ -1515,7 +1515,7 @@
                                             <para role="Table Cells">Select the Holdings format you
                                                 would like the Requisition to link to. Later the
                                                 created Purchase Order will link to an Item record
-                                                (for print materials) or E-Instance (for electronic
+                                                (for print materials) or E-Holdings (for electronic
                                                 material).</para>
                                         </entry>
                                     </row>
@@ -5046,7 +5046,7 @@
                                             <para role="Table Cells">Select the Holdings format you
                                                 would like the Purchase Order to link to. Purchase
                                                 Orders link to an Item record (for print materials)
-                                                or E-Instance (for electronic material).</para>
+                                                or E-Holdings (for electronic material).</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -16689,36 +16689,35 @@
                 subscription: </para>
             <orderedlist>
                 <listitem>
-                    <para> An OLE Instance Record (always linked to a Bibliographic Record and in
+                    <para> An OLE Holdings Record (always linked to a Bibliographic Record and in
                         some cases linked to a Purchase Order) with Extent of Ownership holdings
-                        statements for back issues of the title. Instance Records may also contain
+                        statements for back issues of the title. Holdings Records may also contain
                         Item Records. Each  Item Record typically represents a bound volume (or
                         other gathering) of back issues (although Item Records may also represent
-                        individual issues). The OLE Instance Record shows the Location of all the
+                        individual issues). The OLE Holdings Record shows the Location of all the
                         holdings; an individual Item Record may contain its own Location if it is
-                        shelved separately. The OLE Instance Record  and its linked Serials
+                        shelved separately. The OLE Holdings Record  and its linked Serials
                         Receiving Record reflect the holdings of a single active subscription. If a
                         serial ceases publication or the library cancels a subscription, the Serials
                         Receiving Record can be deleted. </para>
                 </listitem>
                 <listitem>
-                    <para> A Serials Receiving Record linked to the OLE Instance Record for the same
+                    <para> A Serials Receiving Record linked to the OLE Holdings Record for the same
                         subscription to record receipt of individual issues and show a Location for
-                        those issues that may differ from the Location in the OLE Instance Record.
-                    </para>
+                        those issues that may differ from the Location in the OLE Holdings Record. </para>
                 </listitem>
             </orderedlist>
             <para> The library’s public user interface pulls holdings and location data from both
                 records to present a comprehensive display to end–users. </para>
             <note>
                 <para>The use of a Serials Receiving Record is completely optional and is not
-                    required. For example, some libraries may simply use the OLE Instance Record's
+                    required. For example, some libraries may simply use the OLE Holdings Record's
                     Extent of Ownership statements to record holdings information and use the OLE
-                    Instance Record’s public notes field to inform users if unbound issues are
+                    Holdings Record’s public notes field to inform users if unbound issues are
                     shelved separately from bound volumes. Use of the Serials Receiving Record is
                     recommended if a library continues to claim serial issues. If a library no
                     longer has an active subscription, no Serials Receiving Record is needed;
-                    retrospective holdings is typically  recorded in the OLE Instance Record's
+                    retrospective holdings is typically  recorded in the OLE Holdings Record's
                     Extent of Ownership statements along with Item Records for each  volume (or
                     other gatherings) of any bound  back  issues. </para>
             </note>
@@ -16726,7 +16725,7 @@
             <section>
                 <title>Getting Started</title>
                 <para>Before proceeding with the creation of Serials Receiving Records, staff should
-                    be able to search and display both Bibliographic and Instance Records and
+                    be able to search and display both Bibliographic and Holdings Records and
                     understand their purpose and content. </para>
                 <note>
                     <para>For more information about performing DocStore searches, see <link
@@ -16740,9 +16739,9 @@
                 <section>
                     <title>Creating/Updating a Serial Receiving Record</title>
                     <para> A Serials Receiving Record can be created from two places in OLE: (1) an
-                        OLE Instance Record or (2) the Serials Receiving Record Search interface. </para>
+                        OLE Holdings Record or (2) the Serials Receiving Record Search interface. </para>
                     <section>
-                        <title> Create a Serials Receiving Record Template from an Instance Record </title>
+                        <title> Create a Serials Receiving Record Template from an Holdings Record </title>
                         <para role="Body Text"><inlinemediaobject>
                                 <alt>OLE Header with tabs, Action List, Doc Search, and Search
                                     Workbench.</alt>
@@ -16842,7 +16841,7 @@
                                     Record.</para>
                             </listitem>
                         </orderedlist>
-                        <para> Whether you start with the OLE Instance Record or the Serials
+                        <para> Whether you start with the OLE Holdings Record or the Serials
                             Receiving Record Search interface, the template that displays after
                             clicking the Create button will be the same. </para>
                     </section>
@@ -16877,7 +16876,7 @@
                 <section>
                     <title>Serials Receiving Record Tab</title>
                     <para> The Serials Receiving record is a combination of information inherited
-                        from its linked Bibliographic, Instance, and Purchase Order Records as well
+                        from its linked Bibliographic, Holdings, and Purchase Order Records as well
                         as data entered by the operator when creating the record. </para>
                     <note>
                         <para> OLE 1.6 assumes the use of MARC bibliographic records for describing
@@ -16948,7 +16947,7 @@
                                     <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                         <para role="Table Cells">Display-only. The purchase order
                                             number from the Purchase Order. If a purchase order was
-                                            not linked to the OLE Instance, the field is
+                                            not linked to the Item Record, the field is
                                             blank.</para>
                                     </entry>
                                 </row>
@@ -16958,7 +16957,7 @@
                                     </entry>
                                     <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                         <para role="Table Cells">If the vendor is inherited from the
-                                            OLE Instance, the Vendor Alias will display. To add or
+                                            Item Record, the Vendor Alias will display. To add or
                                             change a vendor, enter the Vendor Alias and click <inlinemediaobject>
                                                 <alt>Select Vendor</alt>
                                                 <imageobject>
@@ -16978,11 +16977,11 @@
                                 </row>
                                 <row>
                                     <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                        <para role="Table Cells">Instance Record</para>
+                                        <para role="Table Cells">Holdings Record</para>
                                     </entry>
                                     <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                         <para role="Table Cells">The local identifier of the OLE
-                                            Instance record. Click the hyperlink to open the record
+                                            Holdings record. Click the hyperlink to open the record
                                             in a new tab or window. Click <inlinemediaobject>
                                                 <alt>Relink</alt>
                                                 <imageobject>
@@ -16991,7 +16990,7 @@
                                                   />
                                                 </imageobject>
                                             </inlinemediaobject> to search for and link to a new OLE
-                                            Instance.</para>
+                                            Holdings.</para>
                                     </entry>
                                 </row>
                                 <row>
@@ -17000,7 +16999,7 @@
                                     </entry>
                                     <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                         <para role="Table Cells">The Location of bound materials
-                                            inherited from the OLE Instance record. Alternatively,
+                                            inherited from the OLE Holdings record. Alternatively,
                                             the field is blank. This field can be edited for the
                                             public display record.</para>
                                     </entry>
@@ -17012,7 +17011,7 @@
                                         <para role="Table Cells">Select the Subscription Status from
                                             the drop down list.</para>
                                         <note>
-                                            <para> The Serials Receiving Record’s linked Instance
+                                            <para> The Serials Receiving Record’s linked Holdings
                                                 Record has a field labeled Receipt Status which uses
                                                 the SAME values as the Subscription Status in the
                                                 Serials Receiving Record. Assigning or changing a
@@ -17052,8 +17051,7 @@
                                         Number</entry>
                                     <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                         <para role="Table Cells">The Copy Number inherited from the
-                                            OLE Instance record. Alternatively, the field is
-                                            blank.</para>
+                                            Item record. Alternatively, the field is blank.</para>
                                     </entry>
                                 </row>
                                 <row>
@@ -17108,12 +17106,14 @@
                                         Name (*for a claim)</entry>
                                     <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                         <para role="Table Cells">Required for claims. If the vendor
-                                            is inherited from the OLE Instance, the Vendor Name will
+                                            is inherited from the Item Record, the Vendor Name will
                                             display. To add or change a vendor, select a vendor from
                                             the drop down list. Selecting a vendor name will also
                                             populate the Vendor Alias field.</para>
                                         <note>
-                                            <para>See OLE-4858 for possible changes.</para>
+                                            <para>See <link
+                                                  xlink:href="https://jira.kuali.org/browse/OLE-4858"
+                                                  >OLE-4858</link> for possible changes.</para>
                                         </note>
                                     </entry>
                                 </row>
@@ -17122,7 +17122,7 @@
                                         Number</entry>
                                     <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                         <para role="Table Cells">The call number inherited from the
-                                            OLE Instance record. Alternatively, the field is
+                                            Holdings record. Alternatively, the field is
                                             blank.</para>
                                     </entry>
                                 </row>
@@ -17161,8 +17161,8 @@
                                         Item</entry>
                                     <entry colname="col2" colsep="0" rowsep="1" valign="top">
                                         <para role="Table Cells">Check the box if you want to be
-                                            prompted to create a new Item Record in the linked OLE
-                                            Instance record each time an issue is received.</para>
+                                            prompted to create a new Item Record in the linked
+                                            Holdings record each time an issue is received.</para>
                                     </entry>
                                 </row>
                                 <row>
@@ -17322,7 +17322,7 @@
                         <listitem>
                             <para>Use the Serials Receiving Record Search interface to find the
                                 Serials Receiving Record. Or use Search Workbench to find the
-                                appropriate Instance Record from which to display the Serials
+                                appropriate Holdings Record from which to display the Serials
                                 Receiving Record.</para>
                         </listitem>
                         <listitem>
@@ -17346,7 +17346,7 @@
                         <listitem>
                             <para>Use the Serials Receiving Record Search interface to find the
                                 Serials Receiving Record. Or use the Search Workbench to find the
-                                appropriate OLE Instance Record from which to display the Serials
+                                appropriate OLE Holdings Record from which to display the Serials
                                 Receiving Record.</para>
                         </listitem>
                         <listitem>
@@ -17412,7 +17412,7 @@
                         <listitem>
                             <para>Use the Serials Receiving Record Search interface to find the
                                 Serials Receiving Record. Or use the Search Workbench to find the
-                                appropriate OLE Instance Record from which to display the Serials
+                                appropriate OLE Holdings Record from which to display the Serials
                                 Receiving Record.</para>
                         </listitem>
                         <listitem>
@@ -17473,7 +17473,7 @@
                         Record as no longer needed. This is not a requirement but a local decision,
                         Serials Receiving Records could remain in OLE indefinitely. </para>
                     <para>Before deletion, libraries should verify that complete holdings data is
-                        entered in the linked OLE Instance Record’s Extent of Ownership
+                        entered in the linked OLE Holdings Record’s Extent of Ownership
                         statement(s). Any individual issues would also typically be bound or
                         otherwise gathered and represented by an Item Record. Additionally, the
                         library could suppress the Receipt History information from its public user
@@ -17484,7 +17484,7 @@
                         <listitem>
                             <para>Use the Serials Receiving Record Search interface to find the
                                 Serials Receiving Record. Or use Search Workbench to find the
-                                appropriate Instance Record from which to display the Serials
+                                appropriate Holdings Record from which to display the Serials
                                 Receiving Record.</para>
                         </listitem>
                         <listitem>
@@ -17541,20 +17541,20 @@
                                     <emphasis role="bold">Save</emphasis> button. </para>
                         </listitem>
                         <listitem>
-                            <para> A Serials Receiving Record is linked to an OLE Instance Record
+                            <para> A Serials Receiving Record is linked to an OLE Holdings Record
                                 which in turn is linked to a bibliographic record of any type; an
-                                OLE Instance Record can also be linked to a Purchase Order. There is
+                                OLE Holdings Record can also be linked to a Purchase Order. There is
                                 no requirement that the bibliographic record must be coded as a
                                 “serial” or “continuing resource”, etc. nor does there have to be an
                                 open Purchase Order in order to create a Serials Receiving
                                 Record.</para>
                             <note>
-                                <para>A Serials Receiving Record cannot be linked to an E-Instance
+                                <para>A Serials Receiving Record cannot be linked to an E-Holdings
                                     Record.</para>
                             </note>
                         </listitem>
                         <listitem>
-                            <para> An OLE Instance Record can have only one Serials Receiving Record
+                            <para> An OLE Holdings Record can have only one Serials Receiving Record
                                 although it can be in three parts to allow for receiving different
                                 issue types of the same serial title: Main run issues, supplement
                                 issues, and index issues. Creating Serials Receiving Records to
@@ -17564,7 +17564,7 @@
                         </listitem>
                         <listitem>
                             <para> If a library has multiple subscriptions to the same title, it
-                                must create an OLE Instance Record and a Serial Receiving Record for
+                                must create an OLE Holdings Record and a Serial Receiving Record for
                                 each subscription—even if the multiple subscriptions go to the same
                                 location. There is no method for receiving two or more subscriptions
                                 on the same Serials Receiving Record. </para>
@@ -17572,7 +17572,7 @@
                         <listitem>
                             <para> Issues as shown in the Receipt History—along with the Unbound
                                 Location—are available to be displayed in a library’s public user
-                                interface. This data, as well as data from the linked OLE Instance
+                                interface. This data, as well as data from the linked OLE Holdings
                                 Record’s Extent of Ownership statement(s), Location(s), and Item
                                 Record information, is available for display in a library’s public
                                 user interface which controls HOW the data is presented to public
@@ -29345,6 +29345,323 @@
             </section>
         </section>
         <section>
+            <title><anchor xml:id="_POBulkAmendment"/>Purchase Order Bulk Amendment</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Select/Acquire</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/SelectAcquire.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                        <alt>Others</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5c.png"
+                            />
+                        </imageobject>
+                    </inlinemediaobject></emphasis> &gt;<inlinemediaobject>
+                    <alt>Purchase Order Bulk Amendment</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-152.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt;<inlinemediaobject>
+                    <alt>Purchase Order Bulk Amendment</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-148.png"/>
+                    </imageobject>
+                </inlinemediaobject></para>
+            <para>The Purchase Order Bulk Amendment (POBA) process allows editing of groups of
+                purchase orders. The process often takes place during Year End Rollover, but can be
+                done at any time a change is needed in a group of purchase orders. This process adds
+                a purchase order amendment (POA) to each purchase order to update order data.</para>
+            <para>Possible scenarios for changing POs in bulk are as follows:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Account string changes such as accounts or object codes</para>
+                </listitem>
+                <listitem>
+                    <para>Vendor codes or vendor item identifiers change when transferring a group
+                        of subscriptions</para>
+                </listitem>
+                <listitem>
+                    <para>Adding standard notes to a group of purchase orders</para>
+                </listitem>
+            </itemizedlist>
+            <para role="Body Text">While many roles can initiate and edit the POBA document, only
+                members of OLE-SYS Manager group can download and act on batch files through this
+                interface.</para>
+            <section>
+                <title>Document Layout</title>
+                <para>The <emphasis role="bold">Purchase Order Bulk Amendment </emphasis> screen is
+                    divided into two sections.  </para>
+                <itemizedlist>
+                    <listitem>
+                        <para>The <emphasis role="bold">PO ID Upload Section</emphasis> tab allows
+                            you to upload a list of purchase orders to create the POBA
+                            document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>The <emphasis role="bold">Select File for Upload</emphasis> tab allows
+                            you to upload the file that consists of your modified purchase order
+                            data.</para>
+                    </listitem>
+                </itemizedlist>
+                <para>Creating Purchase Order Bulk Amendments also requires you to use the <emphasis
+                        role="bold">Batch File</emphasis> screen on the <emphasis role="bold"
+                        >Admin</emphasis> menu (located under the headers: Batch Processes > OLE FS
+                    Batch).  Follow the steps below to create Purchase Order Amendments in
+                    bulk.</para>
+                <para/>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Purchase Order Bulk Amendment screen</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-152.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+            </section>
+            <section>
+                <title>Process Overview</title>
+                <orderedlist>
+                    <listitem>
+                        <para>Select Purchase Orders for Amendment</para>
+                        <note>
+                            <para>Even though you will be creating a POBA document, you will not
+                                start from the screen.  Instead you must first create your list of
+                                POs to modify.</para>
+                        </note>
+                        <para>From the <emphasis role="bold">Select/Acquire</emphasis> menu, under
+                                <emphasis role="bold">Ordering</emphasis> and <emphasis role="bold"
+                                >Purchase Orders</emphasis>, click <emphasis role="bold"
+                                >Search</emphasis>.  Use this PO Lookup Screen to identify purchase
+                            orders that require a specific change such as Status, Chart, Vendor #,
+                            Account, Object Code, etc.</para>
+                        <tip>
+                            <para>As an alternative method, you may directly query the
+                                database.</para>
+                        </tip>
+                        <para/>
+                        <para role="Illustration">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Purchase Order Search Screen</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-153.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <note>
+                            <para>For helpful tips and instructions on performing your search, see
+                                    <link linkend="_Purchase_Order_Search">Purchase Orders
+                                    Search</link>.</para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para>Create a .txt file of PO numbers</para>
+                        <para>After you have performed your search, create a text file (.txt) of the
+                            numbers of the purchase orders that need to be modified. The purchase
+                            order numbers (do not confuse these for document ids in the search
+                            results list) must be listed out on separate lines in the .txt file as
+                            shown below:</para>
+                        <para>2781</para>
+                        <para>2782</para>
+                        <para>2783</para>
+                        <para>2784</para>
+                        <para>Save the file to a convenient place on your personal computer.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Create a POBA document</para>
+                        <para>On the <emphasis role="bold">Select/Acquire</emphasis> menu, under
+                                <emphasis role="bold">Others</emphasis>, click <inlinemediaobject>
+                                <alt>Purchase Order Bulk Amendment</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-152.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Upload the .txt file into the POBA document and submit</para>
+                        <para>On the <emphasis role="bold">PO ID Upload Section</emphasis> tab,
+                            select <emphasis role="bold">Browse...</emphasis> (or <emphasis
+                                role="bold">Choose File</emphasis> depending on your browser) to
+                            search for the file you created in step two from your local
+                            machine.</para>
+                        <para>Click <emphasis role="bold">Upload</emphasis>.  Once you receive
+                            confirmation that the file has been uploaded, click <emphasis
+                                role="bold">Submit</emphasis> to submit the document.</para>
+                        <para role="Illustration">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Purchase Order Bulk Amendment: Upload on the PO ID Uplaod
+                                        Section tab</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-155.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Edit .csv file created in Batch poba directory using spreadsheet
+                            software</para>
+                        <para>On the <emphasis role="bold">Admin</emphasis> menu, click <inlinemediaobject>
+                                <alt>Batch File</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/admin-401.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to open the Batch File Lookup screen.  Select
+                                <emphasis role="bold">poba</emphasis> as the file path.</para>
+                        <para role="Illustration">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Batch File Lookup with File Path "poba"</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-154.png"
+                                        />
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para>Click <inlinemediaobject>
+                                <alt>Search</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-100.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para>Two files will be present for each time the job has been run: a .txt
+                            log file and a .csv file.</para>
+                        <para role="Illustration">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Batch File Lookup with File Path "poba": sample results
+                                        displayed</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-159.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                        <para>Download the .csv file to a drive and use Excel or other spreadsheet
+                            software to modify the file.  Save the file to a convenient place on
+                            your personal computer.  The file should contain the editable fields for
+                            the POs in your initial file.</para>
+                        <para>Edit the saved file, modifying the data to reflect the changes
+                            desired.  Save the changes to the file.</para>
+                        <note>
+                            <para>For more information about the Batch File Lookup screen, see <link
+                                    linkend="_batchFile">Batch File</link> under
+                                    <emphasis>Administrative Functions</emphasis>.</para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para>Upload change file in POBA document and submit</para>
+                        <para>Return to the <emphasis role="bold">Select/Acquire</emphasis> menu and
+                            open the <emphasis role="bold">Purchase Order Bulk Amendment</emphasis>
+                            screen again.</para>
+                        <para>This time, on the <emphasis role="bold">Select File for
+                                Upload</emphasis> tab, select <emphasis role="bold"
+                                >Browse...</emphasis> (or <emphasis role="bold">Choose
+                                File</emphasis> depending on your browser) to search for the file
+                            you created in step two from your local machine.</para>
+                        <para>Click <emphasis role="bold">Upload</emphasis>.  Once you receive
+                            confirmation that the file has been uploaded, click <emphasis
+                                role="bold">Submit</emphasis> to submit the document.</para>
+                        <para role="Illustration">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Purchase Order Bulk Amendment: Second upload occurs on the
+                                        Select File for Upload tab</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-162.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para>Under <emphasis role="bold">Begin Process</emphasis>, if nothing is
+                            selected the job will begin immediately. </para>
+                        <para>To schedule the upload for a different date/time, select the option
+                                <emphasis role="bold">at a specified time</emphasis> and then enter
+                            a date or use the calendar icon <inlinemediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-27.png"/>
+                                </imageobject>
+                            </inlinemediaobject> and time (in 24 hour format as indicated).</para>
+                    </listitem>
+                    <listitem>
+                        <para>POAs are created making purchase order changes</para>
+                        <para>When the POBA document becomes Final, it creates PO amendments and
+                            submits them to the OLE workflow.</para>
+                        <para>Conduct a search from the <emphasis role="bold">Purchase Order
+                                Search</emphasis> and you will see the created POA documents in the
+                            list of results.</para>
+                        <para role="Illustration">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Purchase Order Search Results displays sample POAs
+                                        created</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-163.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                </orderedlist>
+                <section>
+                    <title>Monitoring the POBA document status</title>
+                    <para>OLE creates a log file of changes made which can be viewed via the Batch
+                        File (<emphasis role="bold">Admin</emphasis> > <emphasis role="bold">Batch
+                            Processes</emphasis> > <emphasis role="bold">OLE FS Batch</emphasis> >
+                            <emphasis role="bold">Batch File</emphasis>). This log file,
+                        POBA-Report.txt, is located along with the .csv and .txt files created
+                        during the process described above.</para>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Batch File Lookup: poba will display POBA-Report.txt file</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-164.png"
+                                    />
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para>The status will change from ENROUTE to FINAL as the process
+                        advances.</para>
+                    <para>Error reports will record any PO that did not advance to FINAL. </para>
+                    <note>
+                        <para>The POBA-Report.txt log file is overwritten each time files are
+                            uploaded into OLE.</para>
+                    </note>
+                </section>
+            </section>
+        </section>
+        <section>
             <title><anchor xml:id="_fiscalYearRollover"/>Fiscal Year Rollover (Year End
                 Processes)</title>
             <note>
@@ -29404,7 +29721,8 @@
                         document. </para>
                 </listitem>
                 <listitem>
-                    <para>Manage a 13th month, which is handled by the university financial system </para>
+                    <para>Manage a 13th month, which is handled by the university financial system
+                    </para>
                 </listitem>
                 <listitem>
                     <para> Produce financial statements as libraries need only a snapshot of orders
@@ -29580,7 +29898,8 @@
                             latter, leave them inactive for most of the year and only activate them
                             during the rollover process. </para>
                         <para>The Expense Object Code must have an object code type of EX or ES. </para>
-                        <para>The Revenue Object Code must have an object code type of AS, CH or IN. </para>
+                        <para>The Revenue Object Code must have an object code type of AS, CH or IN.
+                        </para>
                     </listitem>
                 </itemizedlist>
                 <para>Populate these parameters: </para>
@@ -29598,24 +29917,18 @@
                             not use for other purposes). </para>
                     </listitem>
                 </itemizedlist>
-                <para>Populate the “object code” fields on each Chart document. </para>
-                <note>
-                    <para>For additional information about the Chart document, see <link
-                            linkend="_chart">chart</link> in this chapter.</para>
-                </note>
-                <para>Every chart has a series of “object code” fields on the Chart document that
-                    must be populated with existing object codes before rollover. They don’t do
-                    anything most of the year, but need to be populated with existing object codes
-                    before rollover. </para>
-                <note>
-                    <para>Temporary note: Unclear if it matters what codes are used, so long as they
-                        exist and are active.</para>
-                </note>
                 <para>Populate these parameters:</para>
                 <itemizedlist>
                     <listitem>
-                        <para>REENCUMBER_RECURRING_FROM_DATE -- with the first date you created
-                            orders in your system</para>
+                        <para>REENCUMBER_RECURRING_FROM_DATE -- with a date earlier than
+                            the first ”Created” date of POs in your database.</para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>This may be earlier than the date you loaded your OLE data, if
+                                    you migrated the “Create” date of your POs from a previous
+                                    system.</para>
+                            </listitem>
+                        </itemizedlist>
                     </listitem>
                     <listitem>
                         <para>REENCUMBER_RECURRING_TO_DATE -- with a date far in the future</para>
@@ -29826,6 +30139,10 @@
                         </itemizedlist>
                     </listitem>
                 </itemizedlist>
+                <tip>
+                    <para>This parameter is very particular about punctuation and spacing -- follow
+                        these examples exactly.</para>
+                </tip>
                 <para><emphasis role="bold">Optional Steps:</emphasis></para>
                 <para>If you need to restrict creation of acquisitions documents in the system while
                     are you are running rollover, run this job:</para>
@@ -29895,6 +30212,13 @@
                                 <para> YEAR_END_AUTO_DISAPPROVE_ANNOTATION -- provides the text that
                                     will be put in the route log of disapproved documents</para>
                             </listitem>
+                            <listitem>
+                                <para>RESULTS_LIMIT (in namespace OLE_PDP) -- this should be set
+                                    higher than the number of documents you expect to be
+                                    disapproved.  For example, if you have 300 PREQs Enroute, for
+                                    instance, make sure this parameter is set to more than
+                                    300.</para>
+                            </listitem>
                         </itemizedlist>
                     </listitem>
                 </itemizedlist>
@@ -29932,6 +30256,10 @@
                             budgets or cash and centralize them into a designated account. This
                             would only be useful to sites that are allowed to carry money
                             over.</para>
+                        <note>
+                            <para>Additional setup is necessary for this function to work correctly
+                                -- we are still trying to document it.</para>
+                        </note>
                     </listitem>
                     <listitem>
                         <para>Run reencumberRecurringOrdersJob</para>
@@ -30097,17 +30425,25 @@
                             linkend="_BudgetAdjustment">Budget Adjustment</link> in this
                         chapter.</para>
                 </note>
-                <para>If
-                    you’re rolling over before the last possible date, and want to begin working in
-                    the new year immediately, you must manually change the fiscal years associated
-                    with the remaining University Dates between today and the end of the old
-                    year.</para>
+                <para>If you’re rolling over before the last possible date, and want to begin
+                    working in the new year immediately, you must manually change the fiscal years
+                    associated with the remaining University Dates between today and the end of the
+                    old year.</para>
                 <para>Example:</para>
                 <para>Your fiscal year ends June 30th.</para>
-                <para>You run rollover on June 26th, and want to immediately start
-                    ordering and paying in the new year.</para>
+                <para>You run rollover on June 26th, and want to immediately start ordering and
+                    paying in the new year.</para>
                 <para> You must edit the University Date entries for June 26, 27, 28, 29 and 30 to
                     point to accounting period 01 of the new year. </para>
+                <para>If
+                    you don’t want any ledger entries to post to the old fiscal year, change the two
+                    parameters called:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>ALLOW_BACKPOST_DAYS</para>
+                    </listitem>
+                </itemizedlist>
+                <para>to zero, or deactivate them.</para>
             </section>
             <section>
                 <title>Rollover Checklist</title>

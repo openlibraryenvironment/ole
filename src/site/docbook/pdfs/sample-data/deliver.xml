@@ -2728,6 +2728,35 @@
                                     </action>
                                 </trueActions>
                             </rule>
+                            <rule> <!--if itemStatus=Lost and/or replacement fee exist it may paid or unpaid , then display error-->
+                                <name>Lost Status With Replacement Fee Fine in Renewal</name>
+                                <oleProposition>
+                                    <type>simple</type>
+                                        <simpleProposition>
+                                            <term>
+                                                <type>java.lang.String</type>
+                                                <value>itemStatus</value>
+                                            </term>
+                                            <operator>=</operator>
+                                            <values>
+                                                <value>
+                                                    <type>java.lang.String</type>
+                                                    <name>LOST</name>
+                                                </value>
+                                            </values>
+                                        </simpleProposition>
+                                </oleProposition>
+                                <trueActions> <!--then display error-->
+                                    <action>
+                                        <name>errorAction</name>
+                                        <parameter>
+                                            <name>errorMessage</name>
+                                            <value>Item is currently marked as lost and/or a replacement fee has been billed. Item cannot be returned until this situation is resolved</value>
+                                        </parameter>
+                                    </action>
+                                </trueActions>
+                            </rule>
+
                             <rule> <!--then run Check Replacement fee amt for Renewal: if replacementFeeAmt greater than 75, then display error-->
                                 <name>Check Replacement fee amt for Renewal</name>
                                 <oleProposition> <!--if replacementFeeAmt > 75-->
@@ -4116,7 +4145,7 @@
     <agenda> <!--Request Validation:  contains the policies for Requests-->
         <name>Request Validation</name>
         <rules>
-			<rule> <!--RequestApproval; This rule checks whether request type id is Page/DeliveryRequest,Page/HoldRequest,CopyRequest-->
+            <rule> <!--RequestApproval; This rule checks whether request type id is Page/DeliveryRequest,Page/HoldRequest,CopyRequest-->
                 <name>RequestApproval</name>
                 <oleProposition> <!--if RequestType in Page/DeliveryRequest,Page/HoldRequest,CopyRequest, Notify PeopleFlow-->
                     <type>simple</type>
@@ -5212,7 +5241,8 @@
                                                 </value>
                                             </values>
                                         </simpleProposition>
-                                        <simpleProposition> <!--if replacementFeePatronBill in true-->
+                                        <!-- commented for jira 7509
+                                        <simpleProposition> &lt;!&ndash;if replacementFeePatronBill in true&ndash;&gt;
                                             <term>
                                                 <type>java.lang.String</type>
                                                 <value>replacementFeePatronBill</value>
@@ -5224,7 +5254,7 @@
                                                     <name>false</name>
                                                 </value>
                                             </values>
-                                        </simpleProposition>
+                                        </simpleProposition> -->
                                     </compoundProposition>
                                 </oleProposition>
                                 <trueActions>

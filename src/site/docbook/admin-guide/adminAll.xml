@@ -877,8 +877,9 @@
                                     <entry colname="col2" colsep="1" rowsep="1" valign="top">
                                         <para role="Table Cells">If the <emphasis role="bold">Batch
                                                 Export</emphasis> type is selected, select from the
-                                            drop down list to have only bibliographic data exported
-                                            or bibliographic and instance data exported. </para>
+                                            drop down list to have only bibliographic data,
+                                            bibliographic, holdings and item data, or bibliographic,
+                                            holdings and e-holdings data exported. </para>
                                     </entry>
                                 </row>
                                 <row>
@@ -1305,16 +1306,17 @@
                 <section>
                     <title>Batch Export</title>
                     <para>OLE does not provide a public discovery layer. As a result, staff will
-                        need to export bibliographic and OLE Instance data to various existing
-                        discovery layers. The existing systems expect MARC21 bibliographic records
-                        with 9xx local data fields containing a subset of information from OLE
-                        Instance records attached to the bibliographic records. OLE is able to
-                        suppress bibliographic or Instance data marked as staff only. OLE will also
-                        dump incremental updates with additions, modifications and deletions to
-                        bibliographic or Instance data as required by each library. OLE also allows
-                        the user to specify frequency of full and incremental exports. All of these
-                        actions can be set up in the profile and carried out through the <emphasis
-                            role="bold">Batch Process</emphasis> interface.</para>
+                        need to export bibliographic, Holdings, Item, and E-Holdings data to various
+                        existing discovery layers. The existing systems expect MARC21 bibliographic
+                        records with 9xx local data fields containing a subset of information from
+                        Holdings and Item records attached to the bibliographic records. OLE is able
+                        to suppress bibliographic or Holdings and Item data marked as staff only.
+                        OLE will also dump incremental updates with additions, modifications and
+                        deletions to bibliographic or Holdings and Item data as required by each
+                        library. OLE also allows the user to specify frequency of full and
+                        incremental exports. All of these actions can be set up in the profile and
+                        carried out through the <emphasis role="bold">Batch Process</emphasis>
+                        interface.</para>
                     <para>If the <emphasis role="bold">Batch Export</emphasis> type is selected from
                         the <emphasis role="bold">Main Section</emphasis>, four additional tabs will
                         load: <emphasis role="bold">Filter Criteria</emphasis>, <emphasis
@@ -2014,12 +2016,12 @@
                     </note>
                     <para>In the <emphasis role="bold">Main Section</emphasis>, be sure to select
                         the <emphasis role="bold">Data to Import</emphasis> that is relevant for
-                        your import files. If you select "Bibliographic, Instance and EInstance" but
-                        only import E-Instance records, you will end up with extraneous holdings and
-                        items. Additionally, the <emphasis role="bold">Constant and Default
-                            Values</emphasis> should match the data to import. If you create a
-                        profile and select "Bibliographic and EInstance Data", do not enter any
-                        constant or default values for Holdings and Items - only for
+                        your import files. If you select "Bibliographic, Holdings, Item and
+                        EHoldings" but only import E-Holdings records, you will end up with
+                        extraneous holdings and items. Additionally, the <emphasis role="bold"
+                            >Constant and Default Values</emphasis> should match the data to import.
+                        If you create a profile and select "Bibliographic and EHoldings Data", do
+                        not enter any constant or default values for Holdings and Items - only for
                         E-Holdings.</para>
                     <para/>
                     <para role="Illustration">
@@ -2130,7 +2132,7 @@
                         <para>The <emphasis role="bold">Staff Only Treatment</emphasis> tab allows
                             user to turn on the staff only flag in the cataloging record. For new
                             records, check the box to apply the staff only flag to new
-                            bibliographic, instance, or item records. To set staff only for overlaid
+                            bibliographic, Holdings, or Item records. To set staff only for overlaid
                             bibs, check the box at <emphasis role="bold">For Overlaid Bib set Staff
                                 Only</emphasis>.</para>
                         <para/>
@@ -5917,7 +5919,7 @@
                                             category.</para>
                                         <para role="Table Cells">For the category <emphasis
                                                 role="bold">Work</emphasis>, these include
-                                            bibliographic, licenses, Instances, items, etc.</para>
+                                            bibliographic, licenses, Holdings, items, etc.</para>
                                     </entry>
                                 </row>
                                 <row>
@@ -11191,15 +11193,16 @@
         <section>
             <title>Menu Access to KIM Functions</title>
             <para role="Body Text">In OLE, most KIM documents are available from the <emphasis
-                    role="bold">Admin</emphasis> menu tab in the <emphasis role="bold"
-                    >System</emphasis> menu group in the <emphasis role="bold">Identity</emphasis>
-                submenu group. The <link linkend="_D2HTopic_116">Routing &amp; Identity Management
+                    role="bold">Admin</emphasis> menu tab in the <emphasis role="bold">Identity</emphasis> menu group, there are also maintenance documents for these
+                items available from the <emphasis role="bold">Maintenance</emphasis> menu.
+                Additionally, the <link linkend="_D2HTopic_116">Routing &amp; Identity Management
                     Document Type Hierarchy</link> is available in the <emphasis role="bold"
                     >Configuration</emphasis> menu group in the <emphasis role="bold"
-                    >Workflow</emphasis> submenu group. </para>
-            <para role="Body Text">The purpose of each document in the <emphasis role="bold"
-                    >Identity</emphasis> subgroup in the <emphasis role="bold">System</emphasis>
-                menu group is explained in the following table.</para>
+                    >Workflow</emphasis> submenu group. The Routing &amp; Identity Management
+                Document Type Hierarchy is a special view that combines KIM data with OLE Document
+                Type Hierarchy.  This tool is helpful to see what permissions and responsibilities
+                are assigned to a particular document and can also find the routing sequence of the
+                document.</para>
         </section>
         <section>
             <title><anchor xml:id="_basicKIMConcepts"/>Basic KIM Concepts<indexterm
@@ -11209,57 +11212,1977 @@
                     <primary>Kuali Identity Management (KIM)</primary>
                     <secondary> basic concepts</secondary>
                 </indexterm></title>
-            <para role="Body Text">This section introduces KIM permissions, responsibilities, roles,
-                and groups as well as the Routing &amp; Identity Management Document Type Hierarchy
-                tool.</para>
+            <para>OLE uses Kuali Identity Management (KIM), software designed to handle permissions
+                and users in a unified way across all Kuali applications. This is particularly
+                important for schools that will ultimately be implementing two or more Kuali
+                systems. KIM is a part of Kuali RICE, underpinning software that all Kuali
+                applications use. </para>
+            <para>Kuali applications will communicate with KIM to determine what
+                permissions a user has. KIM will also define workflow responsibilities. </para>
+            <para>In OLE, you do not assign permissions directly to staff. Instead,
+                permissions and responsibilities are assigned to roles. People, or groups of people,
+                are attached to the role.</para>
+            <para> Your institution may choose to assign permissions and responsibilities
+                differently or even create its own roles to fit business processes. It is important
+                to note that because OLE is built upon KFS and Rice, we have inherited roles from
+                each. Your institution will need to decide what person or group should be assigned
+                to these inherited roles. </para>
+            <para><inlinemediaobject>
+                    <alt>Permissions, Responsibilities, Assignees are applied to Roles</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-186.png"/>
+                    </imageobject>
+                </inlinemediaobject></para>
             <section>
                 <title><anchor xml:id="KIMPermissions"/>KIM Permissions, Responsibilities, and
-                    Roles</title>
-                <para role="Body Text">Entries in KIM control user permissions to edit a document,
-                    to blanket approve transactions, and to perform many other activities in
-                    OLE.</para>
-                <para role="Body Text">KIM also identifies responsibilities that generate workflow
-                    action requests in OLE. When a Fiscal Officer approves a financial processing
-                    document or a Chart Manager approves a Chart of Accounts maintenance document,
-                    the user is acting on a request that has been generated by a responsibility
-                    specified in KIM.</para>
-                <para role="Body Text">In KIM, you do not assign permissions and responsibilities
-                    directly to individual users; instead, you associate users with roles, and you
-                    give each role an appropriate set of responsibilities and permissions. For
-                    example, the Fiscal Officer role includes permission to edit accounting lines on
-                    certain en route documents. This role also includes responsibilities that
-                    generate requests for the specific actions fiscal officers must take on
-                    documents. The Limited Circulation Attendant role includes permissions to view
-                    but not make changes to a patron record. </para>
-                <para role="Body Text">In the base OLE configuration, similar business functions are
-                    often grouped into a single role. Your institution may choose to assign
-                    permissions and responsibilities differently or even create its own roles to fit
-                    its business processes.</para>
-                <para role="Body Text">In KIM, each user is identified on the KIM Person document.
-                    This document identifies the person by a Principal ID and assigns that person to
-                    any number of roles. Role assignments may be made via the Person document or the
-                    Role document. Some types of roles, called 'derived roles,' automatically
-                    determine their members from data in other OLE components. For example, because
-                    Fiscal Officer is a definition of the Account in OLE, the Fiscal Officer role
-                    derives its assignees based on the data in the Account table. You do not need to
-                    assign users to derived roles such as this one.</para>
-            </section>
-            <section>
-                <title>KIM Groups</title>
-                <para role="Body Text">Groups provide another important tool in KIM. Groups are an
-                    optional feature that allows you to associate persons, roles or other groups
-                    with each other for the purpose of making role assignments. For example, if you
-                    want to assign the same role to three users, you could create a group, assign
-                    the three users to it, and then assign the group to the desired role.
-                    (Alternatively, you could add the three users individually to the role. The
-                    choice of whether to use a group or assign individual users to roles is entirely
-                    yours.)</para>
-            </section>
-            <section>
-                <title>Routing &amp; Identity Management Document Type Hierarchy Tool</title>
-                <para role="Body Text">One more tool—the Routing &amp; Identity Management Document
-                    Type Hierarchy— is unique to KIM. This tool allows you to view KIM permissions
+                    Roles, and other important concepts</title>
+                <para>Some important KIM concepts are defined below.</para>
+                <para><emphasis role="bold">Permissions</emphasis>: These are the actions OLE needs
+                    to authorize users to perform. This might be anything that OLE or other Kuali
+                    applications restrict, such as who can initiate a certain type of document, who
+                    can maintain referenced data in the application, or who can change the account
+                    number on an enroute financial document. Permissions are associated with a
+                    Role.</para>
+                <para><emphasis role="bold">Responsibilities</emphasis>: These are workflow-related
+                    actions OLE needs roles to perform.  These can be approvals, acknowledgements,
+                    or FYI reviews.  When a Fiscal Officer approves a financial processing document
+                    or a Chart Manager approves a Chart of Accounts maintenance document, the user
+                    is acting on a request that has been generated by a responsibility specified in
+                    KIM.  A role can have any number of responsibilities (including none) associated
+                    with it.</para>
+                <para><emphasis role="bold">Person</emphasis>: The identified individual who needs
+                    to be authorized to take some action. A Person in KIM can be assigned one or
+                    more Roles. </para>
+                <para><emphasis role="bold">Roles</emphasis>: Roles combine permissions and
+                    responsibilities. Roles can be assigned to Persons or Groups. So instead of
+                    “Persons” being assigned permissions directly, the permissions are assigned to
+                    Roles and the roles are then assigned to Persons. It’s not uncommon for a Role
+                    to be associated with more than one permission or responsibility.</para>
+                <para role="Body Text">As an example, the Fiscal Officer role includes permission to
+                    edit accounting lines on certain en route documents. This role also includes
+                    responsibilities that generate requests for the specific actions fiscal officers
+                    must take on documents. The Limited Circulation Attendant role includes
+                    permissions to view but not make changes to a patron record. </para>
+                <para><emphasis role="bold">Derived Role</emphasis>: A “Derived Role” is a type of
+                    role. Derived roles determine the assignees for the role based on information
+                    outside of KIM. Derived roles automatically determine their members from data in
+                    other OLE components. OLE has four derived roles currently, all of which were
+                    inherited from KFS (see table below). One example, Fiscal Office, is a derived
+                    role and determines the assignees for the role based on the Fiscal Officer
+                    identified on an Account. You do not need to assign users to derived roles. </para>
+                <para><emphasis role="bold">Group</emphasis>: Groups provide another important tool
+                    in KIM; they are simply a way to associate multiple persons with a role. Groups
+                    don’t have any special inherent permission.  Groups are an optional feature that
+                    allows you to associate persons, roles or other groups with each other for the
+                    purpose of making role assignments. For example, if you want to assign the same
+                    role to three users, you could create a group, assign the three users to it, and
+                    then assign the group to the desired role. (Alternatively, you could add the
+                    three users individually to the role. The choice of whether to use a group or
+                    assign individual users to roles is entirely yours.)</para>
+                <para><emphasis role="bold">Namespace</emphasis>: Roles are organized into
+                    namespaces, this helps in determining if the role is inherited and also what
+                    module it can be used in. A Namespace will also structurally organize, or scope,
+                    Permissions and Entity Attributes (people). Each Namespace instance is one level
+                    of scoping and is one record in the system. For example, "KR" or "OLE" or "KFS"
+                    could be a Namespace. In OLE, we have further broken those up into finer-grained
+                    Namespaces such that they would roughly correlate to library departments and
+                    functional modules. Examples you will see are "KR-WKFLW" (Kuali Workflow),
+                    "OLE-CAT" (OLE Cataloging), and “OLE-PURAP" (OLE Purchasing and Accounts
+                    Payable). Roles are required to have namespaces; therefore you will see several
+                    roles that share the same name. </para>
+                <para><emphasis role="bold">Routing &amp; Identity Management Document Type
+                        Hierarchy</emphasis>: The Routing &amp; Identity Management Document Type
+                    Hierarchy is a unique tool to KIM. This tool allows you to view KIM permissions
                     and responsibilities as they relate to specific OLE documents.</para>
+                <section>
+                    <title>Users in OLE</title>
+                    <para>Users of OLE, library staff, are identified on the KIM Person document. The
+                        Person document is found on the Admin tab. This document identifies the
+                        person by a Principal ID and assigns that person to any number of
+                        roles.</para>
+                    <para>The initial ingestion of multiple users is covered within the <link
+                            xlink:href="https://wiki.kuali.org/display/OLE/OLE+Implementation+Guide"
+                            >OLE Implementation Guide</link> on the wiki.</para>
+                    <para> To add a single user to OLE, see <link linkend="_person"
+                        >Person</link>.</para>
+                </section>
+                <section>
+                    <title>Permissions for Maintenance Documents</title>
+                    <para>Permissions for Maintenance documents, those found on the <emphasis
+                            role="bold">Maintenance</emphasis> Menu, could have the same permissions
+                        that are assigned to roles and attached to persons. Typically, however,
+                        because Maintenance documents control tables, only persons with the
+                        administrative roles may initiate the documents.</para>
+                    <para> There are several exceptions to this. A few maintenance documents, such
+                        as for Chart of Accounts, can be initiated and edited by additional roles
+                        such as several OLE-SELECT Financial and OLE-SELECT Accounting roles. These
+                        maintenance documents will route. </para>
+                </section>
+            </section>
+        </section>
+        <section>
+            <title>Assigning users to different roles in OLE</title>
+            <para> In OLE, to assign a role to a person, you will use the “Identity Admin” section
+                of the <emphasis role="bold">Admin</emphasis> menu. As noted above, there are roles
+                (or non-derived roles) and derived roles. Assigning a non-derived role to a person
+                can be done through the <link linkend="_role">role</link> document or through the
+                    <link linkend="_person">person</link> document, see the appropriate sections in
+                this chapter for instructions.</para>
+            <para>There are also derived roles in OLE inherited from KFS that can be assigned from
+                the user interface and are described in the sections below. The first four listed in
+                this chart are derived roles that you will need to assign in your local
+                institution.:</para>
+            <informaltable border="1" class="MsoNormalTable"
+                style="border-collapse:collapse;mso-table-layout-alt:fixed;border:none;  mso-border-alt:solid black .5pt;mso-yfti-tbllook:160;mso-padding-alt:0in 5.4pt 0in 5.4pt;  mso-border-insideh:.5pt solid black;mso-border-insidev:.5pt solid black">
+                <tbody>
+                    <tr>
+                        <td rowspan="1" colspan="1">
+                            <para><emphasis role="bold">KIM Role</emphasis></para>
+                        </td>
+                        <td rowspan="1" colspan="1">
+                            <para><emphasis role="bold">OLE Document</emphasis></para>
+                        </td>
+                        <td>
+                            <para><emphasis role="bold">Assignees added in OLE</emphasis></para>
+                        </td>
+                        <td>
+                            <para><emphasis role="bold">Assignees viewable in OL</emphasis>E</para>
+                        </td>
+                        <td>
+                            <para><emphasis role="bold">KIM Documen</emphasis>t</para>
+                        </td>
+                        <td>
+                            <para><emphasis role="bold">Assignees added in KIM</emphasis></para>
+                        </td>
+                        <td>
+                            <para><emphasis role="bold">Assignees viewable in KIM</emphasis></para>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">
+                            <para><link linkend="_fiscalOfficerRole">Fiscal
+                                    Officer</link><superscript>1,3</superscript></para>
+                        </td>
+                        <td rowspan="1" colspan="1">
+                            <para>Account*</para>
+                        </td>
+                        <td>
+                            <para>Y</para>
+                        </td>
+                        <td>
+                            <para>Y</para>
+                        </td>
+                        <td>
+                            <para>NA</para>
+                        </td>
+                        <td>
+                            <para>N</para>
+                        </td>
+                        <td>
+                            <para>N</para>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">
+                            <para><link linkend="_fiscalOfficerDelegateRole">Fiscal Officer
+                                    Delegate</link><superscript>1</superscript></para>
+                        </td>
+                        <td rowspan="1" colspan="1">
+                            <para>Account Delegate*</para>
+                        </td>
+                        <td>
+                            <para>Y</para>
+                        </td>
+                        <td>
+                            <para>Y</para>
+                        </td>
+                        <td>
+                            <para>NA</para>
+                        </td>
+                        <td>
+                            <para>N</para>
+                        </td>
+                        <td>
+                            <para>N</para>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">
+                            <para><link linkend="_accountingReviewer">Organization
+                                Reviewer</link></para>
+                        </td>
+                        <td rowspan="1" colspan="1">
+                            <para>Organization Review</para>
+                        </td>
+                        <td>
+                            <para>Y</para>
+                        </td>
+                        <td>
+                            <para>Y</para>
+                        </td>
+                        <td>
+                            <para>Role or Person</para>
+                        </td>
+                        <td>
+                            <para>Y</para>
+                        </td>
+                        <td>
+                            <para>Y</para>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">
+                            <para><link linkend="_accountingReviewer">Accounting
+                                Reviewer</link></para>
+                        </td>
+                        <td rowspan="1" colspan="1">
+                            <para>Organization Review</para>
+                        </td>
+                        <td>
+                            <para>Y</para>
+                        </td>
+                        <td>
+                            <para>Y</para>
+                        </td>
+                        <td>
+                            <para>Role or Person</para>
+                        </td>
+                        <td>
+                            <para>Y</para>
+                        </td>
+                        <td>
+                            <para>Y</para>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">
+                            <para><link linkend="_roleAssignment">All other non-derived
+                                    roles</link><superscript>2</superscript></para>
+                        </td>
+                        <td rowspan="1" colspan="1">
+                            <para>NA</para>
+                        </td>
+                        <td>
+                            <para>N</para>
+                        </td>
+                        <td>
+                            <para>N</para>
+                        </td>
+                        <td>
+                            <para>Role or Person</para>
+                        </td>
+                        <td>
+                            <para>Y</para>
+                        </td>
+                        <td>
+                            <para>Y</para>
+                        </td>
+                    </tr>
+                </tbody>
+            </informaltable>
+            <para><emphasis>1) Both have Global versions where changes can be made en
+                    masse.</emphasis></para>
+            <para><emphasis>2) There are other derived roles in KIM, most will usually be derived
+                    from information about the user on the document - i.e. primary organization.
+                    Typically these roles are created by technical staff. </emphasis>
+            </para>
+            <para><emphasis>3) Fiscal Officer is the only required role. The Account document cannot
+                    be created without it and the Account route node delivered is a required route
+                    node. </emphasis></para>
+            <para> The roles above, and many others, are delivered with OLE - you just need to make
+                sure people (staff members) are available in your local system, make assignments,
+                and they are ready to go. </para>
+            <section>
+                <title><anchor xml:id="_fiscalOfficerRole"/>Fiscal Officer Role</title>
+                <para>Each account in OLE is assigned a designated approver called a fiscal officer.
+                    This individual is responsible for maintaining the fiscal integrity of an
+                    account and is often one of the first approvers to review a document that
+                    impacts the account. Most financial processing documents are routed to the
+                    fiscal officer for each of the accounts identified in the document. </para>
+                <para>As an example:</para>
+                <para>Roberta Renfrow is an Acquisitions Manager. She is responsible for approving
+                    purchases for a specific Account BL-1031400. She is the Fiscal Officer for this
+                    account. </para>
+                <para>You assign Roberta to the role of Fiscal Officer by updating the Account
+                    document in OLE. You do not need to do anything from the “Identity Admin”
+                    section (KIM documents) on the <emphasis role="bold">Admin</emphasis> Menu, you
+                    just need to update the accounts that Roberta is responsible for approving by
+                    making her the Fiscal Officer on the accounts in OLE. </para>
+                <note>
+                    <para>For more information about the document, see <link linkend="_Accounts"
+                            >Accounts</link> under the <emphasis>Select and Acquire
+                            Module</emphasis>.</para>
+                </note>
+                <para>As stated above, every e-Doc that has the Account route node on it (REQ, PO,
+                    etc) that uses this account routes to Roberta Renfrow. </para>
+                <section>
+                    <title>Assigning a Fiscal Officer from an Account</title>
+                    <para>
+                        <orderedlist>
+                            <listitem>
+                                <para> From the <emphasis role="bold">Maintenance</emphasis> Menu,
+                                    click <emphasis role="bold">Account </emphasis>to open the
+                                    Account Lookup. </para>
+                                <para>
+                                    <screenshot>
+                                        <mediaobject>
+                                            <alt>Account from the Maintenance Menu</alt>
+                                            <imageobject>
+                                                <imagedata fileref="../images/admin-207.png"/>
+                                            </imageobject>
+                                        </mediaobject>
+                                    </screenshot>
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>Find an Account. Click <emphasis role="bold">Edit</emphasis>
+                                    to open the Account Document.</para>
+                                <para role="Illustration">
+                                    <screenshot>
+                                        <mediaobject>
+                                            <alt>Account lookup: click edit in the search
+                                                results</alt>
+                                            <imageobject>
+                                                <imagedata fileref="../images/admin-210.png"
+                                                  width="100%"/>
+                                            </imageobject>
+                                        </mediaobject>
+                                    </screenshot>
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para>Enter the <emphasis role="bold">Fiscal Officer Principal
+                                        Name</emphasis> (or search for it from the lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>).  Click <emphasis role="bold"
+                                        >Submit</emphasis> to route for approval.</para>
+                                <para role="Illustration">
+                                    <screenshot>
+                                        <mediaobject>
+                                            <alt>Account document: add the Fiscal Officer under the
+                                                Account Responsibility tab</alt>
+                                            <imageobject>
+                                                <imagedata fileref="../images/admin-212.png"
+                                                  width="100%"/>
+                                            </imageobject>
+                                        </mediaobject>
+                                    </screenshot>
+                                </para>
+                                <note>
+                                    <para> For more information about the Account Document, see
+                                            <link linkend="_Account">Account</link> under the
+                                            <emphasis>Select and Acquire Module</emphasis>.</para>
+                                </note>
+                            </listitem>
+                        </orderedlist>
+                    </para>
+                </section>
+            </section>
+            <section>
+                <title><anchor xml:id="_fiscalOfficerDelegateRole"/>Fiscal Officer Delegate
+                    Role</title>
+                <para>Let’s take a look at the Fiscal Officer Delegate role. You use the Account
+                    Delegate documents in OLE to assign people to this role. </para>
+                <para>To continue with our previous example:</para>
+                <para>When Roberta Renfrow is on vacation, she wants Virgie Putman to approve
+                    requisitions on her accounts. She wants requisitions to route directly to Virgie
+                    for approval so that Virgie doesn’t have to do anything extra. When Roberta
+                    returns from vacation, she will remove the delegation by inactivating the
+                    Account Delegates. </para>
+                <para> You can set up Fiscal Officer Delegates for one account and one document at a
+                    time from the <emphasis role="bold">Account Delegate</emphasis> document or you
+                    can use the <emphasis role="bold">Account Delegate Global</emphasis> to save
+                    time. Roberta has several accounts, so she is going to use the Account Delegate
+                    Global. You do not need to do anything from the “Identity Admin” section (KIM
+                    documents) on the <emphasis role="bold">Admin</emphasis> Menu.</para>
+                <note>
+                    <para>For more information about the documents, see <link
+                            linkend="_accountDelegate">Account Delegate</link> or <link
+                            linkend="_accountDelegateGlobal">Account Delegate Global</link> under
+                        the <emphasis>Select and Acquire Module</emphasis>.</para>
+                </note>
+                <section>
+                    <title>Assigning a Fiscal Officer Delegate from an Account Delegate
+                        Global</title>
+                    <orderedlist>
+                        <listitem>
+                            <para>From the <emphasis role="bold">Maintenance</emphasis> Menu, open
+                                the <emphasis role="bold">Account Delegate Global</emphasis>
+                                Document.</para>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Account Delegate Global from the Maintenance Menu</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-213.png"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>Complete the <emphasis role="bold">Document Overview</emphasis>
+                                tab</para>
+                            <note>
+                                <para> For more information about the Document Overview tab, see
+                                        <link linkend="_standardTabs">Standard Tabs</link> under
+                                        <emphasis role="italic">OLE Basic
+                                    Functionality</emphasis>.</para>
+                            </note>
+                        </listitem>
+                        <listitem>
+                            <para>Compete the <emphasis role="bold">Edit Global Delegate</emphasis>
+                                tab.</para>
+                            <para>Note that you can add additional documents. We are just setting up
+                                delegation for the Requisition. The Requisition document is a
+                                qualifier for this role, it tells Workflow which documents should be
+                                checked for delegation. For each Document type you can indicate if
+                                the delegation is primary (send the documents directly to this
+                                person) or secondary (they must retrieve the document to take
+                                action). The other qualifier is Amount - from and to (minimum and
+                                maximum amounts for a transaction to route to the delegate). </para>
+                            <para role="Illustration">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Account Delegate Global document: Edit Global Delegate
+                                            tab with a sample delegate added</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-214.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>Add Accounts using the <emphasis role="bold">Look Up/Add Multiple
+                                    Account Lines</emphasis> icon <inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/Lookup.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></para>
+                            <para> Note that you could add one account at a time, but that would be
+                                pretty time consuming. Accounts are another qualifier for this role,
+                                which accounts when used on the Requisition should route. </para>
+                            <para role="Illustration">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Account Delegate Global document: Look Up/Add Multiple
+                                            Account Lines on the Edit List of Accounts tab</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-217.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para> Search for accounts belonging to Fiscal Officer “ole-rorenfro”.
+                                Use the checkboxes to select specific accounts or the
+                                Select/Deselect buttons to check all or remove all checks. Click
+                                    <emphasis role="bold">Return Selected</emphasis> to return to
+                                the Account Delegate Global. </para>
+                            <para role="Illustration">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Account Delegate Global document: Look Up Screen</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-219.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para> Make any final edits. Click <inlinemediaobject>
+                                    <alt>Submit</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-335.png"
+                                        />
+                                    </imageobject>
+                                </inlinemediaobject> to route for approval. Once approved, Virgie
+                                will be assigned the Account Delegate role. </para>
+                            <para>Note that you can also delete or add accounts if you need
+                                to.</para>
+                            <para role="Illustration">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Account Delegate Global document: Account Delegate and
+                                            List of Accounts tabs</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-220.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                    </orderedlist>
+                </section>
+            </section>
+            <section>
+                <title><anchor xml:id="_accountingReviewer"/>Accounting Reviewer and Organization
+                    Reviewer Roles</title>
+                <para>The Organization Review document in OLE allows you to make assignments to both
+                    the Accounting Reviewer (role OLE28) and the Organization Reviewer (role OLE7).
+                    These roles are established when you want to have an approver in addition to the
+                    Fiscal Officer. It is different from the Fiscal Officer and the Fiscal Officer
+                    Delegate because you can see the assignees in both OLE and KIM. The Fiscal
+                    Officer and Fiscal Officer Delegate are derived roles, the only place you can
+                    see the assignees in OLE is on the Account and Account Delegate lookups. </para>
+                <note>
+                    <para>For more information about the document, see <link
+                            linkend="_organizationReview">Organization Review</link>under the
+                            <emphasis>Select and Acquire Module</emphasis>.</para>
+                </note>
+                <para> As an example:</para>
+                <para>The Head Librarian, Michael Baxter, wants to review all Requisitions over
+                    $10,000 for the Psychology Department on the Bloomington campus. To accomplish
+                    this we will use Organization Review Document in OLE to assign Michael Baxter to
+                    this role with the specified qualifiers. </para>
+                <section>
+                    <title>Assigning Roles from the Organization Review document</title>
+                    <orderedlist>
+                        <listitem>
+                            <para>From the <emphasis role="bold">Select/Acquire</emphasis> Menu,
+                                click <emphasis role="bold">Organization Review</emphasis> to open
+                                the Organization Review Lookup.</para>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Organization Review from the Select/Acquire Menu</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-221.png"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para> Click <emphasis role="bold">Create New</emphasis> (top right of
+                                the search screen) to open a new Organization Review document.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>Complete the <emphasis role="bold">Document Overview</emphasis>
+                                tab</para>
+                            <note>
+                                <para> For more information about the Document Overview tab, see
+                                        <link linkend="_standardTabs">Standard Tabs</link> under
+                                        <emphasis role="italic">OLE Basic
+                                    Functionality</emphasis>.</para>
+                            </note>
+                        </listitem>
+                        <listitem>
+                            <para>Complete the <emphasis role="bold">Organization Review</emphasis>
+                                tab.</para>
+                            <para>The Organization Review tab is where we specify which Organization
+                                and which Document we want to have Michael approve. The Document and
+                                the Organization are qualifiers. </para>
+                            <para> Complete the Chart Code and Organization Code. To specify the
+                                document type, click on the Document Type look up icon. The Document
+                                Type Lookup screen opens. </para>
+                            <para role="Illustration">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Organization Review Role document: Document Overview
+                                            and Organization Review tabs</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-224.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para>Click the lookup <inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/Lookup.png"/>
+                                    </imageobject>
+                                </inlinemediaobject> next to <emphasis role="bold">Document
+                                    Type</emphasis> to find the requisition and return it to the
+                                Organization Review document.</para>
+                            <para role="Illustration">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Organization Review Role document: Looking up the
+                                            Document Type</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-226.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>Complete the <emphasis role="bold">Assignee/Delegation</emphasis>
+                                tab.</para>
+                            <para> The Assignee/Delegation tab is where we specify the Amount, the
+                                who (ole-mbaxter), and the what (Approve). </para>
+                            <para role="Illustration">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Organization Review Role document: Organization Review
+                                            and Assignee/Delegation tabs</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-227.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>Click <inlinemediaobject>
+                                    <alt>Submit</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-335.png"
+                                        />
+                                    </imageobject>
+                                </inlinemediaobject>. This document does not route. </para>
+                            <para> Michael Baxter has been assigned to the Accounting Reviewer role;
+                                let’s see what it looks like in OLE and in KIM. </para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>OLE (Select/Acquire Menu > Reports > Organization
+                                        Review)</para>
+                                    <para role="Illustration">
+                                        <screenshot>
+                                            <mediaobject>
+                                                <alt>Organization Review Lookup results display the
+                                                  Document type and the Accounting Reviewer</alt>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/admin-228.png"
+                                                  width="100%"/>
+                                                </imageobject>
+                                            </mediaobject>
+                                        </screenshot>
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>KIM (Admin Menu > Identity Admin > Role</para>
+                                    <para>Search for role "OLE28".  Click on <emphasis role="bold"
+                                            >Accounting Reviewer</emphasis> to open the Role
+                                        Document Inquiry screen.</para>
+                                    <para role="Illustration">
+                                        <screenshot>
+                                            <mediaobject>
+                                                <alt>Role Lookup results display the Accounting
+                                                  Reviewer role</alt>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/admin-231.png"
+                                                  width="100%"/>
+                                                </imageobject>
+                                            </mediaobject>
+                                        </screenshot>
+                                    </para>
+                                    <para role="Illustration">
+                                        <screenshot>
+                                            <mediaobject>
+                                                <alt>Accounting Reviewer Role Document</alt>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/admin-232.png"
+                                                  width="100%"/>
+                                                </imageobject>
+                                            </mediaobject>
+                                        </screenshot>
+                                    </para>
+                                    <para>Down towards the bottom, is Michael Baxter with the From
+                                        Amount set to $10,000:</para>
+                                    <para role="Illustration">
+                                        <screenshot>
+                                            <mediaobject>
+                                                <alt>Accounting Reviewer Role Document displaying
+                                                  the example Michael Baxter</alt>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/admin-233.png"
+                                                  width="100%"/>
+                                                </imageobject>
+                                            </mediaobject>
+                                        </screenshot>
+                                    </para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                    </orderedlist>
+                </section>
+            </section>
+        </section>
+        <section>
+            <title> Permissions, Responsibilities, and Roles Planning</title>
+            <para>As you prepare for installation at your own institution, these are the steps you
+                can take to determine how to organize and assign permissions and responsibilities to
+                roles.  In this example, we will look at the Deliver module.</para>
+            <orderedlist>
+                <listitem>
+                    <para>Identify the e-Documents, parents and grandparents (Hierarchical
+                        Groupings)</para>
+                    <para>You want to do this so that you can assign the same permission for several
+                        documents to the parent when that’s appropriate. </para>
+                    <tip>
+                        <para>Using the <link linkend="_routingAndIdentityManager">Routing &amp;
+                                Identity Management Document Type Hierarchy</link> (located on the
+                            Admin tab) can help because documents are displayed in a hierarchical
+                            structure.</para>
+                    </tip>
+                    <para><emphasis role="bold">E-Docs for Deliver</emphasis></para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>Loan*</para>
+                        </listitem>
+                        <listitem>
+                            <para>Return*</para>
+                        </listitem>
+                        <listitem>
+                            <para>Request</para>
+                        </listitem>
+                        <listitem>
+                            <para>Request Re-order*</para>
+                        </listitem>
+                        <listitem>
+                            <para>Patron Bill</para>
+                        </listitem>
+                        <listitem>
+                            <para>Patron</para>
+                        </listitem>
+                        <listitem>
+                            <para>Circulation Desk Mapping, and other maintenance documents</para>
+                        </listitem>
+                    </itemizedlist>
+                    <para>* Note: while Loan, Request Re-order, and Return are not typical
+                        e-documents but rather interfaces, they do still require roles and
+                        permissions and so are listed here.  Deliver Notices is also on the Deliver
+                        tab, however it does not have permissions associated with it. </para>
+                    <para><emphasis role="bold">Parent for Deliver</emphasis></para>
+                    <para>The only Parent for Deliver Documents is "Rice Document"</para>
+                </listitem>
+                <listitem>
+                    <para>Identify the permissions that exist for each e-Doc</para>
+                    <para>Remember these are the actions OLE needs to authorize users to perform.
+                        Permissions are displayed with details. These define the what, when, and
+                        where in KIM. </para>
+                    <itemizedlist>
+                        <listitem>
+                            <para><emphasis role="bold">What</emphasis> – What action occurs: For
+                                example, the permission “Post Forgive” has &lt;Action Event> payment
+                                to post ‘forgive’ to a charge on a bill.</para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">When</emphasis> – Would explain on what
+                                route node an action should take place: &lt;routeNodeName> (These
+                                can be seen on Select &amp; Acquire roles). </para>
+                        </listitem>
+                        <listitem>
+                            <para><emphasis role="bold">Where</emphasis> – Where the action occurs:
+                                For example, the permission “Update due date” has &lt;View Id>
+                                PatronItemView because the permission is used on the Patron e-Doc.
+                            </para>
+                        </listitem>
+                    </itemizedlist>
+                    <para><emphasis role="bold">OLE Deliver Documents and their
+                            Permissions</emphasis></para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>Request</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>Edit request document</para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>Request Re-order</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>Update request queue</para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>Bill</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>Display bill</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Create/update bill</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Post payment</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Post forgive</para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>Loan</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>Can override loan</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Update due date</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Can override</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Can remove note</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Patron Blocks to override</para>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>Patron has a general block</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Patron has max # of items checked out</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Patron has max # of checked out times marked
+                                                'claimed returned'</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Patron has max amount of overdue fines</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Patron has max amout of replacement fees</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Patron has max amount of all charges</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Patron has max # of overdue items checked
+                                                out</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Patron has max # of recalled overdue items checked
+                                                out</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Patron has at least one item overdue for more than
+                                                n days</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Patron has at least one recalled item overdue for
+                                                more the n days</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Patron record expired</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Proxy patron record expired</para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </listitem>
+                                <listitem>
+                                    <para>Item Blocks to override</para>
+                                    <itemizedlist>
+                                        <listitem>
+                                            <para>Item on hold for another patron</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Renewal limit reached</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Renewal due date precedes current due date</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Item currently loaned to another patron</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Item has pending request queue where patron
+                                                presenting item is NOT the patron in queue position
+                                                '1'</para>
+                                        </listitem>
+                                        <listitem>
+                                            <para>Item not at circ desk authorized to serice the
+                                                item's shelving location</para>
+                                        </listitem>
+                                    </itemizedlist>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>Fast Add</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>Create fast add</para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>Check In</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>Can backdate check-in time/date</para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>Circulation Desk (Qualifier)</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>Mapping circulation desk</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Create/Update circulation desk</para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>Patron</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>Display request</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Update patron address only</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Initiate patron document</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Edit patron document</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Update patron overview</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Update patron name only</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Update patron phone only</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Update patron email only</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Update patron affiliation</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Update patron library policies</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Display loaned records</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Display temporary circulation history</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Update patron notes</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Create/update proxy patron</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Display proxy patron</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Update patron local id</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Display invalid or lost barcode</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Display current loan</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Display existing loan</para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>Item</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>Editor item information</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Can update item status</para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>Maintenance Documents</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>Initiate borrower document</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Initiate address type document</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Edit address type document</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Initiate email type document</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Edit email type document</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Initiate phone type document</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Edit phone type document</para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+                <listitem>
+                    <para>Identify the responsibilities</para>
+                    <para>While no Deliver documents currently route or have responsibilities,
+                        locally you may decide routing is needed. Remember that responsibilities
+                        differ from Permissions in that they are defining the workflow actions
+                        required by a role as opposed to authorizing something in the application
+                        itself. Responsibilities also contain details to explain where and when the
+                        responsibility should be made.  See <link linkend="_responsibility"
+                            >Responsibility</link> to learn how to create new and modify existing
+                        responsibilities.</para>
+                </listitem>
+                <listitem>
+                    <para>Identify the Roles</para>
+                    <para> We have identified the e-Docs, the Permissions and the Responsibilities.
+                        Now, it’s time to identify the roles. There are two ways to create
+                        Roles:</para>
+                    <orderedlist>
+                        <listitem>
+                            <para>Create each role with each permission explicitly identified
+                                or</para>
+                        </listitem>
+                        <listitem>
+                            <para>Nest roles so that roles with additional permissions inherit
+                                permissions from more restrictive roles.</para>
+                            <note>
+                                <para>Currently, OLE follows option 1, although cleanup of roles and
+                                    permissions is scheduled for 2.0 (see <link
+                                        xlink:href="https://jira.kuali.org/browse/OLE-7246"
+                                        >OLE-7246</link>). </para>
+                            </note>
+                        </listitem>
+                    </orderedlist>
+                </listitem>
+            </orderedlist>
+            <section>
+                <title>Option 1: Create each role with each permission explicitly identified</title>
+                <para>In the table below, are the roles and the assigned permissions:</para>
+                <informaltable frame="topbot">
+                    <tgroup cols="4">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <colspec colname="Col3" colnum="3"/>
+                        <colspec colname="Col4" colnum="4"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Role: Circulation Desk Attendant
+                                        I</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Role: Circulation Desk Attendant
+                                        II</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Role: Circulation Supervisor</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Role: Super Circulation
+                                        Supervisor</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Permissions assigned:<itemizedlist>
+                                            <listitem>
+                                                <para>Edit Patron Documents</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can backdate check-in time/date</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron address only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Create fast adds</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can Override</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can Override Patron Blocks -
+                                                  Qualifiers:</para>
+                                                <itemizedlist>
+                                                  <listitem>
+                                                  <para>Patron has max # of items checked out</para>
+                                                  </listitem>
+                                                </itemizedlist>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Permissions assigned:<itemizedlist>
+                                            <listitem>
+                                                <para>Can backdate check-in time/date</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron address only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Create fast adds</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can Override</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can Override Patron Blocks -
+                                                  Qualifiers:</para>
+                                                <itemizedlist>
+                                                  <listitem>
+                                                  <para>Patron has max # of items checked out</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has a general block</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max # of checked out times marked
+                                                  'claimed returned'</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max amount of overdue
+                                                  fines</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max amout of replacement
+                                                  fees</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max amount of all charges</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max # of overdue items checked
+                                                  out</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max # of recalled overdue items
+                                                  checked out</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has at least one item overdue for
+                                                  more than n days</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has at least one recalled item
+                                                  overdue for more the n days</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron record expired</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Proxy patron record expired</para>
+                                                  </listitem>
+                                                </itemizedlist>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Initiate patron document</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron overview</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron name only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron phone only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron email only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron affiliation</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron library policies</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display loaned records</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display current loan</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display existing loan</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display temporary circulation history</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron notes</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Create/update proxy patron</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display proxy patron</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron local id</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display invalid or lost barcode</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display Request</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Describe workbench search</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Instance editor edit item</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Editor item information</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can update item status</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update due date</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update request queue</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Post payment</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Post forgive</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display bill</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Create/update bill</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Edit request document</para>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Permissions assigned:<itemizedlist>
+                                            <listitem>
+                                                <para>Can backdate check-in time/date</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron address only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Create fast adds</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can Override</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can Override Patron and Item Blocks -
+                                                  Qualifiers:</para>
+                                                <itemizedlist>
+                                                  <listitem>
+                                                  <para>Patron has max # of items checked out</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has a general block</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max # of checked out times marked
+                                                  'claimed returned'</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max amount of overdue
+                                                  fines</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max amout of replacement
+                                                  fees</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max amount of all charges</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max # of overdue items checked
+                                                  out</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max # of recalled overdue items
+                                                  checked out</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has at least one item overdue for
+                                                  more than n days</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has at least one recalled item
+                                                  overdue for more the n days</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron record expired</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Proxy patron record expired</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Item on hold for another patron</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Renewal limit reached</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Renewal due date precedes current due
+                                                  date</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Item currently loanded to another
+                                                  patron</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Item has pending request queue where patron
+                                                  presenting item is NOT the patron in queue
+                                                  position '1'</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Item not at circ desk authorized to serice
+                                                  the item's shelving location</para>
+                                                  </listitem>
+                                                </itemizedlist>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Initiate patron document</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron overview</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron name only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron phone only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron email only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron affiliation</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron library policies</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display loaned records</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display current loan</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display existing loan</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display temporary circulation history</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron notes</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Create/update proxy patron</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display proxy patron</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron local id</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display invalid or lost barcode</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display Request</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Describe workbench search</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Instance editor edit item</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Editor item information</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can update item status</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update due date</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update request queue</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Post payment</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Post forgive</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display bill</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Create/update bill</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Edit request document</para>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Permissions assigned:<itemizedlist>
+                                            <listitem>
+                                                <para>Can backdate check-in time/date</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron address only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Create fast adds</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can Override</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can Override Patron and Item Blocks -
+                                                  Qualifiers:</para>
+                                                <itemizedlist>
+                                                  <listitem>
+                                                  <para>Patron has max # of items checked out</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has a general block</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max # of checked out times marked
+                                                  'claimed returned'</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max amount of overdue
+                                                  fines</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max amout of replacement
+                                                  fees</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max amount of all charges</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max # of overdue items checked
+                                                  out</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max # of recalled overdue items
+                                                  checked out</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has at least one item overdue for
+                                                  more than n days</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has at least one recalled item
+                                                  overdue for more the n days</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron record expired</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Proxy patron record expired</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Item on hold for another patron</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Renewal limit reached</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Renewal due date precedes current due
+                                                  date</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Item currently loanded to another
+                                                  patron</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Item has pending request queue where patron
+                                                  presenting item is NOT the patron in queue
+                                                  position '1'</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Item not at circ desk authorized to serice
+                                                  the item's shelving location</para>
+                                                  </listitem>
+                                                </itemizedlist>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Initiate patron document</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron overview</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron name only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron phone only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron email only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron affiliation</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron library policies</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display loaned records</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display current loan</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display existing loan</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display temporary circulation history</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron notes</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Create/update proxy patron</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display proxy patron</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron local id</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display invalid or lost barcode</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display Request</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Describe workbench search</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Instance editor edit item</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Editor item information</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can update item status</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update due date</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update request queue</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Post payment</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Post forgive</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display bill</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Create/update bill</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Edit request document</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Create/update circulation desk</para>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Responsibilities: None</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Responsibilities: None</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Responsibilities: None</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Responsibilities: None</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Assignees: user1</para>
+                                    <para>Qualifier: Specify Circulation Desk</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Assignees: edna</para>
+                                    <para>Qualifier: Specify Circulation Desk</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Assignees: dev1</para>
+                                    <para>Qualifier: Specify Circulation Desk</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Assignees: admin</para>
+                                    <para>Qualifier: Specify Circulation Desk</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title>Option 2: Nest roles so that roles with additional permissions inherit
+                    permissions from more restrictive roles</title>
+                <para> As you could see from the lists above, there are many redundant permissions.
+                    Because permissions for Deliver-Circulation are set like this: </para>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Action List Sample with Color Changes Applied</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-245.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para> You may choose to nest roles instead of adding the same permissions to
+                    multiple roles. The way nesting works is that if an outer circle, or role,
+                    requires the same permissions as an inner circle, than you may assign the outer
+                    circle role to the inner circle role and only assign the additional permissions
+                    not included in the inner circle. To further explain: </para>
+                <informaltable frame="topbot">
+                    <tgroup cols="4">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <colspec colname="Col3" colnum="3"/>
+                        <colspec colname="Col4" colnum="4"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Role: Circulation Desk Attendant
+                                        I</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Role: Circulation Desk Attendant
+                                        II</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Role: Circulation Supervisor</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Role: Super Circulation
+                                        Supervisor</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Permissions assigned:<itemizedlist>
+                                            <listitem>
+                                                <para>Edit Patron Documents</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can backdate check-in time/date</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron address only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Create fast adds</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can Override</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can Override Patron Blocks -
+                                                  Qualifiers:</para>
+                                                <itemizedlist>
+                                                  <listitem>
+                                                  <para>Patron has max # of items checked out</para>
+                                                  </listitem>
+                                                </itemizedlist>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para> Because the role Circulation Desk Attendant II is
+                                        assigned to the Circulation Desk Attendant I role, only the
+                                        permissions unique to Circulation Desk Attendant II need to
+                                        be listed. </para>
+                                    <para role="Table Cells">Permissions assigned:<itemizedlist>
+                                            <listitem>
+                                                <para>Can Override Patron Blocks - Qualifiers</para>
+                                                <itemizedlist>
+                                                  <listitem>
+                                                  <para>Patron has a general block</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max # of checked out  times
+                                                  marked 'claimed returned'</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max amount of overdue
+                                                  fines</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max amout of replacement
+                                                  fees</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max amount of all charges</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max # of overdue items checked
+                                                  out</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has max # of recalled overdue items
+                                                  checked out</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has at least one item overdue for
+                                                  more than n days</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron has at least one recalled item
+                                                  overdue for more the n days</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Patron record expired</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Proxy patron record expired</para>
+                                                  </listitem>
+                                                </itemizedlist>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Initiate patron document</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron overview</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron name only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron phone only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron email only</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron affiliation</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron library policies</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display loaned records</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display current loan</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display existing loan</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display temporary circulation history</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron notes</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Create/update proxy patron</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display proxy patron</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update patron local id</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display invalid or lost barcode</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display Request</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Describe workbench search</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Instance editor edit item</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Editor item information</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Can update item status</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update due date</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Update request queue</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Post payment</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Post forgive</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Display bill</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Create/update bill</para>
+                                            </listitem>
+                                            <listitem>
+                                                <para>Edit request document</para>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para> Because the role Circulation Supervisor is assigned to
+                                        the Circulation Desk Attendant II role above and Circulation
+                                        Desk Attendant II is assigned to Circulation Desk Attendant
+                                        I, only the permissions unique to Circulation Supervisor
+                                        need to be listed. </para>
+                                    <para role="Table Cells">Permissions assigned:<itemizedlist>
+                                            <listitem>
+                                                <para>Can Override Item Blocks - Qualifiers</para>
+                                                <itemizedlist>
+                                                  <listitem>
+                                                  <para>Item on hold for another patron</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Renewal limit reached</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Renewal due date precedes current due
+                                                  date</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Item currently loanded to another
+                                                  patron</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Item has pending request queue where patron
+                                                  presenting item is NOT the patron in queue
+                                                  position '1'</para>
+                                                  </listitem>
+                                                  <listitem>
+                                                  <para>Item not at circ desk authorized to serice
+                                                  the item's shelving location</para>
+                                                  </listitem>
+                                                </itemizedlist>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para>  Because the role Super Circulation Supervisor is
+                                        assigned to the Circulation Supervisor role above and
+                                        Circulation Supervisor is assigned to Circulation Desk
+                                        Attendant II and Circulation Desk Attendant II is assigned
+                                        to Circulation Desk Attendant I, only the permissions unique
+                                        to Circulation Supervisor need to be listed. </para>
+                                    <para role="Table Cells">Permissions assigned:<itemizedlist>
+                                            <listitem>
+                                                <para>Create/update circulation desk</para>
+                                            </listitem>
+                                        </itemizedlist></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Responsibilities: None</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Responsibilities: None</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Responsibilities: None</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Responsibilities: None</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para> People identified as Circulation Desk Attendant I will be
+                                        listed individually. Because Circulation Desk Attendant II
+                                        can also do what Circulation Desk Attendant I can do, their
+                                        role is also assigned to Circulation Desk Attendant I. </para>
+                                    <para role="Table Cells">Assignees: user1, Circulation Desk
+                                        Attendant II</para>
+                                    <para>Qualifier: Specify Circulation Desk</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para> People identified as Circulation Desk Attendant II will
+                                        be listed individually. Because Circulation Supervisor can
+                                        do everything that Circulation Desk Attendant I and II can
+                                        do, their role has been assigned to the Circulation Desk
+                                        Attendant II role. Because Circulation Desk Attendant II has
+                                        also been assigned to Circulation Desk Attendant I,
+                                        Circulation Supervisor will have those permissions as well. </para>
+                                    <para role="Table Cells">Assignees: edna, Circulation
+                                        Supervisor</para>
+                                    <para>Qualifier: Specify Circulation Desk</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para> People identified as Circulation Supervisors will be
+                                        listed individually. Because Circulation Supervisors can do
+                                        everything that Circulation Desk Attendant I and II can do,
+                                        their role has been assigned to the Circulation Supervisor
+                                        role. Because Circulation Supervisor has also been assigned
+                                        to Circulation Desk Attendant II and Circulation Desk
+                                        Attendant II has been assigned to Circulation Desk Attendant
+                                        I, Circulation Supervisor will have all those permissions as
+                                        well. </para>
+                                    <para role="Table Cells">Assignees: dev1, Super Circulation
+                                        Supervisor</para>
+                                    <para>Qualifier: Specify Circulation Desk</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para> People identified as Super Circulation Supervisors will
+                                        be listed individually. Because Super Circulation Supervisor
+                                        has been assigned to Circulation Supervisor and Circulation
+                                        Supervisor has been assigned to Circulation Desk Attendant
+                                        II and Circulation Desk II has been assigned to Circulation
+                                        Desk Attendant I, Circulation Manager will have all those
+                                        permissions as well. </para>
+                                    <para role="Table Cells">Assignees: admin</para>
+                                    <para>Qualifier: Specify Circulation Desk</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
             </section>
         </section>
         <section>
@@ -11688,9 +13611,9 @@
                 edit existing ones. The Permission Lookup allows you to search for and view existing
                 permissions. You can view summarized information about the permission detail values
                 as well as the roles that are currently associated with this permission.</para>
-            <para role="Body Text">Only members of OLE-SYS Technical Administrator or OLE-SYS
-                Manager role can create or modify Permission documents. These documents do not route
-                for approval. </para>
+            <para role="Body Text">Only members of KR-SYS Technical Administrator or OLE-SYS Manager
+                role can create or modify Permission documents. These documents do not route for
+                approval. </para>
             <note>
                 <para> Extreme caution should be exercised when modifying existing permissions or
                     adding new ones. Even small changes can have application-wide consequences.
@@ -13374,40 +15297,123 @@
             </section>
             <section>
                 <title>Process Overview</title>
-                <orderedlist>
-                    <listitem>
-                        <para>Enter the required fields and any additional information to the
-                                <emphasis role="bold">Overview</emphasis> and <emphasis role="bold"
-                                >Contact</emphasis> tabs.</para>
-                    </listitem>
-                    <listitem>
-                        <para>Add roles as desired on the <emphasis role="bold"
-                                >Membership</emphasis> tab. </para>
-                    </listitem>
-                    <listitem>
-                        <para>Include additional information to the Person document.</para>
-                    </listitem>
-                    <listitem>
-                        <para>Save or submit the Person document.</para>
-                        <note>
-                            <para>In OLE 1.6 after clicking <emphasis role="bold">Submit</emphasis>
-                                and receiving the system response "Document was successfully
-                                submitted", if you click <emphasis role="bold">Close</emphasis> OLE
-                                will ask "Would you like to save this document before you close it?"
-                                Select <emphasis role="bold">No</emphasis>. If you select Yes, the
-                                system will give you a stack trace error. Your changes will be saved
-                                in the system.</para>
-                            <para>Additionally, after clicking <emphasis role="bold">Save</emphasis>
-                                and receiving the system response "Document was successfully
-                                submitted", if you click <emphasis role="bold">Close</emphasis> OLE
-                                will ask "Would you like to save this document before you close it?"
-                                Select <emphasis role="bold">No</emphasis>. Your changes will be
-                                saved in the system.</para>
-                            <para>See <link xlink:href="https://jira.kuali.org/browse/OLE-7432"
-                                    >OLE-7432</link> for additional details.</para>
-                        </note>
-                    </listitem>
-                </orderedlist>
+                <para>To give an example of assigning people to different roles, let's look at the
+                    Purchasing Processor role.   Adding assignees to this role and all other
+                    non-derived roles is done the same way in KIM. Different roles will have
+                    different qualifiers depending on what should route to this role. This
+                    information is usually determined based on information contained in the
+                    document. For example, a user’s campus code. </para>
+                <para>In this example, Derick Cobb has been hired by the Library to handle purchases
+                    for the Kokomo campus.  He needs to be assigned to the Purchasing Processor
+                    role. </para>
+                <para> There are two ways to add assignees to a role - you can use the <link
+                        linkend="_role">Role</link> Document and add the person and their qualifiers
+                    or you can use the Person Document and add the Role and Qualifiers to the Person
+                    as described below. </para>
+                <section>
+                    <title>Assigning a Purchasing Processor from the Person Document</title>
+                    <orderedlist>
+                        <listitem>
+                            <para>From the <emphasis role="bold">Admin</emphasis> Menu, click
+                                    <emphasis role="bold">Prson</emphasis> to open the Person
+                                Lookup.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Search for "ole-dcobb" (Principal Name).  Click <emphasis
+                                    role="bold">edit</emphasis> to open the Person Document.</para>
+                            <para role="Illustration">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Person Lookup: Click edit from the seach results
+                                            list</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-239.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>Complete the <emphasis role="bold">Document Overview</emphasis>
+                                tab</para>
+                            <note>
+                                <para> For more information about the Document Overview tab, see
+                                        <link linkend="_standardTabs">Standard Tabs</link> under
+                                        <emphasis role="italic">OLE Basic
+                                    Functionality</emphasis>.</para>
+                            </note>
+                        </listitem>
+                        <listitem>
+                            <para>Add the Purchasing Processor (OLE26) role to the <emphasis
+                                    role="bold">Membership</emphasis> tab and click <emphasis
+                                    role="bold">add</emphasis>.</para>
+                            <para role="Illustration">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Person Document: Add the role information on the
+                                            membership tab</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-241.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>Once you click <emphasis role="bold">add</emphasis> the role will
+                                appear at the bottom of the list of roles.  Add the qualifier
+                                    <emphasis role="bold">Campus Code</emphasis> to the role and
+                                click <emphasis role="bold">add</emphasis>.</para>
+                            <para role="Illustration">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Person Document: Once the role is added, add any
+                                            qualifiers</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-244.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <tip>
+                                <para>Select <emphasis role="bold">Active From/To Dates</emphasis>
+                                    to assign a role for a set amount of time.</para>
+                            </tip>
+                        </listitem>
+                        <listitem>
+                            <para>Click <inlinemediaobject>
+                                    <alt>Submit</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-335.png"
+                                        />
+                                    </imageobject>
+                                </inlinemediaobject>.  This document does not route.</para>
+                            <note>
+                                <para>In OLE 1.6 after clicking <emphasis role="bold"
+                                        >Submit</emphasis> and receiving the system response
+                                    "Document was successfully submitted", if you click <emphasis
+                                        role="bold">Close</emphasis> OLE will ask "Would you like to
+                                    save this document before you close it?" Select <emphasis
+                                        role="bold">No</emphasis>. If you select Yes, the system
+                                    will give you a stack trace error. Your changes will be saved in
+                                    the system.</para>
+                                <para>Additionally, after clicking <emphasis role="bold"
+                                        >Save</emphasis> and receiving the system response "Document
+                                    was successfully submitted", if you click <emphasis role="bold"
+                                        >Close</emphasis> OLE will ask "Would you like to save this
+                                    document before you close it?" Select <emphasis role="bold"
+                                        >No</emphasis>. Your changes will be saved in the
+                                    system.</para>
+                                <para>See <link xlink:href="https://jira.kuali.org/browse/OLE-7432"
+                                        >OLE-7432</link> for additional details.</para>
+                            </note>
+                        </listitem>
+                    </orderedlist>
+                </section>
                 <section>
                     <title>Business Rules<indexterm significance="normal">
                             <primary> Person document</primary>
@@ -13443,15 +15449,6 @@
                                 one record marked as the default.</para>
                         </listitem>
                     </itemizedlist>
-                </section>
-                <section>
-                    <title>Routing<indexterm significance="normal">
-                            <primary> Person document</primary>
-                            <secondary>routing</secondary>
-                        </indexterm></title>
-                    <para role="Body Text">Only members of OLE-SYS Manager or KR-SYS Technical
-                        Administrator roles can initiate Person documents. In OLE base data
-                        configuration, the KIM Person document does not route for approval.</para>
                 </section>
             </section>
         </section>
@@ -13490,10 +15487,10 @@
                 search for and view existing responsibilities. You can view summarized information
                 about the responsibility detail values as well as the roles with which the
                 responsibility is currently associated.</para>
-            <para role="Body Text">Only members of OLE-SYS Technical Administrator or OLE-SYS
-                Manager role can create or modify a Responsibility document and it does not route
-                for approval. Information about the Responsibility document follows detailed
-                information about the Responsibility Lookup below.</para>
+            <para role="Body Text">Only members of KR-SYS Technical Administrator or OLE-SYS Manager
+                role can create or modify a Responsibility document and it does not route for
+                approval. Information about the Responsibility document follows detailed information
+                about the Responsibility Lookup below.</para>
             <note>
                 <para> Caution should be exercised when modifying existing responsibilities or
                     adding new ones. Relatively minor changes can result in disruptions to the
@@ -14983,6 +16980,89 @@
                         <para> Additional fields may be required depending on the role type
                             selected.</para>
                     </note>
+                </section>
+            </section>
+            <section>
+                <title><anchor xml:id="_roleAssignment"/>Process Overview</title>
+                <para>To give an example of assigning people to different roles, let's look at the
+                    Purchasing Processor role.   Adding assignees to this role and all other
+                    non-derived roles is done the same way in KIM. Different roles will have
+                    different qualifiers depending on what should route to this role. This
+                    information is usually determined based on information contained in the
+                    document. For example, a user’s campus code. </para>
+                <para>In this example, Alta Beal has been hired by the Library to handle purchases
+                    for the Bloomington campus so she needs to be assigned to the Purchasing
+                    Processor role. </para>
+                <para> There are two ways to add assignees to a role - from the Role Document you
+                    can add the person and their qualifiers (as described below) or you can use the
+                        <link linkend="_person">Person</link> Document and add the role and
+                    qualifiers to the person.</para>
+                <section>
+                    <title>Assigning a Purchasing Processor from the Role Document</title>
+                    <orderedlist>
+                        <listitem>
+                            <para>From the <emphasis role="bold">Admin</emphasis> Menu, click
+                                    <emphasis role="bold">Role</emphasis> to open the Role
+                                Lookup.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Search for "Purchasing Processor" (Role Name).  Click <emphasis
+                                    role="bold">edit</emphasis> to open the Role Document.</para>
+                            <para role="Illustration">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Role Lookup: Click edit from the seach results
+                                            list</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-234.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>Complete the <emphasis role="bold">Document Overview</emphasis>
+                                tab</para>
+                            <note>
+                                <para> For more information about the Document Overview tab, see
+                                        <link linkend="_standardTabs">Standard Tabs</link> under
+                                        <emphasis role="italic">OLE Basic
+                                    Functionality</emphasis>.</para>
+                            </note>
+                        </listitem>
+                        <listitem>
+                            <para>To add Alta as an assignee, enter her principal name or search for
+                                it from the lookup <inlinemediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/Lookup.png"/>
+                                    </imageobject>
+                                </inlinemediaobject> and click <emphasis role="bold"
+                                    >Search</emphasis>.</para>
+                            <para role="Illustration">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Role Document: Add the person on the Assignees
+                                            tab</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/admin-235.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>Click <inlinemediaobject>
+                                    <alt>Submit</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-335.png"
+                                        />
+                                    </imageobject>
+                                </inlinemediaobject>.  This document does not route.</para>
+                        </listitem>
+                    </orderedlist>
                 </section>
             </section>
         </section>
