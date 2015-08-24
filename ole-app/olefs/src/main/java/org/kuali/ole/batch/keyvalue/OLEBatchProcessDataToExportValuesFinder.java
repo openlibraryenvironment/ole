@@ -22,7 +22,7 @@ public class OLEBatchProcessDataToExportValuesFinder extends KeyValuesBase {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue(OLEBatchProcess.EXPORT_BIB_ONLY,"Bibliographic Data Only"));
         keyValues.add(new ConcreteKeyValue(OLEBatchProcess.EXPORT_BIB_AND_INSTANCE,"Bibliographic , Holdings and Item Data"));
-        keyValues.add(new ConcreteKeyValue(OLEBatchProcess.EXPORT_BIB_INSTANCE_AND_EINSTANCE,"Bibliographic,Holdings and EHoldings Data"));
+        keyValues.add(new ConcreteKeyValue(OLEBatchProcess.EXPORT_BIB_INSTANCE_AND_EINSTANCE,"Bibliographic,Holdings,Item and EHoldings Data"));
         return keyValues;
     }
 }

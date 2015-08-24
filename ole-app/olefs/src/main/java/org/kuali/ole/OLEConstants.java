@@ -577,7 +577,7 @@ public class OLEConstants {
         public static final String INGEST = "ingest";
         public static final String DATA_TO_IMPORT_BIB_INSTANCE = "Bibliographic, Holdings, and Item Data";
         public static final String DATA_TO_IMPORT_BIB_EINSTANCE = "Bibliographic and EHoldings Data";
-        public static final String DATA_TO_IMPORT_BIB_INSTANCE_EINSTANCE = "Bibliographic,Holdings and EHoldings Data";
+        public static final String DATA_TO_IMPORT_BIB_INSTANCE_EINSTANCE = "Bibliographic,Holdings,Item and EHoldings Data";
         public static final String BIB_OVERLAY = "overlay";
         public static final String BIB_ADD = "add";
         public static final String BIB_NONE = "none";
@@ -3201,8 +3201,8 @@ public class OLEConstants {
     public static final String BIB_DATA_ONLY = "Bibliographic Data Only";
     public static final String BIB_INS = "Bibliographic, Holdings, and Item Data";
     public static final String BIB_EINS = "Bibliographic and EHoldings Data";
-    public static final String BIB_INS_EINS = "Bibliographic,Holdings and EHoldings Data";
-    public static final String ORDER_IMPORT_VALIDATION_MSG = "In bib import profile, Data To Import value should be either 'Bibliographic, Holdings, and Item Data' or 'Bibliographic,Holdings and EHoldings Data' to process Order Record Import.";
+    public static final String BIB_INS_EINS = "Bibliographic,Holdings,Item and EHoldings";
+    public static final String ORDER_IMPORT_VALIDATION_MSG = "In bib import profile, Data To Import value should be either 'Bibliographic, Holdings, and Item Data' or 'Bibliographic,Holdings,Item and EHoldings' to process Order Record Import.";
     public static final String CURR_ALPHA_CD = "currencyAlphaCode";
 
     public static final String PREFIX_FOR_DATA_FIELD = "mdf_";
