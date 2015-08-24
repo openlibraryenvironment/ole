@@ -64,20 +64,28 @@ public class OLEAddTitlesToInvoiceController extends UifControllerBase {
         oleAddTitlesToInvoiceForm.setErrorMsg("");
         oleAddTitlesToInvoiceForm.setPayAndReceive(false);
         double invoiceAmount = 0;
+        double foreignInvoiceAmount = 0;
         //preparing po item list from view page
         String poItemList = request.getParameter("poItemList");
         String poItemListSelection = request.getParameter("poItemListSelection");
         String invoicePriceList = request.getParameter("invoicePriceList");
+        String foreignInvoicePriceList = request.getParameter("foreignInvoicePriceList");
         if((!StringUtils.isNotBlank(poItemList)) || (!StringUtils.isNotBlank(poItemListSelection)) || (!(StringUtils.isNotBlank(invoicePriceList)))){
+            return getUIFModelAndView(oleAddTitlesToInvoiceForm)  ;
+        }
+        if((!StringUtils.isNotBlank(poItemList)) || (!StringUtils.isNotBlank(poItemListSelection)) || (!(StringUtils.isNotBlank(foreignInvoicePriceList)))){
             return getUIFModelAndView(oleAddTitlesToInvoiceForm)  ;
         }
         List<String> poItemListResult = new ArrayList<String>();
         List<String> invoicedPrice = new ArrayList<String>();
+        List<String> foreignInvoicedPrice = new ArrayList<String>();
         String[] poListArray = poItemList.split(":");
         String[] poListSelectionArray = poItemListSelection.split(":");
         String[] invoicePriceSectionArray = invoicePriceList.split(":");
+        String[] foreignInvoicePriceSectionArray = foreignInvoicePriceList.split(":");
         for (int i = 1; i < poListArray.length; i++) {
             boolean isNotNullValue=true;
+            boolean isNotNullForeignValue=true;
             if (poListArray[i].equals("true")) {
                 poItemListResult.add(poListSelectionArray[i]);
                 if (invoicePriceSectionArray[i] != null && (!invoicePriceSectionArray[i].trim().equalsIgnoreCase(""))) {
@@ -88,15 +96,29 @@ public class OLEAddTitlesToInvoiceController extends UifControllerBase {
                     }
                 }
                 if(isNotNullValue){
-                  invoicedPrice.add(String.valueOf(invoicePriceSectionArray[i]));
+                    invoicedPrice.add(String.valueOf(invoicePriceSectionArray[i]));
                 }else {
                     invoicedPrice.add(String.valueOf(""));
+                }
+                if (foreignInvoicePriceSectionArray[i] != null && (!foreignInvoicePriceSectionArray[i].trim().equalsIgnoreCase(""))) {
+                    if(foreignInvoicePriceSectionArray[i].toString().equalsIgnoreCase("null")){
+                        isNotNullForeignValue=false;
+                    }else {
+                        foreignInvoiceAmount = foreignInvoiceAmount + Double.parseDouble(foreignInvoicePriceSectionArray[i].toString());
+                    }
+                }
+
+                if(isNotNullForeignValue){
+                    foreignInvoicedPrice.add(String.valueOf(foreignInvoicePriceSectionArray[i]));
+                }else {
+                    foreignInvoicedPrice.add(String.valueOf(""));
                 }
             }
 
         }
         oleAddTitlesToInvoiceForm.setInvoiceAmount(invoiceAmount + "");
-        oleAddTitlesToInvoiceForm.setOlePurchaseOrderItems(getNewOleAddTitlesToInvoiceService().populateOlePurchaseOrderItemByPoItemList(poItemListResult,invoicedPrice));
+        oleAddTitlesToInvoiceForm.setForeignInvoiceAmount(foreignInvoiceAmount + "");
+        oleAddTitlesToInvoiceForm.setOlePurchaseOrderItems(getNewOleAddTitlesToInvoiceService().populateOlePurchaseOrderItemByPoItemList(poItemListResult,invoicedPrice,foreignInvoicedPrice));
 
         return getUIFModelAndView(oleAddTitlesToInvoiceForm);
     }
@@ -108,20 +130,28 @@ public class OLEAddTitlesToInvoiceController extends UifControllerBase {
         oleAddTitlesToInvoiceForm.setErrorMsg("");
         oleAddTitlesToInvoiceForm.setPayAndReceive(true);
         double invoiceAmount = 0;
+        double foreignInvoiceAmount = 0;
         //preparing po item list from view page
         String poItemList = request.getParameter("poItemList");
         String poItemListSelection = request.getParameter("poItemListSelection");
         String invoicePriceList = request.getParameter("invoicePriceList");
+        String foreignInvoicePriceList = request.getParameter("foreignInvoicePriceList");
         if((!StringUtils.isNotBlank(poItemList)) || (!StringUtils.isNotBlank(poItemListSelection)) || (!(StringUtils.isNotBlank(invoicePriceList)))){
+            return getUIFModelAndView(oleAddTitlesToInvoiceForm)  ;
+        }
+        if((!StringUtils.isNotBlank(poItemList)) || (!StringUtils.isNotBlank(poItemListSelection)) || (!(StringUtils.isNotBlank(foreignInvoicePriceList)))){
             return getUIFModelAndView(oleAddTitlesToInvoiceForm)  ;
         }
         List<String> poItemListResult = new ArrayList<String>();
         List<String> invoicedPrice = new ArrayList<String>();
+        List<String> foreignInvoicedPrice = new ArrayList<String>();
         String[] poListArray = poItemList.split(":");
         String[] poListSelectionArray = poItemListSelection.split(":");
         String[] invoicePriceSectionArray = invoicePriceList.split(":");
+        String[] foreignInvoicePriceSectionArray = foreignInvoicePriceList.split(":");
         for (int i = 1; i < poListArray.length; i++) {
             boolean isNotNullValue=true;
+            boolean isNotNullForeignValue=true;
             if (poListArray[i].equals("true")) {
                 poItemListResult.add(poListSelectionArray[i]);
                 if (invoicePriceSectionArray[i] != null && (!invoicePriceSectionArray[i].trim().equalsIgnoreCase(""))) {
@@ -136,11 +166,26 @@ public class OLEAddTitlesToInvoiceController extends UifControllerBase {
                 }else {
                     invoicedPrice.add(String.valueOf(""));
                 }
+                if (foreignInvoicePriceSectionArray[i] != null && (!foreignInvoicePriceSectionArray[i].trim().equalsIgnoreCase(""))) {
+                    if(foreignInvoicePriceSectionArray[i].toString().equalsIgnoreCase("null")){
+                        isNotNullForeignValue=false;
+                    }else {
+                        foreignInvoiceAmount = foreignInvoiceAmount + Double.parseDouble(foreignInvoicePriceSectionArray[i].toString());
+                    }
+                }
+
+                if(isNotNullForeignValue){
+                    foreignInvoicedPrice.add(String.valueOf(foreignInvoicePriceSectionArray[i]));
+                }else {
+                    foreignInvoicedPrice.add(String.valueOf(""));
+                }
+
             }
 
         }
         oleAddTitlesToInvoiceForm.setInvoiceAmount(invoiceAmount + "");
-        oleAddTitlesToInvoiceForm.setOlePurchaseOrderItems(getNewOleAddTitlesToInvoiceService().populateOlePurchaseOrderItemByPoItemList(poItemListResult,invoicedPrice));
+        oleAddTitlesToInvoiceForm.setForeignInvoiceAmount(foreignInvoiceAmount + "");
+        oleAddTitlesToInvoiceForm.setOlePurchaseOrderItems(getNewOleAddTitlesToInvoiceService().populateOlePurchaseOrderItemByPoItemList(poItemListResult,invoicedPrice,foreignInvoicedPrice));
 
         return getUIFModelAndView(oleAddTitlesToInvoiceForm);
     }
@@ -220,7 +265,7 @@ public class OLEAddTitlesToInvoiceController extends UifControllerBase {
         if (isAllowedForInvoice) {
             if ((oleAddTitlesToInvoiceForm.getDocumentNumber().equals("")) && (oleAddTitlesToInvoiceForm.getDocumentNumber() != null)) {
                 try {
-                    if (!getNewOleAddTitlesToInvoiceService().createNewInvoiceDocument(olePurchaseOrderDocuments, oleAddTitlesToInvoiceForm.getOlePurchaseOrderItems(), oleAddTitlesToInvoiceForm.getPaymentMethod(), oleAddTitlesToInvoiceForm.getInvoiceDate(), oleAddTitlesToInvoiceForm.getInvoiceNumber(), oleAddTitlesToInvoiceForm.getInvoiceAmount(), currentUser.getPrincipalId())) {
+                    if (!getNewOleAddTitlesToInvoiceService().createNewInvoiceDocument(olePurchaseOrderDocuments, oleAddTitlesToInvoiceForm.getOlePurchaseOrderItems(), oleAddTitlesToInvoiceForm.getPaymentMethod(), oleAddTitlesToInvoiceForm.getInvoiceDate(), oleAddTitlesToInvoiceForm.getInvoiceNumber(), oleAddTitlesToInvoiceForm.getInvoiceAmount(), oleAddTitlesToInvoiceForm.getForeignInvoiceAmount(),currentUser.getPrincipalId())) {
                         return getUIFModelAndView(oleAddTitlesToInvoiceForm);
                     }
                 } catch (Exception e) {
@@ -242,7 +287,7 @@ public class OLEAddTitlesToInvoiceController extends UifControllerBase {
                     oleAddTitlesToInvoiceForm.setErrorMsg(oleAddTitlesToInvoiceForm.getErrorMsg() == null ? "" : (oleAddTitlesToInvoiceForm.getErrorMsg() + "</br>") + OLEConstants.OLEAddTitlesToInvoice.ERROR_SELECT_POITEM_INVOICE_SAME_VND);
                     return getUIFModelAndView(oleAddTitlesToInvoiceForm);
                 }
-                if (!getNewOleAddTitlesToInvoiceService().addOlePurchaseOrderItemsToInvoiceDocument(olePurchaseOrderDocuments, oleAddTitlesToInvoiceForm.getOlePurchaseOrderItems(), oleAddTitlesToInvoiceForm.getDocumentNumber(), currentUser.getPrincipalId(), oleAddTitlesToInvoiceForm.getInvoiceAmount())) {
+                if (!getNewOleAddTitlesToInvoiceService().addOlePurchaseOrderItemsToInvoiceDocument(olePurchaseOrderDocuments, oleAddTitlesToInvoiceForm.getOlePurchaseOrderItems(), oleAddTitlesToInvoiceForm.getDocumentNumber(), currentUser.getPrincipalId(), oleAddTitlesToInvoiceForm.getInvoiceAmount(), oleAddTitlesToInvoiceForm.getForeignInvoiceAmount())) {
                     return getUIFModelAndView(oleAddTitlesToInvoiceForm);
                 }
                 try {

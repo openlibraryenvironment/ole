@@ -96,7 +96,10 @@
                         <bean parent="Uif-DateControl" p:size="15"/>
                     </property>
                 </bean>
-                <bean id="OLEAddTitlesToInvoiceView-newInvoice-invoiceAmount" parent="Uif-InputField" p:propertyName="invoiceAmount" p:label="Vendor Invoice amount" >
+                <bean id="OLEAddTitlesToInvoiceView-newInvoice-invoiceAmount" parent="Uif-InputField" p:propertyName="invoiceAmount" p:label="Vendor Invoice Amount" >
+
+                </bean>
+                <bean id="OLEAddTitlesToInvoiceView-newInvoice-invoiceForeignAmount" parent="Uif-InputField" p:propertyName="foreignInvoiceAmount" p:label="Vendor Invoice Foreign Amount" >
 
                 </bean>
                 <bean id="OLEAddTitlesToInvoiceView-newInvoice-invoiceNumber" parent="Uif-InputField" p:propertyName="invoiceNumber" p:label="Vendor Invoice Number" >
@@ -150,6 +153,7 @@
                 <bean id="OLEAddTitlesToInvoiceView_noOfPartsReceived" parent="Uif-DataField" p:propertyName="noOfPartsReceived" p:label="No of Part Received" p:readOnly="true"/>
                 <bean id="OLEAddTitlesToInvoiceView_itemUnitPrice" parent="Uif-DataField" p:propertyName="itemUnitPrice" p:label="Item Unit Price" p:readOnly="true"/>
                 <bean id="OLEAddTitlesToInvoiceView_invoicedPrice" parent="Uif-DataField" p:propertyName="invoiceItemListPrice" p:label="Invoiced Price" p:readOnly="true"/>
+                <bean id="OLEAddTitlesToInvoiceView_foreignInvoicedPrice" parent="Uif-DataField" p:propertyName="invoiceForeignItemListPrice" p:label="Foreign Invoiced Price" p:readOnly="true"/>
 
                 <!--<bean id="OLEAddTitlesToInvoiceView_vendorItemPoNumber" parent="Uif-DataField" p:propertyName="vendorItemPoNumber" p:label="VendorItem PoNumber" p:readOnly="true"/>-->
             </list>

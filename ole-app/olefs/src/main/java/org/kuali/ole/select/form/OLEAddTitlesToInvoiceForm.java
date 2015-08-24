@@ -40,6 +40,7 @@ public class OLEAddTitlesToInvoiceForm extends UifFormBase {
     private String documentNumber;
     private boolean continueReceiveAndPay;
     private boolean skipValidation;
+    private String foreignInvoiceAmount;
 
     public boolean isCancelBox() {
         return cancelBox;
@@ -183,5 +184,13 @@ public class OLEAddTitlesToInvoiceForm extends UifFormBase {
 
     public void setSkipValidation(boolean skipValidation) {
         this.skipValidation = skipValidation;
+    }
+
+    public String getForeignInvoiceAmount() {
+        return foreignInvoiceAmount;
+    }
+
+    public void setForeignInvoiceAmount(String foreignInvoiceAmount) {
+        this.foreignInvoiceAmount = foreignInvoiceAmount;
     }
 }

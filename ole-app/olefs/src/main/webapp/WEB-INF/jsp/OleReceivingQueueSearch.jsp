@@ -27,6 +27,7 @@
         var poList="";
         var poListSelection="";
         var invoicePriceList="";
+        var foreignInvoicePriceList;
         var titleListSelection="";
         var vendorListSelection="";
         var receiveLinkURL="<c:url value="${ConfigProperties.application.url}"/>/ole-kr-krad/oleTitlesToInvoiceController?viewId=OLEAddTitlesToInvoiceView&amp;methodToCall=pay";
@@ -54,10 +55,17 @@
                         invoicePriceList = invoicePriceList + ":" + $(this).val();
                     }
                 });
+                $(this).find('input#foreignInvoicePrice').each(function () {
+                    if($(this).val().trim()=="") {
+                        foreignInvoicePriceList = foreignInvoicePriceList + ":" +null;
+                    }else {
+                        foreignInvoicePriceList = foreignInvoicePriceList + ":" + $(this).val();
+                    }
+                });
 
             });
             if(isSelectedAtleatOne){
-            var form = $('<form action=" ' + receiveLinkURL + ' " method="post">' + '<input type="hidden" name="poItemList" value=" ' + poList + '"/>' + '<input type="hidden" name="poItemListSelection" value=" ' + poListSelection + '"/>' + '<input type="hidden" name="invoicePriceList" value=" ' + invoicePriceList + '"/>' + '"</form>');
+            var form = $('<form action=" ' + receiveLinkURL + ' " method="post">' + '<input type="hidden" name="poItemList" value=" ' + poList + '"/>' + '<input type="hidden" name="poItemListSelection" value=" ' + poListSelection + '"/>' + '<input type="hidden" name="invoicePriceList" value=" ' + invoicePriceList + '"/>' + '<input type="hidden" name="foreignInvoicePriceList" value=" ' + foreignInvoicePriceList + '"/>' +' "</form>');
             $('body').append(form);
             $(form).submit();
             } else{
@@ -86,10 +94,17 @@
                         invoicePriceList = invoicePriceList + ":" + $(this).val();
                     }
                 });
+                $(this).find('input#foreignInvoicePrice').each(function () {
+                    if($(this).val().trim()=="") {
+                        foreignInvoicePriceList = foreignInvoicePriceList + ":" +null;
+                    }else {
+                        foreignInvoicePriceList = foreignInvoicePriceList + ":" + $(this).val();
+                    }
+                });
 
             });
             if(isSelectedAtleatOne){
-            var form = $('<form action=" ' + createReceiveLinkURL + ' " method="post">' + '<input type="hidden" name="poItemList" value=" ' + poList + '"/>' + '<input type="hidden" name="poItemListSelection" value=" ' + poListSelection + '"/>' + '<input type="hidden" name="invoicePriceList" value=" ' + invoicePriceList + '"/>' + '"</form>');
+            var form = $('<form action=" ' + createReceiveLinkURL + ' " method="post">' + '<input type="hidden" name="poItemList" value=" ' + poList + '"/>' + '<input type="hidden" name="poItemListSelection" value=" ' + poListSelection + '"/>' + '<input type="hidden" name="invoicePriceList" value=" ' + invoicePriceList + '"/>' + '<input type="hidden" name="foreignInvoicePriceList" value=" ' + foreignInvoicePriceList + '"/>' + '"</form>');
             $('body').append(form);
             $(form).submit();
             } else{
@@ -127,6 +142,23 @@
             }
         });
         $("input#invoicePrice").keydown(function(event) {
+            if(event.keyCode == 173 || event.keyCode == 190){
+                return;
+            } else {
+                if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
+                        (event.keyCode == 65 && event.ctrlKey === true) ||
+                        (event.keyCode >= 35 && event.keyCode <= 39)) {
+                    return;
+                }
+                else {
+                    if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                        event.preventDefault();
+                    }
+                }
+
+            }
+        });
+        $("input#foreignInvoicePrice").keydown(function(event) {
             if(event.keyCode == 173 || event.keyCode == 190){
                 return;
             } else {
@@ -243,9 +275,12 @@ function setAllReceivingQueueResults(checked) {
 				 title="Price" />
 			 <display:column title="Invoice Price" sortable="true">
 				<input type="text" name="Invoice Price" id="invoicePrice" value="${result.itemUnitPrice}" size="20px">
-			</display:column> 
+			</display:column>
+             <display:column title="Foreign Invoice Price" sortable="true">
+                 <input type="text" name="Foreign Invoice Price" id="foreignInvoicePrice" value="${result.itemForeignUnitCost}" size="20px">
+             </display:column>
 
-		 </display:table>
+         </display:table>
 
 
 		 <p>

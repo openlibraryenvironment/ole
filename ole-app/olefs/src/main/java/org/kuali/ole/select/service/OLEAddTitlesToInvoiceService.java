@@ -140,7 +140,7 @@ public class OLEAddTitlesToInvoiceService {
         return result;
     }
 
-    public List<OlePurchaseOrderItem> populateOlePurchaseOrderItemByPoItemList(List<String> purchaseOrderItemIds, List<String> invoicePrice) {
+    public List<OlePurchaseOrderItem> populateOlePurchaseOrderItemByPoItemList(List<String> purchaseOrderItemIds, List<String> invoicePrice, List<String> foreignInvoicedPrice) {
         List<OlePurchaseOrderItem> result = new ArrayList<OlePurchaseOrderItem>();
       //  List<OlePurchaseOrderDocument> olePurchaseOrderDocuments = (List<OlePurchaseOrderDocument>) KRADServiceLocator.getBusinessObjectService().findAll(OlePurchaseOrderDocument.class);
 
@@ -168,6 +168,9 @@ public class OLEAddTitlesToInvoiceService {
                                         olePurchaseOrderItem.setInvoiceItemListPrice(invoicePrice.get(index));
                                     } else {
                                         olePurchaseOrderItem.setInvoiceItemListPrice(olePurchaseOrderItem.getExtendedPrice().toString());
+                                    }
+                                    if (foreignInvoicedPrice.get(index) != null && (!foreignInvoicedPrice.get(index).trim().equalsIgnoreCase(""))) {
+                                        olePurchaseOrderItem.setInvoiceForeignItemListPrice(foreignInvoicedPrice.get(index));
                                     }
                                     result.add(olePurchaseOrderItem);
 
@@ -285,7 +288,7 @@ public class OLEAddTitlesToInvoiceService {
         return olePurchaseOrderItemSelected;
     }
 
-    public boolean createNewInvoiceDocument(List<OlePurchaseOrderDocument> olePurchaseOrderDocuments, List<OlePurchaseOrderItem> olePurchaseOrderItems, String paymentMethodId, Date invoiceDate, String invoiceNumber, String vendorInvoiceAmt, String principalId) throws Exception {
+    public boolean createNewInvoiceDocument(List<OlePurchaseOrderDocument> olePurchaseOrderDocuments, List<OlePurchaseOrderItem> olePurchaseOrderItems, String paymentMethodId, Date invoiceDate, String invoiceNumber, String vendorInvoiceAmt, String vendorForeignInvoiceAmt,String principalId) throws Exception {
         boolean isSuccess = false;
         try {
 
@@ -300,6 +303,8 @@ public class OLEAddTitlesToInvoiceService {
             oleInvoiceDocument.setPaymentMethodId(Integer.parseInt(paymentMethodId));
             oleInvoiceDocument.setVendorInvoiceAmount(new KualiDecimal(vendorInvoiceAmt));
             oleInvoiceDocument.setInvoiceAmount(vendorInvoiceAmt);
+            oleInvoiceDocument.setForeignInvoiceAmount(vendorForeignInvoiceAmt);
+            oleInvoiceDocument.setForeignVendorAmount(vendorForeignInvoiceAmt);
             oleInvoiceDocument.initiateDocument();
             /*oleInvoiceDocument.setInvoiceNumber("11112");*/
 
@@ -400,7 +405,7 @@ public class OLEAddTitlesToInvoiceService {
     }
 
 
-    public boolean addOlePurchaseOrderItemsToInvoiceDocument(List<OlePurchaseOrderDocument> olePurchaseOrderDocuments, List<OlePurchaseOrderItem> olePurchaseOrderItems, String documentNumber, String principalId, String invoiceAmt) throws Exception {
+    public boolean addOlePurchaseOrderItemsToInvoiceDocument(List<OlePurchaseOrderDocument> olePurchaseOrderDocuments, List<OlePurchaseOrderItem> olePurchaseOrderItems, String documentNumber, String principalId, String invoiceAmt, String foreignInvoiceAmount) throws Exception {
         boolean isSuccess = false;
         //getting invoice document
         Map<String, String> map = new HashMap<String, String>();
@@ -411,6 +416,11 @@ public class OLEAddTitlesToInvoiceService {
         if (invoiceAmt != null) {
             //oleInvoiceDocument.setInvoiceAmount(invoiceAmt);
             oleInvoiceDocument.setVendorInvoiceAmount(new KualiDecimal(invoiceAmt));
+        }
+
+        if (foreignInvoiceAmount != null) {
+            //oleInvoiceDocument.setInvoiceAmount(invoiceAmt);
+            oleInvoiceDocument.setForeignVendorAmount(foreignInvoiceAmount);
         }
         for (OlePurchaseOrderDocument olePurchaseOrderDocument : olePurchaseOrderDocuments) {
             if (olePurchaseOrderDocument != null) {
@@ -614,6 +624,11 @@ public class OLEAddTitlesToInvoiceService {
                         oleInvoiceDocument.setForeignInvoiceAmount(new KualiDecimal(oleInvoiceDocument.getForeignVendorInvoiceAmount()).toString());
                         oleInvoiceDocument.setForeignVendorAmount(new KualiDecimal(oleInvoiceDocument.getForeignVendorInvoiceAmount()).toString());
                     }
+                    if (StringUtils.isNotBlank(oleInvoiceDocument.getForeignInvoiceAmount())) {
+                        oleInvoiceDocument.setVendorInvoiceAmount(new KualiDecimal(oleInvoiceDocument.getInvoiceAmount()).divide(new KualiDecimal(exchangeRate)));
+                        oleInvoiceDocument.setInvoiceAmount(oleInvoiceDocument.getVendorInvoiceAmount().toString());
+                        oleInvoiceDocument.setVendorAmount(oleInvoiceDocument.getVendorInvoiceAmount().toString());
+                    }
                 }
             }
         }
@@ -627,6 +642,7 @@ public class OLEAddTitlesToInvoiceService {
                     poi.setNoOfCopiesInvoiced(new KualiInteger(poi.getItemQuantity().bigDecimalValue()));
                     poi.setNoOfPartsInvoiced(poi.getItemNoOfParts());
                     poi.setInvoiceItemListPrice(poi.getItemListPrice().toString());
+                    poi.setInvoiceForeignItemListPrice(poi.getItemForeignListPrice().toString());
                     if (StringUtils.isNotBlank(oleInvoiceDocument.getInvoiceCurrencyType())) {
                         oleInvoiceDocument.setInvoiceCurrencyTypeId(new Long(oleInvoiceDocument.getInvoiceCurrencyType()));
                      //   String currencyType = getInvoiceService().getCurrencyType(oleInvoiceDocument.getInvoiceCurrencyType());
