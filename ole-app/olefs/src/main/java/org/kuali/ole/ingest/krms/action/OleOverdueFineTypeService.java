@@ -45,7 +45,7 @@ public class OleOverdueFineTypeService extends ActionTypeServiceBase {
             Timestamp checkInDate = dataCarrierService.getData("CHECKINDATE")!=null?(Timestamp)dataCarrierService.getData("CHECKINDATE"):new Timestamp(System.currentTimeMillis());
             OleCalendarService oleCalendarService = new OleCalendarServiceImpl();
             Float fineRate;
-            if(dueDate.compareTo(checkInDate)==0 && excludeTime){
+            if(dueDate.compareTo(checkInDate)==0 && excludeTime!= null && excludeTime){
                 fineRate = 0.0f;
             }else {
                 fineRate = oleCalendarService.calculateFine(groupId,dueDate,checkInDate,overdueFine);
