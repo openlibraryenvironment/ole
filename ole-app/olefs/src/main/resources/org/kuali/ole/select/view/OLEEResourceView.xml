@@ -68,7 +68,7 @@
             <list>
                 <bean parent="Uif-HeaderTwo"/>
                 <bean parent="Uif-NavigationActionLink" id="E-Resource-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceRecordTab" p:actionLabel="Main"/>
-                <bean parent="Uif-NavigationActionLink" id="E-Resource-Instance-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceInstanceTab" p:actionLabel="E-Holdings" p:ajaxSubmit="true" p:successCallback="displayLink(false)" />
+                <bean parent="Uif-NavigationActionLink" id="E-Resource-Instance-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceInstanceTab" p:actionLabel="E-Holdings" p:ajaxSubmit="true" p:methodToCall="loadEHoldings" p:successCallback="displayLink(false)" />
                 <bean parent="Uif-NavigationActionLink" id="E-Resource-Related-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceRelatedTab" p:actionLabel="Related E-Resource" p:ajaxSubmit="true" p:successCallback="setSpaceField()"/>
                 <bean parent="Uif-NavigationActionLink" id="E-Resource-PO-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourcePOTab" p:actionLabel="Purchase Orders" p:ajaxSubmit="true" p:successCallback="setSpaceField()"/>
                 <bean parent="Uif-NavigationActionLink" id="E-Resource-Invoice-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceInvoiceTab" p:actionLabel="Invoices" p:ajaxSubmit="true" p:successCallback="setSpaceField()"/>

@@ -3083,6 +3083,20 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         }
         return getUIFModelAndView(oleEResourceRecordForm);
     }
+
+    @RequestMapping(params = "methodToCall=loadEHoldings")
+    public ModelAndView loadEHoldings(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) {
+        OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
+        if (oleeResourceRecordDocument.getOleERSIdentifier() != null) {
+            Map ids = new HashMap();
+            ids.put("oleERSIdentifier", oleeResourceRecordDocument.getOleERSIdentifier());
+            List<OLEEResourceInstance> oleeResourceInstances = (List<OLEEResourceInstance>) getBusinessObjectService().findMatching(OLEEResourceInstance.class, ids);
+            oleeResourceRecordDocument.seteRSInstances(oleeResourceInstances);
+        }
+        return super.navigate(oleEResourceRecordForm, result, request, response);
+    }
 }
 
 
