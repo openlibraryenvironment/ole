@@ -173,52 +173,28 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
         ModelAndView modelAndView = super.docHandler(oleeResourceRecordForm, result, request, response);
         OLEEResourceRecordForm kualiForm = (OLEEResourceRecordForm) modelAndView.getModel().get("KualiForm");
-       String backDoorUser = request.getParameter("backdoorId");
-        if(backDoorUser == null){
+        String backDoorUser = request.getParameter("backdoorId");
+        if (backDoorUser == null) {
             backDoorUser = GlobalVariables.getUserSession().getPrincipalId();
-        }else{
-            if(backDoorUser.contains("=")){
-            backDoorUser=backDoorUser.split("=")[1];
+        } else {
+            if (backDoorUser.contains("=")) {
+                backDoorUser = backDoorUser.split("=")[1];
             }
-           Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(backDoorUser);
+            Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(backDoorUser);
             backDoorUser = person.getPrincipalId();
         }
 
-        HttpSession session = request.getSession();
         //session.removeAttribute("createChildEResource");
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) kualiForm.getDocument();
-        List<ActionItem> actionItems = (List<ActionItem>)KEWServiceLocator.getActionListService().findByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
-        if(actionItems!=null && actionItems.size()>0){
-            for(ActionItem actionItem : actionItems){
-                if(backDoorUser.equals(actionItem.getPrincipalId()) ){
+        List<ActionItem> actionItems = (List<ActionItem>) KEWServiceLocator.getActionListService().findByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
+        if (actionItems != null && actionItems.size() > 0) {
+            for (ActionItem actionItem : actionItems) {
+                if (backDoorUser.equals(actionItem.getPrincipalId())) {
                     oleeResourceRecordForm.setCanApprove(true);
                 }
             }
         }
-      //  oleeResourceRecordForm.setCanApprove(true);
-        if (session.getAttribute("createChildEResource") != null) {
-            String oleeResourceInstancesIdentifier = (String) session.getAttribute("oleeResourceInstancesIdentifier");
-            String[] identifiers = oleeResourceInstancesIdentifier.split(",");
-            Map ids = new HashMap();
-            for (String identifier : identifiers) {
-                ids.put("oleEResourceInstanceId", identifier);
-            }
-            List<OLEEResourceInstance> oleeResourceInstances = (List<OLEEResourceInstance>) getBusinessObjectService().findMatching(OLEEResourceInstance.class, ids);
-            oleeResourceRecordDocument.setOleERSInstances(oleeResourceInstances);
-        }
-        oleeResourceRecordDocument.geteRSInstances().addAll(oleeResourceRecordDocument.getOleERSInstances());
-        for (OLELinkedEresource oleLinkedEresource : oleeResourceRecordDocument.getOleLinkedEresources()) {
-            if (oleLinkedEresource.getRelationShipType().equalsIgnoreCase("child")) {
-                //Displaying the child EResource instance and Licence info in parent Eresource.
-                if (oleLinkedEresource.getOleeResourceRecordDocument().getOleERSInstances() != null) {
-                    oleeResourceRecordDocument.geteRSInstances().addAll(oleLinkedEresource.getOleeResourceRecordDocument().getOleERSInstances());
-                }
-                for (OLEEResourceLicense oleeResourceLicense : oleLinkedEresource.getOleeResourceRecordDocument().getOleERSLicenseRequests()) {
-                    oleeResourceRecordDocument.getOleERSLicenseRequests().add(oleeResourceLicense);
-                }
-            }
-        }
-        getOleEResourceSearchService().getPOInvoiceForERS(oleeResourceRecordDocument);
+       getOleEResourceSearchService().getPOInvoiceForERS(oleeResourceRecordDocument);
         /*Displaying the child EResource Po's and invoice in parent E-Resource.*/
         //oleEResourceSearchService = new OLO
         if (oleEResourceSearchService != null) {
@@ -3093,7 +3069,22 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             Map ids = new HashMap();
             ids.put("oleERSIdentifier", oleeResourceRecordDocument.getOleERSIdentifier());
             List<OLEEResourceInstance> oleeResourceInstances = (List<OLEEResourceInstance>) getBusinessObjectService().findMatching(OLEEResourceInstance.class, ids);
-            oleeResourceRecordDocument.seteRSInstances(oleeResourceInstances);
+            oleeResourceRecordDocument.geteRSInstances().clear();
+            oleeResourceRecordDocument.geteRSInstances().addAll(oleeResourceInstances);
+            oleeResourceRecordDocument.setOleERSInstances(oleeResourceInstances);
+
+            ids = new HashMap();
+            List<OLEEResourceInstance> linkedResourceInstances = new ArrayList<>();
+            for (OLELinkedEresource linkedEresource : oleeResourceRecordDocument.getOleLinkedEresources()) {
+                if (linkedEresource.getRelationShipType().equalsIgnoreCase("child")) {
+                    ids.put("oleEResourceInstanceId", linkedEresource.getLinkedERSIdentifier());
+                    linkedResourceInstances.addAll(getBusinessObjectService().findMatching(OLEEResourceInstance.class, ids));
+                    for (OLEEResourceLicense oleeResourceLicense : linkedEresource.getOleeResourceRecordDocument().getOleERSLicenseRequests()) {
+                        oleeResourceRecordDocument.getOleERSLicenseRequests().add(oleeResourceLicense);
+                    }
+                }
+            }
+            oleeResourceRecordDocument.geteRSInstances().addAll(linkedResourceInstances);
         }
         return super.navigate(oleEResourceRecordForm, result, request, response);
     }
