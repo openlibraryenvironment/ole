@@ -67,11 +67,11 @@
 					<@text_control line 'partsInvoicedNumber' container "Invoiced Parts" false "5" "25" />
 				</#if></td>
                 <td><#if container.readOnly || manager.foreignCurrency>${line.poItem.invoiceItemListPrice!}<#else>
-					<@text_control line 'invoiceItemListPrice' container "Invoiced Price" false "5" "25" />
+					<@text_control line 'invoiceItemListPrice' container "Invoiced Price" false "5" "25" "onChangePOPriceScript();"/>
 				</#if></td>
 				<#if !manager.foreignCurrency>
                     <td><#if container.readOnly>${line.poItem.itemDiscount!}<#else>
-						<@text_control line 'itemDiscount' container "Discount" false "5" "25" />
+						<@text_control line 'itemDiscount' container "Discount" false "5" "25" "onChangePOPriceScript();"/>
 					</#if></td>
                     <td><#if container.readOnly>${line.poItem.itemDiscountType!"%"}<#else>
 						<@select_control line 'itemDiscountType' container "Discount Type" manager.discountKeyValues />
@@ -81,10 +81,10 @@
                 <td>${line.poItem.extendedPrice!?string.currency}</td>
 				<#if manager.foreignCurrency>
                     <td><#if container.readOnly>${line.poItem.invoiceForeignItemListPrice!}<#else>
-						<@text_control line 'invoiceForeignItemListPrice' container "Invoiced Foreign Price" false "5" "25" />
+						<@text_control line 'invoiceForeignItemListPrice' container "Invoiced Foreign Price" false "5" "25" "onChangePOPriceScript();"/>
 					</#if></td>
                     <td><#if container.readOnly>${line.poItem.invoiceForeignDiscount!}<#else>
-						<@text_control line 'invoiceForeignDiscount' container "Foreign Discount" false "5" "25" />
+						<@text_control line 'invoiceForeignDiscount' container "Foreign Discount" false "5" "25" "onChangePOPriceScript();"/>
 					</#if></td>
                     <td><#if container.readOnly>${line.poItem.invoiceForeignDiscountType!"%"}<#else>
 						<@select_control line 'invoiceForeignDiscountType' container "Discount type" manager.discountKeyValues />

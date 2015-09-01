@@ -460,8 +460,14 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                 KualiDecimal totalAmount = KualiDecimal.ZERO;
                 BigDecimal discount = BigDecimal.ZERO;
                 if(oleInvoiceItem.getItemDiscount() != null) {
-                    discount = ((oleInvoiceItem.getItemListPrice().bigDecimalValue().multiply(oleInvoiceItem.getItemDiscount().bigDecimalValue()))).divide(new BigDecimal(100));
-                    totalAmount = new KualiDecimal(purApItem.getItemQuantity().bigDecimalValue().multiply(oleInvoiceItem.getItemListPrice().bigDecimalValue().subtract(discount)));
+                    if(oleInvoiceItem.getItemDiscountType().equals("%")) {
+                        discount = ((oleInvoiceItem.getItemListPrice().bigDecimalValue().multiply(oleInvoiceItem.getItemDiscount().bigDecimalValue()))).divide(new BigDecimal(100));
+                        totalAmount = new KualiDecimal(purApItem.getItemQuantity().bigDecimalValue().multiply(oleInvoiceItem.getItemListPrice().bigDecimalValue().subtract(discount)));
+                    } else {
+                        discount = ((oleInvoiceItem.getItemListPrice().bigDecimalValue().subtract(oleInvoiceItem.getItemDiscount().bigDecimalValue())));
+                        totalAmount = new KualiDecimal(purApItem.getItemQuantity().bigDecimalValue().multiply(oleInvoiceItem.getItemListPrice().bigDecimalValue().subtract(discount)));
+                    }
+
                 }
                 else{
                     totalAmount = new KualiDecimal(purApItem.getItemQuantity().bigDecimalValue().multiply(oleInvoiceItem.getItemListPrice().bigDecimalValue()));
@@ -1881,7 +1887,7 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                                 }else{
                                     item.setItemForeignDiscount(new KualiDecimal(item.getForeignDiscount()));
                                     item.setItemForeignListPrice(new KualiDecimal(item.getForeignListPrice()));
-                                    item.setItemForeignUnitCost(new KualiDecimal(((OleInvoiceItem)item).getItemForeignListPrice().bigDecimalValue().subtract(item.getItemForeignDiscount().bigDecimalValue())));
+                                    item.setItemForeignUnitCost(new KualiDecimal(((OleInvoiceItem) item).getItemForeignListPrice().bigDecimalValue().subtract(item.getItemForeignDiscount().bigDecimalValue())));
                                     item.setForeignUnitCost(item.getItemForeignUnitCost().toString());
                                 }
                             }
@@ -1926,6 +1932,81 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
             LOG.error("Exception while updating price"+e);
             throw new RuntimeException(e);
         }
+        return getUIFModelAndView(oleInvoiceForm);
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=updatePOPrice")
+    public ModelAndView updatePOPrice(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) uifForm;
+        OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
+        for (OlePurchaseOrderItem item : (List<OlePurchaseOrderItem>) oleInvoiceDocument.getPurchaseOrderDocuments().get(0).getItems()) {
+            if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                if (StringUtils.isNotBlank(oleInvoiceDocument.getInvoiceCurrencyType())) {
+                    String currencyType = getInvoiceService().getCurrencyType(oleInvoiceDocument.getInvoiceCurrencyType());
+                    if (StringUtils.isNotBlank(currencyType)) {
+                        if (currencyType.equalsIgnoreCase(OleSelectConstant.CURRENCY_TYPE_NAME)) {
+                            if (item.getItemDiscount() != null && item.getItemDiscountType() != null) {
+                                if (item.getItemDiscountType().equals(OleSelectConstant.DISCOUNT_TYPE_PERCENTAGE)) {
+                                    BigDecimal discount = ((new BigDecimal(item.getInvoiceItemListPrice()).multiply(item.getItemDiscount().bigDecimalValue()))).divide(new BigDecimal(100));
+                                    item.setItemUnitPrice(new BigDecimal(item.getInvoiceItemListPrice()).subtract(discount));
+                                } else {
+                                    item.setInvoiceItemListPrice(item.getInvoiceItemListPrice());
+                                    item.setItemUnitPrice(new BigDecimal(((OlePurchaseOrderItem) item).getInvoiceItemListPrice()).subtract(item.getItemDiscount().bigDecimalValue()));
+                                }
+                            } else {
+                                item.setItemUnitPrice(new BigDecimal(((OlePurchaseOrderItem) item).getInvoiceItemListPrice()));
+                            }
+                        } else {
+                            BigDecimal exchangeRate = null;
+                            if (StringUtils.isNotBlank(oleInvoiceDocument.getInvoiceCurrencyExchangeRate())) {
+                                try {
+                                    Double.parseDouble(oleInvoiceDocument.getInvoiceCurrencyExchangeRate());
+                                    exchangeRate = new BigDecimal(oleInvoiceDocument.getInvoiceCurrencyExchangeRate());
+                                    if (new KualiDecimal(exchangeRate).isZero()) {
+                                        GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_INFO_SECTION_ID, OLEKeyConstants.ERROR_ENTER_VALID_EXCHANGE_RATE);
+                                        return getUIFModelAndView(oleInvoiceForm);
+                                    }
+                                    oleInvoiceDocument.setInvoiceCurrencyExchangeRate(exchangeRate.toString());
+                                } catch (NumberFormatException nfe) {
+                                    GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_INFO_SECTION_ID, OLEKeyConstants.ERROR_ENTER_VALID_EXCHANGE_RATE);
+                                    return getUIFModelAndView(oleInvoiceForm);
+                                }
+                            } else {
+                                GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_INFO_SECTION_ID, OLEKeyConstants.ERROR_EXCHANGE_RATE_EMPTY, currencyType);
+                                return getUIFModelAndView(oleInvoiceForm);
+                            }
+                            if (item.getInvoiceForeignDiscount() != null && !item.getInvoiceForeignDiscount().equals("0.00")) {
+                                if (item.getInvoiceForeignDiscountType().equals(OleSelectConstant.DISCOUNT_TYPE_PERCENTAGE)) {
+                                    item.setInvoiceForeignDiscount((item.getInvoiceForeignDiscount()));
+                                    BigDecimal discount = (new BigDecimal(((OlePurchaseOrderItem) item).getInvoiceForeignItemListPrice())).multiply((new BigDecimal(item.getInvoiceForeignDiscount()))).divide(new BigDecimal(100));
+                                    item.setInvoiceForeignUnitCost(new BigDecimal(item.getInvoiceForeignItemListPrice()).subtract(discount).toString());
+                                    BigDecimal listPrice = new BigDecimal(item.getInvoiceForeignItemListPrice()).divide(exchangeRate, 2, RoundingMode.HALF_UP);
+                                    item.setInvoiceItemListPrice(listPrice.subtract(listPrice.multiply(new BigDecimal(item.getInvoiceForeignDiscount()).divide(new BigDecimal(100)))).toString());
+                                    item.setItemUnitPrice(new BigDecimal(item.getInvoiceItemListPrice()));
+
+                                } else {
+                                    item.setInvoiceForeignDiscount((item.getInvoiceForeignDiscount()));
+                                    BigDecimal discount = new BigDecimal(item.getInvoiceForeignDiscount());
+                                    item.setInvoiceForeignUnitCost(new BigDecimal(item.getInvoiceForeignItemListPrice()).subtract(discount).toString());
+                                    BigDecimal listPrice = new BigDecimal(item.getInvoiceForeignItemListPrice()).subtract(discount).divide(exchangeRate, 2, RoundingMode.HALF_UP);
+                                    item.setInvoiceItemListPrice(listPrice.toString());
+                                    item.setItemUnitPrice(listPrice);
+                                }
+                            } else {
+                                item.setInvoiceForeignUnitCost((item.getInvoiceForeignItemListPrice()));
+                                BigDecimal listPrice = new BigDecimal(item.getInvoiceForeignItemListPrice()).divide(exchangeRate, 2, RoundingMode.HALF_UP);
+                                item.setInvoiceItemListPrice(listPrice.toString());
+                                item.setItemUnitPrice(listPrice);
+                            }
+                        }
+                    }
+                }
+                getInvoiceService().calculateAccount(item);
+            }
+        }
+
         return getUIFModelAndView(oleInvoiceForm);
     }
 

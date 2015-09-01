@@ -229,6 +229,10 @@ function onChangePriceScript() {
     jQuery('#kualiForm').submit();*/
 }
 
+function onChangePOPriceScript() {
+    jq("#updatePOPriceBtn").focus().click();
+}
+
 function validateInvoiceAmount(){
     if(jq("#hdnValidationFlag_control").val() == 'true') {
         displayDialogWindow("div#MessagePopupSectionForInvoiceValidation");

@@ -187,6 +187,7 @@
                 <ref bean="hdnSubscriptionDateValidationFlag"/>
                 <bean id ="hiddenButtonForCurrentItems" parent="Uif-SecondaryActionButton" p:methodToCall="refreshCurrentItem" p:hidden="true"  p:refreshId="OLEInvoiceView-processItems-Wrapper"/>
                 <ref bean="updatePriceBtn"/>
+                <ref bean="updatePOPriceBtn"/>
                 <ref bean="unsaved"/>
                 <ref bean="canClose"/>
                 <ref bean="hdnduplicateFlag"/>
@@ -930,6 +931,8 @@
     <bean id="routeLogDisplayBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="enableRouteLogDisplay"  p:refreshId="Uif-Inv-DocumentRouteLogSection"  p:hidden="true"/>
 
     <bean id="updatePriceBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="updatePrice" p:ajaxSubmit="true"  p:successCallback="removeDollarSymbol()" p:hidden="true" />
+
+    <bean id="updatePOPriceBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="updatePOPrice" p:ajaxSubmit="true"  p:successCallback="removeDollarSymbol()" p:hidden="true" />
 
     <bean id="overviewFlag"  parent="Uif-InputField" p:propertyName="overviewFlag" p:hidden="true">
         <property name="control">
