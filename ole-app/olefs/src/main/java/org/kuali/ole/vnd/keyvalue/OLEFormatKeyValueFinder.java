@@ -15,11 +15,11 @@ public class OLEFormatKeyValueFinder extends KeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("1","All"));
-        keyValues.add(new ConcreteKeyValue("2","Databases"));
-        keyValues.add(new ConcreteKeyValue("3","Ebooks"));
-        keyValues.add(new ConcreteKeyValue("4","Journals"));
-        keyValues.add(new ConcreteKeyValue("5 Media","Streaming Media"));
+        keyValues.add(new ConcreteKeyValue("All","All"));
+        keyValues.add(new ConcreteKeyValue("Databases","Databases"));
+        keyValues.add(new ConcreteKeyValue("Ebooks","Ebooks"));
+        keyValues.add(new ConcreteKeyValue("Journals","Journals"));
+        keyValues.add(new ConcreteKeyValue("Streaming Media","Streaming Media"));
         return keyValues;
     }
 }
