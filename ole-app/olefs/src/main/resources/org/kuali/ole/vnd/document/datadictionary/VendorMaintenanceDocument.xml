@@ -333,7 +333,7 @@
               <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="active" />
-              <bean parent="MaintainableFieldDefinition" p:name="formats" />
+              <bean parent="MaintainableFieldDefinition" p:name="format" />
               <bean parent="MaintainableFieldDefinition" p:name="lastVerifiedDate" />
             </list>
           </property>

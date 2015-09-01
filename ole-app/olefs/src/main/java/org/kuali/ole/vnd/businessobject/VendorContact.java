@@ -425,9 +425,8 @@ public class VendorContact extends PersistableBusinessObjectBase implements Muta
         this.formats = formats;
         String format2 = "";
         if (this.formats != null  && this.formats.size() > 0) {
-            List<String> format1 = this.formats;
-            if (format1.size() > 0) {
-                for (String accessLocation : format1) {
+            if (formats.size() > 0) {
+                for (String accessLocation : formats) {
                     format2 += accessLocation;
                     format2 += OLEConstants.OLEEResourceRecord.ACCESS_LOCATION_SEPARATOR;
                 }
