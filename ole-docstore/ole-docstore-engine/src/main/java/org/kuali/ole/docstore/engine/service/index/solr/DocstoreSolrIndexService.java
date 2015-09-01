@@ -452,7 +452,7 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
         solrInputDocument.addField(AUTHOR_SEARCH, sourceDocument.getFieldValues(AUTHOR_SEARCH));
         solrInputDocument.addField(PUBLICATIONPLACE_DISPLAY, sourceDocument.getFieldValues(PUBLICATIONPLACE_DISPLAY));
         solrInputDocument.addField(PUBLISHER_SEARCH, sourceDocument.getFieldValues(PUBLISHER_SEARCH));
-        solrInputDocument.setField(PUBLISHER_SORT, sourceDocument.getFieldValue(PUBLISHER_SEARCH));
+        solrInputDocument.setField(PUBLISHER_SORT, sourceDocument.getFieldValue(PUBLISHER_SORT));
         solrInputDocument.addField(ISSN_SEARCH, sourceDocument.getFieldValues(ISSN_SEARCH));
         solrInputDocument.addField(ISBN_SEARCH, sourceDocument.getFieldValues(ISBN_SEARCH));
         solrInputDocument.addField(FORMAT_SEARCH, sourceDocument.getFieldValues(FORMAT_SEARCH));
@@ -484,7 +484,7 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
         solrInputDocument.addField(AUTHOR_SEARCH, sourceInputDocument.getFieldValues(AUTHOR_SEARCH));
         solrInputDocument.addField(PUBLISHER_SEARCH, sourceInputDocument.getFieldValues(PUBLISHER_SEARCH));
         solrInputDocument.addField(PUBLICATIONPLACE_DISPLAY, sourceInputDocument.getFieldValues(PUBLICATIONPLACE_DISPLAY));
-        solrInputDocument.setField(PUBLISHER_SORT, sourceInputDocument.getFieldValue(PUBLISHER_SEARCH));
+        solrInputDocument.setField(PUBLISHER_SORT, sourceInputDocument.getFieldValue(PUBLISHER_SORT));
         solrInputDocument.addField(ISSN_SEARCH, sourceInputDocument.getFieldValues(ISSN_SEARCH));
         solrInputDocument.addField(ISBN_SEARCH, sourceInputDocument.getFieldValues(ISBN_SEARCH));
         solrInputDocument.addField(FORMAT_SEARCH, sourceInputDocument.getFieldValues(FORMAT_SEARCH));
