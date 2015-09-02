@@ -1713,7 +1713,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         List<OLEEResourceInvoices> oleERSInvoices = oleeResourceRecordDocument.getOleERSInvoices();
         int fiscalYearCost = 0;
         for (OLEEResourceInvoices oleeResourceInvoices : oleERSInvoices) {
-            fiscalYearCost = fiscalYearCost + Integer.valueOf(oleeResourceInvoices.getInvoicedAmount());
+            fiscalYearCost = fiscalYearCost +  (Double.valueOf(oleeResourceInvoices.getInvoicedAmount())).intValue();
         }
         double cost = oleeResourceRecordDocument.getYearPriceQuote() - oleeResourceRecordDocument.getFiscalYearCost();
         oleeResourceRecordDocument.setCostIncrease(Math.round(cost));
