@@ -576,7 +576,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
         LOG.debug("calculateInvoice() started");
 
         // general calculation, i.e. for the whole preq document
-        if (ObjectUtils.isNull(invoice.getInvoicePayDate())) {
+        if (ObjectUtils.isNull(invoice.getInvoicePayDate()) || invoice.getInvoicePayDate().before(new Date())) {
             invoice.setInvoicePayDate(calculatePayDate(invoice.getInvoiceDate(), invoice.getVendorPaymentTerms()));
         }
 
@@ -1802,8 +1802,10 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
             }
         }
         //}
+        if (ObjectUtils.isNull(invoiceDocument.getInvoicePayDate()) || invoiceDocument.getInvoicePayDate().before(new Date())) {
+            invoiceDocument.setInvoicePayDate(calculatePayDate(invoiceDocument.getInvoiceDate(), invoiceDocument.getVendorPaymentTerms()));
+        }
 
-        invoiceDocument.setInvoicePayDate(calculatePayDate(invoiceDocument.getInvoiceDate(), invoiceDocument.getVendorPaymentTerms()));
         //invoiceDocument.setTotalDollarAmount(invoiceDocument.getTotalDollarAmount().add(po.getTotalDollarAmount()));
 
         if (invoiceDocument.getInvoiceTypeHdnId() != null && !invoiceDocument.getInvoiceTypeHdnId().isEmpty()) {
@@ -1847,8 +1849,10 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
             invoiceDocument.setBank(defaultBank);
         }
 
+        if (ObjectUtils.isNull(invoiceDocument.getInvoicePayDate())) {
+            invoiceDocument.setInvoicePayDate(this.calculatePayDate(invoiceDocument.getInvoiceDate(), invoiceDocument.getVendorPaymentTerms()));
+        }
 
-        invoiceDocument.setInvoicePayDate(this.calculatePayDate(invoiceDocument.getInvoiceDate(), invoiceDocument.getVendorPaymentTerms()));
 
 
         /* invoice total */
