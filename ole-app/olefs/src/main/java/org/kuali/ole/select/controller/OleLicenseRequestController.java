@@ -391,9 +391,9 @@ public class OleLicenseRequestController extends MaintenanceDocumentController {
                                     HttpServletRequest request, HttpServletResponse response) throws WorkflowException {
         loadDocument(form);
         Map<String,String> map=new HashMap<>();
-        map.put("selectedLineIndex",request.getParameter("selectedLineIndex"));
+        map.put("selectedLineIndex", request.getParameter("selectedLineIndex"));
         form.setActionParameters(map);
-        return downloadAgreement(form,result,request,response);
+        return downloadAgreement(form, result, request, response);
     }
     @RequestMapping(params = "methodToCall=disapprove")
     public ModelAndView disapprove(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
@@ -630,6 +630,9 @@ public class OleLicenseRequestController extends MaintenanceDocumentController {
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) uifForm;
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) maintenanceForm.getDocument();
         OleLicenseRequestBo oleLicenseRequestBo = (OleLicenseRequestBo) document.getNewMaintainableObject().getDataObject();
+        if(maintenanceForm.getMethodToCall().equals(OLEConstants.METHOD_TO_CALL)) {
+            return insertAgreementDocument(maintenanceForm, result, request, response);
+        }
         if (oleLicenseRequestBo.getAgreementDocumentMetadataList().get(0).getSelected().equalsIgnoreCase("true")) {
             oleLicenseRequestBo.getAgreementDocumentMetadataList().get(0).setSelected(null);
             return insertAgreementDocument(maintenanceForm, result, request, response);
