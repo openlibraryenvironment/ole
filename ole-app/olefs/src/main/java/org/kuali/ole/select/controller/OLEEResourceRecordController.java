@@ -1321,6 +1321,11 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         int index = form.getIndex();
         List<OLECreatePO> eResourceCreatePOs = form.geteResourcePOs();
         OLECreatePO eResourcePO1 = (OLECreatePO) eResourceCreatePOs.get(index).clone();
+        List<OLECretePOAccountingLine> oleCretePOAccountingLineList = new ArrayList<>();
+        for (OLECretePOAccountingLine oleCretePOAccountingLine : eResourcePO1.getAccountingLines()) {
+            oleCretePOAccountingLineList.add((OLECretePOAccountingLine) oleCretePOAccountingLine.clone());
+        }
+        eResourcePO1.setAccountingLines(oleCretePOAccountingLineList);
         index++;
         eResourcePO1.setPoId(null);
         eResourceCreatePOs.add(index, eResourcePO1);
@@ -2645,6 +2650,29 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             }
         }
         return addLine(oleEResourceRecordForm, result, request, response);
+    }
+
+
+    @RequestMapping(params = "methodToCall=deleteAccountingLine")
+    public ModelAndView deleteAccountingLine(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+
+        int selectedPoIndex = Integer.parseInt(selectedCollectionPath.split("\\[")[1].substring(0, 1));
+
+        OLECreatePO selectedPo = oleEResourceRecordForm.geteResourcePOs().get(selectedPoIndex);
+
+        int selectedLineIndex = -1;
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+        if (selectedLineIndex == -1) {
+            throw new RuntimeException("Selected line index was not set for delete line action, cannot delete line");
+        }
+        selectedPo.getAccountingLines().remove(selectedLineIndex);
+        return getUIFModelAndView(oleEResourceRecordForm);
     }
 
     @RequestMapping(params = "methodToCall=addEResAccountingLine")

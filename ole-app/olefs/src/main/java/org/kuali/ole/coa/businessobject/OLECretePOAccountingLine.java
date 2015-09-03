@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 /**
  * Created by chenchulakshmig on 12/3/14.
  */
-public class OLECretePOAccountingLine extends PersistableBusinessObjectBase {
+public class OLECretePOAccountingLine extends PersistableBusinessObjectBase implements Cloneable {
 
     private String createPOAccountingLineId;
 
@@ -108,4 +108,9 @@ public class OLECretePOAccountingLine extends PersistableBusinessObjectBase {
     public void setAccountLinePercent(BigDecimal accountLinePercent) {
         this.accountLinePercent = accountLinePercent;
     }
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
 }

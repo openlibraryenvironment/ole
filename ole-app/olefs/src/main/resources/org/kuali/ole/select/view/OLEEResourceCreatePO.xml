@@ -421,7 +421,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-DeleteLineAction"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteAccountingLine" p:actionLabel="Delete" p:successCallback="refresh();"/>
             </list>
         </property>
     </bean>
