@@ -665,7 +665,7 @@ public class OleLicenseRequestController extends MaintenanceDocumentController {
             performWorkflowAction(maintenanceForm, UifConstants.WorkflowAction.SAVE, true);
         }
 
-        return null;
+        return getUIFModelAndView(maintenanceForm);
     }
 
     /**
