@@ -112,13 +112,13 @@
         </property>
     </bean>
 
-    <bean id="OLEDeliverItemSearchButtons" parent="Uif-HorizontalBoxSection" >
+    <bean id="OLEDeliverItemSearchButtons" parent="Uif-HorizontalBoxSection" p:style="text-align:center;" >
         <property name="items">
             <list>
-                <bean id="itemSearch_search_button" parent="Uif-SecondaryActionButton-Small"
-                      p:style="float:left;margin-left:70em"
+                <bean id="itemSearch_search_button" parent="Uif-SecondaryActionButton"
+                      p:style="margin-left:50%;"
                       p:methodToCall="search" p:actionLabel="Search" p:successCallback="disableLink()"/>
-                <bean id="itemSearch_clear_button" parent="Uif-SecondaryActionButton-Small"
+                <bean id="itemSearch_clear_button" parent="Uif-SecondaryActionButton"
                       p:methodToCall="clearSearch" p:actionLabel="Clear"/>
             </list>
         </property>
