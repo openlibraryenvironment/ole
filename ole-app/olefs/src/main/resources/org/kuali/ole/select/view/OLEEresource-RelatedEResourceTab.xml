@@ -58,7 +58,7 @@
                 <bean parent="Uif-DataField" p:label="Status"
                       p:propertyName="oleeResourceRecordDocument.statusName"/>
                 <bean parent="Uif-DataField" p:label="Relationship type" p:propertyName="relationShipType"/>
-                <bean parent="Uif-InputField" p:label="Remove relationship" p:propertyName="removeRelationShip" p:onClickScript="displayRemoveRelationShipPopup('@{#line.relationShipType}')" p:hidden="@{#line.relationShipType eq 'parent'}" p:defaultValue="false" p:width="50px">
+                <bean parent="Uif-InputField" p:label="Remove relationship" p:propertyName="removeRelationShip" p:onClickScript="displayRemoveRelationShipPopup('@{#line.relationShipType}')"  p:defaultValue="false" p:width="50px">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
