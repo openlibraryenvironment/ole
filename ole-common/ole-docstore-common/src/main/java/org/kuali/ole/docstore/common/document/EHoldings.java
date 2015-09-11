@@ -248,6 +248,71 @@ public class EHoldings
         }
     }
 
+
+    public void setDefaultField(String docField, String fieldValue) {
+        super.setDefaultField(docField, fieldValue);
+        OleHoldings oleHoldings = getContentObject();
+        if (docField.equalsIgnoreCase(DESTINATION_FIELD_LINK_TEXT) && oleHoldings.getLink().get(0).getText() == null) {
+            oleHoldings.getLink().get(0).setText(fieldValue);
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_LINK_URL) && oleHoldings.getLink().get(0).getText() == null) {
+            oleHoldings.getLink().get(0).setUrl(fieldValue);
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_PERSISTENTLINK) && oleHoldings.getLocalPersistentLink() == null) {
+            oleHoldings.setLocalPersistentLink(fieldValue);
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_START_DATE) && oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).getCoverageStartDate() == null) {
+            oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).setCoverageStartDate(fieldValue);
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_START_VOLUME) && oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).getCoverageStartVolume() == null) {
+            oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).setCoverageStartVolume(fieldValue);
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_START_ISSUE) && oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).getCoverageStartIssue()== null) {
+            oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).setCoverageStartIssue(fieldValue);
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_END_DATE) && oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).getCoverageEndDate() == null) {
+            oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).setCoverageEndDate(fieldValue);
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_END_ISSUE) && oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).getCoverageEndIssue() == null) {
+            oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).setCoverageEndIssue(fieldValue);
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_END_VOLUME) && oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).getCoverageEndVolume() == null) {
+            oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).setCoverageEndVolume(fieldValue);
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_STATISTICAL_CODE) && oleHoldings.getStatisticalSearchingCode().getCodeValue() == null) {
+            oleHoldings.getStatisticalSearchingCode().setCodeValue(fieldValue);
+            oleHoldings.getStatisticalSearchingCode().setFullValue(fieldValue);
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_PUBLIC_DISPLAY_NOTE) && oleHoldings.getNote().get(0).getValue() ==null) {
+            oleHoldings.getNote().get(0).setValue(fieldValue);
+            oleHoldings.getNote().get(0).setType(PUBLIC);
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_ACCESS_STATUS_CODE) && oleHoldings.getAccessStatus() == null) {
+            if (fieldValue.toLowerCase().equals(ACTIVE)) {
+                oleHoldings.setAccessStatus(ACTIVE);
+            } else if (fieldValue.equalsIgnoreCase(INACTIVE)) {
+                oleHoldings.setAccessStatus(INACTIVE);
+            }
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_PLATFORM) && oleHoldings.getPlatform() == null) {
+            Platform platform = new Platform();
+            platform.setPlatformName(fieldValue);
+            oleHoldings.setPlatform(platform);
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_DONOR_CODE) || docField.equalsIgnoreCase(DESTINATION_FIELD_DONOR_PUBLIC_DISPLAY) || docField.equalsIgnoreCase(DESTINATION_FIELD_DONOR_NOTE)) {
+            DonorInfo donorInfo = null;
+            if (oleHoldings.getDonorInfo().size() == 0) {
+                donorInfo = new DonorInfo();
+                buildDonorInfo(docField, fieldValue, oleHoldings, donorInfo, false);
+            }
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_ERESOURCE_ID) && oleHoldings.getEResourceId() == null) {
+            oleHoldings.setEResourceId(fieldValue);
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_GOKB_ID) && oleHoldings.getGokbIdentifier() == null ) {
+            if (StringUtils.isNotEmpty(fieldValue)) {
+                oleHoldings.setGokbIdentifier(Integer.parseInt(fieldValue));
+            }
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_IMPRINT) &&  oleHoldings.getImprint() == null) {
+            if (StringUtils.isNotEmpty(fieldValue)) {
+                oleHoldings.setImprint(fieldValue);
+            }
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_PUBLISHER) && oleHoldings.getPublisher() == null) {
+            if (StringUtils.isNotEmpty(fieldValue)) {
+                oleHoldings.setPublisher(fieldValue);
+            }
+        }
+    }
+
+
+
+
+
     private void buildDonorInfo(String docField, String fieldValue, OleHoldings oleHoldings, DonorInfo donorInfo, boolean isDefault) {
         if (docField.equalsIgnoreCase(DESTINATION_FIELD_DONOR_CODE)) {
             if (donorInfo.getDonorCode() == null) {
