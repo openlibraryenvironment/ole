@@ -262,7 +262,7 @@ public class EHoldings
             oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).setCoverageStartDate(fieldValue);
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_START_VOLUME) && oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).getCoverageStartVolume() == null) {
             oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).setCoverageStartVolume(fieldValue);
-        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_START_ISSUE) && oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).getCoverageStartIssue()== null) {
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_START_ISSUE) && oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).getCoverageStartIssue() == null) {
             oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).setCoverageStartIssue(fieldValue);
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_COVERAGE_END_DATE) && oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).getCoverageEndDate() == null) {
             oleHoldings.getExtentOfOwnership().get(0).getCoverages().getCoverage().get(0).setCoverageEndDate(fieldValue);
@@ -273,7 +273,7 @@ public class EHoldings
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_STATISTICAL_CODE) && oleHoldings.getStatisticalSearchingCode().getCodeValue() == null) {
             oleHoldings.getStatisticalSearchingCode().setCodeValue(fieldValue);
             oleHoldings.getStatisticalSearchingCode().setFullValue(fieldValue);
-        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_PUBLIC_DISPLAY_NOTE) && oleHoldings.getNote().get(0).getValue() ==null) {
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_PUBLIC_DISPLAY_NOTE) && oleHoldings.getNote().get(0).getValue() == null) {
             oleHoldings.getNote().get(0).setValue(fieldValue);
             oleHoldings.getNote().get(0).setType(PUBLIC);
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_ACCESS_STATUS_CODE) && oleHoldings.getAccessStatus() == null) {
@@ -294,11 +294,11 @@ public class EHoldings
             }
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_ERESOURCE_ID) && oleHoldings.getEResourceId() == null) {
             oleHoldings.setEResourceId(fieldValue);
-        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_GOKB_ID) && oleHoldings.getGokbIdentifier() == null ) {
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_GOKB_ID) && oleHoldings.getGokbIdentifier() == null) {
             if (StringUtils.isNotEmpty(fieldValue)) {
                 oleHoldings.setGokbIdentifier(Integer.parseInt(fieldValue));
             }
-        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_IMPRINT) &&  oleHoldings.getImprint() == null) {
+        } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_IMPRINT) && oleHoldings.getImprint() == null) {
             if (StringUtils.isNotEmpty(fieldValue)) {
                 oleHoldings.setImprint(fieldValue);
             }
@@ -308,10 +308,6 @@ public class EHoldings
             }
         }
     }
-
-
-
-
 
     private void buildDonorInfo(String docField, String fieldValue, OleHoldings oleHoldings, DonorInfo donorInfo, boolean isDefault) {
         if (docField.equalsIgnoreCase(DESTINATION_FIELD_DONOR_CODE)) {
