@@ -1039,8 +1039,6 @@ public class BatchBibImportHelper {
                         if (defaultValue.equalsIgnoreCase(OLEConstants.OLEBatchProcess.CONSTANT)) {
                             if (docField.equalsIgnoreCase(EHoldings.DESTINATION_FIELD_ERESOURCE_NAME) || docField.equalsIgnoreCase(EHoldings.DESTINATION_FIELD_ERESOURCE_ID)) {
                                 validateAndSetEResourceId(fieldValue, eHoldings);
-                            }  else if (docField.equalsIgnoreCase(EHoldings.DESTINATION_FIELD_PLATFORM)) {
-                                validateAndSetPlatform(fieldValue, eHoldings);
                             } else {
                                 eHoldings.setField(docField, fieldValue);
                             }
@@ -1246,6 +1244,8 @@ public class BatchBibImportHelper {
             }
         }
     }
+
+
 
     private void validateAndSetEResource(String bibFieldValue, EHoldings eHoldings) {
         List<OLEEResourceRecordDocument> oleeResourceRecordDocuments = getEResourceDocumentByName(bibFieldValue);
