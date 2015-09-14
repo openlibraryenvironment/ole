@@ -439,6 +439,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                                             tempDocument.setSelectInstance(OLEConstants.OLEEResourceRecord.CREATE_NEW_INSTANCE);
                                             tempDocument.seteInstanceFlag(true);
                                             List<Holdings> holdings = new ArrayList<>();
+                                            tempDocument.setOleERSInstances(getEResourceInstance(oleeResourceInstance.getOleEResourceInstanceId()));
                                             for (OLEEResourceInstance oleERSInstance : tempDocument.getOleERSInstances()) {
                                                 if (oleERSInstance.getBibId().equals(bib.getId())) {
                                                     processResponseForEResource(oleERSInstance.getInstanceId(), bib, tempDocument.getDocumentNumber());
@@ -1379,5 +1380,15 @@ public class WorkBibMarcEditor extends AbstractEditor implements
         return isValidUpdate;
     }
 
+    public  List<OLEEResourceInstance> getEResourceInstance(String oleERSIdentifier) {
+        List<OLEEResourceInstance> oleeResourceInstances = new ArrayList<>();
+        if (oleERSIdentifier != null) {
+            Map ids = new HashMap();
+            ids.put("oleEResourceInstanceId", oleERSIdentifier);
+            OLEEResourceInstance oleeResourceInstance = (OLEEResourceInstance) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEEResourceInstance.class, ids);
+            oleeResourceInstances.add(oleeResourceInstance);
+        }
+        return oleeResourceInstances;
+    }
 
 }
