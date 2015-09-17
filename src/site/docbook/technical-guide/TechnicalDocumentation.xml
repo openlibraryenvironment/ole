@@ -38,6 +38,10 @@
                     <para><link xlink:href="../../../pdfs/OLERESTServicesTechDoc.pdf">REST
                             Services</link>.</para>
                 </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/DroolsTechnicalDocument.pdf">Drools for
+                            Circulation Rules</link>.</para>
+                </listitem>
             </itemizedlist>
         </listitem>
         <listitem>
@@ -54,6 +58,15 @@
                 <listitem>
                     <para><link xlink:href="../../../pdfs/ScheduledJobsTechnicalDocument.pdf"
                             >Scheduled Jobs</link>.</para>
+                </listitem>
+            </itemizedlist>
+        </listitem>
+        <listitem>
+            <para><emphasis role="bold">Reports</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/ReportsTechnicalDocument.pdf"
+                            >Reports</link>.</para>
                 </listitem>
             </itemizedlist>
         </listitem>

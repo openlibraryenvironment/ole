@@ -61,23 +61,36 @@
             </note>
             <tip>
                 <para role="Body Text"> You will notice the left panel navigation. This navigation
-                    panel will allow you to navigate to other editors (bibliographic, holdings or
-                    item, or E-holdings) as well as add (click the <inlinemediaobject>
-                        <alt>Green Plus Sign</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DescribeNoTitlePage-105.png"/>
-                        </imageobject>
-                    </inlinemediaobject>) and delete (click the <inlinemediaobject>
-                        <alt>White X on Grey</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DescribeNoTitlePage-106.png"/>
-                        </imageobject>
-                    </inlinemediaobject>) records.</para>
+                    panel will allow you to navigate to other editors (bibliographic,holdings or
+                    item, or E-Holdings) as well as add and delete</para>
+                <itemizedlist>
+                    <listitem>
+                        <para role="Body Text">Click the <inlinemediaobject>
+                                <alt>H</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-105.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to add Holdings and Item records or <inlinemediaobject>
+                                <alt>E</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-105a.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to add an E-Holdings record </para>
+                    </listitem>
+                    <listitem>
+                        <para role="Body Text">Click the <inlinemediaobject>
+                                <alt>Delete bib</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-106.png"/>
+                                </imageobject>
+                            </inlinemediaobject> button to delete the bibliographic record.</para>
+                    </listitem>
+                </itemizedlist>
                 <para role="Body Text">
                     <screenshot>
                         <mediaobject>
-                            <alt>Left pane navigation displaying the green plus signs and white
-                                X</alt>
+                            <alt>Left pane navigation displaying the H, E, and Delete Bib
+                                options</alt>
                             <imageobject>
                                 <imagedata fileref="../images/DescribeNoTitlePage-107.png"/>
                             </imageobject>
@@ -175,16 +188,22 @@
                     </listitem>
                     <listitem>
                         <para role="Normal"> Click the top level<inlinemediaobject>
-                                <alt>Green Plus Sign</alt>
+                                <alt>H</alt>
                                 <imageobject>
-                                    <imagedata fileref="../images/DescribeNoTitlePage-113.png"/>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-105.png"/>
                                 </imageobject>
                             </inlinemediaobject>s to add additional Holdings or E-Holdings
+                            records or <inlinemediaobject>
+                                <alt>E</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-105a.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to add additional E-Holdings
                             records.</para>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
-                                    <alt>Sample Dublin Core Record with the Green Plus Signs in the
+                                    <alt>Sample Dublin Core Record with the H and E buttons in the
                                         Left Pane Navigation</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-115.png"
@@ -229,7 +248,7 @@
                             <imagedata fileref="../images/DescribeNoTitlePage-79.png"/>
                         </imageobject>
                     </inlinemediaobject> &gt; <inlinemediaobject>
-                        <alt>Title/Author</alt>
+                        <alt>Bib</alt>
                         <imageobject>
                             <imagedata fileref="../images/DescribeNoTitlePage-102.png"/>
                         </imageobject>
@@ -241,28 +260,37 @@
                 Orders, Receiving, etc. or by clicking on the record title in the <emphasis
                     role="bold">Search Workbench</emphasis>.</para>
             <tip>
-                <para role="Body Text">While viewing a record in the Bib Editor, notice the left
-                    panel navigation. This navigation panel will allow you to add (click the <inlinemediaobject>
-                        <alt>Green Plus Sign</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DescribeNoTitlePage-83.png"/>
-                        </imageobject>
-                    </inlinemediaobject>) Holdings and Item and E-Holdings records or delete (click
-                    the <inlinemediaobject>
-                        <alt>White X on Grey</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DescribeNoTitlePage-84.png"/>
-                        </imageobject>
-                    </inlinemediaobject>) Bibliographic Records. While hovering over these icons, a
-                    pop-up note will inform the user which icon to click to <emphasis role="bold"
-                        >Add Holdings</emphasis>, <emphasis role="bold">Add E-Holdings</emphasis>,
-                    or <emphasis role="bold">Delete Bib</emphasis>.</para>
-                <para/>
+                <para role="Body Text"> You will notice the left panel navigation. This navigation
+                    panel will allow you to navigate to other editors (bibliographic, holdings or
+                    item, or E-Holdings) as well as add and delete</para>
+                <itemizedlist>
+                    <listitem>
+                        <para role="Body Text">Click the <inlinemediaobject>
+                                <alt>H</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-105.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to add Holdings and Item records or <inlinemediaobject>
+                                <alt>E</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-105a.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to add an E-Holdings record </para>
+                    </listitem>
+                    <listitem>
+                        <para role="Body Text">Click the <inlinemediaobject>
+                                <alt>Delete bib</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-106.png"/>
+                                </imageobject>
+                            </inlinemediaobject> button to delete the bibliographic record.</para>
+                    </listitem>
+                </itemizedlist>
                 <para role="Body Text">
                     <screenshot>
                         <mediaobject>
-                            <alt>Left pane navigation displaying the green plus signs and white
-                                X</alt>
+                            <alt>Left pane navigation displaying the H, E, and Delete Bib
+                                options</alt>
                             <imageobject>
                                 <imagedata fileref="../images/DescribeNoTitlePage-107.png"/>
                             </imageobject>
@@ -544,12 +572,77 @@
                                     >Submit</emphasis> button has been clicked.</para>
                         </listitem>
                         <listitem>
-                            <para>To remove a data field, click the <inlinemediaobject>
+                            <para>To remove one or more data fields, check the box(es) next to the
+                                right of the field(s) and click the <inlinemediaobject>
                                     <alt>Remove</alt>
                                     <imageobject>
                                         <imagedata fileref="../images/DescribeNoTitlePage-123.png"/>
                                     </imageobject>
                                 </inlinemediaobject> button.</para>
+                            <tip>
+                                <para>Keyboard shortcuts are available:</para>
+                                <informaltable frame="topbot">
+                                    <tgroup cols="2">
+                                        <colspec colname="col1" colnum="1"/>
+                                        <colspec colname="col2" colnum="2"/>
+                                        <tbody>
+                                            <row>
+                                                <entry colname="col1" colsep="1" rowsep="1"
+                                                  valign="top">
+                                                  <para role="Table Cells">Press these keys </para>
+                                                </entry>
+                                                <entry colname="col2" colsep="0" rowsep="1"
+                                                  valign="top">
+                                                  <para role="Table Cells">To perform this action
+                                                  </para>
+                                                </entry>
+                                            </row>
+                                            <row>
+                                                <entry colname="col1" colsep="1" rowsep="1"
+                                                  valign="top">
+                                                  <para role="Table Cells">Ctrl+S</para>
+                                                </entry>
+                                                <entry colname="col2" colsep="0" rowsep="1"
+                                                  valign="top">
+                                                  <para role="Table Cells">Save/Submit</para>
+                                                </entry>
+                                            </row>
+                                            <row>
+                                                <entry colname="col1" colsep="1" rowsep="1"
+                                                  valign="top">
+                                                  <para role="Table Cells">Ctrl+Enter</para>
+                                                </entry>
+                                                <entry colname="col2" colsep="0" rowsep="1"
+                                                  valign="top">
+                                                  <para role="Table Cells">Add a line in a
+                                                  bib</para>
+                                                </entry>
+                                            </row>
+                                            <row>
+                                                <entry colname="col1" colsep="1" rowsep="1"
+                                                  valign="top">
+                                                  <para role="Table Cells">Ctrl+D</para>
+                                                </entry>
+                                                <entry colname="col2" colsep="0" rowsep="1"
+                                                  valign="top">
+                                                  <para role="Table Cells">Delete a line</para>
+                                                </entry>
+                                            </row>
+                                            <row>
+                                                <entry colname="col1" colsep="1" rowsep="1"
+                                                  valign="top">
+                                                  <para role="Table Cells">Ctrl+3</para>
+                                                </entry>
+                                                <entry colname="col2" colsep="0" rowsep="1"
+                                                  valign="top">
+                                                  <para role="Table Cells">Insert 035 with OCoLC
+                                                  prompt</para>
+                                                </entry>
+                                            </row>
+                                        </tbody>
+                                    </tgroup>
+                                </informaltable>
+                            </tip>
                         </listitem>
                         <listitem>
                             <para role="Normal">Click <inlinemediaobject>
@@ -585,6 +678,17 @@
                                 window.</para>
                         </listitem>
                         <listitem>
+                            <para>Click <inlinemediaobject>
+                                    <alt>Copy</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-233a.png"
+                                        />
+                                    </imageobject>
+                                </inlinemediaobject> to copy the existing record's data to a new
+                                bibliographic record with user entered data retained except the
+                                Local ID. </para>
+                        </listitem>
+                        <listitem>
                             <para>If you submit an invalid record, OLE will display an error
                                 message. </para>
                             <para/>
@@ -604,19 +708,18 @@
                             <para/>
                         </listitem>
                         <listitem>
-                            <para role="Normal"> On the left navigation panel, click the first top
-                                level plus sign <inlinemediaobject>
-                                    <alt>Green Plus Sign</alt>
+                            <para role="Normal"> On the left navigation panel, click the <inlinemediaobject>
+                                    <alt>H</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/DescribeNoTitlePage-113.png"/>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-105.png"/>
                                     </imageobject>
-                                </inlinemediaobject> to add an OLE Holdings records.</para>
+                                </inlinemediaobject> to add Holdings and Item records</para>
                             <para/>
                             <para role="Normal">
                                 <screenshot>
                                     <mediaobject>
-                                        <alt>Bibliographic Record: Clicking the first green plus
-                                            sign will create a Holdings record</alt>
+                                        <alt>Bibliographic Record: Clicking the "H" will create a
+                                            Holdings record</alt>
                                         <imageobject>
                                             <imagedata
                                                 fileref="../images/DescribeNoTitlePage-95.png"
@@ -630,18 +733,19 @@
                                     see <link linkend="_Instance_Editor_1">Holdings and Item
                                         Records</link></para>
                             </note>
-                            <para role="Normal"> Click the second top level plus sign <inlinemediaobject>
-                                    <alt>Green Plus Sign</alt>
+                            <para role="Normal"> Click the <inlinemediaobject>
+                                    <alt>E</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/DescribeNoTitlePage-113.png"/>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-105a.png"
+                                        />
                                     </imageobject>
                                 </inlinemediaobject> to add an OLE E-Holdings records.</para>
                             <para/>
                             <para role="Normal">
                                 <screenshot>
                                     <mediaobject>
-                                        <alt>Bibliographic Record: Clicking the second green plus
-                                            sign will create an E-Holdings record</alt>
+                                        <alt>Bibliographic Record: Clicking the "E" will create an
+                                            E-Holdings record</alt>
                                         <imageobject>
                                             <imagedata
                                                 fileref="../images/DescribeNoTitlePage-98.png"
@@ -682,29 +786,31 @@
                                             <alt>Delete Confirmation Screen</alt>
                                             <imageobject>
                                                 <imagedata
-                                                  fileref="../images/DescribeNoTitlePage-206.png"/>
+                                                  fileref="../images/DescribeNoTitlePage-206.png"
+                                                  width="100%"/>
                                             </imageobject>
                                         </mediaobject>
                                     </screenshot>
                                 </para>
                             </tip>
                             <para/>
-                            <para>Click the top level <inlinemediaobject>
-                                    <alt>White X on Grey</alt>
+                            <para role="Body Text">Click the <inlinemediaobject>
+                                    <alt>Delete bib</alt>
                                     <imageobject>
-                                        <imagedata fileref="../images/DescribeNoTitlePage-84.png"/>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-106.png"/>
                                     </imageobject>
-                                </inlinemediaobject> to delete the current bibliographic
+                                </inlinemediaobject> button to delete the bibliographic
                                 record.</para>
                             <para/>
                             <para role="Normal">
                                 <screenshot>
                                     <mediaobject>
-                                        <alt>Left pane navigation displaying the green plus signs
-                                            and white X</alt>
+                                        <alt>Left pane navigation displaying the Delete Bib button
+                                            with the delete confirmation screen</alt>
                                         <imageobject>
                                             <imagedata
-                                                fileref="../images/DescribeNoTitlePage-100.png"/>
+                                                fileref="../images/DescribeNoTitlePage-100.png"
+                                                width="100%"/>
                                         </imageobject>
                                     </mediaobject>
                                 </screenshot>
@@ -752,8 +858,7 @@
                             <mediaobject>
                                 <alt>Bibliographic Editor: Test Link Dialog popup</alt>
                                 <imageobject>
-                                    <imagedata fileref="../images/DescribeNoTitlePage-23.png"
-                                        width="100%"/>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-23.png"/>
                                 </imageobject>
                             </mediaobject>
                         </screenshot>
@@ -861,8 +966,7 @@
                             <alt>Left Pane Navigation allows users to access Holdings, Items and
                                 E-Holdings Records</alt>
                             <imageobject>
-                                <imagedata fileref="../images/DescribeNoTitlePage-117.png"
-                                    width="100%"/>
+                                <imagedata fileref="../images/DescribeNoTitlePage-107.png"/>
                             </imageobject>
                         </mediaobject>
                     </screenshot>
@@ -880,19 +984,18 @@
                     and barcode number data elements of the item. Not all of these data elements may
                     be present. If none of these data elements are present, an item record will be
                     identified by the word “Item” in the left pane. </para>
-                <para role="Normal"> On the left navigation panel, click the first top level plus
-                    sign <inlinemediaobject>
-                        <alt>Green Plus Sign</alt>
+                <para role="Normal"> On the left navigation panel, click the <inlinemediaobject>
+                        <alt>H</alt>
                         <imageobject>
-                            <imagedata fileref="../images/DescribeNoTitlePage-113.png"/>
+                            <imagedata fileref="../images/DescribeNoTitlePage-105.png"/>
                         </imageobject>
-                    </inlinemediaobject> to add a Holdings records.</para>
+                    </inlinemediaobject> to add Holdings and Item records</para>
                 <para/>
                 <para role="Normal">
                     <screenshot>
                         <mediaobject>
-                            <alt>Bibliographic Record: Clicking the first green plus sign will
-                                create a Holdings record</alt>
+                            <alt>Bibliographic Record: Clicking the "H" will create a Holdings
+                                record</alt>
                             <imageobject>
                                 <imagedata fileref="../images/DescribeNoTitlePage-95.png"
                                     width="100%"/>
@@ -902,12 +1005,12 @@
                 </para>
                 <para/>
                 <note>
-                    <para>To add an E-Holding Record, click the second top level plus sign <inlinemediaobject>
-                            <alt>Green Plus Sign</alt>
+                    <para role="Normal"> To add an E-Holdings record, click the <inlinemediaobject>
+                            <alt>E</alt>
                             <imageobject>
-                                <imagedata fileref="../images/DescribeNoTitlePage-113.png"/>
+                                <imagedata fileref="../images/DescribeNoTitlePage-105a.png"/>
                             </imageobject>
-                        </inlinemediaobject>. For more information about the OLE E-Holdings Editor,
+                        </inlinemediaobject>.  For more information about the OLE E-Holdings Editor,
                         see <link linkend="_EInstanceEditor">E-Holding Editor</link></para>
                 </note>
                 <para>Right click on the call number to delete a holdings record or add an item
@@ -957,12 +1060,12 @@
                     </para>
                 </tip>
                 <para/>
-                <para>Click the top level <inlinemediaobject>
-                        <alt>White X on Grey</alt>
+                <para>Click the <inlinemediaobject>
+                        <alt>Delete bib</alt>
                         <imageobject>
-                            <imagedata fileref="../images/DescribeNoTitlePage-84.png"/>
+                            <imagedata fileref="../images/DescribeNoTitlePage-106.png"/>
                         </imageobject>
-                    </inlinemediaobject> to delete the current bibliographic record. You will be
+                    </inlinemediaobject> button to delete the bibliographic record.  You will be
                     asked to confirm that you actually want to delete the record before you may
                     proceed. If you do not wish to delete the record, click on “Cancel”; you will
                     then be returned to the OLE Search Workbench instead of the record you have been
@@ -1099,15 +1202,33 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Shelving Order</para>
+                                            <para role="Table Cells">Call Number Type</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para>A system-generated version of the call number that
-                                                OLE uses for call number sorting. Because of the
-                                                complexity of call numbers, in rare cases it may not
-                                                be generated correctly to provide for proper
-                                                sorting, so catalogers can edit it in order to
-                                                change the sort order.</para>
+                                            <para>Scheme used to shelve a bibliographic item in the
+                                                collections of the reporting organization. Select
+                                                the Call Number Type from the drop down. </para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Call Number</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                            <para>The full call number without subfields. Click <inlinemediaobject>
+                                                  <alt>Browse</alt>
+                                                  <imageobject>
+                                                  <imagedata
+                                                  fileref="../images/DescribeNoTitlePage-118.png"/>
+                                                  </imageobject>
+                                                </inlinemediaobject> to open <emphasis role="bold"
+                                                  >Call Number Browse</emphasis></para>
+                                            <note>
+                                                <para>For more information on the interface, see
+                                                  <link linkend="_callNumberBrowsing">Call Number
+                                                  Browse</link>
+                                                </para>
+                                            </note>
                                         </entry>
                                     </row>
                                     <row>
@@ -1127,33 +1248,19 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Call Number</para>
+                                            <para>Shelving Order</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para>The full call number without subfields. Click <inlinemediaobject>
-                                                  <alt>Browse</alt>
-                                                  <imageobject>
-                                                  <imagedata
-                                                  fileref="../images/DescribeNoTitlePage-118.png"/>
-                                                  </imageobject>
-                                                </inlinemediaobject>to open <emphasis role="bold"
-                                                  >Call Number Browse</emphasis></para>
+                                            <para>A system-generated version of the call number that
+                                                OLE uses for call number sorting. Because of the
+                                                complexity of call numbers, in rare cases it may not
+                                                be generated correctly to provide for proper
+                                                sorting, so catalogers can edit it in order to
+                                                change the sort order.</para>
                                             <note>
-                                                <para>For more information on the interface, see
-                                                  <link linkend="_callNumberBrowsing">Call Number
-                                                  Browse</link>
-                                                </para>
+                                                <para>Shelving order can be suppressed by the
+                                                  parameter HOLDINGS_SUPRESS_SHELVINGORDER. </para>
                                             </note>
-                                        </entry>
-                                    </row>
-                                    <row>
-                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Call Number Type</para>
-                                        </entry>
-                                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para>Scheme used to shelve a bibliographic item in the
-                                                collections of the reporting organization. Select
-                                                the Call Number Type from the drop down. </para>
                                         </entry>
                                     </row>
                                 </tbody>
@@ -1395,6 +1502,10 @@
                                             <para>Select Public or Nonpublic from the drop down list
                                                 to determine whether the note will be viewable from
                                                 the discovery layer.</para>
+                                            <note>
+                                                <para>The note type is set as non-public by the
+                                                  parameter HOLDINGS_DEFAULT_NOTE_NONPUBLIC. </para>
+                                            </note>
                                         </entry>
                                     </row>
                                     <row>
@@ -1422,6 +1533,17 @@
                                 and action interval checkin within OLE, see the relevant section
                                 under the <emphasis>Select and Acquire Module</emphasis>.</para>
                         </note>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Holdings Record: Create Serials Receiving Record button
+                                        below the Holding Notes tab</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-113.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
                     </section>
                 </section>
                 <section>
@@ -1489,6 +1611,10 @@
                             often this information is inherited by the holdings but on occasion an
                             item requires unique location/call numbers, such as temporary locations
                             (often used for course reserves or "new books" collections).</para>
+                        <note>
+                            <para>Your institution may decide to supress this tab through the
+                                parameter  ITEM_LOCATION_DISCLOSURE. </para>
+                        </note>
                         <para role="Normal"/>
                         <para role="Normal">
                             <screenshot>
@@ -1528,15 +1654,12 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Shelving Order</para>
+                                            <para role="Table Cells">Call Number Type</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para>A system-generated version of the call number that
-                                                OLE uses for call number sorting. Because of the
-                                                complexity of call numbers, in rare cases it may not
-                                                be generated correctly to provide for proper
-                                                sorting, so catalogers can edit it in order to
-                                                change the sort order.</para>
+                                            <para>Scheme used to shelve a bibliographic item in the
+                                                collections of the reporting organization. Select
+                                                the Call Number Type from the drop down. </para>
                                         </entry>
                                     </row>
                                     <row>
@@ -1562,12 +1685,19 @@
                                     </row>
                                     <row>
                                         <entry colname="col1" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">Call Number Type</para>
+                                            <para>Shelving Order</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para>Scheme used to shelve a bibliographic item in the
-                                                collections of the reporting organization. Select
-                                                the Call Number Type from the drop down. </para>
+                                            <para>A system-generated version of the call number that
+                                                OLE uses for call number sorting. Because of the
+                                                complexity of call numbers, in rare cases it may not
+                                                be generated correctly to provide for proper
+                                                sorting, so catalogers can edit it in order to
+                                                change the sort order.</para>
+                                            <note>
+                                                <para>Shelving Order can be supressed by the
+                                                  parameter ITEM_SUPPRESS_SHELVINGORDER</para>
+                                            </note>
                                         </entry>
                                     </row>
                                 </tbody>
@@ -1854,12 +1984,12 @@
                                             <para role="Table Cells">Donor Code</para>
                                         </entry>
                                         <entry colname="col2" colsep="1" rowsep="1" valign="top">
-                                            <para role="Table Cells">The Code of the donor. Enter
-                                                the code or search for it from the lookup <inlinemediaobject>
-                                                  <imageobject>
-                                                  <imagedata fileref="../images/Lookup2.png"/>
-                                                  </imageobject>
-                                                </inlinemediaobject>.</para>
+                                            <para role="Table Cells">The Code of the donor.  </para>
+                                            <para role="Table Cells">Select the donor from the drop
+                                                down list: </para>
+                                            <para role="Table Cells">Begin typing and a list of
+                                                options will appear. Enter “*” (asterisk) to display
+                                                the complete list.</para>
                                         </entry>
                                     </row>
                                     <row>
@@ -2326,13 +2456,12 @@
                             Holdings and Item is to be added.</para>
                     </listitem>
                     <listitem>
-                        <para role="Normal">Click the <inlinemediaobject>
-                                <alt>Green Plus Sign</alt>
+                        <para role="Normal"> On the left navigation panel, click the <inlinemediaobject>
+                                <alt>H</alt>
                                 <imageobject>
-                                    <imagedata fileref="../images/DescribeNoTitlePage-141.png"/>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-105.png"/>
                                 </imageobject>
-                            </inlinemediaobject> to call up the Holdings Editor from the
-                            bibliographic record.</para>
+                            </inlinemediaobject> to add Holdings and Item records</para>
                     </listitem>
                     <listitem>
                         <para role="Normal">Input required and optional data elements on the
@@ -2364,6 +2493,42 @@
                                     <imagedata fileref="../images/DescribeNoTitlePage-142.png"/>
                                 </imageobject>
                             </inlinemediaobject>.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Cancel</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-96.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to cancel the edits and return to your original
+                            screen. A browser window will open stating:</para>
+                        <para>This page is asking you to confirm that you want to leave - data you
+                            have entered may not be saved.</para>
+                        <para>Clicking <emphasis role="bold">Leave Page</emphasis> will take you to
+                            the search screen. Clicking <emphasis role="bold">Stay on
+                                Page</emphasis> will keep you at the Bib Editor screen but does not
+                            remove edits.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Close</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-94.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to cancel the edits and close the window.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Copy</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-233a.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to copy the existing record's data to a new record
+                            with user entered data retained except for the Local IDs.</para>
+                        <note>
+                            <para>On the Item record, enumeration data will also not carry
+                                over.</para>
+                        </note>
                     </listitem>
                 </orderedlist>
                 <section>
@@ -2600,11 +2765,10 @@
                 <para role="Normal">
                     <screenshot>
                         <mediaobject>
-                            <alt>Left Pane Navigation allows users to access Holdings, Items and
-                                E-Holdings Records</alt>
+                            <alt>Left pane navigation displaying the H, E, and Delete Bib
+                                options</alt>
                             <imageobject>
-                                <imagedata fileref="../images/DescribeNoTitlePage-117.png"
-                                    width="100%"/>
+                                <imagedata fileref="../images/DescribeNoTitlePage-107.png"/>
                             </imageobject>
                         </mediaobject>
                     </screenshot>
@@ -2615,20 +2779,21 @@
                     of them are present, the E-Holdings record will be identified by the word
                     “E-Holdings” in the left pane until you add a Location or link it to an
                     E-Resource and save it by clicking on the “Save” button.</para>
-                <para role="Normal"> Click the second top level plus sign <inlinemediaobject>
-                        <alt>Green Plus Sign</alt>
+                <para role="Normal"> Click the <inlinemediaobject>
+                        <alt>E</alt>
                         <imageobject>
-                            <imagedata fileref="../images/DescribeNoTitlePage-113.png"/>
+                            <imagedata fileref="../images/DescribeNoTitlePage-105a.png"/>
                         </imageobject>
-                    </inlinemediaobject> to attach a new E-Holdings record to a bibliographic record
-                    in the Editors screens. Hover over either of the two "+" signs to see a pop-up
-                    note identifying which creates an Holdings verses an E-Holdings. </para>
+                    </inlinemediaobject> to add an OLE E-Holdings records.  When creating a new
+                    E-Instance, the ‘E-Holdings’ label will appear in the left pane after clicking
+                        <emphasis role="bold">Save</emphasis> if you do not add a Location field and
+                    the E-Instance is not linked to an E-Resource.</para>
                 <para/>
                 <para role="Normal">
                     <screenshot>
                         <mediaobject>
-                            <alt>Bibliographic Record: Clicking the second green plus sign will
-                                create a E-Holdings record</alt>
+                            <alt>Bibliographic Record: Clicking the "E" will create an E-Holdings
+                                record</alt>
                             <imageobject>
                                 <imagedata fileref="../images/DescribeNoTitlePage-98.png"
                                     width="100%"/>
@@ -2638,16 +2803,16 @@
                 </para>
                 <para/>
                 <note>
-                    <para>To add a Holding Record, click the first top level plus sign <inlinemediaobject>
-                            <alt>Green Plus Sign</alt>
+                    <para>To add a Holding Record, click the <inlinemediaobject>
+                            <alt>H</alt>
                             <imageobject>
-                                <imagedata fileref="../images/DescribeNoTitlePage-113.png"/>
+                                <imagedata fileref="../images/DescribeNoTitlePage-105.png"/>
                             </imageobject>
                         </inlinemediaobject>. For more information about the Holdings Editor, see
                             <link linkend="_Instance_Editor_1">Holdings and Item
                         Records</link></para>
                 </note>
-                <para>Right click on the call number to delete an Holdings or E-Holdings record or
+                <para>Right click on the call number to delete a Holdings or E-Holdings record or
                     add an item record.</para>
                 <para/>
                 <para role="Normal">
@@ -2667,24 +2832,21 @@
                     and click the <emphasis role="bold">Delete</emphasis> button in the E-Holdings
                     Editor. This will also delete the E-Holdings immediately without requiring
                     confirmation. </para>
-                <para>Click the top level <inlinemediaobject>
-                        <alt>White X on Grey</alt>
+                <para>Click the <inlinemediaobject>
+                        <alt>Delete Bib</alt>
                         <imageobject>
-                            <imagedata fileref="../images/DescribeNoTitlePage-84.png"/>
+                            <imagedata fileref="../images/DescribeNoTitlePage-106.png"/>
                         </imageobject>
-                    </inlinemediaobject> to delete the current bibliographic record. You will be
-                    asked to confirm that you actually want to delete the record before you may
-                    proceed. If you do not wish to delete the record, click on “Cancel”; you will
-                    then be returned to the OLE Describe menu instead of the record you have been
-                    working on.</para>
+                    </inlinemediaobject> button to delete the bibliographic record.</para>
                 <para/>
                 <para role="Normal">
                     <screenshot>
                         <mediaobject>
-                            <alt>Bibliographic Record: Clicking the white X on grey button will
-                                delete the bibliographic record</alt>
+                            <alt>Bibliographic Record: Clicking the Delete Bib button will delete
+                                the bibliographic record</alt>
                             <imageobject>
-                                <imagedata fileref="../images/DescribeNoTitlePage-100.png"/>
+                                <imagedata fileref="../images/DescribeNoTitlePage-100.png"
+                                    width="100%"/>
                             </imageobject>
                         </mediaobject>
                     </screenshot>
@@ -3677,9 +3839,9 @@
                     </listitem>
                     <listitem>
                         <para role="Normal">Click the <inlinemediaobject>
-                                <alt>Green Plus Sign</alt>
+                                <alt>E</alt>
                                 <imageobject>
-                                    <imagedata fileref="../images/DescribeNoTitlePage-141.png"/>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-105a.png"/>
                                 </imageobject>
                             </inlinemediaobject> to call up E-Holdings Editor from the bibliographic
                             record.</para>
@@ -4516,6 +4678,135 @@
                             Local IDs and Barcodes. </para>
                     </listitem>
                 </itemizedlist>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_MarcEditorWorkform"/>MARC Editor Workform</title>
+            <para role="Normal"><inlinemediaobject>
+                    <alt>Describe</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-DescribeTab.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+                    <alt>Create/Edit Titles, Holdings or Items</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-Cataloging.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>MARC Editor Workform</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-238a.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>MARC Editor Workform</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-239.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para>The MARC Editor Workform is available for non-catalogers who need to create brief
+                records.</para>
+            <section>
+                <title>Process Overview</title>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>MARC Editor Workform</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-244.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">MARC Editor Workform field
+                        definitions</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">020</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">ISBN - International Standard Book
+                                        Number</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">022</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">ISSN - International Standard Serial
+                                        Number</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">100</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Author (Personal Name)</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">245</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">250</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Edition statement</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">260</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">|a Place of publication, distribution,
+                                        etc</para>
+                                    <para>|b Name of publisher</para>
+                                    <para>|c Date of publication</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">300</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Physical description: number of pages,
+                                        size, etc.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">490</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Series statement</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
             </section>
         </section>
     </section>
@@ -5953,7 +6244,7 @@
                                     <para role="Normal"> For more information about Holdings or Item
                                         Editors, see <link linkend="_Instance_Editor_1">Holdings and
                                             Item Records</link>.</para>
-                                    <para>For more information about the Search Workbench, <link
+                                    <para>For more information about the Search Workbench, see <link
                                             linkend="_Describe_Workbench">Search Workbench</link>
                                         under <emphasis>OLE Basic Functionality</emphasis>.</para>
                                 </note>

@@ -2083,17 +2083,6 @@
                             <para>One radio buttons will always be selected in each section, even
                                 when that section is not applicable.</para>
                         </tip>
-                        <note>
-                            <para>If you select <emphasis role="bold">Perform matching of incoming
-                                    Bib with existing Bibs</emphasis>, you must have a match point
-                                selected. If you select <emphasis role="bold">Add Incoming
-                                    Bib</emphasis> under <emphasis role="bold">If incoming Bib does
-                                    not match with any existing Bibs</emphasis>, you will receive a
-                                failure report when you run the batch process. In a future release,
-                                OLE will alert users of this error before the profile is finalized.
-                                See <link xlink:href="https://jira.kuali.org/browse/OLE-6789"
-                                    >OLE-6789</link>.</para>
-                        </note>
                         <para/>
                         <para role="Illustration">
                             <screenshot>
@@ -2106,6 +2095,18 @@
                                 </mediaobject>
                             </screenshot>
                         </para>
+                        <tip>
+                            <para>The Process Holdings and Items section does not mention
+                                e-holdings. When loading records which will have e-holdings, the
+                                term “holdings” can be applied to holdings and e-holdings. Process
+                                Items does not apply at all to e-holdings. </para>
+                        </tip>
+                        <note>
+                            <para>Matching and overlaying on existing records with multiple
+                                e-holdings is currently not working (see <link
+                                    xlink:href="https://jira.kuali.org/browse/OLE-7700"
+                                    >OLE-7700</link>).</para>
+                        </note>
                     </section>
                     <section>
                         <title>Set Bib Status Tab</title>
@@ -2159,6 +2160,16 @@
                             incoming 001 data, check the box by <emphasis role="bold">Remove from
                                 001</emphasis> and enter the prefix to remove, for example, ocn or
                             ocn, ocm.</para>
+                        <tip>
+                            <para>If you are matching bibliographic records on the 035 $a, the
+                                incoming records need to have data already in the 035 $a. If that
+                                data only exists in the 001/003, it will not match existing records
+                                and new record will be added, even though the 001/003 will be
+                                combined to create a new 035 $a. This is because actions during the
+                                batch process occur in the order listed in the profile, so the
+                                process FIRST looks for a match on the 035 $a, and then switches out
+                                data from the 001/003 to a new 035.</para>
+                        </tip>
                         <para/>
                         <para role="Illustration">
                             <screenshot>
@@ -2177,6 +2188,13 @@
                         <para>The <emphasis role="bold">Constant and Default Values</emphasis> tab
                             is used to set default or constant values in OLE bibliographic, holding,
                             e-holding, and item fields. </para>
+                        <para>When setting Constant and Default values for e-holdings, you can
+                            select the E-Resource Name and Platform from drop down menus in the
+                            profile. This will create links between the newly created e-holdings and
+                            the E-Resource and Platform records, respectively. </para>
+                        <para>In order to have the e-holdings be “active,” be sure to select Access
+                            Status from the dropdown menu for e-holdings and then select the value
+                            “active.”</para>
                         <para>Enter the constant or default values and click <inlinemediaobject>
                                 <alt>Add</alt>
                                 <imageobject>
@@ -2473,6 +2491,58 @@
                                 Data Mapping section.</para>
                         </note>
                         <para/>
+                        <section>
+                            <title>Special Consideration for E-Holdings</title>
+                            <para>When loading e-holdings, you must map a source field (e.g., 856
+                                $u) to the URL Destination Field in the e-holdings in order for any
+                                e-holdings to be created. The existence of this mapping is what
+                                triggers the e-holdings’ creation. If your incoming record has
+                                repeated source fields that are mapped to the URL Destination Field,
+                                each URL will trigger the creation of a new e-holdings.</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>Data located within the same field as the URL
+                                        will be mapped specifically with that URL to an e-holdings.
+                                        For example, if you map 856 $u to URL and 856 $y to Link
+                                        Text, each 856 in the bib record will create a new
+                                        e-holdings, with unique values for the URL and Link Text
+                                        field.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Data located outside of the same field as the
+                                        URL will be mapped only once to all created e-holdings. For
+                                        example, if you map the 856 $u to URL and the 050 $a$b to
+                                        Call Number, each 856 in the bib records will create a new
+                                        e-holdings, with unique values for the URL, but the same
+                                        value for the Call Number, coming from the first instance of
+                                        the 050 $a$b</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Mapping to the E-Resource Name and Platform will
+                                        create links to those different records, respectively. If
+                                        the E-Resource Name and Platform are different for each
+                                        e-holdings created, place that information into the same
+                                        source field as the URL (e.g., if the 956 $u is mapped to
+                                        URL, you could map the E-Resource Name from the 956 $a and
+                                        the Platform from the 956 $b). Otherwise, the same
+                                        E-Resource Name and Platform will be applied to all
+                                        e-holdings created.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>If you map to the E-Resource Name and Platform but the
+                                        incoming data does not match any existing E-Resource Records
+                                        or Platforms, the e-holdings will still be created, but the
+                                        link to the E-Resource Record or Platform will not be
+                                        created. An error will be reported in the Batch Process Job
+                                        Details.</para>
+                                    <note>
+                                        <para>For more information about Batch Process Job Details,
+                                            see <link linkend="_batchProcessJobDetails">Batch
+                                                Process Job Details</link>.</para>
+                                    </note>
+                                </listitem>
+                            </itemizedlist>
+                        </section>
                     </section>
                     <section>
                         <title>Protected Fields Tab</title>
@@ -2892,6 +2962,33 @@
                                 not include the values if you enter them in this field.</para>
                         </warning>
                     </section>
+                </section>
+                <section>
+                    <title>GOKb Import</title>
+                    <para>GOKb import uses set parameters when bringing in TIPPs from GOKb or
+                        updating existing e-holdings and bibliographic records through a GOKb
+                        update. The profile allows you to control how fields are brought into the
+                        bibliographic and e-holdings records. Data from GOKb that links to
+                        e-resource, vendor, and platform records is not controlled through this
+                        import profile, but is hardcoded in the system.</para>
+                    <para>Many of the sections for the GOKb import are the same as for the
+                        Bibliographic import, but there are some differences, as described
+                        below.</para>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Batch Process Profile Document: Match Point, Matching, Add and
+                                    Overlay Section, Set Bib Status, Staff Only Treatment, Changes
+                                    to Imported Bibliographic Record, Constant and Default Value,
+                                    Bib Data Mapping, Bib Data Mapping Overlay, Data Mapping,
+                                    Protected Field, Delete Field, Rename Field Tabs for GOKb
+                                    Import</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/admin-261.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
                 </section>
             </section>
         </section>
@@ -19053,6 +19150,73 @@
                     </tgroup>
                 </informaltable>
             </section>
+        </section>
+    </section>
+    <section>
+        <title>Drools Administration Documents</title>
+        <para role="Body Text"><emphasis role="bold"><inlinemediaobject>
+                    <alt>Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/Admin.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; </emphasis><inlinemediaobject>
+                <alt>Drools Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-249.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Circulation Policy Ingester</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-253.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Drools submenu group provides access to the Circulation Policy
+            Ingester, additional links may be available in the 2.0 release. </para>
+        <note>
+            <para role="Normal">Please click <link
+                    xlink:href="../../../pdfs/BatchProcessProfileTechnicalDocument.pdf">here</link>
+                for technical documentation.</para>
+        </note>
+        <section>
+            <title><anchor xml:id="_CirculationPolicyIngester"/>Circulation Policy Ingester</title>
+            <para role="Body Text"><emphasis role="bold"><inlinemediaobject>
+                        <alt>Admin</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/Admin.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; </emphasis><inlinemediaobject>
+                    <alt>Drools Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-249.png"/>
+                    </imageobject>
+                </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Circulation Policy Ingester</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-253.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Circulation Policy Ingester</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-255.png"/>
+                        </imageobject>
+                    </inlinemediaobject>
+                </emphasis></para>
+            <para role="Body Text">The Circulation Policy Ingester allows you to import rules
+                created with Drools.</para>
+            <note>
+                <para> The process of creating a Circulation Policies requires technical assistance.
+                    OLE does not provide an interface for creating policies in 1.6.2.</para>
+            </note>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Circulation Policy Ingester</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-260.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
         </section>
     </section>
 </chapter>

@@ -302,14 +302,7 @@
                     </listitem>
                     <listitem>
                         <para role="Normal">Once the patron barcode is entered, details about the
-                            patron will appear above the Patron field. If there is a block on the
-                            patron or some other problem, then an error message will appear. You may
-                            need to access the patron record to address the error or, in some cases
-                            an override is permitted for you to continue.</para>
-                        <note>
-                            <para role="Normal (Web)"> For more information about Patron Documents,
-                                see <link linkend="_Patron">Patron</link>.</para>
-                        </note>
+                            patron will appear above the Patron field. </para>
                         <para role="Normal">If text exists in a user note field in the patron
                             record, this message displays immediately whenever the patron’s barcode
                             is scanned into the system. (The purpose is to be able to deliver a
@@ -317,6 +310,19 @@
                             acknowledge and delete the message or simply acknowledge -- in the
                             latter case, the message remains and continues to display each time the
                             patron barcode is entered until the text is removed.</para>
+                        <para role="Normal">If there is a block on the patron or some other problem,
+                            then an error message will appear. You may need to access the patron
+                            record to address the error or, in some cases an override is permitted
+                            for you to continue.  </para>
+                        <para role="Normal">Click the Patron name to access the patron's
+                            record.</para>
+                        <note>
+                            <para role="Normal (Web)"> For more information about Patron Documents,
+                                see <link linkend="_Patron">Patron</link>.</para>
+                        </note>
+                        <para>Additionally, you may access the patron's requests/holds, their
+                            circulation history, view or create bill by clicking on the appropriate
+                            hyperlinks.</para>
                     </listitem>
                     <listitem>
                         <para role="List Paragraph">Type or scan the Item Barcode, or search for it
@@ -444,6 +450,10 @@
                     </listitem>
                 </orderedlist>
                 <para role="Normal">The Loan now proceeds. </para>
+                <note>
+                    <para>When submitting a fast-add, the loan may be completed automatically if the
+                        LOAN_WHILE_FASTADD parameter is set to true.</para>
+                </note>
             </section>
             <section>
                 <title>Options available from the Loan Screen</title>
@@ -576,9 +586,9 @@
                         returned items for which they may have received overdue notices or
                         replacement fee bills. In such circumstances a library staff operator with
                         proper permission needs to manually turn on a “claims returned” flag in the
-                        item and have the system automatically record the date of the event.
-                        Marking an item as claimed returned will cancel any outstanding requests and
-                        a cancellation notice will be sent to the requestor.</para>
+                        item and have the system automatically record the date of the event. Marking
+                        an item as claimed returned will cancel any outstanding requests and a
+                        cancellation notice will be sent to the requestor.</para>
                     <para role="Normal"/>
                     <orderedlist numeration="arabic" spacing="normal">
                         <listitem>
@@ -690,8 +700,8 @@
                                 </inlinemediaobject> from the top row of buttons available.</para>
                         </listitem>
                         <listitem>
-                            <para role="List Paragraph">Type a note to record specific circumstances
-                                in the pop up window:</para>
+                            <para role="List Paragraph">Type a notes to record specific
+                                circumstances in the pop up window:</para>
                             <para role="Normal"/>
                             <para role="Normal">
                                 <screenshot>
@@ -1287,7 +1297,7 @@
                         <para role="Normal (Web)">If you click edit, you will be able to change
                                 <emphasis role="bold">Pickup Location</emphasis>, the <emphasis
                                 role="bold">Request Expiry Date</emphasis>, and, depending on the
-                            request type, the <emphasis role="bold">Hold Expiration Date</emphasis>.  </para>
+                            request type, the <emphasis role="bold">Hold Expiration Date</emphasis>. </para>
                         <para role="Normal (Web)">When you have made your changes, click <inlinemediaobject>
                                 <alt>Submit</alt>
                                 <imageobject>
@@ -1420,7 +1430,7 @@
                         </para>
                         <note>
                             <para>You can also re-order requests from the Deliver Item Search's Item
-                                Display when your item search only returns one item.  Expand the
+                                Display when your item search only returns one item. Expand the
                                     <emphasis role="bold">Requests</emphasis> tab and select <inlinemediaobject>
                                     <imageobject>
                                         <imagedata fileref="../images/DeliverNoTitlePage-197.png"/>
@@ -1441,7 +1451,7 @@
                     </listitem>
                     <listitem>
                         <para role="Normal">To reorder the request queue, click and drag the row to
-                            the new location.  Release your mouse when you see the row in
+                            the new location. Release your mouse when you see the row in
                             position.</para>
                         <para role="Normal">
                             <screenshot>
@@ -1557,7 +1567,7 @@
                 <para role="Normal">The system automatically assumes today’s date/time as the
                     default date/time of any check-in. An operator can change the date/time as
                     needed (e.g., items returned overnight while the library is closed may be
-                    checked-in as if returned yesterday).  </para>
+                    checked-in as if returned yesterday). </para>
                 <para role="Normal">Click <inlinemediaobject>
                         <alt>Restore System Date/Time</alt>
                         <imageobject>
@@ -1904,7 +1914,7 @@
                                     Holdings Location, Call number, Item Location (if there is a
                                     single item). Also note that, for multiple items on the same
                                     holdings record, the call number and item status displays on
-                                    this level when there is only one match.  If there are multiple
+                                    this level when there is only one match. If there are multiple
                                     holdings, the table will be null until you drill down to where
                                     the data is unique. </para>
                             </listitem>
@@ -2083,9 +2093,9 @@
                             types are Claims Returned, Damaged, and Missing Pieces. </para>
                         <para>
                             <note>
-                                <para>These flags are display only.  To mark an item as Claimed
+                                <para>These flags are display only. To mark an item as Claimed
                                     Returned, Damaged, or Missing Pieces, operators must do so from
-                                    the loan screen.  See <link linkend="_claimsReturn">Claims
+                                    the loan screen. See <link linkend="_claimsReturn">Claims
                                         Return</link>, <link linkend="_damaged">Damaged</link>, or
                                         <link linkend="_missingPiece">Missing Piece</link> sections
                                     available under <link linkend="_Loan">Loan</link> in this
@@ -2240,9 +2250,9 @@
                 </note>
                 <para> </para>
                 <para>Paging privileges can be automatically enabled for any patron of a designated
-                    borrower type.  For example, you might set up OLE so that any patron belonging
-                    to borrower type “faculty” gets paging privileges. However, delivery privileges
-                    can be assigned on an individual basis as well.</para>
+                    borrower type. For example, you might set up OLE so that any patron belonging to
+                    borrower type “faculty” gets paging privileges. However, delivery privileges can
+                    be assigned on an individual basis as well.</para>
                 <para> </para>
                 <para>Each patron’s delivery privileges (either “true” or “false”) are stored in the
                     patron record and the system automatically selects the request method based on
@@ -2252,7 +2262,7 @@
                 <para>Delivery privileges can be automatically enabled for any patron of a
                     designated borrower type, e.g., you might set up OLE so that any patron
                     belonging to borrower type “faculty” gets delivery privileges. However, delivery
-                    privileges can be assigned on an individual basis as well.  For example, you may
+                    privileges can be assigned on an individual basis as well. For example, you may
                     enable delivery for any student with a physical disability.</para>
                 <para> </para>
                 <para>Most copy requests are now filled by scanning the required item and a file is
@@ -2291,7 +2301,7 @@
                     </listitem>
                     <listitem>
                         <para>Select the appropriate Bib ID by clicking <emphasis role="bold"
-                                >Details</emphasis> from the search results.  Continue to click
+                                >Details</emphasis> from the search results. Continue to click
                                 <emphasis role="bold">Details</emphasis> to open the bibliographic,
                             holding, and finally the Item record details</para>
                         <para role="Normal">
@@ -2330,8 +2340,8 @@
                         </para>
                         <note>
                             <para>If your search only returns one item, the interface will look
-                                slightly different.  Under the item information, expand the
-                                    <emphasis role="bold">Request</emphasis> tab and click <emphasis
+                                slightly different. Under the item information, expand the <emphasis
+                                    role="bold">Request</emphasis> tab and click <emphasis
                                     role="bold">Place Request</emphasis>.</para>
                             <para role="Normal">
                                 <screenshot>
@@ -2354,7 +2364,7 @@
                                 <imageobject>
                                     <imagedata fileref="../images/Lookup2.png"/>
                                 </imageobject>
-                            </inlinemediaobject>.  Press "Enter"</para>
+                            </inlinemediaobject>. Press "Enter"</para>
                         <para role="Normal">
                             <screenshot>
                                 <mediaobject>
@@ -2368,7 +2378,7 @@
                         </para>
                     </listitem>
                     <listitem>
-                        <para>Additional details about the patron will display.  Review the patron
+                        <para>Additional details about the patron will display. Review the patron
                             information and click <inlinemediaobject>
                                 <alt>Confirm patron and Continue with Request</alt>
                                 <imageobject>
@@ -2412,9 +2422,9 @@
                             </listitem>
                             <listitem>
                                 <para> Delivery/Pickup details: options are based on patron
-                                    privileges.  If the patron does not have a "Deliver Address"
+                                    privileges. If the patron does not have a "Deliver Address"
                                     selected on their patron record, the field will not appear on
-                                    the request screen.  The <emphasis role="bold">Deliver to
+                                    the request screen. The <emphasis role="bold">Deliver to
                                         patron</emphasis> box is checked as a default if the patron
                                     is eligible for delivery, however you may still opt to select a
                                         <emphasis role="bold">Pickup Location</emphasis> from the
@@ -2422,7 +2432,7 @@
                             </listitem>
                             <listitem>
                                 <para> Request Expiration Date: default will display but can be
-                                    adjusted.  The default Request Expiration Date is set on the
+                                    adjusted. The default Request Expiration Date is set on the
                                     circulation desk or in the local circulation policy.</para>
                                 <note>
                                     <para>For information about the circulation desk, see <link
@@ -2504,167 +2514,6 @@
         <para role="Body Text">On the Deliver menu, Patron provides access to users to view and
             maintain standard Patron E-Docs.</para>
         <section>
-            <title><anchor xml:id="_DeliverNotices"/>Deliver Notices</title>
-            <para role="Body Text"><inlinemediaobject>
-                    <alt>Deliver</alt>
-                    <imageobject>
-                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
-                    </imageobject>
-                </inlinemediaobject>
-                <emphasis role="bold">&gt; <inlinemediaobject>
-                        <alt>Patron</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-97.png"/>
-                        </imageobject>
-                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
-                        <alt>Deliver Notices</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-209.png"/>
-                        </imageobject>
-                    </inlinemediaobject> &gt; <inlinemediaobject>
-                        <alt>Deliver Notices</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-210.png"/>
-                        </imageobject>
-                    </inlinemediaobject></emphasis></para>
-            <para role="Normal">The Deliver Notices allow users to download pdf versions of Recall,
-                On hold, or Overdue notices. The notices will include Patron information and
-                Title/Item information. Pdfs may be printed and sent or emailed to patrons. All
-                notices sent to patrons are sent from an email address that is listed under
-                DELIVER_NOTICE_FROM_ADDRESS unless specified on the circulation desk.</para>
-            <para role="Body Text">Deliver Notices include:</para>
-            <para>Hold Notices</para>
-            <itemizedlist>
-                <listitem>
-                    <para>Recall Notice - A notice to inform a patron that another user requests an
-                        item currently on loan to the patron and their loan time has been shortened.
-                        Notices are triggered by the creation of the request. The content of the
-                        Recall Notice can be modified by the RECALL_BODY parameter.</para>
-                </listitem>
-                <listitem>
-                    <para>On Hold Notice - A notice to inform a patron that an item they had
-                        requested is available for pickup. Notices are generated by the
-                        generateOnHoldNoticeJob after the item has been checked-in.  Notices are
-                        generated only for the request types defined by the
-                        ON_HOLD_NOTICE_REQUEST_TYPE parameter. The content of the On Hold Notice can
-                        be modified by the ONHOLD_BODY parameter.</para>
-                </listitem>
-                <listitem>
-                    <para>On Hold Courtesy Notice - A notice to inform a patron that their hold has
-                        expired. Notices are generated by the generateHoldCourtesyNoticeJob and are
-                        triggered by the <emphasis role="bold">On-Hold Days</emphasis> value
-                        assigned on each circulation desk. The content of the On Hold Courtesy
-                        Notice can be modified by the EXP_HOLD_NOTICE_CONTENT parameter.</para>
-                </listitem>
-                <listitem>
-                    <para>Expired Request Notice - A notice to inform a patron that their request
-                        has expired without being fulfilled. Notices are generated by the
-                        generateRequestExpirationNoticeJob and is triggered by the <emphasis
-                            role="bold">Request Expiration Days</emphasis> field assigned on each
-                        circulation desk but can be overridden when the request is created.
-                        Alternatively if the library chooses NOT to establish a default expiration
-                        for requests on the Circulation Desk maintenance document, it may choose to
-                        set the <emphasis role="bold">requestExpirationDay</emphasis> in the Circ
-                        Policy. The content of the Expired Request Notice can be modified by the
-                        EXP_REQ_BODY parameter.</para>
-                    <note>
-                        <para>For information about Circulation Desks and the Request Expiration
-                            Days, see <link linkend="_Circulation_Desk_1">Circulation
-                            Desk</link>.</para>
-                    </note>
-                </listitem>
-                <listitem>
-                    <para>Cancelled Request Notice - A notice to inform a patron that their request
-                        has been cancelled. (Manually cancelled by staff.) Notices are generated
-                        when the request is cancelled or if a staff member marks the item as claimed
-                        returned. The content of the Cancelled Request Notice can be modified by the
-                        CANCELLATION_BODY parameter.</para>
-                </listitem>
-            </itemizedlist>
-            <para>Return Notices</para>
-            <itemizedlist>
-                <listitem>
-                    <para>Courtesy Notice - A notice to inform a patron that their library material
-                        is about to become due. Notices are generated by the
-                        generateCourtesyNoticesJob. The number of days before the due date that the
-                        Courtesy Notice is sent out is set by local circulation policies, otherwise
-                        the amount of days will be set by the OLE-DLVR COURTESY_NOTICE_INTER
-                        parameter.  COURTESY_NOTICE_TO_DATE is used to set the scheduled notice date
-                        before which courtesy notices will be generated. For example, if the
-                        COURTESY_NOTICE_TO_DATE is set to 05/05/2015 (requires mm/dd/yyyy format),
-                        any courtesy notices scheduled for 5/4/2015 or before will be generated.
-                        The content of the Courtesy Notice can be modified by the
-                        COURTESY_NOTICE_CONTENT parameter.</para>
-                    <note>
-                        <para>To configure the jobs for Courtesy Notice, Overdue Notice, and
-                            Replacement Bill, NOTICE_THREAD_POOL_SIZE specifies the number of
-                            parallel threads to be used in generating notices. This is meant to
-                            speed up notice generation.</para>
-                    </note>
-                </listitem>
-                <listitem>
-                    <para>Missing Pieces Notice – A notice to inform a patron that their recently
-                        returned material is missing one or more pieces. Notices are generated upon
-                        the return of the item when the staff person indicates a piece(s) is
-                        missing. Missing Pieces Notices are not sent to patrons but appear during
-                        circulation.</para>
-                </listitem>
-                <listitem>
-                    <para>Overdue Notice - A notice to inform a patron that their library material
-                        is overdue. Notices are generated by the generateOverdueNoticesJob. After
-                        Overdue Notices are sent n times (n is set by the "numberOfOverdueToBeSent"
-                        parameter defined in local circulation policies), the generateLostNoticesJob
-                        will generate a replacement bill and update the item status as ‘Lost’.
-                        OVERDUE_NOTICE_TO_DATE is used to set the scheduled notice date before which
-                        overdue notices will be generated. For example, if the
-                        OVERDUE_NOTICE_TO_DATE is set to 05/05/2015, any overdue notices scheduled
-                        for 5/4/2015 or before will be generated.  The content of the Overdue Notice
-                        can be modified by the OVERDUE_NOTICE_CONTENT parameter.</para>
-                </listitem>
-                <listitem>
-                    <para>Fine Notice – A notice to inform a patron of fines accrued by an overdue
-                        item. Notices are generated upon the return of the overdue item.  Fine
-                        Notices are sent to the patron when generated, alternatively they can be
-                        viewed and printed from the Patron Bill screen.</para>
-                </listitem>
-                <listitem>
-                    <para>Replacement Bill – A notice to inform a patron that the overdue item is
-                        now considered lost. Notices are generated when the item status is updated
-                        to ‘Lost’ by the generateLostNoticesJob. LOST_NOTICE_TO_DATE is used to set
-                        the scheduled notice date before which replacement bills will be generated.
-                        For example, if the LOST_NOTICE_TO_DATE is set to 05/05/2015, any
-                        replacement bills scheduled for 5/4/2015 or before will be generated.</para>
-                </listitem>
-            </itemizedlist>
-            <note>
-                <para role="Normal">The <link
-                        xlink:href="../../../pdfs/ScheduledJobsTechnicalDocument.pdf">Scheduled Jobs
-                        Technical Documentation</link> includes additional details about the Deliver
-                    Notices jobs.</para>
-            </note>
-            <para>On the bottom of some of the notice types, Recalls for one, a link to "My Account"
-                will display. This should be modified to your institution's "My Account" patron
-                service. This link location is set by the parameter MY_ACCOUNT_URL. (OLE-DLVR is the
-                Namespace Code). </para>
-            <para>Deliver Notices can also be accessed from the <emphasis role="bold"
-                    >Admin</emphasis> tab, below the <emphasis role="bold">Batch
-                    Processes</emphasis> sub menu, under the link <emphasis role="bold">Deliver
-                    Batch Job</emphasis>.</para>
-            <para role="Normal"/>
-            <para role="Normal">
-                <screenshot>
-                    <mediaobject>
-                        <alt>Deliver Notices Screen with Sample Data</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-33.png" width="100%"/>
-                        </imageobject>
-                    </mediaobject>
-                </screenshot>
-            </para>
-            <para role="Normal"/>
-            <para/>
-        </section>
-        <section>
             <title><anchor xml:id="_Patron"/>Patron</title>
             <para role="Body Text"><inlinemediaobject>
                     <alt>Deliver</alt>
@@ -2740,6 +2589,20 @@
                             linkend="_standardTabs">Standard Tabs</link> under <emphasis
                             role="italic">OLE Basic Functionality</emphasis>.</para>
                 </note>
+                <para><emphasis role="bold">Create Bill</emphasis> / <emphasis role="bold">View
+                        Bill</emphasis> links are available on created patron records above the
+                    Document Overview tab, depending on if a bill previously existed or not.</para>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Patron Document: Create Bill link available above the Document
+                                Overview</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-203.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
                 <section>
                     <title>Overview Tab</title>
                     <para role="Normal">The <emphasis role="bold">Overview</emphasis> Tab of the
@@ -3431,28 +3294,6 @@
                     </para>
                 </section>
                 <section>
-                    <title>Notes</title>
-                    <para>The <emphasis role="bold">Notes</emphasis> tab displays notes added by
-                        staff or generated by the system.  </para>
-                    <para>You must select the <emphasis role="bold">Note Type</emphasis> from the
-                        drop down list and enter the <emphasis role="bold">Note Text</emphasis>.
-                        The Operator ID and Note Added/Updated Date will automatically be generated
-                        by the system.</para>
-                    <para>User notes will appear at the time of checkout and can be deleted from the
-                        loan screen</para>
-                    <para role="Normal">
-                        <screenshot>
-                            <mediaobject>
-                                <alt>Patron Document: Notes Tabs</alt>
-                                <imageobject>
-                                    <imagedata fileref="../images/DeliverNoTitlePage-230.png"
-                                        width="100%"/>
-                                </imageobject>
-                            </mediaobject>
-                        </screenshot>
-                    </para>
-                </section>
-                <section>
                     <title>Proxy Patron and Proxy For Tabs</title>
                     <para role="Normal">The <emphasis role="bold">Proxy Patron</emphasis> tab allows
                         you to identify another patron as a proxy for this patron as well as set
@@ -3786,7 +3627,168 @@
             </section>
         </section>
         <section>
-            <title><anchor xml:id="_Patron_Bill_Payment"/>Patron Bill </title>
+            <title><anchor xml:id="_DeliverNotices"/>Deliver Notices</title>
+            <para role="Body Text"><inlinemediaobject>
+                    <alt>Deliver</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt; <inlinemediaobject>
+                        <alt>Patron</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-97.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                        <alt>Deliver Notices</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-209.png"/>
+                        </imageobject>
+                    </inlinemediaobject> &gt; <inlinemediaobject>
+                        <alt>Deliver Notices</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-210.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis></para>
+            <para role="Normal">The Deliver Notices allow users to download pdf versions of Recall,
+                On hold, or Overdue notices. The notices will include Patron information and
+                Title/Item information. Pdfs may be printed and sent or emailed to patrons. All
+                notices sent to patrons are sent from an email address that is listed under
+                DELIVER_NOTICE_FROM_ADDRESS unless specified on the circulation desk.</para>
+            <para role="Body Text">Deliver Notices include:</para>
+            <para>Hold Notices</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Recall Notice - A notice to inform a patron that another user requests an
+                        item currently on loan to the patron and their loan time has been shortened.
+                        Notices are triggered by the creation of the request. The content of the
+                        Recall Notice can be modified by the RECALL_BODY parameter.</para>
+                </listitem>
+                <listitem>
+                    <para>On Hold Notice - A notice to inform a patron that an item they had
+                        requested is available for pickup. Notices are generated by the
+                        generateOnHoldNoticeJob after the item has been checked-in. Notices are
+                        generated only for the request types defined by the
+                        ON_HOLD_NOTICE_REQUEST_TYPE parameter. The content of the On Hold Notice can
+                        be modified by the ONHOLD_BODY parameter.</para>
+                </listitem>
+                <listitem>
+                    <para>On Hold Courtesy Notice - A notice to inform a patron that their hold has
+                        expired. Notices are generated by the generateHoldCourtesyNoticeJob and are
+                        triggered by the <emphasis role="bold">On-Hold Days</emphasis> value
+                        assigned on each circulation desk. The content of the On Hold Courtesy
+                        Notice can be modified by the EXP_HOLD_NOTICE_CONTENT parameter.</para>
+                </listitem>
+                <listitem>
+                    <para>Expired Request Notice - A notice to inform a patron that their request
+                        has expired without being fulfilled. Notices are generated by the
+                        generateRequestExpirationNoticeJob and is triggered by the <emphasis
+                            role="bold">Request Expiration Days</emphasis> field assigned on each
+                        circulation desk but can be overridden when the request is created.
+                        Alternatively if the library chooses NOT to establish a default expiration
+                        for requests on the Circulation Desk maintenance document, it may choose to
+                        set the <emphasis role="bold">requestExpirationDay</emphasis> in the Circ
+                        Policy. The content of the Expired Request Notice can be modified by the
+                        EXP_REQ_BODY parameter.</para>
+                    <note>
+                        <para>For information about Circulation Desks and the Request Expiration
+                            Days, see <link linkend="_Circulation_Desk_1">Circulation
+                            Desk</link>.</para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para>Cancelled Request Notice - A notice to inform a patron that their request
+                        has been cancelled. (Manually cancelled by staff.) Notices are generated
+                        when the request is cancelled or if a staff member marks the item as claimed
+                        returned. The content of the Cancelled Request Notice can be modified by the
+                        CANCELLATION_BODY parameter.</para>
+                </listitem>
+            </itemizedlist>
+            <para>Return Notices</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Courtesy Notice - A notice to inform a patron that their library material
+                        is about to become due. Notices are generated by the
+                        generateCourtesyNoticesJob. The number of days before the due date that the
+                        Courtesy Notice is sent out is set by local circulation policies, otherwise
+                        the amount of days will be set by the OLE-DLVR COURTESY_NOTICE_INTER
+                        parameter. COURTESY_NOTICE_TO_DATE is used to set the scheduled notice date
+                        before which courtesy notices will be generated. For example, if the
+                        COURTESY_NOTICE_TO_DATE is set to 05/05/2015 (requires mm/dd/yyyy format),
+                        any courtesy notices scheduled for 5/4/2015 or before will be generated. The
+                        content of the Courtesy Notice can be modified by the
+                        COURTESY_NOTICE_CONTENT parameter.</para>
+                    <note>
+                        <para>To configure the jobs for Courtesy Notice, Overdue Notice, and
+                            Replacement Bill, NOTICE_THREAD_POOL_SIZE specifies the number of
+                            parallel threads to be used in generating notices. This is meant to
+                            speed up notice generation.</para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para>Missing Pieces Notice – A notice to inform a patron that their recently
+                        returned material is missing one or more pieces. Notices are generated upon
+                        the return of the item when the staff person indicates a piece(s) is
+                        missing. Missing Pieces Notices are not sent to patrons but appear during
+                        circulation.</para>
+                </listitem>
+                <listitem>
+                    <para>Overdue Notice - A notice to inform a patron that their library material
+                        is overdue. Notices are generated by the generateOverdueNoticesJob. After
+                        Overdue Notices are sent n times (n is set by the "numberOfOverdueToBeSent"
+                        parameter defined in local circulation policies), the generateLostNoticesJob
+                        will generate a replacement bill and update the item status as ‘Lost’.
+                        OVERDUE_NOTICE_TO_DATE is used to set the scheduled notice date before which
+                        overdue notices will be generated. For example, if the
+                        OVERDUE_NOTICE_TO_DATE is set to 05/05/2015, any overdue notices scheduled
+                        for 5/4/2015 or before will be generated. The content of the Overdue Notice
+                        can be modified by the OVERDUE_NOTICE_CONTENT parameter.</para>
+                </listitem>
+                <listitem>
+                    <para>Fine Notice – A notice to inform a patron of fines accrued by an overdue
+                        item. Notices are generated upon the return of the overdue item. Fine
+                        Notices are sent to the patron when generated, alternatively they can be
+                        viewed and printed from the Patron Bill screen.</para>
+                </listitem>
+                <listitem>
+                    <para>Replacement Bill – A notice to inform a patron that the overdue item is
+                        now considered lost. Notices are generated when the item status is updated
+                        to ‘Lost’ by the generateLostNoticesJob. LOST_NOTICE_TO_DATE is used to set
+                        the scheduled notice date before which replacement bills will be generated.
+                        For example, if the LOST_NOTICE_TO_DATE is set to 05/05/2015, any
+                        replacement bills scheduled for 5/4/2015 or before will be generated.</para>
+                </listitem>
+            </itemizedlist>
+            <note>
+                <para role="Normal">The <link
+                        xlink:href="../../../pdfs/ScheduledJobsTechnicalDocument.pdf">Scheduled Jobs
+                        Technical Documentation</link> includes additional details about the Deliver
+                    Notices jobs.</para>
+            </note>
+            <para>On the bottom of some of the notice types, Recalls for one, a link to "My Account"
+                will display. This should be modified to your institution's "My Account" patron
+                service. This link location is set by the parameter MY_ACCOUNT_URL. (OLE-DLVR is the
+                Namespace Code). </para>
+            <para>Deliver Notices can also be accessed from the <emphasis role="bold"
+                    >Admin</emphasis> tab, below the <emphasis role="bold">Batch
+                    Processes</emphasis> sub menu, under the link <emphasis role="bold">Deliver
+                    Batch Job</emphasis>.</para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Deliver Notices Screen with Sample Data</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-33.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Normal"/>
+            <para/>
+        </section>
+        <section>
+            <title><anchor xml:id="_Patron_Bill_Payment"/>Edit Patron Bill </title>
             <para role="Body Text">
                 <inlinemediaobject>
                     <alt>Deliver</alt>
@@ -3800,7 +3802,7 @@
                             <imagedata fileref="../images/DeliverNoTitlePage-97.png"/>
                         </imageobject>
                     </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
-                        <alt>Patron Bill</alt>
+                        <alt>Edit Patron Bill</alt>
                         <imageobject>
                             <imagedata fileref="../images/DeliverNoTitlePage-194.png"/>
                         </imageobject>
@@ -3902,7 +3904,7 @@
                         <mediaobject>
                             <alt>Patron Bill Document</alt>
                             <imageobject>
-                                <imagedata fileref="../images/DeliverNoTitlePage-198.png"
+                                <imagedata fileref="../images/DeliverNoTitlePage-205.png"
                                     width="100%"/>
                             </imageobject>
                         </mediaobject>
@@ -6867,146 +6869,6 @@
                     </tgroup>
                 </informaltable>
             </section>
-        </section>
-    </section>
-    <section>
-        <title><anchor xml:id="circulationNew"/>Circulation New</title>
-        <para role="Body Text"><inlinemediaobject>
-                <alt>Deliver</alt>
-                <imageobject>
-                    <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
-                </imageobject>
-            </inlinemediaobject> &gt; <inlinemediaobject>
-                <alt>Circulation New</alt>
-                <imageobject>
-                    <imagedata fileref="../images/DeliverNoTitlePage-CirculationNew.png"/>
-                </imageobject>
-            </inlinemediaobject> &gt;<inlinemediaobject>
-                <alt>Circulation New Links</alt>
-                <imageobject>
-                    <imagedata fileref="../images/DeliverNoTitlePage-CirculationNewMenu.png"/>
-                </imageobject>
-            </inlinemediaobject>
-        </para>
-        <para role="Body Text">On the Deliver menu, Circulation New provides access to circulation
-            options that uses Drools as the circulation policy instead of KRMS.</para>
-        <note>
-            <para>For information regarding implementing Drools and a link to the technical
-                documentation, see <link
-                    xlink:href="https://wiki.kuali.org/display/OLE/Circulation+policies">Circulation
-                    Policies</link> on the wiki.</para>
-        </note>
-        <para role="Normal"/>
-        <section>
-            <title><anchor xml:id="_checkoutItems"/>Checkout Item(s)</title>
-            <para role="Body Text">
-                <inlinemediaobject>
-                    <alt>Deliver</alt>
-                    <imageobject>
-                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
-                    </imageobject>
-                </inlinemediaobject> &gt; <inlinemediaobject>
-                    <alt>Circulation New</alt>
-                    <imageobject>
-                        <imagedata fileref="../images/DeliverNoTitlePage-CirculationNew.png"/>
-                    </imageobject>
-                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
-                        <alt>Checkout Item(s)</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-222.png"/>
-                        </imageobject>
-                    </inlinemediaobject> &gt;<inlinemediaobject>
-                        <alt>Checkout Item(s)</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-225.png"/>
-                        </imageobject>
-                    </inlinemediaobject></emphasis></para>
-            <para role="Normal">The <emphasis role="bold">Checkout Item(s)</emphasis> screen mimics
-                the Loan screen described under <emphasis role="bold">Circulation</emphasis>.  The
-                difference is that Checkout Item(s) is set up to use Drools Circulation Policy
-                instead of KRMS.  This screen is intended for testing purposes.</para>
-            <note>
-                <para>For information about loaning items, see <link linkend="_Loan"
-                    >Loan</link>.</para>
-            </note>
-        </section>
-        <section>
-            <title><anchor xml:id="_checkinItems"/>Checkin Item(s)</title>
-            <para role="Body Text">
-                <inlinemediaobject>
-                    <alt>Deliver</alt>
-                    <imageobject>
-                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
-                    </imageobject>
-                </inlinemediaobject> &gt; <inlinemediaobject>
-                    <alt>Circulation New</alt>
-                    <imageobject>
-                        <imagedata fileref="../images/DeliverNoTitlePage-CirculationNew.png"/>
-                    </imageobject>
-                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
-                        <alt>Checkin Item(s)</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-223.png"/>
-                        </imageobject>
-                    </inlinemediaobject> &gt;<inlinemediaobject>
-                        <alt>Checkout Item(s)</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-226.png"/>
-                        </imageobject>
-                    </inlinemediaobject></emphasis></para>
-            <para role="Normal">The <emphasis role="bold">Checkin Item(s)</emphasis> screen mimics
-                the Return screen described under <emphasis role="bold">Circulation</emphasis>.  The
-                difference is that Checkin Item(s) is set up to use Drools Circulation Policy
-                instead of KRMS.  This screen is intended for testing purposes.</para>
-            <note>
-                <para>For information about returning items, see <link linkend="_Return"
-                        >Return</link>.</para>
-            </note>
-        </section>
-        <section>
-            <title><anchor xml:id="_droolsEditor"/>Drools Editor</title>
-            <para role="Body Text">
-                <inlinemediaobject>
-                    <alt>Deliver</alt>
-                    <imageobject>
-                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
-                    </imageobject>
-                </inlinemediaobject> &gt; <inlinemediaobject>
-                    <alt>Circulation New</alt>
-                    <imageobject>
-                        <imagedata fileref="../images/DeliverNoTitlePage-CirculationNew.png"/>
-                    </imageobject>
-                </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
-                        <alt>Drools Editor</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-224.png"/>
-                        </imageobject>
-                    </inlinemediaobject> &gt;<inlinemediaobject>
-                        <alt>Drool Editor Lookup</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-220.png"/>
-                        </imageobject>
-                    </inlinemediaobject>&gt;<inlinemediaobject>
-                        <alt>Drools Editor</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-219.png"/>
-                        </imageobject>
-                    </inlinemediaobject></emphasis></para>
-            <para/>
-            <note>
-                <para>The Drools Editor is a placeholder for work in progress.  It is not fully
-                    functioning in 1.6.2</para>
-            </note>
-            <para role="Normal">
-                <screenshot>
-                    <mediaobject>
-                        <alt>Drools Editor</alt>
-                        <imageobject>
-                            <imagedata fileref="../images/DeliverNoTitlePage-227.png" width="100%"/>
-                        </imageobject>
-                    </mediaobject>
-                </screenshot>
-            </para>
         </section>
     </section>
 </chapter>
