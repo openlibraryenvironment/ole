@@ -63,6 +63,14 @@ CREATE TABLE OLE_DS_BIB_HOLDINGS_T
 
 
 
+    
+                                                                                                                
+                                    
+, INDEX OLE_DS_BIB_HOLDINGS_TI1 (BIB_ID )
+    
+                                                                                                                
+                                    
+, INDEX OLE_DS_BIB_HOLDINGS_TI2 (HOLDINGS_ID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
@@ -203,6 +211,10 @@ CREATE TABLE OLE_DS_EXT_OWNERSHIP_T
 
 
 
+    
+                                                                                                                                                        
+                                    
+, INDEX OLE_DS_EXT_OWNERSHIP_TI1 (HOLDINGS_ID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
@@ -395,6 +407,14 @@ CREATE TABLE OLE_DS_ITEM_HOLDINGS_T
 
 
 
+    
+                                                                                                                
+                                    
+, INDEX OLE_DS_ITEM_HOLDINGS_TI1 (HOLDINGS_ID )
+    
+                                                                                                                
+                                    
+, INDEX OLE_DS_ITEM_HOLDINGS_TI2 (ITEM_ID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
@@ -548,7 +568,7 @@ CREATE TABLE OLE_DS_ITEM_T
         , HOLDINGS_ID INTEGER NOT NULL
         , FAST_ADD CHAR(1)
         , STAFF_ONLY CHAR(1)
-        , BARCODE VARCHAR(20)
+        , BARCODE VARCHAR(30)
         , URI VARCHAR(400)
         , ITEM_TYPE_ID INTEGER
         , TEMP_ITEM_TYPE_ID INTEGER
@@ -599,6 +619,14 @@ CREATE TABLE OLE_DS_ITEM_T
 
 
 
+    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                    
+, INDEX OLE_DS_ITEM_TI1 (BARCODE )
+    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                    
+, INDEX OLE_DS_ITEM_TI2 (HOLDINGS_ID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
