@@ -6,4 +6,5 @@ classpath:org/kuali/ole/sql/mysql/1.5.5.sql
 classpath:org/kuali/ole/sql/mysql/1.5.6.sql
 classpath:org/kuali/ole/sql/mysql/1.6.0.sql
 classpath:org/kuali/ole/sql/mysql/1.6.1.sql
+classpath:org/kuali/ole/sql/mysql/1.6.2.sql
 classpath:org/kuali/ole/sql/mysql/2.0.sql
