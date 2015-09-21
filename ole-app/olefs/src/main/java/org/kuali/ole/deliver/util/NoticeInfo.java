@@ -7,7 +7,7 @@ import java.util.Map;
  * Created by pvsubrah on 6/8/15.
  */
 public class NoticeInfo {
-    private String loanType;
+    private String noticeType;
     private Map<String, Map<String,Object>> noticeInfoForTypeMap;
 
     public void addInfo(String noticeType, String noticeParameter, String noticeValue) {
@@ -29,11 +29,12 @@ public class NoticeInfo {
         return noticeInfoForTypeMap;
     }
 
-    public String getLoanType() {
-        return loanType;
+    public String getNoticeType() {
+        return noticeType;
     }
 
-    public void setLoanType(String loanType) {
-        this.loanType = loanType;
+    public void setNoticeType(String noticeType) {
+        this.noticeType = noticeType;
     }
+
 }

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <!--Lookup View Customization-->
+    <bean id="DroolsEditorBo-LookupView-ResultActions" parent="Uif-TableCollectionSection"
+          p:id="uLookupResults" p:layoutManager.suppressLineWrapping="true">
+        <property name="showInactiveLines" value="true"/>
+        <property name="propertyName" value="lookupResults"/>
+        <property name="headerText" value="Lookup Results"/>
+        <property name="header.cssClasses" value="uif-hideHeaderText"/>
+        <property name="validationMessages.displayHeaderMessageSummary" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderLineActions" value="@{(!#view.suppressActions and view.showMaintenanceLinks) or
+           (!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks)}"/>
+        <property name="layoutManager.actionColumnPlacement" value="LEFT"/>
+        <property name="layoutManager.selectFieldPrototype.finalizeMethodToCall" value="setMultiValueLookupSelect"/>
+        <property name="layoutManager.selectFieldPrototype.control.onChangeScript"
+                  value="setMultivalueLookupReturnButton(this)"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="readOnly" value="false"/>
+        <property name="includeLineSelectionField" value="@{#view.multipleValuesSelect}"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup"/>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink" p:order="10">
+                    <property name="actionLabel" value="edit"/>
+                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                        <list>
+                            <value>maintenanceEdit</value>
+                        </list>
+                    </property>
+                    <property name="render"
+                              value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and view.showMaintenanceLinks}"/>
+                </bean>
+            </list>
+        </property>
+        <property name="validationMessages.additionalKeysToMatch">
+            <list merge="true">
+                <value>LookupResultMessages</value>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-LookupResultsFooter"
+                  p:render="@{#view.multipleValuesSelect and (lookupResults != null) and !lookupResults.empty}"/>
+        </property>
+    </bean>
+
+
+
+
+    <!--Maintenance View Customization-->
+
+    <bean id="Uif-DroolsEditorBo-MaintenancePage" abstract="true"
+          parent="Uif-DroolsEditorBo-MaintenancePage-parentBean"/>
+    <bean id="Uif-DroolsEditorBo-MaintenancePage-parentBean"
+          parent="Uif-DroolsEditorBo-DocumentPage">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-maintenancePage</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-DroolsEditorBo-DocumentPage" parent="Uif-Disclosure-Page">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentPage</value>
+            </list>
+        </property>
+        <property name="defaultItemPosition" value="11"/>
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="DroolsEditorBo-FooterSection" parent="Uif-DocumentPageFooter">
+        <property name="items">
+            <list>
+                <bean id="DroolsEditorBo-submitAction" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route"
+                      p:actionLabel="submit" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and maintenanceAction ne 'Cancel' and showFooterSection}"/>
+                <bean id="DroolsEditorBo-cancleAction" parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL] and maintenanceAction ne 'Cancel'  and showFooterSection} "/>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

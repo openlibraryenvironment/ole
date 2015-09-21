@@ -196,17 +196,24 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         getBusinessObjectService().deleteMatching(HoldingsUriRecord.class, getHoldingsMap(holdingsId));
         List<HoldingsUriRecord> holdingsUriRecords = new ArrayList<>();
 
+        String linkInfo = "";
         for (Link link : links) {
             if (StringUtils.isNotBlank(link.getText()) || StringUtils.isNotBlank(link.getUrl())) {
                 HoldingsUriRecord holdingsUriRecord = new HoldingsUriRecord();
                 holdingsUriRecord.setText(link.getText());
                 holdingsUriRecord.setUri(link.getUrl());
                 holdingsUriRecord.setHoldingsId(holdingsId);
+                linkInfo = "holdingsId:" + holdingsId + " uri:" + link.getUrl() + " text:" + link.getText() + " ";
                 holdingsUriRecords.add(holdingsUriRecord);
             }
 
         }
-        getBusinessObjectService().save(holdingsUriRecords);
+        try {
+        	getBusinessObjectService().save(holdingsUriRecords);
+        } catch (Exception e) {
+        	String errStr = "Exception saving Link for " + linkInfo;
+            LOG.error(errStr + e.getMessage());
+        }
     }
 
     private HoldingsAccessLocation saveHoldingsAccessLocation(String accessLocation, String holdingsId) {
@@ -252,9 +259,10 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             StatisticalSearchRecord statisticalSearchRecord = saveStatisticalSearchRecord(statisticalSearchingCode);
             HoldingsStatisticalSearchRecord holdingsStatisticalSearchRecord = null;
             List<HoldingsStatisticalSearchRecord> holdingsStatisticalSearchRecords = (List<HoldingsStatisticalSearchRecord>) getBusinessObjectService().findMatching(HoldingsStatisticalSearchRecord.class, getHoldingsMap(holdingsId));
-            if (holdingsStatisticalSearchRecords != null && holdingsStatisticalSearchRecords.size() > 0) {
+            if(holdingsStatisticalSearchRecords != null && holdingsStatisticalSearchRecords.size() > 0) {
                 holdingsStatisticalSearchRecord = holdingsStatisticalSearchRecords.get(0);
-            } else {
+            }
+            else {
                 holdingsStatisticalSearchRecord = new HoldingsStatisticalSearchRecord();
                 holdingsStatisticalSearchRecord.setHoldingsId(holdingsId);
             }
@@ -428,13 +436,24 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             holdingsRecord.setCallNumberPrefix(callNumber.getPrefix());
             holdingsRecord.setCallNumber(callNumber.getNumber());
 
-            if (callNumber.getShelvingOrder() != null) {
-                holdingsRecord.setShelvingOrder(callNumber.getShelvingOrder().getFullValue());
+            if(StringUtils.isNotEmpty(callNumber.getNumber())){
+                if (callNumber.getShelvingOrder() != null) {
+                    holdingsRecord.setShelvingOrder(callNumber.getShelvingOrder().getFullValue());
+                }
+                processCallNumber(oleHoldings);
+                CallNumberTypeRecord callNumberTypeRecord = saveCallNumberTypeRecord(callNumber.getShelvingScheme());
+                holdingsRecord.setCallNumberTypeId(callNumberTypeRecord == null ? null : callNumberTypeRecord.getCallNumberTypeId());
+            } else if(StringUtils.isEmpty(callNumber.getNumber())){
+                if (callNumber.getShelvingOrder() != null) {
+                    holdingsRecord.setShelvingOrder(callNumber.getShelvingOrder().getFullValue());
+                }
+                callNumber.getShelvingScheme().setFullValue("");
+                CallNumberTypeRecord callNumberTypeRecord = saveCallNumberTypeRecord(callNumber.getShelvingScheme());
+                holdingsRecord.setCallNumberTypeId(callNumberTypeRecord == null ? null : callNumberTypeRecord.getCallNumberTypeId());
+            }else{
+                callNumber.setShelvingOrder(new ShelvingOrder());
+                callNumber.setShelvingScheme(new ShelvingScheme());
             }
-            processCallNumber(oleHoldings);
-
-            CallNumberTypeRecord callNumberTypeRecord = saveCallNumberTypeRecord(callNumber.getShelvingScheme());
-            holdingsRecord.setCallNumberTypeId(callNumberTypeRecord == null ? null : callNumberTypeRecord.getCallNumberTypeId());
         }
         holdingsRecord.setStaffOnlyFlag(holdings.isStaffOnly());
         setHoldingsCommonInformation(oleHoldings, holdingsRecord);
@@ -998,6 +1017,9 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         }
         if (StringUtils.isNotEmpty(holdingsRecord.getCallNumber())) {
             addDataToLabel(labelName, holdingsRecord.getCallNumber());
+        }
+        if (StringUtils.isNotEmpty(holdingsRecord.getCopyNumber())) {
+            addDataToLabel(labelName, holdingsRecord.getCopyNumber());
         }
         if (labelName.length() == 0) {
             labelName.append("Holdings");
@@ -1596,7 +1618,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             holdingsTree.getItems().add(rdbmsItemDocumentManager.retrieveItem(holdingsItemRecord.getItemId(), null, null));
         }
 
-
+        Collections.sort(holdingsTree.getItems());
         return holdingsTree;
     }
 

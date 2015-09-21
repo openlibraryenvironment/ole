@@ -3,8 +3,9 @@ package org.kuali.ole.sip2.sip2Response;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.ncip.bo.OLECancelRequest;
 import org.kuali.ole.ncip.bo.OLEPlaceRequest;
-import org.kuali.ole.sip2.common.MessageUtil;
-import org.kuali.ole.sip2.common.OLESIP2Util;
+import org.kuali.ole.response.OLESIP2Response;
+import org.kuali.ole.common.MessageUtil;
+import org.kuali.ole.common.OLESIP2Util;
 import org.kuali.ole.sip2.constants.OLESIP2Constants;
 import org.kuali.ole.sip2.requestParser.OLESIP2HoldRequestParser;
 import org.kuali.ole.sip2.sip2Server.StringUtil;
@@ -64,7 +65,7 @@ public class OLESIP2HoldResponse extends OLESIP2Response {
         if (StringUtils.isNotBlank(sip2HoldRequestParser.getTitleIdentifier())) {
             builder.append(OLESIP2Constants.SPLIT+
                     OLESIP2Constants.TITLE_IDENTIFIER_CODE);
-            builder.append(sip2HoldRequestParser.getTitleIdentifier());
+            builder.append(sip2HoldRequestParser.getTitleIdentifier().replaceAll(OLESIP2Constants.NON_ROMAN_REGEX, ""));
         }
         if (StringUtils.isNotBlank(olePlaceRequest.getMessage())) {
             builder.append(OLESIP2Constants.SPLIT+
@@ -77,7 +78,7 @@ public class OLESIP2HoldResponse extends OLESIP2Response {
             builder.append(sip2HoldRequestParser.getSequenceNum());
             builder.append(MessageUtil.computeChecksum(builder.toString()));
         }
-        System.out.println(builder.toString());
+
         return builder.toString() + '\r';
     }
 
@@ -111,7 +112,7 @@ public class OLESIP2HoldResponse extends OLESIP2Response {
         if (StringUtils.isNotBlank(sip2HoldRequestParser.getTitleIdentifier())) {
             builder.append(OLESIP2Constants.SPLIT+
                     OLESIP2Constants.TITLE_IDENTIFIER_CODE);
-            builder.append(sip2HoldRequestParser.getTitleIdentifier());
+            builder.append(sip2HoldRequestParser.getTitleIdentifier().replaceAll(OLESIP2Constants.NON_ROMAN_REGEX, ""));
         }
         if (StringUtils.isNotBlank(oleCancelRequest.getMessage())) {
             builder.append(OLESIP2Constants.SPLIT+
@@ -124,7 +125,7 @@ public class OLESIP2HoldResponse extends OLESIP2Response {
             builder.append(sip2HoldRequestParser.getSequenceNum());
             builder.append(MessageUtil.computeChecksum(builder.toString()));
         }
-        System.out.println(builder.toString());
+
         return builder.toString() + '\r';
     }
 
@@ -149,7 +150,6 @@ public class OLESIP2HoldResponse extends OLESIP2Response {
             builder.append(sip2HoldRequestParser.getSequenceNum());
             builder.append(MessageUtil.computeChecksum(builder.toString()));
         }
-        System.out.println(builder.toString());
         return builder.toString() + '\r';
     }
 

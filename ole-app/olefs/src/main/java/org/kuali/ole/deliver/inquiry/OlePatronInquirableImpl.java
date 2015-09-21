@@ -152,6 +152,15 @@ public class OlePatronInquirableImpl extends InquirableImpl {
                         patronDocument.setPatronHomePage(true);
                 }
             }
+            if (null != patronDocument.getName()) {
+                String createBillUrl = OLEConstants.OlePatron.PATRON_CREATE_BILL_URL + patronDocument.getOlePatronId() + "&firstName=" + patronDocument.getName().getFirstName() + "&lastName=" + patronDocument.getName().getLastName();
+                patronDocument.setCreateBillUrl(createBillUrl);
+            }
+            if (CollectionUtils.isNotEmpty(patronDocument.getPatronBillPayments())) {
+                patronDocument.setPatronBillFileName(OLEConstants.OlePatron.PATRON_VIEW_BILLS);
+                patronDocument.setViewBillUrl(OLEConstants.OlePatron.PATRON_VIEW_BILL_URL + patronDocument.getOlePatronId());
+            }
+            patronDocument.setShowBillUrlsFlag(true);
 
 
         }

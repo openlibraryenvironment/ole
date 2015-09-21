@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="DroolsEditorBo-GeneralChecks-MaintenanceView-ruleSection" parent="Uif-MaintenanceTableCollectionSection"  p:render="@{showGeneralCheckSection}">
+        <property name="headerText" value="General Check Rules" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.drools.DroolsRuleBo" />
+        <property name="propertyName" value="droolsRuleBos" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="addLineLabel">
+            <bean parent="Uif-Message" p:messageText=""/>
+        </property>
+        <property name="layoutManager.addLineGroup.layoutManager.numberOfColumns" value="4"/>
+        <property name="items">
+            <list>
+                <bean id="generalChecksAgendaGroup" parent="Uif-DataField" p:label="Agenda Group" p:propertyName="agendaGroup" p:readOnly="@{!#isAddLine}" p:defaultValue="general-checks"/>
+                <bean id="generalChecksActivationGroup" parent="Uif-InputField" p:label="Activation Group"  p:propertyName="activationGroup" p:readOnly="@{!#isAddLine}"/>
+                <bean id="generalChecksRuleType" parent="Uif-InputField" p:label="Rule Type"  p:propertyName="ruleType" p:readOnly="@{!#isAddLine}" p:onChangeScript="
+                jq('#generalChecksBorrowerType_add_control').val('');
+                jq('#droolsEditorBoAmountLimit_add_control').val('');
+                jq('#droolsEditorBoOverdueLimits_add_control').val('');
+                jq('#generalChecksOpertator_add_control').val('');
+                submitForm('refresh',null,null,null,null);">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.GeneralCheckRuleTypeKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="generalChecksRuleName" parent="Uif-InputField" p:label="Rule Name" p:propertyName="ruleName" p:readOnly="@{!#isAddLine}"/>
+                <bean id="generalChecksErrorMessage" parent="Uif-InputField" p:label="Error Message" p:propertyName="errorMessage" p:readOnly="@{!#isAddLine}"/>
+                <bean id="droolsEditorBoOverridePermission" parent="Uif-InputField" p:label="Override Permissions" p:propertyName="overridePermission" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.OverridePermissionsKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="generalChecksBorrowerType" parent="Uif-InputField" p:label="Borrower Type" p:propertyName="finesAndLimitsBo.borrowerType" p:readOnly="@{!#isAddLine
+                or #line.ruleType eq '' or #line.ruleType eq 'isActive' or #line.ruleType eq 'isBlocked' or #line.ruleType eq 'addressVerified'
+                or #line.ruleType eq 'isPatronExpired' or #line.ruleType eq 'activationDate'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.BorrowerTypeKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-MultiSelectControl"/>
+                    </property>
+                </bean>
+                <bean id="generalChecksOpertator" parent="Uif-InputField" p:label="Comparison" p:propertyName="finesAndLimitsBo.operator" p:readOnly="@{!#isAddLine
+                or #line.ruleType eq '' or #line.ruleType eq 'isActive' or #line.ruleType eq 'isBlocked' or #line.ruleType eq 'addressVerified'
+                or #line.ruleType eq 'isPatronExpired' or #line.ruleType eq 'activationDate'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.DroolEditorRuleOperatorKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="droolsEditorBoAmountLimit" parent="Uif-InputField" p:label="Limit Amount" p:propertyName="finesAndLimitsBo.limitAmount" p:readOnly="@{!#isAddLine
+                or #line.ruleType eq '' or #line.ruleType eq 'isActive' or #line.ruleType eq 'isBlocked' or #line.ruleType eq 'addressVerified'
+                or #line.ruleType eq 'isPatronExpired' or #line.ruleType eq 'activationDate'
+                or #line.ruleType eq 'recallAndOverDueDays' or #line.ruleType eq 'overdueCheck'}"/>
+                <bean id="droolsEditorBoOverdueLimits" parent="Uif-InputField" p:label="Overdue Days" p:propertyName="finesAndLimitsBo.overDueLimits" p:readOnly="@{!#isAddLine
+                or #line.ruleType eq '' or #line.ruleType eq 'isActive' or #line.ruleType eq 'isBlocked' or #line.ruleType eq 'addressVerified'
+                or #line.ruleType eq 'isPatronExpired' or #line.ruleType eq 'activationDate'
+                or #line.ruleType eq 'allCharges' or #line.ruleType eq 'replacementFeeAmount' or #line.ruleType eq 'overdueFineAmount'}"/>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="DroolsEditorBo-GeneralChecks-MaintenanceView-ruleTableSection-Add" parent="Uif-CustomAddLineAction" p:methodToCall="addRule" p:ajaxSubmit="true"  p:successCallback="submitForm('refresh',null,null,true,null);"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-CustomDeleteLineAction" p:ajaxSubmit="true"  p:successCallback="submitForm('refresh',null,null,null,null);"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DroolsEditorBo-GeneralChecks-allCharges-ruleSubSection" parent="Uif-MaintenanceTableSubCollection-withinSection"
+          p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" >
+        <property name="headerText" value="All Charges Fine &amp; Limits" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.drools.FinesAndLimitsBo" />
+        <property name="propertyName" value="finesAndLimitsBoList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="addLinePlacement" value="BOTTOM" />
+        <property name="addLineLabel">
+            <bean parent="Uif-Message" p:messageText=""/>
+        </property>
+        <property name="layoutManager.addLineGroup.layoutManager.numberOfColumns" value="6"/>
+        <property name="items">
+            <list>
+                <bean id="allChargesBorrowerType" parent="Uif-InputField" p:label="Borrower Type" p:propertyName="borrowerType" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.BorrowerTypeKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-MultiSelectControl"/>
+                    </property>
+                </bean>
+                <bean id="allChargesOpertator" parent="Uif-InputField" p:label="Comparison" p:propertyName="operator" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.DroolEditorRuleOperatorKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="GeneralChecksLimit" parent="Uif-InputField" p:label="Limit" p:propertyName="limitAmount" p:readOnly="@{!#isAddLine}"/>
+
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="DroolsEditorBo-GeneralChecks-allCharges-ruleSubSection-Add" parent="Uif-CustomAddLineAction" p:methodToCall="addFee"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="allCharges-ruleSubSection-delete" parent="Uif-CustomDeleteLineAction" p:methodToCall="deleteFeeLimitRule"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DroolsEditorBo-GeneralChecks-replacementFeeAmount-ruleSubSection" parent="Uif-MaintenanceTableSubCollection-withinSection"
+          p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Replacement Fine &amp; Limits" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.drools.FinesAndLimitsBo" />
+        <property name="propertyName" value="finesAndLimitsBoList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="addLinePlacement" value="BOTTOM" />
+        <property name="addLineLabel">
+            <bean parent="Uif-Message" p:messageText=""/>
+        </property>
+        <property name="layoutManager.addLineGroup.layoutManager.numberOfColumns" value="6"/>
+        <property name="items">
+            <list>
+                <bean id="replacementFeeAmountBorrowerType" parent="Uif-InputField" p:label="Borrower Type" p:propertyName="borrowerType" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.BorrowerTypeKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-MultiSelectControl"/>
+                    </property>
+                </bean>
+                <bean id="replacementFeeAmountOpertator" parent="Uif-InputField" p:label="Comparison" p:propertyName="operator" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.DroolEditorRuleOperatorKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="replacementFeeAmountLimit" parent="Uif-InputField" p:label="Limit" p:propertyName="limitAmount" p:readOnly="@{!#isAddLine}"/>
+
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="DroolsEditorBo-GeneralChecks-replacementFeeAmount-ruleSubSection-Add" parent="Uif-CustomAddLineAction" p:methodToCall="addFee"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="replacementFeeAmount-ruleSubSection-delete" parent="Uif-CustomDeleteLineAction" p:methodToCall="deleteFeeLimitRule"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DroolsEditorBo-GeneralChecks-recallAndOverDueDays-ruleSubSection" parent="Uif-MaintenanceTableSubCollection-withinSection"
+          p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false"  >
+        <property name="headerText" value="Recall and Overdue Days" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.drools.FinesAndLimitsBo" />
+        <property name="propertyName" value="finesAndLimitsBoList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="addLineLabel">
+            <bean parent="Uif-Message" p:messageText=""/>
+        </property>
+        <property name="layoutManager.addLineGroup.layoutManager.numberOfColumns" value="6"/>
+        <property name="items">
+            <list>
+                <bean id="recallAndOverDueDaysBorrowerType" parent="Uif-InputField" p:label="Borrower Type" p:propertyName="borrowerType" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.BorrowerTypeKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-MultiSelectControl"/>
+                    </property>
+                </bean>
+                <bean id="recallAndOverDueDaysOpertator" parent="Uif-InputField" p:label="Comparison" p:propertyName="operator" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.DroolEditorRuleOperatorKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="recallAndOverDueDaysLimit" parent="Uif-InputField" p:label="Limit" p:propertyName="overDueLimits" p:readOnly="@{!#isAddLine}"/>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="DroolsEditorBo-GeneralChecks-recallAndOverDueDays-ruleSubSection-Add" parent="Uif-CustomAddLineAction" p:methodToCall="addFee"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="recallAndOverDueDays-ruleSubSection-delete" parent="Uif-CustomDeleteLineAction" p:methodToCall="deleteFeeLimitRule"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DroolsEditorBo-GeneralChecks-overdueFineAmount-ruleSubSection" parent="Uif-MaintenanceTableSubCollection-withinSection"
+          p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false"  >
+        <property name="headerText" value="overdue Fine &amp; Limits" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.drools.FinesAndLimitsBo" />
+        <property name="propertyName" value="finesAndLimitsBoList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="addLineLabel">
+            <bean parent="Uif-Message" p:messageText=""/>
+        </property>
+        <property name="layoutManager.addLineGroup.layoutManager.numberOfColumns" value="6"/>
+        <property name="items">
+            <list>
+                <bean id="overdueFineAmountBorrowerType" parent="Uif-InputField" p:label="Borrower Type" p:propertyName="borrowerType" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.BorrowerTypeKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-MultiSelectControl"/>
+                    </property>
+                </bean>
+                <bean id="overdueFineAmountOpertator" parent="Uif-InputField" p:label="Comparison" p:propertyName="operator" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.DroolEditorRuleOperatorKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="overdueFineAmountLimit" parent="Uif-InputField" p:label="Limit" p:propertyName="limitAmount" p:readOnly="@{!#isAddLine}"/>
+
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="DroolsEditorBo-GeneralChecks-overdueFineAmount-ruleSubSection-Add" parent="Uif-CustomAddLineAction" p:methodToCall="addFee"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="overdueFineAmount-ruleSubSection-delete" parent="Uif-CustomDeleteLineAction" p:methodToCall="deleteFeeLimitRule"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DroolsEditorBo-GeneralChecks-overdueCheck-ruleSubSection" parent="Uif-MaintenanceTableSubCollection-withinSection"
+          p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false"  >
+        <property name="headerText" value="Overdue Days" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.drools.FinesAndLimitsBo" />
+        <property name="propertyName" value="finesAndLimitsBoList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="addLineLabel">
+            <bean parent="Uif-Message" p:messageText=""/>
+        </property>
+        <property name="layoutManager.addLineGroup.layoutManager.numberOfColumns" value="6"/>
+        <property name="items">
+            <list>
+                <bean id="overdueCheckBorrowerType" parent="Uif-InputField" p:label="Borrower Type" p:propertyName="borrowerType" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.BorrowerTypeKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-MultiSelectControl"/>
+                    </property>
+                </bean>
+                <bean id="overdueCheckOpertator" parent="Uif-InputField" p:label="Comparison" p:propertyName="operator" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.DroolEditorRuleOperatorKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="overdueCheckLimit" parent="Uif-InputField" p:label="Limit" p:propertyName="overDueLimits" p:readOnly="@{!#isAddLine}"/>
+
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="DroolsEditorBo-GeneralChecks-overdueCheck-ruleSubSection-Add" parent="Uif-CustomAddLineAction" p:methodToCall="addFee"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="overdueCheck-ruleSubSection-delete" parent="Uif-CustomDeleteLineAction" p:methodToCall="deleteFeeLimitRule"/>
+            </list>
+        </property>
+    </bean>
+
+
+
+</beans>

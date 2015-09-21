@@ -1,26 +1,31 @@
 package org.kuali.ole.deliver.controller.checkout;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.Agenda;
 import org.kie.api.runtime.rule.AgendaGroup;
-import org.kie.internal.runtime.StatefulKnowledgeSession;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleItemSearch;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
+import org.kuali.ole.deliver.bo.OleNoticeTypeConfiguration;
 import org.kuali.ole.deliver.calendar.service.DateUtil;
 import org.kuali.ole.deliver.drools.CustomAgendaFilter;
 import org.kuali.ole.deliver.drools.DroolsConstants;
-import org.kuali.ole.deliver.drools.DroolsEngine;
+import org.kuali.ole.deliver.drools.DroolsKieEngine;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.util.NoticeInfo;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.common.document.ItemOleml;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
-import org.kuali.ole.docstore.common.document.content.instance.ItemStatus;
+import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.LocationsCheckinCountRecord;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.util.DocstoreUtil;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -32,6 +37,8 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by pvsubrah on 6/4/15.
@@ -41,45 +48,79 @@ public class CircUtilController {
     private BusinessObjectService businessObjectService;
     private ItemOlemlRecordProcessor itemOlemlRecordProcessor;
     private DocstoreClientLocator docstoreClientLocator;
+    private SimpleDateFormat dateFormatForDocstoreDueDate;
+    private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
 
-    public void fireRulesForPatron(List<Object> facts, String[] expectedRules, String agendaGroup) {
-        StatefulKnowledgeSession session = DroolsEngine.getInstance().getSession();
-        Agenda agenda = session.getAgenda();
-        AgendaGroup group = agenda.getAgendaGroup(agendaGroup);
-        group.setFocus();
+    public void fireRules(List<Object> facts, String[] expectedRules, String agendaGroup) {
+        KieSession session = DroolsKieEngine.getInstance().getSession();
         for (Iterator<Object> iterator = facts.iterator(); iterator.hasNext(); ) {
             Object fact = iterator.next();
             session.insert(fact);
         }
 
-        if (null!= expectedRules && expectedRules.length > 0) {
+        if (null != expectedRules && expectedRules.length > 0) {
             session.fireAllRules(new CustomAgendaFilter(expectedRules));
         } else {
+            Agenda agenda = session.getAgenda();
+            AgendaGroup group = agenda.getAgendaGroup(agendaGroup);
+            group.setFocus();
             session.fireAllRules();
         }
         session.dispose();
     }
 
-    public List<OLEDeliverNotice> processNotices(NoticeInfo noticeInfo, OleLoanDocument currentLoanDocument){
+    public List<OLEDeliverNotice> processNotices(OleLoanDocument currentLoanDocument, ItemRecord itemRecord) {
         List<OLEDeliverNotice> deliverNotices = new ArrayList<>();
 
-        Map<String, Map<String, Object>> noticeInfoForTypeMap = noticeInfo.getNoticeInfoForTypeMap();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("circPolicyId", currentLoanDocument.getCirculationPolicyId());
+        List<OleNoticeTypeConfiguration> oleNoticeTypeConfigurations =
+                (List<OleNoticeTypeConfiguration>) getBusinessObjectService().findMatching(OleNoticeTypeConfiguration.class, map);
 
-        if (null != noticeInfoForTypeMap) {
-            for (Iterator<String> iterator = noticeInfoForTypeMap.keySet().iterator(); iterator.hasNext(); ) {
-                String noticeType = iterator.next();
-                if (noticeType.equalsIgnoreCase(OLEConstants.COURTESY_NOTICE)) {
-                    processCourtseyNotices(noticeInfo, deliverNotices, currentLoanDocument);
-                } else if (noticeType.equalsIgnoreCase(OLEConstants.OVERDUE_NOTICE)) {
-                    Integer numOverDueNoticeToBeSent = Integer.parseInt((String) noticeInfo.getNoticeInfoForTypeMap().get
-                            (OLEConstants.OVERDUE_NOTICE).get(DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT));
-                    int count = 0;
-                    for (count = 0; count < numOverDueNoticeToBeSent; count++) {
-                        processOverdueNotices(noticeInfo, deliverNotices, count, currentLoanDocument);
+        OleNoticeTypeConfiguration oleNoticeTypeConfiguration = null;
+        if (CollectionUtils.isNotEmpty(oleNoticeTypeConfigurations)) {
+            oleNoticeTypeConfiguration = oleNoticeTypeConfigurations.get(0);
+            NoticeInfo noticeInfo = new NoticeInfo();
+            noticeInfo.setNoticeType(oleNoticeTypeConfiguration.getNoticeType());
+
+            ArrayList<Object> facts = new ArrayList<>();
+            facts.add(noticeInfo);
+            facts.add(itemRecord);
+            fireRules(facts, null, "notice generation");
+
+
+            Map<String, Map<String, Object>> noticeInfoForTypeMap = noticeInfo.getNoticeInfoForTypeMap();
+
+            if (null != noticeInfoForTypeMap) {
+                for (Iterator<String> iterator = noticeInfoForTypeMap.keySet().iterator(); iterator.hasNext(); ) {
+                    String noticeType = iterator.next();
+                    if (noticeType.equalsIgnoreCase(OLEConstants.COURTESY_NOTICE)) {
+                        processCourtseyNotices(noticeInfo, deliverNotices, currentLoanDocument);
+                    } else if (noticeType.equalsIgnoreCase(OLEConstants.OVERDUE_NOTICE)) {
+                        Integer numOverDueNoticeToBeSent = Integer.parseInt((String) noticeInfo.getNoticeInfoForTypeMap().get
+                                (OLEConstants.OVERDUE_NOTICE).get(DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT));
+                        int count = 0;
+                        for (count = 0; count < numOverDueNoticeToBeSent; count++) {
+                            processOverdueNotices(noticeInfo, deliverNotices, count, currentLoanDocument);
+                        }
+                        processLostNotices(noticeInfo, deliverNotices, count, currentLoanDocument);
+                    } else if (noticeType.equalsIgnoreCase(OLEConstants.RECALL_COURTESY_NOTICE)) {
+                        processCourtseyNotices(noticeInfo, deliverNotices, currentLoanDocument);
+                    } else if (noticeType.equalsIgnoreCase(OLEConstants.RECALL_OVERDUE_NOTICE)) {
+                        Integer numOverDueNoticeToBeSent = Integer.parseInt((String) noticeInfo.getNoticeInfoForTypeMap().get
+                                (OLEConstants.RECALL_OVERDUE_NOTICE).get(DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT));
+                        int count = 0;
+                        for (count = 0; count < numOverDueNoticeToBeSent; count++) {
+                            processOverdueNotices(noticeInfo, deliverNotices, count, currentLoanDocument);
+                        }
+                        processLostNotices(noticeInfo, deliverNotices, count, currentLoanDocument);
+
                     }
-                    processLostNotices(noticeInfo, deliverNotices, count, currentLoanDocument);
                 }
             }
+
+        } else {
+            LOG.error("No notice coniguration mapping was found for the circulation policy id: " + currentLoanDocument.getCirculationLocationId());
         }
 
         return deliverNotices;
@@ -90,23 +131,33 @@ public class CircUtilController {
         lostNotice.setNoticeType(OLEConstants.NOTICE_LOST);
         lostNotice.setNoticeSendType(DroolsConstants.EMAIL);
         lostNotice.setPatronId(currentLoanDocument.getPatronId());
-        lostNotice.setNoticeToBeSendDate(calculateNoticeToBeSentDate(Integer.parseInt((String) noticeInfo
-                .getNoticeInfoForTypeMap().get(OLEConstants.OVERDUE_NOTICE).get(DroolsConstants
-                        .INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE)), currentLoanDocument.getLoanDueDate(), count + 1));
+        Map<String, Object> overdueMap = new HashMap<String, Object>();
+        if (noticeInfo.getNoticeInfoForTypeMap().containsKey(OLEConstants.OVERDUE_NOTICE)) {
+            overdueMap = noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.OVERDUE_NOTICE);
+        } else if (noticeInfo.getNoticeInfoForTypeMap().containsKey(OLEConstants.RECALL_OVERDUE_NOTICE)) {
+            overdueMap = noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.RECALL_OVERDUE_NOTICE);
+        }
+        lostNotice.setNoticeToBeSendDate(calculateNoticeToBeSentDate(Integer.parseInt((String) overdueMap.get(DroolsConstants
+                .INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE)), currentLoanDocument.getLoanDueDate(), count + 1));
         deliverNotices.add(lostNotice);
-        lostNotice.setReplacementFeeAmount(BigDecimal.valueOf(Double.parseDouble((String) noticeInfo
-                .getNoticeInfoForTypeMap().get(OLEConstants.OVERDUE_NOTICE).get(DroolsConstants
-                        .REPLACEMENT_BILL_AMT))));
+        lostNotice.setReplacementFeeAmount(BigDecimal.valueOf(Double.parseDouble((String) overdueMap.get(DroolsConstants
+                .REPLACEMENT_BILL_AMT))));
     }
 
     private void processOverdueNotices(NoticeInfo noticeInfo, List<OLEDeliverNotice> deliverNotices, int count, OleLoanDocument currentLoanDocument) {
         OLEDeliverNotice overdueNotice = new OLEDeliverNotice();
-        overdueNotice.setNoticeToBeSendDate(calculateNoticeToBeSentDate(Integer.parseInt((String) noticeInfo
-                        .getNoticeInfoForTypeMap().get(OLEConstants.OVERDUE_NOTICE).get(DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE)),
+        Map<String, Object> overdueMap = new HashMap<String, Object>();
+        if (noticeInfo.getNoticeInfoForTypeMap().containsKey(OLEConstants.OVERDUE_NOTICE)) {
+            overdueMap = noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.OVERDUE_NOTICE);
+        } else if (noticeInfo.getNoticeInfoForTypeMap().containsKey(OLEConstants.RECALL_OVERDUE_NOTICE)) {
+            overdueMap = noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.RECALL_OVERDUE_NOTICE);
+        }
+        overdueNotice.setNoticeToBeSendDate(calculateNoticeToBeSentDate(Integer.parseInt((String) overdueMap.get(DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE)),
                 currentLoanDocument.getLoanDueDate(), count + 1));
         overdueNotice.setNoticeSendType(DroolsConstants.EMAIL);
         overdueNotice.setNoticeType(OLEConstants.OVERDUE_NOTICE);
         overdueNotice.setPatronId(currentLoanDocument.getPatronId());
+        overdueNotice.setLoanId(currentLoanDocument.getLoanId());
         deliverNotices.add(overdueNotice);
     }
 
@@ -115,8 +166,14 @@ public class CircUtilController {
         String loanId = currentLoanDocument.getLoanId();
         courtseyNotice.setNoticeType(OLEConstants.COURTESY_NOTICE);
         courtseyNotice.setNoticeSendType(DroolsConstants.EMAIL);
-        courtseyNotice.setNoticeToBeSendDate(calculateNoticeToBeSentDate(-Integer.parseInt((String) noticeInfo
-                        .getNoticeInfoForTypeMap().get(OLEConstants.COURTESY_NOTICE).get(DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTSEY)),
+        Map<String, Object> courtesyMap = new HashMap<String, Object>();
+        if (noticeInfo.getNoticeInfoForTypeMap().containsKey(OLEConstants.COURTESY_NOTICE)) {
+            courtesyMap = noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.COURTESY_NOTICE);
+        } else if (noticeInfo.getNoticeInfoForTypeMap().containsKey(OLEConstants.RECALL_COURTESY_NOTICE)) {
+            courtesyMap = noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.RECALL_COURTESY_NOTICE);
+        }
+
+        courtseyNotice.setNoticeToBeSendDate(calculateNoticeToBeSentDate(-Integer.parseInt((String) courtesyMap.get(DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY)),
                 currentLoanDocument.getLoanDueDate(), 1));
         courtseyNotice.setLoanId(loanId);
         courtseyNotice.setPatronId(currentLoanDocument.getPatronId());
@@ -131,7 +188,7 @@ public class CircUtilController {
         return noticeToBeSentDate;
     }
 
-    public ItemRecord getItemRecordByBarcode(String itemBarcode){
+    public ItemRecord getItemRecordByBarcode(String itemBarcode) {
         ItemRecord itemRecord = null;
         HashMap<String, String> criteriaMap = new HashMap<>();
         criteriaMap.put("barCode", itemBarcode);
@@ -144,14 +201,14 @@ public class CircUtilController {
         return itemRecord;
     }
 
-    public String convertDateToString(Date date ,String format){
+    public String convertDateToString(Date date, String format) {
         LOG.info("Date Format : " + format + "Date : " + date);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
-        String dateValue ="";
-        try{
+        String dateValue = "";
+        try {
             dateValue = simpleDateFormat.format(date);
-        }catch(Exception e){
-            LOG.error(e,e);
+        } catch (Exception e) {
+            LOG.error(e, e);
         }
         LOG.info("Formatted Date : " + dateValue);
         return dateValue;
@@ -186,7 +243,7 @@ public class CircUtilController {
     }
 
     public ItemOlemlRecordProcessor getItemOlemlRecordProcessor() {
-        if(itemOlemlRecordProcessor == null){
+        if (itemOlemlRecordProcessor == null) {
             itemOlemlRecordProcessor = SpringContext.getBean(ItemOlemlRecordProcessor.class);
         }
         return itemOlemlRecordProcessor;
@@ -197,6 +254,17 @@ public class CircUtilController {
             docstoreClientLocator = SpringContext.getBean(DocstoreClientLocator.class);
         }
         return docstoreClientLocator;
+    }
+
+    public void setDateFormatForDocstoreDueDate(SimpleDateFormat dateFormatForDocstoreDueDate) {
+        this.dateFormatForDocstoreDueDate = dateFormatForDocstoreDueDate;
+    }
+
+    public SimpleDateFormat getDateFormatForDocstoreDueDate() {
+        if (dateFormatForDocstoreDueDate == null) {
+            dateFormatForDocstoreDueDate = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        }
+        return dateFormatForDocstoreDueDate;
     }
 
 
@@ -211,35 +279,38 @@ public class CircUtilController {
 
     public OleLoanDocument updateLoanDocumentWithItemInformation(ItemRecord itemRecord, OleLoanDocument oleLoanDocument) {
 
-        OleItemSearch oleItemSearch = new DocstoreUtil().getOleItemSearchList(itemRecord.getItemId());
+        OleItemSearch oleItemSearch = new DocstoreUtil().getOleItemSearchListFromLocalClient(itemRecord.getItemId());
         oleLoanDocument.setTitle(oleItemSearch.getTitle());
         oleLoanDocument.setAuthor(oleItemSearch.getAuthor());
-        oleLoanDocument.setLocation(oleItemSearch.getShelvingLocation());
+        String location = oleItemSearch.getShelvingLocation().split("/")[oleItemSearch.getShelvingLocation().split("/").length - 1];
+        try {
+            getOleLoanDocumentsFromSolrBuilder().getLocationBySolr(location, oleLoanDocument);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         oleLoanDocument.setItemCallNumber(oleItemSearch.getCallNumber());
         oleLoanDocument.setItemCopyNumber(oleItemSearch.getCopyNumber());
         oleLoanDocument.setChronology(oleItemSearch.getChronology());
         oleLoanDocument.setEnumeration(oleItemSearch.getEnumeration());
-        oleLoanDocument.setItemStatus(oleItemSearch.getItemStatus());
-        oleLoanDocument.setItemUuid(oleItemSearch.getItemUUID());
+        oleLoanDocument.setItemType(oleItemSearch.getItemType());
+        oleLoanDocument.setItemStatus(OLEConstants.ITEM_STATUS_CHECKEDOUT);
+        oleLoanDocument.setItemUuid(itemRecord.getUniqueIdPrefix() + "-" + oleItemSearch.getItemUUID());
         oleLoanDocument.setInstanceUuid(oleItemSearch.getInstanceUUID());
         oleLoanDocument.setBibUuid(oleItemSearch.getBibUUID());
         return oleLoanDocument;
     }
 
 
-
-    public Boolean updateItemInfoInSolr(OleLoanDocument oleLoanDocument, String itemUUID) {
+    /**
+     * @param map
+     * @param itemUUID
+     * @param updateNulls - This indicates if null values should be updated for the corosponding parameters in SOLR.
+     * @return If SOLR update was successfull.
+     */
+    public Boolean updateItemInfoInSolr(Map map, String itemUUID, boolean updateNulls) {
         org.kuali.ole.docstore.common.document.content.instance.Item oleItem = getExistingItemFromSolr(itemUUID);
         if (oleItem != null) {
-            oleItem.setCurrentBorrower(oleLoanDocument.getPatronId());
-            oleItem.setProxyBorrower(oleLoanDocument.getProxyPatronId());
-            oleItem.setCheckOutDateTime(convertDateToString(oleLoanDocument.getCreateDate(), "MM/dd/yyyy HH:mm:ss"));
-            if (oleLoanDocument.getLoanDueDate() != null) {
-                oleItem.setDueDateTime(convertToString(oleLoanDocument.getLoanDueDate()));
-            } else {
-                oleItem.setDueDateTime("");
-            }
-            oleItem.setNumberOfRenew(Integer.parseInt(oleLoanDocument.getNumberOfRenewals()));
+            setItemInfoForUpdate(map, oleItem, updateNulls);
             try {
                 updateItem(oleItem);
             } catch (Exception e) {
@@ -249,9 +320,134 @@ public class CircUtilController {
         return true;
     }
 
+    public Boolean deleteItemInfoInSolr(Map map, String itemUUID) {
+        org.kuali.ole.docstore.common.document.content.instance.Item oleItem = getExistingItemFromSolr(itemUUID);
+        if (oleItem != null) {
+            setItemInfoForDelete(map, oleItem);
+            try {
+                updateItem(oleItem);
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void setItemInfoForDelete(Map map, org.kuali.ole.docstore.common.document.content.instance.Item oleItem) {
+        if (map.keySet().contains("checkinNote"))
+            oleItem.setCheckinNote("");
+        if (map.containsKey("deleteClaimsReturn")) {
+            oleItem.setClaimsReturnedFlag(false);
+            oleItem.setClaimsReturnedNote(null);
+            oleItem.setClaimsReturnedFlagCreateDate(null);
+        }
+        if (map.containsKey("deleteDamagedItem")) {
+            oleItem.setItemDamagedStatus(false);
+            oleItem.setDamagedItemNote(null);
+        }
+        if (map.containsKey("deleteMissingPieceItem")) {
+            oleItem.setMissingPieceFlag(false);
+            oleItem.setMissingPieceFlagNote(null);
+            oleItem.setMissingPieceEffectiveDate(null);
+            oleItem.setMissingPiecesCount(null);
+        }
+    }
+
+    private void setItemInfoForUpdate(Map map, org.kuali.ole.docstore.common.document.content.instance.Item oleItem, boolean updateNulls) {
+        String patronId = null == map.get("patronId") ? null : (String) map.get("patronId");
+        String proxyPatronId = null == map.get("proxyPatronId") ? null : (String) map.get("proxyPatronId");
+        Date itemCheckoutDateTime = null == map.get("itemCheckoutDateTime") ? null : (Date) map.get("itemCheckoutDateTime");
+        Timestamp loanDueDate = null == map.get("loanDueDate") ? null : (Timestamp) map.get("loanDueDate");
+        String numRenewals = null == map.get("numRenewals") ? null : (String) map.get("numRenewals");
+        String itemStatus = null == map.get("itemStatus") ? null : (String) map.get("itemStatus");
+        LocationsCheckinCountRecord locationsCheckinCountRecordToBeUpdated = null == map.get("locationsCheckinCountRecordToBeUpdated") ? null : (LocationsCheckinCountRecord) map.get("locationsCheckinCountRecordToBeUpdated");
+
+        Boolean itemClaimsReturnedFlag = null == map.get("itemClaimsReturnedFlag") ? null : (Boolean) map.get("itemClaimsReturnedFlag");
+        String claimsReturnNote = null == map.get("claimsReturnNote") ? null : (String) map.get("claimsReturnNote");
+        String ClaimsReturnedDate = null == map.get("ClaimsReturnedDate") ? null : (String) map.get("ClaimsReturnedDate");
+
+        List<ItemClaimsReturnedRecord> itemClaimsReturnedRecords = null == map.get("itemClaimsReturnedRecords") ? null : (List<ItemClaimsReturnedRecord>) map.get("itemClaimsReturnedRecords");
+
+        String damagedItemNote = null == map.get("damagedItemNote") ? null : (String) map.get("damagedItemNote");
+        List<ItemDamagedRecord> itemDamagedRecords = null == map.get("itemDamagedRecords") ? null : (List<ItemDamagedRecord>) map.get("itemDamagedRecords");
+
+        Boolean missingPieceItemFlag = null == map.get("missingPieceItemFlag") ? null : (Boolean) map.get("missingPieceItemFlag");
+        String missingPieceItemNote = null == map.get("missingPieceItemNote") ? null : (String) map.get("missingPieceItemNote");
+        String missingPieceItemCount = null == map.get("missingPieceItemCount") ? null : (String) map.get("missingPieceItemCount");
+        String noOfmissingPiece = null == map.get("noOfmissingPiece") ? null : (String) map.get("noOfmissingPiece");
+        String missingPieceItemDate = null == map.get("missingPieceItemDate") ? null : (String) map.get("missingPieceItemDate");
+        List<MissingPieceItemRecord> itemMissingPieceItemRecords = null == map.get("itemMissingPieceItemRecords") ? null : (List<MissingPieceItemRecord>) map.get("itemMissingPieceItemRecords");
+
+        if (updateNulls) {
+            oleItem.setCurrentBorrower(patronId);
+            oleItem.setProxyBorrower(proxyPatronId);
+        }
+        if (null != itemCheckoutDateTime) {
+            oleItem.setCheckOutDateTime(convertDateToString(itemCheckoutDateTime, "MM/dd/yyyy HH:mm:ss"));
+        } else if (updateNulls) {
+            oleItem.setCheckOutDateTime(null);
+        }
+
+        if (loanDueDate != null) {
+            oleItem.setDueDateTime(convertToString(loanDueDate));
+        } else if (updateNulls) {
+            oleItem.setDueDateTime("");
+        }
+
+        if (updateNulls) {
+            oleItem.setNumberOfRenew(null == numRenewals ? 0 : Integer.parseInt(numRenewals));
+        }
+
+        if (null != locationsCheckinCountRecordToBeUpdated) {
+            setNumberOfCirculationsCount(oleItem, locationsCheckinCountRecordToBeUpdated);
+        }
+
+        if (null != itemStatus) {
+            ItemStatus itemSt = new ItemStatus();
+            itemSt.setCodeValue(itemStatus);
+            itemSt.setFullValue(itemStatus);
+            oleItem.setItemStatus(itemSt);
+        }
+
+        if (CollectionUtils.isNotEmpty(itemClaimsReturnedRecords)) {
+            oleItem.setClaimsReturnedNote(claimsReturnNote);
+            oleItem.setClaimsReturnedFlagCreateDate(ClaimsReturnedDate);
+            oleItem.setClaimsReturnedFlag(itemClaimsReturnedFlag);
+            oleItem.setItemClaimsReturnedRecords(itemClaimsReturnedRecords);
+        }
+
+        if (CollectionUtils.isNotEmpty(itemDamagedRecords)) {
+            oleItem.setDamagedItemNote(damagedItemNote);
+            oleItem.setItemDamagedStatus(true);
+            oleItem.setItemDamagedRecords(itemDamagedRecords);
+        }
+
+        if (CollectionUtils.isNotEmpty(itemMissingPieceItemRecords)) {
+            oleItem.setMissingPieceFlagNote(missingPieceItemNote);
+            oleItem.setMissingPieceFlag(missingPieceItemFlag);
+            oleItem.setMissingPiecesCount(missingPieceItemCount);
+            oleItem.setNumberOfPieces(noOfmissingPiece);
+            oleItem.setMissingPieceEffectiveDate(missingPieceItemDate);
+            oleItem.setMissingPieceItemRecordList(itemMissingPieceItemRecords);
+        }
+    }
+
+    private void setNumberOfCirculationsCount(org.kuali.ole.docstore.common.document.content.instance.Item oleItem, LocationsCheckinCountRecord locationsCheckinCountRecordToBeUpdated) {
+        //TODO: We should really use the LocationsCheckinCountRecord in DocStore rather than using some intermediary pojo like CheckinLocation and then a wrapper NumberOfCirculations;
+        //TODO: Docstore needs to be fixed at some point.
+        NumberOfCirculations numberOfCirculations = new NumberOfCirculations();
+        ArrayList<CheckInLocation> checkInLocations = new ArrayList<>();
+        CheckInLocation checkInLocation = new CheckInLocation();
+        checkInLocation.setCount(locationsCheckinCountRecordToBeUpdated.getLocationCount());
+        checkInLocation.setInHouseCount(locationsCheckinCountRecordToBeUpdated.getLocationInhouseCount());
+        checkInLocation.setName(locationsCheckinCountRecordToBeUpdated.getLocationName());
+        checkInLocations.add(checkInLocation);
+        numberOfCirculations.setCheckInLocation(checkInLocations);
+        oleItem.setNumberOfCirculations(numberOfCirculations);
+    }
 
 
-    private org.kuali.ole.docstore.common.document.content.instance.Item getExistingItemFromSolr(String itemUUID) {
+    protected org.kuali.ole.docstore.common.document.content.instance.Item getExistingItemFromSolr(String itemUUID) {
         ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
         try {
             Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemUUID);
@@ -261,7 +457,6 @@ public class CircUtilController {
         }
         return null;
     }
-
 
 
     public void updateItem(org.kuali.ole.docstore.common.document.content.instance.Item oleItem) throws Exception {
@@ -283,15 +478,120 @@ public class CircUtilController {
     }
 
 
-
     public String buildItemContent(org.kuali.ole.docstore.common.document.content.instance.Item oleItem) throws Exception {
-        ItemStatus itemStatus = new ItemStatus();
-        itemStatus.setCodeValue(OLEConstants.ITEM_STATUS_CHECKEDOUT);
-        itemStatus.setFullValue(OLEConstants.ITEM_STATUS_CHECKEDOUT);
-        oleItem.setItemStatus(itemStatus);
         oleItem.setItemStatusEffectiveDate(String.valueOf(new SimpleDateFormat(OLEConstants.DAT_FORMAT_EFFECTIVE).format(new Date())));
         String itemContent = getItemOlemlRecordProcessor().toXML(oleItem);
         return itemContent;
     }
 
+
+    public OleLoanDocument getLoanDocumentFromListBasedOnItemUuid(String itemUuid, List<OleLoanDocument> selectedLoanDocumentList) {
+        for (Iterator<OleLoanDocument> iterator = selectedLoanDocumentList.iterator(); iterator.hasNext(); ) {
+            OleLoanDocument oleLoanDocument = iterator.next();
+            if (oleLoanDocument.getItemUuid().equalsIgnoreCase(itemUuid)) {
+                return oleLoanDocument;
+            }
+        }
+        return null;
+    }
+
+    public OleLoanDocument getLoanDocumentFromListBasedOnItemBarcode(String itemBarcode, List<OleLoanDocument> selectedLoanDocumentList) {
+        for (Iterator<OleLoanDocument> iterator = selectedLoanDocumentList.iterator(); iterator.hasNext(); ) {
+            OleLoanDocument oleLoanDocument = iterator.next();
+            if (oleLoanDocument.getItemId().equalsIgnoreCase(itemBarcode)) {
+                return oleLoanDocument;
+            }
+        }
+        return null;
+    }
+
+
+    public Item getItemForUpdate(Map<String, Object> parameterMap) {
+        if (parameterMap.size() > 0) {
+            Item item = null;
+            try {
+                item = getDocstoreClientLocator().getDocstoreClient().retrieveItem((String) parameterMap.get("itemUUID"));
+                for (Iterator<String> iterator = parameterMap.keySet().iterator(); iterator.hasNext(); ) {
+                    String key = iterator.next();
+                    if (key.equalsIgnoreCase("loanDueDate")) {
+                        Timestamp dueDate = (Timestamp) parameterMap.get(key);
+                        if (null != dueDate) {
+                            item.setField(Item.DUE_DATE_TIME, getDateFormatForDocstoreDueDate().format(dueDate));
+                        } else {
+                            item.setField(Item.DUE_DATE_TIME, null);
+                        }
+                    } else if (key.equalsIgnoreCase("numRenewals")) {
+                        item.setField(Item.NO_OF_RENEWAL, (String) parameterMap.get(key));
+                    }
+                }
+                return item;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        return null;
+    }
+
+
+    public Timestamp processDateAndTimeForAlterDueDate(Date loanDueDateToAlter, String loanDueDateTimeToAlter) throws Exception {
+        boolean timeFlag;
+        Timestamp timestamp;
+        SimpleDateFormat fmt = new SimpleDateFormat(OLEConstants.OlePatron.PATRON_MAINTENANCE_DATE_FORMAT);
+
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(loanDueDateTimeToAlter)) {
+            String[] str = loanDueDateTimeToAlter.split(":");
+            timeFlag = validateTime(loanDueDateTimeToAlter);
+            if (timeFlag) {
+                if (str != null && str.length <= 2) {
+                    loanDueDateTimeToAlter = loanDueDateTimeToAlter + OLEConstants.CHECK_IN_TIME_MS;
+                }
+                timestamp = Timestamp.valueOf(new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT).format(loanDueDateToAlter).concat(" ").concat(loanDueDateTimeToAlter));
+            } else {
+                throw new Exception("Invalid time format");
+            }
+        } else if (fmt.format(loanDueDateToAlter).compareTo(fmt.format(new Date())) == 0) {
+            timestamp = new Timestamp(new Date().getTime());
+        } else {
+            timestamp = Timestamp.valueOf(new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT).format(loanDueDateToAlter).concat(" ").concat(new SimpleDateFormat("HH:mm:ss").format(new Date())));
+        }
+        return timestamp;
+    }
+
+
+    public boolean validateTime(String timeString) {
+        if (StringUtils.isNotBlank(timeString)) {
+            Pattern pattern;
+            Matcher matcher;
+            pattern = Pattern.compile(OLEConstants.TIME_24_HR_PATTERN);
+            matcher = pattern.matcher(timeString);
+            boolean validTime = matcher.matches();
+            return validTime;
+        } else {
+            return true;
+        }
+    }
+
+
+    private OleLoanDocumentsFromSolrBuilder getOleLoanDocumentsFromSolrBuilder() {
+        if (null == oleLoanDocumentsFromSolrBuilder) {
+            oleLoanDocumentsFromSolrBuilder = new OleLoanDocumentsFromSolrBuilder();
+        }
+        return oleLoanDocumentsFromSolrBuilder;
+    }
+
+
+    public void addToFormattedContent(StringBuilder stringBuilder, String content) {
+        if (stringBuilder.length() > 0) {
+            stringBuilder.append("<br/>").append(content);
+        } else {
+            stringBuilder.append(content);
+        }
+    }
+
+    public void updateNoticesForLoanDocument(OleLoanDocument oleLoanDocument) {
+        ItemRecord itemRecord = getItemRecordByBarcode(oleLoanDocument.getItemId());
+        List<OLEDeliverNotice> oleDeliverNotices = processNotices(oleLoanDocument, itemRecord);
+        oleLoanDocument.setDeliverNotices(oleDeliverNotices);
+    }
 }

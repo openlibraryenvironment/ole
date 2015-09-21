@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+    
+        Copyright 2005-2012 The Kuali Foundation
+    
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+    
+        http://www.opensource.org/licenses/ecl2.php
+    
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+    
+    -->
+    <bean id="FinesAndLimitsBo" parent="FinesAndLimitsBo-parentBean"/>
+
+    <bean id="FinesAndLimitsBo-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.deliver.bo.drools.FinesAndLimitsBo"/>
+        <property name="objectLabel" value="General Check Rule"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="FinesAndLimitsBo-borrowerType"/>
+                <ref bean="FinesAndLimitsBo-overDueLimits"/>
+                <ref bean="FinesAndLimitsBo-limitAmount"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="FinesAndLimitsBo-borrowerType" parent="FinesAndLimitsBo-borrowerType-parentBean"/>
+
+    <bean id="FinesAndLimitsBo-borrowerType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Borrower Type"/>
+        <property name="maxLength" value="400"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean id="TextControlDefinition_borrowerType" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_borrowerType" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="borrowerType"/>
+        <property name="label" value="Borrower Type"/>
+        <property name="description" value="Borrower Type"/>
+    </bean>
+
+    <bean id="FinesAndLimitsBo-overDueLimits" parent="FinesAndLimitsBo-overDueLimits-parentBean"/>
+
+    <bean id="FinesAndLimitsBo-overDueLimits-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Overdue Limit"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean id="TextControlDefinition_overDueLimits" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_overDueLimits" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="overDueLimits"/>
+        <property name="label" value="Overdue Limit"/>
+        <property name="description" value="Overdue Limit"/>
+    </bean>
+
+    <bean id="FinesAndLimitsBo-limitAmount" parent="FinesAndLimitsBo-limitAmount-parentBean"/>
+
+    <bean id="FinesAndLimitsBo-limitAmount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Limit"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean id="TextControlDefinition_limitAmount" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_limitAmount" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="limitAmount"/>
+        <property name="label" value="Limit"/>
+        <property name="description" value="Limit"/>
+    </bean>
+
+</beans>

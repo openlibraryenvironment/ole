@@ -95,7 +95,7 @@
             </list>
         </property>
         <property name="page.footer">
-            <bean parent="Uif-OleDocumentPageFooter" p:render="@{maintenanceAction ne 'Delete'}">
+            <bean id="Patron-FooterBase" parent="Uif-OleDocumentPageFooter" p:render="@{maintenanceAction ne 'Delete'}">
                 <property name="items">
                     <list merge="false">
                         <bean id="olePatronRouteReport" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="performRouteReport" p:actionLabel="route report"
@@ -152,7 +152,52 @@
     <bean id="Patron-MaintenanceView" abstract="true" parent="Patron-MaintenanceView-parentBean"/>
     <bean id="Patron-MaintenanceView-parentBean"  parent="Uif-OLEMaintenanceView">
         <property name="page">
-            <bean parent="Uif-RemoveNoteSection-MaintenancePage"/>
+            <bean parent="Patron-Uif-OleMaintenancePage"/>
+        </property>
+    </bean>
+
+    <bean id="Patron-Uif-OleMaintenancePage" abstract="true" parent="Patron-Uif-OleMaintenancePage-parentBean"/>
+    <bean id="Patron-Uif-OleMaintenancePage-parentBean" parent="Patron-Uif-OleDocumentPage">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-maintenancePage</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Patron-Uif-OleDocumentPage" parent="Uif-Disclosure-Page">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentPage</value>
+            </list>
+        </property>
+        <property name="defaultItemPosition" value="11"/>
+        <property name="items">
+            <list>
+                <ref bean="Patron-FooterBase-Header"/>
+                <ref bean="OlePatronDocument-FooterBase-Header"/>
+                <ref bean="Patron_Edit_Bill_Section"/>
+                <bean id="note" parent="Uif-OleDocumentOverviewSection" p:order="13"/>
+                <bean id="notesec" parent="Uif-OleDocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30" p:render="false"/>
+                <bean id="adhoc" parent="Uif-OleDocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"/>
+                <bean id="routesection" parent="Uif-OleDocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-OleDocumentPageFooter"/>
+        </property>
+    </bean>
+
+    <bean id="Patron-FooterBase-Header" parent="Patron-FooterBase" p:render="@{maintenanceAction ne 'Delete'}" p:order="10"/>
+
+    <bean id="OlePatronDocument-FooterBase-Header" parent="OlePatronDocument-FooterBase" p:render="@{maintenanceAction eq 'Delete'}" p:order="11"/>
+
+    <bean id="Patron_Edit_Bill_Section" parent="Uif-HorizontalFieldGroup" p:render="@{document.newMaintainableObject.dataObject.showBillUrlsFlag eq true}" p:order="12">
+        <property name="items">
+            <list>
+                <bean id="createPatronBillLink_edit" parent="Uif-LinkField" p:style="font-weight:bold;font-size:15px;margin-left:1.5em;" p:href="@{#dp.createBillUrl}"  p:linkText="Create Bill"  p:target="_blank"/>
+                <bean id="viewPatronBillLink_edit" parent="Uif-LinkField" p:style="font-weight:bold;font-size:15px;margin-left:1.5em;" p:href="@{#dp.viewBillUrl}"  p:linkText="@{#dp.patronBillFileName}"  p:target="_blank"/>
+            </list>
         </property>
     </bean>
 
@@ -400,6 +445,7 @@
                 <bean id="patronRequest_volumeNumber" parent="OlePatron-DataField" p:label="Volume Number" p:propertyName="volumeNumber" />
                 <bean id="patronRequest_itemType" parent="OlePatron-DataField" p:label="Item Type" p:propertyName="itemType" />
                 <bean id="patronRequest_itemStatus" parent="OlePatron-DataField" p:label="Item Status" p:propertyName="itemStatus" />
+                <bean id="patronRequest_pickUpLocationCode" parent="OlePatron-DataField" p:label="Pickup Location" p:propertyName="pickUpLocationCode"/>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>

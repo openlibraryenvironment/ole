@@ -1,6 +1,6 @@
 package org.kuali.ole.sip2.sip2Response;
 
-import org.apache.commons.lang3.StringUtils;
+import org.kuali.ole.response.OLESIP2Response;
 import org.kuali.ole.sip2.constants.OLESIP2Constants;
 import org.kuali.ole.sip2.requestParser.OLESIP2ItemStatusUpdateRequestParser;
 import org.kuali.ole.sip2.sip2Server.MessageUtil;
@@ -16,20 +16,6 @@ public class OLESIP2ItemStatusUpdateResponse extends OLESIP2Response {
 
     public String getOLESIP2ItemStatusUpdateResponse(String requestData, OLESIP2ItemStatusUpdateRequestParser olesip2ItemStatusUpdateRequestParser) {
 
-       /* StringBuilder builder = new StringBuilder();
-        builder.append(this.code);
-        builder.append(StringUtil.bool2Int(false));
-        builder.append(MessageUtil.getSipDateTime());
-        builder.append("AB");
-        builder.append(olesip2ItemStatusUpdateRequestParser.getItemIdentifier());
-        builder.append("|AF");
-        builder.append("Item Status Update Service - Not supported in OLE");
-        if (StringUtils.isNotBlank(olesip2ItemStatusUpdateRequestParser.getSequenceNum())) {
-            builder.append("|AY");
-            builder.append(olesip2ItemStatusUpdateRequestParser.getSequenceNum());
-            builder.append(org.kuali.ole.sip2.common.MessageUtil.computeChecksum(olesip2ItemStatusUpdateRequestParser.toString()));
-        }
-        return builder.toString() + '\r';*/
         StringBuilder builder = new StringBuilder();
         String[] requestDataArray = requestData.split("\\|");
         builder.append(this.code);
@@ -52,9 +38,6 @@ public class OLESIP2ItemStatusUpdateResponse extends OLESIP2Response {
                 builder.append(MessageUtil.computeChecksum(builder.toString()));
             }
         }
-        System.out.println(builder.toString());
-
-
         return builder.toString() + '\r';
     }
 }

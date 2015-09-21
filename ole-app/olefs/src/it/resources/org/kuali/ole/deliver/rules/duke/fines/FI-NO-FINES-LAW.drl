@@ -1,0 +1,26 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.ItemFineRate
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.bo.PatronBillPayment
+
+
+
+rule "No Fines for LAW"
+agenda-group "fine validation"
+activation-group "fine validation"
+when
+
+$b: ItemFineRate()
+
+$i: OleItemRecordForCirc(getItemLibraryLocation() in ("LAW"))
+
+then
+$b.setFineRate(0.00);
+$b.setMaxFine(0.00);
+
+ end

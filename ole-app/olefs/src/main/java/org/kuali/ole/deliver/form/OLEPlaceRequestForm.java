@@ -35,12 +35,14 @@ public class OLEPlaceRequestForm extends UifFormBase {
     private String holdRequestType;
     private String pageRequestType;
     private String copyRequestType;
+    private String asrRequestType;
     private boolean blockOverride=false;
 
     private boolean recallRequest;
     private boolean holdRequest;
     private boolean pageRequest;
     private boolean copyRequest;
+    private boolean asrRequest;
     private String itemBarcode;
 
     private String itemLocation;
@@ -65,6 +67,15 @@ public class OLEPlaceRequestForm extends UifFormBase {
     private boolean blockSubmit=false;
     private String existingAddressType;
     private boolean displayRequestType=false;
+    private boolean addressUpdated;
+
+    public boolean isAddressUpdated() {
+        return addressUpdated;
+    }
+
+    public void setAddressUpdated(boolean addressUpdated) {
+        this.addressUpdated = addressUpdated;
+    }
 
     public String getPatronFirstName() {
         return PatronFirstName;
@@ -456,5 +467,21 @@ public class OLEPlaceRequestForm extends UifFormBase {
 
     public void setDisplayRequestType(boolean displayRequestType) {
         this.displayRequestType = displayRequestType;
+    }
+
+    public String getAsrRequestType() {
+        return asrRequestType;
+    }
+
+    public void setAsrRequestType(String asrRequestType) {
+        this.asrRequestType = asrRequestType;
+    }
+
+    public boolean isAsrRequest() {
+        return asrRequest;
+    }
+
+    public void setAsrRequest(boolean asrRequest) {
+        this.asrRequest = asrRequest;
     }
 }

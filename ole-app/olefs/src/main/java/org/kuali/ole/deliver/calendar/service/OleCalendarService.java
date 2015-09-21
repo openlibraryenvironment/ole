@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.calendar.service;
 
 import org.kuali.ole.deliver.calendar.bo.OleCalendar;
 import org.kuali.ole.deliver.calendar.bo.OleCalendarGroup;
+import org.kuali.ole.deliver.util.ItemFineRate;
 
 import java.sql.Timestamp;
 
@@ -32,4 +33,6 @@ public interface OleCalendarService {
     public void validateCalendarDocument(OleCalendar oleCalendar);
 
     public void deleteCalendarDocument(OleCalendar oleCalendar);
+
+    public Double calculateOverdueFine(String groupId, Timestamp dueDate, Timestamp checkInDate, ItemFineRate itemFineRate);
 }

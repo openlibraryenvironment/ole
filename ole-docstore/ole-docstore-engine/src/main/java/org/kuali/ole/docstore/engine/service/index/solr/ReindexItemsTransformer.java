@@ -4,6 +4,7 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.ole.docstore.discovery.service.SolrServerManager;
 import org.slf4j.Logger;
@@ -21,7 +22,7 @@ import java.util.Map;
  * Time: 7:42 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ReindexItemsTransformer extends ReindexHoldingsTransformer {
+public class ReindexItemsTransformer extends ReindexHoldingsTransformer implements DocstoreConstants {
 
 
     private static final Logger LOG = LoggerFactory.getLogger(ReindexItemsTransformer.class);
@@ -90,7 +91,7 @@ public class ReindexItemsTransformer extends ReindexHoldingsTransformer {
         QueryResponse response = null;
         String result = null;
         try {
-            String args = "(" + BibConstants.UNIQUE_ID + ":" + uniqueId + ")";
+            String args = "(" + UNIQUE_ID + ":" + uniqueId + ")";
             SolrServer solr = SolrServerManager.getInstance().getSolrServer();
             SolrQuery query = new SolrQuery();
             query.setQuery(args);

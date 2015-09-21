@@ -4,10 +4,13 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.deliver.bo.OleBatchJobBo;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.quartz.CronExpression;
 import org.quartz.JobDetail;
 import org.quartz.impl.StdScheduler;
 import org.springframework.scheduling.quartz.CronTriggerBean;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,13 +51,15 @@ public class OleBatchJobService {
                     cronTriggerBean.setJobName(jobDetail.getName());
                     cronTriggerBean.setJobGroup(jobDetail.getGroup());
                     cronTriggerBean.setJobDetail(jobDetail);
-                    try {
-                        scheduler.scheduleJob(jobDetail, cronTriggerBean);
-                        if (LOG.isInfoEnabled()){
-                            LOG.info(jobDetail.getName() + " job is scheduled");
+                    if(null != getNextValidTimeToRunJobFromCronExpression(oleDeliverBatchJobBo.getJobCronExpression())){
+                        try {
+                            scheduler.scheduleJob(jobDetail, cronTriggerBean);
+                            if (LOG.isInfoEnabled()){
+                                LOG.info(jobDetail.getName() + " job is scheduled");
+                            }
+                        } catch (Exception e) {
+                            scheduler.rescheduleJob(oleDeliverBatchJobBo.getJobTriggerName(), jobDetail.getName(), cronTriggerBean);
                         }
-                    } catch (Exception e) {
-                        scheduler.rescheduleJob(oleDeliverBatchJobBo.getJobTriggerName(), jobDetail.getName(), cronTriggerBean);
                     }
                 } catch (Exception e) {
                     LOG.error(e.getMessage() + " : Unable to schedule the job", e);
@@ -64,4 +69,17 @@ public class OleBatchJobService {
         }
 
     }
+
+    public static Date getNextValidTimeToRunJobFromCronExpression(String cronExpression){
+        Date date = null;
+        CronExpression expression;
+        try {
+            expression = new CronExpression(cronExpression);
+            date = expression.getNextValidTimeAfter(new Date());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
 }

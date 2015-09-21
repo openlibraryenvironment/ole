@@ -1,5 +1,7 @@
 package org.kuali.ole.service;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.PatronBillPayment;
 import org.kuali.ole.deliver.bo.*;
@@ -251,7 +253,12 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
     }
 
     public List<OleAddressBo> retrieveOleAddressBo(EntityBo entityBo, OlePatronDocument patronDocument) {
-        List<EntityAddressBo> addressBos = entityBo.getEntityTypeContactInfos().get(0).getAddresses();
+        List<EntityAddressBo> addressBos = new ArrayList<>();
+        List<OleEntityAddressBo> oleEntityAddressBos = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(entityBo.getEntityTypeContactInfos())){
+            addressBos = entityBo.getEntityTypeContactInfos().get(0).getAddresses();
+        }
+        boolean emptyOleEntityAddress = false;
         List<OleAddressBo> oleAddressBos = new ArrayList<OleAddressBo>();
         for (int i = 0; i < addressBos.size(); i++) {
             EntityAddressBo entityAddressBo = addressBos.get(i);
@@ -264,14 +271,36 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
             oleAddressBo.setOlePatronId(entityBo.getId());
             oleAddressBo.setOleAddressId(KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("OLE_DLVR_ADD_S").toString());
             oleAddressBo.setEntityAddress(entityAddressBo);
-            oleAddressBo.setAddressValidFrom(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().getAddressValidFrom());
-            oleAddressBo.setAddressValidTo(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().getAddressValidTo());
-            oleAddressBo.setAddressVerified(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().isAddressVerified());
-            oleAddressBo.setAddressSource(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().getAddressSource());
-            oleAddressBo.setId(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().getId());
-            oleAddressBo.setDeliverAddress(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().isDeliverAddress());
+            if (CollectionUtils.isNotEmpty(patronDocument.getOleEntityAddressBo()) && !emptyOleEntityAddress) {
+                oleAddressBo.setAddressValidFrom(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().getAddressValidFrom());
+                oleAddressBo.setAddressValidTo(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().getAddressValidTo());
+                oleAddressBo.setAddressVerified(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().isAddressVerified());
+                oleAddressBo.setAddressSource(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().getAddressSource());
+                oleAddressBo.setId(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().getId());
+                oleAddressBo.setDeliverAddress(patronDocument.getOleEntityAddressBo().get(i).getOleAddressBo().isDeliverAddress());
+            }else{
+                emptyOleEntityAddress = true;
+                OleEntityAddressBo oleEntityAddressBo = new OleEntityAddressBo();
+                if(StringUtils.isBlank(oleAddressBo.getId())){
+                    oleAddressBo.setId(entityAddressBo.getId());
+                    if(CollectionUtils.isNotEmpty(patronDocument.getOleAddresses()) && patronDocument.getOleAddresses().size() > i && patronDocument.getOleAddresses().get(i) != null){
+                        oleAddressBo.setAddressValidFrom(patronDocument.getOleAddresses().get(i).getAddressValidFrom());
+                        oleAddressBo.setAddressValidTo(patronDocument.getOleAddresses().get(i).getAddressValidTo());
+                        oleAddressBo.setAddressVerified(patronDocument.getOleAddresses().get(i).isAddressVerified());
+                        oleAddressBo.setAddressSource(patronDocument.getOleAddresses().get(i).getAddressSource());
+                        oleAddressBo.setDeliverAddress(patronDocument.getOleAddresses().get(i).isDeliverAddress());
+                    }
+                }
+                oleEntityAddressBo.setOleAddressBo(oleAddressBo);
+                oleEntityAddressBo.setEntityAddressBo(entityAddressBo);
+                oleEntityAddressBos.add(oleEntityAddressBo);
+            }
             oleAddressBos.add(oleAddressBo);
 
+        }
+
+        if(emptyOleEntityAddress){
+            patronDocument.setOleEntityAddressBo(oleEntityAddressBos);
         }
         return oleAddressBos;
     }

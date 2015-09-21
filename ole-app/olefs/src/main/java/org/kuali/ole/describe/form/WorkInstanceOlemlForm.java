@@ -44,6 +44,7 @@ public class WorkInstanceOlemlForm extends EditorForm {
         getSelectedHolding().getExtentOfOwnership().add(new ExtentOfOwnership());
         getSelectedHolding().getExtentOfOwnership().get(0).getNote().add(new Note());
         getSelectedItem().getNote().add(new Note());
+        getSelectedItem().getDonorInfo().add(new DonorInfo());
     }
 
     /**

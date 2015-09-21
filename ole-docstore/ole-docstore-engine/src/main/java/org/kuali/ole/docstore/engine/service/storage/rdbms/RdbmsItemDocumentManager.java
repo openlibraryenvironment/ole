@@ -3,6 +3,7 @@ package org.kuali.ole.docstore.engine.service.storage.rdbms;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.DocStoreConstants;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.document.Holdings;
 import org.kuali.ole.docstore.common.document.Item;
@@ -29,17 +30,9 @@ import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOleml
 import org.kuali.ole.docstore.common.exception.DocstoreException;
 import org.kuali.ole.docstore.common.exception.DocstoreResources;
 import org.kuali.ole.docstore.common.exception.DocstoreValidationException;
-import org.kuali.ole.docstore.common.search.SearchParams;
-import org.kuali.ole.docstore.common.search.SearchResponse;
-import org.kuali.ole.docstore.common.search.SearchResult;
-import org.kuali.ole.docstore.common.search.SearchResultField;
-import org.kuali.ole.docstore.engine.service.index.solr.ItemConstants;
-import org.kuali.ole.docstore.engine.service.search.DocstoreSearchService;
-import org.kuali.ole.docstore.engine.service.search.DocstoreSolrSearchService;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord;
-import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.slf4j.Logger;
@@ -62,7 +55,7 @@ import java.util.regex.Pattern;
  * Time: 1:02 PM
  * To change this template use File | Settings | File Templates.
  */
-public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
+public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager implements DocstoreConstants {
 
     private static RdbmsItemDocumentManager rdbmsItemDocumentManager = null;
     private static final Logger LOG = LoggerFactory.getLogger(RdbmsItemDocumentManager.class);
@@ -129,6 +122,9 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
                     cNum.setShelvingOrder(new ShelvingOrder());
                 }
                 cNum.getShelvingOrder().setFullValue(value);
+            }else{
+                cNum.setShelvingOrder(new ShelvingOrder());
+                cNum.setShelvingScheme(new ShelvingScheme());
             }
         }
     }
@@ -273,7 +269,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
         if(CollectionUtils.isNotEmpty(itemRecord.getMissingPieceItemRecordList())){
 
             for(org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.MissingPieceItemRecord missingPieceItemRecord : itemRecord.getMissingPieceItemRecordList()){
-                SimpleDateFormat dateToSimpleDateFormat = new SimpleDateFormat(ItemConstants.DATE_FORMAT_EFFECTIVE);
+                SimpleDateFormat dateToSimpleDateFormat = new SimpleDateFormat(DATE_FORMAT_EFFECTIVE);
                 SimpleDateFormat timestampToDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
                 Date missingPieceDate = null;
                 missingPieceDate = new Date(missingPieceItemRecord.getMissingPieceDate().getTime());
@@ -470,11 +466,11 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
         }
         if (itemRecord.getOriginalDueDate() != null) {
             SimpleDateFormat format1 = new SimpleDateFormat(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("info.DateFormat")+" HH:mm:ss");
-            SimpleDateFormat format2 = new SimpleDateFormat(ItemConstants.GREGORIAN_PATTERN);
+            SimpleDateFormat format2 = new SimpleDateFormat(GREGORIAN_PATTERN);
             String DATE_FORMAT_HH_MM_SS_REGX = "^(1[0-2]|0[1-9])/(3[0|1]|[1|2][0-9]|0[1-9])/[0-9]{4}(\\s)((([1|0][0-9])|([2][0-4]))):[0-5][0-9]:[0-5][0-9]$";
             Date originalDueDateTime = null;
-            DateFormat df = new SimpleDateFormat(ItemConstants.DAT_FORMAT_EFFECTIVE);
-            DateFormat df1 = new SimpleDateFormat(ItemConstants.DAT_FORMAT_EFFECTIVE_NOTICE);
+            DateFormat df = new SimpleDateFormat(DAT_FORMAT_EFFECTIVE);
+            DateFormat df1 = new SimpleDateFormat(DAT_FORMAT_EFFECTIVE_NOTICE);
             try {
                 originalDueDateTime = format2.parse(itemRecord.getOriginalDueDate().toString());
                 item.setOriginalDueDate(format1.format(originalDueDateTime).toString());
@@ -598,6 +594,9 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
         if (StringUtils.isNotEmpty(itemRecord.getBarCode())) {
             addDataToLabel(labelName, itemRecord.getBarCode());
         }
+        if (StringUtils.isNotEmpty(itemRecord.getPurchaseOrderItemLineId())) {
+            addDataToLabel(labelName, itemRecord.getPurchaseOrderItemLineId());
+        }
         itemDoc.setSortedValue(sortedValue.toString());
         LOG.debug("Sorted Value : " + itemDoc.getSortedValue());
         //itemDoc.setDisplayLabel(labelName.toString());
@@ -691,7 +690,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
                       missingPieceRecord.setOperatorId(missingPieceItemRecord.getOperatorId());
                       missingPieceRecord.setItemId(DocumentUniqueIDPrefix.getDocumentId(missingPieceItemRecord.getItemId()));
                       if (missingPieceItemRecord.getMissingPieceDate() != null && !missingPieceItemRecord.getMissingPieceDate().equalsIgnoreCase("")) {
-                          SimpleDateFormat df = new SimpleDateFormat(ItemConstants.DATE_FORMAT_EFFECTIVE);
+                          SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_EFFECTIVE);
                           Date parsedDate = null;
                           try {
                               parsedDate = df.parse(missingPieceItemRecord.getMissingPieceDate());
@@ -728,14 +727,28 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
             CallNumber callNumber = item.getCallNumber();
             itemRecord.setCallNumberPrefix(callNumber.getPrefix());
             itemRecord.setCallNumber(callNumber.getNumber());
-            if (callNumber.getShelvingOrder() != null) {
-                itemRecord.setShelvingOrder(callNumber.getShelvingOrder().getFullValue());
+            if(StringUtils.isNotEmpty(callNumber.getNumber())){
+                if (callNumber.getShelvingOrder() != null) {
+                    itemRecord.setShelvingOrder(callNumber.getShelvingOrder().getFullValue());
+                }
+                if (callNumber.getShelvingScheme() != null) {
+                    CallNumberTypeRecord callNumberTypeRecord = saveCallNumberTypeRecord(callNumber.getShelvingScheme());
+                    itemRecord.setCallNumberTypeRecord(callNumberTypeRecord);
+                    itemRecord.setCallNumberTypeId(callNumberTypeRecord == null ? null : callNumberTypeRecord.getCallNumberTypeId());
+                }
+            } else if(StringUtils.isEmpty(callNumber.getNumber())){
+                if (callNumber.getShelvingOrder() != null) {
+                    callNumber.getShelvingOrder().setCodeValue("");
+                    itemRecord.setShelvingOrder(callNumber.getShelvingOrder().getFullValue());
+                }
+                if(callNumber.getShelvingScheme() != null){
+                    callNumber.getShelvingScheme().setFullValue("");
+                    CallNumberTypeRecord callNumberTypeRecord = saveCallNumberTypeRecord(callNumber.getShelvingScheme());
+                    itemRecord.setCallNumberTypeId(callNumberTypeRecord == null ? null : callNumberTypeRecord.getCallNumberTypeId());
+                    itemRecord.setCallNumberTypeRecord(callNumberTypeRecord);
+                }
             }
-            if (callNumber.getShelvingScheme() != null) {
-                CallNumberTypeRecord callNumberTypeRecord = saveCallNumberTypeRecord(callNumber.getShelvingScheme());
-                itemRecord.setCallNumberTypeRecord(callNumberTypeRecord);
-                itemRecord.setCallNumberTypeId(callNumberTypeRecord == null ? null : callNumberTypeRecord.getCallNumberTypeId());
-            }
+
         }
         if (item.getAccessInformation() != null) {
             itemRecord.setBarCode(item.getAccessInformation().getBarcode());
@@ -804,7 +817,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
         if(originalDueDateTime != null){
             String[] originalDueDateTimeArray = originalDueDateTime.split(" ");
             if(originalDueDateTimeArray.length == 1 && originalDueDateTimeArray[0] != "") {
-                originalDueDateTime = originalDueDateTime + ItemConstants.DESCRIBE_EFFECTIVE_DATE;
+                originalDueDateTime = originalDueDateTime + DESCRIBE_EFFECTIVE_DATE;
                 originalDueDateTime(item,itemRecord,originalDueDateTime);
             } else if (originalDueDateTimeArray.length > 1) {
                 originalDueDateTime(item,itemRecord,originalDueDateTime);
@@ -1463,27 +1476,32 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager {
     }
 
     public void itemBarcodeValidation(Item item) {
-        ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
-        org.kuali.ole.docstore.common.document.content.instance.Item itemDocument = itemOlemlRecordProcessor.fromXML(item.getContent());
-        Map itemMap = new HashMap();
-        if (itemDocument != null && itemDocument.getAccessInformation() != null && StringUtils.isNotEmpty(itemDocument.getAccessInformation().getBarcode())) {
-            itemMap.put("barCode", itemDocument.getAccessInformation().getBarcode());
-            List<ItemRecord> itemRecords = (List<ItemRecord>) getBusinessObjectService().findMatching(ItemRecord.class, itemMap);
-            if (itemRecords.size() > 0) {
-                if (itemRecords.size() == 1) {
-                    ItemRecord itemRecord = itemRecords.get(0);
-                    String documentId =DocumentUniqueIDPrefix.getDocumentId(item.getId());
-                    if(StringUtils.isEmpty(documentId)){
-                        documentId=DocumentUniqueIDPrefix.getDocumentId(itemDocument.getItemIdentifier());
+        Boolean parameter = ParameterValueResolver.getInstance().getParameterAsBoolean("OLE", "OLE-DESC",
+                "Describe", "ITEM_BARCODE_EXISTS_CHECK");
+
+        if (parameter.booleanValue() == Boolean.TRUE) {
+            ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
+            org.kuali.ole.docstore.common.document.content.instance.Item itemDocument = itemOlemlRecordProcessor.fromXML(item.getContent());
+            Map itemMap = new HashMap();
+            if (itemDocument != null && itemDocument.getAccessInformation() != null && StringUtils.isNotEmpty(itemDocument.getAccessInformation().getBarcode())) {
+                itemMap.put("barCode", itemDocument.getAccessInformation().getBarcode());
+                List<ItemRecord> itemRecords = (List<ItemRecord>) getBusinessObjectService().findMatching(ItemRecord.class, itemMap);
+                if (itemRecords.size() > 0) {
+                    if (itemRecords.size() == 1) {
+                        ItemRecord itemRecord = itemRecords.get(0);
+                        String documentId = DocumentUniqueIDPrefix.getDocumentId(item.getId());
+                        if (StringUtils.isEmpty(documentId)) {
+                            documentId = DocumentUniqueIDPrefix.getDocumentId(itemDocument.getItemIdentifier());
+                        }
+                        String itemId = DocumentUniqueIDPrefix.getDocumentId(itemRecord.getItemId());
+                        if (documentId != null && documentId.equals(itemId)) {
+                            return;
+                        }
                     }
-                    String itemId = DocumentUniqueIDPrefix.getDocumentId(itemRecord.getItemId());
-                    if (documentId != null && documentId.equals(itemId)) {
-                        return;
-                    }
+                    DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.BARCODE_EXISTS, DocstoreResources.BARCODE_EXISTS);
+                    docstoreException.addErrorParams("barcode", itemDocument.getAccessInformation().getBarcode());
+                    throw docstoreException;
                 }
-                DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.BARCODE_EXISTS, DocstoreResources.BARCODE_EXISTS);
-                docstoreException.addErrorParams("barcode", itemDocument.getAccessInformation().getBarcode());
-                throw docstoreException;
             }
         }
     }

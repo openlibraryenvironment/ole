@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="EditorWorkformView" parent="EditorWorkformView-parentBean" />
+    <bean id="EditorWorkformView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Marc Editor Workform"/>
+        <property name="items">
+            <list>
+                <bean id="EditorWorkformViewPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <bean id="WorkForm_LocalId" parent="Uif-LinkField"
+                                  p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{bibLocalIdentifier}&amp;editable=true"
+                                  p:style="font-size:15px;margin-bottom:1em;" p:label="Bib Local Id "
+                                  p:linkText="@{bibLocalIdentifier}" p:target="_blank"/>
+                            <ref bean="WorkBibDataFieldSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/describe/css/editorWorkform.css</value>
+                <value>ole/describe/css/editor.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ole/describe/scripts/editor.js</value>
+                <value>ole/describe/scripts/marcControlField006.js</value>
+                <value>ole/describe/scripts/marcControlField007.js</value>
+                <value>ole/describe/scripts/marcControlField008.js</value>
+                <value>ole/describe/scripts/marc.js</value>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="Editor_Footer"/>
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.EditorForm"/>
+    </bean>
+
+</beans>

@@ -1,0 +1,6 @@
+$p : OlePatronDocument(getActivationDate()!= null,getActivationDate() > today())
+
+ function Date today(){
+ Date date = new Date(System.currentTimeMillis());
+ return date;
+ }

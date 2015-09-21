@@ -1,6 +1,6 @@
 jq(document).ready(function () {
     jq("#EditorExistingRecordTreeNavigation").html(jq("#EditorHdnTreeData_control").val());
-    jq('#WorkBibDataFieldSection table tr td').eq(0).css('width', '75%');
+    jq('#WorkBibDataFieldSection table tr td').eq(0).css('width', '95%');
     jq('#DublinElementSection table tr td').eq(0).css('width', '80%');
     //jq('#callNumberHoldingsBrowseLinkHidden').hide();
 
@@ -97,6 +97,96 @@ jq(document).ready(function () {
         }
     });
     //document.onkeypress = disableEnterKey;
+
+    jq("#submitEditor_Header").click(function() {
+        if ("bibliographic" == jq("#hdnDocType_control").val()) {
+            jq("#hiddenBibFlag_control").val(false);
+        } else if ("holdings" == jq("#hdnDocType_control").val()) {
+            jq("#hiddenHoldingFlag_control").val(false);
+        } else if ("item" == jq("#hdnDocType_control").val()) {
+            jq("#hiddenItemFlag_control").val(false);
+        } else if ("eHoldings" == jq("#hdnDocType_control").val()) {
+            jq("#hiddenEHoldingsFlag_control").val(false);
+        }
+    });
+
+    jq("input.uif-textControl").live("keypress", function (event) {
+        if (!ctrlEnter) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                if ("eHoldings" == jq("#hdnDocType_control").val()) {
+                    jq("#EInstanceSave").click();
+                } else {
+                    jq("#submitEditor").click();
+                }
+            }
+        }
+        ctrlEnter = false;
+    });
+
+    jq("#OleHoldingLocation_control").focus();
+    jq("#OleHoldingLocationLevelName_control").focus();
+    jq("#OleEHoldingLocation_control").focus();
+    jq(document).live("keypress", function (event) {
+        if (!ctrlEnter) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                if ("eHoldings" == jq("#hdnDocType_control").val()) {
+                    jq("#EInstanceSave").click();
+                } else {
+                    jq("#submitEditor").click();
+                }
+            }
+        }
+        ctrlEnter = false;
+    });
+
+    jq("#OleHoldingCallNumber_control").live('blur',function() {
+        if(jq("#OleHoldingCallNumber_control").val().length < 1){
+            jq("#OleHoldingShelvingOrder_control").val("");
+            jq("#OleHoldingShelvingScheme_control").val(1);
+        }
+    });
+    jq("#OleItemCallNumber_control").live('blur',function() {
+        if(jq("#OleItemCallNumber_control").val().length < 1){
+            jq("#OleItemShelvingOrder_control").val("");
+            jq("#OleItemShelvingScheme_control").val(1);
+        }
+    });
+
+    jq(document).live("keyup", function (event) {
+        var id = event.currentTarget.activeElement.getAttribute("id");
+        if (id != null && id != undefined) {
+            if (id.substring(0, 21) == "dataField_tag_id_line") {
+                var idRow = id;
+                idRow = idRow.replace("dataField_tag_id_line", "");
+                idRow = idRow.replace("_control", "").trim();
+                var value = jq("#" + id).val();
+                if (value.length == 3) {
+                    jq("#dataField_ind1_id_line" + idRow + "_control").focus();
+                }
+            } else if (id.substring(0, 22) == "dataField_ind1_id_line") {
+                var idRow = id;
+                idRow = idRow.replace("dataField_ind1_id_line", "");
+                idRow = idRow.replace("_control", "").trim();
+                var value = jq("#" + id).val();
+                if (value.length == 1) {
+                    jq("#dataField_ind2_id_line" + idRow + "_control").focus();
+                }
+            } else if (id.substring(0, 22) == "dataField_ind2_id_line") {
+                var idRow = id;
+                idRow = idRow.replace("dataField_ind2_id_line", "");
+                idRow = idRow.replace("_control", "").trim();
+                var value = jq("#" + id).val();
+                if (value.length == 1) {
+                    jq("#dataField_value_id_line" + idRow + "_control").focus();
+                    jq("#dataField_value_not_260_id_line" + idRow + "_control").focus();
+                    jq("#dataField_260_a_id_line" + idRow + "_control").focus();
+                }
+            }
+        }
+    });
+    keyboardShortcuts();
 });
 
 function wrapEnterText(){
@@ -535,7 +625,7 @@ function getApplicationPath() {
 }
 
 function commonWidthForField() {
-    jq('#WorkBibDataFieldSection table tr td').eq(0).css('width', '85%');
+    jq('#WorkBibDataFieldSection table tr td').eq(0).css('width', '95%');
     jq('#DublinElementSection table tr td').eq(0).css('width', '80%');
     wrapEnterText();
 }
@@ -659,28 +749,27 @@ function makeUrlClickable(content){
 }
 jq(window).load(function () {
 //    localStorage.closeWindowEvent= false;
-    var navigationBarHeight = jq('#Uif-Navigation').height();
-    jq('#spaceField').height(navigationBarHeight);
 
     jq("#OleEinstance-purchaseOrderId_control").html(jq("#OleEinstance-purchaseOrderId_control").text());
     jq("#holdingsItemTree_tree a").each( function(){
         var id = jq(this).attr("class");
         if(id.indexOf("who")!=-1){
             if(id.indexOf("eHoldings")!=-1) {
-                jq(this).attr("title","eHoldings");
+                jq(this).attr("title","eHoldings" + jq(this).find('span').html());
             }
             else {
-                jq(this).attr("title","holdings");
+                jq(this).attr("title","holdings" + jq(this).find('span').html());
             }
         }
         if(id.indexOf("wio")!=-1){
-            jq(this).attr("title","item");
+            jq(this).attr("title", "item" + jq(this).find('span').html());
         }
-             var current =jq('#hiddenDocId_control').val();
-             jq('#holdingsItemTree_tree').jstree('deselect_all');
-             if(current !=""){
-                 jq('#holdingsItemTree_tree').jstree('select_node', '.'+current);
-             }
+        jq(this).css('width' ,'75%');
+        var current =jq('#hiddenDocId_control').val();
+        jq('#holdingsItemTree_tree').jstree('deselect_all');
+        if(current !=""){
+            jq('#holdingsItemTree_tree').jstree('select_node', '.'+current);
+        }
 
     });
 
@@ -1301,65 +1390,133 @@ function getPerpetualAccessEndDate(index) {
 
 
 function wrapEnterTextForEInstanceLink() {
-    /*if ("eHoldings" == (jq("#hdnDocType_control").val())) {
-     jq(".uif-textAreaControl").attr("style", "width: 220px;font-size: 13px;height: 18px;");
-     var name = jQuery.uaMatch(navigator.userAgent).browser;
-     var numRows = jq("#OleEinstance_localPersistentLink_id_control").val().length / 20;
-     jq("#OleEinstance_localPersistentLink_id_control").height((parseInt(numRows) + parseInt(1)) * 18);
+    if ("eHoldings" == (jq("#hdnDocType_control").val())) {
+        jq(".uif-textAreaControl").attr("style", "width: 220px;font-size: 13px;height: 18px;");
+        var name = jQuery.uaMatch(navigator.userAgent).browser;
+        //var numRows = jq("#OleEinstance_localPersistentLink_id_control").val().length / 20;
+        //jq("#OleEinstance_localPersistentLink_id_control").height((parseInt(numRows) + parseInt(1)) * 18);
 
-     jq("textarea").each( function(){
-     var id = jq(this).attr("id");
-     var urlNumRows = jq(this).val().length / 20;
-     if(id.contains("OleEinstance-linkURL_line")) {
-     jq(this).height((parseInt(urlNumRows)) * 18);
-     }
-     if(id.contains("OleEinstance-linkText_line")) {
-     jq(this).height((parseInt(urlNumRows)) * 18);
-     }
-     if(id.contains("OleEinstance-localPersistent")) {
-     jq(this).height((parseInt(urlNumRows)) * 18);
-     }
-     });
+        jq("textarea").each(function () {
+            var id = jq(this).attr("id");
+            var urlNumRows = jq(this).val().length / 20;
+            var name = jQuery.uaMatch(navigator.userAgent).browser;
+            if ("chrome" == name) {
+                if (id.includes("OleEinstance-linkURL_line")) {
+                    var height = (parseInt(urlNumRows)) * 18;
+                    if (height > 18) {
+                        jq(this).height((parseInt(urlNumRows)) * 18);
+                    }
+                }
+                if (id.includes("OleEinstance-linkText_line")) {
+                    var height = (parseInt(urlNumRows)) * 18;
+                    if (height > 18) {
+                        jq(this).height((parseInt(urlNumRows)) * 18);
+                    }
+                }
+                if (id.includes("OleEinstance-localPersistent")) {
+                    var height = (parseInt(urlNumRows)) * 18;
+                    if (height > 18) {
+                        jq(this).height((parseInt(urlNumRows)) * 18);
+                    }
+                }
+            } else {
+                if (id.contains("OleEinstance-linkURL_line")) {
+                    var height = (parseInt(urlNumRows)) * 18;
+                    if (height > 18) {
+                        jq(this).height((parseInt(urlNumRows)) * 18);
+                    }
+                }
+                if (id.contains("OleEinstance-linkText_line")) {
+                    var height = (parseInt(urlNumRows)) * 18;
+                    if (height > 18) {
+                        jq(this).height((parseInt(urlNumRows)) * 18);
+                    }
+                }
+                if (id.contains("OleEinstance-localPersistent")) {
+                    var height = (parseInt(urlNumRows)) * 18;
+                    if (height > 18) {
+                        jq(this).height((parseInt(urlNumRows)) * 18);
+                    }
+                }
+            }
+        });
 
-     jq(".uif-textAreaControl").keypress(function (e) {
-     var currentContentLength = jq("#" + this.id).val().length;
-     var height = jq("#" + this.id).height();
-     var cols = jq("#" + this.id).attr("cols");
-     var flag = "false";
-     if (currentContentLength % cols == 0) {
-     var sum = parseInt(20) + parseInt(jq("#" + this.id).attr("cols"));
-     if (currentContentLength != 0) {
-     jq("#" + this.id).height(height + 18);
-     }
-     jq("#" + this.id).attr("cols", sum);
-     }
+        jq(".uif-textAreaControl").on('keyup', function() {
+            //Chorme
+            var currentContentLength = jq("#" + this.id).val().length;
+            var height = jq("#" + this.id).height();
+            var cols = jq("#" + this.id).attr("cols");
+            var flag = "false";
+            if (currentContentLength % cols == 0) {
+                var sum = parseInt(20) + parseInt(jq("#" + this.id).attr("cols"));
+                if (currentContentLength != 0) {
+                    jq("#" + this.id).height(height + 18);
+                }
+                jq("#" + this.id).attr("cols", sum);
+            }
 
-     if (currentContentLength % cols == 20) {
-     var sum = parseInt(20) + parseInt(jq("#" + this.id).attr("cols"));
-     if (currentContentLength != 0) {
-     jq("#" + this.id).height(height + 18);
-     }
-     jq("#" + this.id).attr("cols", sum);
-     cols = jq("#" + this.id).attr("cols");
-     }
-     if (cols - currentContentLength > 40) {
-     var diff = parseInt(jq("#" + this.id).attr("cols")) - parseInt(20);
+            if (currentContentLength % cols == 20) {
+                var sum = parseInt(20) + parseInt(jq("#" + this.id).attr("cols"));
+                if (currentContentLength != 0) {
+                    jq("#" + this.id).height(height + 18);
+                }
+                jq("#" + this.id).attr("cols", sum);
+                cols = jq("#" + this.id).attr("cols");
+            }
+            if (cols - currentContentLength > 40) {
+                var diff = parseInt(jq("#" + this.id).attr("cols")) - parseInt(20);
 
-     if (currentContentLength < 20) {
-     diff = 20;
-     jq("#" + this.id).height(18);
-     } else {
-     if (currentContentLength != 0) {
-     height = jq("#" + this.id).height();
-     jq("#" + this.id).height(height - 18);
-     }
-     }
-     }
-     jq("#" + this.id).attr("cols", diff);
+                if (currentContentLength < 20) {
+                    diff = 20;
+                    jq("#" + this.id).height(18);
+                } else {
+                    if (currentContentLength != 0) {
+                        height = jq("#" + this.id).height();
+                        jq("#" + this.id).height(height - 18);
+                    }
+                }
+            }
+            jq("#" + this.id).attr("cols", diff);
+        });
 
-     });
-     }*/
+        jq(".uif-textAreaControl").on('keypress', function() {
+            //Firefox
+            var currentContentLength = jq("#" + this.id).val().length;
+            var height = jq("#" + this.id).height();
+            var cols = jq("#" + this.id).attr("cols");
+            var flag = "false";
+            if (currentContentLength % cols == 0) {
+                var sum = parseInt(20) + parseInt(jq("#" + this.id).attr("cols"));
+                if (currentContentLength != 0) {
+                    jq("#" + this.id).height(height + 18);
+                }
+                jq("#" + this.id).attr("cols", sum);
+            }
 
+            if (currentContentLength % cols == 20) {
+                var sum = parseInt(20) + parseInt(jq("#" + this.id).attr("cols"));
+                if (currentContentLength != 0) {
+                    jq("#" + this.id).height(height + 18);
+                }
+                jq("#" + this.id).attr("cols", sum);
+                cols = jq("#" + this.id).attr("cols");
+            }
+            if (cols - currentContentLength > 40) {
+                var diff = parseInt(jq("#" + this.id).attr("cols")) - parseInt(20);
+
+                if (currentContentLength < 20) {
+                    diff = 20;
+                    jq("#" + this.id).height(18);
+                } else {
+                    if (currentContentLength != 0) {
+                        height = jq("#" + this.id).height();
+                        jq("#" + this.id).height(height - 18);
+                    }
+                }
+            }
+            jq("#" + this.id).attr("cols", diff);
+        });
+    }
 }
 function coverageDateStart(id){
     var JSONObject = JSON.stringify(id.extraData);//.split("actionParameters[selectedLineIndex]");
@@ -1492,4 +1649,113 @@ function eInstanceClickableLink(id){
             window.open(link);
         }
     }
+}
+function focusOnTag(index) {
+    jq("#dataField_tag_id_line" + (index + 1) + "_control").focus();
+
+}
+
+function printBib(){
+    window.open("editorcontroller?viewId=EditorView&methodToCall=printBib&formKey="+jq("#editorFormKey_control").val());
+}
+
+function copyBib(methodToCall) {
+    jq('#hiddenDocId_control').val('');
+    submitForm(methodToCall, null, null, null, null);
+}
+
+var valueChange006 = false;
+var valueChange007 = false;
+var valueChange008 = false;
+
+function valueChange(controlField) {
+    if (controlField == '006') {
+        valueChange006 = true;
+    } else if (controlField == '007') {
+        valueChange007 = true;
+    } else if (controlField == '008') {
+        valueChange008 = true;
+    }
+}
+
+function validateAndSave() {
+    if (valueChange006) {
+        myConfirm("Control Field 006 value is modified. Please set the control field and submit.", null, function() { submitForm('save', null, null, null, null); }, "Please set 006 field");
+    } else if (valueChange007) {
+        myConfirm("Control Field 007 value is modified. Please set the control field and submit.", null, function() { submitForm('save', null, null, null, null); }, "Please set 007 field");
+    } else if (valueChange008) {
+        myConfirm("Control Field 008 value is modified. Please set the control field and submit.", null, function() { submitForm('save', null, null, null, null); }, "Please set 008 field");
+    } else {
+        submitForm('save', null, null, null, null);
+    }
+}
+
+var isCtrl = false;
+var isEnter = false;
+var isD = false;
+var isS = false;
+var ctrlEnter = false;
+var is3 = false;
+var isF = false;
+
+function keyboardShortcuts() {
+    jq(document).live("keyup", function (e) {
+        if (e.which == 17) {
+            isCtrl = false;
+        }
+        if (e.which == 13) {
+            isEnter = false;
+        }
+        if (e.which == 68 || e.which == 100) {
+            isD = false;
+        }
+        if (e.which == 83 || e.which == 115) {
+            isS = false;
+        }
+        if (e.which == 51) {
+            is3 = false;
+        }
+        if (e.which == 70 || e.which == 102) {
+            isF = false;
+        }
+    });
+
+    jq(document).live("keydown", function (e) {
+        if (e.which == 17) {
+            isCtrl = true;
+        }
+        if (e.which == 13) {
+            isEnter = true;
+        }
+        if (e.which == 68 || e.which == 100) {
+            isD = true;
+        }
+        if (e.which == 83 || e.which == 115) {
+            isS = true;
+        }
+        if (e.which == 51) {
+            is3 = true;
+        }
+        if (e.which == 70 || e.which == 102) {
+            isF = true;
+        }
+        if (isCtrl && isEnter) {
+            ctrlEnter = true;
+            var dataFieldRowCount = jq("div#WorkBibDataFieldDisclosureSection_disclosureContent table tbody tr").length;
+            jq("#dataField_addTagButton_id_line" + (dataFieldRowCount - 1)).click();
+        } else if (isCtrl && isD) {
+            e.preventDefault();
+            jq("#dataField_removeTagButton_id").click();
+        } else if (isCtrl && isS) {
+            e.preventDefault();
+            submitForm('save', null, null, null, null);
+        } else if (isCtrl && is3) {
+            var dataFieldRowCount = jq("div#WorkBibDataFieldDisclosureSection_disclosureContent table tbody tr").length;
+            jq("#hdnShortcutAddDataField_control").val(true);
+            jq("#dataField_addTagButton_id_line" + (dataFieldRowCount - 1)).click();
+            jq("#hdnShortcutAddDataField_control").val(false);
+        } else if (isCtrl && isF) {
+            //location.reload();
+        }
+    });
 }

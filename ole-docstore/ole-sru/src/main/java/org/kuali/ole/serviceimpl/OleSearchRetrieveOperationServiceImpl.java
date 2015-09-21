@@ -8,14 +8,13 @@ import org.kuali.ole.bo.serachRetrieve.OleSRUData;
 import org.kuali.ole.bo.serachRetrieve.OleSRUSearchRetrieveResponse;
 import org.kuali.ole.docstore.OleException;
 import org.kuali.ole.docstore.common.client.DocstoreClient;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.BibTree;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
 import org.kuali.ole.docstore.common.search.*;
 import org.kuali.ole.docstore.common.search.SearchCondition;
 import org.kuali.ole.docstore.common.search.SearchParams;
-import org.kuali.ole.docstore.discovery.model.*;
 import org.kuali.ole.docstore.engine.client.DocstoreLocalClient;
-import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
 import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.ole.docstore.utility.ISBNUtil;
 import org.kuali.ole.handler.OleSRUOpacXMLResponseHandler;
@@ -38,7 +37,7 @@ import java.util.Map;
  * Time: 6:50 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OleSearchRetrieveOperationServiceImpl implements OleSearchRetrieveOperationService {
+public class OleSearchRetrieveOperationServiceImpl implements OleSearchRetrieveOperationService, DocstoreConstants {
 
     private Logger LOG = LoggerFactory.getLogger(this.getClass());
     public OleSRUDataService oleSRUDataService;
@@ -130,13 +129,13 @@ public class OleSearchRetrieveOperationServiceImpl implements OleSearchRetrieveO
         }
         // add q=staffOnlyFlag:false to search
         FacetCondition staffOnlyFacet = new FacetCondition();
-        staffOnlyFacet.setFieldName(BibConstants.STAFF_ONLY_FLAG);
+        staffOnlyFacet.setFieldName(STAFF_ONLY_FLAG);
         staffOnlyFacet.setFieldValue(OleSRUConstants.SRU_STAFF_ONLY_FLAG);
         searchParams.getFacetConditions().add(staffOnlyFacet);
 
         // add fq=DocType:bibliographic to search
         FacetCondition docTypeFacet = new FacetCondition();
-        docTypeFacet.setFieldName(BibConstants.DOC_TYPE);
+        docTypeFacet.setFieldName(DOC_TYPE);
         docTypeFacet.setFieldValue(OleSRUConstants.BIBLIOGRAPHIC);
         searchParams.getFacetConditions().add(docTypeFacet);
 

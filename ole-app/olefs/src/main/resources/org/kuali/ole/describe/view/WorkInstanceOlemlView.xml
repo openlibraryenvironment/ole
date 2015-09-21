@@ -31,8 +31,8 @@
                     <property name="items">
                         <list>
                             <ref bean="WorkInstanceMessageSection"/>
-                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Edit" p:actionScript="edit()" p:render="@{canAdd and editable eq 'false'}" />
-                            <ref bean="WorkInstanceButtonSection"/>
+                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Edit" p:actionScript="edit()" p:render="@{canAdd and editable eq 'false'}" />
+                            <ref bean="Editor_Header_Buttons"/>
                             <ref bean="WorkHoldingsView"/>
                             <ref bean="WorkButtonSection"/>
                         </list>
@@ -45,8 +45,8 @@
                             <bean id="ItemUpperButtons" parent="Uif-HorizontalFieldGroup" p:render="@{globalEditFlag eq 'false'}">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Edit" p:actionScript="edit()" p:render="@{canAdd and editable eq 'false'}" />
-                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Print Call Slip" p:actionScript="printSlip()" />
+                                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Edit" p:actionScript="edit()" p:render="@{canAdd and editable eq 'false'}" />
+                                        <ref bean="Editor_Header_Buttons"/>
                                     </list>
                                 </property>
                             </bean>
@@ -113,9 +113,9 @@
     <bean id="WorkButtonSection" parent="Uif-HorizontalFieldGroup" p:render="@{showEditorFooter eq false}">
         <property name="items">
             <list>
-                <bean id="InstanceSave" parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
+                <bean id="InstanceSave" parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
                       p:style="float:left;margin-left:30em"   p:render="@{needToCreateInstance eq false}"/>
-                <bean id="continueInstanceProcess" parent="Uif-PrimaryActionButton" p:methodToCall="EditNewInstance" p:actionLabel="Continue Process"
+                <bean id="continueInstanceProcess" parent="Uif-SecondaryActionButton" p:methodToCall="EditNewInstance" p:actionLabel="Continue Process"
                       p:style="float:left;margin-left:30em" p:performClientSideValidation="false"  p:render="@{needToCreateInstance eq true}"/>
             </list>
         </property>
@@ -124,9 +124,9 @@
     <bean id="WorkOleItemButtonSection" parent="Uif-HorizontalFieldGroup" p:render="@{showEditorFooter eq false}">
         <property name="items">
             <list>
-                <bean id="InstanceItemSave" parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
+                <bean id="InstanceItemSave" parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
                       p:style="float:left;margin-left:30em"   p:render="@{needToCreateInstance eq true}"/>
-                <bean id="continueInstanceItemProcess" parent="Uif-PrimaryActionButton" p:methodToCall="EditNewInstance" p:actionLabel="Continue Process"
+                <bean id="continueInstanceItemProcess" parent="Uif-SecondaryActionButton" p:methodToCall="EditNewInstance" p:actionLabel="Continue Process"
                       p:style="float:left;margin-left:30em" p:performClientSideValidation="false"  p:render="@{needToCreateInstance eq false}"/>
             </list>
         </property>

@@ -10,6 +10,7 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.kuali.ole.docstore.OleException;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.config.DocumentSearchConfig;
 import org.kuali.ole.docstore.common.document.content.bib.marc.*;
@@ -43,7 +44,7 @@ import java.util.regex.Pattern;
  * Time: 4:58 PM
  * To change this template use File | Settings | File Templates.
  */
-public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConstants {
+public class BibMarcIndexer extends DocstoreSolrIndexService implements DocstoreConstants {
 
 
     //    public static Map<String, String> FIELDS_TO_TAGS_2_INCLUDE_MAP = new HashMap<String, String>();
@@ -734,7 +735,11 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
             return langs;
         } else if (fieldName.equals(FORMAT_DISPLAY) || fieldName.equals(FORMAT_SEARCH) || fieldName.equals(FORMAT_FACET)) {
             return getRecordFormat(record);
-        } else if (fieldName.equals(DESCRIPTION_SEARCH)) {
+        }  else if (fieldName.equals(RESOURCETYPE_DISPLAY) || fieldName.equals(RESOURCETYPE_SEARCH)) {
+            return getRecordFormat_ResourceType(record);
+        }  else if (fieldName.equals(CARRIER_DISPLAY) || fieldName.equals(CARRIER_SEARCH)) {
+            return getRecordFormat_Carrier(record);
+        } else if(fieldName.equals(DESCRIPTION_SEARCH)) {
             String excludeTags = documentSearchConfig.FIELDS_TO_TAGS_2_EXCLUDE_MAP.get(fieldName);
             if (excludeTags == null) {
                 excludeTags = "";
@@ -871,6 +876,119 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
             format = "Government document";
         } else {
             format = "Other";
+        }
+        return format;
+    }
+
+    /**
+     * Method to get Record Format.
+     *
+     * @param record
+     * @return
+     */
+    public String getRecordFormat_ResourceType(BibMarcRecord record) {
+        String format = null;
+        char leader6 = ' ';
+        char leader7 = ' ';
+        if (record.getLeader() != null) {
+            String leader = record.getLeader().trim();
+            if (StringUtils.isNotBlank(leader)) {
+                if (leader.length() >= 7) {
+                    leader6 = leader.charAt(6);
+                }
+                if (leader.length() >= 8) {
+                    leader7 = leader.charAt(7);
+                }
+
+                if ((leader6 == 'a' || leader6 == 't') && leader7 == 'm') {
+                    format = "Book";
+                }
+                if (leader6 == 'a' && leader7 == 's') {
+                    format = "Serial";
+                }
+                if (leader6 == 'c' || leader6 == 'd') {
+                    format = "Score";
+                }
+                if (leader6 == 'j' || leader6 == 'i') {
+                    format = "Sound recording";
+                }
+                if (leader6 == 'e' || leader6 == 'f') {
+                    format = "Map";
+                }
+                if (leader6 == 'g') {
+                    format = "Motion picture";
+                }
+                if (leader6 == 'k') {
+                    format = "Photo/Print";
+                }
+                if (leader6 == 'm') {
+                    format = "Computer file";
+                }
+                if (leader6 == 'p') {
+                    format = "Archival materials";
+                }
+                if (leader6 == 'r') {
+                    format = "Artifacts";
+                }
+            }
+        }
+        return format;
+    }
+
+    public String getRecordFormat_Carrier(BibMarcRecord record) {
+        String format = null;
+        String cF7 = null;
+        String cF8 = null;
+        char cF70 = ' ';
+        char cF71 = ' ';
+        char cF823 = ' ';
+        char cF829 = ' ';
+        char leader06 = ' ';
+        String leader ="";
+        if (record.getLeader() != null) {
+            leader = record.getLeader();
+        }
+        for (ControlField controlField : record.getControlFields()) {
+            if (controlField.getTag().equals("007")) {
+                cF7 = controlField.getValue();
+            }else if(controlField.getTag().equals("008")){
+                cF8 = controlField.getValue();
+            }
+        }
+
+        if(StringUtils.isNotBlank(cF7) && cF7.length() >= 1){
+            cF70 = cF7.charAt(0);
+        }
+        if(StringUtils.isNotBlank(cF7) && cF7.length() >= 2){
+            cF71 = cF7.charAt(1);
+        }
+        if(StringUtils.isNotBlank(cF8) && cF8.length() >= 24){
+            cF823 = cF8.charAt(23);
+        }
+        if(StringUtils.isNotBlank(cF8) && cF8.length() >= 30){
+            cF829 = cF8.charAt(29);
+        }
+        if(StringUtils.isNotBlank(leader) && leader.length() >= 7){
+            leader06 = leader.charAt(6);
+        }
+
+        if(cF70 == 'h'){
+            format = "Microform";
+            return format;
+        }
+        if(cF70 == 'c' && cF71 == 'r'){
+            format = "Remote e-resource";
+            return format;
+        }
+        if(cF70 == 'c' && cF71 != 'r'){
+            format = "Direct access 3-resource";
+            return format;
+        }
+        if((leader06 == 'a' || leader06 == 'c' || leader06 == 'd' || leader06 == 'p' || leader06 == 't') && (cF823 == 'd' || cF823 == 'f' || cF823 == 'r' || cF823 == ' ')){
+            format = "Print";
+        }
+        if((leader06 == 'e' || leader06 == 'f' || leader06 == 'k') && (cF829 == 'd' || cF829 == 'r' || cF829 == ' ')){
+            format = "Print";
         }
         return format;
     }
@@ -1288,7 +1406,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
             bibSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, bibId);
             Map<String, String> holdingsIdsMap = new HashMap<>();
             holdingsIdsMap.put(AtomicUpdateConstants.ADD, holdingsId);
-            bibSolrInputDocument.setField(HoldingsConstants.HOLDINGS_IDENTIFIER, holdingsIdsMap);
+            bibSolrInputDocument.setField(HOLDINGS_IDENTIFIER, holdingsIdsMap);
             solrInputDocumentList.add(bibSolrInputDocument);
         }
     }
@@ -1298,8 +1416,8 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
         holdingsSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, holdingsId);
         Map<String, List<String>> bibIdsMap = new HashMap<String, List<String>>();
         bibIdsMap.put(AtomicUpdateConstants.ADD, bibIds);
-        holdingsSolrInputDocument.setField(BibConstants.BIB_ID, bibIdsMap);
-        holdingsSolrInputDocument.setField(HoldingsConstants.IS_BOUND_WITH, Boolean.TRUE);
+        holdingsSolrInputDocument.setField(BIB_ID, bibIdsMap);
+        holdingsSolrInputDocument.setField(IS_BOUND_WITH, Boolean.TRUE);
         solrInputDocumentList.add(holdingsSolrInputDocument);
         updateItemDocsOfHoldings(holdingsId, solrInputDocumentList, bibIdsMap);
     }
@@ -1317,7 +1435,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
         for (String itemId : itemIdentifierList) {
             SolrInputDocument itemSolrInputDocument = new SolrInputDocument();
             itemSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, itemId);
-            itemSolrInputDocument.setField(BibConstants.BIB_ID, bibIdsMap);
+            itemSolrInputDocument.setField(BIB_ID, bibIdsMap);
             solrInputDocumentList.add(itemSolrInputDocument);
         }
     }
@@ -1336,19 +1454,19 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
         SolrInputDocument holdingsSolrInputDocument = new SolrInputDocument();
         holdingsSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, seriesHoldingsId);
         Map<String, List<String>> itemIdsMap = new HashMap<String, List<String>>();
-        if (createOrBreak.equalsIgnoreCase(BibConstants.CREATE_RELATION)) {
+        if (createOrBreak.equalsIgnoreCase(CREATE_RELATION)) {
             itemIdsMap.put(AtomicUpdateConstants.ADD, itemIds);
             holdingsSolrInputDocument.setField(ITEM_IDENTIFIER, itemIdsMap);
-            holdingsSolrInputDocument.setField(BibConstants.IS_SERIES, Boolean.TRUE);
-            holdingsSolrInputDocument.setField(BibConstants.IS_ANALYTIC, Boolean.TRUE);
-        } else if (createOrBreak.equalsIgnoreCase(BibConstants.BREAK_RELATION)) {
+            holdingsSolrInputDocument.setField(IS_SERIES, Boolean.TRUE);
+            holdingsSolrInputDocument.setField(IS_ANALYTIC, Boolean.TRUE);
+        } else if (createOrBreak.equalsIgnoreCase(BREAK_RELATION)) {
             itemIdsMap.put(AtomicUpdateConstants.REMOVE, itemIds);
             holdingsSolrInputDocument.addField(ITEM_IDENTIFIER, itemIdsMap);
             if (!hasAnalyticItemInHoldings(seriesHoldingsId, itemIds)) {
                 Map analyticMap = new HashMap();
                 analyticMap.put(AtomicUpdateConstants.SET, null);
-                holdingsSolrInputDocument.setField(BibConstants.IS_SERIES, Boolean.FALSE);
-                holdingsSolrInputDocument.setField(BibConstants.IS_ANALYTIC, analyticMap);
+                holdingsSolrInputDocument.setField(IS_SERIES, Boolean.FALSE);
+                holdingsSolrInputDocument.setField(IS_ANALYTIC, analyticMap);
             }
         }
         holdingsSolrInputDocumentList.add(holdingsSolrInputDocument);
@@ -1359,16 +1477,16 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
             SolrInputDocument itemSolrInputDocument = new SolrInputDocument();
             itemSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, itemId);
             Map holdingsIdsMap = new HashMap();
-            if (createOrBreak.equalsIgnoreCase(BibConstants.CREATE_RELATION)) {
+            if (createOrBreak.equalsIgnoreCase(CREATE_RELATION)) {
                 holdingsIdsMap.put(AtomicUpdateConstants.ADD, seriesHoldingsId);
-                itemSolrInputDocument.setField(HoldingsConstants.HOLDINGS_IDENTIFIER, holdingsIdsMap);
-                itemSolrInputDocument.setField(BibConstants.IS_ANALYTIC, Boolean.TRUE);
-                updateHoldingsDocsOfAnalyticItem(seriesHoldingsId, itemId, itemIds, solrInputDocumentList, BibConstants.CREATE_RELATION);
-            } else if (createOrBreak.equalsIgnoreCase(BibConstants.BREAK_RELATION)) {
+                itemSolrInputDocument.setField(HOLDINGS_IDENTIFIER, holdingsIdsMap);
+                itemSolrInputDocument.setField(IS_ANALYTIC, Boolean.TRUE);
+                updateHoldingsDocsOfAnalyticItem(seriesHoldingsId, itemId, itemIds, solrInputDocumentList, CREATE_RELATION);
+            } else if (createOrBreak.equalsIgnoreCase(BREAK_RELATION)) {
                 holdingsIdsMap.put(AtomicUpdateConstants.REMOVE, seriesHoldingsId);
-                itemSolrInputDocument.addField(HoldingsConstants.HOLDINGS_IDENTIFIER, holdingsIdsMap);
-                itemSolrInputDocument.setField(BibConstants.IS_ANALYTIC, Boolean.FALSE);
-                updateHoldingsDocsOfAnalyticItem(seriesHoldingsId, itemId, itemIds, solrInputDocumentList, BibConstants.BREAK_RELATION);
+                itemSolrInputDocument.addField(HOLDINGS_IDENTIFIER, holdingsIdsMap);
+                itemSolrInputDocument.setField(IS_ANALYTIC, Boolean.FALSE);
+                updateHoldingsDocsOfAnalyticItem(seriesHoldingsId, itemId, itemIds, solrInputDocumentList, BREAK_RELATION);
             }
             solrInputDocumentList.add(itemSolrInputDocument);
         }
@@ -1377,7 +1495,7 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
     private void updateHoldingsDocsOfAnalyticItem(String seriesHoldingsId, String itemId, List<String> itemIds, List<SolrInputDocument> solrInputDocumentList, String createOrBreak) {
         List<String> holdingsIdentifierList = null;
         SolrDocument itemSolrDocument = getSolrDocumentByUUID(itemId);
-        Object holdingsIdentifier = itemSolrDocument.getFieldValue(HoldingsConstants.HOLDINGS_IDENTIFIER);
+        Object holdingsIdentifier = itemSolrDocument.getFieldValue(HOLDINGS_IDENTIFIER);
         if (holdingsIdentifier instanceof List) {
             holdingsIdentifierList = (List<String>) holdingsIdentifier;
         } else if (holdingsIdentifier instanceof String) {
@@ -1388,18 +1506,18 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
         if (CollectionUtils.isNotEmpty(holdingsIdentifierList)) {
             for (String holdingsId : holdingsIdentifierList) {
                 if (!holdingsId.equalsIgnoreCase(seriesHoldingsId)) {
-                    if (createOrBreak.equalsIgnoreCase(BibConstants.CREATE_RELATION)) {
+                    if (createOrBreak.equalsIgnoreCase(CREATE_RELATION)) {
                         analyticMap.put(AtomicUpdateConstants.SET, Boolean.TRUE);
                         SolrInputDocument holdingsSolrInputDocument = new SolrInputDocument();
                         holdingsSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, holdingsId);
-                        holdingsSolrInputDocument.addField(BibConstants.IS_ANALYTIC, analyticMap);
+                        holdingsSolrInputDocument.addField(IS_ANALYTIC, analyticMap);
                         solrInputDocumentList.add(holdingsSolrInputDocument);
-                    } else if (createOrBreak.equalsIgnoreCase(BibConstants.BREAK_RELATION)) {
+                    } else if (createOrBreak.equalsIgnoreCase(BREAK_RELATION)) {
                         if (!hasAnalyticItemInHoldings(holdingsId, itemIds)) {
                             analyticMap.put(AtomicUpdateConstants.SET, null);
                             SolrInputDocument holdingsSolrInputDocument = new SolrInputDocument();
                             holdingsSolrInputDocument.addField(AtomicUpdateConstants.UNIQUE_ID, holdingsId);
-                            holdingsSolrInputDocument.addField(BibConstants.IS_ANALYTIC, analyticMap);
+                            holdingsSolrInputDocument.addField(IS_ANALYTIC, analyticMap);
                             solrInputDocumentList.add(holdingsSolrInputDocument);
                         }
                     }
@@ -1422,8 +1540,8 @@ public class BibMarcIndexer extends DocstoreSolrIndexService implements BibConst
         for (String itemId : itemIdentifierList) {
             if (!itemIds.contains(itemId)) {
                 SolrDocument itemSolrDocument = getSolrDocumentByUUID(itemId);
-                if (itemSolrDocument.getFieldValue(BibConstants.IS_ANALYTIC) instanceof Boolean) {
-                    hasAnalytic = (Boolean) itemSolrDocument.getFieldValue(BibConstants.IS_ANALYTIC);
+                if (itemSolrDocument.getFieldValue(IS_ANALYTIC) instanceof Boolean) {
+                    hasAnalytic = (Boolean) itemSolrDocument.getFieldValue(IS_ANALYTIC);
                     if (hasAnalytic) {
                         break;
                     }

@@ -805,6 +805,8 @@
         <field-descriptor name="holdFormat" column="HOLD_FORMAT" jdbc-type="VARCHAR"/>
         <field-descriptor name="holdQueue" column="HOLD_QUEUE" jdbc-type="VARCHAR"
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+	<field-descriptor name="staffed" column="STAFFED" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="renewLostItem" column="RENEW_LOST_ITM" jdbc-type="VARCHAR"
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="showItemOnHold" column="SHOW_ONHOLD_ITM" jdbc-type="VARCHAR"/>
@@ -1798,6 +1800,79 @@
                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
             <foreignkey field-ref="oleNoticeContentConfigurationId"/>
         </reference-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.ole.deliver.bo.drools.DroolsEditorBo" table="OLE_DRL_EDITOR_T">
+        <field-descriptor name="editorId" column="EDITOR_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DRL_EDITOR_S"/>
+        <field-descriptor name="editorType" column="EDITOR_TYP" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="fileName" column="FILE_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <collection-descriptor name="droolsRuleBos" element-class-ref="org.kuali.ole.deliver.bo.drools.DroolsRuleBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="editorId"/>
+        </collection-descriptor>
+        <collection-descriptor name="checkoutRuleBos" element-class-ref="org.kuali.ole.deliver.bo.drools.DroolsRuleBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="editorId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.drools.DroolsRuleBo" table="OLE_DRL_RULE_T">
+        <field-descriptor name="ruleId" column="RULE_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DRL_RULE_S"/>
+        <field-descriptor name="agendaGroup" column="AGENDA_GROUP" jdbc-type="VARCHAR"/>
+        <field-descriptor name="activationGroup" column="ACTIVATION_GROUP" jdbc-type="VARCHAR" />
+        <field-descriptor name="ruleType" column="RULE_TYP" jdbc-type="VARCHAR"/>
+        <field-descriptor name="ruleName" column="RULE_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="editorId" column="EDITOR_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemTypes" column="ITEM_TYPES" jdbc-type="VARCHAR"/>
+        <field-descriptor name="borrowerTypes" column="BORROWER_TYPES" jdbc-type="VARCHAR"/>
+        <field-descriptor name="institutionLocations" column="INST_LOCATIONS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="campusLocations" column="CAMPUS_LOCATIONS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="libraryLocations" column="LIBRARY_LOCATIONS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="collectionLocations" column="COLL_LOCATIONS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="shelvingLocations" column="SHELVING_LOCATIONS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="circulationPolicyId" column="CIRC_POLICY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemTypesOperator" column="ITEM_TYP_OPERATOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="borrowerTypesOperator" column="BORROWER_TYP_OPERATOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="institutionLocationsOperator" column="INST_LOCATION_OPERATOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="campusLocationsOperator" column="CAMPUS_LOCATION_OPERATOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="libraryLocationsOperator" column="LIBRARY_LOCATION_OPERATOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="collectionLocationsOperator" column="COLL_LOCATION_OPERATOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="shelvingLocationsOperator" column="SHELVING_LOCATION_OPERATOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="defaultRecallPeriod" column="DFLT_RECALL_PERIOD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="loanPeriod" column="LOAN_PERIOD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="loanType" column="LOAN_TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemTypeCount" column="ITM_TYP_COUNT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemTypeCountOperator" column="ITM_TYP_COUNT_OPTR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="errorMessage" column="ERROR_MSG" jdbc-type="VARCHAR" />
+        <field-descriptor name="overridePermission" column="OVERRIDE_PERMISSION" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <reference-descriptor name="finesAndLimitsBo" class-ref="org.kuali.ole.deliver.bo.drools.FinesAndLimitsBo"
+                              auto-retrieve="true" auto-update="true" auto-delete="true" proxy="false">
+            <foreignkey field-ref="ruleId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.drools.FinesAndLimitsBo" table="OLE_DRL_FINE_LIMITS_T">
+        <field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DRL_FINE_LIMITS_S"/>
+        <field-descriptor name="borrowerType" column="BORROWER_TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="ruleId" column="RULE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="limitAmount" column="LIMIT_AMOUNT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="overDueLimits" column="OVERDUE_LIMIT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="operator" column="OPERATOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleNoticeTypeConfiguration" table="OLE_NOTICE_TYPE_CONFIG_T">
+        <field-descriptor name="noticeTypeConfigId" column="NOTICE_TYPE_CONFIG_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_NOTICE_TYPE_CONFIG_S"/>
+        <field-descriptor name="circPolicyId" column="CIRC_POLICY_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="noticeType" column="NOTICE_TYPE" jdbc-type="VARCHAR"/>
     </class-descriptor>
 
 

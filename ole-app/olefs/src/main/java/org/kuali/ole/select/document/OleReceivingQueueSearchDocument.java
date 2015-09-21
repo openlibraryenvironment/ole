@@ -20,15 +20,13 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.Bib;
-import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.common.document.ItemOleml;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
 import org.kuali.ole.docstore.common.search.SearchResponse;
 import org.kuali.ole.docstore.common.search.SearchResult;
 import org.kuali.ole.docstore.common.search.SearchResultField;
-import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
-import org.kuali.ole.docstore.engine.service.index.solr.ItemConstants;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.PurapPropertyConstants;
 import org.kuali.ole.module.purap.businessobject.PurchaseOrderType;
@@ -38,7 +36,6 @@ import org.kuali.ole.module.purap.document.service.ReceivingService;
 import org.kuali.ole.select.OleSelectConstant;
 import org.kuali.ole.select.businessobject.*;
 import org.kuali.ole.select.document.service.OleCopyHelperService;
-import org.kuali.ole.select.document.service.OleDocstoreHelperService;
 import org.kuali.ole.select.document.service.OleLineItemReceivingService;
 import org.kuali.ole.select.document.service.OleNoteTypeService;
 import org.kuali.ole.select.document.service.impl.OleLineItemReceivingServiceImpl;
@@ -57,7 +54,6 @@ import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
-import org.kuali.rice.kew.api.document.attribute.DocumentAttribute;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
@@ -86,7 +82,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
+public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase implements DocstoreConstants {
 
     private String purchaseOrderNumber;
 
@@ -909,14 +905,14 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
             org.kuali.ole.docstore.common.search.SearchParams searchParams = new org.kuali.ole.docstore.common.search.SearchParams();
             searchParams.setPageSize(maxLimit);
             if (StringUtils.isNotBlank(title)) {
-                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.TITLE_SEARCH, title), "AND"));
+                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), TITLE_SEARCH, title), "AND"));
             }
             if (StringUtils.isNotBlank(isbn)) {
-                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.ISBN_SEARCH, isbn), "OR"));
-                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.ISSN_SEARCH, isbn), "OR"));
+                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), ISBN_SEARCH, isbn), "OR"));
+                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), ISSN_SEARCH, isbn), "OR"));
             }
             SearchResponse searchResponse = null;
-            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), ItemConstants.BIB_IDENTIFIER));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), BIB_IDENTIFIER));
             searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
             for (SearchResult searchResult : searchResponse.getSearchResults()) {
                 for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
@@ -944,40 +940,40 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase {
             org.kuali.ole.docstore.common.search.SearchParams searchParams = new org.kuali.ole.docstore.common.search.SearchParams();
             searchParams.setPageSize(maxLimit);
             if (StringUtils.isNotBlank(title)) {
-                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.TITLE_SEARCH, title), "AND"));
+                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), TITLE_SEARCH, title), "AND"));
             }
             if (StringUtils.isNotBlank(isbn)) {
-                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.ISBN_SEARCH, isbn), "OR"));
-                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), BibConstants.ISSN_SEARCH, isbn), "OR"));
+                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), ISBN_SEARCH, isbn), "OR"));
+                searchParams.getSearchConditions().add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.BIB.getCode(), ISSN_SEARCH, isbn), "OR"));
             }
             SearchResponse searchResponse = null;
-            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), BibConstants.TITLE_DISPLAY));
-            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), BibConstants.AUTHOR_DISPLAY));
-            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), BibConstants.PUBLISHER_DISPLAY));
-            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), BibConstants.ISBN_DISPLAY));
-            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), ItemConstants.BIB_IDENTIFIER));
-            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), BibConstants.ISSN_DISPLAY));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), TITLE_DISPLAY));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), AUTHOR_DISPLAY));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), PUBLISHER_DISPLAY));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), ISBN_DISPLAY));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), BIB_IDENTIFIER));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.BIB.getCode(), ISSN_DISPLAY));
             searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
             for (SearchResult searchResult : searchResponse.getSearchResults()) {
                 DocData docData=new DocData();
                 for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
                     if (StringUtils.isNotBlank(searchResultField.getFieldValue())) {
-                        if (searchResultField.getFieldName().equals(ItemConstants.BIB_IDENTIFIER)) {
+                        if (searchResultField.getFieldName().equals(BIB_IDENTIFIER)) {
                             docData.setBibIdentifier(searchResultField.getFieldValue());
                         }
-                        if (searchResultField.getFieldName().equals(BibConstants.TITLE_DISPLAY)) {
+                        if (searchResultField.getFieldName().equals(TITLE_DISPLAY)) {
                             docData.setTitle(searchResultField.getFieldValue());
                         }
-                        if (searchResultField.getFieldName().equals(BibConstants.AUTHOR_DISPLAY)) {
+                        if (searchResultField.getFieldName().equals(AUTHOR_DISPLAY)) {
                             docData.setAuthor(searchResultField.getFieldValue());
                         }
-                        if (searchResultField.getFieldName().equals(BibConstants.PUBLISHER_DISPLAY)) {
+                        if (searchResultField.getFieldName().equals(PUBLISHER_DISPLAY)) {
                             docData.setPublisher(searchResultField.getFieldValue());
                         }
-                        if (searchResultField.getFieldName().equals(BibConstants.ISBN_DISPLAY) && StringUtils.isNotBlank(searchResultField.getFieldValue())) {
+                        if (searchResultField.getFieldName().equals(ISBN_DISPLAY) && StringUtils.isNotBlank(searchResultField.getFieldValue())) {
                             docData.setIsbn(searchResultField.getFieldValue());
                         }
-                        if (searchResultField.getFieldName().equals(BibConstants.ISSN_DISPLAY) && StringUtils.isNotBlank(searchResultField.getFieldValue())) {
+                        if (searchResultField.getFieldName().equals(ISSN_DISPLAY) && StringUtils.isNotBlank(searchResultField.getFieldValue())) {
                             docData.setIsbn(searchResultField.getFieldValue());
                         }
 

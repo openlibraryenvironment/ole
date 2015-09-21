@@ -44,6 +44,7 @@ public class PatronBillForm extends DocumentFormBase {
     private String cancellationNote;
     private List<OleItemLevelBillPayment> currentSessionTransactions=new ArrayList<>();
     private String userAmount;//dummy variable used for only browser to keep the amount track
+    private String patronUrl;
 
     public PatronBillForm() {
         this.userAmount=OLEConstants.ZERO;
@@ -239,5 +240,13 @@ public class PatronBillForm extends DocumentFormBase {
 
     public void setUserAmount(String userAmount) {
         this.userAmount = userAmount;
+    }
+
+    public String getPatronUrl() {
+        return patronUrl;
+    }
+
+    public void setPatronUrl(String patronUrl) {
+        this.patronUrl = patronUrl;
     }
 }

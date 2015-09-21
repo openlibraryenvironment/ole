@@ -1,6 +1,7 @@
 package org.kuali.ole.ingest;
 
 import org.apache.commons.io.IOUtils;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.exception.ParseException;
 import org.kuali.ole.exception.XmlErrorHandler;
 import org.xml.sax.SAXException;
@@ -15,6 +16,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * OlePatronXMLSchemaValidator is for schema validation against W3C Xml Schema standards
@@ -33,8 +36,9 @@ public class OlePatronXMLSchemaValidator {
      * @throws java.io.IOException
      * @throws org.xml.sax.SAXException
      */
-    public boolean validateContentsAgainstSchema(InputStream inputStream)
+    public Map validateContentsAgainstSchema(InputStream inputStream)
             throws ParseException, IOException, SAXException {
+        Map validateResultMap = new HashMap();
         try {
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             Source schemaSource = null;
@@ -44,12 +48,16 @@ public class OlePatronXMLSchemaValidator {
             Validator validator = schema.newValidator();
             validator.setErrorHandler(new XmlErrorHandler());
             validator.validate(new StreamSource(inputStream));
-            return true;
+            validateResultMap.put(OLEConstants.OlePatron.PATRON_XML_ISVALID, true);
+            validateResultMap.put(OLEConstants.OlePatron.PATRON_POLLERSERVICE_ERROR_MESSAGE,"");
+            return validateResultMap;
         }
         catch(Exception ex){
+            validateResultMap.put(OLEConstants.OlePatron.PATRON_XML_ISVALID, false);
+            validateResultMap.put(OLEConstants.OlePatron.PATRON_POLLERSERVICE_ERROR_MESSAGE,ex.getMessage());
             LOG.error(ex.getMessage());
         }
-        return false;
+        return validateResultMap;
     }
 
     /**

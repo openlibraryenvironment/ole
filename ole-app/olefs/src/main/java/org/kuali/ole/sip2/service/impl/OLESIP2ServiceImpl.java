@@ -3,6 +3,8 @@ package org.kuali.ole.sip2.service.impl;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.bo.OLECheckOutItem;
+import org.kuali.ole.bo.OLERenewItem;
 import org.kuali.ole.deliver.bo.OleItemSearch;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
@@ -18,9 +20,11 @@ import org.kuali.ole.ncip.service.OLECirculationService;
 import org.kuali.ole.ncip.service.impl.OLECirculationHelperServiceImpl;
 import org.kuali.ole.ncip.service.impl.OLECirculationServiceImpl;
 import org.kuali.ole.olekrad.filter.OLELoginFilter;
+import org.kuali.ole.request.OLESIP2CheckOutRequestParser;
+import org.kuali.ole.response.OLESIP2CheckOutResponse;
 import org.kuali.ole.service.OlePatronService;
 import org.kuali.ole.service.OlePatronServiceImpl;
-import org.kuali.ole.sip2.common.OLESIP2Util;
+import org.kuali.ole.common.OLESIP2Util;
 import org.kuali.ole.sip2.constants.OLESIP2Constants;
 import org.kuali.ole.sip2.requestParser.*;
 import org.kuali.ole.sip2.service.OLESIP2HelperService;
@@ -101,13 +105,13 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
         OLESIP2FeePaidResponse sip2FeePaidResponse = new OLESIP2FeePaidResponse();
         responseString = sip2FeePaidResponse.getFeePaidResponse(message, sip2FeePaidRequestParser);
 
-        if (responseString == null || responseString.equalsIgnoreCase("")) {
+        /*if (responseString == null || responseString.equalsIgnoreCase("")) {
             OLENCIPErrorResponse olencipErrorResponse = new OLENCIPErrorResponse();
             olencipErrorResponse.getErrorMap().put(OLENCIPConstants.PATRON_BARCODE, sip2FeePaidRequestParser.getPatronIdentifier());
             olencipErrorResponse.getErrorMap().put(OLENCIPConstants.OPERATOR_ID, operatorId);
             olencipErrorResponse.getErrorMap().put(OLENCIPConstants.MESSAGE, OLENCIPConstants.INVALID_INPUT);
             responseString = olencipErrorResponse.getErrorXml(service);
-        }
+        }*/
 
 
         return responseString;
@@ -287,13 +291,13 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
 
         }
 
-        if (responseString == null || responseString.equalsIgnoreCase("")) {
+        /*if (responseString == null || responseString.equalsIgnoreCase("")) {
             OLENCIPErrorResponse olencipErrorResponse = new OLENCIPErrorResponse();
             olencipErrorResponse.getErrorMap().put(OLENCIPConstants.PATRON_BARCODE, sip2CheckOutRequestParser.getPatronIdentifier());
             olencipErrorResponse.getErrorMap().put(OLENCIPConstants.OPERATOR_ID, operatorId);
             olencipErrorResponse.getErrorMap().put(OLENCIPConstants.MESSAGE, OLENCIPConstants.INVALID_INPUT);
             responseString = olencipErrorResponse.getErrorXml(service);
-        }
+        }*/
 
         return responseString;
     }
@@ -328,13 +332,13 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
 
 
 
-        if (responseString == null) {
+        /*if (responseString == null) {
             OLENCIPErrorResponse olencipErrorResponse = new OLENCIPErrorResponse();
             olencipErrorResponse.getErrorMap().put(OLENCIPConstants.PATRON_BARCODE, oleLoanDocument.getPatronBarcode());
             olencipErrorResponse.getErrorMap().put(OLENCIPConstants.OPERATOR_ID, operatorId);
             olencipErrorResponse.getErrorMap().put(OLENCIPConstants.MESSAGE, OLENCIPConstants.INVALID_INPUT);
             responseString = olencipErrorResponse.getErrorXml(service);
-        }
+        }*/
 
         return responseString;
 
@@ -563,13 +567,13 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
                 responseString = sip2HoldResponse.getSIP2PlaceHoldRequestService(olePlaceRequest, sip2HoldRequestParser);
 
             }
-            if (responseString == null) {
+           /* if (responseString == null) {
                 OLENCIPErrorResponse olencipErrorResponse = new OLENCIPErrorResponse();
                 olencipErrorResponse.getErrorMap().put(OLENCIPConstants.PATRON_BARCODE, sip2HoldRequestParser.getPatronIdentifier());
                 olencipErrorResponse.getErrorMap().put(OLENCIPConstants.OPERATOR_ID, operatorId);
                 olencipErrorResponse.getErrorMap().put(OLENCIPConstants.MESSAGE, OLENCIPConstants.INVALID_INPUT);
                 responseString = olencipErrorResponse.getErrorXml(service);
-            }
+            }*/
         } else if (sip2HoldRequestParser.getHoldType().equals("delete")) {//12.)b.Cancel Hold
 
             responseString = oleCirculationService.cancelRequest(operatorId,
@@ -581,13 +585,13 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
                 responseString = sip2HoldResponse.getSIP2CancelHoldRequestService(oleCancelRequest, sip2HoldRequestParser);
 
             }
-            if (responseString == null) {
+            /*if (responseString == null) {
                 OLENCIPErrorResponse olencipErrorResponse = new OLENCIPErrorResponse();
                 olencipErrorResponse.getErrorMap().put(OLENCIPConstants.OPERATOR_ID, operatorId);
                 olencipErrorResponse.getErrorMap().put(OLENCIPConstants.PATRON_ID, sip2HoldRequestParser.getPatronIdentifier());
                 olencipErrorResponse.getErrorMap().put(OLENCIPConstants.MESSAGE, OLENCIPConstants.INVALID_INPUT);
                 responseString = olencipErrorResponse.getErrorXml(service);
-            }
+            }*/
 
         } else if (sip2HoldRequestParser.getHoldType().equals("updateHold")) {//12.)c.Update Hold
             responseString = sip2HoldResponse.getSIP2UpdateHoldRequestService(sip2HoldRequestParser);
@@ -626,7 +630,7 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
         List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class, parameterMap);
         if (olePatronDocumentList != null && olePatronDocumentList.size() > 0) {
             OlePatronDocument olePatronDocument = olePatronDocumentList.get(0);
-            for (OleLoanDocument oleLoanDocument : olePatronDocument.getOleLoanDocuments()) {
+            for (OleLoanDocument oleLoanDocument : olePatronDocument.getOleLoanDocumentsFromDb()) {
                 if (count == 1) {
                     itemBarcodes = oleLoanDocument.getItemId();
                     count = count + 1;
@@ -653,13 +657,13 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
                 responseString = sip2RenewAllResponse.getSIP2RenewAllResponse(oleRenewItemList, sip2RenewAllRequestParser);
             }
         }
-        if (org.apache.commons.lang3.StringUtils.isBlank(responseString)) {
+        /*if (org.apache.commons.lang3.StringUtils.isBlank(responseString)) {
             OLENCIPErrorResponse olencipErrorResponse = new OLENCIPErrorResponse();
             olencipErrorResponse.getErrorMap().put(OLENCIPConstants.PATRON_BARCODE, sip2RenewAllRequestParser.getPatronIdentifier());
             olencipErrorResponse.getErrorMap().put(OLENCIPConstants.OPERATOR_ID, operatorId);
             olencipErrorResponse.getErrorMap().put(OLENCIPConstants.MESSAGE, OLENCIPConstants.INVALID_INPUT);
             responseString = olencipErrorResponse.getErrorXml(service);
-        }
+        }*/
         return responseString;
 
     }

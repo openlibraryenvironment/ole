@@ -1,0 +1,26 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "Renewal Policy Set Short Term"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$l: OleLoanDocument()
+$n: NoticeInfo()
+ $d : DroolsResponse()
+
+$i: OleItemRecordForCirc(getItemType() in ("res2","res4","res24","res48","res72","stks7","stks14","buo"))
+  
+
+then
+$d.setRuleMatched(true);
+$d.addErrorMessage("Reserve and short-term loans may not be renewed");
+ end

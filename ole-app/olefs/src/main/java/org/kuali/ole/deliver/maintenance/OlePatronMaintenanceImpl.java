@@ -48,7 +48,7 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
         Object dataObject = null;
         OlePatronDocument olePatron = new OlePatronDocument();
         OleEntityAddressBo entityAddressBo = null;
-        OleAddressBo oleAddressBo = new OleAddressBo();
+        List<OleAddressBo> oleAddressBos = new ArrayList<>();
         List<OleEntityAddressBo> oleEntityAddressList = new ArrayList<OleEntityAddressBo>();
         try {
             dataObject = getLookupService().findObjectBySearch(getDataObjectClass(), dataObjectKeys);
@@ -64,8 +64,10 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
                     entityAddressBo = new OleEntityAddressBo();
                     Map addMap = new HashMap();
                     addMap.put(OLEConstants.OlePatron.ENTITY_BO_ID, entityAdd.getId());
-                    oleAddressBo = getBusinessObjectService().findByPrimaryKey(OleAddressBo.class, addMap);
-                    entityAddressBo.setOleAddressBo(oleAddressBo);
+                    oleAddressBos = (List<OleAddressBo>) getBusinessObjectService().findMatching(OleAddressBo.class, addMap);
+                    if(CollectionUtils.isNotEmpty(oleAddressBos)){
+                        entityAddressBo.setOleAddressBo(oleAddressBos.get(0));
+                    }
                     entityAddressBo.setEntityAddressBo(entityAdd);
                     oleEntityAddressList.add(entityAddressBo);
                 }

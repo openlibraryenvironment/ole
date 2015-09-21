@@ -1,0 +1,25 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+rule "Check out Circ Policy Set STKS/NWU"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument();
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("NWU"))
+
+$i: OleItemRecordForCirc(getItemType() in ("stks","mus","games"),
+getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd","ASR"),
+getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"))
+
+then
+$l.setCirculationPolicyId("Check out Circ Policy Set STKS/NWU");
+$l.loanPeriod("84-D","7-D"); // This method takes due date and recall period as arguments.
+ end

@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "CO-4DAY-ELECTRONIC-EQUIP-LAW"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$p: OlePatronDocument(getBorrowerTypeCode() in ("LWFACULTY","GRADST","DUKESTAFF"))
+$i: OleItemRecordForCirc (getItemType() in ("ELECTRONICEQUIP"),
+getItemLibraryLocation() in ("LAW"))
+then
+$l.setCirculationPolicyId("CO-4DAY-ELECTRONIC-EQUIP-LAW");
+$l.loanPeriod("4-D",null);
+$n.setNoticeType(DroolsConstants.SHORT_TERM_LOANS_NOTICE_CONFIG);
+ end

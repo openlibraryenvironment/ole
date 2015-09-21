@@ -1,6 +1,7 @@
 package org.kuali.ole.sip2.requestParser;
 
 import org.apache.log4j.Logger;
+import org.kuali.ole.request.OLESIP2RequestParser;
 import org.kuali.ole.sip2.common.StatusCode;
 import org.kuali.ole.sip2.constants.OLESIP2Constants;
 

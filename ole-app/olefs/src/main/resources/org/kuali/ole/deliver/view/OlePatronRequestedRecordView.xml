@@ -101,6 +101,7 @@
                 <bean id="viewRequest_volumeNumber" parent="Uif-DataField" p:label="Volume Number" p:propertyName="oleItemSearch.volumeNumber" />
                 <bean id="viewRequest_itemType" parent="Uif-DataField" p:label="Item Type" p:propertyName="oleItemSearch.itemType" />
                 <bean id="viewRequest_itemStatus" parent="Uif-DataField" p:label="Item Status" p:propertyName="oleItemSearch.itemStatus" />
+                <bean id="viewRequest_pickUpLocationCode" parent="Uif-DataField" p:label="Pickup Location" p:propertyName="pickUpLocationCode" />
             </list>
         </property>
         <property name="renderLineActions" value="false"/>

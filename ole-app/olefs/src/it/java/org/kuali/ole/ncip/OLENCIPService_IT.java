@@ -1,124 +1,162 @@
 package org.kuali.ole.ncip;
 
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
-import org.junit.Before;
 import org.junit.Test;
+import org.kuali.ole.OLERestBaseTestCase;
 import org.kuali.ole.OLETestCaseBase;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.kuali.ole.deliver.util.XMLFormatterUtil;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
 
 /**
- * Created by angelind on 5/13/15.
+ * Created by chenchulakshmig on 8/5/15.
  */
-public class OLENCIPService_IT extends OLETestCaseBase {
+public class OLENCIPService_IT extends OLERestBaseTestCase {
 
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
+    private String URL = OLEFS_APPLICATION_URL + "/OLENCIPResponder";
+
+    @Test
+    public void testLookupUser() {
+        String requestContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<NCIPMessage v:version=\"5.6\" xmlns:v=\"http://www.niso.org/2008/ncip\" xmlns=\"http://www.niso.org/2008/ncip\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.niso.org/2008/ncip http://www.niso.org/schemas/ncip/v2_0/ncip_v2_0.xsd \">\n" +
+                "  <LookupUser>\n" +
+                "<InitiationHeader>\n" +
+                "<FromAgencyId>\n" +
+                "<AgencyId>LEHI</AgencyId>\n" +
+                "</FromAgencyId>\n" +
+                "<ToAgencyId>\n" +
+                "<AgencyId>Lehigh University</AgencyId>\n" +
+                "</ToAgencyId>\n" +
+                "    </InitiationHeader> \n" +
+                "     <UserId>\n" +
+                "        <AgencyId>LEHI</AgencyId>\n" +
+                "        <UserIdentifierValue>6010570002006861</UserIdentifierValue>\n" +
+                "    </UserId>\n" +
+                "    <UserElementType>Name Information</UserElementType>\n" +
+                "    <UserElementType>User Address Information</UserElementType>\n" +
+                "    <UserElementType>User Language</UserElementType>\n" +
+                "    <UserElementType>User Privilege</UserElementType>\n" +
+                "    <UserElementType>User Id</UserElementType>\n" +
+                "<LoanedItemsDesired/>\n" +
+                "<RequestedItemsDesired/>\n" +
+                "<UserFiscalAccountDesired/>\n" +
+                "  </LookupUser>\n" +
+                "</NCIPMessage>";
+
+        String responseContent = sendPostRequest(URL, requestContent);
+        assertNotNull(responseContent);
+        assertTrue(responseContent.trim().length() > 0);
+        System.out.println("Response Content : " + XMLFormatterUtil.formatContentForPretty(responseContent));
+        assertFalse(responseContent.contains("<ns1:Problem>"));
     }
 
     @Test
-    public void testLookupUser(){
-
-        String APPLICATION_URL = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
+    public void testAcceptItem() throws Exception {
         String requestContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<NCIPMessage version=\"http://www.niso.org/schemas/ncip/v2_0/ncip_v2_0.xsd\"\n" +
-                "   xmlns=\"http://www.niso.org/2008/ncip\">\n" +
-                "  <LookupUser>\n" +
-                "    <InitiationHeader>\n" +
-                "      <FromAgencyId>\n" +
-                "        <AgencyId>LEHI</AgencyId>\n" +
-                "      </FromAgencyId>\n" +
-                "      <ToAgencyId>\n" +
-                "        <AgencyId>Lehigh University</AgencyId>\n" +
-                "      </ToAgencyId>\n" +
+                "<NCIPMessage v:version=\"5.6\" xmlns:v=\"http://www.niso.org/2008/ncip\" xmlns=\"http://www.niso.org/2008/ncip\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.niso.org/2008/ncip http://www.niso.org/schemas/ncip/v2_0/ncip_v2_0.xsd \">\n" +
+                "<AcceptItem>\n" +
+                "<InitiationHeader>\n" +
+                "<FromAgencyId>\n" +
+                "<AgencyId>LEHI</AgencyId>\n" +
+                "</FromAgencyId>\n" +
+                "<ToAgencyId>\n" +
+                "<AgencyId>Lehigh University</AgencyId>\n" +
+                "</ToAgencyId>\n" +
                 "    </InitiationHeader> \n" +
-                "    <UserId>\n" +
-                "      <AgencyId>LEHI</AgencyId>\n" +
-                "      <UserIdentifierValue>6010570003043558</UserIdentifierValue>\n" +
-                "    </UserId>\n" +
-                "    <UserElementType>Block Or Trap</UserElementType>\n" +
-                "    <UserElementType>Name Information</UserElementType>\n" +
-                "    <UserElementType>User Address Information</UserElementType>\n" +
-                "    <UserElementType>User Privilege</UserElementType>\n" +
-                "    <UserElementType>User Id</UserElementType>\n" +
-                "  </LookupUser>\n" +
+                " <RequestId>\n" +
+                "  <AgencyId>LEHI</AgencyId>\n" +
+                "  <RequestIdentifierValue>TST-111</RequestIdentifierValue>\n" +
+                " </RequestId>\n" +
+                " <RequestedActionType>Hold For Pickup</RequestedActionType>\n" +
+                " <UserId>\n" +
+                "   <AgencyId>LEHI</AgencyId>\n" +
+                "   <UserIdentifierValue>6010570002006861</UserIdentifierValue>\n" +
+                " </UserId>\n" +
+                " <ItemId>\n" +
+                "  <AgencyId>LEHI</AgencyId>\n" +
+                "  <ItemIdentifierValue>15</ItemIdentifierValue>\n" +
+                " </ItemId>\n" +
+                " <ItemOptionalFields>\n" +
+                " <BibliographicDescription>\n" +
+                " <Author>Author</Author>\n" +
+                " <Title>Title</Title>\n" +
+                " </BibliographicDescription>\n" +
+                " <ItemDescription>\n" +
+                " <CallNumber>Call Number</CallNumber>\n" +
+                " </ItemDescription>\n" +
+                " </ItemOptionalFields>\n" +
+                " <PickupLocation>BL_EDUC</PickupLocation>\n" +
+                "</AcceptItem>\n" +
                 "</NCIPMessage>";
-        String response  = sendRequest(APPLICATION_URL + "/OLENCIPResponder" , requestContent);
-        System.out.println("Response Content : "  + formatContentForPretty(response));
-        if(response.contains("<ElectronicAddressType>electronic mail address</ElectronicAddressType>")){
-            assertTrue(true);
-        } else {
-            assertTrue(false);
-        }
+
+        String responseContent = sendPostRequest(URL, requestContent);
+        assertNotNull(responseContent);
+        assertTrue(responseContent.trim().length() > 0);
+        System.out.println("Response Content : " + XMLFormatterUtil.formatContentForPretty(responseContent));
+        assertFalse(responseContent.contains("<Problem>"));
     }
 
+    @Test
+    public void testCheckOutItem() throws Exception {
+        String requestContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<NCIPMessage v:version=\"5.6\" xmlns:v=\"http://www.niso.org/2008/ncip\" xmlns=\"http://www.niso.org/2008/ncip\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.niso.org/2008/ncip http://www.niso.org/schemas/ncip/v2_0/ncip_v2_0.xsd \">\n" +
+                "<CheckOutItem>\n" +
+                "<InitiationHeader>\n" +
+                "<FromAgencyId>\n" +
+                "<AgencyId>LEHI</AgencyId>\n" +
+                "</FromAgencyId>\n" +
+                "<ToAgencyId>\n" +
+                "<AgencyId>Lehigh University</AgencyId>\n" +
+                "</ToAgencyId>\n" +
+                "    </InitiationHeader> \n" +
+                "<UserId>\n" +
+                "  <AgencyId>LEHI</AgencyId>\n" +
+                "  <UserIdentifierValue>6010570002006861</UserIdentifierValue>\n" +
+                "</UserId>\n" +
+                "<ItemId>\n" +
+                " <AgencyId>LEHI</AgencyId> \n" +
+                " <ItemIdentifierValue>16</ItemIdentifierValue>\n" +
+                "</ItemId>\n" +
+                "</CheckOutItem>\n" +
+                "</NCIPMessage>";
 
-    public String sendRequest(String url, String requestContent){
-        String responseString = "";
-        try {
-            URL oURL = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) oURL.openConnection();
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Content-type", "text/xml; charset=utf-8");
-            con.setDoOutput(true);
-            OutputStream reqStream = con.getOutputStream();
-            reqStream.write(requestContent.getBytes());
-            InputStream resStream = con.getInputStream();
-            BufferedReader in = new BufferedReader(new InputStreamReader(resStream));
-            String line = null;
-            StringBuilder responseContentBuilder = new StringBuilder();
-            while((line = in.readLine()) != null) {
-                responseContentBuilder.append(line);
-            }
-            responseString = responseContentBuilder.toString();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return responseString;
+        String responseContent = sendPostRequest(URL, requestContent);
+        assertNotNull(responseContent);
+        assertTrue(responseContent.trim().length() > 0);
+        System.out.println("Response Content : " + XMLFormatterUtil.formatContentForPretty(responseContent));
+        assertFalse(responseContent.contains("<Problem>"));
     }
 
-    private String formatContentForPretty(String content){
-        try {
-            final Document document = parseXmlFile(content);
-            OutputFormat format = new OutputFormat(document);
-            format.setLineWidth(65);
-            format.setIndenting(true);
-            format.setIndent(2);
-            Writer out = new StringWriter();
-            XMLSerializer serializer = new XMLSerializer(out, format);
-            serializer.serialize(document);
-            return out.toString();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    @Test
+    public void testCheckInItem() throws Exception {
+        String requestContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<NCIPMessage v:version=\"5.6\" xmlns:v=\"http://www.niso.org/2008/ncip\" xmlns=\"http://www.niso.org/2008/ncip\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.niso.org/2008/ncip http://www.niso.org/schemas/ncip/v2_0/ncip_v2_0.xsd \">\n" +
+                "<CheckInItem>\n" +
+                "<InitiationHeader>\n" +
+                "<FromAgencyId>\n" +
+                "<AgencyId>LEHI</AgencyId>\n" +
+                "</FromAgencyId>\n" +
+                "<ToAgencyId>\n" +
+                "<AgencyId>Lehigh University</AgencyId>\n" +
+                "</ToAgencyId>\n" +
+                "    </InitiationHeader> \n" +
+                "  <ItemId>\n" +
+                "    <AgencyId>LEHI</AgencyId> \n" +
+                "    <ItemIdentifierValue>18</ItemIdentifierValue>\n" +
+                "  </ItemId>\n" +
+                "<ItemElementType>Bibliographic Description</ItemElementType>\n" +
+                "<ItemElementType>Item Description</ItemElementType>\n" +
+                "</CheckInItem>\n" +
+                "</NCIPMessage>";
 
+        String responseContent = sendPostRequest(URL, requestContent);
+        assertNotNull(responseContent);
+        assertTrue(responseContent.trim().length() > 0);
+        System.out.println("Response Content : " + XMLFormatterUtil.formatContentForPretty(responseContent));
+        assertFalse(responseContent.contains("<Problem>"));
     }
 
-    private Document parseXmlFile(String in) {
-        try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            InputSource is = new InputSource(new StringReader(in));
-            return db.parse(is);
-        } catch (ParserConfigurationException e) {
-            throw new RuntimeException(e);
-        } catch (SAXException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

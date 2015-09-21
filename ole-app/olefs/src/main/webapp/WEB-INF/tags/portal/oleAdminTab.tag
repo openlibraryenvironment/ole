@@ -31,6 +31,7 @@
 <td class="content" valign="top">
     <oleAdminChannel:oleWorkflowAdmin/>
     <oleAdminChannel:oleKRMSAdmin/>
+    <oleAdminChannel:oleDroolsAdmin/>
     <oleAdminChannel:oleIdentityAdmin/>
 </td>
 <%--

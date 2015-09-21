@@ -1,0 +1,58 @@
+package org.kuali.ole.deliver.rules.general
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.ErrorMessage
+import org.kuali.ole.deliver.bo.OleAddressBo
+import org.kuali.ole.deliver.drools.DroolsExchange
+import java.util.Date
+import java.text.SimpleDateFormat
+import org.kuali.ole.service.OleCirculationPolicyServiceImpl
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+rule ${isActive}
+agenda-group "generalChecksForPatron"
+when
+$p : OlePatronDocument(!activeIndicator())
+$e : ErrorMessage()
+then
+$e.setErrorMessage(${isActiveErrorMessage});
+ end
+
+rule ${isBlocked}
+agenda-group "generalChecksForPatron"
+when
+$p : OlePatronDocument(isGeneralBlock())
+$e : ErrorMessage()
+then
+$e.setErrorMessage(${isBlockedErrorMessage});
+$e.addOverridePermissions(${isBlockedOverridePermission});
+ end
+
+rule ${IsAddressVerified}
+agenda-group "General Checks for Patron"
+when
+$p : OlePatronDocument(!isAddressVerified())
+$e : ErrorMessage()
+then
+$e.setErrorMessage(${isAddressVerifiedErrorMessage});
+ end
+
+rule ${isExpired}
+ agenda-group "General Checks for Patron"
+ when
+ $p : OlePatronDocument(getExpirationDate() != null, getExpirationDate() < today())
+ $e : ErrorMessage()
+ then
+$e.setErrorMessage(${isExpiredErrorMessage});
+$e.addOverridePermissions(${isExpiredOverridePermission});
+  end
+
+ rule ${checkAllCharges}
+  agenda-group "General Checks for Patron"
+  when
+  $p: OlePatronDocument(getAllCharges() > 49 )
+  $e: ErrorMessage()
+  then
+  $e.setErrorMessage(${allChargesErrorMessage});
+ $e.addOverridePermissions(${allChargesErrorMessageOverridePermission});
+  end

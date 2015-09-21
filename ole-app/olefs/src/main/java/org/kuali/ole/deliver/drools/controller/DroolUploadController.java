@@ -55,7 +55,7 @@ public class DroolUploadController extends UifControllerBase {
                 multipartFile.transferTo(new File(droolBaseDirectoryPath + File.separator
                         + droolUploadForm.getSelectedRuleDirectory() +
                         File.separator + multipartFile.getOriginalFilename()));
-                GlobalVariables.getMessageMap().putError(DroolsConstants.DROOL_UPLOAD_SUCCESS, DroolsConstants.DROOL_UPLOAD_SUCCESS);
+                GlobalVariables.getMessageMap().putInfo(DroolsConstants.DROOL_UPLOAD_SUCCESS, DroolsConstants.DROOL_UPLOAD_SUCCESS);
             } else {
                 GlobalVariables.getMessageMap().putError(DroolsConstants.DROOL_UPLOAD_INVALID_FILE, DroolsConstants.DROOL_UPLOAD_INVALID_FILE);
             }
@@ -66,7 +66,7 @@ public class DroolUploadController extends UifControllerBase {
     }
 
     public boolean validateFile(String inputFile) {
-        return (FilenameUtils.getExtension(inputFile).equals(".drl") ? true:false);
+        return (FilenameUtils.getExtension(inputFile).equals("drl") ? true:false);
     }
 
     private String getDroolBaseDirectory(){

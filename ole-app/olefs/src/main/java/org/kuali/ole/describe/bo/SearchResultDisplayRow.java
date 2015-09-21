@@ -33,6 +33,8 @@ public class SearchResultDisplayRow  {
     private String title;
     private String journalTitle;
     private String titleDisplay;
+    private String resourceType;
+    private String carrier;
     private String author;
     private String publicationDate;
     private String isbn;
@@ -55,6 +57,8 @@ public class SearchResultDisplayRow  {
     private String barcodeArsl;
     private String volumeNumber;
     private String volumeNumberLabel;
+    private String holdingsLocation;
+    private String holdingsCallNumber;
     private String analyticItem = "false";
     //Holdings
     private String callNumberPrefix;
@@ -826,13 +830,45 @@ public class SearchResultDisplayRow  {
         this.url = url;
     }
 
+    public String getHoldingsLocation() {
+        return holdingsLocation;
+    }
+
+    public void setHoldingsLocation(String holdingsLocation) {
+        this.holdingsLocation = holdingsLocation;
+    }
+
+    public String getHoldingsCallNumber() {
+        return holdingsCallNumber;
+    }
+
+    public void setHoldingsCallNumber(String holdingsCallNumber) {
+        this.holdingsCallNumber = holdingsCallNumber;
+    }
+
+    public String getResourceType() {
+        return resourceType;
+    }
+
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
+    }
+
+    public String getCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(String carrier) {
+        this.carrier = carrier;
+    }
+
     public void buildBibSearchResultField(List<SearchResultField> searchResultFields, String eResourceId) {
         for (SearchResultField searchResultField : searchResultFields) {
             // if (searchResultField.getDocType().equalsIgnoreCase(DocType.BIB.getCode())) {
             if (searchResultField.getFieldName().equalsIgnoreCase("LocalId_display")) {
                 setLocalId(searchResultField.getFieldValue());
             }
-            if (searchResultField.getFieldName().equalsIgnoreCase("Title_sort")) {
+            if (searchResultField.getFieldName().equalsIgnoreCase("Title_display")) {
                     setTitle(searchResultField.getFieldValue());
             }
             if (searchResultField.getFieldName().equalsIgnoreCase("Author_display")) {
@@ -892,6 +928,12 @@ public class SearchResultDisplayRow  {
             if (searchResultField.getFieldName().equalsIgnoreCase("Title_display")) {
                 setTitleDisplay(searchResultField.getFieldValue());
             }
+            if (searchResultField.getFieldName().equalsIgnoreCase("ResourceType_display")) {
+                setResourceType(searchResultField.getFieldValue());
+            }
+            if (searchResultField.getFieldName().equalsIgnoreCase("Carrier_display")) {
+                setCarrier(searchResultField.getFieldValue());
+            }
             if (eResourceId != null) {
                 setOleERSIdentifier(eResourceId);
             }
@@ -907,7 +949,7 @@ public class SearchResultDisplayRow  {
             if (searchResultField.getFieldName().equalsIgnoreCase("LocalId_display")) {
                 setLocalId(searchResultField.getFieldValue());
             }
-            if (searchResultField.getFieldName().equalsIgnoreCase("Title_sort")) {
+            if (searchResultField.getFieldName().equalsIgnoreCase("Title_display")) {
                 setTitle(searchResultField.getFieldValue());
             }
             if (searchResultField.getFieldName().equalsIgnoreCase("CallNumber_display")) {
@@ -997,7 +1039,7 @@ public class SearchResultDisplayRow  {
             if (searchResultField.getFieldName().equalsIgnoreCase("LocalId_display")) {
                 setLocalId(searchResultField.getFieldValue());
             }
-            if (searchResultField.getFieldName().equalsIgnoreCase("Title_sort")) {
+            if (searchResultField.getFieldName().equalsIgnoreCase("Title_display")) {
                 setTitle(searchResultField.getFieldValue());
             }
             if (searchResultField.getFieldName().equalsIgnoreCase("locationName")) {
@@ -1090,6 +1132,12 @@ public class SearchResultDisplayRow  {
             if (searchResultField.getFieldName().equalsIgnoreCase("DueDateTime")) {
                 setDueDateTime(searchResultField.getFieldValue());
             }
+			 if (searchResultField.getFieldName().equalsIgnoreCase("HoldingsLocation_display")) {
+                setHoldingsLocation(searchResultField.getFieldValue());
+            }
+            if (searchResultField.getFieldName().equalsIgnoreCase("HoldingsCallNumber_display")) {
+                setHoldingsCallNumber(searchResultField.getFieldValue());
+            }
 
         }
     }
@@ -1138,6 +1186,12 @@ public class SearchResultDisplayRow  {
             }
             if (searchResultField.getFieldName().equalsIgnoreCase("CallNumber_display")) {
                 setCallNumber(searchResultField.getFieldValue());
+            }
+            if (searchResultField.getFieldName().equalsIgnoreCase("HoldingsLocation_display")) {
+                setHoldingsLocation(searchResultField.getFieldValue());
+            }
+            if (searchResultField.getFieldName().equalsIgnoreCase("HoldingsCallNumber_display")) {
+                setHoldingsCallNumber(searchResultField.getFieldValue());
             }
             if (searchResultField.getFieldName().equalsIgnoreCase("CallNumberPrefix_display")) {
                 setCallNumberPrefix(searchResultField.getFieldValue());

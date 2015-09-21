@@ -18,6 +18,7 @@ public class OleExtendedEHoldingFields {
     private String relatedHoldingIdentifier;
     private String paymentStatus;
     private String purchaseOrderId;
+    private String purchaseOrderNo;
     private String vendorName;
     private String orderType;
     private String currentFYCost;
@@ -104,5 +105,13 @@ public class OleExtendedEHoldingFields {
 
     public void setLicense(List<OLEEResourceLicense> license) {
         this.license = license;
+    }
+
+    public String getPurchaseOrderNo() {
+        return purchaseOrderNo;
+    }
+
+    public void setPurchaseOrderNo(String purchaseOrderNo) {
+        this.purchaseOrderNo = purchaseOrderNo;
     }
 }

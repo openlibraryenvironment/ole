@@ -10,7 +10,11 @@ package org.kuali.ole.utility.callnumber;
 
 import com.ibm.icu.lang.UCharacter;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.ole.docstore.common.exception.DocstoreResources;
+import org.kuali.ole.docstore.common.exception.DocstoreValidationException;
 import org.marc4j.ErrorHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -38,7 +42,7 @@ public final class CallNumUtils {
      */
     private CallNumUtils() {
     }
-
+    private static final Logger LOG = LoggerFactory.getLogger(CallNumUtils.class);
     public static final Pattern DEWEY_PATTERN = Pattern.compile("^\\d{1,3}(\\.\\d+)?.*");
     /**
      * regular expression string for the required portion of the LC classification
@@ -1009,14 +1013,19 @@ public final class CallNumUtils {
      * @throws NumberFormatException if string can't be parsed as a number
      */
     public static String normalizeFloat(String floatStr, int digitsB4, int digitsAfter) {
-        double value = Double.valueOf(floatStr).doubleValue();
+        String norm = null;
+        try {
+            double value = Double.valueOf(floatStr).doubleValue();
+            String formatStr = getFormatString(digitsB4) + '.' + getFormatString(digitsAfter);
+            DecimalFormat normFormat = new DecimalFormat(formatStr);
+            norm = normFormat.format(value);
+            if (norm.endsWith("."))
+                norm = norm.substring(0, norm.length() - 1);
 
-        String formatStr = getFormatString(digitsB4) + '.' + getFormatString(digitsAfter);
-
-        DecimalFormat normFormat = new DecimalFormat(formatStr);
-        String norm = normFormat.format(value);
-        if (norm.endsWith("."))
-            norm = norm.substring(0, norm.length() - 1);
+        } catch (NumberFormatException e) {
+            LOG.error("Exception while Normalizing Call Number",e);
+            throw new DocstoreValidationException(e);
+        }
         return norm;
     }
 

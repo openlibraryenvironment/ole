@@ -344,6 +344,8 @@ public class SearchParams {
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "PublicationDate_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Edition_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Format_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "ResourceType_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Carrier_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Language_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Description_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "FormGenre_display"));
@@ -426,6 +428,8 @@ public class SearchParams {
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Title_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "Location_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "CallNumber_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "HoldingsLocation_display"));
+            searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "HoldingsCallNumber_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "CallNumberPrefix_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "ClassificationPart_display"));
             searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(docType, "ShelvingOrder_display"));

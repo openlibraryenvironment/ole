@@ -1,0 +1,28 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.ItemFineRate
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.bo.PatronBillPayment
+
+
+
+rule "FI-DIV-50c-H"
+agenda-group "fine validation"
+activation-group "fine validation"
+when
+
+$f: ItemFineRate()
+
+$i: OleItemRecordForCirc(getItemType() in ("3HR","OVERNIGHT"),
+getItemLibraryLocation() in ("DIV"))
+
+then
+$f.setFineRate(0.50);
+$f.setMaxFine(0.00);
+$f.setInterval("H"); //Options are H-Hours; D-Days
+
+ end

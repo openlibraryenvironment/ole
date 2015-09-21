@@ -406,6 +406,7 @@
     <param name="patrons.xml.pending.location">${patrons.xml.root.location}/pending</param>
     <param name="patrons.xml.loaded.location">${patrons.xml.root.location}/loaded</param>
     <param name="patrons.xml.problem.location">${patrons.xml.root.location}/problem</param>
+    <param name="patrons.xml.report.location">${patrons.xml.root.location}/report</param>
 
     <param name="autoIngestDefaults">true</param>
 
@@ -429,7 +430,7 @@
     <param name="ole.docsearch.app.url">${ole.docstore.url.base}/</param>
     <param name="ole.bibeditor.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true</param>
     <param name="ole.dublineditor.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=dublinunq&amp;editable=true</param>
-    <param name="ole.bibeditor.create.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true</param>
+    <param name="ole.bibeditor.create.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorWorkformView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true</param>
     <param name="ole.bibsearch.url">${ole.fs.url.base}/portal.do?channelTitle=Describe%20Workbench&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/olesearchcontroller?viewId=OLEDescribeWorkBenchView&amp;methodToCall=start</param>
     <param name="ole.instanceEditor.url">${ole.fs.url.base}/portal.do?channelTitle=Instance%20Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/instanceeditor?viewId=InstanceEditorView&amp;methodToCall=loadInstanceRecord</param>
     <param name="ole.docstore.restful.url">${ole.docstore.url.base}/rest/documents</param>

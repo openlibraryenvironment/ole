@@ -1,9 +1,14 @@
 package org.kuali.ole.deliver.controller;
 
 import org.apache.log4j.Logger;
+import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.controller.checkout.CheckoutUIController;
 import org.kuali.ole.deliver.form.CircForm;
 import org.kuali.ole.deliver.keyvalue.CirculationDeskChangeKeyValue;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
+import org.kuali.ole.deliver.util.ErrorMessage;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.exception.DocumentAuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -16,17 +21,21 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hemalathas on 6/21/15.
  */
-public class CircBaseController extends UifControllerBase{
+public class CircBaseController extends OLEUifControllerBase{
 
     private static final Logger LOG = Logger.getLogger(CircBaseController.class);
 
     private CircDeskLocationResolver circDeskLocationResolver;
     public volatile static String fastAddBarcode = "";
+    //TODO: Clean up the map once session timeout is implemented.
+    private Map<String, CheckoutUIController> controllerMap = new HashMap<>();
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
@@ -59,16 +68,61 @@ public class CircBaseController extends UifControllerBase{
                 circForm.setPreviouslySelectedCirculationDesk(circForm.getSelectedCirculationDesk());
             }
         }
+        String maxTimeoutCount = ParameterValueResolver.getInstance().getParameter(OLEConstants
+                .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.MAX_TIME_LOAN);
+        circForm.setMaxSessionTime(maxTimeoutCount);
+        String url = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base");
+        circForm.setUrlBase(url);
+        circForm.setViewBillUrl(OLEConstants.OlePatron.PATRON_VIEW_BILL_URL);
+        circForm.setCreateBillUrl(OLEConstants.OlePatron.PATRON_CREATE_BILL_URL);
         return super.start(circForm, result, request, response);
     }
 
+
+    @RequestMapping(params = "methodToCall=resetUI")
+    public ModelAndView resetUI(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                HttpServletRequest request, HttpServletResponse response) {
+        CircForm circForm = (CircForm) form;
+        circForm.reset();
+        return getUIFModelAndView(form, "circViewPage");
+    }
+
+    @RequestMapping(params = "methodToCall=resetItemForNextTrans")
+    public ModelAndView resetItemForNextTrans(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response) {
+        CircForm circForm = (CircForm) form;
+        resetItemInfoForNextTrans(circForm);
+        circForm.setErrorMessage(new ErrorMessage());
+        return getUIFModelAndView(form, "circViewPage");
+    }
+
+    @RequestMapping(params = "methodToCall=resetUIForAutoCheckout")
+    public ModelAndView resetUIForAutoCheckout(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                HttpServletRequest request, HttpServletResponse response) {
+        CircForm circForm = (CircForm) form;
+        circForm.resetForAutoCheckout();
+        return getUIFModelAndView(form, "circViewPage");
+    }
+
+    @RequestMapping(params = "methodToCall=refreshScreen")
+    public ModelAndView refreshScreen(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return super.refresh(form, result, request, response);
+    }
 
     @RequestMapping(params = "methodToCall=clearUI")
     public ModelAndView clearUI(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) {
         CircForm circForm = (CircForm) form;
-        circForm.reset();
+        circForm.resetAll();
         return getUIFModelAndView(form, "circViewPage");
+    }
+
+    protected void resetItemInfoForNextTrans(CircForm circForm) {
+        circForm.setItemBarcode("");
+        circForm.setItemRecord(null);
+        circForm.setDroolsExchange(null);
+        circForm.setItemValidationDone(false);
     }
 
     private void setPrincipalInfo(CircForm circForm) {
@@ -92,4 +146,24 @@ public class CircBaseController extends UifControllerBase{
     public void showErrorMessageDialog(UifFormBase form, HttpServletRequest request, HttpServletResponse response) {
         showDialog("ptrnValidationErrorMessageDialog", form, request, response);
     }
+
+    @RequestMapping(params = "methodToCall=clearSession")
+    public ModelAndView clearSession(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CircForm circForm = (CircForm) form;
+        circForm.resetAll();
+        controllerMap.remove(circForm.getFormKey());
+        return getUIFModelAndView(circForm);
+    }
+
+    public CheckoutUIController getCheckoutUIController(String formKey) {
+        if (controllerMap.containsKey(formKey)) {
+            return controllerMap.get(formKey);
+        } else {
+            CheckoutUIController checkoutUIController = new CheckoutUIController();
+            controllerMap.put(formKey, checkoutUIController);
+        }
+        return controllerMap.get(formKey);
+    }
 }
+

@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.controller.checkout;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.deliver.controller.PermissionsValidatorUtil;
 import org.kuali.ole.deliver.form.CircForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -20,15 +21,27 @@ public class CheckoutValidationController extends CheckoutPatronController {
     public ModelAndView validateOveridePermission(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
         CircForm circForm = (CircForm) form;
-        circForm.getErrorMessage().clearErrorMessage();
         boolean hasValidOverridePermissions = new PermissionsValidatorUtil().hasValidOverridePermissions(circForm);
-        if (!hasValidOverridePermissions) {
-            circForm.setOverridingPrincipalName(null);
-            return showDialog("overrideMessageDialog", circForm, request, response);
+        if(CollectionUtils.isEmpty(circForm.getErrorMessage().getPermissions())){
+            return handleProxyPatronsIfExists(circForm, result, request, response);
+        } else {
+            if ((hasValidOverridePermissions)) {
+                if (circForm.isProxyCheckDone() && circForm.isItemValidationDone() && !circForm.isItemOverride() && !circForm.isRequestExistOrLoanedCheck()) {
+                    circForm.getErrorMessage().clearErrorMessage();
+                    return proceedToSaveLoan(circForm, result, request, response);
+                } else if (circForm.isItemOverride()) {
+                    circForm.setItemOverride(false);
+                    circForm.getErrorMessage().clearErrorMessage();
+                    return proceedToSaveLoan(circForm, result, request, response);
+                }else if(circForm.isRequestExistOrLoanedCheck()){
+                    circForm.setRequestExistOrLoanedCheck(false);
+                    return proceedToValidateItemAndSaveLoan(circForm, result, request, response);
+                }
+                return handleProxyPatronsIfExists(circForm, result, request, response);
+            } else {
+                circForm.setOverridingPrincipalName(null);
+                return showDialog("overrideMessageDialog", circForm, request, response);
+            }
         }
-        if (circForm.isProxyCheckDone() && circForm.isItemValidationDone()) {
-            return proceedToSaveLoan(circForm, result, request, response);
-        }
-        return handleProxyPatronsIfExists(circForm, result, request, response);
     }
 }

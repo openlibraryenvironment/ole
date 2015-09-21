@@ -1,0 +1,50 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "CO-DIV-LIBUSEONLY-LESS-THAN-2"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$d: DroolsResponse()
+
+$i: OleItemRecordForCirc (getItemType() in ("LIBUSEONLY"),
+getItemLibraryLocation() in ("DIV"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("GRADST","DIVGRAD","ALUMNI","FQALUMNI","UNCGFS","PL4WK","DUKE4WKGOLD","TRLN","DUKESTAFF","HEALTHPROF","UG","FQGRAD","FQST","FQPHD","RETLIB","FQPARTNER","LWALUMNI","FRIENDSDUL"),
+getLoanedItemsCountByItemType($i.getItemType()) < 2)
+then
+
+$l.setCirculationPolicyId("CO-DIV-LIBUSEONLY-2-MAX");
+$l.loanPeriod("3-H",null);
+$n.setNoticeType("NO-PS-STDLOAN");
+end
+
+rule "CO-DIV-LIBUSEONLY-GREATER-THAN-2"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$d: DroolsResponse()
+
+$i: OleItemRecordForCirc (getItemType() in ("LIBUSEONLY"),
+getItemLibraryLocation() in ("DIV"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("GRADST","DIVGRAD","ALUMNI","FQALUMNI","UNCGFS","PL4WK","DUKE4WKGOLD","TRLN","DUKESTAFF","HEALTHPROF","UG","FQGRAD","FQST","FQPHD","RETLIB","FQPARTNER","LWALUMNI","FRIENDSDUL"),
+getLoanedItemsCountByItemType($i.getItemType()) >= 2)
+
+then
+$d.addErrorMessage("Patron has more than 2 standard loan items checked out");
+$d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+$l.setCirculationPolicyId("CO-DIV-LIBUSEONLY-2-MAX");
+$l.loanPeriod("3-H",null); // This method takes due date and recall period as arguments.
+$n.setNoticeType("NO-PS-STDLOAN");
+ end

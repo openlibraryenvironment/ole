@@ -36,13 +36,18 @@
           p:propertyName="itemBarcode"
           p:label="Item"
           p:style="float:left;margin-left:1em"
-          p:render="@{proceedWithCheckout}">
+          p:render="@{proceedWithCheckout}" p:readOnly="@{autoCheckout}">
         <property name="control">
             <bean parent="Uif-TextControl">
                 <property name="onKeyPressScript" value="
                 if(e.which==13){
                     e.preventDefault();
-                    submitForm('lookupItemAndSaveLoan',null,null,null,null);};" />
+                    if(jq('#checkoutItem_control').val() !== ''){
+                        submitForm('lookupItemAndSaveLoan',null,null,true,
+                            function (){jq('#checkoutItem_control').focus();}
+                        );
+                    }
+                };" />
             </bean>
         </property>
         <property name="quickfinder">

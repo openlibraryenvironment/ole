@@ -5,7 +5,7 @@ import org.extensiblecatalog.ncip.v2.service.*;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.ncip.bo.OLENCIPConstants;
-import org.kuali.ole.ncip.bo.OLERenewItem;
+import org.kuali.ole.bo.OLERenewItem;
 import org.kuali.ole.ncip.converter.OLERenewItemConverter;
 import org.kuali.ole.ncip.service.OLECirculationService;
 import org.kuali.ole.ncip.service.OLERenewItemService;

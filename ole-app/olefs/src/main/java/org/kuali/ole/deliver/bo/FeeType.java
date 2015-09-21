@@ -52,6 +52,7 @@ public class FeeType extends PersistableBusinessObjectBase {
     private Timestamp dueDate;
     private Date checkOutDate;
     private Timestamp checkInDate;
+    private Timestamp lastTransactionDate;
 
     public String getForgiveNote() {
         return forgiveNote;
@@ -341,5 +342,13 @@ public class FeeType extends PersistableBusinessObjectBase {
 
     public void setCheckInDate(Timestamp checkInDate) {
         this.checkInDate = checkInDate;
+    }
+
+    public Timestamp getLastTransactionDate() {
+        return lastTransactionDate;
+    }
+
+    public void setLastTransactionDate(Timestamp lastTransactionDate) {
+        this.lastTransactionDate = lastTransactionDate;
     }
 }

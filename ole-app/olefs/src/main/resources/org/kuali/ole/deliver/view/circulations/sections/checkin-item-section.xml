@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="checkInItemBarcodeSearch-HorizontalBoxSection"
+          parent="checkInItemBarcodeSearch-HorizontalBoxSection-parentBean"/>
+    <bean id="checkInItemBarcodeSearch-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSection"
+          p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <ref bean="checkIn-Item"/>
+                <ref bean="checkinCustomDateTimeSection"/>
+                <ref bean="AlertBoxSectionForCheckinCustomDueDate"/>
+                <ref bean="AlertBoxSectionForCheckinCustomDueDateTime"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="checkIn-Item" parent="checkIn-Item-parentBean"/>
+    <bean id="checkIn-Item-parentBean" parent="Uif-InputField"
+          p:propertyName="itemBarcode"
+          p:label="Item"
+          p:style="float:left;"
+          p:enableAutoQuickfinder="true">
+        <property name="control">
+            <bean parent="Uif-TextControl">
+                <property name="onKeyPressScript" value="
+                if(e.which==13){
+                    e.preventDefault();
+                    jq('#checkIn-Item_control').blur();
+                    var validCheckinTime = jq.trim(jq('#checkinCustomDueDateTime_control').val())!='' ? jq('#checkinCustomDueDateTime_control').valid() : true;
+                    if(jq.trim(jq('#checkIn-Item_control').val())!='' &amp; jq('#checkinCustomDueDate_control').valid() &amp; validCheckinTime){
+                        submitForm('refresh',null,null,true,
+                            function (){
+                                submitForm('refreshUI',null,null,true,
+                                    function (){
+                                        jq('#checkIn-Item_control').focus();
+                                        validateCheckInDate();
+                                    });
+                        });
+                    }
+                };" />
+            </bean>
+        </property>
+        <property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch">
+                <property name="fieldConversions">
+                    <map>
+                        <entry key="itemBarCode" value="itemBarcode"/>
+                        <entry key="itemUUID" value="returnItemUuid"/>
+                        <entry key="instanceUUID" value="returnInstanceUuid"/>
+                    </map>
+                </property>
+                <property name="lookupParameters">
+                    <map>
+                        <entry key="itemBarcode" value="itemBarCode"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+    <bean id="checkinCustomDateTimeSection" parent="checkinCustomDateTime-HorizontalBoxSection-parentBean" />
+    <bean id="checkinCustomDateTime-HorizontalBoxSection-parentBean" parent="Uif-HorizontalFieldGroup" p:style="width:350px;">
+        <property name="items">
+            <list>
+                <bean id="checkinCustomDueDate" parent="Loan-Uif-InputField" p:propertyName="customDueDateMap" p:label="Check-in Date" p:required="true"
+                      p:onChangeScript="validateCheckInDate();" p:onKeyPressScript="if(e.which==13){e.preventDefault();};">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10" />
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint">
+                            <property name="allowedFormats">
+                                <list>
+                                    <value>${allowedFormats.dateFormat1}</value>
+                                    <value>${allowedFormats.dateFormat2}</value>
+                                    <value>${allowedFormats.dateFormat3}</value>
+                                    <value>${allowedFormats.dateFormat4}</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="checkinCustomDueDateTime" parent="Loan-Uif-InputField" p:propertyName="customDueDateTime" p:label="Time"
+                      p:onChangeScript="validateCheckInTime();" p:onKeyPressScript="if(e.which==13){e.preventDefault();};">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:watermarkText="hh:mm"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="Time24HPatternConstraint"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="AlertBoxSectionForCheckinCustomDueDate" parent="Uif-MessageField" p:messageText="Check-in Date is not the current date" p:hidden="true" p:cssClasses="alert-error"/>
+    <bean id="AlertBoxSectionForCheckinCustomDueDateTime" parent="Uif-MessageField" p:messageText="Check-in Time is not the current Time" p:hidden="true" p:cssClasses="alert-error"/>
+
+</beans>

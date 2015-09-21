@@ -1,12 +1,7 @@
 package org.kuali.ole.deliver.rest;
 
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.asr.handler.RenewItemResponseHandler;
-import org.kuali.asr.handler.ResponseHandler;
-import org.kuali.ole.ncip.bo.OLENCIPConstants;
-import org.kuali.ole.ncip.bo.OLERenewItemList;
+import org.kuali.asr.handler.*;
 import org.kuali.ole.ncip.service.CirculationRestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by sheiksalahudeenm on 25/6/15.
@@ -28,7 +22,6 @@ public class CirculationRestController {
 
     @Autowired
     private CirculationRestService circulationRestService;
-    private ResponseHandler responseHandler;
 
     /* Rest POST Methods Start*/
 
@@ -37,48 +30,59 @@ public class CirculationRestController {
     public String renewItem(@RequestBody String body) throws Exception {
         String responseString = "";
         JSONObject jsonObject = new JSONObject(body);
-
-        String patronBarcode = getStringValueFromJsonObject(jsonObject, OLENCIPConstants.PATRON_BARCODE);
-        String operatorId = getStringValueFromJsonObject(jsonObject, OLENCIPConstants.OPERATOR_ID);
-        JSONArray itemBarcodes = (JSONArray) jsonObject.get(OLENCIPConstants.CIRC_ITEM_BARCODES);
-        List<String> items = new ArrayList<>();
-        for (int i = 0; i < itemBarcodes.length(); i++) {
-            Integer itemBarcode = (Integer) itemBarcodes.get(i);
-            items.add(itemBarcode.toString());
-        }
-        String requestFormatType = getStringValueFromJsonObject(jsonObject, OLENCIPConstants.REQUEST_FORMAT_TYPE);
-
-        String responseFormatType = getStringValueFromJsonObject(jsonObject, OLENCIPConstants.RESPONSE_FORMAT_TYPE);
-
-
-        OLERenewItemList oleRenewItemList = getCirculationRestService().renewItems(patronBarcode, operatorId, items);
-
-         switch (responseFormatType){
-            case "XML":
-                return getResponseHandler().marshalObjectToXml(oleRenewItemList);
-            case "JSON":
-                return getResponseHandler().marshalObjectToJson(oleRenewItemList);
-        }
+        Map renewParameters = new RenewItemRequestHandler().parseRequest(jsonObject);
+        responseString = getCirculationRestService().renewItems(renewParameters);
         return responseString;
     }
 
-    private ResponseHandler getResponseHandler() {
-        if (null == responseHandler) {
-            responseHandler = new RenewItemResponseHandler();
-        }
-        return responseHandler;
+    @RequestMapping(method = RequestMethod.POST, value = "/renewItemSIP2", produces = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String renewItemForSIP2(@RequestBody String body) throws Exception {
+        String responseString = "";
+        JSONObject jsonObject = new JSONObject(body);
+        Map renewParameters = new RenewItemRequestHandler().parseRequest(jsonObject);
+        responseString = getCirculationRestService().renewItemsSIP2(renewParameters);
+        return responseString;
     }
-    /* Rest POST Methods End*/
 
+    @RequestMapping(method = RequestMethod.POST, value = "/checkoutItem", produces = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String checkoutItem(@RequestBody String body) throws Exception {
+        String responseString = "";
+        JSONObject jsonObject = new JSONObject(body);
+        Map checkoutParameters = new CheckoutItemRequestHandler().parseRequest(jsonObject);
+        responseString = getCirculationRestService().checkoutItem(checkoutParameters);
+        return responseString;
+    }
 
-    public String getStringValueFromJsonObject(JSONObject jsonObject, String key) {
-        String returnValue = null;
-        try {
-            returnValue = jsonObject.getString(key);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return returnValue;
+    @RequestMapping(method = RequestMethod.POST, value = "/checkoutItemSIP2", produces = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String checkoutItemSIP2(@RequestBody String body) throws Exception {
+        String responseString = "";
+        JSONObject jsonObject = new JSONObject(body);
+        Map checkoutParameters = new CheckoutItemRequestHandler().parseRequest(jsonObject);
+        responseString = getCirculationRestService().checkoutItemSIP2(checkoutParameters);
+        return responseString;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/checkinItem", produces = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String checkinItem(@RequestBody String body) throws Exception {
+        String responseString = "";
+        JSONObject jsonObject = new JSONObject(body);
+        Map checkinParameters = new CheckinItemRequestHandler().parseRequest(jsonObject);
+        responseString = getCirculationRestService().checkinItem(checkinParameters);
+        return responseString;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/checkinItemSIP2", produces = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String checkinItemSIP2(@RequestBody String body) throws Exception {
+        String responseString = "";
+        JSONObject jsonObject = new JSONObject(body);
+        Map checkinParameters = new CheckinItemRequestHandler().parseRequest(jsonObject);
+        responseString = getCirculationRestService().checkinItemSIP2(checkinParameters);
+        return responseString;
     }
 
     public CirculationRestService getCirculationRestService() {

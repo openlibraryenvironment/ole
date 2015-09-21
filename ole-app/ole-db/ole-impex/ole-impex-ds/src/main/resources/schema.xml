@@ -23,6 +23,12 @@
         <foreign-key foreignTable="OLE_DS_BIB_T" name="BIB_HOL_BIB_CNSTRT">
             <reference foreign="BIB_ID" local="BIB_ID"/>
         </foreign-key>
+        <index name="OLE_DS_BIB_HOLDINGS_TI1">
+            <index-column name="BIB_ID"/>
+        </index>
+        <index name="OLE_DS_BIB_HOLDINGS_TI2">
+            <index-column name="HOLDINGS_ID"/>
+        </index>
     </table>
     <table name="OLE_DS_BIB_T">
         <column name="BIB_ID" primaryKey="true" type="INTEGER"/>
@@ -81,6 +87,9 @@
         <foreign-key foreignTable="OLE_DS_HOLDINGS_T" name="EXT_OWNERSHIP_CONSTRAINT">
             <reference foreign="HOLDINGS_ID" local="HOLDINGS_ID"/>
         </foreign-key>
+        <index name="OLE_DS_EXT_OWNERSHIP_TI1">
+            <index-column name="HOLDINGS_ID"/>
+        </index>
     </table>
     <table name="OLE_DS_ITM_FORMER_IDENTIFIER_T">
         <column name="ITEM_FORMER_IDENTIFIER_ID" primaryKey="true" type="INTEGER"/>
@@ -159,6 +168,12 @@
         <foreign-key foreignTable="OLE_DS_ITEM_T" name="ITEM_HOL_ITEM_CNSTRT">
             <reference foreign="ITEM_ID" local="ITEM_ID"/>
         </foreign-key>
+        <index name="OLE_DS_ITEM_HOLDINGS_TI1">
+            <index-column name="HOLDINGS_ID"/>
+        </index>
+        <index name="OLE_DS_ITEM_HOLDINGS_TI2">
+            <index-column name="ITEM_ID"/>
+        </index>
     </table>
     <table name="OLE_DS_HOLDINGS_T">
         <column name="HOLDINGS_ID" primaryKey="true" type="INTEGER"/>
@@ -242,7 +257,7 @@
         <column name="HOLDINGS_ID" required="true" type="INTEGER"/>
         <column default="" name="FAST_ADD" size="1" type="CHAR"/>
         <column name="STAFF_ONLY" size="1" type="CHAR"/>
-        <column default="" name="BARCODE" size="20" type="VARCHAR"/>
+        <column default="" name="BARCODE" size="30" type="VARCHAR"/>
         <column default="" name="URI" size="400" type="VARCHAR"/>
         <column default="" name="ITEM_TYPE_ID" type="INTEGER"/>
         <column default="" name="TEMP_ITEM_TYPE_ID" type="INTEGER"/>
@@ -292,6 +307,12 @@
         <foreign-key foreignTable="OLE_DS_HOLDINGS_T" name="ITEM_HOLDINGS_CONSTRAINT">
             <reference foreign="HOLDINGS_ID" local="HOLDINGS_ID"/>
         </foreign-key>
+        <index name="OLE_DS_ITEM_TI1">
+            <index-column name="BARCODE"/>
+        </index>
+        <index name="OLE_DS_ITEM_TI2">
+            <index-column name="HOLDINGS_ID"/>
+        </index>
     </table>
     <table name="OLE_DS_LOC_CHECKIN_COUNT_T">
         <column name="CHECK_IN_LOCATION_ID" primaryKey="true" type="INTEGER"/>

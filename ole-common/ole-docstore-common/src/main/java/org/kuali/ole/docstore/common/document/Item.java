@@ -91,7 +91,6 @@ public class Item
     public static final String VENDOR_LINE_ITEM_IDENTIFIER = "VENDORLINEITEMIDENTIFIER";
     public static final String SHELVING_ORDER = "SHELVINGORDER";
     public static final String ITEM_BARCODE = "ITEMBARCODE";
-    public static final String DUE_DATE_TIME = "DUEDATETIME";
     public static final String COPY_NUMBER = "COPYNUMBER";
     public static final String HOLDINGS_COPY_NUMBER = "HOLDINGSCOPYNUMBER";
     public static final String ENUMERATION = "ENUMERATION";
@@ -125,6 +124,8 @@ public class Item
     public static final String DESTINATION_FIELD_ITEM_HOLDINGS_LOCATION_LEVEL_4 = "Holdings Location Level4";
     public static final String DESTINATION_FIELD_ITEM_HOLDINGS_LOCATION_LEVEL_5 = "Holdings Location Level5";
     public static final String DESTINATION_FIELD_ITEM_VENDOR_LINE_ITEM_IDENTIFIER = "Vendor Line Item Identifier";
+    public static final String DUE_DATE_TIME = "DUE_DATE_TIME";
+    public static final String NO_OF_RENEWAL = "NO_OF_RENEWAL";
 
     @XmlTransient
     private String holdingsCallNumber;

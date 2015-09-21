@@ -1,6 +1,8 @@
 package org.kuali.ole.sip2.common;
 
 
+import org.kuali.ole.common.OLESIP2Util;
+
 /**
  * This class represents the patron status information that
  * is received as a part of the SIP2PatronStatusResponse response message.

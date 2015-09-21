@@ -10,7 +10,6 @@ import java.util.Map;
 public class DroolsExchange {
 
     private Map<String, Object> context;
-    private List<String> list;
 
     public void addToContext(String parameter, Object value) {
         getContext().put(parameter, value);
@@ -25,17 +24,5 @@ public class DroolsExchange {
             context = new HashMap<>();
         }
         return context;
-    }
-
-    public List getList() {
-        if (null == list) {
-            list.add("overdueDays");
-            list.add("recallOverDueDays");
-        }
-        return list;
-    }
-
-    public void setList(List list) {
-        this.list = list;
     }
 }

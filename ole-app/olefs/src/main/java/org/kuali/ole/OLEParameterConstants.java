@@ -39,6 +39,7 @@ public class OLEParameterConstants {
     public static final String ITEM_STATUS_FOR_RET_LOAN="ITEM_STATUS_FOR_RET_LOAN";
     public static final String NCIP_ACCEPT_ITEM_NOTICE_INDICATOR="NCIP_ACCEPT_ITEM_NOTICE_INDICATOR";
     public static final String DEFAULT_CIRCULATION_DESK = "DEFAULT_CIRCULATION_DESK";
+    public static final String LOAN_WHILE_FASTADD = "LOAN_WHILE_FASTADD";
 
 
 

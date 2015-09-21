@@ -112,6 +112,7 @@ function setControlIndex007(controlField007Format) {
 }
 
 function controlField007Set() {
+    valueChange007 = false;
     var controlField007Text = "";
     var controlText = null;
     var controlField007Format = jq("#007Field_0_control").val();

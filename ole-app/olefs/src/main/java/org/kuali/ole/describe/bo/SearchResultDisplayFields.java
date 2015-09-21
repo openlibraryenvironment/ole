@@ -32,6 +32,8 @@ public class SearchResultDisplayFields {
     private boolean language = false;
     private boolean description = false;
     private boolean publicationDate = false;
+    private boolean resourceType = false;
+    private boolean carrier = false;
 
     private boolean location = false;
     private boolean callNumber = false;
@@ -91,6 +93,8 @@ public class SearchResultDisplayFields {
     private boolean extentOfOwnershipType = false;
     private boolean itemType = false;
     private boolean dueDateTime = false;
+    private boolean holdingsLocation = false;
+    private boolean holdingsCallNumber = false;
 
     public SearchResultDisplayFields() {
     }
@@ -648,6 +652,37 @@ public class SearchResultDisplayFields {
         this.extentOfOwnershipType = extentOfOwnershipType;
     }
 
+    public boolean isHoldingsLocation() {
+        return holdingsLocation;
+    }
+
+    public void setHoldingsLocation(boolean holdingsLocation) {
+        this.holdingsLocation = holdingsLocation;
+    }
+
+    public boolean isHoldingsCallNumber() {
+        return holdingsCallNumber;
+    }
+
+    public void setHoldingsCallNumber(boolean holdingsCallNumber) {
+        this.holdingsCallNumber = holdingsCallNumber;
+    }
+
+    public boolean isResourceType() {
+        return resourceType;
+    }
+
+    public void setResourceType(boolean resourceType) {
+        this.resourceType = resourceType;
+    }
+
+    public boolean isCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(boolean carrier) {
+        this.carrier = carrier;
+    }
     public boolean isItemType() {
         return itemType;
     }
@@ -688,8 +723,7 @@ public class SearchResultDisplayFields {
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Publisher_display")) {
                                         setPublisher(true);
-                                    }
-                                    else if (docFieldConfig.getName().equalsIgnoreCase("Isbn_display")) {
+                                    } else if (docFieldConfig.getName().equalsIgnoreCase("Isbn_display")) {
                                         setIsbn(true);
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Issn_display")) {
@@ -700,8 +734,7 @@ public class SearchResultDisplayFields {
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("PublicationPlace_display")) {
                                         setPublicationPlace(true);
-                                    }
-                                    else if (docFieldConfig.getName().equalsIgnoreCase("Edition_display")) {
+                                    } else if (docFieldConfig.getName().equalsIgnoreCase("Edition_display")) {
                                         setEdition(true);
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("Format_display")) {
@@ -718,6 +751,13 @@ public class SearchResultDisplayFields {
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("PublicationDate_display")) {
                                         setPublicationDate(true);
+                                    }
+                                    else if (docFieldConfig.getName().equalsIgnoreCase("ResourceType_display")) {
+                                        setResourceType(true);
+                                    }
+                                    else if (docFieldConfig.getName().equalsIgnoreCase("Carrier_display")) {
+                                        setCarrier(true);
+
                                     }
                                 }
                                 else {
@@ -905,6 +945,15 @@ public class SearchResultDisplayFields {
                                     }
                                     else if (docFieldConfig.getName().equalsIgnoreCase("dueDateTime_display")) {
                                         setDueDateTime(true);
+                                    }
+
+                                    else if (docFieldConfig.getName().equalsIgnoreCase("HoldingsLocation_display")) {
+                                        setHoldingsLocation(true);
+
+                                    }
+                                    else if (docFieldConfig.getName().equalsIgnoreCase("HoldingsCallNumber_display")) {
+                                        setHoldingsCallNumber(true);
+
                                     }
 
                                 }

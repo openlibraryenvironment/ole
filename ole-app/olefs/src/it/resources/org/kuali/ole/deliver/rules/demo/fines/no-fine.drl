@@ -1,0 +1,28 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.ItemFineRate
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.bo.PatronBillPayment
+
+
+
+rule "No Fines for InDef Staff"
+agenda-group "fine validation"
+activation-group "fine validation"
+when
+
+$b: ItemFineRate()
+
+$i: OleItemRecordForCirc(getItemLibraryLocation() in ("LSC","B-EDUC","B-HPER","DLL","SCL","DOCS"))
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("ALUM","AVR","FAC","FACR","GRAD","GUEST","RES","STAFF","UGRAD"))
+
+then
+$b.setFineRate(0.00);
+$b.setMaxFine(0.00);
+
+ end

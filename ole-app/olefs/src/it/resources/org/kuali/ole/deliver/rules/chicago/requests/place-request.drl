@@ -1,0 +1,104 @@
+package org.kuali.ole.deliver.rules.chicago.ncip
+import org.kuali.ole.deliver.bo.OleDeliverRequestBo
+import org.kuali.ole.deliver.bo.OleDroolsHoldResponseBo
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+
+rule "Circulation Policy Set 1 Validation for Request for recall"
+agenda-group "place-request"
+activation-group "place-request"
+when
+$p : OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER","QALUM25",
+                                                                  "QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC"))
+$dr: OleDeliverRequestBo(getItemType() in ("stks", "stks7","stks14","games","mus","bordirc"),
+getRequestTypeCode() in ("Recall/Hold Request","Recall/Delivery Request"),
+ getItemLibrary() in ("ASR","JRL","JCL","DLL","Eck","SSAd"))
+
+$d : DroolsResponse()
+$n : NoticeInfo()
+then
+$d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext("requestExpirationDays",45);
+$n.setNoticeType(OLEConstants.NOTICE_RECALL);
+$d.getDroolsExchange().addToContext("minimumLoanPeriod","1-D");
+$d.getDroolsExchange().addToContext("recallLoanPeriod","7-D");
+end
+
+
+
+rule "Circulation Policy Set 1 Validation for Request for hold"
+agenda-group "place-request"
+activation-group "place-request"
+when
+$p : OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER","QALUM25",
+                                                                  "QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC"))
+$dr: OleDeliverRequestBo(getItemType() in ("stks", "stks7","stks14","games","mus","bordirc"),
+getRequestTypeCode() in ("Hold/Hold Request","Hold/Delivery Request"),
+ getItemLibrary() in ("ASR","JRL","JCL","DLL","Eck","SSAd"))
+
+$d : DroolsResponse()
+$n : NoticeInfo()
+then
+$d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext("requestExpirationDays",45);
+end
+
+
+
+rule "Circulation Policy Set 1 Validation for Request for page"
+agenda-group "place-request"
+activation-group "place-request"
+when
+$p : OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER","QALUM25",
+                                                                  "QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC"))
+$dr: OleDeliverRequestBo(getItemType() in ("stks", "stks7","stks14","games","mus","bordirc"),
+getRequestTypeCode() in ("Page/Hold Request","Page/Delivery Request"),
+ getItemLibrary() in ("ASR","JRL","JCL","DLL","Eck","SSAd"))
+
+
+$d : DroolsResponse()
+$n : NoticeInfo()
+then
+$d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext("requestExpirationDays",45);
+end
+
+
+rule "Circulation Policy Set 1 Validation for Request for copy"
+agenda-group "place-request"
+activation-group "place-request"
+when
+$p : OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER","QALUM25",
+                                                                  "QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC"))
+$dr: OleDeliverRequestBo(getItemType() in ("stks", "stks7","stks14","games","mus","bordirc"),
+getRequestTypeCode() in ("Copy Request"),
+ getItemLibrary() in ("ASR","JRL","JCL","DLL","Eck","SSAd"))
+
+
+$d : DroolsResponse()
+$n : NoticeInfo()
+then
+$d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext("requestExpirationDays",45);
+end
+
+
+rule "Circulation Policy Set 1 Validation for Request for ASR"
+agenda-group "place-request"
+activation-group "place-request"
+when
+
+$dr:OleDeliverRequestBo(getRequestTypeCode() in ("ASR Request"),
+    getItemLibrary() in ("ASR"))
+
+$d : DroolsResponse()
+$n : NoticeInfo()
+then
+$d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext("requestExpirationDays",45);
+end
+
+

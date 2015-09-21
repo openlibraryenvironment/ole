@@ -162,6 +162,19 @@
                                         <defaultSchemaName>OLE</defaultSchemaName>
                                     </configuration>
                                 </execution>
+
+                                <execution>
+                                    <id>db.changelog-1.6.2</id>
+                                    <phase>${lb.phase}</phase>
+                                    <goals>
+                                        <goal>updateSQL</goal>
+                                    </goals>
+                                    <configuration>
+                                        <changeLogFile>org/kuali/ole/1.6.2/db.changelog-20150731.xml</changeLogFile>
+                                        <verbose>true</verbose>
+                                        <defaultSchemaName>OLE</defaultSchemaName>
+                                    </configuration>
+                                </execution>
 				
                                 <execution>
                                     <id>db.changelog-2.0</id>
@@ -443,6 +456,19 @@
                                     <configuration>
                                         <changeLogFile>org/kuali/ole/1.6.1/db.changelog-20150505.xml</changeLogFile>
                                         <migrationSqlOutputFile>${lb.sql.dir}/1.6.1.sql
+                                        </migrationSqlOutputFile>
+                                    </configuration>
+                                </execution>
+
+                                <execution>
+                                    <id>db.changelog-1.6.2</id>
+                                    <phase>${lb.phase}</phase>
+                                    <goals>
+                                        <goal>updateSQL</goal>
+                                    </goals>
+                                    <configuration>
+                                        <changeLogFile>org/kuali/ole/1.6.2/db.changelog-20150731.xml</changeLogFile>
+                                        <migrationSqlOutputFile>${lb.sql.dir}/1.6.2.sql
                                         </migrationSqlOutputFile>
                                     </configuration>
                                 </execution>

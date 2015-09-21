@@ -133,7 +133,7 @@
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL] and maintenanceAction ne 'Cancel'} "/>
                         <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="copy"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY] and maintenanceAction ne 'Cancel'}"/>
-                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancelDocument" p:actionLabel="Cancel"
+                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancelDocument" p:actionLabel="Cancel Request"
                               p:render="@{maintenanceAction eq 'Cancel'}"/>
 
                     </list>

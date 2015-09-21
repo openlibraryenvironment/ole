@@ -397,6 +397,8 @@ but may be good for SKUs.  Can insert dashes in the wrong place and still match.
         <field name="ISSN_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="PublicationDate_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="Format_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ResourceType_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Carrier_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="PublicationPlace_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="common_identifier_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="Type_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
@@ -427,6 +429,8 @@ but may be good for SKUs.  Can insert dashes in the wrong place and still match.
         <field name="ISSN_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="PublicationDate_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="Format_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ResourceType_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Carrier_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="PublicationPlace_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="Type_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
         <field name="Identifier_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>

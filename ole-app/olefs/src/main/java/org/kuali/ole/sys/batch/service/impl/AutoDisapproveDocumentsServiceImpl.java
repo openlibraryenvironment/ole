@@ -19,6 +19,8 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.joda.time.DateTime;
 import org.kuali.ole.select.document.service.OleSelectDocumentService;
@@ -243,6 +245,11 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
         
         DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
         criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.ENROUTE));
+        criteria.setDocumentTypeName(OLEConstants.FinancialDocumentTypeCodes.PAYMENT_REQUEST);
+        List<String> additionalDocTypes = new ArrayList<String>();
+        additionalDocTypes.add(OLEConstants.FinancialDocumentTypeCodes.INVOICE);
+        additionalDocTypes.add(OLEConstants.FinancialDocumentTypeCodes.VENDOR_CREDIT_MEMO);
+        criteria.setAdditionalDocumentTypeNames(additionalDocTypes);
         criteria.setSaveName(null);
         
         try {
@@ -254,10 +261,10 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
                 documentHeaderId = result.getDocument().getDocumentId();
                 Document document = findDocumentForAutoDisapproval(documentHeaderId);
                 if (document != null && document.getDocumentHeader() != null && document.getDocumentHeader().getWorkflowDocument() != null) {
-                    if(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(OLEConstants.FinancialDocumentTypeCodes.PAYMENT_REQUEST) ||
+                /*    if(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(OLEConstants.FinancialDocumentTypeCodes.PAYMENT_REQUEST) ||
                             document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(OLEConstants.FinancialDocumentTypeCodes.INVOICE) ||
                             document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(OLEConstants.FinancialDocumentTypeCodes.VENDOR_CREDIT_MEMO))  {
-                    if (checkIfDocumentEligibleForAutoDispproval(document)) {
+               */     if (checkIfDocumentEligibleForAutoDispproval(document)) {
                         if (!exceptionsToAutoDisapproveProcess(document, documentCompareDate)) {
                             try {
                                 autoDisapprovalYearEndDocument(document, annotation);
@@ -272,7 +279,8 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
                         }
                     }
                 }
-                }else{
+            //    }
+            else{
                         LOG.error("Document is NULL.  It should never have been null");
                         String message = ("Error: Document with id: ").concat(documentHeaderId).concat(" - Document is NULL.  It should never have been null");
                         autoDisapproveErrorReportWriterService.writeFormattedMessageLine(message);                         

@@ -104,3 +104,36 @@ function clear(){
     }
     return false;
 }
+
+function openSelectAll(doctype) {
+    var checkedcount = 0;
+    if (doctype == 'holdings') {
+        var length = jq("#CallNumber-BrowseResults-Holdings table tbody tr").length;
+        for (var count = 0; count < length; count++) {
+            if (jq("#CallNumber-BrowseResults-Holdings table tbody tr:eq(" + count + ") td div input").is(':checked')) {
+                window.open(jq("#CallNumber-BrowseResults-Holdings table tbody tr:eq(" + count + ") td:eq(1) div a").attr("href") + "&pageId=WorkHoldingsViewPage");
+                checkedcount += 1;
+            }
+        }
+    }
+    else if (doctype == 'item') {
+        var length = jq("#CallNumber-BrowseResults-Item tbody tr").length;
+        for (var count = 0; count < length; count++) {
+            if (jq("#CallNumber-BrowseResults-Item tbody tr:eq(" + count + ") td div input").is(':checked')) {
+                window.open(jq("#CallNumber-BrowseResults-Item tbody tr:eq(" + count + ") td:eq(1) div a").attr("href") + "&pageId=WorkItemViewPage");
+                checkedcount += 1;
+            }
+        }
+    }
+    else if (doctype == 'bibliographic') {
+        var length = jq("#Title-Browse-BibSearchResults_disclosureContent table tbody tr").length;
+        for (var count = 0; count < length; count++) {
+            if (jq("#Title-Browse-BibSearchResults_disclosureContent table tbody tr:eq(" + count + ") td div input").is(':checked')) {
+                window.open(jq("#Title-Browse-BibSearchResults_disclosureContent table tbody tr:eq(" + count + ") td:eq(1) div a").attr("href") + "&pageId=WorkBibEditorViewPage");
+                checkedcount += 1;
+            }
+        }
+    }
+}
+
+

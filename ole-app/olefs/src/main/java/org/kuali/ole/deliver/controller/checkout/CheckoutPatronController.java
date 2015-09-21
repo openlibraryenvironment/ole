@@ -3,10 +3,11 @@ package org.kuali.ole.deliver.controller.checkout;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jfree.util.Log;
-import org.kuali.ole.deliver.controller.PatronLookupCircController;
+import org.kuali.ole.deliver.controller.PatronLookupCircUIController;
 import org.kuali.ole.deliver.drools.DroolsConstants;
+import org.kuali.ole.deliver.drools.DroolsExchange;
 import org.kuali.ole.deliver.form.CircForm;
-import org.kuali.ole.deliver.util.ErrorMessage;
+import org.kuali.ole.deliver.util.DroolsResponse;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -27,23 +28,31 @@ import javax.servlet.http.HttpServletResponse;
 public class CheckoutPatronController extends CheckoutItemController {
 
     private static final Logger LOG = Logger.getLogger(CheckoutPatronController.class);
-    private PatronLookupCircController patronLookupCircController;
+    private PatronLookupCircUIController patronLookupCircUIController;
 
     @RequestMapping(params = "methodToCall=searchPatron")
     public ModelAndView searchPatron(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         CircForm circForm = (CircForm) form;
 
+        if (circForm.isAutoCheckout()) {
+            resetUIForAutoCheckout(circForm, result, request, response);
+        }else{
+            resetUI(circForm,result,request,response);
+        }
+
         OleStopWatch oleStopWatch = new OleStopWatch();
         oleStopWatch.start();
-        ErrorMessage errorMessage = getPatronLookupCircController().searchPatron(circForm);
+        DroolsExchange droolsExchange = new DroolsExchange();
+        droolsExchange.addToContext("circForm", circForm);
+        DroolsResponse droolsResponse = getPatronLookupCircUIController().searchPatron(droolsExchange);
         oleStopWatch.end();
         Log.info("Time taken to look up patron: " + oleStopWatch.getTotalTime() + " ms");
 
-        if (null != errorMessage && StringUtils.isNotBlank(errorMessage.getErrorMessage())) {
-            circForm.setErrorMessage(errorMessage);
-            if (null != errorMessage.getErrorCode() && errorMessage.getErrorCode().equals(DroolsConstants.GENERAL_MESSAGE_FLAG)) {
-                showDialog("generalMessageDialog", circForm, request, response);
+        if (null != droolsResponse && StringUtils.isNotBlank(droolsResponse.retrieveErrorMessage())) {
+            circForm.setErrorMessage(droolsResponse.getErrorMessage());
+            if (null != droolsResponse.retriveErrorCode() && droolsResponse.retriveErrorCode().equals(DroolsConstants.GENERAL_MESSAGE_FLAG)) {
+                showDialog("generalMessageAndResetUIDialog", circForm, request, response);
             } else {
                 showErrorMessageDialog(circForm, request, response);
             }
@@ -57,17 +66,23 @@ public class CheckoutPatronController extends CheckoutItemController {
     public ModelAndView handleProxyPatronsIfExists(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
         CircForm circForm = (CircForm) form;
+        circForm.setPageSize("10");
         if (!circForm.isProxyCheckDone()) {
-            PatronLookupCircController patronLookupCircController = getPatronLookupCircController();
-            boolean proxyPatrons = patronLookupCircController.hasProxyPatrons(circForm);
+            DroolsExchange droolsExchange = new DroolsExchange();
+            droolsExchange.addToContext("circForm", circForm);
+            boolean proxyPatrons = getPatronLookupCircUIController().hasProxyPatrons(droolsExchange);
             if (!proxyPatrons) {
                 setProceedWithCheckoutFlag(circForm);
                 circForm.setProxyCheckDone(true);
             } else {
-                showDialog("proxyListCheckoutDialog", circForm, request, response);
+                String overrideParameters = "{closeBtn:false,autoSize : false}";
+                showDialogWithOverrideParameters("proxyListCheckoutDialog", circForm,overrideParameters);
             }
         } else {
             setProceedWithCheckoutFlag(circForm);
+        }
+        if(circForm.isProxyCheckDone() && circForm.isAutoCheckout()){
+            return lookupItemAndSaveLoan(circForm,result,request,response);
         }
         return getUIFModelAndView(form);
     }
@@ -76,11 +91,16 @@ public class CheckoutPatronController extends CheckoutItemController {
     public ModelAndView processPatronSearchPostProxyHandling(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         CircForm circForm = (CircForm) form;
-        ErrorMessage errorMessage = getPatronLookupCircController().processPatronSearchPostProxyHandling(circForm);
-        if(null != errorMessage && StringUtils.isNotEmpty(errorMessage.getErrorMessage())){
+        DroolsExchange droolsExchange = new DroolsExchange();
+        droolsExchange.addToContext("circForm", circForm);
+        DroolsResponse droolsResponse = getPatronLookupCircUIController().processPatronSearchPostProxyHandling(droolsExchange);
+        if(null != droolsResponse && StringUtils.isNotEmpty(droolsResponse.retrieveErrorMessage())){
             showDialog("ptrnValidationErrorMessageDialog", circForm, request, response);
         } else {
             setProceedWithCheckoutFlag(circForm);
+            if(circForm.isProxyCheckDone() && circForm.isAutoCheckout()){
+                return lookupItemAndSaveLoan(circForm,result,request,response);
+            }
         }
         return getUIFModelAndView(circForm);
     }
@@ -89,6 +109,7 @@ public class CheckoutPatronController extends CheckoutItemController {
         circForm.setProceedWithCheckout(true);
         circForm.getErrorMessage().setErrorCode(null);
         circForm.getErrorMessage().setErrorMessage(null);
+        circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
     }
 
     @RequestMapping(params = "methodToCall=close")
@@ -115,10 +136,10 @@ public class CheckoutPatronController extends CheckoutItemController {
         return getUIFModelAndView(circForm, circForm.getPageId());
     }
 
-    private PatronLookupCircController getPatronLookupCircController() {
-        if (null == patronLookupCircController) {
-            patronLookupCircController = new PatronLookupCircController();
+    private PatronLookupCircUIController getPatronLookupCircUIController() {
+        if (null == patronLookupCircUIController) {
+            patronLookupCircUIController = new PatronLookupCircUIController();
         }
-        return patronLookupCircController;
+        return patronLookupCircUIController;
     }
 }

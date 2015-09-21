@@ -1,0 +1,59 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.DroolsResponse
+
+
+rule "Check out Circ Policy Set BOOK for Max Loaned Items less than 3"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$n: NoticeInfo()
+
+$d : DroolsResponse()
+
+$i: OleItemRecordForCirc(getItemType() in ("BOOK"),
+getItemLibraryLocation() in ("LSC","B-EDUC","B-HPER","DLL","SCL","DOCS"),
+getItemLocation() in ("PSK", "BED-STACKS","BED-TEACHMAT","BHP-JOURNALS","LawPer"))
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("ALUM","AVR","FAC","FACR","GRAD","GUEST","RES","STAFF","UGRAD"),
+getLoanedItemsCountByItemType($i.getItemType()) < 3)
+
+then
+$l.setCirculationPolicyId("Check out Circ Policy Set BOOK");
+$l.loanPeriod("10-D",null); // This method takes due date and recall period as arguments.
+$n.setNoticeType(DroolsConstants.SHORT_TERM_LOANS_NOTICE_CONFIG);
+ end
+
+
+rule "Check out Circ Policy Set BOOK for Max Loaned Items Greater than 3"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$n: NoticeInfo()
+
+$d : DroolsResponse()
+
+$i: OleItemRecordForCirc(getItemType() in ("BOOK"),
+getItemLibraryLocation() in ("LSC","B-EDUC","B-HPER","DLL","SCL","DOCS"),
+getItemLocation() not in ("PSK", "BED-STACKS","BED-TEACHMAT","BHP-JOURNALS","LawPer"))
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("ALUM","AVR","FAC","FACR","GRAD","GUEST","RES","STAFF","UGRAD"),
+getLoanedItemsCountByItemType($i.getItemType()) >= 3)
+
+then
+$d.addErrorMessage("Patron has more than 3 items of BOOK reserve loan items type checked out");
+$d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+$l.setCirculationPolicyId("Check out Circ Policy Set BOOK");
+$l.loanPeriod("10-D",null); // This method takes due date and recall period as arguments.
+$n.setNoticeType(DroolsConstants.SHORT_TERM_LOANS_NOTICE_CONFIG);
+ end

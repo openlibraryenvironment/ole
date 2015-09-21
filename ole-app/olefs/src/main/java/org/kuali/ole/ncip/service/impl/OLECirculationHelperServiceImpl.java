@@ -1,9 +1,16 @@
 package org.kuali.ole.ncip.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.extensiblecatalog.ncip.v2.service.AgencyId;
+import org.extensiblecatalog.ncip.v2.service.InitiationHeader;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.bo.OLECheckOutItem;
+import org.kuali.ole.bo.OLERenewItem;
 import org.kuali.ole.deliver.bo.*;
+import org.kuali.ole.deliver.drools.LoanPeriodUtil;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
@@ -731,13 +738,24 @@ public class OLECirculationHelperServiceImpl {
         }
     }
 
-    public String acceptItem(String patronBarcode, String operatorId, String itemBarcode, String callNumber, String title, String author, String itemType, String itemLocation, String dateExpires, String requestType, String pickUpLocation) throws Exception {
-        LOG.info("Inside Accept Item . Patron Barcode " + patronBarcode + "Operator Id : " +operatorId + "Item barcode :" + itemBarcode + " Call Number : "+callNumber + "Title : "+title + " Author : " +author + "Item Type : "+ itemType + "Item Location : "+itemLocation + "Request Type :" + requestType + "Pick up Location : " + pickUpLocation );
-        OLEAcceptItem oleAcceptItem = new OLEAcceptItem();
+    public String acceptItem(String itemBarcode, String callNumber, String title, String author, String itemType, String itemLocation) throws Exception {
+        LOG.info("Inside Accept Item . Item barcode :" + itemBarcode + " Call Number : "+callNumber + "Title : "+title + " Author : " +author + "Item Type : "+ itemType + "Item Location : "+itemLocation);
         String itemIdentifier = null;
         if (docstoreUtil.isItemAvailableInDocStore(itemBarcode)) {
             return itemIdentifier;
         }
+        BibTrees bibTrees = createItem(itemBarcode, callNumber, title, author, itemType, itemLocation);
+        if(bibTrees!=null &&  bibTrees.getBibTrees()!=null && bibTrees.getBibTrees().size()>0  &&bibTrees.getBibTrees().get(0).getHoldingsTrees()!=null  && bibTrees.getBibTrees().get(0).getHoldingsTrees().size()>0
+                && bibTrees.getBibTrees().get(0).getHoldingsTrees().get(0).getItems() != null && bibTrees.getBibTrees().get(0).getHoldingsTrees().get(0).getItems().size()>0 ){
+            itemIdentifier= bibTrees.getBibTrees().get(0).getHoldingsTrees().get(0).getItems().get(0).getId();
+        }else{
+            itemIdentifier="";
+        }
+        LOG.info("Item Created with identifier : " + itemIdentifier);
+        return itemIdentifier;
+    }
+
+    public BibTrees createItem(String itemBarcode, String callNumber, String title, String author, String itemType, String itemLocation) throws Exception {
         BibMarcRecord bibMarcRecord = getLoanProcessor().getBibMarcRecord(title, author);
 
         List<BibMarcRecord> bibMarcRecordList = new ArrayList<>();
@@ -805,15 +823,7 @@ public class OLECirculationHelperServiceImpl {
         BibTrees bibTrees = new BibTrees();
         bibTrees.getBibTrees().add(bibTree);
         bibTrees=getDocstoreClientLocator().getDocstoreClient().processBibTrees(bibTrees);
-        Thread.sleep(200);
-        if(bibTrees!=null &&  bibTrees.getBibTrees()!=null && bibTrees.getBibTrees().size()>0  &&bibTrees.getBibTrees().get(0).getHoldingsTrees()!=null  && bibTrees.getBibTrees().get(0).getHoldingsTrees().size()>0
-                && bibTrees.getBibTrees().get(0).getHoldingsTrees().get(0).getItems() != null && bibTrees.getBibTrees().get(0).getHoldingsTrees().get(0).getItems().size()>0 ){
-            itemIdentifier= bibTrees.getBibTrees().get(0).getHoldingsTrees().get(0).getItems().get(0).getId();
-        }else{
-            itemIdentifier="";
-        }
-        LOG.info("Item Created with identifier : " + itemIdentifier);
-        return itemIdentifier;
+        return bibTrees;
     }
 
     public HashMap<String, String> getAgencyPropertyMap(String agencyId) {
@@ -1251,6 +1261,30 @@ public class OLECirculationHelperServiceImpl {
         oleRenewItem.setItemProperties("Author="+oleLoanDocument.getAuthor());
         oleRenewItem.setMediaType(oleLoanDocument.getItemType());
         return oleRenewItem;
+    }
+
+    public AgencyId getAgencyId(InitiationHeader initiationHeader) {
+        AgencyId agencyId = null;
+        if (initiationHeader != null && initiationHeader.getFromAgencyId() != null && initiationHeader.getFromAgencyId().getAgencyId() != null
+                && StringUtils.isNotBlank(initiationHeader.getFromAgencyId().getAgencyId().getValue())) {
+            agencyId = new AgencyId(initiationHeader.getFromAgencyId().getAgencyId().getValue());
+        } else if (initiationHeader != null && initiationHeader.getApplicationProfileType() != null
+                && StringUtils.isNotBlank(initiationHeader.getApplicationProfileType().getValue())) {
+            agencyId = new AgencyId(initiationHeader.getApplicationProfileType().getValue());
+        } else {
+            agencyId = new AgencyId(new LoanPeriodUtil().getParameter(OLENCIPConstants.AGENCY_ID_PARAMETER));
+        }
+        return agencyId;
+    }
+
+    public OlePatronDocument getPatronRecordByBarcode(String patronBarcode) {
+        Map barcodeMap = new HashMap();
+        barcodeMap.put(OLEConstants.OlePatron.BARCODE, patronBarcode);
+        List<OlePatronDocument> olePatronDocuments = (List<OlePatronDocument>) getBusinessObjectService().findMatching(OlePatronDocument.class, barcodeMap);
+        if (CollectionUtils.isNotEmpty(olePatronDocuments)) {
+            return olePatronDocuments.get(0);
+        }
+        return null;
     }
 }
 

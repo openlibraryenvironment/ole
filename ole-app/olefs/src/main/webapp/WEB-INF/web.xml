@@ -257,7 +257,7 @@ This file contains custom application specific web.xml content.
     </listener>
 
     <listener>
-        <listener-class>org.kuali.ole.sip2.listener.OLESIP2InitializeListener</listener-class>
+        <listener-class>org.kuali.ole.sip2.listener.SIP2InitializeListener</listener-class>
     </listener>
 
     <servlet>

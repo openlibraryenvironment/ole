@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.ErrorMessage
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "Check out Circ Policy Set 1WK-MUSIC"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$p: OlePatronDocument(getBorrowerTypeCode() in ("UG","FQGRAD","FQST","DIVGRAD","DUKESTAFF"))
+$i: OleItemRecordForCirc (getItemType() in ("1WK","MICROFORM","AUDIOVISUAL","COMPMEDIA"),
+getItemLibraryLocation() in ("MUSIC"))
+then
+$l.setCirculationPolicyId("Check out Circ Policy Set 1WK-MUSIC");
+$l.loanPeriod("7-D",null);
+$n.setNoticeType("MUSIC-3DAY-NOTICE");
+ end

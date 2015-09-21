@@ -57,7 +57,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
 /**
  * The default implementation of the EncumbranceClosingOriginEntryGenerationService
@@ -318,12 +317,7 @@ public class EncumbranceClosingOriginEntryGenerationServiceImpl implements Encum
 
         entry.setFinancialBalanceTypeCode(encumbrance.getBalanceTypeCode());
         entry.setUniversityFiscalPeriodCode(OLEConstants.PERIOD_CODE_BEGINNING_BALANCE);
-        Map map = new HashMap();
-        map.put(OLEConstants.PUR_AP_IDEN,encumbrance.getDocumentNumber());
-        List<OlePurchaseOrderDocument> olePurchaseOrderDocument = ( List<OlePurchaseOrderDocument>)KRADServiceLocator.getBusinessObjectService().findMatching(OlePurchaseOrderDocument.class, map);
-        if(olePurchaseOrderDocument.size() > 0){
-            entry.setDocumentNumber(olePurchaseOrderDocument.get(0).getDocumentNumber());
-        }
+        entry.setDocumentNumber(encumbrance.getDocumentNumber());
         entry.setTransactionLedgerEntrySequenceNumber(new Integer(1));
         entry.setTransactionLedgerEntryDescription(encumbrance.getTransactionEncumbranceDescription());
         entry.setTransactionLedgerEntryAmount(encumbrance.getAccountLineEncumbranceAmount().subtract(encumbrance.getAccountLineEncumbranceClosedAmount()));

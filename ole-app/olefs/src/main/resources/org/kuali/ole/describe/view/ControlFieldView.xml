@@ -19,11 +19,10 @@
             <list>
                 <bean id="Control_Field_001" parent="Base-Uif-InputField"
                       p:propertyName="documentForm.marcControlFields.localId"
-                      p:label="001" p:render="@{editable eq 'true'}"
+                      p:label="001" p:render="@{editable eq 'true'}" p:readOnly="true"
                       p:additionalHiddenPropertyNames="documentForm.marcControlFields.value,documentForm.marcControlFields.id006,documentForm.marcControlFields.value008,documentForm.marcControlFields.value007,documentForm.marcControlFields.id007">
-
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="35" p:disabled="true"/>
+                        <bean parent="Uif-TextControl" p:size="35" />
                     </property>
                 </bean>
                 <bean id="Control_Field_001ReadOnly" parent="Uif-DataField"

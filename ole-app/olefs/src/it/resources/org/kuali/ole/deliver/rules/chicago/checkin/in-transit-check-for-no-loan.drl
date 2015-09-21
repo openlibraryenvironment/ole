@@ -1,0 +1,166 @@
+package org.kuali.ole.deliver.rules.chicago.checkin
+
+
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OleCirculationDesk
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.LocationsCheckinCountRecord
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+rule "On-Hold for in-transit-for-no-loan"
+agenda-group "checkin-validation-for-no-loan"
+activation-group "checkin-validation-for-no-loan"
+
+when
+$i: OleItemRecordForCirc(null!= isItemPickupLocationSameAsOperatorCircLoc(),!isItemPickupLocationSameAsOperatorCircLoc(),
+$r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Recall/Hold Request", "Hold/Hold Request", "Page/Hold Request", "ASR Request"),
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
+
+$d : DroolsResponse()
+
+then
+$i.setItemStatusToBeUpdatedTo("INTRANSIT-FOR-HOLD");
+$d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
+$d.setRuleMatched(true);
+end
+
+ rule "On-Hold for pickup-for-no-loan"
+agenda-group "checkin-validation-for-no-loan"
+activation-group "checkin-validation-for-no-loan"
+
+when
+
+$i: OleItemRecordForCirc(null!= isItemPickupLocationSameAsOperatorCircLoc(),isItemPickupLocationSameAsOperatorCircLoc(),
+$r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Recall/Hold Request", "Hold/Hold Request", "Page/Hold Request", "ASR Request"),
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
+
+$d : DroolsResponse()
+
+then
+$i.setItemStatusToBeUpdatedTo("ONHOLD");
+$i.updateCheckinCount();
+$d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
+end
+
+ rule "Recently returned check for item without a loan"
+agenda-group "checkin-validation-for-no-loan"
+activation-group "checkin-validation-for-no-loan"
+
+when
+
+$c: OleCirculationDesk(getShelvingLagTimeInt() > 0)
+$i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
+$s: getItemStatusRecord(),null != $s, $s.getCode() in ("RECENTLY-RETURNED", "AVAILABLE"))
+$d : DroolsResponse()
+
+
+then
+$i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
+$i.updateInHouseCheckinCount();
+$d.setRuleMatched(true);
+ end
+
+
+ rule "Item without a loan checked in at a different location"
+agenda-group "checkin-validation-for-no-loan"
+activation-group "checkin-validation-for-no-loan"
+
+when
+
+$i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),!isCheckinLocationSameAsHomeLocation(),
+ $s: getItemStatusRecord(),null != $s, $s.getCode() not in ("INTRANSIT"))
+$d : DroolsResponse()
+
+
+then
+$i.setItemStatusToBeUpdatedTo("INTRANSIT");
+$i.updateInHouseCheckinCount();
+$d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
+ end
+
+
+ rule "In transit check for item without a loan"
+agenda-group "checkin-validation-for-no-loan"
+activation-group "checkin-validation-for-no-loan"
+
+when
+
+$c: OleCirculationDesk(getShelvingLagTimeInt() > 0)
+$i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
+$s: getItemStatusRecord(),null != $s, $s.getCode().equals("INTRANSIT"))
+$d : DroolsResponse()
+
+
+then
+$i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
+$i.updateInHouseCheckinCount();
+$d.setRuleMatched(true);
+ end
+
+ rule "In transit check for item without a loan for shelving lag time equal to 0"
+agenda-group "checkin-validation-for-no-loan"
+activation-group "checkin-validation-for-no-loan"
+
+when
+$c: OleCirculationDesk(getShelvingLagTimeInt() == 0)
+$i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
+$s: getItemStatusRecord(),null != $s, $s.getCode().equals("INTRANSIT"))
+$d : DroolsResponse()
+
+
+then
+$i.setItemStatusToBeUpdatedTo("AVAILABLE");
+$i.updateInHouseCheckinCount();
+$d.setRuleMatched(true);
+ end
+
+  rule "Recently returned for item in-transit"
+ agenda-group "checkin-validation-for-no-loan"
+ activation-group "checkin-validation-for-no-loan"
+
+ when
+ $i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
+ $s: getItemStatusRecord(),null != $s, $s.getCode() in ("INTRANSIT"))
+ $d : DroolsResponse()
+
+ then
+ $i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
+ $d.setRuleMatched(true);
+  end
+
+   rule "Intransit for item in-transit"
+ agenda-group "checkin-validation-for-no-loan"
+ activation-group "checkin-validation-for-no-loan"
+
+ when
+ $i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),!isCheckinLocationSameAsHomeLocation(),
+      isLocationMappedToCirculationDesk(),
+ $s: getItemStatusRecord(),null != $s, $s.getCode() in ("INTRANSIT"))
+ $d : DroolsResponse()
+
+ then
+ $i.setItemStatusToBeUpdatedTo("INTRANSIT");
+ $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
+ $d.setRuleMatched(true);
+  end
+
+    rule "Recently returned check for INPROCESS item without a loan"
+agenda-group "checkin-validation-for-no-loan"
+activation-group "checkin-validation-for-no-loan"
+
+when
+
+
+$i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
+$s: getItemStatusRecord(),null != $s, $s.getCode() in ("INPROCESS"))
+$d : DroolsResponse()
+
+
+then
+$i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
+$d.setRuleMatched(true);
+ end
+

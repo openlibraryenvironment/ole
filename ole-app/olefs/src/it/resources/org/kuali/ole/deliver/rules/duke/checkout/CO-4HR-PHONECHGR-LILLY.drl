@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "CO-4HR-PHONECHGR-LILLY"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DIVGRAD","UG","FQGRAD","FQST","FQPHD"))
+$i: OleItemRecordForCirc (getItemType() in ("PHONECHGR"),
+getItemLibraryLocation() in ("LILLY"))
+then
+$l.setCirculationPolicyId("CO-4HR-PHONECHGR-LILLY");
+$l.loanPeriod("4-H",null);
+$n.setNoticeType("NO-LINK-PHONECHGR");
+ end

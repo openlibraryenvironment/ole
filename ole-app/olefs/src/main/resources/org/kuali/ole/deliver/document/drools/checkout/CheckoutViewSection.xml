@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="DroolsEditorBo-Checkout-MaintenanceView-ruleSection" parent="Uif-VerticalBoxSection"  p:render="@{showCheckoutSection}">
+        <property name="items">
+            <list>
+                <bean id="CheckoutFileName" parent="Uif-InputField" p:label="File Name" p:propertyName="fileName"/>
+                <ref bean="DroolsEditorBo-Checkout-MaintenanceView-ruleTableSection" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DroolsEditorBo-Checkout-MaintenanceView-ruleTableSection" parent="Uif-MaintenanceTableCollectionSection">
+        <property name="headerText" value="Checkout Rules" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.drools.DroolsRuleBo" />
+        <property name="propertyName" value="checkoutRuleBos" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="addLineLabel">
+            <bean parent="Uif-Message" p:messageText=""/>
+        </property>
+        <property name="layoutManager.addLineGroup.layoutManager.numberOfColumns" value="8"/>
+        <property name="items">
+            <list>
+                <bean id="CheckoutAgendaGroup" parent="Uif-DataField" p:label="Agenda Group" p:propertyName="agendaGroup" p:readOnly="@{!#isAddLine}" p:defaultValue="checkout-validation"/>
+                <bean id="CheckoutActivationGroup" parent="Uif-InputField" p:label="Activation Group"  p:propertyName="activationGroup" p:readOnly="@{!#isAddLine}"/>
+                <bean id="CheckoutRuleType" parent="Uif-DataField" p:label="Rule Type"  p:propertyName="ruleType" p:readOnly="@{!#isAddLine}" p:defaultValue="checkout"/>
+                <bean id="CheckoutRuleName" parent="Uif-InputField" p:label="Rule Name" p:propertyName="ruleName" p:readOnly="@{!#isAddLine}"/>
+
+                <ref bean="checkoutBorrowerTypes-section"/>
+                <ref bean="checkoutItemTypes-section"/>
+                <ref bean="checkoutInstitutionLocations-section"/>
+                <ref bean="checkoutCampusLocations-section"/>
+                <ref bean="checkoutLibraryLocations-section"/>
+                <ref bean="checkoutCollectionLocations-section"/>
+                <ref bean="checkoutShelvingLocations-section"/>
+
+                <bean id="CheckoutCirculationPolicyId" parent="Uif-InputField" p:label="Circulation Policy" p:propertyName="circulationPolicyId" p:readOnly="@{!#isAddLine}" p:required="true"/>
+                <bean id="CheckoutDefaultRecallPeriod" parent="Uif-InputField" p:label="Default Recall Period" p:propertyName="defaultRecallPeriod" p:readOnly="@{!#isAddLine}" p:required="true" p:defaultValue="null"/>
+                <bean id="CheckoutLoanPeriod" parent="Uif-InputField" p:label="Loan Period" p:propertyName="loanPeriod" p:readOnly="@{!#isAddLine}" p:required="true" p:defaultValue="fixedDueDate"/>
+                <bean id="CheckoutLoanType" parent="Uif-InputField" p:label="Loan Type" p:propertyName="loanType" p:readOnly="@{!#isAddLine}" p:required="true">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.LoanTypeKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <ref bean="checkoutItemTypeCount-section"/>
+                <bean id="CheckoutErrorMessage" parent="Uif-InputField" p:label="Error Message" p:propertyName="errorMessage" p:readOnly="@{!#isAddLine}" p:required="false"/>
+                <bean id="CheckoutOverridePermission" parent="Uif-InputField" p:label="Override Permissions" p:propertyName="overridePermission" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.OverridePermissionsKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="DroolsEditorBo-Checkout-MaintenanceView-ruleTableSection-Add" parent="Uif-CustomAddLineAction" p:methodToCall="addRule"  p:ajaxSubmit="true"  p:successCallback="submitForm('refresh',null,null,null,null);"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-CustomDeleteLineAction" p:ajaxSubmit="true"  p:successCallback="submitForm('refresh',null,null,null,null);"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="checkoutInstitutionLocations-section" parent="Uif-HorizontalFieldGroup"  p:label="Institution Locations" >
+        <property name="items">
+            <list>
+                <bean id="checkoutInstitutionLocations" parent="Uif-InputField" p:propertyName="institutionLocations" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.InstitutionLocationKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-MultiSelectControl"/>
+                    </property>
+                </bean>
+                <bean id="checkoutInstitutionLocationsOperator" parent="Uif-InputField" p:label="Operator" p:propertyName="institutionLocationsOperator" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.InNotInOperatorKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="checkoutCampusLocations-section" parent="Uif-HorizontalFieldGroup" p:label="Campus Locations" >
+        <property name="items">
+            <list>
+                <bean id="checkoutCampusLocations" parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="campusLocations" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.CampusLocationKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-MultiSelectControl"/>
+                    </property>
+                </bean>
+                <bean id="checkoutCampusLocationsOperator" parent="Uif-InputField" p:label="Operator" p:propertyName="campusLocationsOperator" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.InNotInOperatorKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="checkoutLibraryLocations-section" parent="Uif-HorizontalFieldGroup" p:label="Library Location" >
+        <property name="items">
+            <list>
+                <bean id="checkoutLibraryLocations" parent="Uif-InputField"  p:fieldLabel.render="false" p:propertyName="libraryLocations" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.LibraryLocationKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-MultiSelectControl"/>
+                    </property>
+                </bean>
+                <bean id="checkoutLibraryLocationsOperator" parent="Uif-InputField" p:label="Operator" p:propertyName="libraryLocationsOperator" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.InNotInOperatorKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="checkoutCollectionLocations-section" parent="Uif-HorizontalFieldGroup"  p:label="Collection Location" >
+        <property name="items">
+            <list>
+                <bean id="checkoutCollectionLocations" parent="Uif-InputField"  p:fieldLabel.render="false" p:propertyName="collectionLocations" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.CollectionLocationKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-MultiSelectControl"/>
+                    </property>
+                </bean>
+                <bean id="checkoutCollectionLocationsOperator" parent="Uif-InputField" p:label="Operator" p:propertyName="collectionLocationsOperator" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.InNotInOperatorKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="checkoutShelvingLocations-section" parent="Uif-HorizontalFieldGroup" p:label="Shelving Location" >
+        <property name="items">
+            <list>
+                <bean id="checkoutShelvingLocations" parent="Uif-InputField"  p:fieldLabel.render="false" p:propertyName="shelvingLocations" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.ShelvingLocationKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-MultiSelectControl"/>
+                    </property>
+                </bean>
+                <bean id="checkoutShelvingLocationsOperator" parent="Uif-InputField" p:label="Operator" p:propertyName="shelvingLocationsOperator" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.InNotInOperatorKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="checkoutBorrowerTypes-section" parent="Uif-HorizontalFieldGroup"  p:label="Borrower Type" >
+        <property name="items">
+            <list>
+                <bean id="checkoutBorrowerTypes" parent="Uif-InputField" p:fieldLabel.render="false"  p:propertyName="borrowerTypes" p:readOnly="@{!#isAddLine}" p:required="true">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.BorrowerTypeKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-MultiSelectControl"/>
+                    </property>
+                </bean>
+                <bean id="checkoutBorrowerTypesOperator" parent="Uif-InputField" p:label="Operator" p:propertyName="borrowerTypesOperator" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.InNotInOperatorKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="checkoutItemTypes-section" parent="Uif-HorizontalFieldGroup"  p:label="Item Type">
+        <property name="items">
+            <list>
+                <bean id="checkoutItemTypes" parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="itemTypes" p:readOnly="@{!#isAddLine}" p:required="true">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.ItemTypeKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-MultiSelectControl"/>
+                    </property>
+                </bean>
+                <bean id="checkoutItemTypesOperator" parent="Uif-InputField" p:label="Operator" p:propertyName="itemTypesOperator" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.InNotInOperatorKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="checkoutItemTypeCount-section" parent="Uif-HorizontalFieldGroup"  p:label="Item Type Count">
+        <property name="items">
+            <list>
+                <bean id="checkoutItemTypeCount" parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="itemTypeCount" p:readOnly="@{!#isAddLine}" p:required="true"/>
+                <bean id="checkoutItemTypeCountOperator" parent="Uif-InputField" p:label="Operator" p:propertyName="itemTypeCountOperator" p:readOnly="@{!#isAddLine}" p:required="true">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.DroolEditorRuleOperatorKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

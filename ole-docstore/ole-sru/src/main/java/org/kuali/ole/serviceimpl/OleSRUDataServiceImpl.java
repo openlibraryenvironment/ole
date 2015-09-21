@@ -113,10 +113,11 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
      */
     public String getOPACXMLSearchRetrieveResponse(List oleBibIDList, Map reqParamMap) {
         LOG.info("Inside getOPACXMLSearchRetrieveResponse method");
+        OleSRUOpacXMLResponseHandler oleSRUOpacXMLResponseHandler = new OleSRUOpacXMLResponseHandler();
+        OleSRUSearchRetrieveResponse oleSRUSearchRetrieveResponse = new OleSRUSearchRetrieveResponse();
+        oleSRUSearchRetrieveResponse.setVersion((String) reqParamMap.get(OleSRUConstants.VERSION));
+        OleSRUDiagnostics oleSRUDiagnostics = new OleSRUDiagnostics();
         try {
-            OleSRUOpacXMLResponseHandler oleSRUOpacXMLResponseHandler = new OleSRUOpacXMLResponseHandler();
-            OleSRUSearchRetrieveResponse oleSRUSearchRetrieveResponse = new OleSRUSearchRetrieveResponse();
-            oleSRUSearchRetrieveResponse.setVersion((String) reqParamMap.get(OleSRUConstants.VERSION));
             OleSRUResponseRecords oleSRUResponseRecords = new OleSRUResponseRecords();
             List<OleSRUResponseRecord> oleSRUResponseRecordList = new ArrayList<OleSRUResponseRecord>();
             if (oleBibIDList != null && oleBibIDList.size() > 0) {
@@ -209,7 +210,6 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
             }
             Long numberOfRecords = (Long) (reqParamMap.get(OleSRUConstants.NUMBER_OF_REORDS));
             oleSRUSearchRetrieveResponse.setNumberOfRecords(numberOfRecords);
-            OleSRUDiagnostics oleSRUDiagnostics = null;
             if (numberOfRecords > 0) {
                 oleSRUDiagnostics = oleDiagnosticsService.getDiagnosticResponse(ConfigContext.getCurrentContextConfig().getProperty(OleSRUConstants.START_RECORD_UNMATCH));
             } else {
@@ -224,7 +224,9 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
         } catch (Exception e) {
             LOG.error(e.getMessage() , e );
         }
-        return null;
+        oleSRUDiagnostics = oleDiagnosticsService.getDiagnosticResponse(ConfigContext.getCurrentContextConfig().getProperty(OleSRUConstants.SEARCH_PROCESS_FAILED));
+        oleSRUSearchRetrieveResponse.setOleSRUDiagnostics(oleSRUDiagnostics);
+        return oleSRUOpacXMLResponseHandler.toXML(oleSRUSearchRetrieveResponse,(String)reqParamMap.get(OleSRUConstants.RECORD_SCHEMA));
     }
 
     /**
@@ -310,23 +312,27 @@ public class OleSRUDataServiceImpl implements OleSRUDataService {
         String instanceXml = "";
         InstanceCollection instanceCollection = new InstanceCollection();
         HoldingsTree holdingsTree = getDocstoreClient().retrieveHoldingsTree(uuid);
+        if(holdingsTree!=null && holdingsTree.getHoldings()!=null && holdingsTree.getHoldings().getContent()!=null){
         OleHoldings oleHoldings = holdingOlemlRecordProcessor.fromXML(holdingsTree.getHoldings().getContent());
         Items items = new Items();
+        if(holdingsTree!=null && holdingsTree.getItems()!=null){
         for(org.kuali.ole.docstore.common.document.Item itemDoc : holdingsTree.getItems()) {
             items.getItem().add(itemOlemlRecordProcessor.fromXML(itemDoc.getContent()));
+        }
         }
         Instance instance = new Instance();
         instance.setOleHoldings(oleHoldings);
         instance.setItems(items);
         instanceCollection.getInstance().add(instance);
         instanceXml = instanceOlemlRecordProcessor.toXML(instanceCollection);
+    }
         return instanceXml;
     }
 
     /**
      * to replace the encoded value from the string to original special character to display as an xml
      *
-     * @param opacXML
+     * @param
      * @return opac xml response
      */
    /* private String replaceStringWithSymbols(String opacXML) {

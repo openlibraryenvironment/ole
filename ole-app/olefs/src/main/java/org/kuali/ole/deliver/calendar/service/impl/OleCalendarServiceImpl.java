@@ -7,9 +7,8 @@ import org.kuali.ole.deliver.calendar.bo.*;
 import org.kuali.ole.deliver.calendar.controller.OleCalendarController;
 import org.kuali.ole.deliver.calendar.service.DateUtil;
 import org.kuali.ole.deliver.calendar.service.OleCalendarService;
-import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
-import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.deliver.util.ItemFineRate;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -33,6 +32,8 @@ public class OleCalendarServiceImpl implements OleCalendarService {
     private static final Logger LOG = Logger.getLogger(OleCalendarController.class);
 
     private BusinessObjectService businessObjectService;
+    private Map<String, OleCalendarGroup> calendarGroupMap;
+    private Map<String, OleCalendar> activeCalendarMap;
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
@@ -43,8 +44,8 @@ public class OleCalendarServiceImpl implements OleCalendarService {
     private ParameterValueResolver parameterValueResolver;
 
     public ParameterValueResolver getParameterValueResolver() {
-        if(parameterValueResolver==null){
-            parameterValueResolver=ParameterValueResolver.getInstance();
+        if (parameterValueResolver == null) {
+            parameterValueResolver = ParameterValueResolver.getInstance();
         }
         return parameterValueResolver;
     }
@@ -54,41 +55,55 @@ public class OleCalendarServiceImpl implements OleCalendarService {
     }
 
     public OleCalendarGroup getCalendarGroup(String deskId) {
-        HashMap calendarGroup = new HashMap();
-        calendarGroup.put(OLEConstants.CALENDER_ID, deskId);
-        List<OleCalendarGroup> oleCalendarGroupList = (List<OleCalendarGroup>) getBusinessObjectService().findMatching(OleCalendarGroup.class, calendarGroup);
-        if (oleCalendarGroupList != null && oleCalendarGroupList.size() > 0) {
-            return oleCalendarGroupList.get(0);
+
+        if (null == calendarGroupMap) {
+            calendarGroupMap = new HashMap<>();
         }
-        return null;
+
+        if (!calendarGroupMap.containsKey(deskId)) {
+            HashMap criteriaMap = new HashMap();
+            criteriaMap.put(OLEConstants.CALENDER_ID, deskId);
+            List<OleCalendarGroup> oleCalendarGroupList = (List<OleCalendarGroup>) getBusinessObjectService().findMatching(OleCalendarGroup.class, criteriaMap);
+            if (oleCalendarGroupList != null && oleCalendarGroupList.size() > 0) {
+                calendarGroupMap.put(deskId, oleCalendarGroupList.get(0));
+            }
+        }
+
+        return calendarGroupMap.get(deskId);
     }
 
 
     @Override
     public OleCalendar getActiveCalendar(Timestamp date, String groupId) {
-        HashMap cg = new HashMap();
-        cg.put(OLEConstants.CALENDER_ID, groupId);
-        List<OleCalendar> oleCalendarList = (List<OleCalendar>) getBusinessObjectService().findMatching(OleCalendar.class, cg);
-        for (OleCalendar calendar : oleCalendarList) {
-            if (calendar.getBeginDate() != null && date != null && calendar.getEndDate() != null && isCalendarExists(calendar.getBeginDate(), calendar.getEndDate())) {
-                calendar=continuousWeek(calendar);
-                return calendar;
-            } else if (calendar.getBeginDate() != null && calendar.getEndDate() == null) {
-                calendar=continuousWeek(calendar);
-                return calendar;
+
+        if (null == activeCalendarMap) {
+            activeCalendarMap = new HashMap<>();
+        }
+        if (!activeCalendarMap.containsKey(groupId)) {
+            HashMap criteriaMap = new HashMap();
+            criteriaMap.put(OLEConstants.CALENDER_ID, groupId);
+            List<OleCalendar> oleCalendarList = (List<OleCalendar>) getBusinessObjectService().findMatching(OleCalendar.class, criteriaMap);
+            for (OleCalendar calendar : oleCalendarList) {
+                if (calendar.getBeginDate() != null && date != null && calendar.getEndDate() != null && isCalendarExists(calendar.getBeginDate(), calendar.getEndDate())) {
+                    calendar = continuousWeek(calendar);
+                    activeCalendarMap.put(groupId, calendar);
+                } else if (calendar.getBeginDate() != null && calendar.getEndDate() == null) {
+                    calendar = continuousWeek(calendar);
+                    activeCalendarMap.put(groupId, calendar);
+                }
             }
         }
-        return null;
+        return activeCalendarMap.get(groupId);
     }
 
-    public OleCalendar continuousWeek(OleCalendar oleCalendar){     //each day of a week
-        int week=-1;
-        List<OleCalendarWeek> oleCalendarWeekList=new ArrayList<OleCalendarWeek>();
-        for(OleCalendarWeek oleCalendarWeek:oleCalendar.getOleCalendarWeekList()){
-            if(!oleCalendarWeek.isEachDayWeek() && !oleCalendarWeek.getEndDay().equals(oleCalendarWeek.getStartDay())){
-                if(Integer.parseInt(oleCalendarWeek.getStartDay())<Integer.parseInt(oleCalendarWeek.getEndDay())){
-                    for(int strt=new Integer(oleCalendarWeek.getStartDay());strt<=new Integer(oleCalendarWeek.getEndDay());strt++){
-                        OleCalendarWeek oleCalendarWeek1=new OleCalendarWeek();
+    public OleCalendar continuousWeek(OleCalendar oleCalendar) {     //each day of a week
+        int week = -1;
+        List<OleCalendarWeek> oleCalendarWeekList = new ArrayList<OleCalendarWeek>();
+        for (OleCalendarWeek oleCalendarWeek : oleCalendar.getOleCalendarWeekList()) {
+            if (!oleCalendarWeek.isEachDayWeek() && !oleCalendarWeek.getEndDay().equals(oleCalendarWeek.getStartDay())) {
+                if (Integer.parseInt(oleCalendarWeek.getStartDay()) < Integer.parseInt(oleCalendarWeek.getEndDay())) {
+                    for (int strt = new Integer(oleCalendarWeek.getStartDay()); strt <= new Integer(oleCalendarWeek.getEndDay()); strt++) {
+                        OleCalendarWeek oleCalendarWeek1 = new OleCalendarWeek();
                         oleCalendarWeek1.setCalendarId(oleCalendarWeek.getCalendarId());
                         oleCalendarWeek1.setStartDay(String.valueOf(strt));
                         oleCalendarWeek1.setEndDay(String.valueOf(strt));
@@ -96,18 +111,16 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                         oleCalendarWeek1.setCloseTimeSession(oleCalendarWeek.getCloseTimeSession());
                         oleCalendarWeek1.setOpenTime("00:00");
                         oleCalendarWeek1.setCloseTime("23:59");
-                        if(strt==new Integer(oleCalendarWeek.getStartDay())){
+                        if (strt == new Integer(oleCalendarWeek.getStartDay())) {
                             oleCalendarWeek1.setOpenTime(oleCalendarWeek.getOpenTime());
-                        }
-                        else if(strt==new Integer(oleCalendarWeek.getEndDay())){
+                        } else if (strt == new Integer(oleCalendarWeek.getEndDay())) {
                             oleCalendarWeek1.setCloseTime(oleCalendarWeek.getCloseTime());
                         }
-                        oleCalendarWeekList.add(week+1,oleCalendarWeek1);
+                        oleCalendarWeekList.add(week + 1, oleCalendarWeek1);
                     }
-                }
-                else{
-                    for(int strt=new Integer(oleCalendarWeek.getStartDay());strt<7;strt++){
-                        OleCalendarWeek oleCalendarWeek1=new OleCalendarWeek();
+                } else {
+                    for (int strt = new Integer(oleCalendarWeek.getStartDay()); strt < 7; strt++) {
+                        OleCalendarWeek oleCalendarWeek1 = new OleCalendarWeek();
                         oleCalendarWeek1.setCalendarId(oleCalendarWeek.getCalendarId());
                         oleCalendarWeek1.setStartDay(String.valueOf(strt));
                         oleCalendarWeek1.setEndDay(String.valueOf(strt));
@@ -115,16 +128,15 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                         oleCalendarWeek1.setCloseTimeSession(oleCalendarWeek.getCloseTimeSession());
                         oleCalendarWeek1.setOpenTime("00:00");
                         oleCalendarWeek1.setCloseTime("23:59");
-                        if(strt==new Integer(oleCalendarWeek.getStartDay())){
+                        if (strt == new Integer(oleCalendarWeek.getStartDay())) {
                             oleCalendarWeek1.setOpenTime(oleCalendarWeek.getOpenTime());
-                        }
-                        else if(strt==new Integer(oleCalendarWeek.getEndDay())){
+                        } else if (strt == new Integer(oleCalendarWeek.getEndDay())) {
                             oleCalendarWeek1.setCloseTime(oleCalendarWeek.getCloseTime());
                         }
-                        oleCalendarWeekList.add(week+1,oleCalendarWeek1);
-                        if(strt>=6){
-                            for(int end=0;end<=new Integer(oleCalendarWeek.getEndDay());end++){
-                                oleCalendarWeek1=new OleCalendarWeek();
+                        oleCalendarWeekList.add(week + 1, oleCalendarWeek1);
+                        if (strt >= 6) {
+                            for (int end = 0; end <= new Integer(oleCalendarWeek.getEndDay()); end++) {
+                                oleCalendarWeek1 = new OleCalendarWeek();
                                 oleCalendarWeek1.setCalendarId(oleCalendarWeek.getCalendarId());
                                 oleCalendarWeek1.setStartDay(String.valueOf(end));
                                 oleCalendarWeek1.setEndDay(String.valueOf(end));
@@ -132,32 +144,30 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                                 oleCalendarWeek1.setCloseTimeSession(oleCalendarWeek.getCloseTimeSession());
                                 oleCalendarWeek1.setOpenTime("00:00");
                                 oleCalendarWeek1.setCloseTime("23:59");
-                                if(end==new Integer(oleCalendarWeek.getStartDay())){
+                                if (end == new Integer(oleCalendarWeek.getStartDay())) {
                                     oleCalendarWeek1.setOpenTime(oleCalendarWeek.getOpenTime());
-                                }
-                                else if(end==new Integer(oleCalendarWeek.getEndDay())){
+                                } else if (end == new Integer(oleCalendarWeek.getEndDay())) {
                                     oleCalendarWeek1.setCloseTime(oleCalendarWeek.getCloseTime());
                                 }
-                                oleCalendarWeekList.add(week+1,oleCalendarWeek1);
+                                oleCalendarWeekList.add(week + 1, oleCalendarWeek1);
                             }
                         }
                     }
 
                 }
-            }
-            else{
+            } else {
                 oleCalendarWeekList.add(oleCalendarWeek);
             }
         }
         oleCalendar.setOleCalendarWeekList(oleCalendarWeekList);
-        for(OleCalendarExceptionPeriod oleCalendarExceptionPeriod:oleCalendar.getOleCalendarExceptionPeriodList()){
-            int period=-1;
-            List<OleCalendarExceptionPeriodWeek> oleCalendarExceptionPeriodWeekList = new ArrayList<OleCalendarExceptionPeriodWeek>();
-            for(OleCalendarExceptionPeriodWeek oleCalendarExceptionPeriodWeek:oleCalendarExceptionPeriod.getOleCalendarExceptionPeriodWeekList()){
-                if(!oleCalendarExceptionPeriodWeek.isEachDayOfExceptionWeek() && !oleCalendarExceptionPeriodWeek.getEndDay().equals(oleCalendarExceptionPeriodWeek.getStartDay())){
-                    if(Integer.parseInt(oleCalendarExceptionPeriodWeek.getStartDay())<Integer.parseInt(oleCalendarExceptionPeriodWeek.getEndDay())){
-                        for(int strt=new Integer(oleCalendarExceptionPeriodWeek.getStartDay());strt<=new Integer(oleCalendarExceptionPeriodWeek.getEndDay());strt++){
-                            OleCalendarExceptionPeriodWeek oleCalendarExceptionPeriodWeek1=new OleCalendarExceptionPeriodWeek();
+        for (OleCalendarExceptionPeriod oleCalendarExceptionPeriod : oleCalendar.getOleCalendarExceptionPeriodList()) {
+            int period = -1;
+            List<OleCalendarExceptionPeriodWeek> oleCalendarExceptionPeriodWeekList = new ArrayList<>();
+            for (OleCalendarExceptionPeriodWeek oleCalendarExceptionPeriodWeek : oleCalendarExceptionPeriod.getOleCalendarExceptionPeriodWeekList()) {
+                if (!oleCalendarExceptionPeriodWeek.isEachDayOfExceptionWeek() && !oleCalendarExceptionPeriodWeek.getEndDay().equals(oleCalendarExceptionPeriodWeek.getStartDay())) {
+                    if (Integer.parseInt(oleCalendarExceptionPeriodWeek.getStartDay()) < Integer.parseInt(oleCalendarExceptionPeriodWeek.getEndDay())) {
+                        for (int strt = new Integer(oleCalendarExceptionPeriodWeek.getStartDay()); strt <= new Integer(oleCalendarExceptionPeriodWeek.getEndDay()); strt++) {
+                            OleCalendarExceptionPeriodWeek oleCalendarExceptionPeriodWeek1 = new OleCalendarExceptionPeriodWeek();
                             oleCalendarExceptionPeriodWeek1.setStartDay(String.valueOf(strt));
                             oleCalendarExceptionPeriodWeek1.setEndDay(String.valueOf(strt));
                             oleCalendarExceptionPeriodWeek1.setOpenTimeSession("AM");
@@ -165,18 +175,16 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                             oleCalendarExceptionPeriodWeek1.setOpenTime("00:00");
                             oleCalendarExceptionPeriodWeek1.setCloseTime("23:59");
                             oleCalendarExceptionPeriodWeek1.setEachDayOfExceptionWeek(true);
-                            if(strt==new Integer(oleCalendarExceptionPeriodWeek.getStartDay())){
+                            if (strt == new Integer(oleCalendarExceptionPeriodWeek.getStartDay())) {
                                 oleCalendarExceptionPeriodWeek1.setOpenTime(oleCalendarExceptionPeriodWeek.getOpenTime());
-                            }
-                            else if(strt==new Integer(oleCalendarExceptionPeriodWeek.getEndDay())){
+                            } else if (strt == new Integer(oleCalendarExceptionPeriodWeek.getEndDay())) {
                                 oleCalendarExceptionPeriodWeek1.setCloseTime(oleCalendarExceptionPeriodWeek.getCloseTime());
                             }
-                            oleCalendarExceptionPeriodWeekList.add(period+1,oleCalendarExceptionPeriodWeek1);
+                            oleCalendarExceptionPeriodWeekList.add(period + 1, oleCalendarExceptionPeriodWeek1);
                         }
-                    }
-                    else{
-                        for(int strt=new Integer(oleCalendarExceptionPeriodWeek.getStartDay());strt<7;strt++){
-                            OleCalendarExceptionPeriodWeek oleCalendarExceptionPeriodWeek1=new OleCalendarExceptionPeriodWeek();
+                    } else {
+                        for (int strt = new Integer(oleCalendarExceptionPeriodWeek.getStartDay()); strt < 7; strt++) {
+                            OleCalendarExceptionPeriodWeek oleCalendarExceptionPeriodWeek1 = new OleCalendarExceptionPeriodWeek();
                             oleCalendarExceptionPeriodWeek1.setStartDay(String.valueOf(strt));
                             oleCalendarExceptionPeriodWeek1.setEndDay(String.valueOf(strt));
                             oleCalendarExceptionPeriodWeek1.setOpenTimeSession("AM");
@@ -184,16 +192,15 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                             oleCalendarExceptionPeriodWeek1.setOpenTime("00:00");
                             oleCalendarExceptionPeriodWeek1.setCloseTime("23:59");
                             oleCalendarExceptionPeriodWeek1.setEachDayOfExceptionWeek(true);
-                            if(strt==new Integer(oleCalendarExceptionPeriodWeek.getStartDay())){
+                            if (strt == new Integer(oleCalendarExceptionPeriodWeek.getStartDay())) {
                                 oleCalendarExceptionPeriodWeek1.setOpenTime(oleCalendarExceptionPeriodWeek.getOpenTime());
-                            }
-                            else if(strt==new Integer(oleCalendarExceptionPeriodWeek.getEndDay())){
+                            } else if (strt == new Integer(oleCalendarExceptionPeriodWeek.getEndDay())) {
                                 oleCalendarExceptionPeriodWeek1.setCloseTime(oleCalendarExceptionPeriodWeek.getCloseTime());
                             }
-                            oleCalendarExceptionPeriodWeekList.add(period+1,oleCalendarExceptionPeriodWeek1);
-                            if(strt>=6){
-                                for(int end=0;end<=new Integer(oleCalendarExceptionPeriodWeek.getEndDay());end++){
-                                    oleCalendarExceptionPeriodWeek1=new OleCalendarExceptionPeriodWeek();
+                            oleCalendarExceptionPeriodWeekList.add(period + 1, oleCalendarExceptionPeriodWeek1);
+                            if (strt >= 6) {
+                                for (int end = 0; end <= new Integer(oleCalendarExceptionPeriodWeek.getEndDay()); end++) {
+                                    oleCalendarExceptionPeriodWeek1 = new OleCalendarExceptionPeriodWeek();
                                     oleCalendarExceptionPeriodWeek1.setStartDay(String.valueOf(strt));
                                     oleCalendarExceptionPeriodWeek1.setEndDay(String.valueOf(strt));
                                     oleCalendarExceptionPeriodWeek1.setOpenTimeSession("AM");
@@ -201,43 +208,41 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                                     oleCalendarExceptionPeriodWeek1.setOpenTime("00:00");
                                     oleCalendarExceptionPeriodWeek1.setCloseTime("23:59");
                                     oleCalendarExceptionPeriodWeek1.setEachDayOfExceptionWeek(true);
-                                    if(strt==new Integer(oleCalendarExceptionPeriodWeek.getStartDay())){
+                                    if (strt == new Integer(oleCalendarExceptionPeriodWeek.getStartDay())) {
                                         oleCalendarExceptionPeriodWeek1.setOpenTime(oleCalendarExceptionPeriodWeek.getOpenTime());
-                                    }
-                                    else if(strt==new Integer(oleCalendarExceptionPeriodWeek.getEndDay())){
+                                    } else if (strt == new Integer(oleCalendarExceptionPeriodWeek.getEndDay())) {
                                         oleCalendarExceptionPeriodWeek1.setCloseTime(oleCalendarExceptionPeriodWeek.getCloseTime());
                                     }
-                                    oleCalendarExceptionPeriodWeekList.add(period+1,oleCalendarExceptionPeriodWeek1);
+                                    oleCalendarExceptionPeriodWeekList.add(period + 1, oleCalendarExceptionPeriodWeek1);
                                 }
                             }
                         }
 
                     }
-                }
-                else{
+                } else {
                     oleCalendarExceptionPeriodWeekList.add(oleCalendarExceptionPeriodWeek);
                 }
             }
             oleCalendarExceptionPeriod.setOleCalendarExceptionPeriodWeekList(oleCalendarExceptionPeriodWeekList);
         }
-    return oleCalendar;
+        return oleCalendar;
     }
 
     //
     public boolean isCalendarExists(Timestamp fromDate, Timestamp toDate) {
-        Interval interval=new Interval(fromDate.getTime(),toDate.getTime());
+        Interval interval = new Interval(fromDate.getTime(), toDate.getTime());
         return interval.contains(System.currentTimeMillis());
     }
 
 
-    private boolean isHoliday(String deskId, Timestamp currentDate) {
+    public boolean isHoliday(String deskId, Timestamp currentDate) {
         OleCalendarGroup ocg = getCalendarGroup(deskId);
-        if(ocg == null)
+        if (ocg == null)
             return false;
         OleCalendar oc = getActiveCalendar(currentDate, ocg.getCalendarGroupId());
         boolean holidayExceptionType = false;
 
-        List<OleCalendarExceptionDate> oleCalendarExceptionDates = oc!=null && oc.getOleCalendarExceptionDateList()!=null ? oc.getOleCalendarExceptionDateList() : new ArrayList<OleCalendarExceptionDate>();
+        List<OleCalendarExceptionDate> oleCalendarExceptionDates = oc != null && oc.getOleCalendarExceptionDateList() != null ? oc.getOleCalendarExceptionDateList() : new ArrayList<OleCalendarExceptionDate>();
         for (OleCalendarExceptionDate exceptionDate : oleCalendarExceptionDates) {
             if (exceptionDate.getExceptionType().equals(OLEConstants.CALENDAR_EXCEPTION_TYPE) && currentDate != null && currentDate.toString().split(" ")[0].equals(exceptionDate.getDate().toString().split(" ")[0])) {
 
@@ -247,7 +252,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
             }
         }
         if (!holidayExceptionType) {
-            HashMap<String, String> timeMap = new HashMap<String, String>();
+            HashMap<String, String> timeMap;
             timeMap = getOpenAndCloseTime(deskId, currentDate);
             if (timeMap.size() != 2) {
                 holidayExceptionType = true;
@@ -304,8 +309,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
             }
             if (currentTime < openTime) {
                 currentDate = Timestamp.valueOf(new StringBuilder().append(currentDate.toString().split(" ")[0]).append(" ").append(timeMap.get(OLEConstants.CALENDAR_GET_OPEN_TIME)).append(":00").toString());
-            }
-            else if (currentTime > closeTime) {
+            } else if (currentTime > closeTime) {
                 boolean holidayExceptionType = true;
                 Timestamp temp;
 
@@ -321,7 +325,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                     }
                     count1++;
                 }//while ends
-            }else {
+            } else {
                 currentDate = Timestamp.valueOf(new StringBuilder().append(currentDate.toString().split(" ")[0]).append(" ").append(timeMap.get(OLEConstants.CALENDAR_GET_CLOSE_TIME)).append(":00").toString());
             }
 
@@ -355,13 +359,13 @@ public class OleCalendarServiceImpl implements OleCalendarService {
         String timePeriodType = timePeriods.length > 1 ? timePeriods[1] : "";
         Timestamp destinationTimestamp = null;
         Timestamp destinationTemp = null;
-        String sysFlag =getParameterValueResolver().getParameter(OLEConstants
-                .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.CALENDER_FLAG);
+        String sysFlag = getParameterValueResolver().getParameter(OLEConstants
+                .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.CALENDER_FLAG);
         if (timePeriodType != null && timePeriodType.equalsIgnoreCase("H")) {
             destinationTemp = DateUtil.addHours(currentDate, new Integer(timePeriods.length > 0 ? timePeriods[0] : "0"));
         }
         if (timePeriodType != null && timePeriodType.equalsIgnoreCase("D")) {
-            isDay =  true;
+            isDay = true;
             destinationTemp = DateUtil.addDays(currentDate, Integer.parseInt(timePeriods.length > 0 ? timePeriods[0] : "0"));
         }
         if (sysFlag.equalsIgnoreCase("true")) {
@@ -378,9 +382,9 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                 if (currentTime < openTime) {
                     destinationTimestamp = Timestamp.valueOf(new StringBuilder().append(destinationTemp.toString().split(" ")[0]).append(" ").append(timeMap.get(OLEConstants.CALENDAR_GET_OPEN_TIME)).append(":00").toString());
                 } else if (currentTime >= openTime && currentTime <= closeTime) {
-                    if(isDay){
+                    if (isDay) {
                         destinationTimestamp = Timestamp.valueOf(new StringBuilder().append(destinationTemp.toString().split(" ")[0]).append(" ").append(timeMap.get(OLEConstants.CALENDAR_GET_CLOSE_TIME)).append(":00").toString());
-                    }else{
+                    } else {
                         destinationTimestamp = destinationTemp;
                     }
 
@@ -449,7 +453,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                 String fineAmt = fineCal[0];
                 String fineMode = fineCal[1];
                 String sysFlag = getParameterValueResolver().getParameter(OLEConstants
-                        .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.FINE_FLAG);
+                        .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.FINE_FLAG);
                 if (fineMode != null && fineMode.equalsIgnoreCase("H")) {
                     Integer numberOfHours = 0;
                     if (sysFlag.equalsIgnoreCase("true")) {
@@ -509,24 +513,24 @@ public class OleCalendarServiceImpl implements OleCalendarService {
         int openTimeHrs;
         int closeTimeHrs;
         int totalHrs = 0;
-        Timestamp dueDate=dueDateTime;
-        HashMap<String, String> timeMap = new HashMap<String, String>();
+        Timestamp dueDate = dueDateTime;
+        HashMap<String, String> timeMap;
         while (dueDate.getTime() <= currentDate.getTime() || currentDate.toString().split(" ")[0].equalsIgnoreCase(dueDate.toString().split(" ")[0])) {
             if (currentDate.toString().split(" ")[0].equalsIgnoreCase(dueDate.toString().split(" ")[0])) {
 
                 timeMap = getOpenAndCloseTime(deskId, currentDate);
                 openTime = Float.parseFloat(timeMap.get(OLEConstants.CALENDAR_GET_OPEN_TIME).split(":")[0] + "." + timeMap.get(OLEConstants.CALENDAR_GET_OPEN_TIME).split(":")[1]);
-                openTimeHrs=Integer.parseInt(timeMap.get(OLEConstants.CALENDAR_GET_OPEN_TIME).split(":")[0]);
+                openTimeHrs = Integer.parseInt(timeMap.get(OLEConstants.CALENDAR_GET_OPEN_TIME).split(":")[0]);
 
-                if(currentDate.toString().split(" ")[0].equalsIgnoreCase(dueDateTime.toString().split(" ")[0])){
-                    openTime =Float.parseFloat(dueDateTime.toString().split(" ")[1].split(":")[0]+"."+dueDateTime.toString().split(" ")[1].split(":")[1]);
-                    openTimeHrs=Integer.parseInt(dueDateTime.toString().split(" ")[1].split(":")[0]);
+                if (currentDate.toString().split(" ")[0].equalsIgnoreCase(dueDateTime.toString().split(" ")[0])) {
+                    openTime = Float.parseFloat(dueDateTime.toString().split(" ")[1].split(":")[0] + "." + dueDateTime.toString().split(" ")[1].split(":")[1]);
+                    openTimeHrs = Integer.parseInt(dueDateTime.toString().split(" ")[1].split(":")[0]);
                 }
-                float openTimeTemp=Float.parseFloat(currentDate.toString().split(" ")[1].split(":")[0]+"."+currentDate.toString().split(" ")[1].split(":")[1]);
-                int openTimeHrsTemp=Integer.parseInt(currentDate.toString().split(" ")[1].split(":")[0]);
+                float openTimeTemp = Float.parseFloat(currentDate.toString().split(" ")[1].split(":")[0] + "." + currentDate.toString().split(" ")[1].split(":")[1]);
+                int openTimeHrsTemp = Integer.parseInt(currentDate.toString().split(" ")[1].split(":")[0]);
 
-                totalHours = totalHours + (openTimeTemp-openTime);
-                totalHrs = totalHrs + (openTimeHrsTemp-openTimeHrs);
+                totalHours = totalHours + (openTimeTemp - openTime);
+                totalHrs = totalHrs + (openTimeHrsTemp - openTimeHrs);
                 break;
             } else if (!currentDate.toString().split(" ")[0].equalsIgnoreCase(dueDate.toString().split(" ")[0])) {
                 boolean isHoliday = isHoliday(deskId, dueDate);
@@ -534,20 +538,20 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                     timeMap = getOpenAndCloseTime(deskId, dueDate);
                     openTime = Float.parseFloat(timeMap.get(OLEConstants.CALENDAR_GET_OPEN_TIME).split(":")[0] + "." + timeMap.get(OLEConstants.CALENDAR_GET_OPEN_TIME).split(":")[1]);
                     closeTime = Float.parseFloat(timeMap.get(OLEConstants.CALENDAR_GET_CLOSE_TIME).split(":")[0] + "." + timeMap.get(OLEConstants.CALENDAR_GET_CLOSE_TIME).split(":")[1]);
-                    closeTimeHrs=Integer.parseInt(timeMap.get(OLEConstants.CALENDAR_GET_CLOSE_TIME).split(":")[0]);
-                    openTimeHrs=Integer.parseInt(timeMap.get(OLEConstants.CALENDAR_GET_OPEN_TIME).split(":")[0]);
-                    if(dueDate.equals(dueDateTime)){
-                        Float currentTime=Float.parseFloat(dueDateTime.toString().split(" ")[1].split(":")[0]+"."+dueDateTime.toString().split(" ")[1].split(":")[1]);
-                        if(currentTime>openTime){
-                            openTime=currentTime;
+                    closeTimeHrs = Integer.parseInt(timeMap.get(OLEConstants.CALENDAR_GET_CLOSE_TIME).split(":")[0]);
+                    openTimeHrs = Integer.parseInt(timeMap.get(OLEConstants.CALENDAR_GET_OPEN_TIME).split(":")[0]);
+                    if (dueDate.equals(dueDateTime)) {
+                        Float currentTime = Float.parseFloat(dueDateTime.toString().split(" ")[1].split(":")[0] + "." + dueDateTime.toString().split(" ")[1].split(":")[1]);
+                        if (currentTime > openTime) {
+                            openTime = currentTime;
                         }
-                        int currentTimeHrs=Integer.parseInt(dueDateTime.toString().split(" ")[1].split(":")[0]);
-                        if(currentTimeHrs>openTimeHrs){
-                            openTimeHrs=currentTimeHrs;
+                        int currentTimeHrs = Integer.parseInt(dueDateTime.toString().split(" ")[1].split(":")[0]);
+                        if (currentTimeHrs > openTimeHrs) {
+                            openTimeHrs = currentTimeHrs;
                         }
                     }
                     totalHours = totalHours + (closeTime - openTime);
-                    totalHrs = totalHrs + (closeTimeHrs - openTimeHrs );
+                    totalHrs = totalHrs + (closeTimeHrs - openTimeHrs);
                 }
                 dueDate = DateUtil.addDays(dueDate, 1);
             }
@@ -561,7 +565,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
 
     //Open and Close Time of a Date
     public HashMap getOpenAndCloseTime(String deskId, Timestamp currentDate) {
-        HashMap<String, String> timeMap = new HashMap<String, String>();
+        HashMap<String, String> timeMap = new HashMap<>();
         OleCalendarGroup ocg = getCalendarGroup(deskId);
         OleCalendar calendar = getActiveCalendar(currentDate, ocg.getCalendarGroupId());
 
@@ -570,42 +574,38 @@ public class OleCalendarServiceImpl implements OleCalendarService {
         List<OleCalendarExceptionDate> oleCalendarExceptionDates = calendar.getOleCalendarExceptionDateList();
         List<OleCalendarExceptionPeriod> oleCalendarExceptionPeriodList = calendar.getOleCalendarExceptionPeriodList();
 
-        boolean temp = true;
         if (timeMap.size() == 0) {
             for (OleCalendarExceptionDate exceptionDate : oleCalendarExceptionDates) {
                 if (currentDate.toString().split(" ")[0].equals(exceptionDate.getDate().toString().split(" ")[0])) {
                     timeMap.put(OLEConstants.CALENDAR_GET_OPEN_TIME, exceptionDate.getOpenTime());
                     timeMap.put(OLEConstants.CALENDAR_GET_CLOSE_TIME, convertTimeInto24HrFormat(exceptionDate.getCloseTime()));
-                    temp = false;
                     break;
                 }
             }
         }
-        boolean exceptionPeriodFlag=true;
+        boolean exceptionPeriodFlag = true;
         if (timeMap.size() == 0) {
             for (OleCalendarExceptionPeriod exceptionPeriod : oleCalendarExceptionPeriodList) {
                 if (currentDate.getTime() >= exceptionPeriod.getBeginDate().getTime() && currentDate.getTime() <= exceptionPeriod.getEndDate().getTime()) {
-                    exceptionPeriodFlag=false;
+                    exceptionPeriodFlag = false;
                     List<OleCalendarExceptionPeriodWeek> oleCalendarExceptionPeriodWeekList = exceptionPeriod.getOleCalendarExceptionPeriodWeekList();
                     for (OleCalendarExceptionPeriodWeek exceptionPeriodWeek : oleCalendarExceptionPeriodWeekList) {
                         int startDay = new Integer(exceptionPeriodWeek.getStartDay());
                         int endDay = new Integer(exceptionPeriodWeek.getEndDay());
                         //if(!exceptionPeriodWeek.isEachDayOfExceptionWeek()){
-                            if (startDay > endDay) {
-                                if ((currentDate.getDay() >= startDay && currentDate.getDay() <= 6) || (currentDate.getDay() >= 0 && currentDate.getDay() <= endDay)) {
-                                    timeMap.put(OLEConstants.CALENDAR_GET_OPEN_TIME, exceptionPeriodWeek.getOpenTime());
-                                    timeMap.put(OLEConstants.CALENDAR_GET_CLOSE_TIME, convertTimeInto24HrFormat(exceptionPeriodWeek.getCloseTime()));
-                                    temp = false;
-                                    break;
-                                }
-                            } else {
-                                if ((currentDate.getDay() >= startDay && currentDate.getDay() <= endDay)) {
-                                    timeMap.put(OLEConstants.CALENDAR_GET_OPEN_TIME, exceptionPeriodWeek.getOpenTime());
-                                    timeMap.put(OLEConstants.CALENDAR_GET_CLOSE_TIME, convertTimeInto24HrFormat(exceptionPeriodWeek.getCloseTime()));
-                                    temp = false;
-                                    break;
-                                }
-                            }  //end of else
+                        if (startDay > endDay) {
+                            if ((currentDate.getDay() >= startDay && currentDate.getDay() <= 6) || (currentDate.getDay() >= 0 && currentDate.getDay() <= endDay)) {
+                                timeMap.put(OLEConstants.CALENDAR_GET_OPEN_TIME, exceptionPeriodWeek.getOpenTime());
+                                timeMap.put(OLEConstants.CALENDAR_GET_CLOSE_TIME, convertTimeInto24HrFormat(exceptionPeriodWeek.getCloseTime()));
+                                break;
+                            }
+                        } else {
+                            if ((currentDate.getDay() >= startDay && currentDate.getDay() <= endDay)) {
+                                timeMap.put(OLEConstants.CALENDAR_GET_OPEN_TIME, exceptionPeriodWeek.getOpenTime());
+                                timeMap.put(OLEConstants.CALENDAR_GET_CLOSE_TIME, convertTimeInto24HrFormat(exceptionPeriodWeek.getCloseTime()));
+                                break;
+                            }
+                        }  //end of else
                     }
                 }
 
@@ -620,14 +620,12 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                     if ((currentDate.getDay() >= startDay && currentDate.getDay() <= 6) || (currentDate.getDay() >= 0 && currentDate.getDay() <= endDay)) {
                         timeMap.put(OLEConstants.CALENDAR_GET_OPEN_TIME, week.getOpenTime());
                         timeMap.put(OLEConstants.CALENDAR_GET_CLOSE_TIME, convertTimeInto24HrFormat(week.getCloseTime()));
-                        temp = false;
                         break;
                     }
                 } else {
                     if ((currentDate.getDay() >= startDay && currentDate.getDay() <= endDay)) {
                         timeMap.put(OLEConstants.CALENDAR_GET_OPEN_TIME, week.getOpenTime());
                         timeMap.put(OLEConstants.CALENDAR_GET_CLOSE_TIME, convertTimeInto24HrFormat(week.getCloseTime()));
-                        temp = false;
                         break;
                     }
                 }  //end of else
@@ -639,16 +637,17 @@ public class OleCalendarServiceImpl implements OleCalendarService {
     }
     //Open and Close Time of a Date
 
-    private String convertTimeInto24HrFormat(String time){
+    private String convertTimeInto24HrFormat(String time) {
         StringBuffer newTime = new StringBuffer();
         String[] times = time.split(":");
-        if(times!=null && times.length>1 && Integer.parseInt(times[0])==0){
-                newTime.append("24:"+times[1]);
-        } else{
-               newTime.append(time);
+        if (times != null && times.length > 1 && Integer.parseInt(times[0]) == 0) {
+            newTime.append("24:" + times[1]);
+        } else {
+            newTime.append(time);
         }
         return newTime.toString();
     }
+
     public void generalInfoValidation(OleCalendar oleCalendar, boolean isNew) {
         List<OleCalendarWeek> oleCalendarWeekList = oleCalendar.getOleCalendarWeekList();
 
@@ -674,7 +673,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
 
             boolean repeat = false;
 
-            List<Integer> dest = new ArrayList<Integer>();
+            List<Integer> dest = new ArrayList<>();
             for (int i = 0; i < oleCalendarWeekList.size(); i++) {
                 for (int x = new Integer(oleCalendarWeekList.get(i).getStartDay()); x <= new Integer(oleCalendarWeekList.get(i).getEndDay()); x++) {
                     if (dest.size() > 0) {
@@ -700,7 +699,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
 //            To set exception period end date (concat with 23:59:59)
             String excptEndDateSplit = null;
             for (OleCalendarExceptionPeriod oleCalendarExceptionPeriod : oleCalendar.getOleCalendarExceptionPeriodList()) {
-                if (oleCalendarExceptionPeriod.getEndDate()!=null && oleCalendarExceptionPeriod.getEndDate().toString().contains(" ")) {
+                if (oleCalendarExceptionPeriod.getEndDate() != null && oleCalendarExceptionPeriod.getEndDate().toString().contains(" ")) {
                     excptEndDateSplit = oleCalendarExceptionPeriod.getEndDate().toString().split(" ")[0];
                     oleCalendarExceptionPeriod.setEndDate(Timestamp.valueOf(excptEndDateSplit + " " + "23:59:59"));
                 }
@@ -735,7 +734,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
 
             for (OleCalendarExceptionPeriod oleCalendarExceptionPeriod : oleCalendar.getOleCalendarExceptionPeriodList()) {
                 for (OleCalendarExceptionPeriodWeek oleCalendarExceptionPeriodWeek : oleCalendarExceptionPeriod.getOleCalendarExceptionPeriodWeekList()) {
-                    if(!oleCalendarExceptionPeriodWeek.getOpenTime().equals("")&& oleCalendarExceptionPeriodWeek.getOpenTime()!=null && !oleCalendarExceptionPeriodWeek.getCloseTime().equals("") && oleCalendarExceptionPeriodWeek.getCloseTime()!=null){
+                    if (!oleCalendarExceptionPeriodWeek.getOpenTime().equals("") && oleCalendarExceptionPeriodWeek.getOpenTime() != null && !oleCalendarExceptionPeriodWeek.getCloseTime().equals("") && oleCalendarExceptionPeriodWeek.getCloseTime() != null) {
                         String openTimeExceptionPeriodWeek = oleCalendarExceptionPeriodWeek.getOpenTime() + oleCalendarExceptionPeriodWeek.getOpenTimeSession();
                         String closeTimeExceptionPeriodWeek = oleCalendarExceptionPeriodWeek.getCloseTime() + oleCalendarExceptionPeriodWeek.getCloseTimeSession();
                         try {
@@ -795,7 +794,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
             }
         }
         /*chronologicalSequence strt*/
-        Map<String, String> criteria = new HashMap<String, String>();
+        Map<String, String> criteria = new HashMap<>();
         int seq = 0;
 
         criteria.put("calendarGroupId", oleCalendar.getCalendarGroupId());
@@ -811,7 +810,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                     }
                 }
             }
-            if(oleCalendar.getChronologicalSequence()== null || oleCalendar.getChronologicalSequence().equals("")){
+            if (oleCalendar.getChronologicalSequence() == null || oleCalendar.getChronologicalSequence().equals("")) {
                 oleCalendar.setChronologicalSequence(new StringBuilder().append(seq + 1).toString());
             }
 
@@ -854,7 +853,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                     break;
                 }
                 if ((oleCalendar.getCalendarId() == null || !oleCalendar.getCalendarId().equals(calendar.getCalendarId()))
-                        && calendar.getCalendarGroupId().equalsIgnoreCase(groupId) && (maxChrSeqNo==0 || maxChrSeqNo==Integer.parseInt(calendar.getChronologicalSequence()))) {
+                        && calendar.getCalendarGroupId().equalsIgnoreCase(groupId) && (maxChrSeqNo == 0 || maxChrSeqNo == Integer.parseInt(calendar.getChronologicalSequence()))) {
                     String endDateSplit = null;
                     if (endDate != null) {
                         if (endDate.toString().contains(" ")) {
@@ -864,7 +863,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
 
 
                     }
-                    calendar.setEndDate(Timestamp.valueOf(endDateSplit +" "+ "23:59:59"));
+                    calendar.setEndDate(Timestamp.valueOf(endDateSplit + " " + "23:59:59"));
                     getBusinessObjectService().save(calendar);
                 }
             }
@@ -903,7 +902,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
         for (OleCalendarExceptionPeriod oleCalendarExceptionPeriod : oldCalendar.getOleCalendarExceptionPeriodList()) {
             //changed
             for (OleCalendarExceptionPeriodWeek oleCalendarExceptionPeriodWeek : oleCalendarExceptionPeriod.getOleCalendarExceptionPeriodWeekList()) {
-                if(!oleCalendarExceptionPeriodWeek.getOpenTime().equals("")&& oleCalendarExceptionPeriodWeek.getOpenTime()!=null && !oleCalendarExceptionPeriodWeek.getCloseTime().equals("") && oleCalendarExceptionPeriodWeek.getCloseTime()!=null){
+                if (!oleCalendarExceptionPeriodWeek.getOpenTime().equals("") && oleCalendarExceptionPeriodWeek.getOpenTime() != null && !oleCalendarExceptionPeriodWeek.getCloseTime().equals("") && oleCalendarExceptionPeriodWeek.getCloseTime() != null) {
                     String convOpenTimeExcptPrdWk = "";
                     String convCloseTimeExcptPrdWk = "";
                     String oleOpenTimeExcptPrdWk = oleCalendarExceptionPeriodWeek.getOpenTime();
@@ -954,7 +953,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
         }
     }
 
-    public void validateCalendarDocument(OleCalendar oleCalendar){
+    public void validateCalendarDocument(OleCalendar oleCalendar) {
         oleCalendar.setEndDateNoMessage(null);
         oleCalendar.setEndDateYesMessage(null);
         oleCalendar.setEndDateYesFlag(false);
@@ -1007,13 +1006,13 @@ public class OleCalendarServiceImpl implements OleCalendarService {
             }
         }
 
-        if (oleCalendar.getChronologicalSequence() != null && !oleCalendar.getChronologicalSequence().equals("") && oleCalendar.getEndDate()!=null) {
+        if (oleCalendar.getChronologicalSequence() != null && !oleCalendar.getChronologicalSequence().equals("") && oleCalendar.getEndDate() != null) {
             if (cseq == 0 || cseq == Integer.parseInt(oleCalendar.getChronologicalSequence())) {
                 oleCalendar.setEndDateYesMessage("By entering an End Date this calendar will become inactive and there is no future calendar.");
                 oleCalendar.setEndDateYesFlag(true);
             }
         }
-        if (oleCalendar.getChronologicalSequence().equals("")&& oleCalendar.getEndDate()!=null) {
+        if (oleCalendar.getChronologicalSequence().equals("") && oleCalendar.getEndDate() != null) {
             oleCalendar.setEndDateYesMessage("By entering an End Date this calendar will become inactive and there is no future calendar.");
             oleCalendar.setEndDateYesFlag(true);
         }
@@ -1024,9 +1023,9 @@ public class OleCalendarServiceImpl implements OleCalendarService {
         }
     }
 
-    public void deleteCalendarDocument(OleCalendar oleCalendar){
-        OleCalendar prevCalendar = null;
-        OleCalendar nextCalendar = null;
+    public void deleteCalendarDocument(OleCalendar oleCalendar) {
+        OleCalendar prevCalendar;
+        OleCalendar nextCalendar;
         try {
             if (oleCalendar != null && oleCalendar.getCalendarId() != null) {
                 Map map = new HashMap<>();
@@ -1042,7 +1041,7 @@ public class OleCalendarServiceImpl implements OleCalendarService {
                             prevCalendar.setEndDate(null);
                             getBusinessObjectService().save(prevCalendar);
                         } else if (nextCalendar != null && prevCalendar != null) {
-                            Timestamp prevCalNewEndDate = DateUtil.addDays(nextCalendar.getBeginDate(),-1);
+                            Timestamp prevCalNewEndDate = DateUtil.addDays(nextCalendar.getBeginDate(), -1);
                             prevCalendar.setEndDate(prevCalNewEndDate);
                             getBusinessObjectService().save(prevCalendar);
                         }
@@ -1057,5 +1056,37 @@ public class OleCalendarServiceImpl implements OleCalendarService {
             LOG.error(ex.getMessage(), ex);
             throw new RuntimeException();
         }
+    }
+
+    public Double calculateOverdueFine(String deskId, Timestamp dueDate, Timestamp checkInDate, ItemFineRate itemFineRate) {
+
+        String difference = String.valueOf(checkInDate.getTime() - dueDate.getTime());
+        Long diffInt = new Long(difference);
+        Double fine = 0.0;
+
+        if (diffInt > 0) {
+            Double rateOfFine = itemFineRate.getFineRate();
+            String fineMode = itemFineRate.getInterval();
+            String sysFlag = getParameterValueResolver().getParameter(OLEConstants
+                    .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.FINE_FLAG);
+            if (fineMode != null && fineMode.equalsIgnoreCase("H")) {
+                Integer numberOfHours = 0;
+                if (sysFlag.equalsIgnoreCase("true")) {
+                    numberOfHours = getHoursDiff(dueDate, checkInDate);
+                } else {
+                    numberOfHours = workingHours(deskId, dueDate, checkInDate);
+                }
+                fine = numberOfHours * rateOfFine;
+            } else if (fineMode != null && fineMode.equalsIgnoreCase("D")) {
+                workingDays(deskId, dueDate, checkInDate);
+                if (sysFlag.equalsIgnoreCase("true")) {
+                    fine = totalDays * rateOfFine;
+                } else {
+                    fine = totalWorkingDays * rateOfFine;
+                }
+            }
+        }
+        return fine;
+
     }
 }

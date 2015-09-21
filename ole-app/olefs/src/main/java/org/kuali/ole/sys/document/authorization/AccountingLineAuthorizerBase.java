@@ -161,6 +161,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
      */
     public final boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editableLine, boolean editablePage, Person currentUser) {
+        if (accountingDocument.getDocumentHeader() != null && accountingDocument.getDocumentHeader().getWorkflowDocument() != null && accountingDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equalsIgnoreCase(OLEConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER_AMENDMENT) && accountingDocument.getDocumentHeader().getWorkflowDocument().isInitiated()) {
+            return true;
+        }
         if (!determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editablePage)) {
             return false;
         }

@@ -2,6 +2,7 @@
 
     <#if manager.totalLines gt 0>
         <@search_pagesize manager />
+        <@search_pager_top manager container/>
     <table class="table table-condensed table-bordered uif-tableCollectionLayout dataTable">
         <thead>
         <tr>
@@ -16,6 +17,8 @@
             <#if manager.searchResultDisplayFields.subject><th>Subject</th></#if>
             <#if manager.searchResultDisplayFields.publicationPlace><th>Publication Place</th></#if>
             <#if manager.searchResultDisplayFields.format><th>Format</th></#if>
+            <#if manager.searchResultDisplayFields.resourceType><th>Resource Type</th></#if>
+            <#if manager.searchResultDisplayFields.carrier><th>Carrier</th></#if>
             <#if manager.searchResultDisplayFields.formGenre><th>Form Genre</th></#if>
             <#if manager.searchResultDisplayFields.language><th>Language</th></#if>
             <#if manager.searchResultDisplayFields.description><th>Description</th></#if>
@@ -27,19 +30,21 @@
             <#list manager.searchLines as line>
             <tr class="odd">
                 <td class="sorting_1"><@search_checkbox_control line 'select' container "" /></td>
-                <#if manager.searchResultDisplayFields.title><td>
-                    <#if line.row.title??>
-                        <#if line.row.staffOnly == 'true'>
-                            <div class="staffOnlyForHiperlink">
-                                <a target="_blank" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=${line.row.docFormat}&amp;docId=${line.row.localId}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
-                            </div>
-                        <#else>
-                            <div>
-                                <a target="_blank" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=${line.row.docFormat}&amp;docId=${line.row.localId}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
-                            </div>
+                <#if manager.searchResultDisplayFields.title>
+                    <td>
+                        <#if line.row.title??>
+                            <#if line.row.staffOnly == 'true'>
+                                <div class="staffOnlyForHiperlink">
+                                    <a target="_blank" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=${line.row.docFormat}&amp;docId=${line.row.localId}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true;fromSearch=true">${line.row.title!?html}</a>
+                                </div>
+                            <#else>
+                                <div>
+                                    <a target="_blank" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=${line.row.docFormat}&amp;docId=${line.row.localId}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true;fromSearch=true">${line.row.title!?html}</a>
+                                </div>
+                            </#if>
                         </#if>
-                    </#if>
-                </td></#if>
+                    </td>
+                </#if>
                 <#if manager.searchResultDisplayFields.localId><td>${line.row.localId!}</td></#if>
                 <#if manager.searchResultDisplayFields.journalTitle><td>${line.row.journalTitle!}</td></#if>
                 <#if manager.searchResultDisplayFields.author><td>${line.row.author!}</td></#if>
@@ -49,6 +54,8 @@
                 <#if manager.searchResultDisplayFields.subject><td>${line.row.subject!}</td></#if>
                 <#if manager.searchResultDisplayFields.publicationPlace><td>${line.row.publicationPlace!}</td></#if>
                 <#if manager.searchResultDisplayFields.format><td>${line.row.format!}</td></#if>
+                <#if manager.searchResultDisplayFields.resourceType><td>${line.row.resourceType!}</td></#if>
+                <#if manager.searchResultDisplayFields.carrier><td>${line.row.carrier!}</td></#if>
                 <#if manager.searchResultDisplayFields.formGenre><td>${line.row.formGenre!}</td></#if>
                 <#if manager.searchResultDisplayFields.language><td>${line.row.language!}</td></#if>
                 <#if manager.searchResultDisplayFields.description><td>${line.row.description!}</td></#if>
@@ -69,6 +76,8 @@
             <#if manager.searchResultDisplayFields.subject><th></th></#if>
             <#if manager.searchResultDisplayFields.publicationPlace><th></th></#if>
             <#if manager.searchResultDisplayFields.format><th></th></#if>
+            <#if manager.searchResultDisplayFields.resourceType><th></th></#if>
+            <#if manager.searchResultDisplayFields.carrier><th></th></#if>
             <#if manager.searchResultDisplayFields.formGenre><th></th></#if>
             <#if manager.searchResultDisplayFields.language><th></th></#if>
             <#if manager.searchResultDisplayFields.description><th></th></#if>
@@ -85,6 +94,7 @@
 
     <#if manager.totalLines gt 0>
         <@search_pagesize manager />
+        <@search_pager_top manager container />
     <table class="table table-condensed table-bordered uif-tableCollectionLayout dataTable">
         <thead>
         <tr>
@@ -92,8 +102,10 @@
             <th>Relations</th>
             <#if manager.searchResultDisplayFields.localId><th><a style="text-decoration:underline;" onclick="itemSortBy('local');">Local Identifier</a></th></#if>
             <#if manager.searchResultDisplayFields.title><th><a style="text-decoration:underline;" onclick="itemSortBy('title');">Title</a></th></#if>
-            <#if manager.searchResultDisplayFields.location><th><a style="text-decoration:underline;" onclick="itemSortBy('location');">Location</a></th></#if>
-            <#if manager.searchResultDisplayFields.callNumber><th><a style="text-decoration:underline;" onclick="itemSortBy('callNumber');">Call Number</a></th></#if>
+            <#if manager.searchResultDisplayFields.location><th><a style="text-decoration:underline;" onclick="itemSortBy('location');">Item Location</a></th></#if>
+            <#if manager.searchResultDisplayFields.callNumber><th><a style="text-decoration:underline;" onclick="itemSortBy('callNumber');">Item Call Number</a></th></#if>
+            <#if manager.searchResultDisplayFields.holdingsLocation><th>Holdings Location</th></#if>
+            <#if manager.searchResultDisplayFields.holdingsCallNumber><th>Holdings Call Number</th></#if>
             <#if manager.searchResultDisplayFields.barcode><th><a style="text-decoration:underline;" onclick="itemSortBy('barcode');">Barcode</a></th></#if>
             <#if manager.searchResultDisplayFields.barcodeArsl><th>BarcodeARSL</th></#if>
             <#if manager.searchResultDisplayFields.callNumberPrefix><th>Call Number Prefix</th></#if>
@@ -130,11 +142,11 @@
                     <#if line.row.localId??>
                         <#if line.row.staffOnly == 'true'>
                             <div class="staffOnlyForHiperlink">
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.localId!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true&amp;fromSearch=true">${line.row.localId!?html}</a>
                             </div>
                         <#else>
                             <div>
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.localId!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true&amp;fromSearch=true">${line.row.localId!?html}</a>
                             </div>
                         </#if>
                     </#if>
@@ -143,17 +155,19 @@
                     <#if line.row.title??>
                         <#if line.row.staffOnly == 'true'>
                             <div class="staffOnlyForHiperlink">
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true&amp;fromSearch=true">${line.row.title!?html}</a>
                             </div>
                         <#else>
                             <div>
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true&amp;fromSearch=true">${line.row.title!?html}</a>
                             </div>
                         </#if>
                     </#if>
                 </td></#if>
                 <#if manager.searchResultDisplayFields.location><td>${line.row.locationName!}</td></#if>
                 <#if manager.searchResultDisplayFields.callNumber><td>${line.row.callNumber!}</td></#if>
+                <#if manager.searchResultDisplayFields.holdingsLocation><td>${line.row.holdingsLocation!}</td></#if>
+                <#if manager.searchResultDisplayFields.holdingsCallNumber><td>${line.row.holdingsCallNumber!}</td></#if>
                 <#if manager.searchResultDisplayFields.barcode><td>${line.row.barcode!}</td></#if>
                 <#if manager.searchResultDisplayFields.barcodeArsl><td>${line.row.barcodeArsl!}</td></#if>
                 <#if manager.searchResultDisplayFields.callNumberPrefix><td>${line.row.callNumberPrefix!}</td></#if>
@@ -221,6 +235,7 @@
 
     <#if manager.totalLines gt 0>
         <@search_pagesize manager />
+        <@search_pager_top manager container />
     <table class="table table-condensed table-bordered uif-tableCollectionLayout dataTable">
         <thead>
         <tr>
@@ -266,11 +281,11 @@
                     <#if line.row.localId??>
                         <#if line.row.staffOnly == 'true'>
                             <div class="staffOnlyForHiperlink">
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true">${line.row.localId!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true&amp;fromSearch=true">${line.row.localId!?html}</a>
                             </div>
                         <#else>
                             <div>
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true">${line.row.localId!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true&amp;fromSearch=true">${line.row.localId!?html}</a>
                             </div>
                         </#if>
                     </#if>
@@ -279,11 +294,11 @@
                     <#if line.row.title??>
                         <#if line.row.staffOnly == 'true'>
                             <div class="staffOnlyForHiperlink">
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true&amp;fromSearch=true">${line.row.title!?html}</a>
                             </div>
                         <#else>
                             <div>
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true&amp;fromSearch=true">${line.row.title!?html}</a>
                             </div>
                         </#if>
                     </#if>
@@ -341,6 +356,7 @@
 
     <#if manager.totalLines gt 0>
         <@search_pagesize manager />
+        <@search_pager_top manager container />
     <table class="table table-condensed table-bordered uif-tableCollectionLayout dataTable">
         <thead>
         <tr>
@@ -394,11 +410,11 @@
                     <#if line.row.localId??>
                         <#if line.row.staffOnly == 'true'>
                             <div class="staffOnlyForHiperlink">
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.localId!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true&amp;fromSearch=true">${line.row.localId!?html}</a>
                             </div>
                         <#else>
                             <div>
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.localId!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true&amp;fromSearch=true">${line.row.localId!?html}</a>
                             </div>
                         </#if>
                     </#if>
@@ -407,11 +423,11 @@
                     <#if line.row.title??>
                         <#if line.row.staffOnly == 'true'>
                             <div class="staffOnlyForHiperlink">
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true&amp;fromSearch=true">${line.row.title!?html}</a>
                             </div>
                         <#else>
                             <div>
-                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true">${line.row.title!?html}</a>
+                                <a target="_blank" style="font-weight:bold;border:0px;" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=${line.row.localId!}&amp;bibId=${line.row.bibIdentifier!}&amp;instanceId=${line.row.holdingsIdentifier!}&amp;editable=true&amp;fromSearch=true">${line.row.title!?html}</a>
                             </div>
                         </#if>
                     </#if>
@@ -526,6 +542,14 @@
         to ${(manager.pager.currentPage - 1) * manager.pageSize + manager.displayedLines}
         of ${manager.totalLines} entries
     </div>
+    <div style="float : right">
+        <@krad.template component=manager.pager parent=container />
+    </div>
+    </#if>
+</#macro>
+
+<#macro search_pager_top manager container>
+    <#if manager.pager?? && manager.pager.currentPage gt 0>
     <div style="float : right">
         <@krad.template component=manager.pager parent=container />
     </div>

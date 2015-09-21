@@ -29,6 +29,7 @@ function setControlIndex008() {
 }
 // Control 008 field set
 function controlField008Set() {
+    valueChange008 = false;
     var controlField008Text1 = "";
     setControlIndex008();
     var controlIndex = controlIndex008;

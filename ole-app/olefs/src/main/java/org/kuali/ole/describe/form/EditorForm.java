@@ -65,6 +65,7 @@ public class EditorForm extends UifFormBase {
     private boolean staffOnlyFlagForBib;
     private boolean staffOnlyFlagForHoldings;
     private boolean staffOnlyFlagForItem;
+    private String bibLocalIdentifier;
     private String holdingLocalIdentifier;
     private String itemLocalIdentifier;
     private String issn;
@@ -160,6 +161,17 @@ public class EditorForm extends UifFormBase {
     private String channelUrl = ConfigContext.getCurrentContextConfig().getProperty("ole.editor.url");
     private boolean canDeleteEHoldings = true;
     private String externalHelpUrl;
+   private boolean bibliographic;
+    private boolean item;
+    private boolean newDocument;
+    private boolean copyFlag;
+    private boolean workFormViewFlag;
+    private String deleteMessage;
+    private boolean shortcutAddDataField = false;
+    private boolean showPrint = false;
+    private boolean openLocation = false;
+    private boolean supressHoldingsShelving = false;
+    private boolean supressItemShelving = false;
     private boolean addSpaceField;
 
     public boolean isAddSpaceField() {
@@ -403,6 +415,18 @@ public class EditorForm extends UifFormBase {
 
     public void setIssn(String issn) {
         this.issn = issn;
+    }
+
+    public String getBibLocalIdentifier() {
+        return bibLocalIdentifier;
+    }
+
+    public void setBibLocalIdentifier(String bibLocalIdentifier) {
+        if (bibLocalIdentifier != null && bibLocalIdentifier.length() > 0) {
+            this.bibLocalIdentifier = String.valueOf(DocumentLocalId.getDocumentId(bibLocalIdentifier));
+        } else {
+            this.bibLocalIdentifier = bibLocalIdentifier;
+        }
     }
 
     public String getHoldingLocalIdentifier() {
@@ -1161,5 +1185,93 @@ public class EditorForm extends UifFormBase {
 
     public void setOleLoanIntransitRecordHistories(List<OLELoanIntransitRecordHistory> oleLoanIntransitRecordHistories) {
         this.oleLoanIntransitRecordHistories = oleLoanIntransitRecordHistories;
+    }
+
+    public boolean isBibliographic() {
+        return bibliographic;
+    }
+
+    public void setBibliographic(boolean bibliographic) {
+        this.bibliographic = bibliographic;
+    }
+
+    public boolean isItem() {
+        return item;
+    }
+
+    public void setItem(boolean item) {
+        this.item = item;
+    }
+
+    public boolean isNewDocument() {
+        return newDocument;
+    }
+
+    public void setNewDocument(boolean newDocument) {
+        this.newDocument = newDocument;
+    }
+
+    public boolean isCopyFlag() {
+        return copyFlag;
+    }
+
+    public void setCopyFlag(boolean copyFlag) {
+        this.copyFlag = copyFlag;
+    }
+
+    public String getDeleteMessage() {
+        return deleteMessage;
+    }
+
+    public void setDeleteMessage(String deleteMessage) {
+        this.deleteMessage = deleteMessage;
+    }
+
+    public boolean isWorkFormViewFlag() {
+        return workFormViewFlag;
+    }
+
+    public void setWorkFormViewFlag(boolean workFormViewFlag) {
+        this.workFormViewFlag = workFormViewFlag;
+    }
+
+    public boolean isShortcutAddDataField() {
+        return shortcutAddDataField;
+    }
+
+    public void setShortcutAddDataField(boolean shortcutAddDataField) {
+        this.shortcutAddDataField = shortcutAddDataField;
+    }
+
+    public boolean isShowPrint() {
+        return showPrint;
+    }
+
+    public void setShowPrint(boolean showPrint) {
+        this.showPrint = showPrint;
+    }
+
+    public boolean isOpenLocation() {
+        return openLocation;
+    }
+
+    public void setOpenLocation(boolean openLocation) {
+        this.openLocation = openLocation;
+    }
+
+    public boolean isSupressHoldingsShelving() {
+        return supressHoldingsShelving;
+    }
+
+    public void setSupressHoldingsShelving(boolean supressHoldingsShelving) {
+        this.supressHoldingsShelving = supressHoldingsShelving;
+    }
+
+    public boolean isSupressItemShelving() {
+        return supressItemShelving;
+    }
+
+    public void setSupressItemShelving(boolean supressItemShelving) {
+        this.supressItemShelving = supressItemShelving;
     }
 }

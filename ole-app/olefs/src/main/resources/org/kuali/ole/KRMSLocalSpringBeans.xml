@@ -589,7 +589,7 @@
     <bean id="generateOverdueNoticesJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="oleOverDueNotice"/>
         <property name="targetMethod" value="generateOverdueNotices"/>
-        <property name="name" value="generateCourtesyNotices"/>
+        <property name="name" value="generateOverdueNotices"/>
         <property name="group" value="batchJobGroup"/>
         <property name="concurrent" value="false"/>
     </bean>
@@ -766,6 +766,7 @@
         <property name="xmlPendingLocation" value="${patrons.xml.pending.location}"/>
         <property name="xmlCompletedLocation" value="${patrons.xml.loaded.location}"/>
         <property name="xmlProblemLocation" value="${patrons.xml.problem.location}"/>
+        <property name="xmlReportLocation" value="${patrons.xml.report.location}"/>
         <property name="patronsIngesterService" ref="patronsIngesterService"/>
         <property name="pollIntervalSecs">
             <value>${data.xml.pollIntervalSecs}</value>

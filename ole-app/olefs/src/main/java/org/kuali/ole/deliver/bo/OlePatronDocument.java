@@ -24,6 +24,7 @@ import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
 import org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -94,6 +95,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private boolean showLoanedRecords;
     private boolean showRequestedItems;
     private boolean showTemporaryCirculationHistoryRecords;
+    private boolean showBillUrlsFlag;
     private OlePatronDocument selectedProxyForPatron;
     private HashMap<String,String> errorsAndPermission = new HashMap<>();
     private String errorMessage;
@@ -244,7 +246,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     public String getPatronName() {
         if (null == patronName) {
             EntityNameBo entityNameBo = getEntity().getNames().get(0);
-            patronName = entityNameBo.getFirstName() + "," + entityNameBo.getLastName();
+            patronName =  entityNameBo.getLastName() + "," + entityNameBo.getFirstName();
         }
         return patronName;
     }
@@ -1555,6 +1557,14 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         this.realPatronLastName = realPatronLastName;
     }
 
+    public boolean isShowBillUrlsFlag() {
+        return showBillUrlsFlag;
+    }
+
+    public void setShowBillUrlsFlag(boolean showBillUrlsFlag) {
+        this.showBillUrlsFlag = showBillUrlsFlag;
+    }
+
     public int getLoanCount() {
         return loanCount;
     }
@@ -1579,6 +1589,14 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         this.tempCirculationHistoryCount = tempCirculationHistoryCount;
     }
 
+    public String getPatronRecordURL() {
+        return patronRecordURL;
+    }
+
+    public void setPatronRecordURL(String patronRecordURL) {
+        this.patronRecordURL = patronRecordURL;
+    }
+
     public boolean isDeleteImageFlag() {
         return deleteImageFlag;
     }
@@ -1595,14 +1613,6 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         this.lostOperatorId = lostOperatorId;
     }
 
-    public boolean isCheckoutForSelf() {
-        return checkoutForSelf;
-    }
-
-    public void setCheckoutForSelf(boolean checkoutForSelf) {
-        this.checkoutForSelf = checkoutForSelf;
-    }
-
     public BusinessObjectService getBusinessObjectService() {
         if (null == businessObjectService) {
             businessObjectService = KRADServiceLocator.getBusinessObjectService();
@@ -1617,14 +1627,6 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         List<OlePatronLostBarcode> olePatronLostBarcodes = (List<OlePatronLostBarcode>) getBusinessObjectService().findMatching(OlePatronLostBarcode.class, barMap);
 
         return olePatronLostBarcodes.size() > 0;
-    }
-
-    public String getPatronRecordURL() {
-        return patronRecordURL;
-    }
-
-    public void setPatronRecordURL(String patronRecordURL) {
-        this.patronRecordURL = patronRecordURL;
     }
 
     public boolean isAddressVerified() {
@@ -1816,6 +1818,20 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         return replacementFeeAmt;
     }
 
+    public List<OleLoanDocument> getOleLoanDocumentsFromDb() {
+        if (StringUtils.isNotEmpty(getOlePatronId())) {
+            if (StringUtils.isNotEmpty(getOlePatronId())) {
+                Map<String, String> parameterMap = new HashMap<>();
+                parameterMap.put("patronId", getOlePatronId());
+                List<OleLoanDocument> oleLoanDocumentList = (List<OleLoanDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleLoanDocument.class, parameterMap);
+                if (CollectionUtils.isNotEmpty(oleLoanDocumentList)) {
+                    oleLoanDocuments = oleLoanDocumentList;
+                }
+            }
+        }
+        return oleLoanDocuments;
+    }
+
     public Boolean isOverDueDays(Integer allowedOverDueDays) {
         List<OleLoanDocument> oleLoanDocuments = getOleLoanDocuments();
         for (Iterator<OleLoanDocument> iterator = oleLoanDocuments.iterator(); iterator.hasNext(); ) {
@@ -1845,12 +1861,12 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     private boolean recallRequestExists(OleLoanDocument oleLoanDocument) {
-        String oleRequestId = oleLoanDocument.getOleRequestId();
-        if (null != oleRequestId) {
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("requestId", oleRequestId);
-            OleDeliverRequestBo oleDeliverRequestBo = getBusinessObjectService().findByPrimaryKey(OleDeliverRequestBo.class, map);
-            if (oleDeliverRequestBo.getRequestTypeCode().contains("Recall")) {
+
+        List<OleDeliverRequestBo> oleDeliverRequestBos = getOleDeliverRequestBos();
+        for (Iterator<OleDeliverRequestBo> iterator = oleDeliverRequestBos.iterator(); iterator.hasNext(); ) {
+            OleDeliverRequestBo oleDeliverRequestBo = iterator.next();
+            if(oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode().equals("Recall") &&
+                    oleDeliverRequestBo.getLoanTransactionRecordNumber().equals(oleLoanDocument.getLoanId())){
                 return true;
 
             }
@@ -1864,5 +1880,20 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
         diff = String.format("%d", TimeUnit.MILLISECONDS.toDays(timeDiff),
                 -TimeUnit.HOURS.toDays(timeDiff));
         return diff;
+    }
+
+    public boolean isCheckoutForSelf() {
+        return checkoutForSelf;
+    }
+
+    public void setCheckoutForSelf(boolean checkoutForSelf) {
+        this.checkoutForSelf = checkoutForSelf;
+    }
+
+    @Override
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getNotes());
+        return managedLists;
     }
 }

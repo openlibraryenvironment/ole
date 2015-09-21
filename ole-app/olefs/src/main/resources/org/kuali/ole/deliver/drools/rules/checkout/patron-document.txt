@@ -1,0 +1,2 @@
+$p: OlePatronDocument(getBorrowerTypeCode() ${borrowerTypeOperator} ${borrowerType},
+getLoanedItemsCountByItemType($i.getItemType()) ${itemTypeCountOperator} ${itemTypeCount})

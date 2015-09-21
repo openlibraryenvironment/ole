@@ -31,6 +31,7 @@
                 <ref bean="LocalIdentifierHolding"/>
                 <ref bean="OleLocationInformationSection"/>
                 <ref bean="OleCallNumberInformation"/>
+                <ref bean="OleHoldingShelvingOrder"/>
                 <ref bean="OleExtentOfOwnershipSection"/>
                 <ref bean="OleExtendedInformation"/>
                 <ref bean="OleHoldingNotes"/>
@@ -200,12 +201,6 @@
                         <bean parent="Uif-TextControl" p:size="5" p:maxLength=""/>
                     </property>
                 </bean>
-                <!-- <bean id="OleHoldingCallNumberType" parent="Uif-InputField" p:propertyName="type"
-                      p:label="Type" p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5" p:maxLength=""/>
-                    </property>
-                </bean>-->
                 <bean id="OleHoldingCallNumber" parent="Uif-InputField"
                       p:propertyName="documentForm.selectedHolding.callNumber.number"
                       p:label="Call Number" p:required="false">
@@ -213,24 +208,12 @@
                         <bean parent="Uif-TextControl" p:size="30" p:maxLength=""/>
                     </property>
                 </bean>
-                <!--<bean id="callNumberBrowseLink" parent="Uif-Link"-->
-                <!--p:style="font-weight:bold;border:0px;text-decoration:underline;"-->
-                <!--p:href="callnumberBrowseController?viewId=CallNumberBrowseView&amp;methodToCall=start"-->
-                <!--p:linkText="Browse"-->
-                <!--p:target="_blank"/>-->
                 <bean id="callNumberHoldingsBrowseLink" parent="Uif-SecondaryActionButton-Small"
                       p:style="float:left;margin-left:0em" p:actionScript="browse('holdings');"
                       p:actionLabel="Browse" p:render="@{editable eq 'true'}"/>
-                <bean id="OleHoldingShelvingOrder" parent="Uif-InputField"
-                      p:propertyName="documentForm.selectedHolding.callNumber.shelvingOrder.fullValue"
-                      p:label="Shelving Order" p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="300"/>
-                    </property>
-                </bean>
                 <bean id="OleHoldingShelvingScheme" parent="Uif-InputField"
                       p:propertyName="documentForm.selectedHolding.callNumber.shelvingScheme.codeValue"
-                      p:label="Call Number Type" p:required="false">
+                      p:label="Call Number Type" p:required="false" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
                     </property>
@@ -238,7 +221,6 @@
                         <bean class="org.kuali.ole.describe.keyvalue.ShelvingScheme"/>
                     </property>
                 </bean>
-                <bean id="callNumberHoldingsBrowseLinkHidden" parent="Uif-SecondaryActionButton-Small" p:hidden="true"/>
                 <bean id="OleHoldingCopyNumber" parent="Uif-InputField"
                       p:propertyName="documentForm.selectedHolding.copyNumber"
                       p:label="Copy Number" p:required="false">
@@ -246,10 +228,19 @@
                         <bean parent="Uif-TextControl" p:size="20" p:maxLength=""/>
                     </property>
                 </bean>
+                <bean id="callNumberHoldingsBrowseLinkHidden" parent="Uif-SecondaryActionButton-Small" p:hidden="true"/>
+
             </list>
         </property>
     </bean>
 
+    <bean id="OleHoldingShelvingOrder" parent="Uif-InputField"
+          p:propertyName="documentForm.selectedHolding.callNumber.shelvingOrder.fullValue"
+          p:label="Shelving Order" p:required="false" p:render="@{supressHoldingsShelving}">
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="30" p:maxLength="100"/>
+        </property>
+    </bean>
     <bean id="OleExtentOfOwnershipSection" parent="Uif-Disclosure-VerticalBoxSection" p:componentSecurity.editAuthz="true">
         <property name="headerText" value="Extent Of Ownership"/>
         <property name="items">
@@ -271,13 +262,13 @@
         <!--<property name="addLineLabel" value=""/>-->
         <property name="items">
             <list>
-                <bean id="HoldingsExtendedInformationNotesGroup" parent="Uif-VerticalFieldGroup"
+                <bean id="HoldingsExtendedInformationNotesGroup" parent="Uif-HorizontalFieldGroup"
                       p:style="width:100%;border-top:1px solid;">
                     <property name="items">
                         <list>
                             <bean id="extentTextualHoldingsType" parent="Uif-InputField" p:propertyName="type"
                                   p:label="Type"
-                                  p:required="false" p:defaultValue="Basic Bibliographic Unit">
+                                  p:required="false" p:defaultValue="Basic Bibliographic Unit" p:style="margin-top:1.5em">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -286,10 +277,9 @@
                                 </property>
                             </bean>
                             <bean id="extentTextualHoldings" parent="Uif-InputField" p:propertyName="textualHoldings"
-                                  p:label="Extent of Ownership"
-                                  p:required="false" p:style="width:99%;border-top:1px solid;">
+                                  p:label="Extent of Ownership" p:required="false">
                                 <property name="control">
-                                    <bean parent="Uif-TextAreaControl" p:cols="80"/>
+                                    <bean parent="Uif-TextAreaControl" p:rows="2" p:cols="35" />
                                 </property>
                             </bean>
                         </list>
@@ -329,13 +319,13 @@
                     <property name="items">
                         <list>
                             <bean id="extentSubHoldingNoteTypeField" parent="Uif-InputField" p:propertyName="type"
-                                  p:label="Type">
+                                  p:label="Type" p:style="margin-top:1.5em">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
                                             <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="public" p:value="Public"/>
                                                 <bean parent="Uif-KeyLabelPair" p:key="nonPublic" p:value="Non-Public"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="public" p:value="Public"/>
                                             </list>
                                         </property>
                                     </bean>
@@ -552,15 +542,9 @@
                     <property name="items">
                         <list>
                             <bean id="OleHoldingNoteTypeField" parent="Uif-InputField" p:propertyName="type"
-                                  p:label="Type" p:labelPlacement="LEFT">
+                                  p:optionsFinderClass="org.kuali.ole.describe.keyvalue.HoldingsNoteKeyValueFinder" p:label="Type" p:labelPlacement="LEFT" >
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="public" p:value="Public"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="nonPublic" p:value="Non-Public"/>
-                                            </list>
-                                        </property>
                                     </bean>
                                 </property>
                             </bean>

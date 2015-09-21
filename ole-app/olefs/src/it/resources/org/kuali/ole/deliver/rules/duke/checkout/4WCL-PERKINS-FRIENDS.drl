@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.ErrorMessage
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "Check out Circ Policy Set 84-DAYS-PS-BORDIR"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FRIENDSDUL"))
+$i: OleItemRecordForCirc (getItemType() in ("4WKCL"),
+getItemLibraryLocation() in ("PERKINS"))
+then
+$l.setCirculationPolicyId("Check out Circ Policy Set 84-DAYS-PS-BORDIR");
+$l.loanPeriod("28-D","7-D");
+$n.setNoticeType(DroolsConstants.REGULAR_LOANS_NOTICE_CONFIG);
+ end

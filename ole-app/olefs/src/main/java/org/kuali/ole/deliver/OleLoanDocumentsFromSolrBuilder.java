@@ -9,6 +9,7 @@ import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OLEDeliverService;
 import org.kuali.ole.deliver.service.PatronBillResolver;
+import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.keyvalue.LocationValuesBuilder;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
@@ -55,10 +56,9 @@ public class OleLoanDocumentsFromSolrBuilder {
     }
 
     public List<OleLoanDocument> getPatronLoanedItemBySolr(String patronId, String itemBarcode) throws Exception {
-        LOG.debug("Inside the getPatronLoanedItemBySolr method");
+
         Long b1 = System.currentTimeMillis();
         SearchResponse searchResponse = new SearchResponse();
-        HashMap<String, Object> loanMap = new HashMap<>();
         if (patronId != null) {
             String itemStatusParam = getParameter(OLEParameterConstants.ITEM_STATUS_FOR_RET_LOAN);
             String[] itemStatus = new String[0];
@@ -79,7 +79,7 @@ public class OleLoanDocumentsFromSolrBuilder {
             searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField("item", "currentBorrower", patronId), "AND"));
             if (null != itemBarcode) {
                 searchConditions.add(searchParams.buildSearchCondition("phrase", searchParams.buildSearchField(org
-                        .kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), ItemOleml.ITEM_BARCODE,
+                                .kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), ItemOleml.ITEM_BARCODE,
                         itemBarcode), "AND"));
             }
             searchParams.setPageSize(Integer.parseInt(OLEConstants.MAX_PAGE_SIZE_FOR_LOAN));
@@ -87,7 +87,12 @@ public class OleLoanDocumentsFromSolrBuilder {
             searchParams.getSearchConditions().addAll(searchConditions);
             searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
         }
-        List<OleLoanDocument> matchingLoan = getOleLoanDocumentsFromSearchResponse(searchResponse, patronId);
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("patronId", patronId);
+        List<OleLoanDocument> matching = (List<OleLoanDocument>) getBusinessObjectService().findMatching(OleLoanDocument.class, map);
+
+        List<OleLoanDocument> matchingLoan = getOleLoanDocumentsFromSearchResponse(searchResponse, matching);
 
 
         Long b2 = System.currentTimeMillis();
@@ -126,7 +131,7 @@ public class OleLoanDocumentsFromSolrBuilder {
             searchParams.getSearchConditions().addAll(searchConditions);
             searchResponse = getDocstoreClientLocator().getDocstoreClient().search(searchParams);
         }
-        List<OleLoanDocument> matchingLoan = getOleLoanDocumentsFromSearchResponse(searchResponse, patronId);
+        List<OleLoanDocument> matchingLoan = getOleLoanDocumentsFromSearchResponse(searchResponse, null);
         Long b2 = System.currentTimeMillis();
         Long b3 = b2 - b1;
         LOG.info("The Time taken retrieveByPatronAndItem--" + b3);
@@ -144,8 +149,9 @@ public class OleLoanDocumentsFromSolrBuilder {
         return parameter != null ? parameter.getValue() : null;
     }
 
-    public List<OleLoanDocument> getOleLoanDocumentsFromSearchResponse(SearchResponse searchResponse, String patronId) throws Exception {
+    public List<OleLoanDocument> getOleLoanDocumentsFromSearchResponse(SearchResponse searchResponse, List<OleLoanDocument> oleDBLoanDocuments) throws Exception {
         int count = 0;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         List<OleLoanDocument> oleLoanDocuments = new ArrayList<>();
         if (searchResponse != null) {
             for (SearchResult searchResult : searchResponse.getSearchResults()) {
@@ -155,17 +161,17 @@ public class OleLoanDocumentsFromSolrBuilder {
                     if (searchResultField.getFieldValue() != null) {
 
                         if (searchResultField.getFieldName().equalsIgnoreCase("ItemBarcode_display")) {
-                            oleLoanDocument = new OleLoanDocument();
-                            oleLoanDocument.setItemId(searchResultField.getFieldValue());
-                            oleLoanDocument.setPatronId(patronId);
-                            checkRequestExistForItem(oleLoanDocument);
-                            getPatronBillResolver().checkReplacementFineExistForPatron(oleLoanDocument,patronId);
-                        }
-                        if (searchResultField.getFieldName().equalsIgnoreCase("id")) {
+                            String itemBarcode = searchResultField.getFieldValue();
                             if (null == oleLoanDocument) {
-                                oleLoanDocument = new OleLoanDocument();
+                                oleLoanDocument = getLoanDocumentBasedOnBarcode(itemBarcode, oleDBLoanDocuments);
                             }
-                            oleLoanDocument.setItemUuid(searchResultField.getFieldValue());
+                            oleLoanDocument.setItemId(itemBarcode);
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase("id")) {
+                            String itemUuid = searchResultField.getFieldValue();
+                            if (null == oleLoanDocument) {
+                                oleLoanDocument = getLoanDocumentBasedOnItemUuid(itemUuid, oleDBLoanDocuments);
+                            }
+                            oleLoanDocument.setItemUuid(itemUuid);
                         } else if (searchResultField.getFieldName().equalsIgnoreCase("bibIdentifier")) {
                             oleLoanDocument.setBibUuid(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase("Title_display")) {
@@ -180,11 +186,13 @@ public class OleLoanDocumentsFromSolrBuilder {
                             oleLoanDocument.setClaimsReturnedIndicator(true);
                             count++;
                         } else if (searchResultField.getFieldName().equalsIgnoreCase("Location_display")) {
-                            getLocationBySolr(searchResultField, oleLoanDocument);
+                            String location= searchResultField.getFieldValue().split("/")[searchResultField.getFieldValue().split("/").length - 1];
+                            getLocationBySolr(location, oleLoanDocument);
                             oleLoanDocument.setItemFullLocation(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase("HoldingsLocation_display") &&
                                 (oleLoanDocument.getItemLocation() == null || oleLoanDocument.getItemLocation().isEmpty())) {
-                            getLocationBySolr(searchResultField, oleLoanDocument);
+                            String location= searchResultField.getFieldValue().split("/")[searchResultField.getFieldValue().split("/").length - 1];
+                            getLocationBySolr(location, oleLoanDocument);
                             oleLoanDocument.setItemFullLocation(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase("claimsReturnedFlagCreateDate")) {
                             String[] formatStrings = new String[]{"MM/dd/yyyy hh:mm:ss", "MM/dd/yyyy", "yyyy-MM-dd hh:mm:ss"};
@@ -241,7 +249,7 @@ public class OleLoanDocumentsFromSolrBuilder {
                             oleLoanDocument.setItemNumberOfPieces(Integer.parseInt(searchResultField.getFieldValue()));
                             oleLoanDocument.setBackUpNoOfPieces(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase("proxyBorrower")) {
-                            oleLoanDocument.setRealPatronName(searchResultField.getFieldValue());
+                            oleLoanDocument.setProxyPatronId(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase("MissingPieceFlag_display")) {
                             oleLoanDocument.setMissingPieceFlag(Boolean.parseBoolean(searchResultField.getFieldValue()));
                         } else if (searchResultField.getFieldName().equalsIgnoreCase("NumberOfRenew_display")) {
@@ -261,35 +269,71 @@ public class OleLoanDocumentsFromSolrBuilder {
                 }
                 oleLoanDocuments.add(oleLoanDocument);
             }
-
+            if (!oleLoanDocuments.isEmpty()) {
+                processRequestBoCheckForLoanDocuments(oleLoanDocuments);
+            }
         }
         return oleLoanDocuments;
     }
 
-    private void checkRequestExistForItem(OleLoanDocument oleLoanDocument) {
-        Map itemMap = new HashMap();
-        itemMap.put(OLEConstants.OleDeliverRequest.ITEM_ID, oleLoanDocument.getItemId());
-        List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, itemMap);
-        if (oleDeliverRequestBoList != null && oleDeliverRequestBoList.size() > 0) {
-            oleLoanDocument.setRequestFlag(OLEConstants.VIEW_ALL_REQUESTS);
-        } else {
-            oleLoanDocument.setRequestFlag(" ");
+    private OleLoanDocument getLoanDocumentBasedOnItemUuid(String itemUuid, List<OleLoanDocument> oleDBLoanDocuments) {
+        for (Iterator<OleLoanDocument> iterator = oleDBLoanDocuments.iterator(); iterator.hasNext(); ) {
+            OleLoanDocument loanDocument = iterator.next();
+            if(loanDocument.getItemUuid().equalsIgnoreCase(itemUuid)){
+                return loanDocument;
+            }
+        }
+        return new OleLoanDocument();
+    }
+
+    private OleLoanDocument getLoanDocumentBasedOnBarcode(String itemBarcode, List<OleLoanDocument> oleDBLoanDocuments) {
+        for (Iterator<OleLoanDocument> iterator = oleDBLoanDocuments.iterator(); iterator.hasNext(); ) {
+            OleLoanDocument loanDocument = iterator.next();
+            if(loanDocument.getItemId().equalsIgnoreCase(itemBarcode)){
+                return loanDocument;
+            }
+        }
+        return new OleLoanDocument();
+    }
+
+    private void processRequestBoCheckForLoanDocuments(List<OleLoanDocument> oleLoanDocuments) {
+        List<String> itemIds = new ArrayList<>();
+        Map<String, OleLoanDocument> map = new HashMap();
+        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
+        for (Iterator<OleLoanDocument> iterator = oleLoanDocuments.iterator(); iterator.hasNext(); ) {
+            OleLoanDocument oleLoanDocument = iterator.next();
+            String itemId = oleLoanDocument.getItemId();
+            itemIds.add(itemId);
+            map.put(itemId, oleLoanDocument);
+            oleLoanDocument.setRequestFlag("");
+        }
+        List<OleDeliverRequestBo> deliverRequestBos = oleLoanDocumentDaoOjb.getDeliverRequestBos(itemIds);
+
+        for (Iterator<OleDeliverRequestBo> iterator = deliverRequestBos.iterator(); iterator.hasNext(); ) {
+            OleDeliverRequestBo oleDeliverRequestBo = iterator.next();
+            if (map.containsKey(oleDeliverRequestBo.getItemId())) {
+                map.get(oleDeliverRequestBo.getItemId()).setRequestFlag(OLEConstants.VIEW_ALL_REQUESTS);
+            }
         }
     }
 
-    public void getLocationBySolr(SearchResultField searchResultField, OleLoanDocument oleLoanDocument) throws Exception {
-        String locationCode = searchResultField.getFieldValue().split("/")[searchResultField.getFieldValue().split("/").length - 1];
+    public void getLocationBySolr(String locationCode, OleLoanDocument oleLoanDocument) throws Exception {
+        String levelFullName = getLocationFullName(locationCode);
+
+        oleLoanDocument.setItemLocation(levelFullName);
+        oleLoanDocument.setLocation(levelFullName);
+    }
+
+    public String getLocationFullName(String locationCode) throws Exception {
         String levelFullName = "";
-        if (locationName.containsKey(locationCode) && StringUtils.isNotBlank(locationName.get(locationCode))) {
+        if (locationName.containsKey(locationCode)) {
             levelFullName = locationName.get(locationCode);
         } else {
             OleLocation oleLocation = getCircDeskLocationResolver().getLocationByLocationCode(locationCode);
             levelFullName = getCircDeskLocationResolver().getFullPathLocationByName(oleLocation);
             locationName.put(locationCode, levelFullName);
         }
-
-        oleLoanDocument.setItemLocation(levelFullName);
-        oleLoanDocument.setLocation(levelFullName);
+        return levelFullName;
     }
 
     public Date tryParse(String[] formatStrings, String dateString) throws ParseException {

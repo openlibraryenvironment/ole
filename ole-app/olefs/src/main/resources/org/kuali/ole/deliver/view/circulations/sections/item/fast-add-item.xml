@@ -27,7 +27,8 @@
           parent="Uif-SecondaryActionButton-Small"
           p:methodToCall="fastAddItemDialog"
           p:actionLabel="Fast-Add item"
-          p:render="@{proceedWithCheckout}"
-          p:style="float:left;margin-left:5em"/>
-
+          p:render="@{proceedWithCheckout and !autoCheckout}"
+          p:style="float:left;margin-left:5em"
+          p:actionEvent="openFastAdd"
+          p:componentSecurity.performActionAuthz="true" />
 </beans>

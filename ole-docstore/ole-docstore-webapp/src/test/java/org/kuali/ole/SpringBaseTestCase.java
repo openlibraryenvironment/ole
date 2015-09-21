@@ -2,6 +2,7 @@ package org.kuali.ole;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.discovery.service.SolrServerManager;
 import org.kuali.ole.docstore.discovery.util.DiscoveryEnvUtil;
 import org.slf4j.Logger;
@@ -26,7 +27,7 @@ import static junit.framework.TestCase.assertNotNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:org/kuali/ole/BootStrapSpringBeans.xml")
 //@ContextConfiguration("file:ole-docstore/ole-docstore-webapp/src/main/resources/org/kuali/ole/BootStrapSpringBeans.xml")
-public class SpringBaseTestCase {
+public class SpringBaseTestCase implements DocstoreConstants {
 
     protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
     protected String classesDir;

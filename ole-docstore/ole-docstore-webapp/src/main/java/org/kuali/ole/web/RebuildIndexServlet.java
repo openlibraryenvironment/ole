@@ -4,7 +4,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.docstore.common.document.content.enums.DocCategory;
 import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
-import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
 import org.kuali.ole.docstore.metrics.reindex.ReIndexingStatus;
 import org.kuali.ole.docstore.process.RebuildIndexesHandler;
 import org.kuali.ole.logger.DocStoreLogger;

@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "CO-4WKCL-PERKN"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DIVGRAD","ALUMNI","CARREL","FQALUMNI","UNCGFS","PL4WK","DUKE4WKGOLD","TRLN","DUKESTAFF","HEALTHPROF","UG","FQGRAD","FQST","FQPHD","RETLIB","FRIENDSDUL"))
+$i: OleItemRecordForCirc (getItemType() in ("4WKCL"),
+getItemLibraryLocation() in ("PERKINS"))
+then
+$l.setCirculationPolicyId("CO-4WKCL-PERKN");
+$l.loanPeriod("28-D","7-D");
+$n.setNoticeType("NO-PS-STDLOAN");
+ end

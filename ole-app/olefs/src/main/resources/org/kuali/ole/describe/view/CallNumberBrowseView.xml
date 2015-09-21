@@ -104,7 +104,7 @@
         </property>
     </bean>
 
-    <bean id="CallNumberBrowse-docType-Section" parent="Uif-InputField" p:propertyName="docType" p:label="Document Type">
+    <bean id="CallNumberBrowse-docType-Section" parent="Uif-InputField" p:propertyName="docType" p:label="Document Type" p:onChangeScript="submitForm('start', null, null, null);">
         <property name="control">
             <bean parent="Uif-HorizontalRadioControl">
                 <property name="options">
@@ -196,6 +196,7 @@
                 <ref bean ="docType"/>
                 <ref bean="CallNumber-BrowseResults-Item" />
                 <ref bean="CallNumber-BrowseResults-Holdings" />
+                <ref bean="OpenSelected_button"/>
             </list>
         </property>
 
@@ -236,7 +237,7 @@
                       p:propertyName="locationName"/>
                 <bean id="Title" p:label="Title" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
                       p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=@{#line.holding.bib.category}&amp;docType=@{#line.holding.bib.type}&amp;docFormat=@{#line.holding.bib.format}&amp;docId=@{#line.holding.bib.id}&amp;editable=true"
-                      p:linkText="@{#line.holding.bib.title}" p:target="_blank"/>
+                      p:linkText="@{#line.holding.bib.title}"  p:target="_blank"/>
                 <bean parent="Uif-DataField" p:label="Author" p:width="20%" p:propertyName="holding.bib.author"/>
             </list>
         </property>
@@ -279,7 +280,10 @@
                       p:propertyName="locationName"/>
                 <bean parent="Uif-LinkField" p:label="Title" p:style="font-weight:bold;border:0px;"
                       p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=@{#line.bib.category}&amp;docType=@{#line.bib.type}&amp;docFormat=@{#line.bib.format}&amp;docId=@{#line.bib.id}&amp;editable=true"
-                      p:linkText="@{#line.bib.title}" p:target="_blank"/>
+                      p:linkText="@{#line.bib.title}" p:render="@{!#line.staffOnly}" p:target="_blank"/>
+                <bean parent="Uif-LinkField" p:label="Title" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=@{#line.bib.category}&amp;docType=@{#line.bib.type}&amp;docFormat=@{#line.bib.format}&amp;docId=@{#line.bib.id}&amp;editable=true"
+                      p:linkText="@{#line.bib.title}" p:render="@{#line.staffOnly}" p:cssClasses="staffOnlyForHiperlink" p:target="_blank"/>
                 <bean parent="Uif-DataField" p:label="Author" p:width="20%" p:propertyName="bib.author"/>
             </list>
         </property>
@@ -327,5 +331,7 @@
             <bean parent="Uif-HiddenControl"/>
         </property>
     </bean>
+
+    <bean id="OpenSelected_button" parent="Uif-SecondaryActionButton" p:actionScript="openSelectAll('@{docType}');" p:actionLabel="Open Selected Records" p:render="@{holdingsList ne null || itemList ne null}"/>
 
 </beans>

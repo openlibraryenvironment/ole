@@ -11,7 +11,7 @@ public class OlePatron {
     private String patronID;
     private Date expirationDate;
     private Date activationDate;
-   /* private String source;*/
+    private String source;
     private String statisticalCategory;
     private boolean active;
     private OleNameTypes name;
@@ -23,6 +23,7 @@ public class OlePatron {
     private List<OlePatronTelePhoneNumber> telephoneNumbers;
     private OlePatronLevelPolicies patronLevelPolicies;
     private List<OlePatronNote> notes;
+    private List<OlePatronLocalIdentification> localIdentifications;
     /**
      * Gets the patronID attribute.
      * @return  Returns the patronID.
@@ -214,13 +215,13 @@ public class OlePatron {
         this.activationDate = activationDate;
     }
 
- /*   public String getSource() {
+    public String getSource() {
         return source;
     }
 
     public void setSource(String source) {
         this.source = source;
-    }*/
+    }
 
     public String getStatisticalCategory() {
         return statisticalCategory;
@@ -228,5 +229,13 @@ public class OlePatron {
 
     public void setStatisticalCategory(String statisticalCategory) {
         this.statisticalCategory = statisticalCategory;
+    }
+
+    public List<OlePatronLocalIdentification> getLocalIdentifications() {
+        return localIdentifications;
+    }
+
+    public void setLocalIdentifications(List<OlePatronLocalIdentification> localIdentifications) {
+        this.localIdentifications = localIdentifications;
     }
 }

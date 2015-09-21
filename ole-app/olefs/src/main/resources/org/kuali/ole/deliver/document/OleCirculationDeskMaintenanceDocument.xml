@@ -97,6 +97,7 @@
                                 </property>
                             </bean>
                             <bean id="create_holdQueue" parent="Uif-InputField" p:propertyName="holdQueue"/>
+                            <bean id="create_staffed" parent="Uif-InputField" p:propertyName="staffed"/>
                             <bean id="create_replyToEmail" parent="Uif-InputField" p:propertyName="replyToEmail"/>
                         </list>
                     </property>

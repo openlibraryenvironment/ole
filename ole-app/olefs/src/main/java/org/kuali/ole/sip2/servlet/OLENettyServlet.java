@@ -32,16 +32,20 @@ public class OLENettyServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+       LOG.info("Inside OLENettyServlet.doGet olefs");
         if(OLESIP2Constants.ALREADY_REQUEST_PROCESSING.equalsIgnoreCase("Y")){
             StringBuffer responseString = new StringBuffer();
             responseString.append(OLESIP2Constants.REFRESH_PAGE);
             PrintWriter out = response.getWriter();
+            LOG.info("Inside OLENettyServlet.doGet olefs : **"+responseString.toString());
             out.print(responseString.toString());
         }else if (OLESIP2Constants.olesip2Server != null) {
             if (!OLESIP2Constants.olesip2Server.isStopped()) {
                 StringBuffer responseString = new StringBuffer();
                 responseString.append(OLESIP2Constants.SERVER_RUNNING);
                 PrintWriter out = response.getWriter();
+                LOG.info("Inside OLENettyServlet.doGet olefs : **"+responseString.toString());
                 out.print(responseString.toString());
             }
         }

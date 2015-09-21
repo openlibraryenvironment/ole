@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.ErrorMessage
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "Check out Circ Policy Set 28DAY-EREADER-FORD"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DIVGRAD","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
+$i: OleItemRecordForCirc (getItemType() in ("EREADER"),
+getItemLibraryLocation() in ("FORD"))
+then
+$l.setCirculationPolicyId("Check out Circ Policy Set 28DAY-EREADER-FORD");
+$l.loanPeriod("28-D",null);
+$n.setNoticeType(DroolsConstants.SHORT_TERM_LOANS_NOTICE_CONFIG);
+ end

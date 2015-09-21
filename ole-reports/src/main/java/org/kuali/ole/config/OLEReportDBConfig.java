@@ -28,7 +28,7 @@ public class OLEReportDBConfig {
             try {
                 String environment = System.getProperty("environment");
                 LOG.info(" Environment : " + environment);
-                String path = System.getProperty("user.home") + File.separator + "kuali" + File.separator + "main" + File.separator + environment;
+                String path = System.getProperty("user.home") + File.separator + "kuali" + File.separator + "main" + File.separator + (environment == null ? "local" : environment);
                 LOG.info(" Path for common-config.xml file  : " + path);
                 File file = new File(path + File.separator + "common-config.xml");
                 if (file.exists() && file.isFile()) {

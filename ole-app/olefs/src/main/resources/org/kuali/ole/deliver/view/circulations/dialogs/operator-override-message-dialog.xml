@@ -59,8 +59,9 @@
                        p:actionScript="
                       var value = jq('#patronOverrideLogin_control').val();
                       jq.fancybox.close();
-                      submitForm('validateOveridePermission',{overridingPrincipalName:value},null,true,function () {
-                });"
+                      submitForm('validateOveridePermission',{overridingPrincipalName:value},null,true,
+                      function (){jq('#checkoutItem_control').focus();}
+                      );"
                     />
                 <bean id="closeBtn" parent="Uif-SecondaryActionButton" p:actionLabel="Close"
                       p:style="width:120px"

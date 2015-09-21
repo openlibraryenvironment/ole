@@ -32,14 +32,17 @@
                         <list>
                             <bean parent="Uif-SecondaryActionButton" p:actionLabel="Edit" p:actionScript="edit()"
                                   p:render="@{canAdd and editable eq 'false'}" />
+                            <ref bean="Editor_Header_Buttons"/>
                             <ref bean="StaffOnly"/>
                             <ref bean="WorkBibMessageSection"/>
                             <ref bean="StatusUpdatedFieldSection"/>
                             <ref bean="Leader_Section"/>
                             <ref bean="Control_Field"/>
-                            <ref bean="WorkBibDataFieldSection"/>
+                            <ref bean="WorkBibDataFieldDisclosureSection"/>
                             <ref bean="WorkBibButtonSection"/>
                             <ref bean="hdnCheckOverwriteFlag"/>
+                            <ref bean="hdnShortcutAddDataField"/>
+                            <ref bean="editorFormKey"/>
                         </list>
                     </property>
                 </bean>
@@ -57,7 +60,7 @@
         </property>
     </bean>
     <bean id="StaffOnly" parent="Base-Uif-InputField" p:propertyName="staffOnlyFlagForBib" p:label="Staff Only"
-          p:required="false">
+          p:style="margin-top:1em;margin-bottom:-1em;" p:required="false">
         <property name="control">
             <bean parent="Uif-CheckboxControl"/>
         </property>
@@ -126,15 +129,30 @@
             </list>
         </property>
     </bean>
+    <bean id="WorkBibDataFieldDisclosureSection" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="true">
+        <property name="headerText" value="Data Fields" />
+        <property name="items">
+        <list>
+            <ref bean="dataField_removeTagButton_id"/>
+            <ref bean="WorkBibDataFieldSection"/>
+            <ref bean="dataField_removeTagButton_id"/>
+        </list>
+        </property>
+    </bean>
+
+    <bean id="dataField_removeTagButton_id" parent="Uif-SecondaryActionButton-Small"
+          p:methodToCall="removeDataField" p:actionLabel="Remove" p:style="float:right;margin-right:7em;margin-top:-0.5em;margin-bottom:-1em;"
+          p:refreshId="WorkBibDataFieldSection" p:ajaxSubmit="true" p:successCallback="commonWidthForField(), bibAddOrRemove()" p:render="@{editable eq 'true'}"/>
+
     <!--Data Field Section -->
-    <bean id="WorkBibDataFieldSection" parent="Uif-Disclosure-TableCollectionSection"
-          p:layoutManager.numberOfColumns="5">
+    <bean id="WorkBibDataFieldSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:style="margin-top:-1em;" p:forceSessionPersistence="true">
         <property name="collectionObjectClass" value="org.kuali.ole.describe.bo.MarcEditorDataField"/>
         <property name="propertyName" value="documentForm.dataFields"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="renderAddLine" value="false"/>
-        <property name="headerText" value="Data Fields"/>
+        <property name="renderLineActions" value="true"/>
+        <property name="cssClasses" value="tableborders"/>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalFieldGroup">
@@ -162,14 +180,42 @@
                                 </property>
                             </bean>
                             <bean id="dataField_value_id" parent="Base-Uif-InputField" p:propertyName="value"
-                                  p:render="@{editable eq 'true'}">
+                                  p:render="@{editable eq 'true' and workFormViewFlag eq false}">
                                 <property name="control">
                                     <bean id="dataField_value_len_id" parent="Uif-TextAreaControl"
                                           p:maxLength="9950" p:rows="1" p:cols="80"/>
                                 </property>
                             </bean>
-                            <bean id="bibClickableLink" parent="Uif-ActionLink" p:actionScript="bibClickableLink_edit('@{#index}');" p:actionLabel="Test Link" p:render="@{editable eq 'true'}"/>
-
+                            <bean id="dataField_value_not_260_id" parent="Base-Uif-InputField" p:propertyName="value"
+                                  p:render="@{editable eq 'true' and workFormViewFlag eq true and (#line.tag ne '260' || (#line.tag eq '260' and newDocument eq false)) }">
+                                <property name="control">
+                                    <bean id="dataField_value_not_260_len_id" parent="Uif-TextAreaControl"
+                                          p:maxLength="9950" p:rows="1" p:cols="80"/>
+                                </property>
+                            </bean>
+                            <bean id="dataField_260_a_id" parent="Base-Uif-InputField" p:propertyName="value260a"
+                                  p:render="@{editable eq 'true' and workFormViewFlag eq true and #line.tag eq '260' and newDocument eq true}">
+                                <property name="control">
+                                    <bean id="dataField_260_a_len_id" parent="Uif-TextAreaControl"
+                                          p:maxLength="9950" p:rows="1" p:cols="22"/>
+                                </property>
+                            </bean>
+                            <bean id="dataField_260_b_id" parent="Base-Uif-InputField" p:propertyName="value260b"
+                                  p:render="@{editable eq 'true' and workFormViewFlag eq true and #line.tag eq '260' and newDocument eq true}">
+                                <property name="control">
+                                    <bean id="dataField_260_b_len_id" parent="Uif-TextAreaControl"
+                                          p:maxLength="9950" p:rows="1" p:cols="22"/>
+                                </property>
+                            </bean>
+                            <bean id="dataField_260_c_id" parent="Base-Uif-InputField" p:propertyName="value260c"
+                                  p:render="@{editable eq 'true' and workFormViewFlag eq true and #line.tag eq '260' and newDocument eq true}">
+                                <property name="control">
+                                    <bean id="dataField_260_c_len_id" parent="Uif-TextAreaControl"
+                                          p:maxLength="9950" p:rows="1" p:cols="23"/>
+                                </property>
+                            </bean>
+                            <bean id="bibClickableLink" parent="Uif-ActionLink" p:actionScript="bibClickableLink_edit('@{#index}');" p:actionLabel="Test Link" p:render="@{workFormViewFlag eq false and editable eq 'true'}"/>
+                            <bean id="dataField_remove_checkbox_id" parent="Uif-CheckboxInputField" p:propertyName="selected" p:render="@{workFormViewFlag eq false}" p:style="float:right;margin-right:1.7em;margin-top:0.4em;"/>
                             <bean id="dataField_tag_id_readOnly" parent="Uif-DataField" p:propertyName="tag"
                                   p:render="@{editable eq 'false'}"/>
                             <bean id="dataField_ind1_id_readOnly" parent="Uif-DataField" p:propertyName="ind1"
@@ -185,15 +231,12 @@
             </list>
         </property>
         <property name="lineActions">
-            <list>
-                <bean id="dataField_addTagButton_id" parent="Uif-SecondaryActionButton-Small"
-                      p:methodToCall="addDataField" p:actionLabel="Add" p:style="Margin-top:0.4em;"
-                      p:ajaxSubmit="true" p:successCallback="commonWidthForField(), bibAddOrRemove()" p:render="@{editable eq 'true'}"/>
-                <bean id="dataField_removeTagButton_id" parent="Uif-SecondaryActionButton-Small"
-                      p:methodToCall="removeDataField" p:actionLabel="Remove" p:style="Margin-top:0.4em;"
-                      p:ajaxSubmit="true" p:successCallback="commonWidthForField(), bibAddOrRemove()" p:render="@{editable eq 'true'}"/>
-            </list>
-        </property>
+        <list>
+            <bean id="dataField_addTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                  p:methodToCall="addDataField" p:actionLabel="Add" p:style="margin-top:0.4em;float:right;margin-left:0em;"
+                  p:ajaxSubmit="true" p:successCallback="focusOnTag(@{#index}), commonWidthForField(), bibAddOrRemove()" p:render="@{editable eq 'true' and workFormViewFlag eq false}"/>
+        </list>
+    </property>
         <property name="layoutManager.actionFieldPrototype.group.layoutManager">
             <bean id="layoutManager" parent="Uif-HorizontalBoxLayout"/>
         </property>
@@ -219,5 +262,7 @@
             <null/>
         </property>
     </bean>
+
+    <bean id="hdnShortcutAddDataField" parent="Uif-InputField" p:hidden="true" p:propertyName="shortcutAddDataField"  />
 
 </beans>

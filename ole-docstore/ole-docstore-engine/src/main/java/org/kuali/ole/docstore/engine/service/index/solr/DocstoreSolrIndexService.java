@@ -12,6 +12,8 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
+import org.kuali.ole.docstore.DocStoreConstants;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.BibTrees;
 import org.kuali.ole.docstore.common.document.content.instance.Location;
 import org.kuali.ole.docstore.common.document.content.instance.LocationLevel;
@@ -31,7 +33,7 @@ import java.util.*;
  * Time: 4:57 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
+public class DocstoreSolrIndexService implements DocumentIndexer, DocstoreConstants {
 
     private static final Logger LOG = LoggerFactory.getLogger(DocstoreSolrIndexService.class);
     public static final String ID_FIELD_PREFIX = "id_disc_";
@@ -347,7 +349,7 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
         QueryResponse response = null;
         String result = null;
         try {
-            String args = "(" + BibConstants.UNIQUE_ID + ":" + uniqueId + ")";
+            String args = "(" + UNIQUE_ID + ":" + uniqueId + ")";
             SolrServer solr = SolrServerManager.getInstance().getSolrServer();
             SolrQuery query = new SolrQuery();
             query.setQuery(args);
@@ -505,18 +507,18 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
 
 
     protected void addHoldingsInfoToItem(SolrInputDocument solrInputDocument, SolrInputDocument sourceInputDocument) {
-        solrInputDocument.addField(ItemConstants.HOLDINGS_LOCATION_SEARCH, sourceInputDocument.getFieldValue(ItemConstants.LOCATION_LEVEL_SEARCH));
-        solrInputDocument.addField(ItemConstants.HOLDINGS_CALLNUMBER_SEARCH, sourceInputDocument.getFieldValue(ItemConstants.CALL_NUMBER_SEARCH));
-        solrInputDocument.addField(ItemConstants.HOLDINGS_LOCATION_DISPLAY, sourceInputDocument.getFieldValue(ItemConstants.LOCATION_LEVEL_DISPLAY));
-        solrInputDocument.addField(ItemConstants.HOLDINGS_CALLNUMBER_DISPLAY, sourceInputDocument.getFieldValue(ItemConstants.CALL_NUMBER_DISPLAY));
-        solrInputDocument.addField(ItemConstants.HOLDINGS_COPYNUMBER_DISPLAY, sourceInputDocument.getFieldValue(ItemConstants.COPY_NUMBER_DISPLAY));
-        solrInputDocument.addField(ItemConstants.HOLDINGS_COPYNUMBER_SEARCH, sourceInputDocument.getFieldValue(ItemConstants.COPY_NUMBER_SEARCH));
-        solrInputDocument.addField(ItemConstants.HOLDINGS_CALLNUMBER_PREFIX_SEARCH, sourceInputDocument.getFieldValue(ItemConstants.CALL_NUMBER_PREFIX_SEARCH));
-        solrInputDocument.addField(ItemConstants.HOLDINGS_CALLNUMBER_PREFIX_DISPLAY, sourceInputDocument.getFieldValue(ItemConstants.CALL_NUMBER_PREFIX_DISPLAY));
-        solrInputDocument.addField(ItemConstants.HOLDINGS_SHELVING_SCHEME_CODE_SEARCH, sourceInputDocument.getFieldValue(ItemConstants.SHELVING_SCHEME_CODE_SEARCH));
-        solrInputDocument.addField(ItemConstants.HOLDINGS_SHELVING_SCHEME_CODE_DISPLAY, sourceInputDocument.getFieldValue(ItemConstants.SHELVING_SCHEME_CODE_DISPLAY));
-        solrInputDocument.addField(ItemConstants.HOLDINGS_SHELVING_SCHEME_VALUE_SEARCH, sourceInputDocument.getFieldValue(ItemConstants.SHELVING_SCHEME_VALUE_SEARCH));
-        solrInputDocument.addField(ItemConstants.HOLDINGS_SHELVING_SCHEME_VALUE_DISPLAY, sourceInputDocument.getFieldValue(ItemConstants.SHELVING_SCHEME_VALUE_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_LOCATION_SEARCH, sourceInputDocument.getFieldValue(LOCATION_LEVEL_SEARCH));
+        solrInputDocument.addField(HOLDINGS_CALLNUMBER_SEARCH, sourceInputDocument.getFieldValue(CALL_NUMBER_SEARCH));
+        solrInputDocument.addField(HOLDINGS_LOCATION_DISPLAY, sourceInputDocument.getFieldValue(LOCATION_LEVEL_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_CALLNUMBER_DISPLAY, sourceInputDocument.getFieldValue(CALL_NUMBER_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_COPYNUMBER_DISPLAY, sourceInputDocument.getFieldValue(COPY_NUMBER_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_COPYNUMBER_SEARCH, sourceInputDocument.getFieldValue(COPY_NUMBER_SEARCH));
+        solrInputDocument.addField(HOLDINGS_CALLNUMBER_PREFIX_SEARCH, sourceInputDocument.getFieldValue(CALL_NUMBER_PREFIX_SEARCH));
+        solrInputDocument.addField(HOLDINGS_CALLNUMBER_PREFIX_DISPLAY, sourceInputDocument.getFieldValue(CALL_NUMBER_PREFIX_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_CODE_SEARCH, sourceInputDocument.getFieldValue(SHELVING_SCHEME_CODE_SEARCH));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_CODE_DISPLAY, sourceInputDocument.getFieldValue(SHELVING_SCHEME_CODE_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_VALUE_SEARCH, sourceInputDocument.getFieldValue(SHELVING_SCHEME_VALUE_SEARCH));
+        solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_VALUE_DISPLAY, sourceInputDocument.getFieldValue(SHELVING_SCHEME_VALUE_DISPLAY));
     }
 
 
@@ -540,10 +542,10 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
         holdingsSolrInputDoc.removeField(LANGUAGE_DISPLAY);
         holdingsSolrInputDoc.removeField(PUBLICATIONDATE_DISPLAY);
 
-        holdingsSolrInputDoc.removeField(ItemConstants.HOLDINGS_CALLNUMBER_DISPLAY);
-        holdingsSolrInputDoc.removeField(ItemConstants.HOLDINGS_CALLNUMBER_SEARCH);
-        holdingsSolrInputDoc.removeField(ItemConstants.HOLDINGS_LOCATION_DISPLAY);
-        holdingsSolrInputDoc.removeField(ItemConstants.HOLDINGS_LOCATION_SEARCH);
+        holdingsSolrInputDoc.removeField(HOLDINGS_CALLNUMBER_DISPLAY);
+        holdingsSolrInputDoc.removeField(HOLDINGS_CALLNUMBER_SEARCH);
+        holdingsSolrInputDoc.removeField(HOLDINGS_LOCATION_DISPLAY);
+        holdingsSolrInputDoc.removeField(HOLDINGS_LOCATION_SEARCH);
 
     }
 
@@ -604,23 +606,23 @@ public class DocstoreSolrIndexService implements DocumentIndexer, BibConstants {
     private void buildLocation(LocationLevel locationLevel, SolrInputDocument solrInputDocument,StringBuffer loactionLevelStr) {
         if (locationLevel != null) {
             String locationName = locationLevel.getName();
-            if (BibConstants.LOCATION_LEVEL_INSTITUTION.equalsIgnoreCase(locationLevel.getLevel())) {
+            if (LOCATION_LEVEL_INSTITUTION.equalsIgnoreCase(locationLevel.getLevel())) {
                 solrInputDocument.addField(LEVEL1LOCATION_DISPLAY, locationName);
                 solrInputDocument.addField(LEVEL1LOCATION_SEARCH, locationName);
                 appendData(loactionLevelStr,locationName.replace("-",""));
-            } else if (BibConstants.LOCATION_LEVEL_CAMPUS.equalsIgnoreCase(locationLevel.getLevel())) {
+            } else if (LOCATION_LEVEL_CAMPUS.equalsIgnoreCase(locationLevel.getLevel())) {
                 solrInputDocument.addField(LEVEL2LOCATION_DISPLAY, locationName);
                 solrInputDocument.addField(LEVEL2LOCATION_SEARCH, locationName);
                 appendData(loactionLevelStr,locationName.replace("-",""));
-            } else if (BibConstants.LOCATION_LEVEL_LIBRARY.equalsIgnoreCase(locationLevel.getLevel())) {
+            } else if (LOCATION_LEVEL_LIBRARY.equalsIgnoreCase(locationLevel.getLevel())) {
                 solrInputDocument.addField(LEVEL3LOCATION_DISPLAY, locationName);
                 solrInputDocument.addField(LEVEL3LOCATION_SEARCH, locationName);
                 appendData(loactionLevelStr,locationName.replace("-",""));
-            } else if (BibConstants.LOCATION_LEVEL_COLLECTION.equalsIgnoreCase(locationLevel.getLevel())) {
+            } else if (LOCATION_LEVEL_COLLECTION.equalsIgnoreCase(locationLevel.getLevel())) {
                 solrInputDocument.addField(LEVEL4LOCATION_DISPLAY, locationName);
                 solrInputDocument.addField(LEVEL4LOCATION_SEARCH, locationName);
                 appendData(loactionLevelStr,locationName.replace("-",""));
-            } else if (BibConstants.LOCATION_LEVEL_SHELVING.equalsIgnoreCase(locationLevel.getLevel()) || BibConstants.LOCATION_LEVEL_SHELVING_1.equalsIgnoreCase(locationLevel.getLevel())) {
+            } else if (LOCATION_LEVEL_SHELVING.equalsIgnoreCase(locationLevel.getLevel()) || LOCATION_LEVEL_SHELVING_1.equalsIgnoreCase(locationLevel.getLevel())) {
                 solrInputDocument.addField(LEVEL5LOCATION_DISPLAY, locationName);
                 solrInputDocument.addField(LEVEL5LOCATION_SEARCH, locationName);
                 appendData(loactionLevelStr,locationName.replace("-",""));

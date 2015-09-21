@@ -36,4 +36,9 @@ public class DocstoreClientLocator {
         }
         return docstoreClient;
     }
+
+    public DocstoreClient getDocstoreLocalClient()throws Exception{
+        docstoreClient = (DocstoreClient) Class.forName("org.kuali.ole.docstore.engine.client.DocstoreLocalClient").newInstance();
+        return docstoreClient;
+    }
 }

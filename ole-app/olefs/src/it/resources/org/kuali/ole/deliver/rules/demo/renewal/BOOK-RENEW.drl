@@ -1,0 +1,57 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "Circ Policy BOOK for Renewal"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+$l: OleLoanDocument(Integer.valueOf(getNumberOfRenewals()) < 3)
+
+$n: NoticeInfo()
+
+$d: DroolsResponse()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in
+("ALUM","AVR","FAC","FACR","GRAD","GUEST","RES","STAFF","UGRAD"))
+
+$i: OleItemRecordForCirc(getItemType() in ("API","BOOK"))
+
+then
+$l.loanPeriod("10-D",null); // This method takes due date and recall period as arguments.
+$d.setRuleMatched(true);
+$n.setNoticeType(DroolsConstants.SHORT_TERM_LOANS_NOTICE_CONFIG);
+ end
+
+ rule "Circ Policy BOOK for Renewal for neweal item count greater than 3"
+ agenda-group "renewal validation"
+ activation-group "renewal validation"
+ when
+
+ $l: OleLoanDocument(Integer.valueOf(getNumberOfRenewals()) >= 3)
+
+ $d : DroolsResponse()
+
+ $n: NoticeInfo()
+
+ $p: OlePatronDocument(getBorrowerTypeCode() in
+  ("ALUM","AVR","FAC","FACR","GRAD","GUEST","RES","STAFF","UGRAD"))
+
+ $i: OleItemRecordForCirc(getItemType() in ("API","BOOK"))
+
+ then
+ $d.addErrorMessage("Patron has more than allowed limit of renewals");
+ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+ $l.loanPeriod("10-D",null); // This method takes due date and recall period as arguments.
+ $d.setRuleMatched(true);
+ $n.setNoticeType(DroolsConstants.SHORT_TERM_LOANS_NOTICE_CONFIG);
+  end
+

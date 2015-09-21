@@ -18,23 +18,21 @@
                 <ref bean="OleItemInformation"/>
                 <ref bean="OleAcquisitionInformation"/>
                 <ref bean="OleDonorInformation"/>
+                <ref bean="OleItemExtendedInformation"/>
                 <ref bean="OleCirculationInformation"/>
                 <ref bean="oleClaimsReturn-Section"/>
                 <ref bean="itemClaimsReturnedRecords"/>
                 <ref bean="OleItemDamaged-Section"/>
                 <ref bean="itemDamagedRecords"/>
                 <ref bean="OleMissingItem-Section"/>
-                <ref bean="MissingPieceItemHistory"/>
                 <ref bean="OLEIntransitLoanRecords"/>
+                <ref bean="MissingPieceItemHistory"/>
                 <ref bean="OLEPatronFlaggedItemHistoryView-PatronRecords"/>
-                <ref bean="OleItemExtendedInformation"/>
-
                 <ref bean="hiddenItemLocationEditFlag"/>
                 <ref bean="hiddenItemCallNumberPrefixEditFlag"/>
                 <ref bean="hiddenItemCallNumberEditFlag"/>
                 <ref bean="hiddenItemShelvingOrderEditFlag"/>
                 <ref bean="hiddenItemCallNumberTypeEditFlag"/>
-
                 <ref bean="hiddenItemEnumerationEditFlag"/>
                 <ref bean="hiddenItemBarcodeEditFlag"/>
                 <ref bean="hiddenItemChronologyEditFlag"/>
@@ -214,16 +212,24 @@
         </property>
     </bean>
 
-    <bean id="OleHoldingsLocationAndCallNumberInformation" parent="Uif-Disclosure-VerticalBoxSection"
+    <bean id="OleHoldingsLocationAndCallNumberInformation" parent="Uif-Disclosure-HorizontalBoxSection"
           p:readOnly="@{documentForm.holdingsDataInItemReadOnly eq false}" p:render="@{globalEditFlag eq 'false'}">
         <property name="headerText" value="Holdings Location/Call Number Information"/>
         <property name="items">
             <list>
+                <ref bean="HoldingsLocationAndCallNumberInfo"/>
+            </list>
+        </property>
+    </bean>
 
+    <bean id="HoldingsLocationAndCallNumberInfo" parent="Uif-GridSection" p:layoutManager.numberOfColumns="8"
+          p:layoutManager.style="border:1px solid;" p:fieldBindingObjectPath="documentForm.selectedHolding" >
+        <property name="items">
+            <list>
                 <bean id="OleHoldingLocationLevelName" parent="Uif-InputField"
-                      p:propertyName="documentForm.selectedHolding.location.locationLevel.name"
+                      p:propertyName="location.locationLevel.name"
                       p:label="Location"
-                      p:instructionalText="Type * for all locations, other letters for matching locations">
+                      p:constraintText="Type * for all locations, other letters for matching locations">
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:returnFullQueryObject="true">
                             <property name="suggestQuery">
@@ -239,53 +245,16 @@
                         </bean>
                     </property>
                 </bean>
-                <!--
-                                            <bean id="OleHoldingLocationFieldDropdown" parent="Uif-InputField" p:propertyName="locationValue"
-                                                  p:label="All Locations (For reference)">
-                                                <property name="control">
-                                                    <bean parent="Uif-DropdownControl" p:disabled="true"/>
-                                                </property>
-                                                <property name="optionsFinder">
-                                                    <bean class="org.kuali.ole.describe.keyvalue.LocationValuesBuilder"/>
-                                                </property>
-                                            </bean>
-                -->
-
-
-                <ref bean="OleHoldingCallNumberLocationInformation"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="OleHoldingCallNumberLocationInformation" parent="Uif-GridSubSection" p:layoutManager.numberOfColumns="4"
-          p:fieldBindingObjectPath="documentForm.selectedHolding">
-        <property name="items">
-            <list>
                 <bean id="OleHoldingCallNumberPrefix" parent="Uif-InputField" p:propertyName="callNumber.prefix"
                       p:label="Prefix" p:required="false">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5" p:maxLength=""/>
                     </property>
                 </bean>
-                <!--
-                                <bean id="OleHoldingCallNumberType" parent="Uif-InputField" p:propertyName="callNumber.type"
-                                      p:label="Type" p:required="false">
-                                    <property name="control">
-                                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="20" p:disabled="true"/>
-                                    </property>
-                                </bean>
-                -->
                 <bean id="OleHoldingCallNumber" parent="Uif-InputField" p:propertyName="callNumber.number"
                       p:label="Call Number" p:required="false">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30" p:maxLength=""/>
-                    </property>
-                </bean>
-                <bean id="OleHoldingShelvingOrder" parent="Uif-InputField"
-                      p:propertyName="callNumber.shelvingOrder.fullValue" p:label="Shelving Order"
-                      p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="300"/>
                     </property>
                 </bean>
                 <bean id="OleHoldingShelvingScheme" parent="Uif-InputField"
@@ -362,11 +331,10 @@
         </bean>-->
 
     <bean id="OleItemsLocationAndCallNumberInformation" parent="Uif-Disclosure-VerticalBoxSection"
-          p:componentSecurity.editAuthz="true">
+          p:componentSecurity.editAuthz="true" p:disclosure.defaultOpen="@{openLocation}">
         <property name="headerText" value="Items Location/Call Number Information"/>
         <property name="items">
             <list>
-
                 <bean id="OleItemLocationLevelName" parent="Uif-InputField"
                       p:propertyName="documentForm.selectedItem.location.locationLevel.name"
                       p:label="Location"
@@ -411,6 +379,7 @@
 
 
                 <ref bean="OleItemsCallNumberLocationInformation"/>
+                <ref bean="OleItemShelvingOrder"/>
             </list>
         </property>
     </bean>
@@ -443,12 +412,7 @@
                 <bean id="callNumberItemBrowseLink" parent="Uif-SecondaryActionButton-Small"
                       p:style="float:left;margin-left:0em" p:actionScript="browse('item');"
                       p:actionLabel="Browse" p:render="@{editable eq 'true'}"/>
-                <bean id="OleItemShelvingOrder" parent="Uif-InputField"
-                      p:propertyName="callNumber.shelvingOrder.fullValue" p:label="Shelving Order" p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="300"/>
-                    </property>
-                </bean>
+
                 <bean id="OleItemShelvingScheme" parent="Uif-InputField"
                       p:propertyName="callNumber.shelvingScheme.codeValue" p:label="Call Number Type"
                       p:required="false">
@@ -464,35 +428,24 @@
         </property>
     </bean>
 
+    <bean id="OleItemShelvingOrder" parent="Uif-InputField"
+          p:propertyName="documentForm.selectedItem.callNumber.shelvingOrder.fullValue" p:label="Shelving Order" p:required="false" p:render="@{supressItemShelving}">
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="30" p:maxLength="50"/>
+        </property>
+    </bean>
+
     <bean id="OleItemInformation" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="4"
           p:fieldBindingObjectPath="documentForm.selectedItem" p:componentSecurity.editAuthz="true">
         <property name="headerText" value="Item Information"/>
         <property name="items">
             <list>
-                <bean id="oleItemIdentifier_ID" parent="Uif-InputField" p:propertyName="itemIdentifier"
-                      p:label="Item Id" p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="28" p:maxLength="100" p:disabled="true"/>
-                    </property>
-                </bean>
-                <bean id="oleItemEnumeration" parent="Uif-InputField" p:propertyName="enumeration" p:label="Enumeration"
-                      p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="20" p:maxLength="80"/>
-                    </property>
-                </bean>
                 <bean id="oleItemAccessInformationBarcode" parent="Uif-InputField"
                       p:propertyName="accessInformation.barcode"
                       p:label="Barcode"
-                      p:required="false" p:readOnly="@{documentForm.itemBarcodeNonEditable}">
+                      p:required="false" p:readOnly="@{documentForm.itemStatusNonEditable}">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="20"/>
-                    </property>
-                </bean>
-                <bean id="oleItemChronology" parent="Uif-InputField" p:propertyName="chronology" p:label="Chronology"
-                      p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="100"/>
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="30"/>
                     </property>
                 </bean>
                 <bean id="oleItemBarcodeARSL" parent="Uif-InputField" p:propertyName="barcodeARSL"
@@ -502,44 +455,6 @@
                         <bean parent="Uif-TextControl" p:size="18" p:maxLength="11"/>
                     </property>
                 </bean>
-                <bean id="oleItemCopyNumber" parent="Uif-InputField" p:propertyName="copyNumber" p:label="Copy Number"
-                      p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="18" p:maxLength=""/>
-                    </property>
-                </bean>
-
-                <!--<bean id="oleItemCopyNumberLabel" parent="Uif-InputField" p:propertyName="copyNumberLabel"
-                      p:label="Copy Number Label"
-                      p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="11"/>
-                    </property>
-                </bean>-->
-
-                <!-- <bean id="oleItemVolumeNumber" parent="Uif-InputField" p:propertyName="volumeNumber"
-                       p:label="Volume Number"
-                       p:required="false">
-                     <property name="control">
-                         <bean parent="Uif-TextControl" p:size="18" p:maxLength="11"/>
-                     </property>
-                 </bean>-->
-                <bean id="oleItemFormerIdentifier" parent="Uif-InputField"
-                      p:propertyName="formerIdentifier[0].identifier.identifierValue" p:label="Former Identifiers"
-                      p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="100"/>
-                    </property>
-                </bean>
-                <ref bean="accessInformationURI"/>
-                <!--<bean id="oleItemVolumeNumberLabel" parent="Uif-InputField" p:propertyName="volumeNumberLabel"
-                      p:label="Volume Number Label" p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="11"/>
-                    </property>
-                </bean>-->
-
-
                 <bean id="oleItemStatisticalSearchingCodes" parent="Uif-InputField"
                       p:propertyName="statisticalSearchingCode[0].codeValue" p:label="Statistical Searching Codes"
                       p:required="false">
@@ -550,14 +465,24 @@
                         <bean class="org.kuali.ole.describe.keyvalue.StatisticalSearchingCodes"/>
                     </property>
                 </bean>
-
-                <bean id="oleItemItemType" parent="Uif-InputField" p:propertyName="itemType.codeValue"
-                      p:label="*Item Type" p:required="false">
+                <bean id="oleItemFormerIdentifier" parent="Uif-InputField"
+                      p:propertyName="formerIdentifier[0].identifier.identifierValue" p:label="Former Identifiers"
+                      p:required="false">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="100"/>
                     </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.ole.describe.keyvalue.ItemType"/>
+                </bean>
+                <bean id="oleItemCopyNumber" parent="Uif-InputField" p:propertyName="copyNumber" p:label="Copy Number"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength=""/>
+                    </property>
+                </bean>
+                <ref bean="accessInformationURI"/>
+                <bean id="oleItemEnumeration" parent="Uif-InputField" p:propertyName="enumeration" p:label="Enumeration"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20" p:maxLength="80"/>
                     </property>
                 </bean>
                 <bean id="oleItemTemporaryItemType" parent="Uif-InputField" p:propertyName="temporaryItemType.codeValue"
@@ -569,13 +494,39 @@
                         <bean class="org.kuali.ole.describe.keyvalue.ItemType"/>
                     </property>
                 </bean>
-                <bean id="oleItemNumberOfPieces" parent="Uif-InputField" p:propertyName="numberOfPieces"
-                      p:label="Number Of Pieces" >
+                <bean id="oleItemChronology" parent="Uif-InputField" p:propertyName="chronology" p:label="Chronology"
+                      p:required="false">
                     <property name="control">
-                        <bean parent="Uif-TextControl"  p:maxLength="11"/>
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="100"/>
                     </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="NumericPatternConstraint"/>
+                </bean>
+                <bean id="oleItemNumberOfPieces" parent="Uif-InputField" p:propertyName="numberOfPieces"
+                      p:label="Number Of Pieces" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="100"/>
+                    </property>
+                </bean>
+                <bean id="oleItemItemType" parent="Base-Uif-InputField" p:propertyName="itemType.codeValue"
+                      p:label="*Item Type" p:instructionalText="Type * for all Item Type, other letters for matching item Type" p:required="false">
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig"
+                                      p:queryMethodToCall="retrieveItemTypeDetailsForSuggest"
+                                      p:queryMethodInvokerConfig.targetClass="org.kuali.ole.describe.keyvalue.ItemType"/>
+                            </property>
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="minLength" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="oleItemIdentifier_ID" parent="Uif-InputField" p:propertyName="itemIdentifier"
+                      p:label="Item Id" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="28" p:maxLength="100" p:disabled="true"/>
                     </property>
                 </bean>
             </list>
@@ -607,18 +558,19 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-VerticalFieldGroup">
+                <ref bean="oleAcquisitionFieldGroup1"/>
+                <!--<bean parent="Uif-VerticalFieldGroup">
                     <property name="items">
                         <list>
                             <ref bean="oleAcquisitionFieldGroup1"/>
                         </list>
                     </property>
-                </bean>
+                </bean>-->
             </list>
         </property>
     </bean>
 
-    <bean id="oleAcquisitionFieldGroup1" parent="Uif-GridSubSection" p:layoutManager.numberOfColumns="2">
+    <bean id="oleAcquisitionFieldGroup1" parent="Uif-GridSubSection" p:layoutManager.numberOfColumns="8">
         <property name="items">
             <list>
                 <bean id="oleItemPoID" parent="Uif-LinkField" p:width="10%"
@@ -637,7 +589,6 @@
                         <bean parent="Uif-TextControl" p:size="18" p:maxLength="100" p:disabled="true"/>
                     </property>
                 </bean>
-
                 <bean id="oleItemPrice" parent="Uif-InputField" p:propertyName="price" p:label="Price"
                       p:required="false">
                     <property name="control">
@@ -648,7 +599,7 @@
         </property>
     </bean>
 
-    <bean id="OleDonorInformation" parent="Uif-GridSubSection" p:layoutManager.numberOfColumns="2">
+    <bean id="OleDonorInformation" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="2" p:fieldBindingObjectPath="documentForm.selectedItem">
         <property name="items">
             <list>
                 <ref bean="OleDonorInformation-ListOfDonors"/>
@@ -657,46 +608,50 @@
     </bean>
 
     <bean  id="OleDonorInformation-ListOfDonors"  parent="Uif-TableCollectionSection"  p:layoutManager.numberOfColumns="10"
-           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
-        <property name="headerText" value="" />
+           p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" >
         <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.document.content.instance.DonorInfo" />
-        <property name="propertyName" value="documentForm.selectedItem.donorInfo" />
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="propertyName" value="donorInfo" />
+        <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.richTable.render" value="false"/>
-        <property name="renderAddLine" value="true"/>
-        <property name="renderLineActions" value="true"/>
+        <property name="renderAddLine" value="false"/>
         <property name="items">
             <list>
                 <bean id="oleItemDonorCode" parent="Uif-InputField"
-                      p:propertyName="donorCode" p:label="Donor Code"  p:required="false">
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder"
-                              p:dataObjectClassName="org.kuali.ole.select.bo.OLEDonor"
-                              p:lookupParameters="donorCode:donorCode"
-                              p:fieldConversions="donorCode:donorCode,donorPublicDisplay:donorPublicDisplay,donorNote:donorNote"/>
-                    </property>
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="10"/>
+                      p:propertyName="donorCode" p:label="Donor Code" p:instructionalText="Type * for all Donor code, other letters for matching Donor code" p:required="false">
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig"
+                                      p:queryMethodToCall="retrieveDonorCodeDetailsForSuggest"
+                                      p:queryMethodInvokerConfig.targetClass="org.kuali.ole.describe.keyvalue.DonorCodeBuilder"/>
+                            </property>
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="minLength" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
+
                 <bean id="oleItemDonorPublicDisplay" parent="Uif-InputField"
                       p:propertyName="donorPublicDisplay" p:label="Donor Public Display" p:required="false">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:maxLength="4000" p:disabled="@{#line?.donorCode ne null and #line?.donorCode ne ''}"/>
+                        <bean parent="Uif-TextControl" p:maxLength="4000" p:disabled="true"/>
                     </property>
                 </bean>
                 <bean id="oleItemDonorNote" parent="Uif-InputField" p:propertyName="donorNote"
                       p:label="Donor Note" p:required="false">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:disabled="@{#line?.donorCode ne null and #line?.donorCode ne ''}"/>
+                        <bean parent="Uif-TextControl" p:disabled="true"/>
                     </property>
                 </bean>
             </list>
         </property>
-        <property name="addLineActions">
+        <property name="lineActions">
             <list>
-                <bean id="item_donor-add" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addDonorToItem" p:successCallback="itemAddOrRemove()" p:actionLabel="Add"/>
+                <bean id="item_donor-add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addDonorToItem" p:successCallback="itemAddOrRemove()" p:actionLabel="Add"/>
+                <bean id="item_donor-remove" parent="Uif-PrimaryActionButton-Small" p:methodToCall="removeDonorFromItem" p:successCallback="itemAddOrRemove()" p:actionLabel="Remove"/>
             </list>
         </property>
     </bean>
@@ -755,12 +710,12 @@
                                     <bean parent="Uif-DateControl" p:disabled="true"/>
                                 </property>-->
                             </bean>
-                           <!-- <bean id="oleProxyBorrower" parent="Uif-InputField" p:propertyName="proxyBorrower"
-                                  p:label="Proxy Patron barcode" p:required="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="18" p:maxLength="100" p:disabled="true"/>
-                                </property>
-                            </bean>-->
+                            <!-- <bean id="oleProxyBorrower" parent="Uif-InputField" p:propertyName="proxyBorrower"
+                                   p:label="Proxy Patron barcode" p:required="false">
+                                 <property name="control">
+                                     <bean parent="Uif-TextControl" p:size="18" p:maxLength="100" p:disabled="true"/>
+                                 </property>
+                             </bean>-->
                             <bean id="oleProxyBorrower" parent="Uif-LinkField" p:label="Proxy Borrower" p:style="word-break: break-all;word-wrap: break-word"
                                   p:linkText="@{documentForm.proxyBarcode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;olePatronId=@{documentForm.selectedItem.proxyBorrower}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument"/>
                             <!--<bean id="oleItemStaffOnly" parent="Uif-InputField" p:propertyName="staffOnlyFlag" p:label="Staff Only"
@@ -824,16 +779,16 @@
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
         <property name="items">
-                <list>
-                    <bean id="missingPieceDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceDate" p:label="Missing Piece Item Date"/>
-                    <bean id="missingPieceCount" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceCount" p:label="Missing Piece Item Count"/>
-                    <bean id="missingPieceFlagNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceFlagNote" p:label="Missing Piece Item Note"/>
-                    <bean id="missingPieceOperatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
-                    <bean id="missingPiecePatronId" parent="Uif-LinkField" p:label="Associated Patron Barcode" p:style="word-break: break-all;word-wrap: break-word"
-                          p:linkText="@{#line.patronBarcode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;olePatronId=@{#line.patronId}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument"/>
-                </list>
+            <list>
+                <bean id="missingPieceDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceDate" p:label="Missing Piece Item Date"/>
+                <bean id="missingPieceCount" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceCount" p:label="Missing Piece Item Count"/>
+                <bean id="missingPieceFlagNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="missingPieceFlagNote" p:label="Missing Piece Item Note"/>
+                <bean id="operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
+                <bean id="patronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="patronBarcode" p:label="Associated Patron Barcode"/>
+            </list>
         </property>
     </bean>
+
 
 
     <bean  id="OLEIntransitLoanRecords"  parent="Uif-Disclosure-TableCollectionSection"  p:layoutManager.numberOfColumns="10"
@@ -894,8 +849,7 @@
             <list>
                 <bean id="item_claimsReturnedFlagCreateDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedFlagCreateDate" p:label="Claims Returned Create Date"/>
                 <bean id="item_claimsReturnedNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedNote" p:label="Claims Returned Note"/>
-                <bean id="item_claimsReturnedPatronBarcode" parent="Uif-LinkField" p:label="Associated Patron Barcode" p:style="word-break: break-all;word-wrap: break-word"
-                      p:linkText="@{#line.claimsReturnedPatronBarcode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;olePatronId=@{#line.claimsReturnedPatronId}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument"/>
+                <bean id="item_claimsReturnedPatronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedPatronBarcode" p:label="Associated Patron Barcode"/>
                 <bean id="item_claimsReturnedOperatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="claimsReturnedOperatorId" p:label="Operator Id"/>
             </list>
         </property>
@@ -920,8 +874,7 @@
             <list>
                 <bean id="item_damagedItemDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="damagedItemDate" p:label="Damaged Date"/>
                 <bean id="item_damagedItemNote" parent="Uif-DataField" p:readOnly="true" p:propertyName="damagedItemNote" p:label="Damaged Note"/>
-                <bean id="item_damagedPatronBarcode" parent="Uif-LinkField" p:label="Associated Patron Barcode" p:style="word-break: break-all;word-wrap: break-word"
-                      p:linkText="@{#line.patronBarcode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;olePatronId=@{#line.damagedPatronId}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument"/>
+                <bean id="item_patronBarcode" parent="Uif-DataField" p:readOnly="true" p:propertyName="patronBarcode" p:label="Associated Patron Barcode"/>
                 <bean id="item_operatorId" parent="Uif-DataField" p:readOnly="true" p:propertyName="operatorId" p:label="Operator Id"/>
             </list>
         </property>
@@ -1039,20 +992,14 @@
                     <property name="items">
                         <list>
                             <bean id="OleItemNoteTypeField" parent="Uif-InputField" p:propertyName="type"
-                                  p:label="Item Note" p:labelPlacement="LEFT">
+                                  p:optionsFinderClass="org.kuali.ole.describe.keyvalue.ItemNoteKeyValueFinder" p:label="Item Note" p:labelPlacement="LEFT">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="public" p:value="Public"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="nonPublic" p:value="Non-Public"/>
-                                            </list>
-                                        </property>
                                     </bean>
                                 </property>
                             </bean>
                             <bean id="OleItemNoteDescField" parent="Uif-InputField" p:propertyName="value"
-                                  p:label="">
+                                  p:label="" p:style="margin-left:4.5em">
                                 <property name="control">
                                     <bean parent="Uif-TextAreaControl" p:rows="2" p:cols="30"/>
                                 </property>

@@ -94,7 +94,7 @@
     <bean id="patronDetailList-section" parent="Uif-HorizontalBoxSection" >
         <property name="items">
             <list>
-                <bean id="patron_details_patronId" parent="Uif-LinkField" p:target="_blank" p:style="font-weight:bold;text-align:left;" p:fieldLabel.renderColon="false" p:href="inquiry?olePatronId=@{patronId}&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument&amp;dialogMode=true&amp;showHome=false&amp;showHistory=false" p:linkText="@{patronId}" p:label="Patron Id" p:labelPlacement="TOP" />
+                <bean id="patron_details_patronId" parent="Uif-LinkField" p:target="_blank" p:style="font-weight:bold;text-align:left;" p:fieldLabel.renderColon="false" p:href="@{patronUrl}" p:linkText="@{patronId}" p:label="Patron Id" p:labelPlacement="TOP" />
                 <bean id="patron_details_patronBarcode" parent="Uif-DataField" p:propertyName="olePatronDocument.barcode" p:label="Barcode" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
                 <bean id="patron_details_patronFirstName" parent="Uif-DataField" p:propertyName="olePatronDocument.firstName" p:label="First Name" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
                 <bean id="patron_details_patronLastName" parent="Uif-DataField" p:propertyName="olePatronDocument.lastName" p:label="Last Name" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
@@ -140,6 +140,7 @@
                 <bean id="totalPaidAmount" parent="Uif-DataField" p:label="Total Paid Amount" p:width="10%" p:propertyName="paidAmount"/>
                 <bean id="totalBillAmount" parent="Uif-DataField" p:label="Total OutStanding Amount" p:width="10%" p:propertyName="unPaidBalance"/>
                 <bean id="BillSection_note" parent="Uif-DataField" p:label="Text Note" p:width="10%" p:propertyName="note"/>
+                <bean id="BillSection_Date" parent="Uif-DataField" p:label="Last Transaction Date" p:width="10%" p:propertyName="lastTransactionDate"/>
                 <bean id="BillView_Pay_Note" parent="Uif-DataField" p:label="Last Transaction Information" p:propertyName="freeTextNote"/>
             </list>
         </property>
@@ -214,6 +215,7 @@
                 <bean id="paidAmount" parent="Uif-DataField" p:label="Paid Amount" p:width="5%" p:propertyName="paidAmount"/>
                 <bean id="balFeeAmount" parent="Uif-DataField" p:label="OutStanding Amount" p:width="5%" p:propertyName="balFeeAmount"/>
                 <bean id="paymentStatus" parent="Uif-DataField" p:label="Payment Status" p:width="10%" p:propertyName="olePaymentStatus.paymentStatusName"/>
+                <bean id="Bill_Detail_Section_Date" parent="Uif-DataField" p:label="Last Transaction Date" p:width="10%" p:propertyName="lastTransactionDate"/>
                 <bean id="DetailBillSection_generalNote" parent="Uif-DataField" p:label="Note" p:width="20%" p:propertyName="generalNote"/>
             </list>
         </property>

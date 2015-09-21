@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="checkinView" parent="checkinView-parentBean"/>
+    <bean id="checkinView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Return"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CIRC/content/ch02s01.html"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="checkinViewPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="checkin-section"/>
+                            <ref bean="maxSessionTime"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="dialogs">
+            <list>
+                <bean id="circDeskChangeDialog" parent="cirDeskChangeConfirmationDialog"/>
+                <bean id="checkInNoteDialog" parent="checkInNoteMessageDialog"/>
+                <bean id="checkInGeneralMessageAndResetUIDialog" parent="generalOkMessageDialog"/>
+                <bean id="checkinGeneralInfoMessageDialog" parent="checkinGeneralOkMessageDialog"/>
+                <bean id="checkinRequestExistDialog" parent="checkinRequestExistSectionDialog"/>
+                <bean id="checkinClaimsReturnDialog" parent="checkinClaimsReturnNoteDialog"/>
+                <bean id="checkinDamagedItemDialog" parent="checkinDamagedItemNoteDialog"/>
+                <bean id="checkinMissingPieceDialog" parent="checkinMissingPieceNoteDialog"/>
+                <bean id="checkinRouteToDialog" parent="routeToDialog"/>
+            </list>
+        </property>
+
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ole/deliver/loan/script/circ.js</value>
+            </list>
+        </property>
+
+        <property name="formClass" value="org.kuali.ole.deliver.form.CheckinForm"/>
+    </bean>
+
+    <!--This is a generic text field for Input Fields in OLE to avoid an extran lifecycle processing -->
+    <bean id="Loan-Uif-InputField" parent="Uif-InputField">
+        <property name="quickfinder">
+            <null/>
+        </property>
+    </bean>
+
+</beans>

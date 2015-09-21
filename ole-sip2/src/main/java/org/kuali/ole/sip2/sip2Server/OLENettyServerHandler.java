@@ -54,6 +54,17 @@ public class OLENettyServerHandler extends ChannelInboundHandlerAdapter {
     public OLENettyServerHandler(String serverURL, String circulationService) {
         this.serverURL = serverURL;
         this.circulationService = circulationService;
+        inputStream = getClass().getClassLoader().getResourceAsStream("sip2-config.properties");
+
+        try {
+            if (inputStream != null) {
+                properties.load(inputStream);
+            } else {
+                throw new FileNotFoundException("property file '" + propertiesFileName + "' not found in the classpath");
+            }
+        } catch (IOException e) {
+            LOG.error(e.getMessage(), e);
+        }
     }
 
     @Override
@@ -76,25 +87,47 @@ public class OLENettyServerHandler extends ChannelInboundHandlerAdapter {
         try {/*
             SocketAddress address = channelHandlerContext.channel().remoteAddress();
             clientIP = address.toString();*/
+            LOG.info("OLENettyServerHandler.channelRead    "+requestMessage);
             requestMessage = byteBuf.toString(CharsetUtil.UTF_8);
+            LOG.info("After-CharsetUtil.UTF_8 OLENettyServerHandler.channelRead    "+requestMessage);
 
-            if (requestMessage != null && !requestMessage.equalsIgnoreCase("")) {
-                response = this.processRequest(requestMessage);
+            if (requestMessage != null && !requestMessage.equalsIgnoreCase("") ) {
+
+                /*if(properties.getProperty("sip2.checkSum.turnedOn").equalsIgnoreCase("true")){
+                    if(requestMessage.startsWith("99") && !requestMessage.contains("AY")){
+                        StringBuilder builder = new StringBuilder();
+                        builder.append("96AZ");
+                        builder.append(MessageUtil.computeChecksum(builder.toString()));
+                        response= builder.toString() + '\r';
+                    }else if(!requestMessage.startsWith("99") && !requestMessage.contains("|AY")){
+                        StringBuilder builder = new StringBuilder();
+                        builder.append("96AZ");
+                        builder.append(MessageUtil.computeChecksum(builder.toString()));
+                        response= builder.toString() + '\r';
+                    }else{
+                        response = this.processRequest(requestMessage);
+                        LOG.info("OLENettyServerHandler.channelRead SIP2 Package :"+response);
+                    }
+                }else{*/
+                    response = this.processRequest(requestMessage);
+                    LOG.info("OLENettyServerHandler.channelRead SIP2 Package :"+response);
+               // }
+
             }
 
-            LOG.info("Client IP Address : " + clientIP);
-            LOG.info("Response Message : " + response);
+            LOG.info("OLENettyServerHandler.channelRead Client IP Address : " + clientIP);
+            LOG.info("OLENettyServerHandler.channelRead Response Message : " + response);
 
             if (response != null) {
-                String[] responseArray = response.split("\\$|$");
+               // String[] responseArray = response.split("\\$|$");
 
-                for (String responseMessage : responseArray) {
-                    channelFuture = channelHandlerContext.write(Unpooled.copiedBuffer(responseMessage, CharsetUtil.UTF_8));
+                //for (String responseMessage : responseArray) {
+                    channelFuture = channelHandlerContext.write(Unpooled.copiedBuffer(response, CharsetUtil.UTF_8));
                     channelHandlerContext.flush();
-                    if (StringUtils.isNotBlank(responseMessage.trim())) {
-                        lastResponseSendToClient.put(clientIP, responseMessage);
+                    if (StringUtils.isNotBlank(response.trim())) {
+                        lastResponseSendToClient.put(clientIP, response);
                     }
-                }
+                //}
             }
 
 
@@ -118,19 +151,9 @@ public class OLENettyServerHandler extends ChannelInboundHandlerAdapter {
     public String processRequest(String requestData) {
         String response = "";
         //SC Status
-        LOG.info("Client IP Address : " + clientIP);
+        LOG.info("OLENettyServerHandler.processRequest Client IP Address : " + clientIP);
         LOG.info("Request Message : " + requestData);
-        inputStream = getClass().getClassLoader().getResourceAsStream("sip2-config.properties");
 
-        try {
-            if (inputStream != null) {
-                properties.load(inputStream);
-            } else {
-                throw new FileNotFoundException("property file '" + propertiesFileName + "' not found in the classpath");
-            }
-        } catch (IOException e) {
-            LOG.error(e.getMessage(), e);
-        }
 
         if (properties != null) {
             String code = requestData.substring(0, 2);
@@ -147,34 +170,32 @@ public class OLENettyServerHandler extends ChannelInboundHandlerAdapter {
 
                     if (lastResponseSendToClient.containsKey(clientIP)) {
 
-                        response = this.removeSeqNumFromResponse(lastResponseSendToClient.get(clientIP)) + "$|$";
-                        if (requestData.length() > 2) {
+                        response = this.removeSeqNumFromResponse(lastResponseSendToClient.get(clientIP))/* + "$|$"*/;
+                       /* if (requestData.length() > 2) {
                             response = response + requestData.replace("97", "96");
                         } else {
                             response = response + "96";
-                        }
+                        }*/
+                    }else{
+                        StringBuilder builder = new StringBuilder();
+                        builder.append("96AZ");
+                        builder.append(MessageUtil.computeChecksum(builder.toString()));
+                        response= builder.toString() + '\r';
                     }
-
                     break;
                 case "93":
-
                     LOG.info("Request Type :  Login Request");
                     if (properties.getProperty("sip2.service.login").equalsIgnoreCase("yes")) {
-
                         response = this.sendRequestToOle(requestData, loginUserId);
                         if (response.charAt(2) == '1') {
                             this.loginUserId = getLoginUserId(requestData);
                         }
-
                     } else {
                         OLESIP2LoginTurnedOffResponse olesip2LoginTurnedOffResponse = new OLESIP2LoginTurnedOffResponse();
                         response = olesip2LoginTurnedOffResponse.getOLESIP2LoginTurnedOffResponse(requestData);
-
                     }
-
                     break;
                 case "09":
-
                     LOG.info("Request Type :  Checkin Request");
                     if (properties.getProperty("sip2.service.checkIn").equalsIgnoreCase("yes")) {
                         response = this.sendRequestToOle(requestData, loginUserId);
@@ -313,14 +334,21 @@ public class OLENettyServerHandler extends ChannelInboundHandlerAdapter {
 
                 default:
                     LOG.info("Request Type :  *****Not a valid SIP2 request");
-                    new Throwable("Not a valid SIP2 request");
+                    StringBuilder builder = new StringBuilder();
+
+
+                    builder.append("96AZ");
+                    builder.append(MessageUtil.computeChecksum(builder.toString()));
+
+
+                    response= builder.toString() + '\r';
 
                     break;
             }
 
 
         }
-
+        LOG.info("OLENettyServerHandler.processRequest SIP2 Package :"+response);
 
         LOG.info("Exit OLENettyServerHandler.analysisRequestType(String requestData)");
         return response;
@@ -348,6 +376,7 @@ public class OLENettyServerHandler extends ChannelInboundHandlerAdapter {
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
+        LOG.info("OLENettyServerHandler.sendRequestToOle SIP2 Package :"+response);
         LOG.info("Exit OLENettyServerHandler.sendRequestToOle(restRequestURL, clientRequest, requestRResponseType)");
         return response;
 
@@ -423,6 +452,8 @@ public class OLENettyServerHandler extends ChannelInboundHandlerAdapter {
                 if (requestData.startsWith("99") && !response.startsWith("98")) {
 
                     response = this.scStatusNegativeResponse(requestData);
+
+
                 } else {
                     return response;
                 }
@@ -432,7 +463,7 @@ public class OLENettyServerHandler extends ChannelInboundHandlerAdapter {
 
             }
         }
-
+        LOG.info("OLENettyServerHandler.httpGet SIP2 Package :  "+response);
         LOG.info("Exit OLENettyServerHandler.httpGet(url, requestRResponseType)");
         return response;
     }
@@ -469,19 +500,22 @@ public class OLENettyServerHandler extends ChannelInboundHandlerAdapter {
         }
 
 
-        LOG.info("Exit OLENettyServerHandler.scStatusNegativeResponse()");
+        LOG.info("Exit OLENettyServerHandler.scStatusNegativeResponse()  "+builder.toString());
         return builder.toString() + '\r';
     }
 
 
     private String removeSeqNumFromResponse(String lastResponse) {
-
+        LOG.info("Inside OLENettyServerHandler.removeSeqNumFromResponse");
         StringBuilder builder = new StringBuilder();
 
-        if (lastResponse.contains("AY")) {
-            int indexOfSeqNum = lastResponse.indexOf("AY");
-            builder.append(MessageUtil.computeChecksum(lastResponse.replace(lastResponse.substring(indexOfSeqNum, indexOfSeqNum + 5), "")));
+        if (lastResponse.contains("|AY")) {
+            int indexOfSeqNum = lastResponse.indexOf("|AY");
+            String oldRespose = lastResponse.replace(lastResponse.substring(indexOfSeqNum), "");
+            builder.append(oldRespose);
+            builder.append("|AZ"+MessageUtil.computeChecksum(oldRespose));
         }
+        LOG.info("Inside OLENettyServerHandler.removeSeqNumFromResponse   "+builder.toString());
         return builder.toString() + '\r';
 
     }

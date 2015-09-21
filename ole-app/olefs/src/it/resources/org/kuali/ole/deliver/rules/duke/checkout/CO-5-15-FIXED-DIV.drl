@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "CO-5-15-FIXED-DIV"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$p: OlePatronDocument(getBorrowerTypeCode() in ("GRADST","DIVGRAD","CARREL","FQGRAD"))
+$i: OleItemRecordForCirc (getItemType() in ("STANDARDLOAN","SOUNDREC","SOUNDCD","AUDIOVISUAL"),
+getItemLibraryLocation() in ("DIV"))
+then
+$l.setCirculationPolicyId("CO-5-15-FIXED-DIV");
+$l.loanPeriod(OLEConstants.FIXED_DUE_DATE, "7-D");
+$n.setNoticeType("NO-PS-STDLOAN");
+ end

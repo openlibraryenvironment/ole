@@ -1,0 +1,26 @@
+package org.kuali.ole.deliver.rules.chicago.ncip
+import org.kuali.ole.deliver.bo.OleDeliverRequestBo
+import org.kuali.ole.deliver.bo.OleDroolsHoldResponseBo
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+
+rule "Circulation Policy Set 1 Validation for Request"
+agenda-group "place-request"
+when
+$p : OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","UGRAD","STAFF"))
+$dr: OleDeliverRequestBo(getItemType() in ("STANDARD-LOAN",),
+    getItemLibrary() in ("PERKINS","LILLY","LSC"))
+$d : DroolsResponse()
+$n : NoticeInfo()
+then
+$d.setRuleMatched(true);
+$n.setNoticeType(OLEConstants.NOTICE_RECALL);
+$d.getDroolsExchange().addToContext("requestExpirationDays",90);
+$d.getDroolsExchange().addToContext("minimumLoanPeriod","14-D");
+$d.getDroolsExchange().addToContext("recallLoanPeriod","7-D");
+end
+
+

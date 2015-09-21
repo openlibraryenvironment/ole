@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <!--Missing Piece Item-->
+    <bean id="missingPieceNoteDialog" parent="Uif-DialogGroup">
+        <property name="headerText" value=""/>
+        <property name="promptText" value=""/>
+        <property name="availableResponses">
+            <list>
+                <!--Empty-->
+            </list>
+        </property>
+        <property name="items">
+            <list merge="false">
+                <ref bean="missingPiece-information"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="missingPiece-information" parent="missingPiece-information-parentBean" />
+    <bean id="missingPiece-information-parentBean" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="missingErrorMessage"/>
+                <ref bean="missingPieceCountDetails"/>
+                <ref bean="missingPiece-note"/>
+                <ref bean="missingPiece-buttons"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--This messageText will be replaced in action script-->
+    <bean id="missingErrorMessage" parent="Uif-MessageField" p:messageText="missingPiececErrorMessage" p:hidden ="true" p:cssClasses="alert-error" />
+
+    <bean id="missingPieceCountDetails" parent="missingPieceCountDetails-parentBean" />
+    <bean id="missingPieceCountDetails-parentBean" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="missingPiece-count" parent="Loan-Uif-InputField" p:label="Missing Piece Count" p:required="true" p:propertyName="missingPieceCount" p:readOnly="@{missingPieceCount != null and missingPieceCount != ''}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="6"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint" p:value=""/>
+                    </property>
+                </bean>
+                <bean id="missingPiece-noOfPieces" parent="Loan-Uif-InputField" p:label="No of pieces" p:required="true" p:propertyName="numberOfPiece" p:readOnly="@{numberOfPiece != null and numberOfPiece != ''}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="6" />
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="missingPiece-note" parent="missingPiece-note-parentBean" />
+    <bean id="missingPiece-note-parentBean" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="missingPieceNoteSection" parent="Loan-Uif-InputField" p:label="Note" p:required="true" p:propertyName="missingPieceNote">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="70" p:maxLength="400" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="missingPiece-buttons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="missingPiece-missingPieceButton" parent="Uif-SecondaryActionButton-Small" p:actionLabel="save"
+                      p:actionScript="if(jq('#kualiLightboxForm').valid()){
+                          var missingPieceCnt = jq('#missingPiece-count_control').val();
+                          var noOfPieces = jq('#missingPiece-noOfPieces_control').val();
+                          var missingPieceNte = jq('#missingPieceNoteSection_control').val();
+                          var dialogErrorMessage = '';
+                          if(noOfPieces &lt; 1){
+                                dialogErrorMessage = 'Item no of pieces should not be less than 1';
+                                 jq('#missingErrorMessage .uif-message').html(dialogErrorMessage);
+                                 jq('#missingErrorMessage').attr('style','display:inline');
+                                 jq('#missingErrorMessage').focus();
+                          }
+                          else if(missingPieceCnt &lt; 1){
+                                dialogErrorMessage = 'No of missing piece count should not be less than 1';
+                                jq('#missingErrorMessage .uif-message').html(dialogErrorMessage);
+                                jq('#missingErrorMessage').attr('style','display:inline');
+                                jq('#missingErrorMessage').focus();
+                          }
+                          else if(missingPieceCnt &gt; noOfPieces){
+                                dialogErrorMessage = 'Missing piece count should not be greater than no of pieces';
+                                jq('#missingErrorMessage .uif-message').html(dialogErrorMessage);
+                                jq('#missingErrorMessage').attr('style','display:inline');
+                                jq('#missingErrorMessage').focus();
+                          }
+                          else{
+                              submitForm('applyMissingPieceItem', {missingPieceCnt:missingPieceCnt,noOfPieces:noOfPieces,missingPieceNte:missingPieceNte}, null, true,
+                              function () {
+                                  jq.fancybox.close();
+                                  jq('#checkoutItem_control').focus();
+                                  jq('.loanedItemCBClass').removeAttr('checked');
+                                  jq('.loaningItemCBClass').removeAttr('checked');
+                              });
+                          }
+                    }"/>
+                <bean id="missingPiece-closeButton" parent="Uif-SecondaryActionButton-Small" p:actionScript="
+                jq.fancybox.close();
+                jq('.loanedItemCBClass').removeAttr('checked');
+                jq('.loaningItemCBClass').removeAttr('checked');" p:actionLabel="Close" />
+
+                <bean id="missingPiece-removeMissingPieceButton" parent="Uif-SecondaryActionButton-Small" p:actionScript="
+                      submitForm('removeMissingPieceItem', null, null, true,
+                      function () {
+                          jq.fancybox.close();
+                          jq('#checkoutItem_control').focus();
+                          jq('.loanedItemCBClass').removeAttr('checked');
+                          jq('.loaningItemCBClass').removeAttr('checked');
+                      });"  p:actionLabel="Remove Missing piece flag" p:render="@{missingPieceFlag}"/>
+
+            </list>
+        </property>
+    </bean>
+</beans>
+

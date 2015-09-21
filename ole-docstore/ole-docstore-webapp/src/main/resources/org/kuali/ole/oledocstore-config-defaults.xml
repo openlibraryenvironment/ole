@@ -50,6 +50,8 @@
   <param name="unSupported.parameter.value">Unsupported parameter value</param>
    <param name="mandatory.parameter.missing">Mandatory parameter not supplied</param>
     <param name="unSupport.version">Unsupported version</param>
+    <param name="search.process.failed">Exception occured while processing the request</param>
+
 
     <param name="operation.required.field.diagnostic.message">Operation is a required parameter in SRU request.</param>
     <param name="version.required.field.diagnostic.message">Version is a required parameter in SRU request.</param>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+    
+        Copyright 2005-2012 The Kuali Foundation
+    
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+    
+        http://www.opensource.org/licenses/ecl2.php
+    
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+    
+    -->
+    <bean id="DroolEditorBo" parent="DroolEditorBo-parentBean"/>
+
+    <bean id="DroolEditorBo-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.deliver.bo.drools.DroolsEditorBo"/>
+        <property name="objectLabel" value="Drools Editor"/>
+        <property name="titleAttribute" value="editorType"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="DroolEditorBo-editorId"/>
+                <ref bean="DroolEditorBo-editorType"/>
+                <ref bean="DroolEditorBo-fileName"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="DroolEditorBo-editorId" parent="DroolEditorBo-editorId-parentBean"/>
+
+    <bean id="DroolEditorBo-editorId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Editor Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean id="TextControlDefinition_editorId" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_editorId" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="editorId"/>
+        <property name="label" value="Editor Id"/>
+        <property name="description" value="Editor id"/>
+    </bean>
+
+
+<bean id="DroolEditorBo-editorType" parent="DroolEditorBo-editorType-parentBean"/>
+
+    <bean id="DroolEditorBo-editorType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Editor Type"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean id="TextControlDefinition_editorType" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_editorType" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="editorType"/>
+        <property name="label" value="Editor Type"/>
+        <property name="description" value="Editor Type"/>
+    </bean>
+
+
+    <bean id="DroolEditorBo-fileName" parent="DroolEditorBo-fileName-parentBean"/>
+
+    <bean id="DroolEditorBo-fileName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="File Name"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean id="TextControlDefinition_fileName" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_fileName" parent="Uif-TextControl" p:size="40"/>
+        </property>
+        <property name="name" value="fileName"/>
+        <property name="label" value="File Name"/>
+        <property name="description" value="File Name"/>
+    </bean>
+
+
+</beans>

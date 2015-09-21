@@ -58,7 +58,10 @@
           <bean id="Uif-TextControl_olePatronLostBarcodeId" parent="Uif-TextControl" p:size="30"/>
       </property>-->
       <property name="control">
-          <ref bean="HiddenControl" />
+          <bean id="TextControlDefinition_olePatronLostBarcodeId" parent="TextControlDefinition" p:size="30"/>
+      </property>
+      <property name="controlField">
+          <bean id="Uif-TextControl_olePatronLostBarcodeId" parent="Uif-TextControl" p:size="30"/>
       </property>
 
       <property name="name" value="olePatronLostBarcodeId"/>

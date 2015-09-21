@@ -15,14 +15,18 @@ public class ErrorMessage {
     private List<String> permissions = null;
 
     public void setErrorMessage(String errorMessage) {
-        StringBuilder stringBuilder = new StringBuilder();
-        if (null != this.errorMessage && !StringUtils.isBlank(this.errorMessage)) {
-            stringBuilder.append(this
-                    .errorMessage).append
-                    (OLEConstants.BREAK);
+        if (null != errorMessage) {
+            StringBuilder stringBuilder = new StringBuilder();
+            if (null != this.errorMessage && !StringUtils.isBlank(this.errorMessage)) {
+                stringBuilder.append(this
+                        .errorMessage).append
+                        (OLEConstants.BREAK);
+            }
+            stringBuilder.append(errorMessage);
+            this.errorMessage = stringBuilder.toString();
+        }else{
+            this.errorMessage = errorMessage;
         }
-        stringBuilder.append(errorMessage);
-        this.errorMessage = stringBuilder.toString();
     }
 
     public String getErrorMessage() {

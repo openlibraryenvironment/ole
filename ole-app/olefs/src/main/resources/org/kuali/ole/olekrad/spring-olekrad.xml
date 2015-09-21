@@ -77,4 +77,44 @@
     </bean>
     <!--<bean id="workflowDocumentService" class="org.kuali.ole.olekrad.service.OLEWorkflowDocumentServiceImpl"/>-->
 
+    <bean id="oleBusinessObjectService" parent="businessObjectService"
+          class="org.kuali.ole.olekrad.service.impl.OleBusinessObjectServiceImpl">
+        <property name="businessObjectDao">
+            <ref bean="oleBusinessObjectDao"/>
+        </property>
+    </bean>
+
+    <bean id="oleBusinessObjectDao" parent="businessObjectDao">
+        <property name="businessObjectDaoOjb" ref="oleBusinessObjectDaoOjb"/>
+    </bean>
+
+    <bean id="oleBusinessObjectDaoOjb" parent="platformAwareDao" class="org.kuali.ole.olekrad.dao.impl.OleBusinessObjectDaoOjb">
+        <constructor-arg ref="persistenceStructureService"/>
+    </bean>
+
+    <bean id="businessObjectDao" class="org.kuali.rice.krad.dao.proxy.BusinessObjectDaoProxy">
+        <property name="businessObjectDaoOjb" ref="businessObjectDaoOjb"/>
+    </bean>
+
+
+    <bean id="businessObjectService" class="org.kuali.rice.krad.service.impl.BusinessObjectServiceImpl">
+        <property name="businessObjectDao">
+            <ref bean="businessObjectDao"/>
+        </property>
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService"/>
+        </property>
+        <property name="persistenceService">
+            <ref bean="persistenceService"/>
+        </property>
+        <property name="dataObjectMetaDataService">
+            <ref bean="dataObjectMetaDataService"/>
+        </property>
+    </bean>
+
+    <bean id="businessObjectDaoOjb"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="businessObjectDaoOjb"/>
+    </bean>
+
 </beans>

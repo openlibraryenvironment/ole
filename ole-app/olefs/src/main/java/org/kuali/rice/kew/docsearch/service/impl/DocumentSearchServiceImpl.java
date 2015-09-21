@@ -19,6 +19,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
+import org.kuali.ole.sys.OLEConstants;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -315,8 +316,8 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
                 defaultCreateDateDaysAgoValue = KewApiConstants.DOCUMENT_SEARCH_DOC_TITLE_CREATE_DATE_DAYS_AGO;
             }
 
-            if (defaultCreateDateDaysAgoValue != null) {
-                // add a default create date
+            if (defaultCreateDateDaysAgoValue != null && !OLEConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER.equals(criteria.getDocumentTypeName())) {
+                // add a default create date for documents other than purchase order.
                 MutableDateTime mutableDateTime = new MutableDateTime();
                 mutableDateTime.addDays(defaultCreateDateDaysAgoValue.intValue());
                 criteriaBuilder.setDateCreatedFrom(mutableDateTime.toDateTime());

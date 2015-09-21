@@ -2,6 +2,7 @@ package org.kuali.ole.describe.controller;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.describe.form.EditorForm;
 import org.kuali.ole.describe.form.WorkBibMarcForm;
 import org.kuali.ole.describe.form.WorkEInstanceOlemlForm;
@@ -11,15 +12,18 @@ import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
 import org.kuali.ole.docstore.common.document.content.instance.CallNumber;
+import org.kuali.ole.docstore.common.document.content.instance.DonorInfo;
 import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
 import org.kuali.ole.docstore.common.document.content.instance.ShelvingScheme;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
-import org.kuali.ole.OLEConstants;
 import org.kuali.ole.docstore.engine.client.DocstoreLocalClient;
 import org.kuali.ole.select.document.OLEEResourceInstance;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -27,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -272,6 +277,11 @@ public class AbstractEditor implements DocumentEditor {
     }
 
     @Override
+    public EditorForm addORRemoveItemDonor(EditorForm editorForm, HttpServletRequest request) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public EditorForm showBibs(EditorForm editorForm) {
         return null;
     }
@@ -306,6 +316,10 @@ public class AbstractEditor implements DocumentEditor {
         org.kuali.ole.docstore.common.document.content.instance.Item oleItem = new org.kuali.ole.docstore.common.document.content.instance.Item();
         CallNumber callNumber = new CallNumber();
         oleItem.setCallNumber(callNumber);
+        List donorInfos = new ArrayList<DonorInfo>();
+        DonorInfo donorInfo = new DonorInfo();
+        donorInfos.add(donorInfo);
+        oleItem.setDonorInfo(donorInfos);
         item.setContent(itemOlemlRecordProcessor.toXML(oleItem));
         return item;
     }
@@ -348,5 +362,12 @@ public class AbstractEditor implements DocumentEditor {
     @Override
     public EditorForm bulkUpdate(EditorForm editorForm, List<String> ids) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public String getParameter(String applicationId, String namespace, String componentId, String parameterName) {
+        ParameterKey parameterKey = ParameterKey.create(applicationId, namespace, componentId, parameterName);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+
+        return parameter!=null?parameter.getValue():null;
     }
 }

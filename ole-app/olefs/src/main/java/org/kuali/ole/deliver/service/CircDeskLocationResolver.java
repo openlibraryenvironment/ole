@@ -269,14 +269,16 @@ public class CircDeskLocationResolver {
 
     public OleCirculationDesk getCircDeskForOpertorId(String principalId) {
         OleCirculationDesk circkDesk = null;
-        Map<String, String> userMap = new HashMap<String, String>();
-        userMap.put("operatorId", principalId);
-        Collection<OleCirculationDeskDetail> oleCirculationDeskDetails = KRADServiceLocator.getBusinessObjectService().findMatching(OleCirculationDeskDetail.class, userMap);
+        if (StringUtils.isNotBlank(principalId)) {
+            Map<String, String> userMap = new HashMap<String, String>();
+            userMap.put("operatorId", principalId);
+            Collection<OleCirculationDeskDetail> oleCirculationDeskDetails = KRADServiceLocator.getBusinessObjectService().findMatching(OleCirculationDeskDetail.class, userMap);
 
-        for (OleCirculationDeskDetail oleCirculationDeskDetail : oleCirculationDeskDetails) {
-            if (oleCirculationDeskDetail.isDefaultLocation() && oleCirculationDeskDetail.getOleCirculationDesk().isActive()) {
-                circkDesk = (oleCirculationDeskDetail.getOleCirculationDesk());
-                break;
+            for (OleCirculationDeskDetail oleCirculationDeskDetail : oleCirculationDeskDetails) {
+                if (oleCirculationDeskDetail.isDefaultLocation() && oleCirculationDeskDetail.getOleCirculationDesk().isActive()) {
+                    circkDesk = (oleCirculationDeskDetail.getOleCirculationDesk());
+                    break;
+                }
             }
         }
         return circkDesk;

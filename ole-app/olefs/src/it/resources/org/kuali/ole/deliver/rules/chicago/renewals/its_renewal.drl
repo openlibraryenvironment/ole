@@ -1,0 +1,18 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+
+
+rule "Item Type Check for Renewal ITS"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+ $d : DroolsResponse()
+$i: OleItemRecordForCirc(getItemType() in ("its2adp","its8adp","its8cnf","its8ipd","its8lap"))
+
+then
+$d.setRuleMatched(true);
+$d.addErrorMessage("Reserve and short-term loans may not be renewed");
+ end

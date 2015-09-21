@@ -29,6 +29,7 @@
             <list>
                 <bean id="currentPatronName" parent="Uif-LinkField" p:target="_blank" p:style="font-weight:bold;text-align:left;" p:fieldLabel.renderColon="false" p:href="@{patronDocument.patronRecordURL}" p:linkText="@{patronDocument.patronName}" p:label="Name" p:labelPlacement="TOP" />
                 <bean id="currentPatronType" parent="Uif-DataField" p:propertyName="patronDocument.oleBorrowerType.borrowerTypeName" p:label="Type" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="currentPatronExpirationDate" parent="Uif-DataField" p:propertyName="patronDocument.expirationDate" p:label="Expiration Date" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
                 <bean id="currentPreferredAddress" parent="Uif-DataField" p:propertyName="patronDocument.preferredAddress" p:label="Preferred Address" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
                 <bean id="currentPatronPhone" parent="Uif-DataField" p:propertyName="patronDocument.phoneNumber" p:label="Phone" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
                 <bean id="currentPatronEmail" parent="Uif-DataField" p:propertyName="patronDocument.email" p:label="Email" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
@@ -36,6 +37,20 @@
                 <bean id="currentProxyForPatronBarcode" parent="Uif-DataField" p:style="background:#FFCC99"  p:propertyName="patronDocument.selectedProxyForPatron.barcode" p:label="Proxy For Patron Barcode" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:render="@{patronDocument.selectedProxyForPatron ne null and patronDocument.selectedProxyForPatron.olePatronId ne null and patronDocument.selectedProxyForPatron.olePatronId ne ''}"/>
                 <bean id="currentLoanPatronImage" parent="Uif-ImageField" p:altText=""
                       p:captionHeaderText="" p:cutlineText="" p:source="patronMaintenance?methodToCall=getImageForLoan&amp;olePatronId=@{patronDocument.olePatronId}"  p:rowSpan="2"  p:label="Photograph" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="circPatronLink-HorizontalBoxSection" parent="circPatronLink-HorizontalBoxSection-parent"/>
+    <bean id="circPatronLink-HorizontalBoxSection-parent" parent="Uif-HorizontalBoxSection" p:render="@{patronDocument.barcode ne null}">
+        <property name="items">
+            <list>
+                <bean id="viewRequestRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{urlBase}/portal.do?channelTitle=Patron&amp;channelUrl=@{urlBase}/ole-kr-krad/patronRequestedRecord?viewId=OlePatronRequestedRecordView&amp;methodToCall=viewRequestedRecords&amp;patronId=@{patronDocument.olePatronId}"  p:linkText="View Requests/Holds(@{patronDocument.requestedItemRecordsCount})"  p:target="_blank" >
+                    <property name="cssClasses" value="uif-secondaryActionButton"/>
+                </bean>
+                <bean id="viewBillLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{viewBillUrl + patronDocument.olePatronId}"  p:link.linkText="View Bill"  p:target="_blank" />
+                <bean id="createBillLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{createBillUrl + patronDocument.olePatronId}"  p:link.linkText="Create Bill"  p:target="_blank" />
+                <bean id="TemporaryCirculationsRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{urlBase}/portal.do?channelTitle=Patron&amp;channelUrl=@{urlBase}/ole-kr-krad/temporaryCirculationRecord?viewId=OleTemporaryCirculationHistoryRecordView&amp;methodToCall=viewTempCircRecords&amp;patronId=@{patronDocument.olePatronId}"  p:linkText="View Circulation History(@{patronDocument.tempCirculationHistoryCount})"  p:target="_blank" />
             </list>
         </property>
     </bean>
@@ -53,7 +68,7 @@
     <bean id="barcodeFieldSection-parentBean" parent="Uif-InputField" p:maxLength="24"
           p:propertyName="patronBarcode"
           p:label="Patron"
-          p:render="@{loggedInUser ne null OR loggedInUser ne ''}">
+          p:render="@{loggedInUser ne null OR loggedInUser ne ''}" p:readOnly="@{autoCheckout}">
 
         <property name="control">
             <bean parent="Uif-TextControl">

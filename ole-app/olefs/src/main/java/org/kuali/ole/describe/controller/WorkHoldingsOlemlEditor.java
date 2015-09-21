@@ -111,6 +111,13 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
         editorForm.setHeaderText("Holdings");
         editorForm.setHasLink(true);
         editorForm.setShowEditorFooter(true);
+        String parameter = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
+                .DESCRIBE_COMPONENT, OLEConstants.HOLDINGS_SUPRESS_SHELVINGORDER);
+        if(Boolean.valueOf(parameter)){
+            editorForm.setSupressHoldingsShelving(false);
+        }else{
+            editorForm.setSupressHoldingsShelving(true);
+        }
         String bibId = editorForm.getBibId();
         List<BibTree> bibTreeList = new ArrayList();
         Date date = new Date();
@@ -142,7 +149,8 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
           bibTreeList.add(bibTree);
           workInstanceOlemlForm.setBibTreeList(bibTreeList);
           bib = bibTree.getBib();
-          editorForm.setTitle(bib.getTitle() + " / " + bib.getAuthor());
+          String titleField = bib.getTitle() + " / " + bib.getAuthor() + " / " + DocumentUniqueIDPrefix.getDocumentId(bib.getId());
+          editorForm.setTitle(titleField);
           editorForm.setHasLink(true);
         if (!isValidBib(bib.getContent())) {
             workInstanceOlemlForm.setMessage("Error: Invalid bibId id:" + bibId);
@@ -306,7 +314,8 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
         bibTreeList.add(bibTree);
         workInstanceOlemlForm.setBibTreeList(bibTreeList);
         bib = bibTree.getBib();
-        editorForm.setTitle(bib.getTitle() + " / " + bib.getAuthor());
+        String titleField = bib.getTitle() + " / " + bib.getAuthor() + " / " + DocumentUniqueIDPrefix.getDocumentId(bib.getId());
+        editorForm.setTitle(titleField);
         editorForm.setHasLink(true);
 //        editorForm.setHeaderText("Instance Editor (Holdings) - OLEML Format");
         editorForm.setHeaderText("Holdings");
@@ -803,19 +812,6 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
         return editorForm;
     }
 
-    @Override
-    public EditorForm copy(EditorForm editorForm) {
-        loadDocument(editorForm);
-        WorkInstanceOlemlForm workInstanceOlemlForm = (WorkInstanceOlemlForm) editorForm.getDocumentForm();
-        workInstanceOlemlForm.getSelectedHolding().setEResourceId(workInstanceOlemlForm.geteResourceId()!=null && !workInstanceOlemlForm.geteResourceId().isEmpty()?workInstanceOlemlForm.geteResourceId():null);
-        editorForm.seteResourceId(workInstanceOlemlForm.geteResourceId()!=null && !workInstanceOlemlForm.geteResourceId().isEmpty()?workInstanceOlemlForm.geteResourceId():null);
-        editorForm.seteResourceTitle(workInstanceOlemlForm.geteResourceTitle()!=null && !workInstanceOlemlForm.geteResourceTitle().isEmpty()?workInstanceOlemlForm.geteResourceTitle():null);
-        editorForm.setDocId(null);
-        editorForm.setShowEditorFooter(false);
-        editorForm.setFromSearch(false);
-        return editorForm;
-    }
-
     public EditorForm deleteVerify(EditorForm editorForm) {
         //LOG.info("in instance editor class");
         WorkInstanceOlemlForm workInstanceOlemlForm = new WorkInstanceOlemlForm();
@@ -837,6 +833,12 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
             LOG.error("Exception :", e);
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+        StringBuffer deleteMessage = new StringBuffer();
+        deleteMessage.append("WARNING : All attached items (");
+        HoldingsTree holdingsTree = docstoreClient.retrieveHoldingsTree(docId);
+        int itemCount = holdingsTree.getItems().size();
+        deleteMessage.append(itemCount + ") on the following holdings record will be deleted.");
+        editorForm.setDeleteMessage(deleteMessage.toString());
         editorForm.getDocTree().setRootElement(docTree);
         editorForm.setViewId("DeleteViewPage");
         return editorForm;
@@ -889,7 +891,7 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
         String dateStr = sdf.format(date);
         String user = GlobalVariables.getUserSession().getPrincipalName();
         workInstanceOlemlForm.setBibTreeList(bibTreeList);
-        editorForm.setHeaderText("Global Holdings Editor");
+        editorForm.setHeaderText("Global Instance Editor");
         String docId = editorForm.getDocId();
             Holdings holdings = new PHoldings();
             OleHoldings holdingData = workInstanceOlemlForm.getSelectedHolding();
@@ -961,6 +963,13 @@ public class WorkHoldingsOlemlEditor extends AbstractEditor {
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, editorMessage);
         return workInstanceOlemlForm;
 
+    }
+
+    @Override
+    public EditorForm copy(EditorForm editorForm) {
+        editorForm.setDocId(null);
+        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, OLEConstants.MARC_EDITOR_HOLDINGS_COPY_MESSAGE);
+        return editorForm;
     }
 
 }

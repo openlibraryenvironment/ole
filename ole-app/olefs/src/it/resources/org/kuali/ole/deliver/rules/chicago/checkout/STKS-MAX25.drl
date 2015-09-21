@@ -1,0 +1,41 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import java.util.List
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+rule "Check out Circ Policy Set STKS/MAX25 for Valid # chckedout Items"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QALUM25","QNONUC25"), getTotalLoanedItemsCount() < 25)
+$i: OleItemRecordForCirc (getItemType() in ("stks","games","mus"),
+getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"),
+getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"))
+then
+$l.setCirculationPolicyId("Check out Circ Policy Set STKS/MAX25");
+$l.loanPeriod(OLEConstants.FIXED_DUE_DATE, "7-D");
+ end
+
+rule "Check out Circ Policy Set STKS/MAX25"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QALUM25","QNONUC25"), getTotalLoanedItemsCount() >= 25)
+$i: OleItemRecordForCirc(getItemType() in ("stks","games"),
+getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"),
+!getItemLocation().equals("Rec"))
+$d: DroolsResponse()
+then
+$l.setCirculationPolicyId("Check out Circ Policy Set STKS/MAX25");
+$d.addErrorMessage("Patron has 25 or more items checked out");
+//$p.addErrorsAndPermission("Patron has max # of items checked out");
+$l.loanPeriod(OLEConstants.FIXED_DUE_DATE, "7-D");
+ end
+

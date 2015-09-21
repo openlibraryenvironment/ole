@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OleNoticeTypeConfiguration" parent="OleNoticeTypeConfiguration-parentBean"/>
+
+    <bean id="OleNoticeTypeConfiguration-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.deliver.bo.OleNoticeTypeConfiguration"/>
+        <property name="inquiryDefinition">
+            <ref bean="OleNoticeTypeConfiguration-inquiryDefinition"/>
+        </property>
+
+        <property name="titleAttribute" value="noticeTypeConfigId"/>
+        <property name="objectLabel" value="Notice Type Configuration"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleNoticeTypeConfiguration-noticeTypeConfigId"/>
+                <ref bean="OleNoticeTypeConfiguration-noticeType"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleNoticeTypeConfiguration-noticeTypeConfigId" parent="OleNoticeTypeConfiguration-noticeTypeConfigId-parentBean"/>
+
+    <bean id="OleNoticeTypeConfiguration-noticeTypeConfigId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Notice Type Configuration Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="noticeTypeConfigId"/>
+        <property name="label" value="Notice Type Configuration Id"/>
+        <property name="description" value="Notice Type Configuration Id"/>
+    </bean>
+
+    <bean id="OleNoticeTypeConfiguration-noticeType" parent="OleNoticeTypeConfiguration-noticeType-parentBean"/>
+
+    <bean id="OleNoticeTypeConfiguration-noticeType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Notice Type"/>
+        <property name="maxLength" value="40"/>
+        <property name="name" value="noticeType"/>
+        <property name="label" value="Notice Type"/>
+        <property name="description" value="Notice Type"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean id="TextControlDefinition_noticeType" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_noticeType" parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OleNoticeTypeConfiguration-inquiryDefinition" parent="OleNoticeTypeConfiguration-inquiryDefinition-parentBean"/>
+
+    <bean id="OleNoticeTypeConfiguration-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="numberOfColumns" value="3"/>
+                    <property name="inquiryFields">
+                        <list>
+                            <bean id="inquiry_noticeTypeConfigId" parent="FieldDefinition" p:attributeName="noticeTypeConfigId"/>
+                            <bean id="inquiry_circulationPolicyId" parent="FieldDefinition" p:attributeName="circPolicyId"/>
+                            <bean id="inquiry_noticeType" parent="FieldDefinition" p:attributeName="noticeType"/>
+                        </list>
+                    </property>
+                    <property name="title" value="Notice Type Configuration"/>
+                </bean>
+            </list>
+        </property>
+        <property name="title" value="Notice Type Configuration Inquiry"/>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OleNoticeTypeConfiguration-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Notice Type Configuration Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/OLE/content/ch02s02.html#_lookupHelp"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleNoticeTypeConfiguration" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.lookup.OleNoticeTypeConfigurationLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="circulationPolicyId"  parent="Uif-LookupCriteriaInputField" p:label="Circulation Policy Set" p:propertyName="circPolicyId">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleRuleKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="noticeType" parent="Uif-LookupCriteriaInputField" p:label="Notice Type" p:propertyName="noticeType"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_circulationPolicyId" p:label="Circulation Policy Set" parent="Uif-DataField" p:propertyName="circPolicyId"/>
+                <bean id="searchResult_noticeType" p:label="Notice Type" parent="Uif-DataField" p:propertyName="noticeType"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

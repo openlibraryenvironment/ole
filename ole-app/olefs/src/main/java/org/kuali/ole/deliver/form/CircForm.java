@@ -1,20 +1,23 @@
 package org.kuali.ole.deliver.form;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OleLoanFastAdd;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.drools.DroolsExchange;
 import org.kuali.ole.deliver.util.ErrorMessage;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by pvsubrah on 6/18/15.
  */
-public class CircForm extends UifFormBase {
+public class CircForm extends OLEForm {
     /*
     Need loggedInUser is the principalId used for checking for permissions etc.
     overridingPrincipalName is the operator who has overriding privs. Needed for the loan.
@@ -34,6 +37,8 @@ public class CircForm extends UifFormBase {
 
     private boolean proxyCheckDone;
     private boolean itemValidationDone;
+    private boolean itemOverride;
+    private boolean requestExistOrLoanedCheck;
 
     /*
     patronBarcode: Current Borrower
@@ -48,6 +53,8 @@ public class CircForm extends UifFormBase {
     private boolean proceedWithCheckout;
     private boolean showExistingLoan;
 
+    private boolean autoCheckout;
+
 
     private OleLoanFastAdd oleLoanFastAdd;
 
@@ -57,6 +64,58 @@ public class CircForm extends UifFormBase {
 
     private List<OleLoanDocument> loanDocumentListForCurrentSession;
     private List<OleLoanDocument> existingLoanList;
+    private List<OleLoanDocument> loanDocumentsForAlterDueDate;
+    private List<OleLoanDocument> loanDocumentsForRenew;
+
+    private String claimsReturnNote;
+
+    private boolean claimsReturnFlag;
+
+    private String damagedItemNote;
+
+    private boolean damagedItemFlag;
+
+    private String missingPieceNote;
+
+    private String numberOfPiece;
+
+    private String missingPieceCount;
+
+    private boolean missingPieceFlag;
+
+    private String pageNumber;
+
+    private String pageSize;
+
+    private String maxSessionTime;
+
+
+    private Date customDueDateMapForRenew;
+    private String customDueDateTimeForRenew;
+    private String customDueDateTimeMessageForRenew;
+
+    private boolean recordNoteForClaimsReturn;
+    private boolean recordNoteForDamagedItem;
+    private boolean recordNoteForMissingPiece;
+    private String urlBase;
+    private String viewBillUrl;
+    private String createBillUrl;
+
+    public String getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(String pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public String getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(String pageNumber) {
+        this.pageNumber = pageNumber;
+    }
 
     public String getLoggedInUser() {
         return loggedInUser;
@@ -83,13 +142,12 @@ public class CircForm extends UifFormBase {
     }
 
     public void reset() {
-        this.previouslySelectedCirculationDesk = this.selectedCirculationDesk;
-        this.patronBarcode = null;
         this.itemBarcode = null;
         this.itemRecord = null;
         this.showExistingLoan = false;
         this.proxyCheckDone = false;
         this.itemValidationDone = false;
+        this.itemOverride = false;
         if (null != getExistingLoanList()) {
             this.getExistingLoanList().clear();
         }
@@ -98,6 +156,56 @@ public class CircForm extends UifFormBase {
         }
         this.patronDocument = new OlePatronDocument();
         this.proceedWithCheckout = false;
+        this.claimsReturnNote = null;
+        this.damagedItemNote = null;
+        this.missingPieceNote = null;
+        this.missingPieceCount = null;
+        this.numberOfPiece=null;
+    }
+
+    public void resetForAutoCheckout() {
+        this.itemRecord = null;
+        this.showExistingLoan = false;
+        this.proxyCheckDone = false;
+        this.itemValidationDone = false;
+        this.itemOverride = false;
+        if (null != getExistingLoanList()) {
+            this.getExistingLoanList().clear();
+        }
+        if (null != getLoanDocumentListForCurrentSession()) {
+            this.getLoanDocumentListForCurrentSession().clear();
+        }
+        this.patronDocument = new OlePatronDocument();
+        this.proceedWithCheckout = false;
+        this.claimsReturnNote = null;
+        this.damagedItemNote = null;
+        this.missingPieceNote = null;
+        this.missingPieceCount = null;
+        this.numberOfPiece=null;
+    }
+
+    public void resetAll() {
+        this.previouslySelectedCirculationDesk = this.selectedCirculationDesk;
+        this.patronBarcode = null;
+        this.itemBarcode = null;
+        this.itemRecord = null;
+        this.showExistingLoan = false;
+        this.proxyCheckDone = false;
+        this.itemValidationDone = false;
+        this.itemOverride = false;
+        if (null != getExistingLoanList()) {
+            this.getExistingLoanList().clear();
+        }
+        if (null != getLoanDocumentListForCurrentSession()) {
+            this.getLoanDocumentListForCurrentSession().clear();
+        }
+        this.patronDocument = new OlePatronDocument();
+        this.proceedWithCheckout = false;
+        this.claimsReturnNote = null;
+        this.damagedItemNote = null;
+        this.missingPieceNote = null;
+        this.missingPieceCount = null;
+        this.numberOfPiece=null;
     }
 
     public OlePatronDocument getPatronDocument() {
@@ -232,5 +340,189 @@ public class CircForm extends UifFormBase {
 
     public void setOleLoanFastAdd(OleLoanFastAdd oleLoanFastAdd) {
         this.oleLoanFastAdd = oleLoanFastAdd;
+    }
+
+    public boolean isItemOverride() {
+        return itemOverride;
+    }
+
+    public void setItemOverride(boolean itemOverride) {
+        this.itemOverride = itemOverride;
+    }
+
+    public boolean isAutoCheckout() {
+        return autoCheckout;
+    }
+
+    public void setAutoCheckout(boolean autoCheckout) {
+        this.autoCheckout = autoCheckout;
+    }
+
+    public String getClaimsReturnNote() {
+        return claimsReturnNote;
+    }
+
+    public void setClaimsReturnNote(String claimsReturnNote) {
+        this.claimsReturnNote = claimsReturnNote;
+    }
+
+    public List<OleLoanDocument> getLoanDocumentsForAlterDueDate() {
+        return loanDocumentsForAlterDueDate;
+    }
+
+    public void setLoanDocumentsForAlterDueDate(List<OleLoanDocument> loanDocumentsForAlterDueDate) {
+        this.loanDocumentsForAlterDueDate = loanDocumentsForAlterDueDate;
+    }
+
+    public String getDamagedItemNote() {
+        return damagedItemNote;
+    }
+
+    public void setDamagedItemNote(String damagedItemNote) {
+        this.damagedItemNote = damagedItemNote;
+    }
+
+    public String getMissingPieceNote() {
+        return missingPieceNote;
+    }
+
+    public void setMissingPieceNote(String missingPieceNote) {
+        this.missingPieceNote = missingPieceNote;
+    }
+
+    public String getNumberOfPiece() {
+        return numberOfPiece;
+    }
+
+    public void setNumberOfPiece(String numberOfPiece) {
+        this.numberOfPiece = numberOfPiece;
+    }
+
+    public String getMissingPieceCount() {
+        return missingPieceCount;
+    }
+
+    public void setMissingPieceCount(String missingPieceCount) {
+        this.missingPieceCount = missingPieceCount;
+    }
+
+    public List<OleLoanDocument> getLoanDocumentsForRenew() {
+        return loanDocumentsForRenew;
+    }
+
+    public void setLoanDocumentsForRenew(List<OleLoanDocument> loanDocumentsForRenew) {
+        this.loanDocumentsForRenew = loanDocumentsForRenew;
+    }
+
+    public Date getCustomDueDateMapForRenew() {
+        return customDueDateMapForRenew;
+    }
+
+    public void setCustomDueDateMapForRenew(Date customDueDateMapForRenew) {
+        this.customDueDateMapForRenew = customDueDateMapForRenew;
+    }
+
+    public String getCustomDueDateTimeForRenew() {
+        return customDueDateTimeForRenew;
+    }
+
+    public void setCustomDueDateTimeForRenew(String customDueDateTimeForRenew) {
+        this.customDueDateTimeForRenew = customDueDateTimeForRenew;
+    }
+
+    public String getCustomDueDateTimeMessageForRenew() {
+        return customDueDateTimeMessageForRenew;
+    }
+
+    public void setCustomDueDateTimeMessageForRenew(String customDueDateTimeMessageForRenew) {
+        this.customDueDateTimeMessageForRenew = customDueDateTimeMessageForRenew;
+    }
+
+    public boolean isClaimsReturnFlag() {
+        return claimsReturnFlag;
+    }
+
+    public void setClaimsReturnFlag(boolean claimsReturnFlag) {
+        this.claimsReturnFlag = claimsReturnFlag;
+    }
+
+    public boolean isMissingPieceFlag() {
+        return missingPieceFlag;
+    }
+
+    public void setMissingPieceFlag(boolean missingPieceFlag) {
+        this.missingPieceFlag = missingPieceFlag;
+    }
+
+    public boolean isDamagedItemFlag() {
+        return damagedItemFlag;
+    }
+
+    public void setDamagedItemFlag(boolean damagedItemFlag) {
+        this.damagedItemFlag = damagedItemFlag;
+    }
+
+    public boolean isRecordNoteForClaimsReturn() {
+        return recordNoteForClaimsReturn;
+    }
+
+    public void setRecordNoteForClaimsReturn(boolean recordNoteForClaimsReturn) {
+        this.recordNoteForClaimsReturn = recordNoteForClaimsReturn;
+    }
+
+    public boolean isRecordNoteForDamagedItem() {
+        return recordNoteForDamagedItem;
+    }
+
+    public void setRecordNoteForDamagedItem(boolean recordNoteForDamagedItem) {
+        this.recordNoteForDamagedItem = recordNoteForDamagedItem;
+    }
+
+    public boolean isRecordNoteForMissingPiece() {
+        return recordNoteForMissingPiece;
+    }
+
+    public void setRecordNoteForMissingPiece(boolean recordNoteForMissingPiece) {
+        this.recordNoteForMissingPiece = recordNoteForMissingPiece;
+    }
+
+    public boolean isRequestExistOrLoanedCheck() {
+        return requestExistOrLoanedCheck;
+    }
+
+    public void setRequestExistOrLoanedCheck(boolean requestExistOrLoanedCheck) {
+        this.requestExistOrLoanedCheck = requestExistOrLoanedCheck;
+    }
+
+    public String getMaxSessionTime() {
+        return maxSessionTime;
+    }
+
+    public void setMaxSessionTime(String maxSessionTime) {
+        this.maxSessionTime = maxSessionTime;
+    }
+
+    public String getUrlBase() {
+        return urlBase;
+    }
+
+    public void setUrlBase(String urlBase) {
+        this.urlBase = urlBase;
+    }
+
+    public String getViewBillUrl() {
+        return viewBillUrl;
+    }
+
+    public void setViewBillUrl(String viewBillUrl) {
+        this.viewBillUrl = viewBillUrl;
+    }
+
+    public String getCreateBillUrl() {
+        return createBillUrl;
+    }
+
+    public void setCreateBillUrl(String createBillUrl) {
+        this.createBillUrl = createBillUrl;
     }
 }

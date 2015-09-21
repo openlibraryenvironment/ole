@@ -26,8 +26,30 @@
 <bean id="circGeneralButtons-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
 <property name="items">
     <list>
-        <bean id="circDoneButton" parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close" p:style="float:left;margin-left:5em" p:render="@{patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne ''}" p:ajaxSubmit="true"  p:successCallback="jq('#barcodeFieldSection_control').focus();"/>
-        <bean id="circClearPatronButton" parent="Uif-SecondaryActionButton" p:methodToCall="clearPatron" p:actionLabel="Clear Patron" p:style="float:left;margin-left:5em" p:render="@{patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne ''}" p:ajaxSubmit="true"  p:successCallback="jq('#barcodeFieldSection_control').focus();"/>
+        <bean id="circDoneButton" parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close" p:style="float:left;margin-left:5em" p:render="@{patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne ''}" p:ajaxSubmit="true"
+              p:successCallback="jq('#barcodeFieldSection_control').focus();
+              if(parent.jq !== undefined){
+                 parent.jq.fancybox.close();
+              }
+              "/>
+        <bean id="circClearPatronButton" parent="Uif-SecondaryActionButton" p:methodToCall="clearPatron" p:actionLabel="Clear Patron" p:style="float:left;margin-left:5em" p:render="@{patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and !autoCheckout}"
+              p:ajaxSubmit="true"  p:successCallback="jq('#barcodeFieldSection_control').focus();"/>
+        <bean id="circAlterDueDateButton" parent="Uif-SecondaryActionButton" p:methodToCall="openAlterDueDateDialog" p:actionLabel="Alter Due Date" p:style="float:left;margin-left:5em" p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
+              p:ajaxSubmit="true"  p:successCallback="jq('#barcodeFieldSection_control').focus();" />
+        <bean id="circClaimsReturnButton" parent="Uif-SecondaryActionButton" p:actionLabel="Claims Return" p:style="float:left;margin-left:5em" p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
+              p:actionScript="submitForm('openClaimsReturnDialog',null,null,true,function(){
+                                jq('#barcodeFieldSection_control').focus();
+                            });"/>
+        <bean id="circMissingPieceButton" parent="Uif-SecondaryActionButton" p:actionLabel="Missing Piece" p:style="float:left;margin-left:5em" p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
+              p:actionScript="submitForm('openMissingPieceItemDialog',null,null,true,function(){
+                                jq('#barcodeFieldSection_control').focus();
+                            });"/>
+        <bean id="circDamagedItemButton" parent="Uif-SecondaryActionButton" p:actionLabel="Damaged" p:style="float:left;margin-left:5em" p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
+              p:actionScript="submitForm('openDamagedItemDialog',null,null,true,function(){
+                                jq('#barcodeFieldSection_control').focus();
+                            });" />
+        <bean id="circRenewItemButton" parent="Uif-SecondaryActionButton" p:methodToCall="renew" p:actionLabel="Renew" p:style="float:left;margin-left:5em" p:render="@{(patronDocument.entity.names[0].firstName ne null and patronDocument.entity.names[0].firstName ne '' and loanDocumentListForCurrentSession ne null and loanDocumentListForCurrentSession.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0) and !autoCheckout}"
+              p:ajaxSubmit="true"  p:successCallback="jq('#barcodeFieldSection_control').focus();jq('.loanedItemCBClass').removeAttr('checked');jq('.loaningItemCBClass').removeAttr('checked');"/>
     </list>
 </property>
 </bean>

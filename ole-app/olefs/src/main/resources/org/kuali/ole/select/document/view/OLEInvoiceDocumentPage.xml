@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="OLEInvoiceView-ProcessItem-PurchaseOrder"   parent="Uif-Disclosure-HorizontalBoxSection" p:style="width: auto">
+    <bean id="OLEInvoiceView-ProcessItem-PurchaseOrder"   parent="Uif-Disclosure-HorizontalBoxSection" p:style="width: auto" p:disclosure.defaultOpen="true">
         <property name="items">
             <list>
                 <bean id="OleInvoice_POLookup" parent="Uif-InputField" p:propertyName="poId" p:label="Purchase Order  " >
@@ -129,8 +129,9 @@
     <bean id="OLEInvoiceView-processItems-poDetails" parent="Uif-VerticalBoxGroup">
         <property name="items">
             <list>
+               <ref bean="OLEInvoiceView-processItems-invoiceNotes"/>
                 <ref bean="OLEInvoiceView-processItems-accountingLines" />
-                <ref bean="OLEInvoiceView-processItems-invoiceNotes"/>
+               
                 <ref bean="OLEInvoiceView-donors"/>
             </list>
         </property>
@@ -210,7 +211,7 @@
 	</bean>
 
     <bean id="OLEInvoiceView-accountingLines-parent" abstract="true"
-    		parent="OLEInvoiceView-processItems-SubCollection">
+    		parent="OLEInvoiceView-processItems-SubCollection" p:disclosure.defaultOpen="false">
         <property name="headerText" value="Accounting Lines" />
         <property name="propertyName" value="sourceAccountingLines" />
         <property name="renderAddLine" value="true"/>
@@ -268,7 +269,7 @@
     </bean>
 
     <bean id="OLEInvoiceView-processItems-invoiceNotes"  parent="Uif-Disclosure-TableSubCollection-WithinSubSection" p:layoutManager.numberOfColumns="3"
-          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false">
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="true">
         <property name="headerText" value="Line Item Note for Invoice"/>
         <property name="collectionObjectClass" value="org.kuali.ole.select.businessobject.OleInvoiceNote" />
         <property name="propertyName" value="invoiceNotes" />
@@ -403,9 +404,10 @@
                 <ref bean="OLEInvoiceView-InvoiceItem-CreditMemoView"/>
                 <ref bean="OLEInvoiceView-ProcessTitle-PaymentRequestHistory"/>
                 <ref bean="OLEInvoiceView-ProcessTitle-CreditMemoHistory"/>
+	        <ref bean="OLEInvoiceView-invoiceNotes"/>
                 <ref bean="OLEInvoiceView-Item-accountingLines"/>
                 <ref bean="OLEInvoiceView-AdditionalCharges-offsetAccountingLines"/>
-                <ref bean="OLEInvoiceView-invoiceNotes"/>
+
                 <ref bean="OLEInvoiceView-donors"/>
             </list>
         </property>
@@ -489,7 +491,7 @@
     </bean>
 
     <bean id="OLEInvoiceView-invoiceNotes"  parent="Uif-Disclosure-TableSubCollection-WithinSubSection" p:layoutManager.numberOfColumns="3"
-          p:layoutManager.applyDefaultCellWidths="false" p:style="width:1080px" p:disclosure.defaultOpen="false">
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:1080px" p:disclosure.defaultOpen="true">
         <property name="headerText" value="Line Item Note for Invoice"/>
         <property name="collectionObjectClass" value="org.kuali.ole.select.businessobject.OleInvoiceNote" />
         <property name="propertyName" value="notes" />
@@ -660,7 +662,7 @@
     </bean>
     
     <bean id="OLEInvoiceView-AdditionalCharges-offsetAccountingLines"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="10"
-          p:layoutManager.applyDefaultCellWidths="false" p:style="width:1360"  p:disclosure.defaultOpen="true" p:render="@{document.offsetAccountIndicator or document.paymentMethodIdentifier eq '7'}">
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:1360" p:disclosure.defaultOpen="false" p:render="@{document.offsetAccountIndicator or document.paymentMethodIdentifier eq '7'}">
         <property name="headerText" value="Offset Accounting Lines" />
         <property name="collectionObjectClass" value="org.kuali.ole.select.businessobject.OLEInvoiceOffsetAccountingLine" />
         <property name="propertyName" value="sourceAccountingLineList" />

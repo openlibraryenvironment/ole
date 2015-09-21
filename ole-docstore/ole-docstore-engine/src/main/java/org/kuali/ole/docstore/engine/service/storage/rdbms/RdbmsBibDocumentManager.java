@@ -387,6 +387,7 @@ public class RdbmsBibDocumentManager extends RdbmsAbstarctDocumentManager {
                 }
             }
         }
+        Collections.sort(bibTree.getHoldingsTrees());
         return bibTree;
     }
 

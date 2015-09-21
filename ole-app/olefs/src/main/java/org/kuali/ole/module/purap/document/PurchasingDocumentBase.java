@@ -157,6 +157,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     protected List<CommodityCode> commodityCodesForRouting;
 
+    protected boolean vendorEnterKeyEvent = false;
+
     /**
      * Default Constructor.
      */
@@ -1532,5 +1534,13 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
             return SpringContext.getBean(VendorService.class).getVendorB2BContract(vendorDetail, campusCode) != null;
         }
         return false;
+    }
+
+    public boolean isVendorEnterKeyEvent() {
+        return vendorEnterKeyEvent;
+    }
+
+    public void setVendorEnterKeyEvent(boolean vendorEnterKeyEvent) {
+        this.vendorEnterKeyEvent = vendorEnterKeyEvent;
     }
 }

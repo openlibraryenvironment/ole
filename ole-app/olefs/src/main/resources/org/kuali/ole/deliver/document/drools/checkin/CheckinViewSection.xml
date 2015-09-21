@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="DroolsEditorBo-Checkin-MaintenanceView-ruleSection" parent="Uif-MaintenanceTableCollectionSection" p:render="@{showCheckinSection}">
+        <property name="headerText" value="Checkin Rules" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.drools.DroolsRuleBo" />
+        <property name="propertyName" value="checkinRuleBos" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="addLineLabel">
+            <bean parent="Uif-Message" p:messageText=""/>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="CheckinAgendaGroup" parent="Uif-DataField" p:label="Agenda Group" p:propertyName="agendaGroup" p:readOnly="@{!#isAddLine}"/>
+                <bean id="CheckinActivationGroup" parent="Uif-InputField" p:label="Activation Group"  p:propertyName="activationGroup" p:readOnly="@{!#isAddLine}"/>
+                <bean id="CheckinRuleType" parent="Uif-InputField" p:label="Rule Type"  p:propertyName="ruleType" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.GeneralCheckRuleTypeKeyValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="CheckinRuleName" parent="Uif-InputField" p:label="Rule Name" p:propertyName="ruleName" p:readOnly="@{!#isAddLine}"/>
+                <bean id="CheckinErrorMessage" parent="Uif-InputField" p:label="Error Message" p:propertyName="errorMessage" p:readOnly="@{!#isAddLine}"/>
+                <bean id="CheckinOverridePermission" parent="Uif-InputField" p:label="Override Permissions" p:propertyName="overridePermission" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.drools.OverridePermissionsKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="DroolsEditorBo-Checkin-MaintenanceView-ruleTableSection-Add" parent="Uif-CustomAddLineAction" p:methodToCall="addRule"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-CustomDeleteLineAction" p:ajaxSubmit="true"  p:successCallback="submitForm('refresh',null,null,null,null);"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

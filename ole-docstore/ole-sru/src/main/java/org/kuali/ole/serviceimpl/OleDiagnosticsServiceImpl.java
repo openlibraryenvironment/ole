@@ -65,6 +65,9 @@ public class OleDiagnosticsServiceImpl implements OleDiagnosticsService {
         } else if(errorMessage.equals(getCurrentContextConfig().getProperty(OleSRUConstants.NORECORDS_DIAGNOSTIC_MSG))){
             oleSRUDiagnostic.setUri("info:srw/diagnostic/1/65");
           //  oleSRUDiagnostic.setDetails(OleSRUConstants.START_RECORD);
+        }else if(errorMessage.equals(getCurrentContextConfig().getProperty(OleSRUConstants.SEARCH_PROCESS_FAILED))){
+            oleSRUDiagnostic.setUri("info:srw/diagnostic/1/52");
+            oleSRUDiagnostic.setDetails(OleSRUConstants.RECORD_SCHEMA);
         }
         }
         OleSRUDiagnostics oleSRUDiagnostics = new OleSRUDiagnostics();

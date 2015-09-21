@@ -288,7 +288,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
     }
 
     @Override
-    public String placeRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemLocation,String bibId,String requestLevel,java.sql.Date requestExpiryDate) {
+      public String placeRequest(String patronBarcode, String operatorId, String itemBarcode, String requestType, String pickUpLocation, String itemLocation,String bibId,String requestLevel,java.sql.Date requestExpiryDate) {
         String responseMessage = oleDeliverRequestDocumentHelperService.placeRequest(patronBarcode, operatorId, itemBarcode, requestType, pickUpLocation, null, itemLocation, null, null, null, null, false,bibId,requestLevel,requestExpiryDate);
         return responseMessage;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -432,7 +432,7 @@ public class OLECirculationServiceImpl implements OLECirculationService {
             }
         }
         try {
-            itemIdentifier = oleCirculationHelperService.acceptItem(patronBarcode, operator, itemBarcode, callNumber, title, author, itemType, itemLocation, dateExpires, requestType, pickUpLocation);
+            itemIdentifier = oleCirculationHelperService.acceptItem(itemBarcode, callNumber, title, author, itemType, itemLocation);
             if (null == itemIdentifier) {
                 oleAcceptItem.setCode("031");
                 oleAcceptItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_EXIST));
@@ -485,6 +485,9 @@ public class OLECirculationServiceImpl implements OLECirculationService {
         String responseMessage = oleCirculationHelperService.checkOutItem(patronBarcode, operator, itemBarcode,isSIP2Request);
         return responseMessage;
     }
+
+
+
 
 
     public List<OLECheckedOutItem> getOleCheckOutItemList(List<OleLoanDocument> oleLoanDocumentList, String patronType) throws Exception {

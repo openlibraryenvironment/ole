@@ -153,7 +153,8 @@ public class WorkEInstanceOlemlEditor
                 bibTreeList.add(bibTree);
                 bib = bibTree.getBib();
                 workEInstanceOlemlForm.setBibTreeList(bibTreeList);
-                editorForm.setTitle(bibTree.getBib().getTitle() + " / " + bibTree.getBib().getAuthor());
+                String titleField = bib.getTitle() + " / " + bib.getAuthor() + " / " + DocumentUniqueIDPrefix.getDocumentId(bib.getId());
+                editorForm.setTitle(titleField);
             } catch (Exception e) {
                 LOG.error("Exception :", e);
                 e.printStackTrace();
@@ -320,7 +321,8 @@ public class WorkEInstanceOlemlEditor
                 bibTreeList = new ArrayList<>();
                 bibTreeList.add(bibTree);
                 workEInstanceOlemlForm.setBibTreeList(bibTreeList);
-                editorForm.setTitle(bibTree.getBib().getTitle() + " / " + bibTree.getBib().getAuthor());
+                String titleField = bibTree.getBib().getTitle() + " / " + bibTree.getBib().getAuthor() + " / " + DocumentUniqueIDPrefix.getDocumentId(bibTree.getBib().getId());
+                editorForm.setTitle(titleField);
             } catch (Exception e) {
                 LOG.error("Exception :", e);
                 e.printStackTrace();
@@ -466,7 +468,9 @@ public class WorkEInstanceOlemlEditor
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, "docstore.response", e.getMessage());
             return workEInstanceOlemlForm;
         }
-        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, editorStatusMessage);
+       /* WorkEInstanceOlemlForm eInstanceOlemlForm = (WorkEInstanceOlemlForm) loadDocument(editorForm);
+        GlobalVariables.getMessageMap().getInfoMessages().clear();
+        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, editorStatusMessage);*/
 
         return workEInstanceOlemlForm;
     }
@@ -984,7 +988,9 @@ public class WorkEInstanceOlemlEditor
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, "docstore.response", e.getMessage());
             return workEInstanceOlemlForm;
         }
-        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, editorStatusMessage);
+       /* WorkEInstanceOlemlForm eInstanceOlemlForm = (WorkEInstanceOlemlForm) loadDocument(editorForm);
+        GlobalVariables.getMessageMap().getInfoMessages().clear();
+        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, editorStatusMessage);*/
 
         return workEInstanceOlemlForm;
     }

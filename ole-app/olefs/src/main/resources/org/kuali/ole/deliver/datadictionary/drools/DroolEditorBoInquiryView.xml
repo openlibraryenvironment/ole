@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="DroolEditorBo-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Drool Editor Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.drools.DroolsEditorBo" />
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Editor Section" />
+                    <property name="items">
+                        <list>
+                            <bean parent="DroolsEditorBo-InquiryView-ruleGridSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="DroolsEditorBo-InquiryView-ruleGridSection" parent="Uif-GridSection" p:layoutManager.numberOfColumns="1" >
+        <property name="items">
+            <list>
+                <ref bean="DroolsEditorBo-InquiryView-ruleTableSection"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="DroolsEditorBo-InquiryView-ruleTableSection" parent="Uif-MaintenanceTableCollectionSection">
+        <property name="headerText" value="Rules" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.drools.DroolsRuleBo" />
+        <property name="propertyName" value="droolsRuleBos" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="addLineLabel">
+            <bean parent="Uif-Message" p:messageText=""/>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="droolsEditorBoInquiryAgendaGroup" parent="Uif-DataField" p:label="Agenda Group" p:propertyName="agendaGroup" />
+                <bean id="droolsEditorBoInquiryActivationGroup" parent="Uif-DataField" p:label="Activation Group"  p:propertyName="activationGroup" />
+                <bean id="droolsEditorBoInquiryRuleType" parent="Uif-DataField" p:label="Rule Type"  p:propertyName="ruleType" />
+                <bean id="droolsEditorBoInquiryRuleName" parent="Uif-DataField" p:label="Rule Name" p:propertyName="ruleName" />
+                <bean id="droolsEditorBoInquiryErrorMessage" parent="Uif-DataField" p:label="Error Message" p:propertyName="errorMessage" />
+                <bean id="droolsEditorBoInquiryOverridePermission" parent="Uif-DataField" p:label="Override Permissions" p:propertyName="overridePermission" />
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <bean parent="DroolsEditorBo-InquiryView-ruleSubSection"  p:disclosure.defaultOpen="false" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DroolsEditorBo-InquiryView-ruleSubSection" parent="Uif-MaintenanceTableSubCollection-withinSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" >
+        <property name="headerText" value="Fine &amp; Limits" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.drools.FinesAndLimitsBo" />
+        <property name="propertyName" value="finesAndLimitsBoList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="addLineLabel">
+            <bean parent="Uif-Message" p:messageText=""/>
+        </property>
+        <property name="layoutManager.addLineGroup.layoutManager.numberOfColumns" value="4"/>
+        <property name="items">
+            <list>
+                <bean id="droolsEditorBoInquiryBorrowerType" parent="Uif-DataField" p:label="Borrower Type" p:propertyName="borrowerType" />
+                <bean id="droolsEditorBoInquiryLimit" parent="Uif-DataField" p:label="Limit" p:propertyName="limitAmount" />
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

@@ -14,6 +14,7 @@ import org.kuali.ole.docstore.common.exception.*;
 import org.kuali.ole.docstore.common.find.FindParams;
 import org.kuali.ole.docstore.common.service.DocstoreService;
 import org.kuali.ole.docstore.service.BeanLocator;
+import org.kuali.ole.utility.OleStopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.kuali.ole.docstore.common.exception.DocstoreExceptionProcessor;
@@ -84,9 +85,11 @@ public class BibRestServlet extends HttpServlet {
                 result = createBibTree(req);
             } else if (req.getPathInfo().contains("/transfer")) {
                 result = transferHoldings(req);
-            } else if (req.getPathInfo().contains("/process")) {
+            } else if (req.getPathInfo().contains("/processAPI")) {
                 result = processBibTrees(req);
-            }else if (req.getPathInfo().contains("/searchAcquistion")) {
+            } else if (req.getPathInfo().contains("/batch")) {
+                result = processBibTreesforBatch(req);
+            } else if (req.getPathInfo().contains("/searchAcquistion")) {
                 result = retrieveBib(req);
             } else {
                 result = createBib(req);
@@ -294,11 +297,37 @@ public class BibRestServlet extends HttpServlet {
 
 
     private String processBibTrees(HttpServletRequest req) throws IOException {
+        OleStopWatch oleStopWatch = new OleStopWatch();
+        oleStopWatch.start();
+        DocstoreService ds = BeanLocator.getDocstoreService();
+        oleStopWatch.end();
+        LOG.info("Time taken to fetch docstoreservice object: " + oleStopWatch.getTotalTime() + " ms");
+        oleStopWatch.reset();
+
+        String requestBody = CharStreams.toString(req.getReader());
+        BibTrees bibTrees = new BibTrees();
+        oleStopWatch.start();
+        bibTrees = (BibTrees) bibTrees.deserialize(requestBody);
+        oleStopWatch.end();
+        LOG.info("Time taken to deserialize: " + oleStopWatch.getTotalTime() + " ms");
+        oleStopWatch.reset();
+
+        oleStopWatch.start();
+        bibTrees = ds.processBibTrees(bibTrees);
+        oleStopWatch.end();
+        LOG.info("Time taken to process: " + oleStopWatch.getTotalTime() + " ms");
+        oleStopWatch.reset();
+
+        return "Success";
+    }
+
+
+    private String processBibTreesforBatch(HttpServletRequest req) throws IOException {
         DocstoreService ds = BeanLocator.getDocstoreService();
         String requestBody = CharStreams.toString(req.getReader());
         BibTrees bibTrees = new BibTrees();
         bibTrees = (BibTrees) bibTrees.deserialize(requestBody);
-        bibTrees = ds.processBibTrees(bibTrees);
+        bibTrees = ds.processBibTreesForBatch(bibTrees);
         return bibTrees.serialize(bibTrees);
     }
 

@@ -91,6 +91,8 @@ public interface DocstoreStorageService {
     public Item retrieveItemByBarcode(String barcode);
 
     public void processBibTrees(BibTrees bibTrees);
+	
+	public void processBibTreesForBatch(BibTrees bibTrees);
 
     public void unbindWithOneBib(List<String> holdingsIds, String bibId);
 

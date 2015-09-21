@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <!--AlterDueDate-->
+    <bean id="alterDueDateSectionDialog" parent="Uif-DialogGroup">
+        <property name="headerText" value="Alter Due Date"/>
+        <property name="promptText" value=""/>
+        <property name="availableResponses">
+            <list>
+                <!--Empty-->
+            </list>
+        </property>
+        <property name="items">
+            <list merge="false">
+                <ref bean="infoMessage"/>
+                <ref bean="alterDueDate-HorizontalBoxSection"/>
+                <ref bean="alterDueDate-buttons"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="infoMessage" parent="Uif-MessageField" p:messageText="Select due date or leave blank to set due date to indefinite" p:cssClasses="alert-info" />
+
+    <bean id="alterDueDate-HorizontalBoxSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5" p:style="width:1000px">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
+        <property name="propertyName" value="loanDocumentsForAlterDueDate"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="items">
+            <list>
+
+                <bean id="alterDueDate-Barcode" parent="Uif-LinkField" p:label="Barcode" p:linkText="@{#line.itemId}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;editable=false&amp;docFormat=oleml&amp;docId=@{#line.itemUuid}&amp;instanceId=@{#line.instanceUuid}&amp;bibId=@{#line.bibUuid}" />
+
+                <bean id="alterDueDate-title" parent="Uif-DataField" p:label="Title" p:propertyName="title"/>
+
+                <bean id="alterDueDate-location" parent="Uif-DataField" p:label="Location" p:propertyName="location"/>
+
+                <bean id="alterDueDate-callNumber" parent="Uif-DataField" p:label="Call Number" p:propertyName="itemCallNumber"/>
+
+                <bean id="alterDueDate-dueDate" parent="Loan-Uif-InputField" p:propertyName="loanDueDateToAlter" p:label="Due Date">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint">
+                            <property name="allowedFormats">
+                                <list>
+                                    <value>${allowedFormats.dateFormat1}</value>
+                                    <value>${allowedFormats.dateFormat2}</value>
+                                    <value>${allowedFormats.dateFormat3}</value>
+                                    <value>${allowedFormats.dateFormat4}</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="alterDueDate-time" parent="Loan-Uif-InputField" p:propertyName="loanDueDateTimeToAlter" p:label="Time">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="6" p:watermarkText="hh:mm"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="Time24HPatternConstraint"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+
+    <bean id="alterDueDate-buttons" parent="alterDueDate-buttons-HorizontalBoxSection-parentBean" />
+    <bean id="alterDueDate-buttons-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+
+                <bean id="alterDueDate-updateButton" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Update" p:actionScript="
+                if(jq('#kualiLightboxForm').valid()){
+                    alterDueDate();
+                }"/>
+
+                <bean id="alterDueDate-closeButton" parent="Uif-SecondaryActionButton-Small" p:actionScript="
+                jq.fancybox.close();
+                jq('.loanedItemCBClass').removeAttr('checked');
+                jq('.loaningItemCBClass').removeAttr('checked');" p:style="float:left;margin-left:2em" p:actionLabel="Close"  />
+
+            </list>
+        </property>
+    </bean>
+
+</beans>
+

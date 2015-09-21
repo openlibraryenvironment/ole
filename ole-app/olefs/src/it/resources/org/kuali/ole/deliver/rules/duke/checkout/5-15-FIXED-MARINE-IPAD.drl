@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.ErrorMessage
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "Check out Circ Policy Set 5-15-FIXED-MARINE-IPAD"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","GRADST","UG"))
+$i: OleItemRecordForCirc (getItemType() in ("IPAD"),
+getItemLibraryLocation() in ("MARINE"))
+then
+$l.setCirculationPolicyId("Check out Circ Policy Set 5-15-FIXED-MARINE-IPAD");
+$l.loanPeriod(OLEConstants.FIXED_DUE_DATE, "7-D");
+$n.setNoticeType(DroolsConstants.REGULAR_LOANS_NOTICE_CONFIG);
+ end

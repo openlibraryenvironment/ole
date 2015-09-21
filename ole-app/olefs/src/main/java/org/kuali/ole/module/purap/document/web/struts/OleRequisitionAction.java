@@ -289,6 +289,8 @@ public class OleRequisitionAction extends RequisitionAction {
         OleRequisitionDocument doc = (OleRequisitionDocument) oleForm.getDocument();
         Iterator itemIterator = doc.getItems().iterator();
         int itemCounter = 0;
+
+        document.setVendorEnterKeyEvent(false);
         while (itemIterator.hasNext()) {
             OleRequisitionItem tempItem = (OleRequisitionItem) itemIterator.next();
             if (tempItem.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) {
@@ -343,6 +345,16 @@ public class OleRequisitionAction extends RequisitionAction {
         if(item.getClaimDate()==null){
             getOlePurapService().setClaimDateForReq(item,document.getVendorDetail());
         }
+        if (GlobalVariables.getMessageMap().getErrorCount() == 0) {
+            String chartCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(RequisitionDocument.class, "DEFAULT_ACCOUNTINGLINE_CHART_CODE");
+            String objectCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(RequisitionDocument.class, "DEFAULT_ACCOUNTINGLINE_OBJECT_CODE");
+            if (null != item.getNewSourceLine()) {
+                item.getNewSourceLine().setChartOfAccountsCode(chartCode);
+                item.getNewSourceLine().setFinancialObjectCode(objectCode);
+            }
+            //setDefaultItemStatusAndLocation(document, (OleRequisitionItem) purchasingForm.getNewPurchasingItemLine(), true);
+        }
+
         return mapping.findForward(OLEConstants.MAPPING_BASIC);
     }
 
@@ -516,6 +528,12 @@ public class OleRequisitionAction extends RequisitionAction {
                 }
             //}
         }
+        return forward;
+    }
+
+    public ActionForward refreshDocuments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("<<<---------Inside OleRequisitionAction refreshDocuments------>>>");
+        ActionForward forward = super.reload(mapping, form, request, response);
         return forward;
     }
 
@@ -1047,7 +1065,7 @@ public class OleRequisitionAction extends RequisitionAction {
             }
         }
         if (sufficientFundChecklag) {
-            return super.blanketApprove(mapping, form, request, response);
+            super.blanketApprove(mapping, form, request, response);
         }
         return mapping.findForward(OLEConstants.MAPPING_BASIC);
     }
@@ -1073,6 +1091,9 @@ public class OleRequisitionAction extends RequisitionAction {
             } else {
                 GlobalVariables.getMessageMap().putError(PurapConstants.VENDOR_ERRORS, OLEConstants.VENDOR_NOT_FOUND);
             }
+        }
+        if (GlobalVariables.getMessageMap().getErrorCount() == 0) {
+            document.setVendorEnterKeyEvent(true);
         }
         return mapping.findForward(OLEConstants.MAPPING_BASIC);
     }

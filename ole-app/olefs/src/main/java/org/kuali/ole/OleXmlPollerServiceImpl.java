@@ -61,6 +61,10 @@ public abstract class OleXmlPollerServiceImpl implements OleXmlPollerService {
 	 * Location in which to place XML files which have failed to load.
 	 */
 	private String xmlProblemLocation;
+    /**
+	 * Location in which to place Report files.
+	 */
+	private String xmlReportLocation;
 
 	private String xmlParentDirectory;
 	private static final String PENDING_MOVE_FAILED_ARCHIVE_FILE = "movesfailed";
@@ -164,10 +168,15 @@ public abstract class OleXmlPollerServiceImpl implements OleXmlPollerService {
 					}
 				}
 			}
+            }
+        processReportContent(collections, DIR_FORMAT.format(LOAD_TIME));
 		}
-	}
 
-    protected abstract XmlIngesterService getIngesterService();
+    protected void processReportContent(List<XmlDocCollection> collections, String loadTime) {
+        // Write custom process for report.
+    }
+
+	protected abstract XmlIngesterService getIngesterService();
 
     private boolean inPendingMoveFailedArchive(File xmlDataFile) {
 		if (xmlDataFile == null)
@@ -272,7 +281,15 @@ public abstract class OleXmlPollerServiceImpl implements OleXmlPollerService {
 		this.xmlProblemLocation = xmlProblemLocation;
 	}
 
-	public String getXmlParentDirectory() {
+    public String getXmlReportLocation() {
+        return xmlReportLocation;
+    }
+
+    public void setXmlReportLocation(String xmlReportLocation) {
+        this.xmlReportLocation = xmlReportLocation;
+    }
+
+    public String getXmlParentDirectory() {
 		return xmlParentDirectory;
 	}
 

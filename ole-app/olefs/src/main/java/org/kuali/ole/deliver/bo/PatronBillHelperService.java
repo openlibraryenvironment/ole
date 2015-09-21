@@ -158,7 +158,22 @@ public class PatronBillHelperService {
         LoanProcessor loanProcessor = new LoanProcessor();
         try {
             for (PatronBillPayment patronBillPayment : patronBillPaymentList) {
-                feeTypes.addAll(patronBillPayment.getFeeType());
+                List<FeeType> feeTypeList = patronBillPayment.getFeeType();
+                if (!feeTypeList.isEmpty()) {
+                    List<OleItemLevelBillPayment> oleItemLevelBillPayments = new ArrayList<>();
+                    for (FeeType feeType : feeTypeList) {
+                        oleItemLevelBillPayments.addAll(feeType.getItemLevelBillPaymentList());
+                    }
+                    Collections.sort(oleItemLevelBillPayments, new Comparator<OleItemLevelBillPayment>() {
+                        public int compare(OleItemLevelBillPayment oleItemLevelBillPayment1, OleItemLevelBillPayment oleItemLevelBillPayment2) {
+                            return Integer.parseInt(oleItemLevelBillPayment1.getPaymentId()) > Integer.parseInt(oleItemLevelBillPayment2.getPaymentId()) ? 1 : -1;
+                        }
+                    });
+                    if (!oleItemLevelBillPayments.isEmpty()) {
+                        patronBillPayment.setLastTransactionDate(oleItemLevelBillPayments.get(oleItemLevelBillPayments.size() - 1).getPaymentDate());
+                    }
+                }
+                feeTypes.addAll(feeTypeList);
             }
             for (FeeType feeType : feeTypes) {
                 if (feeType.getItemUuid() != null) {
@@ -187,6 +202,16 @@ public class PatronBillHelperService {
                 }
                 if (feeType.getFeeTypes() != null) {
                     feeType.getFeeTypes().add(feeType);
+                }
+
+                List<OleItemLevelBillPayment> oleItemLevelBillPayments = feeType.getItemLevelBillPaymentList();
+                if (!oleItemLevelBillPayments.isEmpty()) {
+                    Collections.sort(oleItemLevelBillPayments, new Comparator<OleItemLevelBillPayment>() {
+                        public int compare(OleItemLevelBillPayment oleItemLevelBillPayment1, OleItemLevelBillPayment oleItemLevelBillPayment2) {
+                            return Integer.parseInt(oleItemLevelBillPayment1.getPaymentId()) > Integer.parseInt(oleItemLevelBillPayment2.getPaymentId()) ? 1 : -1;
+                        }
+                    });
+                    feeType.setLastTransactionDate(oleItemLevelBillPayments.get(oleItemLevelBillPayments.size() - 1).getPaymentDate());
                 }
             }
 

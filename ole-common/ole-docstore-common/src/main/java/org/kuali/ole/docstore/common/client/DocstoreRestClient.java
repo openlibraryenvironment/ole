@@ -79,7 +79,7 @@ public class DocstoreRestClient implements DocstoreClient {
     private static String LICENSES_URL = "license/";
     private static String LICENSES_TREES_URL = "license/trees/";
     private static String BULK_UPDATE = "/bulkUpdate";
-    private static String PROCESS_BIB_TREES = "bib/process";
+    private static String PROCESS_BIB_TREES = "bib/batch";
 
     private Logger logger = LoggerFactory.getLogger(DocstoreRestClient.class);
 

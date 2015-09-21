@@ -89,6 +89,10 @@ public class OLENCIPConstants {
     public static final String OPERATOR = "OPERATOR";
 
     public static final String USER_UN_AVAILABLE = "error.user.unavailable";
+    public static final String USER_DOES_NOT_EXIST = "error.user.doesnt.exist";
+    public static final String USER_IDENTIFIER_VALUE_DOES_NOT_EXIST = "error.user.identifier.value.doesnt.exist";
+    public static final String ITEM_IDENTIFIER_VALUE_DOES_NOT_EXIST = "error.item.identifier.value.doesnt.exist";
+    public static final String TITLE_DOES_NOT_EXIST = "error.title.doesnt.exist";
     public static final String OPERATOR_UN_AVAILABLE = "error.operator.unavailable";
 
 

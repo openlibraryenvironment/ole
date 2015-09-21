@@ -1,14 +1,13 @@
 package org.kuali.ole.describe.keyvalue;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.describe.form.BoundwithForm;
 import org.kuali.ole.describe.form.GlobalEditForm;
 import org.kuali.ole.describe.form.OLESearchForm;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.config.DocFieldConfig;
 import org.kuali.ole.docstore.common.document.config.DocFormatConfig;
 import org.kuali.ole.docstore.common.document.config.DocTypeConfig;
 import org.kuali.ole.docstore.common.document.config.DocumentSearchConfig;
-import org.kuali.ole.docstore.engine.service.index.solr.ItemConstants;
 import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -23,7 +22,7 @@ import java.util.TreeMap;
 /**
  * Created by jayabharathreddy on 2/16/15.
  */
-public class HoldingsSearchFieldKeyValuefinder extends UifKeyValuesFinderBase {
+public class HoldingsSearchFieldKeyValuefinder extends UifKeyValuesFinderBase implements DocstoreConstants {
 
     DocumentSearchConfig documentSearchConfig = DocumentSearchConfig.getDocumentSearchConfig();
 
@@ -57,7 +56,7 @@ public class HoldingsSearchFieldKeyValuefinder extends UifKeyValuesFinderBase {
                                 if(docFieldConfig.isSearchable()){
                                     if(docFieldConfig.getName().endsWith("_search")){
                                         sortedMap.put(docFieldConfig.getLabel(), docFieldConfig.getName());
-                                    }if(docFieldConfig.getName().equalsIgnoreCase(ItemConstants.BIB_IDENTIFIER)){
+                                    }if(docFieldConfig.getName().equalsIgnoreCase(BIB_IDENTIFIER)){
                                         sortedMap.put(docFieldConfig.getLabel(), docFieldConfig.getName());
                                     }
                                 }

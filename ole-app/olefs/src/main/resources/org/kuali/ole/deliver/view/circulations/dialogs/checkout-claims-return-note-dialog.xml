@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <!--Claims Return Dialog-->
+    <bean id="checkoutClaimsReturnNoteDialog" parent="Uif-DialogGroup">
+        <property name="headerText" value=""/>
+        <property name="promptText" value=""/>
+        <property name="availableResponses">
+            <list>
+                <!--Empty-->
+            </list>
+        </property>
+        <property name="items">
+            <list merge="false">
+                <ref bean="checkoutClaimsReturnItemNoteMessage"/>
+                <ref bean="checkoutClaimsReturn-record-Note"/>
+                <ref bean="checkoutClaimsReturn-buttons"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="checkoutClaimsReturnItemNoteMessage" parent="Uif-MessageField" p:messageText="@{errorMessage.errorMessage}"/>
+
+    <bean id="checkoutClaimsReturn-buttons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="checkout-claimsReturnNote-ok" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Continue" p:actionScript="
+                   var isChecked = false;
+                    isChecked = jq('#checkoutClaimsReturn-record-Note_control_0').is(':checked');
+                    jq.fancybox.close();
+                    submitForm('processDamagedItem',{recordNoteForClaimChecked:isChecked},null,true,function(){
+                    });"/>
+                <bean id="checkout-claimsReturnNote-cancel" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Cancel" p:actionScript="jq.fancybox.close();submitForm('resetItemForNextTrans',null,null,null,null)"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="checkoutClaimsReturn-record-Note" parent="Return-Uif-InputField" p:propertyName="recordNoteForClaimsReturn"
+          p:label="Record a note or not" p:render="true">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="true" p:value="Yes"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="false" p:value="No"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+</beans>
+

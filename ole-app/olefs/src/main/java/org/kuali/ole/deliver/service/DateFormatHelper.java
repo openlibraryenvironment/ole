@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.service;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -58,6 +59,35 @@ public class DateFormatHelper {
         return formattedDate.toString();
     }
 
+    public String generateDateStringsForMySQL(Timestamp timestamp) {
+
+        StringBuilder formattedDate = new StringBuilder();
+
+        String dateTimeString = timestamp.toString();
+
+        StringTokenizer dateTimeTokenizer = new StringTokenizer(dateTimeString, " ");
+        String date = dateTimeTokenizer.nextToken();
+        String time = dateTimeTokenizer.nextToken();
+
+        StringTokenizer dateTokenizer = new StringTokenizer(date, "-");
+
+        String year = dateTokenizer.nextToken();
+        String month = dateTokenizer.nextToken();
+        String day = dateTokenizer.nextToken();
+
+        StringTokenizer timeTokenizer = new StringTokenizer(time, ":");
+        String hours = timeTokenizer.nextToken();
+        String minutes = timeTokenizer.nextToken();
+        String seconds = timeTokenizer.nextToken();
+
+        formattedDate.append("'").append(month).append(",").append(day).append(",").append(year).append(",").append(hours+":"+minutes+":"+seconds.substring(0,2)).append("'").append(",'").append
+                ("%m,%d,%Y,%H:%i:%s").append("'");
+
+
+        return formattedDate.toString();
+    }
+
+
     public String generateDateStringsForOracle(String dateString) {
         StringBuilder formattedDate = new StringBuilder();
 
@@ -69,6 +99,34 @@ public class DateFormatHelper {
             formattedDate.append(day).append("-").append(getOracleMonth(month)).append("-").append(year);
         }
         return formattedDate.toString();
+    }
+
+
+    public String generateDateStringsForOracle(Timestamp timestamp) {
+        StringBuilder formattedDate = new StringBuilder();
+
+        String dateTimeString = timestamp.toString();
+
+        StringTokenizer dateTimeTokenizer = new StringTokenizer(dateTimeString, " ");
+        String date = dateTimeTokenizer.nextToken();
+        String time = dateTimeTokenizer.nextToken();
+
+        StringTokenizer dateTokenizer = new StringTokenizer(date, "-");
+
+        String year = dateTokenizer.nextToken();
+        String month = dateTokenizer.nextToken();
+        String day = dateTokenizer.nextToken();
+
+        StringTokenizer timeTokenizer = new StringTokenizer(time, ":");
+        String hours = timeTokenizer.nextToken();
+        String minutes = timeTokenizer.nextToken();
+        String seconds = timeTokenizer.nextToken().substring(0, 2);
+
+        formattedDate.append("'").append(year).append("/").append(month).append("/").append(day).append(" ").append(hours+":"+minutes+":"+seconds).append("'").append(",'").append
+                ("YYYY/MM/DD HH24:MI:SS").append("'");
+
+        return formattedDate.toString();
+
     }
 
 

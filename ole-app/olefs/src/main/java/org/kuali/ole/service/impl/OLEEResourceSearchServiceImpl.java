@@ -3161,6 +3161,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             }
             pos = (String[]) set.toArray(new String[0]);
             StringBuffer poLink = new StringBuffer();
+            StringBuffer poNos = new StringBuffer();
             for (String po : pos) {
                 String link = null;
                 if (StringUtils.isNotBlank(po)) {
@@ -3173,6 +3174,8 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                             if (validPO) {
                                 link = ConfigContext.getCurrentContextConfig().getProperty("kew.url") + org.kuali.ole.sys.OLEConstants.PO_LINE_ITEM_URL + olePurchaseOrderDocument.getDocumentNumber();
                                 poLink.append("<a href=" + link + " target='_blank'>" + po.trim() + "</a>, ");
+                                poNos.append(po.trim());
+                                poNos.append(",");
                             }
                         }
                     }
@@ -3181,6 +3184,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             if (poLink.length() > 0) {
                 poLink.deleteCharAt(poLink.length() - 2);
                 workEInstanceOlemlForm.getExtendedEHoldingFields().setPurchaseOrderId(poLink.toString());
+                workEInstanceOlemlForm.getExtendedEHoldingFields().setPurchaseOrderNo(poNos.toString());
             }
             workEInstanceOlemlForm.getExtendedEHoldingFields().setCurrentFYCost(currentFYCost.toString());
             if (org.apache.commons.lang.StringUtils.isBlank(workEInstanceOlemlForm.getExtendedEHoldingFields().getPaymentStatus())) {

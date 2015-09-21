@@ -121,51 +121,74 @@ public class DocstoreUtil {
     }
 
     public OleItemSearch getOleItemSearchList(String itemUuid) {
-
-        OleItemSearch oleItemSearch = new OleItemSearch();
+        OleItemSearch oleItemSearch = null;
         try {
             LoanProcessor loanProcessor = new LoanProcessor();
             org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemUuid);
-            ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
-            Item itemContent = itemOlemlRecordProcessor.fromXML(item.getContent());
-            OleHoldings oleHoldings = new HoldingOlemlRecordProcessor().fromXML(item.getHolding().getContent());
-            oleItemSearch.setTitle(item.getHolding().getBib().getTitle());
-            oleItemSearch.setAuthor(item.getHolding().getBib().getAuthor());
-            oleItemSearch.setVolumeNumber(itemContent.getVolumeNumber());
-            oleItemSearch.setBibUUID(item.getHolding().getBib().getId());
-            StringBuffer locationLevel = new StringBuffer("");
-            String location = "";
-            if (itemContent.getLocation().getLocationLevel() != null) {
-                location = getLocation(itemContent.getLocation(), locationLevel);
-                oleItemSearch.setShelvingLocation(location);
-            } else {
-                oleItemSearch.setShelvingLocation(getLocation(oleHoldings.getLocation(), locationLevel));
-            }
+            oleItemSearch = buildItemRecord(loanProcessor, item);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Log.info("Item does not Exist");
+        }
+        return oleItemSearch;
+    }
+
+
+    public OleItemSearch getOleItemSearchListFromLocalClient(String itemUuid) {
+        OleItemSearch oleItemSearch = null;
+        try {
+            org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreLocalClient().retrieveItem(itemUuid);
+            LoanProcessor loanProcessor = new LoanProcessor();
+            oleItemSearch = buildItemRecord(loanProcessor, item);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Log.info("Item does not Exist");
+        }
+        LoanProcessor loanProcessor = new LoanProcessor();
+        return oleItemSearch;
+    }
+
+    private OleItemSearch buildItemRecord(LoanProcessor loanProcessor, org.kuali.ole.docstore.common.document.Item item) throws Exception {
+        OleItemSearch oleItemSearch = new OleItemSearch();
+        ItemOlemlRecordProcessor itemOlemlRecordProcessor = new ItemOlemlRecordProcessor();
+        Item itemContent = itemOlemlRecordProcessor.fromXML(item.getContent());
+        OleHoldings oleHoldings = new HoldingOlemlRecordProcessor().fromXML(item.getHolding().getContent());
+        oleItemSearch.setTitle(item.getHolding().getBib().getTitle());
+        oleItemSearch.setAuthor(item.getHolding().getBib().getAuthor());
+        oleItemSearch.setVolumeNumber(itemContent.getVolumeNumber());
+        oleItemSearch.setBibUUID(item.getHolding().getBib().getId());
+        StringBuffer locationLevel = new StringBuffer("");
+        String location = "";
+        if (itemContent.getLocation().getLocationLevel() != null) {
+            location = getLocation(itemContent.getLocation(), locationLevel);
+            oleItemSearch.setShelvingLocation(location);
+        } else {
+            oleItemSearch.setShelvingLocation(getLocation(oleHoldings.getLocation(), locationLevel));
+        }
            /* String callNumber;
             if(itemContent.getCallNumber()!=null && !StringUtils.isEmpty(itemContent.getCallNumber().getNumber())){
                 callNumber = loanProcessor.getItemCallNumber(itemContent.getCallNumber());
             }else {
                 callNumber = loanProcessor.getItemCallNumber(oleHoldings.getCallNumber());
             }*/
-            String itemType;
-            if(itemContent.getTemporaryItemType()!=null && itemContent.getTemporaryItemType().getCodeValue()!=null){
-                itemType = itemContent.getTemporaryItemType().getCodeValue();
-            }else{
-                itemType = itemContent.getItemType().getCodeValue();
-            }
-            oleItemSearch.setPublisher(item.getHolding().getBib().getPublisher());
-            oleItemSearch.setCallNumber(loanProcessor.getItemCallNumber(itemContent.getCallNumber(),oleHoldings.getCallNumber()));
-            oleItemSearch.setHoldingUUID(item.getHolding().getId());
-            oleItemSearch.setInstanceUUID(item.getHolding().getId());
-            oleItemSearch.setCopyNumber(itemContent.getCopyNumber());
-            oleItemSearch.setItemBarCode(itemContent.getAccessInformation().getBarcode());
-            oleItemSearch.setItemStatus(itemContent.getItemStatus().getFullValue());
-            oleItemSearch.setItemType(itemType);
-            oleItemSearch.setItemUUID(item.getId());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Log.info("Item does not Exist");
+        String itemType;
+        if (itemContent.getTemporaryItemType() != null && itemContent.getTemporaryItemType().getCodeValue() != null) {
+            itemType = itemContent.getTemporaryItemType().getCodeValue();
+        } else {
+            itemType = itemContent.getItemType().getCodeValue();
         }
+        oleItemSearch.setPublisher(item.getHolding().getBib().getPublisher());
+        oleItemSearch.setCallNumber(loanProcessor.getItemCallNumber(itemContent.getCallNumber(), oleHoldings.getCallNumber()));
+        oleItemSearch.setHoldingUUID(item.getHolding().getId());
+        oleItemSearch.setInstanceUUID(item.getHolding().getId());
+        oleItemSearch.setCopyNumber(itemContent.getCopyNumber());
+        oleItemSearch.setItemBarCode(itemContent.getAccessInformation().getBarcode());
+        oleItemSearch.setItemStatus(itemContent.getItemStatus().getFullValue());
+        oleItemSearch.setItemType(itemType);
+        oleItemSearch.setItemUUID(item.getId());
+        oleItemSearch.setEnumeration(itemContent.getEnumeration());
+        oleItemSearch.setChronology(itemContent.getChronology());
+
         return oleItemSearch;
     }
 

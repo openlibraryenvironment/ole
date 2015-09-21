@@ -2,7 +2,7 @@ package org.kuali.ole.ncip.converter;
 
 import com.thoughtworks.xstream.XStream;
 import org.apache.log4j.Logger;
-import org.kuali.ole.ncip.bo.OLECheckOutItem;
+import org.kuali.ole.bo.OLECheckOutItem;
 
 /**
  * Created with IntelliJ IDEA.

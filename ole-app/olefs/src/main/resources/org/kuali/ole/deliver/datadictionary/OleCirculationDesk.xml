@@ -42,6 +42,7 @@
                 <ref bean="OleCirculationDesk-holdQueue"/>
                 <ref bean="OleCirculationDesk-renewLostItem"/>
                 <ref bean="OleCirculationDesk-showItemOnHold"/>
+                <ref bean="OleCirculationDesk-staffed"/>
                 <ref bean="OleCirculationDesk-replyToEmail"/>
             </list>
         </property>
@@ -352,6 +353,25 @@
         <property name="summary" value="Hold Queue"/>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
         <property name="label" value="Hold Queue"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+
+    <bean id="OleCirculationDesk-staffed" parent="OleCirculationDesk-staffed-parentBean"/>
+    <bean id="OleCirculationDesk-staffed-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="staffed"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Staffed"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Staffed"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Staffed"/>
         <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
     </bean>
 

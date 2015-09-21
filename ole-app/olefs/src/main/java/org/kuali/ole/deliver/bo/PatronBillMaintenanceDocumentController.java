@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.bo;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.processor.LoanProcessor;
@@ -104,6 +105,11 @@ public class PatronBillMaintenanceDocumentController extends MaintenanceDocument
         patronMap.put(OLEConstants.OleDeliverRequest.PATRON_ID, request.getParameter(OLEConstants.PTRN_ID));
         List<OlePatronDocument> olePatronDocumentList = (List<OlePatronDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OlePatronDocument.class, patronMap);
         if (olePatronDocumentList != null && olePatronDocumentList.size() > 0) {
+            OlePatronDocument olePatronDocument = olePatronDocumentList.get(0);
+            if (CollectionUtils.isNotEmpty(olePatronDocument.getPatronBillPayments())) {
+                olePatronDocument.setPatronBillFileName(OLEConstants.OlePatron.PATRON_VIEW_BILLS);
+                olePatronDocument.setViewBillUrl(OLEConstants.OlePatron.PATRON_VIEW_BILL_URL + olePatronDocument.getOlePatronId());
+            }
             patronBillPayment.setOlePatron(olePatronDocumentList.get(0));
         }
         patronBillPayment.setPatronId(request.getParameter(OLEConstants.PTRN_ID));
@@ -581,6 +587,54 @@ public class PatronBillMaintenanceDocumentController extends MaintenanceDocument
         }
         patronBillPayment.setErrorMessage(null);
         modelAndView = super.route(maintenanceForm, result, request, response);
+        setViewBillUrlToDocument(maintenanceForm);
         return modelAndView;
+    }
+
+    /**
+     * Override save method to set view bills url.
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=save")
+    public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView modelAndView;
+        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
+        modelAndView = super.save(maintenanceForm, result, request, response);
+        setViewBillUrlToDocument(maintenanceForm);
+        return modelAndView;
+    }
+
+    /**
+     * Override reload method to set view bills url.
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=reload")
+    public ModelAndView reload(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView modelAndView;
+        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
+        modelAndView = super.reload(maintenanceForm, result, request, response);
+        setViewBillUrlToDocument(maintenanceForm);
+        return modelAndView;
+    }
+
+    private void setViewBillUrlToDocument(MaintenanceDocumentForm maintenanceForm) {
+        PatronBillPayment patronBillPayment = (PatronBillPayment) maintenanceForm.getDocument().getNewMaintainableObject().getDataObject();
+        OlePatronDocument olePatronDocument = patronBillPayment.getOlePatron();
+        if (CollectionUtils.isNotEmpty(olePatronDocument.getPatronBillPayments())) {
+            olePatronDocument.setPatronBillFileName(OLEConstants.OlePatron.PATRON_VIEW_BILLS);
+            olePatronDocument.setViewBillUrl(OLEConstants.OlePatron.PATRON_VIEW_BILL_URL + olePatronDocument.getOlePatronId());
+        }
     }
 }

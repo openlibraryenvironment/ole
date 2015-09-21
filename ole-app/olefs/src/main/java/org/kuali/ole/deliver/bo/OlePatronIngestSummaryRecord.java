@@ -1,9 +1,12 @@
 package org.kuali.ole.deliver.bo;
 
 
+import org.kuali.ole.ingest.pojo.OlePatron;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * OlePatronIngestSummaryRecord provides OlePatronIngestSummaryRecord information through getter and setter.
@@ -20,6 +23,7 @@ public class OlePatronIngestSummaryRecord extends PersistableBusinessObjectBase 
     private String principalName;
     private Timestamp createdDate;
     private String failureRecords;
+    private List<OlePatron> failurePatronRecords = new ArrayList<>();
 
 
     public String getFailureRecords() {
@@ -200,5 +204,13 @@ public class OlePatronIngestSummaryRecord extends PersistableBusinessObjectBase 
      */
     public void setCreatedDate(Timestamp createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public List<OlePatron> getFailurePatronRecords() {
+        return failurePatronRecords;
+    }
+
+    public void setFailurePatronRecords(List<OlePatron> failurePatronRecords) {
+        this.failurePatronRecords = failurePatronRecords;
     }
 }

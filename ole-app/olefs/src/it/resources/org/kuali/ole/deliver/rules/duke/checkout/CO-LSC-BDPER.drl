@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "CO-LSC-BDPER"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+
+$i: OleItemRecordForCirc (getItemType() in ("BDPER"),
+getItemLibraryLocation() in ("LSC"))
+then
+$l.setCirculationPolicyId("CO-LSC-BDPER");
+$l.loanPeriod("7-D",null);
+$n.setNoticeType("NO-PS-STDLOAN");
+ end

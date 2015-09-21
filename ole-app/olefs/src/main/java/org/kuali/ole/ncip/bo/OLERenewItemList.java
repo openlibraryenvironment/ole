@@ -1,5 +1,7 @@
 package org.kuali.ole.ncip.bo;
 
+import org.kuali.ole.bo.OLERenewItem;
+
 import java.util.List;
 
 /**

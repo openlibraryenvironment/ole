@@ -198,6 +198,7 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
         OleDeliverRequestBo oleDeliverRequestBo = (OleDeliverRequestBo) maintenanceDocument.getDocumentDataObject();
         oleDeliverRequestBo.setMessage(null);
         oleDeliverRequestBo.setValidToProcess(true);
+        oleDeliverRequestBo.setRequestLevel(OLEConstants.ITEM_LEVEL);
         if (oleDeliverRequestBo.getOperatorModifiedId() == null) {
             if (!docstoreUtil.isItemAvailableInDocStore(oleDeliverRequestBo)) {
                 oleDeliverRequestBo.setValidToProcess(false);
@@ -343,33 +344,9 @@ public class OleDeliverRequestMaintenanceDocumentController extends MaintenanceD
 
             oleDeliverRequestBo = service.processRequester(oleDeliverRequestBo);
              if(oleDeliverRequestBo.isValidToProcess()){
-            boolean valid = false;
-            EngineResults engineResult = executeEngineResults(oleDeliverRequestBo);
-            if (engineResult != null) {
-                List<ResultEvent> allResults = engineResult.getAllResults();
-                if (allResults.size() > 0) {
-                    for (Iterator<ResultEvent> resultEventIterator = allResults.iterator(); resultEventIterator.hasNext(); ) {
-                        ResultEvent resultEvent = resultEventIterator.next();
-                        if (resultEvent.getType().equals(RULE_EVALUATED)) {
-                            valid |= resultEvent.getResult();
-                        }
-                    }
-                }
-                if(oleDeliverRequestBo.getNewDueDate() != null){
-                    try {
-                        Item oleItem = oleDeliverRequestBo.getOleItem();
-                        oleItem.setDueDateTime(loanProcessor.convertToString(new Timestamp(oleDeliverRequestBo.getNewDueDate().getTime())));
-                        loanProcessor.updateItemStatus(oleItem,oleItem.getItemStatus().getCodeValue());
-                    } catch (Exception e) {
-                        LOG.error("Exception", e);
-                    }
-                }
-            }
+               service.fireRules(oleDeliverRequestBo,false,false);
             //  oleDeliverRequestBo = service.reOrderQueuePosition(oleDeliverRequestBo);
         }
-            if(org.apache.commons.lang.StringUtils.isNotBlank(oleDeliverRequestBo.getRequestTypeId()) && (oleDeliverRequestBo.getRequestTypeId().equals("1") || oleDeliverRequestBo.getRequestTypeId().equals("2"))){
-                oleDeliverRequestBo.setRecallNoticeSentDate(new java.sql.Date(System.currentTimeMillis()));
-            }
         if ((oleDeliverRequestBo.getMessage() != null && !oleDeliverRequestBo.getMessage().isEmpty())) {
             return getUIFModelAndView(form);
         }

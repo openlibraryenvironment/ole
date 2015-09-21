@@ -1,0 +1,62 @@
+package org.kuali.ole.deliver.checkin
+
+
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.ErrorMessage
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+ rule "On-Hold for in-transit "
+agenda-group "checkin-validation-for-loan"
+activation-group "checkin-validation-for-loan"
+
+when
+$i: OleItemRecordForCirc(null!= isItemPickupLocationSameAsOperatorCircLoc(),!isItemPickupLocationSameAsOperatorCircLoc(),
+$r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Recall/Hold Request", "Hold/Hold Request", "Page/Hold Request", "ASR Request"),
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
+
+$d : DroolsResponse()
+
+then
+$i.setItemStatusToBeUpdatedTo("INTRANSIT-FOR-HOLD");
+$d.setRuleMatched(true);
+ end
+
+ rule "On-Hold for pickup"
+agenda-group "checkin-validation-for-loan"
+activation-group "checkin-validation-for-loan"
+
+
+when
+
+$i: OleItemRecordForCirc(null!= isItemPickupLocationSameAsOperatorCircLoc(),isItemPickupLocationSameAsOperatorCircLoc(),
+$r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Recall/Hold Request", "Hold/Hold Request", "Page/Hold Request", "ASR Request"),
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
+
+$d : DroolsResponse()
+
+then
+$i.setItemStatusToBeUpdatedTo("ONHOLD");
+$i.updateCheckinCount();
+$d.setRuleMatched(true);
+ end
+
+
+
+ rule "Loaned for in-transit "
+agenda-group "checkin-validation-for-loan"
+activation-group "checkin-validation-for-loan"
+
+when
+$i: OleItemRecordForCirc(null!= isItemPickupLocationSameAsOperatorCircLoc(),!isItemPickupLocationSameAsOperatorCircLoc(),
+$r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Hold/Delivery Request", "Recall/Delivery Request"),
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
+
+$d : DroolsResponse()
+
+then
+$i.setItemStatusToBeUpdatedTo("INTRANSIT-FOR-LOAN");
+$d.setRuleMatched(true);
+ end

@@ -62,31 +62,33 @@ public class PermissionsValidatorUtil {
 
 
     public boolean hasValidOverridePermissions(CircForm circForm) {
-        Boolean finalOverridePermission = true;
+        Boolean finalOverridePermission = false;
         List<String> newErrorsAndPermission = circForm.getErrorMessage().getPermissions();
         if (null != newErrorsAndPermission) {
             for (Iterator<String> iterator = newErrorsAndPermission.iterator(); iterator.hasNext(); ) {
                 String permissionName = iterator.next();
                 String principalId = null;
-                String newPrincipalName = circForm.getOverridingPrincipalName();
-                if (StringUtils.isNotBlank(newPrincipalName)) {
-                    Person supervisorForOverride = getPersonService().getPersonByPrincipalName(newPrincipalName);
-                    if (null != supervisorForOverride) {
-                        principalId = supervisorForOverride.getPrincipalId();
+                String loggedInPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
+                if (getPermissionService().hasPermission(loggedInPrincipalId, OLEConstants.DLVR_NMSPC, permissionName)) {
+                    return true;
+                } else {
+                    if (StringUtils.isNotBlank(circForm.getOverridingPrincipalName())) {
+                        String newPrincipalName = circForm.getOverridingPrincipalName();
+                        Person supervisorForOverride = getPersonService().getPersonByPrincipalName(newPrincipalName);
+                        if (null != supervisorForOverride) {
+                            principalId = supervisorForOverride.getPrincipalId();
+                        }
+                        if (principalId != null) {
+                            boolean hasPermission = getPermissionService().hasPermission(principalId, OLEConstants.DLVR_NMSPC, permissionName);
+                            finalOverridePermission = hasPermission;
+                        }
+                    } else {
+                        break;
                     }
                 }
-
-                if (null == principalId) {
-                    principalId = GlobalVariables.getUserSession().getPrincipalId();
-                }
-
-                boolean hasPermission = getPermissionService().hasPermission(principalId, OLEConstants.DLVR_NMSPC, permissionName);
-                finalOverridePermission = finalOverridePermission && hasPermission;
-
             }
         }
         return finalOverridePermission;
-
     }
 
     private PersonService getPersonService() {

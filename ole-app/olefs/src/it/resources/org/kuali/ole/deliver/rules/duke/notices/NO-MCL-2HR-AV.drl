@@ -1,0 +1,31 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.util.NoticeInfo
+import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.drools.DroolsConstants;
+
+
+rule "Courtsey  MCL-2HR-AV"
+agenda-group "notice generation"
+activation-group "notice generation"
+when
+$n: NoticeInfo(getNoticeType() == "NO-MCL-2HR-AV")
+$i: ItemRecord(getDueDateTime()!= null)
+then
+$n.addInfo(OLEConstants.COURTESY_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY, "4");
+ end
+
+
+rule "Overdue  MCL-2HR-AV"
+agenda-group "notice generation"
+when
+$n: NoticeInfo(getNoticeType() == "NO-MCL-2HR-AV")
+$i: ItemRecord(getDueDateTime()!= null, !getClaimsReturnedFlag())
+then
+
+$n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT, "3");
+$n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE, "1");
+$n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.REPLACEMENT_BILL_AMT, "100");
+ end

@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "CO-1DAY-DIV"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+
+$i: OleItemRecordForCirc (getItemType() in ("1DAY"),
+getItemLibraryLocation() in ("DIV"))
+then
+$l.setCirculationPolicyId("CO-1DAY-DIV");
+$l.loanPeriod("1-D",null);
+$n.setNoticeType("NO-PS-STDLOAN");
+ end

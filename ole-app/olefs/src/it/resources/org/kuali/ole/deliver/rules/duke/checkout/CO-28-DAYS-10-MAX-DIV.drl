@@ -1,0 +1,49 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "CO-28-DAYS-DIV-LESS-THAN-10"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$d: DroolsResponse()
+
+$i: OleItemRecordForCirc (getItemType() in ("STANDARDLOAN"),
+getItemLibraryLocation() in ("DIV"))
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("ALUMNI","PL4WK"),
+getLoanedItemsCountByItemType($i.getItemType()) < 10)
+
+then
+$l.setCirculationPolicyId("CO-28-DAYS-DIV-LESS-THAN-10");
+$l.loanPeriod("28-D","7-D");
+$n.setNoticeType("NO-PS-STDLOAN");
+end
+
+rule "CO-28-DAYS-DIV-GREATER-THAN-10"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$d: DroolsResponse()
+
+$i: OleItemRecordForCirc (getItemType() in ("STANDARDLOAN"),
+getItemLibraryLocation() in ("DIV"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("ALUMNI","PL4WK"),
+getLoanedItemsCountByItemType($i.getItemType()) >= 10)
+
+then
+$d.addErrorMessage("Patron has more than 10 standard loan items checked out");
+$d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+$l.setCirculationPolicyId("CO-28-DAYS-DIV-LESS-THAN-10");
+$l.loanPeriod("28-D","7-D"); // This method takes due date and recall period as arguments.
+$n.setNoticeType("NO-PS-STDLOAN");
+ end

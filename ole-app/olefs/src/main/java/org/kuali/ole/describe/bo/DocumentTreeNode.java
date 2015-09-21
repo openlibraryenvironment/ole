@@ -1,6 +1,7 @@
 package org.kuali.ole.describe.bo;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.model.bo.*;
@@ -375,81 +376,11 @@ public class DocumentTreeNode {
     }
 
     public String buildTreeDataForItem(Item item) {
-        String itemLevelContent = null;
-        String itemLocation = null;
-        StringBuilder treeBuilder = new StringBuilder();
-        String locationName = this.getHoldingLocation();
-        if (item.getLocation() != null) {
-            itemLocation = item.getLocation();
-            if (!(itemLocation).equalsIgnoreCase(locationName)) {
-
-                treeBuilder.append(itemLocation);
-            }
+        String itemTitle = item.getDisplayLabel();
+        if (StringUtils.isNotBlank(itemTitle)) {
+            return itemTitle;
         }
-        StringBuffer removeFromCallNumber = new StringBuffer();
-        String callNumberPrefix = null;
-        // String itemLocation = null;
-        if (item.getLocation() != null) {
-            itemLocation = item.getLocation();
-            if (!(itemLocation).equalsIgnoreCase(locationName)) {
-
-                treeBuilder.append(itemLocation);
-            }
-        }
-        if (item.getCallNumberPrefix() != null && item.getCallNumberPrefix().length() > 0) {
-            callNumberPrefix = item.getCallNumberPrefix();
-        }
-        if (callNumberPrefix != null) {
-            if (treeBuilder.length() > 0) {
-                treeBuilder.append("-").append(callNumberPrefix);
-            } else {
-                treeBuilder.append(callNumberPrefix);
-            }
-        }
-        if (item.getCallNumber() != null && item.getCallNumber().length() > 0) {
-            if (treeBuilder.length() > 0) {
-                treeBuilder.append("-");
-            }
-            treeBuilder.append(item.getCallNumber());
-        }
-        if (item.getEnumeration() != null && item.getEnumeration().length() > 0) {
-            if (treeBuilder.length() > 0) {
-                treeBuilder.append("-");
-            }
-            treeBuilder.append(item.getEnumeration());
-            removeFromCallNumber.append(" " + item.getEnumeration());
-        }
-        if (item.getChronology() != null && item.getChronology().length() > 0) {
-            if (treeBuilder.length() > 0) {
-                treeBuilder.append("-");
-            }
-            treeBuilder.append(item.getChronology());
-            removeFromCallNumber.append(" " + item.getChronology());
-
-        }
-        if (item.getCopyNumber() != null && item.getCopyNumber().length() > 0) {
-            if (treeBuilder.length() > 0) {
-                treeBuilder.append("-");
-            }
-            treeBuilder.append(item.getCopyNumber());
-            removeFromCallNumber.append(" " + item.getCopyNumber());
-        }
-        if (item.getBarcode() != null && item.getBarcode().length() > 0) {
-            if (treeBuilder.length() > 0) {
-                treeBuilder.append("-");
-            }
-            treeBuilder.append(item.getBarcode());
-        }
-        if (treeBuilder.length() == 0) {
-            if (item.getVolumeNumber() != null) {
-                treeBuilder.append(item.getVolumeNumber());
-            } else {
-                treeBuilder.append("Item");
-            }
-        }
-        itemLevelContent = treeBuilder.toString().replaceAll(removeFromCallNumber.toString(), "");
-
-        return itemLevelContent;
+        return "Item";
 
     }
 

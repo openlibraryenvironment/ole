@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "CO-3DAY-MUSIC"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DIVGRAD","DUKESTAFF","HEALTHPROF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
+$i: OleItemRecordForCirc (getItemType() in ("3DAY"),
+getItemLibraryLocation() in ("MUSIC"))
+then
+$l.setCirculationPolicyId("CO-3DAY-MUSIC");
+$l.loanPeriod("3-D",null);
+$n.setNoticeType("NO-MUSIC-3DAY");
+ end

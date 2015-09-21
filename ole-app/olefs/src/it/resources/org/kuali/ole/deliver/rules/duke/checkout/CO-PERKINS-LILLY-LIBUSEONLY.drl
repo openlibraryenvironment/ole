@@ -1,0 +1,28 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "CO-PERKINS-LILLY-LIBUSEONLY"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$d: DroolsResponse()
+
+$i: OleItemRecordForCirc (getItemType() in ("LIBUSEONLY"),
+getItemLibraryLocation() in ("PERKINS","LILLY"))
+then
+
+$d.addErrorMessage("Patron may not borrow Library Use Only Materials.");
+$d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+
+$l.setCirculationPolicyId("CO-PERKINS-LILLY-LIBUSEONLY");
+$l.loanPeriod("3-H",null);
+$n.setNoticeType("NO-PS-STDLOAN");
+ end

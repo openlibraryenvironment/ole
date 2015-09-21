@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.ErrorMessage
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "Check out Circ Policy Set 3DAY-LAW"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","MDFACULTY","GRADST","DIVGRAD","ALUMNI","FQAFFL","UNCGFS","DUKE4WKGOLD","TRLN","DUKESTAFF","HEALTHPROF","UG","FQGRAD","FQST","FQPHD","RETLIB","FQPARTNER","LWALUMNI"))
+$i: OleItemRecordForCirc (getItemType() in ("3DAY"),
+getItemLibraryLocation() in ("LAW"))
+then
+$l.setCirculationPolicyId("Check out Circ Policy Set 3DAY-LAW");
+$l.loanPeriod("3-D",null);
+$n.setNoticeType(DroolsConstants.SHORT_TERM_LOANS_NOTICE_CONFIG);
+ end

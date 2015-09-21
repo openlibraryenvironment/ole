@@ -74,7 +74,8 @@ public class CircFastAddItemController extends CircBaseController {
         OleLoanFastAdd oleLoanFastAdd = new OleLoanFastAdd();
         oleLoanFastAdd.setCallNumber("X");
         circForm.setOleLoanFastAdd(oleLoanFastAdd);
-        showDialog("fastAddDialog", form, request, response);
+        String overrideParameters = "{closeBtn:false,autoSize : false}";
+        showDialogWithOverrideParameters("fastAddDialog", form, overrideParameters);
         return getUIFModelAndView(circForm);
     }
 
@@ -131,7 +132,7 @@ public class CircFastAddItemController extends CircBaseController {
 
         } else {
             circForm.getErrorMessage().setErrorMessage(OLEConstants.REQ_FIELD);
-            showDialog("generalMessageDialog", circForm, request, response);
+            showDialog("generalMessageAndResetUIDialog", circForm, request, response);
         }
 
 

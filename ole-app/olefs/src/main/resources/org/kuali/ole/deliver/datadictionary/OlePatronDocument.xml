@@ -282,6 +282,7 @@
                 <bean id="searchResult_barcode" parent="Uif-MessageField" p:messageText="@{#line.barcode}" p:label="Barcode" />
                 <bean id="searchResult_expirationDate" parent="Uif-MessageField" p:messageText="@{T(org.kuali.ole.krad.OleComponentUtils).formatDate(#line.expirationDate)}" p:label="Expiration Date" />
                 <bean id="searchResult_borrowerTypeName" parent="Uif-DataField" p:propertyName="borrowerTypeName" p:label="Patron Type" p:enableAutoInquiry="false" />
+                <bean id="searchResult_statisticalCategory" parent="Uif-DataField" p:propertyName="statisticalCategoryBo.oleStatisticalCategoryName" p:label="Statistical Category" p:enableAutoInquiry="false" />
                 <!--<bean id="viewPatronBillLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#ViewHelper.getUrl()}"  p:link.linkText="@{#ViewHelper.getFileName()}"  p:target="_blank"  p:label="View Bill"/>
                 <bean id="createPatronBillLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#ViewHelper.getPatronBillUrl(#line.olePatronId,#line.name.firstName,#line.name.lastName)}"  p:link.linkText="Create Bill"  p:target="_blank"  p:label="Create Bill"/>-->
                 <bean id="viewPatronBillLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.viewBillUrl}"  p:link.linkText="@{#line.patronBillFileName}"  p:target="_blank"  p:label="View Bill" />
@@ -395,6 +396,7 @@
         <property name="formPostUrl" value="olePatronInquiry" />
         <property name="items">
             <list>
+                <ref bean="Patron_View_Bill_Section"/>
                 <ref bean="OlePatronDocument-InquiryView-OverviewSection"/>
                 <ref bean="OlePatronDocument-InquiryView-ContactsSection" />
                 <ref bean="OlePatronDocument-InquiryView-AffiliationSection-Wrapper"/>
@@ -413,6 +415,15 @@
         <property name="additionalCssFiles">
             <list>
                 <value>ole/ingest/css/patron.css</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Patron_View_Bill_Section" parent="Uif-HorizontalFieldGroup" p:render="@{dataObject.showBillUrlsFlag eq true}">
+        <property name="items">
+            <list>
+                <bean id="createPatronBillLink_view" parent="Uif-LinkField" p:style="font-weight:bold;font-size:15px;margin-left:1.5em;" p:href="@{#dp.createBillUrl}"  p:linkText="Create Bill"  p:target="_blank"/>
+                <bean id="viewPatronBillLink_view" parent="Uif-LinkField" p:style="font-weight:bold;font-size:15px;margin-left:1.5em;" p:href="@{#dp.viewBillUrl}"  p:linkText="@{#dp.patronBillFileName}"  p:target="_blank"/>
             </list>
         </property>
     </bean>
@@ -854,6 +865,7 @@
                 <bean id="patronRequestInquiry_volumeNumber" parent="Uif-DataField" p:label="Volume Number" p:propertyName="volumeNumber" />
                 <bean id="patronRequestInquiry_itemType" parent="Uif-DataField" p:label="Item Type" p:propertyName="itemType" />
                 <bean id="patronRequestInquiry_itemStatus" parent="Uif-DataField" p:label="Item Status" p:propertyName="itemStatus" />
+                <bean id="patronRequestInquiry_pickUpLocationCode" parent="Uif-DataField" p:label="Pickup Location" p:propertyName="pickUpLocationCode"/>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>
@@ -1075,7 +1087,7 @@
             <list>
                 <bean id="invalidOrLostBarcodeID" parent="Uif-InputField" p:propertyName="olePatronLostBarcodeId" p:label=" " p:style="width:0px" p:hidden="true"/>
                 <bean id="invalidOrLostBarcodeNumber" parent="Uif-InputField" p:propertyName="invalidOrLostBarcodeNumber" p:label="Lost/Invalid Barcode"/>
-                <bean id="invalidOrLostBarcodeEffDate" parent="Uif-InputField" p:propertyName="invalidOrLostBarcodeEffDate" p:label="Effective date"/>
+                <bean id="invalidOrLostBarcodeEffDate" parent="Uif-InputField" p:propertyName="invalidOrLostBarcodeEffDate" p:label="Lost/Invalid Barcode Eff Date"/>
                 <bean id="invalidOrLostBarcodeStatus" parent="Uif-InputField" p:propertyName="status" p:label="Status"/>
                 <bean id="invalidOrLostBarcodeDescription" parent="Uif-InputField" p:propertyName="description" p:label="Description"/>
                 <bean id="invalidOrLostBarcodeOperatorId" parent="Uif-InputField" p:propertyName="operatorName" p:label="Operator Name"/>

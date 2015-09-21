@@ -1,0 +1,25 @@
+package org.kuali.ole.deliver.rules.chicago.ncip
+import org.kuali.ole.deliver.bo.OleDeliverRequestBo
+import org.kuali.ole.deliver.bo.OleDroolsHoldResponseBo
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+
+rule "RQ-PS-STANDARDLOAN"
+agenda-group "place-request"
+when
+$p : OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","UG","STAFF"))
+$dr: OleDeliverRequestBo(getItemType() in ("STANDARDLOAN"),
+    getItemLibrary() in ("PERKINS","LILLY","LSC"))
+$d : DroolsResponse()
+$n : NoticeInfo()
+then
+$d.setRuleMatched(true);
+$n.setNoticeType("NO-RC-PS-STANDARDLOAN");
+$d.getDroolsExchange().addToContext("requestExpirationDays","90");
+$d.getDroolsExchange().addToContext("minimumLoanPeriod","14-D");
+$d.getDroolsExchange().addToContext("recallLoanPeriod","7-D");
+end
+

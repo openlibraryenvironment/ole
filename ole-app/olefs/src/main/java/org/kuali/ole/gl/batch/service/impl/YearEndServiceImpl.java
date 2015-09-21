@@ -19,10 +19,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.kuali.ole.coa.service.BalanceTypeService;
 import org.kuali.ole.coa.service.ObjectTypeService;
@@ -43,12 +40,16 @@ import org.kuali.ole.gl.report.LedgerSummaryReport;
 import org.kuali.ole.gl.service.BalanceService;
 import org.kuali.ole.gl.service.OriginEntryGroupService;
 import org.kuali.ole.gl.service.OriginEntryService;
+import org.kuali.ole.select.document.OlePurchaseOrderDocument;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.OLEKeyConstants;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.service.ReportWriterService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,6 +78,7 @@ public class YearEndServiceImpl implements YearEndService {
     private ReportWriterService nominalActivityClosingReportWriterService;
     private ReportWriterService balanceForwardReportWriterService;
     private ReportWriterService encumbranceClosingReportWriterService;
+    private BusinessObjectService businessObjectService;
 
     public static final String TRANSACTION_DATE_FORMAT_STRING = "yyyy-MM-dd";
 
@@ -328,6 +330,7 @@ public class YearEndServiceImpl implements YearEndService {
             
             // if the encumbrance is not completely relieved
             if (getEncumbranceClosingOriginEntryGenerationService().shouldForwardEncumbrance(encumbrance)) {
+                if(isPurchaseOrderOpen(encumbrance)) {
 
                 incrementCount(counts, "encumbrancesSelected");
 
@@ -338,8 +341,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                     continue;
 
-                }
-                else {
+                } else {
                     // save the entries.
                     originEntryService.createEntry(beginningBalanceEntryPair.getEntry(), encumbranceForwardPs);
                     forwardEncumbranceLedgerReport.summarizeEntry(beginningBalanceEntryPair.getEntry());
@@ -356,8 +358,7 @@ public class YearEndServiceImpl implements YearEndService {
                 boolean isEligibleForCostShare = false;
                 try {
                     isEligibleForCostShare = this.getEncumbranceClosingOriginEntryGenerationService().shouldForwardCostShareForEncumbrance(beginningBalanceEntryPair.getEntry(), beginningBalanceEntryPair.getOffset(), encumbrance, beginningBalanceEntryPair.getEntry().getFinancialObjectTypeCode());
-                }
-                catch (FatalErrorException fee) {
+                } catch (FatalErrorException fee) {
                     LOG.info(fee.getMessage());
                 }
 
@@ -378,6 +379,7 @@ public class YearEndServiceImpl implements YearEndService {
                     }
                 }
             }
+        }
             if (counts.get("encumbrancesSelected").intValue() % 1000 == 0) {
              //   persistenceService.clearCache();
             }
@@ -401,6 +403,19 @@ public class YearEndServiceImpl implements YearEndService {
         // write ledger summary report
         getEncumbranceClosingReportWriterService().writeSubTitle(configurationService.getPropertyValueAsString(OLEKeyConstants.MESSAGE_REPORT_YEAR_END_ENCUMBRANCE_FORWARDS_LEDGER_TITLE_LINE));
         forwardEncumbranceLedgerReport.writeReport(getEncumbranceClosingReportWriterService());
+    }
+
+    public boolean isPurchaseOrderOpen(Encumbrance encumbrance) {
+        Map poMap = new HashMap();
+        poMap.put(OLEConstants.PUR_DOC_IDENTIFIER, encumbrance.getDocumentNumber());
+        poMap.put(OLEConstants.PO_DOC_CURR_IND, true);
+        List<OlePurchaseOrderDocument> olePurchaseOrderDocument = (List<OlePurchaseOrderDocument>) getBusinessObjectService().findMatching(OlePurchaseOrderDocument.class, poMap);
+        if (olePurchaseOrderDocument.size() > 0) {
+            if (olePurchaseOrderDocument.get(0).getApplicationDocumentStatus().equalsIgnoreCase(OLEConstants.PO_DOC_STAT_CLOSED)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -565,5 +580,12 @@ public class YearEndServiceImpl implements YearEndService {
      */
     public void setEncumbranceClosingReportWriterService(ReportWriterService encumbranceClosingReportWriterService) {
         this.encumbranceClosingReportWriterService = encumbranceClosingReportWriterService;
+    }
+
+    private BusinessObjectService getBusinessObjectService() {
+        if (null == businessObjectService) {
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return businessObjectService;
     }
 }

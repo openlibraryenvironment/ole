@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Map;
 
 /**
  * OlePatronRecordController is the controller class for Patron Record Controller
@@ -88,7 +89,9 @@ public class OlePatronRecordController extends UifControllerBase {
         if (validateFile(multipartFile.getOriginalFilename())) {
             String fileContent = new String(multipartFile.getBytes());
             try {
-                boolean schemaFlag = olePatronXMLSchemaValidator.validateContentsAgainstSchema(multipartFile.getInputStream());
+                //boolean schemaFlag = olePatronXMLSchemaValidator.validateContentsAgainstSchema(multipartFile.getInputStream());
+                Map validateResultMap = olePatronXMLSchemaValidator.validateContentsAgainstSchema(multipartFile.getInputStream());
+                boolean schemaFlag = (boolean)validateResultMap.get(OLEConstants.OlePatron.PATRON_XML_ISVALID);
                 if(!schemaFlag){
                     olePatronRecordForm.setMessage(OLEConstants.PATRON_RECORD_INVALID_SCHEMA);
                     return super.start(olePatronRecordForm, result, request, response);

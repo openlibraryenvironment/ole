@@ -34,7 +34,10 @@ public class OLEInvoiceForm extends TransactionalDocumentFormBase {
 
     private String pageNumber;
     private String selectRowDetails;
+    private String urlBase;
     private boolean showSelectedRowDetails;
+    private boolean successFlag;
+    private boolean blanketApproveSuccessFlag;
 
     public String getSubscriptionDateValidationFlag() {
         return subscriptionDateValidationFlag;
@@ -334,5 +337,28 @@ public class OLEInvoiceForm extends TransactionalDocumentFormBase {
 		this.showSelectedRowDetails = showSelectedRowDetails;
 	}
 
+    public String getUrlBase() {
+        return urlBase;
+    }
+
+    public void setUrlBase(String urlBase) {
+        this.urlBase = urlBase;
+    }
+
+    public boolean isSuccessFlag() {
+        return successFlag;
+    }
+
+    public void setSuccessFlag(boolean successFlag) {
+        this.successFlag = successFlag;
+    }
+
+    public boolean isBlanketApproveSuccessFlag() {
+        return blanketApproveSuccessFlag;
+    }
+
+    public void setBlanketApproveSuccessFlag(boolean blanketApproveSuccessFlag) {
+        this.blanketApproveSuccessFlag = blanketApproveSuccessFlag;
+    }
 }
 

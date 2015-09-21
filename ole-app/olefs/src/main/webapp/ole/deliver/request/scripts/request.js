@@ -137,6 +137,7 @@ jq(document).ready(function(){
         jq('#copyRequestTyp_control_0').removeAttr('checked');
         jq('#recallRequestTyp_control_0').removeAttr('checked');
         jq('#holdRequestTyp_control_0').removeAttr('checked');
+        jq('#asrRequestTyp_control_0').removeAttr('checked');
     });
     jq('#copyRequestTyp_control_0').live("click",function(){
 
@@ -144,6 +145,7 @@ jq(document).ready(function(){
         jq('#pageRequestTyp_control_0').removeAttr('checked');
         jq('#recallRequestTyp_control_0').removeAttr('checked');
         jq('#holdRequestTyp_control_0').removeAttr('checked');
+        jq('#asrRequestTyp_control_0').removeAttr('checked');
     });
     jq('#recallRequestTyp_control_0').live("click",function(){
 
@@ -151,6 +153,7 @@ jq(document).ready(function(){
         jq('#pageRequestTyp_control_0').removeAttr('checked');
         jq('#copyRequestTyp_control_0').removeAttr('checked');
         jq('#holdRequestTyp_control_0').removeAttr('checked');
+        jq('#asrRequestTyp_control_0').removeAttr('checked');
     });
 
     jq('#holdRequestTyp_control_0').live("click",function(){
@@ -158,6 +161,16 @@ jq(document).ready(function(){
         jq('#holdRequestTyp_control_0').attr("checked","true");
         jq('#pageRequestTyp_control_0').removeAttr('checked');
         jq('#copyRequestTyp_control_0').removeAttr('checked');
+        jq('#recallRequestTyp_control_0').removeAttr('checked');
+        jq('#asrRequestTyp_control_0').removeAttr('checked');
+    });
+
+    jq('#asrRequestTyp_control_0').live("click",function(){
+
+        jq('#asrRequestTyp_control_0').attr("checked","true");
+        jq('#pageRequestTyp_control_0').removeAttr('checked');
+        jq('#copyRequestTyp_control_0').removeAttr('checked');
+        jq('#holdRequestTyp_control_0').removeAttr('checked');
         jq('#recallRequestTyp_control_0').removeAttr('checked');
     });
 

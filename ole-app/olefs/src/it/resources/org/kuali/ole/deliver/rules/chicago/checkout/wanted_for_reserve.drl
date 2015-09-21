@@ -1,0 +1,28 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "Check out Circ Policy Set Wanted for Reserve"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument();
+
+$d: DroolsResponse()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF,","QOTHER",
+"QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC","MANB"))
+
+$i: OleItemRecordForCirc(getItemLocation() in ("Resup", "ResupC","ResupD","ResupE","ResupS"))
+
+then
+ $d.addErrorMessage("Items wanted for reserve may not be checked out");
+ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+ $l.loanPeriod("1-D",null); // This method takes due date and recall period as arguments.
+  end

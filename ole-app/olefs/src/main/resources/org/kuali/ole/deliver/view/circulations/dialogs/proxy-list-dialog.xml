@@ -43,6 +43,8 @@
                 <bean parent="Uif-VerticalFieldGroup">
                     <property name="items">
                         <list>
+                            <bean id="proxyListInfoMessage" parent="Uif-MessageField" p:style="font-size:15px"
+                                  p:messageText="The current patron is a proxy borrower. Please select the correct one for this transaction and click OK."/>
                             <ref bean="selfCheckOut-HorizontalBoxSection"/>
                             <ref bean="proxyForPatronList-HorizontalBoxSection"/>
                             <ref bean="btnForProxyPatronCheckout-HorizontalBoxSection"/>
@@ -64,7 +66,10 @@
             <list>
                 <bean id="selfCheckout" parent="Loan-Uif-InputField" p:label="Current Patron" p:propertyName="checkoutForSelf">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:cssClasses="patronCheckBoxClass"/>
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="patronCheckBoxClass" p:onClickScript=
+                                "jq('input:checkbox').click(function () {
+                                    jq('input:checkbox').not(this).removeAttr('checked');
+                                });"/>
                     </property>
                 </bean>
                 <bean id="patronId" parent="Uif-DataField" p:label="Current Patron Id"  p:propertyName="olePatronId"/>
@@ -82,43 +87,36 @@
         <property name="renderLineActions" value="false"/>
     </bean>
 
-    <bean id="proxyForPatronList-HorizontalBoxSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6">
 
-        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleProxyPatronDocument"/>
-        <property name="propertyName" value="patronDocument.oleProxyPatronDocumentList"/>
-        <property name="layoutManager.renderSequenceField" value="false"/>
+
+
+    <bean id="proxyForPatronList-HorizontalBoxSection" parent="Uif-CollectionGroupBase"
+          p:style="width:1000px;padding-top: 45px;">
+        <property name="propertyName" value="patronDocument.oleProxyPatronDocumentList" />
         <property name="renderAddLine" value="false"/>
-        <property name="layoutManager.richTable.render" value="true"/>
-        <property name="layoutManager.richTable.disableTableSort" value="true" />
-        <property name="items">
-            <list>
-                <bean id="realPatron" parent="Loan-Uif-InputField" p:label="Choose Proxy For Patron" p:propertyName="olePatronDocument.checkoutForSelf">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:cssClasses="patronCheckBoxClass"/>
-                    </property>
-                </bean>
-                <bean id="proxyForPatronId" parent="Uif-DataField" p:label="Proxied Patron Id"  p:propertyName="proxyPatronId"/>
-
-                <bean id="proxyForPatronFirstName" parent="Uif-DataField" p:label="First Name" p:propertyName="olePatronDocument.entity.names[0].firstName"/>
-
-                <bean id="proxyForPatronLastName" parent="Uif-DataField" p:label="Last Name"  p:propertyName="olePatronDocument.entity.names[0].lastName"/>
-
-                <bean id="proxyForPatronBarcode" parent="Uif-DataField" p:label="Barcode" p:propertyName="olePatronDocument.barcode"/>
-
-                <bean id="proxyForPatronType" parent="Uif-DataField" p:label="Proxied Patron Type" p:propertyName="olePatronDocument.oleBorrowerType.borrowerTypeName"/>
-
-            </list>
-        </property>
         <property name="renderLineActions" value="false"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.deliver.bo.OleProxyPatronDocument" />
+        <property name="layoutManager">
+            <bean class="org.kuali.ole.describe.krad.ProxyPatrenSearchLayout"
+                  p:template="/WEB-INF/ftl/proxy-patron.ftl" p:templateName="proxy_patron_search">
+                <property name="pager">
+                    <bean parent="Uif-Pager" p:linkScript="proxyListCheckoutDialog(this,'proxyForPatronList-HorizontalBoxSection')" />
+                </property>
+            </bean>
+        </property>
     </bean>
+
+
 
     <bean id="btnForProxyPatronCheckout-HorizontalBoxSection" parent="btnForProxyPatronCheckout-HorizontalBoxSection-parentBean" />
     <bean id="btnForProxyPatronCheckout-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
         <property name="items">
             <list>
                 <bean id="btnProceed" parent="Uif-SecondaryActionButton-Small"
-                      p:actionScript="submitForm('processPatronSearchPostProxyHandling',null,null,true,function () {
-                });jq.fancybox.close();"
+                      p:actionScript="submitForm('processPatronSearchPostProxyHandling',null,null,true,
+                      function (){jq('#checkoutItem_control').focus();}
+                      );jq.fancybox.close();"
                       p:actionLabel="OK"/>
                 <bean id="realPatronCloseBtn"
                       parent="Uif-SecondaryActionButton-Small"

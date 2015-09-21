@@ -138,4 +138,7 @@
         <property name="oleDeliverNoticeHelperService" ref="oleDeliverNoticeHelperService"/>
     </bean>
 
+
+    <bean id="OleLoanDocumentPlatformAwareDao" parent="platformAwareDaoJdbc" class="org.kuali.ole.deliver.service.OleLoanDocumentPlatformAwareDao" />
+
 </beans>

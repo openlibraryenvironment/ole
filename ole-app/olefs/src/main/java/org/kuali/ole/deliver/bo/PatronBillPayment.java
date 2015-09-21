@@ -10,6 +10,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -50,6 +51,7 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
     private boolean zeroFeeAmount;
     private boolean requiredFeeAmount;
     private KualiDecimal paidAmount = new KualiDecimal(0);
+    private Timestamp lastTransactionDate;
 
     private OlePatronDocument olePatron = new OlePatronDocument();
 
@@ -525,5 +527,13 @@ public class PatronBillPayment extends PersistableBusinessObjectBase {
 
     public void setRequiredFeeAmount(boolean requiredFeeAmount) {
         this.requiredFeeAmount = requiredFeeAmount;
+    }
+
+    public Timestamp getLastTransactionDate() {
+        return lastTransactionDate;
+    }
+
+    public void setLastTransactionDate(Timestamp lastTransactionDate) {
+        this.lastTransactionDate = lastTransactionDate;
     }
 }

@@ -195,6 +195,8 @@
                   {'bSortable':false, 'sWidth':'30%'},
                   {'bSortable':false, 'sWidth':'20%'},
                   {'bSortable':false, 'sWidth':'30%'},
+                  {'bSortable':false, 'sWidth':'30%'},
+                  {'bSortable':false, 'sWidth':'30%'},
                   {'bSortable':false, 'sWidth':'20%'}
                 ]"/>
             </map>
@@ -208,10 +210,15 @@
                 </bean>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
                       p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=@{#line.DocFormat}&amp;docId=@{#line.localId}&amp;bibId=@{#line.bibIdentifier}&amp;editable=true"
-                      p:label="Title" p:linkText="@{#line.title}"  p:target="_blank"/>
+                      p:label="Title" p:linkText="@{#line.title}" p:render="@{#line.staffOnly eq 'false'}" p:target="_blank"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=@{#line.DocFormat}&amp;docId=@{#line.localId}&amp;bibId=@{#line.bibIdentifier}&amp;editable=true"
+                      p:label="Title" p:linkText="@{#line.title}" p:cssClasses="staffOnlyForHiperlink" p:render="@{#line.staffOnly eq 'true'}" p:target="_blank"/>
                 <bean parent="Uif-DataField" p:label="Local Identifier" p:propertyName="localId"/>
                 <bean parent="Uif-DataField" p:label="Author" p:propertyName="author"/>
                 <bean parent="Uif-DataField" p:label="Pub Date" p:propertyName="publicationDate"/>
+                <bean parent="Uif-DataField" p:label="Resource Type" p:propertyName="resourceType"/>
+                <bean parent="Uif-DataField" p:label="Carrier" p:propertyName="carrier"/>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>
@@ -249,7 +256,7 @@
         <property name="items">
             <list>
                 <bean id="DocumentAndSearchSelectionType_DocType" parent="Base-Uif-InputField"
-                      p:propertyName="docType" p:label="Document Type" p:onChangeScript="submitForm('start', null, null, null);" p:render="@{searchType eq 'search'}">
+                      p:propertyName="docType" p:label="Document Type" p:onChangeScript="submitForm('changeDocType', null, null, null);" p:render="@{searchType eq 'search'}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
                     </property>
@@ -489,7 +496,7 @@
         </property>
     </bean>
 
-    <bean id="FacetFieldResultSection" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{docType eq 'bibliographic'}">
+    <bean id="FacetFieldResultSection" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{docType eq 'bibliographic'}" p:disclosure.defaultOpen="false">
         <property name="headerText" value="Narrow Search"/>
         <property name="items">
             <list>

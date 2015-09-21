@@ -158,12 +158,11 @@ public class OleDeliverRequestLookupableImpl extends LookupableImpl {
                     // displayList.remove(i);
                 } else {
                     Map<String, String> patronMap = new HashMap<String, String>();
-                    patronMap.put(OLEConstants.OlePatron.PATRON_FIRST_NAME, displayList.get(i).getFirstName());
-                    patronMap.put(OLEConstants.OlePatron.PATRON_LAST_NAME, displayList.get(i).getLastName());
+                    patronMap.put("entityId",oleDeliverRequestBo.getBorrowerId());
                     entityNameBos = (List<EntityNameBo>) KRADServiceLocator.getBusinessObjectService().findMatching(EntityNameBo.class, patronMap);
                     if (entityNameBos.size() > 0) {
-                        displayList.get(i).setFirstName(displayList.get(i).getFirstName());
-                        displayList.get(i).setLastName(displayList.get(i).getLastName());
+                        displayList.get(i).setFirstName(entityNameBos.get(0).getFirstName());
+                        displayList.get(i).setLastName(entityNameBos.get(0).getLastName());
                     }
                     oleDeliverRequestBoList.add(displayList.get(i));
                 }

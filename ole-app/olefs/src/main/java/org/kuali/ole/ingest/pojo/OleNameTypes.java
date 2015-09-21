@@ -7,6 +7,7 @@ public class OleNameTypes {
 
     private String title;
     private String first;
+    private String middle;
     private String surname;
     private String suffix;
     /**
@@ -23,6 +24,15 @@ public class OleNameTypes {
     public void setFirst(String first) {
         this.first = first;
     }
+
+    public String getMiddle() {
+        return middle;
+    }
+
+    public void setMiddle(String middle) {
+        this.middle = middle;
+    }
+
     /**
      * Gets the surname attribute.
      * @return  Returns the surname.

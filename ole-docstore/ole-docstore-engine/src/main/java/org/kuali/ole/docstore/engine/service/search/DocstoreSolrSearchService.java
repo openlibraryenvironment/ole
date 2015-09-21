@@ -8,12 +8,12 @@ import org.apache.solr.client.solrj.response.*;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.kuali.ole.DocumentUniqueIDPrefix;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.ole.docstore.common.search.*;
 import org.kuali.ole.docstore.common.search.FacetResultField;
 import org.kuali.ole.docstore.discovery.service.SolrServerManager;
-import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
 import org.kuali.ole.docstore.model.enums.DocType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ import java.util.*;
  * Time: 6:42 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DocstoreSolrSearchService implements DocstoreSearchService {
+public class DocstoreSolrSearchService implements DocstoreSearchService, DocstoreConstants {
 
     private static final Logger LOG = LoggerFactory.getLogger(DocstoreSolrSearchService.class);
 
@@ -1243,21 +1243,21 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
         SearchParams searchParams = new SearchParams();
         Set<String> keys = map.keySet();
         for (String key : keys) {
-            if (!BibConstants.DOC_TYPE.equalsIgnoreCase(key)) {
+            if (!DOC_TYPE.equalsIgnoreCase(key)) {
                 SearchCondition searchCondition = new SearchCondition();
-                SearchField searchField = searchParams.buildSearchField(map.get(BibConstants.DOC_TYPE), searchFieldsMap.get(key), map.get(key));
+                SearchField searchField = searchParams.buildSearchField(map.get(DOC_TYPE), searchFieldsMap.get(key), map.get(key));
                 searchCondition.setSearchField(searchField);
                 searchParams.getSearchConditions().add(searchCondition);
             }
         }
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(map.get(BibConstants.DOC_TYPE), "id"));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(map.get(DOC_TYPE), "id"));
         return searchParams;
     }
 
     @Override
     public String findHoldings(Map<String, String> map) {
         List<String> holdingIds = new ArrayList<>();
-        map.put(BibConstants.DOC_TYPE, "holdings");
+        map.put(DOC_TYPE, "holdings");
         SearchParams searchParams = buildSearchParamsFromMap(map);
         SearchResponse searchResponse = search(searchParams);
         for (SearchResult searchResult : searchResponse.getSearchResults()) {
@@ -1274,7 +1274,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService {
     @Override
     public String findItem(Map<String, String> map) {
         List<String> itemIds = new ArrayList<>();
-        map.put(BibConstants.DOC_TYPE, "item");
+        map.put(DOC_TYPE, "item");
         SearchParams searchParams = buildSearchParamsFromMap(map);
         SearchResponse searchResponse = search(searchParams);
         for (SearchResult searchResult : searchResponse.getSearchResults()) {

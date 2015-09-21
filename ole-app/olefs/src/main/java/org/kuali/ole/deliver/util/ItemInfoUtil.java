@@ -1,27 +1,27 @@
 package org.kuali.ole.deliver.util;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.ole.deliver.bo.OleCirculationDesk;
+import org.kuali.ole.deliver.bo.OleCirculationDeskLocation;
+import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * Created by pvsubrah on 6/5/15.
  */
-public class ItemInfoUtil {
+public class ItemInfoUtil extends OLEUtil {
     private static ItemInfoUtil itemInfoUtil;
-    private BusinessObjectService businessObjectService;
 
 
-    private enum LEVEL_CODES {
+
+    public enum LEVEL_CODES {
         INSTITUTION(1), CAMPUS(2), LIBRARY(3), COLLECTION(4), SHELVING(5);
         private int id;
 
@@ -45,16 +45,10 @@ public class ItemInfoUtil {
         return itemInfoUtil;
     }
 
-    public OleItemRecordForCirc getOleItemRecordForCirc(ItemRecord itemRecord) {
+    public OleItemRecordForCirc getOleItemRecordForCirc(ItemRecord itemRecord, OleCirculationDesk oleCirculationDesk) {
         OleItemRecordForCirc oleItemRecordForCirc = new OleItemRecordForCirc();
-        ItemTypeRecord itemTempTypeRecord = itemRecord.getItemTypeRecord();
-        String itemType = itemTempTypeRecord.getCode();
-        if (itemType == null) {
-           itemType = itemRecord.getItemTypeRecord().getCode();
-        }
-        oleItemRecordForCirc.setItemType(itemType);
-        oleItemRecordForCirc.setItemStatusRecord(itemRecord.getItemStatusRecord());
-        oleItemRecordForCirc.setItemUUID(itemRecord.getItemId());
+        oleItemRecordForCirc.setOperatorCircLocation(oleCirculationDesk);
+        oleItemRecordForCirc.setItemRecord(itemRecord);
 
         String location = null;
         location = itemRecord.getLocation();
@@ -70,12 +64,102 @@ public class ItemInfoUtil {
             HoldingsRecord holdingsRecord = holdingsRecords.get(0);
             location = holdingsRecord.getLocation();
         }
-        populateItemLocation(oleItemRecordForCirc,location);
+        populateItemLocation(oleItemRecordForCirc, location);
+
+        OleDeliverRequestBo requestBO = getRequestBO(itemRecord.getBarCode());
+        oleItemRecordForCirc.setOleDeliverRequestBo(requestBO);
+
+        determineOperatorCircLocAndPickupLocationIsTheSame(oleItemRecordForCirc);
+        determineOperatorCircLocAndCheckingIsTheSame(oleItemRecordForCirc);
+        determineifLocationMappedToCircDesk(oleItemRecordForCirc);
 
         return oleItemRecordForCirc;
     }
 
-    private void populateItemLocation(OleItemRecordForCirc oleItemRecordForCirc,String location) {
+    private void determineOperatorCircLocAndPickupLocationIsTheSame(OleItemRecordForCirc oleItemRecordForCirc) {
+        oleItemRecordForCirc.setIsPickupLocationSameAsOperatorCircLocation(false);
+        OleCirculationDesk olePickUpLocation = oleItemRecordForCirc.getPickupLocation();
+        OleCirculationDesk operatorCircLocation = oleItemRecordForCirc.getOperatorCircLocation();
+        if (null != olePickUpLocation && null != operatorCircLocation) {
+            if (olePickUpLocation.getCirculationDeskId().equals(operatorCircLocation.getCirculationDeskId())) {
+                oleItemRecordForCirc.setIsPickupLocationSameAsOperatorCircLocation(true);
+            } else {
+                oleItemRecordForCirc.setRouteToLocation(olePickUpLocation.getCirculationDeskCode());
+            }
+        }
+    }
+
+    private void determineifLocationMappedToCircDesk(OleItemRecordForCirc oleItemRecordForCirc) {
+        oleItemRecordForCirc.setIsLocationMappedToCircDesk(false);
+        String itemLocation = oleItemRecordForCirc.getItemFullPathLocation();
+        List<OleCirculationDeskLocation> oleCirculationDeskLocations = (List<OleCirculationDeskLocation>) getBusinessObjectService().findAll(OleCirculationDeskLocation.class);
+        if (CollectionUtils.isNotEmpty(oleCirculationDeskLocations)) {
+            List<OleLocation> oleLocationList = (List<OleLocation>) KRADServiceLocator.getBusinessObjectService().findAll(OleLocation.class);
+            for (Iterator<OleCirculationDeskLocation> oleCirculationDeskLocationIterator = oleCirculationDeskLocations.iterator(); oleCirculationDeskLocationIterator.hasNext(); ) {
+                OleCirculationDeskLocation oleCirculationDeskLocation = oleCirculationDeskLocationIterator.next();
+                if (StringUtils.isBlank(oleCirculationDeskLocation.getCirculationPickUpDeskLocation()) && getCirculationFullLocationCode(oleCirculationDeskLocation, oleLocationList).equalsIgnoreCase(itemLocation)) {
+                    oleItemRecordForCirc.setRouteToLocation(oleCirculationDeskLocation.getOleCirculationDesk().getCirculationDeskCode());
+                    oleItemRecordForCirc.setIsLocationMappedToCircDesk(true);
+                    break;
+                }
+            }
+        }
+    }
+
+    private String getCirculationFullLocationCode(OleCirculationDeskLocation oleCirculationDeskLocation, List<OleLocation> oleLocationList) {
+        String fullLocationCode = oleCirculationDeskLocation.getCirculationLocationCode();
+        if (oleLocationList.size() > 0) {
+            for (OleLocation deskLocation : oleLocationList){
+                if (deskLocation.getLocationId().equals(oleCirculationDeskLocation.getCirculationDeskLocation())){
+                    if (deskLocation.getParentLocationId() != null) {
+                        deskLocation = deskLocation.getOleLocation();
+                    } else {
+                        return fullLocationCode;
+                    }
+                    while (deskLocation != null) {
+                        fullLocationCode = deskLocation.getLocationCode() + "/" + fullLocationCode;
+                        if (deskLocation.getParentLocationId() != null) {
+                            deskLocation = deskLocation.getOleLocation();
+                        } else
+                            deskLocation = null;
+                    }
+                }
+            }
+            return fullLocationCode;
+        }
+        return fullLocationCode;
+    }
+
+    private void determineOperatorCircLocAndCheckingIsTheSame(OleItemRecordForCirc oleItemRecordForCirc) {
+        oleItemRecordForCirc.setIsCheckinLocationSameAsHomeLocation(false);
+        String itemFullPathLocation = oleItemRecordForCirc.getItemFullPathLocation();
+        OleCirculationDesk operatorCircLocation = oleItemRecordForCirc.getOperatorCircLocation();
+        if (null != itemFullPathLocation && null != operatorCircLocation) {
+            List<OleCirculationDeskLocation> oleCirculationDeskLocations = filterCirculationDeskLocationsForOmitPickupLocation(operatorCircLocation);
+            for (Iterator<OleCirculationDeskLocation> iterator = oleCirculationDeskLocations.iterator(); iterator.hasNext(); ) {
+                OleCirculationDeskLocation oleCirculationDeskLocation = iterator.next();
+                if (oleCirculationDeskLocation.getLocation().getFullLocationPath().equals(itemFullPathLocation)) {
+                    oleItemRecordForCirc.setIsCheckinLocationSameAsHomeLocation(true);
+                    break;
+                }
+            }
+        }
+    }
+
+    private List<OleCirculationDeskLocation> filterCirculationDeskLocationsForOmitPickupLocation(OleCirculationDesk operatorCircLocation) {
+        List<OleCirculationDeskLocation> filteredCirculationDeskLocations = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(operatorCircLocation.getOleCirculationDeskLocations())) {
+            for (Iterator<OleCirculationDeskLocation> iterator = operatorCircLocation.getOleCirculationDeskLocations().iterator(); iterator.hasNext(); ) {
+                OleCirculationDeskLocation oleCirculationDeskLocation = iterator.next();
+                if (StringUtils.isBlank(oleCirculationDeskLocation.getCirculationPickUpDeskLocation())) {
+                    filteredCirculationDeskLocations.add(oleCirculationDeskLocation);
+                }
+            }
+        }
+        return filteredCirculationDeskLocations;
+    }
+
+    public void populateItemLocation(OleItemRecordForCirc oleItemRecordForCirc,String location) {
         StringTokenizer stringTokenizer = new StringTokenizer(location, "/");
 
         while (stringTokenizer.hasMoreTokens()) {
@@ -110,16 +194,27 @@ public class ItemInfoUtil {
 
     }
 
-
-    private BusinessObjectService getBusinessObjectService() {
-        if (null == businessObjectService) {
-            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+    public OleDeliverRequestBo getRequestBO(String itemBarcode) {
+        OleDeliverRequestBo oleDeliverRequestBo = getPrioritizedRequest(itemBarcode);
+        if(null != oleDeliverRequestBo){
+            return oleDeliverRequestBo;
         }
-        return businessObjectService;
+        return null;
     }
 
+    public OleDeliverRequestBo getPrioritizedRequest(String itemId) {
+        Map requestMap = new HashMap();
+        requestMap.put("itemId", itemId);
+        requestMap.put("borrowerQueuePosition", 1);
+        List<OleDeliverRequestBo> oleDeliverRequestBos = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, requestMap);
+        return oleDeliverRequestBos != null && oleDeliverRequestBos.size() > 0 ? oleDeliverRequestBos.get(0) : null;
+    }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public OleDeliverRequestBo getRequestByPatronBarcode(String patronBarcode, String itemBarcode) {
+        Map requestMap = new HashMap();
+        requestMap.put("borrowerBarcode", patronBarcode);
+        requestMap.put("itemId", itemBarcode);
+        List<OleDeliverRequestBo> oleDeliverRequestBos = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, requestMap);
+        return oleDeliverRequestBos != null && oleDeliverRequestBos.size() > 0 ? oleDeliverRequestBos.get(0) : null;
     }
 }

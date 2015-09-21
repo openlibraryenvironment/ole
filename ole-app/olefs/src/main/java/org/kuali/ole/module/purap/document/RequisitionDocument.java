@@ -417,7 +417,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                 String newRequisitionStatus = PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS;
                 if (SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(this)) {
                     newRequisitionStatus = PurapConstants.RequisitionStatuses.APPDOC_CLOSED;
-                    SpringContext.getBean(PurchaseOrderService.class).createAutomaticPurchaseOrderDocument(this);
+                    //SpringContext.getBean(PurchaseOrderService.class).createAutomaticPurchaseOrderDocument(this);
                 }
                 // for app doc status
                 String reqStatus = PurapConstants.RequisitionStatuses.getRequistionAppDocStatuses().get(newRequisitionStatus);

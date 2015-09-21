@@ -1,0 +1,164 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.ole.kuali.org/" xmlns:org="http://org.kuali.ole.deliver.api" xmlns:v2="http://rice.kuali.org/kim/v2_0">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <ser:createPatron xmlns:ns2="http://org.kuali.ole.deliver.api"  xmlns:ns4="http://rice.kuali.org/kim/v2_0" xmlns:ns5="http://rice.kuali.org/core/v2_0">
+            <!--Optional:-->
+            <arg0>
+                <ns2:olePatronId>2041</ns2:olePatronId>
+                <ns2:barcode>2041</ns2:barcode>
+                <ns2:borrowerType>2</ns2:borrowerType>
+                <ns2:activeIndicator>true</ns2:activeIndicator>
+                <ns2:generalBlock>false</ns2:generalBlock>
+                <ns2:pagingPrivilege>true</ns2:pagingPrivilege>
+                <ns2:courtesyNotice>true</ns2:courtesyNotice>
+                <ns2:deliveryPrivilege>false</ns2:deliveryPrivilege>
+                <ns2:expirationDate>2016-09-30</ns2:expirationDate>
+                <ns2:activationDate>2014-09-24</ns2:activationDate>
+                <ns2:oleBorrowerType>
+                    <ns2:borrowerTypeId>7</ns2:borrowerTypeId>
+                    <ns2:borrowerTypeCode>UGRAD</ns2:borrowerTypeCode>
+                    <ns2:borrowerTypeName>UnderGrad</ns2:borrowerTypeName>
+                    <ns2:borrowerTypeName>UnderGrad</ns2:borrowerTypeName>
+                    <ns2:versionNumber>1</ns2:versionNumber>
+                </ns2:oleBorrowerType>
+                <ns2:phones>
+                    <ns2:phone>
+                        <ns4:id />
+                        <ns4:entityTypeCode>PERSON</ns4:entityTypeCode>
+                        <ns4:entityId>2041</ns4:entityId>
+                        <ns4:phoneType>
+                            <ns4:code>WRK</ns4:code>
+                            <ns4:name>Work</ns4:name>
+                            <ns4:sortCode>a</ns4:sortCode>
+                            <ns4:active>true</ns4:active>
+                            <ns4:versionNumber>1</ns4:versionNumber>
+                            <ns4:objectId>5B97C50B03936110E0404F8189D85213</ns4:objectId>
+                        </ns4:phoneType>
+                        <ns4:phoneNumber>+1 919 660 5941</ns4:phoneNumber>
+                        <ns4:formattedPhoneNumber>+1 919 660 5941</ns4:formattedPhoneNumber>
+                        <ns4:phoneNumberUnmasked>+1 919 660 5995</ns4:phoneNumberUnmasked>
+                        <ns4:formattedPhoneNumberUnmasked>+1 919 660 5941</ns4:formattedPhoneNumberUnmasked>
+                        <ns4:suppressPhone>false</ns4:suppressPhone>
+                        <ns4:defaultValue>true</ns4:defaultValue>
+                        <ns4:active>true</ns4:active>
+                        <ns4:versionNumber>1</ns4:versionNumber>
+                    </ns2:phone>
+                </ns2:phones>
+                <ns2:addresses>
+                      <ns2:address>
+                         <ns4:id />
+                         <ns4:entityTypeCode>PERSON</ns4:entityTypeCode>
+                         <ns4:entityId>2041</ns4:entityId>
+                         <ns4:addressType>
+                             <ns4:code>WRK</ns4:code>
+                             <ns4:name>Work</ns4:name>
+                             <ns4:sortCode>a</ns4:sortCode>
+                             <ns4:active>true</ns4:active>
+                             <ns4:versionNumber>1</ns4:versionNumber>
+                             <ns4:objectId />
+                         </ns4:addressType>
+                         <ns4:line1>Box 90725</ns4:line1>
+                         <ns4:postalCode>27708-072</ns4:postalCode>
+                         <ns4:line1Unmasked>Box 90725</ns4:line1Unmasked>
+                         <ns4:postalCodeUnmasked>27708-072</ns4:postalCodeUnmasked>
+                         <ns4:validated>false</ns4:validated>
+                         <ns4:suppressAddress>false</ns4:suppressAddress>
+                         <ns4:defaultValue>true</ns4:defaultValue>
+                         <ns4:active>true</ns4:active>
+                         <ns4:versionNumber>2</ns4:versionNumber>
+                     </ns2:address>
+                     <ns2:address>
+                         <ns4:id />
+                         <ns4:entityTypeCode>PERSON</ns4:entityTypeCode>
+                         <ns4:entityId>2041</ns4:entityId>
+                         <ns4:addressType>
+                             <ns4:code>CMP</ns4:code>
+                             <ns4:name>Campus</ns4:name>
+                             <ns4:sortCode>a</ns4:sortCode>
+                             <ns4:active>true</ns4:active>
+                             <ns4:versionNumber>1</ns4:versionNumber>
+                             <ns4:objectId />
+                         </ns4:addressType>
+                         <ns4:line1>1348 Campus Drive</ns4:line1>
+                         <ns4:postalCode>27708-072</ns4:postalCode>
+                         <ns4:line1Unmasked>1348 Campus Drive</ns4:line1Unmasked>
+                         <ns4:postalCodeUnmasked>27708-072</ns4:postalCodeUnmasked>
+                         <ns4:validated>false</ns4:validated>
+                         <ns4:suppressAddress>false</ns4:suppressAddress>
+                         <ns4:defaultValue>false</ns4:defaultValue>
+                         <ns4:active>true</ns4:active>
+                         <ns4:versionNumber>2</ns4:versionNumber>
+                     </ns2:address>
+                </ns2:addresses>
+                <ns2:name>
+                    <ns4:id />
+                    <ns4:entityId>2041</ns4:entityId>
+                    <ns4:firstName>Sheik </ns4:firstName>
+                    <ns4:lastName>Salahudeen</ns4:lastName>
+                    <ns4:compositeName>Salahudeen Sheik</ns4:compositeName>
+                    <ns4:firstNameUnmasked>Sheik</ns4:firstNameUnmasked>
+                    <ns4:lastNameUnmasked>Salaudeen</ns4:lastNameUnmasked>
+                    <ns4:compositeNameUnmasked>Salahudeen Sheik</ns4:compositeNameUnmasked>
+                    <ns4:suppressName>false</ns4:suppressName>
+                    <ns4:defaultValue>true</ns4:defaultValue>
+                    <ns4:active>true</ns4:active>
+                    <ns4:versionNumber>1</ns4:versionNumber>
+                </ns2:name>
+                <ns2:emails>
+                    <ns2:email>
+                        <ns4:id />
+                        <ns4:entityTypeCode>PERSON</ns4:entityTypeCode>
+                        <ns4:entityId>2041</ns4:entityId>
+                        <ns4:emailType>
+                            <ns4:code>WRK</ns4:code>
+                            <ns4:name>Work</ns4:name>
+                            <ns4:sortCode>a</ns4:sortCode>
+                            <ns4:active>true</ns4:active>
+                            <ns4:versionNumber>1</ns4:versionNumber>
+                        </ns4:emailType>
+                        <ns4:emailAddress>sheiksalahudeen.m@kuali.org</ns4:emailAddress>
+                        <ns4:emailAddressUnmasked>sheiksalahudeen.m@kuali.org</ns4:emailAddressUnmasked>
+                        <ns4:suppressEmail>false</ns4:suppressEmail>
+                        <ns4:defaultValue>true</ns4:defaultValue>
+                        <ns4:active>true</ns4:active>
+                        <ns4:versionNumber>1</ns4:versionNumber>
+                    </ns2:email>
+                </ns2:emails>
+                <ns2:notes/>
+                <ns2:lostBarcodes/>
+                <ns2:oleEntityAddressBo/>
+                <ns2:patronAffiliations/>
+                <ns2:oleProxyPatronDocuments/>
+                <ns2:statisticalCategory>1</ns2:statisticalCategory>
+                <ns2:oleAddresses>
+                    <ns2:oleAddress>
+                         <ns2:oleAddressId/>
+                         <ns2:olePatronId>2041</ns2:olePatronId>
+                         <ns2:id/>
+                         <ns2:addressVerified>false</ns2:addressVerified>
+                         <ns2:addressSource>2</ns2:addressSource>
+                         <ns2:addressSourceBo>
+                             <ns2:active>false</ns2:active>
+                         </ns2:addressSourceBo>
+                         <ns2:deliverAddress>false</ns2:deliverAddress>
+                         <ns2:versionNumber>1</ns2:versionNumber>
+                     </ns2:oleAddress>
+                     <ns2:oleAddress>
+                         <ns2:oleAddressId />
+                         <ns2:olePatronId>2041</ns2:olePatronId>
+                         <ns2:id/>
+                         <ns2:addressVerified>false</ns2:addressVerified>
+                         <ns2:addressSource>1</ns2:addressSource>
+                         <ns2:addressSourceBo>
+                             <ns2:active>false</ns2:active>
+                         </ns2:addressSourceBo>
+                         <ns2:deliverAddress>false</ns2:deliverAddress>
+                         <ns2:versionNumber>1</ns2:versionNumber>
+                     </ns2:oleAddress>
+                </ns2:oleAddresses>
+                <ns2:olePatronLocalIds/>
+                <ns2:versionNumber>1</ns2:versionNumber>
+            </arg0>
+        </ser:createPatron>
+    </soapenv:Body>
+</soapenv:Envelope>

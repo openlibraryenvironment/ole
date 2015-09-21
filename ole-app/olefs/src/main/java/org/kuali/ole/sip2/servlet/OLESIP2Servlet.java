@@ -2,6 +2,7 @@ package org.kuali.ole.sip2.servlet;
 
 import org.apache.log4j.Logger;
 import org.kuali.ole.ncip.bo.OLENCIPConstants;
+import org.kuali.ole.common.MessageUtil;
 import org.kuali.ole.sip2.constants.OLESIP2Constants;
 import org.kuali.ole.sip2.service.impl.OLESIP2ServiceImpl;
 import org.kuali.ole.sys.OLEPropertyConstants;
@@ -39,6 +40,8 @@ public class OLESIP2Servlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        LOG.info("Inside OLESIP2Servlet.doGet olefs");
+
         String responseString = "";
         Map<String, String[]> parameterMap = null;
         String outputFormat = OLESIP2Constants.SIP2_FORMAT;
@@ -62,6 +65,29 @@ public class OLESIP2Servlet extends HttpServlet {
                             }
                         }
                         responseString = oleSip2Service.processRequest(parameterMap.get(OLESIP2Constants.REQUEST_DATA)[0], service, operatorId);
+                        if(parameterMap.get(OLESIP2Constants.REQUEST_DATA)[0].startsWith("99")){
+                            String requestData = parameterMap.get(OLESIP2Constants.REQUEST_DATA)[0].trim();
+                            if(requestData.length() == 19){
+                                if (requestData.substring(10, 12).equalsIgnoreCase(OLESIP2Constants.SEQUENCE_NUM_CODE)) {
+                                    if (!responseString.contains("|AY")) {
+                                        responseString=responseString.trim()+"|AY"+requestData.substring(12, 15);
+                                        responseString = responseString+MessageUtil.computeChecksum(responseString)+ '\r';
+                                    }
+                                }
+                            }
+                        }else{
+                            if(parameterMap.get(OLESIP2Constants.REQUEST_DATA)[0].contains("|AY")){
+                                if(!responseString.contains("|AY")){
+                                    String[] requestDataArray = parameterMap.get(OLESIP2Constants.REQUEST_DATA)[0].split("\\|");
+                                    for (String data : requestDataArray) {
+                                        if(data.startsWith("AY")) {
+                                            responseString = responseString.trim() + "|" + data.substring(0, 5);
+                                            responseString = responseString + MessageUtil.computeChecksum(responseString) + '\r';
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     } else {
                         responseString = oleSip2Service.getCirculationErrorMessage(service, OLENCIPConstants.PARAMETER_MISSING, "502", OLENCIPConstants.LOOKUPUSER, outputFormat);
                     }
@@ -90,6 +116,7 @@ public class OLESIP2Servlet extends HttpServlet {
                 response.setStatus(200);
             }
             //out.write(URLEncoder.encode(responseString, "UTF-8"));
+            LOG.info("LOG OLESIP2Servlet.doGet olefs  :  "+responseString);
             out.write(responseString);
 
         }

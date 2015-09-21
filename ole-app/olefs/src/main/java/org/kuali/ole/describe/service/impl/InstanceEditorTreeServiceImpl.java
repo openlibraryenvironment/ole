@@ -51,7 +51,7 @@ public class InstanceEditorTreeServiceImpl implements InstanceEditorTreeService 
                     "<li><div id=\"rightClick\"><b>" + textualHolding + "</b></div>" +
                     "<div class=\"vmenu\">\n" +
                     "<div class=\"add_li\"><span>Add Item</span></div>\n" +
-                    "<div class=\"delete_li\"><span>Delete Holdings</span></div></div>" +
+                    "<div class=\"delete_li\"><span>Delete Instance</span></div></div>" +
                     "<div id=\"itmMenu\" style=\"border: 1px solid #aaa; border-left:1px solid #ccc; padding: 10px; display: none; position: absolute; top: 663px; left: 539px; background:#fff;\">" +  //background-color: rgb(238, 238, 238);
                     "<table>" +
                     "<tr><td class=\"delete_itm\"width=\"100%\" >Delete Item</td></tr> " +   //style="border: 1px solid rgb(0, 0, 0);

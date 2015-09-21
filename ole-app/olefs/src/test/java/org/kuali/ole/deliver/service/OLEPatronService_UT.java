@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.service;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.kuali.ole.deliver.util.XMLFormatterUtil;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.apache.xml.serialize.OutputFormat;
@@ -35,7 +36,7 @@ import java.net.URL;
 public class OLEPatronService_UT {
 
     private static final Logger LOG = Logger.getLogger(OLEPatronService_UT.class);
-    private static String APPLICATION_URL  = "http://192.168.55.223:8080/olefs";
+    private static String APPLICATION_URL  = "http://dev.ole.kuali.org";
 
     @Test
     public void createPatronTest(){
@@ -43,6 +44,18 @@ public class OLEPatronService_UT {
             String requestContent  =readFileContent("org/kuali/ole/deliver/patron/createPatronWsdlXml");
             String resposneString = OLESOAPService.sendSoapRequest(APPLICATION_URL + "/remoting/olePatronService",requestContent);
             System.out.println("Response : \n" +formatContentForPretty(resposneString));
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Test
+    public void createPatronWithAddressTest(){
+        try {
+            String requestContent  =readFileContent("org/kuali/ole/deliver/patron/createPatron.xml");
+            String resposneString = OLESOAPService.sendSoapRequest(APPLICATION_URL + "/remoting/olePatronService",requestContent);
+            System.out.println("Response : \n" + XMLFormatterUtil.formatContentForPretty(resposneString));
 
         } catch (Exception ex) {
             ex.printStackTrace();

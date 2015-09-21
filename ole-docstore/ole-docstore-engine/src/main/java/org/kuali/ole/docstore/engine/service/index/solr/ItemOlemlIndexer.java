@@ -12,6 +12,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.OleDocStoreException;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.Holdings;
 import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.common.document.content.instance.*;
@@ -44,7 +45,7 @@ import java.util.List;
  * Time: 5:00 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemConstants {
+public class ItemOlemlIndexer extends DocstoreSolrIndexService implements DocstoreConstants {
 
     private static final Logger LOG = LoggerFactory.getLogger(ItemOlemlIndexer.class);
     private static ItemOlemlIndexer itemOlemlIndexer = null;
@@ -399,8 +400,8 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         solrInputDocument.addField(ITEM_DAMAGED_FLAG_DISPLAY, item.isItemDamagedStatus());
         solrInputDocument.addField(MISSING_PIECE_COUNT_DISPLAY,item.getMissingPiecesCount());
         solrInputDocument.addField(NUMBER_OF_PIECES_DISPLAY,item.getNumberOfPieces());
-        solrInputDocument.addField(BibConstants.CREATED_BY,itemDocument.getCreatedBy());
-        solrInputDocument.addField(BibConstants.UPDATED_BY,itemDocument.getUpdatedBy());
+        solrInputDocument.addField(CREATED_BY,itemDocument.getCreatedBy());
+        solrInputDocument.addField(UPDATED_BY,itemDocument.getUpdatedBy());
         Date createdDate = null;
         date = new Date();
         if (StringUtils.isNotBlank(itemDocument.getUpdatedOn())) {
@@ -691,7 +692,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         solrInputDocument.addField(HOLDINGS_CALLNUMBER_DISPLAY, holdingsSolrInputDocument.getFieldValue(CALL_NUMBER_DISPLAY));
         solrInputDocument.addField(HOLDINGS_LOCATION_DISPLAY, holdingsSolrInputDocument.getFieldValue(LOCATION_LEVEL_DISPLAY));
         solrInputDocument.addField(HOLDINGS_COPYNUMBER_SEARCH,holdingsSolrInputDocument.getFieldValue(COPY_NUMBER_SEARCH));
-        solrInputDocument.addField(HOLDINGS_COPYNUMBER_DISPLAY, holdingsSolrInputDocument.getFieldValue(COPY_NUMBER_DISPLAY));
+        solrInputDocument.addField(HOLDINGS_COPYNUMBER_DISPLAY,holdingsSolrInputDocument.getFieldValue(COPY_NUMBER_DISPLAY));
         solrInputDocument.addField(HOLDINGS_CALLNUMBER_PREFIX_SEARCH, holdingsSolrInputDocument.getFieldValue(CALL_NUMBER_PREFIX_SEARCH));
         solrInputDocument.addField(HOLDINGS_CALLNUMBER_PREFIX_DISPLAY, holdingsSolrInputDocument.getFieldValue(CALL_NUMBER_PREFIX_DISPLAY));
         solrInputDocument.addField(HOLDINGS_SHELVING_SCHEME_CODE_SEARCH, holdingsSolrInputDocument.getFieldValue(SHELVING_SCHEME_CODE_SEARCH));
@@ -815,7 +816,7 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements ItemCo
         }
 
         CallNumber callNumber = item.getCallNumber();
-        if (callNumber != null) {
+        if (callNumber !=null && StringUtils.isNotEmpty(callNumber.getNumber())) {
             String number = callNumber.getNumber();
             String prefix = callNumber.getPrefix();
             String classificationPart = callNumber.getClassificationPart();

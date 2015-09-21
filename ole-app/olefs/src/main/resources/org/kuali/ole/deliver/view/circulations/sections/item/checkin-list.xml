@@ -1,0 +1,60 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="checkInList-HorizontalBoxSection" parent="checkInList-HorizontalBoxSection-parentBean" />
+    <bean id="checkInList-HorizontalBoxSection-parentBean" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="11" p:style="width:1000px"  p:render="true">
+        <property name="header.headerText" value="Item(s) Returned" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.drools.CheckedInItem"/>
+        <property name="propertyName" value="checkedInItemList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="items">
+            <list>
+
+                <bean id="checkedInItem-Barcode" parent="Uif-LinkField" p:label="Barcode" p:width="10%" p:linkText="@{#line.itemId}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;editable=false&amp;docFormat=oleml&amp;docId=@{#line.itemUuid}&amp;instanceId=@{#line.instanceUuid}&amp;bibId=@{#line.bibUuid}" >
+
+                </bean>
+                <bean id="checkedInItem-Title" parent="Uif-DataField" p:label="Title" p:width="12%" p:propertyName="title">
+
+                </bean>
+                <bean id="checkedInItem-Author" parent="Uif-DataField" p:label="Author" p:width="13%" p:propertyName="author">
+
+                </bean>
+                <bean id="checkedInItem-ItemLocation" parent="Uif-DataField" p:label="Location" p:width="18%" p:propertyName="location">
+
+                </bean>
+                <bean id="checkedInItem-ItemLocationCode" parent="Uif-DataField" p:label="Location Code" p:width="18%" p:propertyName="locationCode">
+
+                </bean>
+                <bean id="checkedInItem-ItemCallNumber" parent="Uif-DataField" p:label="Call Number" p:width="10%" p:propertyName="callNumber">
+
+                </bean>
+                <bean id="checkedInItem-ItemCopyNumber" parent="Uif-DataField" p:label="Copy Number" p:width="10%" p:propertyName="copyNumber">
+
+                </bean>
+
+                <bean id="checkedInItem-ItemEnumeration" parent="Uif-DataField" p:label="Enumeration" p:width="10%" p:propertyName="enumeration">
+
+                </bean>
+                <bean id="checkedInItem-ItemChronology" parent="Uif-DataField" p:label="Chronology" p:width="10%" p:propertyName="chronology">
+
+                </bean>
+                <bean id="checkedInItem-CheckInDate" parent="Uif-DataField" p:label="Check-in Date" p:width="10%" p:propertyName="checkInDate">
+
+                </bean>
+                <bean id="checkedInItem-ItemStatus" parent="Uif-DataField" p:label="Item Status" p:width="10%" p:propertyName="itemStatus">
+
+                </bean>
+                <bean id="checkedInItem-Bill" parent="Uif-LinkField" p:label="Overdue/Replacement Bill"   p:width="17%" p:linkText="@{#line.billName}"  p:target="_blank" p:href="patronbill?viewId=BillView&amp;methodToCall=start&amp;patronId=@{#line.patronId}" >
+
+                </bean>
+                <bean id="checkedInItem-routeToLocation" parent="Uif-DataField" p:label="Route Location" p:width="10%" p:propertyName="routeToLocation"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+</beans>

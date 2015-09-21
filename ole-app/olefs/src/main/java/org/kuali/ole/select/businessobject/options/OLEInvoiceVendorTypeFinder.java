@@ -37,7 +37,7 @@ public class OLEInvoiceVendorTypeFinder extends KeyValuesBase {
             public int compare(Object o1, Object o2) {
                 VendorDetail sampleVendor1 = (VendorDetail) o1;
                 VendorDetail sampleVendor2 = (VendorDetail) o2;
-                return sampleVendor1.getVendorName().compareTo(sampleVendor2.getVendorName());
+                return sampleVendor1.getVendorName().compareToIgnoreCase(sampleVendor2.getVendorName());
             }
         });
 

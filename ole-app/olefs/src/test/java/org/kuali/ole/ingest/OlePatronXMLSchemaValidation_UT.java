@@ -18,8 +18,10 @@ package org.kuali.ole.ingest;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.kuali.ole.OLEConstants;
 
 import java.io.ByteArrayInputStream;
+import java.util.Map;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -34,7 +36,9 @@ public class OlePatronXMLSchemaValidation_UT  {
         patronByteArray = IOUtils.toByteArray(getClass().getResourceAsStream(PATRON_XML_FILE));
         ByteArrayInputStream patronSchemaByteArray = new ByteArrayInputStream(patronByteArray);
         OlePatronXMLSchemaValidator olePatronXMLSchemaValidator = new OlePatronXMLSchemaValidator();
-        boolean schemaFlag=olePatronXMLSchemaValidator.validateContentsAgainstSchema(patronSchemaByteArray);
+        //boolean schemaFlag=olePatronXMLSchemaValidator.validateContentsAgainstSchema(patronSchemaByteArray);
+        Map validateResultMap = olePatronXMLSchemaValidator.validateContentsAgainstSchema(patronSchemaByteArray);
+        boolean schemaFlag = (boolean)validateResultMap.get(OLEConstants.OlePatron.PATRON_XML_ISVALID);
 
         assertTrue(schemaFlag);
     }

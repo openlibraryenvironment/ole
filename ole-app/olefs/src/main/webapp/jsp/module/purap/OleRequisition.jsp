@@ -84,3 +84,18 @@
 	<sys:documentControls transactionalDocument="true" extraButtons="${extraButtons}" />
 
 </kul:documentPage>
+<script type="text/javascript">
+    window.onload = function () {
+        document.getElementById('document.vendorAliasName').focus();
+        if (${KualiForm.document.vendorEnterKeyEvent}) {
+            document.getElementById('attachExistingBibId').checked = true;
+            document.getElementById('attachExistingBibId').click();
+            if (document.getElementsByName('methodToCall.toggleTab.tabVendor')[0].title == 'close Vendor') {
+                document.getElementsByName('methodToCall.toggleTab.tabVendor')[0].click();
+            }
+        }
+        var itemCount = getItemCount() - 4;
+        document.getElementById('document.item[' + itemCount + '].newSourceLine.accountNumber').focus();
+    }
+
+</script>

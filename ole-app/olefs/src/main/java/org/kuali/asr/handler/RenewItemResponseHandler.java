@@ -1,6 +1,6 @@
 package org.kuali.asr.handler;
 
-import org.kuali.ole.ncip.bo.OLERenewItem;
+import org.kuali.ole.ncip.bo.OLERenewItemList;
 import org.kuali.ole.ncip.converter.OLERenewItemConverter;
 
 /**
@@ -10,9 +10,14 @@ public class RenewItemResponseHandler extends ResponseHandler {
 
     private OLERenewItemConverter oleRenewItemConverter;
 
+    public String marshalObjectToSIP2Xml(Object object) {
+        String renewItemXml = getOleRenewItemConverter().generateRenewItemListXmlForSip2((OLERenewItemList) object);
+        return renewItemXml;
+    }
+
     @Override
     public String marshalObjectToXml(Object object) {
-        String renewItemXml = getOleRenewItemConverter().generateRenewItemXml((OLERenewItem) object);
+        String renewItemXml = getOleRenewItemConverter().generateRenewItemListXml((OLERenewItemList) object);
         return renewItemXml;
     }
 

@@ -1,0 +1,53 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+rule "Check out Circ Policy Set 4-H"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+
+$l: OleLoanDocument()
+
+$i: OleItemRecordForCirc(getItemType() in ("res4"),
+getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"),
+getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"))
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF,","QOTHER",
+"QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC"),
+getLoanedItemsCountByItemType($i.getItemType()) < 2)
+
+
+then
+$l.setCirculationPolicyId("Check out Circ Policy Set 4-H");
+$l.loanPeriod("4-H",null); // This method takes due date and recall period as arguments.
+end
+
+rule "Check out Circ Policy Set 4-H for Max Loaned Items Greater than 2"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+
+$i: OleItemRecordForCirc(getItemType() in ("res4"),
+getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"),
+getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"))
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF,","QOTHER",
+"QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC"),
+getLoanedItemsCountByItemType($i.getItemType()) >= 2)
+
+$d: DroolsResponse()
+
+then
+$d.addErrorMessage("Patron already has 2 items of 4-H reserve loan items type checked out");
+$d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+$l.setCirculationPolicyId("Check out Circ Policy Set 4-H");
+$l.loanPeriod("4-H",null); // This method takes due date and recall period as arguments.
+ end
+

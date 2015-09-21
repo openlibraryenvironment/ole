@@ -17,6 +17,7 @@ import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.describe.bo.DocumentSelectionTree;
 import org.kuali.ole.describe.bo.DocumentTreeNode;
 import org.kuali.ole.describe.bo.InstanceEditorFormDataHandler;
+import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.form.EditorForm;
 import org.kuali.ole.describe.form.WorkBibMarcForm;
 import org.kuali.ole.describe.form.WorkInstanceOlemlForm;
@@ -106,7 +107,18 @@ public class WorkItemOlemlEditor extends AbstractEditor {
         String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(org.kuali.ole.sys.OLEConstants.EXTERNALIZABLE_HELP_URL_KEY);
         editorForm.setExternalHelpUrl(directory+"/reference/webhelp/OLE/content/ch04s01.html#_Item");
         editorForm.setHeaderText("Item");
+        editorForm.setItem(true);
         editorForm.setHasLink(true);
+        String parameter = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
+                .DESCRIBE_COMPONENT, OLEConstants.ITEM_LOCATION_DISCLOSURE);
+        editorForm.setOpenLocation(Boolean.valueOf(parameter));
+        String shelvingOrder = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
+                .DESCRIBE_COMPONENT, OLEConstants.ITEM_SUPRESS_SHELVINGORDER);
+        if(Boolean.valueOf(shelvingOrder)){
+            editorForm.setSupressItemShelving(false);
+        }else{
+            editorForm.setSupressItemShelving(true);
+        }
         String bibId = editorForm.getBibId();
         String holdingsId = editorForm.getInstanceId();
         String docId = editorForm.getDocId();
@@ -122,7 +134,8 @@ public class WorkItemOlemlEditor extends AbstractEditor {
             bibTreeList.add(bibTree);
             workInstanceOlemlForm.setBibTreeList(bibTreeList);
             if (!org.kuali.ole.docstore.model.enums.DocFormat.DUBLIN_UNQUALIFIED.getCode().equals(bibTree.getBib().getFormat())) {
-                editorForm.setTitle(bibTree.getBib().getTitle() + " / " + bibTree.getBib().getAuthor());
+                String titleField = bibTree.getBib().getTitle() + " / " + bibTree.getBib().getAuthor() + " / " + DocumentUniqueIDPrefix.getDocumentId(bibTree.getBib().getId());
+                editorForm.setTitle(titleField);
             }
             Holdings holdings = docstoreClient.retrieveHoldings(holdingsId);
             oleHoldings = holdingOlemlRecordProcessor.fromXML(holdings.getContent());
@@ -194,6 +207,9 @@ public class WorkItemOlemlEditor extends AbstractEditor {
 
                 List<Note> notes = ensureAtleastOneNote(item.getNote());
                 item.setNote(notes);
+                List<DonorInfo> donorInfos = ensureAtleastOneDonor(item.getDonorInfo());
+                item.setDonorInfo(donorInfos);
+                ensureAccessInformation(item);
                 workInstanceOlemlForm.setSelectedItem(item);
                 getInstanceEditorFormDataHandler().setLocationDetails(workInstanceOlemlForm);
                 workInstanceOlemlForm.setViewId("WorkItemViewPage");
@@ -236,8 +252,24 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                 }
                 List<Note> notes = ensureAtleastOneNote(item.getNote());
                 item.setNote(notes);
+                List<DonorInfo> donorInfos = ensureAtleastOneDonor(item.getDonorInfo());
+                item.setDonorInfo(donorInfos);
                 ensureAccessInformation(item);
                 workInstanceOlemlForm.setSelectedItem(item);
+                String itemTypeCode = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
+                        .DESCRIBE_COMPONENT, OLEConstants.DEFAULT_ITEM_TYPE_CODE);
+                if(StringUtils.isNotBlank(itemTypeCode)){
+                    Map map = new HashMap();
+                    map.put("instanceItemTypeCode", itemTypeCode);
+                    List<OleInstanceItemType> oleInstanceItemTypeList = (List<OleInstanceItemType>) KRADServiceLocator.getBusinessObjectService().findMatching(OleInstanceItemType.class, map);
+                    if (oleInstanceItemTypeList.size() > 0) {
+                        ItemType type = new ItemType();
+                        OleInstanceItemType oleInstanceItemType = oleInstanceItemTypeList.get(0);
+                        type.setCodeValue(oleInstanceItemType.getInstanceItemTypeCode());
+                        type.setFullValue(oleInstanceItemType.getInstanceItemTypeName());
+                        workInstanceOlemlForm.getSelectedItem().setItemType(type);
+                    }
+                }
                 this.addItemInformation(editorForm);
                 editorForm.setStaffOnlyFlagForItem(false);
                 editorForm.setItemCreatedBy(GlobalVariables.getUserSession().getPrincipalName());
@@ -301,10 +333,12 @@ public class WorkItemOlemlEditor extends AbstractEditor {
         boolean isNoOfPiecesCount = false;
 //        editorForm.setHeaderText("Instance Editor (Item)- OLEML Format");
         editorForm.setHeaderText("Item");
+        editorForm.setItem(true);
         try {
             bib = docstoreClient.retrieveBib(editorForm.getBibId());
             if (!org.kuali.ole.docstore.model.enums.DocFormat.DUBLIN_UNQUALIFIED.getCode().equals(bib.getFormat())) {
-                editorForm.setTitle(bib.getTitle() + " / " + bib.getAuthor());
+                String titleField = bib.getTitle() + " / " + bib.getAuthor() + " / " + DocumentUniqueIDPrefix.getDocumentId(bib.getId());
+                editorForm.setTitle(titleField);
             }
         } catch (DocstoreException e) {
             LOG.error(e);
@@ -1119,6 +1153,30 @@ public class WorkItemOlemlEditor extends AbstractEditor {
         return notes;
     }
 
+    private List<DonorInfo> ensureAtleastOneDonor(List<DonorInfo> donorInfos) {
+        if (donorInfos == null) {
+            donorInfos = new ArrayList<DonorInfo>();
+        }
+        if (donorInfos.size() == 0) {
+            DonorInfo donorInfo = new DonorInfo();
+            donorInfos.add(donorInfo);
+        }else{
+            for(DonorInfo donorInfo : donorInfos){
+                if (donorInfo != null && StringUtils.isNotEmpty(donorInfo.getDonorCode())) {
+                    Map map = new HashMap();
+                    map.put("donorCode", donorInfo.getDonorCode());
+                    OLEDonor oleDonor = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEDonor.class, map);
+                    if (oleDonor != null) {
+                        donorInfo.setDonorPublicDisplay(oleDonor.getDonorPublicDisplay());
+                        donorInfo.setDonorNote(oleDonor.getDonorNote());
+                    }
+                }
+                //donorInfo.
+            }
+        }
+        return donorInfos;
+    }
+
     private boolean canCreateItem(String principalId) {
         PermissionService service = KimApiServiceLocator.getPermissionService();
         return service.hasPermission(principalId, OLEConstants.CAT_NAMESPACE, OLEConstants.INSTANCE_EDITOR_ADD_ITEM);
@@ -1283,6 +1341,11 @@ public class WorkItemOlemlEditor extends AbstractEditor {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         editorForm.getDocTree().setRootElement(docTree);
+        StringBuffer deleteMessage = new StringBuffer();
+        if(StringUtils.isEmpty(deleteMessage)){
+            deleteMessage.append("The following item record will be deleted.");
+        }
+        editorForm.setDeleteMessage(deleteMessage.toString());
         editorForm.setViewId("DeleteViewPage");
         return editorForm;
 
@@ -1319,6 +1382,32 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                     itemNote.remove(index);
                     Note note = new Note();
                     itemNote.add(note);
+                }
+            }
+            editorForm.setDocumentForm(workInstanceOlemlForm);
+        }
+        return editorForm;
+    }
+
+    @Override
+    public EditorForm addORRemoveItemDonor(EditorForm editorForm, HttpServletRequest request) {
+        String methodName = request.getParameter("methodToCall");
+        WorkInstanceOlemlForm workInstanceOlemlForm = (WorkInstanceOlemlForm) editorForm.getDocumentForm();
+        int index = Integer.parseInt(editorForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+        if (methodName.equalsIgnoreCase("addDonorToItem")) {
+            index++;
+            List<DonorInfo> donorInfo = workInstanceOlemlForm.getSelectedItem().getDonorInfo();
+            donorInfo.add(index, new DonorInfo());
+            editorForm.setDocumentForm(workInstanceOlemlForm);
+        } else if (methodName.equalsIgnoreCase("removeDonorFromItem")) {
+            List<DonorInfo> donorInfo = workInstanceOlemlForm.getSelectedItem().getDonorInfo();
+            if(donorInfo.size() > 1){
+                donorInfo.remove(index);
+            }else{
+                if(donorInfo.size() ==1){
+                    donorInfo.remove(index);
+                    DonorInfo donor = new DonorInfo();
+                    donorInfo.add(donor);
                 }
             }
             editorForm.setDocumentForm(workInstanceOlemlForm);
@@ -1407,6 +1496,44 @@ public class WorkItemOlemlEditor extends AbstractEditor {
         }
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, editorMessage);
         return workInstanceOlemlForm;
+    }
+
+    @Override
+    public EditorForm copy(EditorForm editorForm) {
+        editorForm.setDocId(null);
+        editorForm.setOleLoanIntransitRecordHistories(Collections.EMPTY_LIST);
+
+        WorkInstanceOlemlForm workInstanceOlemlForm = (WorkInstanceOlemlForm) editorForm.getDocumentForm();
+        Item selectedItem = workInstanceOlemlForm.getSelectedItem();
+        if (null != selectedItem) {
+            AccessInformation accessInformation = selectedItem.getAccessInformation();
+            if (null != accessInformation) {
+                accessInformation.setBarcode(null);
+            }
+            selectedItem.setEnumeration(null);
+            selectedItem.setPurchaseOrderLineItemIdentifier(null);
+            selectedItem.setVendorLineItemIdentifier(null);
+            selectedItem.setFund(null);
+            selectedItem.setPrice(null);
+
+            selectedItem.setCurrentBorrower(null);
+            selectedItem.setProxyBorrower(null);
+            selectedItem.setItemStatusEffectiveDate(null);
+            selectedItem.setFastAddFlag(false);
+            selectedItem.setDueDateTime(null);
+            selectedItem.setClaimsReturnedFlag(false);
+            selectedItem.setClaimsReturnedFlagCreateDate(null);
+            selectedItem.setClaimsReturnedNote(null);
+            selectedItem.setItemDamagedStatus(false);
+            selectedItem.setDamagedItemNote(null);
+            selectedItem.setMissingPieceFlag(false);
+            selectedItem.setMissingPiecesCount(null);
+            selectedItem.setMissingPieceFlagNote(null);
+            selectedItem.getNote().clear();
+            selectedItem.getNote().add(new Note());
+        }
+        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, OLEConstants.MARC_EDITOR_ITEM_COPY_MESSAGE);
+        return editorForm;
     }
 
     public DateTimeService getDateTimeService() {

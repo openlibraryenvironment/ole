@@ -1,6 +1,8 @@
 package org.kuali.ole.docstore.common.document.content.bib.marc;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +57,8 @@ public class BibMarcRecord {
     public DataField getDataFieldForTag(String tag) {
         if (CollectionUtils.isNotEmpty(dataFields)) {
             for (DataField marcDataField : dataFields) {
-                if (marcDataField.getTag().equalsIgnoreCase(tag)) {
+                if (null != marcDataField && StringUtils.isNotBlank(marcDataField.getTag()) && StringUtils.isNotBlank(tag)
+                        && marcDataField.getTag().equalsIgnoreCase(tag)) {
                     return marcDataField;
                 }
             }

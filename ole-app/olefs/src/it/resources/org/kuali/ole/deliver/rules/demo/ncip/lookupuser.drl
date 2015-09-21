@@ -1,0 +1,77 @@
+package org.kuali.ole.deliver.rules.chicago.ncip
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.ErrorMessage
+import java.util.Date
+import org.kuali.ole.deliver.drools.DroolsConstants
+
+
+rule "Is Patron with General Block For NCIP"
+agenda-group "lookup-user"
+when
+$p : OlePatronDocument(isGeneralBlock())
+$e : ErrorMessage()
+then
+$e.setErrorMessage("Patron is blocked");
+end
+
+rule "Is Patron Expired For NCIP"
+agenda-group "lookup-user"
+when
+$p : OlePatronDocument(getExpirationDate() != null, $d: getExpirationDate(), $d < today())
+$e : ErrorMessage()
+then
+$e.setErrorMessage("Patron has expired");
+end
+
+rule "Is Patron Active For NCIP"
+agenda-group "lookup-user"
+when
+$p : OlePatronDocument(!isActiveIndicator())
+$e : ErrorMessage()
+then
+$e.setErrorMessage("Patron is Inactive");
+end
+
+rule "Activation Date for Patron For NCIP"
+agenda-group "lookup-user"
+when
+$p : OlePatronDocument(getActivationDate()!= null, $d: getActivationDate(), $d >= today())
+$e : ErrorMessage()
+then
+$e.setErrorMessage("Patron has an invalid activation date");
+end
+
+rule "Check All Charges For NCIP"
+agenda-group "lookup-user"
+when
+$p: OlePatronDocument(getAllCharges() > 149 )
+$e: ErrorMessage()
+then
+$e.setErrorMessage("Patron's overall charges greater than $149");
+end
+
+rule "Check Overdue fine For NCIP"
+agenda-group "lookup-user"
+when
+$p: OlePatronDocument(getOverdueFineAmount() > 49 )
+$e: ErrorMessage()
+then
+$e.setErrorMessage("Patron has overdue fines greater than $49");
+end
+
+rule "Check Replacement fine For NCIP"
+agenda-group "lookup-user"
+when
+$p: OlePatronDocument(getReplacementFineAmount() > 49 )
+$e: ErrorMessage()
+then
+$e.setErrorMessage("Patron has replacement fees greater than $49");
+end
+
+function Date today(){
+    Date date = new Date(System.currentTimeMillis());
+    return date;
+}
+
+

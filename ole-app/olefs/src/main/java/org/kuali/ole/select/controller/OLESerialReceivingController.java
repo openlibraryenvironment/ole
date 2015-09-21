@@ -428,6 +428,20 @@ public class OLESerialReceivingController extends TransactionalDocumentControlle
         }
         OLESerialReceivingService oleSerialReceivingService = new OLESerialReceivingServiceImpl();
         String statusCode = oleSerialReceivingDocument.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
+        if(StringUtils.isNotEmpty(oleSerialReceivingDocument.getInstanceId())){
+            Holdings holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(oleSerialReceivingDocument.getInstanceId());
+            String content = holdings.getContent();
+            if(StringUtils.isNotEmpty(content)){
+                HoldingOlemlRecordProcessor holdingOlemlRecordProcessor = new HoldingOlemlRecordProcessor();
+                OleHoldings oleHoldings = holdingOlemlRecordProcessor.fromXML(content);
+                if(StringUtils.isNotEmpty(oleSerialReceivingDocument.getSubscriptionStatus())){
+                    oleHoldings.setReceiptStatus(oleSerialReceivingDocument.getSubscriptionStatus());
+                    String xmlContent = holdingOlemlRecordProcessor.toXML(oleHoldings);
+                    holdings.setContent(xmlContent);
+                    getDocstoreClientLocator().getDocstoreClient().updateHoldings(holdings);
+                }
+            }
+        }
         if (statusCode.equalsIgnoreCase(DocumentStatus.INITIATED.getCode()) || statusCode.equalsIgnoreCase(DocumentStatus.SAVED.getCode())) {
             Date date = new Date(System.currentTimeMillis());
             String interval = oleSerialReceivingDocument.getActionInterval();

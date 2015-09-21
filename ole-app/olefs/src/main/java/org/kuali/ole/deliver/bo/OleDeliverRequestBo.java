@@ -110,6 +110,13 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
     private String bibId;
     private String requestLevel;
     private Date holdExpirationDate;
+    private int recallRequestCount;
+    private int holdRequestCount;
+    private int pageRequestCount;
+    private int copyRequestCount;
+    private int asrRequestCount;
+    private OleDroolsHoldResponseBo oleDroolsHoldResponseBo;
+    private int fineAmount;
     private List<OLEDeliverNotice> deliverNotices;
     private String onHoldRequestForPatronMessage;
     private boolean requestTypePopulated = true;
@@ -1013,6 +1020,62 @@ public class OleDeliverRequestBo extends PersistableBusinessObjectBase implement
 
     public void setHoldExpirationDate(Date holdExpirationDate) {
         this.holdExpirationDate = holdExpirationDate;
+    }
+
+    public int getRecallRequestCount() {
+        return recallRequestCount;
+    }
+
+    public void setRecallRequestCount(int recallRequestCount) {
+        this.recallRequestCount = recallRequestCount;
+    }
+
+    public int getHoldRequestCount() {
+        return holdRequestCount;
+    }
+
+    public void setHoldRequestCount(int holdRequestCount) {
+        this.holdRequestCount = holdRequestCount;
+    }
+
+    public int getPageRequestCount() {
+        return pageRequestCount;
+    }
+
+    public void setPageRequestCount(int pageRequestCount) {
+        this.pageRequestCount = pageRequestCount;
+    }
+
+    public int getCopyRequestCount() {
+        return copyRequestCount;
+    }
+
+    public void setCopyRequestCount(int copyRequestCount) {
+        this.copyRequestCount = copyRequestCount;
+    }
+
+    public int getAsrRequestCount() {
+        return asrRequestCount;
+    }
+
+    public void setAsrRequestCount(int asrRequestCount) {
+        this.asrRequestCount = asrRequestCount;
+    }
+
+    public OleDroolsHoldResponseBo getOleDroolsHoldResponseBo() {
+        return oleDroolsHoldResponseBo;
+    }
+
+    public void setOleDroolsHoldResponseBo(OleDroolsHoldResponseBo oleDroolsHoldResponseBo) {
+        this.oleDroolsHoldResponseBo = oleDroolsHoldResponseBo;
+    }
+
+    public int getFineAmount() {
+        return fineAmount;
+    }
+
+    public void setFineAmount(int fineAmount) {
+        this.fineAmount = fineAmount;
     }
 
     public List<OLEDeliverNotice> getDeliverNotices() {

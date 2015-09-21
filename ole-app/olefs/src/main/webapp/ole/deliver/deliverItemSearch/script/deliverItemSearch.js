@@ -34,6 +34,7 @@ jq(document).ready(function(){
 
     jq(document).keypress(function(e) {
         if(e.which == 13) {
+            e.preventDefault();
             jq('#itemSearch_search_button').click();
         }
     });

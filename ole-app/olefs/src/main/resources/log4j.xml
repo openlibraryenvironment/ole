@@ -51,7 +51,7 @@
         <priority value="ERROR"/>
     </category>
     <category name="org.quartz">
-        <priority value="ERROR"/>
+        <priority value="INFO"/>
     </category>
 
     <root>

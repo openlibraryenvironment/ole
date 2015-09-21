@@ -11,6 +11,7 @@ import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.ole.service.OleCirculationPolicyServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -50,6 +51,8 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private String itemLoanStatus;
     private String errorMessage;
     private String successMessage;
+    private String patronUserNotes;
+    private String patronNoteTypeId;
     private String itemUuid;
     private String bibUuid;
     private transient Item oleItem;
@@ -158,6 +161,7 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private String missingPiecesCount;
     private boolean missingPieceFlag;
     private String missingPieceNote;
+    private String noOfMissingPiece;
     private boolean backgroundCheckInMissingPiece;
     private boolean lostPatron;
     private boolean noOfPiecesEditable;
@@ -173,8 +177,13 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     private OLEDeliverNotice oleDeliverNotice;
     private String oleLocationCode;
     private boolean indefiniteCheckFlag= false;
+    private boolean invalidBarcodeFlag = false;
+    private boolean fastAddItemIndicator = false;
     private String holdingsLocation;
     private boolean itemLevelLocationExist;
+    private boolean damagedItemIndicator;
+    private Timestamp damagedItemDate;
+    private Timestamp missingPieceItemDate;
     private List<FeeType> feeType;
     private OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb;
     private List<OleDeliverRequestBo> holdRequestForPatron = new ArrayList<>();
@@ -644,6 +653,22 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
         this.realPatron = realPatron;
     }
 
+    public String getPatronNoteTypeId() {
+        return patronNoteTypeId;
+    }
+
+    public void setPatronNoteTypeId(String patronNoteTypeId) {
+        this.patronNoteTypeId = patronNoteTypeId;
+    }
+
+    public String getPatronUserNotes() {
+        return patronUserNotes;
+    }
+
+    public void setPatronUserNotes(String patronUserNotes) {
+        this.patronUserNotes = patronUserNotes;
+    }
+
     //For Check-in
     private String itemStatus;
     private Timestamp checkInDate;
@@ -1053,17 +1078,17 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
      * @param errorMessage The errorMessage to set.
      */
     public void setErrorMessage(String errorMessage) {
-        StringBuilder stringBuilder = new StringBuilder();
-        if (null != this.errorMessage && !StringUtils.isBlank(this.errorMessage)) {
-            stringBuilder.append(this
-                    .errorMessage).append
-                    (OLEConstants.BREAK);
-        }
-        stringBuilder.append(errorMessage);
-        if(StringUtils.isNotBlank(errorMessage)) {
+        if (null != errorMessage) {
+            StringBuilder stringBuilder = new StringBuilder();
+            if (null != this.errorMessage && !org.apache.commons.lang.StringUtils.isBlank(this.errorMessage)) {
+                stringBuilder.append(this
+                        .errorMessage).append
+                        (OLEConstants.BREAK);
+            }
+            stringBuilder.append(errorMessage);
             this.errorMessage = stringBuilder.toString();
         }else{
-            this.errorMessage = null;
+            this.errorMessage = errorMessage;
         }
     }
 
@@ -1857,6 +1882,22 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
         this.oleLocationCode = oleLocationCode;
     }
 
+    public boolean isInvalidBarcodeFlag() {
+        return invalidBarcodeFlag;
+    }
+
+    public void setInvalidBarcodeFlag(boolean invalidBarcodeFlag) {
+        this.invalidBarcodeFlag = invalidBarcodeFlag;
+    }
+
+    public boolean isFastAddItemIndicator() {
+        return fastAddItemIndicator;
+    }
+
+    public void setFastAddItemIndicator(boolean fastAddItemIndicator) {
+        this.fastAddItemIndicator = fastAddItemIndicator;
+    }
+
     public String getHoldingsLocation() {
         return holdingsLocation;
     }
@@ -1996,6 +2037,39 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
 
     }
 
+    public boolean isPastAndRenewDueDateSame() throws Exception {
+        Timestamp pastLoanDueDate = getLoanDueDate();
+        Date newLoanDueDate = getPastDueDate();
+        if (pastLoanDueDate != null) {
+            return (new Date(pastLoanDueDate.getTime()).compareTo(newLoanDueDate) == 0 ? true : false);
+        } else {
+            throw new Exception("No Fixed Due Date found for the renewal policy");
+        }
+    }
+
+    public boolean IsIndefiniteDueDate() {
+        return getLoanDueDate() == null ? true : false;
+    }
+
+
+
+    public Boolean isItemPickupLocationSameAsOperatorCircLoc() {
+        OleCirculationDesk olePickUpLocation = null == getOleDeliverRequestBo() ? null : getOleDeliverRequestBo().getOlePickUpLocation();
+        String operatorCircLocations = getOperatorsCirculationLocation();
+
+        if (null != olePickUpLocation && null != operatorCircLocations) {
+            StringTokenizer strTokenizer = new StringTokenizer(operatorCircLocations, "#");
+            while (strTokenizer.hasMoreTokens()) {
+                String nextToken = strTokenizer.nextToken();
+                if (nextToken.equals(olePickUpLocation)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
 
     public boolean isPickupCirculationLocationMatched(Collection<Object> pickUpLocation,OleDeliverRequestBo deliverRequestBo) {
 
@@ -2013,25 +2087,23 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
 
     public List<OleDeliverRequestBo> getHoldRequestForPatron(OlePatronDocument olePatronDocument,OleCirculationDesk oleCirculationDesk) {
         if(olePatronDocument.getOleDeliverRequestBos() != null && olePatronDocument.getOleDeliverRequestBos().size()>0) {
-           for(OleDeliverRequestBo deliverRequestBo : olePatronDocument.getOleDeliverRequestBos()) {
-               if (deliverRequestBo.getRequestTypeCode() != null && deliverRequestBo.getRequestTypeCode().contains("Hold")) {
-                   if (StringUtils.isNotBlank(oleCirculationDesk.getShowItemOnHold()) && oleCirculationDesk.getShowItemOnHold().equals(OLEConstants.CURR_CIR_DESK) && oleCirculationDesk.getOlePickupCirculationDeskLocations() != null){
-                       Collection<Object> oleCirculationDeskLocations =  getOleLoanDocumentDaoOjb().getPickUpLocationForCirculationDesk(oleCirculationDesk);
-                       if(isPickupCirculationLocationMatched(oleCirculationDeskLocations,deliverRequestBo)) {
-                           deliverRequestBo.setOnHoldRequestForPatronMessage(OLEConstants.PTRN_RQST_MSG_CURR_CIR_DESK);
-                           holdRequestForPatron.add(deliverRequestBo);
-                       }
-                   }else if (StringUtils.isNotBlank(oleCirculationDesk.getShowItemOnHold()) && oleCirculationDesk.getShowItemOnHold().equals(OLEConstants.ALL_CIR_DESK)) {
-                       deliverRequestBo.setOnHoldRequestForPatronMessage(OLEConstants.PTRN_RQST_MSG_ALL_CIR_DESK);
-                       holdRequestForPatron.add(deliverRequestBo);
-                   }
-               }
-           }
+            for(OleDeliverRequestBo deliverRequestBo : olePatronDocument.getOleDeliverRequestBos()) {
+                if (deliverRequestBo.getRequestTypeCode() != null && deliverRequestBo.getRequestTypeCode().contains("Hold")) {
+                    if (StringUtils.isNotBlank(oleCirculationDesk.getShowItemOnHold()) && oleCirculationDesk.getShowItemOnHold().equals(OLEConstants.CURR_CIR_DESK) && oleCirculationDesk.getOlePickupCirculationDeskLocations() != null){
+                        Collection<Object> oleCirculationDeskLocations =  getOleLoanDocumentDaoOjb().getPickUpLocationForCirculationDesk(oleCirculationDesk);
+                        if(isPickupCirculationLocationMatched(oleCirculationDeskLocations,deliverRequestBo)) {
+                            deliverRequestBo.setOnHoldRequestForPatronMessage(OLEConstants.PTRN_RQST_MSG_CURR_CIR_DESK);
+                            holdRequestForPatron.add(deliverRequestBo);
+                        }
+                    }else if (StringUtils.isNotBlank(oleCirculationDesk.getShowItemOnHold()) && oleCirculationDesk.getShowItemOnHold().equals(OLEConstants.ALL_CIR_DESK)) {
+                        deliverRequestBo.setOnHoldRequestForPatronMessage(OLEConstants.PTRN_RQST_MSG_ALL_CIR_DESK);
+                        holdRequestForPatron.add(deliverRequestBo);
+                    }
+                }
+            }
         }
         return holdRequestForPatron;
     }
-
-
 
     public String getRealPatronWithLoan() {
         StringBuilder message = new StringBuilder();
@@ -2068,6 +2140,45 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
             dueDate =  new Timestamp(calendar.getTime().getTime());
         }
         return dueDate;
+    }
+
+    public boolean isDamagedItemIndicator() {
+        return damagedItemIndicator;
+    }
+
+    public void setDamagedItemIndicator(boolean damagedItemIndicator) {
+        this.damagedItemIndicator = damagedItemIndicator;
+    }
+
+    public Timestamp getDamagedItemDate() {
+        return damagedItemDate;
+    }
+
+    public void setDamagedItemDate(Timestamp damagedItemDate) {
+        this.damagedItemDate = damagedItemDate;
+    }
+
+    public String getNoOfMissingPiece() {
+        return noOfMissingPiece;
+    }
+
+    public void setNoOfMissingPiece(String noOfMissingPiece) {
+        this.noOfMissingPiece = noOfMissingPiece;
+    }
+
+    public Timestamp getMissingPieceItemDate() {
+        return missingPieceItemDate;
+    }
+
+    public void setMissingPieceItemDate(Timestamp missingPieceItemDate) {
+        this.missingPieceItemDate = missingPieceItemDate;
+    }
+
+    @Override
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getDeliverNotices());
+        return managedLists;
     }
 
     public OleLoanDocumentDaoOjb getOleLoanDocumentDaoOjb() {

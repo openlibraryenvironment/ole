@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="OLEInvoiceDocumentView" parent="Uif-Invoice-TransactionalDocumentView">
-        <property name="headerText" value="Invoice"/>
+        <property name="headerText" value="@{document.invoiceInfo}"/>
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
@@ -181,6 +181,7 @@
                 <ref bean="hdnblankApproveFlag"/>
                 <ref bean="MessagePopupSectionForBlanketApproveInvoiceValidation"/>
                 <ref bean="hdnBlanketApproveValidationFlag"/>
+                <ref bean="hdnBlanketApproveSuccessFlag"/>
                 <ref bean="MessagePopupSectionForBlanketApproveSubscriptionDateValidation"/>
                 <ref bean="hdnBlanketApproveSubscriptionDateValidationFlag"/>
                 <ref bean="MessagePopupSectionForSubscriptionDateValidation"/>
@@ -199,6 +200,8 @@
                 <ref bean="OLEInvoice-DuplicationApprovePopUp"/>
                 <ref bean="hdnduplicateRouteFlag"/>
                 <ref bean="OLEInvoice-DuplicationRoutePopUp"/>
+                <ref bean="hdnduplicateValidationFlag"/>
+                <ref bean="OLEInvoice-DuplicationValidationPopUp"/>
                 <ref bean="hdnduplicateSaveFlag"/>
                 <ref bean="OLEInvoice-DuplicationSavePopUp"/>
                 <ref bean="hdnAmountExceeds"/>
@@ -211,6 +214,8 @@
                 <!--<ref bean="MessagePopUpSectionForCurrencyOverride"/>-->
                 <!--<ref bean="hiddenCurrencyOverrideBtn"/>-->
                 <ref bean="updateExchangeRateBtn"/>
+		 <ref bean="OLEInvoice-ConfirmationPopUp"/>
+                <ref bean="hdnsuccessFlag"/>
                 <ref bean="hdnCurrencyFormatFlag"/>
             </list>
         </property>
@@ -280,7 +285,7 @@
     <bean id="InvoicePopupButtonForBlankApp-HorizontalBoxSection" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="true">
         <property name="items">
             <list>
-                <bean id="continueBlankApp_btn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="continueBlanketApprove" p:actionLabel="Continue" p:ajaxSubmit="true"  p:successCallback="closeInvoiceApprovePopUp();" p:render="@{document.baSfcFlag}"/>
+                <bean id="continueBlankApp_btn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="continueBlanketApprove" p:actionLabel="Continue" p:ajaxSubmit="true"  p:successCallback="closeInvoiceApprovePopUp();successConfirmationBlanketApprove();" p:render="@{document.baSfcFlag}"/>
 
                 <bean id="cancelBlankApp_btn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="cancelBlanketApprove" p:actionLabel="cancel" p:ajaxSubmit="true"  p:successCallback="closeInvoiceApprovePopUp()" p:render="@{document.baSfcFlag}"/>
             </list>
@@ -331,6 +336,13 @@
         </property>
     </bean>
 
+    <bean id="hdnBlanketApproveSuccessFlag" parent="Uif-InputField" p:propertyName="blanketApproveSuccessFlag" p:hidden="true">
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
     <bean id="hdnBlanketApproveSubscriptionDateValidationFlag" parent="Uif-InputField" p:propertyName="blanketApproveSubscriptionDateValidationFlag" p:hidden="true">
         <property name="control">
             <bean parent="Uif-HiddenControl"/>
@@ -372,7 +384,7 @@
     <bean id="InvoicePopupButtonForBlanketApproveAmountValidation" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="true">
         <property name="items">
             <list>
-                <bean id="continue_blanketApprove_invoice" parent="Uif-SecondaryActionButton-Small" p:methodToCall="continueInvoiceBlanketApprove" p:actionLabel="Continue" p:ajaxSubmit="true"  p:successCallback="closeInvoiceBlanketApproveValidationPopUp()" p:render="@{document.blanketApproveValidationFlag}"/>
+                <bean id="continue_blanketApprove_invoice" parent="Uif-SecondaryActionButton-Small" p:methodToCall="continueInvoiceBlanketApprove" p:actionLabel="Continue" p:ajaxSubmit="true"  p:successCallback="closeInvoiceBlanketApproveValidationPopUp();successConfirmationBlanketApprove();" p:render="@{document.blanketApproveValidationFlag}"/>
 
                 <bean id="cancel_blanketApprove_invoice" parent="Uif-SecondaryActionButton-Small" p:methodToCall="cancelInvoiceBlanketApprove" p:actionLabel="Cancel" p:ajaxSubmit="true"  p:successCallback="closeInvoiceBlanketApproveValidationPopUp()" p:render="@{document.blanketApproveValidationFlag}"/>
             </list>
@@ -488,6 +500,16 @@
         <property name="items">
             <list>
                 <ref bean="OLEInvoiceView-vendorAddress"/>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="invoice-vendorAlias" parent="Uif-InputField" p:propertyName="vendorAlias"
+                                  p:label="Vendor Alias Name"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="selectVendor"
+                                  p:actionLabel="Select Vendor" p:colSpan="1"/>
+                        </list>
+                    </property>
+                </bean>
                 <ref bean="OLEInvoiceView-vendorInfo"/>
             </list>
         </property>
@@ -498,7 +520,7 @@
         <property name="headerText" value="Vendor Address"/>
         <property name="items">
             <list>
-                <bean id="invoice-vendorHeaderIdentifier" parent="Uif-InputField" p:label="Vendor"  p:propertyName="vendorId" p:required="true">
+                <bean id="invoice-vendorHeaderIdentifier" parent="Uif-InputField" p:label="Vendor"  p:propertyName="vendorId" p:required="true" p:onChangeScript="submitForm('searchVendor', null, null, null);">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceVendorTypeFinder" />
                     </property>
@@ -664,7 +686,7 @@
 		      					</map>
 		      				</property>
 		      			</bean>
-		      			<bean parent="Uif-ActionLink" p:actionLabel="Process Items"
+		      			<bean id= "ProcessItemsLink" parent="Uif-ActionLink" p:actionLabel="Process Items"
 			      				p:refreshId="OLEInvoiceView-processItems-Wrapper" p:methodToCall="refresh" p:ajaxSubmit="true" p:successCallback="removeDollarSymbol();">
 		      				<property name="additionalSubmitData">
 		      					<map>
@@ -914,6 +936,7 @@
                 <ref bean="overviewFlag"/>
                 <ref bean="vendorInfoFlag"/>
                 <ref bean="invoiceInfoFlag"/>
+                <ref bean="processItemFlag"/>
                 <ref bean="currentItemsFlag"/>
                 <ref bean="additionalChargesFlag"/>
                 <ref bean="accountSummaryFlag"/>
@@ -944,11 +967,18 @@
             <bean parent="Uif-HiddenControl"/>
         </property>
     </bean>
-    <bean id="invoiceInfoFlag"  parent="Uif-InputField" p:propertyName="invoiceInfoFlag" p:hidden="true">
+    <bean id="invoiceInfoFlag"  parent="Uif-InputField" p:propertyName="invoiceInfoFlag" p:hidden="true">        
+    <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    
+      <bean id="processItemFlag"  parent="Uif-InputField" p:propertyName="processItemFlag" p:hidden="true">
         <property name="control">
             <bean parent="Uif-HiddenControl"/>
         </property>
     </bean>
+    
     <bean id="currentItemsFlag"  parent="Uif-InputField" p:propertyName="currentItemsFlag" p:hidden="true">
         <property name="control">
             <bean parent="Uif-HiddenControl"/>
@@ -1027,7 +1057,39 @@
         </property>
     </bean>
 
-     <bean id="OLEInvoice-DuplicationPopUp" parent="Uif-VerticalBoxSection">
+    <bean id="OLEInvoice-ConfirmationPopUp" parent="Uif-VerticalBoxSection" >
+        <property name="headerText" value="Document was successfully submitted."/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalBoxSubSection" p:disclosure.render="true">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton-Small" p:actionScript="createNew();" p:actionLabel="Create new Invoice" p:style="margin-right: 0em;margin-left: em"/>
+                                        <bean parent="Uif-PrimaryActionButton-Small" p:actionScript="createNewExistingVendor()" p:actionLabel="Create new Invoice(@{document.vendorName})" p:style="margin-right: 0em;margin-left: 2em"/>
+                                        <bean parent="Uif-PrimaryActionButton-Small" p:ajaxSubmit="true" p:methodToCall="closeDocument" p:actionLabel="close" p:style="margin-right: 0em;margin-left: 2em"/>
+                                        <bean id="createnew-link" parent="Uif-LinkField" p:linkText="" p:hidden="true" p:target="_blank" p:href="@{urlBase}/portal.do?channelTitle=Create&amp;channelUrl=@{urlBase}/ole-kr-krad/OLEInvoice?viewId=OLEInvoiceDocumentView&amp;methodToCall=docHandler&amp;command=initiate" p:label="create New"/>
+                                        <bean id="createnew-link-vendor" parent="Uif-LinkField" p:linkText="" p:hidden="true" p:target="_blank" p:href="@{urlBase}/portal.do?channelTitle=Create&amp;channelUrl=@{urlBase}/ole-kr-krad/OLEInvoice?viewId=OLEInvoiceDocumentView&amp;methodToCall=docHandler&amp;command=initiate&amp;vendor=@{document.vendorId}" p:label="create New"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="hdnsuccessFlag" parent="Uif-InputField" p:propertyName="successFlag" p:hidden="true">
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoice-DuplicationPopUp" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalFieldGroup">
@@ -1109,7 +1171,32 @@
         </property>
     </bean>
 
+    <bean id="hdnduplicateValidationFlag" parent="Uif-InputField" p:propertyName="duplicateValidationFlag" p:hidden="true">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
 
+    <bean id="OLEInvoice-DuplicationValidationPopUp" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="duplicateRouteExist"/>
+                            <bean parent="Uif-HorizontalBoxSubSection" p:disclosure.render="true">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton-Small" p:ajaxSubmit="true" p:methodToCall="closePopup" p:successCallback="closevalidateInvoiceNo()" p:actionLabel="close" p:style="margin-right: 0em;margin-left: 8em"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
     <bean id="hdnduplicateSaveFlag" parent="Uif-InputField" p:propertyName="duplicateSaveFlag" p:hidden="true">
         <property name="control">

@@ -1,6 +1,7 @@
 package org.kuali.ole.docstore.engine.service.index;
 
 import org.apache.solr.client.solrj.SolrServerException;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.content.enums.DocCategory;
 import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
@@ -10,7 +11,6 @@ import org.kuali.ole.docstore.engine.service.index.solr.BibMarcIndexer;
 import org.kuali.ole.docstore.engine.service.index.solr.DocumentIndexer;
 import org.kuali.ole.docstore.engine.service.index.solr.HoldingsOlemlIndexer;
 import org.kuali.ole.docstore.engine.service.index.solr.ItemOlemlIndexer;
-import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +24,7 @@ import java.util.List;
  * Time: 6:27 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DocstoreIndexServiceImpl implements DocstoreIndexService {
+public class DocstoreIndexServiceImpl implements DocstoreIndexService, DocstoreConstants {
 
     private static final Logger LOG = LoggerFactory.getLogger(DocstoreIndexServiceImpl.class);
 
@@ -194,7 +194,7 @@ public class DocstoreIndexServiceImpl implements DocstoreIndexService {
     public void createAnalyticsRelation(String seriesHoldingsId, List<String> itemIds) {
         DocumentIndexer documentIndexer = BibMarcIndexer.getInstance();
         try {
-            documentIndexer.bindAnalytics(seriesHoldingsId, itemIds, BibConstants.CREATE_RELATION);
+            documentIndexer.bindAnalytics(seriesHoldingsId, itemIds, CREATE_RELATION);
         } catch (SolrServerException e) {
             LOG.info("Exception occurred while creating analytic relation :", e);
         } catch (IOException e) {
@@ -206,7 +206,7 @@ public class DocstoreIndexServiceImpl implements DocstoreIndexService {
     public void breakAnalyticsRelation(String seriesHoldingsId, List<String> itemIds) {
         DocumentIndexer documentIndexer = BibMarcIndexer.getInstance();
         try {
-            documentIndexer.bindAnalytics(seriesHoldingsId, itemIds, BibConstants.BREAK_RELATION);
+            documentIndexer.bindAnalytics(seriesHoldingsId, itemIds, BREAK_RELATION);
         } catch (SolrServerException e) {
             LOG.info("Exception occurred while breaking analytic relation :", e);
         } catch (IOException e) {

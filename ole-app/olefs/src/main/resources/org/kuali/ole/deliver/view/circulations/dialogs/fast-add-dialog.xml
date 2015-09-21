@@ -35,6 +35,7 @@
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
+                            <ref bean="fastAddErrorMessage"/>
                             <ref bean="fastAddItemSection"/>
                             <ref bean="fastAddItem-HorizontalBoxSection-button"/>
                         </list>
@@ -43,6 +44,7 @@
             </list>
         </property>
     </bean>
+    <bean id="fastAddErrorMessage" parent="Uif-MessageField" p:messageText="Please provide the mandatory information" p:hidden="true" p:cssClasses="alert-error" />
 
     <bean id="fastAddItemSection" parent="Uif-GridSection" p:layoutManager.numberOfColumns="2">
 
@@ -150,6 +152,7 @@
     <bean id="fastAddItem-HorizontalBoxSection-button" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
         <property name="items">
             <list>
+                <bean id="fastAddErrorMessage" parent="Uif-MessageField" p:messageText="Please enter the required fields" p:hidden="true" p:cssClasses="alert-error" />
                 <bean id="saveFastAddBtn" parent="Uif-SecondaryActionButton-Small"
                       p:style="float:left;margin-left:27em;width:10%"
                       p:actionScript="
@@ -157,10 +160,24 @@
                       var callNumberType = jq('#addFastAddCallNumberType_control').val();
                       var note = jq('#addFastAddNote_control').val();
                       var checkinNote = jq('#addFastAddCheckinNote_control').val();
-                      submitForm('createFastAddItem', {itemType:itemType, callNumberType:callNumberType,checkinNote:checkinNote,note:note}, null, true, function () {
-                      jq.fancybox.close();
-                });"
-                      p:actionLabel="Submit"/>
+                      var title = jq('#addFastAddTitle_control').val();
+                      var shelvingLocation = jq('#addFastAddShelvingLocation_control').val();
+                      var barcode = jq('#addFastAddBarcode_control').val();
+                      var callNumber= jq('#addFastAddCallNumber_control').val();
+                      if(itemType!='' &amp;&amp; checkinNote!='' &amp;&amp; title!='' &amp;&amp; shelvingLocation!=''  &amp;&amp; barcode!=''  &amp;&amp; callNumber!=''){
+                        jq('#fastAddErrorMessage').attr('style','display:none');
+                        submitForm('createFastAddItem', {itemType:itemType, callNumberType:callNumberType,checkinNote:checkinNote,note:note}, null, true, function () {
+                            jq.fancybox.close();
+                            submitForm('refresh',null,null,null,null);
+                        });
+                      }else{
+                         jq('#fastAddErrorMessage').attr('style','display:inline');
+                         jq('#fastAddErrorMessage').focus();
+                      }"
+                      p:actionLabel="Submit" p:focusOnIdAfterSubmit="fastAddErrorMessage" p:jumpToIdAfterSubmit="fastAddErrorMessage"/>
+
+                <bean id="btnCancelFastAdd" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Cancel"
+                      p:actionScript="jq.fancybox.close();jq('#checkoutItem_control').focus();" />
             </list>
         </property>
     </bean>

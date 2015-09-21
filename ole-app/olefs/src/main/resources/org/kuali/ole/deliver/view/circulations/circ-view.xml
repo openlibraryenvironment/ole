@@ -24,7 +24,7 @@
 
     <bean id="circView" parent="circView-parentBean"/>
     <bean id="circView-parentBean" parent="Uif-OLEFormView">
-        <property name="headerText" value="Checkout Item(s)"/>
+        <property name="headerText" value="Loan"/>
         <property name="help">
             <bean parent="Uif-Help">
                 <property name="externalHelpUrl"
@@ -37,6 +37,7 @@
                     <property name="items">
                         <list>
                             <ref bean="mainSection"/>
+                            <ref bean="maxSessionTime"/>
                         </list>
                     </property>
                 </bean>
@@ -50,8 +51,20 @@
                <bean id="overrideMessageDialog" parent="operatorOverrideMessageDialog"/>
                <bean id="proxyListCheckoutDialog" parent="proxyForPatronListDialog"/>
                <bean id="customDueDateDialog" parent="customDueDateConfirmationDialog"/>
-               <bean id="generalMessageDialog" parent="generalOkMessageDialog"/>
+               <bean id="generalMessageAndResetUIDialog" parent="generalOkMessageDialog"/>
                <bean id="fastAddDialog" parent="fastAddItemDialog"/>
+               <bean id="claimsReturnDialog" parent="claimsReturnNoteDialog"/>
+               <bean id="generalInfoDialog" parent="generalInfoMessageDialog"/>
+               <bean id="generalInfoWithRefreshDialog" parent="generalInfoWithRefreshMessageDialog"/>
+               <bean id="alterDueDateDialog" parent="alterDueDateSectionDialog"/>
+                <bean id="damagedItemDialog" parent="damageNoteDialog"/>
+                <bean id="missingPieceDialog" parent="missingPieceNoteDialog"/>
+                <bean id="renewOverrideDialog" parent="renewOverrideSectionDialog"/>
+                <bean id="checkoutRenewOptionDialog" parent="checkoutRenewOptionSectionDialog"/>
+                <bean id="checkoutRenewCustomDueDateConfirmationDialog" parent="checkoutRenewCustomDueDateConfirmationSectionDialog"/>
+                <bean id="checkoutClaimsReturnDialog" parent="checkoutClaimsReturnNoteDialog"/>
+                <bean id="checkoutMissingPieceDialog" parent="checkoutMissingPieceNoteDialog"/>
+                <bean id="checkoutDamagedItemDialog" parent="checkoutDamagedItemNoteDialog"/>
             </list>
         </property>
 
@@ -69,11 +82,11 @@
             <list>
                 <ref bean="circDeskSection"/>
                 <ref bean="cricDetailsSection" />
+
             </list>
         </property>
     </bean>
 
-    <!--This is a generic text field for Input Fields in OLE to avoid an extran lifecycle processing -->
     <bean id="Loan-Uif-InputField" parent="Uif-InputField">
         <property name="quickfinder">
             <null/>

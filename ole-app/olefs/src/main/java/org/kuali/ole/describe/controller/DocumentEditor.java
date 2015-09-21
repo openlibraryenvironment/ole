@@ -36,6 +36,8 @@ public interface DocumentEditor {
 
     public EditorForm addORRemoveItemNote(EditorForm editorForm, HttpServletRequest request);
 
+    public EditorForm addORRemoveItemDonor(EditorForm editorForm, HttpServletRequest request);
+
     public EditorForm showBibs(EditorForm editorForm);
 
     public EditorForm copy(EditorForm editorForm);

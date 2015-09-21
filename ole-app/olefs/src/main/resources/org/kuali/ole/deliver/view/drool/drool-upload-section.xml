@@ -52,10 +52,14 @@
             <bean parent="Uif-DropdownControl" >
                 <property name="options">
                     <list>
-                        <bean parent="Uif-KeyLabelPair" p:key="checkout" p:value="Checkout"/>
                         <bean parent="Uif-KeyLabelPair" p:key="general" p:value="General"/>
-                        <bean parent="Uif-KeyLabelPair" p:key="notices" p:value="Notices"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="checkout" p:value="Checkout"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="checkin" p:value="Checkin"/>
                         <bean parent="Uif-KeyLabelPair" p:key="renewal" p:value="Renewal"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="fines" p:value="Fines"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="request" p:value="Request"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="ncip" p:value="NCIP"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="notices" p:value="Notices"/>
                     </list>
                 </property>
             </bean>

@@ -22,13 +22,13 @@
     <%-- <portal:portalLink displayTitle="true" title="Loan/Return" green="true"
                         url="${ConfigProperties.application.url}/kr-krad/loancontroller?viewId=PatronItemView&methodToCall=start"/> <br/>--%>
     <portal:portalLink displayTitle="true" title="Loan"
-                       url="${ConfigProperties.application.url}/ole-kr-krad/loancontroller?viewId=PatronItemView&methodToCall=start"/> <br/>
+                       url="${ConfigProperties.application.url}/ole-kr-krad/circcontroller?viewId=circView&methodToCall=start"/> <br/>
     <portal:portalLink displayTitle="true"   title="Request Search"
                        url="${ConfigProperties.application.url}/ole-kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true"/><br/>
     <portal:portalLink displayTitle="true" title="Request Re-order"
                        url="${ConfigProperties.application.url}/ole-kr-krad/deliverRequestController?viewId=DeliverRequestSearch&methodToCall=start"/> <br/>
     <portal:portalLink displayTitle="true" title="Return"
-                           url="${ConfigProperties.application.url}/ole-kr-krad/loancontroller?viewId=ReturnItemView&methodToCall=start"/> <br/>
+                       url="${ConfigProperties.application.url}/ole-kr-krad/checkincontroller?viewId=checkinView&methodToCall=start"/> <br/>
     <portal:portalLink displayTitle="true" title="Item Search"
                            url="${ConfigProperties.application.url}/ole-kr-krad/deliverItemSearchController?viewId=OLEDeliverItemSearchView&methodToCall=start"/> <br/>
  <br/>

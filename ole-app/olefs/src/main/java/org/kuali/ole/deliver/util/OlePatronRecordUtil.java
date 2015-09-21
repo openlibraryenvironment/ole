@@ -35,7 +35,9 @@ public class OlePatronRecordUtil extends CircUtilController {
 
             if (matching != null && matching.size() > 0) {
                 OlePatronDocument olePatronDocument = matching.get(0);
-                olePatronDocument.setPatronRecordURL(patronNameURL(GlobalVariables.getUserSession().getPrincipalName(), olePatronDocument.getOlePatronId()));
+                if (GlobalVariables.getUserSession() != null) {
+                    olePatronDocument.setPatronRecordURL(patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), olePatronDocument.getOlePatronId()));
+                }
                 return olePatronDocument;
             } else {
                 LOG.error(OLEConstants.PTRN_BARCD_NOT_EXT);
@@ -65,16 +67,15 @@ public class OlePatronRecordUtil extends CircUtilController {
         return service.hasPermission(principalId, OLEConstants.OlePatron.PATRON_NAMESPACE, OLEConstants.EDIT_PATRON);
     }
 
-    public ErrorMessage fireRules(OlePatronDocument olePatronDocument, String[] expectedRules) {
+    public DroolsResponse fireRules(OlePatronDocument olePatronDocument, String[] expectedRules) {
         List facts = new ArrayList();
         facts.add(olePatronDocument);
-        ErrorMessage errorMessage = new ErrorMessage();
-        facts.add(errorMessage);
+        DroolsResponse droolsResponse = new DroolsResponse();
+        facts.add(droolsResponse);
 
-        fireRulesForPatron(facts, expectedRules, "General Checks for Patron");
+        fireRules(facts, expectedRules, "general-checks");
 
-        DroolsEngineLogger.getInstance().logRulesFired(olePatronDocument.getOlePatronId());
-        return errorMessage;
+        return droolsResponse;
     }
 
 

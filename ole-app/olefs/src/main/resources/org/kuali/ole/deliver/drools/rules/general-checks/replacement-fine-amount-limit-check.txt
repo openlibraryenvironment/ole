@@ -1,0 +1,1 @@
+ $p: OlePatronDocument(getBorrowerTypeCode() ${operator} ${borrowerTypes},getReplacementFineAmount() > ${replacementFineAmount} )

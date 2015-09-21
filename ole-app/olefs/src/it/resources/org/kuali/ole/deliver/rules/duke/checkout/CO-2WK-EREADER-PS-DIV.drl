@@ -1,0 +1,27 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "CO-2WK-EREADER-PS-DIV"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DIVGRAD","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
+$i: OleItemRecordForCirc (getItemType() in ("EREADER"),
+getItemLibraryLocation() in ("PERKINS","LILLY","MARINE","DIV"))
+
+then
+$l.setCirculationPolicyId("CO-2WK-EREADER-PS-DIV");
+$l.loanPeriod("14-D",null);
+$n.setNoticeType("NO-PS-EREADER");
+ end

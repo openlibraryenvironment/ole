@@ -1,8 +1,10 @@
 package org.kuali.ole.sip2.sip2Response;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.ncip.bo.OLECheckInItem;
-import org.kuali.ole.sip2.common.MessageUtil;
+import org.kuali.ole.response.OLESIP2Response;
+import org.kuali.ole.common.MessageUtil;
 import org.kuali.ole.sip2.constants.OLESIP2Constants;
 import org.kuali.ole.sip2.requestParser.OLESIP2CheckInRequestParser;
 
@@ -59,17 +61,17 @@ public class OLESIP2CheckInResponse extends OLESIP2Response {
             oleCheckInBuilder.append(oleCheckInItem.getPatronBarcode());
         }
 
-        if (StringUtils.isNotBlank(oleCheckInItem.getItemType())) {
+        /*if (StringUtils.isNotBlank(oleCheckInItem.getItemType())) {
             oleCheckInBuilder.append(OLESIP2Constants.SPLIT+
                     OLESIP2Constants.MEDIA_TYPE_CODE);
             oleCheckInBuilder.append(oleCheckInItem.getItemType());
-        }
+        }*/
 
 
         if (StringUtils.isNotBlank(oleCheckInItem.getAuthor())) {
             oleCheckInBuilder.append(OLESIP2Constants.SPLIT+
                     OLESIP2Constants.ITEM_PROPERTIES_CODE);
-            oleCheckInBuilder.append("Author  :  " + oleCheckInItem.getAuthor().replaceAll(OLESIP2Constants.NON_ROMAN_REGEX,""));
+            oleCheckInBuilder.append(OLEConstants.OlePatronBill.LABEL_ITEM_AUTHOR+ " :  " + oleCheckInItem.getAuthor().replaceAll(OLESIP2Constants.NON_ROMAN_REGEX,""));
         }
 
         if (StringUtils.isNotBlank(oleCheckInItem.getMessage())) {
@@ -87,8 +89,6 @@ public class OLESIP2CheckInResponse extends OLESIP2Response {
             oleCheckInBuilder.append(sip2CheckInRequestParser.getSequenceNum());
             oleCheckInBuilder.append(MessageUtil.computeChecksum(oleCheckInBuilder.toString()));
         }
-
-        System.out.println(oleCheckInBuilder.toString());
 
 
         return oleCheckInBuilder.toString() + '\r';

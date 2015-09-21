@@ -50,6 +50,7 @@ function setControlIndex006(controlField006Format) {
     }
 }
 function controlField006Set() {
+    valueChange006 = false;
     var controlField006Format = jq("#006Field_0_control").val();
     controlField006Format=jq("#006Field_Common_control").val();
     var controlField006Text = "";

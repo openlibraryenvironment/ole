@@ -19,25 +19,25 @@ function viewWorkbenchBibEdit(docFormat, docId, bibId) {
     return false;
 }
 
-function viewWorkbenchBibOverlay(docId, bibId) {
-    window.open("importBibController?viewId=ImportBibView&methodToCall=overLay&docCategory=work&docType=bibliographic&docFormat=marc&docId=" + docId + "&bibId=" + bibId);
+function viewWorkbenchBibOverlay(docId,bibId){
+    window.open("importBibController?viewId=ImportBibView&methodToCall=overLay&docCategory=work&docType=bibliographic&docFormat=marc&docId="+docId+"&bibId="+bibId);
     return false;
 }
 
-function viewWorkbenchBibCreateInstance(bibId) {
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&bibId=" + bibId + "&docCategory=work&docType=holdings&docFormat=oleml&editable=true");
+function viewWorkbenchBibCreateInstance(bibId){
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&bibId="+bibId+"&docCategory=work&docType=holdings&docFormat=oleml&editable=true");
     return false;
 }
 
 //for holdings
-function viewWorkbenchHoldingsView(docId, bibId, instanceId) {
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=holdings&docFormat=oleml&docId=" + docId + "&bibId=" + bibId + "&instanceId=" + instanceId + "&editable=false");
+function viewWorkbenchHoldingsView(docId,bibId,instanceId){
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=holdings&docFormat=oleml&docId="+docId+"&bibId="+bibId+"&instanceId="+instanceId+"&editable=false");
     return false;
 
 }
 
-function viewWorkbenchHoldingsEdit(docId, bibId, instanceId) {
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=holdings&docFormat=oleml&docId=" + docId + "&bibId=" + bibId + "&instanceId=" + instanceId + "&editable=true&fromSearch=true");
+function viewWorkbenchHoldingsEdit(docId,bibId,instanceId){
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=holdings&docFormat=oleml&docId="+docId+"&bibId="+bibId+"&instanceId="+instanceId+"&editable=true&fromSearch=true");
     return false;
 }
 
@@ -47,65 +47,65 @@ function viewWorkbenchHoldingsShowBib(docId, instanceId) {
 }
 
 function viewBoundWithRelation(holdingsId) {
-    window.open("editorcontroller?viewId=ShowBibView&methodToCall=showBibs&holdingsId=" + holdingsId + "&docCategory=work&docType=holdings&docFormat=oleml&editable=true");
+    window.open("editorcontroller?viewId=ShowBibView&methodToCall=showBibs&holdingsId="+holdingsId+"&docCategory=work&docType=holdings&docFormat=oleml&editable=true");
     return false;
 }
-function viewSeriesHoldingRelation(holdingsId) {
-    window.open("analyticsController?viewId=AnalyticsSummaryView&methodToCall=showAnalyticsSummary&holdingsId=" + holdingsId + "&docType=holdings&");
+function viewSeriesHoldingRelation(holdingsId){
+    window.open("analyticsController?viewId=AnalyticsSummaryView&methodToCall=showAnalyticsSummary&holdingsId="+holdingsId+"&docType=holdings&");
 
     return false;
 }
 //for item
 
-function viewWorkbenchItemView(docId, bibId, instanceId) {
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=item&docFormat=oleml&docId=" + docId + "&bibId=" + bibId + "&instanceId=" + instanceId + "&editable=false");
+function viewWorkbenchItemView(docId,bibId,instanceId){
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=item&docFormat=oleml&docId="+docId+"&bibId="+bibId+"&instanceId="+instanceId+"&editable=false");
     return false;
 
 }
 
-function viewWorkbenchItemEdit(docId, bibId, instanceId) {
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=item&docFormat=oleml&docId=" + docId + "&bibId=" + bibId + "&instanceId=" + instanceId + "&editable=true&fromSearch=true");
+function viewWorkbenchItemEdit(docId,bibId,instanceId){
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=item&docFormat=oleml&docId="+docId+"&bibId="+bibId+"&instanceId="+instanceId+"&editable=true&fromSearch=true");
     return false;
 
 }
 
-function viewWorkbenchItemShowBib(instanceId) {
-    window.open("ole-kr-krad/editorcontroller?viewId=ShowBibView&methodToCall=showBibs&instanceId=" + instanceId + "&docCategory=work&docType=item&docFormat=oleml&editable=true");
+function viewWorkbenchItemShowBib(instanceId){
+    window.open("ole-kr-krad/editorcontroller?viewId=ShowBibView&methodToCall=showBibs&instanceId="+instanceId+"&docCategory=work&docType=item&docFormat=oleml&editable=true");
     return false;
 }
 
-function viewAnalyticItemRelation(itemIdentifier) {
-    window.open("analyticsController?viewId=AnalyticsSummaryView&methodToCall=showAnalyticsSummary&itemId=" + itemIdentifier + "&docType=item&");
+function viewAnalyticItemRelation(itemIdentifier){
+    window.open("analyticsController?viewId=AnalyticsSummaryView&methodToCall=showAnalyticsSummary&itemId="+itemIdentifier+"&docType=item&");
 }
 
 //for EHoldings
 
-function viewWorkbenchEHoldingsView(docId, bibId, holdingsId) {
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=eHoldings&docFormat=oleml&docId=" + docId + "&editable=false&bibId=" + bibId + "&holdingsId=" + holdingsId);
+function viewWorkbenchEHoldingsView(docId,bibId,holdingsId){
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=eHoldings&docFormat=oleml&docId="+docId+"&editable=false&bibId="+bibId+"&holdingsId="+holdingsId);
     return false;
 
 }
 
-function viewWorkbenchEHoldingsEdit(docId, bibId, holdingsId) {
-    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=eHoldings&docFormat=oleml&docId=" + docId + "&editable=true&fromSearch=true&bibId=" + bibId + "&holdingsId=" + holdingsId);
+function viewWorkbenchEHoldingsEdit(docId,bibId,holdingsId){
+    window.open("editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=eHoldings&docFormat=oleml&docId="+docId+"&editable=true&fromSearch=true&bibId="+bibId+"&holdingsId="+holdingsId);
     return false;
 
 }
 
-jq("#SearchPanel-docType-Section").live("change", function () {
-    jq("div#DescribeWorkBenchViewPage").each(function () {
-        if (jq(this).find("div.uif-validationMessages")) {
+jq("#SearchPanel-docType-Section").live("change",function() {
+    jq("div#DescribeWorkBenchViewPage").each(function(){
+        if(jq(this).find("div.uif-validationMessages")){
             jq(this).find("div.uif-validationMessages").remove();
         }
     });
     jq('#hdn_refresh_button').focus().click();
-    submitForm('start', null, null, null, null);
+    submitForm('start', null, null,null,null);
 });
 
 
-jq("#GlobalEditView-Type-Section").live("change", function () {
-    jq("div#DescribeWorkBenchViewPage").each(function () {
-        if (jq(this).find("div.uif-validationMessages")) {
+jq("#GlobalEditView-Type-Section").live("change",function() {
+    jq("div#DescribeWorkBenchViewPage").each(function(){
+        if(jq(this).find("div.uif-validationMessages")){
             jq(this).find("div.uif-validationMessages").remove();
         }
     });
@@ -135,6 +135,7 @@ function refresh() {
 
 jq(document).ready(function () {
     // jq("#SearchConditions_SearchScope_id_line0_control_0").attr("checked","true");
+    jq('#hdnStart_control').val(0);
     jq('#hdnRows_control').val(jq(".dataTables_length select").val());
     if (sessionStorage.getItem("sortOrder") == null) {
         sessionStorage.setItem("sortOrder", "asc");
@@ -142,13 +143,33 @@ jq(document).ready(function () {
         jq('#hiddenSearchFields_h3').val("Title_sort");
         jq('#hiddenSearchFields_h2').val("asc");
     }
+    
+    jq(document).click(function(e){
+        if (jq(e.target).is('#BoundwithTree2TabSection_tabs,#BoundwithTree2TabSection_tabs *,#BoundwithTreeSection1_tabs,#BoundwithTreeSection1_tabs *,#TransferSection1_tabs *,#TransferSection2_tabs *')) {
+            window.setTimeout(function () {
+                searchShowEntries();
+            }, 800)
+        }
+
+    });
+
+    jq(document).keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        var type = jq("select[name='searchType']").val();
+        if(keycode == '13' && type == "search"){
+            submitForm('search', null, null, null, null);
+        }else if(keycode == '13'&& type == "browse") {
+            submitForm('browse', null, null, null, null);
+        }
+    });
 
 
 });
 
 
 jq(window).load(function () {
-    jq("#SearchPanel-docType-Section_control_0").attr('checked', true);
+    jq("#SearchButton").focus();
+    jq("#SearchPanel-docType-Section_control_0").attr ('checked',true);
     jq(".dataTables_length select").live("change", function () {
         localStorage.localAscSort = true;
         localStorage.localDescSort = true;

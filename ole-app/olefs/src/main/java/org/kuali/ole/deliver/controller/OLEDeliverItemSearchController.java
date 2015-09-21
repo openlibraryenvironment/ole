@@ -8,11 +8,10 @@ import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.form.OLEDeliverItemSearchForm;
 import org.kuali.ole.deliver.service.OLEDeliverItemSearchService;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
 import org.kuali.ole.docstore.common.search.*;
-import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
-import org.kuali.ole.docstore.engine.service.index.solr.ItemConstants;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -97,7 +96,7 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                 }
                 if (StringUtils.isNotBlank(callNumber)) {
                     searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.AND_SEARCH_SCOPE, searchParams.buildSearchField(DocType.ITEM.getCode(), Item.CALL_NUMBER, callNumber),OLEConstants.OR_SEARCH_SCOPE));
-                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.AND_SEARCH_SCOPE, searchParams.buildSearchField(DocType.ITEM.getCode(), ItemConstants.HOLDINGS_CALLNUMBER_SEARCH, callNumber), OLEConstants.AND_SEARCH_SCOPE));
+                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.AND_SEARCH_SCOPE, searchParams.buildSearchField(DocType.ITEM.getCode(), DocstoreConstants.HOLDINGS_CALLNUMBER_SEARCH, callNumber), OLEConstants.AND_SEARCH_SCOPE));
                 }
                 if (StringUtils.isNotBlank(itemUUID)) {
                     searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.AND_SEARCH_SCOPE, searchParams.buildSearchField(DocType.ITEM.getCode(), Item.ITEMIDENTIFIER, itemUUID), OLEConstants.AND_SEARCH_SCOPE));
@@ -106,8 +105,8 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                     searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.AND_SEARCH_SCOPE, searchParams.buildSearchField(DocType.ITEM.getCode(), Item.ITEM_TYPE, itemType), OLEConstants.AND_SEARCH_SCOPE));
                 }
                 if (StringUtils.isNotBlank(itemLocation)) {
-                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.PHRASE, searchParams.buildSearchField(DocType.ITEM.getCode(), ItemConstants.LOCATION_LEVEL_SEARCH, itemLocation), OLEConstants.OR_SEARCH_SCOPE));
-                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.PHRASE, searchParams.buildSearchField(DocType.ITEM.getCode(),ItemConstants.HOLDINGS_LOCATION_SEARCH, itemLocation), OLEConstants.OR_SEARCH_SCOPE));
+                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.PHRASE, searchParams.buildSearchField(DocType.ITEM.getCode(), DocstoreConstants.LOCATION_LEVEL_SEARCH, itemLocation), OLEConstants.OR_SEARCH_SCOPE));
+                    searchParams.getSearchConditions().add(searchParams.buildSearchCondition(OLEConstants.PHRASE, searchParams.buildSearchField(DocType.ITEM.getCode(),DocstoreConstants.HOLDINGS_LOCATION_SEARCH, itemLocation), OLEConstants.OR_SEARCH_SCOPE));
                 }
                 searchParams.setPageSize(oleDeliverItemSearchForm.getPageSize());
                 searchParams.setStartIndex(oleDeliverItemSearchForm.getStart());
@@ -132,52 +131,52 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
     }
 
     private void getSearchResultFields(SearchParams searchParams) {
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.BIB_IDENTIFIER));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.TITLE_SORT));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.BIB_IDENTIFIER));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.TITLE_SORT));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Bib.AUTHOR));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Bib.PUBLICATIONPLACE));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Bib.PUBLISHER));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.HOLDINGS_LOCATION_DISPLAY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.LOCATION_LEVEL_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.HOLDINGS_LOCATION_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.LOCATION_LEVEL_DISPLAY));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.CALL_NUMBER));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.ITEM_STATUS));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), OLEConstants.ITEM_TYPE_FULL_VALUE));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.HOLDINGS_IDENTIFIER));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.HOLDINGS_CALLNUMBER_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.HOLDINGS_IDENTIFIER));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.HOLDINGS_CALLNUMBER_DISPLAY));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.ID));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), Item.ITEM_BARCODE));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.ENUMERATION_DISPLAY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.CHRONOLOGY_DISPLAY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.ITEM_STATUS_EFFECTIVE_DATE));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.DUE_DATE_TIME));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.ORG_DUE_DATE_TIME));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.NUMBER_OF_PIECES_DISPLAY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.PUBLICATIONDATE_DISPLAY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.CURRENT_BORROWER));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.PROXY_BORROWER));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.MDF_035A));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.ISBN_DISPLAY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.ITEMNOTE_VALUE_DISPLAY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.ITEMNOTE_TYPE_DISPLAY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.MISSING_PIECE_FLAG_DISPLAY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.MISSING_PIECE_COUNT_DISPLAY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.MISSING_PIECE_FLAG_NOTE_DISPLAY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.CLMS_RET_FLAG));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.CLMS_RET_NOTE));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.CLMS_RET_FLAG_CRE_DATE));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.ITEM_DAMAGED_FLAG_DISPLAY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), ItemConstants.DAMAGED_ITEM_NOTE_DISPLAY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.CREATED_BY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.DATE_ENTERED));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.UPDATED_BY));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), BibConstants.DATE_UPDATED));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.ENUMERATION_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.CHRONOLOGY_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.ITEM_STATUS_EFFECTIVE_DATE));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.DUE_DATE_TIME));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.ORG_DUE_DATE_TIME));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.NUMBER_OF_PIECES_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.PUBLICATIONDATE_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.CURRENT_BORROWER));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.PROXY_BORROWER));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.MDF_035A));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.ISBN_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.ITEMNOTE_VALUE_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.ITEMNOTE_TYPE_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.MISSING_PIECE_FLAG_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.MISSING_PIECE_COUNT_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants. MISSING_PIECE_FLAG_NOTE_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.CLMS_RET_FLAG));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.CLMS_RET_NOTE));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.CLMS_RET_FLAG_CRE_DATE));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.ITEM_DAMAGED_FLAG_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.DAMAGED_ITEM_NOTE_DISPLAY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.CREATED_BY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.DATE_ENTERED));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.UPDATED_BY));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField(DocType.ITEM.getCode(), DocstoreConstants.DATE_UPDATED));
      }
 
     private void buildSortCondition(OLEDeliverItemSearchForm oleDeliverItemSearchForm) {
         SearchParams searchParams = oleDeliverItemSearchForm.getSearchParams();
         SortCondition sortCondition = new SortCondition();
         if(org.apache.commons.lang.StringUtils.isEmpty(oleDeliverItemSearchForm.getSortField())){
-            oleDeliverItemSearchForm.setSortField(BibConstants.TITLE_SORT);
+            oleDeliverItemSearchForm.setSortField(DocstoreConstants.TITLE_SORT);
             oleDeliverItemSearchForm.setSortOrder("asc");
         }
         sortCondition.setSortField(oleDeliverItemSearchForm.getSortField());
@@ -203,16 +202,16 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                             holdingsSearchResultDisplayRow.setBibIdentifier(searchResultField.getFieldValue());
                             singleItemResultDisplayRow.setBibIdentifier(searchResultField.getFieldValue());
                             itemSearchResultDisplayRow.setBibIdentifier(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase( BibConstants.TITLE_SORT)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.TITLE_SORT)) {
                             singleItemResultDisplayRow.setTitle(searchResultField.getFieldValue());
                             bibSearchResultDisplayRow.setTitle(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.AUTHOR)) {
                             singleItemResultDisplayRow.setAuthor(searchResultField.getFieldValue());
                             bibSearchResultDisplayRow.setAuthor(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.HOLDINGS_LOCATION_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.HOLDINGS_LOCATION_DISPLAY)) {
                             holdingsSearchResultDisplayRow.setLocation(searchResultField.getFieldValue());
                             singleItemResultDisplayRow.setHoldingsLocation(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.LOCATION_LEVEL_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.LOCATION_LEVEL_DISPLAY)) {
                             singleItemResultDisplayRow.setLocation(searchResultField.getFieldValue());
                             itemSearchResultDisplayRow.setLocation(searchResultField.getFieldValue());
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Item.CALL_NUMBER)) {
@@ -228,7 +227,7 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                             holdingsSearchResultDisplayRow.setId(searchResultField.getFieldValue());
                             singleItemResultDisplayRow.setHoldingsIdentifier(searchResultField.getFieldValue());
                             itemSearchResultDisplayRow.setHoldingsIdentifier(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.HOLDINGS_CALLNUMBER_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.HOLDINGS_CALLNUMBER_DISPLAY)) {
                             holdingsSearchResultDisplayRow.setCallNumber(searchResultField.getFieldValue());
                             if(StringUtils.isEmpty(itemSearchResultDisplayRow.getCallNumber())){
                                 singleItemResultDisplayRow.setCallNumber(searchResultField.getFieldValue());
@@ -240,19 +239,19 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                         } else if (searchResultField.getFieldName().equalsIgnoreCase(Item.ITEM_BARCODE)) {
                             singleItemResultDisplayRow.setItemBarCode(searchResultField.getFieldValue());
                             itemSearchResultDisplayRow.setItemBarCode(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.ENUMERATION_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.ENUMERATION_DISPLAY)) {
                             singleItemResultDisplayRow.setEnumeration(searchResultField.getFieldValue());
                             itemSearchResultDisplayRow.setEnumeration(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.CHRONOLOGY_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.CHRONOLOGY_DISPLAY)) {
                             singleItemResultDisplayRow.setChronology(searchResultField.getFieldValue());
                             itemSearchResultDisplayRow.setChronology(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.ITEM_STATUS_EFFECTIVE_DATE)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.ITEM_STATUS_EFFECTIVE_DATE)) {
                             singleItemResultDisplayRow.setItemStatusDate(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.DUE_DATE_TIME)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.DUE_DATE_TIME)) {
                             singleItemResultDisplayRow.setDueDate(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.ORG_DUE_DATE_TIME)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.ORG_DUE_DATE_TIME)) {
                             singleItemResultDisplayRow.setOriginalDueDate(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.NUMBER_OF_PIECES_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.NUMBER_OF_PIECES_DISPLAY)) {
                             singleItemResultDisplayRow.setNoOfPieces(searchResultField.getFieldValue());
                         }else if (searchResultField.getFieldName().equalsIgnoreCase(Bib.PUBLICATIONPLACE)) {
                             singleItemResultDisplayRow.setPublication(searchResultField.getFieldValue());
@@ -262,44 +261,44 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
                             }else{
                                 singleItemResultDisplayRow.setPublication(searchResultField.getFieldValue());
                             }
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.PUBLICATIONDATE_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.PUBLICATIONDATE_DISPLAY)) {
                             bibSearchResultDisplayRow.setPublicationYear(searchResultField.getFieldValue());
                         }
-                        else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.CURRENT_BORROWER)) {
+                        else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.CURRENT_BORROWER)) {
                             singleItemResultDisplayRow.setCurrentBorrowerId(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.PROXY_BORROWER)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.PROXY_BORROWER)) {
                             singleItemResultDisplayRow.setProxyBorrowerId(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.MDF_035A)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.MDF_035A)) {
                             singleItemResultDisplayRow.setOclcNumber(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.ISBN_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.ISBN_DISPLAY)) {
                             singleItemResultDisplayRow.setIsbn(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.ITEMNOTE_VALUE_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.ITEMNOTE_VALUE_DISPLAY)) {
                             singleItemResultDisplayRow.setItemNoteValue(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.ITEMNOTE_TYPE_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.ITEMNOTE_TYPE_DISPLAY)) {
                             singleItemResultDisplayRow.setItemNoteType(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.MISSING_PIECE_FLAG_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.MISSING_PIECE_FLAG_DISPLAY)) {
                             singleItemResultDisplayRow.setMissingPieceFlag(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.MISSING_PIECE_COUNT_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.MISSING_PIECE_COUNT_DISPLAY)) {
                             singleItemResultDisplayRow.setMissingPieceCount(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.MISSING_PIECE_FLAG_NOTE_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.MISSING_PIECE_FLAG_NOTE_DISPLAY)) {
                             singleItemResultDisplayRow.setMissingPieceNote(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.CLMS_RET_FLAG)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.CLMS_RET_FLAG)) {
                             singleItemResultDisplayRow.setClaimsReturnedFlag(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.CLMS_RET_NOTE)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.CLMS_RET_NOTE)) {
                             singleItemResultDisplayRow.setClaimsReturnedNote(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.CLMS_RET_FLAG_CRE_DATE)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.CLMS_RET_FLAG_CRE_DATE)) {
                             singleItemResultDisplayRow.setClaimsReturnedDate(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.ITEM_DAMAGED_FLAG_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.ITEM_DAMAGED_FLAG_DISPLAY)) {
                             singleItemResultDisplayRow.setItemDamagedStatusFlag(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(ItemConstants.DAMAGED_ITEM_NOTE_DISPLAY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.DAMAGED_ITEM_NOTE_DISPLAY)) {
                             singleItemResultDisplayRow.setItemDamagedNote(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.CREATED_BY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.CREATED_BY)) {
                             singleItemResultDisplayRow.setCreatedBy(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.DATE_ENTERED)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.DATE_ENTERED)) {
                             singleItemResultDisplayRow.setCreatedDate(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.UPDATED_BY)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.UPDATED_BY)) {
                             singleItemResultDisplayRow.setUpdatedBy(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(BibConstants.DATE_UPDATED)) {
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(DocstoreConstants.DATE_UPDATED)) {
                             singleItemResultDisplayRow.setUpdatedDate(searchResultField.getFieldValue());
                         }
                     }

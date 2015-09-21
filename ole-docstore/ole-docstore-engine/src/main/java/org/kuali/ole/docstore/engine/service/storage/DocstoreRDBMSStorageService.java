@@ -1,21 +1,29 @@
 package org.kuali.ole.docstore.engine.service.storage;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.document.*;
-import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.common.document.content.enums.DocCategory;
 import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
 import org.kuali.ole.docstore.common.document.content.enums.DocType;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
 import org.kuali.ole.docstore.engine.factory.DocumentManagerFactory;
+import org.kuali.ole.docstore.engine.service.BibTreeProcessor;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.*;
+import org.kuali.ole.utility.OleStopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,6 +35,7 @@ import java.util.List;
 public class DocstoreRDBMSStorageService implements DocstoreStorageService {
 
     private static final Logger LOG = LoggerFactory.getLogger(DocstoreRDBMSStorageService.class);
+    private PlatformTransactionManager transactionManager;
 
     @Override
     public void createBib(Bib bib) {
@@ -130,7 +139,7 @@ public class DocstoreRDBMSStorageService implements DocstoreStorageService {
         HashMap<String,Item> items = new HashMap<>();
         for (Object obj : objs) {
             Item item = (Item) obj;
-            items.put(item.getId(),item);
+            items.put(item.getId(), item);
         }
         return items;
     }
@@ -293,8 +302,7 @@ public class DocstoreRDBMSStorageService implements DocstoreStorageService {
         DocumentManager documentManager = null;
         if(licenseId.startsWith(DocumentUniqueIDPrefix.PREFIX_WORK_LICENSE_ONIXPL)) {
             documentManager = DocumentManagerFactory.getInstance().getDocumentManager(DocCategory.WORK.getCode(), DocType.LICENSE.getCode(), DocFormat.ONIXPL.getCode());
-        }
-        else {
+        } else {
             documentManager = RdbmsLicenseAttachmentDocumentManager.getInstance();
         }
 
@@ -354,14 +362,49 @@ public class DocstoreRDBMSStorageService implements DocstoreStorageService {
 
     /**
      * This method is for batch updates to bibs, holdings and items.
+     *
      * @param bibTrees
      */
     @Override
     public void processBibTrees(BibTrees bibTrees) {
+        List<Future> futures = new ArrayList<>();
+        String parameter = ParameterValueResolver.getInstance().getParameter("OLE", "OLE-DESC",
+                "DESCRIBE", "NUM_THREADS_FOR_PROCESSING_BIB");
+        OleStopWatch oleStopWatch = new OleStopWatch();
+        LOG.info("NUM_THREADS_FOR_PROCESSING_BIB: " + parameter);
+        ExecutorService executorService = Executors.newFixedThreadPool(StringUtils.isNotEmpty(parameter) ? Integer
+                        .parseInt(parameter) : 10
+        );
+
+        LOG.info("Num tree to process:" + bibTrees.getBibTrees().size());
+        oleStopWatch.start();
         for (BibTree bibTree : bibTrees.getBibTrees()) {
-            processBibTree(bibTree);
+            futures.add(executorService.submit(new BibTreeProcessor(bibTree)));
         }
+
+        for (Iterator<Future> iterator = futures.iterator(); iterator.hasNext(); ) {
+            Future future = iterator.next();
+            try {
+                BibTree response = (BibTree) future.get();
+            } catch (InterruptedException e) {
+                LOG.info(e.getMessage());
+            } catch (ExecutionException e) {
+                LOG.info(e.getMessage());
+            }
+        }
+        executorService.shutdown();
+        oleStopWatch.end();
+        LOG.info("Time taken to process bibTrees:" + oleStopWatch.getTotalTime() + " ms");
     }
+
+
+    @Override
+    public void processBibTreesForBatch(BibTrees bibTrees) {
+      for(BibTree bibTree:bibTrees.getBibTrees()){
+          processBibTree(bibTree);
+      }
+    }
+
 
     /**
      * This method is for batch updates to bib tree.
@@ -460,6 +503,7 @@ public class DocstoreRDBMSStorageService implements DocstoreStorageService {
 
     /**
      * This method is for batch updates to holdings.
+     *
      * @param holdings
      */
     private void processHoldings(Holdings holdings) {
@@ -507,6 +551,7 @@ public class DocstoreRDBMSStorageService implements DocstoreStorageService {
 
     /**
      * This method is for batch updates to items.
+     *
      * @param items
      * @param holdings
      */
@@ -521,6 +566,7 @@ public class DocstoreRDBMSStorageService implements DocstoreStorageService {
 
     /**
      * This method is for batch updates to item.
+     *
      * @param item
      */
     private void processItem(Item item) {

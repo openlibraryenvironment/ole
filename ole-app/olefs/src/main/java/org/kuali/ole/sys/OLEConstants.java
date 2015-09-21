@@ -1263,6 +1263,15 @@ public class OLEConstants {
         public static final String ORDER_HOLD_QUEUE_REQUESTOR_FNAME = "requestorFirstName";
         public static final String ORDER_HOLD_QUEUE_ASSIGN_OWN_REQ = "Assign own Requisition";
         public static final String ORDER_HOLD_QUEUE_APPROVE_REQ = "Approve REQ";
+
+        public static final String FIRM_FIXED_ITEM_LOCATION = "UC/UCX/Order";
+        public static final String FIRM_FIXED_ITEM_STATUS = "ONORDER";
+        public static final String APPROVAL_ITEM_LOCATION = "UC/UCX/InProc";
+        public static final String APPROVAL_ITEM_STATUS = "INPROCESS";
+        public static final String RECURRING_PAYMENT_TYPE = "VARV";
+        public static final String DEFAULT_CHART_OF_ACCOUNTS_CODE = "DEFAULT_ACCOUNTINGLINE_CHART_CODE";
+        public static final String DEFAULT_FINANCIAL_OBJECT_CODE = "DEFAULT_ACCOUNTINGLINE_OBJECT_CODE";
+        public static final String DEFAULT_COPY_NUMBER = "1";
     }
 
     public static class OleLineItemReceiving{
@@ -1735,6 +1744,7 @@ public class OLEConstants {
     public static class InvoiceDocument {
         public static final String VENDOR_HEADER_IDENTIFIER="vendorHeaderGeneratedIdentifier";
         public static final String VENDOR_DETAIL_IDENTIFIER="vendorDetailAssignedIdentifier";
+        public static final String VENDOR_ALIAS_NAME="vendorAliasName";
         public static final String VENDOR_NUMBER="vendorNumber";
         public static final String TITLE="title";
         public static final String AUTHOR="author";
@@ -1810,6 +1820,7 @@ public class OLEConstants {
     public static final String OVERVIEW_SECTION= "Document Overview";
     public static final String VENDOR_INFO_SECTION = "Vendor Info";
     public static final String INVOICE_INFO_SECTION = "Invoice Info";
+    public static final String PROCESS_ITEMS_SECTION = "Process Items";
     public static final String PROCESS_TITLES_SECTION = "Process Titles";
     public static final String CURRENT_ITEM_SECTION= "Current Items";
     public static final String ADDITIONAL_CHARGES_SECTION = "Additional Charges";
@@ -2001,6 +2012,8 @@ public class OLEConstants {
     public static final String POBA_DIRECTORY = "/poba";
     public static final String POBA_FILE = "PurchaseOrderBulkAmendmentFile";
     public static final String POBA_LOG_FILE = "PurchaseOrderBulkAmendmentLog";
+    public static final String PO_DOC_CURR_IND = "purchaseOrderCurrentIndicator";
+    public static final String PO_DOC_STAT_CLOSED = "Closed";
     public static final String SEQ_NBR = "sequenceObject";
     public static final String INDEX_NBR = "indexNo";
 }

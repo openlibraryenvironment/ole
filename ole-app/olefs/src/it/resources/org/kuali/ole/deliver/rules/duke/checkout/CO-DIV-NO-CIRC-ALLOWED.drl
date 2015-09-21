@@ -1,0 +1,28 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "CO-DIV-NO-CIRC-ALLOWED"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$d: DroolsResponse()
+
+$i: OleItemRecordForCirc (getItemType() in ("4WKCL","UNBDPER","1WK","COMPMEDIA"),
+getItemLibraryLocation() in ("DIV"))
+then
+
+$d.addErrorMessage("Patrons may not borrow Unbound Periodicals or Computer Media.");
+$d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+
+$l.setCirculationPolicyId("CO-DIV-NO-CIRC-ALLOWED");
+$l.loanPeriod(null,null);
+$n.setNoticeType("NO-PS-STDLOAN");
+ end

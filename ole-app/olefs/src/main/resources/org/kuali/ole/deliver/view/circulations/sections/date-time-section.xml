@@ -47,6 +47,9 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5" p:watermarkText="hh:mm"/>
                     </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="Time24HPatternConstraint"/>
+                    </property>
                 </bean>
             </list>
         </property>

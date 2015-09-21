@@ -112,6 +112,7 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
     private Integer invoiceTypeId;
     private Integer invoiceSubTypeId;
     private String vendorId;
+    private String vendorAlias;
     private String invoiceTypeHdnId;
     private String invoiceSubTypeHdnId;
     private String acquisitionUnit;
@@ -170,6 +171,8 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
     private List<OleInvoiceItem> deletedInvoiceItems =  new ArrayList<>();
     private boolean duplicateRouteFlag;
     private boolean duplicateSaveFlag;
+	private boolean duplicateValidationFlag;
+    private String invoiceInfo;
     private String currencyFormat;
     private Integer lineOrderSequenceNumber = 0;
 
@@ -712,6 +715,7 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
         this.setOverviewFlag(getOleInvoiceService().canCollapse(OLEConstants.OVERVIEW_SECTION, collapseSections));
         this.setVendorInfoFlag(getOleInvoiceService().canCollapse(OLEConstants.VENDOR_INFO_SECTION, collapseSections));
         this.setInvoiceInfoFlag(getOleInvoiceService().canCollapse(OLEConstants.INVOICE_INFO_SECTION, collapseSections));
+        this.setProcessItemFlag(getOleInvoiceService().canCollapse(OLEConstants.PROCESS_ITEMS_SECTION, collapseSections));
         this.setProcessTitlesFlag(getOleInvoiceService().canCollapse(OLEConstants.PROCESS_TITLES_SECTION, collapseSections));
         this.setCurrentItemsFlag(getOleInvoiceService().canCollapse(OLEConstants.CURRENT_ITEM_SECTION, collapseSections));
         this.setAdditionalChargesFlag(getOleInvoiceService().canCollapse(OLEConstants.ADDITIONAL_CHARGES_SECTION, collapseSections));
@@ -2764,5 +2768,35 @@ public class OleInvoiceDocument extends InvoiceDocument implements Copyable {
             e.printStackTrace();
         }
         return returnValue;
+    }
+	
+	public String getVendorAlias() {
+        return vendorAlias;
+    }
+
+    public void setVendorAlias(String vendorAlias) {
+        this.vendorAlias = vendorAlias;
+    }
+
+    public boolean isDuplicateValidationFlag() {
+        return duplicateValidationFlag;
+    }
+
+    public void setDuplicateValidationFlag(boolean duplicateValidationFlag) {
+        this.duplicateValidationFlag = duplicateValidationFlag;
+    }
+
+    public String getInvoiceInfo() {
+        if(StringUtils.isNotEmpty(invoiceNumber)){
+            invoiceInfo = "";
+            invoiceInfo = "Invoice (" + invoiceNumber + ")";
+        }else{
+            invoiceInfo = "Invoice";
+        }
+        return invoiceInfo;
+    }
+
+    public void setInvoiceInfo(String invoiceInfo) {
+        this.invoiceInfo = invoiceInfo;
     }
 }

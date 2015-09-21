@@ -1,7 +1,6 @@
 package org.kuali.ole;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrRequest;
 import org.apache.solr.client.solrj.SolrServer;
@@ -25,9 +24,7 @@ import org.kuali.ole.docstore.common.exception.DocstoreResources;
 import org.kuali.ole.docstore.common.exception.DocstoreValidationException;
 import org.kuali.ole.docstore.common.search.*;
 import org.kuali.ole.docstore.common.service.DocstoreService;
-import org.kuali.ole.docstore.common.util.ParseXml;
 import org.kuali.ole.docstore.discovery.service.SolrServerManager;
-import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
 import org.kuali.ole.docstore.engine.service.search.DocstoreSolrSearchService;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.RdbmsItemDocumentManager;
 import org.kuali.ole.docstore.model.enums.DocCategory;
@@ -252,12 +249,12 @@ public class DocstoreService_UT extends SpringBaseTestCase {
         Assert.assertNotNull(holdingsTree.getHoldings().getId());
         Assert.assertNotNull(holdingsTree.getItems().get(0).getId());
         Map map = new HashMap();
-        map.put(BibConstants.DOC_TYPE, "bibliographic");
+        map.put(DOC_TYPE, "bibliographic");
         map.put("ID", bibTree.getBib().getId());
         BibTree retrievedBibTree = docstoreService.findBibTree(map);
         Map holdingsMap = new HashMap();
         holdingsMap.put("ID", holdingsTree.getHoldings().getId());
-        holdingsMap.put(BibConstants.DOC_TYPE, "holdings");
+        holdingsMap.put(DOC_TYPE, "holdings");
         HoldingsTree retrievedHoldingsTree = docstoreService.findHoldingsTree(holdingsMap);
         Assert.assertEquals(bibTree.getBib().getId(), retrievedBibTree.getBib().getId());
         Assert.assertEquals(holdingsTree.getHoldings().getId(), retrievedHoldingsTree.getHoldings().getId());
@@ -967,7 +964,7 @@ public class DocstoreService_UT extends SpringBaseTestCase {
     public void findBib() {
         testCreateBib();
         Map map = new HashMap();
-        map.put(BibConstants.DOC_TYPE, "bibliographic");
+        map.put(DOC_TYPE, "bibliographic");
         map.put("ID", "wbm-10000001");
         Bib bib = docstoreService.findBib(map);
         Assert.assertEquals(bib.getId(), "wbm-10000001");
@@ -977,7 +974,7 @@ public class DocstoreService_UT extends SpringBaseTestCase {
     public void findBibTree() {
         testCreateBib();
         Map map = new HashMap();
-        map.put(BibConstants.DOC_TYPE, "bibliographic");
+        map.put(DOC_TYPE, "bibliographic");
         map.put("ID", "wbm-10000001");
         BibTree bibTree = docstoreService.findBibTree(map);
         Assert.assertEquals(bibTree.getBib().getId(), "wbm-10000001");
@@ -988,7 +985,7 @@ public class DocstoreService_UT extends SpringBaseTestCase {
         testCreatePHoldings();
         Map map = new HashMap();
         map.put("ID", "who-1");
-        map.put(BibConstants.DOC_TYPE, "holdings");
+        map.put(DOC_TYPE, "holdings");
         Holdings holdings = docstoreService.findHoldings(map);
         Assert.assertEquals(holdings.getId(), "who-1");
 
@@ -999,7 +996,7 @@ public class DocstoreService_UT extends SpringBaseTestCase {
         testCreatePHoldings();
         Map map = new HashMap();
         map.put("ID", "who-1");
-        map.put(BibConstants.DOC_TYPE, "holdings");
+        map.put(DOC_TYPE, "holdings");
         HoldingsTree holdingsTree = docstoreService.findHoldingsTree(map);
         Assert.assertEquals(holdingsTree.getHoldings().getId(), "who-1");
 
@@ -1010,7 +1007,7 @@ public class DocstoreService_UT extends SpringBaseTestCase {
         testCreateItem();
         Map map = new HashMap();
         map.put("ID", "wio-1");
-        map.put(BibConstants.DOC_TYPE, "item");
+        map.put(DOC_TYPE, "item");
         Item item = docstoreService.findItem(map);
         Assert.assertEquals(item.getId(), "wio-1");
     }

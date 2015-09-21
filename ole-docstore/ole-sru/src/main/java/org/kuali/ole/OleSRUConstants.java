@@ -54,6 +54,7 @@ public class OleSRUConstants {
     public static final String INVALID_RECORD_PACKING = "invalid.record.packing";
     public static final String INVALID_RECORD_SCHEMA = "invalid.record.schema";
     public static final String START_RECORD_UNMATCH = "start.record.unMatch";
+    public static final String SEARCH_PROCESS_FAILED= "search.process.failed";
 
 
     //Explain operation

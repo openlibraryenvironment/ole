@@ -402,6 +402,44 @@ div#OLEInvoice-DuplicationSavePopUp{
     width: auto;
     height: auto;
     position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:5px 5px 5px 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+div#OLEInvoice-DuplicationValidationPopUp{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 40%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:5px 5px 5px 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+div#OLEInvoice-ConfirmationPopUp{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
     top: 15%; left: 50%;
     z-index: 99999;
     box-shadow: 0px 0px 20px #999;

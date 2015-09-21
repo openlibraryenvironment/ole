@@ -127,6 +127,8 @@ public interface DocstoreService {
 
     public BibTrees processBibTrees(BibTrees bibTrees);
 
+    public BibTrees processBibTreesForBatch(BibTrees bibTrees);
+
     public void unbindWithOneBib(List<String> holdingsIds, String bibId);
 
     public void unbindWithAllBibs(List<String> holdingsIds, String bibId);

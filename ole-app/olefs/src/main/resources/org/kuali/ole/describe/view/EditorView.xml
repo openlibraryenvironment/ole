@@ -171,7 +171,7 @@
     <bean id="bibLevelActionSection" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionImage"  p:actionScript="addInstance()" p:actionEvent="addInstance" p:componentSecurity.performActionAuthz="true">
+                <!--<bean parent="Uif-ActionImage"  p:actionScript="addInstance()" p:actionEvent="addInstance" p:componentSecurity.performActionAuthz="true">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:cssClasses="add" p:title="Add Holdings"
                               p:source="@{#ConfigProperties['rice.server.url']}/krms/images/add.png"/>
@@ -179,7 +179,7 @@
                 </bean>
                 <bean parent="Uif-ActionImage"  p:actionScript="addEInstance()" p:actionEvent="addEInstance" p:componentSecurity.performActionAuthz="true">
                     <property name="actionImage">
-                        <bean parent="Uif-Image" p:cssClasses="add" p:title="Add E-Holdings"
+                        <bean parent="Uif-Image" p:cssClasses="add" p:title="Add Eholdings"
                               p:source="@{#ConfigProperties['rice.server.url']}/krms/images/add.png"/>
                     </property>
                 </bean>
@@ -188,8 +188,10 @@
                         <bean parent="Uif-Image" p:cssClasses="delete" p:title="Delete Bib"
                               p:source="@{#ConfigProperties['krad.externalizable.images.url']}cancel.png"/>
                     </property>
-                </bean>
-
+                </bean>-->
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionScript="addInstance()" p:actionEvent="addInstance" p:actionLabel="H" p:title="Add Holdings" p:align="left" p:componentSecurity.performActionAuthz="true"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionScript="addEInstance()" p:actionEvent="addEInstance" p:actionLabel="E" p:title="Add Eholdings" p:align="left" p:componentSecurity.performActionAuthz="true"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionScript="deleteBib()" p:actionEvent="deleteVerify" p:actionLabel="Delete bib" p:title="Delete Bib" p:align="left" p:componentSecurity.performActionAuthz="true"/>
             </list>
         </property>
     </bean>
@@ -231,33 +233,66 @@
     <bean id="Editor_Footer" parent="Uif-HorizontalBoxSection" p:render="@{editable eq 'true' and hideFooter eq true}">
         <property name="items">
             <list>
-                <bean id="submitEditor" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save"
-                      p:actionLabel="Submit" p:style="float:left;margin-left:30em" p:performClientSideValidation="true"
-                      p:render="@{showEditorFooter eq true and globalEditFlag eq 'false'}"/>
-                <bean id="closeEditor" parent="Uif-PrimaryActionButton" p:actionScript="closeEditorWindow()"
-                      p:actionLabel="Close" p:style="float:left;margin-left:0.2em" p:render="@{tokenId eq null and docId ne null and fromSearch eq false and globalEditFlag eq 'false'}"/>
-                <bean id="closeEditorFromReq" parent="Uif-PrimaryActionButton" p:actionScript="parent.window.close();"
-                      p:actionLabel="Close" p:style="float:left;margin-left:0.2em" p:render="@{tokenId ne null and showClose eq true and fromSearch eq false and globalEditFlag eq 'false'}"/>
-                <bean id="cancelEditor" parent="Uif-PrimaryActionButton" p:methodToCall="cancel"
-                      p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq false and showEditorFooter eq true and globalEditFlag eq 'false'}"/>
-                <bean id="closeDescEditor" parent="Uif-PrimaryActionButton" p:actionScript="closeEditorWindow()"
-                      p:actionLabel="Close" p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq true and globalEditFlag eq 'false'}"/>
-                <bean id="cancelDescEditor" parent="Uif-PrimaryActionButton" p:actionScript="methodToCall('load')"
-                      p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq true and docId ne null and globalEditFlag eq 'false'}"/>
+                <bean id="submitEditor" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:actionScript="validateAndSave()"
+                      p:actionLabel="Submit" p:style="float:left;margin-left:21em;margin-top:0.8em;" p:performClientSideValidation="true"
+                      p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP" p:render="@{showEditorFooter eq true and globalEditFlag eq 'false'}"/>
 
-                <bean id="returnToSearch_button" parent="Uif-PrimaryActionButton" p:actionLabel="Return to Search" p:actionScript="closeEditorWindow();"
-                      p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq true and globalEditFlag eq 'false'}"/>
-
-                <bean id="globalEditUpdate_button" parent="Uif-PrimaryActionButton" p:actionLabel="Update"  p:methodToCall="globalEditSave"
-                      p:style="float:left;margin-left:0.2em" p:render="@{globalEditFlag eq 'true'}"/>
-
-                <bean id="globalEditClose_button" parent="Uif-PrimaryActionButton" p:actionScript="parent.window.close();"
-                      p:actionLabel="Close" p:style="float:left;margin-left:0.2em" p:render="@{globalEditFlag eq 'true'}"/>
-                <!--<ref bean="totalTime"/>-->
-                <!--<ref bean="solrTime"/>-->
+                <ref bean="Editor_Common_Buttons"/>
             </list>
         </property>
     </bean>
+
+    <bean id="Editor_Header_Buttons" parent="Uif-HorizontalBoxSection" p:render="@{editable eq 'true' and hideFooter eq true}">
+        <property name="items">
+            <list>
+                <bean id="submitEditor_Header" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:actionScript="validateAndSave()"
+                      p:actionLabel="Submit" p:style="float:left;margin-left:0em;margin-top:0.8em" p:performClientSideValidation="true"
+                      p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP" p:render="@{showEditorFooter eq true and globalEditFlag eq 'false'}"/>
+
+                <ref bean="Editor_Common_Buttons"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Editor_Common_Buttons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="closeEditor" parent="Uif-SecondaryActionButton" p:actionScript="closeEditorWindow()"
+                      p:actionLabel="Close" p:style="float:left;margin-left:0.2em" p:render="@{tokenId eq null and (docId ne null or copyFlag eq true) and showEditorFooter eq true and fromSearch eq false and globalEditFlag eq 'false'}"/>
+
+                <bean id="closeEditorFromReq" parent="Uif-SecondaryActionButton" p:actionScript="parent.window.close();"
+                      p:actionLabel="Close" p:style="float:left;margin-left:0.2em" p:render="@{tokenId ne null and showClose eq true and fromSearch eq false and globalEditFlag eq 'false'}"/>
+
+                <bean id="cancelEditor" parent="Uif-SecondaryActionButton" p:methodToCall="cancel"
+                      p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq false and showEditorFooter eq true and globalEditFlag eq 'false'}"/>
+
+                <bean id="closeDescEditor" parent="Uif-SecondaryActionButton" p:actionScript="closeEditorWindow()"
+                      p:actionLabel="Close" p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq true and globalEditFlag eq 'false'}"/>
+
+                <bean id="cancelDescEditor" parent="Uif-SecondaryActionButton" p:actionScript="methodToCall('load')"
+                      p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq true and (docId ne null or copyFlag eq true) and globalEditFlag eq 'false'}"/>
+
+                <bean id="Editor_Copy_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Copy" p:actionScript="copyBib('copy')"
+                      p:style="float:left;margin-left:0.2em" p:render="@{newDocument eq false and showEditorFooter eq true and globalEditFlag eq 'false' and workFormViewFlag eq false}"/>
+
+                <bean id="Item_Print_Slip_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Print Call Slip" p:style="float:left;margin-left:0.2em"
+                      p:actionScript="printSlip()" p:render="@{item eq true and showEditorFooter eq true and globalEditFlag eq 'false'}" />
+
+                <bean id="Bib_Print_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Print" p:actionScript="printBib()"
+                      p:style="float:left;margin-left:0.2em" p:render="@{bibliographic eq true and showEditorFooter eq true and showPrint eq true and globalEditFlag eq 'false' and workFormViewFlag eq false}"/>
+
+                <bean id="returnToSearch_button" parent="Uif-SecondaryActionButton" p:actionLabel="Return to Search" p:actionScript="closeEditorWindow();"
+                      p:style="float:left;margin-left:0.2em" p:render="@{fromSearch eq true and globalEditFlag eq 'false'}"/>
+
+                <bean id="globalEditUpdate_button" parent="Uif-SecondaryActionButton" p:actionLabel="Update"  p:methodToCall="globalEditSave"
+                      p:style="float:left;margin-left:0.2em" p:render="@{globalEditFlag eq 'true'}"/>
+
+                <bean id="globalEditClose_button" parent="Uif-SecondaryActionButton" p:actionScript="parent.window.close();"
+                      p:actionLabel="Close" p:style="float:left;margin-left:0.2em" p:render="@{globalEditFlag eq 'true'}"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="hiddenCoverageDateStartField" parent="Uif-InputField"  p:hidden="true" p:propertyName="coverageDateStartFlag"/>
     <bean id="hiddenCoverageDateEndField" parent="Uif-InputField"  p:hidden="true" p:propertyName="coverageDateEndFlag"/>
     <bean id="hiddenPerpetualDateStartField" parent="Uif-InputField"  p:hidden="true" p:propertyName="perpetualDateStartFlag"/>
@@ -266,4 +301,9 @@
     <bean id="hiddenAuthenticationType" parent="Uif-InputField"  p:hidden="true" p:propertyName="authenticationTypeFlag"/>
     <bean id="hiddenAccessLocation" parent="Uif-InputField"  p:hidden="true" p:propertyName="accessLocationFlag"/>
     <bean id="hiddenStatisticalCode" parent="Uif-InputField"  p:hidden="true" p:propertyName="statisticalCodeFlag"/>
+    <bean id="editorFormKey" parent="Uif-InputField" p:propertyName="formKey">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
 </beans>

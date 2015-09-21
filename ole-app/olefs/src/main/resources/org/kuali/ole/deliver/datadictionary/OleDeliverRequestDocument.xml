@@ -24,6 +24,7 @@
                 <ref bean="OleRequestDocument-requestExpiryDate"/>
                 <ref bean="OleRequestDocument-onHoldNoticeSentDate"/>
                 <ref bean="OleRequestDocument-recallNoticeSentDate"/>
+                <ref bean="OleRequestDocument-holdExpirationDate"/>
                 <ref bean="OleRequestDocument-itemId"/>
 
                 <ref bean="OleRequestDocument-operatorModifiedId"/>
@@ -533,6 +534,13 @@
         <property name="label" value="OnHold Notice Sent Date"/>
     </bean>
 
+    <bean id="OleRequestDocument-holdExpirationDate" parent="OleRequestDocument-holdExpirationDate-parentBean"/>
+    <bean id="OleRequestDocument-holdExpirationDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="holdExpirationDate"/>
+        <property name="shortLabel" value="holdExpirationDate"/>
+        <property name="label" value="OnHold Expiration Date"/>
+    </bean>
+
     <bean id="OleRequestDocument-recallNoticeSentDate" parent="OleRequestDocument-recallNoticeSentDate-parentBean"/>
     <bean id="OleRequestDocument-recallNoticeSentDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
         <property name="name" value="recallNoticeSentDate"/>
@@ -610,6 +618,7 @@
                 <bean id="result-volumeNumber" parent="Uif-DataField" p:propertyName="volumeNumber" p:label="Volume Number"/>
                 <bean id="result-createDate" parent="Uif-DataField" p:propertyName="createDate" />
                 <bean id="result-expirationDate" parent="Uif-DataField" p:propertyName="requestExpiryDate"/>
+                <bean id="result-pickUpLocation" parent="Uif-DataField" p:propertyName="pickUpLocationCode"/>
             </list>
         </property>
         <property name="resultsGroup">

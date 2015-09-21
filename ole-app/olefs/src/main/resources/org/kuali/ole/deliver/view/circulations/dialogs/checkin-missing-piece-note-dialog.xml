@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <!--Missing Piece Dialog-->
+    <bean id="checkinMissingPieceNoteDialog" parent="Uif-DialogGroup">
+        <property name="headerText" value=""/>
+        <property name="promptText" value=""/>
+        <property name="availableResponses">
+            <list>
+                <!--Empty-->
+            </list>
+        </property>
+        <property name="items">
+            <list merge="false">
+                <ref bean="checkinMissingPieceErrorMessage"/>
+                <ref bean="checkInMissingPieceNoteMessage"/>
+                <ref bean="checkinMissingPiece-NoOfPieces"/>
+                <ref bean="checkInMissingPiece-matchCheck"/>
+                <ref bean="checkInMissingPiece-note"/>
+                <ref bean="checkInMissingPiece-count"/>
+                <ref bean="checkinMissingPiece-record-Note"/>
+                <ref bean="checkinMissingPieceNote-buttons"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--This messageText will be replaced in action script-->
+    <bean id="checkinMissingPieceErrorMessage" parent="Uif-MessageField" p:messageText="missingPiececErrorMessage" p:hidden="true" p:cssClasses="alert-error"/>
+
+    <bean id="checkinMissingPiece-NoOfPieces" parent="Uif-InputField" p:propertyName="noOfPieces" p:hidden="true"/>
+
+    <bean id="checkInMissingPieceNoteMessage" parent="Uif-MessageField" p:messageText="@{errorMessage.errorMessage}"/>
+
+    <bean id="checkInMissingPiece-matchCheck"  parent="Uif-InputField" p:propertyName="missingPieceMatchCheck" p:label="Verification"
+          p:onChangeScript="
+            if(jq('select#checkInMissingPiece-matchCheck_control option:selected').val() == 'mismatched') {
+             jq('div#checkInMissingPiece-note').show();
+             jq('div#checkInMissingPiece-count').show();
+             jq('div#checkinMissingPiece-record-Note').show();
+            } else {
+             jq('div#checkInMissingPiece-note').hide();
+             jq('div#checkInMissingPiece-count').hide();
+             jq('div#checkinMissingPiece-record-Note').hide();
+            }
+          ">
+        <property name="control">
+            <bean parent="Uif-DropdownControl" >
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="matched" p:value="Matched"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="mismatched" p:value="Mismatched"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="checkinMissingPieceNote-buttons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="checkin-missingPieceNote-ok" parent="Uif-SecondaryActionButton-Small"
+                      p:actionScript="
+                      var missingPieceMatchValue = jq('#checkInMissingPiece-matchCheck_control').val();
+                      var isChecked = false;
+                      isChecked = jq('#checkinMissingPiece-record-Note_control_0').is(':checked');
+                      var missingPieceCountEntered = jq('#checkInMissingPiece-count_control').val();
+                      var missingPieceNoteEntered = jq('#checkInMissingPiece-note_control').val();
+                      var missingPieceNoOfPieces = jq('#checkinMissingPiece-NoOfPieces_control').val();
+                      var dialogErrorMessage = '';
+                      if(missingPieceMatchValue == 'mismatched'){
+                        if(missingPieceCountEntered &lt; 1){
+                            dialogErrorMessage = 'No of missing piece count should not be less than 1';
+                            jq('#checkinMissingPieceErrorMessage .uif-message').html(dialogErrorMessage);
+                            jq('#checkinMissingPieceErrorMessage').attr('style','display:inline');
+                            jq('#checkinMissingPieceErrorMessage').focus();
+                        }
+                        else if(missingPieceCountEntered &gt; missingPieceNoOfPieces){
+                            dialogErrorMessage = 'Missing piece count should not be greater than no of pieces';
+                            jq('#checkinMissingPieceErrorMessage .uif-message').html(dialogErrorMessage);
+                            jq('#checkinMissingPieceErrorMessage').attr('style','display:inline');
+                            jq('#checkinMissingPieceErrorMessage').focus();
+                        }
+                        else{
+                            jq.fancybox.close();
+                            submitForm('processCheckinRequestExists', {missingPieceValueCheck:missingPieceMatchValue,recordNoteForMissingPieceCheck:isChecked,missingPieceCount:missingPieceCountEntered,missingPieceNote:missingPieceNoteEntered}, null, true, null);
+                        }
+                      } else {
+                        jq.fancybox.close();
+                            submitForm('processCheckinRequestExists', {missingPieceValueCheck:missingPieceMatchValue,recordNoteForMissingPieceCheck:isChecked,missingPieceCount:missingPieceCountEntered,missingPieceNote:missingPieceNoteEntered}, null, true, null);
+                      }
+                      "
+                      p:actionLabel="Continue"/>
+                <bean id="checkin-missingPieceNote-cancel" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Cancel" p:actionScript="jq.fancybox.close();submitForm('clearUI',null,null,null,null)"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="checkinMissingPiece-record-Note" parent="Uif-InputField" p:propertyName="recordNoteForMissingPiece"
+          p:label="Record a note or not" p:hidden="true">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="true" p:value="Yes"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="false" p:value="No"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="checkInMissingPiece-note" parent="Uif-InputField" p:propertyName="missingPieceNote" p:label="Mismatched Check-in Note" p:hidden="true"/>
+
+    <bean id="checkInMissingPiece-count" parent="Uif-InputField" p:propertyName="missingPieceCount" p:label="Missing Pieces" p:hidden="true">
+        <property name="control">
+            <bean parent="Uif-TextControl"/>
+        </property>
+    </bean>
+</beans>
+

@@ -11,6 +11,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -42,7 +43,9 @@ public class BatchProcessPatronIngest extends AbstractBatchProcess {
     @Override
     public void prepareForWrite() throws Exception {
         InputStream inputStream = new ByteArrayInputStream(fileContent.getBytes());
-        boolean schemaFlag = olePatronXMLSchemaValidator.validateContentsAgainstSchema(inputStream);
+        //boolean schemaFlag = olePatronXMLSchemaValidator.validateContentsAgainstSchema(inputStream);
+        Map validateResultMap = olePatronXMLSchemaValidator.validateContentsAgainstSchema(inputStream);
+        boolean schemaFlag = (boolean)validateResultMap.get(OLEConstants.OlePatron.PATRON_XML_ISVALID);
         if (!schemaFlag) {
             job.setStatus(OLEConstants.OLEBatchProcess.JOB_STATUS_COMPLETED);
             deleteBatchFile();

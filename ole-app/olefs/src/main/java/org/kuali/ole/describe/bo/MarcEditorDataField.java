@@ -10,6 +10,10 @@ public class MarcEditorDataField implements Serializable, Comparable<MarcEditorD
     private String ind1;
     private String ind2;
     private String value;
+    private String value260a;
+    private String value260b;
+    private String value260c;
+    private boolean selected;
 
     /**
      * Gets the tag attribute.
@@ -81,6 +85,72 @@ public class MarcEditorDataField implements Serializable, Comparable<MarcEditorD
      */
     public void setInd2(String ind2) {
         this.ind2 = ind2;
+    }
+
+    /**
+     * Gets the selected attribute.
+     *
+     * @return Returns the selected.
+     */
+    public boolean isSelected() {
+        return selected;
+    }
+
+    /**
+     * Sets the selected attribute value.
+     *
+     * @param selected The selected to set.
+     */
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    /**
+     * Gets the 260c attribute value.
+     * @return
+     */
+    public String getValue260c() {
+        return value260c;
+    }
+
+    /**
+     * Sets the 260c attribute value.
+     * @param value260c
+     */
+    public void setValue260c(String value260c) {
+        this.value260c = value260c;
+    }
+
+    /**
+     * Gets the 260b attribute value.
+     * @return
+     */
+    public String getValue260b() {
+        return value260b;
+    }
+
+    /**
+     * Sets the 260b attribute value.
+     * @param value260b
+     */
+    public void setValue260b(String value260b) {
+        this.value260b = value260b;
+    }
+
+    /**
+     * Gets the 260a attribute value.
+     * @return
+     */
+    public String getValue260a() {
+        return value260a;
+    }
+
+    /**
+     * Sets the 260a attribute value.
+     * @param value260a
+     */
+    public void setValue260a(String value260a) {
+        this.value260a = value260a;
     }
 
     /**

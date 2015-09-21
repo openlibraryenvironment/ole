@@ -418,6 +418,9 @@ public class OLEConstants {
     public static final String MARC_EDITOR_TITLE_LETTER = "|a";
     public static final String MARC_EDITOR_INVALID_TITLE = "Minimum title field 245 and |a is required. ";
     public static final String MARC_EDITOR_TITLE_100 = "100";
+    public static final String MARC_EDITOR_BIB_COPY_MESSAGE = "record.bib.copy.message";
+    public static final String MARC_EDITOR_HOLDINGS_COPY_MESSAGE = "record.holdings.copy.message";
+    public static final String MARC_EDITOR_ITEM_COPY_MESSAGE = "record.item.copy.message";
     public static final String MARC_EDITOR_EDITION_250 = "250";
     public static final String MARC_EDITOR_SERIES_490 = "490";
     public static final String MARC_EDITOR_PUBLISHER_260 = "260";
@@ -463,6 +466,50 @@ public class OLEConstants {
     public static final String DOCUMENT_ITEM = "documentItem";
     public static final String GREGORIAN_PATTERN = "yyyy-mm-dd hh:mm:ss";
     public static final String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
+    public static final String LOAD_008_METHOD_TO_CALL = "loadControlField008";
+    public static final String FORMAT_008_BOOKS = "books";
+    public static final String FORMAT_008_COMPUTER = "computer";
+    public static final String FORMAT_008_MAP = "map";
+    public static final String FORMAT_008_MUSIC = "music";
+    public static final String FORMAT_008_COUNTRES = "countRes";
+    public static final String FORMAT_008_VISMAT = "visMat";
+    public static final String FORMAT_008_MIXMAT = "mixMat";
+    public static final String A = "a";
+    public static final String T = "t";
+    public static final String C = "c";
+    public static final String D = "d";
+    public static final String M = "m";
+    public static final String E = "e";
+    public static final String F = "f";
+    public static final String I = "i";
+    public static final String J = "j";
+    public static final String K = "k";
+    public static final String P = "p";
+    public static final String R = "r";
+    public static final String B = "b";
+    public static final String S = "s";
+    public static final String G = "g";
+    public static final String O = "o";
+    public static final String EDITOR_VIEW = "EditorView";
+    public static final String WORK_BIB_EDITOR_VIEW_PAGE = "WorkBibEditorViewPage";
+    public static final String WORK_HOLDINGS_VIEW_PAGE = "WorkHoldingsViewPage";
+    public static final String WORK_ITEM_VIEW_PAGE = "WorkItemViewPage";
+    public static final String WORK_EINSTANCE_VIEW_PAGE = "WorkEInstanceViewPage";
+    public static final String EDITOR_WORKFORM_VIEW = "EditorWorkformView";
+    public static final String EDITOR_WORKFORM_VIEW_PAGE = "EditorWorkformViewPage";
+    public static final String LEADER_DEFAULT = "#####nam#a22######a#4500";
+    public static final String DEFAULT_008 = "######s########xxu###########000#0#eng#d";
+    public static final String DATAFIELD_020 = "020";
+    public static final String DATAFIELD_022 = "022";
+    public static final String DATAFIELD_100 = "100";
+    public static final String DATAFIELD_245 = "245";
+    public static final String DATAFIELD_250 = "250";
+    public static final String DATAFIELD_260 = "260";
+    public static final String DATAFIELD_300 = "300";
+    public static final String DATAFIELD_490 = "490";
+    public static final String INDICATOR_0 = "0";
+    public static final String INDICATOR_1 = "1";
+    public static final String PIPE = "|";
     public static final String DEFAULT_BULK_PO_CHANGE_THREAD_POOL_SIZE = "";
 
 
@@ -1059,6 +1106,7 @@ public class OLEConstants {
         public static final String TOTAL_RECORD = " Total record : ";
         public static final String OLE_ADD_SRC_CD = "oleAddressSourceCode";
         public static final String OLE_DLVR_ADD_S = "OLE_DLVR_ADD_S";
+        public static final String PATRON_VIEW_BILLS = "View Bills";
         //patronBill
         public static final String PAY_BILL_PATRON_ID = "patronId";
         public static final String OUTSTANDING_BILL = "error.bill.selection.outstanding";
@@ -1103,6 +1151,10 @@ public class OLEConstants {
         public static final String ERROR_PATRON_MISSING_PIECE_ITEM_COUNT_GREATER = "error.exclusiveMin";
         public static final String ERROR_PATRON_MISSING_PIECE_ITEM_COUNT_LESSER = "error.inclusiveMax";
         public static final String PATRON_BARCODE_DOES_NOT_EXIST_REINSTATE = "error.patron.reinstate.remove.barcode";
+        public static final String PATRON_XML_ISVALID = "isValid";
+        public static final String PATRON_POLLERSERVICE_ERROR_MESSAGE = "errorMessage";
+
+
 
         public static final Map<String, Object> getPatronConfigObject() {
             Map<String, Object> patronConfigDocuments = new HashMap<String, Object>();
@@ -1739,9 +1791,6 @@ public class OLEConstants {
     public static final String AGENDA_NAME = "agendaName";
     public static final String LEVEL_NAME = "levelName";
     public static final String LEVEL_ID = "levelId";
-    public static final String A = "a";
-    public static final String C = "c";
-    public static final String B = "b";
     public static final String CAN_OVERRIDE_LOAN = "Can Override";
     public static final String CAN_DISPLAY_BILL = "Display Bill";
     public static final String CAN_CREATEORUPDATE_BILL = "Create/update Bill";
@@ -1805,6 +1854,7 @@ public class OLEConstants {
     public static final String ITEM_STATUS_ON_HOLD = "ONHOLD";
     public static final String ITEM_STATUS_IN_TRANSIT = "INTRANSIT";
     public static final String ITEM_STATUS_IN_TRANSIT_HOLD = "INTRANSIT-FOR-HOLD";
+    public static final String ITEM_STATUS_IN_TRANSIT_LOAN = "INTRANSIT-FOR-LOAN";
     public static final String ITEM_STATUS_IN_TRANSIT_STAFF = "INTRANSIT-PER-STAFF-REQUEST";
     public static final String DEFAULT_CALL_NUMBER_TYPE = "Other";
     public static final String DEFAULT_CALL_NUMBER = "X";
@@ -2418,6 +2468,7 @@ public class OLEConstants {
                 "|(^(0?2)([/])(29)([/])([1][89][13579][26])$)|(^(0?2)([/])(29)([/])([2-9][0-9][13579][26])$)";
         public static final List<String> ERESOURCE_RESULT_FIELDS = getSearchEresourcefield();
         public static final String FUND_CODE = "fundCode";
+        public static final String ERROR_FUND_CODE = "error.fund.code.doesnt.exist";
         public static final String ERROR_LINKED_RECORD = "error.linked.record";
         public static final String RECIPIENT_ID = "recipientId";
         public static final String ERROR_RECIPIENT_ID = "error.recipient.id.required";
@@ -2575,6 +2626,7 @@ public class OLEConstants {
     public static final String OLE_SERIALS_RECEIVING_NO_RECORD = "No Records Found";
 
     public static final String CAT_NAMESPACE = "OLE-CAT";
+    public static final String DESC_WORKBENCH_SEARCH = "DESC_WORKBENCH_SEARCH";
     public static final String SEARCH_AUTHORIZATION_ERROR = "Current user is not authorized to perform this action.";
     public static final String INSTANCE_EDITOR_DELETE_ITEM = "INSTANCE_EDITOR_DELETE_ITEM";
     public static final String INSTANCE_EDITOR_DELETE_INSTANCE = "INSTANCE_EDITOR_DELETE_INSTANCE";
@@ -2682,10 +2734,13 @@ public class OLEConstants {
     public static final String NO_FINE = "error.no.fine";
     public static final String NO_HOLD = "error.no.hold";
     public static final String INVALID_RQST_TYP = "error.invalid.request.type";
+    public static final String INVALID_ITM_TYP = "error.invalid.item.type";
     public static final String INVALID_PK_UP_LOCN = "error.invalid.pickup.location";
+    public static final String INVALID_PICKUP_LOCN = "error.invalid.pick.up.location";
     public static final String BARCODE = "barcode";
     public static final String PATRON_ID = "patronId";
     public static final String CIRCULATION_DESK_ID = "circulationDeskId";
+    public static final String ITEM_LEVEL="Item Level";
 
     public static final String PTRN_RCRD_EXPRD = "Patron record expired";
     public static final String RQST_ALRDY_RAISD = "error.request.already.raised";
@@ -2696,6 +2751,7 @@ public class OLEConstants {
     public static final String NTCE_PRBLM = " .Problem occured while sending notice.";
     public static final String NO_ITM = "Item barcode does not exist.";
     public static final String RQST_FAIL = "error.request.fail";
+    public static final String RQST_CREATION_FAIL = "error.create.request";
     public static final String SUCCESS = "Success";
     public static final String SMTP_HOST = "mail.smtp.host";
     public static final String SMTP_AUTH = "mail.smtps.auth";
@@ -3254,6 +3310,7 @@ public class OLEConstants {
     public static final String INVOICE ="Invoice";
     public static final String FROM_DATE ="REENCUMBER_RECURRING_FROM_DATE";
     public static final String TO_DATE ="REENCUMBER_RECURRING_TO_DATE";
+    public static final String FILE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     public static final String GL_UNIV_FIS_YR = "UNIV_FISCAL_YR";
     public static final String GL_CHART_CD = "FIN_COA_CD";
@@ -3272,14 +3329,17 @@ public class OLEConstants {
     public static final String GL_TRANS_LED_ENTRY_AMT = "TRN_LDGR_ENTR_AMT";
     public static final String GL_TRANS_DEB_CRE_CD = "TRN_DEBIT_CRDT_CD";
     public static final String GL_TRANS_DT = "TRANSACTION_DT";
-    public static final String GL_TOTAL_INV_AMT = "amt";
+    public static final String GL_TOTAL_INV_AMT = "AMT";
     public static final String DOC_NBR = "FDOC_REF_NBR";
     public static final String EXC_RATE = "OLE_EXCHANGE_RT";
     public static final String PROJECT_CODE = "PROJECT_CD";
     public static final String REF_DOC_TYP_CD = "FDOC_REF_TYP_CD";
     public static final String REF_ORG_CD = "FS_REF_ORIGIN_CD";
     public static final String ENCUM_UPDT_CD = "R";
-    public static final String  FDOC_REF_NBR = "FDOC_REF_NBR";
+    public static final String FDOC_REF_NBR = "FDOC_REF_NBR";
+    public static final String DATE_SERVICE = "dateTimeService";
+    public static final String RUN_DATE_SERVICE = "runDateService";
+    public static final String PARAMETER_SERVICE = "parameterService";
 
     public static final String REQUEST_FULFILLED = "message.request.fulfilled";
     public static final String REQUEST_CANCELLED = "message.request.cancelled";
@@ -3571,5 +3631,38 @@ public class OLEConstants {
     public static final String PATRON_NOTE_DEFAULT_OPERATOR ="Bulk Upload";
     public static final String METHOD_TO_CALL = "downloadAgreement,insertAgreementDocument";
 
+    public static final String CHART_CD = "chartofaccountscode";
+    public static final String ACC_NO = "ACCOUNT_NBR";
+    public static final String SUB_ACC_NO = "sunAccountNumber";
+    public static final String OBJECT_CD = "objectCode";
+
+
+    public static final String MAX_NO_OF_THREAD_FOR_RENEW_SERVICE = "MAX_NO_OF_THREAD_FOR_RENEW_SERVICE";
+    public static final String  RECALL_COURTESY_NOTICE = "RECALL_COURTESY_NOTICE";
+    public static final String  RECALL_OVERDUE_NOTICE = "RECALL_OVERDUE_NOTICE";
+
+    public static final String ADDRESS_SOURCE_CD = "oleAddressSourceCode";
+    public static final String CREATE = "create";
+    public static final String UPDATE = "update";
+
+    public static final String NO_RULE_FOUND = "No rule found for given combination";
+    public static final String NO_ASR_REQUEST = "error.no.asr.request";
+
+    public static final String BIB_SEARCH_SCOPE_FIELD = "BIB_SEARCHSCOPE_FIELD";
+    public static final String HOLDINGS_SEARCH_SCOPE_FIELD = "HOLDINGS_SEARCHSCOPE_FIELD";
+    public static final String EHOLDINGS_SEARCH_SCOPE_FIELD = "EHOLDINGS_SEARCHSCOPE_FIELD";
+    public static final String ITEM_SEARCH_SCOPE_FIELD = "ITEM_SEARCHSCOPE_FIELD";
+    public static final String BIB_RENDER_PRINT = "BIB_RENDER_PRINT";
+    public static final String ITEM_LOCATION_DISCLOSURE = "ITEM_LOCATION_DISCLOSURE";
+
+    public static final String DEFAULT_TIME_FOR_DUE_DATE ="DEFAULT_TIME_FOR_DUE_DATE";
+
+    public static final String HOLDINGS_DEFAULT_NOTE = "HOLDINGS_DEFAULT_NOTE_NONPUBLIC";
+    public static final String ITEM_DEFAULT_NOTE = "ITEM_DEFAULT_NOTE_NONPUBLIC";
+    public static final String HOLDINGS_SUPRESS_SHELVINGORDER = "HOLDINGS_SUPRESS_SHELVINGORDER";
+    public static final String ITEM_SUPRESS_SHELVINGORDER = "ITEM_SUPRESS_SHELVINGORDER";
+
+    public static final String DEFAULT_PAGE_SIZE_LOANED_ITEMS = "DEFAULT_PAGE_SIZE_LOANED_ITEMS";
+    public static final String DEFAULT_ITEM_TYPE_CODE = "DEFAULT_ITEM_TYPE_CODE";
 
 }

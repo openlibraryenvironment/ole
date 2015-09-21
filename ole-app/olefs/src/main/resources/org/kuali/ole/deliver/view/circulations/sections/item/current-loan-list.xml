@@ -22,34 +22,52 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-    <bean id="currentLoanListSection-HorizontalBoxSection" parent="currentLoanListSection-HorizontalBoxSection-parentBean" p:style="width:1300px"/>
+    <bean id="currentLoanListSection-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" p:style="width:1300px" p:render="@{loanDocumentListForCurrentSession.size() > 0}">
+        <property name="headerText" value="Items Checked Out This Session"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="jq('.loaningItemCBClass').attr('checked','true');" p:style="float:left;margin-left:33.5em;"/>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="jq('.loaningItemCBClass').removeAttr('checked');" p:style="float:left;margin-left:0.5em;"/>
+                <ref bean="currentLoanListSection-HorizontalBoxSection-parentBean"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="currentLoanListSection-HorizontalBoxSection-parentBean" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="17" p:style="width:1000px" p:render="@{loanDocumentListForCurrentSession.size() > 0}">
-        <property name="headerText" value="Items Checked Out This Session" />
+        <property name="headerText" value="" />
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
         <property name="propertyName" value="loanDocumentListForCurrentSession"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="renderAddLine" value="false"/>
         <property name="layoutManager.richTable.render" value="true"/>
         <property name="layoutManager.richTable.disableTableSort" value="true" />
-        <!--<property name="footer">-->
-            <!--<bean id="footers" parent="Uif-LookupResultsFooter">-->
-                <!--<property name="items">-->
-                    <!--<list>-->
-                        <!--&lt;!&ndash;<bean parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="selectAllLoanedItem();"/>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<bean parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="deSelectAllLoanedItem();"/>&ndash;&gt;-->
-                        <!--<bean parent="Uif-SecondaryActionButton" p:actionLabel="Select All"/>-->
-                        <!--<bean parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All"/>-->
-                    <!--</list>-->
-                <!--</property>-->
-            <!--</bean>-->
-        <!--</property>-->
+        <property name="layoutManager.richTable.templateOptions">
+            <map>
+                <entry key="aaSorting" value="[[12,'asc']]"/>
+                <entry key="bPaginate" value="true"/>
+                <entry key="bInfo" value="true"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="footer">
+            <bean id="footers" parent="Uif-LookupResultsFooter">
+                <property name="items">
+                    <list>
+                        <bean id="currentyLoanedSelectAllButton" parent="Uif-SecondaryActionButton" p:actionLabel="Select All"
+                              p:actionScript="jq('.loaningItemCBClass').attr('checked','true');"/>
+                        <bean id="currentyLoanedDeseletAllButton" parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All"
+                              p:actionScript="jq('.loaningItemCBClass').removeAttr('checked');"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="items">
             <list>
-                <!--<bean id="loanCheckId" parent="Loan-Uif-InputField" p:propertyName="checkNo" p:label="Select" p:width="3%" p:defaultValue="false">-->
-                    <!--<property name="control">-->
-                        <!--<bean parent="Uif-CheckboxControl" p:cssClasses="loaningItemCBClass"/>-->
-                    <!--</property>-->
-                <!--</bean>-->
+                <bean id="currentyLoanedCheckId" parent="Uif-InputField" p:propertyName="checkNo" p:label="Select" p:width="3%" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="loaningItemCBClass"/>
+                    </property>
+                </bean>
                 <bean id="currentyLoanedBarcode" parent="Uif-LinkField" p:label="Barcode" p:width="10%" p:linkText="@{#line.itemId}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;editable=false&amp;docFormat=oleml&amp;docId=@{#line.itemUuid}&amp;instanceId=@{#line.instanceUuid}&amp;bibId=@{#line.bibUuid}" >
 
                 </bean>

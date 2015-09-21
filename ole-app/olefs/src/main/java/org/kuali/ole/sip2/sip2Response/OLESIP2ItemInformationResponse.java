@@ -1,9 +1,11 @@
 package org.kuali.ole.sip2.sip2Response;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleItemSearch;
-import org.kuali.ole.sip2.common.MessageUtil;
-import org.kuali.ole.sip2.common.OLESIP2Util;
+import org.kuali.ole.response.OLESIP2Response;
+import org.kuali.ole.common.MessageUtil;
+import org.kuali.ole.common.OLESIP2Util;
 import org.kuali.ole.sip2.constants.OLESIP2Constants;
 import org.kuali.ole.sip2.requestParser.OLESIP2ItemInformationRequestParser;
 
@@ -35,9 +37,9 @@ public class OLESIP2ItemInformationResponse extends OLESIP2Response {
         builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.CURRENCY_TYPE_CODE);
         builder.append(OLESIP2Util.getDefaultCurrency().getCurrencyCode());
-        builder.append(OLESIP2Constants.SPLIT+
+       /* builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.MEDIA_TYPE_CODE);
-        builder.append(StringUtils.isNotBlank(oleItemSearch.getItemType()) ? oleItemSearch.getItemType() : " ");
+        builder.append(StringUtils.isNotBlank(oleItemSearch.getItemType()) ? oleItemSearch.getItemType() : " ");*/
         builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.CURRENT_LOCATION_CODE);
         builder.append(StringUtils.isNotBlank(oleItemSearch.getShelvingLocation()) ? oleItemSearch.getShelvingLocation() : " ");
@@ -48,7 +50,7 @@ public class OLESIP2ItemInformationResponse extends OLESIP2Response {
         }
         builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.ITEM_PROPERTIES_CODE);
-        builder.append((StringUtils.isNotBlank(oleItemSearch.getAuthor()) ? "Author : " + oleItemSearch.getAuthor().replaceAll(OLESIP2Constants.NON_ROMAN_REGEX,"") : " ") + (StringUtils.isNotBlank(oleItemSearch.getItemStatus()) ? " Status : " + oleItemSearch.getItemStatus() : " "));
+        builder.append((StringUtils.isNotBlank(oleItemSearch.getAuthor()) ? OLEConstants.OlePatronBill.LABEL_ITEM_AUTHOR+"  : " + oleItemSearch.getAuthor().replaceAll(OLESIP2Constants.NON_ROMAN_REGEX,"") : " ") + (StringUtils.isNotBlank(oleItemSearch.getItemStatus()) ? " Status : " + oleItemSearch.getItemStatus() : " "));
         if(StringUtils.isBlank(oleItemSearch.getItemBarCode()) && StringUtils.isBlank(oleItemSearch.getItemStatus())){
             builder.append(OLESIP2Constants.SPLIT+
                     OLESIP2Constants.SCREEN_MSG_CODE);

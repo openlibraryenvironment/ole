@@ -22,7 +22,7 @@
                 <td><a onclick="oleItemRowDetails('${line.lineId}','${container.id}',${(!line.rowDetails??)?string('true','false')})">Details</a></td>
                 <td>
                     <div>
-                        <a target="_blank"
+                        <a target="_blank" style="font-weight:bold;border:0px;text-decoration: underline;"
                            href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=${line.deliverRow.id!}&amp;editable=true">${line.deliverRow.id!}</a>
                     </div>
                 </td>

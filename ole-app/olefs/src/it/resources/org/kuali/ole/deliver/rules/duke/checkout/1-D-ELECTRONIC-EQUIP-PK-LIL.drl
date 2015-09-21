@@ -1,0 +1,24 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.ErrorMessage
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "Check out Circ Policy Set 1DAY ELECTRONIC EQUIP PK LIL"
+agenda-group "checkout validation"
+activation-group "checkout validation"
+when
+$l: OleLoanDocument()
+$n: NoticeInfo()
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DIVGRAD","UG","FQGRAD","FQST","FQPHD","DUKESTAFF"))
+$i: OleItemRecordForCirc (getItemType() in ("ELECTRONICEQUIP"),
+getItemLibraryLocation() in ("PERKINS","LILLY"))
+then
+$l.setCirculationPolicyId("Check out Circ Policy Set 1DAY ELECTRONIC EQUIP PK LIL");
+$l.loanPeriod("1-D","1-D");
+$n.setNoticeType(DroolsConstants.SHORT_TERM_LOANS_NOTICE_CONFIG);
+ end

@@ -1,0 +1,63 @@
+package org.kuali.ole.deliver.checkin
+
+
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OleCirculationDesk
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+
+
+
+ rule "Recently returned Check based on shelving lag time"
+agenda-group "checkin-validation-for-loan"
+activation-group "checkin-validation-for-loan"
+
+when
+$c: OleCirculationDesk( $c.getShelvingLagTimeInt() > 0)
+$i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
+$r:getOleDeliverRequestBo(), null== $r,
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
+$d : DroolsResponse()
+
+
+then
+$i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
+$i.updateCheckinCount();
+$d.setRuleMatched(true);
+ end
+
+ rule "Available Check based on shelving lag time"
+agenda-group "checkin-validation-for-loan"
+activation-group "checkin-validation-for-loan"
+
+when
+$c: OleCirculationDesk( $c.getShelvingLagTimeInt() == 0)
+$i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),isCheckinLocationSameAsHomeLocation(),
+$r:getOleDeliverRequestBo(), null== $r,
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
+$d : DroolsResponse()
+
+then
+$i.setItemStatusToBeUpdatedTo("AVAILABLE");
+$i.updateCheckinCount();
+$d.setRuleMatched(true);
+ end
+
+ rule "InTransitCheck"
+agenda-group "checkin-validation-for-loan"
+activation-group "checkin-validation-for-loan"
+
+when
+
+$i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),!isCheckinLocationSameAsHomeLocation(),
+$r:getOleDeliverRequestBo(), null== $r,
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
+$d : DroolsResponse()
+
+then
+$i.setItemStatusToBeUpdatedTo("INTRANSIT");
+$d.setRuleMatched(true);
+ end
+
+
+

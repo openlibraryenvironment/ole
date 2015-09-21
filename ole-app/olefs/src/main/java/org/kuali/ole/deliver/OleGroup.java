@@ -48,6 +48,7 @@ public class OleGroup extends Group {
 
     private static String LOAN_CLAIMS_OPTIONS = "loanClaimsOption";
 
+    private static String INVALID_BARCODE_ID = "InvalidBarcode-MessageBox";
 
     /**
      * The following actions are performed:

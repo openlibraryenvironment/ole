@@ -49,27 +49,35 @@ public class RdbmsBibMarcDocumentManager extends RdbmsBibDocumentManager {
     }
 
     protected boolean getBibIdFromBibXMLContent(BibRecord bibRecord) {
-
         boolean isBibIdFlag = true;
-        BibMarcRecordProcessor bibMarcRecordProcessor = new BibMarcRecordProcessor();
-        BibMarcRecords bibMarcRecords = bibMarcRecordProcessor.fromXML(bibRecord.getContent());
-        if (bibMarcRecords != null && bibMarcRecords.getRecords() != null && bibMarcRecords.getRecords().size() > 0) {
-            BibMarcRecord bibMarcRecord = bibMarcRecords.getRecords().get(0);
-            if (bibMarcRecord.getControlFields() != null) {
-                for (ControlField controlField : bibMarcRecord.getControlFields()) {
-                    if ("001".equals(controlField.getTag()) && validateIdField(controlField.getValue())) {
-                        bibRecord.setBibId(controlField.getValue());
-                        Map parentCriteria1 = new HashMap();
-                        parentCriteria1.put("bibId", controlField.getValue());
-                        List<BibRecord> bibRecords = (List<BibRecord>) getBusinessObjectService().findMatching(BibRecord.class, parentCriteria1);
-                        if (bibRecords == null && bibRecords.size() > 0) {
-                            throw new DocstoreValidationException(DocstoreResources.BIB_ID_ALREADY_EXISTS, DocstoreResources.BIB_ID_ALREADY_EXISTS);
+
+        Boolean parameter = ParameterValueResolver.getInstance().getParameterAsBoolean("OLE", "OLE-DESC",
+                "Describe", "BIB_ID_EXISTS_CHECK");
+
+        if (parameter.booleanValue() == Boolean.TRUE) {
+
+            BibMarcRecordProcessor bibMarcRecordProcessor = new BibMarcRecordProcessor();
+            BibMarcRecords bibMarcRecords = bibMarcRecordProcessor.fromXML(bibRecord.getContent());
+            if (bibMarcRecords != null && bibMarcRecords.getRecords() != null && bibMarcRecords.getRecords().size() > 0) {
+                BibMarcRecord bibMarcRecord = bibMarcRecords.getRecords().get(0);
+                if (bibMarcRecord.getControlFields() != null) {
+                    for (ControlField controlField : bibMarcRecord.getControlFields()) {
+                        if ("001".equals(controlField.getTag()) && validateIdField(controlField.getValue())) {
+                            bibRecord.setBibId(controlField.getValue());
+                            Map parentCriteria1 = new HashMap();
+                            parentCriteria1.put("bibId", controlField.getValue());
+                            List<BibRecord> bibRecords = (List<BibRecord>) getBusinessObjectService().findMatching(BibRecord.class, parentCriteria1);
+                            if (bibRecords != null && bibRecords.size() > 0) {
+                                throw new DocstoreValidationException(DocstoreResources.BIB_ID_ALREADY_EXISTS, DocstoreResources.BIB_ID_ALREADY_EXISTS);
+                            }
+                            isBibIdFlag = false;
+                            break;
                         }
-                        isBibIdFlag = false;
-                        break;
                     }
                 }
             }
+        } else {
+            isBibIdFlag = false;
         }
         return isBibIdFlag;
     }
@@ -123,7 +131,7 @@ public class RdbmsBibMarcDocumentManager extends RdbmsBibDocumentManager {
             ControlField controlField = iterator.next();
 
             // Check and update to local 003
-            if (controlField.getTag().equals(controlField003)) {
+            if (null != controlField && StringUtils.isNotBlank(controlField.getTag()) && controlField003.equals(controlField.getTag())) {
                 if (!controlField.getValue().equals(organizationCode)) {
                     controlField.setValue(organizationCode);
                 }
@@ -179,10 +187,9 @@ public class RdbmsBibMarcDocumentManager extends RdbmsBibDocumentManager {
             String isbn = BatchBibTreeDBUtil.truncateData(dataFields.get(BibMarcUtil.ISBN_DISPLAY), 100);
             String issn = BatchBibTreeDBUtil.truncateData(dataFields.get(BibMarcUtil.ISSN_DISPLAY), 100);
 
-            if(StringUtils.isNotEmpty(isbn)) {
+            if (StringUtils.isNotEmpty(isbn)) {
                 bibInfoRecord.setIsxn(isbn);
-            }
-            else {
+            } else {
                 bibInfoRecord.setIsxn(issn);
             }
 

@@ -1,0 +1,50 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.NoticeInfo
+
+rule "RN-2WK-EREADER-PS-LS-THAN-1"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+
+when
+$l: OleLoanDocument(Integer.valueOf(getNumberOfRenewals()) < 1)
+$d: DroolsResponse()
+$n: NoticeInfo()
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DIVGRAD","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
+
+$i: OleItemRecordForCirc (getItemType() in ("EREADER"),
+getItemLibraryLocation() in ("PERKINS","LILLY","MARINE"))
+then
+
+$l.setCirculationPolicyId("RN-2WK-EREADER-PS-LS-THAN-1");
+$l.loanPeriod("14-D",null);
+$n.setNoticeType("NO-PS-EREADER");
+ end
+ 
+ rule "RN-2WK-EREADER-PS-GR-THAN-1"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+ $l: OleLoanDocument(Integer.valueOf(getNumberOfRenewals()) >= 1)
+$d: DroolsResponse()
+$n: NoticeInfo()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("FACULTY","FQFACULTY","LWFACULTY","MDFACULTY","GRADST","DIVGRAD","DUKESTAFF","UG","FQGRAD","FQST","FQPHD","RETLIB"))
+
+$i: OleItemRecordForCirc (getItemType() in ("EREADER"),
+getItemLibraryLocation() in ("PERKINS","LILLY","MARINE"))
+
+then
+
+$d.addErrorMessage("Patron has more than allowed limit of renewals");
+$d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+$l.setCirculationPolicyId("RN-2WK-EREADER-PS-GR-THAN-1");
+$l.loanPeriod("14-D",null);
+$n.setNoticeType("NO-PS-EREADER");
+ end

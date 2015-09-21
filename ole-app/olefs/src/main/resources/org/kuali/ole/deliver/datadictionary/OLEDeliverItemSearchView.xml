@@ -166,12 +166,15 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;text-decoration: underline;"
                       p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=@{#line.id}&amp;bibId=@{#line.bibIdentifier}&amp;editable=false"
-                      p:label="Holdings ID" p:linkText="@{#line.id}" p:target="_blank"/>
-                <bean parent="Uif-DataField" p:label="Holdings Location" p:propertyName="location"/>
-                <bean parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber"/>
-                <bean parent="Uif-DataField" p:label="Item Location" p:propertyName="itemLocation"/>
+                      p:label="Holdings ID" p:linkText="@{#line.id}" p:target="_blank" />
+                <bean parent="Uif-LinkField" p:style="pointer-events: none;cursor: text;"
+                      p:href="" p:label="Holdings Location" p:linkText="@{#line.location}" />
+                <bean parent="Uif-LinkField" p:style="pointer-events: none;cursor: text;"
+                      p:href="" p:label="Call Number" p:linkText="@{#line.callNumber}" />
+                <bean parent="Uif-LinkField" p:style="pointer-events: none;cursor: text;"
+                      p:href="" p:label="Item Location" p:linkText="@{#line.itemLocation}" />
             </list>
         </property>
         <property name="renderLineActions" value="false"/>
@@ -204,18 +207,24 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;" p:render="@{singleItemFlag}"
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;text-decoration: underline;" p:render="@{singleItemFlag}"
                       p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=@{#line.id}&amp;bibId=@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}&amp;editable=false"
                       p:label="Item ID" p:linkText="@{#line.id}" p:target="_blank"/>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;" p:render="@{!singleItemFlag}"
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;text-decoration: underline;" p:render="@{!singleItemFlag}"
                       p:href="@{#ConfigProperties['ole.fs.url.base']}/portal.do?channelTitle=Item Result&amp;channelUrl=@{#ConfigProperties['ole.fs.url.base']}/ole-kr-krad/deliverItemResultController?viewId=OLEDeliverItemResultView&amp;methodToCall=start&amp;itemId=@{#line.id}"
                       p:label="Item ID" p:linkText="@{#line.id}" p:target="_blank"/>
-                <bean parent="Uif-DataField" p:label="Item Location" p:propertyName="location"/>
-                <bean parent="Uif-DataField" p:label="Item Type" p:propertyName="itemType"/>
-                <bean parent="Uif-DataField" p:label="Item Status" p:propertyName="itemStatus"/>
-                <bean parent="Uif-DataField" p:label="Barcode" p:propertyName="itemBarCode"/>
-                <bean parent="Uif-DataField" p:label="Enum" p:propertyName="enumeration"/>
-                <bean parent="Uif-DataField" p:label="Chron" p:propertyName="chronology"/>
+                <bean parent="Uif-LinkField" p:style="pointer-events: none;cursor: text;"
+                      p:href="" p:label="Item Location" p:linkText="@{#line.location}" />
+                <bean parent="Uif-LinkField" p:style="pointer-events: none;cursor: text;"
+                      p:href="" p:label="Item Type" p:linkText="@{#line.itemType}" />
+                <bean parent="Uif-LinkField" p:style="pointer-events: none;cursor: text;"
+                      p:href="" p:label="Item Status" p:linkText="@{#line.itemStatus}" />
+                <bean parent="Uif-LinkField" p:style="pointer-events: none;cursor: text;"
+                      p:href="" p:label="Barcode" p:linkText="@{#line.itemBarCode}" />
+                <bean parent="Uif-LinkField" p:style="pointer-events: none;cursor: text;"
+                      p:href="" p:label="Enum" p:linkText="@{#line.enumeration}" />
+                <bean parent="Uif-LinkField" p:style="pointer-events: none;cursor: text;"
+                      p:href="" p:label="Chron" p:linkText="@{#line.chronology}" />
                 <bean id="placeRequest" parent="Uif-LinkField" p:label="Place"
                       p:linkText="Place Request"
                       p:href="@{#ConfigProperties['ole.fs.url.base']}/portal.do?channelTitle=Place Request&amp;channelUrl=@{#ConfigProperties['ole.fs.url.base']}/ole-kr-krad/placeRequestController?viewId=OLEPlaceRequestView&amp;methodToCall=start&amp;itemId=@{#line.id}&amp;bibId=@{#line.bibIdentifier}"

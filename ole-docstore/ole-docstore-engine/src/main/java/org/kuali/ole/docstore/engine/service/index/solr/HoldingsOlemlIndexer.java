@@ -14,6 +14,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
 import org.kuali.ole.docstore.common.document.Item;
@@ -38,7 +39,8 @@ import org.slf4j.LoggerFactory;
  * Time: 4:59 PM
  * To change this template use File | Settings | File Templates.
  */
-public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements HoldingsConstants {
+
+public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements DocstoreConstants {
 
     private static final Logger LOG = LoggerFactory.getLogger(HoldingsOlemlIndexer.class);
     private static HoldingsOlemlIndexer holdingsOlemlIndexer = null;
@@ -501,7 +503,6 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
                 solrDocForHolding.addField(UPDATED_BY, holdings.getUpdatedBy());
                 solrDocForHolding.addField(DATE_UPDATED, date);
                 solrInputDocuments.add(solrDocForHolding);
-             //   addHoldingsDetailsToBib(solrInputDocuments,solrDocForHolding,holdings.getBib().getId());
             }
         }
     }
@@ -602,7 +603,7 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
         QueryResponse response = null;
         String result = null;
         try {
-            String args = "(" + BibConstants.UNIQUE_ID + ":" + uniqueId + ")";
+            String args = "(" + UNIQUE_ID + ":" + uniqueId + ")";
             SolrServer solr = SolrServerManager.getInstance().getSolrServer();
             SolrQuery query = new SolrQuery();
             query.setQuery(args);
@@ -689,7 +690,6 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
                 List instIdList = (List) bibSolrDoc.getFieldValue("holdingsIdentifier");
                 instIdList.add(holdingsId);
                 bibSolrDoc.setField("holdingsIdentifier", instIdList);
-
             } else if (bibSolrDoc.getFieldValue("holdingsIdentifier") instanceof String) {
                 String instId = (String) bibSolrDoc.getFieldValue("holdingsIdentifier");
                 List<String> instIdList = new ArrayList<String>();
@@ -816,7 +816,7 @@ public class HoldingsOlemlIndexer extends DocstoreSolrIndexService implements Ho
         }
 
         CallNumber callNumber = oleHoldings.getCallNumber();
-        if(callNumber != null) {
+        if(callNumber!=null && StringUtils.isNotEmpty(callNumber.getNumber())) {
             String number = callNumber.getNumber();
             String prefix = callNumber.getPrefix();
             String classificationPart = callNumber.getClassificationPart();

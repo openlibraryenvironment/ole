@@ -12,6 +12,7 @@ import org.kuali.ole.BaseTestCase;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.client.DocstoreRestClient;
 import org.kuali.ole.docstore.common.client.RestResponse;
+import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecord;
 import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecords;
@@ -27,7 +28,6 @@ import org.kuali.ole.docstore.common.search.BrowseParams;
 import org.kuali.ole.docstore.common.search.SearchParams;
 import org.kuali.ole.docstore.common.search.SearchResponse;
 import org.kuali.ole.docstore.discovery.service.SolrServerManager;
-import org.kuali.ole.docstore.engine.service.index.solr.BibConstants;
 import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.kuali.ole.docstore.model.enums.DocFormat;
 import org.kuali.ole.docstore.model.enums.DocType;
@@ -47,7 +47,7 @@ import java.util.*;
  * Time: 5:14 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DocstoreRestClient_UT extends BaseTestCase {
+public class DocstoreRestClient_UT extends BaseTestCase implements DocstoreConstants {
 
     private static final Logger LOG = LoggerFactory.getLogger(DocstoreRestClient_UT.class);
     private DocstoreRestClient restClient = new DocstoreRestClient();
@@ -219,12 +219,12 @@ public class DocstoreRestClient_UT extends BaseTestCase {
         restClient.createBibTree(bibTree);
         Assert.assertNotNull(bibTree.getBib().getId());
         Map map = new HashMap();
-        map.put(BibConstants.DOC_TYPE, "bibliographic");
+        map.put(DOC_TYPE, "bibliographic");
         map.put("ID", bibTree.getBib().getId());
         BibTree retrievedBibTree = restClient.findBibTree(map);
         Map holdingsMap = new HashMap();
         holdingsMap.put("ID", retrievedBibTree.getHoldingsTrees().get(0).getHoldings().getId());
-        holdingsMap.put(BibConstants.DOC_TYPE, "holdings");
+        holdingsMap.put(DOC_TYPE, "holdings");
         HoldingsTree holdingsTree = restClient.findHoldingsTree(holdingsMap);
         Assert.assertNotNull(holdingsTree.getHoldings().getId());
         Assert.assertNotNull(holdingsTree.getItems().get(0).getId());
@@ -244,7 +244,7 @@ public class DocstoreRestClient_UT extends BaseTestCase {
     public void findBib() {
         createBib();
         Map map = new HashMap();
-        map.put(BibConstants.DOC_TYPE, "bibliographic");
+        map.put(DOC_TYPE, "bibliographic");
         map.put("ID", "wbm-10000001");
         Bib bib = restClient.findBib(map);
         Assert.assertEquals(bib.getId(), "wbm-10000001");
@@ -255,7 +255,7 @@ public class DocstoreRestClient_UT extends BaseTestCase {
     public void findBibTree() {
         createBib();
         Map map = new HashMap();
-        map.put(BibConstants.DOC_TYPE, "bibliographic");
+        map.put(DOC_TYPE, "bibliographic");
         map.put("ID", "wbm-10000001");
         BibTree bibTree = restClient.findBibTree(map);
         Assert.assertEquals(bibTree.getBib().getId(), "wbm-10000001");
@@ -491,7 +491,7 @@ public class DocstoreRestClient_UT extends BaseTestCase {
         testCreatePHoldings();
         Map map = new HashMap();
         map.put("ID", "who-1");
-        map.put(BibConstants.DOC_TYPE, "holdings");
+        map.put(DOC_TYPE, "holdings");
         Holdings holdings = restClient.findHoldings(map);
         Assert.assertEquals(holdings.getId(), "who-1");
 
@@ -503,7 +503,7 @@ public class DocstoreRestClient_UT extends BaseTestCase {
         testCreatePHoldings();
         Map map = new HashMap();
         map.put("ID", "who-1");
-        map.put(BibConstants.DOC_TYPE, "holdings");
+        map.put(DOC_TYPE, "holdings");
         HoldingsTree holdingsTree = restClient.findHoldingsTree(map);
         Assert.assertEquals(holdingsTree.getHoldings().getId(), "who-1");
 
@@ -760,7 +760,7 @@ public class DocstoreRestClient_UT extends BaseTestCase {
         createItem();
         Map map = new HashMap();
         map.put("ID", "wio-1");
-        map.put(BibConstants.DOC_TYPE, "item");
+        map.put(DOC_TYPE, "item");
         Item item = restClient.findItem(map);
         Assert.assertEquals(item.getId(), "wio-1");
     }

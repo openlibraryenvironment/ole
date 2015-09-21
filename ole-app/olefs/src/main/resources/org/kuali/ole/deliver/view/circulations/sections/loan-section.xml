@@ -27,6 +27,7 @@
             <list>
                 <ref bean="circGeneralButtons"/>
                 <ref bean="circPatronDetails-HorizontalBoxSection"/>
+                <ref bean="circPatronLink-HorizontalBoxSection"/>
                 <ref bean="circPatronBarcodeSearch-HorizontalBoxSection"/>
                 <ref bean="circCheckoutItemBarcodeSearch-VerticalBoxSection"/>
                 <ref bean="circFastAddItem"/>

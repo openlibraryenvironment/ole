@@ -13,8 +13,11 @@ import org.kuali.ole.OLEPropertyConstants;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.bo.OlePatronLostBarcode;
 import org.kuali.ole.describe.bo.*;
+import org.kuali.ole.describe.bo.marc.structuralfields.ControlFields;
 import org.kuali.ole.describe.bo.marc.structuralfields.LeaderField;
 import org.kuali.ole.describe.bo.marc.structuralfields.controlfield006.ControlField006;
+import org.kuali.ole.describe.bo.marc.structuralfields.controlfield006.ControlField006Text;
+import org.kuali.ole.describe.bo.marc.structuralfields.controlfield007.ControlField007Text;
 import org.kuali.ole.describe.bo.marc.structuralfields.controlfield008.ControlField008;
 import org.kuali.ole.describe.bo.marc.structuralfields.controlfield007.ControlField007;
 import org.kuali.ole.describe.form.EditorForm;
@@ -23,11 +26,14 @@ import org.kuali.ole.describe.form.WorkEInstanceOlemlForm;
 import org.kuali.ole.describe.form.WorkInstanceOlemlForm;
 import org.kuali.ole.describe.service.DiscoveryHelperService;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
+import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.document.BibTree;
 import org.kuali.ole.docstore.common.document.config.DocFieldConfig;
 import org.kuali.ole.docstore.common.document.config.DocFormatConfig;
 import org.kuali.ole.docstore.common.document.config.DocTypeConfig;
 import org.kuali.ole.docstore.common.document.config.DocumentSearchConfig;
+import org.kuali.ole.docstore.common.document.content.bib.marc.*;
+import org.kuali.ole.docstore.common.document.content.bib.marc.xstream.BibMarcRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.search.*;
 import org.kuali.ole.docstore.model.bo.WorkBibDocument;
@@ -127,6 +133,10 @@ public class EditorController extends UifControllerBase {
             isFormInitialized = true;
         }
         EditorForm editorForm = (EditorForm) form;
+        editorForm.setCopyFlag(true);
+        if (null != editorForm.getDocumentForm()) {
+            editorForm.getDocumentForm().setCopyFlag(true);
+        }
         ModelAndView modelAndView = null;
         String docCategory = request.getParameter("docCategory");
         String docType = request.getParameter("docType");
@@ -137,13 +147,13 @@ public class EditorController extends UifControllerBase {
         DocumentEditor documentEditor = DocumentEditorFactory.getInstance()
                 .getDocumentEditor(docCategory, docType, docFormat);
         editorForm = documentEditor.copy((EditorForm) form);
-        modelAndView = getUIFModelAndView(editorForm, "WorkEInstanceViewPage");
+        modelAndView = getUIFModelAndView(editorForm);
         return modelAndView;
     }
 
     @RequestMapping(params = "methodToCall=copyInstance")
     public ModelAndView copyInstance(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) {
+                                     HttpServletRequest request, HttpServletResponse response) {
         if (!isFormInitialized) {
             super.start(form, result, request, response);
             isFormInitialized = true;
@@ -225,12 +235,15 @@ public class EditorController extends UifControllerBase {
         ((EditorForm) form).setDocType(docType);
         ((EditorForm) form).setDocFormat(docFormat);
 
-        if (DocFormat.MARC.getCode().equals(docFormat)) {
+        if (DocFormat.MARC.getCode().equals(docFormat) && ((EditorForm) form).getViewId().equalsIgnoreCase(OLEConstants.EDITOR_WORKFORM_VIEW)) {
             editorForm.setDocumentForm(new WorkBibMarcForm());
-            modelAndView = getUIFModelAndView(form, "WorkBibEditorViewPage");
+            modelAndView = getUIFModelAndView(form, OLEConstants.EDITOR_WORKFORM_VIEW_PAGE);
+        } else if (DocFormat.MARC.getCode().equals(docFormat)) {
+            editorForm.setDocumentForm(new WorkBibMarcForm());
+            modelAndView = getUIFModelAndView(form, OLEConstants.WORK_BIB_EDITOR_VIEW_PAGE);
         } else if (DocType.INSTANCE.getCode().equals(docType) || DocType.HOLDINGS.getCode().equals(docType)) {
             editorForm.setDocumentForm(new WorkInstanceOlemlForm());
-            modelAndView = getUIFModelAndView(form, "WorkHoldingsViewPage");
+            modelAndView = getUIFModelAndView(form, OLEConstants.WORK_HOLDINGS_VIEW_PAGE);
         } else if (DocType.EINSTANCE.getCode().equals(docType) || DocType.EHOLDINGS.getCode().equals(docType)) {
             editorForm.setDocumentForm(new WorkEInstanceOlemlForm());
             if (Boolean.parseBoolean(editorForm.getGlobalEditFlag())) {
@@ -259,10 +272,10 @@ public class EditorController extends UifControllerBase {
                 }
                 ((WorkEInstanceOlemlForm)editorForm.getDocumentForm()).setSelectedEHoldings(eHoldings);
             }
-            modelAndView = getUIFModelAndView(form, "WorkEInstanceViewPage");
+            modelAndView = getUIFModelAndView(form, OLEConstants.WORK_EINSTANCE_VIEW_PAGE);
         } else if (DocType.ITEM.getCode().equals(docType)) {
             editorForm.setDocumentForm(new WorkInstanceOlemlForm());
-            modelAndView = getUIFModelAndView(form, "WorkItemViewPage");
+            modelAndView = getUIFModelAndView(form, OLEConstants.WORK_ITEM_VIEW_PAGE);
         }
         return modelAndView;
     }
@@ -296,7 +309,7 @@ public class EditorController extends UifControllerBase {
         editorForm.setMainSerialReceivingHistoryList(null);
         editorForm.setSupplementSerialReceivingHistoryList(null);
         editorForm.setIndexSerialReceivingHistoryList(null);
-		editorForm.setShowTime(true);
+        editorForm.setShowTime(true);
         // get the document details from request and set them in the form.
         String docCategory = request.getParameter("docCategory");
         String docType = request.getParameter("docType");
@@ -308,6 +321,7 @@ public class EditorController extends UifControllerBase {
         String callNumberFlag = request.getParameter("isCallNumberFlag");
         String eResourceId = request.getParameter("eResourceId");
         String holdingsId = request.getParameter("holdingsId");
+        String fromSearch = request.getParameter("fromSearch");
 
         //Verifying editable at form object
         if ((null == editable) || (editable.length() == 0)) {
@@ -317,6 +331,10 @@ public class EditorController extends UifControllerBase {
         //Default value for editable field if it is null
         if (null == editable || editable.length() == 0) {
             editable = "true";
+        }
+
+        if (StringUtils.isBlank(docId)) {
+            editorForm.setNewDocument(true);
         }
 
         /*if (docType.equalsIgnoreCase("item")) {
@@ -345,6 +363,7 @@ public class EditorController extends UifControllerBase {
         ((EditorForm) form).setDocId(docId);
         ((EditorForm) form).setBibId(bibId);
         ((EditorForm) form).setCallNumberFlag(callNumberFlag);
+        ((EditorForm) form).setFromSearch(Boolean.valueOf(fromSearch));
         ((EditorForm) form).setHideFooter(true);
         boolean canDelete = canDeleteItem(GlobalVariables.getUserSession().getPrincipalId()) && canDeleteInstance(GlobalVariables.getUserSession().getPrincipalId());
         ((EditorForm) form).setCanDelete(canDelete);
@@ -770,13 +789,20 @@ public class EditorController extends UifControllerBase {
             getEditorFormDataHandler().buildLeftPaneData((EditorForm) form);
 
         }
-        ((EditorForm) form).setDisplayField006("false");
-        ((EditorForm) form).setDisplayField007("false");
-        ((EditorForm) form).setDisplayField008("false");
+        ((EditorForm) form).setDisplayField006(Boolean.FALSE.toString());
+        ((EditorForm) form).setDisplayField007(Boolean.FALSE.toString());
+        ((EditorForm) form).setDisplayField008(Boolean.FALSE.toString());
         ((EditorForm) form).setBibFlag(false);
         ((EditorForm) form).setHoldingFlag(false);
         ((EditorForm) form).setItemFlag(false);
         ((EditorForm) form).seteHoldingsFlag(false);
+
+        if (StringUtils.isBlank(((EditorForm) form).getDocId()) && GlobalVariables.getMessageMap().getErrorCount() > 0) {
+            ((EditorForm) form).setNewDocument(true);
+        } else {
+            ((EditorForm) form).setNewDocument(false);
+        }
+
         // Return the next view to be shown to user.
         long endTime = System.currentTimeMillis();
         ((EditorForm) form).setTotalTime(String.valueOf((endTime-startTime)/1000));
@@ -1578,32 +1604,44 @@ public class EditorController extends UifControllerBase {
     public ModelAndView addDonorToItem(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
         EditorForm editorForm = (EditorForm) form;
-        WorkInstanceOlemlForm workInstanceOlemlForm = (WorkInstanceOlemlForm) editorForm.getDocumentForm();
-        List<DonorInfo> donorInfoList = workInstanceOlemlForm.getSelectedItem().getDonorInfo();
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        CollectionGroup collectionGroup = form.getPostedView().getViewIndex().getCollectionGroupByPath(
-                selectedCollectionPath);
-        String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
-        Object eventObject = ObjectPropertyUtils.getPropertyValue(form, addLinePath);
-        DonorInfo donorInfo = (DonorInfo) eventObject;
-        if (donorInfo != null && StringUtils.isNotEmpty(donorInfo.getDonorCode())) {
-            Map map = new HashMap();
-            map.put("donorCode", donorInfo.getDonorCode());
-            OLEDonor oleDonor = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEDonor.class, map);
-            if (oleDonor != null) {
-                for (DonorInfo donor : donorInfoList) {
-                    if (donor.getDonorCode().equals(donorInfo.getDonorCode())) {
-                        GlobalVariables.getMessageMap().putErrorForSectionId("OleDonorInformation-ListOfDonors", "error.donor.code.exist");
-                        return getUIFModelAndView(form);
-                    }
-                }
-            } else {
-                GlobalVariables.getMessageMap().putErrorForSectionId("OleDonorInformation-ListOfDonors", "error.donor.code.doesnt.exist");
-                return getUIFModelAndView(form);
-            }
+        String docCategory = request.getParameter("docCategory");
+        String docType = request.getParameter("docType");
+        String docFormat = request.getParameter("docFormat");
+        if (docCategory == null) {
+            docCategory = editorForm.getDocCategory();
         }
-        View view = form.getPostedView();
-        view.getViewHelperService().processCollectionAddLine(view, form, selectedCollectionPath);
+        if (docType == null) {
+            docType = editorForm.getDocType();
+        }
+        if (docFormat == null) {
+            docFormat = editorForm.getDocFormat();
+        }
+
+        DocumentEditor documentEditor = DocumentEditorFactory.getInstance()
+                .getDocumentEditor(docCategory, docType, docFormat);
+        documentEditor.addORRemoveItemDonor(editorForm, request);
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=removeDonorFromItem")
+    public ModelAndView removeDonorFromItem(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                            HttpServletRequest request, HttpServletResponse response) {
+        EditorForm editorForm = (EditorForm) form;
+        String docCategory = request.getParameter("docCategory");
+        String docType = request.getParameter("docType");
+        String docFormat = request.getParameter("docFormat");
+        if (docCategory == null) {
+            docCategory = editorForm.getDocCategory();
+        }
+        if (docType == null) {
+            docType = editorForm.getDocType();
+        }
+        if (docFormat == null) {
+            docFormat = editorForm.getDocFormat();
+        }
+        DocumentEditor documentEditor = DocumentEditorFactory.getInstance()
+                .getDocumentEditor(docCategory, docType, docFormat);
+        documentEditor.addORRemoveItemDonor(editorForm, request);
         return getUIFModelAndView(form);
     }
 
@@ -1763,8 +1801,8 @@ public class EditorController extends UifControllerBase {
         ControlField006 controlFiled006 = new ControlField006();
         controlFiled006.setFormat(workBibMarcForm.getMarcControlFields().getValue());
         if(controlField006Format1==null){
-        controlFiled006.setFormat(workBibMarcForm.getMarcControlFields().getValue());
-        workBibMarcForm.getMarcControlFields().setControlField006(controlFiled006);
+            controlFiled006.setFormat(workBibMarcForm.getMarcControlFields().getValue());
+            workBibMarcForm.getMarcControlFields().setControlField006(controlFiled006);
         }else {
             controlFiled006.setFormat(controlField006Format1);
             workBibMarcForm.getMarcControlFields().setControlField006(controlFiled006);
@@ -1989,7 +2027,7 @@ public class EditorController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=addLink")
     public ModelAndView addLink(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                           HttpServletRequest request, HttpServletResponse response) {
+                                HttpServletRequest request, HttpServletResponse response) {
         if (!isFormInitialized) {
             super.start(form, result, request, response);
             isFormInitialized = true;
@@ -2019,7 +2057,7 @@ public class EditorController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=deleteLink")
     public ModelAndView deleteLink(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                HttpServletRequest request, HttpServletResponse response) {
+                                   HttpServletRequest request, HttpServletResponse response) {
         if (!isFormInitialized) {
             super.start(form, result, request, response);
             isFormInitialized = true;
@@ -2457,7 +2495,7 @@ public class EditorController extends UifControllerBase {
                     GlobalEditEHoldingsFieldsFlagBO globalEditEHoldingsFieldsFlagBO = editorForm.getGlobalEditEHoldingsFieldsFlagBO();
                     for (DocFieldConfig docFieldConfig : docFieldConfigList) {
 
-                            if (docFieldConfig.isGloballyEditable()) {
+                        if (docFieldConfig.isGloballyEditable()) {
                             if (OLEConstants.CALL_NUMBER.equals(docFieldConfig.getName())) {
                                 globalEditEHoldingsFieldsFlagBO.setCallNumberEditFlag(true);
                             } else if (OLEConstants.CALL_NUMBER_PREFIX.equals(docFieldConfig.getName())) {
@@ -2619,7 +2657,7 @@ public class EditorController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=cancel")
     public ModelAndView cancel(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response) {
+                               HttpServletRequest request, HttpServletResponse response) {
         String docCategory = request.getParameter("docCategory");
         String docType = request.getParameter("docType");
         String docFormat = request.getParameter("docFormat");
@@ -2639,6 +2677,175 @@ public class EditorController extends UifControllerBase {
 
 
         return performRedirect(form, url, props);
+    }
+    /**
+     * This method prints the bib information in to a PDF.
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     */
+    @RequestMapping(params = "methodToCall=printBib")
+    public void printBib(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+        String formKey = request.getParameter("formKey");
+        EditorForm editorForm = (EditorForm) GlobalVariables.getUifFormManager().getSessionForm(formKey);
+        generateBibPdfView(editorForm, response);
+    }
+
+    /**
+     * This method generates the pdf with bib information.
+     * @param editorForm
+     * @param response
+     */
+    private void generateBibPdfView(EditorForm editorForm, HttpServletResponse response) {
+        LOG.debug("Creating Bib PDF");
+        String fileName = "Bib" + "_" + editorForm.getDocId() + ".pdf";
+
+        Bib bib = null;
+        WorkBibMarcForm documentForm = null;
+        if (null != editorForm.getDocumentForm() && editorForm.getDocumentForm() instanceof WorkBibMarcForm) {
+            documentForm = (WorkBibMarcForm) editorForm.getDocumentForm();
+            if (CollectionUtils.isNotEmpty(documentForm.getBibTreeList())) {
+                bib = documentForm.getBibTreeList().get(0).getBib();
+            }
+        }
+
+        try {
+            Document document = this.getDocument(0, 0, 5, 5);
+            OutputStream outputStream = null;
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "inline;filename=" + fileName);
+            outputStream = response.getOutputStream();
+            PdfWriter.getInstance(document, outputStream);
+            Font boldFont = new Font(Font.TIMES_ROMAN, 15, Font.BOLD);
+            document.open();
+            document.newPage();
+
+            PdfPTable pdfTable = new PdfPTable(3);
+            pdfTable.setWidths(new int[]{15, 2, 30});
+
+            Paragraph paraGraph = new Paragraph();
+            paraGraph.setAlignment(Element.ALIGN_CENTER);
+            paraGraph.add(new Chunk("Bibliographic Record", boldFont));
+            paraGraph.add(Chunk.NEWLINE);
+            paraGraph.add(Chunk.NEWLINE);
+            paraGraph.add(Chunk.NEWLINE);
+
+            pdfTable.addCell(getPdfPCellInJustified("Bib Id"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((bib != null && bib.getId() != null) ? bib.getId() : ""));
+
+            pdfTable.addCell(getPdfPCellInJustified("Bib Record Status"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((bib != null && bib.getStatus() != null) ? bib.getStatus() : ""));
+
+            pdfTable.addCell(getPdfPCellInJustified("Leader"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            pdfTable.addCell(getPdfPCellInJustified((documentForm != null && documentForm.getLeader() != null) ? documentForm.getLeader() : ""));
+
+            if (null != documentForm && null != documentForm.getMarcControlFields()) {
+                List<ControlField006Text> controlFields006List = documentForm.getMarcControlFields().getControlFields006List();
+                if (CollectionUtils.isNotEmpty(controlFields006List)) {
+                    if (StringUtils.isNotBlank(controlFields006List.get(0).getRawText())) {
+                        pdfTable.addCell(getPdfPCellInJustified("006"));
+                        pdfTable.addCell(getPdfPCellInLeft(":"));
+                        if (controlFields006List.size() == 1) {
+                            pdfTable.addCell(getPdfPCellInJustified(controlFields006List.get(0).getRawText()));
+                        } else if (controlFields006List.size() > 1) {
+                            StringBuilder textBuilder = new StringBuilder();
+                            for (ControlField006Text controlField006Text : controlFields006List) {
+                                if (null != controlField006Text.getRawText()) {
+                                    textBuilder.append(controlField006Text.getRawText());
+                                    textBuilder.append(System.lineSeparator());
+                                }
+                            }
+                            pdfTable.addCell(getPdfPCellInJustified(textBuilder.toString()));
+                        }
+                    }
+                }
+
+                List<ControlField007Text> controlFields007List = documentForm.getMarcControlFields().getControlFields007List();
+                if (CollectionUtils.isNotEmpty(controlFields007List)) {
+                    if (StringUtils.isNotBlank(controlFields007List.get(0).getRawText())) {
+                        pdfTable.addCell(getPdfPCellInJustified("007"));
+                        pdfTable.addCell(getPdfPCellInLeft(":"));
+                        if (controlFields007List.size() == 1) {
+                            pdfTable.addCell(getPdfPCellInJustified(controlFields007List.get(0).getRawText()));
+                        } else if (controlFields007List.size() > 1) {
+                            StringBuilder textBuilder = new StringBuilder();
+                            for (ControlField007Text controlField007Text : controlFields007List) {
+                                if (null != controlField007Text.getRawText()) {
+                                    textBuilder.append(controlField007Text.getRawText());
+                                    textBuilder.append(System.lineSeparator());
+                                }
+                            }
+                            pdfTable.addCell(getPdfPCellInJustified(textBuilder.toString()));
+                        }
+                    }
+                }
+            }
+
+            BibMarcRecord bibMarcRecord = null;
+            String controlField008Value = null;
+            if (null != bib) {
+                BibMarcRecordProcessor recordProcessor = new BibMarcRecordProcessor();
+                BibMarcRecords bibMarcRecords = recordProcessor.fromXML(bib.getContent());
+                if (null != bibMarcRecords && CollectionUtils.isNotEmpty(bibMarcRecords.getRecords())) {
+                    bibMarcRecord = bibMarcRecords.getRecords().get(0);
+                    List<ControlField> controlFields = bibMarcRecord.getControlFields();
+                    for (ControlField controlField : controlFields) {
+                        if (controlField.getTag().equals(ControlFields.CONTROL_FIELD_008)) {
+                            controlField008Value = controlField.getValue();
+                        }
+                    }
+                }
+            }
+
+            pdfTable.addCell(getPdfPCellInJustified("008"));
+            pdfTable.addCell(getPdfPCellInLeft(":"));
+            if (StringUtils.isNotBlank(controlField008Value)) {
+                pdfTable.addCell(getPdfPCellInJustified(controlField008Value.replaceAll(" ", "#")));
+            } else {
+                pdfTable.addCell(getPdfPCellInJustified(""));
+            }
+
+            Paragraph dataFieldsParaGraph = new Paragraph(new Paragraph("Data Fields : ", new Font(Font.TIMES_ROMAN, 13, Font.BOLD)));
+            dataFieldsParaGraph.setIndentationLeft(60);
+            dataFieldsParaGraph.add(Chunk.NEWLINE);
+            dataFieldsParaGraph.add(Chunk.NEWLINE);
+
+            PdfPTable dataFieldsTable = new PdfPTable(4);
+
+            float[] columnWidths = new float[] {10f, 5f, 5f, 100f};
+            dataFieldsTable.setWidths(columnWidths);
+
+            if (null != bib && null != bibMarcRecord) {
+                StringBuffer value = new StringBuffer();
+                for (DataField dataField : bibMarcRecord.getDataFields()) {
+                    dataFieldsTable.addCell(getPdfPCellInLeft(dataField.getTag()));
+                    dataFieldsTable.addCell(getPdfPCellInLeft(StringUtils.isNotBlank(dataField.getInd1()) ? dataField.getInd1() : "#"));
+                    dataFieldsTable.addCell(getPdfPCellInLeft(StringUtils.isNotBlank(dataField.getInd2()) ? dataField.getInd2() : "#"));
+                    for (SubField subField : dataField.getSubFields()) {
+                        value.append("|" + subField.getCode());
+                        value.append(" ");
+                        value.append(subField.getValue());
+                    }
+                    dataFieldsTable.addCell(getPdfPCellInLeft(value.toString()));
+                    value.delete(0, value.length());
+                }
+            }
+
+            document.add(paraGraph);
+            document.add(pdfTable);
+            document.add(Chunk.NEWLINE);
+            document.add(dataFieldsParaGraph);
+            document.add(dataFieldsTable);
+            document.close();
+            outputStream.flush();
+            outputStream.close();
+        } catch (Exception e) {
+            LOG.error(e, e);
+        }
     }
 
 

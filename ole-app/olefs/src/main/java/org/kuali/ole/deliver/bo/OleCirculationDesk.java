@@ -36,6 +36,7 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
     private String calendarGroupId;
     private String holdFormat;
     private boolean holdQueue;
+    private boolean staffed;
     private String replyToEmail;
     private boolean renewLostItem;
     private String showItemOnHold;
@@ -192,6 +193,10 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
         return shelvingLagTime;
     }
 
+    public int getShelvingLagTimeInt() {
+        return Integer.valueOf(shelvingLagTime);
+    }
+
     public void setShelvingLagTime(String shelvingLagTime) {
         this.shelvingLagTime = shelvingLagTime;
     }
@@ -290,6 +295,14 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
 
     public void setRequestExpirationDays(String requestExpirationDays) {
         this.requestExpirationDays = requestExpirationDays;
+    }	
+
+    public boolean isStaffed() {
+        return staffed;
+    }
+
+    public void setStaffed(boolean staffed) {
+        this.staffed = staffed;
     }
 
     public boolean isRenewLostItem() {

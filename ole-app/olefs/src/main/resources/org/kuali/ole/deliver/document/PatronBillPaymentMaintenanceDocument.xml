@@ -118,7 +118,8 @@
         <property name="defaultItemPosition" value="11"/>
         <property name="items">
             <list>
-                <bean parent="Uif-DocumentOverviewSection" p:order="10"/>
+                <bean id="PatronBillMaintenanceDocument-ViewBillsLink" parent="Uif-LinkField" p:style="font-weight:bold;font-size:15px;margin-left:1.5em;" p:href="@{#dp.olePatron.viewBillUrl}"  p:linkText="@{#dp.olePatron.patronBillFileName}"  p:target="_blank" p:order="10"/>
+                <bean parent="Uif-DocumentOverviewSection" p:order="11"/>
                 <bean parent="Uif-DocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30"/>
                 <bean parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"/>
                 <bean parent="Uif-DocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50"/>

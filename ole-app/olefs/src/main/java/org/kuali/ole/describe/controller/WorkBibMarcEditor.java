@@ -126,8 +126,24 @@ public class WorkBibMarcEditor extends AbstractEditor implements
         WorkBibMarcForm workBibMarcForm = new WorkBibMarcForm();
         String docId = editorForm.getDocId();
         //Modified title display for left pane
-        editorForm.setHasLink(false);
+        editorForm.setHasLink(true);
+        editorForm.setBibliographic(true);
         workBibMarcForm.setHideFooter(true);
+        String parameter = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
+                .DESCRIBE_COMPONENT, OLEConstants.BIB_RENDER_PRINT);
+        editorForm.setShowPrint(Boolean.valueOf(parameter));
+        // When copied and cancelled
+        if (editorForm.isCopyFlag() && StringUtils.isBlank(docId)) {
+            if (CollectionUtils.isNotEmpty(editorForm.getBibTreeList())) {
+                Bib bib = editorForm.getBibTreeList().get(0).getBib();
+                if (null != bib) {
+                    docId = bib.getId();
+                    editorForm.setDocId(docId);
+                    editorForm.setNewDocument(false);
+                }
+            }
+        }
+
         List<BibTree> bibTreeList = new ArrayList<>();
         BibTree bibTree = null;
         String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(org.kuali.ole.sys.OLEConstants.EXTERNALIZABLE_HELP_URL_KEY);
@@ -135,6 +151,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
         editorForm.setHeaderText("Bib");
         if (null != docId && StringUtils.isNotEmpty(docId)) {
             try {
+                editorForm.setBibLocalIdentifier(docId);
                 bibTree = docstoreClient.retrieveBibTree(docId);
                 bibTreeList.add(bibTree);
                 workBibMarcForm.setBibTreeList(bibTreeList);
@@ -153,7 +170,8 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                 List<BibMarcRecord> bibMarcRecordList = bibMarcRecords.getRecords();
                 BibMarcRecord bibMarcRecord = bibMarcRecordList.get(0);
                 Collections.sort(bibMarcRecord.getDataFields());
-                editorForm.setTitle(getMarcFormDataHandler().buildMarcEditorTitleField(bibMarcRecord.getDataFields())+" / "+ DocumentUniqueIDPrefix.getDocumentId(bib.getId()));
+                //editorForm.setTitle(getMarcFormDataHandler().buildMarcEditorTitleField(bibMarcRecord.getDataFields())+" / "+ DocumentUniqueIDPrefix.getDocumentId(bib.getId()));
+                editorForm.setTitle(bib.getTitle() + " / " + bib.getAuthor() + " / " + DocumentUniqueIDPrefix.getDocumentId(bib.getId()));
                 workBibMarcForm.setLeader(bibMarcRecord.getLeader());
                 workBibMarcForm.setControlFields(getMarcFormDataHandler().buildMarcEditorControlFields(workBibMarcForm, bibMarcRecord.getControlFields()));
                 List<MarcEditorDataField> marcEditorDataFields = new ArrayList<MarcEditorDataField>();
@@ -169,7 +187,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                     }
                 }
                 if (CollectionUtils.isEmpty(marcEditorDataFields)) {
-                 marcEditorDataFields.add(new MarcEditorDataField());
+                    marcEditorDataFields.add(new MarcEditorDataField());
                 }
                 workBibMarcForm.setDataFields(marcEditorDataFields);
                 BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
@@ -212,23 +230,105 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, OLEConstants.ERROR_BIB_CREATE_AUTHORIZATION);
             } else {
                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "info.edit.details.bib.new.record");
+                if (editorForm.getViewId().equalsIgnoreCase(OLEConstants.EDITOR_WORKFORM_VIEW)) {
+                    workBibMarcForm.getDataFields().clear();
+                    addDefaultDataFields(workBibMarcForm);
+                }
             }
 
         }
         // Add a node for this document to the left pane tree.
         addDocumentToTree(editorForm);
         setControlFields(workBibMarcForm);
-        workBibMarcForm.setViewId("WorkBibEditorViewPage");
+        if (StringUtils.isNotBlank(editorForm.getViewId())) {
+            if (editorForm.getViewId().equalsIgnoreCase(OLEConstants.EDITOR_VIEW)) {
+                workBibMarcForm.setViewId(OLEConstants.WORK_BIB_EDITOR_VIEW_PAGE);
+            } else if (editorForm.getViewId().equalsIgnoreCase(OLEConstants.EDITOR_WORKFORM_VIEW)) {
+                workBibMarcForm.setViewId(OLEConstants.EDITOR_WORKFORM_VIEW_PAGE);
+                editorForm.setWorkFormViewFlag(true);
+            }
+        }
         return workBibMarcForm;
     }
 
+    /**
+     * This method adds the default data fields for Editor Workform.
+     * @param workBibMarcForm
+     */
+    private void addDefaultDataFields(WorkBibMarcForm workBibMarcForm) {
+        List<MarcEditorDataField> dataFields = new ArrayList<>();
+        String[] subFields = new String[]{OLEConstants.A};
+        dataFields.add(getDataField(OLEConstants.DATAFIELD_020, OLEConstants.DELIMITER_HASH, OLEConstants.DELIMITER_HASH, subFields));
+        dataFields.add(getDataField(OLEConstants.DATAFIELD_022, OLEConstants.DELIMITER_HASH, OLEConstants.DELIMITER_HASH, subFields));
+        dataFields.add(getDataField(OLEConstants.DATAFIELD_100, OLEConstants.INDICATOR_1, OLEConstants.DELIMITER_HASH, subFields));
+        dataFields.add(getDataField(OLEConstants.DATAFIELD_245, OLEConstants.INDICATOR_1, OLEConstants.INDICATOR_0, subFields));
+        dataFields.add(getDataField(OLEConstants.DATAFIELD_250, OLEConstants.DELIMITER_HASH, OLEConstants.DELIMITER_HASH, subFields));
+        dataFields.add(getDataField(OLEConstants.DATAFIELD_260, OLEConstants.DELIMITER_HASH, OLEConstants.DELIMITER_HASH, new String[]{OLEConstants.A, OLEConstants.B, OLEConstants.C}));
+        dataFields.add(getDataField(OLEConstants.DATAFIELD_300, OLEConstants.DELIMITER_HASH, OLEConstants.DELIMITER_HASH, subFields));
+        dataFields.add(getDataField(OLEConstants.DATAFIELD_490, OLEConstants.INDICATOR_0, OLEConstants.DELIMITER_HASH, subFields));
+        workBibMarcForm.setDataFields(dataFields);
+
+    }
+
+    /**
+     * This method is used to get the marc editor data field object.
+     * @param tag
+     * @param ind1
+     * @param ind2
+     * @param subFields
+     * @return
+     */
+    private MarcEditorDataField getDataField(String tag, String ind1, String ind2, String[] subFields) {
+        MarcEditorDataField dataField = new MarcEditorDataField();
+        dataField.setTag(tag);
+        dataField.setInd1(ind1);
+        dataField.setInd2(ind2);
+        StringBuilder valueBuilder = new StringBuilder();
+        for (String subField : subFields) {
+            if (tag.equalsIgnoreCase(OLEConstants.DATAFIELD_260)) {
+                if (subField.equalsIgnoreCase(OLEConstants.A)) {
+                    dataField.setValue260a(OLEConstants.PIPE + subField + " ");
+                } else if (subField.equalsIgnoreCase(OLEConstants.B)) {
+                    dataField.setValue260b(OLEConstants.PIPE + subField + " ");
+                } else if (subField.equalsIgnoreCase(OLEConstants.C)) {
+                    dataField.setValue260c(OLEConstants.PIPE + subField + " ");
+                }
+            } else {
+                valueBuilder.append(OLEConstants.PIPE + subField + " ");
+            }
+        }
+        if (!tag.equalsIgnoreCase(OLEConstants.DATAFIELD_260)) {
+            dataField.setValue(valueBuilder.toString());
+        }
+        return dataField;
+    }
     @Override
     public EditorForm saveDocument(EditorForm editorForm) {
 
         Bib bib = null;
         String editorStatusMessage = "";
         editorForm.setHasLink(true);
+        editorForm.setBibliographic(true);
         WorkBibMarcForm workBibMarcForm = (WorkBibMarcForm) editorForm.getDocumentForm();
+        List<MarcEditorDataField> emptyDataFieldList = new ArrayList<>();
+
+        if (editorForm.isWorkFormViewFlag()) {
+            editorForm.setOleBibliographicRecordStatus(new OleBibliographicRecordStatus());
+            workBibMarcForm.setLeader(OLEConstants.LEADER_DEFAULT);
+            if (null != workBibMarcForm.getMarcControlFields()) {
+                ControlFields controlFields = workBibMarcForm.getMarcControlFields();
+                if (null == controlFields.getControlField008()) {
+                    ControlField008 controlField008 = new ControlField008();
+                    controlField008.setRawText(OLEConstants.DEFAULT_008);
+                    controlFields.setControlField008(controlField008);
+                } else {
+                    controlFields.getControlField008().setRawText(OLEConstants.DEFAULT_008);
+                }
+            }
+            append260Values(workBibMarcForm);
+            emptyDataFieldList = removeEmptyDataFields(workBibMarcForm);
+            workBibMarcForm.getDataFields().removeAll(emptyDataFieldList);
+        }
         String bibliographicRecordStatusCode = editorForm.getOleBibliographicRecordStatus()
                 .getBibliographicRecordStatusCode();
         boolean staffOnlyFlag = editorForm.isStaffOnlyFlagForBib();
@@ -237,10 +337,15 @@ public class WorkBibMarcEditor extends AbstractEditor implements
         String holdingsId = "";
         HoldingsTree holdingsTree = null;
         buildControlFieldList(workBibMarcForm);
-        buildDataFieldList(workBibMarcForm);
+        if (!editorForm.isWorkFormViewFlag()) {
+            buildDataFieldList(workBibMarcForm);
+        }
         boolean valid = validateMarcEditorData(workBibMarcForm);
         if (valid) {
             buildLeader(workBibMarcForm);
+        } else {
+            workBibMarcForm.getDataFields().addAll(emptyDataFieldList);
+            Collections.sort(workBibMarcForm.getDataFields());
         }
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
@@ -261,6 +366,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
 
             try {
                 if (null != uuid && !uuid.trim().equals("")) {
+                    editorForm.setBibLocalIdentifier(uuid);
                     if (boService != null) {
                         try {
                             bib = docstoreClient.retrieveBib(uuid);
@@ -336,7 +442,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                         bib.setStatus("");
                     }
                     bibTree.setBib(bib);
-                        holdingsTree = getHoldingsTree(eResourceID);
+                    holdingsTree = getHoldingsTree(eResourceID);
                     if (holdingsTree != null && holdingsTree.getHoldings() != null) {
                         holdingsTree.getHoldings().setCreatedBy(user);
                         holdingsTree.getHoldings().setCreatedOn(dateStr);
@@ -504,6 +610,50 @@ public class WorkBibMarcEditor extends AbstractEditor implements
         return workBibMarcForm1;
     }
 
+    /**
+     * This method appends the 260 a,b,c values in the workform.
+     * @param workBibMarcForm
+     */
+    private void append260Values(WorkBibMarcForm workBibMarcForm) {
+        for (MarcEditorDataField dataField : workBibMarcForm.getDataFields()) {
+            if (StringUtils.isNotBlank(dataField.getTag()) && dataField.getTag().equalsIgnoreCase(OLEConstants.DATAFIELD_260)) {
+                StringBuilder value260Builder = new StringBuilder();
+                if (StringUtils.isNotBlank(dataField.getValue260a()) && !dataField.getValue260a().trim().equalsIgnoreCase(OLEConstants.PIPE + OLEConstants.A)) {
+                    value260Builder.append(dataField.getValue260a() + " ");
+                }
+                if (StringUtils.isNotBlank(dataField.getValue260b()) && !dataField.getValue260b().trim().equalsIgnoreCase(OLEConstants.PIPE + OLEConstants.B)) {
+                    value260Builder.append(dataField.getValue260b() + " ");
+                }
+                if (StringUtils.isNotBlank(dataField.getValue260c()) && !dataField.getValue260c().trim().equalsIgnoreCase(OLEConstants.PIPE + OLEConstants.C)) {
+                    value260Builder.append(dataField.getValue260c() + " ");
+                }
+                if (StringUtils.isBlank(dataField.getValue())) {
+                    dataField.setValue(value260Builder.toString());
+                }
+            }
+        }
+    }
+
+    /**
+     * This method removes the empty fields from workform.
+     * @param workBibMarcForm
+     * @return
+     */
+    private List<MarcEditorDataField> removeEmptyDataFields(WorkBibMarcForm workBibMarcForm) {
+        List<MarcEditorDataField> dataFields = workBibMarcForm.getDataFields();
+        List<MarcEditorDataField> emptyDataFieldList = new ArrayList<>();
+        if (!dataFields.isEmpty()) {
+            for (MarcEditorDataField dataField : dataFields) {
+                if (null != dataField && (StringUtils.isBlank(dataField.getValue()) || dataField.getValue().trim().equalsIgnoreCase(OLEConstants.PIPE + OLEConstants.A))) {
+                    if (StringUtils.isNotBlank(dataField.getTag()) && dataField.getTag().equalsIgnoreCase(OLEConstants.DATAFIELD_245)) {
+                        continue;
+                    }
+                    emptyDataFieldList.add(dataField);
+                }
+            }
+        }
+        return emptyDataFieldList;
+    }
     /**
      * Gets the isNewRecord attribute.
      * if uuid is null return true else return false.
@@ -925,7 +1075,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                 workBibMarcForm.setLeader(bibMarcRecord.getLeader());
                 workBibMarcForm.setControlFields(getMarcFormDataHandler().buildMarcEditorControlFields(workBibMarcForm,
                         bibMarcRecord.getControlFields()));
-                editorForm.setTitle(getMarcFormDataHandler().buildMarcEditorTitleField(bibMarcRecord.getDataFields()));
+                editorForm.setTitle(getMarcFormDataHandler().buildMarcEditorTitleField(bibMarcRecord.getDataFields())+" / "+ DocumentUniqueIDPrefix.getDocumentId(bib.getId()));
                 workBibMarcForm.setDataFields(
                         getMarcFormDataHandler().buildMarcEditorDataFields(bibMarcRecord.getDataFields()));
                 OleBibliographicRecordStatus bibliographicRecordStatus = null;
@@ -1135,22 +1285,38 @@ public class WorkBibMarcEditor extends AbstractEditor implements
             index++;
             List<MarcEditorDataField> editorDataFieldList = marcEditorForm.getDataFields();
             for (MarcEditorDataField editorDataField : editorDataFieldList) {
-                String modifiedValue = editorDataField.getValue().replace("\"", "&quot;");
-                editorDataField.setValue(modifiedValue);
+                if (null != editorDataField.getValue()) {
+                    String modifiedValue = editorDataField.getValue().replace("\"", "&quot;");
+                    editorDataField.setValue(modifiedValue);
+                }
             }
-            editorDataFieldList.add(index, new MarcEditorDataField());
+            MarcEditorDataField marcEditorDataField = new MarcEditorDataField();
+            if (editorForm.isShortcutAddDataField()) {
+                marcEditorDataField.setTag("035");
+                marcEditorDataField.setValue("(OCoLC)");
+                editorForm.setShortcutAddDataField(false);
+            }
+            editorDataFieldList.add(index, marcEditorDataField);
             marcEditorForm.setDataFields(editorDataFieldList);
             editorForm.setDocumentForm(marcEditorForm);
         } else if (methodName.equalsIgnoreCase("removeDataField")) {
             WorkBibMarcForm marcEditorForm = (WorkBibMarcForm) editorForm.getDocumentForm();
-            int index = Integer.parseInt(editorForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
             List<MarcEditorDataField> marcEditorDataFieldList = marcEditorForm.getDataFields();
+            List<MarcEditorDataField> removeEditorDataFieldList = new ArrayList<>();
             if (marcEditorDataFieldList.size() > 1) {
-                marcEditorDataFieldList.remove(index);
+                for (MarcEditorDataField marcEditorDataField : marcEditorDataFieldList) {
+                    if (marcEditorDataField.isSelected()) {
+                        removeEditorDataFieldList.add(marcEditorDataField);
+                    }
+                }
+                marcEditorDataFieldList.removeAll(removeEditorDataFieldList);
             }
             for (MarcEditorDataField marcDataField : marcEditorDataFieldList) {
                 String modifiedValue = marcDataField.getValue().replace("\"", "&quot;");
                 marcDataField.setValue(modifiedValue);
+            }
+            if (CollectionUtils.isEmpty(marcEditorDataFieldList)) {
+                marcEditorDataFieldList.add(new MarcEditorDataField());
             }
             marcEditorForm.setDataFields(marcEditorDataFieldList);
             editorForm.setDocumentForm(marcEditorForm);
@@ -1182,6 +1348,21 @@ public class WorkBibMarcEditor extends AbstractEditor implements
         Node<DocumentTreeNode, String> docTree = documentSelectionTree.add(uuidList, DocType.BIB.getDescription());
         editorForm.getDocTree().setRootElement(docTree);
         workBibMarcForm.setViewId("DeleteViewPage");
+        int holdingsCount = 0;
+        int itemCount = 0;
+        BibTree bibTree = docstoreClient.retrieveBibTree(docId);
+        List<HoldingsTree> holdingsTrees = bibTree.getHoldingsTrees();
+        holdingsCount = holdingsTrees.size();
+        for(HoldingsTree holdingsTree : holdingsTrees){
+            int size = holdingsTree.getItems().size();
+            itemCount = itemCount + size;
+        }
+        StringBuffer deleteMessage = new StringBuffer();
+        deleteMessage.append("WARNING : All attached holdings (");
+        deleteMessage.append(holdingsCount +")");
+        deleteMessage.append(" and  items (");
+        deleteMessage.append(itemCount + ") on the following bibliographic record will be deleted.");
+        editorForm.setDeleteMessage(deleteMessage.toString());
         return workBibMarcForm;
     }
 
@@ -1322,7 +1503,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
         }
         if (StringUtils.isNotEmpty(controlFields.getControlField008().getRawText())) {
             sdf = new SimpleDateFormat("yyMMdd");
-            if (controlFields.getControlField008().getRawText().length() == 40 && controlFields.getControlField008().getRawText().substring(0, 6).contains("#")) {
+            if (controlFields.getControlField008().getRawText().length() == 40 && (controlFields.getControlField008().getRawText().substring(0, 6).contains("#") || workBibMarcForm.isCopyFlag())) {
                 controlFields.getControlField008().setRawText(sdf.format(dt) + controlFields.getControlField008().getRawText
                         ().substring(6, 40));
             }
@@ -1339,7 +1520,37 @@ public class WorkBibMarcEditor extends AbstractEditor implements
     }
 
     public EditorForm copy(EditorForm editorForm) {
-        return null;
+        editorForm.setDocId(null);
+        editorForm.setBibId(null);
+
+        WorkBibMarcForm workBibMarcForm = (WorkBibMarcForm) editorForm.getDocumentForm();
+        workBibMarcForm.getMarcControlFields().setLocalId(null);
+        workBibMarcForm.getMarcControlFields().setControlField001(null);
+        workBibMarcForm.getMarcControlFields().setControlField003(null);
+        workBibMarcForm.setDocId(null);
+        editorForm.setOleBibliographicRecordStatus(new OleBibliographicRecordStatus());
+
+        eliminate9xxFields(workBibMarcForm);
+
+        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, OLEConstants.MARC_EDITOR_BIB_COPY_MESSAGE);
+        return editorForm;
+    }
+
+    /**
+     * This method eliminates 9xx fields if any.
+     * @param workBibMarcForm
+     */
+    private void eliminate9xxFields(WorkBibMarcForm workBibMarcForm) {
+        List<MarcEditorDataField> dataFields = workBibMarcForm.getDataFields();
+        List<MarcEditorDataField> newDataFields = new ArrayList<>();
+        for (MarcEditorDataField dataField : dataFields) {
+            if (null != dataField.getTag()) {
+                if (!dataField.getTag().startsWith("9")) {
+                    newDataFields.add(dataField);
+                }
+            }
+        }
+        workBibMarcForm.setDataFields(newDataFields);
     }
 
     @Override

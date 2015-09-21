@@ -216,7 +216,9 @@ public class BrowseServiceImpl implements BrowseService {
                     if (searchResultField.getFieldName().equalsIgnoreCase("ShelvingOrder_sort")) {
                         holdings.setShelvingOrder(searchResultField.getFieldValue());
                     }
-
+                    if (searchResultField.getFieldName().equalsIgnoreCase("staffOnlyFlag")) {
+                        holdings.setStaffOnly(Boolean.valueOf(searchResultField.getFieldValue()));
+                    }
                 }
             }
             holdingsList.add(holdings);
@@ -248,7 +250,15 @@ public class BrowseServiceImpl implements BrowseService {
                     if (searchResultField.getFieldName().equalsIgnoreCase("DocFormat")) {
                         searchResultDisplayRow.setDocFormat(searchResultField.getFieldValue());
                     }
-
+                    if (searchResultField.getFieldName().equalsIgnoreCase("staffOnlyFlag")) {
+                        searchResultDisplayRow.setStaffOnly(searchResultField.getFieldValue());
+                    }
+                    if (searchResultField.getFieldName().equalsIgnoreCase("ResourceType_display")) {
+                        searchResultDisplayRow.setResourceType(searchResultField.getFieldValue());
+                    }
+                    if (searchResultField.getFieldName().equalsIgnoreCase("Carrier_display")) {
+                        searchResultDisplayRow.setCarrier(searchResultField.getFieldValue());
+                    }
                 }
             }
             searchResultDisplayRows.add(searchResultDisplayRow);
@@ -292,7 +302,9 @@ public class BrowseServiceImpl implements BrowseService {
                     if (searchResultField.getFieldName().equalsIgnoreCase("ShelvingOrder_sort")) {
                         holdings.setShelvingOrder(searchResultField.getFieldValue());
                     }
-
+                    if (searchResultField.getFieldName().equalsIgnoreCase("staffOnlyFlag")) {
+                        holdings.setStaffOnly(Boolean.valueOf(searchResultField.getFieldValue()));
+                    }
                 }
             }
             holdingsList.add(holdings);
@@ -344,7 +356,9 @@ public class BrowseServiceImpl implements BrowseService {
                     if (searchResultField.getFieldName().equalsIgnoreCase("ShelvingOrder_sort")) {
                         item.setShelvingOrder(searchResultField.getFieldValue());
                     }
-
+                    if (searchResultField.getFieldName().equalsIgnoreCase("staffOnlyFlag")) {
+                        item.setStaffOnly(Boolean.valueOf(searchResultField.getFieldValue()));
+                    }
                 }
             }
             itemList.add(item);
@@ -561,6 +575,7 @@ public class BrowseServiceImpl implements BrowseService {
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Title_display"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"PublicationDate_display"));
+            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
             browseParams.setStartIndex(0);
         }
         else {
@@ -589,6 +604,7 @@ public class BrowseServiceImpl implements BrowseService {
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"bibIdentifier"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"holdingsIdentifier"));
+            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
             browseParams.setStartIndex(0);
         }
         browseParams.setPageSize(callNumberBrowseParams.getNumRows());
@@ -613,6 +629,9 @@ public class BrowseServiceImpl implements BrowseService {
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Title_display"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"PublicationDate_display"));
+            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
+            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"ResourceType_display"));
+            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Carrier_display"));
         }
         else {
             browseParams.getSortConditions().add(browseParams.buildSortCondition("ShelvingOrder_sort","asc"));
@@ -631,6 +650,7 @@ public class BrowseServiceImpl implements BrowseService {
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"bibIdentifier"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"holdingsIdentifier"));
+            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
         }
 
         if(StringUtils.isNotEmpty(docType)) {
@@ -659,6 +679,7 @@ public class BrowseServiceImpl implements BrowseService {
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Title_display"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"PublicationDate_display"));
+            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
             browseParams.setStartIndex(startIndex);
 
         }
@@ -679,6 +700,7 @@ public class BrowseServiceImpl implements BrowseService {
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"bibIdentifier"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"holdingsIdentifier"));
+            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
             browseParams.setStartIndex(1);
 
         }
@@ -707,6 +729,7 @@ public class BrowseServiceImpl implements BrowseService {
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Title_display"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"PublicationDate_display"));
+            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
             browseParams.setStartIndex(startIndex);
         }
         else {
@@ -735,6 +758,7 @@ public class BrowseServiceImpl implements BrowseService {
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"Author_display"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"bibIdentifier"));
             browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"holdingsIdentifier"));
+            browseParams.getSearchResultFields().add(browseParams.buildSearchResultField(docType,"staffOnlyFlag"));
         }
 
         if(StringUtils.isNotEmpty(docType)) {

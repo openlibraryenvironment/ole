@@ -1,0 +1,376 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_1.6.2_oracle" dbms="oracle">
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/1.6.2/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_1.6.2_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/1.6.2/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_DESK_STAFFED">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_CRCL_DSK_T">
+            <column name="STAFFED" type="varchar(1)" defaultValue="Y"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_DLVR_RQST_T">
+        <createIndex catalogName="ole"
+                     indexName="OLE_DLVR_RQST_TI2"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_RQST_T">
+            <column name="ITM_ID" type="varchar(40)"/>
+        </createIndex>
+        <createIndex catalogName="ole"
+                     indexName="OLE_DLVR_RQST_TI3"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_RQST_T">
+            <column name="ITEM_UUID" type="varchar(100)"/>
+        </createIndex>
+        <createIndex catalogName="ole"
+                     indexName="OLE_DLVR_RQST_TI4"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_RQST_T">
+            <column name="PTRN_Q_POS" type="int(11)"/>
+        </createIndex>
+        <createIndex catalogName="ole"
+                     indexName="OLE_DLVR_RQST_TI5"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_RQST_T">
+            <column name="BIB_ID" type="varchar(40)"/>
+        </createIndex>
+        <createIndex catalogName="ole"
+                     indexName="OLE_DLVR_RQST_TI6"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_RQST_T">
+            <column name="OLE_PTRN_BARCD" type="varchar(80)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_DLVR_TEMP_CIRC_RECORD">
+        <createIndex catalogName="ole"
+                     indexName="OLE_DLVR_TEMP_CIRC_RECORD_TI1"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_TEMP_CIRC_RECORD">
+            <column name="ITM_ID" type="varchar(40)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_DS_ITEM_T">
+        <createIndex catalogName="ole"
+                     indexName="OLE_DS_ITEM_TI1"
+                     schemaName="ole"
+                     tableName="OLE_DS_ITEM_T">
+            <column name="BARCODE" type="varchar(20)"/>
+        </createIndex>
+        <createIndex catalogName="ole"
+                     indexName="OLE_DS_ITEM_TI2"
+                     schemaName="ole"
+                     tableName="OLE_DS_ITEM_T">
+            <column name="HOLDINGS_ID" type="int(11)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_ASR_ITM_T">
+        <createIndex catalogName="ole"
+                     indexName="OLE_ASR_ITM_TI1"
+                     schemaName="ole"
+                     tableName="OLE_ASR_ITM_T">
+            <column name="ITM_BAR_CD" type="varchar(40)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_DLVR_LOAN_T">
+        <createIndex catalogName="ole"
+                     indexName="OLE_DLVR_LOAN_TI1"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_LOAN_T">
+            <column name="ITEM_UUID" type="varchar(100)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_LOAN_INTRANSIT_HST_T">
+        <createIndex catalogName="ole"
+                     indexName="OLE_LOAN_INTRANSIT_HST_TI1"
+                     schemaName="ole"
+                     tableName="OLE_LOAN_INTRANSIT_HISTORY_T">
+            <column name="ITEM_UUID" type="varchar(40)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_DS_HOLDINGS_T">
+        <createIndex catalogName="ole"
+                     indexName="OLE_DS_HOLDINGS_TI1"
+                     schemaName="ole"
+                     tableName="OLE_DS_HOLDINGS_T">
+            <column name="BIB_ID" type="int(11)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_DS_EXT_OWNERSHIP_T">
+        <createIndex catalogName="ole"
+                     indexName="OLE_DS_EXT_OWNERSHIP_TI1"
+                     schemaName="ole"
+                     tableName="OLE_DS_EXT_OWNERSHIP_T">
+            <column name="HOLDINGS_ID" type="int(11)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_DS_BIB_HOLDINGS_T">
+        <createIndex catalogName="ole"
+                     indexName="OLE_DS_BIB_HOLDINGS_TI1"
+                     schemaName="ole"
+                     tableName="OLE_DS_BIB_HOLDINGS_T">
+            <column name="BIB_ID" type="int(11)"/>
+        </createIndex>
+        <createIndex catalogName="ole"
+                     indexName="OLE_DS_BIB_HOLDINGS_TI2"
+                     schemaName="ole"
+                     tableName="OLE_DS_BIB_HOLDINGS_T">
+            <column name="HOLDINGS_ID" type="int(11)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_DS_ITEM_HOLDINGS_T">
+        <createIndex catalogName="ole"
+                     indexName="OLE_DS_ITEM_HOLDINGS_TI1"
+                     schemaName="ole"
+                     tableName="OLE_DS_ITEM_HOLDINGS_T">
+            <column name="HOLDINGS_ID" type="int(11)"/>
+        </createIndex>
+        <createIndex catalogName="ole"
+                     indexName="OLE_DS_ITEM_HOLDINGS_TI2"
+                     schemaName="ole"
+                     tableName="OLE_DS_ITEM_HOLDINGS_T">
+            <column name="ITEM_ID" type="int(11)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DOC_FIELD_T_ID" dbms="mysql">
+        <sql>INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)VALUES ('Holdings Location','',500,9,4,'','','Y','N','N','N','N','HoldingsLocation_display','500',1)</sql>
+        <sql>INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)VALUES ('Holdings Call Number','',501,9,4,'','','Y','N','N','N','N','HoldingsCallNumber_display','501',1)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DOC_FIELD_T_ID" dbms="oracle">
+        <sql>INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)VALUES ('Holdings Location','',500,9,4,'','','Y','N','N','N','N','HoldingsLocation_display','500',1)</sql>
+        <sql>INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)VALUES ('Holdings Call Number','',501,9,4,'','','Y','N','N','N','N','HoldingsCallNumber_display','501',1)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DOC_FIELD_T_DOC" dbms="mysql">
+        <sql>INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)VALUES ('Resource Type','',502,1,1,'','','Y','N','N','N','N','ResourceType_display','502',1)</sql>
+        <sql>INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)VALUES ('Resource Type','',503,1,1,'','','N','N','N','N','Y','ResourceType_search','503',1)</sql>
+        <sql>INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)VALUES ('Carrier','',504,1,1,'','','Y','N','N','N','N','Carrier_display','504',1)</sql>
+        <sql>INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)VALUES ('Carrier','',505,1,1,'','','N','N','N','N','Y','Carrier_search','505',1)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_DOC_FIELD_T_DOC" dbms="oracle">
+        <sql>INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)VALUES ('Resource Type','',502,1,1,'','','Y','N','N','N','N','ResourceType_display','502',1)</sql>
+        <sql>INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)VALUES ('Resource Type','',503,1,1,'','','N','N','N','N','Y','ResourceType_search','503',1)</sql>
+        <sql>INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)VALUES ('Carrier','',504,1,1,'','','Y','N','N','N','N','Carrier_display','504',1)</sql>
+        <sql>INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DESCRIPTION,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,EXCLUDE_PATH,INCLUDE_PATH,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR)VALUES ('Carrier','',505,1,1,'','','N','N','N','N','Y','Carrier_search','505',1)</sql>
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="ole_dlvr_loan_notice_hstry_t_bl" dbms="mysql">
+        <modifyDataType catalogName="ole"
+                        columnName="NTC_CNTNT"
+                        newDataType="CLOB"
+                        schemaName="ole"
+                        tableName="OLE_DLVR_LOAN_NOTICE_HSTRY_T"/>
+
+    </changeSet>
+
+
+
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_PERM_T_T_1.6.2_oracle" dbms="oracle">
+        <loadData tableName="KRIM_PERM_T" file="org/kuali/ole/1.6.2/data/ole_krim_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_PERM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_PERM_T_T_1.6.2_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRIM_PERM_T" file="org/kuali/ole/1.6.2/data/ole_krim_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_PERM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_PERM_ATTR_DATA_T_1.6.2_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRIM_PERM_ATTR_DATA_T" file="org/kuali/ole/1.6.2/data/ole_krim_perm_attr_data_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_PERM_ATTR_DATA_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_PERM_ATTR_DATA_T_1.6.2_oracle" dbms="oracle">
+        <loadData tableName="KRIM_PERM_ATTR_DATA_T" file="org/kuali/ole/1.6.2/data/ole_krim_perm_attr_data_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_PERM_ATTR_DATA_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_ROLE_PERM_T_1.6.2_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRIM_ROLE_PERM_T" file="org/kuali/ole/1.6.2/data/ole_krim_role_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_ROLE_PERM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_ROLE_PERM_T_1.6.2_oracle" dbms="oracle">
+        <loadData tableName="KRIM_ROLE_PERM_T" file="org/kuali/ole/1.6.2/data/ole_krim_role_perm_t.csv"/>
+        <rollback>
+            <delete tableName="KRIM_ROLE_PERM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_RQST_T_ITEM_Q_INX_UK">
+        <addUniqueConstraint catalogName="ole"
+                             columnNames="OLE_PTRN_ID,PTRN_Q_POS,ITM_ID"
+                             constraintName="OLE_DLVR_RQST_T_ITEM_Q_INX_UK"
+                             schemaName="ole"
+                             tableName="OLE_DLVR_RQST_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_ITM_T_MYSQL" dbms="mysql">
+        <sql>ALTER TABLE OLE_DS_ITEM_T MODIFY BARCODE VARCHAR(30)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_ITM_T_ORACLE" dbms="oracle">
+        <sql>ALTER TABLE OLE_DS_ITEM_T MODIFY BARCODE varchar2(30)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="ALTER_OLE_LOAN_INTRANSIT_HISTORY_S" dbms="mysql">
+        <sql>TRUNCATE TABLE OLE_LOAN_INTRANSIT_HISTORY_S</sql>
+
+        <addPrimaryKey catalogName="ole"
+                       columnNames="ID"
+                       constraintName="OLE_LOAN_INTRANSIT_HISTORY_S_PK"
+                       schemaName="ole"
+                       tableName="OLE_LOAN_INTRANSIT_HISTORY_S"/>
+
+        <addAutoIncrement catalogName="ole"
+                          columnDataType="BIGINT(19)"
+                          columnName="ID"
+                          incrementBy="1"
+                          schemaName="ole"
+                          tableName="OLE_LOAN_INTRANSIT_HISTORY_S"/>
+
+        <sql>set @last_id = (SELECT MAX(CONVERT(ID, SIGNED INTEGER)) from ole.OLE_LOAN_INTRANSIT_HISTORY_T)</sql>
+
+        <sql>INSERT INTO OLE_LOAN_INTRANSIT_HISTORY_S VALUES(@last_id)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="ALTER_OLE_RNWL_HISTORY_S" dbms="mysql">
+        <sql>TRUNCATE TABLE OLE_RNWL_HISTORY_S</sql>
+
+        <addPrimaryKey catalogName="ole"
+                       columnNames="RNWL_HSTRY_ID"
+                       constraintName="OLE_RNWL_HISTORY_S_PK"
+                       schemaName="ole"
+                       tableName="OLE_RNWL_HISTORY_S"/>
+
+        <addAutoIncrement catalogName="ole"
+                          columnDataType="BIGINT(19)"
+                          columnName="RNWL_HSTRY_ID"
+                          incrementBy="1"
+                          schemaName="ole"
+                          tableName="OLE_RNWL_HISTORY_S"/>
+
+        <sql>set @last_id = (SELECT MAX(CONVERT(rnwl_hstry_id, SIGNED INTEGER)) from ole.OLE_RNWL_HISTORY_T)</sql>
+
+        <sql>INSERT INTO OLE_RNWL_HISTORY_S VALUES(@last_id)</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTICE_TYPE_CONFIG_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_NOTICE_TYPE_CONFIG_T">
+            <column name="NOTICE_TYPE_CONFIG_ID"   type="INTEGER"/>
+            <column name="CIRC_POLICY_ID"   type="VARCHAR(1000)" />
+            <column name="NOTICE_TYPE"   type="VARCHAR(1000)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTICE_TYPE_CONFIG_T_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="NOTICE_TYPE_CONFIG_ID"
+                       constraintName="OLE_NOTICE_TYPE_CONFIG_T_PK"
+                       schemaName="ole"
+                       tableName="OLE_NOTICE_TYPE_CONFIG_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTICE_TYPE_CONFIG_S" dbms="oracle">
+        <createSequence catalogName="ole"
+                        incrementBy="1"
+                        ordered="true"
+                        schemaName="ole"
+                        sequenceName="OLE_NOTICE_TYPE_CONFIG_S"
+                        startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTICE_TYPE_CONFIG_S" dbms="mysql">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_NOTICE_TYPE_CONFIG_S ">
+            <column name="ID"   type="BIGINT(19)"/>
+        </createTable>
+
+        <addPrimaryKey catalogName="ole"
+                       columnNames="ID"
+                       constraintName="OLE_NOTICE_TYPE_CONFIG_S_PK"
+                       schemaName="ole"
+                       tableName="OLE_NOTICE_TYPE_CONFIG_S"/>
+
+        <addAutoIncrement catalogName="ole"
+                          columnDataType="BIGINT(19)"
+                          columnName="ID"
+                          incrementBy="1"
+                          schemaName="ole"
+                          tableName="OLE_NOTICE_TYPE_CONFIG_S"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -35,6 +35,7 @@
                 <bean id="cricCustomDateTime-VerticalBoxSection" parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
+                            <ref bean="errorMsgSection"/>
                             <ref bean="customDateTimeSection"/>
                             <ref bean="btnCustomDueDate"/>
                         </list>
@@ -49,10 +50,14 @@
             <list>
                 <bean id="customDueDateloanButton" parent="Uif-SecondaryActionButton" p:actionLabel="Loan" p:style="width:50px"
                       p:actionScript="
-                      var customDueDate = jq('#customDueDate_control').val();
-                      submitForm('proceedToSaveLoan', {customDueDateMap:customDueDate}, null, true, function () {
-                      jq.fancybox.close();
-                });"
+                      if(jq('#kualiLightboxForm').valid()){
+                        var customDueDate = jq('#customDueDate_control').val();
+                        submitForm('proceedToSaveLoan', {customDueDateMap:customDueDate}, null, true,
+                        function () {
+                        jq.fancybox.close();
+                        jq('#checkoutItem_control').focus();
+                        });
+                    }"
                         />
                 <bean id="customDueDatedDoNotLoanButton" parent="Uif-SecondaryActionButton" p:actionLabel="Do Not Loan"
                       p:style="width:100px"

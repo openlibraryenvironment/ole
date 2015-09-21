@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <!--OleGenericDialogs-->
+    <bean id="checkInNoteMessageDialog" parent="Uif-DialogGroup">
+        <property name="promptText" value="Checkin Note Exists"/>
+        <property name="availableResponses">
+            <list>
+                <!--Empty-->
+            </list>
+        </property>
+        <property name="items">
+            <list merge="false">
+                <bean id="checkInNoteDialog-VerticalBoxSection" parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="checkInNoteMessage"/>
+                            <ref bean="checkInNoteButton"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="checkInNoteMessage" parent="Uif-MessageField"  p:messageText="@{checkedInItem.checkinNote}" />
+
+    <bean id="checkInNoteButton" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <bean id="checkInNoteButton-Remove" parent="Uif-SecondaryActionButton-Small" p:render="@{permissionToRemoveNote}" p:methodToCall="deleteCheckinNote" p:actionLabel="Remove Note"  p:successCallback="jq.fancybox.close();
+                    submitForm('postCheckInNoteProcess',null,null,true,function(){
+                    });"/>
+                <bean id="checkInButton-ok" parent="Uif-SecondaryActionButton-Small" p:actionLabel="OK" p:actionScript="
+                    jq.fancybox.close();
+                    submitForm('postCheckInNoteProcess',null,null,true,function(){
+                    });"/>
+            </list>
+        </property>
+    </bean>
+
+
+
+</beans>

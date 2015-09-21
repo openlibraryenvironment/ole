@@ -1330,7 +1330,7 @@ public class DocstoreServiceImpl implements DocstoreService {
             }
         } catch (Exception e) {
             LOG.error("Exception occurred while processing bib trees ", e);
-            for(BibTree bibTree:bibTrees.getBibTrees()){
+			 for(BibTree bibTree:bibTrees.getBibTrees()){
                 Bib bib = bibTree.getBib();
                 if(bib.getResult().equals(Holdings.ResultType.FAILURE)){
                     throw new DocstoreException("Exception while processing BIB "+bib.getMessage());
@@ -1385,6 +1385,43 @@ public class DocstoreServiceImpl implements DocstoreService {
             LOG.error("Exception occurred while indexing the unbinded holdings with bibs ", e);
             throw e;
         }
+    }
+	
+	/**
+     * This method is used for batch updates to bibs, holdings and items.
+     * If any operation fails, it is recorded at the document level, and next document is processed.
+     * Ideally no exception should be thrown by this method.
+     * @param bibTrees
+     * @return
+     */
+    @Override
+    public BibTrees processBibTreesForBatch(BibTrees bibTrees) {
+        try {
+            getDocstoreStorageService().processBibTreesForBatch(bibTrees);
+            getDocstoreIndexService().processBibTrees(bibTrees);
+
+        } catch (Exception e) {
+            LOG.error("Exception occurred while processing bib trees ", e);
+			 for(BibTree bibTree:bibTrees.getBibTrees()){
+                Bib bib = bibTree.getBib();
+                if(bib.getResult().equals(Holdings.ResultType.FAILURE)){
+                    throw new DocstoreException("Exception while processing BIB "+bib.getMessage());
+                }
+                for(HoldingsTree holdingsTree:bibTree.getHoldingsTrees()){
+                        Holdings holdings = holdingsTree.getHoldings();
+                    if(holdings.getResult().equals(Holdings.ResultType.FAILURE)){
+                        throw new DocstoreException("Exception while processing Holdings  :"+holdings.getMessage());
+                    }
+                    for(Item item:holdingsTree.getItems()){
+                        if(item.getResult().equals(Holdings.ResultType.FAILURE)){
+                            throw new DocstoreException("Exception while processing Item  :"+item.getMessage());
+                        }
+                    }
+                }
+            }
+            throw e;
+        }
+        return bibTrees;
     }
 
 }

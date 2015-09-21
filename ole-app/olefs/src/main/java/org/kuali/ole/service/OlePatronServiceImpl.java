@@ -1,5 +1,6 @@
 package org.kuali.ole.service;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
@@ -27,6 +28,7 @@ import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.kim.api.identity.phone.EntityPhone;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.identity.address.EntityAddressBo;
 import org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationBo;
 import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
@@ -127,6 +129,10 @@ public class OlePatronServiceImpl implements OlePatronService {
         try{
             BusinessObjectService businessObjectService = KRADServiceLocator.getBusinessObjectService();
             OlePatronDocument olePatronDocument = OlePatronDocument.from(olePatron);
+            String olePatronId = olePatronDocument.getOlePatronId();
+            if(StringUtils.isNotBlank(olePatronId)){
+                olePatronDocument.getEntity().setId(olePatronId);
+            }
             EntityBo kimEntity = olePatronDocument.getEntity();
             EntityBo entity2 = getBusinessObjectService().save(kimEntity);
             List<OleAddressBo> oleAddressBoList = getOlePatronHelperService().retrieveOleAddressBo(entity2,olePatronDocument);
@@ -213,10 +219,11 @@ public class OlePatronServiceImpl implements OlePatronService {
                     newPatronBo.getEntity().setId(kimEntity.getId());
                     List<EntityTypeContactInfoBo> entityTypeContactInfoBoList = (List<EntityTypeContactInfoBo>)ObjectUtils.deepCopy((Serializable) kimEntity.getEntityTypeContactInfos());
                     newPatronBo.getEntity().getNames().get(0).setId(kimEntity.getNames().get(0).getId());
-                    kimEntity.getNames().get(0).setFirstName(newPatronBo.getEntity().getNames().get(0).getFirstName());
-                    kimEntity.getNames().get(0).setLastName(newPatronBo.getEntity().getNames().get(0).getLastName());
-                    kimEntity.getNames().get(0).setNamePrefix(newPatronBo.getEntity().getNames().get(0).getNamePrefix());
-                    kimEntity.getNames().get(0).setNameSuffix(newPatronBo.getEntity().getNames().get(0).getNameSuffix());
+                    kimEntity.getNames().get(0).setFirstName(newPatronBo.getName().getFirstName());
+                    kimEntity.getNames().get(0).setMiddleName(newPatronBo.getName().getMiddleName());
+                    kimEntity.getNames().get(0).setLastName(newPatronBo.getName().getLastName());
+                    kimEntity.getNames().get(0).setNamePrefix(newPatronBo.getName().getNamePrefix());
+                    kimEntity.getNames().get(0).setNameSuffix(newPatronBo.getName().getNameSuffix());
                     entityTypeContactInfoBoList.get(0).setAddresses((List<EntityAddressBo>)
                             ObjectUtils.deepCopy((Serializable)newPatronBo.getEntity().getEntityTypeContactInfos().get(0).getAddresses()));
                     entityTypeContactInfoBoList.get(0).setEmailAddresses((List<EntityEmailBo>)
@@ -225,7 +232,7 @@ public class OlePatronServiceImpl implements OlePatronService {
                             ObjectUtils.deepCopy((Serializable) newPatronBo.getEntity().getEntityTypeContactInfos().get(0).getPhoneNumbers()));
                     kimEntity.setEntityTypeContactInfos(entityTypeContactInfoBoList);
                     newPatronBo.setEntity(kimEntity);
-                    List<EntityAddressBo> addressBoList = olePatronBo.getEntity().getEntityTypeContactInfos().get(0).getAddresses();
+/*                    List<EntityAddressBo> addressBoList = olePatronBo.getEntity().getEntityTypeContactInfos().get(0).getAddresses();
                     if(addressBoList.size() > 0) {
                         for(int i=0;i<addressBoList.size();i++){
                             EntityAddressBo entityAddressBo = addressBoList.get(i);
@@ -238,8 +245,7 @@ public class OlePatronServiceImpl implements OlePatronService {
                                 //KRADServiceLocator.getBusinessObjectService().delete(entityAddressBo);
                             }
                         }
-                    }
-
+                    }*/
                     List<EntityPhoneBo> phoneBoList = olePatronBo.getEntity().getEntityTypeContactInfos().get(0).getPhoneNumbers();
                     if(phoneBoList.size() > 0) {
                         KRADServiceLocator.getBusinessObjectService().delete(phoneBoList);
@@ -273,9 +279,9 @@ public class OlePatronServiceImpl implements OlePatronService {
                         KRADServiceLocator.getBusinessObjectService().delete(patronLocalIdentificationBos);
                     }
 
-                    //EntityBo entity = getBusinessObjectService().save(kimEntity);
+                    EntityBo entity = getBusinessObjectService().save(kimEntity);
                     newPatronBo.setEntity(kimEntity);
-                    List<OleAddressBo> oleAddressBos = new ArrayList<OleAddressBo>();
+                    //List<OleAddressBo> oleAddressBos = new ArrayList<OleAddressBo>();
                     List<OleEntityAddressBo> oleEntityAddressBos = newPatronBo.getOleEntityAddressBo();
                     newPatronBo.setEntity(kimEntity);
                     List<EntityAddressBo> entityAddresses = kimEntity.getEntityTypeContactInfos().get(0).getAddresses();
@@ -284,7 +290,7 @@ public class OlePatronServiceImpl implements OlePatronService {
                             oleEntityAddressBos.get(i).setEntityAddressBo(entityAddresses.get(i));
                         }
                     }
-                    if(oleEntityAddressBos.size() > 0) {
+/*                    if(oleEntityAddressBos.size() > 0) {
                         for(int i=0;i<oleEntityAddressBos.size();i++){
                             OleAddressBo addressBo = oleEntityAddressBos.get(i).getOleAddressBo();
                             EntityAddressBo entityAddressBo = oleEntityAddressBos.get(i).getEntityAddressBo();
@@ -305,8 +311,7 @@ public class OlePatronServiceImpl implements OlePatronService {
 
                             }
                         newPatronBo.setOleAddresses(oleAddressBos);
-                        }
-                    populateOperatorIdAndTimeStampForNotes(newPatronBo,true);
+                        }*/
                     updatedPatronDocument =  getBusinessObjectService().save(newPatronBo);
                 }
             }

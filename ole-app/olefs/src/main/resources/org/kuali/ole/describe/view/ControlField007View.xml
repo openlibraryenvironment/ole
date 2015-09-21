@@ -95,7 +95,7 @@
         </property>
     </bean>
 
-    <bean id="007Field_0" parent="Base-Uif-InputField" p:onChangeScript="controlField007FormatChange();"
+    <bean id="007Field_0" parent="Base-Uif-InputField" p:onChangeScript="controlField007FormatChange();valueChange('007');"
           p:propertyName="documentForm.marcControlFields.controlField007.format" p:label="CatMtrl"
           p:defaultValue="" p:style="float:bottom;margin-bottom:0em">
         <property name="control">
@@ -136,7 +136,7 @@
         </property>
     </bean>
 
-    <bean id="007Field_0_common" parent="Base-Uif-InputField" p:onChangeScript="controlField007FormatChange();"
+    <bean id="007Field_0_common" parent="Base-Uif-InputField" p:onChangeScript="controlField007FormatChange();valueChange('007');"
           p:propertyName="documentForm.marcControlFields.controlField007.format" p:label="CatMtrl"
           p:defaultValue="" p:style="float:bottom;margin-bottom:0em">
         <property name="control">
@@ -186,7 +186,7 @@
                             <ref bean="007Field_0_common"/>
                             <bean id="007Field_0_0" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.map.materialDesignation"
-                                  p:label="SpecMtrl" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecMtrl" p:defaultValue="u">
 
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
@@ -212,14 +212,14 @@
                             </bean>
                             <bean id="007Field_0_1" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.map.undefined"
-                                  p:label="Undef" p:defaultValue="#">
+                                  p:onChangeScript="valueChange('007');" p:label="Undef" p:defaultValue="#">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
                                 </property>
                             </bean>
                             <bean id="007Field_0_2" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.map.color"
-                                  p:label="Color" p:defaultValue="a">
+                                  p:onChangeScript="valueChange('007');" p:label="Color" p:defaultValue="a">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -235,7 +235,7 @@
                             </bean>
                             <bean id="007Field_0_3" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.map.physicalMedium"
-                                  p:label="PhysMed" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="PhysMed" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -275,7 +275,7 @@
                             </bean>
                             <bean id="007Field_0_4" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.map.typeOfReproduction"
-                                  p:label="TypeRepr" p:defaultValue="n">
+                                  p:onChangeScript="valueChange('007');" p:label="TypeRepr" p:defaultValue="n">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -293,7 +293,7 @@
                             </bean>
                             <bean id="007Field_0_5" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.map.productionDetails"
-                                  p:label="ProdRepr" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="ProdRepr" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -314,7 +314,7 @@
                             </bean>
                             <bean id="007Field_0_6" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.map.positiveOrNegativeAspect"
-                                  p:label="PosNeg" p:defaultValue="n">
+                                  p:onChangeScript="valueChange('007');" p:label="PosNeg" p:defaultValue="n">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -346,7 +346,7 @@
                             <ref bean="007Field_0_common"/>
                             <bean id="007Field_1_0" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.electronicResource.specificMaterialDesignation"
-                                  p:label="SpecMtrl" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecMtrl" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -378,14 +378,14 @@
                             </bean>
                             <bean id="007Field_1_1" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.electronicResource.undefined"
-                                  p:label="Undef" p:defaultValue="#">
+                                  p:onChangeScript="valueChange('007');" p:label="Undef" p:defaultValue="#">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
                                 </property>
                             </bean>
                             <bean id="007Field_1_2" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.electronicResource.color"
-                                  p:label="Color" p:defaultValue="|">
+                                  p:onChangeScript="valueChange('007');" p:label="Color" p:defaultValue="|">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -408,7 +408,7 @@
                             </bean>
                             <bean id="007Field_1_3" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.electronicResource.dimensions"
-                                  p:label="Dimen" p:defaultValue="|">
+                                  p:onChangeScript="valueChange('007');" p:label="Dimen" p:defaultValue="|">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -435,7 +435,7 @@
                             </bean>
                             <bean id="007Field_1_4" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.electronicResource.sound"
-                                  p:label="Sound" p:defaultValue="#">
+                                  p:onChangeScript="valueChange('007');" p:label="Sound" p:defaultValue="#">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -454,7 +454,7 @@
                             </bean>
                             <bean id="007Field_1_5" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.electronicResource.imageBitDepth"
-                                  p:label="ImageBit" p:defaultValue="|||">
+                                  p:onChangeScript="valueChange('007');" p:label="ImageBit" p:defaultValue="|||">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3" p:maxLength="3" p:minLength="3"/>
                                 </property>
@@ -465,7 +465,7 @@
                             </bean>
                             <bean id="007Field_1_6" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.electronicResource.fileFormats"
-                                  p:label="FileForm" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="FileForm" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -484,7 +484,7 @@
                             </bean>
                             <bean id="007Field_1_7" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.electronicResource.qualityAssuranceTargets"
-                                  p:label="QualAssu" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="QualAssu" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -502,7 +502,7 @@
                             </bean>
                             <bean id="007Field_1_8" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.electronicResource.source"
-                                  p:label="AnteSour" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="AnteSour" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -527,7 +527,7 @@
                             </bean>
                             <bean id="007Field_1_9" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.electronicResource.levelOfCompression"
-                                  p:label="LvlComp" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="LvlComp" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -546,7 +546,7 @@
                             </bean>
                             <bean id="007Field_1_10" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.electronicResource.reformattingQuality"
-                                  p:label="RfrmQlty" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="RfrmQlty" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -580,7 +580,7 @@
                             <ref bean="007Field_0_common"/>
                             <bean id="007Field_2_0" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.globe.specificMaterialDesignation"
-                                  p:label="SpecMtrl" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecMtrl" p:defaultValue="u">
 
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
@@ -605,14 +605,14 @@
                             </bean>
                             <bean id="007Field_2_1" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.globe.undefined"
-                                  p:label="Undef" p:defaultValue="#">
+                                  p:onChangeScript="valueChange('007');" p:label="Undef" p:defaultValue="#">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
                                 </property>
                             </bean>
                             <bean id="007Field_2_2" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.globe.color"
-                                  p:label="Color" p:defaultValue="c">
+                                  p:onChangeScript="valueChange('007');" p:label="Color" p:defaultValue="c">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -628,7 +628,7 @@
                             </bean>
                             <bean id="007Field_2_3" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.globe.physicalMedium"
-                                  p:label="PhysMed" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="PhysMed" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -658,7 +658,7 @@
                             </bean>
                             <bean id="007Field_2_4" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.globe.typeOfReproduction"
-                                  p:label="TypeRepr" p:defaultValue="n">
+                                  p:onChangeScript="valueChange('007');" p:label="TypeRepr" p:defaultValue="n">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -690,7 +690,7 @@
                             <ref bean="007Field_0_common"/>
                             <bean id="007Field_3_0" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.tactileMaterial.specificMaterialDesignation"
-                                  p:label="SpecMtrl" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecMtrl" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -711,14 +711,14 @@
                             </bean>
                             <bean id="007Field_3_1" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.tactileMaterial.undefined"
-                                  p:label="Undef" p:defaultValue="#">
+                                  p:onChangeScript="valueChange('007');" p:label="Undef" p:defaultValue="#">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
                                 </property>
                             </bean>
                             <bean id="007Field_3_2" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.tactileMaterial.brailleWriting"
-                                  p:label="ClBraill" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="ClBraill" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -748,7 +748,7 @@
                             </bean>
                             <bean id="007Field_3_3" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.tactileMaterial.brailleWriting"
-                                  p:label="ClBraill" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="ClBraill" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -778,7 +778,7 @@
                             </bean>
                             <bean id="007Field_3_4" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.tactileMaterial.levelOfContraction"
-                                  p:label="LvlContr" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="LvlContr" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -799,7 +799,7 @@
                             </bean>
                             <bean id="007Field_3_5" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.tactileMaterial.brailleMusicFormat"
-                                  p:label="BrailMus" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="BrailMus" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -834,7 +834,7 @@
                             </bean>
                             <bean id="007Field_3_6" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.tactileMaterial.brailleMusicFormat"
-                                  p:label="BrailMus" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="BrailMus" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -869,7 +869,7 @@
                             </bean>
                             <bean id="007Field_3_7" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.tactileMaterial.brailleMusicFormat"
-                                  p:label="BrailMus" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="BrailMus" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -904,7 +904,7 @@
                             </bean>
                             <bean id="007Field_3_8" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.tactileMaterial.specialPhysicalCharacteristics"
-                                  p:label="SpecPhys" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecPhys" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -938,7 +938,7 @@
                             <ref bean="007Field_0_common"/>
                             <bean id="007Field_4_0" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.projectedGraphic.specificMaterialDesignation"
-                                  p:label="SpecMtrl" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecMtrl" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -962,14 +962,14 @@
                             </bean>
                             <bean id="007Field_4_1" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.projectedGraphic.undefined"
-                                  p:label="Undef" p:defaultValue="#">
+                                  p:onChangeScript="valueChange('007');" p:label="Undef" p:defaultValue="#">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
                                 </property>
                             </bean>
                             <bean id="007Field_4_2" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.projectedGraphic.color"
-                                  p:label="Color" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="Color" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -992,7 +992,7 @@
                             </bean>
                             <bean id="007Field_4_3" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.projectedGraphic.baseOfEmulsion"
-                                  p:label="BaseEmul" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="BaseEmul" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1016,7 +1016,7 @@
                             </bean>
                             <bean id="007Field_4_4" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.projectedGraphic.soundOnMedium"
-                                  p:label="SoundMed" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SoundMed" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1037,7 +1037,7 @@
                             </bean>
                             <bean id="007Field_4_5" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.projectedGraphic.mediumForSound"
-                                  p:label="MedSound" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="MedSound" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1070,7 +1070,7 @@
                             </bean>
                             <bean id="007Field_4_6" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.projectedGraphic.dimensions"
-                                  p:label="Dimen" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="Dimen" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1116,7 +1116,7 @@
                             </bean>
                             <bean id="007Field_4_7" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.projectedGraphic.secondarySupportMaterial"
-                                  p:label="SeconSup" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SeconSup" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1158,7 +1158,7 @@
                             <ref bean="007Field_0_common"/>
                             <bean id="007Field_5_0" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.microForm.specificMaterialDesignation"
-                                  p:label="SpecMtrl" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecMtrl" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1186,14 +1186,14 @@
                             </bean>
                             <bean id="007Field_5_1" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.microForm.undefined"
-                                  p:label="Undef" p:defaultValue="#">
+                                  p:onChangeScript="valueChange('007');" p:label="Undef" p:defaultValue="#">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
                                 </property>
                             </bean>
                             <bean id="007Field_5_2" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.microForm.aspect"
-                                  p:label="PosNeg" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="PosNeg" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1211,7 +1211,7 @@
                             </bean>
                             <bean id="007Field_5_3" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.microForm.dimensions"
-                                  p:label="Dimen" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="Dimen" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1240,7 +1240,7 @@
                             </bean>
                             <bean id="007Field_5_4" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.microForm.reductionRatioRange"
-                                  p:label="ReducRng" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="ReducRng" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1266,14 +1266,14 @@
                             </bean>
                             <bean id="007Field_5_5" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.microForm.reductionRatio"
-                                  p:label="ReducRat" p:defaultValue="|||">
+                                  p:onChangeScript="valueChange('007');" p:label="ReducRat" p:defaultValue="|||">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3" p:maxLength="3"/>
                                 </property>
                             </bean>
                             <bean id="007Field_5_6" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.microForm.color"
-                                  p:label="Color" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="Color" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1293,7 +1293,7 @@
                             </bean>
                             <bean id="007Field_5_7" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.microForm.emulsionOnFilm"
-                                  p:label="EmulFilm" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="EmulFilm" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1314,7 +1314,7 @@
                             </bean>
                             <bean id="007Field_5_8" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.microForm.generation"
-                                  p:label="Generat" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="Generat" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1336,7 +1336,7 @@
                             </bean>
                             <bean id="007Field_5_9" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.microForm.baseOfFilm"
-                                  p:label="BaseFilm" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="BaseFilm" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1382,7 +1382,7 @@
                             <ref bean="007Field_0_common"/>
                             <bean id="007Field_6_0" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.nonProjectedGraphic.specificMaterialDesignation"
-                                  p:label="SpecMtrl" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecMtrl" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1419,14 +1419,14 @@
                             </bean>
                             <bean id="007Field_6_1" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.nonProjectedGraphic.undefined"
-                                  p:label="Undef" p:defaultValue="#">
+                                  p:onChangeScript="valueChange('007');" p:label="Undef" p:defaultValue="#">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
                                 </property>
                             </bean>
                             <bean id="007Field_6_2" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.nonProjectedGraphic.color"
-                                  p:label="Color" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="Color" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1448,7 +1448,7 @@
                             </bean>
                             <bean id="007Field_6_3" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.nonProjectedGraphic.primarySupportMaterial"
-                                  p:label="PrimSupp" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="PrimSupp" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1486,7 +1486,7 @@
                             </bean>
                             <bean id="007Field_6_4" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.nonProjectedGraphic.secondarySupportMaterial"
-                                  p:label="SeconSup" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SeconSup" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1540,7 +1540,7 @@
                             <ref bean="007Field_0_common"/>
                             <bean id="007Field_7_0" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.specificMaterialDesignation"
-                                  p:label="SpecMtrl" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecMtrl" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1560,14 +1560,14 @@
                             </bean>
                             <bean id="007Field_7_1" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.undefined"
-                                  p:label="Undef" p:defaultValue="#">
+                                  p:onChangeScript="valueChange('007');" p:label="Undef" p:defaultValue="#">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
                                 </property>
                             </bean>
                             <bean id="007Field_7_2" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.color"
-                                  p:label="Color" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="Color" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1589,7 +1589,7 @@
                             </bean>
                             <bean id="007Field_7_3" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.presentationFormat"
-                                  p:label="MotiPic" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="MotiPic" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1616,7 +1616,7 @@
                             </bean>
                             <bean id="007Field_7_4" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.soundOnMedium"
-                                  p:label="SoundMed" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SoundMed" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1637,7 +1637,7 @@
                             </bean>
                             <bean id="007Field_7_5" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.mediumForSound"
-                                  p:label="MedSound" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="MedSound" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1670,7 +1670,7 @@
                             </bean>
                             <bean id="007Field_7_6" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.dimensions"
-                                  p:label="Dimen" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="Dimen" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1694,7 +1694,7 @@
                             </bean>
                             <bean id="007Field_7_7" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.configuration"
-                                  p:label="ConfPlay" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="ConfPlay" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1716,7 +1716,7 @@
                             </bean>
                             <bean id="007Field_7_8" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.productionElements"
-                                  p:label="ProdElem" p:defaultValue="n">
+                                  p:onChangeScript="valueChange('007');" p:label="ProdElem" p:defaultValue="n">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1741,7 +1741,7 @@
                             </bean>
                             <bean id="007Field_7_9" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.aspect"
-                                  p:label="PosNeg" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="PosNeg" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1760,7 +1760,7 @@
                             </bean>
                             <bean id="007Field_7_10" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.generation"
-                                  p:label="Generat" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="Generat" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1781,7 +1781,7 @@
                             </bean>
                             <bean id="007Field_7_11" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.baseOfFilm"
-                                  p:label="BaseFilm" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="BaseFilm" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1813,7 +1813,7 @@
                             </bean>
                             <bean id="007Field_7_12" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.refinedColor"
-                                  p:label="RefinCat" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="RefinCat" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1854,7 +1854,7 @@
                             </bean>
                             <bean id="007Field_7_13" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.colorStock"
-                                  p:label="KindColo" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="KindColo" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1879,7 +1879,7 @@
                             </bean>
                             <bean id="007Field_7_14" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.deteriorationStage"
-                                  p:label="DeterStg" p:defaultValue="a">
+                                  p:onChangeScript="valueChange('007');" p:label="DeterStg" p:defaultValue="a">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1914,7 +1914,7 @@
                             </bean>
                             <bean id="007Field_7_15" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.completeness"
-                                  p:label="Complete" p:defaultValue="c">
+                                  p:onChangeScript="valueChange('007');" p:label="Complete" p:defaultValue="c">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1932,7 +1932,7 @@
                             </bean>
                             <bean id="007Field_7_16" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.motionPicture.filmDate"
-                                  p:label="FilmInsp" p:render="@{editable eq 'true'}">
+                                  p:onChangeScript="valueChange('007');" p:label="FilmInsp" p:render="@{editable eq 'true'}">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="6" p:maxLength="6"/>
                                 </property>
@@ -1953,7 +1953,7 @@
                             <ref bean="007Field_0_common"/>
                             <bean id="007Field_8_0" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.kit.specificMaterialDesignation"
-                                  p:label="SpecMtrl" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecMtrl" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -1983,7 +1983,7 @@
                             <ref bean="007Field_0_common"/>
                             <bean id="007Field_9_0" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.notatedMusic.specificMaterialDesignation"
-                                  p:label="SpecMtrl" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecMtrl" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2013,7 +2013,7 @@
                             <ref bean="007Field_0_common"/>
                             <bean id="007Field_10_0" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.remoteSensingImage.specificMaterialDesignation"
-                                  p:label="SpecMtrl" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecMtrl" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2028,14 +2028,14 @@
                             </bean>
                             <bean id="007Field_10_1" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.remoteSensingImage.undefined"
-                                  p:label="Undef" p:defaultValue="#">
+                                  p:onChangeScript="valueChange('007');" p:label="Undef" p:defaultValue="#">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
                                 </property>
                             </bean>
                             <bean id="007Field_10_2" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.remoteSensingImage.altitudeOfSensor"
-                                  p:label="AltSens" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="AltSens" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2055,7 +2055,7 @@
                             </bean>
                             <bean id="007Field_10_3" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.remoteSensingImage.attitudeOfSensor"
-                                  p:label="AttiSens" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="AttiSens" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2075,7 +2075,7 @@
                             </bean>
                             <bean id="007Field_10_4" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.remoteSensingImage.cloudCover"
-                                  p:label="CloudCvr" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="CloudCvr" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2102,7 +2102,7 @@
                             </bean>
                             <bean id="007Field_10_5" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.remoteSensingImage.constructionType"
-                                  p:label="PlatCons" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="PlatCons" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2137,7 +2137,7 @@
                             </bean>
                             <bean id="007Field_10_6" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.remoteSensingImage.category"
-                                  p:label="PlatUse" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="PlatUse" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2160,7 +2160,7 @@
                             </bean>
                             <bean id="007Field_10_7" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.remoteSensingImage.sensorType"
-                                  p:label="SensType" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SensType" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2178,7 +2178,7 @@
                             </bean>
                             <bean id="007Field_10_8" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.remoteSensingImage.dataType"
-                                  p:label="DataType" p:defaultValue="uu">
+                                  p:onChangeScript="valueChange('007');" p:label="DataType" p:defaultValue="uu">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2281,7 +2281,7 @@
                             <ref bean="007Field_0_common"/>
                             <bean id="007Field_11_0" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.soundRecording.specificMaterialDesignation"
-                                  p:label="SpecMtrl" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecMtrl" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2308,14 +2308,14 @@
                             </bean>
                             <bean id="007Field_11_1" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.soundRecording.undefined"
-                                  p:label="Undef" p:defaultValue="#">
+                                  p:onChangeScript="valueChange('007');" p:label="Undef" p:defaultValue="#">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
                                 </property>
                             </bean>
                             <bean id="007Field_11_2" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.soundRecording.speed"
-                                  p:label="Speed" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="Speed" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2353,7 +2353,7 @@
                             </bean>
                             <bean id="007Field_11_3" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.soundRecording.ChannelConfiguration"
-                                  p:label="ConfPlay" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="ConfPlay" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2372,7 +2372,7 @@
                             </bean>
                             <bean id="007Field_11_4" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.soundRecording.groove"
-                                  p:label="GrooWidt" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="GrooWidt" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2393,7 +2393,7 @@
                             </bean>
                             <bean id="007Field_11_5" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.soundRecording.dimensions"
-                                  p:label="Dimen" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="Dimen" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2426,7 +2426,7 @@
                             </bean>
                             <bean id="007Field_11_6" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.soundRecording.tapeWidth"
-                                  p:label="TapeWidt" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="TapeWidt" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2447,7 +2447,7 @@
                             </bean>
                             <bean id="007Field_11_7" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.soundRecording.tapeConfiguration"
-                                  p:label="TapeConf" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="TapeConf" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2472,7 +2472,7 @@
                             </bean>
                             <bean id="007Field_11_8" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.soundRecording.disc"
-                                  p:label="KindDisc" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="KindDisc" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2502,7 +2502,7 @@
                             </bean>
                             <bean id="007Field_11_9" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.soundRecording.material"
-                                  p:label="KindMtrl" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="KindMtrl" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2536,7 +2536,7 @@
                             </bean>
                             <bean id="007Field_11_10" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.soundRecording.cutting"
-                                  p:label="KindCut" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="KindCut" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2557,7 +2557,7 @@
                             </bean>
                             <bean id="007Field_11_11" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.soundRecording.playbackCharacteristics"
-                                  p:label="SpecPlay" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecPlay" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2587,7 +2587,7 @@
                             </bean>
                             <bean id="007Field_11_12" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.soundRecording.storageTechnique"
-                                  p:label="CaptStor" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="CaptStor" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2625,7 +2625,7 @@
                             <ref bean="007Field_0_common"/>
                             <bean id="007Field_12_0" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.text.specificMaterialDesignation"
-                                  p:label="SpecMtrl" p:defaultValue="a">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecMtrl" p:defaultValue="a">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2660,7 +2660,7 @@
                             <ref bean="007Field_0_common"/>
                             <bean id="007Field_13_0" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.videoRecording.specificMaterialDesignation"
-                                  p:label="SpecMtrl" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecMtrl" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2681,14 +2681,14 @@
                             </bean>
                             <bean id="007Field_13_1" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.videoRecording.undefined"
-                                  p:label="Undef" p:defaultValue="#">
+                                  p:onChangeScript="valueChange('007');" p:label="Undef" p:defaultValue="#">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
                                 </property>
                             </bean>
                             <bean id="007Field_13_2" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.videoRecording.color"
-                                  p:label="Color" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="Color" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2710,7 +2710,7 @@
                             </bean>
                             <bean id="007Field_13_3" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.videoRecording.videoRecordingFormat"
-                                  p:label="VideoFor" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="VideoFor" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2755,7 +2755,7 @@
                             </bean>
                             <bean id="007Field_13_4" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.videoRecording.soundOnMedium"
-                                  p:label="SoundMed" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SoundMed" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2776,7 +2776,7 @@
                             </bean>
                             <bean id="007Field_13_5" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.videoRecording.mediumOfSound"
-                                  p:label="MedSound" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="MedSound" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2809,7 +2809,7 @@
                             </bean>
                             <bean id="007Field_13_6" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.videoRecording.dimensions"
-                                  p:label="Dimen" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="Dimen" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2831,7 +2831,7 @@
                             </bean>
                             <bean id="007Field_13_7" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.videoRecording.configuration"
-                                  p:label="ConfPlay" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="ConfPlay" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -2867,7 +2867,7 @@
                             <ref bean="007Field_0_common"/>
                             <bean id="007Field_14_0" parent="Base-Uif-InputField"
                                   p:propertyName="documentForm.marcControlFields.controlField007.unspecified.specificMaterialDesignation"
-                                  p:label="SpecMtrl" p:defaultValue="u">
+                                  p:onChangeScript="valueChange('007');" p:label="SpecMtrl" p:defaultValue="u">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">

@@ -22,7 +22,7 @@
             </xs:element>
             <xs:element name="expirationDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
             <xs:element name="activationDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
-    <!--        <xs:element name="source" type="xs:string" minOccurs="0" maxOccurs="1"/>-->
+            <xs:element name="source" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="statisticalCategory" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="active" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
             <xs:element name="name" type="name" minOccurs="1" maxOccurs="1"/>
@@ -41,11 +41,12 @@
                 </xs:annotation>
             </xs:element>
             <xs:element name="affiliations" type="affiliations" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="postalAddresses" type="postalAddresses" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="emailAddresses" type="emailAddresses" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="telephoneNumbers" type="telephoneNumbers" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="patronLevelPolicies" type="patronLevelPolicies" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="notes" type="notes" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="postalAddresses" type="postalAddresses" minOccurs="0" maxOccurs="3"/>
+            <xs:element name="emailAddresses" type="emailAddresses" minOccurs="0" maxOccurs="3"/>
+            <xs:element name="telephoneNumbers" type="telephoneNumbers" minOccurs="0" maxOccurs="3"/>
+            <xs:element name="patronLevelPolicies" type="patronLevelPolicies" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="notes" type="notes" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="localIdentifications" type="localIdentifications" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
     <!-- Name -->
@@ -58,6 +59,7 @@
         <xs:sequence>
             <xs:element name="title" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="first" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="middle" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="surname" type="xs:string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="suffix" type="xs:string" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
@@ -130,17 +132,17 @@
     </xs:complexType>
     <xs:complexType name="postalAddresses">
         <xs:sequence>
-            <xs:element name="postalAddress" type="postalAddress" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="postalAddress" type="postalAddress" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="emailAddresses">
         <xs:sequence>
-            <xs:element name="emailAddress" type="emailAddress" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="emailAddress" type="emailAddress" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="telephoneNumbers">
         <xs:sequence>
-            <xs:element name="telephoneNumber" type="telephoneNumber" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="telephoneNumber" type="telephoneNumber" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="affiliations">
@@ -174,6 +176,17 @@
     <xs:complexType name="notes">
         <xs:sequence>
             <xs:element name="note" type="note" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- Local Identifications -->
+    <xs:complexType name="localIdentification">
+        <xs:sequence>
+            <xs:element name="localId" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="localIdentifications">
+        <xs:sequence>
+            <xs:element name="localIdentification" type="localIdentification" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

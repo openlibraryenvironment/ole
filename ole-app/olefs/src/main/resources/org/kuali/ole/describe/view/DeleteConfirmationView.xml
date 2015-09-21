@@ -33,9 +33,28 @@
                     <property name="items">
                         <list>
                             <ref bean="deleteStatusMessage"/>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean id="DocTreeView_expandAll" parent="Uif-ActionLink" p:actionScript="jq('#buildDocTree_tree').jstree('open_all');"
+                                              p:actionLabel="[+] expand all" p:style="margin-left: 0em;">
+                                            <property name="actionImage">
+                                                <null/>
+                                            </property>
+                                        </bean>
+
+                                        <bean id="DocTreeView_collapseAll" parent="Uif-ActionLink" p:actionScript="jq('#buildDocTree_tree').jstree('close_all');"
+                                              p:actionLabel="[-] collapse all">
+                                            <property name="actionImage">
+                                                <null/>
+                                            </property>
+                                        </bean>
+
+                                    </list>
+                                </property>
+                            </bean>
                             <ref bean="buildDocTree"/>
                             <ref bean="deleteConfirmationButtons"/>
-                            <ref bean="spaceField"/>
                         </list>
                     </property>
                 </bean>
@@ -74,7 +93,7 @@
           p:cssClasses="messageClass"/>
 
     <bean id="buildDocTree" parent="Uif-TreeSection" p:instructionalText="" p:render="@{showDeleteTree eq true}">
-        <property name="headerText" value="The following records will be deleted"/>
+        <property name="headerText" value="@{deleteMessage}"/>
         <property name="propertyName" value="DocTree"/>
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
@@ -122,13 +141,6 @@
     </bean>
     <bean id="ClearFooterView1-buttons" parent="ClearFooterView-buttons-parentBean"/>
     <bean id="ClearFooterView-buttons-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
-        <property name="items">
-            <list>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="spaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{addSpaceField eq true}">
         <property name="items">
             <list>
             </list>

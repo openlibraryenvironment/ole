@@ -37,6 +37,7 @@ public class OlePatronRecordHandler {
         xStream.alias("patronLevelPolicies", OlePatronLevelPolicies.class);
         xStream.alias("addressLine", OleAddressLine.class);
         xStream.alias("note", OlePatronNote.class);
+        xStream.alias("localIdentification", OlePatronLocalIdentification.class);
         xStream.alias("affiliation", OlePatronAffiliations.class);
         xStream.alias("employment", OlePatronEmployments.class);
         xStream.aliasField("default", OlePatronPostalAddress.class, "defaults");

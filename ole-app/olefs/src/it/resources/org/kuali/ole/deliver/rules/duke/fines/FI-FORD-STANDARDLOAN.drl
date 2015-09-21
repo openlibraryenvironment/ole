@@ -1,0 +1,50 @@
+package org.kuali.ole.deliver.checkout
+
+import org.kuali.ole.OLEConstants
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import org.kuali.ole.deliver.util.ItemFineRate
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.bo.PatronBillPayment
+
+
+
+rule "Recalled daily FI-FORD-STANDARDLOAN"
+agenda-group "fine validation"
+activation-group "fine validation"
+when
+
+$l: OleLoanDocument($r:getOleDeliverRequestBo(),
+null!= $r, $r.getRequestTypeCode() in ("Recall/Delivery Request","Recall/Hold Request"))
+
+$f: ItemFineRate()
+
+$i: OleItemRecordForCirc(getItemType() in ("STANDARDLOAN"),
+getItemLibraryLocation() in ("FORD"))
+
+then
+$f.setFineRate(3.00);
+$f.setMaxFine(150.01);
+$f.setInterval("D"); //Options are H-Hours; D-Days
+
+ end
+
+ rule "Daily fines FI-FORD-STANDARDLOAN"
+ agenda-group "fine validation"
+ activation-group "fine validation"
+ when
+
+ $l: OleLoanDocument($r:getOleDeliverRequestBo(), null == $r)
+
+ $f: ItemFineRate()
+
+ $i: OleItemRecordForCirc(getItemType() in ("STANDARDLOAN"),
+getItemLibraryLocation() in ("FORD"))
+
+ then
+ $f.setFineRate(1.00);
+ $f.setMaxFine(150.01);
+ $f.setInterval("D"); //Options are H-Hours; D-Days
+
+  end

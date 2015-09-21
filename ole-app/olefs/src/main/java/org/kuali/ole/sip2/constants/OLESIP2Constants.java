@@ -1,6 +1,7 @@
 package org.kuali.ole.sip2.constants;
 
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.sip2.service.NettyServer;
 import org.kuali.ole.sip2.service.OLENettyServer;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
@@ -12,6 +13,7 @@ import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 public class OLESIP2Constants {
 
     public static OLENettyServer olesip2Server = null;
+    public static NettyServer sip2Server = null;
 
     public static final String NON_ROMAN_REGEX="[^\\w\\s\\-_,:\\(\\)\\[\\]\\/\\!]";
     public static final String SIP2_FORMAT = "sip";

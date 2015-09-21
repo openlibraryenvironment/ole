@@ -116,6 +116,10 @@ public class PatronBillController extends UifControllerBase {
         if (patronBillForm.getPatronId() != null) {
             patronBillForm.setOlePatronId(patronBillForm.getPatronId());
         }
+
+        LoanProcessor loanProcessor = new LoanProcessor();
+        patronBillForm.setPatronUrl(loanProcessor.patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), patronBillForm.getPatronId()));
+
         Map patronIdMap = new HashMap();
         patronIdMap.put("patronId", patronBillForm.getPatronId());
         List<FeeType> feeTypes = new ArrayList<FeeType>();

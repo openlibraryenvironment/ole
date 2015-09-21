@@ -125,7 +125,7 @@ public class EditorFormDataHandler {
                                             .append(holdingsTree.getHoldings().getId() + "_work_item_oleml_"
                                                     + bibTree.getBib().getId()).append("'></img>");
                                     sb.append(
-                                            "<img src='../krad/images/cancel.png' alt='Delete Holdings' title='Delete Holdings' class='deleteBib' id='")
+                                            "<img src='../krad/images/cancel.png' alt='Delete Instance' title='Delete Instance' class='deleteBib' id='")
                                             .append(holdingsTree.getHoldings().getId() + "_work_instance_oleml" + "_"
                                                     + bibTree.getBib().getId()).append("'></img>");
                                 }

@@ -13,6 +13,7 @@ import org.kuali.ole.deliver.api.OlePatronDefinition;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.constant.OLEPatronConstant;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.impl.identity.address.EntityAddressBo;
 import org.kuali.rice.kim.impl.identity.address.EntityAddressTypeBo;
 import org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationTypeBo;
@@ -153,10 +154,11 @@ public class OlePatronConverterService {
         getBusinessObjectService().save(olePatronIngestSummaryRecord);
         if (failedPatronList.size() > 0) {
             olePatronGroup.setPatronGroup(failedPatronList);
+            olePatronIngestSummaryRecord.setFailurePatronRecords(failedPatronList);
             String patronXML = getOlePatronRecordHandler().toXML(failedPatronList);
             olePatronIngestSummaryRecord.setFailureRecords(patronXML);
             //saveFailureRecordsForAttachment(patronXML, olePatronIngestSummaryRecord.getOlePatronSummaryId());
-            failedPatronList.clear();
+            //failedPatronList.clear();
         }
         return savedOlePatronDocuments;
     }
@@ -243,6 +245,7 @@ public class OlePatronConverterService {
                 olePatronDocument.setGeneralBlock(olePatron.getPatronLevelPolicies().isGenerallyBlocked());
                 olePatronDocument.setGeneralBlockNotes(olePatron.getPatronLevelPolicies().getGeneralBlockNotes());
                 olePatronDocument.setPagingPrivilege(olePatron.getPatronLevelPolicies().isHasPagingPrivilege());
+                persistLocalIdentifications(olePatron, olePatronDocument);
                 patronCreateFlag &= persistPatronNames(olePatron, olePatronDocument);
                 if (patronCreateFlag)
                     patronCreateFlag &= persistPatronBorrowerType(olePatron, olePatronDocument);
@@ -251,7 +254,8 @@ public class OlePatronConverterService {
                 if (patronCreateFlag)
                     patronCreateFlag &= persistPatronStatisticalCategory(olePatron, olePatronDocument);
                 if (patronCreateFlag)
-                    patronCreateFlag &= persistPatronPostalAddress(olePatron, olePatronDocument);
+                    getExistingAddress(olePatron,olePatronDocument);
+                patronCreateFlag &= persistPatronPostalAddress(olePatron, olePatronDocument,OLEConstants.CREATE);
                 if (patronCreateFlag)
                     patronCreateFlag &= persistPatronPhoneNumbers(olePatron, olePatronDocument);
                 if (patronCreateFlag)
@@ -285,6 +289,57 @@ public class OlePatronConverterService {
         return newPatrons;
     }
 
+    private List<EntityAddressBo> getExistingAddress(OlePatron olePatron,OlePatronDocument olePatronDocument){
+        List<String> addressTypeCodeList = addressTypeCodeList(olePatron);
+        Map<String,String> entityBoCriteria = new HashMap<>();
+        List<EntityAddressBo> entityAddressBoList = new ArrayList<>();
+        List<EntityAddressBo> entityAddressBoTempList;
+        for(String addressTypeCode:addressTypeCodeList){
+            entityBoCriteria.put("entityId",olePatronDocument.getOlePatronId());
+            entityBoCriteria.put("addressTypeCode",addressTypeCode);
+            entityAddressBoTempList = (List<EntityAddressBo>)KRADServiceLocator.getBusinessObjectService().findMatching(EntityAddressBo.class,entityBoCriteria);
+            entityAddressBoList.addAll(entityAddressBoTempList);
+            entityBoCriteria.clear();
+        }
+        List<String> entityAddressIdList = new ArrayList<>();
+        return entityAddressBoList;
+    }
+
+    private List<OleAddressBo> getExistingOleAddressBo(List<EntityAddressBo> entityAddressBoList){
+        List<OleAddressBo> oleAddressBoList = new ArrayList<>();
+        List<OleAddressBo> oleAddressBoTempList;
+        Map<String,String> addressBoCriteria = new HashMap<>();
+        for(EntityAddressBo entityAddressBo:entityAddressBoList){
+            addressBoCriteria.put("id",entityAddressBo.getId());
+            oleAddressBoTempList = (List<OleAddressBo>)KRADServiceLocator.getBusinessObjectService().findMatching(OleAddressBo.class,addressBoCriteria);
+            oleAddressBoList.addAll(oleAddressBoTempList);
+            addressBoCriteria.clear();
+        }
+        return oleAddressBoList;
+    }
+
+    private List<String> addressTypeCodeList(OlePatron olePatron){
+        List<OlePatronPostalAddress> olePatronPostalAddresses = olePatron.getPostalAddresses();
+        String addressTypeCode = null;
+        List<String> addressTypeCodeList = new ArrayList<>();
+        for (Iterator<OlePatronPostalAddress> iterator = olePatronPostalAddresses.iterator(); iterator.hasNext(); ) {
+            OlePatronPostalAddress postalAddresses = iterator.next();
+            addressTypeCode = postalAddresses.getPostalAddressType();
+            if (!addressTypeCodeList.contains(addressTypeCode)) {
+                addressTypeCodeList.add(addressTypeCode);
+            }
+        }
+        return addressTypeCodeList;
+    }
+
+    private void removeExistingAddressBo(List<EntityAddressBo> entityAddressBoList,List<OleAddressBo> oleAddressBoList){
+        if(entityAddressBoList.size()>0){
+            KRADServiceLocator.getBusinessObjectService().delete(entityAddressBoList);
+        }
+        if(oleAddressBoList.size()>0){
+            KRADServiceLocator.getBusinessObjectService().delete(oleAddressBoList);
+        }
+    }
     /**
      * This method is for updating the OlePatronDocument
      * @param updatePatronList
@@ -302,6 +357,8 @@ public class OlePatronConverterService {
             criteria.put(OLEConstants.OlePatron.PATRON_ID, olePatron.getPatronID());
             List<OlePatronDocument> patronImpls = (List<OlePatronDocument>) getBusinessObjectService().findMatching(OlePatronDocument.class, criteria);
             OlePatronDocument patronDocument;
+            List<EntityAddressBo> existingEntityAddressBoList;
+            List<OleAddressBo> existingOleAddressBoList;
             for (Iterator<OlePatronDocument> patronIterator = patronImpls.iterator(); patronIterator.hasNext(); ) {
                 boolean patronUpdateFlag = true;
                 patronDocument = patronIterator.next();
@@ -321,6 +378,7 @@ public class OlePatronConverterService {
                     olePatronDocument.setOleProxyPatronDocuments(patronDocument.getOleProxyPatronDocuments());
                     olePatronDocument.setOlePatronLocalIds(patronDocument.getOlePatronLocalIds());
                     olePatronDocument.setLostBarcodes(patronDocument.getLostBarcodes());
+                    persistLocalIdentifications(olePatron, olePatronDocument);
                     patronUpdateFlag &= persistPatronNames(olePatron, olePatronDocument);
                     if (patronUpdateFlag)
                         patronUpdateFlag &= persistPatronBorrowerType(olePatron, olePatronDocument);
@@ -328,8 +386,12 @@ public class OlePatronConverterService {
                         patronUpdateFlag &= persistPatronSource(olePatron, olePatronDocument);
                     if (patronUpdateFlag)
                         patronUpdateFlag &= persistPatronStatisticalCategory(olePatron, olePatronDocument);
-                    if (patronUpdateFlag)
-                        patronUpdateFlag &= persistPatronPostalAddress(olePatron, olePatronDocument);
+                    if (patronUpdateFlag){
+                        existingEntityAddressBoList = getExistingAddress(olePatron,patronDocument);
+                        existingOleAddressBoList = getExistingOleAddressBo(existingEntityAddressBoList);
+                        patronUpdateFlag &= persistPatronPostalAddress(olePatron, olePatronDocument,OLEConstants.UPDATE);
+                        removeExistingAddressBo(existingEntityAddressBoList,existingOleAddressBoList);
+                    }
                     if (patronUpdateFlag)
                         patronUpdateFlag &= persistPatronPhoneNumbers(olePatron, olePatronDocument);
                     if (patronUpdateFlag)
@@ -399,7 +461,9 @@ public class OlePatronConverterService {
      * @throws org.xml.sax.SAXException
      */
     private boolean validProfileXML(String fileContent) throws IOException, SAXException {
-        return new OlePatronXMLSchemaValidator().validateContentsAgainstSchema(null);
+        Map validateResultMap = new OlePatronXMLSchemaValidator().validateContentsAgainstSchema(null);
+        boolean schemaFlag = (boolean)validateResultMap.get(OLEConstants.OlePatron.PATRON_XML_ISVALID);
+        return schemaFlag;
     }
 
     /**
@@ -516,7 +580,7 @@ public class OlePatronConverterService {
      * @param olePatronDocument
      * @return boolean flag , to check whether the patron address type is valid .
      */
-    private boolean persistPatronPostalAddress(OlePatron olePatron, OlePatronDocument olePatronDocument) {
+    private boolean persistPatronPostalAddress(OlePatron olePatron, OlePatronDocument olePatronDocument,String createOrUpdate) {
         boolean addressFlag = false;
         List<OleEntityAddressBo> addressBo = new ArrayList<OleEntityAddressBo>();
         OleEntityAddressBo oleEntityAddressBo;
@@ -525,118 +589,135 @@ public class OlePatronConverterService {
         EntityAddressBo entityAddressBo;
         OleAddressBo oleAddressBo;
         List<OlePatronPostalAddress> olePatronPostalAddresses = olePatron.getPostalAddresses();
-        for (Iterator<OlePatronPostalAddress> iterator = olePatronPostalAddresses.iterator(); iterator.hasNext(); ) {
-            OlePatronPostalAddress postalAddresses = iterator.next();
-            oleEntityAddressBo = new OleEntityAddressBo();
-            oleAddressBo = new OleAddressBo();
-            entityAddressBo = new EntityAddressBo();
+        if (olePatronPostalAddresses != null){
+            for (Iterator<OlePatronPostalAddress> iterator = olePatronPostalAddresses.iterator(); iterator.hasNext(); ) {
+                OlePatronPostalAddress postalAddresses = iterator.next();
+                oleEntityAddressBo = new OleEntityAddressBo();
+                oleAddressBo = new OleAddressBo();
+                entityAddressBo = new EntityAddressBo();
             /*if(oleEntityAddressBo.getEntityAddressBo().getId() == null) {
             String entityAddressSeq = KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("krim_entity_addr_id_s").toString();
             entityAddressBo.setId(entityAddressSeq);
             }*/
-            List<OleAddressLine> addressLineList = postalAddresses.getAddressLinesList();
-            if (addressLineList.size() > 0) {
-                for (int i = 0; i < addressLineList.size(); i++) {
-                    if (i == 0) {
-                        entityAddressBo.setLine1(addressLineList.get(i).getAddressLine());
+                List<OleAddressLine> addressLineList = postalAddresses.getAddressLinesList();
+                if (addressLineList.size() > 0) {
+                    for (int i = 0; i < addressLineList.size(); i++) {
+                        if (i == 0) {
+                            entityAddressBo.setLine1(addressLineList.get(i).getAddressLine());
+                        }
+                        if (i == 1) {
+                            entityAddressBo.setLine2(addressLineList.get(i).getAddressLine());
+                        }
+                        if (i == 2) {
+                            entityAddressBo.setLine3(addressLineList.get(i).getAddressLine());
+                        }
                     }
-                    if (i == 1) {
-                        entityAddressBo.setLine2(addressLineList.get(i).getAddressLine());
-                    }
-                    if (i == 2) {
-                        entityAddressBo.setLine3(addressLineList.get(i).getAddressLine());
-                    }
                 }
-            }
-            Map criteria = new HashMap<String, String>();
-            Map criteriaState = new HashMap<String, String>();
-            Map criteriaCountry = new HashMap<String, String>();
-            if (postalAddresses.getPostalAddressType() != null && !postalAddresses.getPostalAddressType().equals("")) {
-                criteria.put(OLEConstants.CODE, postalAddresses.getPostalAddressType());
-                List<EntityAddressTypeBo> entityType = (List<EntityAddressTypeBo>) getBusinessObjectService().findMatching(EntityAddressTypeBo.class, criteria);
-                if (entityType.size() > 0) {
-                    entityAddressBo.setAddressType(entityType.get(0));
-                    entityAddressBo.setAddressTypeCode(entityType.get(0).getCode());
-                } else {
-                    olePatron.setErrorMessage(OLEPatronConstant.ADDRESSTYPE_ERROR);
-                    return false;
-                }
-            } else {
-                olePatron.setErrorMessage(OLEPatronConstant.ADDRESS_TYPE_BLANK_ERROR);
-                return false;
-            }
-            if (postalAddresses.getStateProvince() != null && !postalAddresses.getStateProvince().equals("")) {
-                criteriaState.put(OLEConstants.CODE, postalAddresses.getStateProvince());
-                List<StateBo> stateBoList = (List<StateBo>) getBusinessObjectService().findMatching(StateBo.class, criteriaState);
-                if (stateBoList.size() > 0) {
-                    entityAddressBo.setStateProvinceCode(postalAddresses.getStateProvince());
-                } else {
-                    olePatron.setErrorMessage(OLEPatronConstant.STATE_ERROR);
-                    return false;
-                }
-            }
-            if (postalAddresses.getCountry() != null && !postalAddresses.getCountry().equals("")) {
-                criteriaCountry.put(OLEConstants.CODE, postalAddresses.getCountry());
-                List<CountryBo> countryList = (List<CountryBo>) getBusinessObjectService().findMatching(CountryBo.class, criteriaCountry);
-                if (countryList.size() > 0) {
-                    entityAddressBo.setCountryCode(postalAddresses.getCountry());
-                } else {
-                    olePatron.setErrorMessage(OLEPatronConstant.COUNTRY_ADDRESS_ERROR);
-                    return false;
-                }
-            }
-            entityAddressBo.setCity(postalAddresses.getCity());
-            entityAddressBo.setPostalCode(postalAddresses.getPostalCode());
-            entityAddressBo.setActive(postalAddresses.isActive());
-            entityAddressBo.setDefaultValue(postalAddresses.isDefaults());
-            EntityAddressBo entity = getBusinessObjectService().save(entityAddressBo);
-            oleAddressBo.setOleAddressId(KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber(OLEConstants.OlePatron.OLE_DLVR_ADD_S).toString());
-            oleAddressBo.setId(entity.getId());
-            oleAddressBo.setAddressVerified(true);
-            oleAddressBo.setDeliverAddress(postalAddresses.isDeliverAddress());
-            if (postalAddresses.isAddressVerified() || postalAddresses.getAddressSource() != null) {
-                oleAddressBo.setAddressValidFrom(postalAddresses.getAddressValidFrom());
-                oleAddressBo.setAddressValidTo(postalAddresses.getAddressValidTo());
-                oleAddressBo.setAddressVerified(postalAddresses.isAddressVerified());
-                String addressSource = postalAddresses.getAddressSource();
-                String addressId;
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put(OLEConstants.OlePatron.OLE_ADD_SRC_CD, addressSource);
-                List<OleAddressSourceBo> addressSourceList = (List<OleAddressSourceBo>) getBusinessObjectService().findMatching(OleAddressSourceBo.class, map);
-                if (addressSourceList.size() > 0) {
-                    addressId = addressSourceList.get(0).getOleAddressSourceId();
-                    oleAddressBo.setAddressSource(addressId);
-                    oleAddressBo.setAddressSourceBo(addressSourceList.get(0));
-                } else {
-                    olePatron.setErrorMessage(OLEPatronConstant.ADDRESS_SOURCE_ERROR);
-                    return false;
-                }
-            }
-            oleAddress.add(oleAddressBo);
-            oleAddressBo.setEntityAddress(entityAddressBo);
-            oleEntityAddressBo.setEntityAddressBo(entityAddressBo);
-            address.add(entityAddressBo);
-            oleEntityAddressBo.setOleAddressBo(oleAddressBo);
-            addressBo.add(oleEntityAddressBo);
-            boolean defaultValue = checkAddressMultipleDefault(addressBo);
-            boolean defaultDeliverAddress = checkMultipleDeliverAddress(addressBo);
-            if (defaultValue && oleAddressBo.getAddressSource()!=null) {
-                olePatronDocument.setAddresses(address);
-                olePatronDocument.setOleAddresses(oleAddress);
-                olePatronDocument.setOleEntityAddressBo(addressBo);
-                addressFlag = true;
-            } else {
-                if (oleAddressBo.getAddressSource() == null) {
-                    olePatron.setErrorMessage(OLEPatronConstant.PATRON_ADDRESS_SOURCE_REQUIRED);
-                } else {
-                    if(!defaultDeliverAddress){
-                        olePatron.setErrorMessage(OLEPatronConstant.DEFAULT_DELIVER_ADDRESS_ERROR);
+                Map criteria = new HashMap<String, String>();
+                Map criteriaAddressSource = new HashMap<>();
+                Map criteriaState = new HashMap<String, String>();
+                Map criteriaCountry = new HashMap<String, String>();
+                if (postalAddresses.getPostalAddressType() != null && !postalAddresses.getPostalAddressType().equals("")) {
+                    criteria.put(OLEConstants.CODE, postalAddresses.getPostalAddressType());
+                    List<EntityAddressTypeBo> entityType = (List<EntityAddressTypeBo>) getBusinessObjectService().findMatching(EntityAddressTypeBo.class, criteria);
+                    if (entityType.size() > 0) {
+                        entityAddressBo.setAddressType(entityType.get(0));
+                        entityAddressBo.setAddressTypeCode(entityType.get(0).getCode());
                     } else {
-                        olePatron.setErrorMessage(OLEPatronConstant.ADDRESS_DEFAULT_VALUE_ERROR);
+                        olePatron.setErrorMessage(OLEPatronConstant.ADDRESSTYPE_ERROR);
+                        return false;
+                    }
+                } else {
+                    olePatron.setErrorMessage(OLEPatronConstant.ADDRESS_TYPE_BLANK_ERROR);
+                    return false;
+                }
+                if (postalAddresses.getAddressSource() != null && !postalAddresses.getAddressSource().equals("")) {
+                    criteriaAddressSource.put(OLEConstants.ADDRESS_SOURCE_CD, postalAddresses.getAddressSource());
+                    List<OleAddressSourceBo> oleAddressSourceBoList = (List<OleAddressSourceBo>) getBusinessObjectService().findMatching(OleAddressSourceBo.class, criteriaAddressSource);
+                    if (oleAddressSourceBoList.size() > 0) {
+                        oleAddressBo.setAddressSource(oleAddressSourceBoList.get(0).getOleAddressSourceId());
                     }
                 }
-                addressFlag = false;
+                if (postalAddresses.getStateProvince() != null && !postalAddresses.getStateProvince().equals("")) {
+                    criteriaState.put(OLEConstants.CODE, postalAddresses.getStateProvince());
+                    List<StateBo> stateBoList = (List<StateBo>) getBusinessObjectService().findMatching(StateBo.class, criteriaState);
+                    if (stateBoList.size() > 0) {
+                        entityAddressBo.setStateProvinceCode(postalAddresses.getStateProvince());
+                    } else {
+                        olePatron.setErrorMessage(OLEPatronConstant.STATE_ERROR);
+                        return false;
+                    }
+                }
+                if (postalAddresses.getCountry() != null && !postalAddresses.getCountry().equals("")) {
+                    criteriaCountry.put(OLEConstants.CODE, postalAddresses.getCountry());
+                    List<CountryBo> countryList = (List<CountryBo>) getBusinessObjectService().findMatching(CountryBo.class, criteriaCountry);
+                    if (countryList.size() > 0) {
+                        entityAddressBo.setCountryCode(postalAddresses.getCountry());
+                    } else {
+                        olePatron.setErrorMessage(OLEPatronConstant.COUNTRY_ADDRESS_ERROR);
+                        return false;
+                    }
+                }
+                entityAddressBo.setCity(postalAddresses.getCity());
+                entityAddressBo.setPostalCode(postalAddresses.getPostalCode());
+                entityAddressBo.setActive(postalAddresses.isActive());
+                entityAddressBo.setDefaultValue(postalAddresses.isDefaults());
+                if (createOrUpdate.equals(OLEConstants.UPDATE)) {
+                    entityAddressBo.setEntityId(olePatronDocument.getEntity().getId());
+                    entityAddressBo.setEntityTypeCode(KimConstants.EntityTypes.PERSON);
+                }
+                EntityAddressBo entity = getBusinessObjectService().save(entityAddressBo);
+                oleAddressBo.setOleAddressId(KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber(OLEConstants.OlePatron.OLE_DLVR_ADD_S).toString());
+                oleAddressBo.setId(entity.getId());
+                oleAddressBo.setAddressVerified(true);
+                oleAddressBo.setDeliverAddress(postalAddresses.isDeliverAddress());
+                if (postalAddresses.isAddressVerified() || postalAddresses.getAddressSource() != null) {
+                    oleAddressBo.setAddressValidFrom(postalAddresses.getAddressValidFrom());
+                    oleAddressBo.setAddressValidTo(postalAddresses.getAddressValidTo());
+                    oleAddressBo.setAddressVerified(postalAddresses.isAddressVerified());
+                    String addressSource = postalAddresses.getAddressSource();
+                    String addressId;
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put(OLEConstants.OlePatron.OLE_ADD_SRC_CD, addressSource);
+                    List<OleAddressSourceBo> addressSourceList = (List<OleAddressSourceBo>) getBusinessObjectService().findMatching(OleAddressSourceBo.class, map);
+                    if (addressSourceList.size() > 0) {
+                        addressId = addressSourceList.get(0).getOleAddressSourceId();
+                        oleAddressBo.setAddressSource(addressId);
+                        oleAddressBo.setAddressSourceBo(addressSourceList.get(0));
+                    } else {
+                        olePatron.setErrorMessage(OLEPatronConstant.ADDRESS_SOURCE_ERROR);
+                        return false;
+                    }
+                }
+                OleAddressBo oleAddressBoSave = getBusinessObjectService().save(oleAddressBo);
+                oleAddress.add(oleAddressBo);
+                oleAddressBo.setEntityAddress(entityAddressBo);
+                oleEntityAddressBo.setEntityAddressBo(entityAddressBo);
+                address.add(entityAddressBo);
+                oleEntityAddressBo.setOleAddressBo(oleAddressBo);
+                addressBo.add(oleEntityAddressBo);
+                boolean defaultValue = checkAddressMultipleDefault(addressBo);
+                boolean defaultDeliverAddress = checkMultipleDeliverAddress(addressBo);
+                if (defaultValue && oleAddressBo.getAddressSource() != null) {
+                    olePatronDocument.setAddresses(address);
+                    olePatronDocument.setOleAddresses(oleAddress);
+                    olePatronDocument.setOleEntityAddressBo(addressBo);
+                    addressFlag = true;
+                } else {
+                    if (oleAddressBo.getAddressSource() == null) {
+                        olePatron.setErrorMessage(OLEPatronConstant.PATRON_ADDRESS_SOURCE_REQUIRED);
+                    } else {
+                        if (!defaultDeliverAddress) {
+                            olePatron.setErrorMessage(OLEPatronConstant.DEFAULT_DELIVER_ADDRESS_ERROR);
+                        } else {
+                            olePatron.setErrorMessage(OLEPatronConstant.ADDRESS_DEFAULT_VALUE_ERROR);
+                        }
+                    }
+                    addressFlag = false;
+                }
             }
+        }else{
+            addressFlag = true;
         }
         return addressFlag;
     }
@@ -658,6 +739,7 @@ public class OlePatronConverterService {
             names.setNameCode(entityType.get(0).getCode());
             if (StringUtils.isNotBlank(olePatron.getName().getFirst())&& StringUtils.isNotBlank(olePatron.getName().getSurname())) {
                 names.setFirstName(olePatron.getName().getFirst());
+                names.setMiddleName(olePatron.getName().getMiddle());
                 names.setLastName(olePatron.getName().getSurname());
                 if (olePatron.getName().getTitle() != null && !olePatron.getName().getTitle().equals("")) {
                     names.setNamePrefix(olePatron.getName().getTitle());
@@ -721,6 +803,22 @@ public class OlePatronConverterService {
         return notesFlag;
     }
 
+    private void persistLocalIdentifications(OlePatron olePatron, OlePatronDocument olePatronDocument) {
+        List<OlePatronLocalIdentificationBo> olePatronLocalIdentificationBoList = new ArrayList<OlePatronLocalIdentificationBo>();
+        OlePatronLocalIdentificationBo olePatronLocalIdentificationBo;
+        List<OlePatronLocalIdentification> olePatronLocalIdentificationList = olePatron.getLocalIdentifications();
+        if (CollectionUtils.isNotEmpty(olePatronLocalIdentificationList)) {
+            for (OlePatronLocalIdentification olePatronLocalIdentification : olePatronLocalIdentificationList) {
+                if (olePatronLocalIdentification.getLocalId() != null) {
+                    olePatronLocalIdentificationBo = new OlePatronLocalIdentificationBo();
+                    olePatronLocalIdentificationBo.setLocalId(olePatronLocalIdentification.getLocalId());
+                    olePatronLocalIdentificationBoList.add(olePatronLocalIdentificationBo);
+                }
+            }
+            olePatronDocument.setOlePatronLocalIds(olePatronLocalIdentificationBoList);
+        }
+    }
+
     /**
      * This method is for persisting the borrower Type of the patron
      * @param olePatron
@@ -760,7 +858,7 @@ public class OlePatronConverterService {
         boolean sourceFlag = false;
         String sourceId;
         String sourceCode;
-        sourceCode = this.patronAddressSource;
+        sourceCode = olePatron.getSource();
         if (sourceCode != null && !sourceCode.equals("")) {
             HashMap<String, String> map = new HashMap<String, String>();
             map.put(OLEConstants.SOURCE_CODE, sourceCode);

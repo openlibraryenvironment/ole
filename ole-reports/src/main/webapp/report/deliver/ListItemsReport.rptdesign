@@ -200,8 +200,8 @@ END as "Curent Location",
 (select OCIT.ITM_TYP_NM from OLE_CAT_ITM_TYP_T OCIT where ODI.ITEM_TYPE_ID = OCIT.ITM_TYP_CD_ID) as "Item Type",
 ODIAS.ITEM_AVAIL_STAT_NM as "Item Status",
 ODI.DATE_CREATED as "Date Created",
-(select MAX(CHECK_IN_DT_TIME) from OLE_DLVR_TEMP_CIRC_RECORD ODTCR
-where ODTCR.ITM_ID = ODI.BARCODE) as "Date Last Loaned"
+(select MAX(CHECK_IN_DT_TIME) from OLE_DLVR_CIRC_RECORD ODCR
+where ODCR.ITM_ID = ODI.BARCODE) as "Date Last Loaned"
 from 
 OLE_DLVR_ITEM_AVAIL_STAT_T ODIAS,
 OLE_DS_ITEM_T ODI,
