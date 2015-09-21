@@ -1222,6 +1222,7 @@ CREATE TABLE OLE_CRCL_DSK_T
         , OLE_CLNDR_GRP_ID VARCHAR(40)
         , HOLD_FORMAT VARCHAR(40)
         , HOLD_QUEUE VARCHAR(1) NOT NULL
+        , STAFFED VARCHAR(1) default 'Y' NOT NULL
         , REPLY_TO_EMAIL VARCHAR(100)
         , RENEW_LOST_ITM VARCHAR(1)
         , SHOW_ONHOLD_ITM VARCHAR(50) default 'CurrentCirculationDesk'
@@ -1768,6 +1769,10 @@ CREATE TABLE OLE_DLVR_LOAN_T
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
                                     
 , INDEX loan_curr_due_date_index (CURR_DUE_DT_TIME )
+    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                    
+, INDEX OLE_DLVR_LOAN_TI1 (ITEM_UUID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
@@ -2069,6 +2074,7 @@ CREATE TABLE OLE_DLVR_RQST_T
     
     , CONSTRAINT OLE_DLVR_RQST_TP1 PRIMARY KEY(OLE_RQST_ID)
 
+    , CONSTRAINT OLE_DLVR_RQST_T_ITEM_Q_INX_UK UNIQUE (OLE_PTRN_ID, PTRN_Q_POS, ITM_ID)
 
 
 
@@ -2097,6 +2103,26 @@ CREATE TABLE OLE_DLVR_RQST_T
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
                                     
 , INDEX OLE_DLVR_RQST_TI1 (LOAN_TRAN_ID )
+    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                    
+, INDEX OLE_DLVR_RQST_TI2 (ITM_ID )
+    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                    
+, INDEX OLE_DLVR_RQST_TI3 (ITEM_UUID )
+    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                    
+, INDEX OLE_DLVR_RQST_TI4 (PTRN_Q_POS )
+    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                    
+, INDEX OLE_DLVR_RQST_TI5 (BIB_ID )
+    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                    
+, INDEX OLE_DLVR_RQST_TI6 (OLE_PTRN_BARCD )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
@@ -2211,6 +2237,10 @@ CREATE TABLE OLE_DLVR_TEMP_CIRC_RECORD
                                                                                                                                                                                                                                                                             
                                     
 , INDEX fk1_ole_ptrn_t (OLE_PTRN_ID )
+    
+                                                                                                                                                                                                                                                                            
+                                    
+, INDEX OLE_DLVR_TEMP_CIRC_RECORD_TI1 (ITM_ID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
@@ -5222,6 +5252,10 @@ CREATE TABLE OLE_ASR_ITM_T
 
 
 
+    
+                                                                                                                                                                                                                                    
+                                    
+, INDEX OLE_ASR_ITM_TI1 (ITM_BAR_CD )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
@@ -5458,7 +5492,7 @@ CREATE TABLE OLE_DLVR_LOAN_NOTICE_HSTRY_T
         , NTC_SNT_DT DATETIME
         , NTC_TYP VARCHAR(37)
         , NTC_SND_TYP VARCHAR(37)
-        , NTC_CNTNT LONGBLOB
+        , NTC_CNTNT LONGTEXT
         , VER_NBR DECIMAL(8)
         , OBJ_ID VARCHAR(36)
     
@@ -5497,6 +5531,10 @@ CREATE TABLE OLE_LOAN_INTRANSIT_HISTORY_T
 
 
 
+    
+                                                                                                                                                                                                                                                                            
+                                    
+, INDEX OLE_LOAN_INTRANSIT_HST_TI1 (ITEM_UUID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
@@ -5522,6 +5560,132 @@ CREATE TABLE OLE_RNWL_HISTORY_T
         , OBJ_ID VARCHAR(36)
     
     , CONSTRAINT OLE_RNWL_HISTORY_TP1 PRIMARY KEY(RNWL_HSTRY_ID)
+
+
+
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_DRL_EDITOR_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_DRL_EDITOR_T
+/
+
+CREATE TABLE OLE_DRL_EDITOR_T
+(
+      EDITOR_ID VARCHAR(40)
+        , EDITOR_TYP VARCHAR(40)
+        , FILE_NM VARCHAR(40)
+        , VER_NBR DECIMAL(8)
+        , OBJ_ID VARCHAR(36)
+    
+    , CONSTRAINT OLE_DRL_EDITOR_TP1 PRIMARY KEY(EDITOR_ID)
+
+
+
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_DRL_RULE_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_DRL_RULE_T
+/
+
+CREATE TABLE OLE_DRL_RULE_T
+(
+      RULE_ID VARCHAR(40)
+        , AGENDA_GROUP VARCHAR(200)
+        , EDITOR_ID VARCHAR(200)
+        , ACTIVATION_GROUP VARCHAR(200)
+        , RULE_TYP VARCHAR(40)
+        , RULE_NM VARCHAR(200)
+        , ITEM_TYPES LONGBLOB
+        , BORROWER_TYPES LONGBLOB
+        , INST_LOCATIONS LONGBLOB
+        , CAMPUS_LOCATIONS LONGBLOB
+        , COLL_LOCATIONS LONGBLOB
+        , LIBRARY_LOCATIONS LONGBLOB
+        , SHELVING_LOCATIONS LONGBLOB
+        , CIRC_POLICY VARCHAR(200)
+        , LOAN_PERIOD VARCHAR(50)
+        , DFLT_RECALL_PERIOD VARCHAR(50)
+        , ITEM_TYP_OPERATOR VARCHAR(50)
+        , BORROWER_TYP_OPERATOR VARCHAR(50)
+        , INST_LOCATION_OPERATOR VARCHAR(50)
+        , CAMPUS_LOCATION_OPERATOR VARCHAR(50)
+        , LIBRARY_LOCATION_OPERATOR VARCHAR(50)
+        , COLL_LOCATION_OPERATOR VARCHAR(50)
+        , SHELVING_LOCATION_OPERATOR VARCHAR(50)
+        , LOAN_TYPE VARCHAR(200)
+        , ITM_TYP_COUNT VARCHAR(50)
+        , ITM_TYP_COUNT_OPTR VARCHAR(50)
+        , ERROR_MSG VARCHAR(500)
+        , OVERRIDE_PERMISSION VARCHAR(200)
+        , VER_NBR DECIMAL(8)
+        , OBJ_ID VARCHAR(36)
+    
+    , CONSTRAINT OLE_DRL_RULE_TP1 PRIMARY KEY(RULE_ID)
+
+
+
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_DRL_FINE_LIMITS_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_DRL_FINE_LIMITS_T
+/
+
+CREATE TABLE OLE_DRL_FINE_LIMITS_T
+(
+      ID VARCHAR(40)
+        , RULE_ID VARCHAR(40)
+        , BORROWER_TYPE VARCHAR(200)
+        , LIMIT_AMOUNT VARCHAR(8)
+        , OVERDUE_LIMIT VARCHAR(8)
+        , OPERATOR VARCHAR(8)
+        , VER_NBR DECIMAL(8)
+        , OBJ_ID VARCHAR(36)
+    
+    , CONSTRAINT OLE_DRL_FINE_LIMITS_TP1 PRIMARY KEY(ID)
+
+
+
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_NOTICE_TYPE_CONFIG_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_NOTICE_TYPE_CONFIG_T
+/
+
+CREATE TABLE OLE_NOTICE_TYPE_CONFIG_T
+(
+      NOTICE_TYPE_CONFIG_ID INTEGER
+        , CIRC_POLICY_ID VARCHAR(1000)
+        , NOTICE_TYPE VARCHAR(1000)
+    
+    , CONSTRAINT OLE_NOTICE_TYPE_CONFIG_TP1 PRIMARY KEY(NOTICE_TYPE_CONFIG_ID)
 
 
 
@@ -8793,6 +8957,62 @@ CREATE TABLE OLE_RNWL_HISTORY_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_RNWL_HISTORY_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_DRL_EDITOR_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_DRL_EDITOR_S
+/
+
+CREATE TABLE OLE_DRL_EDITOR_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_DRL_EDITOR_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_DRL_RULE_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_DRL_RULE_S
+/
+
+CREATE TABLE OLE_DRL_RULE_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_DRL_RULE_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_DRL_FINE_LIMITS_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_DRL_FINE_LIMITS_S
+/
+
+CREATE TABLE OLE_DRL_FINE_LIMITS_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_DRL_FINE_LIMITS_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_NOTICE_TYPE_CONFIG_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_NOTICE_TYPE_CONFIG_S
+/
+
+CREATE TABLE OLE_NOTICE_TYPE_CONFIG_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_NOTICE_TYPE_CONFIG_S auto_increment = 1
 /
 
 # -----------------------------------------------------------------------
