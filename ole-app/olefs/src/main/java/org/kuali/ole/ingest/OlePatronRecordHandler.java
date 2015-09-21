@@ -198,6 +198,7 @@ public class OlePatronRecordHandler {
         xStream.omitField(OlePatronDocument.class, "lostPatron");
         xStream.omitField(OlePatronDocument.class, "addressVerified");
         xStream.omitField(OlePatronDocument.class, "checkoutForSelf");
+        xStream.omitField(OlePatronDocument.class, "showBillUrlsFlag");
         String xml = xStream.toXML(olePatronDocuments);
         stringBuffer.append(xml);
         stringBuffer.append("\n");
