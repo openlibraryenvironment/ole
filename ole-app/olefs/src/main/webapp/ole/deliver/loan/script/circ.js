@@ -64,13 +64,9 @@ jq("#pageSizeExisting").live("change", function () {
 })
 
 jq(".patronCheckBoxListClass").live("click", function () {
-    jq("input:checkbox").removeAttr('checked');
-    var id = this.firstChild.attributes[4].value;
-    var ids = id.split("line");
-    ids = ids[1].split("_olePatronDocument");
-    id = "proxyForPatronList-HorizontalBoxSection_line" + ids[0] + "_control";
-    jq('#' + id).attr('checked', true);
-
+    jq('input:checkbox').click(function () {
+        jq('input:checkbox').not(this).removeAttr('checked');
+    });
 })
 
 
