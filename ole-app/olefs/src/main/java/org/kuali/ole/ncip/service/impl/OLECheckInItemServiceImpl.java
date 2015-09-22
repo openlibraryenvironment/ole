@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.extensiblecatalog.ncip.v2.service.*;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.processor.LoanProcessor;
-import org.kuali.ole.ncip.bo.OLECheckInItem;
+import org.kuali.ole.bo.OLECheckInItem;
 import org.kuali.ole.ncip.bo.OLENCIPConstants;
 import org.kuali.ole.ncip.converter.OLECheckInItemConverter;
 import org.kuali.ole.ncip.service.OLECheckInItemService;

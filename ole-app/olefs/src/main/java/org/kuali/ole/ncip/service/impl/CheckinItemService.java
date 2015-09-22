@@ -12,8 +12,10 @@ import org.kuali.ole.deliver.drools.DroolsExchange;
 import org.kuali.ole.deliver.form.OLEForm;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.util.DroolsResponse;
-import org.kuali.ole.ncip.bo.OLECheckInItem;
+import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
+import org.kuali.ole.bo.OLECheckInItem;
 import org.kuali.ole.deliver.controller.checkin.CheckInAPIController;
+import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import java.util.Map;
@@ -30,6 +32,7 @@ public abstract class CheckinItemService {
 
     private ResponseHandler responseHandler;
     private CircDeskLocationResolver circDeskLocationResolver;
+    private DocstoreClientLocator docstoreClientLocator;
 
     public ResponseHandler getResponseHandler() {
         if (null == responseHandler) {
@@ -53,6 +56,17 @@ public abstract class CheckinItemService {
         this.circDeskLocationResolver = circDeskLocationResolver;
     }
 
+    public DocstoreClientLocator getDocstoreClientLocator() {
+        if (docstoreClientLocator == null) {
+            docstoreClientLocator = (DocstoreClientLocator) SpringContext.getService("docstoreClientLocator");
+        }
+        return docstoreClientLocator;
+    }
+
+    public void setDocstoreClientLocator(DocstoreClientLocator docstoreClientLocator) {
+        this.docstoreClientLocator = docstoreClientLocator;
+    }
+
     public String checkinItem(Map checkinParameters) {
 
         CheckInAPIController checkInAPIController = new CheckInAPIController();
@@ -62,6 +76,7 @@ public abstract class CheckinItemService {
         String operatorId = getOperatorId((String) checkinParameters.get("operatorId"));
         String itemBarcode = (String) checkinParameters.get("itemBarcode");
         responseFormatType = (String) checkinParameters.get("responseFormatType");
+        String deleteIndicator = (String) checkinParameters.get("deleteIndicator");
         if (responseFormatType == null) {
             responseFormatType = "xml";
         }
@@ -83,6 +98,7 @@ public abstract class CheckinItemService {
         DroolsExchange droolsExchange = new DroolsExchange();
         droolsExchange.addToContext("itemBarcode", itemBarcode);
         droolsExchange.addToContext("selectedCirculationDesk", oleCirculationDesk.getCirculationDeskId());
+        droolsExchange.addToContext("operatorId", operatorId);
         OLEForm oleAPIForm = new OLEForm();
         oleAPIForm.setDroolsExchange(droolsExchange);
 
@@ -120,12 +136,24 @@ public abstract class CheckinItemService {
                     oleCheckInItem.setAuthor(checkedInItem.getAuthor());
                     oleCheckInItem.setTitle(checkedInItem.getTitle());
                     oleCheckInItem.setCallNumber(checkedInItem.getCallNumber());
-                    oleCheckInItem.setBarcode(checkedInItem.getPatronBarcode());
+                    oleCheckInItem.setBarcode(checkedInItem.getItemBarcode());
                     oleCheckInItem.setUserId(checkedInItem.getPatronId());
                     oleCheckInItem.setUserType(checkedInItem.getBorrowerType());
                     oleCheckInItem.setItemType(checkedInItem.getItemType());
                     oleCheckInItem.setCode("024");
                     oleCheckInItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.SUCCESSFULLEY_CHECKED_IN));
+
+                    if (StringUtils.isNotBlank(deleteIndicator) && deleteIndicator.equalsIgnoreCase("y")) {
+                        try {
+                            org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(checkedInItem.getItemUuid());
+                            String bibId = item.getHolding().getBib().getId();
+                            getDocstoreClientLocator().getDocstoreClient().deleteBib(bibId);
+                        } catch (Exception e) {
+                            LOG.error("Exception while deleting bib" + e);
+                            oleCheckInItem.setMessage("Item " + ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.SUCCESSFULLEY_CHECKED_IN) + " but Deletion is failed");
+                            return prepareResponse(oleCheckInItem);
+                        }
+                    }
                     return prepareResponse(oleCheckInItem);
                 } else {
                     oleCheckInItem.setCode("025");

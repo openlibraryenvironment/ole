@@ -1,11 +1,11 @@
 package org.kuali.ole.ncip.servlet;
 
-import org.kuali.ole.OLEConstants;
 import org.kuali.ole.ncip.bo.OLECirculationErrorMessage;
 import org.kuali.ole.ncip.bo.OLENCIPConstants;
 import org.kuali.ole.ncip.bo.OLENCIPErrorResponse;
 import org.kuali.ole.ncip.converter.*;
 import org.kuali.ole.ncip.service.OLECirculationService;
+import org.kuali.ole.ncip.service.impl.NonSip2CheckinItemService;
 import org.kuali.ole.ncip.service.impl.NonSip2CheckoutItemService;
 import org.kuali.ole.ncip.service.impl.OLECirculationServiceImpl;
 import org.apache.log4j.Logger;
@@ -210,7 +210,14 @@ public class OLECirculationServlet extends HttpServlet {
                                 parameterMap.containsKey(OLENCIPConstants.ITEM_BARCODE) &&
                                 parameterMap.containsKey(OLENCIPConstants.DELETE_INDICATOR)){
                             if(parameterMap.size()==5 || parameterMap.size()==6){
-                                responseString=oleCirculationService.checkInItem(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0],parameterMap.get(OLENCIPConstants.DELETE_INDICATOR)[0],false);
+
+                                Map checkinParameters = new HashMap();
+                                checkinParameters.put("operatorId", parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0]);
+                                checkinParameters.put("itemBarcode", parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0]);
+                                checkinParameters.put("responseFormatType", outputFormat);
+                                checkinParameters.put("deleteIndicator", parameterMap.get(OLENCIPConstants.DELETE_INDICATOR)[0]);
+                                responseString = new NonSip2CheckinItemService().checkinItem(checkinParameters);
+
                                 if(outputFormat.equalsIgnoreCase(OLENCIPConstants.JSON_FORMAT)){
                                     responseString=new OLECheckInItemConverter().generateCheckInItemJson(responseString);
                                 }
@@ -235,12 +242,12 @@ public class OLECirculationServlet extends HttpServlet {
                                 parameterMap.containsKey(OLENCIPConstants.ITEM_BARCODE)){
                             if(parameterMap.size()==4 || parameterMap.size()==5){
 
-                                Map checoutParameters = new HashMap();
-                                checoutParameters.put("patronBarcode", parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0]);
-                                checoutParameters.put("operatorId", parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0]);
-                                checoutParameters.put("itemBarcode", parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0]);
-                                checoutParameters.put("responseFormatType", outputFormat);
-                                responseString = new NonSip2CheckoutItemService().checkoutItem(checoutParameters);
+                                Map checkoutParameters = new HashMap();
+                                checkoutParameters.put("patronBarcode", parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0]);
+                                checkoutParameters.put("operatorId", parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0]);
+                                checkoutParameters.put("itemBarcode", parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0]);
+                                checkoutParameters.put("responseFormatType", outputFormat);
+                                responseString = new NonSip2CheckoutItemService().checkoutItem(checkoutParameters);
 
                                 if(responseString==null){
                                     OLENCIPErrorResponse olencipErrorResponse=new OLENCIPErrorResponse();

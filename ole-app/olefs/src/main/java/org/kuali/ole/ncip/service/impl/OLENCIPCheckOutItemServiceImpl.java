@@ -61,17 +61,17 @@ public class OLENCIPCheckOutItemServiceImpl extends OLENCIPUtil implements OLECh
         String patronBarcode = checkOutItemInitiationData.getUserId().getUserIdentifierValue();
         String operatorId = agencyPropertyMap.get(OLENCIPConstants.OPERATOR_ID);
 
-        Map checoutParameters = new HashMap();
-        checoutParameters.put("patronBarcode", patronBarcode);
-        checoutParameters.put("operatorId", operatorId);
-        checoutParameters.put("itemBarcode", itemBarcode);
-        checoutParameters.put("responseFormatType", "XML");
+        Map checkoutParameters = new HashMap();
+        checkoutParameters.put("patronBarcode", patronBarcode);
+        checkoutParameters.put("operatorId", operatorId);
+        checkoutParameters.put("itemBarcode", itemBarcode);
+        checkoutParameters.put("responseFormatType", "XML");
 
-        String responseString = new NonSip2CheckoutItemService().checkoutItem(checoutParameters);
+        String responseString = new NonSip2CheckoutItemService().checkoutItem(checkoutParameters);
         OLECheckOutItem oleCheckOutItem = (OLECheckOutItem) new OLECheckOutItemConverter().generateCheckoutItemObject(responseString);
 
         if (oleCheckOutItem != null && StringUtils.isNotBlank(oleCheckOutItem.getMessage())) {
-            if (oleCheckOutItem.getMessage() != null && oleCheckOutItem.getMessage().equals(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.SUCCESSFULLEY_LOANED))) {
+            if (oleCheckOutItem.getMessage().equals(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.SUCCESSFULLEY_LOANED))) {
                 if (oleCheckOutItem.getDueDate() != null) {
                     ncipCheckOutItemResponseBuilder.setDateDue(checkOutItemResponseData, getOleCirculationHelperService().getGregorianCalendarDate(oleCheckOutItem.getDueDate().toString()));
                 } else {

@@ -15,6 +15,7 @@ public class CheckinItemRequestHandler extends RequestHandler {
     public Map parseRequest(JSONObject jsonObject) throws JSONException {
         String itemBarcode = getStringValueFromJsonObject(jsonObject, OLENCIPConstants.ITEM_BARCODE);
         String operatorId = getStringValueFromJsonObject(jsonObject, OLENCIPConstants.OPERATOR_ID);
+        String deleteIndicator = getStringValueFromJsonObject(jsonObject, OLENCIPConstants.DELETE_INDICATOR);
 
         String requestFormatType = getStringValueFromJsonObject(jsonObject, OLENCIPConstants.REQUEST_FORMAT_TYPE);
         String responseFormatType = getStringValueFromJsonObject(jsonObject, OLENCIPConstants.RESPONSE_FORMAT_TYPE);
@@ -22,6 +23,7 @@ public class CheckinItemRequestHandler extends RequestHandler {
         Map checkinParameters = new HashMap();
         checkinParameters.put("itemBarcode", itemBarcode);
         checkinParameters.put("operatorId", operatorId);
+        checkinParameters.put("deleteIndicator", deleteIndicator);
         checkinParameters.put("requestFormatType", requestFormatType);
         checkinParameters.put("responseFormatType", responseFormatType);
         return checkinParameters;

@@ -68,6 +68,8 @@ public abstract class CheckinBaseController extends CircUtilController {
 
     public abstract DroolsExchange getDroolsExchange(OLEForm oleForm);
 
+    public abstract String getOperatorId(OLEForm oleForm);
+
     private OnHoldCourtesyNoticeUtil onHoldCourtesyNoticeUtil;
     private DamagedItemNoteHandler damagedItemNoteHandler;
     private ClaimsReturnedNoteHandler claimsReturnedNoteHandler;
@@ -407,7 +409,7 @@ public abstract class CheckinBaseController extends CircUtilController {
             }
             oleLoanIntransitRecordHistory.setHomeCirculationDesk(null != oleItemRecordForCirc.getCheckinLocation() ? oleItemRecordForCirc.getCheckinLocation().getCirculationDeskCode() : getSelectedCirculationDesk(oleForm));
             oleLoanIntransitRecordHistory.setRouteCirculationDesk(oleItemRecordForCirc.getRouteToLocation());
-            oleLoanIntransitRecordHistory.setOperator(GlobalVariables.getUserSession().getPrincipalName());
+            oleLoanIntransitRecordHistory.setOperator(getOperatorId(oleForm));
             try {
                 oleLoanIntransitRecordHistory.setReturnedDateTime(processDateAndTimeForAlterDueDate(getCustomDueDateMap(oleForm), getCustomDueDateTime(oleForm)));
             } catch (Exception e) {

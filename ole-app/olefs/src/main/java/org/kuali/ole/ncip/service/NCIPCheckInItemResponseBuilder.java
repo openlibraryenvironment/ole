@@ -1,7 +1,7 @@
 package org.kuali.ole.ncip.service;
 
 import org.extensiblecatalog.ncip.v2.service.*;
-import org.kuali.ole.deliver.drools.CheckedInItem;
+import org.kuali.ole.bo.OLECheckInItem;
 import org.kuali.ole.ncip.bo.OLENCIPConstants;
 
 /**
@@ -18,16 +18,16 @@ public class NCIPCheckInItemResponseBuilder {
         checkInItemResponseData.setItemId(itemId);
     }
 
-    public void setUserId(CheckInItemResponseData checkInItemResponseData, AgencyId agencyId, CheckedInItem checkedInItem) {
+    public void setUserId(CheckInItemResponseData checkInItemResponseData, AgencyId agencyId, OLECheckInItem checkedInItem) {
         UserId userId = new UserId();
         userId.setAgencyId(agencyId);
-        UserIdentifierType userIdentifierType = new UserIdentifierType(checkedInItem.getBorrowerType(), checkedInItem.getBorrowerType());
+        UserIdentifierType userIdentifierType = new UserIdentifierType(checkedInItem.getUserType(), checkedInItem.getUserType());
         userId.setUserIdentifierValue(checkedInItem.getPatronBarcode());
         userId.setUserIdentifierType(userIdentifierType);
         checkInItemResponseData.setUserId(userId);
     }
 
-    public void setItemOptionalFields(CheckInItemResponseData checkInItemResponseData, CheckedInItem checkedInItem) {
+    public void setItemOptionalFields(CheckInItemResponseData checkInItemResponseData, OLECheckInItem checkedInItem) {
         ItemOptionalFields itemOptionalFields = new ItemOptionalFields();
         BibliographicDescription bibliographicDescription = new BibliographicDescription();
         bibliographicDescription.setAuthor(checkedInItem.getTitle());

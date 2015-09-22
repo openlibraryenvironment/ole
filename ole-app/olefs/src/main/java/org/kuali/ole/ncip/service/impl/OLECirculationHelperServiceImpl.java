@@ -7,6 +7,7 @@ import org.extensiblecatalog.ncip.v2.service.AgencyId;
 import org.extensiblecatalog.ncip.v2.service.InitiationHeader;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.bo.OLECheckInItem;
 import org.kuali.ole.bo.OLECheckOutItem;
 import org.kuali.ole.bo.OLERenewItem;
 import org.kuali.ole.deliver.bo.*;

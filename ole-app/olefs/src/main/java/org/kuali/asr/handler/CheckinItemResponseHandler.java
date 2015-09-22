@@ -1,6 +1,6 @@
 package org.kuali.asr.handler;
 
-import org.kuali.ole.ncip.bo.OLECheckInItem;
+import org.kuali.ole.bo.OLECheckInItem;
 import org.kuali.ole.ncip.converter.OLECheckInItemConverter;
 
 /**

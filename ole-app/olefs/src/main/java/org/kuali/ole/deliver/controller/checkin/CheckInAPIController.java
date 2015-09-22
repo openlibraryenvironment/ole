@@ -103,4 +103,9 @@ public class CheckInAPIController extends CheckinBaseController {
     public DroolsExchange getDroolsExchange(OLEForm oleForm) {
         return oleForm.getDroolsExchange();
     }
+
+    @Override
+    public String getOperatorId(OLEForm oleForm) {
+        return (String) oleForm.getDroolsExchange().getContext().get("operatorId");
+    }
 }

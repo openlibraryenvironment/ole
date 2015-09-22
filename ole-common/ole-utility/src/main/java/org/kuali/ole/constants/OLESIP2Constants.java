@@ -29,18 +29,25 @@ public class OLESIP2Constants {
     public static final String CANCEL_CODE="BI";
     public static final String FEE_ACKNOWLEDGED_CODE="BO";
     public static final String ITEM_PROPERTIES_CODE="CH";
+    public static final String PERMANENT_LOCATION_CODE="AQ";
 
     //SIP2 Request Code
     public static final String CHECKOUT_REQUEST="11";
+    public static final String CHECK_IN_REQUEST="09";
 
     //SIP2 Response Code
     public static final String CHECKOUT_RESPONSE="12";
+    public static final String CHECK_IN_RESPONSE="10";
 
+    public static final String CHECK_IN_SUCCESS="SuccessFully Checked-in";
     public static final String RENEW_SUCCESS="Item successFully renewed";
     public static final String CHECK_OUT_SUCCESS="Successfully loaned";
     public static final String CHECK_OUT_SUCCESSFULLY="Item Successfully loaned";
     public static final String CHECK_OUT_FAILED="Item cannot be loaned : any query see help desk";
     public static final String YES="YES";
     public static final String ONHOLD="ONHOLD";
+
+
+    public static final String AUTHOR="Author";
 
 }

@@ -1,6 +1,6 @@
 package org.kuali.ole.ncip.service.impl;
 
-import org.kuali.ole.ncip.bo.OLECheckInItem;
+import org.kuali.ole.bo.OLECheckInItem;
 
 /**
  * Created by chenchulakshmig on 8/27/15.

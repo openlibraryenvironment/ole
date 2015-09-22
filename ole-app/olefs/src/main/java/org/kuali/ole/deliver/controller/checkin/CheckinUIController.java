@@ -6,6 +6,7 @@ import org.kuali.ole.deliver.drools.DroolsExchange;
 import org.kuali.ole.deliver.form.CheckinForm;
 import org.kuali.ole.deliver.form.OLEForm;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.Date;
 
@@ -96,5 +97,10 @@ public class CheckinUIController extends CheckinBaseController {
     @Override
     public DroolsExchange getDroolsExchange(OLEForm oleForm) {
         return getCheckinForm(oleForm).getDroolsExchange();
+    }
+
+    @Override
+    public String getOperatorId(OLEForm oleForm) {
+        return GlobalVariables.getUserSession().getPrincipalId();
     }
 }

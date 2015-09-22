@@ -11,8 +11,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.kuali.ole.bo.OLECheckInItem;
 import org.kuali.ole.bo.OLECheckOutItem;
+import org.kuali.ole.request.OLESIP2CheckInRequestParser;
 import org.kuali.ole.request.OLESIP2CheckOutRequestParser;
+import org.kuali.ole.response.OLESIP2CheckInResponse;
 import org.kuali.ole.response.OLESIP2CheckOutResponse;
 import org.kuali.ole.sip2.response.*;
 
@@ -20,9 +23,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.SocketAddress;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Created by chenchulakshmig on 8/27/15.
@@ -151,6 +152,26 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
                         response = olesip2CheckOutTurnedOffResponse.getOLESIP2CheckOutTurnedOffResponse(requestData);
                     }
                     break;
+                case "09":
+                    LOG.info("Request Type :  Checkin Request");
+                    if (properties.getProperty("sip2.service.checkIn").equalsIgnoreCase("yes")) {
+
+                        OLESIP2CheckInRequestParser sip2CheckInRequestParser = new OLESIP2CheckInRequestParser(requestData);
+                        requestData = createJSONForCheckinItemRequest(sip2CheckInRequestParser.getItemIdentifier(), "SIP2_OPERATOR_ID", "N");
+
+                        response = this.sendRequestToOle(requestData, "/checkinItemSIP2");
+
+                        if (response != null && !response.equalsIgnoreCase("")) {
+                            OLECheckInItem oleCheckInItem = (OLECheckInItem) generateCheckInItemObject(response);
+                            OLESIP2CheckInResponse sip2CheckInResponseParser = new OLESIP2CheckInResponse();
+                            response = sip2CheckInResponseParser.getSIP2CheckInResponse(oleCheckInItem, sip2CheckInRequestParser);
+                        }
+
+                    } else {
+                        OLESIP2CheckInTurnedOffResponse olesip2CheckInTurnedOffResponse = new OLESIP2CheckInTurnedOffResponse();
+                        response = olesip2CheckInTurnedOffResponse.getOLESIP2CheckInTurnedOffResponse(requestData);
+                    }
+                    break;
 
                 default:
                     LOG.info("Request Type :  *****Not a valid SIP2 request");
@@ -209,6 +230,12 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         return xStream.fromXML(xml);
     }
 
+    public Object generateCheckInItemObject(String xml){
+        XStream xStream = new XStream();
+        xStream.alias("checkInItem",OLECheckInItem.class);
+        return xStream.fromXML(xml);
+    }
+
     public String sendPostRequest(String url, String requestContent) {
         String responseContent = null;
         try {
@@ -250,6 +277,20 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
             jsonObject.put("patronBarcode", patronBarcode);
             jsonObject.put("itemBarcode", itemBarcode);
             jsonObject.put("operatorId", operatorId);
+            jsonObject.put("requestFormatType", "JSON");
+            jsonObject.put("responseFormatType", "XML");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    public String createJSONForCheckinItemRequest(String itemBarcode, String operatorId, String deleteIndicator) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("itemBarcode", itemBarcode);
+            jsonObject.put("operatorId", operatorId);
+            jsonObject.put("deleteIndicator", deleteIndicator);
             jsonObject.put("requestFormatType", "JSON");
             jsonObject.put("responseFormatType", "XML");
         } catch (JSONException e) {

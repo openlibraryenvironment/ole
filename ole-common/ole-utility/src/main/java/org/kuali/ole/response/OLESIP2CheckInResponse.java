@@ -1,12 +1,10 @@
-package org.kuali.ole.sip2.sip2Response;
+package org.kuali.ole.response;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.ole.OLEConstants;
-import org.kuali.ole.ncip.bo.OLECheckInItem;
-import org.kuali.ole.response.OLESIP2Response;
+import org.kuali.ole.bo.OLECheckInItem;
+import org.kuali.ole.constants.OLESIP2Constants;
 import org.kuali.ole.common.MessageUtil;
-import org.kuali.ole.sip2.constants.OLESIP2Constants;
-import org.kuali.ole.sip2.requestParser.OLESIP2CheckInRequestParser;
+import org.kuali.ole.request.OLESIP2CheckInRequestParser;
 
 
 /**
@@ -71,7 +69,7 @@ public class OLESIP2CheckInResponse extends OLESIP2Response {
         if (StringUtils.isNotBlank(oleCheckInItem.getAuthor())) {
             oleCheckInBuilder.append(OLESIP2Constants.SPLIT+
                     OLESIP2Constants.ITEM_PROPERTIES_CODE);
-            oleCheckInBuilder.append(OLEConstants.OlePatronBill.LABEL_ITEM_AUTHOR+ " :  " + oleCheckInItem.getAuthor().replaceAll(OLESIP2Constants.NON_ROMAN_REGEX,""));
+            oleCheckInBuilder.append(OLESIP2Constants.AUTHOR+ " :  " + oleCheckInItem.getAuthor().replaceAll(OLESIP2Constants.NON_ROMAN_REGEX,""));
         }
 
         if (StringUtils.isNotBlank(oleCheckInItem.getMessage())) {
