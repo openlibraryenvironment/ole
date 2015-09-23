@@ -52,7 +52,8 @@
                       p:actionScript="
                       if(jq('#kualiLightboxForm').valid()){
                         var customDueDate = jq('#customDueDate_control').val();
-                        submitForm('proceedToSaveLoan', {customDueDateMap:customDueDate}, null, true,
+                        var customDueDateTime = jq('#customDueDateTime_control').val();
+                        submitForm('proceedToSaveLoan', {customDueDateMap:customDueDate,customDueTime:customDueDateTime}, null, true,
                         function () {
                         jq.fancybox.close();
                         jq('#checkoutItem_control').focus();

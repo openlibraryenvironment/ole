@@ -1334,6 +1334,7 @@ public class OLEConstants {
     public static final String PIECES_RETURNED = ") are returned.";
     public static final String CHECK_IN_DATE_TIME_FORMAT = "yyyy-MM-dd";
     public static final String CHECK_IN_TIME_MS = ":00";
+    public static final String CHECK_OUT_DUE_TIME_MS = ":59";
 
 
     //Notice Related

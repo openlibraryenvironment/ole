@@ -12,6 +12,7 @@ import org.kuali.ole.deliver.drools.DroolsConstants;
 import org.kuali.ole.deliver.form.CircForm;
 import org.kuali.ole.deliver.form.OleLoanForm;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.deliver.util.DroolsResponse;
 import org.kuali.ole.deliver.util.ErrorMessage;
 import org.kuali.ole.deliver.util.OleItemRecordForCirc;
@@ -281,8 +282,15 @@ public class CheckoutItemController extends CircFastAddItemController {
                                           HttpServletRequest request, HttpServletResponse response) {
         CircForm circForm = (CircForm) form;
         String customDate = request.getParameter("customDueDateMap");
+        String customTime = request.getParameter("customDueTime");
         if (StringUtils.isNotBlank(customDate)) {
             circForm.setCustomDueDateMap(new DateUtil().getDate(customDate));
+            if(StringUtils.isNotBlank(customTime)) {
+                circForm.setCustomDueDateTime(customTime);
+            } else {
+                circForm.setCustomDueDateTime(ParameterValueResolver.getInstance().getParameter(OLEConstants
+                        .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.DEFAULT_TIME_FOR_DUE_DATE));
+            }
         }
         getCheckoutUIController(circForm.getFormKey()).proceedToSaveLoan(circForm);
         resetItemInfoForNextTrans(circForm);

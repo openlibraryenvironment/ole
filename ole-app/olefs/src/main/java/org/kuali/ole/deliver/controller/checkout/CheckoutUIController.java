@@ -112,9 +112,9 @@ public class CheckoutUIController extends CheckoutBaseController {
             timeFlag = matcher.matches();
             if (timeFlag) {
                 if (str != null && str.length <= 2) {
-                    getCircForm(oleForm).setCustomDueDateTime(customDueDateTime + OLEConstants.CHECK_IN_TIME_MS);
+                    getCircForm(oleForm).setCustomDueDateTime(customDueDateTime + OLEConstants.CHECK_OUT_DUE_TIME_MS);
                 }
-                timestamp = Timestamp.valueOf(new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT).format(customDueDateMap).concat(" ").concat(customDueDateTime));
+                timestamp = Timestamp.valueOf(new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT).format(customDueDateMap).concat(" ").concat(getCircForm(oleForm).getCustomDueDateTime()));
             } else {
                 getCircForm(oleForm).setCustomDueDateTimeMessage(OLEConstants.DUE_DATE_TIME_FORMAT_MESSAGE);
                 throw new Exception();
