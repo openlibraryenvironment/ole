@@ -601,6 +601,8 @@
         <column name="REPLY_TO_EMAIL" size="100" type="VARCHAR"/>
         <column name="RENEW_LOST_ITM" size="1" type="VARCHAR"/>
         <column name="SHOW_ONHOLD_ITM" size="50" type="VARCHAR" default="CurrentCirculationDesk"/>
+        <column name="DFLT_RQST_TYP_ID" size="40" type="VARCHAR"/>
+        <column name="DFLT_PICK_UP_LOCN_ID" size="40" type="VARCHAR"/>
     </table>
 
     <table name="OLE_DATAFIELD_T">

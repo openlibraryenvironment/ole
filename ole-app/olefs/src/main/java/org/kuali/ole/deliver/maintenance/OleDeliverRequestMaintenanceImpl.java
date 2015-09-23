@@ -1,8 +1,13 @@
 package org.kuali.ole.deliver.maintenance;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.bo.OleCirculationDesk;
+import org.kuali.ole.deliver.bo.OleCirculationDeskDetail;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
+import org.kuali.ole.deliver.bo.OleDeliverRequestType;
+import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.sys.context.SpringContext;
@@ -15,6 +20,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.sql.Date;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +34,7 @@ import java.util.Map;
 public class OleDeliverRequestMaintenanceImpl extends MaintainableImpl {
 
     private DocstoreUtil docstoreUtil;
+    private LoanProcessor loanProcessor;
     public DocstoreUtil getDocstoreUtil() {
 
         if (docstoreUtil == null) {
@@ -35,6 +42,13 @@ public class OleDeliverRequestMaintenanceImpl extends MaintainableImpl {
 
         }
         return docstoreUtil;
+    }
+
+    public LoanProcessor getLoanProcessor(){
+        if(loanProcessor == null){
+            loanProcessor = new LoanProcessor();
+        }
+        return loanProcessor;
     }
 
 
@@ -54,8 +68,7 @@ public class OleDeliverRequestMaintenanceImpl extends MaintainableImpl {
         oleDeliverRequestBo.setOperatorCreateId(GlobalVariables.getUserSession().getPrincipalId());
         oleDeliverRequestBo.setOperatorCreateName(GlobalVariables.getUserSession().getPrincipalName());
         oleDeliverRequestBo.setCreateDate(new Date(System.currentTimeMillis()));
-
-
+        processDefaultRequestTypeAndPickupLocation(oleDeliverRequestBo);
     }
 
     /**
@@ -119,6 +132,55 @@ public class OleDeliverRequestMaintenanceImpl extends MaintainableImpl {
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
         return Collections.emptyList();
+    }
+
+    private OleDeliverRequestBo processDefaultRequestTypeAndPickupLocation(OleDeliverRequestBo oleDeliverRequestBo){
+        Map<String,String> criteriaMap = new HashMap<String,String>();
+        List<OleCirculationDesk> oleCirculationDesks = null;
+        List<OleCirculationDeskDetail> oleCirculationDeskDetailList = null;
+        String pickUpLocationCode =getLoanProcessor().getParameter(OLEConstants.DEFAULT_PICK_UP_LOCATION);
+        if(StringUtils.isNotEmpty(pickUpLocationCode)){
+            criteriaMap = new HashMap<>();
+            criteriaMap.put(OLEConstants.PICKUP_LOCATION, "true");
+            criteriaMap.put(OLEConstants.OleCirculationDesk.OLE_CIRCULATION_DESK_CD, pickUpLocationCode);
+            oleCirculationDesks = (List<OleCirculationDesk>)getBusinessObjectService().findMatching(OleCirculationDesk.class,criteriaMap);
+            if(oleCirculationDesks!=null && oleCirculationDesks.size()>0){
+              oleDeliverRequestBo.setPickUpLocationId(oleCirculationDesks.get(0).getCirculationDeskId());
+                oleDeliverRequestBo.setPickUpLocationCode(oleCirculationDesks.get(0).getCirculationDeskCode());
+                oleDeliverRequestBo.setOlePickUpLocation(oleCirculationDesks.get(0));
+            }
+        }else{
+        criteriaMap = new HashMap<String,String>();
+        criteriaMap.put("operatorId",oleDeliverRequestBo.getOperatorCreateId());
+        criteriaMap.put("defaultLocation","Y");
+            oleCirculationDeskDetailList = (List<OleCirculationDeskDetail>)getBusinessObjectService().findMatching(OleCirculationDeskDetail.class,criteriaMap);
+        if(oleCirculationDeskDetailList.size()>0){
+            if(oleCirculationDeskDetailList.get(0).getOleCirculationDesk()!=null && oleCirculationDeskDetailList.get(0).getOleCirculationDesk().getDefaultPickupLocation()!=null){
+                oleDeliverRequestBo.setPickUpLocationId(oleCirculationDeskDetailList.get(0).getOleCirculationDesk().getDefaultPickupLocation().getCirculationDeskId());
+                oleDeliverRequestBo.setPickUpLocationCode(oleCirculationDeskDetailList.get(0).getOleCirculationDesk().getDefaultPickupLocation().getCirculationDeskCode());
+                oleDeliverRequestBo.setOlePickUpLocation(oleCirculationDeskDetailList.get(0).getOleCirculationDesk());
+                oleDeliverRequestBo.setRequestTypeId(oleCirculationDeskDetailList.get(0).getOleCirculationDesk().getDefaultRequestType().getRequestTypeId());
+                oleDeliverRequestBo.setRequestTypeCode(oleCirculationDeskDetailList.get(0).getOleCirculationDesk().getDefaultRequestType().getRequestTypeCode());
+                oleDeliverRequestBo.setOleDeliverRequestType(oleCirculationDeskDetailList.get(0).getOleCirculationDesk().getDefaultRequestType());
+            }
+        }
+      }
+        String requestType = getLoanProcessor().getParameter(OLEConstants.DEFAULT_REQUEST_TYPE);
+        if(StringUtils.isNotEmpty(requestType)){
+            criteriaMap = new HashMap<>();
+            criteriaMap.put("requestTypeCode", requestType);
+            List<OleDeliverRequestType> oleDeliverRequestTypes = (List<OleDeliverRequestType>)getBusinessObjectService().findMatching(OleDeliverRequestType.class,criteriaMap);
+            if(oleDeliverRequestTypes.size()>0){
+                oleDeliverRequestBo.setRequestTypeId(oleDeliverRequestTypes.get(0).getRequestTypeId());
+                oleDeliverRequestBo.setRequestTypeCode(oleDeliverRequestTypes.get(0).getRequestTypeCode());
+                oleDeliverRequestBo.setOleDeliverRequestType(oleDeliverRequestTypes.get(0));
+            }
+        }else if(StringUtils.isNotEmpty(pickUpLocationCode)){
+            oleDeliverRequestBo.setRequestTypeId(oleDeliverRequestBo.getOlePickUpLocation().getDefaultRequestType().getRequestTypeId());
+            oleDeliverRequestBo.setRequestTypeCode(oleDeliverRequestBo.getOlePickUpLocation().getDefaultRequestType().getRequestTypeCode());
+            oleDeliverRequestBo.setOleDeliverRequestType(oleDeliverRequestBo.getOlePickUpLocation().getDefaultRequestType());
+        }
+        return oleDeliverRequestBo;
     }
 
 }

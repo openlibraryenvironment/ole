@@ -3093,26 +3093,22 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                                       HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
-        if (oleeResourceRecordDocument.getOleERSIdentifier() != null) {
-            Map ids = new HashMap();
-            ids.put("oleERSIdentifier", oleeResourceRecordDocument.getOleERSIdentifier());
-            List<OLEEResourceInstance> oleeResourceInstances = (List<OLEEResourceInstance>) getBusinessObjectService().findMatching(OLEEResourceInstance.class, ids);
-            oleeResourceRecordDocument.geteRSInstances().clear();
-            oleeResourceRecordDocument.geteRSInstances().addAll(oleeResourceInstances);
-            oleeResourceRecordDocument.setOleERSInstances(oleeResourceInstances);
+        getOleEResourceSearchService().populateInstanceAndEInstance(oleeResourceRecordDocument);
+        return super.navigate(oleEResourceRecordForm, result, request, response);
+    }
 
-            ids = new HashMap();
-            List<OLEEResourceInstance> linkedResourceInstances = new ArrayList<>();
-            for (OLELinkedEresource linkedEresource : oleeResourceRecordDocument.getOleLinkedEresources()) {
-                if (linkedEresource.getRelationShipType().equalsIgnoreCase("child")) {
-                    ids.put("oleEResourceInstanceId", linkedEresource.getLinkedERSIdentifier());
-                    linkedResourceInstances.addAll(getBusinessObjectService().findMatching(OLEEResourceInstance.class, ids));
-                    for (OLEEResourceLicense oleeResourceLicense : linkedEresource.getOleeResourceRecordDocument().getOleERSLicenseRequests()) {
-                        oleeResourceRecordDocument.getOleERSLicenseRequests().add(oleeResourceLicense);
-                    }
-                }
-            }
-            oleeResourceRecordDocument.geteRSInstances().addAll(linkedResourceInstances);
+
+    @RequestMapping(params = "methodToCall=populatePOAndInvoice")
+    public ModelAndView populatePOAndInvoice(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
+        if(oleeResourceRecordDocument.getOleERSInstances()!=null && oleeResourceRecordDocument.getOleERSInstances().size()==0){
+            getOleEResourceSearchService().populateInstanceAndEInstance(oleeResourceRecordDocument);
+        }
+        if(oleeResourceRecordDocument.getOleERSIdentifier()!=null){
+            OLEEResourceSearchServiceImpl oleeResourceSearchService = new OLEEResourceSearchServiceImpl();
+            oleeResourceSearchService.getPOInvoiceForERS(oleeResourceRecordDocument);
         }
         return super.navigate(oleEResourceRecordForm, result, request, response);
     }

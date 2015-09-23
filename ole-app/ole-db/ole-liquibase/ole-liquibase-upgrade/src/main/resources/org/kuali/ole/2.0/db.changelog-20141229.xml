@@ -5431,4 +5431,19 @@
         <sql>ALTER TABLE ACTN_LST_ALRT_T MODIFY TITL varchar2(800)</sql>
     </changeSet>
 
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CRCL_DSK_T_COLUMN">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_CRCL_DSK_T">
+            <column name="DFLT_RQST_TYP_ID" type="varchar(40)"/>
+        </addColumn>
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_CRCL_DSK_T">
+            <column name="DFLT_PICK_UP_LOCN_ID" type="varchar(40)"/>
+        </addColumn>
+    </changeSet>
+
+
 </databaseChangeLog>

@@ -99,6 +99,26 @@
                             <bean id="create_holdQueue" parent="Uif-InputField" p:propertyName="holdQueue"/>
                             <bean id="create_staffed" parent="Uif-InputField" p:propertyName="staffed"/>
                             <bean id="create_replyToEmail" parent="Uif-InputField" p:propertyName="replyToEmail"/>
+                            <bean id="create_defaultPickupLocation" parent="Uif-InputField" p:propertyName="defaultPickupLocationId" p:label="Default Pickup Location">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.keyvalue.PickupLocationKeyValueFinder"/>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                                <property name="quickfinder">
+                                    <null></null>
+                                </property>
+                            </bean>
+
+                            <bean id="create_defaultRequestTypeCode" parent="Uif-InputField" p:propertyName="defaultRequestTypeCode" p:label="Default Request Type">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OLERequestTypeFinder"/>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>

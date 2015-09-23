@@ -40,6 +40,12 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
     private String replyToEmail;
     private boolean renewLostItem;
     private String showItemOnHold;
+    private String defaultRequestTypeId;
+    private String defaultRequestTypeCode;
+    private OleDeliverRequestType defaultRequestType;
+    private String defaultPickupLocationId;
+    private String defaultPickupLocationCode;
+    private OleCirculationDesk defaultPickupLocation;
 
     public String getErrorMessage() {
         return errorMessage;
@@ -319,5 +325,53 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
 
     public void setShowItemOnHold(String showItemOnHold) {
         this.showItemOnHold = showItemOnHold;
+    }
+
+    public String getDefaultRequestTypeId() {
+        return defaultRequestTypeId;
+    }
+
+    public void setDefaultRequestTypeId(String defaultRequestTypeId) {
+        this.defaultRequestTypeId = defaultRequestTypeId;
+    }
+
+    public String getDefaultRequestTypeCode() {
+        return defaultRequestTypeCode;
+    }
+
+    public void setDefaultRequestTypeCode(String defaultRequestTypeCode) {
+        this.defaultRequestTypeCode = defaultRequestTypeCode;
+    }
+
+    public OleDeliverRequestType getDefaultRequestType() {
+        return defaultRequestType;
+    }
+
+    public void setDefaultRequestType(OleDeliverRequestType defaultRequestType) {
+        this.defaultRequestType = defaultRequestType;
+    }
+
+    public String getDefaultPickupLocationId() {
+        return defaultPickupLocationId;
+    }
+
+    public void setDefaultPickupLocationId(String defaultPickupLocationId) {
+        this.defaultPickupLocationId = defaultPickupLocationId;
+    }
+
+    public String getDefaultPickupLocationCode() {
+        return defaultPickupLocationCode;
+    }
+
+    public void setDefaultPickupLocationCode(String defaultPickupLocationCode) {
+        this.defaultPickupLocationCode = defaultPickupLocationCode;
+    }
+
+    public OleCirculationDesk getDefaultPickupLocation() {
+        return defaultPickupLocation;
+    }
+
+    public void setDefaultPickupLocation(OleCirculationDesk defaultPickupLocation) {
+        this.defaultPickupLocation = defaultPickupLocation;
     }
 }

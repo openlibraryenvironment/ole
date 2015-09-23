@@ -4533,5 +4533,29 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
         return format;
 
     }
-	
+    public OLEEResourceRecordDocument populateInstanceAndEInstance(OLEEResourceRecordDocument oleeResourceRecordDocument){
+        if (oleeResourceRecordDocument.getOleERSIdentifier() != null) {
+            Map ids = new HashMap();
+            ids.put("oleERSIdentifier", oleeResourceRecordDocument.getOleERSIdentifier());
+            List<OLEEResourceInstance> oleeResourceInstances = (List<OLEEResourceInstance>) getBusinessObjectService().findMatching(OLEEResourceInstance.class, ids);
+            oleeResourceRecordDocument.geteRSInstances().clear();
+            oleeResourceRecordDocument.geteRSInstances().addAll(oleeResourceInstances);
+            oleeResourceRecordDocument.setOleERSInstances(oleeResourceInstances);
+            ids = new HashMap();
+            List<OLEEResourceInstance> linkedResourceInstances = new ArrayList<>();
+            for (OLELinkedEresource linkedEresource : oleeResourceRecordDocument.getOleLinkedEresources()) {
+                if (linkedEresource.getRelationShipType().equalsIgnoreCase("child")) {
+                    ids.put("oleEResourceInstanceId", linkedEresource.getLinkedERSIdentifier());
+                    linkedResourceInstances.addAll(getBusinessObjectService().findMatching(OLEEResourceInstance.class, ids));
+                    for (OLEEResourceLicense oleeResourceLicense : linkedEresource.getOleeResourceRecordDocument().getOleERSLicenseRequests()) {
+                        oleeResourceRecordDocument.getOleERSLicenseRequests().add(oleeResourceLicense);
+                    }
+                }
+            }
+            oleeResourceRecordDocument.geteRSInstances().addAll(linkedResourceInstances);
+        }
+        return oleeResourceRecordDocument;
+    }
+
+
 }

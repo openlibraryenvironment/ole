@@ -134,4 +134,8 @@ public interface OLEEResourceSearchService {
 
     public void removeEResourcesFields(String eResourceId, OleHoldings eHoldings, WorkEInstanceOlemlForm olemlForm);
 
+    public OLEEResourceRecordDocument populateInstanceAndEInstance(OLEEResourceRecordDocument oleeResourceRecordDocument);
+
+
+
 }

@@ -36,6 +36,10 @@ public class OleCirculationDeskMaintenanceImpl extends MaintainableImpl {
                     }
                 }
             }
+            if(oleCirculationDesk.getDefaultRequestTypeId()!=null){
+                oleCirculationDesk.setDefaultRequestTypeCode(oleCirculationDesk.getDefaultRequestType().getRequestTypeCode());
+                oleCirculationDesk.setDefaultRequestType(oleCirculationDesk.getDefaultRequestType());
+            }
             oleCirculationDesk.setOleCirculationDeskLocationList(oleCirculationDeskLocationList);
             oleCirculationDesk.setOlePickupCirculationDeskLocations(olePickupCirculationDeskLocations);
         }

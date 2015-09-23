@@ -269,7 +269,7 @@
                             <bean parent="Uif-InputField" p:propertyName="marcRecordSource"/>
                             <bean parent="Uif-InputField" p:propertyName="marcRecordUpdateFrequency">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="25"/>
+                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="25" p:watermarkText="Days"/>
                                 </property>
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint"/>
@@ -279,7 +279,7 @@
                             <bean parent="Uif-InputField" p:propertyName="marcRecordUserName"/>
                             <bean parent="Uif-InputField" p:propertyName="marcRecordNote"/>
                             <bean parent="Uif-InputField" p:propertyName="marcRecordPassword"/>
-                            <bean parent="Uif-InputField" p:propertyName="marcRecordUpdateRegularity" p:defaultValue="Regular" p:label="Marc Record Update Regularity ">
+                            <bean parent="Uif-InputField" p:propertyName="marcRecordUpdateRegularity" p:defaultValue="Regular" p:label="Marc Record Update Regularity">
                                 <property name="control">
                                     <bean parent="Uif-HorizontalRadioControl">
                                         <property name="options">

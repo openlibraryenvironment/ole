@@ -7,9 +7,11 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleCirculationDeskDetail;
 import org.kuali.ole.deliver.bo.OleCirculationDeskLocation;
+import org.kuali.ole.deliver.bo.OleDeliverRequestType;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +32,7 @@ public class OleCirculationDeskRule extends MaintenanceDocumentRuleBase {
         boolean isValid = true;
         OleCirculationDesk circulationDesk = (OleCirculationDesk) document.getNewMaintainableObject().getDataObject();
         String circulationDeskAction = document.getOldMaintainableObject().getMaintenanceAction();
-
+        setDefaultValues(circulationDesk);
         isValid &= validateCirculationDeskCode(circulationDeskAction, circulationDesk);
         isValid &= validateCirculationDeskBeforeEdit(circulationDeskAction, circulationDesk);
         return isValid;
@@ -188,6 +190,19 @@ public class OleCirculationDeskRule extends MaintenanceDocumentRuleBase {
 
         }
         return true;
+    }
+
+    private void setDefaultValues(OleCirculationDesk oleCirculationDesk){
+        if(oleCirculationDesk!=null && oleCirculationDesk.getDefaultRequestTypeCode()!=null){
+            Map<String,String> requestTypeMap = new HashMap<String,String>();
+            requestTypeMap.put("requestTypeCode",oleCirculationDesk.getDefaultRequestTypeCode());
+            List<OleDeliverRequestType> oleDeliverRequestTypes = (List<OleDeliverRequestType>) KRADServiceLocator.getBusinessObjectService().findMatching(OleDeliverRequestType.class,requestTypeMap);
+            if(oleDeliverRequestTypes!=null && oleDeliverRequestTypes.size()>0){
+                oleCirculationDesk.setDefaultRequestTypeId(oleDeliverRequestTypes.get(0).getRequestTypeId());
+                oleCirculationDesk.setDefaultRequestType(oleDeliverRequestTypes.get(0));
+            }
+
+        }
     }
 }
 
