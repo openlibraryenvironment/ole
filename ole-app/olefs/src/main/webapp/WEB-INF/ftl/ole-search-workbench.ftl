@@ -35,11 +35,11 @@
                         <#if line.row.title??>
                             <#if line.row.staffOnly == 'true'>
                                 <div class="staffOnlyForHiperlink">
-                                    <a target="_blank" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=${line.row.docFormat}&amp;docId=${line.row.localId}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true;fromSearch=true">${line.row.title!?html}</a>
+                                    <a target="_blank" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=${line.row.docFormat}&amp;docId=${line.row.localId}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true&amp;fromSearch=true">${line.row.title!?html}</a>
                                 </div>
                             <#else>
                                 <div>
-                                    <a target="_blank" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=${line.row.docFormat}&amp;docId=${line.row.localId}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true;fromSearch=true">${line.row.title!?html}</a>
+                                    <a target="_blank" href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=${line.row.docFormat}&amp;docId=${line.row.localId}&amp;bibId=${line.row.bibIdentifier!}&amp;editable=true&amp;fromSearch=true">${line.row.title!?html}</a>
                                 </div>
                             </#if>
                         </#if>
