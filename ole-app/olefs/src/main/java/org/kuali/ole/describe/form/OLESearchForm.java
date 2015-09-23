@@ -79,6 +79,7 @@ public class OLESearchForm extends UifFormBase {
     private boolean showTime = false;
     private boolean selectAllRecords= false;
     private String idsToBeOpened;
+    private String collectionIndex ="0";
 
     public String getIdsToBeOpened() {
         return idsToBeOpened;
@@ -563,5 +564,13 @@ public class OLESearchForm extends UifFormBase {
 
     public void setShowTime(boolean showTime) {
         this.showTime = showTime;
+    }
+
+    public String getCollectionIndex() {
+        return collectionIndex;
+    }
+
+    public void setCollectionIndex(String collectionIndex) {
+        this.collectionIndex = collectionIndex;
     }
 }

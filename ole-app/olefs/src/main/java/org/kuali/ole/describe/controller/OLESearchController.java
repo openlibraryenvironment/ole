@@ -232,59 +232,58 @@ public class OLESearchController extends UifControllerBase {
         return super.navigate(oleSearchForm, result, request, response);
     }
 
-    private void setDefaults(OLESearchForm oleSearchForm) {
-        if(oleSearchForm.getDocType().equalsIgnoreCase(DocType.BIB.getCode())){
-            String parameter = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
-                    .DESCRIBE_COMPONENT, OLEConstants.BIB_SEARCH_SCOPE_FIELD);
-            String []scopeField = parameter.split(",");
-            if(scopeField.length == 2){
-                oleSearchForm.getSearchConditions().get(0).setSearchScope(scopeField[0]);
-                SearchField searchField = new SearchField();
-                searchField.setFieldName(scopeField[1]);
-                oleSearchForm.getSearchConditions().get(0).setSearchField(searchField);
-            }
-        } else if(oleSearchForm.getDocType().equalsIgnoreCase(DocType.HOLDINGS.getCode())){
-            String parameter = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
-                    .DESCRIBE_COMPONENT, OLEConstants.HOLDINGS_SEARCH_SCOPE_FIELD);
-            String []scopeField = parameter.split(",");
-            if(scopeField.length == 2){
-                oleSearchForm.getSearchConditions().get(0).setSearchScope("AND");
-                SearchField searchField = new SearchField();
-                searchField.setFieldName("LocalId_search");
-                oleSearchForm.getSearchConditions().get(0).setSearchField(searchField);
-            }
-        } else if(oleSearchForm.getDocType().equalsIgnoreCase(DocType.EHOLDINGS.getCode())){
-            String parameter = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
-                    .DESCRIBE_COMPONENT, OLEConstants.EHOLDINGS_SEARCH_SCOPE_FIELD);
-            String []scopeField = parameter.split(",");
-            if(scopeField.length == 2){
-                oleSearchForm.getSearchConditions().get(0).setSearchScope(scopeField[0]);
-                SearchField searchField = new SearchField();
-                searchField.setFieldName(scopeField[1]);
-                oleSearchForm.getSearchConditions().get(0).setSearchField(searchField);
-            }
-        } else if(oleSearchForm.getDocType().equalsIgnoreCase(DocType.ITEM.getCode())){
-            String parameter = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
-                    .DESCRIBE_COMPONENT, OLEConstants.ITEM_SEARCH_SCOPE_FIELD);
-            String []scopeField = parameter.split(",");
-            if(scopeField.length == 2){
-                oleSearchForm.getSearchConditions().get(0).setSearchScope(scopeField[0]);
-                SearchField searchField = new SearchField();
-                searchField.setFieldName(scopeField[1]);
-                oleSearchForm.getSearchConditions().get(0).setSearchField(searchField);
+    private void setDefaultParameter(OLESearchForm oleSearchForm) {
+
+        String collectionIndex = oleSearchForm.getCollectionIndex();
+        if(oleSearchForm.getSearchConditions().size()>0){
+            SearchCondition searchCondition = oleSearchForm.getSearchConditions().get(Integer.valueOf(collectionIndex));
+            SearchField searchField = searchCondition.getSearchField();
+
+            if(searchField.getDocType().equalsIgnoreCase(DocType.BIB.getCode())){
+                String parameter = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
+                        .DESCRIBE_COMPONENT, OLEConstants.BIB_SEARCH_SCOPE_FIELD);
+                String []scopeField = parameter.split(",");
+                if(scopeField.length == 2){
+                    searchCondition.setSearchScope(scopeField[0]);
+                    searchField.setFieldName(scopeField[1]);
+                    searchCondition.setSearchField(searchField);
+                }
+            } else if(searchField.getDocType().equalsIgnoreCase(DocType.HOLDINGS.getCode())){
+                String parameter = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
+                        .DESCRIBE_COMPONENT, OLEConstants.HOLDINGS_SEARCH_SCOPE_FIELD);
+                String []scopeField = parameter.split(",");
+                if(scopeField.length == 2){
+                    searchCondition.setSearchScope(scopeField[0]);
+                    searchField.setFieldName(scopeField[1]);
+                    searchCondition.setSearchField(searchField);
+                }
+            } else if(searchField.getDocType().equalsIgnoreCase(DocType.EHOLDINGS.getCode())){
+                String parameter = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
+                        .DESCRIBE_COMPONENT, OLEConstants.EHOLDINGS_SEARCH_SCOPE_FIELD);
+                String []scopeField = parameter.split(",");
+                if(scopeField.length == 2){
+                    searchCondition.setSearchScope(scopeField[0]);
+                    searchField.setFieldName(scopeField[1]);
+                    searchCondition.setSearchField(searchField);
+                }
+            } else if(searchField.getDocType().equalsIgnoreCase(DocType.ITEM.getCode())){
+                String parameter = getParameter(OLEConstants.APPL_ID_OLE, OLEConstants.DESC_NMSPC, OLEConstants
+                        .DESCRIBE_COMPONENT, OLEConstants.ITEM_SEARCH_SCOPE_FIELD);
+                String []scopeField = parameter.split(",");
+                if(scopeField.length == 2){
+                    searchCondition.setSearchScope(scopeField[0]);
+                    searchField.setFieldName(scopeField[1]);
+                    searchCondition.setSearchField(searchField);
+                }
             }
         }
     }
+
     @RequestMapping(params = "methodToCall=changeDocType")
     public ModelAndView changeDocType(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
         OLESearchForm oleSearchForm = (OLESearchForm) form;
-        List<SearchCondition> searchConditions = oleSearchForm.getSearchConditions();
-        int size = searchConditions.size();
-        for(int i=1; i<size; i++){
-            oleSearchForm.getSearchConditions().get(i).getSearchField().setFieldName("");
-        }
-        setDefaults(oleSearchForm);
+        setDefaultParameter(oleSearchForm);
         oleSearchForm.setSearchResultDisplayRowList(null);
         oleSearchForm.setFacetResultFields(null);
         return getUIFModelAndView(oleSearchForm);
@@ -969,7 +968,6 @@ public class OLESearchController extends UifControllerBase {
             searchParams.setStartIndex(startIndex - startIndex % searchParams.getPageSize());
         }
         for (SearchCondition searchCondition : oleSearchForm.getSearchConditions()) {
-            searchCondition.getSearchField().setDocType(oleSearchForm.getDocType());
             if(searchCondition.getSearchField().getFieldName().equalsIgnoreCase(DocstoreConstants.ISBN_SEARCH)){
                 String fieldValue= searchCondition.getSearchField().getFieldValue().replaceAll("-","");
                 ISBNUtil isbnUtil = new ISBNUtil();
@@ -1076,7 +1074,6 @@ public class OLESearchController extends UifControllerBase {
         }
 
         for (SearchCondition searchCondition : oleSearchForm.getSearchConditions()) {
-            searchCondition.getSearchField().setDocType(oleSearchForm.getDocType());
               if(DocType.ITEM.getCode().equals(oleSearchForm.getDocType()) && searchCondition.getSearchField().getFieldName().equalsIgnoreCase(DocstoreConstants.BIB_IDENTIFIER)){
                 if(DocumentUniqueIDPrefix.hasPrefix(searchCondition.getSearchField().getFieldValue())){
                     searchCondition.getSearchField().setFieldValue(DocumentUniqueIDPrefix.getDocumentId(searchCondition.getSearchField().getFieldValue()));

@@ -74,6 +74,7 @@
                 <ref bean="solrTime"/>
                 <ref bean="serverTime"/>
                 <ref bean="hiddenTotalTime"/>
+                <ref bean="searchIndex"/>
             </list>
         </property>
     </bean>
@@ -256,7 +257,7 @@
         <property name="items">
             <list>
                 <bean id="DocumentAndSearchSelectionType_DocType" parent="Base-Uif-InputField"
-                      p:propertyName="docType" p:label="Document Type" p:onChangeScript="submitForm('changeDocType', null, null, null);" p:render="@{searchType eq 'search'}">
+                      p:propertyName="docType" p:label="Document Type" p:onChangeScript="submitForm('start', null, null, null);" p:render="@{searchType eq 'search'}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
                     </property>
@@ -313,7 +314,7 @@
                             </bean>
                             <bean id="SearchConditions_DocType_search" parent="Base-Uif-InputField-LabelTop"
                                   p:propertyName="searchField.docType" p:label="In Doc Type"
-                                  p:optionsFinderClass="org.kuali.ole.describe.keyvalue.SearchDocTypeKeyvalueFinder" p:onChangeScript="submitForm('changeDocType', null, null, null);" >
+                                  p:optionsFinderClass="org.kuali.ole.describe.keyvalue.SearchDocTypeKeyvalueFinder" p:onChangeScript="changeDocType('@{#index}');" >
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -629,6 +630,12 @@
     <bean id="Base-Uif-InputField-LabelTop" parent="Uif-InputField-LabelTop">
         <property name="quickfinder">
             <null/>
+        </property>
+    </bean>
+
+    <bean id="searchIndex" parent="Base-Uif-InputField" p:propertyName="collectionIndex" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
         </property>
     </bean>
 

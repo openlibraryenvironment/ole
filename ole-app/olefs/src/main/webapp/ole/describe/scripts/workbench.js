@@ -715,3 +715,8 @@ function setFieldAndSort(field) {
     }
 }
 
+function changeDocType(index){
+    jq('#searchIndex_control').val(index);
+    submitForm('changeDocType', null, null, null);
+}
+
