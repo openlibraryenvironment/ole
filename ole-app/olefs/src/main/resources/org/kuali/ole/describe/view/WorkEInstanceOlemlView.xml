@@ -184,7 +184,6 @@
                 <ref bean="OLEEHoldings-Subscription"/>
                 <ref bean="OleEInstanceDonorInformation"/>
                 <ref bean="OleEHoldingsAccessInfoSection"/>
-                <ref bean="LinkInformation"/>
                 <ref bean="OleEHoldingsLicenseSection"/>
                 <ref bean="OleEInstanceHoldingNotes"/>
             </list>
