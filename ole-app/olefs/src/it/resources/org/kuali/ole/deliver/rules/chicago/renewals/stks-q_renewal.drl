@@ -10,6 +10,28 @@ import org.kuali.ole.deliver.util.ErrorMessage
 import org.kuali.ole.deliver.drools.DroolsConstants
 import org.kuali.ole.deliver.util.DroolsResponse
 
+rule "Circ Policy STKS/Q for Renewal with existing request"
+agenda-group "renewal validation"
+activation-group "renewal validation"
+when
+
+ $d : DroolsResponse()
+
+$l: OleLoanDocument()
+
+$n: NoticeInfo()
+
+$p: OlePatronDocument()
+
+$i: OleItemRecordForCirc($dr:getOleDeliverRequestBo(), null!= $dr)
+
+then
+
+$d.setRuleMatched(true);
+ $d.addErrorMessage("The item cannot be renewed because it has been requested.");
+ $d.addErrorMessageCode("ErrorMessageFromRule");
+ end
+
 
 rule "Circ Policy STKS/Q for Renewal"
 agenda-group "renewal validation"
@@ -18,7 +40,7 @@ when
 
  $d : DroolsResponse()
 
-$l: OleLoanDocument(Integer.valueOf(getNumberOfRenewals()) < 3)
+$l: OleLoanDocument($nr: getNumberOfRenewals(), null!= $nr, Integer.valueOf($nr) < 3)
 
 $n: NoticeInfo()
 
@@ -27,12 +49,13 @@ $p: OlePatronDocument(getBorrowerTypeCode() in
 
 $i: OleItemRecordForCirc(getItemType() in ("stks","games","mus"),
 getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"),
-$dr:getOleDeliverRequestBo(), null== $dr, $dr.getRequestTypeCode() in ("Recall/Hold Request", "Hold/Hold Request", "Page/Hold Request", "ASR Request"))
+$dr:getOleDeliverRequestBo(), null== $dr)
 
 
 then
 
 $d.setRuleMatched(true);
+$l.setCirculationPolicyId("Circ Policy STKS/Q for Renewal");
 $l.loanPeriod(OLEConstants.FIXED_DUE_DATE,null); // This method takes due date and recall period as arguments.
  end
 
@@ -41,7 +64,7 @@ $l.loanPeriod(OLEConstants.FIXED_DUE_DATE,null); // This method takes due date a
  activation-group "renewal validation"
  when
 
- $l: OleLoanDocument(Integer.valueOf(getNumberOfRenewals()) >= 3)
+ $l: OleLoanDocument($nr: getNumberOfRenewals(), null!= $nr, Integer.valueOf($nr) >= 3)
 
  $d : DroolsResponse()
 
@@ -51,13 +74,16 @@ $l.loanPeriod(OLEConstants.FIXED_DUE_DATE,null); // This method takes due date a
  ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER","QALUM25"))
 
  $i: OleItemRecordForCirc(getItemType() in ("stks","games","mus"),
- getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"))
+ getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"),
+ $dr:getOleDeliverRequestBo(), null== $dr)
  
 
  then
  
 $d.setRuleMatched(true);
+ $l.setCirculationPolicyId("Circ Policy STKS/Q for Renewal");
  $d.addErrorMessage("Patron has more than allowed limit of renewals");
+ $d.addErrorMessageCode("ErrorMessageFromRule");
  $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
  $l.loanPeriod(OLEConstants.FIXED_DUE_DATE,null); // This method takes due date and recall period as arguments.
   end

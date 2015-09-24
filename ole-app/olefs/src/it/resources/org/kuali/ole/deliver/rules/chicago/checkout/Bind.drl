@@ -4,18 +4,18 @@ import org.kuali.ole.OLEConstants
 import org.kuali.ole.deliver.bo.OleLoanDocument
 import org.kuali.ole.deliver.bo.OlePatronDocument
 import org.kuali.ole.deliver.util.OleItemRecordForCirc
-import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.util.ErrorMessage
 
 
 rule "Check out Circ Policy Set BIND"
 agenda-group "checkout validation"
 activation-group "checkout validation"
 when
+$l: OleLoanDocument()
 
-$p: OleLoanDocument(getBorrowerTypeCode() in ("BIND"),
-getItemLibrary() in ("JRL","JCL","ASR","DLL","Eck","SSAd"))
+$p: OlePatronDocument(getBorrowerTypeCode() in ("BIND"))
 
 then
-$p.setCirculationPolicyId("Check out Circ Policy Set BIND");
-$p.loanPeriod(null,null);
+$l.setCirculationPolicyId("Check out Circ Policy Set BIND");
+$l.loanPeriod(null,null);
  end

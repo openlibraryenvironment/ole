@@ -114,6 +114,10 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private String preferredAddress;
     private String email;
     private boolean deleteImageFlag;
+    private Integer overdueFineAmt;
+    private Integer replacementFeeAmt;
+    private Integer allCharges;
+    private List<FeeType> feeTypeList;
     public IdentityService getIdentityService() {
         if (identityService == null) {
             identityService = KimApiServiceLocator.getIdentityService();
@@ -225,7 +229,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public String getBorrowerTypeCode() {
-        if (getOleBorrowerType() != null) {
+        if (borrowerTypeCode == null) {
             borrowerTypeCode =  getOleBorrowerType().getBorrowerTypeCode();
         }
         return borrowerTypeCode;
@@ -1778,42 +1782,57 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     }
 
     public Integer getAllCharges() {
-        Integer allCharges = 0;
-
-        allCharges = getOverdueFineAmount() + getReplacementFineAmount
-                ();
-
+        if (null == allCharges) {
+            Integer overdueFineAmount = getOverdueFineAmount();
+            Integer replacementFineAmount = getReplacementFineAmount();
+            if (null != overdueFineAmount && null != replacementFineAmount) {
+                allCharges = overdueFineAmount + replacementFineAmount;
+            } else {
+                allCharges =  0;
+            }
+        }
         return allCharges;
     }
 
     public Integer getOverdueFineAmount() {
-        Integer overdueFineAmt = 0;
-        List<FeeType> feeTypeList = getPatronBillPayment();
-        for (FeeType feeType : feeTypeList) {
-            Integer fineAmount = feeType.getFeeAmount().subtract(feeType.getPaidAmount()).intValue();
-            overdueFineAmt += feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.OVERDUE_FINE) ? fineAmount : 0;
+        if (null == overdueFineAmt) {
+            List<FeeType> feeTypeList = getPatronBillPayment();
+            if (CollectionUtils.isNotEmpty(feeTypeList)) {
+                for (FeeType feeType : feeTypeList) {
+                    Integer fineAmount = feeType.getFeeAmount().subtract(feeType.getPaidAmount()).intValue();
+                    overdueFineAmt += feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.OVERDUE_FINE) ? fineAmount : 0;
+                }
+            } else {
+                overdueFineAmt = 0;
+            }
         }
         return overdueFineAmt;
     }
 
     public List<FeeType> getPatronBillPayment() {
-        List<FeeType> feeTypeList = new ArrayList<FeeType>();
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("patronId", olePatronId);
-        List<PatronBillPayment> patronBillPayments = (List<PatronBillPayment>) KRADServiceLocator.getBusinessObjectService().findMatching(PatronBillPayment.class, criteria);
-        for (PatronBillPayment patronBillPayment : patronBillPayments) {
-            feeTypeList.addAll(patronBillPayment.getFeeType());
+        if (null == feeTypeList) {
+            feeTypeList = new ArrayList<FeeType>();
+            Map<String, String> criteria = new HashMap<String, String>();
+            criteria.put("patronId", olePatronId);
+            List<PatronBillPayment> patronBillPayments = (List<PatronBillPayment>) KRADServiceLocator.getBusinessObjectService().findMatching(PatronBillPayment.class, criteria);
+            for (PatronBillPayment patronBillPayment : patronBillPayments) {
+                feeTypeList.addAll(patronBillPayment.getFeeType());
+            }
         }
         return feeTypeList;
     }
 
     public Integer getReplacementFineAmount() {
-        Integer replacementFeeAmt = 0;
-        List<FeeType> feeTypeList = getPatronBillPayment();
-        for (FeeType feeType : feeTypeList) {
-            Integer fineAmount = feeType.getFeeAmount().subtract(feeType.getPaidAmount()).intValue();
-            replacementFeeAmt += feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.REPLACEMENT_FEE) ? fineAmount : 0;
-
+        if (null != replacementFeeAmt) {
+            List<FeeType> feeTypeList = getPatronBillPayment();
+            if (CollectionUtils.isNotEmpty(feeTypeList)) {
+                for (FeeType feeType : feeTypeList) {
+                    Integer fineAmount = feeType.getFeeAmount().subtract(feeType.getPaidAmount()).intValue();
+                    replacementFeeAmt += feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.REPLACEMENT_FEE) ? fineAmount : 0;
+                }
+            } else {
+                replacementFeeAmt = 0;
+            }
         }
         return replacementFeeAmt;
     }

@@ -17,7 +17,7 @@ $i: OleItemRecordForCirc(getItemType() in ("res24"),
 getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"),
 getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"))
 
-$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF,","QOTHER",
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER",
 "QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC"),
 getLoanedItemsCountByItemType($i.getItemType()) < 2)
 
@@ -36,7 +36,7 @@ $i: OleItemRecordForCirc(getItemType() in ("res24"),
 getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"),
 getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"))
 
-$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF,","QOTHER",
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER",
 "QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC"),
 getLoanedItemsCountByItemType($i.getItemType()) >= 2)
 

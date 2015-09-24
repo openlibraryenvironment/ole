@@ -23,7 +23,7 @@ $d.addErrorMessage("Patron is Inactive");
 agenda-group "general-checks"
 when
 $p : OlePatronDocument(isGeneralBlock())
-$d: DroolsResponse()
+$d : DroolsResponse()
 then
 $d.addErrorMessage("Patron is blocked");
 $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
@@ -61,7 +61,7 @@ $d.addErrorMessage("Patron has an invalid activation date");
  rule "Check All Charges"
   agenda-group "general-checks"
   when
-  $p: OlePatronDocument(getAllCharges() > 49)
+   $p: OlePatronDocument(getAllCharges() > 49, getBorrowerTypeCode() not in ("BORDIR") )
   $d: DroolsResponse()
   then
   $d.addErrorMessage("Patron's overall charges are $50 or more");
@@ -71,7 +71,7 @@ $d.addErrorMessage("Patron has an invalid activation date");
  rule "Check Overdue fine"
   agenda-group "general-checks"
  when
- $p: OlePatronDocument(getOverdueFineAmount() > 49 )
+ $p: OlePatronDocument(getOverdueFineAmount() > 49,  getBorrowerTypeCode() not in ("BORDIR") )
  $d: DroolsResponse()
  then
  $d.addErrorMessage("Patron has overdue fines greater than $50");
@@ -81,7 +81,7 @@ $d.addErrorMessage("Patron has an invalid activation date");
  rule "Check Replacement fine"
 agenda-group "general-checks"
  when
- $p: OlePatronDocument(getReplacementFineAmount() > 149 )
+ $p: OlePatronDocument(getReplacementFineAmount() > 149, getBorrowerTypeCode() not in ("BORDIR") )
  $d: DroolsResponse()
  then
  $d.addErrorMessage("Patron has replacement fees of $150 or more");
@@ -102,7 +102,7 @@ agenda-group "general-checks"
  rule "Patron Has Atleast One Item which has been recalled and has exceeded the overdue limit"
 agenda-group "general-checks"
  when
- $p: OlePatronDocument(isRecalledAndOverDue(3))
+ $p: OlePatronDocument(isRecalledAndOverDue(3), getBorrowerTypeCode() not in ("BORDIR") )
  $d: DroolsResponse()
  then
  $d.addErrorMessage("Patron Has Atleast One Item which has been recalled and is overdue");

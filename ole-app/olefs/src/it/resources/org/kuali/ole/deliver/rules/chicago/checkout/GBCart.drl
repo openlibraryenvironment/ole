@@ -5,15 +5,18 @@ import org.kuali.ole.deliver.bo.OleLoanDocument
 import org.kuali.ole.deliver.bo.OlePatronDocument
 import org.kuali.ole.deliver.util.OleItemRecordForCirc
 import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.util.NoticeInfo
 
 rule "Check out Circ Policy Set GBCART"
 agenda-group "checkout validation"
 activation-group "checkout validation"
 when
-$p: OleLoanDocument(getBorrowerTypeCode() in ("GBCART"),
-getItemLibrary() in ("JRL","JCL","ASR","DLL","Eck","SSAd"))
+$l: OleLoanDocument()
+
+$p: OlePatronDocument(getBorrowerTypeCode() in ("GBCART"))
+$i:OleItemRecordForCirc ( getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"))
 
 then
-$p.setCirculationPolicyId("Check out Circ Policy Set GBCART");
-$p.loanPeriod(null,null);
+$l.setCirculationPolicyId("Check out Circ Policy Set GBCART");
+$l.loanPeriod(null,null);
  end

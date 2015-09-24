@@ -13,7 +13,7 @@ activation-group "checkout validation"
 when
 $l: OleLoanDocument()
 
-$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF,","QOTHER",
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER",
 "QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC"))
 
 $i: OleItemRecordForCirc(getItemType() in ("stks14"),

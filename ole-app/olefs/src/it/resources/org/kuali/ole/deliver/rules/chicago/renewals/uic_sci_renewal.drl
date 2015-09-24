@@ -10,7 +10,7 @@ import org.kuali.ole.deliver.util.ErrorMessage
 import org.kuali.ole.deliver.drools.DroolsConstants
 import org.kuali.ole.deliver.util.DroolsResponse
 
-rule "Circ Policy STKS/NWU for Renewal with existing request"
+rule "Circ Policy STKS/UIC/SCI for Renewal with existing request"
 agenda-group "renewal validation"
 activation-group "renewal validation"
 when
@@ -33,7 +33,7 @@ $d.setRuleMatched(true);
  end
 
 
-rule "Circ Policy STKS/NWU for Renewal"
+rule "Circ Policy STKS/UIC/SCI for Renewal"
 agenda-group "renewal validation"
 activation-group "renewal validation"
 when
@@ -45,9 +45,10 @@ $l: OleLoanDocument($nr: getNumberOfRenewals(), null!= $nr, Integer.valueOf($nr)
 $n: NoticeInfo()
 
 $p: OlePatronDocument(getBorrowerTypeCode() in
-("NWU"))
+("UIC"))
 
 $i: OleItemRecordForCirc(getItemType() in ("stks","games","mus"),
+getItemLibraryLocation() in ("JCL","Eck"),
 getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"),
 $dr:getOleDeliverRequestBo(), null== $dr)
 
@@ -55,11 +56,11 @@ $dr:getOleDeliverRequestBo(), null== $dr)
 then
 
 $d.setRuleMatched(true);
-$l.setCirculationPolicyId("Circ Policy STKS/NWU for Renewal");
-$l.loanPeriod("84-D",null); // This method takes due date and recall period as arguments.
+$l.setCirculationPolicyId("Circ Policy STKS/UIC/SCI for Renewal");
+$l.loanPeriod("28-D",null); // This method takes due date and recall period as arguments.
  end
 
- rule "Circ Policy STKS/NWU for Renewal for renewal item count greater than 3"
+ rule "Circ Policy STKS/UIC/SCI for Renewal for renewal item count greater than 3"
  agenda-group "renewal validation"
  activation-group "renewal validation"
  when
@@ -70,9 +71,10 @@ $l.loanPeriod("84-D",null); // This method takes due date and recall period as a
  $n: NoticeInfo()
 
  $p: OlePatronDocument(getBorrowerTypeCode() in
- ("NWU"))
+ ("UIC"))
 
  $i: OleItemRecordForCirc(getItemType() in ("stks","games","mus"),
+ getItemLibraryLocation() in ("JCL","Eck"),
  getItemLocation() not in ("Resup", "ResupC","ResupD","ResupE","ResupS"),
  $dr:getOleDeliverRequestBo(), null== $dr)
 
@@ -80,10 +82,10 @@ $l.loanPeriod("84-D",null); // This method takes due date and recall period as a
  then
 
 $d.setRuleMatched(true);
- $l.setCirculationPolicyId("Circ Policy STKS/NWU for Renewal");
+ $l.setCirculationPolicyId("Circ Policy STKS/UIC/SCI for Renewal");
  $d.addErrorMessage("Patron has more than allowed limit of renewals");
  $d.addErrorMessageCode("ErrorMessageFromRule");
  $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
- $l.loanPeriod("84-D",null); // This method takes due date and recall period as arguments.
+ $l.loanPeriod("28-D",null); // This method takes due date and recall period as arguments.
   end
 
