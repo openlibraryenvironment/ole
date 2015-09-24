@@ -113,16 +113,19 @@ public abstract class CheckoutBaseController extends CircUtilController {
     private DroolsResponse preValidationForCheckout(OleItemRecordForCirc oleItemRecordForCirc, DroolsResponse droolsResponse, OLEForm oleForm) {
 
         if (StringUtils.isBlank(oleItemRecordForCirc.getItemFullPathLocation())) {
+            droolsResponse = new DroolsResponse();
             droolsResponse.addErrorMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INVAL_LOC));
             droolsResponse.addErrorMessageCode(DroolsConstants.GENERAL_INFO);
             return droolsResponse;
         }
         if (StringUtils.isBlank(oleItemRecordForCirc.getItemType())) {
+            droolsResponse = new DroolsResponse();
             droolsResponse.addErrorMessage("Invalid item type for this item : " + oleItemRecordForCirc.getItemRecord().getBarCode());
             droolsResponse.addErrorMessageCode(DroolsConstants.GENERAL_INFO);
             return droolsResponse;
         }
         if (null == oleItemRecordForCirc.getItemStatusRecord() || StringUtils.isBlank(oleItemRecordForCirc.getItemStatusRecord().getCode())) {
+            droolsResponse = new DroolsResponse();
             droolsResponse.addErrorMessage("Invalid item status for this item : " + oleItemRecordForCirc.getItemRecord().getBarCode());
             droolsResponse.addErrorMessageCode(DroolsConstants.GENERAL_INFO);
             return droolsResponse;
