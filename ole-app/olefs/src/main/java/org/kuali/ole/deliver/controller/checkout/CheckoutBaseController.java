@@ -214,7 +214,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
                     OleProxyPatronDocument proxyForPatron = iterator.next();
                     OlePatronDocument proxyForPatronDocument = proxyForPatron.getOlePatronDocument();
                     if (proxyForPatronDocument.isCheckoutForSelf()) {
-                        patronForWhomLoanIsBeingProcessed.put(proxyForPatronDocument, currentBorrower);
+                        patronForWhomLoanIsBeingProcessed.put(currentBorrower, proxyForPatronDocument);
                     }
                 }
             }
@@ -395,7 +395,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
                 return olePatronDocument;
             }
         }
-        return patronForWhomLoanIsBeingProcessed.get(proxyPatronDocument);
+       return proxyPatronDocument;
     }
 
     public DroolsExchange proceedToSaveLoan(OLEForm oleForm) {

@@ -359,7 +359,7 @@ public class WorkItemOlemlEditor extends AbstractEditor {
             if (StringUtils.isNotEmpty(docId)) {
                 //Item itemData = workInstanceOlemlForm.getSelectedItem();
                 if (editorForm.getItemStatusSelection().equals("true")) {
-                    Format formatter = new SimpleDateFormat("MM/dd/yyyy");
+                    Format formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                     itemData.setItemStatusEffectiveDate(formatter.format(new Date()));
                 }
 

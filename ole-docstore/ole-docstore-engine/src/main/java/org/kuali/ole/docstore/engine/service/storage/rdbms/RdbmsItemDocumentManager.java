@@ -30,11 +30,13 @@ import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOleml
 import org.kuali.ole.docstore.common.exception.DocstoreException;
 import org.kuali.ole.docstore.common.exception.DocstoreResources;
 import org.kuali.ole.docstore.common.exception.DocstoreValidationException;
+import org.kuali.ole.docstore.engine.service.DocstoreDateTimeUtil;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.*;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemClaimsReturnedRecord;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemDamagedRecord;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.collections.CollectionUtils;
@@ -377,7 +379,7 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
         if (itemRecord.getEffectiveDate() != null) {
             //Format formatter = new SimpleDateFormat("yyyy-MM-dd");
             //String effectiveDate = formatter.format(itemRecord.getEffectiveDate().toString());
-            SimpleDateFormat format1 = new SimpleDateFormat(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("info.DateFormat")+" hh:mm:ss");
+            SimpleDateFormat format1 = new SimpleDateFormat(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("info.DateFormat")+" HH:mm:ss");
             SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             Date effectiveDate = null;
             try {
@@ -1078,11 +1080,11 @@ public class RdbmsItemDocumentManager extends RdbmsHoldingsDocumentManager imple
 
 
     private void effectiveDateItem(org.kuali.ole.docstore.common.document.content.instance.Item item, ItemRecord itemRecord, String effectiveDateForItem) {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+        DateTimeService dateTimeService = new DocstoreDateTimeUtil();
         Timestamp effectiveDate = null;
         try {
             if (!"".equals(item.getItemStatusEffectiveDate()) && item.getItemStatusEffectiveDate() != null) {
-                effectiveDate = new Timestamp(df.parse(effectiveDateForItem).getTime());
+                effectiveDate = new Timestamp(dateTimeService.convertToDate(effectiveDateForItem).getTime());
                 itemRecord.setEffectiveDate(effectiveDate);
             }
         } catch (Exception e) {

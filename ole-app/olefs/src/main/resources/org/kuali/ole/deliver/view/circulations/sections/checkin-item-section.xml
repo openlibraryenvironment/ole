@@ -30,8 +30,9 @@
             <list>
                 <ref bean="checkIn-Item"/>
                 <ref bean="checkinCustomDateTimeSection"/>
-                <ref bean="AlertBoxSectionForCheckinCustomDueDate"/>
-                <ref bean="AlertBoxSectionForCheckinCustomDueDateTime"/>
+                <ref bean="alertBoxSectionForCheckinCustomDueDate"/>
+                <ref bean="alertBoxSectionForCheckinCustomDueDateTime"/>
+                <ref bean="restoreSystemCheckInDateAndTime"/>
             </list>
         </property>
     </bean>
@@ -116,7 +117,27 @@
         </property>
     </bean>
 
-    <bean id="AlertBoxSectionForCheckinCustomDueDate" parent="Uif-MessageField" p:messageText="Check-in Date is not the current date" p:hidden="true" p:cssClasses="alert-error"/>
-    <bean id="AlertBoxSectionForCheckinCustomDueDateTime" parent="Uif-MessageField" p:messageText="Check-in Time is not the current Time" p:hidden="true" p:cssClasses="alert-error"/>
+    <bean id="alertBoxSectionForCheckinCustomDueDate" parent="Uif-MessageField" p:messageText="Check-in Date is not the current date" p:hidden="true" p:cssClasses="alert-error"/>
+    <bean id="alertBoxSectionForCheckinCustomDueDateTime" parent="Uif-MessageField" p:messageText="Check-in Time is not the current Time" p:hidden="true" p:cssClasses="alert-error"/>
+
+    <bean id="restoreSystemCheckInDateAndTime" parent="restoreSystemCheckInDateAndTime-parentBean"/>
+    <bean id="restoreSystemCheckInDateAndTime-parentBean" parent="Uif-SecondaryActionButton" p:actionScript="var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1;
+            var yyyy = today.getFullYear();
+            var hour = today.getHours();
+            var minute = today.getMinutes();
+            if(dd&lt;10){
+                dd='0'+dd;
+            }
+            if(mm&lt;10){
+                mm='0'+mm;
+            }
+            var currentDate = mm+'/'+dd+'/'+yyyy;
+            var currentTime = hour+':'+minute;
+            jq('#checkinCustomDueDate_control').val(currentDate);
+            jq('#checkinCustomDueDateTime_control').val(currentTime);
+            validateCheckInDate();"
+          p:actionLabel="Restore System Date/Time"/>
 
 </beans>

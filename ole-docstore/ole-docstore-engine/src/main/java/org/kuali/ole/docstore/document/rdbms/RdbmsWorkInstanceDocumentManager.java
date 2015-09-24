@@ -1836,7 +1836,7 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
         if (itemRecord.getEffectiveDate() != null) {
             //Format formatter = new SimpleDateFormat("yyyy-MM-dd");
             //String effectiveDate = formatter.format(itemRecord.getEffectiveDate().toString());
-            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+            SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             Date effectiveDate = null;
             try {

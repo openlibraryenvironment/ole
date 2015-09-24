@@ -2321,10 +2321,10 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         org.kuali.ole.docstore.common.document.Item item1 = (org.kuali.ole.docstore.common.document.Item) detailMap.get("documentItem");
                         if (item != null) {
                             oleDeliverRequestBo.setOleItem(item);
-                            if (item.getCallNumber() != null && item.getCallNumber().getNumber() != null) {
+                            if (item.getCallNumber() != null && StringUtils.isNotBlank(item.getCallNumber().getNumber())) {
                                 oleDeliverRequestBo.setCallNumber(item.getCallNumber().getNumber());
                             }
-                            if (item.getCopyNumber() != null) {
+                            if (StringUtils.isNotBlank(item.getCopyNumber())) {
                                 oleDeliverRequestBo.setCopyNumber(item.getCopyNumber());
                             }
                             oleDeliverRequestBo.setVolumeNumber(item.getVolumeNumber() != null ? item.getVolumeNumber() : "");
@@ -2332,10 +2332,10 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                             oleDeliverRequestBo.setChronology(item.getChronology() != null ? item.getChronology() : "");
                         }
                         if (oleHoldings != null) {
-                            if (oleDeliverRequestBo.getCallNumber() == null && oleHoldings.getCallNumber() != null && oleHoldings.getCallNumber().getNumber() != null) {
+                            if (StringUtils.isBlank(oleDeliverRequestBo.getCallNumber()) && oleHoldings.getCallNumber() != null && StringUtils.isNotBlank(oleHoldings.getCallNumber().getNumber())) {
                                 oleDeliverRequestBo.setCallNumber(oleHoldings.getCallNumber().getNumber());
                             }
-                            if (oleDeliverRequestBo.getCopyNumber() == null && oleHoldings.getCopyNumber() != null) {
+                            if (StringUtils.isBlank(oleDeliverRequestBo.getCopyNumber()) && StringUtils.isNotBlank(oleHoldings.getCopyNumber())) {
                                 oleDeliverRequestBo.setCopyNumber(oleHoldings.getCopyNumber());
                             }
                         }
@@ -2692,19 +2692,21 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                         org.kuali.ole.docstore.common.document.Item item1 = (org.kuali.ole.docstore.common.document.Item) detailMap.get("documentItem");
                         if (item != null) {
                             oleDeliverRequestBo.setOleItem(item);
-                            if (item.getCallNumber() != null && item.getCallNumber().getNumber() != null) {
+                            if (item.getCallNumber() != null && StringUtils.isNotBlank(item.getCallNumber().getNumber())) {
                                 oleDeliverRequestBo.setCallNumber(item.getCallNumber().getNumber());
                             }
-                            if (item.getCopyNumber() != null) {
+                            if (StringUtils.isNotBlank(item.getCopyNumber())) {
                                 oleDeliverRequestBo.setCopyNumber(item.getCopyNumber());
                             }
-                            oleDeliverRequestBo.setVolumeNumber(item.getEnumeration() != null ? item.getEnumeration() : "");
+                            oleDeliverRequestBo.setVolumeNumber(item.getVolumeNumber() != null ? item.getVolumeNumber() : "");
+                            oleDeliverRequestBo.setEnumeration(item.getEnumeration() != null ? item.getEnumeration() : "");
+                            oleDeliverRequestBo.setChronology(item.getChronology() != null ? item.getChronology() : "");
                         }
                         if (oleHoldings != null) {
-                            if (oleDeliverRequestBo.getCallNumber() == null && oleHoldings.getCallNumber() != null && oleHoldings.getCallNumber().getNumber() != null) {
+                            if (StringUtils.isBlank(oleDeliverRequestBo.getCallNumber()) && oleHoldings.getCallNumber() != null && StringUtils.isNotBlank(oleHoldings.getCallNumber().getNumber())) {
                                 oleDeliverRequestBo.setCallNumber(oleHoldings.getCallNumber().getNumber());
                             }
-                            if (oleDeliverRequestBo.getCopyNumber() == null && oleHoldings.getCopyNumber() != null) {
+                            if (StringUtils.isBlank(oleDeliverRequestBo.getCopyNumber()) && oleHoldings.getCopyNumber() != null) {
                                 oleDeliverRequestBo.setCopyNumber(oleHoldings.getCopyNumber());
                             }
                         }

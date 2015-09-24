@@ -66,6 +66,8 @@ public class CheckinForm extends OLEForm {
         this.setShowPrintSlip(false);
         this.errorMessage = new ErrorMessage();
         this.routeToLocation = null;
+        this.customDueDateMap = new Date();
+        this.customDueDateTime = null;
     }
 
     public void reset() {
