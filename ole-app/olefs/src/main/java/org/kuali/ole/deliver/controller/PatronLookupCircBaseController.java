@@ -50,6 +50,9 @@ public abstract class PatronLookupCircBaseController extends CircUtilController 
                 patronDocument = getOlePatronRecordUtil().getPatronRecordByBarcode(getPatronBarcode(droolsExchange));
                 patronDocument.setRequestedItemRecordsCount(patronDocument.getOleDeliverRequestBos().size());
                 patronDocument.setTempCirculationHistoryCount(patronDocument.getOleTemporaryCirculationHistoryRecords().size());
+                if(StringUtils.isBlank(patronDocument.getPhoneNumber())){
+                    patronDocument.setPhoneNumber(patronDocument.getOlePatronEntityViewBo() != null ? patronDocument.getOlePatronEntityViewBo().getPhoneNumber() : "");
+                }
                 setPatronDocument(droolsExchange, patronDocument);
             }
             String[] expectedRules = {};
