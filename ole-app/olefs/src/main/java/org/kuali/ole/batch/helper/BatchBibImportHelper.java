@@ -39,6 +39,7 @@ public class BatchBibImportHelper {
     private OLEBatchBibImportStatistics bibImportStatistics = null;
     private List<DataField> holdingsDataFields = new ArrayList<>();
     private List<DataField> eHoldingsDataFields = new ArrayList<>();
+    private List<DataField> overlayeHoldingsDataFields = new ArrayList<>();
     private List<DataField> itemDataFields = new ArrayList<>();
     private List<OLEBatchProcessProfileDataMappingOptionsBo> dataMapping = new ArrayList<>();
     private DocstoreClientLocator docstoreClientLocator;
@@ -284,23 +285,11 @@ public class BatchBibImportHelper {
             // Building  Match Point List for EHoldings
             List<OLEBatchProcessProfileMatchPoint> eHoldingsMatchPointList = BatchBibImportUtil.buildMatchPointListByDataType(profile.getOleBatchProcessProfileMatchPointList(), DocType.EHOLDINGS.getCode());
 
-            // When input file contains only one EHoldings
-            if (eHoldingsDataFields.size() == 1) {
-                docType = DocType.EHOLDINGS.getCode();
-                Holdings matchedHoldings = getMatchedHoldings(bibTree.getBib(), eHoldingsDataFields, docType);
-                if (matchedHoldings == null) {
-                    matchedHoldings = findMatchingForPHoldingsAndEholdings(bibTree.getBib().getId(), null, eHoldingsMatchPointList, docType);
-                    processMatchedEHoldings(bibRecord, profile, oleBatchBibImportDataObjects, holdingsTrees, matchingProfile, matchedHoldings, null);
-                }
-            } else {
                 if (eHoldingsMatchPointList != null && eHoldingsMatchPointList.size() > 0) {
                     docType = DocType.EHOLDINGS.getCode();
                     // Process EHoldings   to find matching record
                     processMatchedEHoldings(bibRecord, profile, bibTree.getBib(), oleBatchBibImportDataObjects, holdingsTrees, matchingProfile, eHoldingsMatchPointList, docType);
-                }
-            }
-
-
+               }
         }
 
     }
@@ -446,19 +435,24 @@ public class BatchBibImportHelper {
      * @param docType
      */
     private void processMatchedEHoldings(BibMarcRecord bibRecord, OLEBatchProcessProfileBo profile, Bib bib, OLEBatchBibImportDataObjects oleBatchBibImportDataObjects, List<HoldingsTree> holdingsTrees, MatchingProfile matchingProfile, List<OLEBatchProcessProfileMatchPoint> holdingsMatchPointList, String docType) {
-
-        Holdings matchedHoldings = null;
-
-        try {
-            if (eHoldingsDataFields != null && eHoldingsDataFields.size() > 0) {
-                if (matchedHoldings == null) {
-                    matchedHoldings = findMatchingForPHoldingsAndEholdings(bib.getId(), eHoldingsDataFields.get(0), holdingsMatchPointList, docType);
+        // multiple Eholdings Field in bib record
+        for (DataField dataField : bibRecord.getDataFields()) {
+            overlayeHoldingsDataFields.clear();
+            eHoldingsDataFields.clear();
+            eHoldingsDataFields.add(dataField);
+            if (eHoldingsDataFields.size() > 0 && dataField.getTag().equalsIgnoreCase(eHoldingsDataFields.get(0).getTag())) {
+                try {
+                    Holdings matchedHoldings = findMatchingForPHoldingsAndEholdings(bib.getId(), dataField, holdingsMatchPointList, docType);
+                    if (matchedHoldings == null) {
+                        // To avoid duplicates for multiple eholdings while overlaying
+                        overlayeHoldingsDataFields.add(dataField);
+                    }
+                    processMatchedEHoldings(bibRecord, profile, oleBatchBibImportDataObjects, holdingsTrees, matchingProfile, matchedHoldings, eHoldingsDataFields.get(0));
+                } catch (DocstoreException e) {
+                    bibImportStatistics.getMoreThanOneHoldingsMatched().add(bibRecord);
+                    LOG.info(e.getErrorMessage());
                 }
-                processMatchedEHoldings(bibRecord, profile, oleBatchBibImportDataObjects, holdingsTrees, matchingProfile, matchedHoldings, eHoldingsDataFields.get(0));
             }
-        } catch (DocstoreException e) {
-            bibImportStatistics.getMoreThanOneHoldingsMatched().add(bibRecord);
-            LOG.info(e.getErrorMessage());
         }
     }
 
@@ -500,15 +494,10 @@ public class BatchBibImportHelper {
         // If incoming file has single holdings
         if (holdingsDataFields.size() == 1 || holdingsConstant || eHoldingsConstant) {
             HoldingsTrees holdingsTrees = null;
-
-            if (docType.equalsIgnoreCase(DocType.EHOLDINGS.getCode())) {
+            if (itemDataFields.size() == 1 || itemConstant) {
                 holdingsTrees = BatchBibImportUtil.getHoldingsTrees(bib.getId());
-            } else {
-
-                if (itemDataFields.size() == 1 || itemConstant) {
-                    holdingsTrees = BatchBibImportUtil.getHoldingsTrees(bib.getId());
-                }
             }
+
             if (holdingsTrees != null && holdingsTrees.getHoldingsTrees().size() == 1) {
                 try {
                     List<String> itemIds = BatchBibImportUtil.getItemIds(holdingsTrees.getHoldingsTrees().get(0).getHoldings().getId());
@@ -1108,7 +1097,11 @@ public class BatchBibImportHelper {
 
             urlTagField = oleBatchProcessProfileDataMappingOptionsBo.getSourceField().substring(0, 3);
             urlMappedDataTag.append(urlTagField);
-            dataFields = BatchBibImportUtil.getMatchedUrlDataFields(urlTagField, bibRecord);
+            if (overlayeHoldingsDataFields.size() > 0) {
+                dataFields = overlayeHoldingsDataFields;
+            } else {
+                dataFields = BatchBibImportUtil.getMatchedUrlDataFields(urlTagField, bibRecord);
+            }
             for (DataField dataField : dataFields) {
                 String urlSourceFieldValue = BatchBibImportUtil.getDataFieldValue(dataField, oleBatchProcessProfileDataMappingOptionsBo.getSourceField());
                 if (StringUtils.isNotBlank(urlSourceFieldValue)) {
@@ -1391,7 +1384,7 @@ public class BatchBibImportHelper {
         for (OLEBatchProcessProfileMatchPoint matchPoint : holdingsMatchPointList) {
             String fieldValue = null;
             //Checking  for field value in Holdings constants
-            fieldValue = getFieldValueFromConstantsOrDefaults(matchPoint, OLEConstants.OLEBatchProcess.CONSTANT, DocType.HOLDINGS.getCode());
+            fieldValue = getFieldValueFromConstantsOrDefaults(matchPoint, OLEConstants.OLEBatchProcess.CONSTANT, docType);
 
             // Checking value from  data Mapping
             if (dataField != null && fieldValue == null) {
