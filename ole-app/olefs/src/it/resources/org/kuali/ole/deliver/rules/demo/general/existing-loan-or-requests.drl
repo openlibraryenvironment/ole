@@ -1,0 +1,74 @@
+package org.kuali.ole.deliver.rules.demo.general
+
+import org.kuali.ole.deliver.bo.OlePatronDocument
+import org.kuali.ole.deliver.bo.OleLoanDocument
+import org.kuali.ole.deliver.drools.DroolsExchange
+import org.kuali.ole.deliver.bo.OleDeliverRequestBo
+import org.kuali.ole.deliver.util.OleItemRecordForCirc
+import java.util.Date
+import java.text.SimpleDateFormat
+import org.kuali.ole.deliver.drools.DroolsConstants
+import org.kuali.ole.deliver.util.DroolsResponse
+
+
+rule "Available Item by same patron with an existing request"
+ agenda-group "request-or-existing-loan-checks"
+ activation-group "request-or-existing-loan-checks"
+ when
+ $p : OlePatronDocument()
+ $i : OleItemRecordForCirc($is: getItemStatusRecord(), null!= $is, $is.getCode() not in  ("LOANED"))
+ $dr: OleDeliverRequestBo($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId())
+ $d : DroolsResponse()
+
+ then
+  $d.addErrorMessage("Item has an existing request and is available.");
+  $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+  $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_AVAIL_ITEM);
+ end
+
+ rule "Loaned Item by same patron with an existing request by a differnt patron"
+  agenda-group "request-or-existing-loan-checks"
+   activation-group "request-or-existing-loan-checks"
+  when
+  $p : OlePatronDocument()
+  $l: OleLoanDocument(getLoanId()!=null)
+  $dr: OleDeliverRequestBo($p1 : getOlePatron(),$p1!=null ,$p1.getBarcode()!=$p.getBarcode())
+  $d : DroolsResponse()
+
+  then
+   $d.addErrorMessage("Item has an existing request by the patron who is different than the current borrower.");
+   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+   $d.addErrorMessageCode(DroolsConstants.REQUEST_EXITS_FOR_LOANED_ITEM);
+  end
+
+ rule "Item loaned by someone else"
+  agenda-group "request-or-existing-loan-checks"
+   activation-group "request-or-existing-loan-checks"
+  when
+  $p : OlePatronDocument()
+  $l: OleLoanDocument($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId() != $p.getOlePatronId())
+  $d : DroolsResponse()
+
+  then
+   $d.addErrorMessage("Item currently loaned by some one else.");
+   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+   $d.addErrorMessageCode(DroolsConstants.LOANED_BY_DIFFERENT_PATRON);
+  end
+
+
+ rule "Item loaned by same patron without an existing request"
+  agenda-group "request-or-existing-loan-checks"
+   activation-group "request-or-existing-loan-checks"
+  when
+  $p : OlePatronDocument()
+  $i : OleItemRecordForCirc($dr: getOleDeliverRequestBo(), $dr == null)
+  $l: OleLoanDocument($p1: getOlePatron(), $p1 != null, $p1.getOlePatronId().equals($p.getOlePatronId()))
+  $d : DroolsResponse()
+
+  then
+   $d.addErrorMessage("Item currently loaned by same patron.");
+   $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
+   $d.addErrorMessageCode(DroolsConstants.CHECKED_OUT_BY_SAME_PATRON);
+  end
+
+

@@ -1,14 +1,13 @@
-package org.kuali.ole.deliver.rules.general
+package org.kuali.ole.deliver.rules.demo.general
 
 import org.kuali.ole.deliver.bo.OlePatronDocument
-import org.kuali.ole.deliver.util.ErrorMessage
+import org.kuali.ole.deliver.util.DroolsResponse
 import org.kuali.ole.deliver.bo.OleAddressBo
 import org.kuali.ole.deliver.drools.DroolsExchange
 import java.util.Date
 import java.text.SimpleDateFormat
 import org.kuali.ole.service.OleCirculationPolicyServiceImpl
 import org.kuali.ole.deliver.drools.DroolsConstants
-import org.kuali.ole.deliver.util.DroolsResponse
 
 
 rule "Is Patron Active"
@@ -42,7 +41,7 @@ rule "Is Patron's address verified"
 rule "Is Patron Expired"
  agenda-group "general-checks"
  when
- $p : OlePatronDocument(getExpirationDate() != null, $dt: getExpirationDate(), $dt.before(today()))
+ $p : OlePatronDocument(getExpirationDate() != null, getExpirationDate() < today())
  $d : DroolsResponse()
  then
  $d.addErrorMessage("Patron has expired");
@@ -52,7 +51,7 @@ rule "Is Patron Expired"
 rule "Activation Date for Patron"
    agenda-group "general-checks"
    when
-   $p : OlePatronDocument(getActivationDate()!= null, $dt: getActivationDate(), $dt.after(today()))
+   $p : OlePatronDocument(getActivationDate()!= null,getActivationDate() > today())
    $d : DroolsResponse()
    then
    $d.addErrorMessage("Patron has an invalid activation date");

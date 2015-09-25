@@ -1,10 +1,11 @@
-package org.kuali.ole.deliver.checkin
+package org.kuali.ole.deliver.rules.demo.checkin
 
 
 import org.kuali.ole.deliver.bo.OleLoanDocument
 import org.kuali.ole.deliver.bo.OleCirculationDesk
 import org.kuali.ole.deliver.util.OleItemRecordForCirc
 import org.kuali.ole.deliver.util.DroolsResponse
+import org.kuali.ole.deliver.drools.DroolsConstants
 
 
 
@@ -43,13 +44,14 @@ $i.updateCheckinCount();
 $d.setRuleMatched(true);
  end
 
- rule "InTransitCheck"
+rule "InTransitCheck for item location mapped to circulation desk"
 agenda-group "checkin-validation-for-loan"
 activation-group "checkin-validation-for-loan"
 
 when
 
 $i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),!isCheckinLocationSameAsHomeLocation(),
+    isLocationMappedToCirculationDesk(),
 $r:getOleDeliverRequestBo(), null== $r,
 $s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
 $d : DroolsResponse()
@@ -57,6 +59,26 @@ $d : DroolsResponse()
 then
 $i.setItemStatusToBeUpdatedTo("INTRANSIT");
 $d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
+end
+
+rule "InTransitCheck for item location not mapped to circulation desk"
+agenda-group "checkin-validation-for-loan"
+activation-group "checkin-validation-for-loan"
+
+when
+
+$i: OleItemRecordForCirc(null!= isCheckinLocationSameAsHomeLocation(),!isCheckinLocationSameAsHomeLocation(),
+    !isLocationMappedToCirculationDesk(),
+$r:getOleDeliverRequestBo(), null== $r,
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
+$d : DroolsResponse()
+
+then
+$i.setItemStatusToBeUpdatedTo("INTRANSIT");
+$d.setRuleMatched(true);
+$d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
+$d.getDroolsExchange().addToContext(DroolsConstants.ROUTE_TO_LOCATION_SELECTOR, true);
  end
 
 
