@@ -38,7 +38,7 @@ $d : DroolsResponse()
 
 $i: OleItemRecordForCirc(getItemType() in ("BOOK"),
 getItemLibraryLocation() in ("LSC","B-EDUC","B-HPER","DLL","SCL","DOCS"),
-getItemLocation() not in ("PSK", "BED-STACKS","BED-TEACHMAT","BHP-JOURNALS","LawPer"))
+getItemLocation() in ("PSK", "BED-STACKS","BED-TEACHMAT","BHP-JOURNALS","LawPer"))
 
 $p: OlePatronDocument(getBorrowerTypeCode() in ("ALUM","AVR","FAC","FACR","GRAD","GUEST","RES","STAFF","UGRAD"),
 getLoanedItemsCountByItemType($i.getItemType()) >= 3)
