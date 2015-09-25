@@ -138,6 +138,7 @@
                                             <echo>Username - ${sql.username}</echo>
                                             <echo>Password - ${sql.password}</echo>
                                             <echo>Driver - ${jdbc.driver}</echo>
+                                            <echo>Database - ${sql.database}</echo>
                                         </echos>
                                     </configuration>
                                 </execution>
@@ -182,8 +183,8 @@
                                     <configuration>
                                         <url>${jdbc.url}</url>
                                         <driver>${jdbc.driver}</driver>
-                                        <username>${sql.database}</username>
-                                        <password>${sql.database}</password>
+                                        <username>${sql.username}</username>
+                                        <password>${sql.password}</password>
                                         <sqlCommand>${sql.init}</sqlCommand>
                                         <showSql>true</showSql>
                                         <delimiter>/</delimiter>
@@ -475,6 +476,7 @@
                                             <echo>Username - ${sql.username}</echo>
                                             <echo>Password - ${sql.password}</echo>
                                             <echo>Driver - ${jdbc.driver}</echo>
+                                            <echo>Database - ${sql.database}</echo>
                                         </echos>
                                     </configuration>
                                 </execution>
@@ -519,8 +521,8 @@
                                     <configuration>
                                         <url>${jdbc.url}</url>
                                         <driver>${jdbc.driver}</driver>
-                                        <username>${sql.database}</username>
-                                        <password>${sql.database}</password>
+                                        <username>${sql.username}</username>
+                                        <password>${sql.password}</password>
                                         <sqlCommand>${sql.init}</sqlCommand>
                                         <showSql>true</showSql>
                                         <delimiter>/</delimiter>
@@ -770,6 +772,7 @@
                                             <echo>Username - ${sql.username}</echo>
                                             <echo>Password - ${sql.password}</echo>
                                             <echo>Driver - ${jdbc.driver}</echo>
+                                            <echo>Database - ${sql.database}</echo>
                                         </echos>
                                     </configuration>
                                 </execution>
@@ -814,8 +817,8 @@
                                     <configuration>
                                         <url>${jdbc.url}</url>
                                         <driver>${jdbc.driver}</driver>
-                                        <username>${sql.database}</username>
-                                        <password>${sql.database}</password>
+                                        <username>${sql.username}</username>
+                                        <password>${sql.password}</password>
                                         <sqlCommand>${sql.init}</sqlCommand>
                                         <showSql>true</showSql>
                                         <delimiter>/</delimiter>
@@ -1056,6 +1059,7 @@
                                             <echo>URL - ${jdbc.url}</echo>
                                             <echo>Username - ${sql.username}</echo>
                                             <echo>Password - ${sql.password}</echo>
+                                            <echo>Database - ${sql.database}</echo>
                                             <echo>Driver - ${jdbc.driver}</echo>
                                         </echos>
                                     </configuration>
@@ -1101,8 +1105,8 @@
                                     <configuration>
                                         <url>${jdbc.url}</url>
                                         <driver>${jdbc.driver}</driver>
-                                        <username>${sql.database}</username>
-                                        <password>${sql.database}</password>
+                                        <username>${sql.username}</username>
+                                        <password>${sql.password}</password>
                                         <sqlCommand>${sql.init}</sqlCommand>
                                         <showSql>true</showSql>
                                         <delimiter>/</delimiter>
