@@ -1799,6 +1799,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
             List<FeeType> feeTypeList = getPatronBillPayment();
             if (CollectionUtils.isNotEmpty(feeTypeList)) {
                 for (FeeType feeType : feeTypeList) {
+                    overdueFineAmt = 0;
                     Integer fineAmount = feeType.getFeeAmount().subtract(feeType.getPaidAmount()).intValue();
                     overdueFineAmt += feeType.getOleFeeType().getFeeTypeName().equalsIgnoreCase(OLEConstants.OVERDUE_FINE) ? fineAmount : 0;
                 }
