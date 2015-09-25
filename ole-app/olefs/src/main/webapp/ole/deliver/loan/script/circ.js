@@ -156,7 +156,7 @@ jq(window).load(function () {
 
 function validateCheckInDate() {
     var checkInDate = new Date(jq("#checkinCustomDueDate_control").val());
-    jq('#AlertBoxSectionForCheckinCustomDueDate').attr('style', 'display:none');
+    jq('#alertBoxSectionForCheckinCustomDueDate').attr('style', 'display:none');
     if (!jq.trim(checkInDate) == "") {
         if (jq("#checkinCustomDueDate_control").valid()) {
             var currentDate = new Date();
@@ -165,7 +165,7 @@ function validateCheckInDate() {
             currentDate.setMinutes(0);
             currentDate.setHours(0);
             if (currentDate > checkInDate) {
-                jq('#AlertBoxSectionForCheckinCustomDueDate').attr('style', 'display:inline');
+                jq('#alertBoxSectionForCheckinCustomDueDate').attr('style', 'display:inline');
             } else if (currentDate < checkInDate) {
                 jq("#checkinCustomDueDate_control").val('');
             }
@@ -176,7 +176,7 @@ function validateCheckInDate() {
 
 function validateCheckInTime() {
     var checkInTime = jq('#checkinCustomDueDateTime_control').val();
-    jq("div#AlertBoxSectionForCheckinCustomDueDateTime").attr('style', 'display:none');
+    jq("div#alertBoxSectionForCheckinCustomDueDateTime").attr('style', 'display:none');
     if (!jq.trim(checkInTime) == "") {
         if (jq("#checkinCustomDueDateTime_control").valid()) {
             var currentDate = new Date();
@@ -187,7 +187,7 @@ function validateCheckInTime() {
             min = e[1] - s[1];
             hour = e[0] - s[0];
             if (min != 0 || hour != 0) {
-                jq("div#AlertBoxSectionForCheckinCustomDueDateTime").attr('style', 'display:inline');
+                jq("div#alertBoxSectionForCheckinCustomDueDateTime").attr('style', 'display:inline');
             }
         }
     }
