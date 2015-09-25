@@ -336,6 +336,9 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
     }
 
     public String getDefaultRequestTypeCode() {
+        if(defaultRequestType!=null && defaultRequestType.getRequestTypeCode()!=null){
+            defaultRequestTypeCode = defaultRequestType.getRequestTypeCode();
+        }
         return defaultRequestTypeCode;
     }
 
@@ -360,6 +363,9 @@ public class OleCirculationDesk extends PersistableBusinessObjectBase {
     }
 
     public String getDefaultPickupLocationCode() {
+        if (defaultPickupLocation != null && defaultPickupLocation.getCirculationDeskCode() != null) {
+            defaultPickupLocationCode = defaultPickupLocation.getCirculationDeskCode();
+        }
         return defaultPickupLocationCode;
     }
 

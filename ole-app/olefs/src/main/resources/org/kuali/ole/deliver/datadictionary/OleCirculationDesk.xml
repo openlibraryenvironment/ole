@@ -444,6 +444,8 @@
                                         <bean id="inquiry_holdQueue" parent="Uif-InputField" p:propertyName="holdQueue"/>
                                         <bean id="inquiry_renewLostItem" parent="Uif-InputField" p:propertyName="renewLostItem"/>
                                         <bean id="inquiry_replyToEmail" parent="Uif-InputField" p:propertyName="replyToEmail"/>
+                                        <bean id="inquiry_defaultPickupLocation" parent="Uif-InputField" p:propertyName="defaultPickupLocationCode" p:label="Default Pickup Location"/>
+                                        <bean id="inquiry_defaultRequestType" parent="Uif-InputField" p:propertyName="defaultRequestTypeCode" p:label="Default Request Type"/>
                                      </list>
                                 </property>
                             </bean>
