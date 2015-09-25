@@ -52,7 +52,7 @@ public class OleCopyHelperServiceImpl implements OleCopyHelperService {
 
     @Override
     public HashMap<String, List<OleCopy>> getCopyListBasedOnLocation(List<OleCopy> copyList, String bibId) {
-        HashMap<String, List<OleCopy>> copyMap = new HashMap<>();
+        LinkedHashMap<String, List<OleCopy>> copyMap = new LinkedHashMap<>();
         for (OleCopy oleCopy : copyList) {
             Map map = new HashMap();
             map.put(OLEConstants.OleCopy.BIB_ID, bibId);
