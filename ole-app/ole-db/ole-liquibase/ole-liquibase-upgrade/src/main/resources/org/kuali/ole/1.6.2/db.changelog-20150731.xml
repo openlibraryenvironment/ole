@@ -373,4 +373,11 @@
                           tableName="OLE_NOTICE_TYPE_CONFIG_S"/>
     </changeSet>
 
+    <changeSet context="bootstrap" id="KRCR_PARM_T_UPDATE_CMPNT_CD" author="ole">
+        <update tableName="KRCR_PARM_T">
+            <column name="CMPNT_CD" value="Deliver" />
+            <where>NMSPC_CD = 'OLE-DLVR' AND CMPNT_CD = 'Describe' AND PARM_NM = 'DEFAULT_TIME_FOR_DUE_DATE' AND APPL_ID = 'OLE'</where>
+        </update>
+    </changeSet>
+
 </databaseChangeLog>
