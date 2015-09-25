@@ -437,12 +437,13 @@ public class BatchBibImportHelper {
     private void processMatchedEHoldings(BibMarcRecord bibRecord, OLEBatchProcessProfileBo profile, Bib bib, OLEBatchBibImportDataObjects oleBatchBibImportDataObjects, List<HoldingsTree> holdingsTrees, MatchingProfile matchingProfile, List<OLEBatchProcessProfileMatchPoint> holdingsMatchPointList, String docType) {
         // multiple Eholdings Field in bib record
         for (DataField dataField : bibRecord.getDataFields()) {
-            overlayeHoldingsDataFields.clear();
-            eHoldingsDataFields.clear();
-            eHoldingsDataFields.add(dataField);
+
             if (eHoldingsDataFields.size() > 0 && dataField.getTag().equalsIgnoreCase(eHoldingsDataFields.get(0).getTag())) {
                 try {
                     Holdings matchedHoldings = findMatchingForPHoldingsAndEholdings(bib.getId(), dataField, holdingsMatchPointList, docType);
+                    overlayeHoldingsDataFields.clear();
+                    eHoldingsDataFields.clear();
+                    eHoldingsDataFields.add(dataField);
                     if (matchedHoldings == null) {
                         // To avoid duplicates for multiple eholdings while overlaying
                         overlayeHoldingsDataFields.add(dataField);
