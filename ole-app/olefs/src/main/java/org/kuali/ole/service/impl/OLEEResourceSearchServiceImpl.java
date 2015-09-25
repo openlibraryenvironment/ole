@@ -114,6 +114,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
     private static final String PLATFORM_URL_END = "&command=displayDocSearchView";
     private static final String HREF_START = "<a  href='";
     private static final String HREF_END = "' target='_blank'>Click</a>";
+    private UniversityDateService universityDateService;
 
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
@@ -3067,7 +3068,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                         linkedPos.append(' ');
 
                         Integer poCreatedYear = olePurchaseOrderDocument.getPostingYear();
-                        Integer currentYear = Calendar.getInstance().get(Calendar.YEAR);
+                        Integer currentYear = getUniversityDateService().getCurrentFiscalYear();
                         if (currentYear.compareTo(poCreatedYear) == 0) {
                             currentFYCost = currentFYCost.add(olePurchaseOrderItem.getItemInvoicedTotalAmount());
                         }
@@ -4558,4 +4559,11 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
     }
 
 
+
+    public UniversityDateService getUniversityDateService() {
+        if(universityDateService == null) {
+            universityDateService = SpringContext.getBean(UniversityDateService.class);
+        }
+        return universityDateService;
+    }
 }
