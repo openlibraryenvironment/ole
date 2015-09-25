@@ -230,7 +230,9 @@ function onChangePriceScript() {
 }
 
 function onChangePOPriceScript() {
-    jq("#updatePOPriceBtn").focus().click();
+    submitForm('updatePOPrice',null,null,true,function(){
+        removeDollarSymbolsForProcessItem();
+    });
 }
 
 function validateInvoiceAmount(){
@@ -476,7 +478,7 @@ function removeDollarSymbol() {
             break;
         }
     }
-}
+    }
 
 function removeDollarSymbolsForProcessItem() {
     if(document.getElementById('OLEInvoiceView-processItems-currentItems_line0_line0_itemDiscount_control')!=null){
