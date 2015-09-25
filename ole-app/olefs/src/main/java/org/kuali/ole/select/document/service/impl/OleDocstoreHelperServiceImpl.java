@@ -580,7 +580,7 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
                     if (oleCopy.getItemUUID() == null) {
                         newCopyList.add(oleCopy);
                     } else {
-                        updateOlePOAItem(poNumber, oleCopy.getItemUUID(), poLineItemId, singleItem, copyList);
+                        updateOlePOAItem(poNumber, oleCopy.getItemUUID(), singleItem, copyList);
                     }
                     this.copyFlag = true;
                 }
@@ -1332,10 +1332,9 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
         getDocstoreClientLocator().getDocstoreClient().updateItem(item);
     }
 
-    private void updateOlePOAItem(String poNumber, String itemId, String poLineItemId, OlePurchaseOrderItem singleItem,List<OleCopy> copyList) throws Exception {
+    private void updateOlePOAItem(String poNumber, String itemId, OlePurchaseOrderItem singleItem,List<OleCopy> copyList) throws Exception {
         org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemId);
         Item itemContent=new ItemOlemlRecordProcessor().fromXML(item.getContent());
-        boolean updateFlag = false;
         for(int i=0;i<copyList.size();i++) {
             if(itemContent.getItemIdentifier().equals(copyList.get(i).getItemUUID()) ) {
                 itemContent.setEnumeration(copyList.get(i).getEnumeration());
