@@ -3,7 +3,6 @@ package org.kuali.ole.docstore.common.document;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import org.kuali.ole.docstore.common.util.ParseXml;
 
 import java.io.File;
 
@@ -31,7 +30,6 @@ public class LicenseOnixpl_UT {
         licenseOnixpl = (LicenseOnixpl) licenseOnixpl.deserialize(input);
         licenseOnixpl.setContent("<onix:ONIXPublicationsLicenseMessage version=\"1.0\" datestamp=\"string\" sourcetype=\"00\" sourcename=\"string\" xmlns:onix=\"http://www.editeur.org/onix-pl\"></onix:ONIXPublicationsLicenseMessage>");
         String serializeXml = licenseOnixpl.serialize(licenseOnixpl);
-        serializeXml = ParseXml.formatXml(serializeXml);
         System.out.print(serializeXml);
     }
 }

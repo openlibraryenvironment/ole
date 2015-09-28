@@ -4,7 +4,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.ole.docstore.common.document.content.bib.dc.unqualified.BibDublinUnQualifiedRecord;
-import org.kuali.ole.docstore.common.util.ParseXml;
 
 import java.io.File;
 
@@ -34,7 +33,6 @@ public class BibDcUnqualified_UT {
         bibDcUnqualified.setAuthor("author");
         bibDcUnqualified.setTitle("title");
         String serializeXml = bibDcUnqualified.serialize(bibDcUnqualified);
-        serializeXml = ParseXml.formatXml(serializeXml);
         System.out.print(serializeXml);
     }
 
@@ -52,7 +50,6 @@ public class BibDcUnqualified_UT {
         bibDcUnqualified = (BibDcUnqualified) bibDcUnqualified.deserialize(input);
         BibDublinUnQualifiedRecord bibMarcRecords = (BibDublinUnQualifiedRecord) bibDcUnqualified.deserializeContent(bibDcUnqualified.getContent());
         String serializeXml = bibDcUnqualified.serializeContent(bibMarcRecords);
-        serializeXml = ParseXml.formatXml(serializeXml);
         System.out.println(serializeXml);
     }
 }

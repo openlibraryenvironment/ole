@@ -1,26 +1,16 @@
 package org.kuali.ole.docstore.common.document;
 
 import org.apache.log4j.Logger;
-import org.kuali.ole.docstore.common.util.ParseXml;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
+import org.kuali.ole.docstore.common.document.factory.JAXBContextFactory;
 
-import javax.xml.bind.*;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 
 /**
@@ -48,88 +38,35 @@ public class Licenses {
         }
         return licenses;
     }
-
     public static String serialize(Object object) {
         String result = null;
-        StringWriter sw = new StringWriter();
         Licenses licenses = (Licenses) object;
-        for(License license : licenses.getLicenses()) {
-            if(license instanceof LicenseOnixpl) {
-                try {
-                    JAXBContext jaxbContext = JAXBContext.newInstance(LicenseOnixpl.class);
-                    Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-                    jaxbMarshaller.marshal(license, sw);
-                } catch (Exception e) {
-                    LOG.error("Exception :", e);
-                }
-
+        try {
+            StringWriter sw = new StringWriter();
+            Marshaller jaxbMarshaller = JAXBContextFactory.getInstance().getMarshaller(Licenses.class);
+            synchronized (jaxbMarshaller) {
+                jaxbMarshaller.marshal(licenses, sw);
             }
-            else {
-                try {
-                    JAXBContext jaxbContext = JAXBContext.newInstance(LicenseAttachment.class);
-                    Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-                    jaxbMarshaller.marshal(license, sw);
-                } catch (Exception e) {
-                    LOG.error("Exception :", e);
-                }
-
-            }
+            result = sw.toString();
+        } catch (Exception e) {
+            LOG.error("Exception :", e);
         }
-
-        result = "<licenses>" + sw.append("</licenses>").toString();
-        result = result.replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>", "");
         return result;
     }
 
     public static Object deserialize(String licensesXml) {
-        JAXBElement<Licenses> licensesElement = null;
+        Licenses licenses = new Licenses();
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Licenses.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Unmarshaller unmarshaller = JAXBContextFactory.getInstance().getUnMarshaller(Licenses.class);
             ByteArrayInputStream input = new ByteArrayInputStream(licensesXml.getBytes("UTF-8"));
-            licensesElement = jaxbUnmarshaller.unmarshal(new StreamSource(input), Licenses.class);
+            synchronized (unmarshaller) {
+                licenses = unmarshaller.unmarshal(new StreamSource(input), Licenses.class).getValue();
+            }
         } catch (Exception e) {
             LOG.error("Exception :", e);
         }
-        Licenses licenses = licensesElement.getValue();
-        licenses.getLicenses().clear();
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(licensesXml)));
-            NodeList root = doc.getChildNodes();
-            Node licenseTree = ParseXml.getNode("licenses", root);
-            NodeList nodeList = doc.getElementsByTagName("license");
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node license = ParseXml.getNodeXml(licenseTree.getChildNodes(), i);
-                NodeList nodes = license.getChildNodes();
-                String licensexml = ParseXml.nodeToString(license);
-                if (ParseXml.getNodeValue("format", nodes).equals("onixpl")) {
-                    JAXBContext jc = JAXBContext.newInstance(LicenseOnixpl.class);
-                    Unmarshaller unmarshaller1 = jc.createUnmarshaller();
-                    StreamSource xmlSource = new StreamSource(new StringReader(licensexml));
-                    JAXBElement<LicenseOnixpl> je1 = unmarshaller1.unmarshal(xmlSource, LicenseOnixpl.class);
-                    LicenseOnixpl licenseOnixpl = je1.getValue();
-                    licenses.getLicenses().add(licenseOnixpl);
-                } else {
-                    JAXBContext jc = JAXBContext.newInstance(LicenseAttachment.class);
-                    Unmarshaller unmarshaller1 = jc.createUnmarshaller();
-                    StreamSource xmlSource = new StreamSource(new StringReader(licensexml));
-                    JAXBElement<LicenseAttachment> je1 = unmarshaller1.unmarshal(xmlSource, LicenseAttachment.class);
-                    LicenseAttachment licenseAttachment = je1.getValue();
-                    licenses.getLicenses().add(licenseAttachment);
-                }
-            }
-        } catch (ParserConfigurationException e) {
-            LOG.error("Exception ", e);
-        } catch (SAXException e) {
-            LOG.error("Exception ", e);
-        } catch (IOException e) {
-            LOG.error("Exception ", e);
-        } catch (JAXBException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
         return licenses;
     }
+
 
 }

@@ -3,7 +3,6 @@ package org.kuali.ole.docstore.common.document;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import org.kuali.ole.docstore.common.util.ParseXml;
 
 import java.io.File;
 
@@ -30,7 +29,6 @@ public class Licenses_UT {
         Licenses licenses = new Licenses();
         licenses = (Licenses) Licenses.deserialize(input);
         String serializeXml = licenses.serialize(licenses);
-        serializeXml = ParseXml.formatXml(serializeXml);
         System.out.print(serializeXml);
     }
 }

@@ -3,14 +3,7 @@ package org.kuali.ole.docstore.common.document;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import org.kuali.ole.docstore.common.document.content.enums.DocCategory;
-import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
-import org.kuali.ole.docstore.common.document.content.enums.DocType;
-import org.kuali.ole.docstore.common.document.content.instance.CallNumber;
 import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
-import org.kuali.ole.docstore.common.document.content.instance.ShelvingScheme;
-import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
-import org.kuali.ole.docstore.common.util.ParseXml;
 
 import java.io.File;
 
@@ -40,7 +33,6 @@ public class EHoldingsOleml_UT {
         eHoldings.setCallNumber("123");
         eHoldings.setCallNumberType("LCC");
         String serializeXml = eHoldings.serialize(eHoldings);
-        serializeXml = ParseXml.formatXml(serializeXml);
         System.out.println(serializeXml);
 
     }
@@ -60,7 +52,6 @@ public class EHoldingsOleml_UT {
         String content = eHoldings.getContent();
         OleHoldings oleHoldings = (OleHoldings) eHoldings.deserializeContent(content);
         String serializeXml = eHoldings.serializeContent(oleHoldings);
-        serializeXml = ParseXml.formatXml(serializeXml);
         System.out.println(serializeXml);
     }
 

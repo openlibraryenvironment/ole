@@ -3,14 +3,7 @@ package org.kuali.ole.docstore.common.document;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import org.kuali.ole.docstore.common.document.content.enums.DocCategory;
-import org.kuali.ole.docstore.common.document.content.enums.DocFormat;
-import org.kuali.ole.docstore.common.document.content.enums.DocType;
-import org.kuali.ole.docstore.common.document.content.instance.CallNumber;
 import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
-import org.kuali.ole.docstore.common.document.content.instance.ShelvingScheme;
-import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
-import org.kuali.ole.docstore.common.util.ParseXml;
 
 import java.io.File;
 
@@ -39,7 +32,6 @@ public class PHoldingsOleml_UT {
         pHoldingsOleml.setCallNumber("123");
         pHoldingsOleml.setCallNumberType("LCC");
         String serializeXml = pHoldingsOleml.serialize(pHoldingsOleml);
-        serializeXml= ParseXml.formatXml(serializeXml);
         System.out.print(serializeXml);
     }
 
@@ -57,7 +49,6 @@ public class PHoldingsOleml_UT {
         pHoldingsOleml = (PHoldingsOleml) pHoldingsOleml.deserialize(input);
         OleHoldings oleHoldings = (OleHoldings) pHoldingsOleml.deserializeContent(pHoldingsOleml.getContent());
         String serializeXml = pHoldingsOleml.serializeContent(oleHoldings);
-        serializeXml = ParseXml.formatXml(serializeXml);
         System.out.print(serializeXml);
     }
 

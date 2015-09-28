@@ -2,15 +2,10 @@ package org.kuali.ole.docstore.common.document;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.ole.docstore.common.document.content.bib.marc.*;
-import org.kuali.ole.docstore.common.util.ParseXml;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -38,7 +33,6 @@ public class BibMarc_UT {
         bibMarc.setAuthor("author");
         bibMarc.setTitle("title");
         String serializeXml = bibMarc.serialize(bibMarc);
-        serializeXml = ParseXml.formatXml(serializeXml);
         System.out.print(serializeXml);
     }
 
@@ -56,7 +50,6 @@ public class BibMarc_UT {
         bibMarc = (BibMarc) bibMarc.deserialize(input);
         BibMarcRecords bibMarcRecords = (BibMarcRecords) bibMarc.deserializeContent(bibMarc.getContent());
         String serializeXml = bibMarc.serializeContent(bibMarcRecords);
-        serializeXml = ParseXml.formatXml(serializeXml);
         System.out.println(serializeXml);
     }
 }
