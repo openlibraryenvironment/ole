@@ -412,6 +412,7 @@ jq(document).ready(function(){
     });
     window.onbeforeunload = unloadPage;
     saveCurrencyType();
+    modifyAccountNumber();
     jq("OLEInvoiceView-ProcessItem").live("click",function(){
         removeDollarSymbol();
     });
@@ -496,3 +497,24 @@ function onChangeSequenceScript(id) {
     submitForm('modifySequenceOrder', {sequenceObject:JSON.stringify(sequenceObject)}, null, null, null);
 
 }
+
+function modifyOffsetAccountNumber(obj) {
+    var id = obj.id;
+    var  addId = "#"+ id + "_control";
+    var accountNumber = jq(addId).val();
+    if (accountNumber != null) {
+        accountNumber = accountNumber.toUpperCase();
+        jq(addId).val(accountNumber);
+    }
+}
+
+function modifyAccountNumber() {
+    jq("#OLEInvoiceView-Item-accountingLines_line0_add_accountNumber_control").live("change", function () {
+        var accountNumber = jq("#OLEInvoiceView-Item-accountingLines_line0_add_accountNumber_control").val()
+        if (accountNumber != null) {
+            accountNumber = accountNumber.toUpperCase();
+            jq("#OLEInvoiceView-Item-accountingLines_line0_add_accountNumber_control").val(accountNumber);
+        }
+    });
+}
+

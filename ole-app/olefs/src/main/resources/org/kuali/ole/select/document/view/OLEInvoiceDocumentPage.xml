@@ -680,7 +680,7 @@
                         <bean parent="Uif-DropdownControl" />
                     </property>
                 </bean>
-                <bean  id="OleInvoice-accountNo" parent="Uif-InputField" p:propertyName="accountNumber"  p:label="Account Number"  p:required="true" >
+                <bean  id="OleInvoice-accountNo" parent="Uif-InputField" p:propertyName="accountNumber"  p:label="Account Number"  p:required="true"  p:onChangeScript="modifyOffsetAccountNumber(this)">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10"  p:disabled="false"/>
                     </property>
