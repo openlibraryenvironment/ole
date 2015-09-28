@@ -1,6 +1,6 @@
 package org.kuali.ole.sip2.listener;
 
-import org.kuali.ole.sip2.service.impl.SIP2HelperService;
+import org.kuali.ole.sip2.service.SIP2HelperService;
 import org.kuali.ole.sip2.service.impl.SIP2HelperServiceImpl;
 
 import javax.servlet.ServletContextEvent;

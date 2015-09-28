@@ -1,8 +1,7 @@
-package org.kuali.ole.sip2.requestParser;
+package org.kuali.ole.request;
 
 import org.apache.log4j.Logger;
-import org.kuali.ole.request.OLESIP2RequestParser;
-import org.kuali.ole.sip2.constants.OLESIP2Constants;
+import org.kuali.ole.constants.OLESIP2Constants;
 
 /**
  * Created by gayathria on 2/12/14.

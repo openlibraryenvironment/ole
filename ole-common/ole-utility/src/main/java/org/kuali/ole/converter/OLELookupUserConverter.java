@@ -1,13 +1,8 @@
-package org.kuali.ole.ncip.converter;
+package org.kuali.ole.converter;
 
 import com.thoughtworks.xstream.XStream;
 import org.apache.log4j.Logger;
-import org.kuali.ole.ncip.bo.*;
-import org.kuali.rice.kim.impl.identity.address.EntityAddressBo;
-import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
-import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
-import org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.ole.bo.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -105,7 +100,7 @@ public class OLELookupUserConverter {
     }
 
     public String generateLookupUserJson(String xml) {
-        OLELookupUser oleLookupUser = (OLELookupUser)getLookupUser(xml);
+        OLELookupUser oleLookupUser = getLookupUser(xml);
         OleCirculationHandler xmlContentHandler = new OleCirculationHandler();
         try{
             return xmlContentHandler.marshalToJSON(oleLookupUser);

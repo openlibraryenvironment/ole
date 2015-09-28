@@ -1,21 +1,20 @@
-package org.kuali.ole.ncip.bo;
+package org.kuali.ole.bo;
 
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
  * User: sheiksalahudeenm
- * Date: 8/20/13
- * Time: 5:41 PM
+ * Date: 8/19/13
+ * Time: 4:19 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OLEHolds {
+public class OLEItemFines {
     private String code;
     private String message;
-    private List<OLEHold> oleHoldList;
-
+    private List<OLEItemFine> oleItemFineList=new ArrayList<OLEItemFine>();
 
     public String getCode() {
         return code;
@@ -33,11 +32,11 @@ public class OLEHolds {
         this.message = message;
     }
 
-    public List<OLEHold> getOleHoldList() {
-        return oleHoldList;
+    public List<OLEItemFine> getOleItemFineList() {
+        return oleItemFineList;
     }
 
-    public void setOleHoldList(List<OLEHold> oleHoldList) {
-        this.oleHoldList = oleHoldList;
+    public void setOleItemFineList(List<OLEItemFine> oleItemFineList) {
+        this.oleItemFineList = oleItemFineList;
     }
 }

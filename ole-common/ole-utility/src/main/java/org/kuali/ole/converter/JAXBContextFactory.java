@@ -1,4 +1,4 @@
-package org.kuali.ole.ncip.converter;
+package org.kuali.ole.converter;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

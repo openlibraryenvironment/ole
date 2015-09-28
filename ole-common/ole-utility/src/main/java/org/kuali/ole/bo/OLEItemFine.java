@@ -1,10 +1,5 @@
-package org.kuali.ole.ncip.bo;
+package org.kuali.ole.bo;
 
-import org.kuali.ole.deliver.bo.FeeType;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.mvel2.util.Make;
-
-import java.util.*;
 import java.math.BigDecimal;
 
 /**

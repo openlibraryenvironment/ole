@@ -1,4 +1,4 @@
-package org.kuali.ole.ncip.bo;
+package org.kuali.ole.bo;
 
 /**
  * Created with IntelliJ IDEA.

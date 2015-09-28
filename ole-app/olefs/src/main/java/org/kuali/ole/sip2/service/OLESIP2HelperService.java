@@ -3,7 +3,7 @@ package org.kuali.ole.sip2.service;
 import org.kuali.ole.deliver.bo.FeeType;
 import org.kuali.ole.deliver.bo.OleItemLevelBillPayment;
 import org.kuali.ole.deliver.bo.OlePaymentStatus;
-import org.kuali.ole.ncip.bo.OLEItemFine;
+import org.kuali.ole.bo.OLEItemFine;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.math.BigDecimal;

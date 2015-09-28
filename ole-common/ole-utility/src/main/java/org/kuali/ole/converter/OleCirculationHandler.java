@@ -1,4 +1,4 @@
-package org.kuali.ole.ncip.converter;
+package org.kuali.ole.converter;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;

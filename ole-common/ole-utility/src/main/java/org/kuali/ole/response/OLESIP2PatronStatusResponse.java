@@ -1,29 +1,26 @@
-package org.kuali.ole.sip2.sip2Response;
+package org.kuali.ole.response;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.ole.ncip.bo.OLELookupUser;
-import org.kuali.ole.response.OLESIP2Response;
+import org.kuali.ole.bo.OLELookupUser;
 import org.kuali.ole.common.MessageUtil;
 import org.kuali.ole.common.OLESIP2Util;
-import org.kuali.ole.sip2.constants.OLESIP2Constants;
-import org.kuali.ole.sip2.requestParser.OLESIP2BlockPatronRequestParser;
-import org.kuali.ole.sip2.requestParser.OLESIP2PatronStatusRequestParser;
-import org.kuali.ole.sip2.service.OLESIP2HelperService;
-import org.kuali.ole.sip2.service.impl.OLESIP2HelperServiceImpl;
+import org.kuali.ole.constants.OLESIP2Constants;
+import org.kuali.ole.request.OLESIP2BlockPatronRequestParser;
+import org.kuali.ole.request.OLESIP2PatronStatusRequestParser;
+
+import java.math.BigDecimal;
 
 /**
  * Created by gayathria on 17/9/14.
  */
 public class OLESIP2PatronStatusResponse extends OLESIP2Response {
 
-    OLESIP2HelperService olesip2HelperService = new OLESIP2HelperServiceImpl();
-
 
     public OLESIP2PatronStatusResponse() {
         code = OLESIP2Constants.PATRON_STATUS_RESPONSE;
     }
 
-    public String getSIP2PatronStatusResponse(OLELookupUser oleLookupUser, OLESIP2PatronStatusRequestParser sip2PatronStatusRequestParser) {
+    public String getSIP2PatronStatusResponse(OLELookupUser oleLookupUser, OLESIP2PatronStatusRequestParser sip2PatronStatusRequestParser, BigDecimal balanceAmount) {
 
         StringBuilder builder = new StringBuilder();
         builder.append(OLESIP2Constants.PATRON_STATUS_RESPONSE);
@@ -47,7 +44,7 @@ public class OLESIP2PatronStatusResponse extends OLESIP2Response {
         if (oleLookupUser.getOleItemFines() != null) {
             builder.append(OLESIP2Constants.SPLIT);
             builder.append(OLESIP2Constants.FEE_AMOUNT_CODE);
-            builder.append(olesip2HelperService.calculateTotalFineBalance(oleLookupUser.getOleItemFines().getOleItemFineList()));
+            builder.append(balanceAmount);
         }
         if (StringUtils.isNotBlank(oleLookupUser.getMessage())) {
             builder.append(OLESIP2Constants.SPLIT+
@@ -63,7 +60,7 @@ public class OLESIP2PatronStatusResponse extends OLESIP2Response {
         return builder.toString() + '\r';
     }
 
-    public String getSIP2PatronStatusResponse(OLELookupUser oleLookupUser, OLESIP2BlockPatronRequestParser sip2BlockPatronRequestParser) {
+    public String getSIP2PatronStatusResponse(OLELookupUser oleLookupUser, OLESIP2BlockPatronRequestParser sip2BlockPatronRequestParser, BigDecimal balanceAmount) {
 
         StringBuilder builder = new StringBuilder();
         builder.append(OLESIP2Constants.PATRON_STATUS_RESPONSE);
@@ -87,7 +84,7 @@ public class OLESIP2PatronStatusResponse extends OLESIP2Response {
         if (oleLookupUser.getOleItemFines() != null) {
             builder.append(OLESIP2Constants.SPLIT+
                     OLESIP2Constants.FEE_AMOUNT_CODE);
-            builder.append(olesip2HelperService.calculateTotalFineBalance(oleLookupUser.getOleItemFines().getOleItemFineList()));
+            builder.append(balanceAmount);
         }
         if (StringUtils.isNotBlank(oleLookupUser.getMessage())) {
             builder.append(OLESIP2Constants.SPLIT+

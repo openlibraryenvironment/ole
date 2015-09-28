@@ -1,15 +1,15 @@
-package org.kuali.ole.sip2.sip2Response;
+package org.kuali.ole.response;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.ole.ncip.bo.*;
-import org.kuali.ole.response.OLESIP2Response;
+import org.kuali.ole.bo.OLECheckedOutItem;
+import org.kuali.ole.bo.OLEHold;
+import org.kuali.ole.bo.OLELookupUser;
 import org.kuali.ole.common.MessageUtil;
 import org.kuali.ole.common.OLESIP2Util;
-import org.kuali.ole.sip2.constants.OLESIP2Constants;
-import org.kuali.ole.sip2.requestParser.OLESIP2PatronInformationRequestParser;
-import org.kuali.ole.sip2.service.OLESIP2HelperService;
-import org.kuali.ole.sip2.service.impl.OLESIP2HelperServiceImpl;
+import org.kuali.ole.constants.OLESIP2Constants;
+import org.kuali.ole.request.OLESIP2PatronInformationRequestParser;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,15 +18,12 @@ import java.util.List;
  */
 public class OLESIP2PatronInformationResponse extends OLESIP2Response {
 
-    OLESIP2HelperService olesip2HelperService = new OLESIP2HelperServiceImpl();
-
-
     public OLESIP2PatronInformationResponse() {
         code = OLESIP2Constants.PATRON_INFORMATION_RESPONSE;
     }
 
 
-    public String getSIP2PatronInfoResponse(OLELookupUser oleLookupUser, OLESIP2PatronInformationRequestParser sip2PatronInformationRequestParser) {
+    public String getSIP2PatronInfoResponse(OLELookupUser oleLookupUser, OLESIP2PatronInformationRequestParser sip2PatronInformationRequestParser, String institution, BigDecimal balanceAmount) {
 
         StringBuilder builder = new StringBuilder();
         List<String> overDueItemList = new ArrayList<>();
@@ -87,7 +84,7 @@ public class OLESIP2PatronInformationResponse extends OLESIP2Response {
 
         builder.append(OLESIP2Constants.INSTITUTION_ID_CODE);
         builder.append(StringUtils.isNotBlank(sip2PatronInformationRequestParser.getInstitutionId()) ?
-                sip2PatronInformationRequestParser.getInstitutionId() : OLESIP2Constants.INSTITUTION);
+                sip2PatronInformationRequestParser.getInstitutionId() : institution);
         builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.PATRON_IDENTIFIER_CODE);
         builder.append(oleLookupUser.getPatronId() != null ?
@@ -117,7 +114,7 @@ public class OLESIP2PatronInformationResponse extends OLESIP2Response {
         if (oleLookupUser.getOleItemFines() != null) {
             builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.FEE_AMOUNT_CODE);
-            builder.append(olesip2HelperService.calculateTotalFineBalance(oleLookupUser.getOleItemFines().getOleItemFineList()));
+            builder.append(balanceAmount);
         }
         //TODO FeeLimit
         /* //Hold Items
@@ -136,60 +133,6 @@ public class OLESIP2PatronInformationResponse extends OLESIP2Response {
                         oleCheckedOutItem.getItemId());
             }
         }
-        /*  //Fine Items
-        if(oleLookupUser.getOleItemFines() != null && oleLookupUser.getOleItemFines().getOleItemFineList() != null){
-            for(OLEItemFine oleItemFine : oleLookupUser.getOleItemFines().getOleItemFineList()){
-                builder.append("|AV"+oleItemFine.getItemId());
-            }
-        }
-
-        //Recall Items count
-        for(String recallItemBarcode : recallItemList)  {
-            builder.append("|BU"+recallItemBarcode);
-        }
-        //Unavailable holds count
-        for(String holdItemBarcode : holdItemList)  {
-            builder.append("|CD"+holdItemBarcode);
-        }*/
-
-        //Ready For pickup/Hold Items
-       /* builder.append("|AS1801665677");
-        builder.append("|AS1801688598");
-       *//* builder.append("|AS1801875083");
-        builder.append("|AS1801966415");*//*
-
-        //Overdue Items
-        builder.append("|AT1802079773");
-        builder.append("|AT1802222339");
-       *//* builder.append("|AT1802222348");
-        builder.append("|AT1802222796");*//*
-
-
-        //Charged Items
-        builder.append("|AU1804300321");
-        builder.append("|AU1804320602");
-       *//* builder.append("|AU1804890660");
-        builder.append("|AU1805909772");*//*
-
-        //Fine Items
-        builder.append("|AV1806605361");
-        builder.append("|AV1807154526");
-        *//*builder.append("|AV1807193673");
-        builder.append("|AV1902964693");*//*
-
-        //Recall Items count
-        builder.append("|BU1902964719");
-        builder.append("|BU1903066359");
-        *//*builder.append("|BU1903857371");
-        builder.append("|BU1803170864");*//*
-
-
-        //Unavailable holds count
-        builder.append("|CD1903857371");
-        builder.append("|CD1903066359");
-       *//* builder.append("|CD1803102354");
-        builder.append("|CD1802350209");*//*
-        */
 
         if (oleLookupUser.getPatronAddress() != null) {
             builder.append(OLESIP2Constants.SPLIT+

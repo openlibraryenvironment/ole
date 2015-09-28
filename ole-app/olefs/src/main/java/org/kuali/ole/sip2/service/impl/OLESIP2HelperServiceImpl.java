@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
 import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
-import org.kuali.ole.ncip.bo.OLEItemFine;
+import org.kuali.ole.bo.OLEItemFine;
 import org.kuali.ole.sip2.constants.OLESIP2Constants;
 import org.kuali.ole.sip2.service.OLENettyServer;
 import org.kuali.ole.sip2.service.OLESIP2HelperService;

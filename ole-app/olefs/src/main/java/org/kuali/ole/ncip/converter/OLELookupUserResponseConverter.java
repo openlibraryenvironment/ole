@@ -2,8 +2,9 @@ package org.kuali.ole.ncip.converter;
 
 import com.thoughtworks.xstream.XStream;
 import org.apache.log4j.Logger;
+import org.kuali.ole.converter.OleCirculationHandler;
 import org.kuali.ole.ncip.bo.OLELookupUserResponse;
-import org.kuali.ole.ncip.bo.OLEUserPrivilege;
+import org.kuali.ole.bo.OLEUserPrivilege;
 
 /**
  * Created with IntelliJ IDEA.

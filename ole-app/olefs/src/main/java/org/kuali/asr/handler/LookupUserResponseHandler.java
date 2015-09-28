@@ -1,8 +1,8 @@
 package org.kuali.asr.handler;
 
 
-import org.kuali.ole.ncip.bo.OLELookupUser;
-import org.kuali.ole.ncip.converter.OLELookupUserConverter;
+import org.kuali.ole.bo.OLELookupUser;
+import org.kuali.ole.converter.OLELookupUserConverter;
 
 /**
  * Created by chenchulakshmig on 9/22/15.

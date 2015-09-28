@@ -1,15 +1,11 @@
 package org.kuali.ole.deliver.service.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.common.util.Str;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord;
-import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
-import org.kuali.ole.ncip.bo.OLECheckedOutItem;
-import org.kuali.ole.ncip.bo.OLEHold;
-import org.kuali.ole.ncip.bo.OLEItemFine;
+import org.kuali.ole.bo.OLECheckedOutItem;
+import org.kuali.ole.bo.OLEHold;
+import org.kuali.ole.bo.OLEItemFine;
 import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;

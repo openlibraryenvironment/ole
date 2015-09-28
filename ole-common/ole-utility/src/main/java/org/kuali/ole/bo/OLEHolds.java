@@ -1,18 +1,19 @@
-package org.kuali.ole.ncip.bo;
+package org.kuali.ole.bo;
+
 
 import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
- * User: maheswarang
- * Date: 8/16/13
- * Time: 8:20 PM
+ * User: sheiksalahudeenm
+ * Date: 8/20/13
+ * Time: 5:41 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OLECheckedOutItems {
+public class OLEHolds {
     private String code;
     private String message;
-    private List<OLECheckedOutItem> checkedOutItems;
+    private List<OLEHold> oleHoldList;
 
 
     public String getCode() {
@@ -31,11 +32,11 @@ public class OLECheckedOutItems {
         this.message = message;
     }
 
-    public List<OLECheckedOutItem> getCheckedOutItems() {
-        return checkedOutItems;
+    public List<OLEHold> getOleHoldList() {
+        return oleHoldList;
     }
 
-    public void setCheckedOutItems(List<OLECheckedOutItem> checkedOutItems) {
-        this.checkedOutItems = checkedOutItems;
+    public void setOleHoldList(List<OLEHold> oleHoldList) {
+        this.oleHoldList = oleHoldList;
     }
 }

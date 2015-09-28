@@ -6,8 +6,8 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.deliver.util.DroolsResponse;
-import org.kuali.ole.ncip.bo.OLEItemFines;
-import org.kuali.ole.ncip.bo.OLEUserPrivilege;
+import org.kuali.ole.bo.OLEItemFines;
+import org.kuali.ole.bo.OLEUserPrivilege;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 

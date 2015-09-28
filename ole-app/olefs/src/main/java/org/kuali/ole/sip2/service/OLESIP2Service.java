@@ -1,7 +1,6 @@
 package org.kuali.ole.sip2.service;
 
-import org.kuali.ole.request.OLESIP2CheckInRequestParser;
-import org.kuali.ole.request.OLESIP2CheckOutRequestParser;
+import org.kuali.ole.request.*;
 import org.kuali.ole.sip2.requestParser.*;
 
 /**

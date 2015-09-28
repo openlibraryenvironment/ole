@@ -60,7 +60,7 @@
     <bean id="requestItemService" class="org.extensiblecatalog.ncip.v2.dummy.DummyRequestItemService"/>
     <bean id="updateRequestItemService" class="org.extensiblecatalog.ncip.v2.dummy.DummyUpdateRequestItemService"/>
 -->
-    <bean id="oleLookupUserConverter" class="org.kuali.ole.ncip.converter.OLELookupUserConverter"/>
+    <bean id="oleLookupUserConverter" class="org.kuali.ole.converter.OLELookupUserConverter"/>
     <bean id="oleCheckInItemConverter" class="org.kuali.ole.ncip.converter.OLECheckInItemConverter"/>
     <bean id="oleCheckOutItemConverter" class="org.kuali.ole.ncip.converter.OLECheckOutItemConverter"/>
 

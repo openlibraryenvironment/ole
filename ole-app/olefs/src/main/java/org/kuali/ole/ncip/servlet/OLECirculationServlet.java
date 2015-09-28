@@ -1,6 +1,7 @@
 package org.kuali.ole.ncip.servlet;
 
 import org.apache.log4j.Logger;
+import org.kuali.ole.converter.OLELookupUserConverter;
 import org.kuali.ole.ncip.bo.OLECirculationErrorMessage;
 import org.kuali.ole.ncip.bo.OLENCIPConstants;
 import org.kuali.ole.ncip.bo.OLENCIPErrorResponse;

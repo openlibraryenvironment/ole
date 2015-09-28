@@ -1,4 +1,4 @@
-package org.kuali.ole.ncip.bo;
+package org.kuali.ole.bo;
 
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;

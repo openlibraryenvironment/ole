@@ -7,19 +7,22 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.kuali.ole.bo.OLECheckInItem;
-import org.kuali.ole.bo.OLECheckOutItem;
-import org.kuali.ole.request.OLESIP2CheckInRequestParser;
-import org.kuali.ole.request.OLESIP2CheckOutRequestParser;
+import org.kuali.ole.bo.*;
+import org.kuali.ole.converter.OLELookupUserConverter;
+import org.kuali.ole.request.*;
 import org.kuali.ole.response.OLESIP2CheckInResponse;
 import org.kuali.ole.response.OLESIP2CheckOutResponse;
+import org.kuali.ole.response.OLESIP2PatronInformationResponse;
+import org.kuali.ole.response.OLESIP2PatronStatusResponse;
 import org.kuali.ole.sip2.response.*;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.SocketAddress;
 import java.net.URL;
@@ -141,7 +144,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
                         response = this.sendRequestToOle(requestData, "/checkoutItemSIP2");
 
-                        if (response != null && !response.equalsIgnoreCase("")) {
+                        if (StringUtils.isNotBlank(response)) {
                             OLECheckOutItem oleCheckOutItem = (OLECheckOutItem) generateCheckoutItemObject(response);
                             OLESIP2CheckOutResponse sip2CheckOutResponseParser = new OLESIP2CheckOutResponse();
                             response = sip2CheckOutResponseParser.getSIP2CheckOutResponse(oleCheckOutItem, sip2CheckOutRequestParser);
@@ -161,7 +164,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
                         response = this.sendRequestToOle(requestData, "/checkinItemSIP2");
 
-                        if (response != null && !response.equalsIgnoreCase("")) {
+                        if (StringUtils.isNotBlank(response)) {
                             OLECheckInItem oleCheckInItem = (OLECheckInItem) generateCheckInItemObject(response);
                             OLESIP2CheckInResponse sip2CheckInResponseParser = new OLESIP2CheckInResponse();
                             response = sip2CheckInResponseParser.getSIP2CheckInResponse(oleCheckInItem, sip2CheckInRequestParser);
@@ -171,6 +174,50 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
                         OLESIP2CheckInTurnedOffResponse olesip2CheckInTurnedOffResponse = new OLESIP2CheckInTurnedOffResponse();
                         response = olesip2CheckInTurnedOffResponse.getOLESIP2CheckInTurnedOffResponse(requestData);
                     }
+                    break;
+
+                case "63":
+                    LOG.info("Request Type :  Patron Information");
+                    if (properties.getProperty("sip2.service.patronInformation").equalsIgnoreCase("yes")) {
+
+                        OLESIP2PatronInformationRequestParser sip2PatronInformationRequestParser = new OLESIP2PatronInformationRequestParser(requestData);
+                        requestData = createJSONForLookupUser(sip2PatronInformationRequestParser.getPatronIdentifier(), "SIP2_OPERATOR_ID");
+
+                        response = this.sendRequestToOle(requestData, "/lookupUserSIP2");
+
+                        if (StringUtils.isNotBlank(response)) {
+                            OLELookupUser oleLookupUser = new OLELookupUserConverter().getLookupUser(response);
+                            OLESIP2PatronInformationResponse sip2PatronInformationResponse = new OLESIP2PatronInformationResponse();
+
+                            response = sip2PatronInformationResponse.getSIP2PatronInfoResponse(oleLookupUser,
+                                    sip2PatronInformationRequestParser, properties.getProperty("sip2.institution"), calculateTotalFineBalance(oleLookupUser));
+                        }
+                    } else {
+                        OLESIP2PatronInformationTurnedOffResponse patronInformationTurnedOffResponse = new OLESIP2PatronInformationTurnedOffResponse();
+                        response = patronInformationTurnedOffResponse.getOLESIP2PatronInformationTurnedOffResponse(requestData);
+                    }
+                    break;
+
+                case "23":
+                    LOG.info("Request Type :  Patron Status Request");
+                    if (properties.getProperty("sip2.service.patronStatus").equalsIgnoreCase("yes")) {
+                        OLESIP2PatronStatusRequestParser sip2PatronStatusRequestParser = new OLESIP2PatronStatusRequestParser(requestData);
+                        requestData = createJSONForLookupUser(sip2PatronStatusRequestParser.getPatronIdentifier(), "SIP2_OPERATOR_ID");
+
+                        response = this.sendRequestToOle(requestData, "/lookupUserSIP2");
+
+                        if (StringUtils.isNotBlank(response)) {
+                            OLELookupUser oleLookupUser = new OLELookupUserConverter().getLookupUser(response);
+                            OLESIP2PatronStatusResponse sip2PatronStatusResponse = new OLESIP2PatronStatusResponse();
+
+                            response = sip2PatronStatusResponse.getSIP2PatronStatusResponse(oleLookupUser,
+                                    sip2PatronStatusRequestParser, calculateTotalFineBalance(oleLookupUser));
+                        }
+                    } else {
+                        OLESIP2PatronStatusTurnedOffResponse patronStatusTurnedOffResponse = new OLESIP2PatronStatusTurnedOffResponse();
+                        response = patronStatusTurnedOffResponse.getOLESIP2PatronStatusTurnedOffResponse(requestData, "Patron Status Request");
+                    }
+
                     break;
 
                 default:
@@ -224,13 +271,13 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         LOG.info("Exit NettyServerHandler.exceptionCaught(channelHandlerContext, cause)");
     }
 
-    public Object generateCheckoutItemObject(String xml){
+    private Object generateCheckoutItemObject(String xml){
         XStream xStream = new XStream();
         xStream.alias("checkOutItem",OLECheckOutItem.class);
         return xStream.fromXML(xml);
     }
 
-    public Object generateCheckInItemObject(String xml){
+    private Object generateCheckInItemObject(String xml){
         XStream xStream = new XStream();
         xStream.alias("checkInItem",OLECheckInItem.class);
         return xStream.fromXML(xml);
@@ -271,7 +318,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         return responseContent;
     }
 
-    public String createJSONForCheckoutItemRequest(String patronBarcode, String itemBarcode, String operatorId) {
+    private String createJSONForCheckoutItemRequest(String patronBarcode, String itemBarcode, String operatorId) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("patronBarcode", patronBarcode);
@@ -285,7 +332,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         return jsonObject.toString();
     }
 
-    public String createJSONForCheckinItemRequest(String itemBarcode, String operatorId, String deleteIndicator) {
+    private String createJSONForCheckinItemRequest(String itemBarcode, String operatorId, String deleteIndicator) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("itemBarcode", itemBarcode);
@@ -299,5 +346,29 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         return jsonObject.toString();
     }
 
+    private String createJSONForLookupUser(String patronBarcode, String operatorId) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("patronBarcode", patronBarcode);
+            jsonObject.put("operatorId", operatorId);
+            jsonObject.put("requestFormatType", "JSON");
+            jsonObject.put("responseFormatType", "XML");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
 
+    private BigDecimal calculateTotalFineBalance(OLELookupUser oleLookupUser) {
+        BigDecimal balanceAmount = new BigDecimal(0);
+        if (oleLookupUser.getOleItemFines()!=null){
+            List<OLEItemFine> oleItemFineList = oleLookupUser.getOleItemFines().getOleItemFineList();
+            if (CollectionUtils.isNotEmpty(oleItemFineList)){
+                for (OLEItemFine oleItemFine : oleItemFineList) {
+                    balanceAmount = balanceAmount.add(oleItemFine.getBalance());
+                }
+            }
+        }
+        return balanceAmount;
+    }
 }

@@ -5,7 +5,9 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.bo.OLECheckInItem;
 import org.kuali.ole.bo.OLECheckOutItem;
+import org.kuali.ole.bo.OLELookupUser;
 import org.kuali.ole.bo.OLERenewItem;
+import org.kuali.ole.converter.OLELookupUserConverter;
 import org.kuali.ole.deliver.bo.OleItemSearch;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
@@ -21,10 +23,11 @@ import org.kuali.ole.ncip.service.OLECirculationService;
 import org.kuali.ole.ncip.service.impl.OLECirculationHelperServiceImpl;
 import org.kuali.ole.ncip.service.impl.OLECirculationServiceImpl;
 import org.kuali.ole.olekrad.filter.OLELoginFilter;
-import org.kuali.ole.request.OLESIP2CheckInRequestParser;
-import org.kuali.ole.request.OLESIP2CheckOutRequestParser;
+import org.kuali.ole.request.*;
 import org.kuali.ole.response.OLESIP2CheckInResponse;
 import org.kuali.ole.response.OLESIP2CheckOutResponse;
+import org.kuali.ole.response.OLESIP2PatronInformationResponse;
+import org.kuali.ole.response.OLESIP2PatronStatusResponse;
 import org.kuali.ole.service.OlePatronService;
 import org.kuali.ole.service.OlePatronServiceImpl;
 import org.kuali.ole.common.OLESIP2Util;
@@ -39,6 +42,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -361,7 +365,7 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
             OLESIP2PatronStatusResponse sip2PatronStatusResponse = new OLESIP2PatronStatusResponse();
 
             responseString = sip2PatronStatusResponse.getSIP2PatronStatusResponse(oleLookupUser,
-                    sip2PatronStatusRequestParser);
+                    sip2PatronStatusRequestParser, new BigDecimal(0));
 
         }
         if (responseString == null) {
@@ -387,7 +391,7 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
             OLESIP2PatronInformationResponse sip2PatronInformationResponse = new OLESIP2PatronInformationResponse();
 
             responseString = sip2PatronInformationResponse.getSIP2PatronInfoResponse(oleLookupUser,
-                    sip2PatronInformationRequestParser);
+                    sip2PatronInformationRequestParser, "", new BigDecimal(0));
 
         }
         if (responseString == null) {
@@ -460,7 +464,7 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
         }
         OLESIP2PatronStatusResponse sip2PatronStatusResponse = new OLESIP2PatronStatusResponse();
 
-        responseString = sip2PatronStatusResponse.getSIP2PatronStatusResponse(oleLookupUser, sip2BlockPatronRequestParser);
+        responseString = sip2PatronStatusResponse.getSIP2PatronStatusResponse(oleLookupUser, sip2BlockPatronRequestParser, new BigDecimal(0));
 
 
         if (responseString == null) {
