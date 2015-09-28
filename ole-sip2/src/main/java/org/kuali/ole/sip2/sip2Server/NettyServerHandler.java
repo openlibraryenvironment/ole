@@ -70,7 +70,6 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext channelHandlerContext, Object message) throws Exception {
 
-
         LOG.info("Entry NettyServerHandler.channelRead(channelHandlerContext, message)");
         ByteBuf byteBuf = (ByteBuf) message;
         String requestMessage = "";
@@ -122,17 +121,16 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
             String code = requestData.substring(0, 2);
             for (Iterator<NettyProcessor> iterator = nettyProcessors.iterator(); iterator.hasNext(); ) {
                 NettyProcessor nettyProcessor = iterator.next();
-                if (nettyProcessor.isServiceTurnedOn()) {
-                    if (nettyProcessor.isInterested(code)) {
+                if (nettyProcessor.isInterested(code)) {
+                    if (nettyProcessor.isServiceTurnedOn()) {
                         return nettyProcessor.process(requestData);
+                    } else {
+                        return nettyProcessor.getResponseForServiceTurnedOff(requestData);
                     }
-                } else {
-                    return nettyProcessor.getResponseForServiceTurnedOff();
                 }
             }
             return processResponseForInvalidCode();
         }
-
         return "";
     }
 

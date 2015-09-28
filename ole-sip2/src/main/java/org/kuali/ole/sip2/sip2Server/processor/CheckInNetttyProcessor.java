@@ -7,6 +7,7 @@ import org.kuali.ole.bo.OLECheckInItem;
 import org.kuali.ole.converter.OLECheckInItemConverter;
 import org.kuali.ole.request.OLESIP2CheckInRequestParser;
 import org.kuali.ole.response.OLESIP2CheckInResponse;
+import org.kuali.ole.sip2.response.OLESIP2CheckInTurnedOffResponse;
 
 import java.util.Properties;
 
@@ -25,7 +26,7 @@ public class CheckInNetttyProcessor extends NettyProcessor {
 
     @Override
     public boolean isInterested(String code) {
-        return code.equals("09") && properties.getProperty("sip2.service.patronInformation").equalsIgnoreCase("yes");
+        return code.equals("09");
     }
 
     @Override
@@ -46,12 +47,13 @@ public class CheckInNetttyProcessor extends NettyProcessor {
 
     @Override
     public boolean isServiceTurnedOn() {
-        return false;
+        return properties.getProperty("sip2.service.checkIn").equalsIgnoreCase("yes");
     }
 
     @Override
-    public String getResponseForServiceTurnedOff() {
-        return null;
+    public String getResponseForServiceTurnedOff(String requestData) {
+        OLESIP2CheckInTurnedOffResponse olesip2CheckInTurnedOffResponse = new OLESIP2CheckInTurnedOffResponse();
+        return olesip2CheckInTurnedOffResponse.getOLESIP2CheckInTurnedOffResponse(requestData);
     }
 
     private String createJSONForCheckinItemRequest(String itemBarcode, String operatorId, String deleteIndicator) {

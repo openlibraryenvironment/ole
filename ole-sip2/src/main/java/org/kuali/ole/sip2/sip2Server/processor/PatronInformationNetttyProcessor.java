@@ -9,6 +9,7 @@ import org.kuali.ole.bo.OLELookupUser;
 import org.kuali.ole.converter.OLELookupUserConverter;
 import org.kuali.ole.request.OLESIP2PatronInformationRequestParser;
 import org.kuali.ole.response.OLESIP2PatronInformationResponse;
+import org.kuali.ole.sip2.response.OLESIP2PatronInformationTurnedOffResponse;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -56,9 +57,9 @@ public class PatronInformationNetttyProcessor extends NettyProcessor {
     }
 
     @Override
-    public String getResponseForServiceTurnedOff() {
-        //TODO: Return response;
-        return "";
+    public String getResponseForServiceTurnedOff(String requestData) {
+        OLESIP2PatronInformationTurnedOffResponse patronInformationTurnedOffResponse = new OLESIP2PatronInformationTurnedOffResponse();
+        return patronInformationTurnedOffResponse.getOLESIP2PatronInformationTurnedOffResponse(requestData);
     }
 
     private String createJSONForLookupUser(String patronBarcode, String operatorId) {

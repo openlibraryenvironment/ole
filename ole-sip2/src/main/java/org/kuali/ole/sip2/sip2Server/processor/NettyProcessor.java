@@ -25,7 +25,7 @@ public abstract class NettyProcessor {
 
     public abstract boolean isServiceTurnedOn();
 
-    public abstract String getResponseForServiceTurnedOff();
+    public abstract String getResponseForServiceTurnedOff(String requestData);
 
     public String postRequest(String requestData, String context, String serverURL) {
         LOG.info("Entry NettyServerHandler.sendRequestToOle(restRequestURL, clientRequest, requestRResponseType)");
