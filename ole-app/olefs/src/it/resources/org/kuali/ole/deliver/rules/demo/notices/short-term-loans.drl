@@ -7,7 +7,7 @@ import org.kuali.ole.OLEConstants
 import org.kuali.ole.deliver.drools.DroolsConstants;
 
 
-rule "Courtsey Notice Policy Set Short Term Loans"
+rule "Courtsey Notice Policy Set Short Term"
 agenda-group "notice generation"
 activation-group "notice generation"
 when
@@ -15,15 +15,6 @@ $n: NoticeInfo(getNoticeType() == DroolsConstants.SHORT_TERM_LOANS_NOTICE_CONFIG
 $i: ItemRecord(getDueDateTime()!= null)
 then
 $n.addInfo(OLEConstants.COURTESY_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY, "1");
- end
-
-
-rule "Overdue Notice Policy Set Short Term Loans"
-agenda-group "notice generation"
-when
-$n: NoticeInfo(getNoticeType() == DroolsConstants.SHORT_TERM_LOANS_NOTICE_CONFIG)
-$i: ItemRecord(getDueDateTime()!= null, !getClaimsReturnedFlag())
-then
 $n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT, "6");
 $n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE, "2");
 $n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.REPLACEMENT_BILL_AMT, "150");

@@ -23,7 +23,7 @@ $p: OlePatronDocument(getBorrowerTypeCode() in ("ALUM","AVR","FAC","FACR","GRAD"
 getLoanedItemsCountByItemType($i.getItemType()) < 3)
 
 then
-$l.setCirculationPolicyId("Check out Circ Policy Set BOOK");
+$l.setCirculationPolicyId("Check out Circ Policy Set BOOK for Max Loaned Items less than 3");
 $l.loanPeriod("10-D",null); // This method takes due date and recall period as arguments.
  end
 
@@ -46,6 +46,6 @@ getLoanedItemsCountByItemType($i.getItemType()) >= 3)
 then
 $d.addErrorMessage("Patron has more than 3 items of BOOK reserve loan items type checked out");
 $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
-$l.setCirculationPolicyId("Check out Circ Policy Set BOOK");
+$l.setCirculationPolicyId("Check out Circ Policy Set BOOK for Max Loaned Items Greater than 3");
 $l.loanPeriod("10-D",null); // This method takes due date and recall period as arguments.
  end

@@ -46,15 +46,14 @@ $d.setRuleMatched(true);
 
 
 
- rule "Loaned for in-transit for Un-Staffed desk"
+ rule "Loaned for in-transit for Circ desk"
 agenda-group "checkin-validation-for-loan"
 activation-group "checkin-validation-for-loan"
 
 when
 $i: OleItemRecordForCirc(null!= isItemPickupLocationSameAsOperatorCircLoc(),!isItemPickupLocationSameAsOperatorCircLoc(),
 $r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Hold/Delivery Request", "Recall/Delivery Request"),
-$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"),
-$pl: getPickupLocation(), null!= $pl, !$pl.isStaffed())
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
 
 $d : DroolsResponse()
 
@@ -62,24 +61,5 @@ then
 $i.setItemStatusToBeUpdatedTo("INTRANSIT-FOR-LOAN");
 $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
 $d.getDroolsExchange().addToContext(DroolsConstants.AUTO_CHECKOUT, true);
-$d.setRuleMatched(true);
- end
-
-
- rule "Loaned for in-transit for Staffed desk"
-agenda-group "checkin-validation-for-loan"
-activation-group "checkin-validation-for-loan"
-
-when
-$i: OleItemRecordForCirc(null!= isItemPickupLocationSameAsOperatorCircLoc(),!isItemPickupLocationSameAsOperatorCircLoc(),
-$r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Hold/Delivery Request", "Recall/Delivery Request"),
-$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"),
-$pl: getPickupLocation(), null!= $pl, $pl.isStaffed())
-
-$d : DroolsResponse()
-
-then
-$i.setItemStatusToBeUpdatedTo("INTRANSIT-FOR-HOLD");
-$d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
 $d.setRuleMatched(true);
  end
