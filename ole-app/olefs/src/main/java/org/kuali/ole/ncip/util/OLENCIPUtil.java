@@ -5,17 +5,22 @@ import org.apache.log4j.Logger;
 import org.extensiblecatalog.ncip.v2.service.*;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
+import org.kuali.ole.deliver.bo.OleItemSearch;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.drools.LoanPeriodUtil;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
-import org.kuali.ole.deliver.util.ErrorMessage;
+import org.kuali.ole.deliver.util.DroolsResponse;
 import org.kuali.ole.deliver.util.OlePatronRecordUtil;
+import org.kuali.ole.docstore.common.search.SearchResponse;
+import org.kuali.ole.docstore.common.search.SearchResult;
+import org.kuali.ole.docstore.common.search.SearchResultField;
 import org.kuali.ole.ncip.bo.OLENCIPConstants;
 import org.kuali.ole.ncip.service.OLESIAPIHelperService;
 import org.kuali.ole.ncip.service.impl.OLECirculationHelperServiceImpl;
 import org.kuali.ole.select.document.service.OleDocstoreHelperService;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.util.DocstoreUtil;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -37,8 +42,9 @@ public class OLENCIPUtil {
     private CircDeskLocationResolver circDeskLocationResolver;
     private OLENCIPAcceptItemUtil olencipAcceptItemUtil;
     private OleDocstoreHelperService oleDocstoreHelperService;
+    private DocstoreUtil docstoreUtil;
 
-    protected HashMap<String, String> agencyPropertyMap = new HashMap<>();
+    public HashMap<String, String> agencyPropertyMap = new HashMap<>();
 
     private OlePatronRecordUtil getOlePatronRecordUtil() {
         if (null == olePatronRecordUtil) {
@@ -105,6 +111,18 @@ public class OLENCIPUtil {
     public void setOleDocstoreHelperService(OleDocstoreHelperService oleDocstoreHelperService) {
         this.oleDocstoreHelperService = oleDocstoreHelperService;
     }
+
+    public DocstoreUtil getDocstoreUtil() {
+        if (null == docstoreUtil) {
+            docstoreUtil = new DocstoreUtil();
+        }
+        return docstoreUtil;
+    }
+
+    public void setDocstoreUtil(DocstoreUtil docstoreUtil) {
+        this.docstoreUtil = docstoreUtil;
+    }
+
 
     public AgencyId validateAgency(InitiationHeader initiationHeader, NCIPResponseData ncipResponseData) {
 
@@ -241,14 +259,52 @@ public class OLENCIPUtil {
     public String fireLookupUserRules(OlePatronDocument olePatronDocument) {
         OleStopWatch oleStopWatch = new OleStopWatch();
         oleStopWatch.start();
-        ArrayList<Object> facts = new ArrayList<Object>();
+        ArrayList<Object> facts = new ArrayList<>();
         facts.add(olePatronDocument);
-        ErrorMessage errorMessage = new ErrorMessage();
-        facts.add(errorMessage);
-        new CircUtilController().fireRules(facts, null, "lookup-user");
+        DroolsResponse droolsResponse = new DroolsResponse();
+        facts.add(droolsResponse);
+        new CircUtilController().fireRules(facts, null, "lookup-user-ncip");
         oleStopWatch.end();
         LOG.info("Time taken for fire rules to validate patron : " + oleStopWatch.getTotalTime());
-        return errorMessage.getErrorMessage();
+        return droolsResponse.getErrorMessage().getErrorMessage();
+    }
+
+    public OleItemSearch getOleItemSearch(String itemBarcode) {
+        OleStopWatch oleStopWatch = new OleStopWatch();
+        oleStopWatch.start();
+        OleItemSearch oleItemSearch = new OleItemSearch();
+        try {
+            org.kuali.ole.docstore.common.search.SearchParams search_Params = new org.kuali.ole.docstore.common.search.SearchParams();
+            search_Params.getSearchConditions().add(search_Params.buildSearchCondition("phrase", search_Params.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "ITEMBARCODE", itemBarcode), ""));
+            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), OLEConstants.ID));
+            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), OLEConstants.TITLE));
+            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), OLEConstants.AUTHOR));
+            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), OLEConstants.ITEM_TYPE));
+            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), OLEConstants.BIB_IDENTIFIER));
+            SearchResponse searchResponse = getDocstoreUtil().getDocstoreClientLocator().getDocstoreClient().search(search_Params);
+            if (searchResponse.getSearchResults() != null && searchResponse.getSearchResults().size() > 0) {
+                for (SearchResult searchResult : searchResponse.getSearchResults()) {
+                    for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
+                        if (searchResultField.getFieldName().equalsIgnoreCase(OLEConstants.TITLE)) {
+                            oleItemSearch.setTitle(searchResultField.getFieldValue());
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(OLEConstants.AUTHOR)) {
+                            oleItemSearch.setAuthor(searchResultField.getFieldValue());
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(OLEConstants.ID)) {
+                            oleItemSearch.setItemUUID(searchResultField.getFieldValue());
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(OLEConstants.ITEM_TYPE)) {
+                            oleItemSearch.setItemType(searchResultField.getFieldValue());
+                        } else if (searchResultField.getFieldName().equalsIgnoreCase(OLEConstants.BIB_IDENTIFIER)) {
+                            oleItemSearch.setBibUUID(searchResultField.getFieldValue());
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception " + e);
+        }
+        oleStopWatch.end();
+        LOG.info("Time taken to getOleItemSearch : " + oleStopWatch.getTotalTime());
+        return oleItemSearch;
     }
 
 }

@@ -85,6 +85,32 @@ public class CirculationRestController {
         return responseString;
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/lookupUser", produces = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String lookupUser(@RequestBody String body) throws Exception {
+        String responseString = "";
+        JSONObject jsonObject = new JSONObject(body);
+        Map lookupUserParameters = new LookupUserRequestHandler().parseRequest(jsonObject);
+        responseString = getCirculationRestService().lookupUser(lookupUserParameters);
+        return responseString;
+    }
+
+    /**
+     * used for SIP2(3M)
+     * @param body
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/lookupUserSIP2", produces = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String lookupUserSIP2(@RequestBody String body) throws Exception {
+        String responseString = "";
+        JSONObject jsonObject = new JSONObject(body);
+        Map lookupUserParameters = new LookupUserRequestHandler().parseRequest(jsonObject);
+        responseString = getCirculationRestService().lookupUserSIP2(lookupUserParameters);
+        return responseString;
+    }
+
     public CirculationRestService getCirculationRestService() {
         return circulationRestService;
     }

@@ -25,7 +25,7 @@ public class OLENCIPService_IT extends OLERestBaseTestCase {
                 "  <LookupUser>\n" +
                 "<InitiationHeader>\n" +
                 "<FromAgencyId>\n" +
-                "<AgencyId>LEHI</AgencyId>\n" +
+                "<AgencyId>BORROWDIRECT</AgencyId>\n" +
                 "</FromAgencyId>\n" +
                 "<ToAgencyId>\n" +
                 "<AgencyId>Lehigh University</AgencyId>\n" +
@@ -33,7 +33,7 @@ public class OLENCIPService_IT extends OLERestBaseTestCase {
                 "    </InitiationHeader> \n" +
                 "     <UserId>\n" +
                 "        <AgencyId>LEHI</AgencyId>\n" +
-                "        <UserIdentifierValue>6010570002006861</UserIdentifierValue>\n" +
+                "        <UserIdentifierValue>2660074</UserIdentifierValue>\n" +
                 "    </UserId>\n" +
                 "    <UserElementType>Name Information</UserElementType>\n" +
                 "    <UserElementType>User Address Information</UserElementType>\n" +

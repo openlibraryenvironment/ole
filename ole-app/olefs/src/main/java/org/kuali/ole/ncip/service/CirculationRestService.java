@@ -8,12 +8,13 @@ import java.util.Map;
 public interface CirculationRestService {
     public String renewItems(Map renewParameters);
     public String renewItemsSIP2(Map renewParameters);
-    public String lookupUserSIP2(Map lookupUserParameters);
     public String acceptItemSIP2(Map acceptItemParameters);
     public String checkoutItem(Map checoutParameters);
     public String checkoutItemSIP2(Map checoutParameters);
     public String checkinItem(Map checkinParameters);
     public String checkinItemSIP2(Map checkinParameters);
+    public String lookupUser(Map lookupUserParameters);
+    public String lookupUserSIP2(Map lookupUserParameters);
     public String placeRequestSIP2(Map placeReqeustParameters);
     public String cancelRequestVuFind(Map cancelRequestParameters);
 }

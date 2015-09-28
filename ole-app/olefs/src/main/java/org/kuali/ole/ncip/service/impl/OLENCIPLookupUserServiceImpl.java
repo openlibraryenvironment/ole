@@ -5,80 +5,36 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.extensiblecatalog.ncip.v2.service.*;
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
-import org.kuali.ole.deliver.bo.*;
-import org.kuali.ole.deliver.service.CircDeskLocationResolver;
-import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
-import org.kuali.ole.deliver.util.OlePatronRecordUtil;
-import org.kuali.ole.docstore.common.search.SearchResponse;
-import org.kuali.ole.docstore.common.search.SearchResult;
-import org.kuali.ole.docstore.common.search.SearchResultField;
 import org.kuali.ole.ncip.bo.*;
+import org.kuali.ole.ncip.converter.OLELookupUserConverter;
 import org.kuali.ole.ncip.service.NCIPLookupUserResponseBuilder;
+import org.kuali.ole.ncip.service.OLELookupUserService;
 import org.kuali.ole.ncip.util.OLENCIPUtil;
 import org.kuali.ole.select.document.service.OleSelectDocumentService;
 import org.kuali.ole.sys.context.SpringContext;
-import org.kuali.ole.util.DocstoreUtil;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by pvsubrah on 8/5/15.
  */
-public class OLENCIPLookupUserServiceImpl extends OLENCIPUtil implements LookupUserService {
+public class OLENCIPLookupUserServiceImpl extends LookupUserServiceImpl implements OLELookupUserService {
 
     private static final Logger LOG = Logger.getLogger(OLENCIPLookupUserServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
-    private OLECirculationHelperServiceImpl oleCirculationHelperService;
-    private CircDeskLocationResolver circDeskLocationResolver;
     private OleSelectDocumentService oleSelectDocumentService;
-    private OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder;
-    private DocstoreUtil docstoreUtil;
-    private OlePatronRecordUtil olePatronRecordUtil;
+    private LookupUserInitiationData lookupUserInitiationData;
+    private OLELookupUserConverter oleLookupUserConverter;
 
     public NCIPLookupUserResponseBuilder getNcipLookupUserResponseBuilder() {
         return new NCIPLookupUserResponseBuilder();
-    }
-
-    public BusinessObjectService getBusinessObjectService() {
-        if (null == businessObjectService) {
-            businessObjectService = KRADServiceLocator.getBusinessObjectService();
-        }
-        return businessObjectService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    public OLECirculationHelperServiceImpl getOleCirculationHelperService() {
-        if (null == oleCirculationHelperService) {
-            oleCirculationHelperService = GlobalResourceLoader.getService(OLENCIPConstants.CIRCULATION_HELPER_SERVICE);
-        }
-        return oleCirculationHelperService;
-    }
-
-    public void setOleCirculationHelperService(OLECirculationHelperServiceImpl oleCirculationHelperService) {
-        this.oleCirculationHelperService = oleCirculationHelperService;
-    }
-
-    private CircDeskLocationResolver getCircDeskLocationResolver() {
-        if (circDeskLocationResolver == null) {
-            circDeskLocationResolver = new CircDeskLocationResolver();
-        }
-        return circDeskLocationResolver;
-    }
-
-    public void setCircDeskLocationResolver(CircDeskLocationResolver circDeskLocationResolver) {
-        this.circDeskLocationResolver = circDeskLocationResolver;
     }
 
     public OleSelectDocumentService getOleSelectDocumentService() {
@@ -92,37 +48,23 @@ public class OLENCIPLookupUserServiceImpl extends OLENCIPUtil implements LookupU
         this.oleSelectDocumentService = oleSelectDocumentService;
     }
 
-    private OleLoanDocumentsFromSolrBuilder getOleLoanDocumentsFromSolrBuilder() {
-        if (null == oleLoanDocumentsFromSolrBuilder) {
-            oleLoanDocumentsFromSolrBuilder = new OleLoanDocumentsFromSolrBuilder();
+    public LookupUserInitiationData getLookupUserInitiationData() {
+        return lookupUserInitiationData;
+    }
+
+    public void setLookupUserInitiationData(LookupUserInitiationData lookupUserInitiationData) {
+        this.lookupUserInitiationData = lookupUserInitiationData;
+    }
+
+    public OLELookupUserConverter getOleLookupUserConverter() {
+        if (null == oleLookupUserConverter) {
+            oleLookupUserConverter = GlobalResourceLoader.getService(OLENCIPConstants.LOOKUP_USER_CONVERTER);
         }
-        return oleLoanDocumentsFromSolrBuilder;
+        return oleLookupUserConverter;
     }
 
-    public void setOleLoanDocumentsFromSolrBuilder(OleLoanDocumentsFromSolrBuilder oleLoanDocumentsFromSolrBuilder) {
-        this.oleLoanDocumentsFromSolrBuilder = oleLoanDocumentsFromSolrBuilder;
-    }
-
-    public DocstoreUtil getDocstoreUtil() {
-        if (null == docstoreUtil) {
-            docstoreUtil = new DocstoreUtil();
-        }
-        return docstoreUtil;
-    }
-
-    public void setDocstoreUtil(DocstoreUtil docstoreUtil) {
-        this.docstoreUtil = docstoreUtil;
-    }
-
-    private OlePatronRecordUtil getOlePatronRecordUtil() {
-        if (null == olePatronRecordUtil) {
-            olePatronRecordUtil = (OlePatronRecordUtil) SpringContext.getBean("olePatronRecordUtil");
-        }
-        return olePatronRecordUtil;
-    }
-
-    public void setOlePatronRecordUtil(OlePatronRecordUtil olePatronRecordUtil) {
-        this.olePatronRecordUtil = olePatronRecordUtil;
+    public void setOleLookupUserConverter(OLELookupUserConverter oleLookupUserConverter) {
+        this.oleLookupUserConverter = oleLookupUserConverter;
     }
 
     @Override
@@ -130,174 +72,144 @@ public class OLENCIPLookupUserServiceImpl extends OLENCIPUtil implements LookupU
         OleStopWatch oleStopWatch = new OleStopWatch();
         oleStopWatch.start();
 
+        OLENCIPUtil oleNcipUtil = new OLENCIPUtil();
+        setLookupUserInitiationData(lookupUserInitiationData);
         NCIPLookupUserResponseBuilder ncipLookupUserResponseBuilder = getNcipLookupUserResponseBuilder();
         LookupUserResponseData lookupUserResponseData = new LookupUserResponseData();
 
-        AgencyId agencyId = validateAgency(lookupUserInitiationData.getInitiationHeader(), lookupUserResponseData);
+        AgencyId agencyId = oleNcipUtil.validateAgency(getLookupUserInitiationData().getInitiationHeader(), lookupUserResponseData);
         if (null == agencyId) return lookupUserResponseData;
 
-        UserId userId = lookupUserInitiationData.getUserId();
-        boolean userValid = validateUser(userId, lookupUserResponseData);
+        UserId userId = getLookupUserInitiationData().getUserId();
+        boolean userValid = oleNcipUtil.validateUser(userId, lookupUserResponseData);
         if (!userValid) return lookupUserResponseData;
 
         String patronBarcode = userId.getUserIdentifierValue();
         if (StringUtils.isBlank(patronBarcode)) {
-            processProblems(lookupUserResponseData, "", ConfigContext.getCurrentContextConfig().getProperty(OLENCIPConstants.USER_IDENTIFIER_VALUE_DOES_NOT_EXIST), OLENCIPConstants.USER);
+            oleNcipUtil.processProblems(lookupUserResponseData, "", ConfigContext.getCurrentContextConfig().getProperty(OLENCIPConstants.USER_IDENTIFIER_VALUE_DOES_NOT_EXIST), OLENCIPConstants.USER);
             return lookupUserResponseData;
         }
-        OlePatronDocument olePatronDocument = null;
-        try {
-            olePatronDocument = getOlePatronRecordUtil().getPatronRecordByBarcode(patronBarcode);
-        } catch (Exception e) {
-            LOG.error("Exception " + e);
-        }
-        if (olePatronDocument == null) {
-            processProblems(lookupUserResponseData, patronBarcode, ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO), OLENCIPConstants.USER);
-            return lookupUserResponseData;
-        }
-
-        String operatorId = agencyPropertyMap.get(OLENCIPConstants.OPERATOR_ID);
-        OleCirculationDesk oleCirculationDesk = validOperator(lookupUserResponseData, operatorId);
-        if (null == oleCirculationDesk) return lookupUserResponseData;
-
+        String operatorId = oleNcipUtil.agencyPropertyMap.get(OLENCIPConstants.OPERATOR_ID);
         LOG.info("User Id : " + userId.getUserIdentifierValue() + " Operator Id : " + operatorId + " Agency Id " + agencyId.getValue());
 
-        UserOptionalFields userOptionalFields = new UserOptionalFields();
-        String olePatronId = olePatronDocument.getOlePatronId();
-
-        if (lookupUserInitiationData.getNameInformationDesired()) {
-            setNameInformation(olePatronId, userOptionalFields);
+        Map lookupUserParameters = new HashMap();
+        lookupUserParameters.put("patronBarcode", patronBarcode);
+        lookupUserParameters.put("operatorId", operatorId);
+        String lookUpUserResponseXml = lookupUser(lookupUserParameters);
+        OLELookupUser oleLookupUser = getOleLookupUserConverter().getLookupUser(lookUpUserResponseXml);
+        if (oleLookupUser != null && StringUtils.isNotBlank(oleLookupUser.getMessage())) {
+            if (oleLookupUser.getMessage().equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.RTRVD_SUCCESS))) {
+                generateResponseDataFromLookupUser(ncipLookupUserResponseBuilder, lookupUserResponseData, agencyId, userId, oleLookupUser);
+            } else if (oleLookupUser.getMessage().equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO))) {
+                oleNcipUtil.processProblems(lookupUserResponseData, patronBarcode, ConfigContext.getCurrentContextConfig().getProperty(OLENCIPConstants.USER_UN_AVAILABLE), OLENCIPConstants.USER);
+                return lookupUserResponseData;
+            } else if (oleLookupUser.getMessage().equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CIRCULATION_DESK_NOT_MAPPED_OPERATOR))) {
+                oleNcipUtil.processProblems(lookupUserResponseData, operatorId, oleLookupUser.getMessage(), OLENCIPConstants.OPERATOR);
+                return lookupUserResponseData;
+            }
         }
-        if (lookupUserInitiationData.getUserAddressInformationDesired()) {
-            setUserAddressInformation(olePatronId, userOptionalFields);
-        }
-        if (lookupUserInitiationData.getUserPrivilegeDesired()) {
-            setUserPrivileges(olePatronDocument, userOptionalFields, agencyId);
-        }
-        if (lookupUserInitiationData.getLoanedItemsDesired()) {
-            List<LoanedItem> loanedItems = getLoanedItems(agencyId, olePatronId);
-            ncipLookupUserResponseBuilder.setLoanedItems(lookupUserResponseData, loanedItems);
-        }
-        if (lookupUserInitiationData.getRequestedItemsDesired()) {
-            List<RequestedItem> requestedItems = getRequestedItems(agencyId, olePatronId);
-            ncipLookupUserResponseBuilder.setRequestedItems(lookupUserResponseData, requestedItems);
-        }
-        if (lookupUserInitiationData.getUserFiscalAccountDesired()) {
-            List<UserFiscalAccount> userFiscalAccounts = getUserFiscalAccounts(agencyId, olePatronId);
-            ncipLookupUserResponseBuilder.setUserFiscalAccounts(lookupUserResponseData, userFiscalAccounts);
-        }
-        ncipLookupUserResponseBuilder.addOptionalFields(lookupUserResponseData, userOptionalFields);
-        ncipLookupUserResponseBuilder.setUserId(lookupUserResponseData, userId);
 
         oleStopWatch.end();
         LOG.info("Time taken to perform lookup user service : " + oleStopWatch.getTotalTime());
         return lookupUserResponseData;
     }
 
-    private void setNameInformation(String patronId, UserOptionalFields userOptionalFields) {
+    private void generateResponseDataFromLookupUser(NCIPLookupUserResponseBuilder ncipLookupUserResponseBuilder, LookupUserResponseData lookupUserResponseData, AgencyId agencyId, UserId userId, OLELookupUser oleLookupUser) {
+        UserOptionalFields userOptionalFields = new UserOptionalFields();
+
+        setNameInformation(oleLookupUser.getPatronName(), userOptionalFields);
+
+        setUserAddressInformation(oleLookupUser, userOptionalFields);
+
+        setUserPrivileges(oleLookupUser, userOptionalFields, agencyId);
+
+        List<LoanedItem> loanedItems = getLoanedItems(oleLookupUser.getOleCheckedOutItems(), agencyId);
+        ncipLookupUserResponseBuilder.setLoanedItems(lookupUserResponseData, loanedItems);
+
+        List<RequestedItem> requestedItems = getRequestedItems(oleLookupUser.getOleHolds(), agencyId);
+        ncipLookupUserResponseBuilder.setRequestedItems(lookupUserResponseData, requestedItems);
+
+        List<UserFiscalAccount> userFiscalAccounts = getUserFiscalAccounts(oleLookupUser.getOleItemFines(), agencyId);
+        ncipLookupUserResponseBuilder.setUserFiscalAccounts(lookupUserResponseData, userFiscalAccounts);
+
+        ncipLookupUserResponseBuilder.addOptionalFields(lookupUserResponseData, userOptionalFields);
+        ncipLookupUserResponseBuilder.setUserId(lookupUserResponseData, userId);
+    }
+
+    private void setNameInformation(OlePatronNameBo olePatronNameBo, UserOptionalFields userOptionalFields) {
         try {
-            if (StringUtils.isNotBlank(patronId)) {
-                OlePatronNameBo olePatronNameBo = getOleCirculationHelperService().getEntityNameBo(patronId);
+            if (olePatronNameBo != null) {
+                NameInformation ni = new NameInformation();
+                PersonalNameInformation pni = new PersonalNameInformation();
+                StructuredPersonalUserName structuredPersonalUserName = new StructuredPersonalUserName();
 
-                if (olePatronNameBo != null) {
-                    NameInformation ni = new NameInformation();
-                    PersonalNameInformation pni = new PersonalNameInformation();
-                    StructuredPersonalUserName structuredPersonalUserName = new StructuredPersonalUserName();
+                String firstName = olePatronNameBo.getFirstName();
+                String middleName = olePatronNameBo.getMiddleName();
+                String lastName = olePatronNameBo.getLastName();
+                StringBuffer patronName = new StringBuffer();
 
-                    String firstName = olePatronNameBo.getFirstName();
-                    String middleName = olePatronNameBo.getMiddleName();
-                    String lastName = olePatronNameBo.getLastName();
-                    StringBuffer patronName = new StringBuffer();
-
-                    if (StringUtils.isNotBlank(firstName)) {
-                        structuredPersonalUserName.setGivenName(firstName);
-                        patronName.append(firstName);
-                        patronName.append(OLEConstants.SPACE);
-                    }
-                    if (StringUtils.isNotBlank(middleName)) {
-                        patronName.append(middleName);
-                        patronName.append(OLEConstants.SPACE);
-                    }
-                    if (StringUtils.isNotBlank(lastName)) {
-                        structuredPersonalUserName.setSurname(lastName);
-                        patronName.append(lastName);
-                        patronName.append(OLEConstants.SPACE);
-                    }
-                    pni.setStructuredPersonalUserName(structuredPersonalUserName);
-                    if (patronName.length() > 0) {
-                        patronName.deleteCharAt(patronName.length() - 1);
-                        pni.setUnstructuredPersonalUserName(patronName.toString());
-                    }
-                    ni.setPersonalNameInformation(pni);
-                    userOptionalFields.setNameInformation(ni);
+                if (StringUtils.isNotBlank(firstName)) {
+                    structuredPersonalUserName.setGivenName(firstName);
+                    patronName.append(firstName);
+                    patronName.append(OLEConstants.SPACE);
                 }
+                if (StringUtils.isNotBlank(middleName)) {
+                    patronName.append(middleName);
+                    patronName.append(OLEConstants.SPACE);
+                }
+                if (StringUtils.isNotBlank(lastName)) {
+                    structuredPersonalUserName.setSurname(lastName);
+                    patronName.append(lastName);
+                    patronName.append(OLEConstants.SPACE);
+                }
+                pni.setStructuredPersonalUserName(structuredPersonalUserName);
+                if (patronName.length() > 0) {
+                    patronName.deleteCharAt(patronName.length() - 1);
+                    pni.setUnstructuredPersonalUserName(patronName.toString());
+                }
+                ni.setPersonalNameInformation(pni);
+                userOptionalFields.setNameInformation(ni);
             }
+
         } catch (Exception e) {
             LOG.error("Exception while getting user information" + e);
         }
     }
 
-    private void setUserAddressInformation(String patronId, UserOptionalFields userOptionalFields) {
+    private void setUserAddressInformation(OLELookupUser oleLookupUser, UserOptionalFields userOptionalFields) {
         try {
-            if (StringUtils.isNotBlank(patronId)) {
-                ArrayList<UserAddressInformation> userAddressInformationList = new ArrayList<UserAddressInformation>();
-
-                OlePatronAddressBo olePatronAddressBo = getOleCirculationHelperService().getDefaultAddressBo(patronId);
-                if (olePatronAddressBo != null) {
-                    userAddressInformationList.add(retrievePhysicalAddress(olePatronAddressBo));
-                }
-                OlePatronEmailBo olePatronEmailBo = getOleCirculationHelperService().getDefaultEmailBo(patronId);
-                if (olePatronEmailBo != null) {
-                    userAddressInformationList.add(retrieveElectronicAddress(olePatronEmailBo));
-                }
-                OlePatronPhoneBo olePatronPhoneBo = getOleCirculationHelperService().getDefaultPhoneBo(patronId);
-                if (olePatronPhoneBo != null) {
-                    userAddressInformationList.add(retrieveTelephoneNumber(olePatronPhoneBo));
-                }
-                userOptionalFields.setUserAddressInformations(userAddressInformationList);
+            ArrayList<UserAddressInformation> userAddressInformationList = new ArrayList<>();
+            OlePatronAddressBo olePatronAddressBo = oleLookupUser.getPatronAddress();
+            if (olePatronAddressBo != null) {
+                userAddressInformationList.add(retrievePhysicalAddress(olePatronAddressBo));
             }
+            OlePatronEmailBo olePatronEmailBo = oleLookupUser.getPatronEmail();
+            if (olePatronEmailBo != null) {
+                userAddressInformationList.add(retrieveElectronicAddress(olePatronEmailBo));
+            }
+            OlePatronPhoneBo olePatronPhoneBo = oleLookupUser.getPatronPhone();
+            if (olePatronPhoneBo != null) {
+                userAddressInformationList.add(retrieveTelephoneNumber(olePatronPhoneBo));
+            }
+            userOptionalFields.setUserAddressInformations(userAddressInformationList);
+
         } catch (Exception e) {
             LOG.error("Exception while getting address information" + e);
         }
     }
 
-    private void setUserPrivileges(OlePatronDocument olePatronDocument, UserOptionalFields userOptionalFields, AgencyId agencyId) {
+    private void setUserPrivileges(OLELookupUser oleLookupUser, UserOptionalFields userOptionalFields, AgencyId agencyId) {
         try {
+            List<OLEUserPrivilege> oleUserPrivilegeList = oleLookupUser.getOleUserPrivileges();
             List<UserPrivilege> userPrivilegeList = new ArrayList<>();
-
-            UserPrivilege courtesyNoticePriv = getPrivilege(String.valueOf(olePatronDocument.isCourtesyNotice()), OLEConstants.COURTESY_NOTICE, OLEConstants.COURTESY_DESCRIPTION, agencyId);
-            userPrivilegeList.add(courtesyNoticePriv);
-
-            UserPrivilege deliveryPriv = getPrivilege(String.valueOf(olePatronDocument.isDeliveryPrivilege()), OLEConstants.DELIVERY, OLEConstants.DELIVERY_DESCRIPTION, agencyId);
-            userPrivilegeList.add(deliveryPriv);
-
-            UserPrivilege pagingPriv = getPrivilege(String.valueOf(olePatronDocument.isPagingPrivilege()), OLEConstants.PAGING, OLEConstants.PAGING_DESCRIPTION, agencyId);
-            userPrivilegeList.add(pagingPriv);
-
-            UserPrivilege profilePriv = getPrivilege(olePatronDocument.getBorrowerTypeName(), OLEConstants.PROFILE, OLEConstants.PROFILE_DESCRIPTION, agencyId);
-            userPrivilegeList.add(profilePriv);
-
-            UserPrivilege statusPriv = getStatusPrivilege(olePatronDocument, agencyId);
-            userPrivilegeList.add(statusPriv);
-
+            for (OLEUserPrivilege oleUserPrivilege : oleUserPrivilegeList) {
+                UserPrivilege userPrivilege = getPrivilege(oleUserPrivilege.getUserPrivilegeStatus(), oleUserPrivilege.getUserPrivilegeType(), oleUserPrivilege.getUserPrivilegeDescription(), agencyId);
+                userPrivilegeList.add(userPrivilege);
+            }
             userOptionalFields.setUserPrivileges(userPrivilegeList);
         } catch (Exception e) {
             LOG.error("Exception while getting user privileges" + e);
         }
-    }
-
-    private UserPrivilege getStatusPrivilege(OlePatronDocument olePatronDocument, AgencyId agencyId) {
-        UserPrivilege statusPriv = null;
-
-        String errorMessage = fireLookupUserRules(olePatronDocument);
-
-        if (StringUtils.isBlank(errorMessage)) {
-            statusPriv = getPrivilege(OLEConstants.OK, OLEConstants.STATUS, OLEConstants.STATUS_DESCRIPTION, agencyId);
-        } else {
-            statusPriv = getPrivilege(OLEConstants.BLOCKED, OLEConstants.STATUS, OLEConstants.STATUS_DESCRIPTION, agencyId);
-        }
-
-        return statusPriv;
     }
 
     private UserAddressInformation retrievePhysicalAddress(OlePatronAddressBo olePatronAddressBo) {
@@ -354,31 +266,21 @@ public class OLENCIPLookupUserServiceImpl extends OLENCIPUtil implements LookupU
         return userPrivilege;
     }
 
-    private List<LoanedItem> getLoanedItems(AgencyId agencyId, String olePatronId) {
-        OleStopWatch oleStopWatch = new OleStopWatch();
-        oleStopWatch.start();
-        List<LoanedItem> loanedItems = new ArrayList<LoanedItem>();
-
+    private List<LoanedItem> getLoanedItems(OLECheckedOutItems oleCheckedOutItems, AgencyId agencyId) {
+        List<LoanedItem> loanedItems = new ArrayList<>();
         try {
-            List<OleLoanDocument> oleLoanDocumentList = getOleLoanDocumentsFromSolrBuilder().getPatronLoanedItemBySolr(olePatronId, null);
-            if (CollectionUtils.isNotEmpty(oleLoanDocumentList)) {
-                setNumberOfOverdueNoticesSentForLoanDocuments(olePatronId, oleLoanDocumentList);
-                for (OleLoanDocument oleLoanDocument : oleLoanDocumentList) {
+            if (oleCheckedOutItems != null && CollectionUtils.isNotEmpty(oleCheckedOutItems.getCheckedOutItems())) {
+                for (OLECheckedOutItem oleCheckedOutItem : oleCheckedOutItems.getCheckedOutItems()) {
                     LoanedItem loanedItem = new LoanedItem();
 
                     ItemId itemId = new ItemId();
-                    ItemIdentifierType itemIdentifierType = new ItemIdentifierType(OLENCIPConstants.IDENTIFIER_TYPE, oleLoanDocument.getItemType());
+                    ItemIdentifierType itemIdentifierType = new ItemIdentifierType(OLENCIPConstants.IDENTIFIER_TYPE, oleCheckedOutItem.getItemType());
                     itemId.setAgencyId(agencyId);
                     itemId.setItemIdentifierType(itemIdentifierType);
-                    itemId.setItemIdentifierValue(oleLoanDocument.getItemId());
+                    itemId.setItemIdentifierValue(oleCheckedOutItem.getItemId());
                     loanedItem.setItemId(itemId);
 
-                    String numberOfOverdueNoticesSent = oleLoanDocument.getNumberOfOverdueNoticesSent();
-                    if (StringUtils.isNotBlank(numberOfOverdueNoticesSent)) {
-                        loanedItem.setReminderLevel(new BigDecimal(numberOfOverdueNoticesSent));
-                    } else {
-                        loanedItem.setReminderLevel(BigDecimal.ZERO);
-                    }
+                    loanedItem.setReminderLevel(new BigDecimal(oleCheckedOutItem.getNumberOfOverdueSent()));
 
                     Amount amount = new Amount();
                     CurrencyCode currencyCode = new CurrencyCode(OLENCIPConstants.USD, 1);
@@ -389,199 +291,110 @@ public class OLENCIPLookupUserServiceImpl extends OLENCIPUtil implements LookupU
                     List<BibliographicId> bibliographicIds = new ArrayList<BibliographicId>();
                     BibliographicId bibliographicId = new BibliographicId();
                     BibliographicItemId bibliographicItemId = new BibliographicItemId();
-                    bibliographicItemId.setBibliographicItemIdentifier(oleLoanDocument.getItemId());
+                    bibliographicItemId.setBibliographicItemIdentifier(oleCheckedOutItem.getItemId());
                     BibliographicRecordId bibliographicRecordId = new BibliographicRecordId();
                     bibliographicRecordId.setAgencyId(agencyId);
-                    bibliographicRecordId.setBibliographicRecordIdentifier(oleLoanDocument.getBibUuid());
+                    bibliographicRecordId.setBibliographicRecordIdentifier(oleCheckedOutItem.getCatalogueId());
                     bibliographicId.setBibliographicRecordId(bibliographicRecordId);
                     bibliographicId.setBibliographicItemId(bibliographicItemId);
                     bibliographicIds.add(bibliographicId);
                     loanedItem.setBibliographicIds(bibliographicIds);
 
-                    if (oleLoanDocument.getLoanDueDate() != null) {
-                        loanedItem.setDateDue(getOleCirculationHelperService().getGregorianCalendarDate(oleLoanDocument.getLoanDueDate().toString()));
-                    } else {
-                        loanedItem.setDateDue(getOleCirculationHelperService().getGregorianCalendarDate((new java.sql.Timestamp(new Date(2025, 1, 1).getTime()).toString())));
-                    }
-                    loanedItem.setTitle(oleLoanDocument.getTitle());
-
-                    MediumType mediumType = new MediumType(OLENCIPConstants.MEDIUM_TYPE, oleLoanDocument.getItemType());
+                    loanedItem.setDateDue(getOleCirculationHelperService().getGregorianCalendarDate(oleCheckedOutItem.getDueDate()));
+                    loanedItem.setTitle(oleCheckedOutItem.getTitle());
+                    MediumType mediumType = new MediumType(OLENCIPConstants.MEDIUM_TYPE, oleCheckedOutItem.getItemType());
                     loanedItem.setMediumType(mediumType);
-
-                    if (oleLoanDocument.getCreateDate() != null) {
-                        loanedItem.setDateCheckedOut(getOleCirculationHelperService().getGregorianCalendarDate(new Timestamp(oleLoanDocument.getCreateDate().getTime()).toString()));
-                    }
+                    loanedItem.setDateCheckedOut(getOleCirculationHelperService().getGregorianCalendarDate(oleCheckedOutItem.getLoanDate()));
                     loanedItems.add(loanedItem);
                 }
             }
         } catch (Exception e) {
             LOG.error("Exception while getting loaned items " + e);
         }
-        oleStopWatch.end();
-        LOG.info("For " + loanedItems.size() + " loaned items, time taken : " + oleStopWatch.getTotalTime());
         return loanedItems;
     }
 
-    private void setNumberOfOverdueNoticesSentForLoanDocuments(String olePatronId, List<OleLoanDocument> oleLoanDocuments) {
-        List<String> itemIds = new ArrayList<>();
-        Map<String, OleLoanDocument> map = new HashMap();
-        OleLoanDocumentDaoOjb oleLoanDocumentDaoOjb = (OleLoanDocumentDaoOjb) SpringContext.getService("oleLoanDao");
-        for (OleLoanDocument oleLoanDocument : oleLoanDocuments) {
-            String itemId = oleLoanDocument.getItemUuid();
-            itemIds.add(itemId);
-            map.put(itemId, oleLoanDocument);
-        }
-        Collection collection = oleLoanDocumentDaoOjb.getLoanDocumentsUsingItemIdsAndPatronId(olePatronId, itemIds);
-        List<OleLoanDocument> oleLoanDocumentList = (List<OleLoanDocument>) collection;
-
-        for (OleLoanDocument oleLoanDocument : oleLoanDocumentList) {
-            if (map.containsKey(oleLoanDocument.getItemUuid())) {
-                map.get(oleLoanDocument.getItemUuid()).setNumberOfOverdueNoticesSent(oleLoanDocument.getNumberOfOverdueNoticesSent());
-            }
-        }
-    }
-
-    private List<RequestedItem> getRequestedItems(AgencyId agencyId, String olePatronId) {
-        OleStopWatch oleStopWatch = new OleStopWatch();
-        oleStopWatch.start();
-        List<RequestedItem> requestedItems = new ArrayList<RequestedItem>();
-
+    private List<RequestedItem> getRequestedItems(OLEHolds oleHolds, AgencyId agencyId) {
+        List<RequestedItem> requestedItems = new ArrayList<>();
         try {
-            Map map = new HashMap();
-            map.put(OLEConstants.OleDeliverRequest.BORROWER_ID, olePatronId);
-            List<OleDeliverRequestBo> oleDeliverRequestBoList = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, map);
-            if (CollectionUtils.isNotEmpty(oleDeliverRequestBoList)) {
-                for (OleDeliverRequestBo oleDeliverRequestBo : oleDeliverRequestBoList) {
+            if (oleHolds != null && CollectionUtils.isNotEmpty(oleHolds.getOleHoldList())) {
+                for (OLEHold oleHold : oleHolds.getOleHoldList()) {
                     RequestedItem requestedItem = new RequestedItem();
-
-                    if (StringUtils.isNotBlank(oleDeliverRequestBo.getItemId())) {
-                        OleItemSearch oleItemSearch = getOleItemSearch(oleDeliverRequestBo.getItemId());
-                        oleDeliverRequestBo.setTitle(oleItemSearch.getTitle());
-                        oleDeliverRequestBo.setItemType(oleItemSearch.getItemType());
-                    }
-                    requestedItem.setHoldQueuePosition(new BigDecimal(oleDeliverRequestBo.getBorrowerQueuePosition()));
+                    requestedItem.setHoldQueuePosition(new BigDecimal(oleHold.getPriority()));
                     ItemId itemId = new ItemId();
-                    itemId.setItemIdentifierValue(oleDeliverRequestBo.getItemId());
-                    ItemIdentifierType itemIdentifierType = new ItemIdentifierType(OLENCIPConstants.IDENTIFIER_TYPE, oleDeliverRequestBo.getItemType());
+                    itemId.setItemIdentifierValue(oleHold.getItemId());
+                    ItemIdentifierType itemIdentifierType = new ItemIdentifierType(OLENCIPConstants.IDENTIFIER_TYPE, oleHold.getItemType());
                     itemId.setItemIdentifierType(itemIdentifierType);
                     requestedItem.setItemId(itemId);
                     RequestId requestId = new RequestId();
                     requestId.setAgencyId(agencyId);
-                    requestId.setRequestIdentifierValue(oleDeliverRequestBo.getRequestId());
+                    requestId.setRequestIdentifierValue(oleHold.getRequestId());
                     requestedItem.setRequestId(requestId);
-                    RequestType requestType = new RequestType(OLENCIPConstants.REQUEST_TYPES, oleDeliverRequestBo.getRequestTypeCode());
+                    RequestType requestType = new RequestType(OLENCIPConstants.REQUEST_TYPES, oleHold.getRequestType());
                     requestedItem.setRequestType(requestType);
                     RequestStatusType requestStatusType = new RequestStatusType("");
                     requestedItem.setRequestStatusType(requestStatusType);
-                    if (oleDeliverRequestBo.getCreateDate() != null) {
-                        requestedItem.setDatePlaced(getOleCirculationHelperService().getGregorianCalendarDate(new Timestamp(oleDeliverRequestBo.getCreateDate().getTime()).toString()));
-                    }
-
-                    setPickupDate(oleDeliverRequestBo, requestedItem);
-
-                    PickupLocation pickupLocation = new PickupLocation(oleDeliverRequestBo.getPickUpLocationCode());
+                    requestedItem.setDatePlaced(getOleCirculationHelperService().getGregorianCalendarDate(oleHold.getCreateDate()));
+                    requestedItem.setPickupDate(getOleCirculationHelperService().getGregorianCalendarDate(oleHold.getAvailableDate()));
+                    PickupLocation pickupLocation = new PickupLocation(oleHold.getPickupLocation());
                     requestedItem.setPickupLocation(pickupLocation);
-                    requestedItem.setTitle(oleDeliverRequestBo.getTitle());
+                    requestedItem.setTitle(oleHold.getTitle());
                     requestedItems.add(requestedItem);
                 }
             }
         } catch (Exception e) {
             LOG.error("Exception while getting requested items" + e);
         }
-        oleStopWatch.end();
-        LOG.info("For " + requestedItems.size() + " requested items, time taken : " + oleStopWatch.getTotalTime());
         return requestedItems;
     }
 
-    private void setPickupDate(OleDeliverRequestBo oleDeliverRequestBo, RequestedItem requestedItem) {
-        String availableDate = null;
-        Map<String, String> loanMap = new HashMap<String, String>();
-        loanMap.put(OLEConstants.OleDeliverRequest.ITEM_ID, oleDeliverRequestBo.getItemId());
-        List<OleLoanDocument> oleLoanDocumentList = (List<OleLoanDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleLoanDocument.class, loanMap);
-        if (CollectionUtils.isNotEmpty(oleLoanDocumentList)) {
-            OleLoanDocument oleLoanDocument = oleLoanDocumentList.get(0);
-            if (oleLoanDocument.getLoanDueDate() != null) {
-                String[] availableDates = oleLoanDocument.getLoanDueDate().toString().split(" ");
-                if (availableDates != null && availableDates.length > 0) {
-                    availableDate = availableDates[0];
-                } else {
-                    availableDate = oleLoanDocument.getLoanDueDate().toString();
-                }
-            } else {
-                availableDate = OLEConstants.INDEFINITE;
-            }
-            if (StringUtils.isNotBlank(availableDate)) {
-                requestedItem.setPickupDate(oleCirculationHelperService.getGregorianCalendarDate(availableDate));
-            }
-        }
-    }
-
-    private List<UserFiscalAccount> getUserFiscalAccounts(AgencyId agencyId, String olePatronId) {
+    private List<UserFiscalAccount> getUserFiscalAccounts(OLEItemFines oleItemFines, AgencyId agencyId) {
         OleStopWatch oleStopWatch = new OleStopWatch();
         oleStopWatch.start();
-        List<UserFiscalAccount> userFiscalAccounts = new ArrayList<UserFiscalAccount>();
+        List<UserFiscalAccount> userFiscalAccounts = new ArrayList<>();
         try {
-            Map map = new HashMap();
-            map.put("patronId", olePatronId);
-            List<PatronBillPayment> patronBillPaymentList = (List<PatronBillPayment>) getBusinessObjectService().findMatching(PatronBillPayment.class, map);
-            if (CollectionUtils.isNotEmpty(patronBillPaymentList)) {
-                for (PatronBillPayment patronBillPayment : patronBillPaymentList) {
-                    List<FeeType> feeTypeList = patronBillPayment.getFeeType();
-                    for (FeeType feeType : feeTypeList) {
-                        if (StringUtils.isNotBlank(feeType.getItemBarcode())) {
-                            OleItemSearch oleItemSearch = getOleItemSearch(feeType.getItemBarcode());
-                            feeType.setItemUuid(oleItemSearch.getItemUUID());
-                            feeType.setItemAuthor(oleItemSearch.getAuthor());
-                            feeType.setItemTitle(oleItemSearch.getTitle());
-                        }
-                        UserFiscalAccount userFiscalAccount = new UserFiscalAccount();
-                        AccountBalance accountBalance = new AccountBalance();
-                        CurrencyCode currencyCode = new CurrencyCode(OLENCIPConstants.USD, 1);
-                        accountBalance.setCurrencyCode(currencyCode);
-                        accountBalance.setMonetaryValue(feeType.getBalFeeAmount().bigDecimalValue());
-                        userFiscalAccount.setAccountBalance(accountBalance);
-                        List<AccountDetails> accountDetailsList = new ArrayList<AccountDetails>();
-                        AccountDetails accountDetails = new AccountDetails();
-                        if (feeType.getBillDate() != null) {
-                            accountDetails.setAccrualDate(getOleCirculationHelperService().getGregorianCalendarDate(feeType.getBillDate().toString()));
-                        }
-                        FiscalTransactionInformation fiscalTransactionInformation = new FiscalTransactionInformation();
-                        Amount amount = new Amount();
-                        amount.setCurrencyCode(currencyCode);
-                        amount.setMonetaryValue(feeType.getFeeAmount() != null ? feeType.getFeeAmount().bigDecimalValue() : OLEConstants.BIGDECIMAL_DEF_VALUE);
-                        fiscalTransactionInformation.setAmount(amount);
-                        PaymentMethodType paymentMethodType = new PaymentMethodType(OLENCIPConstants.PAYMENT_METHOD_TYPE, OLENCIPConstants.CASH);
-                        fiscalTransactionInformation.setPaymentMethodType(paymentMethodType);
-                        FiscalActionType fiscalActionType = new FiscalActionType(OLENCIPConstants.FISCAL_ACTION_TYPE, OLENCIPConstants.FINES);
-                        fiscalTransactionInformation.setFiscalActionType(fiscalActionType);
+            if (oleItemFines != null && CollectionUtils.isNotEmpty(oleItemFines.getOleItemFineList())) {
+                for (OLEItemFine oleItemFine : oleItemFines.getOleItemFineList()) {
+                    UserFiscalAccount userFiscalAccount = new UserFiscalAccount();
+                    AccountBalance accountBalance = new AccountBalance();
+                    CurrencyCode currencyCode = new CurrencyCode(OLENCIPConstants.USD, 1);
+                    accountBalance.setCurrencyCode(currencyCode);
+                    accountBalance.setMonetaryValue(oleItemFine.getBalance());
+                    userFiscalAccount.setAccountBalance(accountBalance);
+                    List<AccountDetails> accountDetailsList = new ArrayList<AccountDetails>();
+                    AccountDetails accountDetails = new AccountDetails();
+                    accountDetails.setAccrualDate(getOleCirculationHelperService().getGregorianCalendarDate(oleItemFine.getDateCharged()));
 
-                        FiscalTransactionType fiscalTransactionType;
-                        if (feeType.getOleFeeType() != null) {
-                            fiscalTransactionType = new FiscalTransactionType(OLENCIPConstants.FISCAL_TRANSACTION_TYPE, feeType.getOleFeeType().getFeeTypeName());
-                        } else {
-                            fiscalTransactionType = new FiscalTransactionType(OLENCIPConstants.FISCAL_TRANSACTION_TYPE, feeType.getFeeType());
-                        }
-                        fiscalTransactionInformation.setFiscalTransactionType(fiscalTransactionType);
-                        ItemDetails itemDetails = new ItemDetails();
-                        ItemId itemId = new ItemId();
-                        if (feeType.getItemBarcode() != null)
-                            itemId.setItemIdentifierValue(feeType.getItemBarcode());
-                        else
-                            itemId.setItemIdentifierValue("");
-                        itemId.setAgencyId(agencyId);
-                        ItemIdentifierType itemIdentifierType = new ItemIdentifierType(OLENCIPConstants.IDENTIFIER_TYPE, OLENCIPConstants.ITEM_BARCODES);
-                        itemId.setItemIdentifierType(itemIdentifierType);
-                        itemDetails.setItemId(itemId);
-                        BibliographicDescription bibliographicDescription = new BibliographicDescription();
-                        bibliographicDescription.setTitle(feeType.getItemTitle());
-                        bibliographicDescription.setAuthor(feeType.getItemAuthor());
-                        itemDetails.setBibliographicDescription(bibliographicDescription);
-                        fiscalTransactionInformation.setItemDetails(itemDetails);
-                        accountDetails.setFiscalTransactionInformation(fiscalTransactionInformation);
-                        accountDetailsList.add(accountDetails);
-                        userFiscalAccount.setAccountDetails(accountDetailsList);
-                        userFiscalAccounts.add(userFiscalAccount);
-                    }
+                    FiscalTransactionInformation fiscalTransactionInformation = new FiscalTransactionInformation();
+                    Amount amount = new Amount();
+                    amount.setCurrencyCode(currencyCode);
+                    amount.setMonetaryValue(oleItemFine.getAmount());
+                    fiscalTransactionInformation.setAmount(amount);
+                    PaymentMethodType paymentMethodType = new PaymentMethodType(OLENCIPConstants.PAYMENT_METHOD_TYPE, OLENCIPConstants.CASH);
+                    fiscalTransactionInformation.setPaymentMethodType(paymentMethodType);
+                    FiscalActionType fiscalActionType = new FiscalActionType(OLENCIPConstants.FISCAL_ACTION_TYPE, OLENCIPConstants.FINES);
+                    fiscalTransactionInformation.setFiscalActionType(fiscalActionType);
+                    FiscalTransactionType fiscalTransactionType = new FiscalTransactionType(OLENCIPConstants.FISCAL_TRANSACTION_TYPE, oleItemFine.getReason());
+                    fiscalTransactionInformation.setFiscalTransactionType(fiscalTransactionType);
+                    ItemDetails itemDetails = new ItemDetails();
+                    ItemId itemId = new ItemId();
+                    if (oleItemFine.getItemId() != null)
+                        itemId.setItemIdentifierValue(oleItemFine.getItemId());
+                    else
+                        itemId.setItemIdentifierValue("");
+                    itemId.setAgencyId(agencyId);
+                    ItemIdentifierType itemIdentifierType = new ItemIdentifierType(OLENCIPConstants.IDENTIFIER_TYPE, OLENCIPConstants.ITEM_BARCODES);
+                    itemId.setItemIdentifierType(itemIdentifierType);
+                    itemDetails.setItemId(itemId);
+                    BibliographicDescription bibliographicDescription = new BibliographicDescription();
+                    bibliographicDescription.setTitle(oleItemFine.getTitle());
+                    bibliographicDescription.setAuthor(oleItemFine.getAuthor());
+                    itemDetails.setBibliographicDescription(bibliographicDescription);
+                    fiscalTransactionInformation.setItemDetails(itemDetails);
+                    accountDetails.setFiscalTransactionInformation(fiscalTransactionInformation);
+                    accountDetailsList.add(accountDetails);
+                    userFiscalAccount.setAccountDetails(accountDetailsList);
+                    userFiscalAccounts.add(userFiscalAccount);
                 }
             }
         } catch (Exception e) {
@@ -592,39 +405,102 @@ public class OLENCIPLookupUserServiceImpl extends OLENCIPUtil implements LookupU
         return userFiscalAccounts;
     }
 
-    private OleItemSearch getOleItemSearch(String itemBarcode) {
-        OleStopWatch oleStopWatch = new OleStopWatch();
-        oleStopWatch.start();
-        OleItemSearch oleItemSearch = new OleItemSearch();
-        try {
-            org.kuali.ole.docstore.common.search.SearchParams search_Params = new org.kuali.ole.docstore.common.search.SearchParams();
-            search_Params.getSearchConditions().add(search_Params.buildSearchCondition("phrase", search_Params.buildSearchField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), "ITEMBARCODE", itemBarcode), ""));
-            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), OLEConstants.ID));
-            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), OLEConstants.TITLE));
-            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), OLEConstants.AUTHOR));
-            search_Params.getSearchResultFields().add(search_Params.buildSearchResultField(org.kuali.ole.docstore.common.document.content.enums.DocType.ITEM.getCode(), OLEConstants.ITEM_TYPE));
-            SearchResponse searchResponse = getDocstoreUtil().getDocstoreClientLocator().getDocstoreClient().search(search_Params);
-            if (searchResponse.getSearchResults() != null && searchResponse.getSearchResults().size() > 0) {
-                for (SearchResult searchResult : searchResponse.getSearchResults()) {
-                    for (SearchResultField searchResultField : searchResult.getSearchResultFields()) {
-                        if (searchResultField.getFieldName().equalsIgnoreCase(OLEConstants.TITLE)) {
-                            oleItemSearch.setTitle(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(OLEConstants.AUTHOR)) {
-                            oleItemSearch.setAuthor(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(OLEConstants.ID)) {
-                            oleItemSearch.setItemUUID(searchResultField.getFieldValue());
-                        } else if (searchResultField.getFieldName().equalsIgnoreCase(OLEConstants.ITEM_TYPE)) {
-                            oleItemSearch.setItemType(searchResultField.getFieldValue());
-                        }
-
-                    }
-                }
-            }
-        } catch (Exception e) {
-            LOG.error("Exception " + e);
+    @Override
+    public String prepareResponse() {
+        switch (responseFormatType) {
+            case ("XML"):
+                response = getResponseHandler().marshalObjectToXml(getOleLookupUser());
+                break;
+            case ("JSON"):
+                response = getResponseHandler().marshalObjectToJson(getOleLookupUser());
+                break;
         }
-        oleStopWatch.end();
-        LOG.info("Time taken to getOleItemSearch : " + oleStopWatch.getTotalTime());
-        return oleItemSearch;
+
+        return response;
+    }
+
+    @Override
+    public String getOperatorId(String operatorId) {
+        return operatorId;
+    }
+
+    @Override
+    public void validatePatron() {
+
+    }
+
+    @Override
+    public boolean isRenewalInfoNeeded() {
+        return false;
+    }
+
+    @Override
+    public OLEUserPrivilege getStatusPrivilege() {
+        OLEUserPrivilege statusPriv = null;
+
+        String errorMessage = new OLENCIPUtil().fireLookupUserRules(getOlePatronDocument());
+
+        if (StringUtils.isBlank(errorMessage)) {
+            statusPriv = getPrivilege(OLEConstants.OK, OLEConstants.STATUS, OLEConstants.STATUS_DESCRIPTION);
+        } else {
+            statusPriv = getPrivilege(OLEConstants.BLOCKED, OLEConstants.STATUS, OLEConstants.STATUS_DESCRIPTION);
+        }
+
+        return statusPriv;
+    }
+
+    @Override
+    protected void processErrorResponseForOperator() {
+        getOleLookupUser().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CIRCULATION_DESK_NOT_MAPPED_OPERATOR));
+    }
+
+    @Override
+    protected void processErrorResponseForPatron() {
+        getOleLookupUser().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
+    }
+
+    @Override
+    protected void processSuccessResponseForLookupUser() {
+        getOleLookupUser().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.RTRVD_SUCCESS));
+    }
+
+    @Override
+    protected void processSuccessResponseForItemFine(OLEItemFines oleItemFines) {
+        oleItemFines.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.RTRVD_SUCCESS));
+    }
+
+    @Override
+    protected void processInfoForItemFine(OLEItemFines oleItemFines) {
+        oleItemFines.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_FINE));
+    }
+
+    @Override
+    protected boolean nameInformationDesired() {
+        return getLookupUserInitiationData().getNameInformationDesired();
+    }
+
+    @Override
+    protected boolean userAddressInformationDesired() {
+        return getLookupUserInitiationData().getUserAddressInformationDesired();
+    }
+
+    @Override
+    protected boolean userPrivilegeDesired() {
+        return getLookupUserInitiationData().getUserPrivilegeDesired();
+    }
+
+    @Override
+    protected boolean loanedItemsDesired() {
+        return getLookupUserInitiationData().getLoanedItemsDesired();
+    }
+
+    @Override
+    protected boolean requestedItemsDesired() {
+        return getLookupUserInitiationData().getRequestedItemsDesired();
+    }
+
+    @Override
+    protected boolean userFiscalAccountDesired() {
+        return getLookupUserInitiationData().getUserFiscalAccountDesired();
     }
 }

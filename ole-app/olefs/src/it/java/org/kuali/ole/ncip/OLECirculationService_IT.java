@@ -2,13 +2,15 @@ package org.kuali.ole.ncip;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLETestCaseBase;
-import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.ncip.service.OLECirculationService;
-import org.kuali.ole.ncip.service.impl.OLECirculationServiceImpl;
+import org.kuali.ole.ncip.service.impl.NonSip2CheckinItemService;
+import org.kuali.ole.ncip.service.impl.NonSip2CheckoutItemService;
+import org.kuali.ole.ncip.service.impl.VuFindLookupUserServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
-import org.kuali.rice.core.api.config.property.ConfigContext;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static junit.framework.TestCase.assertNotNull;
 
@@ -31,7 +33,10 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
     public void lookupUserTest(){
         LOG.info("Inside Lookup user test");
         Long startingTime = System.currentTimeMillis();
-        String outputString = oleCirculationService.lookupUser("2761886", "dev2",null,false);
+        Map lookupUserParameters = new HashMap();
+        lookupUserParameters.put("patronBarcode", "2761886");
+        lookupUserParameters.put("operatorId", "dev2");
+        String outputString = new VuFindLookupUserServiceImpl().lookupUser(lookupUserParameters);
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  : " + timeTaken);
@@ -127,7 +132,12 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
     public void checkInItemTest(){
         LOG.info("Inside Lookup user test");
         Long startingTime = System.currentTimeMillis();
-        String outputString = oleCirculationService.checkInItem("2761886", "10002", "201", "N", false);
+
+        Map checkinParameters = new HashMap();
+        checkinParameters.put("operatorId", "10002");
+        checkinParameters.put("itemBarcode", "201");
+        checkinParameters.put("deleteIndicator", "N");
+        String outputString = new NonSip2CheckinItemService().checkinItem(checkinParameters);
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken  for CheckIn  : " + timeTaken);
@@ -139,7 +149,11 @@ public class OLECirculationService_IT  extends OLETestCaseBase {
     public void checkOutItemTest(){
         LOG.info("Inside checkOutItemTest");
         Long startingTime = System.currentTimeMillis();
-        String outputString = oleCirculationService.checkOutItem("2761886", "10002", "201", false);
+        Map checkoutParameters = new HashMap();
+        checkoutParameters.put("patronBarcode", "2761886");
+        checkoutParameters.put("operatorId", "10002");
+        checkoutParameters.put("itemBarcode", "201");
+        String outputString = new NonSip2CheckoutItemService().checkoutItem(checkoutParameters);
         Long endTime = System.currentTimeMillis();
         Long timeTaken = endTime-startingTime;
         LOG.info("The Total Time Taken for CheckOut  : " + timeTaken);

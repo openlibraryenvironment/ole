@@ -1,0 +1,95 @@
+<lookupUser>
+  <code>000</code>
+  <message>Successfully retrieved</message>
+  <patronId>6010570002006861</patronId>
+  <patronName>
+    <firstName>Salinda</firstName>
+    <middleName></middleName>
+    <lastName>Lample</lastName>
+  </patronName>
+  <patronEmail>
+    <emailTypeCode>HM</emailTypeCode>
+    <emailAddress>lample97@uchicago.edu</emailAddress>
+  </patronEmail>
+  <patronAddress>
+    <addressTypeCode>HM</addressTypeCode>
+    <city>Gambier</city>
+    <stateProvinceCode>OH</stateProvinceCode>
+    <postalCode>43022</postalCode>
+    <countryCode></countryCode>
+    <line1>P.O. Box 9</line1>
+    <line2></line2>
+    <line3></line3>
+  </patronAddress>
+  <patronPhone>
+    <phoneTypeCode>HM</phoneTypeCode>
+    <phoneNumber>9176489999</phoneNumber>
+  </patronPhone>
+  <userPrivileges>
+    <userPrivilege>
+      <userPrivilegeType>Courtesy Notice</userPrivilegeType>
+      <userPrivilegeStatus>true</userPrivilegeStatus>
+      <userPrivilegeDescription>Eligible to receive the courtesy Notices</userPrivilegeDescription>
+    </userPrivilege>
+    <userPrivilege>
+      <userPrivilegeType>Delivery</userPrivilegeType>
+      <userPrivilegeStatus>true</userPrivilegeStatus>
+      <userPrivilegeDescription>Eligible to receive item</userPrivilegeDescription>
+    </userPrivilege>
+    <userPrivilege>
+      <userPrivilegeType>Paging</userPrivilegeType>
+      <userPrivilegeStatus>true</userPrivilegeStatus>
+      <userPrivilegeDescription>Eligible to Page item</userPrivilegeDescription>
+    </userPrivilege>
+    <userPrivilege>
+      <userPrivilegeType>Profile</userPrivilegeType>
+      <userPrivilegeStatus>UnderGrad</userPrivilegeStatus>
+      <userPrivilegeDescription>User Profile</userPrivilegeDescription>
+    </userPrivilege>
+  </userPrivileges>
+  <oleHolds>
+    <oleHoldList>
+      <hold>
+        <itemId>2</itemId>
+        <itemType>BOOK</itemType>
+        <catalogueId>wbm-10000002</catalogueId>
+        <title>test2</title>
+        <author></author>
+        <requestId>1</requestId>
+        <availableStatus>LOANED</availableStatus>
+        <recallStatus>YES</recallStatus>
+        <expiryDate>2015-10-08</expiryDate>
+        <createDate>2015-09-28</createDate>
+        <priority>1</priority>
+        <requestType>Recall/Delivery Request</requestType>
+        <availableDate>2015-10-01</availableDate>
+        <copyNumber></copyNumber>
+        <callNumber>X</callNumber>
+        <volumeNumber></volumeNumber>
+        <reserve>false</reserve>
+      </hold>
+    </oleHoldList>
+  </oleHolds>
+  <oleCheckedOutItems>
+    <checkedOutItems>
+      <checkedOutItem>
+        <itemId>1</itemId>
+        <itemType>Book</itemType>
+        <catalogueId>wbm-10000001</catalogueId>
+        <loanDate>2015-09-28 11:42:37.0</loanDate>
+        <dueDate>2015-10-08 23:59:00.0</dueDate>
+        <acquiredFine></acquiredFine>
+        <overDue>false</overDue>
+        <dateRecalled></dateRecalled>
+        <title>test1</title>
+        <callNumber>X</callNumber>
+        <dateRenewed></dateRenewed>
+        <numberOfOverdueSent>1</numberOfOverdueSent>
+      </checkedOutItem>
+    </checkedOutItems>
+  </oleCheckedOutItems>
+  <oleItemFines>
+    <finesList/>
+  </oleItemFines>
+  <validPatron>false</validPatron>
+</lookupUser>

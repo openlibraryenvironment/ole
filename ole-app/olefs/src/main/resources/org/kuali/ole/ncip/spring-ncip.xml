@@ -83,11 +83,11 @@
         <property name="oleCheckOutItemConverter" ref="oleCheckOutItemConverter"/>
     </bean>
 
-    <bean id="lookupUserService" class="org.kuali.ole.ncip.service.impl.OLELookupUserServiceImpl">
-        <property name="oleCirculationService" ref="oleCirculationService"/>
-        <property name="oleCirculationHelperService" ref="oleCirculationHelperService"/>
-        <property name="oleSelectDocumentService" ref="oleSelectDocumentService"/>
-    </bean>
+    <!--<bean id="lookupUserService" class="org.kuali.ole.ncip.service.impl.OLELookupUserServiceImpl">-->
+        <!--<property name="oleCirculationService" ref="oleCirculationService"/>-->
+        <!--<property name="oleCirculationHelperService" ref="oleCirculationHelperService"/>-->
+        <!--<property name="oleSelectDocumentService" ref="oleSelectDocumentService"/>-->
+    <!--</bean>-->
 
     <bean id="acceptItemService" class="org.kuali.ole.ncip.service.impl.OLEAcceptItemServiceImpl">
         <property name="oleCirculationService" ref="oleCirculationService"/>
@@ -151,7 +151,7 @@
                 <entry key="org.extensiblecatalog.ncip.v2.service.CancelRequestItemInitiationData" value-ref="cancelRequestItemService"/>
                 <entry key="org.extensiblecatalog.ncip.v2.service.RequestItemInitiationData" value-ref="requestItemService"/>
                 <entry key="org.extensiblecatalog.ncip.v2.service.AcceptItemInitiationData" value-ref="acceptItemService"/>
-                <entry key="org.extensiblecatalog.ncip.v2.service.LookupUserInitiationData" value-ref="lookupUserService"/>
+                <!--<entry key="org.extensiblecatalog.ncip.v2.service.LookupUserInitiationData" value-ref="lookupUserService"/>-->
                 <entry key="org.extensiblecatalog.ncip.v2.service.CheckInItemInitiationData" value-ref="checkInItemService"/>
                 <entry key="org.extensiblecatalog.ncip.v2.service.CheckOutItemInitiationData" value-ref="checkOutItemService"/>
             </map>

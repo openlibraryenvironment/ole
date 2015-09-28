@@ -14,11 +14,11 @@ import java.util.Date;
 public class LookupUser_IT extends DroolsKieBaseTestCase {
 
     @Test
-    public void testLookupUser() throws Exception {
+    public void testLookupUserNCIP() throws Exception {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(5, 5);
-        Mockito.when(mockOlePatronDocument.isGeneralBlock()).thenReturn(false);
+        Mockito.when(mockOlePatronDocument.isGeneralBlock()).thenReturn(true);
         Mockito.when(mockOlePatronDocument.getExpirationDate()).thenReturn(calendar.getTime());
         Mockito.when(mockOlePatronDocument.isActiveIndicator()).thenReturn(true);
         Mockito.when(mockOlePatronDocument.getActivationDate()).thenReturn(new Date());
@@ -29,9 +29,53 @@ public class LookupUser_IT extends DroolsKieBaseTestCase {
         kieSession.insert(mockDroolsResponse);
         kieSession.insert(mockOlePatronDocument);
 
-        kieSession.getAgenda().getAgendaGroup("lookup-user").setFocus();
+        kieSession.getAgenda().getAgendaGroup("lookup-user-ncip").setFocus();
         kieSession.fireAllRules();
 
-        Mockito.verify(mockDroolsResponse, Mockito.times(0)).addErrorMessage("Patron is blocked");
+        Mockito.verify(mockDroolsResponse, Mockito.times(1)).addErrorMessage("Patron is blocked");
+    }
+
+    @Test
+    public void testLookupUserSip2() throws Exception {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(5, 5);
+        Mockito.when(mockOlePatronDocument.isGeneralBlock()).thenReturn(true);
+        Mockito.when(mockOlePatronDocument.getExpirationDate()).thenReturn(calendar.getTime());
+        Mockito.when(mockOlePatronDocument.isActiveIndicator()).thenReturn(true);
+        Mockito.when(mockOlePatronDocument.getActivationDate()).thenReturn(new Date());
+        Mockito.when(mockOlePatronDocument.getAllCharges()).thenReturn(10);
+        Mockito.when(mockOlePatronDocument.getOverdueFineAmount()).thenReturn(10);
+        Mockito.when(mockOlePatronDocument.getReplacementFineAmount()).thenReturn(0);
+
+        kieSession.insert(mockDroolsResponse);
+        kieSession.insert(mockOlePatronDocument);
+
+        kieSession.getAgenda().getAgendaGroup("lookup-user-sip2").setFocus();
+        kieSession.fireAllRules();
+
+        Mockito.verify(mockDroolsResponse, Mockito.times(1)).addErrorMessage("Patron is blocked");
+    }
+
+    @Test
+    public void testLookupUserVufind() throws Exception {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(5, 5);
+        Mockito.when(mockOlePatronDocument.isGeneralBlock()).thenReturn(true);
+        Mockito.when(mockOlePatronDocument.getExpirationDate()).thenReturn(calendar.getTime());
+        Mockito.when(mockOlePatronDocument.isActiveIndicator()).thenReturn(true);
+        Mockito.when(mockOlePatronDocument.getActivationDate()).thenReturn(new Date());
+        Mockito.when(mockOlePatronDocument.getAllCharges()).thenReturn(10);
+        Mockito.when(mockOlePatronDocument.getOverdueFineAmount()).thenReturn(10);
+        Mockito.when(mockOlePatronDocument.getReplacementFineAmount()).thenReturn(0);
+
+        kieSession.insert(mockDroolsResponse);
+        kieSession.insert(mockOlePatronDocument);
+
+        kieSession.getAgenda().getAgendaGroup("lookup-user-vufind").setFocus();
+        kieSession.fireAllRules();
+
+        Mockito.verify(mockDroolsResponse, Mockito.times(1)).addErrorMessage("Patron is blocked");
     }
 }

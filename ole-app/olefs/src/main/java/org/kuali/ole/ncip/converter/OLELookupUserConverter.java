@@ -30,7 +30,7 @@ public class OLELookupUserConverter {
         xstream.alias("patronEmail",OlePatronEmailBo.class);
         xstream.alias("patronAddress",OlePatronAddressBo.class);
         xstream.alias("patronPhone", OlePatronPhoneBo.class);
-        xstream.omitField(OlePatronPhoneBo.class,"isValidPatron");
+        xstream.omitField(OLELookupUser.class,"validPatron");
         xstream.omitField(OLECheckedOutItems.class,"message");
         xstream.omitField(OLEHolds.class,"message");
         xstream.omitField(OLEItemFines.class,"message");

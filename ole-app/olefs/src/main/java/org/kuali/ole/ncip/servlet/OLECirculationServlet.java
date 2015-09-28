@@ -1,5 +1,6 @@
 package org.kuali.ole.ncip.servlet;
 
+import org.apache.log4j.Logger;
 import org.kuali.ole.ncip.bo.OLECirculationErrorMessage;
 import org.kuali.ole.ncip.bo.OLENCIPConstants;
 import org.kuali.ole.ncip.bo.OLENCIPErrorResponse;
@@ -8,7 +9,7 @@ import org.kuali.ole.ncip.service.OLECirculationService;
 import org.kuali.ole.ncip.service.impl.NonSip2CheckinItemService;
 import org.kuali.ole.ncip.service.impl.NonSip2CheckoutItemService;
 import org.kuali.ole.ncip.service.impl.OLECirculationServiceImpl;
-import org.apache.log4j.Logger;
+import org.kuali.ole.ncip.service.impl.VuFindLookupUserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -328,7 +329,13 @@ public class OLECirculationServlet extends HttpServlet {
                     if(parameterMap.containsKey(OLENCIPConstants.PATRON_BARCODE) &&
                             parameterMap.containsKey(OLENCIPConstants.OPERATOR_ID)){
                         if(parameterMap.size()==3 || parameterMap.size()==4){
-                            responseString=oleCirculationService.lookupUser(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],null, false);
+
+                            Map lookupUserParameters = new HashMap();
+                            lookupUserParameters.put("patronBarcode", parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0]);
+                            lookupUserParameters.put("operatorId", parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0]);
+                            lookupUserParameters.put("responseFormatType", outputFormat);
+                            responseString = new VuFindLookupUserServiceImpl().lookupUser(lookupUserParameters);
+
                             if(outputFormat.equalsIgnoreCase(OLENCIPConstants.JSON_FORMAT)){
                                 responseString=new OLELookupUserConverter().generateLookupUserJson(responseString);
                             }

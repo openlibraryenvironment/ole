@@ -21,11 +21,6 @@ public class CirculationRestServiceImpl implements CirculationRestService {
     }
 
     @Override
-    public String lookupUserSIP2(Map lookupUserParameters) {
-        return null;
-    }
-
-    @Override
     public String acceptItemSIP2(Map acceptItemParameters) {
         return null;
     }
@@ -48,6 +43,16 @@ public class CirculationRestServiceImpl implements CirculationRestService {
     @Override
     public String checkinItemSIP2(Map checkinParameters) {
         return new Sip2CheckinItemService().checkinItem(checkinParameters);
+    }
+
+    @Override
+    public String lookupUser(Map lookupUserParameters) {
+        return new NonSip2LookupUserServiceImpl().lookupUser(lookupUserParameters);
+    }
+
+    @Override
+    public String lookupUserSIP2(Map lookupUserParameters) {
+        return new Sip2LookupUserServiceImpl().lookupUser(lookupUserParameters);
     }
 
     @Override
