@@ -23,6 +23,10 @@ public abstract class NettyProcessor {
 
     public abstract String process(String requestData);
 
+    public abstract boolean isServiceTurnedOn();
+
+    public abstract String getResponseForServiceTurnedOff();
+
     public String postRequest(String requestData, String context, String serverURL) {
         LOG.info("Entry NettyServerHandler.sendRequestToOle(restRequestURL, clientRequest, requestRResponseType)");
         String url = serverURL + circRestURL + context;

@@ -29,7 +29,7 @@ public class PatronInformationNetttyProcessor extends NettyProcessor {
 
     @Override
     public boolean isInterested(String code) {
-        return code.equals("63") && properties.getProperty("sip2.service.patronInformation").equalsIgnoreCase("yes");
+        return code.equals("63");
     }
 
     @Override
@@ -48,6 +48,17 @@ public class PatronInformationNetttyProcessor extends NettyProcessor {
                     sip2PatronInformationRequestParser, properties.getProperty("sip2.institution"), calculateTotalFineBalance(oleLookupUser));
         }
         return response;
+    }
+
+    @Override
+    public boolean isServiceTurnedOn() {
+        return properties.getProperty("sip2.service.patronInformation").equalsIgnoreCase("yes");
+    }
+
+    @Override
+    public String getResponseForServiceTurnedOff() {
+        //TODO: Return response;
+        return "";
     }
 
     private String createJSONForLookupUser(String patronBarcode, String operatorId) {

@@ -122,17 +122,26 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
             String code = requestData.substring(0, 2);
             for (Iterator<NettyProcessor> iterator = nettyProcessors.iterator(); iterator.hasNext(); ) {
                 NettyProcessor nettyProcessor = iterator.next();
-                if (nettyProcessor.isInterested(code)) {
-                    return nettyProcessor.process(requestData);
+                if (nettyProcessor.isServiceTurnedOn()) {
+                    if (nettyProcessor.isInterested(code)) {
+                        return nettyProcessor.process(requestData);
+                    }
+                } else {
+                    return nettyProcessor.getResponseForServiceTurnedOff();
                 }
             }
-            LOG.info("Request Type :  *****Not a valid SIP2 request");
-            StringBuilder builder = new StringBuilder();
-            builder.append("96AZ");
-            builder.append(MessageUtil.computeChecksum(builder.toString()));
-            return builder.toString() + '\r';
+            return processResponseForInvalidCode();
         }
+
         return "";
+    }
+
+    private String processResponseForInvalidCode() {
+        LOG.info("Request Type :  *****Not a valid SIP2 request");
+        StringBuilder builder = new StringBuilder();
+        builder.append("96AZ");
+        builder.append(MessageUtil.computeChecksum(builder.toString()));
+        return builder.toString() + '\r';
     }
 
 

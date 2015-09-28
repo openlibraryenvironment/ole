@@ -44,6 +44,16 @@ public class CheckInNetttyProcessor extends NettyProcessor {
         return response;
     }
 
+    @Override
+    public boolean isServiceTurnedOn() {
+        return false;
+    }
+
+    @Override
+    public String getResponseForServiceTurnedOff() {
+        return null;
+    }
+
     private String createJSONForCheckinItemRequest(String itemBarcode, String operatorId, String deleteIndicator) {
         JSONObject jsonObject = new JSONObject();
         try {

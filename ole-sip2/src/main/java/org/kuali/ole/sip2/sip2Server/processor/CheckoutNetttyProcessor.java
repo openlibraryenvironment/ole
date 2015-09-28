@@ -44,6 +44,16 @@ public class CheckoutNetttyProcessor extends NettyProcessor {
         return response;
     }
 
+    @Override
+    public boolean isServiceTurnedOn() {
+        return false;
+    }
+
+    @Override
+    public String getResponseForServiceTurnedOff() {
+        return null;
+    }
+
     private String createJSONForCheckoutItemRequest(String patronBarcode, String itemBarcode, String operatorId) {
         JSONObject jsonObject = new JSONObject();
         try {
