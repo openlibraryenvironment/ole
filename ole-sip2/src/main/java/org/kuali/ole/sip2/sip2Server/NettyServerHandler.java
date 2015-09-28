@@ -20,6 +20,8 @@ import org.kuali.ole.response.OLESIP2CheckOutResponse;
 import org.kuali.ole.response.OLESIP2PatronInformationResponse;
 import org.kuali.ole.response.OLESIP2PatronStatusResponse;
 import org.kuali.ole.sip2.response.*;
+import org.kuali.ole.sip2.sip2Server.processor.NettyProcessor;
+import org.kuali.ole.sip2.sip2Server.processor.PatronInformationNetttyProcessor;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -41,6 +43,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     private String clientIP;
 
     private Map<String, String> lastResponseSendToClient = new HashMap<String, String>();
+
+    private List<NettyProcessor> nettyProcessors;
 
     protected Properties properties = new Properties();
 
@@ -65,6 +69,9 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
         }
+
+        nettyProcessors = new ArrayList<>();
+        nettyProcessors.add(new PatronInformationNetttyProcessor(properties));
     }
 
     @Override
@@ -125,114 +132,14 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
 
     public String processRequest(String requestData) {
-        String response = "";
-        //SC Status
-        LOG.info("NettyServerHandler.processRequest Client IP Address : " + clientIP);
-        LOG.info("Request Message : " + requestData);
-
-
-        if (properties != null) {
-            String code = requestData.substring(0, 2);
-
-            switch (code) {
-                case "11":
-                    LOG.info("Request Type :  Checkout Request");
-                    if (properties.getProperty("sip2.service.checkOut").equalsIgnoreCase("yes")) {
-
-                        OLESIP2CheckOutRequestParser sip2CheckOutRequestParser = new OLESIP2CheckOutRequestParser(requestData);
-                        requestData = createJSONForCheckoutItemRequest(sip2CheckOutRequestParser.getPatronIdentifier(), sip2CheckOutRequestParser.getItemIdentifier(), "SIP2_OPERATOR_ID");
-
-                        response = this.sendRequestToOle(requestData, "/checkoutItemSIP2");
-
-                        if (StringUtils.isNotBlank(response)) {
-                            OLECheckOutItem oleCheckOutItem = (OLECheckOutItem) generateCheckoutItemObject(response);
-                            OLESIP2CheckOutResponse sip2CheckOutResponseParser = new OLESIP2CheckOutResponse();
-                            response = sip2CheckOutResponseParser.getSIP2CheckOutResponse(oleCheckOutItem, sip2CheckOutRequestParser);
-                        }
-
-                    } else {
-                        OLESIP2CheckOutTurnedOffResponse olesip2CheckOutTurnedOffResponse = new OLESIP2CheckOutTurnedOffResponse();
-                        response = olesip2CheckOutTurnedOffResponse.getOLESIP2CheckOutTurnedOffResponse(requestData);
-                    }
-                    break;
-                case "09":
-                    LOG.info("Request Type :  Checkin Request");
-                    if (properties.getProperty("sip2.service.checkIn").equalsIgnoreCase("yes")) {
-
-                        OLESIP2CheckInRequestParser sip2CheckInRequestParser = new OLESIP2CheckInRequestParser(requestData);
-                        requestData = createJSONForCheckinItemRequest(sip2CheckInRequestParser.getItemIdentifier(), "SIP2_OPERATOR_ID", "N");
-
-                        response = this.sendRequestToOle(requestData, "/checkinItemSIP2");
-
-                        if (StringUtils.isNotBlank(response)) {
-                            OLECheckInItem oleCheckInItem = (OLECheckInItem) generateCheckInItemObject(response);
-                            OLESIP2CheckInResponse sip2CheckInResponseParser = new OLESIP2CheckInResponse();
-                            response = sip2CheckInResponseParser.getSIP2CheckInResponse(oleCheckInItem, sip2CheckInRequestParser);
-                        }
-
-                    } else {
-                        OLESIP2CheckInTurnedOffResponse olesip2CheckInTurnedOffResponse = new OLESIP2CheckInTurnedOffResponse();
-                        response = olesip2CheckInTurnedOffResponse.getOLESIP2CheckInTurnedOffResponse(requestData);
-                    }
-                    break;
-
-                case "63":
-                    LOG.info("Request Type :  Patron Information");
-                    if (properties.getProperty("sip2.service.patronInformation").equalsIgnoreCase("yes")) {
-
-                        OLESIP2PatronInformationRequestParser sip2PatronInformationRequestParser = new OLESIP2PatronInformationRequestParser(requestData);
-                        requestData = createJSONForLookupUser(sip2PatronInformationRequestParser.getPatronIdentifier(), "SIP2_OPERATOR_ID");
-
-                        response = this.sendRequestToOle(requestData, "/lookupUserSIP2");
-
-                        if (StringUtils.isNotBlank(response)) {
-                            OLELookupUser oleLookupUser = new OLELookupUserConverter().getLookupUser(response);
-                            OLESIP2PatronInformationResponse sip2PatronInformationResponse = new OLESIP2PatronInformationResponse();
-
-                            response = sip2PatronInformationResponse.getSIP2PatronInfoResponse(oleLookupUser,
-                                    sip2PatronInformationRequestParser, properties.getProperty("sip2.institution"), calculateTotalFineBalance(oleLookupUser));
-                        }
-                    } else {
-                        OLESIP2PatronInformationTurnedOffResponse patronInformationTurnedOffResponse = new OLESIP2PatronInformationTurnedOffResponse();
-                        response = patronInformationTurnedOffResponse.getOLESIP2PatronInformationTurnedOffResponse(requestData);
-                    }
-                    break;
-
-                case "23":
-                    LOG.info("Request Type :  Patron Status Request");
-                    if (properties.getProperty("sip2.service.patronStatus").equalsIgnoreCase("yes")) {
-                        OLESIP2PatronStatusRequestParser sip2PatronStatusRequestParser = new OLESIP2PatronStatusRequestParser(requestData);
-                        requestData = createJSONForLookupUser(sip2PatronStatusRequestParser.getPatronIdentifier(), "SIP2_OPERATOR_ID");
-
-                        response = this.sendRequestToOle(requestData, "/lookupUserSIP2");
-
-                        if (StringUtils.isNotBlank(response)) {
-                            OLELookupUser oleLookupUser = new OLELookupUserConverter().getLookupUser(response);
-                            OLESIP2PatronStatusResponse sip2PatronStatusResponse = new OLESIP2PatronStatusResponse();
-
-                            response = sip2PatronStatusResponse.getSIP2PatronStatusResponse(oleLookupUser,
-                                    sip2PatronStatusRequestParser, calculateTotalFineBalance(oleLookupUser));
-                        }
-                    } else {
-                        OLESIP2PatronStatusTurnedOffResponse patronStatusTurnedOffResponse = new OLESIP2PatronStatusTurnedOffResponse();
-                        response = patronStatusTurnedOffResponse.getOLESIP2PatronStatusTurnedOffResponse(requestData, "Patron Status Request");
-                    }
-
-                    break;
-
-                default:
-                    LOG.info("Request Type :  *****Not a valid SIP2 request");
-                    StringBuilder builder = new StringBuilder();
-                    builder.append("96AZ");
-                    builder.append(MessageUtil.computeChecksum(builder.toString()));
-                    response = builder.toString() + '\r';
-                    break;
+        String code = requestData.substring(0, 2);
+        for (Iterator<NettyProcessor> iterator = nettyProcessors.iterator(); iterator.hasNext(); ) {
+            NettyProcessor nettyProcessor = iterator.next();
+            if (nettyProcessor.isInterested(code)) {
+                return nettyProcessor.process();
             }
         }
-        LOG.info("NettyServerHandler.processRequest SIP2 Package :" + response);
-
-        LOG.info("Exit NettyServerHandler.analysisRequestType(String requestData)");
-        return response;
+        return "";
     }
 
 
@@ -370,5 +277,13 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
             }
         }
         return balanceAmount;
+    }
+
+    public Properties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Properties properties) {
+        this.properties = properties;
     }
 }
