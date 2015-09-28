@@ -1,7 +1,7 @@
 package org.kuali.asr.handler;
 
 import org.kuali.ole.bo.OLECheckOutItem;
-import org.kuali.ole.ncip.converter.OLECheckOutItemConverter;
+import org.kuali.ole.converter.OLECheckOutItemConverter;
 
 /**
  * Created by chenchulakshmig on 8/25/15.

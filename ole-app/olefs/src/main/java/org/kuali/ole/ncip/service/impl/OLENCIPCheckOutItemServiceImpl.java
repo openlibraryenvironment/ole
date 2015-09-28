@@ -6,7 +6,7 @@ import org.extensiblecatalog.ncip.v2.service.*;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.bo.OLECheckOutItem;
 import org.kuali.ole.ncip.bo.OLENCIPConstants;
-import org.kuali.ole.ncip.converter.OLECheckOutItemConverter;
+import org.kuali.ole.converter.OLECheckOutItemConverter;
 import org.kuali.ole.ncip.service.NCIPCheckOutItemResponseBuilder;
 import org.kuali.ole.ncip.service.OLECheckOutItemService;
 import org.kuali.ole.ncip.util.OLENCIPUtil;

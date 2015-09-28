@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.bo.*;
+import org.kuali.ole.converter.OLECheckInItemConverter;
+import org.kuali.ole.converter.OLECheckOutItemConverter;
 import org.kuali.ole.converter.OLELookupUserConverter;
 import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.bo.*;

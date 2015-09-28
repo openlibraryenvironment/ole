@@ -8,7 +8,7 @@ import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.bo.OLECheckInItem;
 import org.kuali.ole.ncip.bo.OLENCIPConstants;
-import org.kuali.ole.ncip.converter.OLECheckInItemConverter;
+import org.kuali.ole.converter.OLECheckInItemConverter;
 import org.kuali.ole.ncip.service.NCIPCheckInItemResponseBuilder;
 import org.kuali.ole.ncip.service.OLECheckInItemService;
 import org.kuali.ole.ncip.util.OLENCIPUtil;

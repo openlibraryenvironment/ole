@@ -6,7 +6,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.bo.OLECheckOutItem;
 import org.kuali.ole.ncip.bo.OLENCIPConstants;
-import org.kuali.ole.ncip.converter.OLECheckOutItemConverter;
+import org.kuali.ole.converter.OLECheckOutItemConverter;
 import org.kuali.ole.ncip.service.OLECheckOutItemService;
 import org.kuali.ole.ncip.service.OLECirculationService;
 import org.kuali.ole.sys.context.SpringContext;

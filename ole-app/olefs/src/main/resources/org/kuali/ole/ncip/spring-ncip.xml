@@ -61,8 +61,8 @@
     <bean id="updateRequestItemService" class="org.extensiblecatalog.ncip.v2.dummy.DummyUpdateRequestItemService"/>
 -->
     <bean id="oleLookupUserConverter" class="org.kuali.ole.converter.OLELookupUserConverter"/>
-    <bean id="oleCheckInItemConverter" class="org.kuali.ole.ncip.converter.OLECheckInItemConverter"/>
-    <bean id="oleCheckOutItemConverter" class="org.kuali.ole.ncip.converter.OLECheckOutItemConverter"/>
+    <bean id="oleCheckInItemConverter" class="org.kuali.ole.converter.OLECheckInItemConverter"/>
+    <bean id="oleCheckOutItemConverter" class="org.kuali.ole.converter.OLECheckOutItemConverter"/>
 
     <bean id="oleSIAPIHelperService" class="org.kuali.ole.ncip.service.impl.OLESIAPIHelperServiceImpl">
         <property name="parameterService" ref="parameterService" />

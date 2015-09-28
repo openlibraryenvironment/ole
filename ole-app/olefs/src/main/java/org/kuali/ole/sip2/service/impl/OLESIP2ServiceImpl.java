@@ -7,6 +7,8 @@ import org.kuali.ole.bo.OLECheckInItem;
 import org.kuali.ole.bo.OLECheckOutItem;
 import org.kuali.ole.bo.OLELookupUser;
 import org.kuali.ole.bo.OLERenewItem;
+import org.kuali.ole.converter.OLECheckInItemConverter;
+import org.kuali.ole.converter.OLECheckOutItemConverter;
 import org.kuali.ole.converter.OLELookupUserConverter;
 import org.kuali.ole.deliver.bo.OleItemSearch;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
