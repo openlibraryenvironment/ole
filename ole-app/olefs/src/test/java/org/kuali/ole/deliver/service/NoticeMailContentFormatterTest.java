@@ -17,6 +17,8 @@ import org.mockito.MockitoAnnotations;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -72,8 +74,8 @@ public class NoticeMailContentFormatterTest {
 
         oleLoanDocument.setOlePatron(olePatron);
 
-//        String mailContent = noticeMailContentFormatter.generateMailContentForPatron(oleLoanDocument);
-        String mailContent = null;
+        HashMap<String, String> fieldLabelMap = new HashMap<>();
+        String mailContent = noticeMailContentFormatter.generateMailContentForPatron(Collections.singletonList(oleLoanDocument), fieldLabelMap);
         System.out.println(mailContent);
 
     }
