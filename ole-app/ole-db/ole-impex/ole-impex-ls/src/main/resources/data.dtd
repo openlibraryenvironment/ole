@@ -5476,6 +5476,13 @@
                 VER_NBR CDATA #REQUIRED
                 >
 
+        <!ELEMENT OLE_NOTICE_TYPE_CONFIG_T EMPTY>
+        <!ATTLIST OLE_NOTICE_TYPE_CONFIG_T
+                NOTICE_TYPE_CONFIG_ID CDATA #REQUIRED
+                CIRC_POLICY_ID CDATA #REQUIRED
+                NOTICE_TYPE CDATA #REQUIRED
+                >
+
         <!ELEMENT OLE_LOCN_LEVEL_S EMPTY>
         <!ATTLIST OLE_LOCN_LEVEL_S
                 ID CDATA #IMPLIED

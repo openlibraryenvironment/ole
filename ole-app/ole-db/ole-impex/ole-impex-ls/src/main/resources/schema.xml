@@ -761,7 +761,7 @@
     <table name="OLE_DLVR_CIRC_RECORD">
         <column name="CIR_HIS_REC_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="LOAN_TRAN_ID" required="true" size="40" type="VARCHAR"/>
-        <column name="CIR_POLICY_ID" required="true" size="40" type="VARCHAR"/>
+        <column name="CIR_POLICY_ID" required="true" size="2000" type="VARCHAR"/>
         <column name="OLE_PTRN_ID" required="true" size="40" type="VARCHAR"/>
         <column name="PTRN_TYP_ID" size="40" type="VARCHAR"/>
         <column name="AFFILIATION_ID" size="40" type="VARCHAR"/>
@@ -858,7 +858,7 @@
     </table>
     <table name="OLE_DLVR_LOAN_T">
         <column name="LOAN_TRAN_ID" primaryKey="true" size="40" type="VARCHAR"/>
-        <column name="CIR_POLICY_ID" required="true" size="40" type="VARCHAR"/>
+        <column name="CIR_POLICY_ID" required="true" size="2000" type="VARCHAR"/>
         <column name="OLE_PTRN_ID" required="true" size="40" type="VARCHAR"/>
         <column name="ITM_ID" size="40" type="VARCHAR"/>
         <column name="OLE_PROXY_BORROWER_NM" size="60" type="VARCHAR"/>
@@ -3592,7 +3592,7 @@
     <sequence name="OLE_DRL_EDITOR_S" nextval="1"/>
     <sequence name="OLE_DRL_RULE_S" nextval="1"/>
     <sequence name="OLE_DRL_FINE_LIMITS_S" nextval="1"/>
-    <sequence name="OLE_NOTICE_TYPE_CONFIG_S" nextval="1"/>
+    <sequence name="OLE_NOTICE_TYPE_CONFIG_S" nextval="7"/>
     <sequence name="OLE_NOTC_FIELD_LABEL_MAPNG_S" nextval="1"/>
     <sequence name="OLE_NOTC_CNTNT_CONFIG_S" nextval="1"/>
 
