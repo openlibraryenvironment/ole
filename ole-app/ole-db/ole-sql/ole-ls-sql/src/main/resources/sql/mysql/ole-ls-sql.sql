@@ -1562,7 +1562,7 @@ CREATE TABLE OLE_DLVR_CIRC_RECORD
 (
       CIR_HIS_REC_ID VARCHAR(40)
         , LOAN_TRAN_ID VARCHAR(40) NOT NULL
-        , CIR_POLICY_ID VARCHAR(40) NOT NULL
+        , CIR_POLICY_ID VARCHAR(2000) NOT NULL
         , OLE_PTRN_ID VARCHAR(40) NOT NULL
         , PTRN_TYP_ID VARCHAR(40)
         , AFFILIATION_ID VARCHAR(40)
@@ -1733,7 +1733,7 @@ drop table if exists OLE_DLVR_LOAN_T
 CREATE TABLE OLE_DLVR_LOAN_T
 (
       LOAN_TRAN_ID VARCHAR(40)
-        , CIR_POLICY_ID VARCHAR(40) NOT NULL
+        , CIR_POLICY_ID VARCHAR(2000) NOT NULL
         , OLE_PTRN_ID VARCHAR(40) NOT NULL
         , ITM_ID VARCHAR(40)
         , OLE_PROXY_BORROWER_NM VARCHAR(60)
@@ -9014,7 +9014,7 @@ CREATE TABLE OLE_NOTICE_TYPE_CONFIG_S
 	id bigint(19) not null auto_increment, primary key (id) 
 ) ENGINE MyISAM
 /
-ALTER TABLE OLE_NOTICE_TYPE_CONFIG_S auto_increment = 1
+ALTER TABLE OLE_NOTICE_TYPE_CONFIG_S auto_increment = 7
 /
 
 # -----------------------------------------------------------------------

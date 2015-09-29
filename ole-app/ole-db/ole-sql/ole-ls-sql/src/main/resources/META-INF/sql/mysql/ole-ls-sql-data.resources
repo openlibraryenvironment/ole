@@ -65,6 +65,7 @@ classpath:sql/mysql/OLE_LIC_EVNT_TYP_T.sql
 classpath:sql/mysql/OLE_LIC_REQS_TYP_T.sql
 classpath:sql/mysql/OLE_LIC_STAT_T.sql
 classpath:sql/mysql/OLE_LIC_WRK_FLW_TYP_T.sql
+classpath:sql/mysql/OLE_NOTICE_TYPE_CONFIG_T.sql
 classpath:sql/mysql/OLE_PROFILE_ATTR_T.sql
 classpath:sql/mysql/OLE_PROFILE_FACT_T.sql
 classpath:sql/mysql/OLE_PTRN_NTE_TYP_T.sql
