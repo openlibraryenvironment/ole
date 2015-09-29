@@ -5509,4 +5509,41 @@
         </rollback>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_T_MYSQL" dbms="mysql">
+        <modifyDataType catalogName="ole"
+                        columnName="CIR_POLICY_ID"
+                        newDataType="varchar(2000)"
+                        schemaName="ole"
+                        tableName="OLE_DLVR_LOAN_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_RECORD_MYSQL" dbms="mysql">
+        <modifyDataType catalogName="ole"
+                        columnName="CIR_POLICY_ID"
+                        newDataType="varchar(2000)"
+                        schemaName="ole"
+                        tableName="OLE_DLVR_CIRC_RECORD"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTICE_TYPE_CONFIG_T_MYSQL" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="OLE_NOTICE_TYPE_CONFIG_T" file="org/kuali/ole/2.0/data/ole_notice_type_config_t.csv"/>
+        <rollback>
+            <delete tableName="OLE_NOTICE_TYPE_CONFIG_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTICE_TYPE_CONFIG_T_ORACLE" dbms="oracle">
+        <loadData tableName="OLE_NOTICE_TYPE_CONFIG_T" file="org/kuali/ole/2.0/data/ole_notice_type_config_t.csv"/>
+        <rollback>
+            <delete tableName="OLE_NOTICE_TYPE_CONFIG_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
 </databaseChangeLog>
