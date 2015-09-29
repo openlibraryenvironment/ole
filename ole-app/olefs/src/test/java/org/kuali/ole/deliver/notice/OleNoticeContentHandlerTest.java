@@ -3,7 +3,9 @@ package org.kuali.ole.deliver.notice;
 import org.junit.Test;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static junit.framework.TestCase.assertNotNull;
 
@@ -25,12 +27,18 @@ public class OleNoticeContentHandlerTest {
         oleNoticeBo.setTitle("History of Mars");
         oleNoticeBo.setAuthor("Mary Jane");
         oleNoticeBo.setVolumeNumber("v1.0");
-        oleNoticeBo.setDueDate(new Date());
+        oleNoticeBo.setDueDateString(new Date().toString());
         oleNoticeBo.setItemShelvingLocation("UC/JRL/GEN");
         oleNoticeBo.setItemCallNumber("X-123");
         oleNoticeBo.setItemId("1234");
         oleNoticeBo.setNoticeSpecificContent("This is a test notice. Please ignore!!");
-        String html = oleNoticeContentHandler.generateHTML("Overdue Notice", oleNoticeBo);
+        oleNoticeBo.setNoticeTitle("Overdue Notice");
+
+        OleNoticeBo oleNoticeBo1 = (OleNoticeBo) oleNoticeBo.clone();
+        List<OleNoticeBo> oleNoticeBos = new ArrayList<>();
+        oleNoticeBos.add(oleNoticeBo);
+        oleNoticeBos.add(oleNoticeBo1);
+        String html = oleNoticeContentHandler.generateHTML( oleNoticeBos);
         assertNotNull(html);
         System.out.println(html);
     }

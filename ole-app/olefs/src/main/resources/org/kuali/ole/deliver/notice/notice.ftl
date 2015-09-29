@@ -1,5 +1,8 @@
+<#import "itemInfo.ftl" as itemInfo>
+
+
 <HTML>
-<TITLE>${title}</TITLE>
+<TITLE>${oleNoticeBo.noticeTitle}</TITLE>
 <HEAD></HEAD>
 <BODY>
 
@@ -25,11 +28,10 @@
 
 <br/>
 <br/>
-
 <table width=\"100%\">
     <TR>
         <TD>
-            <CENTER>${title}</CENTER>
+            <CENTER>${oleNoticeBo.noticeTitle}</CENTER>
         </TD>
     </TR>
     <TR>
@@ -40,39 +42,10 @@
         </TD>
     </TR>
 </table>
+<#list oleNoticeBos as oleNoticeBo>
+    <@itemInfo.item oleNoticeBo=oleNoticeBo></@itemInfo.item>
+********************************************************************
+</#list>
 
-<br/>
-<br/>
-
-<table>
-    <TR>
-        <TD>Title :</TD>
-        <TD>${oleNoticeBo.title}</TD>
-    </TR>
-    <TR>
-        <TD>Author :</TD>
-        <TD>${oleNoticeBo.author}</TD>
-    </TR>
-    <TR>
-        <TD>Volume/Issue/Copy Number :</TD>
-        <TD>${oleNoticeBo.volumeNumber}</TD>
-    </TR>
-    <TR>
-        <TD>Item was due :</TD>
-        <TD>${dueDate}</TD>
-    </TR>
-    <TR>
-        <TD>Library shelving location :</TD>
-        <TD>${oleNoticeBo.itemShelvingLocation}</TD>
-    </TR>
-    <TR>
-        <TD>Call Number :</TD>
-        <TD>${oleNoticeBo.itemCallNumber}</TD>
-    </TR>
-    <TR>
-        <TD>Item Barcode :</TD>
-        <TD>${oleNoticeBo.itemId}</TD>
-    </TR>
-</table>
 </BODY>
 </HTML>

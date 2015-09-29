@@ -26,7 +26,7 @@ public class OleNoticeContentHandler {
 
     private BusinessObjectService businessObjectService;
 
-    public String generateHTML(String noticeType, OleNoticeBo oleNoticeBo) {
+    public String generateHTML(List<OleNoticeBo> oleNoticeBos) {
         StringWriter htmlContent = new StringWriter();
         Configuration cfg = new Configuration();
         try {
@@ -37,9 +37,12 @@ public class OleNoticeContentHandler {
             if(null == noticeTemplateDirPath){
                 URI uri = getClass().getResource("notice.ftl").toURI();
                 File templateFile = new File(uri);
+                URI uri1 = getClass().getResource("itemInfo.ftl").toURI();
+                File templateFile1 = new File(uri1);
                 String tempDir = System.getProperty("java.io.tmpdir");
                 File destinationDirectory = new File(tempDir);
                 FileUtils.copyFileToDirectory(templateFile, destinationDirectory);
+                FileUtils.copyFileToDirectory(templateFile1, destinationDirectory);
                 noticeTemplateDir = destinationDirectory;
             } else {
                 noticeTemplateDir = new File(noticeTemplateDirPath);
@@ -50,11 +53,9 @@ public class OleNoticeContentHandler {
 
             Map<String, Object> input = new HashMap<>();
 
-            input.put("title", noticeType);
 
-            input.put("dueDate", oleNoticeBo.getDueDate().toString());
-            input.put("oleNoticeBo", oleNoticeBo);
-
+            input.put("oleNoticeBo", oleNoticeBos.get(0));
+            input.put("oleNoticeBos", oleNoticeBos);
             template.process(input, htmlContent);
         } catch (TemplateException e) {
             e.printStackTrace();

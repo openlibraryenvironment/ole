@@ -15,7 +15,7 @@ import java.util.Date;
  * Time: 7:06 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OleNoticeBo extends PersistableBusinessObjectBase {
+public class OleNoticeBo extends PersistableBusinessObjectBase  implements Cloneable{
 
     private OleCirculationDesk oleCirculationDesk;
     private String circulationDeskAddress;
@@ -30,7 +30,7 @@ public class OleNoticeBo extends PersistableBusinessObjectBase {
     private String patronPhoneNumber;
     private OlePatronDocument olePatron;
 
-
+    private String noticeTitle;
     private String title;
     private String author;
     private String volumeNumber;
@@ -59,6 +59,8 @@ public class OleNoticeBo extends PersistableBusinessObjectBase {
 
     private String chronology;
     private String enumeration;
+
+    private String dueDateString;
 
     public String getNoticeType() {
         return noticeType;
@@ -322,5 +324,26 @@ public class OleNoticeBo extends PersistableBusinessObjectBase {
 
     public void setCirculationDeskReplyToEmail(String circulationDeskReplyToEmail) {
         this.circulationDeskReplyToEmail = circulationDeskReplyToEmail;
+    }
+
+    public String getNoticeTitle() {
+        return noticeTitle;
+    }
+
+    public void setNoticeTitle(String noticeTitle) {
+        this.noticeTitle = noticeTitle;
+    }
+
+    public String getDueDateString() {
+        return dueDateString;
+    }
+
+    public void setDueDateString(String dueDateString) {
+        this.dueDateString = dueDateString;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
