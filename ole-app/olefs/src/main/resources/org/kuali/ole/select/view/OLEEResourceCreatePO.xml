@@ -291,38 +291,24 @@
         </property>
     </bean>
 
-    <bean id="EResourcePOView-EResourceFund" parent="Uif-Disclosure-TableSubCollection-WithinSection"
-          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;" p:disclosure.defaultOpen="true">
-        <property name="headerText" value="Fund"/>
-        <property name="collectionObjectClass" value="org.kuali.ole.coa.businessobject.OleFundCode"/>
-        <property name="propertyName" value="fundCodes"/>
-        <property name="layoutManager.renderSequenceField" value="false"/>
-        <property name="layoutManager.richTable.templateOptions" value="false"/>
-        <property name="layoutManager.richTable.render" value="false"/>
-        <property name="renderAddLine" value="true"/>
-        <property name="renderLineActions" value="true"/>
+    <bean id="EResourcePOView-EResourceFund" parent="Uif-Disclosure-HorizontalBoxSubSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund Code" p:required="true" p:enableAutoDirectInquiry="false">
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.OleFundCode"
-                              p:fieldConversions="fundCode:fundCode"
-                              p:lookupParameters="fundCode:fundCode"/>
-                    </property>
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="15" p:maxLength="15"/>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.OleFundCode"
+                                          p:fieldConversions="fundCode:fundCode"/>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="15" p:onBlurScript="submitForm('populateAccountingLinesForFundCode',null,null,null,null);" />
+                                </property>
+                            </bean>
+                        </list>
                     </property>
                 </bean>
-            </list>
-        </property>
-        <property name="addLineActions">
-            <list>
-                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="populateAccountingLinesToEResource" p:actionLabel="Populate Accounting Lines" p:successCallback="refresh();"/>
-            </list>
-        </property>
-        <property name="lineActions">
-            <list>
-                <bean parent="Uif-DeleteLineAction"/>
             </list>
         </property>
     </bean>

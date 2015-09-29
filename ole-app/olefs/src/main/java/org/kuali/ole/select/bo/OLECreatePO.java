@@ -37,6 +37,7 @@ public class OLECreatePO extends PersistableBusinessObjectBase implements Clonea
     private String bibId;
     private String redirectUrl;
     private String oleERSIdentifier;
+    private String fundCode;
     private List<OLECretePOAccountingLine> accountingLines = new ArrayList<>();
     private List<OleFundCode> fundCodes = new ArrayList<>();
 
@@ -177,6 +178,14 @@ public class OLECreatePO extends PersistableBusinessObjectBase implements Clonea
 
     public void setOleERSIdentifier(String oleERSIdentifier) {
         this.oleERSIdentifier = oleERSIdentifier;
+    }
+
+    public String getFundCode() {
+        return fundCode;
+    }
+
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
     }
 
     public List<OLECretePOAccountingLine> getAccountingLines() {

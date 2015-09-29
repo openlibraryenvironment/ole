@@ -2519,8 +2519,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         oleEResourceRecordForm.setPoSuccessMessage(null);
         oleEResourceRecordForm.setPoErrorMessage(null);
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        /*BindingInfo addLineBindingInfo = (BindingInfo) form.getViewPostMetadata().getComponentPostData(
-                selectedCollectionId, UifConstants.PostMetadata.ADD_LINE_BINDING_INFO);*/
         CollectionGroup collectionGroup = form.getPostedView().getViewIndex().getCollectionGroupByPath(
                 selectedCollectionPath);
         String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
@@ -2565,6 +2563,50 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         return getUIFModelAndView(oleEResourceRecordForm);
     }
 
+    @RequestMapping(params = "methodToCall=populateAccountingLinesForFundCode")
+    public ModelAndView populateAccountingLinesForFundCode(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                                           HttpServletRequest request, HttpServletResponse response) {
+        OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
+        oleEResourceRecordForm.setPoSuccessMessage(null);
+        oleEResourceRecordForm.setPoErrorMessage(null);
+        List<OLECreatePO> oleCreatePOList = oleEResourceRecordForm.geteResourcePOs();
+
+        OLECreatePO oleCreatePO = oleCreatePOList.get(0);
+        String fundCode = oleCreatePO.getFundCode();
+        if (fundCode != null) {
+            if (StringUtils.isBlank(fundCode)) {
+                oleEResourceRecordForm.setPoErrorMessage("Fund Code is required.");
+                return getUIFModelAndView(oleEResourceRecordForm);
+            } else {
+                Map fundMap = new HashMap();
+                fundMap.put(OLEConstants.OLEEResourceRecord.FUND_CODE, fundCode);
+                OleFundCode oleFundCode = getBusinessObjectService().findByPrimaryKey(OleFundCode.class, fundMap);
+                if (oleFundCode == null) {
+                    oleEResourceRecordForm.setPoErrorMessage("Fund Code is invalid.");
+                    return getUIFModelAndView(oleEResourceRecordForm);
+                } else {
+                    if (oleFundCode.getOleFundCodeAccountingLineList() != null) {
+                        if (oleCreatePO != null) {
+                            oleFundCode.setFundCode(null);
+                            for (OleFundCodeAccountingLine oleFundCodeAccountingLine : oleFundCode.getOleFundCodeAccountingLineList()) {
+                                OLECretePOAccountingLine oleCretePOAccountingLine = new OLECretePOAccountingLine();
+                                oleCretePOAccountingLine.setChartOfAccountsCode(oleFundCodeAccountingLine.getChartCode());
+                                oleCretePOAccountingLine.setAccountNumber(oleFundCodeAccountingLine.getAccountNumber());
+                                oleCretePOAccountingLine.setSubAccountNumber(oleFundCodeAccountingLine.getSubAccount());
+                                oleCretePOAccountingLine.setFinancialObjectCode(oleFundCodeAccountingLine.getObjectCode());
+                                oleCretePOAccountingLine.setFinancialSubObjectCode(oleFundCodeAccountingLine.getSubObject());
+                                oleCretePOAccountingLine.setProjectCode(oleFundCodeAccountingLine.getProject());
+                                oleCretePOAccountingLine.setOrganizationReferenceId(oleFundCodeAccountingLine.getOrgRefId());
+                                oleCretePOAccountingLine.setAccountLinePercent(oleFundCodeAccountingLine.getPercentage());
+                                oleCreatePO.getAccountingLines().add(oleCretePOAccountingLine);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return getUIFModelAndView(oleEResourceRecordForm);
+    }
 
     @RequestMapping(params = "methodToCall=populateAccountingLinesToInstance")
     public ModelAndView populateAccountingLinesToInstance(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
@@ -2727,6 +2769,18 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             }
         }
         return getUIFModelAndView(oleEResourceRecordForm);
+    }
+
+    @Override
+    public ModelAndView refresh(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
+        if(StringUtils.isNotBlank(oleeResourceRecordDocument.getFundCode())){
+            populateAccountingLines(form,result,request,response);
+        }else if(oleEResourceRecordForm.getInstancePOs()!=null){
+            populateAccountingLinesForFundCode(form,result,request,response);
+        }
+        return super.refresh(form, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=startAccessWorkflow")

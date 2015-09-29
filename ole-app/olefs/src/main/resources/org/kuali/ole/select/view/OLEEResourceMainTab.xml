@@ -608,19 +608,18 @@
     <bean id="OLEEResourceMainTab-FundCode" parent="Uif-Disclosure-HorizontalBoxSubSection">
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="3">
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund">
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.ole.coa.businessobject.OleFundCode"
+                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.OleFundCode"
                                           p:fieldConversions="fundCode:fundCode"/>
                                 </property>
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="15"/>
+                                    <bean parent="Uif-TextControl" p:size="15" p:onBlurScript="submitForm('populateAccountingLines',null,null,null,null);" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="populateAccountingLines" p:actionLabel="Populate Accounting Lines"/>
                         </list>
                     </property>
                 </bean>
