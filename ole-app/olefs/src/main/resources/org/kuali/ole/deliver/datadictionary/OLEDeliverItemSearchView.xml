@@ -211,16 +211,17 @@
                       p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=@{#line.id}&amp;bibId=@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}&amp;editable=false"
                       p:label="Item ID" p:linkText="@{#line.id}" p:target="_blank"/>
                 <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;text-decoration: underline;" p:render="@{!singleItemFlag}"
-                      p:href="@{#ConfigProperties['ole.fs.url.base']}/portal.do?channelTitle=Item Result&amp;channelUrl=@{#ConfigProperties['ole.fs.url.base']}/ole-kr-krad/deliverItemResultController?viewId=OLEDeliverItemResultView&amp;methodToCall=start&amp;itemId=@{#line.id}"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=@{#line.id}&amp;bibId=@@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}&amp;editable=false"
                       p:label="Item ID" p:linkText="@{#line.id}" p:target="_blank"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;text-decoration: underline;"
+                      p:href="@{#ConfigProperties['ole.fs.url.base']}/portal.do?channelTitle=Item Result&amp;channelUrl=@{#ConfigProperties['ole.fs.url.base']}/ole-kr-krad/deliverItemResultController?viewId=OLEDeliverItemResultView&amp;methodToCall=start&amp;itemId=@{#line.id}"
+                      p:label="Barcode" p:linkText="@{#line.itemBarCode}" p:target="_blank"/>
                 <bean parent="Uif-LinkField" p:style="pointer-events: none;cursor: text;"
                       p:href="" p:label="Item Location" p:linkText="@{#line.location}" />
                 <bean parent="Uif-LinkField" p:style="pointer-events: none;cursor: text;"
                       p:href="" p:label="Item Type" p:linkText="@{#line.itemType}" />
                 <bean parent="Uif-LinkField" p:style="pointer-events: none;cursor: text;"
                       p:href="" p:label="Item Status" p:linkText="@{#line.itemStatus}" />
-                <bean parent="Uif-LinkField" p:style="pointer-events: none;cursor: text;"
-                      p:href="" p:label="Barcode" p:linkText="@{#line.itemBarCode}" />
                 <bean parent="Uif-LinkField" p:style="pointer-events: none;cursor: text;"
                       p:href="" p:label="Enum" p:linkText="@{#line.enumeration}" />
                 <bean parent="Uif-LinkField" p:style="pointer-events: none;cursor: text;"
