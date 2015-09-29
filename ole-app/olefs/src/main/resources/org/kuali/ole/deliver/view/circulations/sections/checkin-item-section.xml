@@ -125,8 +125,6 @@
             var dd = today.getDate();
             var mm = today.getMonth()+1;
             var yyyy = today.getFullYear();
-            var hour = today.getHours();
-            var minute = today.getMinutes();
             if(dd&lt;10){
                 dd='0'+dd;
             }
@@ -134,9 +132,8 @@
                 mm='0'+mm;
             }
             var currentDate = mm+'/'+dd+'/'+yyyy;
-            var currentTime = hour+':'+minute;
             jq('#checkinCustomDueDate_control').val(currentDate);
-            jq('#checkinCustomDueDateTime_control').val(currentTime);
+            jq('#checkinCustomDueDateTime_control').val('');
             validateCheckInDate();"
           p:actionLabel="Restore System Date/Time"/>
 
