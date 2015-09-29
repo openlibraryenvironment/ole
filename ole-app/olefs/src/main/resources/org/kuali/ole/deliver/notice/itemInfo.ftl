@@ -1,10 +1,5 @@
 <#macro item oleNoticeBo>
 
-
-
-
-
-
 <table>
   <TR>
       <TD>Title :</TD>

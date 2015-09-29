@@ -3,7 +3,6 @@ package org.kuali.ole.deliver.notice;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import org.apache.commons.io.FilenameUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
 import org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory;
@@ -32,18 +31,10 @@ public class OleNoticeContentHandler {
         try {
 
             String noticeTemplateDirPath = System.getProperty("notice.template.dir");
-
             File noticeTemplateDir = null;
+
             if(null == noticeTemplateDirPath){
-                URI uri = getClass().getResource("notice.ftl").toURI();
-                File templateFile = new File(uri);
-                URI uri1 = getClass().getResource("itemInfo.ftl").toURI();
-                File templateFile1 = new File(uri1);
-                String tempDir = System.getProperty("java.io.tmpdir");
-                File destinationDirectory = new File(tempDir);
-                FileUtils.copyFileToDirectory(templateFile, destinationDirectory);
-                FileUtils.copyFileToDirectory(templateFile1, destinationDirectory);
-                noticeTemplateDir = destinationDirectory;
+                noticeTemplateDir = processFTL();
             } else {
                 noticeTemplateDir = new File(noticeTemplateDirPath);
             }
@@ -52,10 +43,9 @@ public class OleNoticeContentHandler {
             Template template = cfg.getTemplate("notice.ftl");
 
             Map<String, Object> input = new HashMap<>();
-
-
             input.put("oleNoticeBo", oleNoticeBos.get(0));
             input.put("oleNoticeBos", oleNoticeBos);
+
             template.process(input, htmlContent);
         } catch (TemplateException e) {
             e.printStackTrace();
@@ -67,6 +57,21 @@ public class OleNoticeContentHandler {
 
 
         return htmlContent.toString();
+    }
+
+    private File processFTL() throws URISyntaxException, IOException {
+        File noticeTemplateDir;URI noticeTemplateURI = getClass().getResource("notice.ftl").toURI();
+        File noticeTemplate = new File(noticeTemplateURI);
+
+        URI itemInfoTemplateURI = getClass().getResource("itemInfo.ftl").toURI();
+        File itemInfoTemplate = new File(itemInfoTemplateURI);
+
+        String tempDir = System.getProperty("java.io.tmpdir");
+        File destinationDirectory = new File(tempDir);
+        FileUtils.copyFileToDirectory(noticeTemplate, destinationDirectory);
+        FileUtils.copyFileToDirectory(itemInfoTemplate, destinationDirectory);
+        noticeTemplateDir = destinationDirectory;
+        return noticeTemplateDir;
     }
 
     public String getNoticeContent(String patronId) {

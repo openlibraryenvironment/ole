@@ -1,6 +1,5 @@
 <#import "itemInfo.ftl" as itemInfo>
 
-
 <HTML>
 <TITLE>${oleNoticeBo.noticeTitle}</TITLE>
 <HEAD></HEAD>
@@ -28,6 +27,8 @@
 
 <br/>
 <br/>
+
+
 <table width=\"100%\">
     <TR>
         <TD>
@@ -42,6 +43,11 @@
         </TD>
     </TR>
 </table>
+
+<br/>
+<br/>
+
+
 <#list oleNoticeBos as oleNoticeBo>
     <@itemInfo.item oleNoticeBo=oleNoticeBo></@itemInfo.item>
 ********************************************************************
