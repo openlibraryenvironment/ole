@@ -11,14 +11,14 @@ import org.kuali.ole.deliver.service.ParameterValueResolver;
 public class Sip2CheckoutItemService extends CheckoutItemService {
 
     @Override
-    public String prepareResponse(OLECheckOutItem oleCheckOutItem) {
+    public String prepareResponse() {
 
         switch (responseFormatType) {
             case ("XML"):
-                response = ((CheckoutItemResponseHandler) getResponseHandler()).marshalObjectToSIP2Xml(oleCheckOutItem);
+                response = ((CheckoutItemResponseHandler) getResponseHandler()).marshalObjectToSIP2Xml(getOleCheckOutItem());
                 break;
             case ("JSON"):
-                response = getResponseHandler().marshalObjectToJson(oleCheckOutItem);
+                response = getResponseHandler().marshalObjectToJson(getOleCheckOutItem());
                 break;
         }
 

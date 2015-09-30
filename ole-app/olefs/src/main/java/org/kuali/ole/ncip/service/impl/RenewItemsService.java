@@ -14,12 +14,11 @@ import org.kuali.ole.deliver.util.*;
 import org.kuali.ole.docstore.common.document.DocstoreDocument;
 import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.bo.OLERenewItem;
-import org.kuali.ole.ncip.bo.OLERenewItemList;
+import org.kuali.ole.bo.OLERenewItemList;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.sql.Timestamp;
 import java.util.*;

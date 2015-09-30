@@ -11,14 +11,14 @@ import org.kuali.ole.bo.OLECheckInItem;
 public class Sip2CheckinItemService extends CheckinItemService{
 
     @Override
-    public String prepareResponse(OLECheckInItem oleCheckInItem) {
+    public String prepareResponse() {
 
         switch (responseFormatType) {
             case ("XML"):
-                response = ((CheckinItemResponseHandler) getResponseHandler()).marshalObjectToSIP2Xml(oleCheckInItem);
+                response = ((CheckinItemResponseHandler) getResponseHandler()).marshalObjectToSIP2Xml(getOleCheckInItem());
                 break;
             case ("JSON"):
-                response = getResponseHandler().marshalObjectToJson(oleCheckInItem);
+                response = getResponseHandler().marshalObjectToJson(getOleCheckInItem());
                 break;
         }
 

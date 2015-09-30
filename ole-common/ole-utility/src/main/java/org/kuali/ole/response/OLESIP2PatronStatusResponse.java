@@ -60,7 +60,7 @@ public class OLESIP2PatronStatusResponse extends OLESIP2Response {
         return builder.toString() + '\r';
     }
 
-    public String getSIP2PatronStatusResponse(OLELookupUser oleLookupUser, OLESIP2BlockPatronRequestParser sip2BlockPatronRequestParser, BigDecimal balanceAmount) {
+    public String getSIP2BlockPatronResponse(OLELookupUser oleLookupUser, OLESIP2BlockPatronRequestParser sip2BlockPatronRequestParser, BigDecimal balanceAmount) {
 
         StringBuilder builder = new StringBuilder();
         builder.append(OLESIP2Constants.PATRON_STATUS_RESPONSE);

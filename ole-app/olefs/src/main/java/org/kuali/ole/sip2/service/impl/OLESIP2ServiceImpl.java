@@ -3,13 +3,13 @@ package org.kuali.ole.sip2.service.impl;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.bo.OLECheckInItem;
+import org.kuali.ole.bo.*;
 import org.kuali.ole.bo.OLECheckOutItem;
-import org.kuali.ole.bo.OLELookupUser;
 import org.kuali.ole.bo.OLERenewItem;
 import org.kuali.ole.converter.OLECheckInItemConverter;
 import org.kuali.ole.converter.OLECheckOutItemConverter;
 import org.kuali.ole.converter.OLELookupUserConverter;
+import org.kuali.ole.converter.OLERenewItemConverter;
 import org.kuali.ole.deliver.bo.OleItemSearch;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
@@ -26,10 +26,7 @@ import org.kuali.ole.ncip.service.impl.OLECirculationHelperServiceImpl;
 import org.kuali.ole.ncip.service.impl.OLECirculationServiceImpl;
 import org.kuali.ole.olekrad.filter.OLELoginFilter;
 import org.kuali.ole.request.*;
-import org.kuali.ole.response.OLESIP2CheckInResponse;
-import org.kuali.ole.response.OLESIP2CheckOutResponse;
-import org.kuali.ole.response.OLESIP2PatronInformationResponse;
-import org.kuali.ole.response.OLESIP2PatronStatusResponse;
+import org.kuali.ole.response.*;
 import org.kuali.ole.service.OlePatronService;
 import org.kuali.ole.service.OlePatronServiceImpl;
 import org.kuali.ole.common.OLESIP2Util;
@@ -247,7 +244,7 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
         String responseString = "";
         OLESIP2ACSStatusResponse sip2ACSStatusResponseParser = new OLESIP2ACSStatusResponse();
 
-        responseString = sip2ACSStatusResponseParser.getSIP2ACSStatusResponse(sip2SCStatusRequestParser);
+        responseString = sip2ACSStatusResponseParser.getSIP2ACSStatusResponse(sip2SCStatusRequestParser, OLESIP2Constants.INSTITUTION);
 
         if (responseString == null) {
             OLENCIPErrorResponse olencipErrorResponse = new OLENCIPErrorResponse();
@@ -433,7 +430,7 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
         if (oleItemSearch != null) {
 
             OLESIP2ItemInformationResponse sip2ItemInfoParser = new OLESIP2ItemInformationResponse();
-            responseString = sip2ItemInfoParser.getSIP2ItemInfoResponse(oleItemSearch, sip2ItemInformationRequestParser);
+            //responseString = sip2ItemInfoParser.getSIP2ItemInfoResponse(oleItemSearch, sip2ItemInformationRequestParser);
 
         }
         if (responseString == null) {
@@ -466,7 +463,7 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
         }
         OLESIP2PatronStatusResponse sip2PatronStatusResponse = new OLESIP2PatronStatusResponse();
 
-        responseString = sip2PatronStatusResponse.getSIP2PatronStatusResponse(oleLookupUser, sip2BlockPatronRequestParser, new BigDecimal(0));
+        responseString = sip2PatronStatusResponse.getSIP2BlockPatronResponse(oleLookupUser, sip2BlockPatronRequestParser, new BigDecimal(0));
 
 
         if (responseString == null) {
@@ -498,7 +495,7 @@ public class OLESIP2ServiceImpl implements OLESIP2Service {
         if (!(patronDocument.isGeneralBlock() || oleCirculationHelperService.isPatronExpired(patronDocument) || !patronDocument.isActiveIndicator() || oleCirculationHelperService.isPatronActivated(patronDocument))) {
             isValidPatron = true;
         }
-        responseString = sip2PatronEnableResponse.getSIP2PatronEnableResponse(patronDocument, sip2PatronEnableRequestParser, isValidPatron);
+        //responseString = sip2PatronEnableResponse.getSIP2PatronEnableResponse(patronDocument, sip2PatronEnableRequestParser, isValidPatron);
         if (responseString == null) {
             OLENCIPErrorResponse olencipErrorResponse = new OLENCIPErrorResponse();
             olencipErrorResponse.getErrorMap().put(OLENCIPConstants.PATRON_BARCODE, sip2PatronEnableRequestParser.getPatronIdentifier());

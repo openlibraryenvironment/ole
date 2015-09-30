@@ -1,12 +1,11 @@
-package org.kuali.ole.sip2.sip2Response;
+package org.kuali.ole.response;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.bo.OLERenewItem;
-import org.kuali.ole.response.OLESIP2Response;
 import org.kuali.ole.common.MessageUtil;
 import org.kuali.ole.common.OLESIP2Util;
-import org.kuali.ole.sip2.constants.OLESIP2Constants;
-import org.kuali.ole.sip2.requestParser.OLESIP2RenewRequestParser;
+import org.kuali.ole.constants.OLESIP2Constants;
+import org.kuali.ole.request.OLESIP2RenewRequestParser;
 
 /**
  * Created by gayathria on 10/11/14.

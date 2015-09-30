@@ -31,7 +31,7 @@ public class CheckInNetttyProcessor extends NettyProcessor {
 
     @Override
     public String process(String requestData) {
-        String response = null;
+        String response = "";
         OLESIP2CheckInRequestParser sip2CheckInRequestParser = new OLESIP2CheckInRequestParser(requestData);
         requestData = createJSONForCheckinItemRequest(sip2CheckInRequestParser.getItemIdentifier(), "SIP2_OPERATOR_ID", "N");
 

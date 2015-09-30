@@ -30,7 +30,7 @@ import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOleml
 import org.kuali.ole.ncip.bo.*;
 import org.kuali.ole.converter.OLECheckInItemConverter;
 import org.kuali.ole.converter.OLECheckOutItemConverter;
-import org.kuali.ole.ncip.converter.OLERenewItemConverter;
+import org.kuali.ole.converter.OLERenewItemConverter;
 import org.kuali.ole.ncip.service.OLESIAPIHelperService;
 import org.kuali.ole.service.OleCirculationPolicyService;
 import org.kuali.ole.service.OleCirculationPolicyServiceImpl;

@@ -1,10 +1,9 @@
-package org.kuali.ole.sip2.sip2Response;
+package org.kuali.ole.response;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.ole.response.OLESIP2Response;
 import org.kuali.ole.common.MessageUtil;
-import org.kuali.ole.sip2.constants.OLESIP2Constants;
-import org.kuali.ole.sip2.requestParser.OLESIP2SCStatusRequestParser;
+import org.kuali.ole.constants.OLESIP2Constants;
+import org.kuali.ole.request.OLESIP2SCStatusRequestParser;
 
 /**
  * Created by gayathria on 1/9/14.
@@ -16,7 +15,7 @@ public class OLESIP2ACSStatusResponse extends OLESIP2Response {
     }
 
 
-    public String getSIP2ACSStatusResponse(OLESIP2SCStatusRequestParser sip2SCStatusRequestParser) {
+    public String getSIP2ACSStatusResponse(OLESIP2SCStatusRequestParser sip2SCStatusRequestParser, String institution) {
 
         StringBuilder builder = new StringBuilder();
 
@@ -34,10 +33,10 @@ public class OLESIP2ACSStatusResponse extends OLESIP2Response {
         builder.append(OLESIP2Constants.SPLIT+
                         OLESIP2Constants.INSTITUTION_ID_CODE);
         builder.append(StringUtils.isNotBlank(sip2SCStatusRequestParser.getInstitutionId())?
-                        sip2SCStatusRequestParser.getInstitutionId():OLESIP2Constants.INSTITUTION);
+                        sip2SCStatusRequestParser.getInstitutionId():institution);
         builder.append(OLESIP2Constants.SPLIT+
                         OLESIP2Constants.TERMINAL_LOCATION_CODE);
-        builder.append(OLESIP2Constants.INSTITUTION);
+        builder.append(institution);
         builder.append(OLESIP2Constants.SPLIT+
                         OLESIP2Constants.SUPPORTED_MSG_CODE);
         builder.append(OLESIP2Constants.Y);

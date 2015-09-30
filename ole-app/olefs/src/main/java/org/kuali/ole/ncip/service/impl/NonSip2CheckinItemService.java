@@ -8,13 +8,13 @@ import org.kuali.ole.bo.OLECheckInItem;
 public class NonSip2CheckinItemService extends CheckinItemService {
 
     @Override
-    public String prepareResponse(OLECheckInItem oleCheckInItem) {
+    public String prepareResponse() {
         switch (responseFormatType) {
             case ("XML"):
-                response = getResponseHandler().marshalObjectToXml(oleCheckInItem);
+                response = getResponseHandler().marshalObjectToXml(getOleCheckInItem());
                 break;
             case ("JSON"):
-                response = getResponseHandler().marshalObjectToJson(oleCheckInItem);
+                response = getResponseHandler().marshalObjectToJson(getOleCheckInItem());
                 break;
         }
 

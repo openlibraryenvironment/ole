@@ -1,4 +1,4 @@
-package org.kuali.ole.sip2.common;
+package org.kuali.ole.common;
 
 
 /**

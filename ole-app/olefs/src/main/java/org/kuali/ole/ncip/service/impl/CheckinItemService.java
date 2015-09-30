@@ -34,6 +34,9 @@ public abstract class CheckinItemService {
     private CircDeskLocationResolver circDeskLocationResolver;
     private DocstoreClientLocator docstoreClientLocator;
 
+    private OLECheckInItem oleCheckInItem;
+    private OleCirculationDesk oleCirculationDesk;
+
     public ResponseHandler getResponseHandler() {
         if (null == responseHandler) {
             responseHandler = new CheckinItemResponseHandler();
@@ -67,37 +70,42 @@ public abstract class CheckinItemService {
         this.docstoreClientLocator = docstoreClientLocator;
     }
 
+    public OLECheckInItem getOleCheckInItem() {
+        return oleCheckInItem;
+    }
+
+    public void setOleCheckInItem(OLECheckInItem oleCheckInItem) {
+        this.oleCheckInItem = oleCheckInItem;
+    }
+
+    public OleCirculationDesk getOleCirculationDesk() {
+        return oleCirculationDesk;
+    }
+
+    public void setOleCirculationDesk(OleCirculationDesk oleCirculationDesk) {
+        this.oleCirculationDesk = oleCirculationDesk;
+    }
+
     public String checkinItem(Map checkinParameters) {
 
         CheckInAPIController checkInAPIController = new CheckInAPIController();
 
-        OLECheckInItem oleCheckInItem = new OLECheckInItem();
+        setOleCheckInItem(new OLECheckInItem());
+        setOleCirculationDesk(null);
 
         String operatorId = getOperatorId((String) checkinParameters.get("operatorId"));
         String itemBarcode = (String) checkinParameters.get("itemBarcode");
-        responseFormatType = (String) checkinParameters.get("responseFormatType");
         String deleteIndicator = (String) checkinParameters.get("deleteIndicator");
-        if (responseFormatType == null) {
-            responseFormatType = "xml";
-        }
-        responseFormatType = responseFormatType.toUpperCase();
+        setResponseFormatType(checkinParameters);
 
-        OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getCircDeskForOpertorId(operatorId);
-        if (null == oleCirculationDesk) {
-            oleCheckInItem.setCode("026");
-            oleCheckInItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CIRCULATION_DESK_NOT_MAPPED_OPERATOR));
-            return prepareResponse(oleCheckInItem);
-        }
-
-        if (StringUtils.isBlank(itemBarcode)) {
-            oleCheckInItem.setCode("900");
-            oleCheckInItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_REQUIRED));
-            return prepareResponse(oleCheckInItem);
+        boolean isValid = validate(operatorId, itemBarcode);
+        if (!isValid){
+            return prepareResponse();
         }
 
         DroolsExchange droolsExchange = new DroolsExchange();
         droolsExchange.addToContext("itemBarcode", itemBarcode);
-        droolsExchange.addToContext("selectedCirculationDesk", oleCirculationDesk.getCirculationDeskId());
+        droolsExchange.addToContext("selectedCirculationDesk", getOleCirculationDesk().getCirculationDeskId());
         droolsExchange.addToContext("operatorId", operatorId);
         OLEForm oleAPIForm = new OLEForm();
         oleAPIForm.setDroolsExchange(droolsExchange);
@@ -119,29 +127,29 @@ public abstract class CheckinItemService {
                     }
                 }
                 if (StringUtils.isNotBlank(responseMessage)) {
-                    oleCheckInItem.setCode("500");
-                    oleCheckInItem.setMessage(responseMessage);
-                    return prepareResponse(oleCheckInItem);
+                    getOleCheckInItem().setCode("500");
+                    getOleCheckInItem().setMessage(responseMessage);
+                    return prepareResponse();
                 } else if (checkinErrorMessage.equalsIgnoreCase("Invalid item barcode!")) {
-                    oleCheckInItem.setCode("014");
-                    oleCheckInItem.setMessage(checkinErrorMessage);
-                    return prepareResponse(oleCheckInItem);
+                    getOleCheckInItem().setCode("014");
+                    getOleCheckInItem().setMessage(checkinErrorMessage);
+                    return prepareResponse();
                 }
-                oleCheckInItem.setCode("500");
-                oleCheckInItem.setMessage(checkinErrorMessage);
-                return prepareResponse(oleCheckInItem);
+                getOleCheckInItem().setCode("500");
+                getOleCheckInItem().setMessage(checkinErrorMessage);
+                return prepareResponse();
             } else {
                 CheckedInItem checkedInItem = (CheckedInItem) droolsExchange.getFromContext("checkedInItem");
                 if (checkedInItem != null) {
-                    oleCheckInItem.setAuthor(checkedInItem.getAuthor());
-                    oleCheckInItem.setTitle(checkedInItem.getTitle());
-                    oleCheckInItem.setCallNumber(checkedInItem.getCallNumber());
-                    oleCheckInItem.setBarcode(checkedInItem.getItemBarcode());
-                    oleCheckInItem.setUserId(checkedInItem.getPatronId());
-                    oleCheckInItem.setUserType(checkedInItem.getBorrowerType());
-                    oleCheckInItem.setItemType(checkedInItem.getItemType());
-                    oleCheckInItem.setCode("024");
-                    oleCheckInItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.SUCCESSFULLEY_CHECKED_IN));
+                    getOleCheckInItem().setAuthor(checkedInItem.getAuthor());
+                    getOleCheckInItem().setTitle(checkedInItem.getTitle());
+                    getOleCheckInItem().setCallNumber(checkedInItem.getCallNumber());
+                    getOleCheckInItem().setBarcode(checkedInItem.getItemBarcode());
+                    getOleCheckInItem().setUserId(checkedInItem.getPatronId());
+                    getOleCheckInItem().setUserType(checkedInItem.getBorrowerType());
+                    getOleCheckInItem().setItemType(checkedInItem.getItemType());
+                    getOleCheckInItem().setCode("024");
+                    getOleCheckInItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.SUCCESSFULLEY_CHECKED_IN));
 
                     if (StringUtils.isNotBlank(deleteIndicator) && deleteIndicator.equalsIgnoreCase("y")) {
                         try {
@@ -150,26 +158,51 @@ public abstract class CheckinItemService {
                             getDocstoreClientLocator().getDocstoreClient().deleteBib(bibId);
                         } catch (Exception e) {
                             LOG.error("Exception while deleting bib" + e);
-                            oleCheckInItem.setMessage("Item " + ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.SUCCESSFULLEY_CHECKED_IN) + " but Deletion is failed");
-                            return prepareResponse(oleCheckInItem);
+                            getOleCheckInItem().setMessage("Item " + ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.SUCCESSFULLEY_CHECKED_IN) + " but Deletion is failed");
+                            return prepareResponse();
                         }
                     }
-                    return prepareResponse(oleCheckInItem);
+                    return prepareResponse();
                 } else {
-                    oleCheckInItem.setCode("025");
-                    oleCheckInItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CHECK_IN_FAILED));
-                    return prepareResponse(oleCheckInItem);
+                    getOleCheckInItem().setCode("025");
+                    getOleCheckInItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CHECK_IN_FAILED));
+                    return prepareResponse();
                 }
             }
         } catch (Exception e) {
             LOG.error("Exception " + e);
-            oleCheckInItem.setCode("025");
-            oleCheckInItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CHECK_IN_FAILED));
-            return prepareResponse(oleCheckInItem);
+            getOleCheckInItem().setCode("025");
+            getOleCheckInItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CHECK_IN_FAILED));
+            return prepareResponse();
         }
     }
 
-    public abstract String prepareResponse(OLECheckInItem oleCheckInItem);
+    private void setResponseFormatType(Map checkinParameters) {
+        responseFormatType = (String) checkinParameters.get("responseFormatType");
+        if (responseFormatType == null) {
+            responseFormatType = "xml";
+        }
+        responseFormatType = responseFormatType.toUpperCase();
+    }
+
+    private boolean validate(String operatorId, String itemBarcode){
+        OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getCircDeskForOpertorId(operatorId);
+        setOleCirculationDesk(oleCirculationDesk);
+        if (null == oleCirculationDesk) {
+            getOleCheckInItem().setCode("026");
+            getOleCheckInItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CIRCULATION_DESK_NOT_MAPPED_OPERATOR));
+            return false;
+        }
+
+        if (StringUtils.isBlank(itemBarcode)) {
+            getOleCheckInItem().setCode("900");
+            getOleCheckInItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_REQUIRED));
+            return false;
+        }
+        return true;
+    }
+
+    public abstract String prepareResponse();
 
     public abstract String getOperatorId(String operatorId);
 }

@@ -31,7 +31,7 @@ public class CheckoutNetttyProcessor extends NettyProcessor {
 
     @Override
     public String process(String requestData) {
-        String response = null;
+        String response = "";
         OLESIP2CheckOutRequestParser sip2CheckOutRequestParser = new OLESIP2CheckOutRequestParser(requestData);
         requestData = createJSONForCheckoutItemRequest(sip2CheckOutRequestParser.getPatronIdentifier(), sip2CheckOutRequestParser.getItemIdentifier(), "SIP2_OPERATOR_ID");
 

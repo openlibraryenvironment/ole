@@ -12,6 +12,7 @@ import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by chenchulakshmig on 9/22/15.
@@ -58,13 +59,7 @@ public class Sip2LookupUserServiceImpl extends LookupUserServiceImpl {
 
     @Override
     public boolean isRenewalInfoNeeded() {
-        String renewParameter = ParameterValueResolver.getInstance().getParameter(OLEConstants
-                .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.RENEW_INFO_INDICATOR);
-        boolean renewInfoNeeded = false;
-        if (StringUtils.isNotBlank(renewParameter) && renewParameter.equalsIgnoreCase("Y")) {
-            renewInfoNeeded = true;
-        }
-        return renewInfoNeeded;
+        return false;
     }
 
     @Override
@@ -114,7 +109,7 @@ public class Sip2LookupUserServiceImpl extends LookupUserServiceImpl {
 
     @Override
     protected boolean userPrivilegeDesired() {
-        return true;
+        return false;
     }
 
     @Override
@@ -130,5 +125,10 @@ public class Sip2LookupUserServiceImpl extends LookupUserServiceImpl {
     @Override
     protected boolean userFiscalAccountDesired() {
         return true;
+    }
+
+    @Override
+    protected void preProcess(Map lookupUserParameters) {
+
     }
 }

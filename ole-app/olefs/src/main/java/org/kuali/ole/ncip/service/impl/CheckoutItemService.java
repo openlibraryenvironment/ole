@@ -34,19 +34,11 @@ public abstract class CheckoutItemService {
     protected String response;
 
     private ResponseHandler responseHandler;
-    private OlePatronRecordUtil olePatronRecordUtil;
     private CircDeskLocationResolver circDeskLocationResolver;
 
-    public OlePatronRecordUtil getOlePatronRecordUtil() {
-        if (null == olePatronRecordUtil) {
-            olePatronRecordUtil = (OlePatronRecordUtil) SpringContext.getBean("olePatronRecordUtil");
-        }
-        return olePatronRecordUtil;
-    }
-
-    public void setOlePatronRecordUtil(OlePatronRecordUtil olePatronRecordUtil) {
-        this.olePatronRecordUtil = olePatronRecordUtil;
-    }
+    private OLECheckOutItem oleCheckOutItem;
+    private OlePatronDocument olePatronDocument;
+    private OleCirculationDesk oleCirculationDesk;
 
     public CircDeskLocationResolver getCircDeskLocationResolver() {
         if (circDeskLocationResolver == null) {
@@ -70,55 +62,50 @@ public abstract class CheckoutItemService {
         this.responseHandler = responseHandler;
     }
 
+    public OLECheckOutItem getOleCheckOutItem() {
+        return oleCheckOutItem;
+    }
+
+    public void setOleCheckOutItem(OLECheckOutItem oleCheckOutItem) {
+        this.oleCheckOutItem = oleCheckOutItem;
+    }
+
+    public OlePatronDocument getOlePatronDocument() {
+        return olePatronDocument;
+    }
+
+    public void setOlePatronDocument(OlePatronDocument olePatronDocument) {
+        this.olePatronDocument = olePatronDocument;
+    }
+
+    public OleCirculationDesk getOleCirculationDesk() {
+        return oleCirculationDesk;
+    }
+
+    public void setOleCirculationDesk(OleCirculationDesk oleCirculationDesk) {
+        this.oleCirculationDesk = oleCirculationDesk;
+    }
+
     public String checkoutItem(Map checkoutParameters) {
-
         CheckoutAPIController checkoutAPIController = new CheckoutAPIController();
-
-        OLECheckOutItem oleCheckOutItem = new OLECheckOutItem();
+        setOleCheckOutItem(new OLECheckOutItem());
+        setOlePatronDocument(null);
+        setOleCirculationDesk(null);
 
         String patronBarcode = (String) checkoutParameters.get("patronBarcode");
         String operatorId = getOperatorId((String) checkoutParameters.get("operatorId"));
         String itemBarcode = (String) checkoutParameters.get("itemBarcode");
-        responseFormatType = (String) checkoutParameters.get("responseFormatType");
-        if (responseFormatType == null) {
-            responseFormatType = "xml";
-        }
-        responseFormatType = responseFormatType.toUpperCase();
+        setResponseFormatType(checkoutParameters);
 
-        DroolsExchange patronDroolsExchange = new DroolsExchange();
-        patronDroolsExchange.addToContext("patronBarcode", patronBarcode);
-        PatronLookupCircAPIController patronLookupAPIController = new PatronLookupCircAPIController();
-        DroolsResponse patronDroolsResponse = patronLookupAPIController.searchPatron(patronDroolsExchange);
-        String patronErrorMessage = patronDroolsResponse.getErrorMessage().getErrorMessage();
-        if (StringUtils.isNotBlank(patronErrorMessage)) {
-            if (patronErrorMessage.contains(OLEConstants.PTRN_BARCD_NOT_EXT)) {
-                oleCheckOutItem.setCode("002");
-                oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
-                return prepareResponse(oleCheckOutItem);
-            } else {
-                oleCheckOutItem.setCode("002");
-                oleCheckOutItem.setMessage(patronErrorMessage);
-                return prepareResponse(oleCheckOutItem);
-            }
-        }
-        OlePatronDocument olePatronDocument = (OlePatronDocument) patronDroolsExchange.getFromContext("olePatronDocument");
-
-        OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getCircDeskForOpertorId(operatorId);
-        if (null == oleCirculationDesk) {
-            oleCheckOutItem.setCode("026");
-            oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CIRCULATION_DESK_NOT_MAPPED_OPERATOR));
-            return prepareResponse(oleCheckOutItem);
-        }
-        if (StringUtils.isBlank(itemBarcode)) {
-            oleCheckOutItem.setCode("900");
-            oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_REQUIRED));
-            return prepareResponse(oleCheckOutItem);
+        boolean isValid = validate(patronBarcode, operatorId, itemBarcode);
+        if (!isValid) {
+            return prepareResponse();
         }
 
         DroolsExchange droolsExchange = new DroolsExchange();
         droolsExchange.addToContext("itemBarcode", itemBarcode);
-        droolsExchange.addToContext("currentBorrower", olePatronDocument);
-        droolsExchange.addToContext("selectedCirculationDesk", oleCirculationDesk);
+        droolsExchange.addToContext("currentBorrower", getOlePatronDocument());
+        droolsExchange.addToContext("selectedCirculationDesk", getOleCirculationDesk());
         droolsExchange.addToContext("operatorId", operatorId);
 
         OLEForm oleAPIForm = new OLEForm();
@@ -132,21 +119,21 @@ public abstract class CheckoutItemService {
                 if (StringUtils.isNotBlank(droolsResponse.retriveErrorCode())) {
                     if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.GENERAL_INFO)) {
                         if (checkoutErrorMessage.equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.INVAL_LOC))) {
-                            oleCheckOutItem.setCode("028");
-                            oleCheckOutItem.setMessage(checkoutErrorMessage);
-                            return prepareResponse(oleCheckOutItem);
+                            getOleCheckOutItem().setCode("028");
+                            getOleCheckOutItem().setMessage(checkoutErrorMessage);
+                            return prepareResponse();
                         } else if (checkoutErrorMessage.contains("Invalid item barcode")) {
-                            oleCheckOutItem.setCode("014");
-                            oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
-                            return prepareResponse(oleCheckOutItem);
+                            getOleCheckOutItem().setCode("014");
+                            getOleCheckOutItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_DOESNOT_EXISTS));
+                            return prepareResponse();
                         }
                     } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.CUSTOM_DUE_DATE_REQUIRED_FLAG)) {
                         responseMessage = "No Circulation Policy found";
                     } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.LOANED_BY_DIFFERENT_PATRON) ||
                             droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.CHECKED_OUT_BY_SAME_PATRON)) {
-                        oleCheckOutItem.setCode("100");
-                        oleCheckOutItem.setMessage(checkoutErrorMessage);
-                        return prepareResponse(oleCheckOutItem);
+                        getOleCheckOutItem().setCode("100");
+                        getOleCheckOutItem().setMessage(checkoutErrorMessage);
+                        return prepareResponse();
                     } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_CLAIMS_RETURNED)) {
                         responseMessage = "Item is Claims Returned";
                     } else if (droolsResponse.retriveErrorCode().equalsIgnoreCase(DroolsConstants.ITEM_MISSING_PIECE)) {
@@ -156,45 +143,87 @@ public abstract class CheckoutItemService {
                     }
                 }
                 if (StringUtils.isNotBlank(responseMessage)) {
-                    oleCheckOutItem.setCode("500");
-                    oleCheckOutItem.setMessage(responseMessage);
-                    return prepareResponse(oleCheckOutItem);
+                    getOleCheckOutItem().setCode("500");
+                    getOleCheckOutItem().setMessage(responseMessage);
+                    return prepareResponse();
                 }
-                oleCheckOutItem.setCode("500");
-                oleCheckOutItem.setMessage(checkoutErrorMessage);
-                return prepareResponse(oleCheckOutItem);
+                getOleCheckOutItem().setCode("500");
+                getOleCheckOutItem().setMessage(checkoutErrorMessage);
+                return prepareResponse();
             } else {
                 OleLoanDocument oleLoanDocument = (OleLoanDocument) droolsExchange.getFromContext("oleLoanDocument");
                 if (oleLoanDocument != null) {
-                    oleCheckOutItem.setDueDate(oleLoanDocument.getLoanDueDate() != null ? oleLoanDocument.getLoanDueDate().toString() : "");
-                    oleCheckOutItem.setRenewalCount(oleLoanDocument.getNumberOfRenewals());
-                    oleCheckOutItem.setUserType(olePatronDocument.getBorrowerTypeName());
-                    oleCheckOutItem.setBarcode(oleLoanDocument.getItemId());
-                    oleCheckOutItem.setPatronId(olePatronDocument.getOlePatronId());
-                    oleCheckOutItem.setPatronBarcode(olePatronDocument.getBarcode());
+                    getOleCheckOutItem().setDueDate(oleLoanDocument.getLoanDueDate() != null ? oleLoanDocument.getLoanDueDate().toString() : "");
+                    getOleCheckOutItem().setRenewalCount(oleLoanDocument.getNumberOfRenewals());
+                    getOleCheckOutItem().setUserType(getOlePatronDocument().getBorrowerTypeName());
+                    getOleCheckOutItem().setBarcode(oleLoanDocument.getItemId());
+                    getOleCheckOutItem().setPatronId(getOlePatronDocument().getOlePatronId());
+                    getOleCheckOutItem().setPatronBarcode(getOlePatronDocument().getBarcode());
                     if (oleLoanDocument.getOleItem() != null && oleLoanDocument.getOleItem().getItemType() != null) {
-                        oleCheckOutItem.setItemType(oleLoanDocument.getOleItem().getItemType().getCodeValue());
+                        getOleCheckOutItem().setItemType(oleLoanDocument.getOleItem().getItemType().getCodeValue());
                     }
-                    oleCheckOutItem.setCode("030");
-                    oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.SUCCESSFULLEY_LOANED));
-                    oleCheckOutItem.setItemProperties("Author : " + oleLoanDocument.getAuthor() + " , Status : " + oleLoanDocument.getItemStatus());
-                    oleCheckOutItem.setItemType(oleLoanDocument.getItemType());
-                    return prepareResponse(oleCheckOutItem);
+                    getOleCheckOutItem().setCode("030");
+                    getOleCheckOutItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.SUCCESSFULLEY_LOANED));
+                    getOleCheckOutItem().setItemProperties("Author : " + oleLoanDocument.getAuthor() + " , Status : " + oleLoanDocument.getItemStatus());
+                    getOleCheckOutItem().setItemType(oleLoanDocument.getItemType());
+                    return prepareResponse();
                 } else {
-                    oleCheckOutItem.setCode("500");
-                    oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLENCIPConstants.CHECK_OUT_FAIL));
-                    return prepareResponse(oleCheckOutItem);
+                    getOleCheckOutItem().setCode("500");
+                    getOleCheckOutItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLENCIPConstants.CHECK_OUT_FAIL));
+                    return prepareResponse();
                 }
             }
         } catch (Exception e) {
             LOG.error("Exception " + e);
-            oleCheckOutItem.setCode("500");
-            oleCheckOutItem.setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLENCIPConstants.CHECK_OUT_FAIL));
-            return prepareResponse(oleCheckOutItem);
+            getOleCheckOutItem().setCode("500");
+            getOleCheckOutItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLENCIPConstants.CHECK_OUT_FAIL));
+            return prepareResponse();
         }
     }
 
-    public abstract String prepareResponse(OLECheckOutItem oleCheckOutItem);
+    private void setResponseFormatType(Map checkoutParameters) {
+        responseFormatType = (String) checkoutParameters.get("responseFormatType");
+        if (responseFormatType == null) {
+            responseFormatType = "xml";
+        }
+        responseFormatType = responseFormatType.toUpperCase();
+    }
+
+    private boolean validate(String patronBarcode, String operatorId, String itemBarcode) {
+        OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getCircDeskForOpertorId(operatorId);
+        setOleCirculationDesk(oleCirculationDesk);
+        if (null == oleCirculationDesk) {
+            getOleCheckOutItem().setCode("026");
+            getOleCheckOutItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CIRCULATION_DESK_NOT_MAPPED_OPERATOR));
+            return false;
+        }
+        if (StringUtils.isBlank(itemBarcode)) {
+            getOleCheckOutItem().setCode("900");
+            getOleCheckOutItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_REQUIRED));
+            return false;
+        }
+        DroolsExchange patronDroolsExchange = new DroolsExchange();
+        patronDroolsExchange.addToContext(OLEConstants.PATRON_BAR, patronBarcode);
+        PatronLookupCircAPIController patronLookupAPIController = new PatronLookupCircAPIController();
+        DroolsResponse patronDroolsResponse = patronLookupAPIController.searchPatron(patronDroolsExchange);
+        String patronErrorMessage = patronDroolsResponse.getErrorMessage().getErrorMessage();
+        if (StringUtils.isNotBlank(patronErrorMessage)) {
+            if (patronErrorMessage.contains(OLEConstants.PTRN_BARCD_NOT_EXT)) {
+                getOleCheckOutItem().setCode("002");
+                getOleCheckOutItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
+                return false;
+            } else {
+                getOleCheckOutItem().setCode("002");
+                getOleCheckOutItem().setMessage(patronErrorMessage);
+                return false;
+            }
+        }
+        OlePatronDocument olePatronDocument = (OlePatronDocument) patronDroolsExchange.getFromContext("olePatronDocument");
+        setOlePatronDocument(olePatronDocument);
+        return true;
+    }
+
+    public abstract String prepareResponse();
 
     public abstract String getOperatorId(String operatorId);
 }

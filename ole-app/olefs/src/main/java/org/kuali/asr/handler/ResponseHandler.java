@@ -2,7 +2,6 @@ package org.kuali.asr.handler;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.kuali.ole.ncip.bo.OLERenewItemList;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;

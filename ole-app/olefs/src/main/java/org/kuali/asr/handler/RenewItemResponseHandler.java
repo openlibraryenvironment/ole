@@ -1,7 +1,7 @@
 package org.kuali.asr.handler;
 
-import org.kuali.ole.ncip.bo.OLERenewItemList;
-import org.kuali.ole.ncip.converter.OLERenewItemConverter;
+import org.kuali.ole.bo.OLERenewItemList;
+import org.kuali.ole.converter.OLERenewItemConverter;
 
 /**
  * Created by pvsubrah on 6/26/15.

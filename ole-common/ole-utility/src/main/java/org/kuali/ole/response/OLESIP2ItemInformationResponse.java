@@ -1,13 +1,12 @@
-package org.kuali.ole.sip2.sip2Response;
+package org.kuali.ole.response;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.ole.OLEConstants;
-import org.kuali.ole.deliver.bo.OleItemSearch;
-import org.kuali.ole.response.OLESIP2Response;
+import org.kuali.ole.constants.OLESIP2Constants;
+import org.kuali.ole.request.OLESIP2ItemInformationRequestParser;
 import org.kuali.ole.common.MessageUtil;
 import org.kuali.ole.common.OLESIP2Util;
-import org.kuali.ole.sip2.constants.OLESIP2Constants;
-import org.kuali.ole.sip2.requestParser.OLESIP2ItemInformationRequestParser;
+
+import java.util.Map;
 
 /**
  * Created by gayathria on 17/9/14.
@@ -20,7 +19,7 @@ public class OLESIP2ItemInformationResponse extends OLESIP2Response {
     }
 
 
-    public String getSIP2ItemInfoResponse(OleItemSearch oleItemSearch, OLESIP2ItemInformationRequestParser sip2ItemInformationRequestParser) {
+    public String getSIP2ItemInfoResponse(Map responseMap, OLESIP2ItemInformationRequestParser sip2ItemInformationRequestParser) {
 
         StringBuilder builder = new StringBuilder();
 
@@ -30,28 +29,30 @@ public class OLESIP2ItemInformationResponse extends OLESIP2Response {
         builder.append(OLESIP2Constants.BLOCK_PATRON_REQUEST);
         builder.append(MessageUtil.getSipDateTime());
         builder.append(OLESIP2Constants.ITEM_IDENTIFIER_CODE);
-        builder.append(oleItemSearch.getItemBarCode() != null ? oleItemSearch.getItemBarCode() : sip2ItemInformationRequestParser.getItemIdentifier());
+        String itemBarCode = (String) responseMap.get("itemBarCode");
+        builder.append(itemBarCode != null ? itemBarCode : sip2ItemInformationRequestParser.getItemIdentifier());
         builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.TITLE_IDENTIFIER_CODE);
-        builder.append(oleItemSearch.getTitle() != null ? oleItemSearch.getTitle().replaceAll(OLESIP2Constants.NON_ROMAN_REGEX,""): "");
+        String title = (String) responseMap.get("title");
+        builder.append(title != null ? title.replaceAll(OLESIP2Constants.NON_ROMAN_REGEX, "") : "");
         builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.CURRENCY_TYPE_CODE);
         builder.append(OLESIP2Util.getDefaultCurrency().getCurrencyCode());
-       /* builder.append(OLESIP2Constants.SPLIT+
-                OLESIP2Constants.MEDIA_TYPE_CODE);
-        builder.append(StringUtils.isNotBlank(oleItemSearch.getItemType()) ? oleItemSearch.getItemType() : " ");*/
         builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.CURRENT_LOCATION_CODE);
-        builder.append(StringUtils.isNotBlank(oleItemSearch.getShelvingLocation()) ? oleItemSearch.getShelvingLocation() : " ");
-        if(StringUtils.isBlank(oleItemSearch.getItemBarCode()) && StringUtils.isBlank(oleItemSearch.getItemStatus())){
+        String shelvingLocation = (String) responseMap.get("shelvingLocation");
+        builder.append(StringUtils.isNotBlank(shelvingLocation) ? shelvingLocation : " ");
+        String itemStatus = (String) responseMap.get("itemStatus");
+        if(StringUtils.isBlank(itemBarCode) && StringUtils.isBlank(itemStatus)){
             builder.append(OLESIP2Constants.SPLIT+
                     OLESIP2Constants.SCREEN_MSG_CODE);
             builder.append(OLESIP2Constants.ITEM_UNAVAILABLE);
         }
         builder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.ITEM_PROPERTIES_CODE);
-        builder.append((StringUtils.isNotBlank(oleItemSearch.getAuthor()) ? OLEConstants.OlePatronBill.LABEL_ITEM_AUTHOR+"  : " + oleItemSearch.getAuthor().replaceAll(OLESIP2Constants.NON_ROMAN_REGEX,"") : " ") + (StringUtils.isNotBlank(oleItemSearch.getItemStatus()) ? " Status : " + oleItemSearch.getItemStatus() : " "));
-        if(StringUtils.isBlank(oleItemSearch.getItemBarCode()) && StringUtils.isBlank(oleItemSearch.getItemStatus())){
+        String author = (String) responseMap.get("author");
+        builder.append((StringUtils.isNotBlank(author) ? OLESIP2Constants.AUTHOR +"  : " + author.replaceAll(OLESIP2Constants.NON_ROMAN_REGEX, "") : " ") + (StringUtils.isNotBlank(itemStatus) ? " Status : " + itemStatus : " "));
+        if(StringUtils.isBlank(itemBarCode) && StringUtils.isBlank(itemStatus)){
             builder.append(OLESIP2Constants.SPLIT+
                     OLESIP2Constants.SCREEN_MSG_CODE);
             builder.append(OLESIP2Constants.ITEM_UNAVAILABLE);

@@ -8,10 +8,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.ole.sip2.sip2Server.processor.CheckInNetttyProcessor;
-import org.kuali.ole.sip2.sip2Server.processor.CheckoutNetttyProcessor;
-import org.kuali.ole.sip2.sip2Server.processor.NettyProcessor;
-import org.kuali.ole.sip2.sip2Server.processor.PatronInformationNetttyProcessor;
+import org.kuali.ole.sip2.sip2Server.processor.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -55,9 +52,18 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         }
 
         nettyProcessors = new ArrayList<>();
-        nettyProcessors.add(new PatronInformationNetttyProcessor(properties, serverURL));
-        nettyProcessors.add(new CheckoutNetttyProcessor(properties, serverURL));
+        nettyProcessors.add(new ScStatusNettyProcessor(properties));
+        nettyProcessors.add(new RequestAcsResendNettyProcessor(lastResponseSendToClient, clientIP));
+        nettyProcessors.add(new LoginNettyProcessor(properties, serverURL));
         nettyProcessors.add(new CheckInNetttyProcessor(properties, serverURL));
+        nettyProcessors.add(new CheckoutNetttyProcessor(properties, serverURL));
+        nettyProcessors.add(new ItemInformationNettyProcessor(properties, serverURL));
+        nettyProcessors.add(new PatronStatusNettyProcessor(properties, serverURL));
+        nettyProcessors.add(new PatronInformationNettyProcessor(properties, serverURL));
+        nettyProcessors.add(new PatronBlockNettyProcessor(properties, serverURL));
+        nettyProcessors.add(new PatronEnableNettyProcessor(properties, serverURL));
+        nettyProcessors.add(new EndPatronSessionNettyProcessor(properties));
+        nettyProcessors.add(new RenewNettyProcessor(properties, serverURL));
     }
 
     @Override

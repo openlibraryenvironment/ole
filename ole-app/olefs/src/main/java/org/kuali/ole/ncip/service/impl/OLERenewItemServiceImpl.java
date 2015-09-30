@@ -6,7 +6,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.ncip.bo.OLENCIPConstants;
 import org.kuali.ole.bo.OLERenewItem;
-import org.kuali.ole.ncip.converter.OLERenewItemConverter;
+import org.kuali.ole.converter.OLERenewItemConverter;
 import org.kuali.ole.ncip.service.OLECirculationService;
 import org.kuali.ole.ncip.service.OLERenewItemService;
 import org.kuali.ole.sys.context.SpringContext;

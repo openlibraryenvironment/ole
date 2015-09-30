@@ -504,4 +504,9 @@ public class OLENCIPLookupUserServiceImpl extends LookupUserServiceImpl implemen
     protected boolean userFiscalAccountDesired() {
         return getLookupUserInitiationData().getUserFiscalAccountDesired();
     }
+
+    @Override
+    protected void preProcess(Map lookupUserParameters) {
+
+    }
 }

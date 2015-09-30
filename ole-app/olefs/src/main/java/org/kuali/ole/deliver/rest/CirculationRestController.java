@@ -111,6 +111,56 @@ public class CirculationRestController {
         return responseString;
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/patronStatusSIP2", produces = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String patronStatusSIP2(@RequestBody String body) throws Exception {
+        String responseString = "";
+        JSONObject jsonObject = new JSONObject(body);
+        Map lookupUserParameters = new LookupUserRequestHandler().parseRequest(jsonObject);
+        responseString = getCirculationRestService().patronStatusSIP2(lookupUserParameters);
+        return responseString;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/patronBlockSIP2", produces = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String patronBlockSIP2(@RequestBody String body) throws Exception {
+        String responseString = "";
+        JSONObject jsonObject = new JSONObject(body);
+        Map patronBlockParameters = new PatronBlockRequestHandler().parseRequest(jsonObject);
+        responseString = getCirculationRestService().patronBlockSIP2(patronBlockParameters);
+        return responseString;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/patronEnableSIP2", produces = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String patronEnableSIP2(@RequestBody String body) throws Exception {
+        String responseString = "";
+        JSONObject jsonObject = new JSONObject(body);
+        Map lookupUserParameters = new LookupUserRequestHandler().parseRequest(jsonObject);
+        responseString = getCirculationRestService().patronEnableSIP2(lookupUserParameters);
+        return responseString;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/loginSIP2", produces = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String loginSIP2(@RequestBody String body) throws Exception {
+        String responseString = "";
+        JSONObject jsonObject = new JSONObject(body);
+        Map loginParameters = new LoginRequestHandler().parseRequest(jsonObject);
+        responseString = getCirculationRestService().loginSIP2(loginParameters);
+        return responseString;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/itemInfoSIP2", produces = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @ResponseBody
+    public String itemInfoSIP2(@RequestBody String body) throws Exception {
+        String responseString = "";
+        JSONObject jsonObject = new JSONObject(body);
+        Map itemInfoParameters = new ItemInfoRequestHandler().parseRequest(jsonObject);
+        responseString = getCirculationRestService().itemInfoSIP2(itemInfoParameters);
+        return responseString;
+    }
+
     public CirculationRestService getCirculationRestService() {
         return circulationRestService;
     }

@@ -1,9 +1,8 @@
-package org.kuali.ole.sip2.sip2Response;
+package org.kuali.ole.response;
 
-import org.kuali.ole.response.OLESIP2Response;
 import org.kuali.ole.common.MessageUtil;
-import org.kuali.ole.sip2.constants.OLESIP2Constants;
-import org.kuali.ole.sip2.requestParser.OLESIP2LoginRequestParser;
+import org.kuali.ole.constants.OLESIP2Constants;
+import org.kuali.ole.request.OLESIP2LoginRequestParser;
 
 /**
  * Created by gayathria on 2/9/14.

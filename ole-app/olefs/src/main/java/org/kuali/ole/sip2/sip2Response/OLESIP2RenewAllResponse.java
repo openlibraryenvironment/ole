@@ -3,7 +3,7 @@ package org.kuali.ole.sip2.sip2Response;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.bo.OLERenewItem;
 import org.kuali.ole.common.OLESIP2Util;
-import org.kuali.ole.ncip.bo.OLERenewItemList;
+import org.kuali.ole.bo.OLERenewItemList;
 import org.kuali.ole.response.OLESIP2Response;
 import org.kuali.ole.sip2.constants.OLESIP2Constants;
 import org.kuali.ole.sip2.requestParser.OLESIP2RenewAllRequestParser;

@@ -11,6 +11,7 @@ import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by chenchulakshmig on 9/22/15.
@@ -127,5 +128,10 @@ public class NonSip2LookupUserServiceImpl extends LookupUserServiceImpl {
     @Override
     protected boolean userFiscalAccountDesired() {
         return true;
+    }
+
+    @Override
+    protected void preProcess(Map lookupUserParameters) {
+
     }
 }

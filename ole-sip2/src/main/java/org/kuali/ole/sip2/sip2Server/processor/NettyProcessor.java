@@ -1,13 +1,18 @@
 package org.kuali.ole.sip2.sip2Server.processor;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.bo.OLEItemFine;
+import org.kuali.ole.bo.OLELookupUser;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by pvsubrah on 9/28/15.
@@ -75,5 +80,18 @@ public abstract class NettyProcessor {
             ex.printStackTrace();
         }
         return responseContent;
+    }
+
+    public BigDecimal calculateTotalFineBalance(OLELookupUser oleLookupUser) {
+        BigDecimal balanceAmount = new BigDecimal(0);
+        if (oleLookupUser.getOleItemFines() != null) {
+            List<OLEItemFine> oleItemFineList = oleLookupUser.getOleItemFines().getOleItemFineList();
+            if (CollectionUtils.isNotEmpty(oleItemFineList)) {
+                for (OLEItemFine oleItemFine : oleItemFineList) {
+                    balanceAmount = balanceAmount.add(oleItemFine.getBalance());
+                }
+            }
+        }
+        return balanceAmount;
     }
 }

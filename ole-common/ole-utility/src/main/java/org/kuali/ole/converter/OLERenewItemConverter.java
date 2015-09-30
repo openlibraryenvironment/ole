@@ -1,10 +1,9 @@
-package org.kuali.ole.ncip.converter;
+package org.kuali.ole.converter;
 
 import com.thoughtworks.xstream.XStream;
 import org.apache.log4j.Logger;
 import org.kuali.ole.bo.OLERenewItem;
-import org.kuali.ole.converter.OleCirculationHandler;
-import org.kuali.ole.ncip.bo.OLERenewItemList;
+import org.kuali.ole.bo.OLERenewItemList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,7 +13,7 @@ import org.kuali.ole.ncip.bo.OLERenewItemList;
  * To change this template use File | Settings | File Templates.
  */
 public class OLERenewItemConverter {
-    final Logger LOG = Logger.getLogger(OLEItemFineConverter.class);
+    final Logger LOG = Logger.getLogger(OLERenewItemConverter.class);
 
     private static XStream xStream = getXstream();
     private static XStream xStream1 = getXstream1();

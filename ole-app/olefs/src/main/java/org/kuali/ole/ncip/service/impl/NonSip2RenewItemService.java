@@ -1,6 +1,6 @@
 package org.kuali.ole.ncip.service.impl;
 
-import org.kuali.ole.ncip.bo.OLERenewItemList;
+import org.kuali.ole.bo.OLERenewItemList;
 
 /**
  * Created by pvsubrah on 7/2/15.

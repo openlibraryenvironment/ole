@@ -71,7 +71,7 @@ public abstract class LookupUserServiceImpl extends LookupUserServiceUtil implem
         if (!isValid) {
             return prepareResponse();
         }
-
+        preProcess(lookupUserParameters);
         process();
 
         return prepareResponse();
@@ -350,8 +350,7 @@ public abstract class LookupUserServiceImpl extends LookupUserServiceUtil implem
                 }
 
                 if (renewInfoNeeded) {
-                    int renewalDays = getRenewalDays(oleLoanDocument);
-                    oleCheckedOutItem.setNumberOfRenewals(String.valueOf(renewalDays));
+                    oleCheckedOutItem.setNumberOfRenewals(oleLoanDocument.getNumberOfRenewals());
                 }
                 oleCheckedOutItemList.add(oleCheckedOutItem);
             }
@@ -364,26 +363,6 @@ public abstract class LookupUserServiceImpl extends LookupUserServiceUtil implem
         oleStopWatch.end();
         LOG.info("Time taken to get  " + oleCheckedOutItemList.size() + " checked out items : " + oleStopWatch.getTotalTime());
         return null;
-    }
-
-    private int getRenewalDays(OleLoanDocument oleLoanDocument) {
-        ItemRecord itemRecord = getCircUtilController().getItemRecordByBarcode(oleLoanDocument.getItemId());
-        OleItemRecordForCirc oleItemRecordForCirc = ItemInfoUtil.getInstance().getOleItemRecordForCirc(itemRecord, null);
-        NoticeInfo noticeInfo = new NoticeInfo();
-        DroolsResponse droolsResponse = new DroolsResponse();
-
-        List<Object> facts = new ArrayList<>();
-        facts.add(oleLoanDocument);
-        facts.add(getOlePatronDocument());
-        facts.add(oleItemRecordForCirc);
-        facts.add(droolsResponse);
-        facts.add(noticeInfo);
-        getCircUtilController().fireRules(facts, null, "renewal validation");
-
-        if (droolsResponse.isRuleMatched()) {
-            return 1;
-        }
-        return 0;
     }
 
     private OLEHolds getHoldsList(List<OleDeliverRequestBo> oleDeliverRequestBoList) {
@@ -579,5 +558,7 @@ public abstract class LookupUserServiceImpl extends LookupUserServiceUtil implem
     protected abstract boolean requestedItemsDesired();
 
     protected abstract boolean userFiscalAccountDesired();
+
+    protected abstract void preProcess(Map lookupUserParameters);
 
 }
