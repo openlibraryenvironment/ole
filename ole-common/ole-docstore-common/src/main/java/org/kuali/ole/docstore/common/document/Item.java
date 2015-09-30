@@ -735,6 +735,10 @@ public class Item
             itemPojo.setChronology(fieldValue);
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_ITEM_VENDOR_LINE_ITEM_IDENTIFIER)) {
             itemPojo.setVendorLineItemIdentifier(fieldValue);
+        } else if (docField.equalsIgnoreCase(DUE_DATE_TIME)) {
+            itemPojo.setDueDateTime(fieldValue);
+        } else if (docField.equalsIgnoreCase(NO_OF_RENEWAL)) {
+            itemPojo.setNumberOfRenew(Integer.valueOf(fieldValue));
         } else if (docField.equalsIgnoreCase(DESTINATION_FIELD_DONOR_CODE) || docField.equalsIgnoreCase(DESTINATION_FIELD_DONOR_PUBLIC_DISPLAY) || docField.equalsIgnoreCase(DESTINATION_FIELD_DONOR_NOTE)) {
             DonorInfo donorInfo = null;
             if (itemPojo.getDonorInfo() != null && itemPojo.getDonorInfo().size() > 0) {

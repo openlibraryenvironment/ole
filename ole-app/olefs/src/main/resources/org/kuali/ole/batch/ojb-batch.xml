@@ -774,6 +774,7 @@
         <field-descriptor name="currentBorrower" column="CURRENT_BORROWER" jdbc-type="VARCHAR"/>
         <field-descriptor name="proxyBorrower" column="PROXY_BORROWER" jdbc-type="VARCHAR"/>
         <field-descriptor name="dueDateTime" column="DUE_DATE_TIME" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="checkOutDateTime" column="CHECK_OUT_DATE_TIME" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="claimsReturnedFlag" column="CLAIMS_RETURNED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="itemDamagedStatus" column="ITEM_DAMAGED_STATUS" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="missingPieceFlag" column="MISSING_PIECES" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -784,6 +785,7 @@
         <field-descriptor name="claimsReturnedFlagCreateDate" column="CLAIMS_RETURNED_DATE_CREATED"
                           jdbc-type="TIMESTAMP"/>
         <field-descriptor name="claimsReturnedNote" column="CLAIMS_RETURNED_NOTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="numberOfRenew" column="NUM_OF_RENEW" jdbc-type="INTEGER"/>
         <field-descriptor name="createdDate" column="DATE_CREATED" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="updatedDate" column="DATE_UPDATED" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="createdBy" column="CREATED_BY" jdbc-type="VARCHAR"/>
