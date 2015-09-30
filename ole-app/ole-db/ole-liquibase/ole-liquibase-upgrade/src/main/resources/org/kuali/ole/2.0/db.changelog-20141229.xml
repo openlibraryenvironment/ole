@@ -4806,7 +4806,7 @@
 
     <changeSet context="bootstrap" author="ole" id="OLE_RNWL_HISTORY_T_PK">
         <addPrimaryKey catalogName="ole"
-                       columnNames="ID"
+                       columnNames="RNWL_HSTRY_ID"
                        constraintName="OLE_RNWL_HISTORY_PK"
                        schemaName="ole"
                        tableName="OLE_RNWL_HISTORY_T"/>
@@ -4851,7 +4851,7 @@
 
     <changeSet context="bootstrap" author="ole" id="OLE_MARC_UPDT_FREQ_T_PK">
         <addPrimaryKey catalogName="ole"
-                       columnNames="ID"
+                       columnNames="MARC_UPDT_FREQ_ID"
                        constraintName="OLE_MARC_UPDT_FREQ_T_PK"
                        schemaName="ole"
                        tableName="OLE_MARC_UPDT_FREQ_T"/>
