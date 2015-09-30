@@ -1442,6 +1442,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                         oleeResourceInstance.setBibId(holdings.getBib().getId());
                         oleeResourceInstance.setInstanceId(holdings.getId());
                         oleeResourceInstance.setInstanceFlag("false");
+                        oleeResourceInstance.setOleERSIdentifier(oleERSDoc.getOleERSIdentifier());
                         if (index >= 0) {
                             oleeResourceInstances.add(index, oleeResourceInstance);
                         } else {
@@ -1461,6 +1462,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                                 }
                             }
                         }
+                        oleeResourceInstance.setOleERSIdentifier(oleERSDoc.getOleERSIdentifier());
                         oleeResourceInstance.setSubscriptionStatus(oleHoldings.getSubscriptionStatus());
                         oleeResourceInstance.setInstanceTitle(holdings.getBib().getTitle());
                         oleeResourceInstance.setInstancePublisher(holdings.getBib().getPublisher());

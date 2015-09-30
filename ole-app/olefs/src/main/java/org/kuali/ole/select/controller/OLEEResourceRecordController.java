@@ -500,6 +500,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             if (!tempDocument.getTitle().equalsIgnoreCase(oleeResourceRecordDocument.getTitle())){
                 titleChange = true;
             }
+            oleeResourceRecordDocument.setCopyList((List<OleCopy>) KRADServiceLocator.getBusinessObjectService().findMatching(OleCopy.class, tempId));
             int instancesSize = tempDocument.getOleERSInstances().size();
             int instanceSize = oleeResourceRecordDocument.getOleERSInstances().size();
             if (!oleERSform.isDefaultDatesFlag() && oleERSform.getPageId() != null && oleERSform.getPageId().equalsIgnoreCase("OLEEResourceRecordView-E-ResourceInstanceTab")) {

@@ -443,7 +443,9 @@ public class WorkEInstanceOlemlEditor
                             }
                         }
                         getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber(), eHoldingsDoc);
-                        getDocumentService().updateDocument(tempDocument);
+                        KRADServiceLocator.getBusinessObjectService().save(tempDocument.getCopyList());
+                        KRADServiceLocator.getBusinessObjectService().save(tempDocument.getOleERSInstances());
+                       // getDocumentService().updateDocument(tempDocument);
                     } catch (Exception e) {
                         LOG.error("Exception :", e);
                         throw new RiceRuntimeException(
