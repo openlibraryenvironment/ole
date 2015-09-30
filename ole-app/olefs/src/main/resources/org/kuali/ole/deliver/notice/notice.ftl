@@ -8,19 +8,19 @@
 <table>
     </BR></BR>
     <TR>
-        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Patron Name")}</TD>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Patron Name")} :</TD>
         <TD>${oleNoticeBo.patronName}</TD>
     </TR>
     <TR>
-        <TD>Address :</TD>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Address")} :</TD>
         <TD>${oleNoticeBo.patronAddress}</TD>
     </TR>
     <TR>
-        <TD>EMAIL :</TD>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("EMAIL")} :</TD>
         <TD>${oleNoticeBo.patronEmailAddress}</TD>
     </TR>
     <TR>
-        <TD>Phone Number :</TD>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Phone Number")} :</TD>
         <TD>${oleNoticeBo.patronPhoneNumber}</TD>
     </TR>
 </table>
@@ -49,7 +49,7 @@
 
 
 <#list oleNoticeBos as oleNoticeBo>
-    <@itemInfo.item oleNoticeBo=oleNoticeBo></@itemInfo.item>
+    <@itemInfo.item oleNoticeBo=oleNoticeBo oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo></@itemInfo.item>
 ********************************************************************
 </#list>
 

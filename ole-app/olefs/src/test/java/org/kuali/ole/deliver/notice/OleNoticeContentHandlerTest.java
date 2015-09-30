@@ -49,9 +49,21 @@ public class OleNoticeContentHandlerTest {
         oleNoticeContentConfigurationBo.setNoticeType("OverdueNotice");
 
         ArrayList<OleNoticeFieldLabelMapping> oleNoticeFieldLabelMappings = new ArrayList<>();
+
         OleNoticeFieldLabelMapping patronName = new OleNoticeFieldLabelMapping();
-        patronName.setFieldLabel("Patron Full Name:");
+        patronName.setFieldLabel("Patron Full Name");
         patronName.setFieldName(OLEConstants.PATRON_NAME);
+
+
+        OleNoticeFieldLabelMapping address = new OleNoticeFieldLabelMapping();
+        address.setFieldLabel("Patron Address");
+        address.setFieldName(OLEConstants.NOTICE_ADDRESS);
+
+
+        OleNoticeFieldLabelMapping phoneNumber = new OleNoticeFieldLabelMapping();
+        phoneNumber.setFieldLabel("Patron Phone Number:");
+        phoneNumber.setFieldName(OLEConstants.NOTICE_PHONE_NUMBER);
+
 
 
         OleNoticeFieldLabelMapping patronEmail = new OleNoticeFieldLabelMapping();
@@ -63,7 +75,41 @@ public class OleNoticeContentHandlerTest {
         itemCallNum.setFieldLabel("Item Call Number:");
         itemCallNum.setFieldName(OLEConstants.NOTICE_CALL_NUMBER);
 
+        OleNoticeFieldLabelMapping title = new OleNoticeFieldLabelMapping();
+        title.setFieldLabel("Item Title:");
+        title.setFieldName(OLEConstants.NOTICE_TITLE);
+
+        OleNoticeFieldLabelMapping author = new OleNoticeFieldLabelMapping();
+        author.setFieldLabel("Item Author:");
+        author.setFieldName(OLEConstants.NOTICE_AUTHOR);
+
+        OleNoticeFieldLabelMapping itemBarcode = new OleNoticeFieldLabelMapping();
+        itemBarcode.setFieldLabel("Item Barcode:");
+        itemBarcode.setFieldName(OLEConstants.NOTICE_ITEM_BARCODE);
+
+        OleNoticeFieldLabelMapping itemDue = new OleNoticeFieldLabelMapping();
+        itemDue.setFieldLabel("Item Due Date");
+        itemDue.setFieldName(OLEConstants.ITEM_WAS_DUE);
+
+
+        OleNoticeFieldLabelMapping shelvingLocation = new OleNoticeFieldLabelMapping();
+        shelvingLocation.setFieldLabel("Shelving Location");
+        shelvingLocation.setFieldName(OLEConstants.LIBRARY_SHELVING_LOCATION);
+
+
+
+
+
         oleNoticeFieldLabelMappings.add(patronName);
+        oleNoticeFieldLabelMappings.add(address);
+        oleNoticeFieldLabelMappings.add(phoneNumber);
+        oleNoticeFieldLabelMappings.add(patronEmail);
+        oleNoticeFieldLabelMappings.add(itemCallNum);
+        oleNoticeFieldLabelMappings.add(title);
+        oleNoticeFieldLabelMappings.add(author);
+        oleNoticeFieldLabelMappings.add(itemBarcode);
+        oleNoticeFieldLabelMappings.add(itemDue);
+        oleNoticeFieldLabelMappings.add(shelvingLocation);
 
         oleNoticeContentConfigurationBo.setOleNoticeFieldLabelMappings(oleNoticeFieldLabelMappings);
 
