@@ -8,7 +8,7 @@
 <table>
     </BR></BR>
     <TR>
-        <TD>Patron Name :</TD>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Patron Name")}</TD>
         <TD>${oleNoticeBo.patronName}</TD>
     </TR>
     <TR>

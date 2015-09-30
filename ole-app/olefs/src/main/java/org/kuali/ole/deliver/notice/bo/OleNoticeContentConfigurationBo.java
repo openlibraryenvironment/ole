@@ -1,9 +1,11 @@
 package org.kuali.ole.deliver.notice.bo;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.alert.document.OlePersistableBusinessObjectBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -81,5 +83,17 @@ public class OleNoticeContentConfigurationBo extends OlePersistableBusinessObjec
 
     public void setOleNoticeFieldLabelMappings(List<OleNoticeFieldLabelMapping> oleNoticeFieldLabelMappings) {
         this.oleNoticeFieldLabelMappings = oleNoticeFieldLabelMappings;
+    }
+
+    public String getFieldLabel(String key) {
+        if (CollectionUtils.isNotEmpty(oleNoticeFieldLabelMappings)) {
+            for (Iterator<OleNoticeFieldLabelMapping> iterator = oleNoticeFieldLabelMappings.iterator(); iterator.hasNext(); ) {
+                OleNoticeFieldLabelMapping oleNoticeFieldLabelMapping = iterator.next();
+                if (oleNoticeFieldLabelMapping.getFieldName().equalsIgnoreCase(key)){
+                    return oleNoticeFieldLabelMapping.getFieldLabel();
+                }
+            }
+        }
+        return key;
     }
 }

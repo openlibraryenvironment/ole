@@ -6,6 +6,7 @@ import freemarker.template.TemplateException;
 import org.codehaus.plexus.util.FileUtils;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
 import org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory;
+import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -25,7 +26,7 @@ public class OleNoticeContentHandler {
 
     private BusinessObjectService businessObjectService;
 
-    public String generateHTML(List<OleNoticeBo> oleNoticeBos) {
+    public String generateHTML(List<OleNoticeBo> oleNoticeBos, OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) {
         StringWriter htmlContent = new StringWriter();
         Configuration cfg = new Configuration();
         try {
@@ -45,6 +46,7 @@ public class OleNoticeContentHandler {
             Map<String, Object> input = new HashMap<>();
             input.put("oleNoticeBo", oleNoticeBos.get(0));
             input.put("oleNoticeBos", oleNoticeBos);
+            input.put("oleNoticeContentConfigurationBo", oleNoticeContentConfigurationBo);
 
             template.process(input, htmlContent);
         } catch (TemplateException e) {
