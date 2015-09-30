@@ -1,7 +1,10 @@
 package org.kuali.ole.deliver.notice;
 
 import org.junit.Test;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
+import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
+import org.kuali.ole.deliver.notice.bo.OleNoticeFieldLabelMapping;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,7 +41,33 @@ public class OleNoticeContentHandlerTest {
         List<OleNoticeBo> oleNoticeBos = new ArrayList<>();
         oleNoticeBos.add(oleNoticeBo);
         oleNoticeBos.add(oleNoticeBo1);
-        String html = oleNoticeContentHandler.generateHTML( oleNoticeBos);
+
+        OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
+        oleNoticeContentConfigurationBo.setActive(true);
+        oleNoticeContentConfigurationBo.setNoticeName("OverdueNotice");
+        oleNoticeContentConfigurationBo.setNoticeTitle("OverdueNotice");
+        oleNoticeContentConfigurationBo.setNoticeType("OverdueNotice");
+
+        ArrayList<OleNoticeFieldLabelMapping> oleNoticeFieldLabelMappings = new ArrayList<>();
+        OleNoticeFieldLabelMapping patronName = new OleNoticeFieldLabelMapping();
+        patronName.setFieldLabel("Patron Full Name:");
+        patronName.setFieldName(OLEConstants.PATRON_NAME);
+
+
+        OleNoticeFieldLabelMapping patronEmail = new OleNoticeFieldLabelMapping();
+        patronEmail.setFieldLabel("Valid Email Id:");
+        patronEmail.setFieldName(OLEConstants.NOTICE_EMAIL);
+
+
+        OleNoticeFieldLabelMapping itemCallNum = new OleNoticeFieldLabelMapping();
+        itemCallNum.setFieldLabel("Item Call Number:");
+        itemCallNum.setFieldName(OLEConstants.NOTICE_CALL_NUMBER);
+
+        oleNoticeFieldLabelMappings.add(patronName);
+
+        oleNoticeContentConfigurationBo.setOleNoticeFieldLabelMappings(oleNoticeFieldLabelMappings);
+
+        String html = oleNoticeContentHandler.generateHTML(oleNoticeBos, oleNoticeContentConfigurationBo);
         assertNotNull(html);
         System.out.println(html);
     }
