@@ -61,6 +61,7 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
     private String enumeration;
 
     private String dueDateString;
+    private String copyNumber;
 
     public String getNoticeType() {
         return noticeType;
@@ -345,5 +346,13 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public void setCopyNumber(String copyNumber) {
+        this.copyNumber = copyNumber;
+    }
+
+    public String getCopyNumber() {
+        return copyNumber;
     }
 }

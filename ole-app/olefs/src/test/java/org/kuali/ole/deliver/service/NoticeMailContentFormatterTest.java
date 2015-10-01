@@ -4,9 +4,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEParameterConstants;
+import org.kuali.ole.deliver.batch.OleNoticeBo;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.notice.OleNoticeContentHandler;
+import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
+import org.kuali.ole.deliver.notice.bo.OleNoticeFieldLabelMapping;
+import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
@@ -15,12 +20,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
+import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.*;
 
 /**
@@ -36,6 +40,19 @@ public class NoticeMailContentFormatterTest {
 
     @Mock
     private BusinessObjectService businessObjectService;
+
+    @Mock
+    private OlePatronDocument mockOlePatronDocument;
+
+    @Mock
+    private OleLoanDocument mockOleLoanDocument;
+
+    @Mock
+    private OleLoanDocument mockOleLoanDocument1;
+
+    @Mock
+    private OleLocation mockOleLocation;
+
 
     @Before
     public void setUp() throws Exception {
@@ -80,6 +97,215 @@ public class NoticeMailContentFormatterTest {
 
     }
 
+
+    @Test
+    public void generateNoticeHTML() throws Exception {
+        OleNoticeContentHandler oleNoticeContentHandler = new OleNoticeContentHandler();
+        OleNoticeBo oleNoticeBo = new OleNoticeBo();
+        oleNoticeBo.setPatronName("John Doe");
+        oleNoticeBo.setPatronAddress("123, High Street, MA - 201231");
+        oleNoticeBo.setPatronEmailAddress("j.doe@hotmail.com");
+        oleNoticeBo.setPatronPhoneNumber("712-123-2145");
+
+        oleNoticeBo.setTitle("History of Mars");
+        oleNoticeBo.setAuthor("Mary Jane");
+        oleNoticeBo.setVolumeNumber("v1.0");
+        oleNoticeBo.setDueDateString(new Date().toString());
+        oleNoticeBo.setItemShelvingLocation("UC/JRL/GEN");
+        oleNoticeBo.setItemCallNumber("X-123");
+        oleNoticeBo.setItemId("1234");
+        oleNoticeBo.setNoticeSpecificContent("This is a test notice. Please ignore!!");
+        oleNoticeBo.setNoticeTitle("Overdue Notice");
+
+        OleNoticeBo oleNoticeBo1 = (OleNoticeBo) oleNoticeBo.clone();
+        List<OleNoticeBo> oleNoticeBos = new ArrayList<>();
+        oleNoticeBos.add(oleNoticeBo);
+        oleNoticeBos.add(oleNoticeBo1);
+
+        OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
+        oleNoticeContentConfigurationBo.setActive(true);
+        oleNoticeContentConfigurationBo.setNoticeName("OverdueNotice");
+        oleNoticeContentConfigurationBo.setNoticeTitle("OverdueNotice");
+        oleNoticeContentConfigurationBo.setNoticeType("OverdueNotice");
+
+        ArrayList<OleNoticeFieldLabelMapping> oleNoticeFieldLabelMappings = new ArrayList<>();
+
+        OleNoticeFieldLabelMapping patronName = new OleNoticeFieldLabelMapping();
+        patronName.setFieldLabel("Patron Full Name");
+        patronName.setFieldName(OLEConstants.PATRON_NAME);
+
+
+        OleNoticeFieldLabelMapping address = new OleNoticeFieldLabelMapping();
+        address.setFieldLabel("Patron Address");
+        address.setFieldName(OLEConstants.NOTICE_ADDRESS);
+
+
+        OleNoticeFieldLabelMapping phoneNumber = new OleNoticeFieldLabelMapping();
+        phoneNumber.setFieldLabel("Patron Phone Number");
+        phoneNumber.setFieldName(OLEConstants.NOTICE_PHONE_NUMBER);
+
+
+
+        OleNoticeFieldLabelMapping patronEmail = new OleNoticeFieldLabelMapping();
+        patronEmail.setFieldLabel("Valid Email Id");
+        patronEmail.setFieldName(OLEConstants.NOTICE_EMAIL);
+
+
+        OleNoticeFieldLabelMapping itemCallNum = new OleNoticeFieldLabelMapping();
+        itemCallNum.setFieldLabel("Item Call Number");
+        itemCallNum.setFieldName(OLEConstants.NOTICE_CALL_NUMBER);
+
+        OleNoticeFieldLabelMapping title = new OleNoticeFieldLabelMapping();
+        title.setFieldLabel("Item Title");
+        title.setFieldName(OLEConstants.NOTICE_TITLE);
+
+        OleNoticeFieldLabelMapping author = new OleNoticeFieldLabelMapping();
+        author.setFieldLabel("Item Author");
+        author.setFieldName(OLEConstants.NOTICE_AUTHOR);
+
+        OleNoticeFieldLabelMapping itemBarcode = new OleNoticeFieldLabelMapping();
+        itemBarcode.setFieldLabel("Item Barcode");
+        itemBarcode.setFieldName(OLEConstants.NOTICE_ITEM_BARCODE);
+
+        OleNoticeFieldLabelMapping itemDue = new OleNoticeFieldLabelMapping();
+        itemDue.setFieldLabel("Item Due Date");
+        itemDue.setFieldName(OLEConstants.ITEM_WAS_DUE);
+
+
+        OleNoticeFieldLabelMapping shelvingLocation = new OleNoticeFieldLabelMapping();
+        shelvingLocation.setFieldLabel("Shelving Location");
+        shelvingLocation.setFieldName(OLEConstants.LIBRARY_SHELVING_LOCATION);
+
+        oleNoticeFieldLabelMappings.add(patronName);
+        oleNoticeFieldLabelMappings.add(address);
+        oleNoticeFieldLabelMappings.add(phoneNumber);
+        oleNoticeFieldLabelMappings.add(patronEmail);
+        oleNoticeFieldLabelMappings.add(itemCallNum);
+        oleNoticeFieldLabelMappings.add(title);
+        oleNoticeFieldLabelMappings.add(author);
+        oleNoticeFieldLabelMappings.add(itemBarcode);
+        oleNoticeFieldLabelMappings.add(itemDue);
+        oleNoticeFieldLabelMappings.add(shelvingLocation);
+
+        oleNoticeContentConfigurationBo.setOleNoticeFieldLabelMappings(oleNoticeFieldLabelMappings);
+
+        String html = oleNoticeContentHandler.generateHTML(oleNoticeBos, oleNoticeContentConfigurationBo);
+        assertNotNull(html);
+        System.out.println(html);
+    }
+
+
+
+    @Test
+    public void generateMailContentForPatron() throws Exception {
+        NoticeMailContentFormatter noticeMailContentFormatter = new MockOverdueNoticeEmailContentFormatter();
+        OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
+        oleNoticeContentConfigurationBo.setActive(true);
+        oleNoticeContentConfigurationBo.setNoticeName("OverdueNotice");
+        oleNoticeContentConfigurationBo.setNoticeTitle("OverdueNotice");
+        oleNoticeContentConfigurationBo.setNoticeType("OverdueNotice");
+        oleNoticeContentConfigurationBo.setNoticeBody("This is a test notice. Please ingore!");
+
+        ArrayList<OleNoticeFieldLabelMapping> oleNoticeFieldLabelMappings = new ArrayList<>();
+
+        OleNoticeFieldLabelMapping patronName = new OleNoticeFieldLabelMapping();
+        patronName.setFieldLabel("Patron Full Name");
+        patronName.setFieldName(OLEConstants.PATRON_NAME);
+
+
+        OleNoticeFieldLabelMapping address = new OleNoticeFieldLabelMapping();
+        address.setFieldLabel("Patron Address");
+        address.setFieldName(OLEConstants.NOTICE_ADDRESS);
+
+
+        OleNoticeFieldLabelMapping phoneNumber = new OleNoticeFieldLabelMapping();
+        phoneNumber.setFieldLabel("Patron Phone Number");
+        phoneNumber.setFieldName(OLEConstants.NOTICE_PHONE_NUMBER);
+
+
+
+        OleNoticeFieldLabelMapping patronEmail = new OleNoticeFieldLabelMapping();
+        patronEmail.setFieldLabel("Valid Email Id");
+        patronEmail.setFieldName(OLEConstants.NOTICE_EMAIL);
+
+
+        OleNoticeFieldLabelMapping itemCallNum = new OleNoticeFieldLabelMapping();
+        itemCallNum.setFieldLabel("Item Call Number");
+        itemCallNum.setFieldName(OLEConstants.NOTICE_CALL_NUMBER);
+
+        OleNoticeFieldLabelMapping title = new OleNoticeFieldLabelMapping();
+        title.setFieldLabel("Item Title");
+        title.setFieldName(OLEConstants.NOTICE_TITLE);
+
+        OleNoticeFieldLabelMapping author = new OleNoticeFieldLabelMapping();
+        author.setFieldLabel("Item Author");
+        author.setFieldName(OLEConstants.NOTICE_AUTHOR);
+
+        OleNoticeFieldLabelMapping itemBarcode = new OleNoticeFieldLabelMapping();
+        itemBarcode.setFieldLabel("Item Barcode");
+        itemBarcode.setFieldName(OLEConstants.NOTICE_ITEM_BARCODE);
+
+        OleNoticeFieldLabelMapping itemDue = new OleNoticeFieldLabelMapping();
+        itemDue.setFieldLabel("Item Due Date");
+        itemDue.setFieldName(OLEConstants.ITEM_WAS_DUE);
+
+
+        OleNoticeFieldLabelMapping shelvingLocation = new OleNoticeFieldLabelMapping();
+        shelvingLocation.setFieldLabel("Shelving Location");
+        shelvingLocation.setFieldName(OLEConstants.LIBRARY_SHELVING_LOCATION);
+
+        oleNoticeFieldLabelMappings.add(patronName);
+        oleNoticeFieldLabelMappings.add(address);
+        oleNoticeFieldLabelMappings.add(phoneNumber);
+        oleNoticeFieldLabelMappings.add(patronEmail);
+        oleNoticeFieldLabelMappings.add(itemCallNum);
+        oleNoticeFieldLabelMappings.add(title);
+        oleNoticeFieldLabelMappings.add(author);
+        oleNoticeFieldLabelMappings.add(itemBarcode);
+        oleNoticeFieldLabelMappings.add(itemDue);
+        oleNoticeFieldLabelMappings.add(shelvingLocation);
+
+        oleNoticeContentConfigurationBo.setOleNoticeFieldLabelMappings(oleNoticeFieldLabelMappings);
+
+        Mockito.when(mockOlePatronDocument.getPatronName()).thenReturn("John Doe");
+        Mockito.when(mockOlePatronDocument.getPreferredAddress()).thenReturn("123 High Street");
+        Mockito.when(mockOlePatronDocument.getEmailAddress()).thenReturn("jdoe@gmail.com");
+        Mockito.when(mockOlePatronDocument.getPhoneNumber()).thenReturn("123-233-2132");
+
+        ArrayList locations = new ArrayList();
+        Mockito.when(mockOleLocation.getLocationName()).thenReturn("Regular Stacks");
+        locations.add(mockOleLocation);
+
+        ArrayList<OleLoanDocument> oleLoanDocuments = new ArrayList<>();
+        Mockito.when(mockOleLoanDocument.getOlePatron()).thenReturn(mockOlePatronDocument);
+        Mockito.when(mockOleLoanDocument.getTitle()).thenReturn("History of Sceience");
+        Mockito.when(mockOleLoanDocument.getAuthor()).thenReturn("Mock Author");
+        Mockito.when(mockOleLoanDocument.getEnumeration()).thenReturn("v1ase.123");
+        Mockito.when(mockOleLoanDocument.getChronology()).thenReturn("chro123.12");
+        Mockito.when(mockOleLoanDocument.getItemVolumeNumber()).thenReturn("v.12");
+        Mockito.when(mockOleLoanDocument.getItemCallNumber()).thenReturn("123123");
+        Mockito.when(mockOleLoanDocument.getItemCopyNumber()).thenReturn("C0123.12");
+        Mockito.when(mockOleLoanDocument.getLoanDueDate()).thenReturn(new Timestamp(System.currentTimeMillis()));
+        oleLoanDocuments.add(mockOleLoanDocument);
+
+
+        Mockito.when(mockOleLoanDocument1.getOlePatron()).thenReturn(mockOlePatronDocument);
+        Mockito.when(mockOleLoanDocument1.getTitle()).thenReturn("History of War");
+        Mockito.when(mockOleLoanDocument1.getAuthor()).thenReturn("Mock Author1");
+        Mockito.when(mockOleLoanDocument1.getEnumeration()).thenReturn("v1ase.1231");
+        Mockito.when(mockOleLoanDocument1.getChronology()).thenReturn("chro123.12123");
+        Mockito.when(mockOleLoanDocument1.getItemVolumeNumber()).thenReturn("v.12123");
+        Mockito.when(mockOleLoanDocument1.getItemCallNumber()).thenReturn("12");
+        Mockito.when(mockOleLoanDocument1.getItemCopyNumber()).thenReturn("C0123.12");
+        Mockito.when(mockOleLoanDocument1.getLoanDueDate()).thenReturn(new Timestamp(System.currentTimeMillis()));
+        oleLoanDocuments.add(mockOleLoanDocument);
+
+
+        String html = noticeMailContentFormatter.generateMailContentForPatron(oleLoanDocuments, oleNoticeContentConfigurationBo);
+        assertNotNull(html);
+        System.out.println(html);
+    }
+
     public class MockNoticeMailContentFormatter extends NoticeMailContentFormatter {
         @Override
         protected SimpleDateFormat getSimpleDateFormat() {
@@ -89,6 +315,19 @@ public class NoticeMailContentFormatterTest {
         @Override
         protected String generateCustomHTML(OleLoanDocument oleLoanDocument) {
             return "";
+        }
+    }
+
+
+    class MockOverdueNoticeEmailContentFormatter extends NoticeMailContentFormatter {
+        @Override
+        protected String generateCustomHTML(OleLoanDocument oleLoanDocument) {
+            return "";
+        }
+
+        @Override
+        protected String getItemShelvingLocationName(String code) {
+            return "Stacks Regular";
         }
     }
 }
