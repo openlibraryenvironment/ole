@@ -3,6 +3,7 @@ package org.kuali.ole.deliver.batch;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleRecentlyReturned;
@@ -68,7 +69,7 @@ public class OleShelvingLagTime {
                 String fieldName = searchResultField.getFieldName();
                 String fieldValue = searchResultField.getFieldValue() != null ? searchResultField.getFieldValue() : "";
                 if (fieldName.equalsIgnoreCase("id") && !fieldValue.isEmpty() && searchResultField.getDocType().equalsIgnoreCase("item")) {
-                    String itemUUID = fieldValue;
+                    String itemUUID = DocumentUniqueIDPrefix.getDocumentId(fieldValue);
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put("itemUuid", itemUUID);
                     OleRecentlyReturned oleRecentlyReturned = businessObjectService.findByPrimaryKey(OleRecentlyReturned.class, map);
