@@ -384,6 +384,14 @@
         <loadData tableName="SH_BUILDING_T" file="ole-demo/delivery-address/SH_BUILDING_T.csv"/>
     </changeSet>
 
+    <changeSet context="demo" author="ole" id="OLE_CAT_ITM_TYP_T">
+        <loadData tableName="OLE_CAT_ITM_TYP_T" file="ole-demo/docstore/OLE_CAT_ITM_TYP_T.csv"/>
+    </changeSet>
+
+    <changeSet context="demo" author="ole" id="OLE_CAT_STAT_SRCH_CD_T">
+        <loadData tableName="OLE_CAT_STAT_SRCH_CD_T" file="ole-demo/docstore/OLE_CAT_STAT_SRCH_CD_T.csv"/>
+    </changeSet>
+
     <changeSet context="demo" author="ole" id="SH_ROOM_T">
         <loadData tableName="SH_ROOM_T" file="ole-demo/delivery-address/SH_ROOM_T.csv"/>
     </changeSet>

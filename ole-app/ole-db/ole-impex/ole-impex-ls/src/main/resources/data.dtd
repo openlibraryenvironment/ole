@@ -394,7 +394,6 @@
         OLE_CAT_GEN_RTN_POL_S|
         OLE_CAT_GEN_RTN_POL_T|
         OLE_CAT_ITM_TYP_S|
-        OLE_CAT_ITM_TYP_T|
         OLE_CAT_LND_POL_S|
         OLE_CAT_LND_POL_T|
         OLE_CAT_LOC_COUNTRY_CD_S|
@@ -422,7 +421,6 @@
         OLE_CAT_SRC_TRM_S|
         OLE_CAT_SRC_TRM_T|
         OLE_CAT_STAT_SRCH_CD_S|
-        OLE_CAT_STAT_SRCH_CD_T|
         OLE_CAT_TYPE_OWNERSHIP_S|
         OLE_CAT_TYPE_OWNERSHIP_T|
         OLE_CIRC_DSK_DTL_S|
@@ -4188,19 +4186,6 @@
                 ID CDATA #IMPLIED
                 >
 
-        <!ELEMENT OLE_CAT_ITM_TYP_T EMPTY>
-        <!ATTLIST OLE_CAT_ITM_TYP_T
-                ITM_TYP_CD_ID CDATA #IMPLIED
-                ITM_TYP_CD CDATA #REQUIRED
-                ITM_TYP_NM CDATA #REQUIRED
-                ITM_TYP_DESC CDATA #IMPLIED
-                SRC CDATA #REQUIRED
-                SRC_DT CDATA #REQUIRED
-                ROW_ACT_IND CDATA #REQUIRED
-                OBJ_ID CDATA #REQUIRED
-                VER_NBR CDATA #REQUIRED
-                >
-
         <!ELEMENT OLE_CAT_LND_POL_S EMPTY>
         <!ATTLIST OLE_CAT_LND_POL_S
                 ID CDATA #IMPLIED
@@ -4427,18 +4412,6 @@
         <!ELEMENT OLE_CAT_STAT_SRCH_CD_S EMPTY>
         <!ATTLIST OLE_CAT_STAT_SRCH_CD_S
                 ID CDATA #IMPLIED
-                >
-
-        <!ELEMENT OLE_CAT_STAT_SRCH_CD_T EMPTY>
-        <!ATTLIST OLE_CAT_STAT_SRCH_CD_T
-                STAT_SRCH_CD_ID CDATA #IMPLIED
-                OBJ_ID CDATA #REQUIRED
-                VER_NBR CDATA #REQUIRED
-                STAT_SRCH_CD CDATA #REQUIRED
-                STAT_SRCH_NM CDATA #REQUIRED
-                SRC CDATA #REQUIRED
-                SRC_DT CDATA #REQUIRED
-                ROW_ACT_IND CDATA #REQUIRED
                 >
 
         <!ELEMENT OLE_CAT_TYPE_OWNERSHIP_S EMPTY>
