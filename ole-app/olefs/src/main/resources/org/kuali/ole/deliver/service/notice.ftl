@@ -1,4 +1,5 @@
-<#import "itemInfo.ftl" as itemInfo>
+<#import "itemInfo.ftl" as itemInfo >
+<#import "replacement-bill.ftl" as bill>
 
 <HTML>
 <TITLE>${oleNoticeBo.noticeTitle}</TITLE>
@@ -49,6 +50,10 @@
 
 
 <#list oleNoticeBos as oleNoticeBo>
+    <#if oleNoticeBo.noticeTitle == "Lost">
+        <@bill.bill oleNoticeBo=oleNoticeBo oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo></@bill.bill>
+    </#if>
+<br/>
     <@itemInfo.item oleNoticeBo=oleNoticeBo oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo></@itemInfo.item>
 ********************************************************************
 </#list>

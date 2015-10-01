@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.service;
 
+import org.kuali.ole.deliver.batch.OleNoticeBo;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 
 /**
@@ -9,7 +10,6 @@ public class OverdueNoticeEmailContentFormatter extends NoticeMailContentFormatt
 
 
     @Override
-    protected String generateCustomHTML(OleLoanDocument oleLoanDocument) {
-        return null;
+    protected void processCustomNoticeInfo(OleLoanDocument oleLoanDocument, OleNoticeBo oleNoticeBo) {
     }
 }

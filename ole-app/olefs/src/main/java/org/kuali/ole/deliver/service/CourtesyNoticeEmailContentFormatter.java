@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.service;
 
+import org.kuali.ole.deliver.batch.OleNoticeBo;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 
 /**
@@ -7,7 +8,7 @@ import org.kuali.ole.deliver.bo.OleLoanDocument;
  */
 public class CourtesyNoticeEmailContentFormatter extends NoticeMailContentFormatter {
     @Override
-    protected String generateCustomHTML(OleLoanDocument oleLoanDocument) {
-        return null;
+    protected void processCustomNoticeInfo(OleLoanDocument oleLoanDocument, OleNoticeBo oleNoticeBo) {
+
     }
 }

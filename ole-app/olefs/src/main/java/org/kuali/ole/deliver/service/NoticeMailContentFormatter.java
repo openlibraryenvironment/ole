@@ -72,6 +72,7 @@ public abstract class NoticeMailContentFormatter {
                 setPatronInfo(olePatron, oleNoticeBo);
                 setNoticeBodyAndContent(oleNoticeBo, oleNoticeContentConfigurationBo.getNoticeName(), oleNoticeContentConfigurationBo.getNoticeBody());
                 setItemInfo(oleNoticeBo,oleLoanDocument);
+                processCustomNoticeInfo(oleLoanDocument, oleNoticeBo);
                 oleNoticeBos.add(oleNoticeBo);
             }
         }
@@ -98,7 +99,7 @@ public abstract class NoticeMailContentFormatter {
         oleNoticeBo.setTitle((oleLoanDocument.getTitle() != null ? oleLoanDocument.getTitle() : ""));
         oleNoticeBo.setAuthor((oleLoanDocument.getAuthor() != null ? oleLoanDocument.getAuthor() : ""));
         oleNoticeBo.setEnumeration((oleLoanDocument.getEnumeration() != null ? oleLoanDocument.getEnumeration() : ""));
-        oleNoticeBo.setChronology(oleLoanDocument.getChronology()!=null ? oleLoanDocument.getChronology() : "");
+        oleNoticeBo.setChronology(oleLoanDocument.getChronology() != null ? oleLoanDocument.getChronology() : "");
         oleNoticeBo.setVolumeNumber((oleLoanDocument.getItemVolumeNumber() != null ? oleLoanDocument.getAuthor() : ""));
         oleNoticeBo.setItemCallNumber(oleLoanDocument.getItemCallNumber()!=null ? oleLoanDocument.getItemCallNumber() : "");
         oleNoticeBo.setCopyNumber(oleLoanDocument.getItemCopyNumber() !=null ? oleLoanDocument.getItemCopyNumber():"");
@@ -108,7 +109,7 @@ public abstract class NoticeMailContentFormatter {
     }
 
 
-    protected abstract String generateCustomHTML(OleLoanDocument oleLoanDocument);
+    protected abstract void processCustomNoticeInfo(OleLoanDocument oleLoanDocument, OleNoticeBo oleNoticeBo);
 
     private ParameterValueResolver getParameterInstance() {
         if (null == parameterValueResolver) {
@@ -200,10 +201,14 @@ public abstract class NoticeMailContentFormatter {
         URI itemInfoTemplateURI = getClass().getResource("itemInfo.ftl").toURI();
         File itemInfoTemplate = new File(itemInfoTemplateURI);
 
+        URI replacementBillInfoTemplateURI = getClass().getResource("replacement-bill.ftl").toURI();
+        File replacementBillInfoTemplate = new File(replacementBillInfoTemplateURI);
+
         String tempDir = System.getProperty("java.io.tmpdir");
         File destinationDirectory = new File(tempDir);
         FileUtils.copyFileToDirectory(noticeTemplate, destinationDirectory);
         FileUtils.copyFileToDirectory(itemInfoTemplate, destinationDirectory);
+        FileUtils.copyFileToDirectory(replacementBillInfoTemplate, destinationDirectory);
         noticeTemplateDir = destinationDirectory;
         return noticeTemplateDir;
     }

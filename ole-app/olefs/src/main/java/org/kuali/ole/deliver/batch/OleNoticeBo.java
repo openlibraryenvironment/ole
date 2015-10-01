@@ -6,6 +6,7 @@ import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -62,6 +63,9 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
 
     private String dueDateString;
     private String copyNumber;
+    private String billNumber;
+    private String feeType;
+    private BigDecimal feeAmount;
 
     public String getNoticeType() {
         return noticeType;
@@ -354,5 +358,29 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
 
     public String getCopyNumber() {
         return copyNumber;
+    }
+
+    public void setBillNumber(String billNumber) {
+        this.billNumber = billNumber;
+    }
+
+    public void setFeeType(String feeType) {
+        this.feeType = feeType;
+    }
+
+    public void setFeeAmount(BigDecimal feeAmount) {
+        this.feeAmount = feeAmount;
+    }
+
+    public String getBillNumber() {
+        return billNumber;
+    }
+
+    public String getFeeType() {
+        return feeType;
+    }
+
+    public BigDecimal getFeeAmount() {
+        return feeAmount;
     }
 }

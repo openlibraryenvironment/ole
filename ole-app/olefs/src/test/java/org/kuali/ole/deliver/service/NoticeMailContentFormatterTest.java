@@ -3,9 +3,7 @@ package org.kuali.ole.deliver.service;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
-import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.notice.OleNoticeContentHandler;
@@ -20,12 +18,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.*;
 
 /**
  * Created by pvsubrah on 4/6/15.
@@ -195,9 +193,8 @@ public class NoticeMailContentFormatterTest {
     }
 
 
-
     @Test
-    public void generateMailContentForPatron() throws Exception {
+    public void generateOverdueNoticeMailContentForPatron() throws Exception {
         NoticeMailContentFormatter noticeMailContentFormatter = new MockOverdueNoticeEmailContentFormatter();
         OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
         oleNoticeContentConfigurationBo.setActive(true);
@@ -298,7 +295,137 @@ public class NoticeMailContentFormatterTest {
         Mockito.when(mockOleLoanDocument1.getItemCallNumber()).thenReturn("12");
         Mockito.when(mockOleLoanDocument1.getItemCopyNumber()).thenReturn("C0123.12");
         Mockito.when(mockOleLoanDocument1.getLoanDueDate()).thenReturn(new Timestamp(System.currentTimeMillis()));
+        oleLoanDocuments.add(mockOleLoanDocument1);
+
+
+        String html = noticeMailContentFormatter.generateMailContentForPatron(oleLoanDocuments, oleNoticeContentConfigurationBo);
+        assertNotNull(html);
+        System.out.println(html);
+    }
+
+    @Test
+    public void generateLostNoticeMailContentForPatron() throws Exception {
+        NoticeMailContentFormatter noticeMailContentFormatter = new MockLostNoticeEmailContentFormatter();
+        OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
+        oleNoticeContentConfigurationBo.setActive(true);
+        oleNoticeContentConfigurationBo.setNoticeName("OverdueNotice");
+        oleNoticeContentConfigurationBo.setNoticeTitle("OverdueNotice");
+        oleNoticeContentConfigurationBo.setNoticeType("OverdueNotice");
+        oleNoticeContentConfigurationBo.setNoticeBody("This is a test notice. Please ingore!");
+
+        ArrayList<OleNoticeFieldLabelMapping> oleNoticeFieldLabelMappings = new ArrayList<>();
+
+        OleNoticeFieldLabelMapping patronName = new OleNoticeFieldLabelMapping();
+        patronName.setFieldLabel("Patron Full Name");
+        patronName.setFieldName(OLEConstants.PATRON_NAME);
+
+
+        OleNoticeFieldLabelMapping address = new OleNoticeFieldLabelMapping();
+        address.setFieldLabel("Patron Address");
+        address.setFieldName(OLEConstants.NOTICE_ADDRESS);
+
+
+        OleNoticeFieldLabelMapping phoneNumber = new OleNoticeFieldLabelMapping();
+        phoneNumber.setFieldLabel("Patron Phone Number");
+        phoneNumber.setFieldName(OLEConstants.NOTICE_PHONE_NUMBER);
+
+
+
+        OleNoticeFieldLabelMapping patronEmail = new OleNoticeFieldLabelMapping();
+        patronEmail.setFieldLabel("Valid Email Id");
+        patronEmail.setFieldName(OLEConstants.NOTICE_EMAIL);
+
+
+        OleNoticeFieldLabelMapping itemCallNum = new OleNoticeFieldLabelMapping();
+        itemCallNum.setFieldLabel("Item Call Number");
+        itemCallNum.setFieldName(OLEConstants.NOTICE_CALL_NUMBER);
+
+        OleNoticeFieldLabelMapping title = new OleNoticeFieldLabelMapping();
+        title.setFieldLabel("Item Title");
+        title.setFieldName(OLEConstants.NOTICE_TITLE);
+
+        OleNoticeFieldLabelMapping author = new OleNoticeFieldLabelMapping();
+        author.setFieldLabel("Item Author");
+        author.setFieldName(OLEConstants.NOTICE_AUTHOR);
+
+        OleNoticeFieldLabelMapping itemBarcode = new OleNoticeFieldLabelMapping();
+        itemBarcode.setFieldLabel("Item Barcode");
+        itemBarcode.setFieldName(OLEConstants.NOTICE_ITEM_BARCODE);
+
+        OleNoticeFieldLabelMapping itemDue = new OleNoticeFieldLabelMapping();
+        itemDue.setFieldLabel("Item Due Date");
+        itemDue.setFieldName(OLEConstants.ITEM_WAS_DUE);
+
+        OleNoticeFieldLabelMapping billNumber = new OleNoticeFieldLabelMapping();
+        billNumber.setFieldLabel("Bill Number");
+        billNumber.setFieldName("Bill Number");
+
+        OleNoticeFieldLabelMapping feeType = new OleNoticeFieldLabelMapping();
+        feeType.setFieldLabel("Fee Type");
+        feeType.setFieldName("Fee Type");
+
+        OleNoticeFieldLabelMapping feeAmount = new OleNoticeFieldLabelMapping();
+        feeAmount.setFieldLabel("Fee Amount");
+        feeAmount.setFieldName("Fee Amount");
+
+
+        OleNoticeFieldLabelMapping shelvingLocation = new OleNoticeFieldLabelMapping();
+        shelvingLocation.setFieldLabel("Shelving Location");
+        shelvingLocation.setFieldName(OLEConstants.LIBRARY_SHELVING_LOCATION);
+
+        oleNoticeFieldLabelMappings.add(patronName);
+        oleNoticeFieldLabelMappings.add(address);
+        oleNoticeFieldLabelMappings.add(phoneNumber);
+        oleNoticeFieldLabelMappings.add(patronEmail);
+        oleNoticeFieldLabelMappings.add(itemCallNum);
+        oleNoticeFieldLabelMappings.add(title);
+        oleNoticeFieldLabelMappings.add(author);
+        oleNoticeFieldLabelMappings.add(itemBarcode);
+        oleNoticeFieldLabelMappings.add(itemDue);
+        oleNoticeFieldLabelMappings.add(shelvingLocation);
+        oleNoticeFieldLabelMappings.add(billNumber);
+        oleNoticeFieldLabelMappings.add(feeType);
+        oleNoticeFieldLabelMappings.add(feeAmount);
+
+        oleNoticeContentConfigurationBo.setOleNoticeFieldLabelMappings(oleNoticeFieldLabelMappings);
+
+        Mockito.when(mockOlePatronDocument.getPatronName()).thenReturn("John Doe");
+        Mockito.when(mockOlePatronDocument.getPreferredAddress()).thenReturn("123 High Street");
+        Mockito.when(mockOlePatronDocument.getEmailAddress()).thenReturn("jdoe@gmail.com");
+        Mockito.when(mockOlePatronDocument.getPhoneNumber()).thenReturn("123-233-2132");
+
+        ArrayList locations = new ArrayList();
+        Mockito.when(mockOleLocation.getLocationName()).thenReturn("Regular Stacks");
+        locations.add(mockOleLocation);
+
+        ArrayList<OleLoanDocument> oleLoanDocuments = new ArrayList<>();
+        Mockito.when(mockOleLoanDocument.getOlePatron()).thenReturn(mockOlePatronDocument);
+        Mockito.when(mockOleLoanDocument.getTitle()).thenReturn("History of Sceience");
+        Mockito.when(mockOleLoanDocument.getAuthor()).thenReturn("Mock Author");
+        Mockito.when(mockOleLoanDocument.getEnumeration()).thenReturn("v1ase.123");
+        Mockito.when(mockOleLoanDocument.getChronology()).thenReturn("chro123.12");
+        Mockito.when(mockOleLoanDocument.getItemVolumeNumber()).thenReturn("v.12");
+        Mockito.when(mockOleLoanDocument.getItemCallNumber()).thenReturn("123123");
+        Mockito.when(mockOleLoanDocument.getItemCopyNumber()).thenReturn("C0123.12");
+        Mockito.when(mockOleLoanDocument.getLoanDueDate()).thenReturn(new Timestamp(System.currentTimeMillis()));
+        Mockito.when(mockOleLoanDocument.getReplacementBill()).thenReturn(new BigDecimal(21.00));
+        Mockito.when(mockOleLoanDocument.getRepaymentFeePatronBillId()).thenReturn("123");
         oleLoanDocuments.add(mockOleLoanDocument);
+
+
+        Mockito.when(mockOleLoanDocument1.getOlePatron()).thenReturn(mockOlePatronDocument);
+        Mockito.when(mockOleLoanDocument1.getTitle()).thenReturn("History of War");
+        Mockito.when(mockOleLoanDocument1.getAuthor()).thenReturn("Mock Author1");
+        Mockito.when(mockOleLoanDocument1.getEnumeration()).thenReturn("v1ase.1231");
+        Mockito.when(mockOleLoanDocument1.getChronology()).thenReturn("chro123.12123");
+        Mockito.when(mockOleLoanDocument1.getItemVolumeNumber()).thenReturn("v.12123");
+        Mockito.when(mockOleLoanDocument1.getItemCallNumber()).thenReturn("12");
+        Mockito.when(mockOleLoanDocument1.getItemCopyNumber()).thenReturn("C0123.12");
+        Mockito.when(mockOleLoanDocument1.getLoanDueDate()).thenReturn(new Timestamp(System.currentTimeMillis()));
+        Mockito.when(mockOleLoanDocument1.getLoanDueDate()).thenReturn(new Timestamp(System.currentTimeMillis()));
+        Mockito.when(mockOleLoanDocument1.getReplacementBill()).thenReturn(new BigDecimal(21.00));
+        Mockito.when(mockOleLoanDocument1.getRepaymentFeePatronBillId()).thenReturn("123");
+        oleLoanDocuments.add(mockOleLoanDocument1);
 
 
         String html = noticeMailContentFormatter.generateMailContentForPatron(oleLoanDocuments, oleNoticeContentConfigurationBo);
@@ -313,16 +440,30 @@ public class NoticeMailContentFormatterTest {
         }
 
         @Override
-        protected String generateCustomHTML(OleLoanDocument oleLoanDocument) {
-            return "";
+        protected void processCustomNoticeInfo(OleLoanDocument oleLoanDocument, OleNoticeBo oleNoticeBo){
         }
     }
 
 
     class MockOverdueNoticeEmailContentFormatter extends NoticeMailContentFormatter {
         @Override
-        protected String generateCustomHTML(OleLoanDocument oleLoanDocument) {
-            return "";
+        protected void processCustomNoticeInfo(OleLoanDocument oleLoanDocument, OleNoticeBo oleNoticeBo) {
+
+        }
+
+        @Override
+        protected String getItemShelvingLocationName(String code) {
+            return "Stacks Regular";
+        }
+    }
+
+    class MockLostNoticeEmailContentFormatter extends NoticeMailContentFormatter {
+        @Override
+        protected void processCustomNoticeInfo(OleLoanDocument oleLoanDocument, OleNoticeBo oleNoticeBo) {
+            oleNoticeBo.setNoticeTitle("Lost");
+            oleNoticeBo.setBillNumber(oleLoanDocument.getRepaymentFeePatronBillId());
+            oleNoticeBo.setFeeType("Replacement Bill");
+            oleNoticeBo.setFeeAmount(oleLoanDocument.getReplacementBill());
         }
 
         @Override
