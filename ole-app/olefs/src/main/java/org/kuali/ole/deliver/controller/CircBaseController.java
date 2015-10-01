@@ -56,6 +56,10 @@ public class CircBaseController extends OLEUifControllerBase{
                 circForm = (CircForm) form;
             } else {
                 circForm = (CircForm) GlobalVariables.getUifFormManager().getSessionForm(formKey);
+                /* OLE-8186 : Modified for fixing browser backward and forward button functionality.*/
+                if(circForm.getView() == null) {
+                    circForm = (CircForm) form;
+                }
             }
 
             setPrincipalInfo(circForm);

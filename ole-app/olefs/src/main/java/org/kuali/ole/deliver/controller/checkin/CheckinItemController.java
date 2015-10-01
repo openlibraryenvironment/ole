@@ -58,6 +58,10 @@ public class CheckinItemController extends OLEUifControllerBase {
                 checkinForm = (CheckinForm) form;
             } else {
                 checkinForm = (CheckinForm) GlobalVariables.getUifFormManager().getSessionForm(formKey);
+                /* OLE-8186 : Modified for fixing browser backward and forward button functionality.*/
+                if(checkinForm.getView() == null) {
+                    checkinForm = (CheckinForm) form;
+                }
             }
 
             initCheckinForm(checkinForm);
