@@ -83,28 +83,6 @@
         <property name="oleCheckOutItemConverter" ref="oleCheckOutItemConverter"/>
     </bean>
 
-    <!--<bean id="lookupUserService" class="org.kuali.ole.ncip.service.impl.OLELookupUserServiceImpl">-->
-        <!--<property name="oleCirculationService" ref="oleCirculationService"/>-->
-        <!--<property name="oleCirculationHelperService" ref="oleCirculationHelperService"/>-->
-        <!--<property name="oleSelectDocumentService" ref="oleSelectDocumentService"/>-->
-    <!--</bean>-->
-
-    <bean id="acceptItemService" class="org.kuali.ole.ncip.service.impl.OLEAcceptItemServiceImpl">
-        <property name="oleCirculationService" ref="oleCirculationService"/>
-        <property name="oleCirculationHelperService" ref="oleCirculationHelperService"/>
-    </bean>
-
-    <bean id="checkInItemService" class="org.kuali.ole.ncip.service.impl.OLECheckInItemServiceImpl">
-        <property name="oleCirculationService" ref="oleCirculationService"/>
-        <property name="oleCirculationHelperService" ref="oleCirculationHelperService"/>
-        <property name="oleCheckInItemConverter" ref="oleCheckInItemConverter"/>
-    </bean>
-
-    <bean id="checkOutItemService" class="org.kuali.ole.ncip.service.impl.OLECheckOutItemServiceImpl">
-        <property name="oleCirculationService" ref="oleCirculationService"/>
-        <property name="oleCirculationHelperService" ref="oleCirculationHelperService"/>
-        <property name="oleCheckOutItemConverter" ref="oleCheckOutItemConverter"/>
-    </bean>
     <bean id="requestItemService" class="org.kuali.ole.ncip.service.impl.OLERequestItemServiceImpl">
         <property name="oleCirculationService" ref="oleCirculationService"/>
         <property name="oleCirculationHelperService" ref="oleCirculationHelperService"/>
@@ -138,22 +116,9 @@
     <bean id="supportedServices" class="org.springframework.beans.factory.config.MapFactoryBean">
         <property name="sourceMap">
             <map>
-<!--                <entry key="org.extensiblecatalog.ncip.v2.service.AcceptItemInitiationData" value-ref="acceptItemService"/>
-                <entry key="org.extensiblecatalog.ncip.v2.service.CheckOutItemInitiationData" value-ref="checkOutItemService"/>
-                <entry key="org.extensiblecatalog.ncip.v2.service.CheckInItemInitiationData" value-ref="checkInItemService"/>
-                <entry key="org.extensiblecatalog.ncip.v2.service.LookupItemInitiationData" value-ref="lookupItemService"/>
-                <entry key="org.extensiblecatalog.ncip.v2.service.LookupItemSetInitiationData" value-ref="lookupItemSetService"/>
-                <entry key="org.extensiblecatalog.ncip.v2.service.LookupUserInitiationData" value-ref="lookupUserService"/>
-                <entry key="org.extensiblecatalog.ncip.v2.service.RenewItemInitiationData" value-ref="renewItemService"/>
-                <entry key="org.extensiblecatalog.ncip.v2.service.RequestItemInitiationData" value-ref="requestItemService"/>
-                <entry key="org.extensiblecatalog.ncip.v2.service.UpdateRequestItemInitiationData" value-ref="updateRequestItemService"/>-->
                 <entry key="org.extensiblecatalog.ncip.v2.service.RenewItemInitiationData" value-ref="renewItemService"/>
                 <entry key="org.extensiblecatalog.ncip.v2.service.CancelRequestItemInitiationData" value-ref="cancelRequestItemService"/>
                 <entry key="org.extensiblecatalog.ncip.v2.service.RequestItemInitiationData" value-ref="requestItemService"/>
-                <entry key="org.extensiblecatalog.ncip.v2.service.AcceptItemInitiationData" value-ref="acceptItemService"/>
-                <!--<entry key="org.extensiblecatalog.ncip.v2.service.LookupUserInitiationData" value-ref="lookupUserService"/>-->
-                <entry key="org.extensiblecatalog.ncip.v2.service.CheckInItemInitiationData" value-ref="checkInItemService"/>
-                <entry key="org.extensiblecatalog.ncip.v2.service.CheckOutItemInitiationData" value-ref="checkOutItemService"/>
             </map>
         </property>
     </bean>
