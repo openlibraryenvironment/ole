@@ -1,20 +1,18 @@
 package org.kuali.ole.ncip.service.impl;
 
-import org.kuali.ole.bo.OLECheckOutItem;
-
 /**
- * Created by chenchulakshmig on 8/25/15.
+ * Created by chenchulakshmig on 8/27/15.
  */
-public class NonSip2CheckoutItemService extends CheckoutItemService {
+public class NonSip2CheckinItemServiceImplImpl extends CheckinItemServiceImpl {
 
     @Override
     public String prepareResponse() {
         switch (responseFormatType) {
             case ("XML"):
-                response = getResponseHandler().marshalObjectToXml(getOleCheckOutItem());
+                response = getResponseHandler().marshalObjectToXml(getOleCheckInItem());
                 break;
             case ("JSON"):
-                response = getResponseHandler().marshalObjectToJson(getOleCheckOutItem());
+                response = getResponseHandler().marshalObjectToJson(getOleCheckInItem());
                 break;
         }
 

@@ -8,7 +8,6 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
-import org.kuali.ole.deliver.controller.PatronLookupCircAPIController;
 import org.kuali.ole.deliver.controller.checkout.CheckoutAPIController;
 import org.kuali.ole.deliver.drools.DroolsConstants;
 import org.kuali.ole.deliver.drools.DroolsExchange;
@@ -18,6 +17,7 @@ import org.kuali.ole.deliver.util.DroolsResponse;
 import org.kuali.ole.deliver.util.OlePatronRecordUtil;
 import org.kuali.ole.bo.OLECheckOutItem;
 import org.kuali.ole.ncip.bo.OLENCIPConstants;
+import org.kuali.ole.ncip.service.CheckoutItemService;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
@@ -26,15 +26,16 @@ import java.util.Map;
 /**
  * Created by chenchulakshmig on 8/24/15.
  */
-public abstract class CheckoutItemService {
+public abstract class CheckoutItemServiceImpl implements CheckoutItemService {
 
-    private static final Logger LOG = Logger.getLogger(CheckoutItemService.class);
+    private static final Logger LOG = Logger.getLogger(CheckoutItemServiceImpl.class);
 
     protected String responseFormatType;
     protected String response;
 
     private ResponseHandler responseHandler;
     private CircDeskLocationResolver circDeskLocationResolver;
+    private OlePatronRecordUtil olePatronRecordUtil;
 
     private OLECheckOutItem oleCheckOutItem;
     private OlePatronDocument olePatronDocument;
@@ -49,6 +50,17 @@ public abstract class CheckoutItemService {
 
     public void setCircDeskLocationResolver(CircDeskLocationResolver circDeskLocationResolver) {
         this.circDeskLocationResolver = circDeskLocationResolver;
+    }
+
+    public OlePatronRecordUtil getOlePatronRecordUtil() {
+        if (null == olePatronRecordUtil) {
+            olePatronRecordUtil = (OlePatronRecordUtil) SpringContext.getBean("olePatronRecordUtil");
+        }
+        return olePatronRecordUtil;
+    }
+
+    public void setOlePatronRecordUtil(OlePatronRecordUtil olePatronRecordUtil) {
+        this.olePatronRecordUtil = olePatronRecordUtil;
     }
 
     public ResponseHandler getResponseHandler() {
@@ -202,26 +214,27 @@ public abstract class CheckoutItemService {
             getOleCheckOutItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_REQUIRED));
             return false;
         }
-        DroolsExchange patronDroolsExchange = new DroolsExchange();
-        patronDroolsExchange.addToContext(OLEConstants.PATRON_BAR, patronBarcode);
-        PatronLookupCircAPIController patronLookupAPIController = new PatronLookupCircAPIController();
-        DroolsResponse patronDroolsResponse = patronLookupAPIController.searchPatron(patronDroolsExchange);
-        String patronErrorMessage = patronDroolsResponse.getErrorMessage().getErrorMessage();
-        if (StringUtils.isNotBlank(patronErrorMessage)) {
-            if (patronErrorMessage.contains(OLEConstants.PTRN_BARCD_NOT_EXT)) {
-                getOleCheckOutItem().setCode("002");
-                getOleCheckOutItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
-                return false;
-            } else {
-                getOleCheckOutItem().setCode("002");
-                getOleCheckOutItem().setMessage(patronErrorMessage);
-                return false;
-            }
+        try {
+            OlePatronDocument patronDocument = getOlePatronRecordUtil().getPatronRecordByBarcode(patronBarcode);
+            setOlePatronDocument(patronDocument);
+        } catch (Exception e) {
+            LOG.error("Exception " + e);
         }
-        OlePatronDocument olePatronDocument = (OlePatronDocument) patronDroolsExchange.getFromContext("olePatronDocument");
-        setOlePatronDocument(olePatronDocument);
+        if (null == getOlePatronDocument()) {
+            getOleCheckOutItem().setCode("002");
+            getOleCheckOutItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
+            return false;
+        }
+        String patronErrorMessage = fireRules();
+        if (StringUtils.isNotBlank(patronErrorMessage)){
+            getOleCheckOutItem().setCode("002");
+            getOleCheckOutItem().setMessage(patronErrorMessage);
+            return false;
+        }
         return true;
     }
+
+    protected abstract String fireRules();
 
     public abstract String prepareResponse();
 

@@ -15,6 +15,7 @@ import org.kuali.ole.deliver.util.DroolsResponse;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.bo.OLECheckInItem;
 import org.kuali.ole.deliver.controller.checkin.CheckInAPIController;
+import org.kuali.ole.ncip.service.CheckinItemService;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
@@ -23,9 +24,9 @@ import java.util.Map;
 /**
  * Created by chenchulakshmig on 8/27/15.
  */
-public abstract class CheckinItemService {
+public abstract class CheckinItemServiceImpl implements CheckinItemService{
 
-    private static final Logger LOG = Logger.getLogger(CheckinItemService.class);
+    private static final Logger LOG = Logger.getLogger(CheckinItemServiceImpl.class);
 
     protected String responseFormatType;
     protected String response;

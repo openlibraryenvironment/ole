@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * Created by chenchulakshmig on 8/21/15.
  */
-public class OLENCIPCheckInItemServiceImpl extends OLENCIPUtil implements OLECheckInItemService {
+public class OLENCIPCheckInItemServiceImpl extends NonSip2CheckinItemServiceImplImpl implements OLECheckInItemService {
 
     private static final Logger LOG = Logger.getLogger(OLENCIPCheckInItemServiceImpl.class);
 
@@ -44,14 +44,15 @@ public class OLENCIPCheckInItemServiceImpl extends OLENCIPUtil implements OLEChe
         OleStopWatch oleStopWatch = new OleStopWatch();
         oleStopWatch.start();
 
+        OLENCIPUtil olencipUtil = new OLENCIPUtil();
         NCIPCheckInItemResponseBuilder ncipCheckInItemResponseBuilder = new NCIPCheckInItemResponseBuilder();
         CheckInItemResponseData checkInItemResponseData = new CheckInItemResponseData();
 
-        AgencyId agencyId = validateAgency(checkInItemInitiationData.getInitiationHeader(), checkInItemResponseData);
+        AgencyId agencyId = olencipUtil.validateAgency(checkInItemInitiationData.getInitiationHeader(), checkInItemResponseData);
         if (null == agencyId) return checkInItemResponseData;
 
         String itemBarcode = checkInItemInitiationData.getItemId().getItemIdentifierValue();
-        String operatorId = agencyPropertyMap.get(OLENCIPConstants.OPERATOR_ID);
+        String operatorId = olencipUtil.agencyPropertyMap.get(OLENCIPConstants.OPERATOR_ID);
         String itemDeleteIndicator = ParameterValueResolver.getInstance().getParameter(OLEConstants
                 .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLENCIPConstants.TEMP_ITEM_DELETE_INDICATOR);
 
@@ -61,7 +62,7 @@ public class OLENCIPCheckInItemServiceImpl extends OLENCIPUtil implements OLEChe
         checkinParameters.put("responseFormatType", "XML");
         checkinParameters.put("deleteIndicator", itemDeleteIndicator);
 
-        String responseString = new NonSip2CheckinItemService().checkinItem(checkinParameters);
+        String responseString = checkinItem(checkinParameters);
         OLECheckInItem oleCheckInItem = (OLECheckInItem) new OLECheckInItemConverter().generateCheckInItemObject(responseString);
 
         if (oleCheckInItem != null && StringUtils.isNotBlank(oleCheckInItem.getMessage())) {
@@ -76,10 +77,10 @@ public class OLENCIPCheckInItemServiceImpl extends OLENCIPUtil implements OLEChe
                 if (oleCheckInItem.getCode().equals("026")) {
                     problemValue = operatorId;
                 }
-                processProblems(checkInItemResponseData, problemValue, oleCheckInItem.getMessage(), problemElement);
+                olencipUtil.processProblems(checkInItemResponseData, problemValue, oleCheckInItem.getMessage(), problemElement);
             }
         } else {
-            processProblems(checkInItemResponseData, itemBarcode, ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CHECK_IN_FAILED), OLENCIPConstants.ITEM);
+            olencipUtil.processProblems(checkInItemResponseData, itemBarcode, ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CHECK_IN_FAILED), OLENCIPConstants.ITEM);
         }
 
         oleStopWatch.end();

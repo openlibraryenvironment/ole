@@ -77,9 +77,9 @@ public class DroolsKieDemoBaseTestCase {
         resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/demo/checkin/on-hold-check.drl"));
         resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/demo/checkin/staff-request-check.drl"));
         resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/demo/fines/short-term.drl"));
-        resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/demo/general/ncip/lookupuser.drl"));
-        resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/demo/general/sip_two/lookupuser.drl"));
-        resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/demo/general/vufiind/lookupuser.drl"));
+        resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/demo/general/lookup-user-ncip.drl"));
+        resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/demo/general/lookup-user-sip2.drl"));
+        resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/demo/general/lookup-user-vufind.drl"));
 
         for (Iterator<Resource> iterator = resourceList.iterator(); iterator.hasNext(); ) {
             Resource resource = iterator.next();

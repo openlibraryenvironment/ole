@@ -1,4 +1,4 @@
-package org.kuali.ole.deliver.rules.demo.general.sip_two
+package org.kuali.ole.deliver.rules.chicago.general_checks
 
 import org.kuali.ole.deliver.bo.OlePatronDocument
 import org.kuali.ole.deliver.util.DroolsResponse
@@ -18,7 +18,7 @@ end
 rule "Is Patron Expired For sip2"
 agenda-group "lookup-user-sip2"
 when
-$p : OlePatronDocument(getExpirationDate() != null, $e: getExpirationDate(), $e < today())
+$p : OlePatronDocument(getExpirationDate() != null, $e: getExpirationDate(), $e < currentDateForSip2())
 $d : DroolsResponse()
 then
 $d.addErrorMessage("Patron has expired");
@@ -36,13 +36,13 @@ end
 rule "Activation Date for Patron For sip2"
 agenda-group "lookup-user-sip2"
 when
-$p : OlePatronDocument(getActivationDate()!= null, $e: getActivationDate(), $e >= today())
+$p : OlePatronDocument(getActivationDate()!= null, $e: getActivationDate(), $e >= currentDateForSip2())
 $d : DroolsResponse()
 then
 $d.addErrorMessage("Patron has an invalid activation date");
 end
 
-function Date today(){
+function Date currentDateForSip2(){
     Date date = new Date(System.currentTimeMillis());
     return date;
 }

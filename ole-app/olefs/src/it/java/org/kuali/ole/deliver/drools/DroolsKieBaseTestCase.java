@@ -83,9 +83,9 @@ public class DroolsKieBaseTestCase {
         resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/chicago/checkin/on-hold-check.drl"));
         resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/chicago/checkin/staff-request-check.drl"));
         resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/chicago/fines/short-term.drl"));
-        resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/chicago/general_checks/ncip/lookupuser.drl"));
-        resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/chicago/general_checks/vufiind/lookupuser.drl"));
-        resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/chicago/general_checks/sip_two/lookupuser.drl"));
+        resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/chicago/general_checks/lookup-user-ncip.drl"));
+        resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/chicago/general_checks/lookup-user-vufind.drl"));
+        resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/chicago/general_checks/lookup-user-sip2.drl"));
         resourceList.add(ResourceFactory.newClassPathResource("org/kuali/ole/deliver/rules/chicago/requests/place-request.drl"));
 
         for (Iterator<Resource> iterator = resourceList.iterator(); iterator.hasNext(); ) {

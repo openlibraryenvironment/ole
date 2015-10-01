@@ -48,7 +48,7 @@ public class Sip2LookupUserServiceImpl extends LookupUserServiceImpl {
         facts.add(getOlePatronDocument());
         DroolsResponse droolsResponse = new DroolsResponse();
         facts.add(droolsResponse);
-        new CircUtilController().fireRules(facts, null, "lookup-user-3M");
+        new CircUtilController().fireRules(facts, null, "lookup-user-sip2");
 
         if (StringUtils.isBlank(droolsResponse.getErrorMessage().getErrorMessage())) {
             getOleLookupUser().setValidPatron(true);

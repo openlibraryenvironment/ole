@@ -57,22 +57,22 @@ public class CirculationRestServiceImpl implements CirculationRestService {
 
     @Override
     public String checkoutItem(Map checkoutParameters) {
-        return new NonSip2CheckoutItemService().checkoutItem(checkoutParameters);
+        return new NonSip2CheckoutItemServiceImpl().checkoutItem(checkoutParameters);
     }
 
     @Override
     public String checkoutItemSIP2(Map checkoutParameters) {
-        return new Sip2CheckoutItemService().checkoutItem(checkoutParameters);
+        return new Sip2CheckoutItemServiceImpl().checkoutItem(checkoutParameters);
     }
 
     @Override
     public String checkinItem(Map checkinParameters) {
-        return new NonSip2CheckinItemService().checkinItem(checkinParameters);
+        return new NonSip2CheckinItemServiceImplImpl().checkinItem(checkinParameters);
     }
 
     @Override
     public String checkinItemSIP2(Map checkinParameters) {
-        return new Sip2CheckinItemService().checkinItem(checkinParameters);
+        return new Sip2CheckinItemServiceImplImpl().checkinItem(checkinParameters);
     }
 
     @Override

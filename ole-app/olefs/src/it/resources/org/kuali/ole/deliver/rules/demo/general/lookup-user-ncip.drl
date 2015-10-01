@@ -1,4 +1,4 @@
-package org.kuali.ole.deliver.rules.demo.general.ncip
+package org.kuali.ole.deliver.rules.demo.general
 
 import org.kuali.ole.deliver.bo.OlePatronDocument
 import org.kuali.ole.deliver.util.DroolsResponse
@@ -18,7 +18,7 @@ end
 rule "Is Patron Expired For NCIP"
 agenda-group "lookup-user-ncip"
 when
-$p : OlePatronDocument(getExpirationDate() != null, $e: getExpirationDate(), $e < today())
+$p : OlePatronDocument(getExpirationDate() != null, $e: getExpirationDate(), $e < currentDateForNCIP())
 $d : DroolsResponse()
 then
 $d.addErrorMessage("Patron has expired");
@@ -36,7 +36,7 @@ end
 rule "Activation Date for Patron For NCIP"
 agenda-group "lookup-user-ncip"
 when
-$p : OlePatronDocument(getActivationDate()!= null, $e: getActivationDate(), $e >= today())
+$p : OlePatronDocument(getActivationDate()!= null, $e: getActivationDate(), $e >= currentDateForNCIP())
 $d : DroolsResponse()
 then
 $d.addErrorMessage("Patron has an invalid activation date");
@@ -69,7 +69,7 @@ then
 $d.addErrorMessage("Patron has replacement fees greater than $49");
 end
 
-function Date today(){
+function Date currentDateForNCIP(){
     Date date = new Date(System.currentTimeMillis());
     return date;
 }

@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * Created by chenchulakshmig on 8/17/15.
  */
-public class OLENCIPCheckOutItemServiceImpl extends OLENCIPUtil implements OLECheckOutItemService {
+public class OLENCIPCheckOutItemServiceImpl extends NonSip2CheckoutItemServiceImpl implements OLECheckOutItemService {
 
     private static final Logger LOG = Logger.getLogger(OLENCIPCheckOutItemServiceImpl.class);
 
@@ -48,18 +48,19 @@ public class OLENCIPCheckOutItemServiceImpl extends OLENCIPUtil implements OLECh
         OleStopWatch oleStopWatch = new OleStopWatch();
         oleStopWatch.start();
 
+        OLENCIPUtil olencipUtil = new OLENCIPUtil();
         NCIPCheckOutItemResponseBuilder ncipCheckOutItemResponseBuilder = getNCIPCheckOutItemResponseBuilder();
         CheckOutItemResponseData checkOutItemResponseData = new CheckOutItemResponseData();
 
-        AgencyId agencyId = validateAgency(checkOutItemInitiationData.getInitiationHeader(), checkOutItemResponseData);
+        AgencyId agencyId = olencipUtil.validateAgency(checkOutItemInitiationData.getInitiationHeader(), checkOutItemResponseData);
         if (null == agencyId) return checkOutItemResponseData;
 
-        boolean userValid = validateUser(checkOutItemInitiationData.getUserId(), checkOutItemResponseData);
+        boolean userValid = olencipUtil.validateUser(checkOutItemInitiationData.getUserId(), checkOutItemResponseData);
         if (!userValid) return checkOutItemResponseData;
 
         String itemBarcode = checkOutItemInitiationData.getItemId().getItemIdentifierValue();
         String patronBarcode = checkOutItemInitiationData.getUserId().getUserIdentifierValue();
-        String operatorId = agencyPropertyMap.get(OLENCIPConstants.OPERATOR_ID);
+        String operatorId = olencipUtil.agencyPropertyMap.get(OLENCIPConstants.OPERATOR_ID);
 
         Map checkoutParameters = new HashMap();
         checkoutParameters.put("patronBarcode", patronBarcode);
@@ -67,7 +68,7 @@ public class OLENCIPCheckOutItemServiceImpl extends OLENCIPUtil implements OLECh
         checkoutParameters.put("itemBarcode", itemBarcode);
         checkoutParameters.put("responseFormatType", "XML");
 
-        String responseString = new NonSip2CheckoutItemService().checkoutItem(checkoutParameters);
+        String responseString = checkoutItem(checkoutParameters);
         OLECheckOutItem oleCheckOutItem = (OLECheckOutItem) new OLECheckOutItemConverter().generateCheckoutItemObject(responseString);
 
         if (oleCheckOutItem != null && StringUtils.isNotBlank(oleCheckOutItem.getMessage())) {
@@ -78,7 +79,7 @@ public class OLENCIPCheckOutItemServiceImpl extends OLENCIPUtil implements OLECh
                     ncipCheckOutItemResponseBuilder.setDateDue(checkOutItemResponseData, getOleCirculationHelperService().getGregorianCalendarDate((new java.sql.Timestamp(new Date(2025, 1, 1).getTime()).toString())));
                 }
                 ncipCheckOutItemResponseBuilder.setRenewalCount(checkOutItemResponseData, new BigDecimal(oleCheckOutItem.getRenewalCount()));
-                ncipCheckOutItemResponseBuilder.setItemId(checkOutItemResponseData, checkOutItemInitiationData, agencyId, agencyPropertyMap.get(OLENCIPConstants.ITEM_TYPE));
+                ncipCheckOutItemResponseBuilder.setItemId(checkOutItemResponseData, checkOutItemInitiationData, agencyId, olencipUtil.agencyPropertyMap.get(OLENCIPConstants.ITEM_TYPE));
                 ncipCheckOutItemResponseBuilder.setUserId(checkOutItemResponseData, checkOutItemInitiationData, agencyId, oleCheckOutItem.getUserType());
             } else {
                 String problemElement = OLENCIPConstants.ITEM;
@@ -90,14 +91,19 @@ public class OLENCIPCheckOutItemServiceImpl extends OLENCIPUtil implements OLECh
                 } else if (oleCheckOutItem.getCode().equals("026")) {
                     problemValue = operatorId;
                 }
-                processProblems(checkOutItemResponseData, problemValue, oleCheckOutItem.getMessage(), problemElement);
+                olencipUtil.processProblems(checkOutItemResponseData, problemValue, oleCheckOutItem.getMessage(), problemElement);
             }
         } else {
-            processProblems(checkOutItemResponseData, itemBarcode, ConfigContext.getCurrentContextConfig().getProperty(OLENCIPConstants.CHECK_OUT_FAIL), OLENCIPConstants.ITEM);
+            olencipUtil.processProblems(checkOutItemResponseData, itemBarcode, ConfigContext.getCurrentContextConfig().getProperty(OLENCIPConstants.CHECK_OUT_FAIL), OLENCIPConstants.ITEM);
         }
         oleStopWatch.end();
         LOG.info("Time taken to perform checkout item service : " + oleStopWatch.getTotalTime());
         return checkOutItemResponseData;
+    }
+
+    @Override
+    protected String fireRules() {
+        return new OLENCIPUtil().fireLookupUserRules(getOlePatronDocument());
     }
 
 }

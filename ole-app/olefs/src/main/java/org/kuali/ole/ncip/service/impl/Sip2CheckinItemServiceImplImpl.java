@@ -3,12 +3,11 @@ package org.kuali.ole.ncip.service.impl;
 import org.kuali.asr.handler.CheckinItemResponseHandler;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
-import org.kuali.ole.bo.OLECheckInItem;
 
 /**
  * Created by chenchulakshmig on 8/27/15.
  */
-public class Sip2CheckinItemService extends CheckinItemService{
+public class Sip2CheckinItemServiceImplImpl extends CheckinItemServiceImpl {
 
     @Override
     public String prepareResponse() {

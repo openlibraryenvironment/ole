@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * Created by pvsubrah on 8/5/15.
  */
-public class OLENCIPLookupUserServiceImpl extends LookupUserServiceImpl implements OLELookupUserService {
+public class OLENCIPLookupUserServiceImpl extends NonSip2LookupUserServiceImpl implements OLELookupUserService {
 
     private static final Logger LOG = Logger.getLogger(OLENCIPLookupUserServiceImpl.class);
 
@@ -404,25 +404,6 @@ public class OLENCIPLookupUserServiceImpl extends LookupUserServiceImpl implemen
         oleStopWatch.end();
         LOG.info("For " + userFiscalAccounts.size() + " user fisical accounts, time taken : " + oleStopWatch.getTotalTime());
         return userFiscalAccounts;
-    }
-
-    @Override
-    public String prepareResponse() {
-        switch (responseFormatType) {
-            case ("XML"):
-                response = getResponseHandler().marshalObjectToXml(getOleLookupUser());
-                break;
-            case ("JSON"):
-                response = getResponseHandler().marshalObjectToJson(getOleLookupUser());
-                break;
-        }
-
-        return response;
-    }
-
-    @Override
-    public String getOperatorId(String operatorId) {
-        return operatorId;
     }
 
     @Override
