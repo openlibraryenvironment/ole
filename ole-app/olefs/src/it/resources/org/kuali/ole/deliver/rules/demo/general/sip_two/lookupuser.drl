@@ -42,33 +42,6 @@ then
 $d.addErrorMessage("Patron has an invalid activation date");
 end
 
-rule "Check All Charges For sip2"
-agenda-group "lookup-user-sip2"
-when
-$p: OlePatronDocument(getAllCharges() > 149 )
-$d: DroolsResponse()
-then
-$d.addErrorMessage("Patron's overall charges greater than $149");
-end
-
-rule "Check Overdue fine For sip2"
-agenda-group "lookup-user-sip2"
-when
-$p: OlePatronDocument(getOverdueFineAmount() > 49 )
-$d: DroolsResponse()
-then
-$d.addErrorMessage("Patron has overdue fines greater than $49");
-end
-
-rule "Check Replacement fine For sip2"
-agenda-group "lookup-user-sip2"
-when
-$p: OlePatronDocument(getReplacementFineAmount() > 49 )
-$d: DroolsResponse()
-then
-$d.addErrorMessage("Patron has replacement fees greater than $49");
-end
-
 function Date today(){
     Date date = new Date(System.currentTimeMillis());
     return date;
