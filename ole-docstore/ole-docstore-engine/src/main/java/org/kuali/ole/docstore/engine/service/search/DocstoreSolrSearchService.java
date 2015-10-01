@@ -964,7 +964,7 @@ public class DocstoreSolrSearchService implements DocstoreSearchService, Docstor
         int size = searchParams.getSearchConditions().size();
         for (int i = size - 1; i >= 0; i--) {
             SearchCondition searchCondition = searchParams.getSearchConditions().get(i);
-            if (!searchCondition.getSearchField().getDocType().equalsIgnoreCase(secondDocType)) {
+            if (StringUtils.isNotEmpty(searchCondition.getSearchField().getDocType()) && !searchCondition.getSearchField().getDocType().equalsIgnoreCase(secondDocType)) {
                 firstDocType = searchCondition.getSearchField().getDocType();
             }
             if (searchCondition.getSearchField() != null && searchCondition.getSearchField().getDocType() != null && docType.equals(searchCondition.getSearchField().getDocType())) {
