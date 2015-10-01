@@ -140,9 +140,9 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
     public ModelAndView maintenanceEdit(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm maintenanceForm = form;
         setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
-        MaintenanceDocument document = (MaintenanceDocument) maintenanceForm.getDocument();
+        MaintenanceDocument document =  maintenanceForm.getDocument();
         super.maintenanceEdit(form, result, request, response);
         OlePatronDocument olePatronDocument = (OlePatronDocument) document.getOldMaintainableObject().getDataObject();
         olePatronDocument.getAddresses().clear();
@@ -152,7 +152,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         OlePatronDocument patronDocument = (OlePatronDocument)document.getNewMaintainableObject().getDataObject();
         patronDocument.setBarcodeEditable(false);
         if((patronDocument.getExpirationDate() != null && patronDocument.getActivationDate() != null && fmt.format(patronDocument.getActivationDate()).compareTo(fmt.format(patronDocument.getExpirationDate())) >= 0) || (patronDocument.getExpirationDate() != null && fmt.format(new Date(System.currentTimeMillis())).compareTo(fmt.format(patronDocument.getExpirationDate())) > 0)){
-
             patronDocument.setExpirationFlag(false);
         }
         olePatronDocument.setShowLoanedRecords(false);
@@ -164,10 +163,10 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
     @Override
     @RequestMapping(params = "methodToCall=maintenanceCopy")
     public ModelAndView maintenanceCopy(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
+        MaintenanceDocumentForm maintenanceForm = form;
         setupMaintenance(form, request, KRADConstants.MAINTENANCE_COPY_ACTION);
         super.maintenanceCopy(form, result, request, response);
-        MaintenanceDocument document = (MaintenanceDocument) maintenanceForm.getDocument();
+        MaintenanceDocument document =  maintenanceForm.getDocument();
         OlePatronDocument patronDocument=(OlePatronDocument)document.getNewMaintainableObject().getDataObject();
         if(patronDocument.getOlePatronLocalIds()!=null && patronDocument.getOlePatronLocalIds().size()>0){
            for(OlePatronLocalIdentificationBo  olePatronLocalIdentificationBo:patronDocument.getOlePatronLocalIds()){
@@ -197,8 +196,8 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug(" Inside maintenanceDelete ");
         setupMaintenanceForDelete(form, request, OLEConstants.OlePatron.OLE_PATRON_DELETE);
-        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
-        MaintenanceDocument document = (MaintenanceDocument) maintenanceForm.getDocument();
+        MaintenanceDocumentForm maintenanceForm = form;
+        MaintenanceDocument document = maintenanceForm.getDocument();
         OlePatronDocument olePatronDocument = (OlePatronDocument) document.getOldMaintainableObject().getDataObject();
         OlePatronDocument patronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
         olePatronDocument.setBarcodeEditable(false);
@@ -279,27 +278,29 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
     public ModelAndView searchAddLine(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) {
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
-        MaintenanceDocument maintenanceDocument = (MaintenanceDocument) maintenanceForm.getDocument();
-        OlePatronDocument olePatronDocument = (OlePatronDocument) maintenanceDocument.getNewMaintainableObject().getDataObject();
         String selectedCollectionPath = maintenanceForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         CollectionGroup collectionGroup = maintenanceForm.getPostedView().getViewIndex().getCollectionGroupByPath(
                 selectedCollectionPath);
         String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
         Object eventObject = ObjectPropertyUtils.getPropertyValue(maintenanceForm, addLinePath);
         OleProxyPatronDocument oleProxyPatronDocument = (OleProxyPatronDocument) eventObject;
-        Map<String, String> proxyMap = new HashMap<String, String>();
-        proxyMap.put(OLEConstants.OlePatron.BARCODE, oleProxyPatronDocument.getProxyPatronBarcode());
-        OlePatronDocument tempDocument = (OlePatronDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, proxyMap);
+        OlePatronDocument tempDocument = null;
+        if(StringUtils.isNotBlank(oleProxyPatronDocument.getProxyPatronBarcode())) {
+            Map<String, String> proxyMap = new HashMap<String, String>();
+            proxyMap.put(OLEConstants.OlePatron.BARCODE, oleProxyPatronDocument.getProxyPatronBarcode());
+            tempDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, proxyMap);
+        }
         if (tempDocument != null) {
             oleProxyPatronDocument.setProxyPatronId(tempDocument.getOlePatronId());
             oleProxyPatronDocument.setProxyPatronBarcode(tempDocument.getBarcode());
             oleProxyPatronDocument.setProxyPatronFirstName(tempDocument.getEntity().getNames().get(0).getFirstName());
             oleProxyPatronDocument.setProxyPatronLastName(tempDocument.getEntity().getNames().get(0).getLastName());
-        } else {
-            GlobalVariables.getMessageMap().putError(OLEConstants.OleDeliverRequest.BORROWER_ID, OLEConstants.OleDeliverRequest.INVALID_PATRON);
+            super.addLine(form, result, request, response);
+        } else  if(StringUtils.isNotBlank(oleProxyPatronDocument.getProxyPatronBarcode())) {
+            GlobalVariables.getMessageMap().putErrorForSectionId("OlePatronDocument-ProxySection", OLEConstants.OlePatron.INVALID_BARCODE, oleProxyPatronDocument.getProxyPatronBarcode());
         }
-        ModelAndView modelAndView = super.addLine(form, result, request, response);
-        return modelAndView;
+
+        return getUIFModelAndView(form);
     }
 
 
@@ -309,8 +310,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
     public ModelAndView addPhoneNumber(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) {
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
-        MaintenanceDocument maintenanceDocument = (MaintenanceDocument) maintenanceForm.getDocument();
-        OlePatronDocument olePatronDocument = (OlePatronDocument) maintenanceDocument.getNewMaintainableObject().getDataObject();
         String selectedCollectionPath = maintenanceForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         CollectionGroup collectionGroup = maintenanceForm.getPostedView().getViewIndex().getCollectionGroupByPath(
                 selectedCollectionPath);
@@ -343,14 +342,11 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
     public ModelAndView addEmailAddress(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) {
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
-        MaintenanceDocument maintenanceDocument = (MaintenanceDocument) maintenanceForm.getDocument();
-        OlePatronDocument olePatronDocument = (OlePatronDocument) maintenanceDocument.getNewMaintainableObject().getDataObject();
         String selectedCollectionPath = maintenanceForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         CollectionGroup collectionGroup = maintenanceForm.getPostedView().getViewIndex().getCollectionGroupByPath(
                 selectedCollectionPath);
         String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
         Object eventObject = ObjectPropertyUtils.getPropertyValue(maintenanceForm, addLinePath);
-        EntityEmailBo  emailBo = (EntityEmailBo) eventObject;
         return super.addLine(form, result, request, response);
     }
 
@@ -358,7 +354,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
     public ModelAndView save(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         LOG.debug(" Inside route method of patron maintenance controller ");
-        ModelAndView modelAndView;
         MaintenanceDocumentForm mainForm = (MaintenanceDocumentForm) form;
         MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
         String action = mainForm.getMaintenanceAction();
@@ -430,13 +425,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                     for (int index = 0; index < missingPieceItemRecordList1.size(); index++) {
                         MissingPieceItemRecord missingPieceItemRecord1 = new MissingPieceItemRecord();
                         if (index == missingPieceItemRecordList1.size() - 1) {
-                                /*if (oleLoanForm.getMissi != null) {
-                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(convertToString(loanObject.getClaimsReturnedDate()));
-                }
-                                else{
-                                    DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
-                                }*/
                             if(!oleLoanDocument.isMissingPieceFlag()){
                                 oleLoanDocument.setMissingPieceNote(null);
                             }
@@ -474,9 +462,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                         }
                     }
                     oleItem.setMissingPieceItemRecordList(missingPieceItemRecords);
-
                 }
-
                 if (oleLoanDocument.isClaimsReturnedIndicator()) {
                     getLoanProcessor().updateClaimsReturnedHistory(oleItem,oleLoanDocument,newOlePatronDocument.getOlePatronId());
                     oleItem.setClaimsReturnedFlag(oleLoanDocument.isClaimsReturnedIndicator());
@@ -528,7 +514,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         } else {
             Map<String, String> patronMap = new HashMap<String, String>();
             patronMap.put(OLEConstants.OlePatron.PATRON_ID, newOlePatronDocument.getOlePatronId());
-            OlePatronDocument patronDocument = (OlePatronDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
+            OlePatronDocument patronDocument =  KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
             SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
             Date todayDate=getDateTimeService().getCurrentDate();
             String format=simpleDateFormat.format(getDateTimeService().getCurrentDate());
@@ -555,7 +541,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
             for (OleProxyPatronDocument oleProxyPatronDocument : oleProxyPatronDocumentList) {
                 Map<String, String> proxyMap = new HashMap<String, String>();
                 proxyMap.put(OLEConstants.OlePatron.PATRON_ID, oleProxyPatronDocument.getProxyPatronId());
-                OlePatronDocument tempDocument = (OlePatronDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, proxyMap);
+                OlePatronDocument tempDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, proxyMap);
                 if (tempDocument != null) {
                     oleProxyPatronDocument.setProxyPatronBarcode(tempDocument.getBarcode());
                     oleProxyPatronDocument.setProxyPatronFirstName(tempDocument.getEntity().getNames().get(0).getFirstName());
@@ -601,7 +587,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                 //JIRA OLE-5707
                 Map<String, String> patronMap = new HashMap<String, String>();
                 patronMap.put(OLEConstants.OlePatron.PATRON_ID, newOlePatronDocument.getOlePatronId());
-                OlePatronDocument patronDocument = (OlePatronDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
+                OlePatronDocument patronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
                 if (patronDocument != null && patronDocument.getBarcode() != null && !(patronDocument.getBarcode().equalsIgnoreCase(""))) {
                     if (newOlePatronDocument.getLostBarcodes() == null) {
                         newOlePatronDocument.setLostBarcodes(new ArrayList<OlePatronLostBarcode>());
@@ -642,7 +628,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                 proxyExpDate = proxy.getProxyPatronExpirationDate();
                 Map<String, String> patronMap = new HashMap<String, String>();
                 patronMap.put(OLEConstants.OlePatron.PATRON_ID, patronId);
-                OlePatronDocument patronDocument = (OlePatronDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
+                OlePatronDocument patronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
                 if (patronDocument != null) {
                     Date patronExpDate = patronDocument.getExpirationDate();
                     Date patronActDate = patronDocument.getActivationDate();
@@ -698,7 +684,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                               HttpServletRequest request, HttpServletResponse response) {
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         LOG.debug(" Inside route method of patron maintenance controller ");
-        ModelAndView modelAndView;
         MaintenanceDocumentForm mainForm = (MaintenanceDocumentForm) form;
         MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
         String action = mainForm.getMaintenanceAction();
@@ -783,13 +768,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                         for (int index = 0; index < missingPieceItemRecordList1.size(); index++) {
                             MissingPieceItemRecord missingPieceItemRecord1 = new MissingPieceItemRecord();
                             if (index == missingPieceItemRecordList1.size() - 1) {
-                                /*if (oleLoanForm.getMissi != null) {
-                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(convertToString(loanObject.getClaimsReturnedDate()));
-                                }
-                                else{
-                                    DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                                    claimsReturnedRecord.setClaimsReturnedFlagCreateDate(df.format(getDateTimeService().getCurrentDate()));
-                                }*/
                                 if(!oleLoanDocument.isMissingPieceFlag()){
                                     oleLoanDocument.setMissingPieceNote(null);
                                 }
@@ -827,7 +805,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                             }
                         }
                         oleItem.setMissingPieceItemRecordList(missingPieceItemRecords);
-
                     }
                     oleItem.setMissingPieceFlag(oleLoanDocument.isMissingPieceFlag());
                     oleItem.setMissingPieceFlagNote(oleLoanDocument.getMissingPieceNote());
@@ -864,14 +841,13 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
             if (newOlePatronDocument.getOlePatronId() == null || newOlePatronDocument.getOlePatronId().isEmpty()) {
                 if (newOlePatronDocument.getActivationDate() != null && fmt.format(new Date(System.currentTimeMillis())).compareTo(fmt.format(newOlePatronDocument.getActivationDate())) > 0) {
                     GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PATRON_ACTIVATION_DATE);
-
                     return getUIFModelAndView(mainForm); // JIRA OLE-5107
                 }
             }
         } else {
             Map<String, String> patronMap = new HashMap<String, String>();
             patronMap.put(OLEConstants.OlePatron.PATRON_ID, newOlePatronDocument.getOlePatronId());
-            OlePatronDocument patronDocument = (OlePatronDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
+            OlePatronDocument patronDocument =  KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
             SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
             Date todayDate=getDateTimeService().getCurrentDate();
             String format=simpleDateFormat.format(getDateTimeService().getCurrentDate());
@@ -898,7 +874,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
             for (OleProxyPatronDocument oleProxyPatronDocument : oleProxyPatronDocumentList) {
                 Map<String, String> proxyMap = new HashMap<String, String>();
                 proxyMap.put(OLEConstants.OlePatron.PATRON_ID, oleProxyPatronDocument.getProxyPatronId());
-                OlePatronDocument tempDocument = (OlePatronDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, proxyMap);
+                OlePatronDocument tempDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, proxyMap);
                 if (tempDocument != null) {
                     oleProxyPatronDocument.setProxyPatronBarcode(tempDocument.getBarcode());
                     oleProxyPatronDocument.setProxyPatronFirstName(tempDocument.getEntity().getNames().get(0).getFirstName());
@@ -946,7 +922,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                 //JIRA OLE-5707
                 Map<String, String> patronMap = new HashMap<String, String>();
                 patronMap.put(OLEConstants.OlePatron.PATRON_ID, newOlePatronDocument.getOlePatronId());
-                OlePatronDocument patronDocument = (OlePatronDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
+                OlePatronDocument patronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
                 if (patronDocument != null && patronDocument.getBarcode() != null && !(patronDocument.getBarcode().equalsIgnoreCase(""))) {
                     if (newOlePatronDocument.getLostBarcodes() == null) {
                         newOlePatronDocument.setLostBarcodes(new ArrayList<OlePatronLostBarcode>());
@@ -987,7 +963,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                 proxyExpDate = proxy.getProxyPatronExpirationDate();
                 Map<String, String> patronMap = new HashMap<String, String>();
                 patronMap.put(OLEConstants.OlePatron.PATRON_ID, patronId);
-                OlePatronDocument patronDocument = (OlePatronDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
+                OlePatronDocument patronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
                 if (patronDocument != null) {
                     Date patronExpDate = patronDocument.getExpirationDate();
                     Date patronActDate = patronDocument.getActivationDate();
@@ -1008,11 +984,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                         }
                     }
                 }
-               /* boolean lostBarcodeCheck = olePatronHelperService.CheckBarcodeAndLostBarcode(newOlePatronDocument);
-                if (lostBarcodeCheck) {
-                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PATRON_BARCODE_INVALID);
-                    return getUIFModelAndView(mainForm);
-                }*/
+
                 boolean isBorrowerTypeActive = olePatronHelperService.isBorrowerTypeActive(newOlePatronDocument);
                 if (!isBorrowerTypeActive) {
                     GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PATRON_BORROWER_TYPE_INACTIVE);
@@ -1021,20 +993,14 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                 if (patronId != null && newOlePatronDocument.getOlePatronId() != null && newOlePatronDocument.getOlePatronId().equals(patronId)) {
                     GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PROXY_PATRON_ID);
                     return getUIFModelAndView(mainForm);
-                } /*else if (proxyActDate != null && fmt.format(new Date(System.currentTimeMillis())).compareTo(fmt.format(proxyActDate)) > 0) {
-                    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PROXY_PATRON_ACTIVATION_DATE);
-                    return getUIFModelAndView(mainForm);
-                } */else {
+                } else {
                     if (proxyExpDate != null) {
                         if (proxyActDate != null) {
                             if ((fmt.format(proxyActDate).compareTo(fmt.format(proxyExpDate)) >= 0)) {
                                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PROXY_PATRON_EXPIRATION_DATE);
                                 return getUIFModelAndView(mainForm);
                             }
-                        } /*else if (fmt.format(new Date(System.currentTimeMillis())).compareTo(fmt.format(proxyExpDate)) > 0) {
-                            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PROXY_PATRON_EXPIRATION_DATE);
-                            return getUIFModelAndView(mainForm);
-                        }*/
+                        }
                     }
                 }
             }
@@ -1042,10 +1008,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         if (newOlePatronDocument.isGeneralBlock() && (newOlePatronDocument.getGeneralBlockNotes() == null || newOlePatronDocument.getGeneralBlockNotes().equals(""))) {
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PATRON_GENERAL_BLOCK_NOTES, OLEConstants.OlePatron.PATRON_GENERAL_BLOCK_NOTES);
             return getUIFModelAndView(mainForm);
-        } /*else if (newOlePatronDocument.getActivationDate() != null && fmt.format(new Date(System.currentTimeMillis())).compareTo(fmt.format(newOlePatronDocument.getActivationDate())) > 0) {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PATRON_ACTIVATION_DATE);
-            return getUIFModelAndView(mainForm); // JIRA OLE-5107
-        }*/ else if ((newOlePatronDocument.getExpirationDate() != null && newOlePatronDocument.getActivationDate() != null && fmt.format(newOlePatronDocument.getActivationDate()).compareTo(fmt.format(newOlePatronDocument.getExpirationDate())) >= 0) || (newOlePatronDocument.getExpirationDate() != null && fmt.format(new Date(System.currentTimeMillis())).compareTo(fmt.format(newOlePatronDocument.getExpirationDate())) > 0)) {
+        }  else if ((newOlePatronDocument.getExpirationDate() != null && newOlePatronDocument.getActivationDate() != null && fmt.format(newOlePatronDocument.getActivationDate()).compareTo(fmt.format(newOlePatronDocument.getExpirationDate())) >= 0) || (newOlePatronDocument.getExpirationDate() != null && fmt.format(new Date(System.currentTimeMillis())).compareTo(fmt.format(newOlePatronDocument.getExpirationDate())) > 0)) {
             if(newOlePatronDocument.isExpirationFlag()){
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.GLOBAL_ERRORS, OLEConstants.OlePatron.ERROR_PATRON_EXPIRATION_DATE);
             return getUIFModelAndView(mainForm);
@@ -1053,7 +1016,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         } else if (newOlePatronDocument.getOlePatronId() != null) {
             Map<String, String> tempId = new HashMap<String, String>();
             tempId.put(OLEConstants.OlePatron.PATRON_ID, newOlePatronDocument.getOlePatronId());
-            OlePatronDocument tempDocument = (OlePatronDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, tempId);
+            OlePatronDocument tempDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, tempId);
             if (tempDocument != null) {
                 if (tempDocument.getEntity() != null) {
                     if (newOlePatronDocument.getDeletedOleEntityAddressBo().size() > 0) {
@@ -1064,7 +1027,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                     }
                     Map<String, String> mapEntityId = new HashMap<String, String>();
                     mapEntityId.put("entityId", newOlePatronDocument.getOlePatronId());
-                    List<EntityEmailBo> emailBoList = tempDocument.getEntity().getEntityTypeContactInfos().get(0).getEmailAddresses();
                     if(newOlePatronDocument.getDeletedEmails().size()>0){
                         KRADServiceLocator.getBusinessObjectService().delete(newOlePatronDocument.getDeletedEmails());
                     }
@@ -1170,7 +1132,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                                     HttpServletRequest request, HttpServletResponse response) {
 
         LOG.debug(" Inside route method of patron maintenance controller ");
-        ModelAndView modelAndView;
         MaintenanceDocumentForm mainForm = (MaintenanceDocumentForm) form;
         MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
@@ -1183,7 +1144,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         boolean isBarcodeExistInOLE = false;
         Map<String, String> patronMap = new HashMap<String, String>();
         patronMap.put(OLEConstants.OlePatron.PATRON_ID, newOlePatronDocument.getOlePatronId());
-        OlePatronDocument patronDocument = (OlePatronDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
+        OlePatronDocument patronDocument = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, patronMap);
         if (newOlePatronDocument.getBarcode() != null && (!newOlePatronDocument.getBarcode().equalsIgnoreCase(""))) {
             Map<String, String> map = new HashMap<String, String>();
             map.put(OLEConstants.OlePatron.PATRON_ID, newOlePatronDocument.getOlePatronId());
@@ -1240,13 +1201,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
             }
             olePatronLostBarcode.setDescription(newOlePatronDocument.getLostDescription());
             olePatronLostBarcode.setStatus(newOlePatronDocument.getLostStatus());
-            /*for (OlePatronLostBarcode lostBarcodes : newOlePatronDocument.getLostBarcodes()) {
-                if (lostBarcodes.getInvalidOrLostBarcodeNumber().equalsIgnoreCase(lostBarcode)) {
-                    lostBarcodes.setDescription(newOlePatronDocument.getLostDescription());
-                    lostBarcodes.setStatus(newOlePatronDocument.getLostStatus());
-                    isBarcodeExist = true;
-                }
-            }*/
             List<OlePatronLostBarcode> lostBarcodes = newOlePatronDocument.getLostBarcodes();
             List<OlePatronLostBarcode> lostBarcodeList = new ArrayList<OlePatronLostBarcode>();
             if (!isBarcodeExist) {
@@ -1271,7 +1225,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                                          HttpServletRequest request, HttpServletResponse response) {
 
         LOG.debug(" Inside route method of patron maintenance controller ");
-        ModelAndView modelAndView;
         MaintenanceDocumentForm mainForm = (MaintenanceDocumentForm) form;
         MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
@@ -1326,11 +1279,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         invalidBarcode.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
         newOlePatronDocument.getLostBarcodes().add(invalidBarcode);
 
-        /*if(olePatronLostBarcode.getInvalidOrLopeople.getPrincipalName()stBarcodeNumber().equalsIgnoreCase(oldBarcode)){
-            olePatronLostBarcode.setDescription(OLEConstants.OlePatron.NEWBARCODE_DESCRIPTION);
-            olePatronLostBarcode.setStatus(OLEConstants.OlePatron.NEWBARCODE_STATUS);
-            olePatronLostBarcode.setActive(false);
-        }*/
         boolean isOldBarcodeExist=false;
         for (OlePatronLostBarcode olePatronLostBarcode : newOlePatronDocument.getLostBarcodes()) {
             if (olePatronLostBarcode.getInvalidOrLostBarcodeNumber().equalsIgnoreCase(oldBarcode)) {
@@ -1345,7 +1293,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                 olePatronLostBarcode.setRevertBarcode(true);
                 olePatronLostBarcode.setDescription(OLEConstants.OlePatron.NEWBARCODE_DESCRIPTION);
                 olePatronLostBarcode.setStatus(OLEConstants.OlePatron.NEWBARCODE_STATUS);
-                //Person people = SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPrincipalId());
                 olePatronLostBarcode.setOperatorId(GlobalVariables.getUserSession().getPrincipalId());
                 newOlePatronDocument.getLostBarcodes().add(olePatronLostBarcode);
             }
@@ -1363,15 +1310,13 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                                                            HttpServletRequest request, HttpServletResponse response) {
 
         LOG.debug(" Inside route method of patron maintenance controller ");
-        ModelAndView modelAndView;
-        MaintenanceDocumentForm mainForm = (MaintenanceDocumentForm) form;
         MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
         for (OlePatronLostBarcode lostBarcode : newOlePatronDocument.getLostBarcodes()) {
             if (lostBarcode.getId() != null) {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put(OLEConstants.OlePatron.PATRON_ID, lostBarcode.getId());
-                OlePatronLostBarcode olePatronLostBarcode = (OlePatronLostBarcode) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronLostBarcode.class, map);
+                OlePatronLostBarcode olePatronLostBarcode =  KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePatronLostBarcode.class, map);
                 if (olePatronLostBarcode != null) {
                     lostBarcode.setActive(olePatronLostBarcode.isActive());
                 } else {
@@ -1388,7 +1333,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
     @RequestMapping(params = "methodToCall=uploadImage")
     public ModelAndView uploadImage(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView modelAndView;
         MaintenanceDocumentForm mainForm = (MaintenanceDocumentForm) form;
         MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
@@ -1457,9 +1401,9 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         try {
             String inquiry = "false";
             if (request.getParameter("patronInquiryFlag") != null) {
-                inquiry = (String) request.getParameter("patronInquiryFlag");
+                inquiry = request.getParameter("patronInquiryFlag");
             }
-            String deleteImageFlag = (String)request.getParameter("deleteImageFlag");
+            String deleteImageFlag = request.getParameter("deleteImageFlag");
             if (inquiry.equalsIgnoreCase("false")) {
                 String patronId = request.getParameter(OLEConstants.OlePatron.PATRON_ID);
                 if (patronId != null && !patronId.equals("")) {
@@ -1531,9 +1475,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
     @RequestMapping(params = "methodToCall=refreshProgGroup")
     public ModelAndView refreshProgGroup(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ModelAndView modelAndView;
-        MaintenanceDocumentForm mainForm = (MaintenanceDocumentForm) form;
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
+        MaintenanceDocument document =  form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
         if (newOlePatronDocument.getOleLoanDocuments() != null) {
             for (OleLoanDocument loanDocument : newOlePatronDocument.getOleLoanDocuments()) {
@@ -1573,7 +1515,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
             for (OleEntityAddressBo oleEntityAddressBo : newOlePatronDocument.getOleEntityAddressBo()) {
                 if (oleEntityAddressBo.getEntityAddressBo().getId() == null) {
                     if (newOlePatronDocument.getEntity() != null && newOlePatronDocument.getEntity().getEntityTypeContactInfos() != null && newOlePatronDocument.getEntity().getEntityTypeContactInfos().size() > 0) {
-                        EntityTypeContactInfoBo entityTypeContactInfo = (EntityTypeContactInfoBo) newOlePatronDocument.getEntity().getEntityTypeContactInfos().get(0);
+                        EntityTypeContactInfoBo entityTypeContactInfo =  newOlePatronDocument.getEntity().getEntityTypeContactInfos().get(0);
                         if (entityTypeContactInfo.getAddresses() != null && entityTypeContactInfo.getAddresses().size() > 0 && entityTypeContactInfo.getAddresses().size()>i) {
                             if(oleEntityAddressBo.getEntityAddressBo()!=null){
                                entityTypeContactInfo.getAddresses().get(i).setDefaultValue(oleEntityAddressBo.getEntityAddressBo().isDefaultValue());
@@ -1613,7 +1555,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         LOG.debug("Initialized addLine method");
         MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
         String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
+        MaintenanceDocument document = form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
         newOlePatronDocument.getDeletedOleEntityAddressBo().add(newOlePatronDocument.getOleEntityAddressBo().get(Integer.parseInt(selectedLineIndex)));
         return deleteLine(uifForm, result, request, response);
@@ -1625,7 +1567,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         LOG.debug("Initialized addLine method");
         MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
         String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
+        MaintenanceDocument document = form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
         newOlePatronDocument.getDeletedPhones().add(newOlePatronDocument.getPhones().get(Integer.parseInt(selectedLineIndex)));
         return deleteLine(uifForm, result, request, response);
@@ -1638,7 +1580,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         LOG.debug("Initialized addLine method");
         MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
         String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
+        MaintenanceDocument document = form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
         newOlePatronDocument.getDeletedEmails().add(newOlePatronDocument.getEmails().get(Integer.parseInt(selectedLineIndex)));
         return deleteLine(uifForm, result, request, response);
@@ -1651,7 +1593,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         LOG.debug("Initialized addLine method");
         MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
         String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
+        MaintenanceDocument document = form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
         newOlePatronDocument.getDeletedOleProxyPatronDocuments().add(newOlePatronDocument.getOleProxyPatronDocuments().get(Integer.parseInt(selectedLineIndex)));
         return deleteLine(uifForm, result, request, response);
@@ -1664,7 +1606,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         LOG.debug("Initialized addLine method");
         MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
         String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
+        MaintenanceDocument document = form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
         newOlePatronDocument.getDeletedNotes().add(newOlePatronDocument.getNotes().get(Integer.parseInt(selectedLineIndex)));
         return deleteLine(uifForm, result, request, response);
@@ -1677,7 +1619,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         LOG.debug("Initialized addLine method");
         MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
         String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
+        MaintenanceDocument document = form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
         newOlePatronDocument.getDeletedOlePatronLocalIds().add(newOlePatronDocument.getOlePatronLocalIds().get(Integer.parseInt(selectedLineIndex)));
         return deleteLine(uifForm, result, request, response);
@@ -1692,7 +1634,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         LOG.debug("Initialized addLine method");
         MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
         String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
+        MaintenanceDocument document =  form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
         newOlePatronDocument.getDeletedPatronAffiliations().add(newOlePatronDocument.getPatronAffiliations().get(Integer.parseInt(selectedLineIndex)));
         newOlePatronDocument.getDeletedEmployments().addAll(newOlePatronDocument.getPatronAffiliations().get(Integer.parseInt(selectedLineIndex)).getEmployments());
@@ -1708,7 +1650,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         Map<String,String> actionParameters = form.getActionParameters();
         String subCollectionIndex = actionParameters.get(UifParameters.SELECTED_LINE_INDEX);
         String mainCollectionIndex= StringUtils.substringBefore(StringUtils.substringAfter(actionParameters.get(UifParameters.SELLECTED_COLLECTION_PATH),"["),"]");
-        MaintenanceDocument document = (MaintenanceDocument) form.getDocument();
+        MaintenanceDocument document =  form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
         EntityEmploymentBo entityEmploymentBo=newOlePatronDocument.getPatronAffiliations().get(Integer.parseInt(mainCollectionIndex)).getEmployments().get(Integer.parseInt(subCollectionIndex));
         if(entityEmploymentBo!=null){
@@ -1769,7 +1711,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         LOG.debug("Patron View : Hiding Patron Loaned Records");
         MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
         OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDocument().getNewMaintainableObject().getDataObject();
-        //olePatronDocument.setOleLoanDocuments(new ArrayList<OleLoanDocument>());
         olePatronDocument.setShowLoanedRecords(false);
         return getUIFModelAndView(form);
     }
@@ -1842,7 +1783,6 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                                            HttpServletRequest request, HttpServletResponse response) {
         LOG.debug("Patron View : Hiding Patron Loaned Records");
         MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
-        OlePatronDocument olePatronDocument=(OlePatronDocument)form.getDocument().getNewMaintainableObject().getDataObject();
         return getUIFModelAndView(form);
     }
 
@@ -1859,23 +1799,20 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         	
             List<OleProxyPatronDocument> oleProxyPatronDocuments = olePatron.getOleProxyPatronDocuments();
             List<OleProxyPatronDocument> proxyPatronDocumentList = new ArrayList<OleProxyPatronDocument>();
-            List<OlePatronDocument> olePatronDocuments = new ArrayList<OlePatronDocument>();
 			ProcessLogger.trace("patron:proxy:begin:"
 					+ oleProxyPatronDocuments.size());
             if (oleProxyPatronDocuments.size() > 0) {
                 for (Iterator<OleProxyPatronDocument> proxyPatronIterator = oleProxyPatronDocuments.iterator(); proxyPatronIterator.hasNext(); ) {
-                    OleProxyPatronDocument oleProxyPatronDocument = (OleProxyPatronDocument) proxyPatronIterator.next();
+                    OleProxyPatronDocument oleProxyPatronDocument = proxyPatronIterator.next();
                     Map map = new HashMap();
                     map.put(OLEConstants.OlePatron.PATRON_ID, oleProxyPatronDocument.getProxyPatronId());
         			ProcessLogger.trace("patron:proxy:"
         					+ oleProxyPatronDocument.getProxyPatronId());
-                    OlePatronDocument olePatronDocument = (OlePatronDocument) getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, map);
-                   // if (olePatronDocument.isActiveIndicator()) {
+                    OlePatronDocument olePatronDocument = getBusinessObjectService().findByPrimaryKey(OlePatronDocument.class, map);
                         oleProxyPatronDocument.setProxyPatronBarcode(olePatronDocument.getBarcode());
                         oleProxyPatronDocument.setProxyPatronFirstName(olePatronDocument.getEntity().getNames().get(0).getFirstName());
                         oleProxyPatronDocument.setProxyPatronLastName(olePatronDocument.getEntity().getNames().get(0).getLastName());
                         proxyPatronDocumentList.add(oleProxyPatronDocument);
-                   // }
                 }
                 olePatron.setOleProxyPatronDocuments(proxyPatronDocumentList);
                 ProcessLogger.trace("patron:proxy:end");
@@ -1889,8 +1826,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
     public ModelAndView addNotes(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
-        MaintenanceDocument maintenanceDocument = (MaintenanceDocument) maintenanceForm.getDocument();
-        OlePatronDocument olePatronDocument = (OlePatronDocument) maintenanceDocument.getNewMaintainableObject().getDataObject();
+        MaintenanceDocument maintenanceDocument =  maintenanceForm.getDocument();
         String selectedCollectionPath = maintenanceForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         CollectionGroup collectionGroup = maintenanceForm.getPostedView().getViewIndex().getCollectionGroupByPath(
                 selectedCollectionPath);

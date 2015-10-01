@@ -1056,6 +1056,7 @@ public class OLEConstants {
         public static final String ERROR_PATRON_VALID_ADDRESS_TO_DATE = "error.patron.valid.addressTo.date";
         public static final String ERROR_PATRON_REQUIRED_ADDRESS_FROM_DATE = "error.patron.required.address.from.date";
         public static final String ERROR_PATRON_ADDRESS_FROM_TO_DATE_OVERLAP = "error.patron.address.from.to.date.overlap";
+        public static final String INVALID_BARCODE = "error.deliver.patron.invalidBarcode";
         public static final String ERROR_PROXY_PATRON_ID = "error.proxy.patron.id";
         public static final String ERROR_DUPLICATE_PROXY_PATRON_BARCODE = "error.proxy.barcode.duplicate";
         public static final String ERROR_PROXY_PATRON_BARCODE = "error.proxy.barcode.required";
