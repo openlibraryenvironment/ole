@@ -20,7 +20,6 @@ classpath:sql/oracle/OLE_CAT_ELA_RLSHP_T.sql
 classpath:sql/oracle/OLE_CAT_ENCD_LVL_T.sql
 classpath:sql/oracle/OLE_CAT_FLD_ENCD_LVL_T.sql
 classpath:sql/oracle/OLE_CAT_GEN_RTN_POL_T.sql
-classpath:sql/oracle/OLE_CAT_ITM_TYP_T.sql
 classpath:sql/oracle/OLE_CAT_LND_POL_T.sql
 classpath:sql/oracle/OLE_CAT_LOC_COUNTRY_CD_T.sql
 classpath:sql/oracle/OLE_CAT_NTN_TYP_T.sql
@@ -34,7 +33,6 @@ classpath:sql/oracle/OLE_CAT_SPCP_RPT_T.sql
 classpath:sql/oracle/OLE_CAT_SPFC_RTN_POL_TYP_T.sql
 classpath:sql/oracle/OLE_CAT_SPFC_RTN_POL_UNT_TYP_T.sql
 classpath:sql/oracle/OLE_CAT_SRC_TRM_T.sql
-classpath:sql/oracle/OLE_CAT_STAT_SRCH_CD_T.sql
 classpath:sql/oracle/OLE_CAT_TYPE_OWNERSHIP_T.sql
 classpath:sql/oracle/OLE_CLAIM_TYP_T.sql
 classpath:sql/oracle/OLE_CLNDR_EXP_TYP_T.sql
