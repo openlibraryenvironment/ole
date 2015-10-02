@@ -275,7 +275,7 @@
         <column name="ITM_TYP_NM" required="true" size="100" type="VARCHAR"/>
         <column name="ITM_TYP_DESC" size="700" type="VARCHAR"/>
         <column name="SRC" required="true" size="100" type="VARCHAR"/>
-        <column name="SRC_DT" required="true" type="TIMESTAMP"/>
+        <column name="SRC_DT" required="true" type="DATE"/>
         <column default="Y" name="ROW_ACT_IND" required="true" size="1" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -488,7 +488,7 @@
         <column name="STAT_SRCH_CD" required="true" size="40" type="VARCHAR"/>
         <column name="STAT_SRCH_NM" required="true" size="100" type="VARCHAR"/>
         <column name="SRC" required="true" size="100" type="VARCHAR"/>
-        <column name="SRC_DT" required="true" type="TIMESTAMP"/>
+        <column name="SRC_DT" required="true" type="DATE"/>
         <column default="Y" name="ROW_ACT_IND" required="true" size="1" type="VARCHAR"/>
         <unique name="STAT_SRCH_CD">
             <unique-column name="STAT_SRCH_CD"/>

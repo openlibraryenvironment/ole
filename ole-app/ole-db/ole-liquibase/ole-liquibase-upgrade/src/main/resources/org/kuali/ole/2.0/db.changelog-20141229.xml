@@ -5509,7 +5509,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_T_MYSQL" dbms="mysql">
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_T">
         <modifyDataType catalogName="ole"
                         columnName="CIR_POLICY_ID"
                         newDataType="varchar(2000)"
@@ -5517,7 +5517,7 @@
                         tableName="OLE_DLVR_LOAN_T"/>
     </changeSet>
 
-    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_RECORD_MYSQL" dbms="mysql">
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_RECORD">
         <modifyDataType catalogName="ole"
                         columnName="CIR_POLICY_ID"
                         newDataType="varchar(2000)"
@@ -5544,6 +5544,22 @@
                 <where>APPL_ID = 'OLE'</where>
             </delete>
         </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CAT_ITM_TYP_T">
+        <modifyDataType catalogName="ole"
+                        columnName="SRC_DT"
+                        newDataType="DATE"
+                        schemaName="ole"
+                        tableName="OLE_CAT_ITM_TYP_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_CAT_STAT_SRCH_CD_T">
+        <modifyDataType catalogName="ole"
+                        columnName="SRC_DT"
+                        newDataType="DATE"
+                        schemaName="ole"
+                        tableName="OLE_CAT_ITM_TYP_T"/>
     </changeSet>
 
 </databaseChangeLog>
