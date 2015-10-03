@@ -38,18 +38,22 @@ public class OleDateTimeUtil {
         }
 
 
-        OleCalendar activeCalendar = getActiveCalendar(loanDueDate, oleCirculationDesk.getCalendarGroupId());
+        if (null != oleCirculationDesk) {
+            OleCalendar activeCalendar = getActiveCalendar(loanDueDate, oleCirculationDesk.getCalendarGroupId());
 
-        int day = loanDueDate.getDay();
-        Map<String, String> closingTimeForTheGivenDay = getClosingTimeForTheGivenDay(day, activeCalendar);
+            int day = loanDueDate.getDay();
+            Map<String, String> closingTimeForTheGivenDay = getClosingTimeForTheGivenDay(day, activeCalendar);
 
-        boolean validTime = compareTimes(closingTimeForTheGivenDay, loanDueDate);
-        if(validTime){
-            return loanDueDate;
+            boolean validTime = compareTimes(closingTimeForTheGivenDay, loanDueDate);
+            if(validTime){
+                return loanDueDate;
+            }
+
+            //TODO: System parameter determines include/exclude working hours
+            return null;
         }
 
-        //TODO: System parameter determines include/exclude working hours
-        return null;
+        return loanDueDate;
     }
 
     private boolean compareTimes(Map<String, String> closingTimeForTheGivenDay, Date loanDueDate) {
