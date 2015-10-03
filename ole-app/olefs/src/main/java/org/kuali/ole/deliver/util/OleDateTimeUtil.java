@@ -23,20 +23,7 @@ public class OleDateTimeUtil {
 
         Date loanDueDate = null;
 
-        StringTokenizer stringTokenizer = new StringTokenizer(loanPeriod, "-");
-        String amount = stringTokenizer.nextToken();
-        String period = stringTokenizer.nextToken();
-
-        if (period.equalsIgnoreCase("m")) {
-            loanDueDate = DateUtils.addMinutes(new Date(), Integer.parseInt(amount));
-        } else if (period.equalsIgnoreCase("h")) {
-            loanDueDate = DateUtils.addHours(new Date(), Integer.parseInt(amount));
-        } else if (period.equalsIgnoreCase("d")) {
-            loanDueDate = DateUtils.addDays(new Date(), Integer.parseInt(amount));
-        } else if (period.equalsIgnoreCase("w")) {
-            loanDueDate = DateUtils.addWeeks(new Date(), Integer.parseInt(amount));
-        }
-
+        loanDueDate = getLoanDueDate(loanPeriod, loanDueDate);
 
         if (null != oleCirculationDesk) {
             OleCalendar activeCalendar = getActiveCalendar(loanDueDate, oleCirculationDesk.getCalendarGroupId());
@@ -53,6 +40,23 @@ public class OleDateTimeUtil {
             return null;
         }
 
+        return loanDueDate;
+    }
+
+    private Date getLoanDueDate(String loanPeriod, Date loanDueDate) {
+        StringTokenizer stringTokenizer = new StringTokenizer(loanPeriod, "-");
+        String amount = stringTokenizer.nextToken();
+        String period = stringTokenizer.nextToken();
+
+        if (period.equalsIgnoreCase("m")) {
+            loanDueDate = DateUtils.addMinutes(new Date(), Integer.parseInt(amount));
+        } else if (period.equalsIgnoreCase("h")) {
+            loanDueDate = DateUtils.addHours(new Date(), Integer.parseInt(amount));
+        } else if (period.equalsIgnoreCase("d")) {
+            loanDueDate = DateUtils.addDays(new Date(), Integer.parseInt(amount));
+        } else if (period.equalsIgnoreCase("w")) {
+            loanDueDate = DateUtils.addWeeks(new Date(), Integer.parseInt(amount));
+        }
         return loanDueDate;
     }
 
