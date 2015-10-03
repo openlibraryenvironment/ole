@@ -29,9 +29,9 @@ public class OleDateTimeUtil {
             OleCalendar activeCalendar = getActiveCalendar(loanDueDate, oleCirculationDesk.getCalendarGroupId());
 
             int day = loanDueDate.getDay();
-            Map<String, String> closingTimeForTheGivenDay = getClosingTimeForTheGivenDay(day, activeCalendar);
+            Map<String, Map<String, String>> openAndClosingTimeForTheGivenDay = getOpenAndClosingTimeForTheGivenDay(day, activeCalendar);
 
-            boolean validTime = compareTimes(closingTimeForTheGivenDay, loanDueDate);
+            boolean validTime = compareTimes(openAndClosingTimeForTheGivenDay.get("closeTime"), loanDueDate);
             if(validTime){
                 return loanDueDate;
             }
@@ -77,29 +77,41 @@ public class OleDateTimeUtil {
         instance.set(Calendar.MINUTE, Integer.parseInt(timeTokenizer.nextToken()));
 
         //Compares for the givne day if the loan due time falls within the closing time
-        return instance.getTime().before(loanDueDate);
+        return loanDueDate.before(instance.getTime());
     }
 
-    private Map<String, String> getClosingTimeForTheGivenDay(int day, OleCalendar oleCalendar) {
+    private Map<String, Map<String, String>> getOpenAndClosingTimeForTheGivenDay(int day, OleCalendar oleCalendar) {
+        Map<String, Map<String, String>> openingAndClosingTimeMap = new HashMap<>();
         Map<String, String> closingTimeMap = new HashMap<>();
+        Map<String, String> openingTimeMap = new HashMap<>();
         List<OleCalendarWeek> oleCalendarWeekList = oleCalendar.getOleCalendarWeekList();
         for (Iterator<OleCalendarWeek> iterator = oleCalendarWeekList.iterator(); iterator.hasNext(); ) {
             OleCalendarWeek oleCalendarWeek = iterator.next();
 
             if (oleCalendarWeek.getStartDay().equals(String.valueOf(day))) {
-                String closeTime = oleCalendarWeek.getCloseTime();
-                String closeTimeSession = oleCalendarWeek.getCloseTimeSession();
-                closingTimeMap.put(closeTime, closeTimeSession);
+                resolveOpenAndCloseTimes(closingTimeMap, openingTimeMap, oleCalendarWeek);
+
             } else if (oleCalendarWeek.isEachDayWeek()) {
                 if (day > Integer.valueOf(oleCalendarWeek.getStartDay()) && day < Integer.valueOf(oleCalendarWeek.getEndDay())) {
-                    String closeTime = oleCalendarWeek.getCloseTime();
-                    String closeTimeSession = oleCalendarWeek.getCloseTimeSession();
-                    closingTimeMap.put(closeTime, closeTimeSession);
+                   resolveOpenAndCloseTimes(closingTimeMap, openingTimeMap, oleCalendarWeek);
                 }
             }
         }
 
-        return closingTimeMap;
+        openingAndClosingTimeMap.put("openTime", openingTimeMap);
+        openingAndClosingTimeMap.put("closeTime", closingTimeMap);
+
+        return openingAndClosingTimeMap;
+    }
+
+    private void resolveOpenAndCloseTimes(Map<String, String> closingTimeMap, Map<String, String> openingTimeMap, OleCalendarWeek oleCalendarWeek) {
+        String closeTime = oleCalendarWeek.getCloseTime();
+        String closeTimeSession = oleCalendarWeek.getCloseTimeSession();
+        closingTimeMap.put(closeTime, closeTimeSession);
+
+        String openTime = oleCalendarWeek.getOpenTime();
+        String openTimeSession = oleCalendarWeek.getOpenTimeSession();
+        openingTimeMap.put(openTime, openTimeSession);
     }
 
     public OleCalendar getActiveCalendar(Date date, String groupId) {

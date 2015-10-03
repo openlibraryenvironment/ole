@@ -151,7 +151,7 @@ public class OleDateTimeUtil_IT {
         oleCalendarWeek.setOpenTime("02:00");
         oleCalendarWeek.setOpenTimeSession("AM");
         oleCalendarWeek.setCloseTime("08:00");
-        oleCalendarWeek.setCloseTimeSession("AM");
+        oleCalendarWeek.setCloseTimeSession("PM");
         oleCalendarWeek.setStartDay("0");
         oleCalendarWeek.setEndDay("6");
         oleCalendarWeekList.add(oleCalendarWeek);
