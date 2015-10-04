@@ -114,6 +114,7 @@ public class OLEConstants {
     public static final String CALENDER_SAT = "Saturday";
     public static final String CALENDER_STARTDATE = "temp.strt.end.date.new.cal";
     public static final String CALENDER_FLAG = "INCLUDE_NON_WORKING_HRS";
+    public static final String GRACE_PERIOD_FOR_NON_WORKING_HOURS = "GRACE_PERIOD_FOR_NON_WORKING_HOURS";
     public static final String FINE_FLAG = "INCLUDE_NON_WORKING_HRS_FOR_FINE_CAL";
     public static final String CLAIMS_CHECKED_IN_FLAG = "CLAIMS_CHECKED_IN_NOTE";
     public static final String CLAIMS_CHECKED_OUT_FLAG = "CLAIMS_CHECKED_OUT_NOTE";

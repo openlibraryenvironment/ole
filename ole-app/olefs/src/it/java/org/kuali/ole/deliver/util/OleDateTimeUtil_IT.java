@@ -111,6 +111,8 @@ public class OleDateTimeUtil_IT {
     }
 
 
+    //This test will fail depending on what time of the day its run. So, adjust the input to validate the test.
+    //TODO: Will need to be refactored
     @Test
     public void compareTime() throws Exception {
         String time = "09:45";
@@ -166,6 +168,88 @@ public class OleDateTimeUtil_IT {
         System.out.println(date);
     }
 
+    @Test
+    public void loanPeriodFallsOutsideWorkingHoursAndDoNotIncludeNonWorkingHours() throws Exception {
+        OleCirculationDesk oleCirculationDesk = new OleCirculationDesk();
+
+        OleCalendarGroup oleCalendarGroup = new OleCalendarGroup();
+        oleCalendarGroup.setCalendarGroupId("1");
+        oleCalendarGroup.setCalendarGroupName("Mock Fall Calendar");
+
+        oleCirculationDesk.setOleCalendarGroup(oleCalendarGroup);
+        oleCirculationDesk.setCalendarGroupId(oleCalendarGroup.getCalendarGroupId());
+
+        mockOleCalendar = new OleCalendar();
+
+        ArrayList<OleCalendarWeek> oleCalendarWeekList = new ArrayList<>();
+        OleCalendarWeek oleCalendarWeek = new OleCalendarWeek();
+        oleCalendarWeek.setOleCalendar(mockOleCalendar);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
+
+        mockOleCalendar.setBeginDate(new Timestamp(calendar.getTimeInMillis()));
+        oleCalendarWeek.setEachDayWeek(true);
+        oleCalendarWeek.setOpenTime("02:00");
+        oleCalendarWeek.setOpenTimeSession("AM");
+        oleCalendarWeek.setCloseTime("08:00");
+        oleCalendarWeek.setCloseTimeSession("AM");
+        oleCalendarWeek.setStartDay("0");
+        oleCalendarWeek.setEndDay("6");
+        oleCalendarWeekList.add(oleCalendarWeek);
+
+        mockOleCalendar.setOleCalendarWeekList(oleCalendarWeekList);
+        mockOleCalendar.setOleCalendarGroup(oleCalendarGroup);
+
+
+        OleDateTimeUtil oleDateTimeUtil = new MockOleDateTimeUtil();
+        Date date = oleDateTimeUtil.calculateDateTimeByPeriod("1-D", oleCirculationDesk);
+        assertNotNull(date);
+        System.out.println(date);
+    }
+
+
+
+    @Test
+    public void loanPeriodFallsOutsideWorkingHoursAndIncludeNonWorkingHours() throws Exception {
+        OleCirculationDesk oleCirculationDesk = new OleCirculationDesk();
+
+        OleCalendarGroup oleCalendarGroup = new OleCalendarGroup();
+        oleCalendarGroup.setCalendarGroupId("1");
+        oleCalendarGroup.setCalendarGroupName("Mock Fall Calendar");
+
+        oleCirculationDesk.setOleCalendarGroup(oleCalendarGroup);
+        oleCirculationDesk.setCalendarGroupId(oleCalendarGroup.getCalendarGroupId());
+
+        mockOleCalendar = new OleCalendar();
+
+        ArrayList<OleCalendarWeek> oleCalendarWeekList = new ArrayList<>();
+        OleCalendarWeek oleCalendarWeek = new OleCalendarWeek();
+        oleCalendarWeek.setOleCalendar(mockOleCalendar);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
+
+        mockOleCalendar.setBeginDate(new Timestamp(calendar.getTimeInMillis()));
+        oleCalendarWeek.setEachDayWeek(true);
+        oleCalendarWeek.setOpenTime("02:00");
+        oleCalendarWeek.setOpenTimeSession("AM");
+        oleCalendarWeek.setCloseTime("08:00");
+        oleCalendarWeek.setCloseTimeSession("AM");
+        oleCalendarWeek.setStartDay("0");
+        oleCalendarWeek.setEndDay("6");
+        oleCalendarWeekList.add(oleCalendarWeek);
+
+        mockOleCalendar.setOleCalendarWeekList(oleCalendarWeekList);
+        mockOleCalendar.setOleCalendarGroup(oleCalendarGroup);
+
+
+        OleDateTimeUtil oleDateTimeUtil = new MockOleDateTimeUtilIncludeNonWorkingHours();
+        Date date = oleDateTimeUtil.calculateDateTimeByPeriod("1-D", oleCirculationDesk);
+        assertNotNull(date);
+        System.out.println(date);
+    }
+
 
 
     class MockOleDateTimeUtil extends OleDateTimeUtil {
@@ -177,6 +261,33 @@ public class OleDateTimeUtil_IT {
                 return oleCalendars;
             }
             return  null;
+        }
+
+        @Override
+        public Boolean includeNonWorkingHours() {
+            return false;
+        }
+    }
+
+    class MockOleDateTimeUtilIncludeNonWorkingHours extends OleDateTimeUtil {
+        @Override
+        protected List<OleCalendar> getOleCalendars(String groupId) {
+            if(groupId.equalsIgnoreCase("1")){
+                ArrayList<OleCalendar> oleCalendars = new ArrayList<>();
+                oleCalendars.add(mockOleCalendar);
+                return oleCalendars;
+            }
+            return  null;
+        }
+
+        @Override
+        public Boolean includeNonWorkingHours() {
+            return true;
+        }
+
+        @Override
+        public String getGracePeriodForIncludingNonWorkingHours() {
+            return "25-m";
         }
     }
 }

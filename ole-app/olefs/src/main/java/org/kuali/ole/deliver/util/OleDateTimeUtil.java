@@ -6,6 +6,7 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.calendar.bo.OleCalendar;
 import org.kuali.ole.deliver.calendar.bo.OleCalendarWeek;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -31,16 +32,43 @@ public class OleDateTimeUtil {
             int day = loanDueDate.getDay();
             Map<String, Map<String, String>> openAndClosingTimeForTheGivenDay = getOpenAndClosingTimeForTheGivenDay(day, activeCalendar);
 
-            boolean validTime = compareTimes(openAndClosingTimeForTheGivenDay.get("closeTime"), loanDueDate);
-            if(validTime){
+            boolean dueTimeWithinWorkingHours = compareTimes(openAndClosingTimeForTheGivenDay.get("closeTime"), loanDueDate);
+            if (dueTimeWithinWorkingHours) {
                 return loanDueDate;
+            } else {
+                boolean includeNonWorkingHours = includeNonWorkingHours();
+                if (includeNonWorkingHours) {
+                    //Get open/close times for the following day.
+                    Map<String, Map<String, String>> openingAndClosingTimeForTheNextDay = getOpenAndClosingTimeForTheGivenDay(day + 1, activeCalendar);
+                    loanDueDate = resolveDateTime(openingAndClosingTimeForTheNextDay.get("openTime"), DateUtils.addDays(loanDueDate, 1)).getTime();
+                    loanDueDate = handleGracePeriod(loanDueDate);
+                } else {
+                    loanDueDate = resolveDateTime(openAndClosingTimeForTheGivenDay.get("closeTime"), loanDueDate).getTime();
+                }
             }
-
-            //TODO: System parameter determines include/exclude working hours
-            return null;
         }
 
         return loanDueDate;
+    }
+
+    private Date handleGracePeriod(Date loanDueDate) {
+        Date updatedDate = null;
+        String gracePeriod = getGracePeriodForIncludingNonWorkingHours();
+        StringTokenizer stringTokenizer = new StringTokenizer(gracePeriod, "-");
+        String amount = stringTokenizer.nextToken();
+        String interval = stringTokenizer.nextToken();
+        if (interval.equalsIgnoreCase("m")) {
+           updatedDate =  DateUtils.addMinutes(loanDueDate, Integer.valueOf(amount));
+        } else if (interval.equalsIgnoreCase("h")) {
+            updatedDate = DateUtils.addHours(loanDueDate, Integer.valueOf(amount));
+        }
+
+        return updatedDate;
+    }
+
+    public Boolean includeNonWorkingHours() {
+        return ParameterValueResolver.getInstance().getParameterAsBoolean(OLEConstants
+                .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.CALENDER_FLAG);
     }
 
     private Date getLoanDueDate(String loanPeriod, Date loanDueDate) {
@@ -61,23 +89,24 @@ public class OleDateTimeUtil {
     }
 
     private boolean compareTimes(Map<String, String> closingTimeForTheGivenDay, Date loanDueDate) {
+        Calendar instance = resolveDateTime(closingTimeForTheGivenDay, loanDueDate);
+        //Compares for the givne day if the loan due time falls within the closing time
+        return loanDueDate.before(instance.getTime());
+    }
+
+    private Calendar resolveDateTime(Map<String, String> closingTimeForTheGivenDay, Date loanDueDate) {
         String time = closingTimeForTheGivenDay.keySet().iterator().next();
         String timeSession = closingTimeForTheGivenDay.get(time);
-
         StringTokenizer timeTokenizer = new StringTokenizer(time, ":");
-
-
         int hour = timeSession.equalsIgnoreCase("am") ? Integer.parseInt(timeTokenizer.nextToken()) : Integer.parseInt(timeTokenizer.nextToken()) + 12;
 
         Calendar instance = Calendar.getInstance();
         //The date is being set to the loan due date to ensure the comparisons are for the given day.
         instance.setTime(loanDueDate);
         //The hour and minutes are for closing times.
-        instance.set(Calendar.HOUR, hour);
+        instance.set(Calendar.HOUR_OF_DAY, hour);
         instance.set(Calendar.MINUTE, Integer.parseInt(timeTokenizer.nextToken()));
-
-        //Compares for the givne day if the loan due time falls within the closing time
-        return loanDueDate.before(instance.getTime());
+        return instance;
     }
 
     private Map<String, Map<String, String>> getOpenAndClosingTimeForTheGivenDay(int day, OleCalendar oleCalendar) {
@@ -87,13 +116,12 @@ public class OleDateTimeUtil {
         List<OleCalendarWeek> oleCalendarWeekList = oleCalendar.getOleCalendarWeekList();
         for (Iterator<OleCalendarWeek> iterator = oleCalendarWeekList.iterator(); iterator.hasNext(); ) {
             OleCalendarWeek oleCalendarWeek = iterator.next();
-
             if (oleCalendarWeek.getStartDay().equals(String.valueOf(day))) {
                 resolveOpenAndCloseTimes(closingTimeMap, openingTimeMap, oleCalendarWeek);
 
             } else if (oleCalendarWeek.isEachDayWeek()) {
                 if (day > Integer.valueOf(oleCalendarWeek.getStartDay()) && day < Integer.valueOf(oleCalendarWeek.getEndDay())) {
-                   resolveOpenAndCloseTimes(closingTimeMap, openingTimeMap, oleCalendarWeek);
+                    resolveOpenAndCloseTimes(closingTimeMap, openingTimeMap, oleCalendarWeek);
                 }
             }
         }
@@ -166,5 +194,10 @@ public class OleDateTimeUtil {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public String getGracePeriodForIncludingNonWorkingHours() {
+        return ParameterValueResolver.getInstance().getParameter(OLEConstants
+                .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.GRACE_PERIOD_FOR_NON_WORKING_HOURS);
     }
 }
