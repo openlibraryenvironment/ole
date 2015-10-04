@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * Created by pvsubrah on 10/3/15.
  */
-public class OleDateTimeUtil {
+public class LoanDateTimeUtil {
     private Map<String, OleCalendar> calendarMap;
     private BusinessObjectService businessObjectService;
 

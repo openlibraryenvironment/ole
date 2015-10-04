@@ -1,20 +1,16 @@
 package org.kuali.ole.deliver.util;
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.calendar.bo.OleCalendar;
 import org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionDate;
 import org.kuali.ole.deliver.calendar.bo.OleCalendarGroup;
 import org.kuali.ole.deliver.calendar.bo.OleCalendarWeek;
-import org.kuali.ole.utility.DateTimeUtil;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static junit.framework.Assert.assertFalse;
@@ -24,7 +20,7 @@ import static junit.framework.TestCase.assertNotNull;
 /**
  * Created by pvsubrah on 10/2/15.
  */
-public class OleDateTimeUtil_IT {
+public class LoanDateTimeUtil_IT {
     private OleCalendar mockOleCalendar;
 
     @Ignore
@@ -61,7 +57,7 @@ public class OleDateTimeUtil_IT {
     @Test
     public void calculateDueDateForAmountOfMinutes() throws Exception {
         String loanPeriod = "30-M";
-        Date dueDate = new OleDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null);
+        Date dueDate = new LoanDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null);
         assertNotNull(dueDate);
         System.out.println("Added 30 minutes:" + dueDate + "\n");
     }
@@ -70,7 +66,7 @@ public class OleDateTimeUtil_IT {
     @Test
     public void calculateDueDateForAmountOfDays() throws Exception {
         String loanPeriod = "1-D";
-        Date dueDate = new OleDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null);
+        Date dueDate = new LoanDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null);
         assertNotNull(dueDate);
         System.out.println("Added 1 day:" +dueDate+ "\n");
     }
@@ -79,7 +75,7 @@ public class OleDateTimeUtil_IT {
     @Test
     public void calculateDueDateForAmountOfHours() throws Exception {
         String loanPeriod = "2-H";
-        Date dueDate = new OleDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null);
+        Date dueDate = new LoanDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null);
         assertNotNull(dueDate);
         System.out.println("Added 2 hours:" +dueDate+ "\n");
     }
@@ -87,26 +83,26 @@ public class OleDateTimeUtil_IT {
     @Test
     public void calculateDueDateForAmountOfWeeks() throws Exception {
         String loanPeriod = "2-W";
-        Date dueDate = new OleDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null);
+        Date dueDate = new LoanDateTimeUtil().calculateDateTimeByPeriod(loanPeriod, null);
         assertNotNull(dueDate);
         System.out.println("Added 2 Weeks:" +dueDate+ "\n");
     }
 
     @Test
     public void calExists() throws Exception {
-        OleDateTimeUtil oleDateTimeUtil = new OleDateTimeUtil();
+        LoanDateTimeUtil loanDateTimeUtil = new LoanDateTimeUtil();
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1);
-        boolean calendarExists = oleDateTimeUtil.calendarExists(new Timestamp(System.currentTimeMillis()), new Timestamp(calendar.getTimeInMillis()), null);
+        boolean calendarExists = loanDateTimeUtil.calendarExists(new Timestamp(System.currentTimeMillis()), new Timestamp(calendar.getTimeInMillis()), null);
         assertTrue(calendarExists);
     }
 
     @Test
     public void calDoesNotExists() throws Exception {
-        OleDateTimeUtil oleDateTimeUtil = new OleDateTimeUtil();
+        LoanDateTimeUtil loanDateTimeUtil = new LoanDateTimeUtil();
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1);
-        boolean calendarExists = oleDateTimeUtil.calendarExists(new Timestamp(calendar.getTimeInMillis()),new Timestamp(System.currentTimeMillis()), null);
+        boolean calendarExists = loanDateTimeUtil.calendarExists(new Timestamp(calendar.getTimeInMillis()),new Timestamp(System.currentTimeMillis()), null);
         assertFalse(calendarExists);
     }
 
@@ -162,8 +158,8 @@ public class OleDateTimeUtil_IT {
         mockOleCalendar.setOleCalendarGroup(oleCalendarGroup);
 
 
-        OleDateTimeUtil oleDateTimeUtil = new MockOleDateTimeUtil();
-        Date date = oleDateTimeUtil.calculateDateTimeByPeriod("1-D", oleCirculationDesk);
+        LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtil();
+        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("1-D", oleCirculationDesk);
         assertNotNull(date);
         System.out.println(date);
     }
@@ -202,8 +198,8 @@ public class OleDateTimeUtil_IT {
         mockOleCalendar.setOleCalendarGroup(oleCalendarGroup);
 
 
-        OleDateTimeUtil oleDateTimeUtil = new MockOleDateTimeUtil();
-        Date date = oleDateTimeUtil.calculateDateTimeByPeriod("1-D", oleCirculationDesk);
+        LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtil();
+        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("1-D", oleCirculationDesk);
         assertNotNull(date);
         System.out.println(date);
     }
@@ -244,15 +240,15 @@ public class OleDateTimeUtil_IT {
         mockOleCalendar.setOleCalendarGroup(oleCalendarGroup);
 
 
-        OleDateTimeUtil oleDateTimeUtil = new MockOleDateTimeUtilIncludeNonWorkingHours();
-        Date date = oleDateTimeUtil.calculateDateTimeByPeriod("1-D", oleCirculationDesk);
+        LoanDateTimeUtil loanDateTimeUtil = new MockLoanDateTimeUtilIncludeNonWorkingHours();
+        Date date = loanDateTimeUtil.calculateDateTimeByPeriod("1-D", oleCirculationDesk);
         assertNotNull(date);
         System.out.println(date);
     }
 
 
 
-    class MockOleDateTimeUtil extends OleDateTimeUtil {
+    class MockLoanDateTimeUtil extends LoanDateTimeUtil {
         @Override
         protected List<OleCalendar> getOleCalendars(String groupId) {
             if(groupId.equalsIgnoreCase("1")){
@@ -269,7 +265,7 @@ public class OleDateTimeUtil_IT {
         }
     }
 
-    class MockOleDateTimeUtilIncludeNonWorkingHours extends OleDateTimeUtil {
+    class MockLoanDateTimeUtilIncludeNonWorkingHours extends LoanDateTimeUtil {
         @Override
         protected List<OleCalendar> getOleCalendars(String groupId) {
             if(groupId.equalsIgnoreCase("1")){
