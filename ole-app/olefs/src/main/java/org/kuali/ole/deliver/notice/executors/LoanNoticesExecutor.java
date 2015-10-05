@@ -9,6 +9,7 @@ import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.NoticesExecutor;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
@@ -33,6 +34,7 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
     private static final Logger LOG = Logger.getLogger(LoanNoticesExecutor.class);
     protected List<OleLoanDocument> loanDocuments;
     protected Map<String,String> fieldLabelMap = new HashMap<String,String>();
+    protected OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo;
 
     public LoanNoticesExecutor(List<OleLoanDocument> loanDocuments) {
         this.loanDocuments = loanDocuments;
@@ -44,9 +46,10 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
 
         //1. Pre process
         preProcess(loanDocuments);
-        //2. building FieldLabel Map
+        /*//2. building FieldLabel Map
         populateFieldLabelMapping();
-        //3. generate email content
+        *///3. generate email content
+        setOleNoticeContentConfigurationBo();
         String mailContent = generateMailContent(loanDocuments);
         //4. Generate notices
         List<OLEDeliverNotice> oleDeliverNotices = buildNoticesForDeletion();
@@ -85,6 +88,6 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
     protected abstract void preProcess(List<OleLoanDocument> loanDocuments);
     public abstract List<OLEDeliverNotice> buildNoticesForDeletion();
     public abstract String generateMailContent(List<OleLoanDocument> oleLoanDocuments);
-    public abstract void populateFieldLabelMapping();
+    public abstract void setOleNoticeContentConfigurationBo();
 
 }

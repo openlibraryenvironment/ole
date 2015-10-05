@@ -48,43 +48,36 @@ public abstract class NoticeMailContentFormatter {
     }
 
 
-    public String generateMailContentForPatron(List<OleLoanDocument> oleLoanDocuments,Map<String,String> fieldLabelMap){
-
-        //initialiseOleNoticeBos(oleLoanDocuments, null);
-        //TODO: Return the generated HTML content
-        return "";
-    }
-
-    public String generateMailContentForPatron(List<OleLoanDocument> oleLoanDocuments, OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) throws Exception {
+    public String generateMailContentForPatron(List<OleLoanDocument> oleLoanDocuments, OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) {
         List<OleNoticeBo> noticeBos = initialiseOleNoticeBos(oleLoanDocuments, oleNoticeContentConfigurationBo);
         String noticeHtmlContent = generateHTML(noticeBos, oleNoticeContentConfigurationBo);
         return noticeHtmlContent;
     }
 
-    public List<OleNoticeBo> initialiseOleNoticeBos(List<OleLoanDocument> oleLoanDocuments,OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) throws Exception{
+    public List<OleNoticeBo> initialiseOleNoticeBos(List<OleLoanDocument> oleLoanDocuments,OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) {
         List<OleNoticeBo> oleNoticeBos = new ArrayList<>();
         if(oleLoanDocuments!=null && oleLoanDocuments.size()>0){
             OlePatronDocument olePatron = oleLoanDocuments.get(0).getOlePatron();
             for(OleLoanDocument oleLoanDocument : oleLoanDocuments){
                 OleNoticeBo oleNoticeBo = new OleNoticeBo();
-                oleNoticeBo.setTitle(oleNoticeContentConfigurationBo.getNoticeName());
-                oleNoticeBo.setNoticeName(oleNoticeContentConfigurationBo.getNoticeName());
+                oleNoticeBo.setTitle(oleNoticeContentConfigurationBo.getNoticeTitle());
+                oleNoticeBo.setNoticeTitle(oleNoticeContentConfigurationBo.getNoticeTitle());
+                oleNoticeBo.setNoticeName(oleNoticeContentConfigurationBo.getNoticeTitle());
                 setPatronInfo(olePatron, oleNoticeBo);
-                setNoticeBodyAndContent(oleNoticeBo, oleNoticeContentConfigurationBo.getNoticeName(), oleNoticeContentConfigurationBo.getNoticeBody());
+                setNoticeBodyAndContent(oleNoticeBo, oleNoticeContentConfigurationBo.getNoticeTitle(), oleNoticeContentConfigurationBo.getNoticeBody());
                 setItemInfo(oleNoticeBo,oleLoanDocument);
                 processCustomNoticeInfo(oleLoanDocument, oleNoticeBo);
                 oleNoticeBos.add(oleNoticeBo);
             }
         }
-
         return oleNoticeBos;
     }
 
-    public OleNoticeBo setPatronInfo(OlePatronDocument olePatronDocument,OleNoticeBo oleNoticeBo)throws Exception{
-        oleNoticeBo.setPatronName(olePatronDocument.getPatronName());
-        oleNoticeBo.setPatronAddress(olePatronDocument.getPreferredAddress());
-        oleNoticeBo.setPatronEmailAddress(olePatronDocument.getEmailAddress());
-        oleNoticeBo.setPatronPhoneNumber(olePatronDocument.getPhoneNumber());
+    public OleNoticeBo setPatronInfo(OlePatronDocument olePatronDocument,OleNoticeBo oleNoticeBo){
+        oleNoticeBo.setPatronName(olePatronDocument.getPatronName()!=null ? olePatronDocument.getPatronName() : "");
+        oleNoticeBo.setPatronAddress(olePatronDocument.getPreferredAddress()!=null ?olePatronDocument.getPreferredAddress() : "");
+        oleNoticeBo.setPatronEmailAddress(olePatronDocument.getEmailAddress()!=null ? olePatronDocument.getEmailAddress() : "");
+        oleNoticeBo.setPatronPhoneNumber(olePatronDocument.getPhoneNumber()!=null ? olePatronDocument.getPhoneNumber() : "");
         return oleNoticeBo;
     }
 

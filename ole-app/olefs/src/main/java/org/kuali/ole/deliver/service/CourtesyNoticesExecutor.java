@@ -46,7 +46,7 @@ public class CourtesyNoticesExecutor extends LoanNoticesExecutor {
             for (OLEDeliverNotice oleDeliverNotice : loanDocument.getDeliverNotices()) {
                 LOG.info("CourtesyNoticesExecutor thread id---->"+Thread.currentThread().getId()+"current thread---->"+Thread.currentThread()+"Loan id-->"+loanDocument.getLoanId()+"notice id--->"+oleDeliverNotice.getId());
                 Timestamp toBeSendDate = oleDeliverNotice.getNoticeToBeSendDate();
-                if (oleDeliverNotice.getNoticeType().equals(OLEConstants.NOTICE_COURTESY) && toBeSendDate.compareTo
+                if (oleDeliverNotice.getNoticeType().equals(OLEConstants.COURTESY_NOTICE) && toBeSendDate.compareTo
                         (getSendToDate(OLEConstants.COURTESY_NOTICE_TO_DATE)) < 0) {
                     try {
                         oleDeliverNotices.add(oleDeliverNotice);
@@ -61,27 +61,18 @@ public class CourtesyNoticesExecutor extends LoanNoticesExecutor {
     }
 
     @Override
-    public void populateFieldLabelMapping() {
+    public void setOleNoticeContentConfigurationBo() {
         List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
         Map<String,String> noticeConfigurationMap = new HashMap<String,String>();
-        noticeConfigurationMap.put("noticeType",OLEConstants.NOTICE_COURTESY);
+        noticeConfigurationMap.put("noticeType",OLEConstants.COURTESY_NOTICE);
         oleNoticeContentConfigurationBoList= (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeConfigurationMap);
-        if(oleNoticeContentConfigurationBoList!=null && oleNoticeContentConfigurationBoList.size()>0){
-            if(oleNoticeContentConfigurationBoList.get(0)!=null){
-                fieldLabelMap.put("noticeTitle",oleNoticeContentConfigurationBoList.get(0).getNoticeTitle());
-                fieldLabelMap.put("noticeBody",oleNoticeContentConfigurationBoList.get(0).getNoticeBody());
-                fieldLabelMap.put("noticeSubjectLine",oleNoticeContentConfigurationBoList.get(0).getNoticeSubjectLine());
-                if(oleNoticeContentConfigurationBoList.get(0).getOleNoticeFieldLabelMappings()!=null && oleNoticeContentConfigurationBoList.get(0).getOleNoticeFieldLabelMappings().size()>0){
-                    for(OleNoticeFieldLabelMapping oleNoticeFieldLabelMapping : oleNoticeContentConfigurationBoList.get(0).getOleNoticeFieldLabelMappings()){
-                        fieldLabelMap.put(oleNoticeFieldLabelMapping.getFieldName(),oleNoticeFieldLabelMapping.getFieldLabel());
-                    }
-                }
-            }
-        }
-        else{
-            fieldLabelMap.put("noticeTitle",getTitle());
-            fieldLabelMap.put("noticeBody",getBody());
-        }
+       if(oleNoticeContentConfigurationBoList!=null && oleNoticeContentConfigurationBoList.size()>0){
+           oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBoList.get(0);
+       }else{
+           oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
+           oleNoticeContentConfigurationBo.setNoticeTitle(getTitle());
+           oleNoticeContentConfigurationBo.setNoticeBody(getBody());
+       }
     }
 
 
@@ -102,8 +93,9 @@ public class CourtesyNoticesExecutor extends LoanNoticesExecutor {
     }
 
     @Override
-    public String generateMailContent(List<OleLoanDocument> oleLoanDocuments) {
-        String mailContent = getNoticeMailContentFormatter().generateMailContentForPatron(oleLoanDocuments,fieldLabelMap);
+    public String generateMailContent(List<OleLoanDocument> oleLoanDocuments){
+
+        String mailContent = getNoticeMailContentFormatter().generateMailContentForPatron(oleLoanDocuments,oleNoticeContentConfigurationBo);
 
         return mailContent;
     }

@@ -90,7 +90,7 @@ public class NoticeMailContentFormatterTest {
         oleLoanDocument.setOlePatron(olePatron);
 
         HashMap<String, String> fieldLabelMap = new HashMap<>();
-        String mailContent = noticeMailContentFormatter.generateMailContentForPatron(Collections.singletonList(oleLoanDocument), fieldLabelMap);
+        String mailContent = noticeMailContentFormatter.generateMailContentForPatron(Collections.singletonList(oleLoanDocument), new OleNoticeContentConfigurationBo());
         System.out.println(mailContent);
 
     }

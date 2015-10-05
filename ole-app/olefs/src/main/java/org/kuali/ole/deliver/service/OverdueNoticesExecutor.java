@@ -51,7 +51,7 @@ public class OverdueNoticesExecutor extends LoanNoticesExecutor {
             for (OLEDeliverNotice oleDeliverNotice : loanDocument.getDeliverNotices()) {
                 LOG.info("OverdueNoticesExecutor thread id---->"+Thread.currentThread().getId()+"current thread---->"+Thread.currentThread()+"Loan id-->"+loanDocument.getLoanId()+"notice id--->"+oleDeliverNotice.getId());
                 Timestamp toBeSendDate = oleDeliverNotice.getNoticeToBeSendDate();
-                if (oleDeliverNotice.getNoticeType().equals(OLEConstants.NOTICE_OVERDUE) && toBeSendDate.compareTo(overdueNoticetoSendDate) < 0) {
+                if (oleDeliverNotice.getNoticeType().equals(OLEConstants.OVERDUE_NOTICE) && toBeSendDate.compareTo(overdueNoticetoSendDate) < 0) {
                     try {
                         int noOfOverdueNoticeSent = Integer.parseInt(loanDocument.getNumberOfOverdueNoticesSent() != null ? loanDocument.getNumberOfOverdueNoticesSent() : "0");
                         noOfOverdueNoticeSent = noOfOverdueNoticeSent + 1;
@@ -70,27 +70,20 @@ public class OverdueNoticesExecutor extends LoanNoticesExecutor {
     }
 
     @Override
-    public void populateFieldLabelMapping() {
+    public void setOleNoticeContentConfigurationBo() {
         List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
         Map<String,String> noticeConfigurationMap = new HashMap<String,String>();
-        noticeConfigurationMap.put("noticeType",OLEConstants.NOTICE_OVERDUE);
+        noticeConfigurationMap.put("noticeType",OLEConstants.OVERDUE_NOTICE);
         oleNoticeContentConfigurationBoList= (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeConfigurationMap);
         if(oleNoticeContentConfigurationBoList!=null && oleNoticeContentConfigurationBoList.size()>0){
-            if(oleNoticeContentConfigurationBoList.get(0)!=null){
-                fieldLabelMap.put("noticeTitle",oleNoticeContentConfigurationBoList.get(0).getNoticeTitle());
-                fieldLabelMap.put("noticeBody",oleNoticeContentConfigurationBoList.get(0).getNoticeBody());
-                fieldLabelMap.put("noticeSubjectLine",oleNoticeContentConfigurationBoList.get(0).getNoticeSubjectLine());
-                if(oleNoticeContentConfigurationBoList.get(0).getOleNoticeFieldLabelMappings()!=null && oleNoticeContentConfigurationBoList.get(0).getOleNoticeFieldLabelMappings().size()>0){
-                    for(OleNoticeFieldLabelMapping oleNoticeFieldLabelMapping : oleNoticeContentConfigurationBoList.get(0).getOleNoticeFieldLabelMappings()){
-                        fieldLabelMap.put(oleNoticeFieldLabelMapping.getFieldName(),oleNoticeFieldLabelMapping.getFieldLabel());
-                    }
-                }
-            }
+            oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBoList.get(0);
         }else{
-            fieldLabelMap.put("noticeTitle",getTitle());
-            fieldLabelMap.put("noticeBody",getBody());
+            oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
+            oleNoticeContentConfigurationBo.setNoticeTitle(getTitle());
+            oleNoticeContentConfigurationBo.setNoticeBody(getBody());
         }
     }
+
 
 
 
@@ -111,7 +104,7 @@ public class OverdueNoticesExecutor extends LoanNoticesExecutor {
 
 
     public String generateMailContent(List<OleLoanDocument> oleLoanDocuments) {
-        String mailContent = getNoticeMailContentFormatter().generateMailContentForPatron(oleLoanDocuments,fieldLabelMap);
+        String mailContent = getNoticeMailContentFormatter().generateMailContentForPatron(oleLoanDocuments,oleNoticeContentConfigurationBo);
         return mailContent;
     }
 

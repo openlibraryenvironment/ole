@@ -9,10 +9,19 @@
       <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Author")} :</TD>
       <TD>${oleNoticeBo.author}</TD>
   </TR>
-  <TR>
-      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Volume/Issue/Copy Number")}  :</TD>
-      <TD>${oleNoticeBo.volumeNumber}</TD>
-  </TR>
+    <TR>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("CopyNumber")}  :</TD>
+        <TD>${oleNoticeBo.copyNumber}</TD>
+    </TR>
+
+    <TR>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Enumeration")}  :</TD>
+        <TD>${oleNoticeBo.enumeration}</TD>
+    </TR>
+    <TR>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Chronology")}  :</TD>
+        <TD>${oleNoticeBo.chronology}</TD>
+    </TR>
   <TR>
       <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item was due")} :</TD>
       <TD>${oleNoticeBo.dueDateString}</TD>

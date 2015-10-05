@@ -20,8 +20,9 @@ public class OleNoticeTypeKeyValuesFinder  extends KeyValuesBase {
         keyValues.add(new ConcreteKeyValue(OLEConstants.ONHOLD_NOTICE,"OnHold Notice"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_HOLD_COURTESY,"Hold Courtesy Notice"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.REQUEST_EXPIRATION_NOTICE,"Request Expiration Notice"));
-        keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_COURTESY,"Courtesy Notice"));
-        keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_OVERDUE,"Overdue Notice"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.COURTESY_NOTICE,"Courtesy Notice"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.OVERDUE_NOTICE,"Overdue Notice"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_LOST,"Lost Notice"));
         return keyValues;
     }
 }

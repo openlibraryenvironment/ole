@@ -1754,7 +1754,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         LoanWithNoticesDAO loanWithNoticesDAO = (LoanWithNoticesDAO) SpringContext.getService(OLEConstants.LOAN_WITH_NOTICES_DAO);
         String courtesyNoticeToDate = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                 .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.COURTESY_NOTICE_TO_DATE);
-        List<String> loanIds = loanWithNoticesDAO.getLoanIdsForOverudeNotices(courtesyNoticeToDate, OLEConstants.NOTICE_COURTESY);
+        List<String> loanIds = loanWithNoticesDAO.getLoanIdsForOverudeNotices(courtesyNoticeToDate, OLEConstants.COURTESY_NOTICE);
         if (loanIds.size() > 0) {
             List<OleLoanDocument> loanDocuments = oleLoanDocumentDaoOjb.getLaonDocumentsFromLaondId(loanIds);
             List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments);
@@ -1789,7 +1789,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         LoanWithNoticesDAO loanWithNoticesDAO = (LoanWithNoticesDAO) SpringContext.getService(OLEConstants.LOAN_WITH_NOTICES_DAO);
         String overdueNoticeToDate = ParameterValueResolver.getInstance().getParameter(OLEConstants.APPL_ID_OLE, OLEConstants
                 .DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEConstants.OVERDUE_NOTICE_TO_DATE);
-        List<String> loanIds = loanWithNoticesDAO.getLoanIdsForOverudeNotices(overdueNoticeToDate, OLEConstants.NOTICE_OVERDUE);
+        List<String> loanIds = loanWithNoticesDAO.getLoanIdsForOverudeNotices(overdueNoticeToDate, OLEConstants.OVERDUE_NOTICE);
         if (loanIds.size() > 0) {
             List<OleLoanDocument> loanDocuments = oleLoanDocumentDaoOjb.getLaonDocumentsFromLaondId(loanIds);
             List<OleLoanDocument> loanDocumentsWithItemInfo = getLoanDocumentWithItemInfo(loanDocuments);

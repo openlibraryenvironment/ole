@@ -161,31 +161,23 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
         return oleDeliverNotices;
     }
     @Override
-    public void populateFieldLabelMapping() {
-/*        List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
+    public void setOleNoticeContentConfigurationBo() {
+        List<OleNoticeContentConfigurationBo> oleNoticeContentConfigurationBoList = null;
         Map<String,String> noticeConfigurationMap = new HashMap<String,String>();
-        noticeConfigurationMap.put("noticeType",OLEConstants.RECALL_NOTICE);
+        noticeConfigurationMap.put("noticeType",OLEConstants.NOTICE_LOST);
         oleNoticeContentConfigurationBoList= (List<OleNoticeContentConfigurationBo>)getBusinessObjectService().findMatching(OleNoticeContentConfigurationBo.class,noticeConfigurationMap);
         if(oleNoticeContentConfigurationBoList!=null && oleNoticeContentConfigurationBoList.size()>0){
-            if(oleNoticeContentConfigurationBoList.get(0)!=null){
-                fieldLabelMap.put("noticeTitle",oleNoticeContentConfigurationBoList.get(0).getNoticeTitle());
-                fieldLabelMap.put("noticeBody",oleNoticeContentConfigurationBoList.get(0).getNoticeBody());
-                fieldLabelMap.put("noticeSubjectLine",oleNoticeContentConfigurationBoList.get(0).getNoticeSubjectLine());
-                if(oleNoticeContentConfigurationBoList.get(0).getOleNoticeFieldLabelMappings()!=null && oleNoticeContentConfigurationBoList.get(0).getOleNoticeFieldLabelMappings().size()>0){
-                    for(OleNoticeFieldLabelMapping oleNoticeFieldLabelMapping : oleNoticeContentConfigurationBoList.get(0).getOleNoticeFieldLabelMappings()){
-                        fieldLabelMap.put(oleNoticeFieldLabelMapping.getFieldLabel(),oleNoticeFieldLabelMapping.getFieldName());
-                    }
-                }
-            }
+            oleNoticeContentConfigurationBo = oleNoticeContentConfigurationBoList.get(0);
         }else{
-            fieldLabelMap.put("noticeTitle","");
-            fieldLabelMap.put("noticeBody","");
-        }*/
+            oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
+            oleNoticeContentConfigurationBo.setNoticeTitle("LOST");
+            oleNoticeContentConfigurationBo.setNoticeBody("Item is Lost");
+        }
     }
 
     @Override
     public String generateMailContent(List<OleLoanDocument> oleLoanDocuments) {
-        String mailContent = getNoticeMailContentFormatter().generateMailContentForPatron(oleLoanDocuments,fieldLabelMap);
+        String mailContent = getNoticeMailContentFormatter().generateMailContentForPatron(oleLoanDocuments,oleNoticeContentConfigurationBo);
         return mailContent;
     }
 
