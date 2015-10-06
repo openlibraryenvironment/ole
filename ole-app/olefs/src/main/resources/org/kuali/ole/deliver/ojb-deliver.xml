@@ -1784,6 +1784,7 @@
         <field-descriptor name="noticeName" column="NOTC_NM" jdbc-type="VARCHAR"/>
         <field-descriptor name="noticeTitle" column="NOTC_TITL" jdbc-type="VARCHAR"/>
         <field-descriptor name="noticeBody" column="NOTC_BDY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="noticeFooterBody" column="NOTC_FTR_BDY" jdbc-type="VARCHAR"/>
         <field-descriptor name="noticeSubjectLine" column="NOTC_SUBJ_LN" jdbc-type="VARCHAR"/>
         <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
                           conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -1801,6 +1802,7 @@
                           sequence-name="OLE_NOTC_FIELD_LABEL_MAPNG_S" />
         <field-descriptor name="fieldName" column="FLD_NM" jdbc-type="VARCHAR"/>
         <field-descriptor name="fieldLabel" column="FLD_LBL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="belongsTo" column="BLNG_TO" jdbc-type="VARCHAR"/>
         <field-descriptor name="oleNoticeContentConfigurationId" column="OLE_NOTC_CNTNT_CONFIG_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

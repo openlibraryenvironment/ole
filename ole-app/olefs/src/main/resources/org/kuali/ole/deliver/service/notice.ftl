@@ -55,8 +55,12 @@
     </#if>
 <br/>
     <@itemInfo.item oleNoticeBo=oleNoticeBo oleNoticeContentConfigurationBo=oleNoticeContentConfigurationBo></@itemInfo.item>
+<#if oleNoticeBo_has_next>
 ********************************************************************
+</#if>
 </#list>
-
+<br/>
+${oleNoticeBo.noticeSpecificFooterContent}
+<br/>
 </BODY>
 </HTML>

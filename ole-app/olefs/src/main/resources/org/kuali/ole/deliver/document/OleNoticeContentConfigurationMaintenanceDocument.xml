@@ -66,13 +66,15 @@
                             <bean id="create_noticeName" parent="Uif-InputField" p:propertyName="noticeName"/>
                             <bean id="create_noticeTitle" parent="Uif-InputField" p:propertyName="noticeTitle"/>
                             <bean id="create_noticeBody" parent="Uif-InputField" p:propertyName="noticeBody"/>
+                            <bean id="create_noticeFooterBody" parent="Uif-InputField" p:propertyName="noticeFooterBody"/>
                             <bean id="create_noticeSubjectLine" parent="Uif-InputField" p:propertyName="noticeSubjectLine"/>
                             <bean id="create_version" parent="Uif-InputField" p:propertyName="versionNumber" p:readOnly="true"/>
                             <bean id="create_active" parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
                         </list>
                     </property>
                 </bean>
-                <ref bean="OleNoticeContentConfiguration-maintenance-mappingFieldLabels" />
+                <ref bean="OleNoticeContentConfiguration-maintenance-patronMappingFieldLabels" />
+                <ref bean="OleNoticeContentConfiguration-maintenance-itemMappingFieldLabels" />
             </list>
         </property>
         <property name="page.footer">
@@ -104,17 +106,17 @@
         </property>
     </bean>
 
-    <bean id="OleNoticeContentConfiguration-maintenance-mappingFieldLabels" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:disclosure.defaultOpen="true">
+    <bean id="OleNoticeContentConfiguration-maintenance-patronMappingFieldLabels" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:disclosure.defaultOpen="true">
         <!--p:fieldBindingObjectPath="document.newMaintainableObject.dataObject"-->
-        <property name="headerText" value="Field Label Mapping" />
+        <property name="headerText" value="Patron Field Label Mapping" />
 
         <property name="collectionObjectClass" value="org.kuali.ole.deliver.notice.bo.OleNoticeFieldLabelMapping" />
-        <property name="propertyName" value="oleNoticeFieldLabelMappings" />
+        <property name="propertyName" value="oleNoticePatronFieldLabelMappings" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="items">
             <list>
-                <bean id="fieldName" parent="Uif-InputField" p:propertyName="fieldName"
+                <bean id="patronFieldName" parent="Uif-InputField" p:propertyName="fieldName"
                       p:label="Field Name"  p:required="true">
                                  <property name="optionsFinder">
                         <bean class="org.kuali.ole.deliver.notice.valuesFinder.OleNoticeFieldLabelMappingKeyValuesFinder"/>
@@ -123,12 +125,42 @@
                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
                     </property>
                 </bean>
-                <bean id="fieldLabel" parent="Uif-InputField" p:propertyName="fieldLabel"
+                <bean id="patronFieldLabel" parent="Uif-InputField" p:propertyName="fieldLabel"
                       p:label="Field Label"  p:required="true">
 
                 </bean>
             </list>
         </property>
+    </bean>
+
+
+    <bean id="OleNoticeContentConfiguration-maintenance-itemMappingFieldLabels" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:disclosure.defaultOpen="true">
+        <!--p:fieldBindingObjectPath="document.newMaintainableObject.dataObject"-->
+        <property name="headerText" value="Item Field Label Mapping" />
+
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.notice.bo.OleNoticeFieldLabelMapping" />
+        <property name="propertyName" value="oleNoticeItemFieldLabelMappings" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="itemFieldName" parent="Uif-InputField" p:propertyName="fieldName"
+                      p:label="Field Name"  p:required="true">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.notice.valuesFinder.OleNoticeItemFieldLabelMappingKeyValuesFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="itemFieldLabel" parent="Uif-InputField" p:propertyName="fieldLabel"
+                      p:label="Field Label"  p:required="true">
+
+                </bean>
+            </list>
+        </property>
+
+
 
     </bean>
 </beans>

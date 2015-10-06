@@ -17,9 +17,12 @@ public class OleNoticeContentConfigurationBo extends OlePersistableBusinessObjec
     private String noticeName;
     private String noticeTitle;
     private String noticeBody;
+    private String noticeFooterBody;
     private String noticeSubjectLine;
     private boolean active;
     private List<OleNoticeFieldLabelMapping> oleNoticeFieldLabelMappings = new ArrayList<OleNoticeFieldLabelMapping>();
+    private List<OleNoticeFieldLabelMapping> oleNoticePatronFieldLabelMappings = new ArrayList<OleNoticeFieldLabelMapping>();
+    private List<OleNoticeFieldLabelMapping> oleNoticeItemFieldLabelMappings = new ArrayList<OleNoticeFieldLabelMapping>();
 
     public String getOleNoticeContentConfigurationId() {
         return oleNoticeContentConfigurationId;
@@ -95,5 +98,29 @@ public class OleNoticeContentConfigurationBo extends OlePersistableBusinessObjec
             }
         }
         return key;
+    }
+
+    public String getNoticeFooterBody() {
+        return noticeFooterBody;
+    }
+
+    public void setNoticeFooterBody(String noticeFooterBody) {
+        this.noticeFooterBody = noticeFooterBody;
+    }
+
+    public List<OleNoticeFieldLabelMapping> getOleNoticePatronFieldLabelMappings() {
+        return oleNoticePatronFieldLabelMappings;
+    }
+
+    public void setOleNoticePatronFieldLabelMappings(List<OleNoticeFieldLabelMapping> oleNoticePatronFieldLabelMappings) {
+        this.oleNoticePatronFieldLabelMappings = oleNoticePatronFieldLabelMappings;
+    }
+
+    public List<OleNoticeFieldLabelMapping> getOleNoticeItemFieldLabelMappings() {
+        return oleNoticeItemFieldLabelMappings;
+    }
+
+    public void setOleNoticeItemFieldLabelMappings(List<OleNoticeFieldLabelMapping> oleNoticeItemFieldLabelMappings) {
+        this.oleNoticeItemFieldLabelMappings = oleNoticeItemFieldLabelMappings;
     }
 }

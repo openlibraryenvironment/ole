@@ -3668,4 +3668,8 @@ public class OLEConstants {
     public static final String DEFAULT_PAGE_SIZE_LOANED_ITEMS = "DEFAULT_PAGE_SIZE_LOANED_ITEMS";
     public static final String DEFAULT_ITEM_TYPE_CODE = "DEFAULT_ITEM_TYPE_CODE";
 
+    public static final String NOTICE_CHRONOLOGY="Chronology";
+    public static final String NOTICE_ENUMERATION="Enumeration";
+    public static final String NOTICE_COPY_NUMBER="CopyNumber";
+
 }

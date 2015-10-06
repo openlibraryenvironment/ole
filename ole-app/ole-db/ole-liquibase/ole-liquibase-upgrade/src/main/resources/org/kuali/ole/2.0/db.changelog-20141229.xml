@@ -5562,4 +5562,23 @@
                         tableName="OLE_CAT_ITM_TYP_T"/>
     </changeSet>
 
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_CNTNT_CONFIG_T_ADD_COLUMN">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_NOTC_CNTNT_CONFIG_T">
+            <column name="NOTC_FTR_BDY" type="varchar(4000)"/>
+        </addColumn>
+
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_NOTC_FIELD_LABEL_MAPNG_T_ADD_COLUMN">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_NOTC_FIELD_LABEL_MAPNG_T">
+            <column name="BLNG_TO" type="varchar(40)"/>
+        </addColumn>
+
+    </changeSet>
 </databaseChangeLog>

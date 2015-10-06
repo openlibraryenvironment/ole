@@ -3370,6 +3370,7 @@
                 primaryKey="true" size="40" type="VARCHAR"/>
         <column name="FLD_NM" required="true" size="40" type="VARCHAR"/>
         <column name="FLD_LBL"  size="40" type="VARCHAR"/>
+        <column name="BLNG_TO"  size="40" type="VARCHAR"/>
         <column name="OLE_NOTC_CNTNT_CONFIG_ID"  size="40" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
@@ -3389,6 +3390,7 @@
         <column name="NOTC_TITL" required="true" size="400" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column name="NOTC_BDY" required="true" size="4000" type="VARCHAR"/>
+        <column name="NOTC_FTR_BDY" required="true" size="4000" type="VARCHAR"/>
         <column name="NOTC_SUBJ_LN" required="true" size="4000" type="VARCHAR"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>

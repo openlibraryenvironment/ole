@@ -64,7 +64,7 @@ public abstract class NoticeMailContentFormatter {
                 oleNoticeBo.setNoticeTitle(oleNoticeContentConfigurationBo.getNoticeTitle());
                 oleNoticeBo.setNoticeName(oleNoticeContentConfigurationBo.getNoticeTitle());
                 setPatronInfo(olePatron, oleNoticeBo);
-                setNoticeBodyAndContent(oleNoticeBo, oleNoticeContentConfigurationBo.getNoticeTitle(), oleNoticeContentConfigurationBo.getNoticeBody());
+                setNoticeBodyAndContent(oleNoticeBo, oleNoticeContentConfigurationBo.getNoticeTitle(), oleNoticeContentConfigurationBo.getNoticeBody(),oleNoticeContentConfigurationBo.getNoticeFooterBody());
                 setItemInfo(oleNoticeBo,oleLoanDocument);
                 processCustomNoticeInfo(oleLoanDocument, oleNoticeBo);
                 oleNoticeBos.add(oleNoticeBo);
@@ -82,9 +82,10 @@ public abstract class NoticeMailContentFormatter {
     }
 
 
-    public  OleNoticeBo setNoticeBodyAndContent(OleNoticeBo oleNoticeBo,String body,String bodyContent){
+    public  OleNoticeBo setNoticeBodyAndContent(OleNoticeBo oleNoticeBo,String body,String bodyContent,String noticeSpecificFooterContent){
         oleNoticeBo.setNoticeTitle(body);
         oleNoticeBo.setNoticeSpecificContent(bodyContent);
+        oleNoticeBo.setNoticeSpecificFooterContent(noticeSpecificFooterContent);
         return  oleNoticeBo;
     }
 

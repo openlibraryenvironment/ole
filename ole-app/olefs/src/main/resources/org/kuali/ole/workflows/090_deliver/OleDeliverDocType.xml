@@ -296,7 +296,7 @@
             <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
             <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
             <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
-            <docHandler>${kr.krad.url}/oleMaintenance?methodToCall=docHandler</docHandler>
+            <docHandler>${kr.krad.url}/oleNoticeContentConfigurationMaintenance?methodToCall=docHandler</docHandler>
             <active>true</active>
             <routingVersion>2</routingVersion>
             <routePaths>

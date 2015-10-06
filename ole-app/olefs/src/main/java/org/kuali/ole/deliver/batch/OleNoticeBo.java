@@ -45,6 +45,7 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
     private Date newDueDate;
     private String noticeName;
     private String noticeSpecificContent;
+    private String noticeSpecificFooterContent;
     private String pickUpLocation;
     private Date dueDate;
     private Date expiredOnHoldDate;
@@ -382,5 +383,13 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
 
     public BigDecimal getFeeAmount() {
         return feeAmount;
+    }
+
+    public String getNoticeSpecificFooterContent() {
+        return noticeSpecificFooterContent;
+    }
+
+    public void setNoticeSpecificFooterContent(String noticeSpecificFooterContent) {
+        this.noticeSpecificFooterContent = noticeSpecificFooterContent;
     }
 }

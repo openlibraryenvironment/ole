@@ -23,7 +23,7 @@
 
     <bean id="OleNoticeContentConfiguration-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo"/>
-        <property name="titleAttribute" value="oleNoticeContentConfigurationId"/>
+        <property name="titleAttribute" value="noticeType"/>
         <property name="objectLabel" value="Ole Notice Content Configuration"/>
         <property name="attributes">
             <list>
@@ -32,6 +32,7 @@
                 <ref bean="OleNoticeContentConfiguration-noticeName"/>
                 <ref bean="OleNoticeContentConfiguration-noticeTitle"/>
                 <ref bean="OleNoticeContentConfiguration-noticeBody"/>
+                <ref bean="OleNoticeContentConfiguration-noticeFooterBody"/>
                 <ref bean="OleNoticeContentConfiguration-noticeSubjectLine"/>
                 <ref bean="OleNoticeContentConfiguration-active"/>
                 <ref bean="OleNoticeContentConfiguration-version"/>
@@ -158,6 +159,29 @@
     </bean>
 
 
+    <bean id="OleNoticeContentConfiguration-noticeFooterBody"
+          parent="OleNoticeContentConfiguration-noticeFooterBody-parentBean"/>
+
+    <bean id="OleNoticeContentConfiguration-noticeFooterBody-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Notice Footer Body"/>
+        <property name="maxLength" value="4000"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="name" value="noticeFooterBody"/>
+        <property name="label" value="Notice Footer Body"/>
+        <property name="description" value="Notice Footer Body"/>
+
+    </bean>
+
 
     <bean id="OleNoticeContentConfiguration-noticeSubjectLine"
           parent="OleNoticeContentConfiguration-noticeSubjectLine-parentBean"/>
@@ -243,6 +267,7 @@
                                         <bean id="inquiry_noticeName" parent="Uif-InputField" p:propertyName="noticeName"/>
                                         <bean id="inquiry_noticeTitle" parent="Uif-InputField" p:propertyName="noticeTitle"/>
                                         <bean id="inquiry_noticeBody" parent="Uif-InputField" p:propertyName="noticeBody"/>
+                                        <bean id="inquiry_noticeFooterBody" parent="Uif-InputField" p:propertyName="noticeFooterBody"/>
                                         <bean id="inquiry_noticeSubjectLine" parent="Uif-InputField" p:propertyName="noticeSubjectLine"/>
                                         <bean id="inquiry_version" parent="Uif-InputField" p:propertyName="versionNumber"/>
                                         <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
@@ -282,6 +307,7 @@
             </bean>
         </property>
         <property name="dataObjectClassName" value="org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.notice.lookupable.OleNoticeContentConfigurationLookupableImpl"/>
         <property name="criteriaFields">
             <list>
                 <bean id="lookUp_noticeType" parent="Uif-LookupCriteriaInputField" p:propertyName="noticeType"  />

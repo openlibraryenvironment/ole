@@ -11,6 +11,7 @@ public class OleNoticeFieldLabelMapping extends OlePersistableBusinessObjectBase
     private String oleNoticeFieldLabelMappingId;
     private String fieldName;
     private String fieldLabel;
+    private String belongsTo;
     private String oleNoticeContentConfigurationId;
     private OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo;
 
@@ -36,6 +37,14 @@ public class OleNoticeFieldLabelMapping extends OlePersistableBusinessObjectBase
 
     public void setFieldLabel(String fieldLabel) {
         this.fieldLabel = fieldLabel;
+    }
+
+    public String getBelongsTo() {
+        return belongsTo;
+    }
+
+    public void setBelongsTo(String belongsTo) {
+        this.belongsTo = belongsTo;
     }
 
     public String getOleNoticeContentConfigurationId() {
