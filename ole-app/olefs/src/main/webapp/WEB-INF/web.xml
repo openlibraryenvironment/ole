@@ -289,16 +289,6 @@ This file contains custom application specific web.xml content.
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>olecirculationsip</servlet-name>
-        <servlet-class>org.kuali.ole.sip2.servlet.OLESIP2Servlet</servlet-class>
-        <load-on-startup>2</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>olecirculationsip</servlet-name>
-        <url-pattern>/circulationsip</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>dwr-invoker</servlet-name>
         <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
         <init-param>
@@ -525,17 +515,6 @@ This file contains custom application specific web.xml content.
         <servlet-name>documentrest</servlet-name>
         <url-pattern>/documentrest/*</url-pattern>
     </servlet-mapping>-->
-
-    <servlet>
-        <servlet-name>oleSip2</servlet-name>
-        <servlet-class>org.kuali.ole.sip2.servlet.OLENettyServlet</servlet-class>
-        <load-on-startup>2</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>oleSip2</servlet-name>
-        <url-pattern>/oleSip2</url-pattern>
-    </servlet-mapping>
-
 
     <!-- Ole loader servlet configuration-->
     <servlet>
