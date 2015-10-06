@@ -6277,6 +6277,7 @@ CREATE TABLE OLE_NOTC_FIELD_LABEL_MAPNG_T
       OLE_NOTC_FIELD_LABEL_MAPNG_ID VARCHAR(40) default '0'
         , FLD_NM VARCHAR(40) NOT NULL
         , FLD_LBL VARCHAR(40)
+        , BLNG_TO VARCHAR(40)
         , OLE_NOTC_CNTNT_CONFIG_ID VARCHAR(40)
         , VER_NBR DECIMAL(8)
         , OBJ_ID VARCHAR(36)
@@ -6288,7 +6289,7 @@ CREATE TABLE OLE_NOTC_FIELD_LABEL_MAPNG_T
 
 
     
-                                                                                                                                                                                                                
+                                                                                                                                                                                                                                    
                                     
 , INDEX FLD_NM_INDX (FLD_NM )
 
@@ -6310,6 +6311,7 @@ CREATE TABLE OLE_NOTC_CNTNT_CONFIG_T
         , NOTC_TITL VARCHAR(400) NOT NULL
         , ACTV_IND VARCHAR(1) default 'Y' NOT NULL
         , NOTC_BDY VARCHAR(4000) NOT NULL
+        , NOTC_FTR_BDY VARCHAR(4000) NOT NULL
         , NOTC_SUBJ_LN VARCHAR(4000) NOT NULL
         , VER_NBR DECIMAL(8)
         , OBJ_ID VARCHAR(36)
@@ -6321,11 +6323,11 @@ CREATE TABLE OLE_NOTC_CNTNT_CONFIG_T
 
 
     
-                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                
                                     
 , INDEX NOTC_TYP_INDX (NOTC_TYP )
     
-                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                    
                                     
 , INDEX NOTC_NM_INDEX (NOTC_NM (255))
 
