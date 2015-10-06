@@ -319,7 +319,7 @@
     <bean id="OLEEResourceAccess-marcRecordUpdateFrequency" parent="OLEEResourceAccess-marcRecordUpdateFrequency-parentBean"/>
     <bean id="OLEEResourceAccess-marcRecordUpdateFrequency-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="marcRecordUpdateFrequency"/>
-        <property name="label" value="MARC Record Update Frequency"/>
+        <property name="label" value="MARC Record Update Frequency (days)"/>
         <property name="maxLength" value="40"/>
         <property name="validationPattern">
             <bean parent="NumericValidationPattern"/>
