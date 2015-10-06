@@ -1242,7 +1242,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             }
             List<OLECreatePO> eResources = getOleEResourceSearchService().getEresources(oleeResourceRecordDocument, purposeId);
             oleeResourceRecordForm.seteResourcePOs(eResources);
-
+            oleeResourceRecordDocument = getOleEResourceSearchService().populateInstanceAndEInstance(oleeResourceRecordDocument);
             List<OLECreatePO> instancePOs = getOleEResourceSearchService().getInstances(oleeResourceRecordDocument, purposeId);
             oleeResourceRecordForm.setInstancePOs(instancePOs);
         }
