@@ -45,7 +45,7 @@ public class NonSip2LookupUserServiceImpl extends LookupUserServiceImpl {
         facts.add(getOlePatronDocument());
         DroolsResponse droolsResponse = new DroolsResponse();
         facts.add(droolsResponse);
-        new CircUtilController().fireRules(facts, null, "lookup-user-ncip");
+        new CircUtilController().fireRules(facts, null, "general-checks");
 
         if (StringUtils.isBlank(droolsResponse.getErrorMessage().getErrorMessage())) {
             getOleLookupUser().setValidPatron(true);

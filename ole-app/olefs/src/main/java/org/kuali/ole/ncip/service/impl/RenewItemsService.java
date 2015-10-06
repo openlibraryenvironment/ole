@@ -47,7 +47,7 @@ public abstract class RenewItemsService {
         patronBarcode = (String) renewParameters.get("patronBarcode");
         itemBarcodes = (List<String>) renewParameters.get("itemBarcodes");
         requestFormatType = (String) renewParameters.get("requestFormatType");
-        responseFormatType = (String) renewParameters.get("responseFormatType");
+        setResponseFormatType(renewParameters);
 
         DroolsResponse finalDroolResponse;
         OleStopWatch oleStopWatchForWholeProcess = new OleStopWatch();
@@ -66,9 +66,9 @@ public abstract class RenewItemsService {
                 System.out.println("Time taken for processing all thread : " + oleStopWatch.getTotalTime() + " ms");
             } else {
                 oleRenewItems.add(generateErrorMessageObject(droolsResponse.retrieveErrorMessage()));
-                oleRenewItemList.setRenewItemList(oleRenewItems);
-                return prepareResponse(oleRenewItemList);
-            }
+            oleRenewItemList.setRenewItemList(oleRenewItems);
+            return prepareResponse(oleRenewItemList);
+        }
         } else {
             oleRenewItems.add(generateErrorMessageObject(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO)));
             oleRenewItemList.setRenewItemList(oleRenewItems);
@@ -100,6 +100,15 @@ public abstract class RenewItemsService {
         return prepareResponse(oleRenewItemList);
 
     }
+
+    private void setResponseFormatType(Map checkoutParameters) {
+        responseFormatType = (String) checkoutParameters.get("responseFormatType");
+        if (responseFormatType == null) {
+            responseFormatType = "xml";
+        }
+        responseFormatType = responseFormatType.toUpperCase();
+    }
+
 
     private DroolsResponse processThreadsForLoanDocuments(OlePatronDocument olePatronDocument) {
         DroolsResponse finalDroolResponse = new DroolsResponse();
@@ -138,9 +147,7 @@ public abstract class RenewItemsService {
         return null != droolsResponse && StringUtils.isEmpty(droolsResponse.retrieveErrorMessage());
     }
 
-    private DroolsResponse validatePatron(OlePatronDocument olePatronDocument) {
-        return getOlePatronRecordUtil().fireRules(olePatronDocument, null);
-    }
+    public abstract DroolsResponse validatePatron(OlePatronDocument olePatronDocument);
 
     private List<OLERenewItem> prepareRenewItemsForRenewedItems(DroolsResponse finalDroolResponse) {
         List<OLERenewItem> oleRenewItems = new ArrayList<>();

@@ -1,8 +1,9 @@
 package org.kuali.ole.sip2.sip2Server.processor;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jettison.json.JSONException;
-import org.kuali.ole.bo.OLERenewItem;
+import org.kuali.ole.bo.OLERenewItemList;
 import org.kuali.ole.converter.OLERenewItemConverter;
 import org.kuali.ole.request.OLESIP2RenewRequestParser;
 import org.kuali.ole.response.OLESIP2RenewResponse;
@@ -39,10 +40,12 @@ public class RenewNettyProcessor extends NettyProcessor {
         response = postRequest(requestData, "/renewItemForSIP2", serverURL);
 
         if (StringUtils.isNotBlank(response)) {
-            OLERenewItem oleRenewItem = (OLERenewItem) new OLERenewItemConverter().generateRenewItemObject(response);
+            OLERenewItemList oleRenewItemList = (OLERenewItemList) new OLERenewItemConverter().generateRenewItemListObjectForSip2(response);
             OLESIP2RenewResponse sip2RenewResponse = new OLESIP2RenewResponse();
 
-            response = sip2RenewResponse.getSIP2RenewResponse(oleRenewItem, sip2RenewRequestParser);
+            if (oleRenewItemList!=null && CollectionUtils.isNotEmpty(oleRenewItemList.getRenewItemList())){
+                response = sip2RenewResponse.getSIP2RenewResponse(oleRenewItemList.getRenewItemList().get(0), sip2RenewRequestParser);
+            }
         }
         return response;
     }

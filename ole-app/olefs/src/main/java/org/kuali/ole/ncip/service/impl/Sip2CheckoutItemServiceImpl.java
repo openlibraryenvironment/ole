@@ -1,13 +1,19 @@
 package org.kuali.ole.ncip.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.asr.handler.CheckoutItemResponseHandler;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.deliver.util.DroolsResponse;
 import org.kuali.ole.utility.OleStopWatch;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by chenchulakshmig on 8/24/15.
@@ -33,6 +39,22 @@ public class Sip2CheckoutItemServiceImpl extends CheckoutItemServiceImpl {
     public String getOperatorId(String operatorId) {
         return ParameterValueResolver.getInstance().getParameter(OLEConstants
                 .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, operatorId);
+    }
+
+    @Override
+    protected String preProcess(Map checkoutParameters) {
+        String itemBarcode = (String) checkoutParameters.get("itemBarcode");
+        Map map = new HashMap();
+        map.put("itemId", itemBarcode);
+        map.put("patronId", getOlePatronDocument().getOlePatronId());
+        List<OleLoanDocument> oleLoanDocuments = (List<OleLoanDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OleLoanDocument.class, map);
+        if (CollectionUtils.isNotEmpty(oleLoanDocuments)) {
+            List<String> items = new ArrayList<>();
+            items.add(itemBarcode);
+            checkoutParameters.put("itemBarcodes", items);
+            return new Sip2RenewItemService().renewItems(checkoutParameters);
+        }
+        return null;
     }
 
     @Override

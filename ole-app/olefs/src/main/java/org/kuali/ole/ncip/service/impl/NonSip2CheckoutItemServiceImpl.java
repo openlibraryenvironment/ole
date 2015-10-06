@@ -5,6 +5,7 @@ import org.kuali.ole.deliver.util.DroolsResponse;
 import org.kuali.ole.utility.OleStopWatch;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by chenchulakshmig on 8/25/15.
@@ -31,6 +32,11 @@ public class NonSip2CheckoutItemServiceImpl extends CheckoutItemServiceImpl {
     }
 
     @Override
+    protected String preProcess(Map checkoutParameters) {
+        return null;
+    }
+
+    @Override
     protected String fireRules() {
         OleStopWatch oleStopWatch = new OleStopWatch();
         oleStopWatch.start();
@@ -38,7 +44,7 @@ public class NonSip2CheckoutItemServiceImpl extends CheckoutItemServiceImpl {
         facts.add(getOlePatronDocument());
         DroolsResponse droolsResponse = new DroolsResponse();
         facts.add(droolsResponse);
-        new CircUtilController().fireRules(facts, null, "lookup-user-ncip");
+        new CircUtilController().fireRules(facts, null, "general-checks");
         return droolsResponse.getErrorMessage().getErrorMessage();
     }
 }

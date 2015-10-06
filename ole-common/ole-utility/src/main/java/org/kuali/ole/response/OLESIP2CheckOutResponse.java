@@ -88,7 +88,7 @@ public class OLESIP2CheckOutResponse extends OLESIP2Response {
 
         StringBuilder checkOutResponseBuilder = new StringBuilder();
         checkOutResponseBuilder.append(code);
-        if (oleRenewItem.getCode().equalsIgnoreCase("030") || oleRenewItem.getMessage().equalsIgnoreCase(OLESIP2Constants.RENEW_SUCCESS)) {
+        if ((oleRenewItem.getCode()!=null && oleRenewItem.getCode().equalsIgnoreCase("030")) || oleRenewItem.getMessage().equalsIgnoreCase(OLESIP2Constants.RENEW_SUCCESS)) {
             checkOutResponseBuilder.append(OLESIP2Util.bool2Int(true));
             checkOutResponseBuilder.append(OLESIP2Util.bool2Char(false));
             checkOutResponseBuilder.append("U");
@@ -125,7 +125,7 @@ public class OLESIP2CheckOutResponse extends OLESIP2Response {
        /* checkOutResponseBuilder.append(OLESIP2Constants.SPLIT+
                 OLESIP2Constants.MEDIA_TYPE_CODE);
         checkOutResponseBuilder.append(StringUtils.isNotBlank(oleRenewItem.getItemType()) ? oleRenewItem.getItemType() : "");*/
-        if (oleRenewItem.getCode().equalsIgnoreCase("030") || oleRenewItem.getMessage().equalsIgnoreCase(OLESIP2Constants.RENEW_SUCCESS)) {
+        if ((oleRenewItem.getCode()!=null && oleRenewItem.getCode().equalsIgnoreCase("030")) || oleRenewItem.getMessage().equalsIgnoreCase(OLESIP2Constants.RENEW_SUCCESS)) {
             checkOutResponseBuilder.append(OLESIP2Constants.SPLIT+
                     OLESIP2Constants.SCREEN_MSG_CODE+ OLESIP2Constants.CHECK_OUT_SUCCESSFULLY);
             checkOutResponseBuilder.append(OLESIP2Constants.SPLIT+

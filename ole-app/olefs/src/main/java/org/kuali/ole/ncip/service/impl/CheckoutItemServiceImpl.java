@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.kuali.asr.handler.CheckoutItemResponseHandler;
 import org.kuali.asr.handler.ResponseHandler;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.bo.OLECheckOutItem;
 import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
@@ -15,7 +16,6 @@ import org.kuali.ole.deliver.form.OLEForm;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.util.DroolsResponse;
 import org.kuali.ole.deliver.util.OlePatronRecordUtil;
-import org.kuali.ole.bo.OLECheckOutItem;
 import org.kuali.ole.ncip.bo.OLENCIPConstants;
 import org.kuali.ole.ncip.service.CheckoutItemService;
 import org.kuali.ole.sys.context.SpringContext;
@@ -99,7 +99,6 @@ public abstract class CheckoutItemServiceImpl implements CheckoutItemService {
     }
 
     public String checkoutItem(Map checkoutParameters) {
-        CheckoutAPIController checkoutAPIController = new CheckoutAPIController();
         setOleCheckOutItem(new OLECheckOutItem());
         setOlePatronDocument(null);
         setOleCirculationDesk(null);
@@ -109,8 +108,24 @@ public abstract class CheckoutItemServiceImpl implements CheckoutItemService {
         String itemBarcode = (String) checkoutParameters.get("itemBarcode");
         setResponseFormatType(checkoutParameters);
 
-        boolean isValid = validate(patronBarcode, operatorId, itemBarcode);
-        if (!isValid) {
+        if (!validatePatronBarcode(patronBarcode)) {
+            return prepareResponse();
+        }
+
+        String response = preProcess(checkoutParameters);
+        if (response != null) {
+            return response;
+        }
+
+        if (!validateOperator(operatorId)){
+            return prepareResponse();
+        }
+
+        if(!isItemBarcodeNotBlank(itemBarcode)){
+            return prepareResponse();
+        }
+
+        if (!processRules()){
             return prepareResponse();
         }
 
@@ -120,6 +135,13 @@ public abstract class CheckoutItemServiceImpl implements CheckoutItemService {
         droolsExchange.addToContext("selectedCirculationDesk", getOleCirculationDesk());
         droolsExchange.addToContext("operatorId", operatorId);
 
+        return process(droolsExchange);
+    }
+
+    protected abstract String preProcess(Map checkoutParameters);
+
+    private String process(DroolsExchange droolsExchange) {
+        CheckoutAPIController checkoutAPIController = new CheckoutAPIController();
         OLEForm oleAPIForm = new OLEForm();
         oleAPIForm.setDroolsExchange(droolsExchange);
 
@@ -201,7 +223,16 @@ public abstract class CheckoutItemServiceImpl implements CheckoutItemService {
         responseFormatType = responseFormatType.toUpperCase();
     }
 
-    private boolean validate(String patronBarcode, String operatorId, String itemBarcode) {
+    private boolean isItemBarcodeNotBlank(String itemBarcode){
+        if (StringUtils.isBlank(itemBarcode)) {
+            getOleCheckOutItem().setCode("900");
+            getOleCheckOutItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_REQUIRED));
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateOperator(String operatorId){
         OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getCircDeskForOpertorId(operatorId);
         setOleCirculationDesk(oleCirculationDesk);
         if (null == oleCirculationDesk) {
@@ -209,11 +240,20 @@ public abstract class CheckoutItemServiceImpl implements CheckoutItemService {
             getOleCheckOutItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.CIRCULATION_DESK_NOT_MAPPED_OPERATOR));
             return false;
         }
-        if (StringUtils.isBlank(itemBarcode)) {
-            getOleCheckOutItem().setCode("900");
-            getOleCheckOutItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.ITEM_BARCODE_REQUIRED));
+        return true;
+    }
+
+    private boolean processRules(){
+        String patronErrorMessage = fireRules();
+        if (StringUtils.isNotBlank(patronErrorMessage)) {
+            getOleCheckOutItem().setCode("002");
+            getOleCheckOutItem().setMessage(patronErrorMessage);
             return false;
         }
+        return true;
+    }
+
+    private boolean validatePatronBarcode(String patronBarcode) {
         try {
             OlePatronDocument patronDocument = getOlePatronRecordUtil().getPatronRecordByBarcode(patronBarcode);
             setOlePatronDocument(patronDocument);
@@ -223,12 +263,6 @@ public abstract class CheckoutItemServiceImpl implements CheckoutItemService {
         if (null == getOlePatronDocument()) {
             getOleCheckOutItem().setCode("002");
             getOleCheckOutItem().setMessage(ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.NO_PATRON_INFO));
-            return false;
-        }
-        String patronErrorMessage = fireRules();
-        if (StringUtils.isNotBlank(patronErrorMessage)){
-            getOleCheckOutItem().setCode("002");
-            getOleCheckOutItem().setMessage(patronErrorMessage);
             return false;
         }
         return true;

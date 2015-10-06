@@ -17,8 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -117,7 +116,16 @@ public class OLECirculationServlet extends HttpServlet {
                                 parameterMap.containsKey(OLENCIPConstants.OPERATOR_ID) &&
                                 parameterMap.containsKey(OLENCIPConstants.ITEM_BARCODE)){
                             if(parameterMap.size()==4 || parameterMap.size()==5){
-                                responseString=oleCirculationService.renewItem(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0],parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0],parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0],false);
+
+                                Map renewParameters = new HashMap();
+                                renewParameters.put("patronBarcode", parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0]);
+                                renewParameters.put("operatorId", parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0]);
+                                List<String> items = new ArrayList<>();
+                                items.add(parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0]);
+                                renewParameters.put("itemBarcodes", items);
+                                renewParameters.put("responseFormatType", outputFormat);
+                                responseString = new VuFindRenewItemService().renewItems(renewParameters);
+
                                 if(outputFormat.equalsIgnoreCase(OLENCIPConstants.JSON_FORMAT)){
                                     responseString=new OLERenewItemConverter().generateRenewItemJson(responseString);
                                 }
@@ -141,7 +149,17 @@ public class OLECirculationServlet extends HttpServlet {
                                 parameterMap.containsKey(OLENCIPConstants.ITEM_BARCODE)){
                             if(parameterMap.size()==4 || parameterMap.size()==5){
                                 Long startingTime = System.currentTimeMillis();
-                                responseString=oleCirculationService.renewItemList(parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0], parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0], parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0], false);
+
+                                Map renewParameters = new HashMap();
+                                renewParameters.put("patronBarcode", parameterMap.get(OLENCIPConstants.PATRON_BARCODE)[0]);
+                                renewParameters.put("operatorId", parameterMap.get(OLENCIPConstants.OPERATOR_ID)[0]);
+                                String itemBarcodeList = parameterMap.get(OLENCIPConstants.ITEM_BARCODE)[0];
+                                String[] itemBarcodeArray = itemBarcodeList.split(",");
+                                List<String> renewalItemList = Arrays.asList(itemBarcodeArray);
+                                renewParameters.put("itemBarcodes", renewalItemList);
+                                renewParameters.put("responseFormatType", outputFormat);
+                                responseString = new VuFindRenewItemService().renewItems(renewParameters);
+
                                 Long endTimme = System.currentTimeMillis();
                                 Long timeTakenForRenewAll = endTimme-startingTime;
                                 LOG.info("The Time Taken for RenewAll : "+timeTakenForRenewAll);
