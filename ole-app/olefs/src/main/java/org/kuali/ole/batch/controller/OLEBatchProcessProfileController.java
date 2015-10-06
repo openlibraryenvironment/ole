@@ -915,8 +915,7 @@ public class OLEBatchProcessProfileController extends MaintenanceDocumentControl
                 || attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_COVERAGE_START_VOLUME)
                 || attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_COVERAGE_END_DATE)
                 || attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_COVERAGE_END_ISSUE)
-                || attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_COVERAGE_END_VOLUME)
-                || attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_PLATFORM)) {
+                || attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.DESTINATION_FIELD_COVERAGE_END_VOLUME)) {
             oleBatchProcessProfileConstantsBo.setAttributeValue(oleBatchProcessProfileConstantsBo.getAttributeValueText());
         }
     }
