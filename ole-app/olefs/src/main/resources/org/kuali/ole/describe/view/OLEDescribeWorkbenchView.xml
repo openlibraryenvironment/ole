@@ -107,55 +107,8 @@
         <property name="headerText" value="Search Results:"/>
         <property name="items">
             <list>
-                <ref bean="OLEBibSearchResults"/>
+                <ref bean="BibSearchResults"/>
                 <ref bean="LinkToOrderButtons"/>
-            </list>
-        </property>
-    </bean>
-    <bean id="OLEBibSearchResults" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5" p:render="@{docType eq 'bibliographic'}">
-        <property name="collectionObjectClass"
-                  value="org.kuali.ole.describe.bo.SearchResultDisplayRow" />
-        <property name="propertyName" value="searchResultDisplayRowList" />
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.generateAutoSequence" value="false" />
-        <property name="renderAddLine" value="false"/>
-        <property name="layoutManager.richTable.render" value="true" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
-        <property name="renderLineActions" value="false"/>
-        <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="iDisplayLength" value="@{pageSize}"/>
-                <entry key="aLengthMenu" value="@{showPageSize}"/>
-            </map>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false" p:width="50px">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:cssClasses="defaultClass" p:onClickScript="validateCheckBoxes();"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-DataField" p:label="Local Identifier" p:propertyName="localId" p:render="@{searchResultDisplayFields.localId}" p:width="150px"/>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=@{#line.DocFormat}&amp;docId=@{#line.localId}&amp;bibId=@{#line.bibIdentifier}&amp;editable=true"
-                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:width="400px" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'false'}"/>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{#line.localId}&amp;bibId=@{#line.bibIdentifier}&amp;editable=true"
-                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:width="400px" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'true'}" p:cssClasses="staffOnlyForHiperlink"/>
-                <bean parent="Uif-DataField" p:label="Journal Title" p:propertyName="journalTitle" p:width="400px" p:render="@{searchResultDisplayFields.journalTitle}"/>
-                <bean parent="Uif-DataField" p:label="Author" p:propertyName="author" p:width="200px" p:render="@{searchResultDisplayFields.author}"/>
-                <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher" p:width="200px" p:render="@{searchResultDisplayFields.publisher}"/>
-                <bean parent="Uif-DataField" p:label="Isbn" p:propertyName="isbn" p:render="@{searchResultDisplayFields.isbn}"/>
-                <bean parent="Uif-DataField" p:label="Issn" p:propertyName="issn" p:render="@{searchResultDisplayFields.issn}"/>
-                <bean parent="Uif-DataField" p:label="Subject" p:propertyName="subject" p:render="@{searchResultDisplayFields.subject}"/>
-                <bean parent="Uif-DataField" p:label="Publication Place" p:propertyName="publicationPlace" p:render="@{searchResultDisplayFields.publicationPlace}"/>
-                <bean parent="Uif-DataField" p:label="Edition" p:propertyName="edition" p:render="@{searchResultDisplayFields.edition}"/>
-                <bean parent="Uif-DataField" p:label="Format" p:propertyName="format" p:render="@{searchResultDisplayFields.format}"/>
-                <bean parent="Uif-DataField" p:label="FormGenre" p:propertyName="formGenre" p:render="@{searchResultDisplayFields.formGenre}"/>
-                <bean parent="Uif-DataField" p:label="Language" p:propertyName="language" p:render="@{searchResultDisplayFields.language}"/>
-                <bean parent="Uif-DataField" p:label="Description" p:propertyName="description" p:render="@{searchResultDisplayFields.description}"/>
-                <bean parent="Uif-DataField" p:label="Pub Date" p:propertyName="publicationDate" p:render="@{searchResultDisplayFields.publicationDate}"/>
-                <bean parent="Uif-DataField" p:label="Barcode" p:propertyName="barcode" p:render="@{searchResultDisplayFields.barcode}"/>
             </list>
         </property>
     </bean>
