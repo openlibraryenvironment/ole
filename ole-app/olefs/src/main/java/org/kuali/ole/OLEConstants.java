@@ -3672,4 +3672,7 @@ public class OLEConstants {
     public static final String NOTICE_ENUMERATION="Enumeration";
     public static final String NOTICE_COPY_NUMBER="CopyNumber";
 
+    public static final String ITEM_TYPE_CODE = "itemTypeCode";
+    public static final String ITEM_TYP_CD_VALUE = "ITEM";
+
 }
