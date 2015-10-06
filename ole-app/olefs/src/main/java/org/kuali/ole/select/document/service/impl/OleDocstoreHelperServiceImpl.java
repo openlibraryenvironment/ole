@@ -1335,11 +1335,16 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
     private void updateOlePOAItem(String poNumber, String itemId, OlePurchaseOrderItem singleItem,List<OleCopy> copyList) throws Exception {
         org.kuali.ole.docstore.common.document.Item item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(itemId);
         Item itemContent=new ItemOlemlRecordProcessor().fromXML(item.getContent());
-        for(int i=0;i<copyList.size();i++) {
-            if(itemContent.getItemIdentifier().equals(copyList.get(i).getItemUUID()) ) {
-                itemContent.setEnumeration(copyList.get(i).getEnumeration());
-                itemContent.setCopyNumber(copyList.get(i).getCopyNumber());
-                break;
+        if (copyList.size() == 1) {
+            itemContent.setEnumeration(copyList.get(0).getEnumeration());
+            itemContent.setCopyNumber(copyList.get(0).getCopyNumber());
+        } else {
+            for (int i = 0; i < copyList.size(); i++) {
+                if (itemContent.getItemIdentifier().equals(copyList.get(i).getItemUUID())) {
+                    itemContent.setEnumeration(copyList.get(i).getEnumeration());
+                    itemContent.setCopyNumber(copyList.get(i).getCopyNumber());
+                    break;
+                }
             }
         }
         List<DonorInfo> donorInfoList = setDonorInfoToItem(singleItem.getOleDonors(), new ArrayList<DonorInfo>());
@@ -1428,7 +1433,7 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
                     if (!this.newCopyFlag) { // existing record's location  is updated with First copy from copyList
                         updateOleHolding(bibTree.getHoldingsTrees().get(0).getHoldings().getId(),bibTree, newCopy);
                         if (bibTree.getHoldingsTrees().get(0).getItems().size()==1) {
-                            updateOleItem(poNumber, bibTree.getHoldingsTrees().get(0).getItems().get(0).getId(),poLineItemId, singleItem);
+                            updateOlePOAItem(poNumber, bibTree.getHoldingsTrees().get(0).getItems().get(0).getId(), singleItem, oleCopyList);
                             newCopy.setInstanceId(bibTree.getHoldingsTrees().get(0).getHoldings().getId());
                             newCopy.setItemUUID(bibTree.getHoldingsTrees().get(0).getItems().get(0).getId());
                             for (int copyCnt=0; copyCnt<oleCopyList.size(); copyCnt++) {
@@ -1442,7 +1447,7 @@ public class OleDocstoreHelperServiceImpl implements OleDocstoreHelperService {
                             int itemRecord=0;
                             for (int copyRecord=0;copyRecord<oleCopyList.size();) {
                                 if ( itemRecord<bibTree.getHoldingsTrees().get(0).getItems().size()) {
-                                    updateOleItem(poNumber, bibTree.getHoldingsTrees().get(0).getItems().get(itemRecord).getId(), poLineItemId, singleItem);
+                                    updateOlePOAItem(poNumber, bibTree.getHoldingsTrees().get(0).getItems().get(itemRecord).getId(), singleItem,oleCopyList);
                                     oleCopyList.get(copyRecord).setInstanceId(bibTree.getHoldingsTrees().get(0).getHoldings().getId());
                                     oleCopyList.get(copyRecord).setItemUUID(bibTree.getHoldingsTrees().get(0).getItems().get(itemRecord).getId());
                                     this.copyCount++;itemRecord++;copyRecord++;
