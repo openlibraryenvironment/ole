@@ -53,6 +53,7 @@ import static org.kuali.ole.docstore.process.ProcessParameters.FILE;
  * @version %I%, %G%
  *          Date: 28/8/12 Time: 12:22 PM
  */
+@Deprecated
 public abstract class JcrAbstractDocumentManager
         extends AbstractDocumentManager {
     private Logger logger = LoggerFactory.getLogger(this.getClass());

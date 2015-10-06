@@ -41,7 +41,7 @@ import static org.kuali.ole.docstore.process.ProcessParameters.FILE;
  * @author: tirumalesh.b
  * Date: 31/8/12 Time: 7:04 PM
  */
-
+@Deprecated
 public class JcrWorkInstanceDocumentManager
         extends JcrAbstractDocumentManager {
 
@@ -318,7 +318,7 @@ public class JcrWorkInstanceDocumentManager
 
     @Override
     public ResponseDocument delete(RequestDocument requestDocument, Object object) throws Exception {
-        Session session = (Session) object;
+        /*Session session = (Session) object;
         DocumentManager documentManager = null;
         ResponseDocument responseDocument = new ResponseDocument();
         ResponseDocument responseDocumentFromDeleteVerify = deleteVerify(requestDocument, session);
@@ -344,8 +344,8 @@ public class JcrWorkInstanceDocumentManager
                 deleteFromRepository(instanceIdentifierList, session);
             }
         }
-
-        return responseDocument;
+*/
+        return null;
     }
 
     private void deLinkInstanceFromBib(String instanceIdentifier, Session session) throws Exception {
@@ -461,16 +461,16 @@ public class JcrWorkInstanceDocumentManager
      * @throws OleDocStoreException
      */
     private void getContent(RequestDocument requestDocument, Session session) throws OleDocStoreException {
-        DocumentManager documentManager = BeanLocator.getDocstoreFactory().getDocumentManager(requestDocument.getCategory(), requestDocument.getType(), requestDocument.getFormat());
+      /*  DocumentManager documentManager = BeanLocator.getDocstoreFactory().getDocumentManager(requestDocument.getCategory(), requestDocument.getType(), requestDocument.getFormat());
         ResponseDocument responseDocument = documentManager.checkout(requestDocument, session);
         requestDocument.setContent(responseDocument.getContent());
         List<RequestDocument> linkedRequestDocuments = requestDocument.getLinkedRequestDocuments();
 
         for (RequestDocument linkedRequestDocument : linkedRequestDocuments) {
-            DocumentManager documentManagerForLink = BeanLocator.getDocstoreFactory().getDocumentManager(linkedRequestDocument.getCategory(), linkedRequestDocument.getType(), linkedRequestDocument.getFormat());
+            //DocumentManager documentManagerForLink = BeanLocator.getDocstoreFactory().getDocumentManager(linkedRequestDocument.getCategory(), linkedRequestDocument.getType(), linkedRequestDocument.getFormat());
             linkedRequestDocument.setContent(documentManagerForLink.checkout(linkedRequestDocument, session).getContent());
 
-        }
+        }*/
     }
 
     /**
@@ -784,24 +784,24 @@ public class JcrWorkInstanceDocumentManager
 
     protected boolean validateCallNumber(String callNumber, String codeValue) throws OleDocStoreException {
         boolean isValid = false;
-        if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
+       /* if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
             org.kuali.ole.utility.callnumber.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
             if (callNumberObj != null) {
                 isValid = callNumberObj.isValid(callNumber);
             }
-        }
+        }*/
         return isValid;
     }
 
     protected String buildSortableCallNumber(String callNumber, String codeValue) throws OleDocStoreException {
         String shelvingOrder = "";
-        if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
+       /* if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
             org.kuali.ole.utility.callnumber.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
             if (callNumberObj != null) {
                 shelvingOrder = callNumberObj.getSortableKey(callNumber);
                 //shelvingOrder = shelvingOrder.replaceAll(" ", "_");
             }
-        }
+        }*/
         return shelvingOrder;
     }
 

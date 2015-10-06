@@ -16,6 +16,7 @@ import java.util.Map;
  * @version %I%, %G%
  *          Date: 28/8/12 Time: 12:52 PM
  */
+@Deprecated
 public class JcrDocumentManagerFactory {
     private static JcrDocumentManagerFactory jcrDocumentManagerFactory = new JcrDocumentManagerFactory();
     private Map<String, DocumentManager> documentManagerMap = new HashMap<String, DocumentManager>();

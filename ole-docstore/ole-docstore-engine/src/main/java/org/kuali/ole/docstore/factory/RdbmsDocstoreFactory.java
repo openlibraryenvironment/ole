@@ -12,6 +12,7 @@ import org.kuali.ole.docstore.transaction.TransactionManager;
  * Time: 3:14 PM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public class RdbmsDocstoreFactory extends AbstractDocstoreFactory {
 
     @Override

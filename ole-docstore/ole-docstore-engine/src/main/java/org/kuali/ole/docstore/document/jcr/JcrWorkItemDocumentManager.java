@@ -38,6 +38,7 @@ import static org.kuali.ole.docstore.process.ProcessParameters.FILE_HOLDINGS;
  * Time: 5:09 PM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public class JcrWorkItemDocumentManager extends JcrWorkInstanceDocumentManager {
 
     private static JcrWorkItemDocumentManager ourInstance = null;

@@ -1,5 +1,7 @@
 package org.kuali.ole.utility.callnumber;
 
+import org.solrmarc.callnum.LCCallNumber;
+
 /**
  * Created with IntelliJ IDEA.
  * User: ?
@@ -7,7 +9,7 @@ package org.kuali.ole.utility.callnumber;
  * Time: 7:31 PM
  * To change this template use File | Settings | File Templates.
  */
-public class NLMCallNumber extends AbstractCallNumber implements CallNumber {
+public class NLMCallNumber extends LCCallNumber {
     private static NLMCallNumber ourInstance = null;
 
     public static NLMCallNumber getInstance() {
@@ -15,15 +17,5 @@ public class NLMCallNumber extends AbstractCallNumber implements CallNumber {
             ourInstance = new NLMCallNumber();
         }
         return ourInstance;
-    }
-
-    public String getSortableKey(String callNumber) {
-        String normalizedCallNumber = CallNumUtils.getLCShelfkey(callNumber, null);
-        return normalizedCallNumber;
-    }
-
-    public boolean isValid(String callNumber) {
-        boolean isValid = CallNumUtils.isValidLC(callNumber);
-        return isValid;
     }
 }

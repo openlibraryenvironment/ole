@@ -12,6 +12,7 @@ import org.kuali.ole.docstore.service.BeanLocator;
  * Time: 12:56 PM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 abstract public class AbstractTransactionManager implements TransactionManager {
 
     public IndexerService getIndexerService(RequestDocument requestDocument) {

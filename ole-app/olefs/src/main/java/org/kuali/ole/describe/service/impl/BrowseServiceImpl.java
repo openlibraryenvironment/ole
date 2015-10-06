@@ -14,10 +14,10 @@ import org.kuali.ole.docstore.common.search.*;
 import org.kuali.ole.docstore.discovery.model.CallNumberBrowseParams;
 import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.ole.sys.context.SpringContext;
-import org.kuali.ole.utility.callnumber.CallNumber;
 import org.kuali.ole.utility.callnumber.CallNumberFactory;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.solrmarc.callnum.CallNumber;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -529,7 +529,8 @@ public class BrowseServiceImpl implements BrowseService {
 
                 if (StringUtils.isNotEmpty(callNumberBrowseText)) {
                     CallNumber callNumber = CallNumberFactory.getInstance().getCallNumber(classificationScheme);
-                    String normalizedCallNumberBrowseText = callNumber.getSortableKey(callNumberBrowseText);
+                    callNumber.parse(callNumberBrowseText);
+                    String normalizedCallNumberBrowseText = callNumber.getShelfKey();
                     normalizedCallNumberBrowseText = normalizedCallNumberBrowseText.replaceAll(" ", "-");
                     callNumberBrowseParams.setCallNumberBrowseText(normalizedCallNumberBrowseText);
                     BrowseParams browseParamsForwardCallNumberCount = buildBrowseParams(callNumberBrowseParams);

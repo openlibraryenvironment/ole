@@ -23,6 +23,7 @@ import java.util.List;
  * Time: 3:18 PM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public class JcrJcrWorkHoldingsDocumentManager extends JcrWorkInstanceDocumentManager {
 
     private static JcrJcrWorkHoldingsDocumentManager ourInstance = null;

@@ -18,6 +18,7 @@ import java.util.List;
  * @version %I%, %G%
  *          Date: 28/8/12 Time: 12:17 PM
  */
+@Deprecated
 public interface DocumentManager {
 
     /**

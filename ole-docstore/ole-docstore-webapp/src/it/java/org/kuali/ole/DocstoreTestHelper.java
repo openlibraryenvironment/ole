@@ -10,6 +10,7 @@ import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecords;
 import org.kuali.ole.docstore.common.document.content.bib.marc.ControlField;
 import org.kuali.ole.docstore.common.document.content.bib.marc.xstream.BibMarcRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.*;
+import org.kuali.ole.docstore.common.document.content.instance.CallNumber;
 import org.kuali.ole.docstore.common.document.content.instance.MissingPieceItemRecord;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
@@ -308,9 +309,10 @@ public class DocstoreTestHelper {
     protected String buildSortableCallNumber(String callNumber, String codeValue) {
         String shelvingOrder = "";
         if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
-            org.kuali.ole.utility.callnumber.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
+           org.solrmarc.callnum.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
             if (callNumberObj != null) {
-                shelvingOrder = callNumberObj.getSortableKey(callNumber);
+                callNumberObj.parse(callNumber);
+                shelvingOrder = callNumberObj.getShelfKey();
             }
         }
         return shelvingOrder;

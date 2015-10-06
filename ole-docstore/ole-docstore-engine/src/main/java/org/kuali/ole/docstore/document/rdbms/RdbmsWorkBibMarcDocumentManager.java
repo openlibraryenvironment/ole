@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
  * Time: 5:13 PM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public class RdbmsWorkBibMarcDocumentManager extends RdbmsWorkBibDocumentManager {
 
     private static RdbmsWorkBibMarcDocumentManager ourInstance = null;

@@ -1025,10 +1025,10 @@ public class WorkInstanceOlemlDocBuilder extends DocBuilder implements WorkBibCo
     protected String buildSortableCallNumber(String callNumber, String codeValue) throws Exception {
         String shelvingOrder = "";
         if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
-            org.kuali.ole.utility.callnumber.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
+         org.solrmarc.callnum.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
             if (callNumberObj != null) {
-                shelvingOrder = callNumberObj.getSortableKey(callNumber);
-                //shelvingOrder = shelvingOrder.replaceAll(" ", "_");
+                callNumberObj.parse(callNumber);
+                shelvingOrder = callNumberObj.getShelfKey();
             }
         }
         return shelvingOrder;
@@ -1037,9 +1037,10 @@ public class WorkInstanceOlemlDocBuilder extends DocBuilder implements WorkBibCo
     protected boolean validateCallNumber(String callNumber, String codeValue) throws Exception {
         boolean isValid = false;
         if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
-            org.kuali.ole.utility.callnumber.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
+            org.solrmarc.callnum.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
             if (callNumberObj != null) {
-                isValid = callNumberObj.isValid(callNumber);
+                callNumberObj.parse(callNumber);
+                isValid = callNumberObj.isValid();
             }
         }
         return isValid;

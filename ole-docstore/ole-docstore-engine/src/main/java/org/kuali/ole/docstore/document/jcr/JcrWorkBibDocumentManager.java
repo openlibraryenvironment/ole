@@ -25,7 +25,7 @@ import java.util.List;
  * @author: tirumalesh.b
  * Date: 31/8/12 Time: 7:04 PM
  */
-
+@Deprecated
 public class JcrWorkBibDocumentManager
         extends JcrAbstractDocumentManager {
     private Logger logger = LoggerFactory.getLogger(this.getClass());

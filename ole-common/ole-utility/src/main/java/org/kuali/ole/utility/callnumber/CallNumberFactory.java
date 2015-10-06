@@ -1,5 +1,6 @@
 package org.kuali.ole.utility.callnumber;
 
+import org.solrmarc.callnum.CallNumber;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class CallNumberFactory {
 
     private void initCallNumberMap() {
         String key = CallNumberType.LCC.getCode();
-        callNumberMap.put(key, LCCallNumber.getInstance());
+        callNumberMap.put(key, LcCallNumber.getInstance());
 
         key = CallNumberType.DDC.getCode();
         callNumberMap.put(key, DDCallNumber.getInstance());

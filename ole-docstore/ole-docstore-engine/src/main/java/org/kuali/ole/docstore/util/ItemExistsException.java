@@ -7,6 +7,7 @@ package org.kuali.ole.docstore.util;
  * Time: 6:11 PM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public class ItemExistsException extends Exception {
     public ItemExistsException() {
         super();

@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
  * @author: tirumalesh.b
  * Date: 31/8/12 Time: 7:04 PM
  */
-
+@Deprecated
 public class RdbmsWorkBibDocumentManager extends RdbmsAbstarctDocumentManager {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());

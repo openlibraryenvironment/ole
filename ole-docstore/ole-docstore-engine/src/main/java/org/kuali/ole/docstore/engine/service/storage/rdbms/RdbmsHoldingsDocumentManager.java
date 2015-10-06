@@ -14,6 +14,7 @@ import org.kuali.ole.docstore.common.document.*;
 import org.kuali.ole.docstore.common.document.HoldingsTree;
 import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.common.document.content.instance.*;
+import org.kuali.ole.docstore.common.document.content.instance.CallNumber;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.exception.DocstoreException;
 import org.kuali.ole.docstore.common.exception.DocstoreResources;
@@ -35,7 +36,6 @@ import org.kuali.ole.utility.callnumber.CallNumberFactory;
 import org.kuali.ole.utility.callnumber.CallNumberType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
 
 /**
  * Created with IntelliJ IDEA.
@@ -1376,9 +1376,10 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
     protected boolean validateCallNumber(String callNumber, String codeValue) {
         boolean isValid = false;
         if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
-            org.kuali.ole.utility.callnumber.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
+            org.solrmarc.callnum.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
             if (callNumberObj != null) {
-                isValid = callNumberObj.isValid(callNumber);
+                callNumberObj.parse(callNumber);
+                isValid = callNumberObj.isValid();
             }
         }
         return isValid;
@@ -1387,9 +1388,10 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
     protected String buildSortableCallNumber(String callNumber, String codeValue) {
         String shelvingOrder = "";
         if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
-            org.kuali.ole.utility.callnumber.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
+            org.solrmarc.callnum.CallNumber callNumberObj= CallNumberFactory.getInstance().getCallNumber(codeValue);
             if (callNumberObj != null) {
-                shelvingOrder = callNumberObj.getSortableKey(callNumber);
+                callNumberObj.parse(callNumber);
+                shelvingOrder = callNumberObj.getShelfKey();
             }
         }
         return shelvingOrder;

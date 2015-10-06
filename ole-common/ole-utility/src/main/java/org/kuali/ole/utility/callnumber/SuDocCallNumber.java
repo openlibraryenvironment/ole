@@ -1,5 +1,9 @@
 package org.kuali.ole.utility.callnumber;
 
+import org.apache.commons.lang.StringUtils;
+import org.solrmarc.callnum.AbstractCallNumber;
+import org.solrmarc.callnum.CallNumber;
+
 /**
  * Created with IntelliJ IDEA.
  * User: ?
@@ -8,6 +12,15 @@ package org.kuali.ole.utility.callnumber;
  * To change this template use File | Settings | File Templates.
  */
 public class SuDocCallNumber extends AbstractCallNumber implements CallNumber {
+
+    /**
+     * regular expression string for complete SuDoc classification
+     * Splits the based on continuous numbers and alphabets
+     * Ignore any special char and spaces.
+     */
+    public static final String SUDOC_REGEX = "[^A-Z0-9]+|(?<=[A-Z])(?=[0-9])|(?<=[0-9])(?=[A-Z])";
+    protected String shelfKey;
+
     private static SuDocCallNumber ourInstance = null;
 
     public static SuDocCallNumber getInstance() {
@@ -18,14 +31,42 @@ public class SuDocCallNumber extends AbstractCallNumber implements CallNumber {
     }
 
 
-    public String getSortableKey(String callNumber) {
-        String normalizedCallNumber = CallNumUtils.getSuDocShelfKey(callNumber);
-        return normalizedCallNumber;
+    @Override
+    public void parse(String call) {
+        this.rawCallNum = call;
+        this.parse();
     }
 
-    public boolean isValid(String callNumber) {
-        //TODO:Need to compute
-        return true;
+    @Override
+    public String getShelfKey() {
+        return shelfKey;
     }
 
+    protected void parse() {
+        if (this.rawCallNum != null) {
+            this.buildShelfKey();
+        }
+
+    }
+
+    protected void buildShelfKey() {
+        String upcaseSuDoccallnum = rawCallNum.toUpperCase();
+        StringBuffer callNum = new StringBuffer();
+        //split the call number based on numbers and alphabets
+        String[] cNumSub = upcaseSuDoccallnum.split(SUDOC_REGEX);
+        for (String str : cNumSub) {
+            if (StringUtils.isNumeric(str)) {   // numbers
+                // append zeros to sort Ordinal
+                str = StringUtils.leftPad(str, 5, "0"); // constant length 5
+                callNum.append(str);
+                callNum.append(" ");
+            } else {                     // alphabets
+                // append spaces to sort Lexicographic
+                str = StringUtils.rightPad(str, 5);  // constant length 5
+                callNum.append(str);
+                callNum.append(" ");
+            }
+        }
+        shelfKey = callNum.toString().trim();
+    }
 }

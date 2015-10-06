@@ -14,6 +14,7 @@ import org.kuali.ole.docstore.utility.BulkIngestStatistics;
  * User: tirumalesh.b
  * Date: 14/9/12 Time: 1:29 PM
  */
+@Deprecated
 public class BulkProcessRequest {
 
     public static Set<String> validOperationSet = getValidOperationSet();

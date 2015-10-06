@@ -3,6 +3,7 @@ package org.kuali.ole.utility.callnumber;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.ole.docstore.xstream.BaseTestCase;
+import org.solrmarc.callnum.CallNumber;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +29,8 @@ public class SuDocCallNumber_UT extends BaseTestCase {
                     "Y     00004 EC    00007 S     HRG   00110 00646", "Y     00004 EC    00007 C     00073 00010", "Y     00003 L     00052 00001 00002", "I     00019 00102 00005 38117 A     00001 SP    00500 00981 NORTH"};
             CallNumber callNumber = CallNumberFactory.getInstance().getCallNumber(callNumberType);
             for (int i = 0; i < callNumberArrayForSuDoc.length; i++) {
-                String normalisedCallNumber = callNumber.getSortableKey(callNumberArrayForSuDoc[i]);
+                callNumber.parse(callNumberArrayForSuDoc[i]);
+                String normalisedCallNumber = callNumber.getShelfKey();
                 System.out.println(callNumberArrayForSuDoc[i] + ":\tnormalized call number:\t" + normalisedCallNumber);
                 Assert.assertEquals(normalizedCallNumberForSuDoc[i], normalisedCallNumber);
             }
@@ -43,7 +45,8 @@ public class SuDocCallNumber_UT extends BaseTestCase {
         String callNumberType = "SuDoc";
         String number = "DK602 .P44 1901";
         CallNumber callNumber = CallNumberFactory.getInstance().getCallNumber(callNumberType);
-        boolean valid = callNumber.isValid(number);
+        callNumber.parse(number);
+        boolean valid = callNumber.isValid();
         System.out.println("valid:" + valid);
     }
 

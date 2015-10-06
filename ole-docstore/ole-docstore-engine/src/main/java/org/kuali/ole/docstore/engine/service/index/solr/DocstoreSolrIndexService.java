@@ -553,10 +553,10 @@ public class DocstoreSolrIndexService implements DocumentIndexer, DocstoreConsta
     protected String buildSortableCallNumber(String callNumber, String codeValue) {
         String shelvingOrder = "";
         if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
-            org.kuali.ole.utility.callnumber.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
+            org.solrmarc.callnum.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
             if (callNumberObj != null) {
-                shelvingOrder = callNumberObj.getSortableKey(callNumber);
-                //shelvingOrder = shelvingOrder.replaceAll(" ", "_");
+                callNumberObj.parse(callNumber);
+                shelvingOrder = callNumberObj.getShelfKey();
             }
         }
         return shelvingOrder;

@@ -15,11 +15,11 @@ import org.kuali.ole.docstore.discovery.solr.work.bib.WorkBibCommonFields;
 import org.kuali.ole.docstore.model.bo.*;
 import org.kuali.ole.docstore.model.enums.DocType;
 import org.kuali.ole.pojo.OLESerialReceivingRecord;
-import org.kuali.ole.utility.callnumber.CallNumber;
 import org.kuali.ole.utility.callnumber.CallNumberFactory;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.solrmarc.callnum.CallNumber;
 
 import java.io.IOException;
 import java.text.CharacterIterator;
@@ -1702,7 +1702,8 @@ public class QueryServiceImpl
 
             if (StringUtils.isNotEmpty(callNumberBrowseText)) {
                 CallNumber callNumber = CallNumberFactory.getInstance().getCallNumber(classificationScheme);
-                String normalizedCallNumberBrowseText = callNumber.getSortableKey(callNumberBrowseText);
+                callNumber.parse(callNumberBrowseText);
+                String normalizedCallNumberBrowseText = callNumber.getShelfKey();
                 normalizedCallNumberBrowseText = normalizedCallNumberBrowseText.replaceAll(" ", "-");
 
                 queryString = buildQueryForTotalForwardCallNumberCount(location, classificationScheme, normalizedCallNumberBrowseText, docType);

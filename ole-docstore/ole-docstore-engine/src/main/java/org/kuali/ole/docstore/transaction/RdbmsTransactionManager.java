@@ -33,6 +33,7 @@ import java.util.List;
  * Time: 12:58 PM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public class RdbmsTransactionManager extends AbstractTransactionManager {
 
     private static final Logger logger = LoggerFactory.getLogger(RdbmsTransactionManager.class);

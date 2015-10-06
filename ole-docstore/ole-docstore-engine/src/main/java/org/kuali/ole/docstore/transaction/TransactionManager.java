@@ -18,6 +18,7 @@ import java.util.List;
  * Time: 12:55 PM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public interface TransactionManager {
 
     public enum TransactionState {

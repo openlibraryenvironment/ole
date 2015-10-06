@@ -57,6 +57,7 @@ import java.util.Set;
  * Time: 3:11 PM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManager {
 
     private static RdbmsWorkInstanceDocumentManager ourInstanceRdbms = null;
@@ -2188,24 +2189,24 @@ public class RdbmsWorkInstanceDocumentManager extends RdbmsAbstarctDocumentManag
 
     protected boolean validateCallNumber(String callNumber, String codeValue) throws OleDocStoreException {
         boolean isValid = false;
-        if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
+        /*if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
             org.kuali.ole.utility.callnumber.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
             if (callNumberObj != null) {
                 isValid = callNumberObj.isValid(callNumber);
             }
-        }
+        }*/
         return isValid;
     }
 
     protected String buildSortableCallNumber(String callNumber, String codeValue) throws OleDocStoreException {
         String shelvingOrder = "";
-        if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
+       /* if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
             org.kuali.ole.utility.callnumber.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
             if (callNumberObj != null) {
                 shelvingOrder = callNumberObj.getSortableKey(callNumber);
                 //shelvingOrder = shelvingOrder.replaceAll(" ", "_");
             }
-        }
+        }*/
         return shelvingOrder;
     }
 

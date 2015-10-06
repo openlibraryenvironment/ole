@@ -31,6 +31,7 @@ import java.util.List;
  * Time: 12:58 PM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public class JcrTransactionManager extends AbstractTransactionManager {
 
     private static final Logger logger = LoggerFactory.getLogger(JcrTransactionManager.class);

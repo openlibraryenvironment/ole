@@ -1,6 +1,5 @@
 package org.kuali.ole.docstore.engine.service.index.solr;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -16,9 +15,9 @@ import org.kuali.ole.docstore.common.constants.DocstoreConstants;
 import org.kuali.ole.docstore.common.document.Holdings;
 import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.docstore.common.document.content.instance.*;
+import org.kuali.ole.docstore.common.document.content.instance.CallNumber;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
-import org.kuali.ole.docstore.discovery.service.SolrServerManager;
 import org.kuali.ole.docstore.discovery.solr.work.bib.marc.WorkBibMarcDocBuilder;
 import org.kuali.ole.docstore.indexer.solr.DocumentLocalId;
 import org.kuali.ole.docstore.model.enums.DocCategory;
@@ -459,9 +458,10 @@ public class ItemOlemlIndexer extends DocstoreSolrIndexService implements Docsto
     protected boolean validateCallNumber(String callNumber, String codeValue) throws OleDocStoreException {
         boolean isValid = false;
         if (StringUtils.isNotEmpty(callNumber) && StringUtils.isNotEmpty(codeValue)) {
-            org.kuali.ole.utility.callnumber.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
+            org.solrmarc.callnum.CallNumber callNumberObj = CallNumberFactory.getInstance().getCallNumber(codeValue);
             if (callNumberObj != null) {
-                isValid = callNumberObj.isValid(callNumber);
+                callNumberObj.parse(callNumber);
+                isValid = callNumberObj.isValid();
             }
         }
         return isValid;

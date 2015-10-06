@@ -8,9 +8,9 @@ import org.kuali.ole.batch.service.BatchProcessDeleteService;
 import org.kuali.ole.batch.util.BatchBibImportUtil;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.marc4j.*;
+import org.marc4j.marc.ControlField;
+import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
-import org.marc4j.marc.impl.ControlFieldImpl;
-import org.marc4j.marc.impl.DataFieldImpl;
 
 import java.io.*;
 import java.util.*;
@@ -167,7 +167,7 @@ public class BatchProcessDeleteData extends AbstractBatchProcess {
                         Record record = reader.next();
                         totalCount++;
                         boolean recExistFlag = true;
-                        for (DataFieldImpl dataFieldImpl : (List<DataFieldImpl>) record.getDataFields()) {
+                        for (DataField dataFieldImpl : (List<DataField>) record.getDataFields()) {
                             String searchMrcFieldData = "";
                             if (profileDataFiled.equals(dataFieldImpl.getTag())) {
                                 searchMrcFieldData = dataFieldImpl.getSubfield(profileSubField).getData().replaceAll(":", "");
@@ -190,7 +190,7 @@ public class BatchProcessDeleteData extends AbstractBatchProcess {
                         }
 
                         if (OLEConstants.OLEBatchProcess.CONTROL_FIELD_001.equals(profileDataFiled)) {
-                            for (ControlFieldImpl controlField : (List<ControlFieldImpl>) record.getControlFields()) {
+                            for (ControlField controlField : (List<ControlField>) record.getControlFields()) {
                                 if (!OLEConstants.OLEBatchProcess.CONTROL_FIELD_001.equalsIgnoreCase(controlField.getTag()))
                                     continue;
                                 Map batchDeleteMap = getBatchProcessDeleteService().getBibIdsForBatchDelete(controlField.getData(), profileFieldQuery);

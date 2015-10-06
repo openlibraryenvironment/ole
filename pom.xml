@@ -57,7 +57,7 @@
         <jstl.version>1.2</jstl.version>
         <jta.version>1.1</jta.version>
         <junit.version>4.10</junit.version>
-        <marc4j.version>2.4</marc4j.version>
+        <marc4j.version>2.6.5</marc4j.version>
         <metridoc-camel-plugin.version>0.27</metridoc-camel-plugin.version>
         <milyn.version>1.5</milyn.version>
         <mockito.version>1.8.5</mockito.version>
@@ -434,6 +434,11 @@
                 <groupId>org.kuali.ole</groupId>
                 <artifactId>normalizer</artifactId>
                 <version>${normalizer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kuali.ole</groupId>
+                <artifactId>marcimporter</artifactId>
+                <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.thoughtworks.xstream</groupId>

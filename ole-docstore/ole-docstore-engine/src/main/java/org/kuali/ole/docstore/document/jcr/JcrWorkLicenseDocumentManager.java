@@ -23,7 +23,7 @@ import java.util.List;
  * @author: tirumalesh.b
  * Date: 31/8/12 Time: 7:04 PM
  */
-
+@Deprecated
 public class JcrWorkLicenseDocumentManager
         extends JcrAbstractDocumentManager {
     private static JcrWorkLicenseDocumentManager ourInstance = null;

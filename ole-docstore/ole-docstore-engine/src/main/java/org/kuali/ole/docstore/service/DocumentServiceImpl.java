@@ -34,6 +34,7 @@ import java.util.Set;
  * User: tirumalesh.b
  * Date: 28/8/12 Time: 12:09 PM
  */
+@Deprecated
 public class DocumentServiceImpl
         implements DocumentService {
     private static Logger logger = LoggerFactory.getLogger(BulkIngestNIndexProcessor.class);

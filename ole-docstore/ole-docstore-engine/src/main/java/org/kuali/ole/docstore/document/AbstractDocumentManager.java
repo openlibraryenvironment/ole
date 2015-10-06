@@ -19,6 +19,7 @@ import java.util.Date;
  * Time: 3:15 PM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public abstract class AbstractDocumentManager implements DocumentManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDocumentManager.class);

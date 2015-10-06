@@ -1,20 +1,21 @@
 package org.kuali.ole.utility.callnumber;
 
-
-import org.solrmarc.callnum.DeweyCallNumber;
+import org.solrmarc.callnum.LCCallNumber;
 
 /**
  * Created with IntelliJ IDEA.
  * User: ?
  * Date: 20/2/13
- * Time: 7:30 PM
+ * Time: 7:31 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DDCallNumber extends DeweyCallNumber {
-    private static DDCallNumber ourInstance = null;
-    public static DDCallNumber getInstance() {
+public class LcCallNumber extends LCCallNumber {
+
+    private static LcCallNumber ourInstance = null;
+
+    public static LcCallNumber getInstance() {
         if (null == ourInstance) {
-            ourInstance = new DDCallNumber();
+            ourInstance = new LcCallNumber();
         }
         return ourInstance;
     }

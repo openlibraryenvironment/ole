@@ -37,6 +37,7 @@ import java.util.Map;
  * Time: 10:25 AM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public class RdbmsWorkItemDocumentManager extends RdbmsWorkInstanceDocumentManager {
 
     private static RdbmsWorkItemDocumentManager ourInstanceRdbms = null;

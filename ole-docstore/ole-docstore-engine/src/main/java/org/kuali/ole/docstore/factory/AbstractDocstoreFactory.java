@@ -13,6 +13,7 @@ import org.kuali.ole.docstore.service.DocumentServiceImpl;
  * Time: 3:09 PM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 abstract public class AbstractDocstoreFactory implements DocstoreFactory {
 
     @Override

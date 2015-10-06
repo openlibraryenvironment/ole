@@ -11,6 +11,7 @@ import org.kuali.ole.docstore.service.DocumentService;
  * Time: 12:50 PM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public interface DocstoreFactory {
 
     public DocumentService getDocumentService();

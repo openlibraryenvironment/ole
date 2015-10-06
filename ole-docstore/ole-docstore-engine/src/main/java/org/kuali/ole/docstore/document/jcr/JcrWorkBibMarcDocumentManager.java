@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
  * @version %I%, %G%
  *          Date: 28/8/12 Time: 1:10 PM
  */
+@Deprecated
 public class JcrWorkBibMarcDocumentManager
         extends JcrWorkBibDocumentManager {
     private static JcrWorkBibMarcDocumentManager ourInstance = null;
