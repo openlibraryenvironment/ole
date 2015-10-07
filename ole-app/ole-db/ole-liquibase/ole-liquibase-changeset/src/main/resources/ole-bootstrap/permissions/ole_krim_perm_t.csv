@@ -304,3 +304,4 @@ OLE10327,OLE10327,1,16,OLE-SELECT,Edit Platform Record,Allows user to edit the P
 OLE10328,OLE10328,1,62,OLE-SELECT,Delete E-Resource Record,Allows user to delete the E-Resource record.,Y
 OLE10329,OLE10329,1,62,OLE-SELECT,Delete E-Resource Instance,Allows user to delete the selected Instances under E-Resource record.,Y
 OLE10330,OLE10330,1,10,OLE-SYS,Initiate and Edit Fund Code,Authorizes the initiation and edit of Fund code Simple Maintenance documents.,Y
+OLE10500,OLE10500,1,15,OLE-SELECT,Save E-Resource Record,Allows user to Save the E-Resource record.,Y
