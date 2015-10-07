@@ -279,7 +279,7 @@ public class CircController extends CheckoutValidationController {
 
     private String getTimeString(Timestamp loanDueDate) {
         if (null != loanDueDate) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
             return simpleDateFormat.format(loanDueDate);
         }
         return "";
