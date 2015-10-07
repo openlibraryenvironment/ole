@@ -16,6 +16,7 @@ public class OleNoticeTypeKeyValuesFinder  extends KeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("",""));
         keyValues.add(new ConcreteKeyValue(OLEConstants.RECALL_NOTICE,"Recall Notice"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.ONHOLD_NOTICE,"OnHold Notice"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.NOTICE_HOLD_COURTESY,"Hold Courtesy Notice"));

@@ -44,6 +44,11 @@
                 <!--<property name="tooltipHelpContent" value="[Help] help"/>-->
             </bean>
         </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ole/deliver/notice/scripts/noticeMapping.js</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DocumentOverviewSection" p:order="10" p:render="false"/>

@@ -3674,5 +3674,6 @@ public class OLEConstants {
 
     public static final String ITEM_TYPE_CODE = "itemTypeCode";
     public static final String ITEM_TYP_CD_VALUE = "ITEM";
+    public static final String ITEM_WILL_BE_HELD_UNTIL = "Item Will Be Held until";
 
 }

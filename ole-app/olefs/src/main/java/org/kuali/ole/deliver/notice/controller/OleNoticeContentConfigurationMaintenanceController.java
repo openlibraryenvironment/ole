@@ -4,9 +4,11 @@ import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.bo.OleNoticeFieldLabelMapping;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -47,4 +49,20 @@ public class OleNoticeContentConfigurationMaintenanceController extends Maintena
         }
         return super.route(form, result, request, response);
    }
+
+
+    @RequestMapping(params = "methodToCall=refresh")
+    public ModelAndView refresh(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
+        MaintenanceDocument document = (MaintenanceDocument) maintenanceForm.getDocument();
+        OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = (OleNoticeContentConfigurationBo) document.getNewMaintainableObject().getDataObject();
+        String noticeType = oleNoticeContentConfigurationBo.getNoticeType();
+        GlobalVariables.getUserSession().addObject("noticeType",noticeType);
+        return super.refresh(form,result,request,response);
+    }
+
+
+
 }
