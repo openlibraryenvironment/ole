@@ -4605,7 +4605,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             List<OLEEResourceInstance> linkedResourceInstances = new ArrayList<>();
             for (OLELinkedEresource linkedEresource : oleeResourceRecordDocument.getOleLinkedEresources()) {
                 if (linkedEresource.getRelationShipType().equalsIgnoreCase("child")) {
-                    ids.put("oleEResourceInstanceId", linkedEresource.getLinkedERSIdentifier());
+                    ids.put("oleERSIdentifier", linkedEresource.getLinkedERSIdentifier());
                     linkedResourceInstances.addAll(getBusinessObjectService().findMatching(OLEEResourceInstance.class, ids));
                     for (OLEEResourceLicense oleeResourceLicense : linkedEresource.getOleeResourceRecordDocument().getOleERSLicenseRequests()) {
                         oleeResourceRecordDocument.getOleERSLicenseRequests().add(oleeResourceLicense);
