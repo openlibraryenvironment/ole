@@ -515,7 +515,7 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
         if(olePurchaseOrderItem.getClaimDate()==null){
             getOlePurapService().setClaimDateForPO(olePurchaseOrderItem,this.vendorDetail);
         }
-        if(olePurchaseOrderItem.getCopyList().size() > 0) {
+        if(olePurchaseOrderItem.getCopyList().size() > 0 && olePurchaseOrderItem.getItemTitleId()!=null) {
             //getOlePurapService().setInvoiceDocumentsForPO(olePurchaseOrderItem);
             getOlePurapService().setInvoiceDocumentsForPO(this,olePurchaseOrderItem);
         }
@@ -570,7 +570,7 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
                     || singleItem.getItemNoOfParts().isGreaterThan(new KualiInteger(1)))) {
             singleItem.setCopies(getOleCopyHelperService().setCopiesToLineItem(singleItem.getCopyList(), singleItem.getItemNoOfParts(), singleItem.getItemTitleId()));
         }
-        if(singleItem.getCopyList().size() > 0) {
+        if(singleItem.getCopyList().size() > 0 && singleItem.getItemTitleId() != null) {
             //getOlePurapService().setInvoiceDocumentsForPO(singleItem);
             getOlePurapService().setInvoiceDocumentsForPO(this,singleItem);
         }

@@ -262,7 +262,7 @@ public class OlePurchaseOrderAmendmentDocument extends PurchaseOrderAmendmentDoc
         if (olePurchaseOrderItem.getItemType() != null && olePurchaseOrderItem.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
             populateCopiesSection(olePurchaseOrderItem);
         }
-        if(olePurchaseOrderItem.getCopyList().size() > 0) {
+        if(olePurchaseOrderItem.getCopyList().size() > 0 && olePurchaseOrderItem.getItemTitleId()!=null) {
             //getOlePurapService().setInvoiceDocumentsForPO(olePurchaseOrderItem);
             getOlePurapService().setInvoiceDocumentsForPO(this,olePurchaseOrderItem);
         }
