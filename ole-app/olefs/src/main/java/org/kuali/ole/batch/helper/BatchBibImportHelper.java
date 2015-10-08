@@ -1152,18 +1152,26 @@ public class BatchBibImportHelper {
         for (OLEBatchProcessProfileDataMappingOptionsBo oleBatchProcessProfileDataMappingOptionsBo : OleBatchProcessProfileDataMappingOptionsBoList) {
             docType = oleBatchProcessProfileDataMappingOptionsBo.getDataTypeDestinationField();
             docField = oleBatchProcessProfileDataMappingOptionsBo.getDestinationField();
-            sourceTag = oleBatchProcessProfileDataMappingOptionsBo.getSourceField().substring(0,3);
+            sourceTag = oleBatchProcessProfileDataMappingOptionsBo.getSourceField().substring(0, 3);
 
             bibFieldValue = oleBatchProcessProfileDataMappingOptionsBo.getSourceFieldValue();
             if (docType.equalsIgnoreCase(DocType.EHOLDINGS.getCode())) {
                 for (HoldingsTree holdingsTree : holdingsTreeList) {
                     EHoldings eHoldings = (EHoldings) BatchBibImportUtil.getHoldings(holdingsTree, DocType.EHOLDINGS.getCode());
 
-                    if (StringUtils.isNotBlank(sourceTag) && urlMappedDataTag!=null && sourceTag.equalsIgnoreCase(urlMappedDataTag.toString()))
+                    if (StringUtils.isNotBlank(sourceTag) && urlMappedDataTag != null && sourceTag.equalsIgnoreCase(urlMappedDataTag.toString()))
                         continue;
 
                     if (eHoldings != null) {
-                        eHoldings.setField(docField, bibFieldValue);
+                        if (docField.equalsIgnoreCase(EHoldings.DESTINATION_FIELD_ERESOURCE_NAME)) {
+                            validateAndSetEResource(bibFieldValue, eHoldings);
+                        } else if (docField.equalsIgnoreCase(EHoldings.DESTINATION_FIELD_ERESOURCE_ID)) {
+                            validateAndSetEResourceId(bibFieldValue, eHoldings);
+                        } else if (docField.equalsIgnoreCase(EHoldings.DESTINATION_FIELD_PLATFORM)) {
+                            validateAndSetPlatform(bibFieldValue, eHoldings);
+                        } else {
+                            eHoldings.setField(docField, bibFieldValue);
+                        }
                     }
                 }
             }
