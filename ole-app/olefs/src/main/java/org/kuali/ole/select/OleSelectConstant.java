@@ -328,6 +328,11 @@ public class OleSelectConstant {
     public static final String INVOICE_ITEM_SECTION_ID = "OleInvoiceView-invoiceItems";
     public static final String INVOICE_ADDITIONAL_ITEM_SECTION_ID="OLEInvoiceView-ProcessItem-AdditionalCharges";
     public static final String INVOICE_ADDITIONAL_CHARGE_SECTION_ID="OLEInvoiceView-AdditionalCharges-additionalItems";
+    public static final String INVOICE_ITEMS_FUNDCODE="OLEInvoiceCurrentItemAccountingLine-VerticalBoxSection";
+    public static final String ERROR_INVOICE_ITEMS_FUNDCODE_REQUIRED="error.invoice.item.fundcode.required";
+    public static final String ERROR_INVOICE_ITEMS_FUNDCODE_INVALID="error.invoice.item.fundcode.invalid";
+
+
     //Added for Payment Request Validation
     public static final String FOREIGN_VENDOR_INVOICE_AMOUNT = "foreignVendorInvoiceAmount";
     public static final String FOREIGN_VENDOR_INVOICE_AMOUNT_STRING = "Foreign Vendor Invoice Amount";

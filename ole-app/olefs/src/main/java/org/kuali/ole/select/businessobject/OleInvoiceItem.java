@@ -146,6 +146,7 @@ public class OleInvoiceItem extends InvoiceItem {
     private Integer sequenceNumber;
 
     private BibInfoRecord bibInfoRecord;
+    private String fundCode;
 
     public BibInfoRecord getBibInfoRecord() {
         return bibInfoRecord;
@@ -582,12 +583,12 @@ public class OleInvoiceItem extends InvoiceItem {
     public void setAdditionalForeignUnitCost(String additionalForeignUnitCost) {
         if (additionalForeignUnitCost != null && !additionalForeignUnitCost.isEmpty() &&
                 (new KualiDecimal(additionalForeignUnitCost)).isLessThan(AbstractKualiDecimal.ZERO)) {
-          //  this.setDebitItem(false);
+            //  this.setDebitItem(false);
             this.setItemForeignUnitCost(new KualiDecimal(additionalForeignUnitCost).abs());
             this.additionalForeignUnitCost = additionalForeignUnitCost;
         } else if (additionalForeignUnitCost != null && !additionalForeignUnitCost.isEmpty() &&
                 (new KualiDecimal(additionalForeignUnitCost)).isGreaterEqual(AbstractKualiDecimal.ZERO)) {
-          //  this.setDebitItem(true);
+            //  this.setDebitItem(true);
             this.setItemForeignUnitCost((new KualiDecimal(additionalForeignUnitCost)));
             this.additionalForeignUnitCost = additionalForeignUnitCost;
         }
@@ -860,10 +861,10 @@ public class OleInvoiceItem extends InvoiceItem {
     public PurApRelatedViews getRelatedViews() {
         if (relatedViews == null) {
             relatedViews = new PurApRelatedViews(
-            		this.getInvoiceDocument() != null ? this.getInvoiceDocument().getDocumentNumber()
-            				: null,
+                    this.getInvoiceDocument() != null ? this.getInvoiceDocument().getDocumentNumber()
+                            : null,
                     this.getAccountsPayablePurchasingDocumentLinkIdentifier() != null ?
-                    		this.getAccountsPayablePurchasingDocumentLinkIdentifier() : null);
+                            this.getAccountsPayablePurchasingDocumentLinkIdentifier() : null);
         }
         return relatedViews;
     }
@@ -989,21 +990,21 @@ public class OleInvoiceItem extends InvoiceItem {
     public void setForeignListPrice(String foreignListPrice) {
         this.foreignListPrice = foreignListPrice;
         if(foreignListPrice != null) {
-        if (foreignListPrice.contains("(") || foreignListPrice.contains(")")) {
-            foreignListPrice = foreignListPrice.replace("(", "");
-            foreignListPrice = foreignListPrice.replace(")", "");
-            foreignListPrice = "-" + foreignListPrice;
-            this.foreignListPrice = foreignListPrice;
-        }
-        if (new KualiDecimal(foreignListPrice).isLessThan(KualiDecimal.ZERO)) {
-            this.setInvoiceForeignListPrice(foreignListPrice);
-            foreignListPrice = foreignListPrice.replace("-", "");
-            foreignListPrice = "(" + foreignListPrice + ")";
-            this.foreignListPrice = foreignListPrice;
-        } else {
-            this.setInvoiceForeignListPrice(foreignListPrice);
-            this.foreignListPrice = foreignListPrice;
-        }
+            if (foreignListPrice.contains("(") || foreignListPrice.contains(")")) {
+                foreignListPrice = foreignListPrice.replace("(", "");
+                foreignListPrice = foreignListPrice.replace(")", "");
+                foreignListPrice = "-" + foreignListPrice;
+                this.foreignListPrice = foreignListPrice;
+            }
+            if (new KualiDecimal(foreignListPrice).isLessThan(KualiDecimal.ZERO)) {
+                this.setInvoiceForeignListPrice(foreignListPrice);
+                foreignListPrice = foreignListPrice.replace("-", "");
+                foreignListPrice = "(" + foreignListPrice + ")";
+                this.foreignListPrice = foreignListPrice;
+            } else {
+                this.setInvoiceForeignListPrice(foreignListPrice);
+                this.foreignListPrice = foreignListPrice;
+            }
         }
     }
 
@@ -1228,7 +1229,7 @@ public class OleInvoiceItem extends InvoiceItem {
     public void setEnableDetailsSection(boolean enableDetailsSection) {
         this.enableDetailsSection = enableDetailsSection;
     }
-    
+
     public BigDecimal getItemExtendedPrice() {
         return calculateItemExtendedPrice();
     }
@@ -1315,10 +1316,16 @@ public class OleInvoiceItem extends InvoiceItem {
         return extendedPrice;
     }
 
+    public String getFundCode() {
+        return fundCode;
+    }
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
 
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
+    }
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }

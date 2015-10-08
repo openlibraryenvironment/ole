@@ -131,7 +131,7 @@
             <list>
                <ref bean="OLEInvoiceView-processItems-invoiceNotes"/>
                 <ref bean="OLEInvoiceView-processItems-accountingLines" />
-               
+
                 <ref bean="OLEInvoiceView-donors"/>
             </list>
         </property>
@@ -210,6 +210,25 @@
 		</property>
 	</bean>
 
+    <bean id="OLEInvoiceCurrentItemAccountingLine-VerticalBoxSection" parent="Uif-Disclosure-VerticalBoxSection" >
+        <property name="headerText" value="Accounting Lines"/>
+        <property name="items">
+            <list>
+                <bean id="invoiceCurrentItem_fundCode" parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund Code">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.select.bo.OleVendorAccountInfo"
+                              p:fieldConversions="vendorRefNumber:fundCode"/>
+                    </property>
+                    <property name="control">
+                        <!--<bean parent="Uif-TextControl" p:size="15" p:onBlurScript="submitForm('populateAccountingLines',null,null,null,null);" />-->
+                        <bean parent="Uif-TextControl" p:size="15" p:onBlurScript="submitForm('populateAccountingLines',{accountingLineIndex:'@{#index}'},null,null,null);" />
+                    </property>
+                </bean>
+                <ref bean="OLEInvoiceView-processItems-accountingLines"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="OLEInvoiceView-accountingLines-parent" abstract="true"
     		parent="OLEInvoiceView-processItems-SubCollection" p:disclosure.defaultOpen="false">
         <property name="headerText" value="Accounting Lines" />
@@ -259,7 +278,7 @@
         </property>
     </bean>
 
-    <bean id="OLEInvoiceView-processItems-accountingLines" parent="OLEInvoiceView-accountingLines-parent">
+    <bean id="OLEInvoiceView-processItems-accountingLines" parent="OLEInvoiceView-accountingLines-parent" p:disclosure.render="false">
         <property name="collectionObjectClass" value="org.kuali.ole.select.businessobject.OlePurchaseOrderAccount" />
         <property name="addLineActions">
             <list>
@@ -405,7 +424,8 @@
                 <ref bean="OLEInvoiceView-ProcessTitle-PaymentRequestHistory"/>
                 <ref bean="OLEInvoiceView-ProcessTitle-CreditMemoHistory"/>
 	        <ref bean="OLEInvoiceView-invoiceNotes"/>
-                <ref bean="OLEInvoiceView-Item-accountingLines"/>
+                <!--<ref bean="OLEInvoiceView-Item-accountingLines"/>-->
+                <ref bean="OLEInvoiceCurrentItemAccountingLine-VerticalBoxSection"/>
                 <ref bean="OLEInvoiceView-AdditionalCharges-offsetAccountingLines"/>
 
                 <ref bean="OLEInvoiceView-donors"/>
@@ -1306,7 +1326,7 @@
         </property>
     </bean>
 
-    <bean id="OLEInvoiceView-Item-accountingLines" parent="OLEInvoiceView-accountingLines-parent">
+    <bean id="OLEInvoiceView-Item-accountingLines" parent="OLEInvoiceView-accountingLines-parent" p:disclosure.render="false">
         <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.InvoiceAccount" />
         <property name="addLineActions">
             <list>
