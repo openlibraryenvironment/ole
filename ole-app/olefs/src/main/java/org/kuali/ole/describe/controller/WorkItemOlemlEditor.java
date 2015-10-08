@@ -162,16 +162,11 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                 Item item = itemOlemlRecordProcessor.fromXML(docStoreData);
                 ensureAccessInformation(item);
                 //TODO : set additional attributes
-                if (item != null && item.getItemStatusEffectiveDate() != null) {
-                    String[] itemStatusEffectiveDate = item.getItemStatusEffectiveDate().split(" ");
-                    item.setItemStatusEffectiveDate(itemStatusEffectiveDate[0]);
-                }
                 String itemStatus = null;
                 if (item.getItemStatus() != null && item.getItemStatus().getCodeValue() != null) {
                     itemStatus = item.getItemStatus().getCodeValue();
                     workInstanceOlemlForm.setOldItemStatus(itemStatus);
                 }
-
 
                 String itemProperty = getInstanceEditorFormDataHandler().getParameter("OLE-DESC", "Describe", "ITEM_STATUS_READONLY");
                 String[] itemArray = itemProperty.split(",");
@@ -221,7 +216,6 @@ public class WorkItemOlemlEditor extends AbstractEditor {
                         editorForm.setOleLoanIntransitRecordHistories(oleLoanIntransitRecordHistories);
                     }
                 }
-                //workInstanceOlemlForm.setMessage("Item record loaded successfully.");
                 if (editorForm.getEditable().equalsIgnoreCase("false")) {
                     GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "item.record.load.message");
                 } else {

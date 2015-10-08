@@ -382,10 +382,6 @@ public class OLEDeliverItemSearchController extends UifControllerBase {
             } else if (searchResponse.getSearchResults().size() == 1) {
                 Map itemIdMap = new HashMap();
                 itemIdMap.put(OLEConstants.ITEM_UUID, singleItemResultDisplayRow.getId());
-                if (singleItemResultDisplayRow.getItemStatusDate() != null) {
-                    String[] itemStatusEffectiveDate = singleItemResultDisplayRow.getItemStatusDate().split(" ");
-                    singleItemResultDisplayRow.setItemStatusDate(itemStatusEffectiveDate[0]);
-                }
                 //borrower
                 getOleDeliverItemSearchService().setBorrowerInfo(singleItemResultDisplayRow);
                 //request

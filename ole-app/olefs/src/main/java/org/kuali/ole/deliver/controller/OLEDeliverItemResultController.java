@@ -143,8 +143,7 @@ public class OLEDeliverItemResultController extends UifControllerBase {
                     oleSingleItemResultDisplayRow.setItemDamagedNote(itemPojo.getDamagedItemNote());
                 }
                 if (itemPojo.getItemStatusEffectiveDate() != null) {
-                    String[] itemStatusEffectiveDate = itemPojo.getItemStatusEffectiveDate().split(" ");
-                    oleSingleItemResultDisplayRow.setItemStatusDate(itemStatusEffectiveDate[0]);
+                    oleSingleItemResultDisplayRow.setItemStatusDate(itemPojo.getItemStatusEffectiveDate());
                 }
                 oleSingleItemResultDisplayRow.setCurrentBorrowerId(itemPojo.getCurrentBorrower());
                 oleSingleItemResultDisplayRow.setProxyBorrowerId(itemPojo.getProxyBorrower());
