@@ -196,9 +196,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             }
         }
         if (oleeResourceRecordDocument.getOleERSIdentifier() == null) {
-            String noticePeriod = oleEResourceSearchService.getParameter("NOTICE_PERIOD", OLEConstants.ERESOURCE_CMPNT);
-            String alertEnabled = oleEResourceSearchService.getParameter("ALERT_ENABLED", OLEConstants.ERESOURCE_CMPNT);
-            String user = oleEResourceSearchService.getParameter("USER", OLEConstants.ERESOURCE_CMPNT);
+            String noticePeriod = getOleEResourceSearchService().getParameter("NOTICE_PERIOD", OLEConstants.ERESOURCE_CMPNT);
+            String alertEnabled = getOleEResourceSearchService().getParameter("ALERT_ENABLED", OLEConstants.ERESOURCE_CMPNT);
+            String user = getOleEResourceSearchService().getParameter("USER", OLEConstants.ERESOURCE_CMPNT);
             oleeResourceRecordDocument.setRenewalNoticePeriod(noticePeriod);
             if (alertEnabled.equalsIgnoreCase("Y")) {
                 oleeResourceRecordDocument.setRenewalAlertEnabled(true);
@@ -432,9 +432,9 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             eResource.setLinkedERSIdentifier(oleeResourceRecordDocument.getOleERSIdentifier());
 
             parentDocument.getOleLinkedEresources().add(eResource);
-            oleEResourceSearchService.getPOInvoiceForERS(parentDocument);
+            getOleEResourceSearchService().getPOInvoiceForERS(parentDocument);
             KRADServiceLocatorWeb.getDocumentService().updateDocument(parentDocument);
-            oleEResourceSearchService.getPOInvoiceForERS(oleeResourceRecordDocument);
+            getOleEResourceSearchService().getPOInvoiceForERS(oleeResourceRecordDocument);
             KRADServiceLocatorWeb.getDocumentService().updateDocument(oleeResourceRecordDocument);
             return super.reload(oleERSform, result, request, response);
         }
