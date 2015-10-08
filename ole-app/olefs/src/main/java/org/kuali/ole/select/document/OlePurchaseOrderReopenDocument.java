@@ -18,6 +18,8 @@ package org.kuali.ole.select.document;
 
 import org.kuali.ole.module.purap.document.PurchaseOrderReopenDocument;
 import org.kuali.ole.module.purap.document.RequisitionDocument;
+import org.kuali.ole.module.purap.document.service.OlePurapService;
+import org.kuali.ole.select.businessobject.OlePurchaseOrderItem;
 import org.kuali.ole.select.document.service.OlePurchaseOrderDocumentHelperService;
 import org.kuali.ole.sys.OLEConstants;
 import org.kuali.ole.sys.context.SpringContext;
@@ -25,6 +27,7 @@ import org.kuali.ole.vnd.businessobject.VendorAlias;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +38,7 @@ public class OlePurchaseOrderReopenDocument extends PurchaseOrderReopenDocument 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OlePurchaseOrderReopenDocument.class);
 
     private String vendorPoNumber;
-
+    private static transient OlePurapService olePurapService;
     /**
      * Default constructor.
      */
@@ -87,6 +90,23 @@ public class OlePurchaseOrderReopenDocument extends PurchaseOrderReopenDocument 
         }
         if (this.getVendorAliasName() == null) {
             populateVendorAliasName();
+        }
+        try {
+            List<OlePurchaseOrderItem> items = this.getItems();
+            Iterator iterator = items.iterator();
+            while (iterator.hasNext()) {
+                Object object = iterator.next();
+                if (object instanceof OlePurchaseOrderItem) {
+                    OlePurchaseOrderItem singleItem = (OlePurchaseOrderItem) object;
+                    if(singleItem.getCopyList().size() > 0) {
+                        //getOlePurapService().setInvoiceDocumentsForPO(olePurchaseOrderItem);
+                        getOlePurapService().setInvoiceDocumentsForPO(this,singleItem);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception in OlePurchaseOrderCloseDocument:processAfterRetrieve" + e.getMessage());
+            throw new RuntimeException(e);
         }
         SpringContext.getBean(OlePurchaseOrderDocumentHelperService.class).processAfterRetrieve(this);
 
@@ -263,5 +283,12 @@ public class OlePurchaseOrderReopenDocument extends PurchaseOrderReopenDocument 
      */
     public String getDublinEditorViewURL() {
         return SpringContext.getBean(OlePurchaseOrderDocumentHelperService.class).getDublinEditorViewURL();
+    }
+
+    public static OlePurapService getOlePurapService() {
+        if (olePurapService == null) {
+            olePurapService = SpringContext.getBean(OlePurapService.class);
+        }
+        return olePurapService;
     }
 }
