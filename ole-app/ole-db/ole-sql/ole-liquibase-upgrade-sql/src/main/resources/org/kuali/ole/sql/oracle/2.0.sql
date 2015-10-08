@@ -99,7 +99,10 @@ INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'DEFAULT_PICK_UP_LOCATION', 'OLE7034', '1', 'CONFG', '', 'This parameter value is used for configuring the default pickup location while placing a request through Request screen.', 'A', 'OLE')
 /
 
-INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_oracle', 'ole', 'org/kuali/ole/2.0/db.changelog-20141229.xml', SYSTIMESTAMP, 1, '7:f18ca8311ca93fa5c8e65ed7194b4aa0', 'loadData', '', 'EXECUTED', '3.2.0')
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'GRACE_PERIOD_FOR_NON_WORKING_HOURS', 'OLE7036', '1', 'CONFG', '60-m', 'This parameter value is used for configuring the grace time for the patron to return item.', 'A', 'OLE')
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_oracle', 'ole', 'org/kuali/ole/2.0/db.changelog-20141229.xml', SYSTIMESTAMP, 1, '7:85c3fc5a80f5cd210776f034ad5f1ea4', 'loadData', '', 'EXECUTED', '3.2.0')
 /
 
 -- Changeset org/kuali/ole/2.0/db.changelog-20141229.xml::OLE_GOKB_PKG_T::ole
