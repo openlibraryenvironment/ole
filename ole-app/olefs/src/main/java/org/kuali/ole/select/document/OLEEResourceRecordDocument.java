@@ -61,6 +61,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private String accessDescription;
     private String oleERSIdentifier;
     private String title;
+    private String oldTitle;
     private String description;
     private String publisher;
     private String publisherId;
@@ -668,6 +669,10 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
 
     public void setGokbIdentifier(Integer gokbIdentifier) {
         this.gokbIdentifier = gokbIdentifier;
+    }
+
+    public void setGokbIdentifier(String gokbIdentifier) {
+        setGokbIdentifier(Integer.parseInt(gokbIdentifier));
     }
 
     public String getIsbn() {
@@ -1462,25 +1467,6 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
         if (this.getStatisticalSearchingCodeId() != null) {
             this.setStatisticalSearchingCode(this.getStatisticalSearchingCodeId().toString());
         }
-        /*String accessLocationId = this.getAccessLocationId();
-        if (accessLocationId != null && !accessLocationId.isEmpty()) {
-            String[] accessLocation = accessLocationId.split(OLEConstants.OLEEResourceRecord.ACCESS_LOCATION_SEPARATOR);
-            List<String> accessLocations = new ArrayList<>();
-            List<String> accessLocationNames = new ArrayList<>();
-            for (String accessLocId : accessLocation) {
-                accessLocations.add(accessLocId);
-                if (accessLocId != null) {
-                    Map accessLocMap = new HashMap();
-                    accessLocMap.put("oleAccessLocationId", accessLocId);
-                    OLEAccessLocation oleAccessLocation = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEAccessLocation.class, accessLocMap);
-                    if (oleAccessLocation != null) {
-                        accessLocationNames.add(oleAccessLocation.getOleAccessLocationName());
-                    }
-                }
-            }
-            this.setAccessLocation(accessLocations);
-            this.setAccessLocationName(accessLocationNames);
-        }*/
         String mobileAccessId = this.getMobileAccessId();
         if (mobileAccessId != null && !mobileAccessId.isEmpty()) {
             String[] mobileAccess = mobileAccessId.split(OLEConstants.OLEEResourceRecord.ACCESS_LOCATION_SEPARATOR);
@@ -1588,7 +1574,6 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
         }
         getOleEResourceSearchService().getDefaultCovergeDate(this);
         getOleEResourceSearchService().getDefaultPerpetualAccessDate(this);
-        getOleEResourceSearchService().getPOInvoiceForERS(this);
         getOleEResourceSearchService().getBannerMessage(this);
         getOleeResourceHelperService().updateVendorInfo(this);
         getOleEResourceSearchService().updatePlatformProvider(this);
@@ -2018,5 +2003,13 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
 
     public void setAccessReadOnly(boolean accessReadOnly) {
         this.accessReadOnly = accessReadOnly;
+    }
+
+    public String getOldTitle() {
+        return oldTitle;
+    }
+
+    public void setOldTitle(String oldTitle) {
+        this.oldTitle = oldTitle;
     }
 }

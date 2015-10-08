@@ -1,14 +1,16 @@
 package org.kuali.ole.select.document;
 
-import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.ole.KualiTestBase;
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.docstore.common.client.DocstoreRestClient;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.document.EHoldings;
 import org.kuali.ole.docstore.common.document.Holdings;
+import org.kuali.ole.docstore.common.document.content.instance.OleHoldings;
+import org.kuali.ole.docstore.common.service.DocstoreService;
+import org.kuali.ole.docstore.engine.service.DocstoreServiceImpl;
 import org.kuali.ole.fixture.UserNameFixture;
 import org.kuali.ole.module.purap.document.PurchaseOrderDocument;
 import org.kuali.ole.module.purap.fixture.PurchaseOrderDocumentFixture;
@@ -19,18 +21,15 @@ import org.kuali.ole.select.fixture.OLEEResourceRecordDocumentFixture;
 import org.kuali.ole.service.OLEEResourceSearchService;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.sys.document.AccountingDocumentTestUtils;
+import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 import static org.kuali.ole.fixture.UserNameFixture.khuntley;
 
@@ -46,11 +45,11 @@ import static org.kuali.ole.fixture.UserNameFixture.khuntley;
  * Used to create and test populated EResource Documents of various kinds.
  */
 
-public class OLEEResourceRecordDocumentTest extends KualiTestBase {
+public class OLEEResourceRecordDocument_IT extends KualiTestBase {
 
     protected static DocumentServiceImpl documentService = null;
     protected OlePurchaseOrderDocument olePurchaseOrderDocument = null;
-    private DocstoreRestClient restClient = new DocstoreRestClient();
+    private DocstoreService docstoreService = new DocstoreServiceImpl();
     private OLEEResourceSearchService oleEResourceSearchService = null;
 
     public void setUp() throws Exception {
@@ -117,13 +116,19 @@ public class OLEEResourceRecordDocumentTest extends KualiTestBase {
 
     /**
      * test case for testing createEInstance
+     * to run this test case please uncomment lines in  loadDataDictionary method in  KRADConfigurer.java
      */
     @Test
-    public final void testCreateEInstance() throws Exception {
+    public final void createEResourceWithNewBibAndEholdings() throws Exception {
+        OleStopWatch oleStopWatch = new OleStopWatch();
+        oleStopWatch.start();
         OLEEResourceRecordDocument oleeResourceRecordDocument = buildSimpleEResourceDocument();
-        documentService.saveDocument(oleeResourceRecordDocument);
-        OLEEResourceRecordDocument result = (OLEEResourceRecordDocument) documentService.getByDocumentHeaderId(oleeResourceRecordDocument.getDocumentNumber());
+        OLEEResourceRecordDocument result = (OLEEResourceRecordDocument) documentService.saveDocument(oleeResourceRecordDocument);
         assertTrue(result.getDocumentHeader().getWorkflowDocument().getStatus().getLabel().equalsIgnoreCase("SAVED"));
+        oleStopWatch.end();
+        LOG.error("Time taken to Build and save Simple e resource Document " + oleStopWatch.getTotalTime() + " ms");
+        oleStopWatch.reset();
+
 
         String input = "";
         File file = null;
@@ -136,7 +141,7 @@ public class OLEEResourceRecordDocumentTest extends KualiTestBase {
         }
         Bib bibMarc = new Bib();
         bibMarc = (Bib) bibMarc.deserialize(input);
-        restClient.createBib(bibMarc);
+        docstoreService.createBib(bibMarc);
 
         try {
             file = new File(getClass().getResource("/org/kuali/ole/EHoldings.xml").toURI());
@@ -146,24 +151,70 @@ public class OLEEResourceRecordDocumentTest extends KualiTestBase {
         }
         Holdings holdings = new EHoldings();
         holdings = (EHoldings) holdings.deserialize(input);
+        OleHoldings oleHoldings = holdings.getContentObject();
+        oleHoldings.setEResourceId(result.getOleERSIdentifier());
+        holdings.serializeContent();
         holdings.setBib(bibMarc);
-        restClient.createHoldings(holdings);
+        docstoreService.createHoldings(holdings);
 
+        oleStopWatch.start();
         HashMap<String, OLEEditorResponse> oleEditorResponseMap = new HashMap<>();
         OLEEditorResponse oleEditorResponse = new OLEEditorResponse();
         oleEditorResponse.setLinkedInstanceId(holdings.getId());
-        oleEditorResponseMap.put(oleeResourceRecordDocument.getDocumentNumber(),oleEditorResponse);
+        oleEditorResponseMap.put(oleeResourceRecordDocument.getDocumentNumber(), oleEditorResponse);
         OleDocstoreResponse.getInstance().setEditorResponse(oleEditorResponseMap);
         oleeResourceRecordDocument.setSelectInstance(OLEConstants.OLEEResourceRecord.CREATE_NEW_INSTANCE);
 
         oleEResourceSearchService = GlobalResourceLoader.getService(OLEConstants.OLEEResourceRecord.ERESOURSE_SEARCH_SERVICE);
-        oleEResourceSearchService.getNewInstance(oleeResourceRecordDocument,oleeResourceRecordDocument.getDocumentNumber());
-        assertEquals(1,oleeResourceRecordDocument.getOleERSInstances().size());
-        assertEquals(holdings.getId(), oleeResourceRecordDocument.getOleERSInstances().get(0).getInstanceId());
-        assertEquals("platformId", oleeResourceRecordDocument.getOleERSInstances().get(0).getPlatformId());
-        assertEquals("public",oleeResourceRecordDocument.getOleERSInstances().get(0).getSubscriptionStatus());
-        assertEquals("05/15/2014 - 05/20/2014", oleeResourceRecordDocument.getOleERSInstances().get(0).getInstanceHoldings());
-        assertEquals("publisher", oleeResourceRecordDocument.getOleERSInstances().get(0).getInstancePublisher());
+        oleEResourceSearchService.getNewInstance(result, result.getDocumentNumber(), holdings);
+
+
+
+        oleStopWatch.start();
+        documentService.updateDocument(result);
+        oleStopWatch.end();
+        LOG.error("Time taken to Update eresource " + oleStopWatch.getTotalTime() + " ms");
+        oleStopWatch.reset();
+
+        oleStopWatch.start();
+        OLEEResourceRecordDocument result1 = (OLEEResourceRecordDocument) documentService.getByDocumentHeaderId(result.getDocumentNumber());
+        oleStopWatch.end();
+        LOG.error("Time taken to fetch eresource " + oleStopWatch.getTotalTime() + " ms");
+        oleStopWatch.reset();
+
+        assertEquals(1, result1.getOleERSInstances().size());
+        assertEquals(holdings.getId(), result1.getOleERSInstances().get(0).getInstanceId());
+        assertEquals("platformId", result1.getOleERSInstances().get(0).getPlatformId());
+        assertEquals("public", result1.getOleERSInstances().get(0).getSubscriptionStatus());
+        assertEquals("05/15/2014 - 05/20/2014", result1.getOleERSInstances().get(0).getInstanceHoldings());
+        assertEquals("publisher", result1.getOleERSInstances().get(0).getInstancePublisher());
+    }
+
+  /*
+    Please update document Id  and run this test case
+     */
+    @Ignore
+    @Test
+    public final void getEResourceWithMoreEholdings() throws Exception {
+        OleStopWatch oleStopWatch = new OleStopWatch();
+        oleStopWatch.start();
+        OLEEResourceRecordDocument result = (OLEEResourceRecordDocument) documentService.getByDocumentHeaderId("3414");
+        oleStopWatch.end();
+        LOG.error("Time taken to fetch eresource " + oleStopWatch.getTotalTime() + " ms" + result.getOleERSInstances().size());
+        oleStopWatch.reset();
+
+        oleEResourceSearchService = GlobalResourceLoader.getService(OLEConstants.OLEEResourceRecord.ERESOURSE_SEARCH_SERVICE);
+        oleStopWatch.start();
+        oleEResourceSearchService.populateInstanceAndEInstance(result);
+        oleStopWatch.end();
+        LOG.error("Time taken to fetch eholdings attached to eresource " + oleStopWatch.getTotalTime() + " ms" + result.getOleERSInstances().size());
+        oleStopWatch.reset();
+
+        oleStopWatch.start();
+        documentService.updateDocument(result);
+        oleStopWatch.end();
+        LOG.error("Time taken to update eresource " + oleStopWatch.getTotalTime() + " ms" + result.getOleERSInstances().size());
+
     }
 
     /**

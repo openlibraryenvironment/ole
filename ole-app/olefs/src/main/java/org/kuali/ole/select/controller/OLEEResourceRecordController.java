@@ -33,6 +33,7 @@ import org.kuali.ole.service.impl.OLEEResourceSearchServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
@@ -184,8 +185,8 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             backDoorUser = person.getPrincipalId();
         }
 
-        //session.removeAttribute("createChildEResource");
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) kualiForm.getDocument();
+        oleeResourceRecordDocument.setOldTitle(oleeResourceRecordDocument.getTitle());
         List<ActionItem> actionItems = (List<ActionItem>) KEWServiceLocator.getActionListService().findByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
         if (actionItems != null && actionItems.size() > 0) {
             for (ActionItem actionItem : actionItems) {
@@ -193,12 +194,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                     oleeResourceRecordForm.setCanApprove(true);
                 }
             }
-        }
-       getOleEResourceSearchService().getPOInvoiceForERS(oleeResourceRecordDocument);
-        /*Displaying the child EResource Po's and invoice in parent E-Resource.*/
-        //oleEResourceSearchService = new OLO
-        if (oleEResourceSearchService != null) {
-            oleEResourceSearchService.getPOInvoiceForERS(oleeResourceRecordDocument);
         }
         if (oleeResourceRecordDocument.getOleERSIdentifier() == null) {
             String noticePeriod = oleEResourceSearchService.getParameter("NOTICE_PERIOD", OLEConstants.ERESOURCE_CMPNT);
@@ -374,7 +369,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         OLEEResourceRecordForm oleERSform = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleERSform.getDocument();
-        String eResId = oleeResourceRecordDocument.getOleERSIdentifier();
         oleeResourceRecordDocument.setStatusDate(oleERSform.getStatusDate().toString());
         if (oleeResourceRecordDocument.getTitle() != null) {
             if (oleeResourceRecordDocument.getTitle().length() < 40) {
@@ -428,19 +422,15 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 e.printStackTrace();
             }
             OLELinkedEresource linkedEresource = new OLELinkedEresource();
-            //linkedEresource.setOleeResourceRecordDocument(parentDocument);
             linkedEresource.setOleeResourceRecordDocument(oleeResourceRecordDocument);
             linkedEresource.setRelationShipType("parent");
             linkedEresource.setLinkedERSIdentifier(oleERSIdentifier);
-           /* linkedEresource.seteResourceDocNum(parentDocument.getDocumentNumber());
-            linkedEresource.seteResourceName(parentDocument.getTitle());*/
             oleeResourceRecordDocument.getOleLinkedEresources().add(linkedEresource);
             OLELinkedEresource eResource = new OLELinkedEresource();
             eResource.setOleeResourceRecordDocument(oleeResourceRecordDocument);
             eResource.setRelationShipType("child");
             eResource.setLinkedERSIdentifier(oleeResourceRecordDocument.getOleERSIdentifier());
-            /*eResource.seteResourceDocNum(oleeResourceRecordDocument.getDocumentNumber());
-            eResource.seteResourceName(oleeResourceRecordDocument.getTitle());*/
+
             parentDocument.getOleLinkedEresources().add(eResource);
             oleEResourceSearchService.getPOInvoiceForERS(parentDocument);
             KRADServiceLocatorWeb.getDocumentService().updateDocument(parentDocument);
@@ -448,28 +438,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             KRADServiceLocatorWeb.getDocumentService().updateDocument(oleeResourceRecordDocument);
             return super.reload(oleERSform, result, request, response);
         }
-        /*List<OLEEResourceInstance> oleeResourceInstances = (List<OLEEResourceInstance>) session.getAttribute("oleeResourceInstances");
-
-        if(oleeResourceInstances != null && oleeResourceInstances.size() > 0) {
-            session.removeAttribute("oleeResourceInstances");
-            oleeResourceRecordDocument.setOleERSInstances(oleeResourceInstances);
-            try {
-                getOleEResourceSearchService().saveEResourceInstanceToDocstore(oleeResourceRecordDocument);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
-
-        List<OLEMaterialTypeList> oleMaterialTypeList = oleeResourceRecordDocument.getOleMaterialTypes();
-        List<OLEFormatTypeList> oleFormatTypeLists = oleeResourceRecordDocument.getOleFormatTypes();
-        List<OLEContentTypes> oleContentTypeList = oleeResourceRecordDocument.getOleContentTypes();
-        List<String> instanceId = new ArrayList<String>();
-        /*boolean oleERSFlag = false;
-        oleERSFlag &= getKualiRuleService().applyRules(new OLEMaterialTypeEvent(oleeResourceRecordDocument,oleeResourceRecordDocument.getOleMaterialTypes()));
-        oleERSFlag &= getKualiRuleService().applyRules(new OLEContentTypeEvent(oleeResourceRecordDocument,oleeResourceRecordDocument.getOleContentTypes()));
-        if (oleERSFlag) {
-        return getUIFModelAndView(oleERSform);
-        }*/
         boolean flag = false;
         boolean datesFlag = true;
         flag = getOleEResourceSearchService().validateEResourceDocument(oleeResourceRecordDocument);
@@ -494,19 +462,14 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         boolean titleChange = false;
         if (oleeResourceRecordDocument.getOleERSIdentifier() != null && !oleeResourceRecordDocument.getOleERSIdentifier().isEmpty()) {
             oleeResourceRecordDocument = getOleEResourceSearchService().getNewOleERSDoc(oleeResourceRecordDocument);
-            Map<String, String> tempId = new HashMap<String, String>();
-            tempId.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, oleeResourceRecordDocument.getOleERSIdentifier());
-            OLEEResourceRecordDocument tempDocument = (OLEEResourceRecordDocument) getBusinessObjectService().findByPrimaryKey(OLEEResourceRecordDocument.class, tempId);
-            if (!tempDocument.getTitle().equalsIgnoreCase(oleeResourceRecordDocument.getTitle())){
+            if (!oleeResourceRecordDocument.getOldTitle().equalsIgnoreCase(oleeResourceRecordDocument.getTitle())) {
                 titleChange = true;
             }
-            oleeResourceRecordDocument.setCopyList((List<OleCopy>) KRADServiceLocator.getBusinessObjectService().findMatching(OleCopy.class, tempId));
-            int instancesSize = tempDocument.getOleERSInstances().size();
-            int instanceSize = oleeResourceRecordDocument.getOleERSInstances().size();
             if (!oleERSform.isDefaultDatesFlag() && oleERSform.getPageId() != null && oleERSform.getPageId().equalsIgnoreCase("OLEEResourceRecordView-E-ResourceInstanceTab")) {
-                if (tempDocument.iseInstanceFlag() && instancesSize >= instanceSize && !oleERSform.isRemoveInstanceFlag()) {
+                if (!oleERSform.isRemoveInstanceFlag()) {
                     try {
                         super.reload(oleERSform, result, request, response);
+                        getOleEResourceSearchService().populateInstanceAndEInstance(oleeResourceRecordDocument);
                     } catch (Exception e) {
                         LOG.error("exception while reloading the e-resource document" + e.getMessage());
                         throw new RuntimeException("exception while reloading the e-resource document", e);
@@ -525,31 +488,18 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 }
             }
         }
-        ModelAndView modelAndView = super.save(oleERSform, result, request, response);
-        OLEEResourceRecordForm kualiForm = (OLEEResourceRecordForm) modelAndView.getModel().get("KualiForm");
-        OLEEResourceRecordDocument resourceRecordDocument = (OLEEResourceRecordDocument) kualiForm.getDocument();
-        resourceRecordDocument.geteRSInstances().clear();
-        resourceRecordDocument.geteRSInstances().addAll(resourceRecordDocument.getOleERSInstances());
-        for (OLELinkedEresource oleLinkedEresource : resourceRecordDocument.getOleLinkedEresources()) {
-            if (oleLinkedEresource.getRelationShipType().equalsIgnoreCase("child")) {
-                //Displaying the child EResource instance and Licence info in parent Eresource.
-                if (oleLinkedEresource.getOleeResourceRecordDocument().getOleERSInstances() != null) {
-                    resourceRecordDocument.geteRSInstances().addAll(oleLinkedEresource.getOleeResourceRecordDocument().getOleERSInstances());
-                }
-                for (OLEEResourceLicense oleeResourceLicense : oleLinkedEresource.getOleeResourceRecordDocument().getOleERSLicenseRequests()) {
-                    resourceRecordDocument.getOleERSLicenseRequests().add(oleeResourceLicense);
-                }
-            }
-        }
         getOleEResourceSearchService().getPOInvoiceForERS(oleeResourceRecordDocument);
         getOleeResourceHelperService().createOrUpdateAccessWorkflow(oleeResourceRecordDocument, titleChange);
-        /*if(StringUtils.isNotEmpty(eResId)) {
-            getOleeResourceHelperService().insertOrUpdateGokbElementsForEResource(oleeResourceRecordDocument, true);
+        if (StringUtils.isNotEmpty(oleeResourceRecordDocument.getOleERSIdentifier())) {
+            try {
+                getDocumentService().updateDocument(oleeResourceRecordDocument);
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_SAVED);
+            } catch (Exception e) {
+                throw new RiceRuntimeException(
+                        "Exception trying to invoke action Update for document: " + oleeResourceRecordDocument.getDocumentNumber(), e);
+            }
+            return getUIFModelAndView(oleERSform);
         }
-        else {
-            getOleeResourceHelperService().insertOrUpdateGokbElementsForEResource(oleeResourceRecordDocument, false);
-        }*/
-
         return super.save(oleERSform, result, request, response);
     }
 

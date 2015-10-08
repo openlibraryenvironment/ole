@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<holdings>
+<holdingsDoc>
     <active>false</active>
     <category>work</category>
     <content>
@@ -63,7 +63,7 @@
         &lt;adminUserName&gt;&lt;/adminUserName&gt;
         &lt;adminPassword&gt;&lt;/adminPassword&gt;
         &lt;adminUrl&gt;&lt;/adminUrl&gt;
-        &lt;platformName&gt;platform&lt;/platformName&gt;
+        &lt;platformName&gt;platformId&lt;/platformName&gt;
         &lt;/platform&gt;
         &lt;subscriptionStatus&gt;public&lt;/subscriptionStatus&gt;
         &lt;donorInfo/&gt;
@@ -75,14 +75,4 @@
     <staffOnly>false</staffOnly>
     <type>holdings</type>
     <holdingsType>electronic</holdingsType>
-    <bib>
-        <active>false</active>
-        <category>work</category>
-        <fastAdd>false</fastAdd>
-        <format>marc</format>
-        <id>wbm-10000001</id>
-        <public>false</public>
-        <staffOnly>false</staffOnly>
-        <type>bibliographic</type>
-    </bib>
-</holdings>
+</holdingsDoc>
