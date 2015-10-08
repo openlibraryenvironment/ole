@@ -1521,6 +1521,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                 }
             }
             for(OLELinkedEresource linkedEresource : oleERSDoc.getOleLinkedEresources()){
+              if(!"parent".equalsIgnoreCase(linkedEresource.getRelationShipType())){
                 Map<String, String> criteriaMap = new HashMap<String, String>();
                 criteriaMap.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, linkedEresource.getLinkedERSIdentifier());
                 criteriaMap.put(OLEConstants.LOC, "E-Resource");
@@ -1533,8 +1534,10 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                 for (OleCopy copy : copies) {
                     if (copy.getPoItemId() != null) {
                         getPOInvoiceFromCopy(linkedEresource.getOleeResourceRecordDocument().getTitle(),copy, oleLinkedeResourcePOs, oleeResourceInvoiceses);
+                        oleeResourcePOs.addAll(oleLinkedeResourcePOs);
                     }
                 }
+              }
             }
             for (OLEEResourceInstance oleeResourceInstance : oleERSDoc.getOleERSInstances()) {
                 holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(oleeResourceInstance.getInstanceId());
@@ -1565,7 +1568,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                 }
             }
             oleERSDoc.setOleERSPOItems(oleeResourcePOs);
-            oleERSDoc.setLinkedERSPOItems(oleeResourcePOs);
+            oleERSDoc.setLinkedERSPOItems(oleLinkedeResourcePOs);
             oleERSDoc.setOleERSInvoices(oleeResourceInvoiceses);
             getPOAndInvoiceItemsWithoutDuplicate(oleERSDoc);
         } catch (Exception e) {
