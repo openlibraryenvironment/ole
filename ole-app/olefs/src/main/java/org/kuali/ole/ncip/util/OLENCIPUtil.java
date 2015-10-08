@@ -8,7 +8,6 @@ import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleItemSearch;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.controller.checkout.CircUtilController;
-import org.kuali.ole.deliver.drools.LoanPeriodUtil;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.util.DroolsResponse;
 import org.kuali.ole.deliver.util.OlePatronRecordUtil;
@@ -24,6 +23,9 @@ import org.kuali.ole.util.DocstoreUtil;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -251,7 +253,7 @@ public class OLENCIPUtil {
                 && StringUtils.isNotBlank(initiationHeader.getApplicationProfileType().getValue())) {
             agencyId = new AgencyId(initiationHeader.getApplicationProfileType().getValue());
         } else {
-            agencyId = new AgencyId(new LoanPeriodUtil().getParameter(OLENCIPConstants.AGENCY_ID_PARAMETER));
+            agencyId = new AgencyId(getParameter(OLENCIPConstants.AGENCY_ID_PARAMETER));
         }
         return agencyId;
     }
@@ -305,6 +307,16 @@ public class OLENCIPUtil {
         oleStopWatch.end();
         LOG.info("Time taken to getOleItemSearch : " + oleStopWatch.getTotalTime());
         return oleItemSearch;
+    }
+
+    public String getParameter(String name) {
+        ParameterKey parameterKey = ParameterKey.create(OLEConstants.APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,name);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        if(parameter==null){
+            parameterKey = ParameterKey.create(OLEConstants.APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,name);
+            parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        }
+        return parameter!=null?parameter.getValue():null;
     }
 
 }

@@ -74,7 +74,7 @@ when
 $i: OleItemRecordForCirc(null!= isItemPickupLocationSameAsOperatorCircLoc(),!isItemPickupLocationSameAsOperatorCircLoc(),
 $r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Hold/Delivery Request", "Recall/Delivery Request"),
 $s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"),
-$pl: getPickupLocation(), null!= $pl, $pl.isStaffed())
+$pl: getPickupLocation(), null== $pl)
 
 $d : DroolsResponse()
 

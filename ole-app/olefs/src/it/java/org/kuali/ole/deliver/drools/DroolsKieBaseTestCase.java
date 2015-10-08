@@ -38,8 +38,7 @@ public class DroolsKieBaseTestCase {
     protected KnowledgeBase knowledgeBase;
     @Mock
     protected OleCirculationDesk mockCirculationDesk;
-    @Mock
-    protected LoanPeriodUtil mockLoanPeriodUtil;
+
     @Mock
     protected OlePatronDocument mockOlePatronDocument;
     @Mock

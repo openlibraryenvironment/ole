@@ -7,12 +7,29 @@ import org.kuali.ole.deliver.notice.OleNoticeContentHandler;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
+import java.util.HashMap;
+import java.util.List;
+
 import static junit.framework.TestCase.assertNotNull;
 
 /**
  * Created by pvsubrah on 9/28/15.
  */
 public class OleNoticeContentHandler_IT extends OLETestCaseBase {
+
+
+    @Test
+    public void retrieveNoticeContent() throws Exception {
+        BusinessObjectService businessObjectService = KRADServiceLocator.getBusinessObjectService();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("loanId", "191989");
+        List<OLEDeliverNoticeHistory> matching =
+                (List<OLEDeliverNoticeHistory>) businessObjectService.findMatching(OLEDeliverNoticeHistory.class, map);
+        OLEDeliverNoticeHistory oleDeliverNoticeHistory = matching.get(0);
+        byte[] noticeContent = oleDeliverNoticeHistory.getNoticeContent();
+        String noticeContentString = new String(noticeContent).toString();
+        System.out.println(noticeContentString);
+    }
 
     @Test
     public void saveAndRetrieveNoticeContent() throws Exception {

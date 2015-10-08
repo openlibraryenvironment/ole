@@ -11,16 +11,13 @@ import java.util.Date;
  * Time: 4:14 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OleCalendarExceptionDate extends PersistableBusinessObjectBase {
+public class OleCalendarExceptionDate extends OleBaseCalendarWeek{
     private String calendarExceptionDateId;
     private String calendarId;
     private String exceptionDateDesc;
     private Date date;
     private String exceptionType;
-    private String openTime;
-    private String closeTime;
-    private String openTimeSession;
-    private String closeTimeSession;
+
     private OleCalendar oleCalendar;
 
     public String getExceptionDateDesc() {
@@ -47,22 +44,6 @@ public class OleCalendarExceptionDate extends PersistableBusinessObjectBase {
         this.oleCalendar = oleCalendar;
     }
 
-    public String getOpenTimeSession() {
-        return openTimeSession;
-    }
-
-    public void setOpenTimeSession(String openTimeSession) {
-        this.openTimeSession = openTimeSession;
-    }
-
-    public String getCloseTimeSession() {
-        return closeTimeSession;
-    }
-
-    public void setCloseTimeSession(String closeTimeSession) {
-        this.closeTimeSession = closeTimeSession;
-    }
-
     public String getCalendarExceptionDateId() {
         return calendarExceptionDateId;
     }
@@ -85,21 +66,5 @@ public class OleCalendarExceptionDate extends PersistableBusinessObjectBase {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public String getOpenTime() {
-        return openTime;
-    }
-
-    public void setOpenTime(String openTime) {
-        this.openTime = openTime;
-    }
-
-    public String getCloseTime() {
-        return closeTime;
-    }
-
-    public void setCloseTime(String closeTime) {
-        this.closeTime = closeTime;
     }
 }

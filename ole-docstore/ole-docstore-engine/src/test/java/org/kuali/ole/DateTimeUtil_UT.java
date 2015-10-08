@@ -29,8 +29,7 @@ import static junit.framework.Assert.assertNotNull;
  * Time: 2:37 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DateTimeUtil_UT
-        extends BaseTestCase {
+public class DateTimeUtil_UT {
     private static Logger LOG = LoggerFactory.getLogger(DateTimeUtil_UT.class);
 
     @Test
@@ -40,7 +39,7 @@ public class DateTimeUtil_UT
         long endTime = System.currentTimeMillis();
         String formattedTime = DateTimeUtil.formatTime(endTime - startTime);
         assertNotNull(formattedTime);
-        LOG.info(formattedTime);
+        System.out.println(formattedTime);
     }
 
     @Test
@@ -51,6 +50,11 @@ public class DateTimeUtil_UT
 
         String formattedTime = DateTimeUtil.formatTime(endTime, startTime);
         assertNotNull(formattedTime);
-        LOG.info(formattedTime);
+        System.out.println(formattedTime);
+    }
+
+    @Test
+    public void addOneHour() throws Exception {
+
     }
 }

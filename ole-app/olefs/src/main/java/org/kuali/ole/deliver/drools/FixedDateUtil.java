@@ -21,11 +21,9 @@ import java.util.Map;
 /**
  * Created by pvsubrah on 3/19/15.
  */
-public class LoanPeriodUtil {
-    public Timestamp calculateDueDate(String loanPeriod, String ruleName, String calendarGroupId){
+public class FixedDateUtil {
+    public Timestamp getFixedDateByPolicyId(String ruleName){
         Timestamp dueDate = null;
-
-        if(loanPeriod!=null && loanPeriod.equalsIgnoreCase(OLEConstants.FIXED_DUE_DATE)){
             java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
             List<OleFixedDueDate> oleFixedDueDates =  getFixedDueDateBasedOnPolicySet(ruleName);
             if(oleFixedDueDates!=null && oleFixedDueDates.size()>0){
@@ -41,27 +39,6 @@ public class LoanPeriodUtil {
                     }
                 }
             }
-        } else{
-            //   loanPeriod = renewalCheck(loanPeriod);
-            OleCalendarService oleCalendarService = new OleCalendarServiceImpl();
-            String[] periodType=null;
-            if(loanPeriod != null && !loanPeriod.equalsIgnoreCase("")){
-                periodType = loanPeriod.split("-");
-            }
-            String dayOrHours =periodType!=null && periodType.length > 1 ? periodType[1] : null;
-            if(dayOrHours != null && dayOrHours.equalsIgnoreCase("H")){
-                dueDate = loanPeriod!=null ? oleCalendarService.calculateDueDateHrs(calendarGroupId,loanPeriod,new Timestamp(System.currentTimeMillis())) : null;
-            } else if(dayOrHours != null && dayOrHours.equalsIgnoreCase("D")){
-                String sysFlag = getParameter(OLEConstants.CALENDER_FLAG);
-                if(sysFlag.equalsIgnoreCase("true")){
-                    dueDate = loanPeriod!=null ? oleCalendarService.calculateDueDateHrs(calendarGroupId, loanPeriod, new Timestamp(System.currentTimeMillis())) : null;
-                } else {
-                    dueDate = loanPeriod!=null ?oleCalendarService.calculateDueDate(calendarGroupId,loanPeriod,new Timestamp(System.currentTimeMillis())) : null;
-                }
-            }
-
-        }
-
         return dueDate;
     }
 
@@ -94,6 +71,5 @@ public class LoanPeriodUtil {
         }
         return parameter!=null?parameter.getValue():null;
     }
-
 }
 

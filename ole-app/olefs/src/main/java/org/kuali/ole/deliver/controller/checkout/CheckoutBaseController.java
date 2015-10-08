@@ -96,7 +96,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
         if (StringUtils.isNotBlank(itemBarcode) && null != itemRecord) {
             setItemRecord(oleForm, itemRecord);
             OleItemRecordForCirc oleItemRecordForCirc = ItemInfoUtil.getInstance().getOleItemRecordForCirc(itemRecord, getSelectedCirculationDesk(oleForm));
-            setDataElements(oleForm,oleItemRecordForCirc);
+            setDataElements(oleForm, oleItemRecordForCirc);
             droolsResponse = preValidationForCheckout(oleItemRecordForCirc, droolsResponse, oleForm);
             if (droolsResponse != null) {
                 return droolsResponse;
@@ -132,7 +132,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
         }
 
         droolsResponse = preValidations(oleItemRecordForCirc.getItemRecord(), oleForm);
-        if(droolsResponse != null) return droolsResponse;
+        if (droolsResponse != null) return droolsResponse;
 
         return null;
     }
@@ -151,7 +151,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
     public DroolsResponse preValidationForDamagedItem(ItemRecord itemRecord, OLEForm oleForm) {
         DroolsResponse droolsResponse;
         droolsResponse = checkForDamagedItemNote(itemRecord);
-        if(droolsResponse != null) return droolsResponse;
+        if (droolsResponse != null) return droolsResponse;
         return preValidationForMissingPiece(itemRecord, oleForm);
     }
 
@@ -160,7 +160,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
         DroolsResponse droolsResponse;
         droolsResponse = checkForMissingPieceNote(itemRecord);
         OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) droolsExchange.getContext().get("oleItemRecordForCirc");
-        if(droolsResponse != null) return droolsResponse;
+        if (droolsResponse != null) return droolsResponse;
         return processCheckoutAfterPreValidations(oleForm, oleItemRecordForCirc);
     }
 
@@ -168,7 +168,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
         DroolsResponse droolsResponse;
         setItemRecord(oleForm, oleItemRecordForCirc.getItemRecord());
         droolsResponse = proceedWithExistingRequstAndLoanChecks(oleForm);
-        if(null != droolsResponse && StringUtils.isBlank(droolsResponse.retrieveErrorMessage())){
+        if (null != droolsResponse && StringUtils.isBlank(droolsResponse.retrieveErrorMessage())) {
             droolsResponse = proceedWithItemValidation(oleForm);
         }
         return droolsResponse;
@@ -188,7 +188,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
         if (itemRecord.isItemDamagedStatus()) {
             DroolsResponse droolsResponse = new DroolsResponse();
             droolsResponse.addErrorMessageCode(DroolsConstants.ITEM_DAMAGED);
-            droolsResponse.addErrorMessage("Item is Damaged. Do you want to continue?" +OLEConstants.BREAK + "Damaged Note: " + itemRecord.getDamagedItemNote());
+            droolsResponse.addErrorMessage("Item is Damaged. Do you want to continue?" + OLEConstants.BREAK + "Damaged Note: " + itemRecord.getDamagedItemNote());
             return droolsResponse;
         }
         return null;
@@ -276,7 +276,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
     }
 
 
-    public DroolsResponse proceedWithExistingRequstAndLoanChecks(OLEForm oleForm){
+    public DroolsResponse proceedWithExistingRequstAndLoanChecks(OLEForm oleForm) {
         ItemRecord itemRecord = getItemRecord(oleForm);
 
         OleItemRecordForCirc oleItemRecordForCirc = (OleItemRecordForCirc) oleForm.getDroolsExchange().getFromContext("oleItemRecordForCirc");
@@ -398,7 +398,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
                 return olePatronDocument;
             }
         }
-       return proxyPatronDocument;
+        return proxyPatronDocument;
     }
 
     public DroolsExchange proceedToSaveLoan(OLEForm oleForm) {
@@ -447,7 +447,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
     }
 
     private void saveClaimsReturnedNote(OLEForm oleForm, OleLoanDocument oleLoanDocument) {
-        if(oleLoanDocument != null) {
+        if (oleLoanDocument != null) {
             if (isRecordNoteForClaimsReturn(oleForm) && oleLoanDocument.getOlePatron() != null) {
                 Map<String, Object> claimsRecordInfo = new HashMap<>();
                 claimsRecordInfo.put("itemBarcode", getItemBarcode(oleForm));
@@ -458,7 +458,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
     }
 
     private void saveDamagedItemNote(OLEForm oleForm, OleLoanDocument oleLoanDocument) {
-        if(oleLoanDocument != null) {
+        if (oleLoanDocument != null) {
             if (isRecordNoteForDamagedItem(oleForm) && oleLoanDocument.getOlePatron() != null) {
                 Map<String, Object> damagedRecordInfo = new HashMap<>();
                 damagedRecordInfo.put("itemBarcode", getItemBarcode(oleForm));
@@ -469,7 +469,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
     }
 
     private void saveMissingPieceNote(OLEForm oleForm, OleLoanDocument oleLoanDocument) {
-        if(oleLoanDocument != null) {
+        if (oleLoanDocument != null) {
             if (isRecordNoteForMissingPiece(oleForm) && oleLoanDocument.getOlePatron() != null) {
                 DroolsExchange droolsExchange = oleForm.getDroolsExchange();
                 Map<String, Object> missingPieceRecordInfo = new HashMap<>();
@@ -478,7 +478,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
                 missingPieceRecordInfo.put("itemBarcode", getItemBarcode(oleForm));
                 missingPieceRecordInfo.put("selectedCirculationDesk", getCirculationLocationId(oleForm));
                 missingPieceRecordInfo.put("missingPieceCount", itemRecord.getMissingPiecesCount());
-                getMissingPieceNoteHandler().savePatronNoteForMissingPiece(missingPieceRecordInfo, oleLoanDocument.getOlePatron(),itemRecord);
+                getMissingPieceNoteHandler().savePatronNoteForMissingPiece(missingPieceRecordInfo, oleLoanDocument.getOlePatron(), itemRecord);
             }
         }
     }
@@ -495,16 +495,14 @@ public abstract class CheckoutBaseController extends CircUtilController {
     }
 
     private boolean subsequentRequestExistsForItem(OleItemRecordForCirc oleItemRecordForCirc) {
-        OleDeliverRequestBo oleDeliverRequestBo = oleItemRecordForCirc.getOleDeliverRequestBo();
-        if (null != oleDeliverRequestBo) {
-            if (oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode().contains(OLEConstants.OleDeliverRequest.RECALL)) {
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("itemId", oleItemRecordForCirc.getItemRecord().getBarCode());
-                List<OleDeliverRequestBo> matching = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, map);
-                if (CollectionUtils.isNotEmpty(matching)) {
-                    if (matching.size() > 1) {
-                        return true;
-                    }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("itemId", oleItemRecordForCirc.getItemRecord().getBarCode());
+        List<OleDeliverRequestBo> matching = (List<OleDeliverRequestBo>) getBusinessObjectService().findMatching(OleDeliverRequestBo.class, map);
+        if (CollectionUtils.isNotEmpty(matching)) {
+            for (Iterator<OleDeliverRequestBo> iterator = matching.iterator(); iterator.hasNext(); ) {
+                OleDeliverRequestBo oleDeliverRequestBo = iterator.next();
+                if(oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode().contains(OLEConstants.OleDeliverRequest.RECALL)){
+                    return true;
                 }
             }
         }
@@ -512,21 +510,21 @@ public abstract class CheckoutBaseController extends CircUtilController {
     }
 
     public ClaimsReturnedNoteHandler getClaimsReturnedNoteHandler() {
-        if(claimsReturnedNoteHandler ==  null) {
+        if (claimsReturnedNoteHandler == null) {
             claimsReturnedNoteHandler = new ClaimsReturnedNoteHandler();
         }
         return claimsReturnedNoteHandler;
     }
 
     public DamagedItemNoteHandler getDamagedItemNoteHandler() {
-        if(damagedItemNoteHandler == null) {
+        if (damagedItemNoteHandler == null) {
             damagedItemNoteHandler = new DamagedItemNoteHandler();
         }
         return damagedItemNoteHandler;
     }
 
     public MissingPieceNoteHandler getMissingPieceNoteHandler() {
-        if(missingPieceNoteHandler == null) {
+        if (missingPieceNoteHandler == null) {
             missingPieceNoteHandler = new MissingPieceNoteHandler();
         }
         return missingPieceNoteHandler;

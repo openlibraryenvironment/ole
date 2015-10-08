@@ -2,9 +2,9 @@ package org.kuali.ole.deliver.bo;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.deliver.drools.LoanPeriodUtil;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
+import org.kuali.ole.deliver.util.LoanDateTimeUtil;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.docstore.common.document.content.instance.Item;
@@ -1945,28 +1945,21 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
     public void setFeeType(List<FeeType> feeType) {
         this.feeType = feeType;
     }
+
     public void loanPeriod(String defaultLoanPeriod, String recallLoanPeriod) {
-        LoanPeriodUtil loanPeriodUtil = getLoanPeriodUtil();
+        LoanDateTimeUtil loanDateTimeUtil = new LoanDateTimeUtil();
+        loanDateTimeUtil.setPolicyId(getCirculationPolicyId());
         if(null == oleCirculationDesk){
             OleCirculationDesk oleCirculationDesk = getCirculationLocationId() != null ? new CircDeskLocationResolver().getOleCirculationDesk(getCirculationLocationId()) : null;
             setOleCirculationDesk(oleCirculationDesk);
         }
-        if (isRequestPatron()) {
-            if (null == defaultLoanPeriod) {
-                setLoanDueDate(null);
-            }
-            setLoanDueDate(loanPeriodUtil.calculateDueDate(recallLoanPeriod, getCirculationPolicyId(), oleCirculationDesk
-                    .getCalendarGroupId()));
+        Date calculateDateTimeByPeriod = null;
+        if (!isRequestPatron()) {
+            calculateDateTimeByPeriod = loanDateTimeUtil.calculateDateTimeByPeriod(defaultLoanPeriod, getOleCirculationDesk());
         } else {
-            setLoanDueDate(loanPeriodUtil.calculateDueDate(defaultLoanPeriod, getCirculationPolicyId(),
-                    oleCirculationDesk
-                            .getCalendarGroupId()));
-
+            calculateDateTimeByPeriod = loanDateTimeUtil.calculateDateTimeByPeriod(recallLoanPeriod, getOleCirculationDesk());
         }
-    }
-
-    protected LoanPeriodUtil getLoanPeriodUtil() {
-        return new LoanPeriodUtil();
+        setLoanDueDate(new Timestamp(calculateDateTimeByPeriod.getTime()));
     }
 
     public Integer getOverdueFineAmount(OleCirculationPolicyServiceImpl oleCirculationPolicyService) {

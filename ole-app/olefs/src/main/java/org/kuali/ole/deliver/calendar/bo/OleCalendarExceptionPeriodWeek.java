@@ -1,7 +1,5 @@
 package org.kuali.ole.deliver.calendar.bo;
 
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-
 /**
  * Created with IntelliJ IDEA.
  * User: palanivel
@@ -9,17 +7,11 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * Time: 4:14 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OleCalendarExceptionPeriodWeek extends PersistableBusinessObjectBase {
+public class OleCalendarExceptionPeriodWeek extends OleBaseCalendarWeek{
 
     private String calendarWeekId;
     private String calendarExceptionPeriodId;
-    private String openTime;
-    private String closeTime;
-    private String startDay;
-    private String endDay;
 
-    private String openTimeSession;
-    private String closeTimeSession;
     private OleCalendarExceptionPeriod oleCalendarExceptionPeriod;
 
 
@@ -42,22 +34,6 @@ public class OleCalendarExceptionPeriodWeek extends PersistableBusinessObjectBas
         this.oleCalendarExceptionPeriod = oleCalendarExceptionPeriod;
     }
 
-    public String getOpenTimeSession() {
-        return openTimeSession;
-    }
-
-    public void setOpenTimeSession(String openTimeSession) {
-        this.openTimeSession = openTimeSession;
-    }
-
-    public String getCloseTimeSession() {
-        return closeTimeSession;
-    }
-
-    public void setCloseTimeSession(String closeTimeSession) {
-        this.closeTimeSession = closeTimeSession;
-    }
-
 
     public String getCalendarWeekId() {
         return calendarWeekId;
@@ -75,35 +51,5 @@ public class OleCalendarExceptionPeriodWeek extends PersistableBusinessObjectBas
         this.calendarExceptionPeriodId = calendarExceptionPeriodId;
     }
 
-    public String getOpenTime() {
-        return openTime;
-    }
 
-    public void setOpenTime(String openTime) {
-        this.openTime = openTime;
-    }
-
-    public String getCloseTime() {
-        return closeTime;
-    }
-
-    public void setCloseTime(String closeTime) {
-        this.closeTime = closeTime;
-    }
-
-    public String getStartDay() {
-        return startDay;
-    }
-
-    public void setStartDay(String startDay) {
-        this.startDay = startDay;
-    }
-
-    public String getEndDay() {
-        return endDay;
-    }
-
-    public void setEndDay(String endDay) {
-        this.endDay = endDay;
-    }
 }

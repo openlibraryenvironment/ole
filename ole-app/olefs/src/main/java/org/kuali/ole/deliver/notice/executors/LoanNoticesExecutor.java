@@ -46,10 +46,9 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
 
         //1. Pre process
         preProcess(loanDocuments);
-        /*//2. building FieldLabel Map
-        populateFieldLabelMapping();
-        *///3. generate email content
+        //2. Determine the correct NoticeConfigurationBo
         setOleNoticeContentConfigurationBo();
+        //3. generate email content
         String mailContent = generateMailContent(loanDocuments);
         //4. Generate notices
         List<OLEDeliverNotice> oleDeliverNotices = buildNoticesForDeletion();

@@ -88,6 +88,8 @@ public class OleNoticeContentConfigurationBo extends OlePersistableBusinessObjec
         this.oleNoticeFieldLabelMappings = oleNoticeFieldLabelMappings;
     }
 
+
+    //TODO: Add a cache map to keep the labels from being checked everytime.
     public String getFieldLabel(String key) {
         if (CollectionUtils.isNotEmpty(oleNoticeFieldLabelMappings)) {
             for (Iterator<OleNoticeFieldLabelMapping> iterator = oleNoticeFieldLabelMappings.iterator(); iterator.hasNext(); ) {

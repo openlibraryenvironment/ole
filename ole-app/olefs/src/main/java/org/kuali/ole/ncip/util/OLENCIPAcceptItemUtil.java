@@ -9,7 +9,6 @@ import org.kuali.ole.deliver.batch.OleDeliverBatchServiceImpl;
 import org.kuali.ole.deliver.batch.OleMailer;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
 import org.kuali.ole.deliver.bo.*;
-import org.kuali.ole.deliver.drools.LoanPeriodUtil;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.ole.describe.bo.OleInstanceItemType;
@@ -21,6 +20,9 @@ import org.kuali.rice.core.api.mail.EmailFrom;
 import org.kuali.rice.core.api.mail.EmailSubject;
 import org.kuali.rice.core.api.mail.EmailTo;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -48,7 +50,6 @@ public class OLENCIPAcceptItemUtil {
 
     private BusinessObjectService businessObjectService;
     private CircDeskLocationResolver circDeskLocationResolver;
-    private LoanPeriodUtil loanPeriodUtil;
     private PersonService personService;
     private DocumentService documentService;
     private OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService;
@@ -75,17 +76,6 @@ public class OLENCIPAcceptItemUtil {
 
     public void setCircDeskLocationResolver(CircDeskLocationResolver circDeskLocationResolver) {
         this.circDeskLocationResolver = circDeskLocationResolver;
-    }
-
-    public LoanPeriodUtil getLoanPeriodUtil() {
-        if (null == loanPeriodUtil) {
-            loanPeriodUtil = new LoanPeriodUtil();
-        }
-        return loanPeriodUtil;
-    }
-
-    public void setLoanPeriodUtil(LoanPeriodUtil loanPeriodUtil) {
-        this.loanPeriodUtil = loanPeriodUtil;
     }
 
     public PersonService getPersonService() {
@@ -312,7 +302,7 @@ public class OLENCIPAcceptItemUtil {
     private void sendNotice(OleDeliverRequestBo oleDeliverRequestBo, OlePatronDocument olePatronDocument) {
         OleStopWatch oleStopWatch = new OleStopWatch();
         oleStopWatch.start();
-        String noticeSendParameter = getLoanPeriodUtil().getParameter(OLEParameterConstants.NCIP_ACCEPT_ITEM_NOTICE_INDICATOR);
+        String noticeSendParameter = getParameter(OLEParameterConstants.NCIP_ACCEPT_ITEM_NOTICE_INDICATOR);
         if (noticeSendParameter != null && (noticeSendParameter.trim().isEmpty() || noticeSendParameter.equalsIgnoreCase("Y"))) {
 
             OleNoticeBo oleNoticeBo = new OleNoticeBo();
@@ -348,7 +338,7 @@ public class OLENCIPAcceptItemUtil {
                     if (oleDeliverRequestBo.getOlePickUpLocation() != null && StringUtils.isNotBlank(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail())) {
                         oleMailer.sendEmail(new EmailFrom(oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail()), new EmailTo(oleNoticeBo.getPatronEmailAddress()), new EmailSubject(OLEConstants.NOTICE_MAIL), new EmailBody(content), true);
                     } else {
-                        String fromAddress = getLoanPeriodUtil().getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
+                        String fromAddress = getParameter(OLEParameterConstants.NOTICE_FROM_MAIL);
                         if (fromAddress != null && (fromAddress.equals("") || fromAddress.trim().isEmpty())) {
                             fromAddress = OLEConstants.KUALI_MAIL;
                         }
@@ -370,5 +360,15 @@ public class OLENCIPAcceptItemUtil {
         }
         oleStopWatch.end();
         LOG.info("Time taken to send notice : " + oleStopWatch.getTotalTime());
+    }
+
+    public String getParameter(String name) {
+        ParameterKey parameterKey = ParameterKey.create(OLEConstants.APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,name);
+        Parameter parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        if(parameter==null){
+            parameterKey = ParameterKey.create(OLEConstants.APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,name);
+            parameter = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameter(parameterKey);
+        }
+        return parameter!=null?parameter.getValue():null;
     }
 }
