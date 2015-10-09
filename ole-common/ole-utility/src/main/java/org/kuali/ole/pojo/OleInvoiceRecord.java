@@ -75,6 +75,7 @@ public class OleInvoiceRecord {
     private String numberOfParts; // default "1"
     private String accountNumber;
     private String objectCode;
+    private String fundCode;
     private String itemTitleIdForMRC;
     private String invoiceCurrencyExchangeRate;
     private String foreignListPrice;
@@ -484,6 +485,14 @@ public class OleInvoiceRecord {
 
     public void setObjectCode(String objectCode) {
         this.objectCode = objectCode;
+    }
+
+    public String getFundCode() {
+        return fundCode;
+    }
+
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
     }
 
     public String getItemTitleIdForMRC() {

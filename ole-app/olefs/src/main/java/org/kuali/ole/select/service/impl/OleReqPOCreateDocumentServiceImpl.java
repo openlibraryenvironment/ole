@@ -15,13 +15,15 @@
  */
 package org.kuali.ole.select.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OleOrderRecords;
 import org.kuali.ole.batch.bo.OLEBatchProcessJobDetailsBo;
 import org.kuali.ole.batch.bo.OLEBatchProcessProfileBo;
 import org.kuali.ole.batch.bo.OrderImportHelperBo;
+import org.kuali.ole.coa.businessobject.OleFundCode;
+import org.kuali.ole.coa.businessobject.OleFundCodeAccountingLine;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.Holdings;
 import org.kuali.ole.docstore.common.document.ids.HoldingsId;
@@ -51,14 +53,12 @@ import org.kuali.ole.sys.businessobject.Building;
 import org.kuali.ole.sys.businessobject.Room;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.ole.vnd.VendorConstants;
-import org.kuali.ole.vnd.VendorPropertyConstants;
 import org.kuali.ole.vnd.businessobject.OleExchangeRate;
 import org.kuali.ole.vnd.businessobject.VendorAddress;
 import org.kuali.ole.vnd.businessobject.VendorContract;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
 import org.kuali.ole.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -653,29 +653,7 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
         item.setItemType(itemType);
         // }
 
-        RequisitionAccount requisitionAccount = new RequisitionAccount();
-        /**
-         * Below code commented based on JIRA-2617.
-         */
-        //requisitionAccount.setChartOfAccountsCode(oleOrderRecord.getOleTxRecord().getChartCode());
-        requisitionAccount.setChartOfAccountsCode(oleOrderRecord.getOleTxRecord().getItemChartCode());
-        requisitionAccount.setAccountNumber(oleOrderRecord.getOleTxRecord().getAccountNumber());
-        requisitionAccount.setFinancialObjectCode(oleOrderRecord.getOleTxRecord().getObjectCode());
-        requisitionAccount.setDebitCreditCode(OLEConstants.GL_DEBIT_CODE);
-        if (oleOrderRecord.getOleTxRecord().getListPrice() != null) {
-            requisitionAccount.setAmount(new KualiDecimal(oleOrderRecord.getOleTxRecord().getListPrice()));
-        }
-        if (oleOrderRecord.getOleTxRecord().getPercent() != null) {
-            requisitionAccount.setAccountLinePercent(new BigDecimal(oleOrderRecord.getOleTxRecord().getPercent()));
-        }
-        if (oleOrderRecord.getOleTxRecord().getAccountNumber() != null) {
-            List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
-            if (sourceAccountingLines.size() == 0) {
-                sourceAccountingLines = new ArrayList<PurApAccountingLine>(0);
-            }
-            sourceAccountingLines.add((PurApAccountingLine) requisitionAccount);
-            item.setSourceAccountingLines(sourceAccountingLines);
-        }
+        setSourceAccountingLinesToReqItem(oleOrderRecord, item);
 
         /*OleRequestor oleRequestor = checkRequestorExist(oleOrderRecord);
         if(oleRequestor == null) {
@@ -719,6 +697,68 @@ public class OleReqPOCreateDocumentServiceImpl extends RequisitionCreateDocument
         setItemNotes(item,oleOrderRecord.getOleTxRecord());
         item.setVendorItemPoNumber(oleOrderRecord.getOleTxRecord().getVendorItemIdentifier());
         return item;
+    }
+
+    private void setSourceAccountingLinesToReqItem(OleOrderRecord oleOrderRecord, OleRequisitionItem item) {
+        if (oleOrderRecord.getOleTxRecord().getFundCode() != null) {
+            Map fundCodeMap = new HashMap<>();
+            fundCodeMap.put(OLEConstants.OLEEResourceRecord.FUND_CODE, oleOrderRecord.getOleTxRecord().getFundCode());
+            List<OleFundCode> fundCodeList = (List) getBusinessObjectService().findMatching(OleFundCode.class, fundCodeMap);
+            if (CollectionUtils.isNotEmpty(fundCodeList)) {
+                List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
+                if (sourceAccountingLines == null) {
+                    sourceAccountingLines = new ArrayList<>();
+                }
+                OleFundCode oleFundCode = fundCodeList.get(0);
+                List<OleFundCodeAccountingLine> fundCodeAccountingLineList = oleFundCode.getOleFundCodeAccountingLineList();
+                for (OleFundCodeAccountingLine oleFundCodeAccountingLine : fundCodeAccountingLineList) {
+                    RequisitionAccount requisitionAccount = new RequisitionAccount();
+                    requisitionAccount.setChartOfAccountsCode(oleFundCodeAccountingLine.getChartCode());
+                    requisitionAccount.setAccountNumber(oleFundCodeAccountingLine.getAccountNumber());
+                    if (StringUtils.isNotBlank(oleFundCodeAccountingLine.getSubAccount())){
+                        requisitionAccount.setSubAccountNumber(oleFundCodeAccountingLine.getSubAccount());
+                    }
+                    requisitionAccount.setFinancialObjectCode(oleFundCodeAccountingLine.getObjectCode());
+                    if (StringUtils.isNotBlank(oleFundCodeAccountingLine.getSubObject())){
+                        requisitionAccount.setFinancialSubObjectCode(oleFundCodeAccountingLine.getSubObject());
+                    }
+                    if (StringUtils.isNotBlank(oleFundCodeAccountingLine.getProject())){
+                        requisitionAccount.setProjectCode(oleFundCodeAccountingLine.getProject());
+                    }
+                    if (StringUtils.isNotBlank(oleFundCodeAccountingLine.getOrgRefId())){
+                        requisitionAccount.setOrganizationReferenceId(oleFundCodeAccountingLine.getOrgRefId());
+                    }
+                    requisitionAccount.setAccountLinePercent(oleFundCodeAccountingLine.getPercentage());
+                    requisitionAccount.setDebitCreditCode(OLEConstants.GL_DEBIT_CODE);
+                    sourceAccountingLines.add(requisitionAccount);
+                }
+                item.setSourceAccountingLines(sourceAccountingLines);
+            }
+        } else {
+            RequisitionAccount requisitionAccount = new RequisitionAccount();
+            /**
+             * Below code commented based on JIRA-2617.
+             */
+            //requisitionAccount.setChartOfAccountsCode(oleOrderRecord.getOleTxRecord().getChartCode());
+            requisitionAccount.setChartOfAccountsCode(oleOrderRecord.getOleTxRecord().getItemChartCode());
+            requisitionAccount.setAccountNumber(oleOrderRecord.getOleTxRecord().getAccountNumber());
+            requisitionAccount.setFinancialObjectCode(oleOrderRecord.getOleTxRecord().getObjectCode());
+            requisitionAccount.setDebitCreditCode(OLEConstants.GL_DEBIT_CODE);
+            if (oleOrderRecord.getOleTxRecord().getListPrice() != null) {
+                requisitionAccount.setAmount(new KualiDecimal(oleOrderRecord.getOleTxRecord().getListPrice()));
+            }
+            if (oleOrderRecord.getOleTxRecord().getPercent() != null) {
+                requisitionAccount.setAccountLinePercent(new BigDecimal(oleOrderRecord.getOleTxRecord().getPercent()));
+            }
+            if (oleOrderRecord.getOleTxRecord().getAccountNumber() != null) {
+                List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
+                if (sourceAccountingLines.size() == 0) {
+                    sourceAccountingLines = new ArrayList<>(0);
+                }
+                sourceAccountingLines.add(requisitionAccount);
+                item.setSourceAccountingLines(sourceAccountingLines);
+            }
+        }
     }
 
     private Integer getRequestSourceTypeId(String requestSourceType){

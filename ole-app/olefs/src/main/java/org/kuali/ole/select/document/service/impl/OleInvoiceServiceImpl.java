@@ -25,6 +25,7 @@ import org.kuali.ole.batch.bo.OLEBatchProcessProfileDataMappingOptionsBo;
 import org.kuali.ole.batch.bo.OLEBatchProcessProfileMappingOptionsBo;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.coa.businessobject.ObjectCode;
+import org.kuali.ole.coa.businessobject.OleFundCode;
 import org.kuali.ole.docstore.common.document.content.bib.marc.BibMarcRecord;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.PurapConstants.PurchaseOrderDocTypes;
@@ -2586,6 +2587,21 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                                 failureRecords.add(org.kuali.ole.OLEConstants.REQUIRED_OBJECT_CODE +  " " + dataField + org.kuali.ole.OLEConstants.DELIMITER_DOLLAR + tagField + " " + org.kuali.ole.OLEConstants.NULL_VALUE_MESSAGE);
                             }
                         }
+                        else if (org.kuali.ole.OLEConstants.OLEEResourceRecord.FUND_CODE.equals(oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getDestinationField())) {
+                            String fundCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList, dataMapCount, bibMarcRecord, dataField, tagField);
+                            if (StringUtils.isNotBlank(fundCode)) {
+                                Map<String, String> fundCodeMap = new HashMap<>();
+                                fundCodeMap.put(org.kuali.ole.OLEConstants.OLEEResourceRecord.FUND_CODE, fundCode);
+                                List<OleFundCode> fundCodeList = (List) getBusinessObjectService().findMatching(OleFundCode.class, fundCodeMap);
+                                if (CollectionUtils.isEmpty(fundCodeList)) {
+                                    failureRecords.add(org.kuali.ole.OLEConstants.INVALID_FUND_CD + "  " + dataField + " " + org.kuali.ole.OLEConstants.DELIMITER_DOLLAR + tagField + "  " + fundCode);
+                                    fundCode = null;
+                                }
+                                oleInvoiceRecord.setFundCode(fundCode);
+                            } else {
+                                failureRecords.add(org.kuali.ole.OLEConstants.REQUIRED_FUND_CODE + " " + dataField + org.kuali.ole.OLEConstants.DELIMITER_DOLLAR + tagField + " " + org.kuali.ole.OLEConstants.NULL_VALUE_MESSAGE);
+                            }
+                        }
                     }
                 }
             }
@@ -2640,6 +2656,9 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                     else if (org.kuali.ole.OLEConstants.OLEBatchProcess.OBJECT_CODE.equals(oleBatchProcessProfileConstantsBo.getAttributeName())) {
                         oleInvoiceRecord.setObjectCode(oleBatchProcessProfileConstantsBo.getAttributeValue());
                     }
+                    else if (org.kuali.ole.OLEConstants.OLEEResourceRecord.FUND_CODE.equals(oleBatchProcessProfileConstantsBo.getAttributeName())) {
+                        oleInvoiceRecord.setFundCode(oleBatchProcessProfileConstantsBo.getAttributeValue());
+                    }
                     else if (org.kuali.ole.OLEConstants.OLEBatchProcess.CURRENCY_TYPE.equals(oleBatchProcessProfileConstantsBo.getAttributeName())) {
                         oleInvoiceRecord.setCurrencyType(oleBatchProcessProfileConstantsBo.getAttributeValue());
                         oleInvoiceRecord.setCurrencyTypeId(getCurrencyTypeIdFromCurrencyType(oleInvoiceRecord.getCurrencyType()));
@@ -2682,6 +2701,9 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                     }
                     else if(org.kuali.ole.OLEConstants.OLEBatchProcess.OBJECT_CODE.equals(oleBatchProcessProfileConstantsBo.getAttributeName()) && StringUtils.isBlank(oleInvoiceRecord.getObjectCode())) {
                         oleInvoiceRecord.setObjectCode(oleBatchProcessProfileConstantsBo.getAttributeValue());
+                    }
+                    else if(org.kuali.ole.OLEConstants.OLEEResourceRecord.FUND_CODE.equals(oleBatchProcessProfileConstantsBo.getAttributeName()) && StringUtils.isBlank(oleInvoiceRecord.getFundCode())) {
+                        oleInvoiceRecord.setFundCode(oleBatchProcessProfileConstantsBo.getAttributeValue());
                     }
                     else if(org.kuali.ole.OLEConstants.OLEBatchProcess.CURRENCY_TYPE.equals(oleBatchProcessProfileConstantsBo.getAttributeName()) && StringUtils.isBlank(oleInvoiceRecord.getCurrencyType())) {
                         oleInvoiceRecord.setCurrencyType(oleBatchProcessProfileConstantsBo.getAttributeValue());

@@ -96,6 +96,7 @@ public class OleTxRecord {
     private String vendorItemIdentifier;   // EDIFACT
 
     //Account Lines
+    private String fundCode;
     private String accountNumber;    // EDIFACT
     private String objectCode;
     private String orgRefId;         // blank or null
@@ -701,6 +702,14 @@ public class OleTxRecord {
 
     public void setVendorItemIdentifier(String vendorItemIdentifier) {
         this.vendorItemIdentifier = vendorItemIdentifier;
+    }
+
+    public String getFundCode() {
+        return fundCode;
+    }
+
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
     }
 
     public String getAccountNumber() {

@@ -3166,6 +3166,7 @@ public class OLEConstants {
     public static final String INVALID_ACCOUNT_NUMBER = "Invalid Account Number -";
     public static final String INVALID_OBJECT_CODE = "Invalid Object Code -";
     public static final String INVALID_ITEM_CHART_CD = "Invalid Item Chart Code -";
+    public static final String INVALID_FUND_CD = "Invalid Fund Code -";
     public static final String INVALID_FORMAT = "Invalid Format -";
     public static final String INVALID_VENDOR_INV_AMT = "Invalid Vendor Invoice Amount -";
     public static final String INVALID_INV_NMBR = "Invalid Invoice Number -";
@@ -3210,6 +3211,7 @@ public class OLEConstants {
     public static final String REQUIRED_DISCOUNT = "Discount";
     public static final String REQUIRED_DISCOUNT_TYPE = "Discount Type";
     public static final String REQUIRED_FORMAT = "Format";
+    public static final String REQUIRED_FUND_CODE = "Fund Code";
     public static final String NULL_VALUE_MESSAGE = "-  cannot be null or empty";
     public static final String NB_PRINT = "NB_PRINT";
     public static final String NB_ELECTRONIC = "NB_ELECTRONIC";
@@ -3260,7 +3262,7 @@ public class OLEConstants {
     public static final String BIB_DATA_ONLY = "Bibliographic Data Only";
     public static final String BIB_INS = "Bibliographic, Holdings, and Item Data";
     public static final String BIB_EINS = "Bibliographic and EHoldings Data";
-    public static final String BIB_INS_EINS = "Bibliographic,Holdings,Item and EHoldings";
+    public static final String BIB_INS_EINS = "Bibliographic,Holdings,Item and EHoldings Data";
     public static final String ORDER_IMPORT_VALIDATION_MSG = "In bib import profile, Data To Import value should be either 'Bibliographic, Holdings, and Item Data' or 'Bibliographic,Holdings,Item and EHoldings' to process Order Record Import.";
     public static final String CURR_ALPHA_CD = "currencyAlphaCode";
 

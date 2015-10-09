@@ -38,6 +38,7 @@ public class OLEBatchProcessInvoiceImportSourceFieldValueFinder extends KeyValue
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.OBJECT_CODE, "Object Code"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.CURRENCY_TYPE, "Currency Type"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.EXCHANGE_RATE, "Exchange Rate"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.OLEEResourceRecord.FUND_CODE,"Fund Code"));
         Collections.sort(keyValues,new Comparator<KeyValue>(){
             public int compare(KeyValue keyValue1,KeyValue keyValue2){
                 return keyValue1.getValue().compareTo(keyValue2.getValue());

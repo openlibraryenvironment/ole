@@ -35,6 +35,7 @@ public class OLEBatchProcessInvoiceImportDataTypeValuesFinder extends KeyValuesB
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.ITEM_DESCRIPTION, "Item Description"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER, "Account Number"));
         keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.OBJECT_CODE, "Object Code"));
+        keyValues.add(new ConcreteKeyValue(OLEConstants.OLEEResourceRecord.FUND_CODE,"Fund Code"));
         Collections.sort(keyValues, new Comparator<KeyValue>() {
             public int compare(KeyValue keyValue1, KeyValue keyValue2) {
                 return keyValue1.getValue().compareTo(keyValue2.getValue());

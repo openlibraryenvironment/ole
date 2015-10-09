@@ -1,5 +1,6 @@
 package org.kuali.ole.batch.ingest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.DataCarrierService;
@@ -11,6 +12,8 @@ import org.kuali.ole.batch.controller.OLEBatchProcessJobDetailsController;
 import org.kuali.ole.batch.impl.AbstractBatchProcess;
 import org.kuali.ole.coa.businessobject.Account;
 import org.kuali.ole.coa.businessobject.ObjectCode;
+import org.kuali.ole.coa.businessobject.OleFundCode;
+import org.kuali.ole.coa.businessobject.OleFundCodeAccountingLine;
 import org.kuali.ole.converter.MarcXMLConverter;
 import org.kuali.ole.converter.OLEINVConverter;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
@@ -434,11 +437,15 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
 
                 } else {
                     if (olePurchaseOrderItems.size()==1) {
-                        for (PurApAccountingLine poa : poItem.getSourceAccountingLines()) {
-                            InvoiceAccount invoiceAccount = new InvoiceAccount(oleInvoiceItem, (PurchaseOrderAccount) poa);
-                            invoiceAccount.setAccountNumber(!StringUtils.isBlank(invoiceRecord.getAccountNumber()) ? invoiceRecord.getAccountNumber() : invoiceAccount.getAccountNumber());
-                            invoiceAccount.setFinancialObjectCode(!StringUtils.isBlank(invoiceRecord.getObjectCode()) ? invoiceRecord.getObjectCode()  : invoiceAccount.getFinancialObjectCode());
-                            accountingLine.add(invoiceAccount);
+                        if (invoiceRecord.getFundCode() != null) {
+                            accountingLine = getAccountingLinesFromFundCode(invoiceRecord, oleInvoiceItem);
+                        } else {
+                            for (PurApAccountingLine poa : poItem.getSourceAccountingLines()) {
+                                InvoiceAccount invoiceAccount = new InvoiceAccount(oleInvoiceItem, (PurchaseOrderAccount) poa);
+                                invoiceAccount.setAccountNumber(!StringUtils.isBlank(invoiceRecord.getAccountNumber()) ? invoiceRecord.getAccountNumber() : invoiceAccount.getAccountNumber());
+                                invoiceAccount.setFinancialObjectCode(!StringUtils.isBlank(invoiceRecord.getObjectCode()) ? invoiceRecord.getObjectCode() : invoiceAccount.getFinancialObjectCode());
+                                accountingLine.add(invoiceAccount);
+                            }
                         }
                     }else{
                         for (PurApAccountingLine poa : poItem.getSourceAccountingLines()) {
@@ -533,7 +540,10 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
             invoiceAccount.setChartOfAccountsCode(populateChartOfAccount(oleVendorAccountInfo.getAccountNumber()) != null ? populateChartOfAccount(oleVendorAccountInfo.getAccountNumber()) : invoiceRecord.getItemChartCode());     // TODO: Need to get chart of Account based on account number and object code.
             accountingLine.add(invoiceAccount);
 
-        } else if (invoiceRecord.getAccountNumber() != null && invoiceRecord.getObjectCode() != null) {
+        } else if (invoiceRecord.getFundCode() != null) {
+            accountingLine = getAccountingLinesFromFundCode(invoiceRecord, oleInvoiceItem);
+        }
+        else if (invoiceRecord.getAccountNumber() != null && invoiceRecord.getObjectCode() != null) {
             InvoiceAccount invoiceAccount = new InvoiceAccount();
             invoiceAccount.setAccountNumber(invoiceRecord.getAccountNumber());
             invoiceAccount.setFinancialObjectCode(invoiceRecord.getObjectCode());
@@ -541,7 +551,7 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
             invoiceAccount.setAccountLinePercent(new BigDecimal("100"));  // TODO: Need to get from edifact.
             invoiceAccount.setPurapItem(oleInvoiceItem);
             invoiceAccount.setItemIdentifier(oleInvoiceItem.getItemIdentifier());
-            invoiceAccount.setChartOfAccountsCode(populateChartOfAccount(oleVendorAccountInfo.getAccountNumber()) != null ? populateChartOfAccount(oleVendorAccountInfo.getAccountNumber()) : invoiceRecord.getItemChartCode());     // TODO: Need to get chart of Account based on account number and object code.
+            invoiceAccount.setChartOfAccountsCode(populateChartOfAccount(invoiceRecord.getAccountNumber()));
             accountingLine.add(invoiceAccount);
 
         }
@@ -604,7 +614,10 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                 getNextAvailableSequenceNumber("AP_PUR_DOC_LNK_ID")).intValue());
         oleInvoiceItem.setOlePoOutstandingQuantity(KualiInteger.ZERO);
         List accountingLine = new ArrayList();
-        if (invoiceRecord.getAccountNumber() != null && invoiceRecord.getObjectCode() != null) {
+        if (invoiceRecord.getFundCode() != null) {
+            accountingLine = getAccountingLinesFromFundCode(invoiceRecord, oleInvoiceItem);
+        }
+        else if (invoiceRecord.getAccountNumber() != null && invoiceRecord.getObjectCode() != null) {
             InvoiceAccount invoiceAccount = new InvoiceAccount();
             invoiceAccount.setAccountNumber(invoiceRecord.getAccountNumber());
             invoiceAccount.setFinancialObjectCode(invoiceRecord.getObjectCode());
@@ -634,6 +647,40 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
         invoiceDocument.getItems().add(oleInvoiceItem);
         itemMap.put("invoiceDocument", invoiceDocument);
         return itemMap;
+    }
+
+    private List getAccountingLinesFromFundCode(OleInvoiceRecord invoiceRecord, OleInvoiceItem oleInvoiceItem) {
+        List accountingLine = new ArrayList();
+        Map fundCodeMap = new HashMap<>();
+        fundCodeMap.put(OLEConstants.OLEEResourceRecord.FUND_CODE, invoiceRecord.getFundCode());
+        List<OleFundCode> fundCodeList = (List) getBusinessObjectService().findMatching(OleFundCode.class, fundCodeMap);
+        if (CollectionUtils.isNotEmpty(fundCodeList)) {
+            OleFundCode oleFundCode = fundCodeList.get(0);
+            List<OleFundCodeAccountingLine> fundCodeAccountingLineList = oleFundCode.getOleFundCodeAccountingLineList();
+            for (OleFundCodeAccountingLine oleFundCodeAccountingLine : fundCodeAccountingLineList) {
+                InvoiceAccount invoiceAccount = new InvoiceAccount();
+                invoiceAccount.setChartOfAccountsCode(oleFundCodeAccountingLine.getChartCode());
+                invoiceAccount.setAccountNumber(oleFundCodeAccountingLine.getAccountNumber());
+                if (StringUtils.isNotBlank(oleFundCodeAccountingLine.getSubAccount())) {
+                    invoiceAccount.setSubAccountNumber(oleFundCodeAccountingLine.getSubAccount());
+                }
+                invoiceAccount.setFinancialObjectCode(oleFundCodeAccountingLine.getObjectCode());
+                if (StringUtils.isNotBlank(oleFundCodeAccountingLine.getSubObject())) {
+                    invoiceAccount.setFinancialSubObjectCode(oleFundCodeAccountingLine.getSubObject());
+                }
+                if (StringUtils.isNotBlank(oleFundCodeAccountingLine.getProject())) {
+                    invoiceAccount.setProjectCode(oleFundCodeAccountingLine.getProject());
+                }
+                if (StringUtils.isNotBlank(oleFundCodeAccountingLine.getOrgRefId())) {
+                    invoiceAccount.setOrganizationReferenceId(oleFundCodeAccountingLine.getOrgRefId());
+                }
+                invoiceAccount.setAccountLinePercent(oleFundCodeAccountingLine.getPercentage());
+                invoiceAccount.setPurapItem(oleInvoiceItem);
+                invoiceAccount.setItemIdentifier(oleInvoiceItem.getItemIdentifier());
+                accountingLine.add(invoiceAccount);
+            }
+        }
+        return accountingLine;
     }
 
     private void setItemForeignDetails(OleInvoiceItem oleInvoiceItem,String invoiceCurrencyType, OleInvoiceRecord invoiceRecord){

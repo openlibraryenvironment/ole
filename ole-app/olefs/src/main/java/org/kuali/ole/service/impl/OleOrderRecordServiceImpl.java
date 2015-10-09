@@ -1,14 +1,11 @@
 package org.kuali.ole.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.ole.DataCarrierService;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.bo.*;
 import org.kuali.ole.batch.controller.OLEBatchProcessProfileController;
-import org.kuali.ole.coa.businessobject.Account;
-import org.kuali.ole.coa.businessobject.Chart;
-import org.kuali.ole.coa.businessobject.ObjectCode;
-import org.kuali.ole.coa.businessobject.Organization;
+import org.kuali.ole.coa.businessobject.*;
 import org.kuali.ole.describe.bo.OleItemAvailableStatus;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
@@ -35,7 +32,6 @@ import org.kuali.ole.vnd.businessobject.ContractManager;
 import org.kuali.ole.vnd.businessobject.PurchaseOrderCostSource;
 import org.kuali.ole.vnd.businessobject.VendorCustomerNumber;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
@@ -870,6 +866,22 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
                                 mappingFailures.put(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_ITEM_CHART_CD + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
                             }
                         }
+                        else if (OLEConstants.OLEEResourceRecord.FUND_CODE.equals(destinationField)) {
+                            String fundCode = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
+                            if(StringUtils.isNotBlank(fundCode)) {
+                                Map<String,String> fundCodeMap = new HashMap<>();
+                                fundCodeMap.put(OLEConstants.OLEEResourceRecord.FUND_CODE, fundCode);
+                                List<OleFundCode> fundCodeList = (List) getBusinessObjectService().findMatching(OleFundCode.class, fundCodeMap);
+                                if(CollectionUtils.isEmpty(fundCodeList)){
+                                    mappingFailures.put(OLEConstants.OLEEResourceRecord.FUND_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.INVALID_FUND_CD + "  " +dataField + " " + OLEConstants.DELIMITER_DOLLAR + tagField +"  " + fundCode);
+                                    fundCode = null;
+                                }
+                                oleTxRecord.setFundCode(fundCode);
+                            }
+                            else{
+                                mappingFailures.put(OLEConstants.OLEEResourceRecord.FUND_CODE, OLEConstants.OLEBatchProcess.REC_POSITION + (recordPosition+1)  + "  " + OLEConstants.REQUIRED_FUND_CODE + " " + dataField + OLEConstants.DELIMITER_DOLLAR + tagField + " " + OLEConstants.NULL_VALUE_MESSAGE);
+                            }
+                        }
                         else if (OLEConstants.OLEBatchProcess.FORMAT_TYP_NM.equals(destinationField)) {
                             String formatTypeName = setDataMappingValues(oleBatchProcessProfileDataMappingOptionsBoList,dataMapCount,bibMarcRecord,dataField,tagField);
                             if(!StringUtils.isBlank(formatTypeName)) {
@@ -1064,7 +1076,7 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
      */
     private void setAccountingLinesDetails(OleTxRecord oleTxRecord,int recordPosition, OLEBatchProcessJobDetailsBo job){
         OrderImportHelperBo orderImportHelperBo = job.getOrderImportHelperBo();
-        if(oleTxRecord.getAccountNumber() != null && oleTxRecord.getObjectCode() != null && oleTxRecord.getItemChartCode() != null){
+        if(oleTxRecord.getFundCode() == null && oleTxRecord.getAccountNumber() != null && oleTxRecord.getObjectCode() != null && oleTxRecord.getItemChartCode() != null){
             Map<String,String> accLinesMap = new HashMap<>();
             accLinesMap.put(OLEConstants.ACCOUNT_NUMBER,oleTxRecord.getAccountNumber());
             accLinesMap.put(OLEConstants.OLEBatchProcess.CHART_OF_ACCOUNTS_CODE,oleTxRecord.getItemChartCode());
@@ -1289,6 +1301,12 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
                             failureRecords.remove(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE);
                         }
                         oleTxRecord.setItemChartCode(attributeValue);
+                    }
+                    else if (OLEConstants.OLEEResourceRecord.FUND_CODE.equals(attributeName)) {
+                        if (failureRecords.containsKey(OLEConstants.OLEEResourceRecord.FUND_CODE)) {
+                            failureRecords.remove(OLEConstants.OLEEResourceRecord.FUND_CODE);
+                        }
+                        oleTxRecord.setFundCode(attributeValue);
                     }
                     else if (OLEConstants.OLEBatchProcess.REQUEST_SRC.equals(attributeName)) {
                         if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.REQUEST_SRC)) {
@@ -1517,6 +1535,12 @@ public class OleOrderRecordServiceImpl implements OleOrderRecordService {
                             failureRecords.remove(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE);
                         }
                         oleTxRecord.setItemChartCode(attributeValue);
+                    }
+                    else if (OLEConstants.OLEEResourceRecord.FUND_CODE.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getFundCode())) {
+                        if (failureRecords.containsKey(OLEConstants.OLEEResourceRecord.FUND_CODE)) {
+                            failureRecords.remove(OLEConstants.OLEEResourceRecord.FUND_CODE);
+                        }
+                        oleTxRecord.setFundCode(attributeValue);
                     }
                     else if (OLEConstants.OLEBatchProcess.REQUEST_SRC.equals(attributeName) && StringUtils.isBlank(oleTxRecord.getRequestSourceType())) {
                         if (failureRecords.containsKey(OLEConstants.OLEBatchProcess.REQUEST_SRC)) {

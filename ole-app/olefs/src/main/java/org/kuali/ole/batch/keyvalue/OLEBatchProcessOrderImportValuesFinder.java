@@ -3,10 +3,7 @@ package org.kuali.ole.batch.keyvalue;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.batch.bo.OLEBatchProcessProfileConstantsBo;
-import org.kuali.ole.coa.businessobject.Account;
-import org.kuali.ole.coa.businessobject.Chart;
-import org.kuali.ole.coa.businessobject.ObjectCode;
-import org.kuali.ole.coa.businessobject.Organization;
+import org.kuali.ole.coa.businessobject.*;
 import org.kuali.ole.describe.bo.OleItemAvailableStatus;
 import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.describe.bo.OleLocationLevel;
@@ -248,6 +245,16 @@ public class OLEBatchProcessOrderImportValuesFinder extends UifKeyValuesFinderBa
                                 keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.TRUE,OLEConstants.OLEBatchProcess.TRUE));
                                 keyValues.add(new ConcreteKeyValue(OLEConstants.OLEBatchProcess.FALSE,OLEConstants.OLEBatchProcess.FALSE));
                             }
+                            else if (attributeName.equalsIgnoreCase(OLEConstants.OLEEResourceRecord.FUND_CODE)) {
+                                List<OleFundCode> fundCodeList = (List<OleFundCode>) KRADServiceLocator.getBusinessObjectService().findAll(OleFundCode.class);
+                                if (fundCodeList != null && fundCodeList.size() > 0) {
+                                    Set<KeyValue> fundCodes = new HashSet<>();
+                                    for (OleFundCode fundCode : fundCodeList) {
+                                        fundCodes.add(new ConcreteKeyValue(fundCode.getFundCode(), fundCode.getFundCode()));
+                                    }
+                                    keyValues.addAll(fundCodes);
+                                }
+                            }
                         }
                         else if (dataType.equalsIgnoreCase(OLEConstants.OLEBatchProcess.INVOICE_IMPORT)) {
                             if(attributeName.equalsIgnoreCase(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER)){
@@ -276,6 +283,14 @@ public class OLEBatchProcessOrderImportValuesFinder extends UifKeyValuesFinderBa
                                 List<OleCurrencyType> currencyTypeList = (List<OleCurrencyType>) KRADServiceLocator.getBusinessObjectService().findAll(OleCurrencyType.class);
                                 for (OleCurrencyType currencyType : currencyTypeList) {
                                     keyValues.add(new ConcreteKeyValue(currencyType.getCurrencyType(), currencyType.getCurrencyType()));
+                                }
+                            }
+                            else if (attributeName.equalsIgnoreCase(OLEConstants.OLEEResourceRecord.FUND_CODE)) {
+                                List<OleFundCode> fundCodeList = (List<OleFundCode>) KRADServiceLocator.getBusinessObjectService().findAll(OleFundCode.class);
+                                if (fundCodeList != null && fundCodeList.size() > 0) {
+                                    for (OleFundCode fundCode : fundCodeList) {
+                                        keyValues.add(new ConcreteKeyValue(fundCode.getFundCode(), fundCode.getFundCode()));
+                                    }
                                 }
                             }
                         }

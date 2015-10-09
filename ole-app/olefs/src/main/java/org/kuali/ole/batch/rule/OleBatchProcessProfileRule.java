@@ -75,6 +75,9 @@ public class OleBatchProcessProfileRule extends MaintenanceDocumentRuleBase {
                 else if(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE.equals(oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getDestinationField())){
                     availableFields.add(oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getDestinationField());
                 }
+                else if(OLEConstants.OLEEResourceRecord.FUND_CODE.equals(oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getDestinationField())){
+                    availableFields.add(oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getDestinationField());
+                }
                 else if(OLEConstants.OLEBatchProcess.COST_SOURCE.equals(oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getDestinationField())) {
                     availableFields.add(oleBatchProcessProfileDataMappingOptionsBoList.get(dataMapCount).getDestinationField());
                 }
@@ -127,6 +130,9 @@ public class OleBatchProcessProfileRule extends MaintenanceDocumentRuleBase {
                 else if(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE.equals(oleBatchProcessProfileConstantsBoList.get(constantCount).getAttributeName())){
                     availableFields.add(oleBatchProcessProfileConstantsBoList.get(constantCount).getAttributeName());
                 }
+                else if(OLEConstants.OLEEResourceRecord.FUND_CODE.equals(oleBatchProcessProfileConstantsBoList.get(constantCount).getAttributeName())){
+                    availableFields.add(oleBatchProcessProfileConstantsBoList.get(constantCount).getAttributeName());
+                }
                 else if(OLEConstants.OLEBatchProcess.COST_SOURCE.equals(oleBatchProcessProfileConstantsBoList.get(constantCount).getAttributeName())) {
                     availableFields.add(oleBatchProcessProfileConstantsBoList.get(constantCount).getAttributeName());
                 }
@@ -173,9 +179,11 @@ public class OleBatchProcessProfileRule extends MaintenanceDocumentRuleBase {
             mandatoryFields.add(OLEConstants.OLEBatchProcess.VENDOR_NUMBER);
             mandatoryFields.add(OLEConstants.OLEBatchProcess.QUANTITY);
             mandatoryFields.add(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS);
-            mandatoryFields.add(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER);
-            mandatoryFields.add(OLEConstants.OLEBatchProcess.OBJECT_CODE);
-            mandatoryFields.add(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE);
+            if (!availableFields.contains(OLEConstants.OLEEResourceRecord.FUND_CODE)) {
+                mandatoryFields.add(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER);
+                mandatoryFields.add(OLEConstants.OLEBatchProcess.OBJECT_CODE);
+                mandatoryFields.add(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE);
+            }
         }
         mandatoryFields.add(OLEConstants.OLEBatchProcess.DEFAULT_LOCATION);
         mandatoryFields.add(OLEConstants.OLEBatchProcess.COST_SOURCE);
@@ -197,7 +205,7 @@ public class OleBatchProcessProfileRule extends MaintenanceDocumentRuleBase {
     }
 
     private String addRequiredFieldsMessageForOrderImport(List<String> mandatoryFields){
-        StringBuffer fieldsRequired = new StringBuffer();
+        StringBuffer fieldsRequired = addFundCodeOrAccountingInfoInRequiredList(mandatoryFields);
         for(int fieldCount = 0; fieldCount < mandatoryFields.size();fieldCount++){
             if(mandatoryFields.get(fieldCount).equalsIgnoreCase(OLEConstants.OLEBatchProcess.LIST_PRICE)){
                 fieldsRequired.append(OLEConstants.REQUIRED_LIST_PRICE);
@@ -210,15 +218,6 @@ public class OleBatchProcessProfileRule extends MaintenanceDocumentRuleBase {
             }
             else if(mandatoryFields.get(fieldCount).equalsIgnoreCase(OLEConstants.OLEBatchProcess.ITEM_NO_OF_PARTS)){
                 fieldsRequired.append(OLEConstants.REQUIRED_NO_OF_PARTS);
-            }
-            else if(mandatoryFields.get(fieldCount).equalsIgnoreCase(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER)){
-                fieldsRequired.append(OLEConstants.REQUIRED_ACCOUNT_NUMBER);
-            }
-            else if(mandatoryFields.get(fieldCount).equalsIgnoreCase(OLEConstants.OLEBatchProcess.OBJECT_CODE)){
-                fieldsRequired.append(OLEConstants.REQUIRED_OBJECT_CODE);
-            }
-            else if(mandatoryFields.get(fieldCount).equalsIgnoreCase(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE)){
-                fieldsRequired.append(OLEConstants.REQUIRED_ITEM_CHART_CD);
             }
             else if(mandatoryFields.get(fieldCount).equalsIgnoreCase(OLEConstants.OLEBatchProcess.COST_SOURCE)){
                 fieldsRequired.append(OLEConstants.REQUIRED_COST_SOURCE);
@@ -253,6 +252,31 @@ public class OleBatchProcessProfileRule extends MaintenanceDocumentRuleBase {
         }
         fieldsRequired.append(mandatoryFields.size() == 1?" is":" are");
         return fieldsRequired.toString();
+    }
+
+    private StringBuffer addFundCodeOrAccountingInfoInRequiredList(List<String> mandatoryFields) {
+        StringBuffer fieldsRequired = new StringBuffer();
+        fieldsRequired.append("(");
+        if (mandatoryFields.contains(OLEConstants.OLEBatchProcess.ACCOUNT_NUMBER)) {
+            fieldsRequired.append(OLEConstants.REQUIRED_ACCOUNT_NUMBER);
+            fieldsRequired.append(", ");
+        }
+        if (mandatoryFields.contains(OLEConstants.OLEBatchProcess.OBJECT_CODE)) {
+            fieldsRequired.append(OLEConstants.REQUIRED_OBJECT_CODE);
+            fieldsRequired.append(", ");
+        }
+        if (mandatoryFields.contains(OLEConstants.OLEBatchProcess.ITEM_CHART_CODE)) {
+            fieldsRequired.append(OLEConstants.REQUIRED_ITEM_CHART_CD);
+            fieldsRequired.append(", ");
+        }
+        if (fieldsRequired.length() > 1) {
+            fieldsRequired.deleteCharAt(fieldsRequired.length()-2);
+            fieldsRequired.append(") / ");
+            fieldsRequired.append(OLEConstants.OLEEResourceRecord.FUND_CODE);
+            fieldsRequired.append(", ");
+            return fieldsRequired;
+        }
+        return new StringBuffer();
     }
 
 
