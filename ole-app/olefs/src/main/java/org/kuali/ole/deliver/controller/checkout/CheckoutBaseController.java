@@ -109,6 +109,15 @@ public abstract class CheckoutBaseController extends CircUtilController {
         }
         return droolsResponse;
     }
+    public OlePatronDocument getPatronDocumentForItemValidation(OLEForm oleForm) {
+        Map<OlePatronDocument, OlePatronDocument> patronForWhomLoanIsBeingProcessed = identifyPatron(oleForm);
+        OlePatronDocument patronDocument = getPatronDocument(patronForWhomLoanIsBeingProcessed);
+        OlePatronDocument scanedPatron = getCircForm(oleForm).getPatronDocument();
+        if(!StringUtils.equals(scanedPatron.getOlePatronId(),patronDocument.getOlePatronId())){
+            patronDocument.setSelectedProxyForPatron(scanedPatron);
+        }
+        return patronDocument;
+    }
 
     private DroolsResponse preValidationForCheckout(OleItemRecordForCirc oleItemRecordForCirc, DroolsResponse droolsResponse, OLEForm oleForm) {
 
@@ -234,16 +243,18 @@ public abstract class CheckoutBaseController extends CircUtilController {
         currentLoanDocument.setDeliverNotices(deliverNotices);
     }
 
-    private void setPatronInfoForLoanDocument(Map<OlePatronDocument, OlePatronDocument> patronForWhomLoanIsBeingProcessed,
+    private void setPatronInfoForLoanDocument(OlePatronDocument olePatronDocument,
                                               OleLoanDocument oleLoanDocument) {
-        OlePatronDocument olePatronDocument = patronForWhomLoanIsBeingProcessed.keySet().iterator().next();
-        OlePatronDocument proxyPatron = patronForWhomLoanIsBeingProcessed.get(olePatronDocument);
+        OlePatronDocument proxyPatron = olePatronDocument.getSelectedProxyForPatron();
 
-        oleLoanDocument.setPatronId(olePatronDocument.getOlePatronId());
-        oleLoanDocument.setRealPatronBarcode(olePatronDocument.getBarcode());
-        if (null != proxyPatron) {
+        if(null != proxyPatron && StringUtils.isNotBlank(proxyPatron.getOlePatronId())){
+            oleLoanDocument.setPatronId(olePatronDocument.getOlePatronId());
+            oleLoanDocument.setRealPatronBarcode(proxyPatron.getBarcode());
             oleLoanDocument.setProxyPatronId(proxyPatron.getOlePatronId());
             oleLoanDocument.setRealPatronName(proxyPatron.getPatronName());
+        }else{
+            oleLoanDocument.setPatronId(olePatronDocument.getOlePatronId());
+            oleLoanDocument.setRealPatronBarcode(olePatronDocument.getBarcode());
         }
     }
 
@@ -299,9 +310,9 @@ public abstract class CheckoutBaseController extends CircUtilController {
 
         facts.add(currentLoanDocument);
 
-        Map<OlePatronDocument, OlePatronDocument> patronForWhomLoanIsBeingProcessed = identifyPatron(oleForm);
 
-        facts.add(getPatronDocument(patronForWhomLoanIsBeingProcessed));
+        OlePatronDocument patronDocument = getCurrentBorrower(oleForm);
+        facts.add(patronDocument);
 
         facts.add(oleItemRecordForCirc.getOleDeliverRequestBo());
 
@@ -339,9 +350,9 @@ public abstract class CheckoutBaseController extends CircUtilController {
 
         facts.add(currentLoanDocument);
 
-        Map<OlePatronDocument, OlePatronDocument> patronForWhomLoanIsBeingProcessed = identifyPatron(oleForm);
 
-        facts.add(getPatronDocument(patronForWhomLoanIsBeingProcessed));
+        OlePatronDocument patronDocument = getCurrentBorrower(oleForm);
+        facts.add(patronDocument);
 
         facts.add(oleItemRecordForCirc.getOleDeliverRequestBo());
 
@@ -352,7 +363,7 @@ public abstract class CheckoutBaseController extends CircUtilController {
         LOG.info("Time taken to evaluate rules for checkout item: " + (oleStopWatch.getTotalTime()) + " ms");
 
         setItemValidationDone(true, oleForm);
-        setPatronInfoForLoanDocument(patronForWhomLoanIsBeingProcessed, currentLoanDocument);
+        setPatronInfoForLoanDocument(patronDocument, currentLoanDocument);
         currentLoanDocument.setCirculationLocationId(getCirculationLocationId(oleForm));
         currentLoanDocument.setItemId(itemRecord.getBarCode());
         currentLoanDocument.setItemUuid(itemRecord.getUniqueIdPrefix() + "-" + itemRecord.getItemId());

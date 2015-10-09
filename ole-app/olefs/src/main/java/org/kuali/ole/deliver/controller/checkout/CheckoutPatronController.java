@@ -3,11 +3,13 @@ package org.kuali.ole.deliver.controller.checkout;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jfree.util.Log;
+import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.controller.PatronLookupCircUIController;
 import org.kuali.ole.deliver.drools.DroolsConstants;
 import org.kuali.ole.deliver.drools.DroolsExchange;
 import org.kuali.ole.deliver.form.CircForm;
 import org.kuali.ole.deliver.util.DroolsResponse;
+import org.kuali.ole.deliver.util.OlePatronRecordUtil;
 import org.kuali.ole.utility.OleStopWatch;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -29,6 +31,7 @@ public class CheckoutPatronController extends CheckoutItemController {
 
     private static final Logger LOG = Logger.getLogger(CheckoutPatronController.class);
     private PatronLookupCircUIController patronLookupCircUIController;
+    private OlePatronRecordUtil olePatronRecordUtil;
 
     @RequestMapping(params = "methodToCall=searchPatron")
     public ModelAndView searchPatron(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
@@ -106,6 +109,12 @@ public class CheckoutPatronController extends CheckoutItemController {
     }
 
     private void setProceedWithCheckoutFlag(CircForm circForm) {
+        OlePatronDocument patronDocumentForItemValidation = getCheckoutUIController(circForm.getFormKey()).getPatronDocumentForItemValidation(circForm);
+        if (GlobalVariables.getUserSession() != null) {
+            patronDocumentForItemValidation.setPatronRecordURL(getOlePatronRecordUtil().patronNameURL(GlobalVariables.getUserSession().getPrincipalId(), patronDocumentForItemValidation.getOlePatronId()));
+        }
+        circForm.getDroolsExchange().addToContext("circForm", circForm);
+        getPatronLookupCircUIController().setPatronDocument(circForm.getDroolsExchange(), patronDocumentForItemValidation);
         circForm.setProceedWithCheckout(true);
         circForm.getErrorMessage().setErrorCode(null);
         circForm.getErrorMessage().setErrorMessage(null);
@@ -141,5 +150,16 @@ public class CheckoutPatronController extends CheckoutItemController {
             patronLookupCircUIController = new PatronLookupCircUIController();
         }
         return patronLookupCircUIController;
+    }
+
+    public OlePatronRecordUtil getOlePatronRecordUtil() {
+        if(null == olePatronRecordUtil){
+            olePatronRecordUtil = new OlePatronRecordUtil();
+        }
+        return olePatronRecordUtil;
+    }
+
+    public void setOlePatronRecordUtil(OlePatronRecordUtil olePatronRecordUtil) {
+        this.olePatronRecordUtil = olePatronRecordUtil;
     }
 }

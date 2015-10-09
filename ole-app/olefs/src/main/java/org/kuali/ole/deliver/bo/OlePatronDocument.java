@@ -249,8 +249,11 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
 
     public String getPatronName() {
         if (null == patronName) {
-            EntityNameBo entityNameBo = getEntity().getNames().get(0);
-            patronName =  entityNameBo.getLastName() + "," + entityNameBo.getFirstName();
+            List<EntityNameBo> names = getEntity().getNames();
+            if (CollectionUtils.isNotEmpty(names)) {
+                EntityNameBo entityNameBo = names.get(0);
+                patronName =  entityNameBo.getLastName() + "," + entityNameBo.getFirstName();
+            }
         }
         return patronName;
     }
