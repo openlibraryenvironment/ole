@@ -452,7 +452,7 @@ public class NoticeMailContentFormatterTest {
         }
 
         @Override
-        protected String getItemShelvingLocationName(String code) {
+        protected String getLocationName(String code) {
             return "Stacks Regular";
         }
     }
@@ -467,7 +467,7 @@ public class NoticeMailContentFormatterTest {
         }
 
         @Override
-        protected String getItemShelvingLocationName(String code) {
+        protected String getLocationName(String code) {
             return "Stacks Regular";
         }
     }

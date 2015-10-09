@@ -3625,6 +3625,7 @@ public class OLEConstants {
     public static final String HOLD_EXPIRATION_DATE = "Hold Expiration Date";
     public static final String NOTICE_RECALL_DUE_DATE = "Hold Expiration Date";
     public static final String LIBRARY_SHELVING_LOCATION ="Library shelving location";
+    public static final String LIBRARY_LOCATION="Library Location";
 
     public static final String SIMPLE_DATE_FORMAT_FOR_TIME_24H = "HH:mm";
     public static final String DEFAULT_DATE_FORMAT_24H = RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE +" "+ SIMPLE_DATE_FORMAT_FOR_TIME_24H;

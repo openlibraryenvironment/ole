@@ -22,22 +22,32 @@
         <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Chronology")}  :</TD>
         <TD>${oleNoticeBo.chronology}</TD>
     </TR>
+    <TR>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Call Number")} :</TD>
+        <TD>${oleNoticeBo.itemCallNumber}</TD>
+    </TR>
+    <TR>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item Barcode")} :</TD>
+        <TD>${oleNoticeBo.itemId}</TD>
+    </TR>
+    <#if oleNoticeBo.noticeTitle == "Overdue Notice">
   <TR>
       <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item was due")} :</TD>
       <TD>${oleNoticeBo.dueDateString}</TD>
   </TR>
+    </#if>
+    <#if oleNoticeBo.noticeTitle == "Lost">
+        <TR>
+            <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library location")} :</TD>
+            <TD>${oleNoticeBo.itemLibrary}</TD>
+        </TR>
+    </#if>
+
   <TR>
-      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library shelving location")} :</TD>
+      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Library Shelving location")} :</TD>
       <TD>${oleNoticeBo.itemShelvingLocation}</TD>
   </TR>
-  <TR>
-      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Call Number")} :</TD>
-      <TD>${oleNoticeBo.itemCallNumber}</TD>
-  </TR>
-  <TR>
-      <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Item Barcode")} :</TD>
-      <TD>${oleNoticeBo.itemId}</TD>
-  </TR>
+
 </table>
 
 </#macro>

@@ -3863,7 +3863,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
                                     oleLoanDocument.setItemLibrary(locationMap.get(OLEConstants.ITEM_LIBRARY));
                                     oleLoanDocument.setItemLocation(locationMap.get(OLEConstants.ITEM_SHELVING));
 
-                                } else if (searchResultField.getFieldName().equalsIgnoreCase("HoldingsLocation_search") &&
+                                } else if (searchResultField.getFieldName().equalsIgnoreCase("HoldingsLocation_display") &&
                                         (oleLoanDocument.getItemLocation() == null || oleLoanDocument.getItemLocation().isEmpty())) {
                                     String location= searchResultField.getFieldValue().split("/")[searchResultField.getFieldValue().split("/").length - 1];
                                     getOleLoanDocumentsFromSolrBuilder().getLocationBySolr(location, oleLoanDocument);
@@ -4034,7 +4034,7 @@ public class OleDeliverRequestDocumentHelperServiceImpl {
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "Location_display"));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "HoldingsCopyNumber_search"));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "HoldingsCallNumber_search"));
-        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "HoldingsLocation_search"));
+        searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "HoldingsLocation_display"));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "MissingPieceCount_search"));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "NumberOfPieces_search"));
         searchParams.getSearchResultFields().add(searchParams.buildSearchResultField("item", "CallNumberPrefix_display"));

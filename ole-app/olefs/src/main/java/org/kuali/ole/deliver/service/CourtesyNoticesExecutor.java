@@ -72,6 +72,7 @@ public class CourtesyNoticesExecutor extends LoanNoticesExecutor {
            oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
            oleNoticeContentConfigurationBo.setNoticeTitle(getTitle());
            oleNoticeContentConfigurationBo.setNoticeBody(getBody());
+           oleNoticeContentConfigurationBo.setNoticeFooterBody("");
        }
     }
 

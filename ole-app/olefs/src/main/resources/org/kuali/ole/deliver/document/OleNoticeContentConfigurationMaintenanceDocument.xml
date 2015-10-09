@@ -90,7 +90,7 @@
                               p:actionLabel="submit" p:performClientSideValidation="true"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
                               p:successCallback="printResponseString()"/>
-                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:performClientSideValidation="true" p:actionLabel="Cancel" p:methodToCall="cancel"
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:performClientSideValidation="false" p:actionLabel="Cancel" p:methodToCall="cancel"
                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]} "/>
                     </list>
                 </property>

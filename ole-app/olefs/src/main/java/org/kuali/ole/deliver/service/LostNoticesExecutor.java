@@ -172,6 +172,7 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
             oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
             oleNoticeContentConfigurationBo.setNoticeTitle("LOST");
             oleNoticeContentConfigurationBo.setNoticeBody("Item is Lost");
+            oleNoticeContentConfigurationBo.setNoticeFooterBody("");
         }
     }
 

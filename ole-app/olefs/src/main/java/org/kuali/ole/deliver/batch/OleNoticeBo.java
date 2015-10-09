@@ -67,6 +67,11 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
     private String billNumber;
     private String feeType;
     private BigDecimal feeAmount;
+    private String itemInstitution;
+    private String itemCampus;
+    private String itemCollection;
+    private String itemLibrary;
+    private String itemLocation;
 
     public String getNoticeType() {
         return noticeType;
@@ -391,5 +396,45 @@ public class OleNoticeBo extends PersistableBusinessObjectBase  implements Clone
 
     public void setNoticeSpecificFooterContent(String noticeSpecificFooterContent) {
         this.noticeSpecificFooterContent = noticeSpecificFooterContent;
+    }
+
+    public String getItemInstitution() {
+        return itemInstitution;
+    }
+
+    public void setItemInstitution(String itemInstitution) {
+        this.itemInstitution = itemInstitution;
+    }
+
+    public String getItemCampus() {
+        return itemCampus;
+    }
+
+    public void setItemCampus(String itemCampus) {
+        this.itemCampus = itemCampus;
+    }
+
+    public String getItemCollection() {
+        return itemCollection;
+    }
+
+    public void setItemCollection(String itemCollection) {
+        this.itemCollection = itemCollection;
+    }
+
+    public String getItemLibrary() {
+        return itemLibrary;
+    }
+
+    public void setItemLibrary(String itemLibrary) {
+        this.itemLibrary = itemLibrary;
+    }
+
+    public String getItemLocation() {
+        return itemLocation;
+    }
+
+    public void setItemLocation(String itemLocation) {
+        this.itemLocation = itemLocation;
     }
 }

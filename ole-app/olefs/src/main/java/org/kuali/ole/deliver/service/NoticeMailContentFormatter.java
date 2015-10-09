@@ -5,6 +5,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.apache.log4j.Logger;
 import org.codehaus.plexus.util.FileUtils;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
 import org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
@@ -36,7 +37,7 @@ public abstract class NoticeMailContentFormatter {
     private ParameterValueResolver parameterValueResolver;
     private OleDeliverRequestDocumentHelperServiceImpl oleDeliverRequestDocumentHelperService;
     private OlePatronHelperServiceImpl olePatronHelperService;
-
+    private CircDeskLocationResolver circDeskLocationResolver;
     public OlePatronHelperService getOlePatronHelperService(){
         if(olePatronHelperService==null)
             olePatronHelperService=new OlePatronHelperServiceImpl();
@@ -47,6 +48,16 @@ public abstract class NoticeMailContentFormatter {
         this.olePatronHelperService = olePatronHelperService;
     }
 
+    private CircDeskLocationResolver getCircDeskLocationResolver() {
+        if (circDeskLocationResolver == null) {
+            circDeskLocationResolver = new CircDeskLocationResolver();
+        }
+        return circDeskLocationResolver;
+    }
+
+    public void setCircDeskLocationResolver(CircDeskLocationResolver circDeskLocationResolver) {
+        this.circDeskLocationResolver = circDeskLocationResolver;
+    }
 
     public String generateMailContentForPatron(List<OleLoanDocument> oleLoanDocuments, OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) {
         List<OleNoticeBo> noticeBos = initialiseOleNoticeBos(oleLoanDocuments, oleNoticeContentConfigurationBo);
@@ -99,7 +110,8 @@ public abstract class NoticeMailContentFormatter {
         oleNoticeBo.setCopyNumber(oleLoanDocument.getItemCopyNumber() !=null ? oleLoanDocument.getItemCopyNumber():"");
         oleNoticeBo.setDueDateString(oleLoanDocument.getLoanDueDate()!=null ? (oleLoanDocument.getLoanDueDate().toString()!=null ? oleLoanDocument.getLoanDueDate().toString() : "") : "");
         oleNoticeBo.setItemId(oleLoanDocument.getItemId()!=null ? oleLoanDocument.getItemId() :"");
-        oleNoticeBo.setItemShelvingLocation((getItemShelvingLocationName(oleLoanDocument.getItemLocation()) != null ? getItemShelvingLocationName(oleLoanDocument.getItemLocation()) : ""));
+        oleNoticeBo.setItemShelvingLocation((getLocationName(oleLoanDocument.getItemLocation()) != null ? getLocationName(oleLoanDocument.getItemLocation()) : ""));
+        setLocationInforamtion(oleNoticeBo,oleLoanDocument.getItemFullLocation());
     }
 
 
@@ -132,7 +144,7 @@ public abstract class NoticeMailContentFormatter {
         return new SimpleDateFormat(RiceConstants.SIMPLE_DATE_FORMAT_FOR_DATE + " " + RiceConstants.SIMPLE_DATE_FORMAT_FOR_TIME);
     }
 
-    protected String getItemShelvingLocationName(String code) {
+    protected String getLocationName(String code) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("locationCode", code);
         List<OleLocation> oleLocation = (List<OleLocation>) getBusinessObjectService().findMatching(OleLocation.class, criteria);
@@ -218,5 +230,17 @@ public abstract class NoticeMailContentFormatter {
         String noticeContentString = new String(noticeContent);
         return noticeContentString;
 
+    }
+
+
+    public OleNoticeBo setLocationInforamtion(OleNoticeBo oleNoticeBo,String itemFullLocation){
+        Map<String, String> locationMap = getCircDeskLocationResolver().getLocationMap(itemFullLocation);
+        oleNoticeBo.setItemInstitution(getLocationName(locationMap.get(OLEConstants.ITEM_INSTITUTION)));
+        oleNoticeBo.setItemCampus(getLocationName(locationMap.get(OLEConstants.ITEM_CAMPUS)));
+        oleNoticeBo.setItemCollection(getLocationName(locationMap.get(OLEConstants.ITEM_COLLECTION)));
+        oleNoticeBo.setItemLibrary(getLocationName(locationMap.get(OLEConstants.ITEM_LIBRARY)));
+        oleNoticeBo.setItemLocation(getLocationName(locationMap.get(OLEConstants.ITEM_SHELVING)));
+        oleNoticeBo.setItemShelvingLocation(getLocationName(locationMap.get(OLEConstants.ITEM_SHELVING)));
+        return oleNoticeBo;
     }
 }
