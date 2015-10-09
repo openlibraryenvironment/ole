@@ -60,6 +60,15 @@ function removeInstance() {
 }
 
 jq(document).ready(function () {
+
+    jq("#publisherSuggest_control").blur(function(){
+        jq("#refreshPublisher").focus().click();
+    })
+
+    jq("#vendorSuggest_control").blur(function(){
+        jq("#refreshVendor").focus().click();
+    })
+
     jq("input:text").live("click", function () {
         if (jq(this).attr("id") == undefined) {
             if (jq(this).parent().parent().attr("class") == "dataTables_filter") {

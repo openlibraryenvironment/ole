@@ -29,6 +29,11 @@
                 <bean parent="Uif-HorizontalBoxSection" p:style="float:left;margin-left:30em">
                     <property name="items">
                         <list>
+                            <bean id="refreshVendor" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="refreshVendor" p:actionLabel="Save" p:performClientSideValidation="false"
+                                  p:render="true" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" p:hidden="true"/>
+
+                            <bean id="refreshPublisher" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="refreshPublisher" p:actionLabel="Save" p:performClientSideValidation="false"
+                                  p:render="true" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" p:hidden="true"/>
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
                             <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="Send Adhoc"
@@ -119,7 +124,7 @@
                                     <list>
                                         <bean parent="Uif-LinkField"  p:target="_blank"  p:label=" "
                                               p:render="@{document.documentHeader.workflowDocument.final}"/>
-                                        <bean parent="Uif-InputField"
+                                        <bean id="publisherSuggest" parent="Uif-InputField"
                                               p:propertyName="publisher"
                                               p:label=" "
 
@@ -139,6 +144,7 @@
                                                 </bean>
                                             </property>
                                         </bean>
+                                        <bean id="publisherUrl" parent="Uif-LinkField" p:linkText="@{document.publisher}" p:target="_blank" p:href="@{document.publisherLink}" p:label=""/>
                                     </list>
                                 </property>
                             </bean>
@@ -160,7 +166,7 @@
                                     <list>
                                         <bean parent="Uif-LinkField" p:linkText="@{document.vendorName}" p:target="_blank" p:href="@{document.vendorLink}" p:label=" "
                                               p:render="@{document.documentHeader.workflowDocument.final}"/>
-                                        <bean parent="Uif-InputField"
+                                        <bean id="vendorSuggest" parent="Uif-InputField"
                                               p:propertyName="vendorName"
                                               p:label=" "
                                               p:instructionalText="Type * for all vendors, other letters for matching vendors"
@@ -180,6 +186,7 @@
                                                 </bean>
                                             </property>
                                         </bean>
+                                        <bean id="vendorUrl" parent="Uif-LinkField" p:linkText="@{document.vendorName}" p:target="_blank" p:href="@{document.vendorLink}" p:label=""/>
                                     </list>
                                 </property>
                             </bean>

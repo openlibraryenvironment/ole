@@ -238,6 +238,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private Integer singlePaltformId;
     private String workflowStatus;
 
+    private String publisherLink;
 
     public String getWorkflowStatus() {
         return workflowStatus;
@@ -638,16 +639,6 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     }
 
     public String getPublisher() {
-        if (StringUtils.isNotBlank(publisherId)) {
-            String[] publisherDetails = publisherId.split("-");
-            Map vendorMap = new HashMap<>();
-            vendorMap.put(OLEConstants.OLEEResourceRecord.VENDOR_HEADER_GEN_ID, publisherDetails.length > 0 ? Integer.parseInt(publisherDetails[0]) : 0);
-            vendorMap.put(OLEConstants.OLEEResourceRecord.VENDOR_DETAILED_ASSIGNED_ID, publisherDetails.length > 1 ? Integer.parseInt(publisherDetails[1]) : 0);
-            VendorDetail vendorDetailDoc = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorDetail.class, vendorMap);
-            if (vendorDetailDoc != null) {
-                return vendorDetailDoc.getVendorName();
-            }
-        }
         return publisher;
     }
 
@@ -2011,5 +2002,22 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
 
     public void setOldTitle(String oldTitle) {
         this.oldTitle = oldTitle;
+    }
+
+    public String getPublisherLink() {
+        if (StringUtils.isNotBlank(this.getPublisherId())){
+            String[] vendorDetails = this.getPublisherId().split("-");
+            Integer vendorHeaderGeneratedIdentifier = vendorDetails.length > 0 ? Integer.parseInt(vendorDetails[0]) : 0;
+            Integer vendorDetailAssignedIdentifier = vendorDetails.length > 1 ? Integer.parseInt(vendorDetails[1]) : 0;
+            String oleurl = ConfigContext.getCurrentContextConfig().getProperty("ole.url");
+            String url = oleurl + "/kr/inquiry.do?methodToCall=start&amp;businessObjectClassName=org.kuali.ole.vnd.businessobject.VendorDetail&amp;vendorHeaderGeneratedIdentifier=" + vendorHeaderGeneratedIdentifier + "&amp;vendorDetailAssignedIdentifier="
+                    + vendorDetailAssignedIdentifier;
+            return url;
+        }
+        return publisherLink;
+    }
+
+    public void setPublisherLink(String publisherLink) {
+        this.publisherLink = publisherLink;
     }
 }

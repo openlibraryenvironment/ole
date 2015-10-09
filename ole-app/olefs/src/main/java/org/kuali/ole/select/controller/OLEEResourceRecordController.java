@@ -31,6 +31,7 @@ import org.kuali.ole.select.service.impl.OLEAccessActivationServiceImpl;
 import org.kuali.ole.service.*;
 import org.kuali.ole.service.impl.OLEEResourceSearchServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
@@ -3116,6 +3117,58 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             oleeResourceSearchService.getPOInvoiceForERS(oleeResourceRecordDocument);
         }
         return super.navigate(oleEResourceRecordForm, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=refreshVendor")
+    public ModelAndView refreshVendor(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
+        if(oleeResourceRecordDocument!=null && oleeResourceRecordDocument.getVendorName()!=null){
+        String vendorName = oleeResourceRecordDocument.getVendorName();
+        Map<String,String> vendorDetailMap = new HashMap<String,String>();
+        vendorDetailMap.put("vendorName",vendorName);
+        List<VendorDetail> vendorDetails = (List<VendorDetail>)getBusinessObjectService().findMatching(VendorDetail.class,vendorDetailMap);
+        if(vendorDetails.size()>0){
+            oleeResourceRecordDocument.setVendorId(vendorDetails.get(0).getVendorNumber());
+        }else{
+            oleeResourceRecordDocument.setVendorId(null);
+            oleeResourceRecordDocument.setVendorName(null);
+            oleeResourceRecordDocument.setVendorLink(null);
+        }
+
+        }else{
+            oleeResourceRecordDocument.setVendorId(null);
+            oleeResourceRecordDocument.setVendorName(null);
+            oleeResourceRecordDocument.setVendorLink(null);
+        }
+
+        return super.refresh(form, result, request, response);
+    }
+
+
+    @RequestMapping(params = "methodToCall=refreshPublisher")
+    public ModelAndView refreshPublisher(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
+        if(oleeResourceRecordDocument!=null && oleeResourceRecordDocument.getPublisher()!=null){
+            String vendorName = oleeResourceRecordDocument.getPublisher();
+            Map<String,String> vendorDetailMap = new HashMap<String,String>();
+            vendorDetailMap.put("vendorName",vendorName);
+            List<VendorDetail> vendorDetails = (List<VendorDetail>)getBusinessObjectService().findMatching(VendorDetail.class,vendorDetailMap);
+            if(vendorDetails.size()>0){
+                oleeResourceRecordDocument.setPublisherId(vendorDetails.get(0).getVendorNumber());
+            }else{oleeResourceRecordDocument.setPublisherId(null);
+            oleeResourceRecordDocument.setPublisher(null);
+            oleeResourceRecordDocument.setPublisherLink(null);
+        }}else{oleeResourceRecordDocument.setPublisherId(null);
+            oleeResourceRecordDocument.setPublisher(null);
+            oleeResourceRecordDocument.setPublisherLink(null);
+        }
+        return super.refresh(form, result, request, response);
     }
 }
 
