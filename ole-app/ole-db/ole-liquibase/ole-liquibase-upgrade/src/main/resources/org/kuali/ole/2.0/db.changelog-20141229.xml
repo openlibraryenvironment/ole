@@ -5581,4 +5581,8 @@
         </addColumn>
 
     </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRF_T_DT_TO_IMPRT">
+        <sql>UPDATE OLE_BAT_PRCS_PRF_T SET BAT_PRCS_PRF_DT_TO_IMPRT='Bibliographic, Holdings, and Item Data' WHERE BAT_PRCS_PRF_ID='3'</sql>
+    </changeSet>
 </databaseChangeLog>
