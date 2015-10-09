@@ -639,6 +639,18 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     }
 
     public String getPublisher() {
+        if (publisher==null && StringUtils.isNotBlank(publisherId)) {
+            String[] publisherDetails = publisherId.split("-");
+            Map vendorMap = new HashMap<>();
+            int vendorHeaderGeneratedIdentifier = publisherDetails.length > 0 ? Integer.parseInt(publisherDetails[0]) : 0;
+            int vendorDetailAssignedIdentifier = publisherDetails.length > 1 ? Integer.parseInt(publisherDetails[1]) : 0;
+            vendorMap.put(OLEConstants.OLEEResourceRecord.VENDOR_HEADER_GEN_ID, vendorHeaderGeneratedIdentifier);
+            vendorMap.put(OLEConstants.OLEEResourceRecord.VENDOR_DETAILED_ASSIGNED_ID, vendorDetailAssignedIdentifier);
+            VendorDetail vendorDetailDoc = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorDetail.class, vendorMap);
+            if (vendorDetailDoc != null) {
+                return vendorDetailDoc.getVendorName();
+            }
+        }
         return publisher;
     }
 
