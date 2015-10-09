@@ -73,6 +73,10 @@ public class ItemInfoUtil extends OLEUtil {
         determineOperatorCircLocAndCheckingIsTheSame(oleItemRecordForCirc);
         determineifLocationMappedToCircDesk(oleItemRecordForCirc);
 
+        if(null != requestBO && StringUtils.isNotBlank(requestBO.getPickUpLocationCode())){
+            oleItemRecordForCirc.setRouteToLocation(requestBO.getPickUpLocationCode());
+        }
+
         return oleItemRecordForCirc;
     }
 

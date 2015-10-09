@@ -182,6 +182,9 @@ public class CheckinItemController extends OLEUifControllerBase {
                 processCheckinAfterPreValidation(itemRecord, checkinForm, oleLoanDocument);
         if (null != droolsResponse && StringUtils.isBlank(droolsResponse.getErrorMessage().getErrorMessage())) {
             postCheckinProcess(checkinForm, result, request, response);
+        }else {
+            checkinForm.setErrorMessage(droolsResponse.getErrorMessage());
+            showDialog("checkinGeneralInfoMessageDialog", checkinForm, request, response);
         }
         return getUIFModelAndView(checkinForm);
     }

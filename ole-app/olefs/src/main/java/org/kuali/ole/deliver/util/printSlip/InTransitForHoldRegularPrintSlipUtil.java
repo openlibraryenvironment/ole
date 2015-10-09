@@ -25,7 +25,7 @@ public class InTransitForHoldRegularPrintSlipUtil extends OleRegularPrintSlipUti
     @Override
     protected void populateBody(PdfPTable pdfTable) {
         OleDeliverRequestBo oleDeliverRequestBo = getOleItemRecordForCirc().getOleDeliverRequestBo();
-        String routeTo = oleDeliverRequestBo != null ? (oleDeliverRequestBo.getOlePickUpLocation().getCirculationDeskCode()) : null;
+        String routeTo = getOleItemRecordForCirc().getRouteToLocation();
         String requestedBy = oleDeliverRequestBo != null ? (oleDeliverRequestBo.getOlePatron().getPatronName()) : null;
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInJustified("Route To"));
         pdfTable.addCell(getPdfFormatUtil().getPdfPCellInLeft(":"));

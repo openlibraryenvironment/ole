@@ -854,6 +854,8 @@
         <field-descriptor name="itemStatusId" column="ITEM_AVAIL_STAT_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_ITEM_AVAIL_STAT_S"/>
         <field-descriptor name="code" column="ITEM_AVAIL_STAT_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="name" column="ITEM_AVAIL_STAT_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     </class-descriptor>
 
     <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HighDensityStorageRecord" table="OLE_DS_HIGH_DENSITY_STORAGE_T">
