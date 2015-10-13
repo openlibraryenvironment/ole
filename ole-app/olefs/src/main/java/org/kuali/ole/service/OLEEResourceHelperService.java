@@ -267,6 +267,12 @@ public class OLEEResourceHelperService {
             return;
         }
         OLEEResourceInstance oleeResourceInstance = new OLEEResourceInstance();
+        Map ids = new HashMap();
+        ids.put("instanceId", holdings.getId());
+        List<OLEEResourceInstance> oleeResourceInstances = (List<OLEEResourceInstance>) getBusinessObjectService().findMatching(OLEEResourceInstance.class, ids);
+        for (OLEEResourceInstance existingOleeResourceInstance : oleeResourceInstances) {
+            oleeResourceInstance = existingOleeResourceInstance;
+        }
         oleeResourceInstance.setInstanceTitle(holdings.getBib().getTitle());
         oleeResourceInstance.setOleERSIdentifier(eResourceIdentifier);
         oleeResourceSearchService.getHoldingsField(oleeResourceInstance, oleHoldings);
