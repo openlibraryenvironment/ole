@@ -1237,6 +1237,7 @@ public class BatchBibImportHelper {
             eHoldings.setField(EHoldings.DESTINATION_FIELD_PLATFORM, olePlatformRecordDocuments.get(0).getOlePlatformId());
         }
         else {
+            bibImportStatistics.setNoOfEHoldingsCreatedWithOutPlatfom(1 + bibImportStatistics.getNoOfEHoldingsCreatedWithOutPlatfom());
             //if platform name  doesnt exists in OLE, set operation to NONE
             if(olePlatformRecordDocuments != null && olePlatformRecordDocuments.size() > 1) {
                 setErrorMessage(eHoldings, OLEConstants.ERROR_MESSAGE_MORE_THAN_ONE_PLATFORM);
@@ -1255,6 +1256,7 @@ public class BatchBibImportHelper {
             eHoldings.setField(EHoldings.DESTINATION_FIELD_ERESOURCE_ID, oleeResourceRecordDocuments.get(0).getOleERSIdentifier());
         }
         else {
+            bibImportStatistics.setNoOfEHoldingsCreatedWithOutEResource(1 + bibImportStatistics.getNoOfEHoldingsCreatedWithOutEResource());
             //if eResource name  doesnt exists in OLE, set operation to NONE
             if(oleeResourceRecordDocuments != null && oleeResourceRecordDocuments.size() > 1) {
                 setErrorMessage(eHoldings, OLEConstants.ERROR_MESSAGE_MORE_THAN_ONE_ERESOURCE);
@@ -1299,12 +1301,14 @@ public class BatchBibImportHelper {
             if (BatchBibImportUtil.getBibDataFieldValue(bibRecord, matchPoint.getMatchPoint()) == null) {
                 continue;
             }
-
             fieldValue = BatchBibImportUtil.getBibDataFieldValue(bibRecord, matchPoint.getMatchPoint());
+            String cascadingMatchPoint = matchPoint.getCascadingMatchPoint();
+            if (cascadingMatchPoint != null &&  cascadingMatchPoint.contains("*")) {
+                fieldValue = cascadingMatchPoint.replace("*", fieldValue);
+            }
             if (StringUtils.isNotBlank(fieldValue)) {
                 addSearchCondition(fieldValue, searchParams, matchPoint);
             }
-
         }
 
         if (fieldValue == null) {

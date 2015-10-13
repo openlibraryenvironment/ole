@@ -5583,6 +5583,33 @@
     </changeSet>
 
     <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRF_T_DT_TO_IMPRT">
-        <sql>UPDATE OLE_BAT_PRCS_PRF_T SET BAT_PRCS_PRF_DT_TO_IMPRT='Bibliographic, Holdings, and Item Data' WHERE BAT_PRCS_PRF_ID='3'</sql>
+        <sql>UPDATE OLE_BAT_PRCS_PRF_T SET BAT_PRCS_PRF_DT_TO_IMPRT='Bibliographic, Holdings, and Item Data' WHERE BAT_PRCS_PRF_ID='3'</sql>    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_JOB_ADD">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_BAT_PRCS_JOB_T">
+            <column name="NUM_EINSTANCES_WITH_NO_PLATFORM"   type="INTEGER"/>
+            <column name="NUM_EINSTANCES_WITH_NO_ERESOURCE"   type="INTEGER"/>
+        </addColumn>
     </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRF_MTCH_POINT_ADD">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_BAT_PRCS_PRF_MTCH_POINT_T">
+            <column name="CAS_MATCH_POINT"   type="varchar(40)"/>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet author="ole" id="OLE_E_RES_REC_INS_INDEX">
+        <createIndex catalogName="ole"
+                     indexName="OLE_E_RES_REC_INS_ID"
+                     schemaName="ole"
+                     tableName="OLE_E_RES_REC_INS_T">
+            <column name="INST_ID" type="VARCHAR(50)"/>
+        </createIndex>
+    </changeSet>
+
 </databaseChangeLog>

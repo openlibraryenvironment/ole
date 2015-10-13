@@ -110,6 +110,12 @@
                             <bean id="noOfEinstanceCreatedWithOutLink-popup" parent="Uif-DataField"
                                   p:propertyName="oleBatchProcessJobDetailsBo.noOfEinstanceCreatedWithOutLink"
                                   p:label="E-Holdings Created With Out Link Element"/>
+                            <bean id="noOfEHoldingsCreatedWithOutPlatfom-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.noOfEHoldingsCreatedWithOutPlatfom"
+                                  p:label="E-Holdings Created With Out Platfom"/>
+                            <bean id="noOfEHoldingsCreatedWithOutEResource-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.noOfEHoldingsCreatedWithOutEResource"
+                                  p:label="E-Holdings Created With Out EResource"/>
                             <bean id="noOfbibsHaveMoreThanOneEinstance-popup" parent="Uif-DataField"
                                   p:propertyName="oleBatchProcessJobDetailsBo.noOfbibsHaveMoreThanOneEinstance"
                                   p:label="Bibs Created With More Than One E-Holdings"/>

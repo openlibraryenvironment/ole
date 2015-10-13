@@ -81,6 +81,8 @@ public class OLEBatchProcessJobDetailsBo extends TransactionalDocumentBase {
     private Integer noOfEinstanceCreatedWithOutLink;
     private Integer noOfbibsHaveMoreThanOneEinstance;
     private boolean bibsDeletedForExportFlag;
+    private int noOfEHoldingsCreatedWithOutPlatfom =0;
+    private int noOfEHoldingsCreatedWithOutEResource =0;
 
     private OLEBatchProcessScheduleBo oleBatchProcessScheduleBo;
     private List<OLEBatchProcessScheduleBo> oleBatchProcessScheduleBoList;
@@ -197,6 +199,22 @@ public class OLEBatchProcessJobDetailsBo extends TransactionalDocumentBase {
 
     public void setFailureAttachmentFlag(boolean failureAttachmentFlag) {
         this.failureAttachmentFlag = failureAttachmentFlag;
+    }
+
+    public int getNoOfEHoldingsCreatedWithOutEResource() {
+        return noOfEHoldingsCreatedWithOutEResource;
+    }
+
+    public void setNoOfEHoldingsCreatedWithOutEResource(int noOfEHoldingsCreatedWithOutEResource) {
+        this.noOfEHoldingsCreatedWithOutEResource = noOfEHoldingsCreatedWithOutEResource;
+    }
+
+    public int getNoOfEHoldingsCreatedWithOutPlatfom() {
+        return noOfEHoldingsCreatedWithOutPlatfom;
+    }
+
+    public void setNoOfEHoldingsCreatedWithOutPlatfom(int noOfEHoldingsCreatedWithOutPlatfom) {
+        this.noOfEHoldingsCreatedWithOutPlatfom = noOfEHoldingsCreatedWithOutPlatfom;
     }
 
     public boolean isFailureCSVAttachmentFlag() {
@@ -637,6 +655,8 @@ public class OLEBatchProcessJobDetailsBo extends TransactionalDocumentBase {
         setNoOfEinstanceDeleted(bibImportStatistics.getNoOfEinstanceDeleted());
         setNoOfEinstanceCreatedWithOutLink(bibImportStatistics.getNoOfEinstanceCreatedWithOutLink());
         setNoOfbibsHaveMoreThanOneEinstance(bibImportStatistics.getNoOfbibsHaveMoreThanOneEinstance());
+        setNoOfEHoldingsCreatedWithOutPlatfom(bibImportStatistics.getNoOfEHoldingsCreatedWithOutPlatfom());
+        setNoOfEHoldingsCreatedWithOutEResource(bibImportStatistics.getNoOfEHoldingsCreatedWithOutEResource());
 
     }
     
@@ -650,6 +670,8 @@ public class OLEBatchProcessJobDetailsBo extends TransactionalDocumentBase {
        setNoOfEinstanceCreatedWithOutLink(0);
        setNoOfbibsHaveMoreThanOneEinstance(0);
        setTotalNoOfRecords(bibImportStatistics.getBibMarcRecordList().size()+"");
+        setNoOfEHoldingsCreatedWithOutPlatfom(0);
+        setNoOfEHoldingsCreatedWithOutEResource(0);
     }
 
 }

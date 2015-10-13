@@ -139,6 +139,7 @@
     <class-descriptor class="org.kuali.ole.batch.bo.OLEBatchProcessProfileMatchPoint" table="OLE_BAT_PRCS_PRF_MTCH_POINT_T">
         <field-descriptor name="matchPointId" column="MATCH_POINT_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_BAT_PRCS_PRF_MTCH_POINT_S" />
         <field-descriptor name="matchPoint" column="MATCH_POINT" jdbc-type="VARCHAR" />
+        <field-descriptor name="cascadingMatchPoint" column="CAS_MATCH_POINT" jdbc-type="VARCHAR" />
         <field-descriptor name="matchPointType" column="MATCH_POINT_TYPE" jdbc-type="VARCHAR" />
         <field-descriptor name="batchProcessProfileId" column="BAT_PRCS_PRF_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -375,6 +376,9 @@
         <field-descriptor name="noOfEinstanceDeleted" column="NUM_EINSTANCES_DELETED" jdbc-type="INTEGER" />
         <field-descriptor name="noOfEinstanceCreatedWithOutLink" column="NUM_EINSTANCES_WITH_NO_LINK" jdbc-type="INTEGER" />
         <field-descriptor name="noOfbibsHaveMoreThanOneEinstance" column="NUM_BIBS_GT1_EINSTANCES" jdbc-type="INTEGER" />
+        <field-descriptor name="noOfEHoldingsCreatedWithOutPlatfom" column="NUM_EINSTANCES_WITH_NO_PLATFORM" jdbc-type="INTEGER" />
+        <field-descriptor name="noOfEHoldingsCreatedWithOutEResource" column="NUM_EINSTANCES_WITH_NO_ERESOURCE" jdbc-type="INTEGER" />
+
         <!--<collection-descriptor name="oleBatchProcessScheduleBoList" element-class-ref="org.kuali.ole.batch.bo.OLEBatchProcessScheduleBo"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
                                auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">

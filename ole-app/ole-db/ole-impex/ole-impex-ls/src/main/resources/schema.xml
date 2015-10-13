@@ -1301,6 +1301,9 @@
         <index name="OLE_E_RES_REC_INS_FK">
             <index-column name="E_RES_REC_ID"/>
         </index>
+        <index name="OLE_E_RES_REC_INS_ID">
+            <index-column name="INST_ID"/>
+        </index>
     </table>
 
     <table name="OLE_E_RES_REC_INV_T">
@@ -2461,6 +2464,8 @@
         <column name="NUM_EINSTANCES_DELETED" size="20" type="INTEGER"/>
         <column name="NUM_EINSTANCES_WITH_NO_LINK" size="20" type="INTEGER"/>
         <column name="NUM_BIBS_GT1_EINSTANCES" size="20" type="INTEGER"/>
+        <column name="NUM_EINSTANCES_WITH_NO_PLATFORM" size="20" type="INTEGER" />
+        <column name="NUM_EINSTANCES_WITH_NO_ERESOURCE"  size="20" type="INTEGER" />
 
         <foreign-key foreignTable="OLE_BAT_PRCS_T" name="PRCS_FK_CONSTRAINT">
             <reference foreign="BAT_PRCS_ID" local="BAT_PRCS_ID"/>

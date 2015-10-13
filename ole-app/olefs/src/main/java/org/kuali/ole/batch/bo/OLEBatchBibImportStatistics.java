@@ -25,6 +25,8 @@ public class OLEBatchBibImportStatistics {
     private int noOfEinstanceDeleted = 0;
     private int noOfEinstanceCreatedWithOutLink = 0;
     private int noOfbibsHaveMoreThanOneEinstance = 0;
+    private int noOfEHoldingsCreatedWithOutPlatfom =0;
+    private int noOfEHoldingsCreatedWithOutEResource =0;
     private StringBuffer misMatchMarcRecords = new StringBuffer("");
     private List<BibMarcRecord> mismatchRecordList = new ArrayList<BibMarcRecord>();
     private List<BibMarcRecord> recordsCreatedWithOutLink = new ArrayList<BibMarcRecord>();
@@ -221,6 +223,22 @@ public class OLEBatchBibImportStatistics {
 
     public void setErrorBuilder(StringBuilder errorBuilder) {
         this.errorBuilder = errorBuilder;
+    }
+
+    public int getNoOfEHoldingsCreatedWithOutPlatfom() {
+        return noOfEHoldingsCreatedWithOutPlatfom;
+    }
+
+    public void setNoOfEHoldingsCreatedWithOutPlatfom(int noOfEHoldingsCreatedWithOutPlatfom) {
+        this.noOfEHoldingsCreatedWithOutPlatfom = noOfEHoldingsCreatedWithOutPlatfom;
+    }
+
+    public int getNoOfEHoldingsCreatedWithOutEResource() {
+        return noOfEHoldingsCreatedWithOutEResource;
+    }
+
+    public void setNoOfEHoldingsCreatedWithOutEResource(int noOfEHoldingsCreatedWithOutEResource) {
+        this.noOfEHoldingsCreatedWithOutEResource = noOfEHoldingsCreatedWithOutEResource;
     }
 
     @Override

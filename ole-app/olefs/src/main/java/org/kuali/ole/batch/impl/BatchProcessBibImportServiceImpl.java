@@ -808,10 +808,27 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
 
     private void setErrorMessage(List<BibMarcRecord> bibMarcRecords, OLEBatchBibImportStatistics oleBatchbibImportStatistics, int recordNumber, String failureMessage) {
         if (StringUtils.isNotEmpty(failureMessage)) {
-            oleBatchbibImportStatistics.getMismatchRecordList().add(bibMarcRecords.get(recordNumber));
-            oleBatchbibImportStatistics.getErrorBuilder().append("Record #" + ++recordNumber).append(" : ");
+            BibMarcRecord bibMarcRecord = bibMarcRecords.get(recordNumber);
+            oleBatchbibImportStatistics.getMismatchRecordList().add(bibMarcRecord);
+            oleBatchbibImportStatistics.getErrorBuilder().append("Record #" + ++recordNumber).append(" :  For Title - " + getTitle(bibMarcRecord) +"  -  ");
             oleBatchbibImportStatistics.getErrorBuilder().append(failureMessage).append(System.lineSeparator());
         }
+    }
+
+    private String getTitle(BibMarcRecord bibMarcRecord) {
+        String title = null;
+        for (DataField dataField : bibMarcRecord.getDataFields()) {
+            if (dataField.getTag().equals("245")) {
+                for (SubField subfield : dataField.getSubFields()) {
+                    if (subfield.getCode().equalsIgnoreCase("a")) {
+                        title = subfield.getValue();
+                        break;
+                    }
+                }
+
+            }
+        }
+        return title;
     }
 
     @Override
