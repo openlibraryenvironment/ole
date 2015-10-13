@@ -2491,6 +2491,10 @@ CREATE TABLE OLE_E_RES_REC_INS_T
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
                                     
 , INDEX OLE_E_RES_REC_INS_FK (E_RES_REC_ID )
+    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                    
+, INDEX OLE_E_RES_REC_INS_ID (INST_ID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
@@ -4594,6 +4598,8 @@ CREATE TABLE OLE_BAT_PRCS_JOB_T
         , NUM_EINSTANCES_DELETED INTEGER(20)
         , NUM_EINSTANCES_WITH_NO_LINK INTEGER(20)
         , NUM_BIBS_GT1_EINSTANCES INTEGER(20)
+        , NUM_EINSTANCES_WITH_NO_PLATFORM INTEGER(20)
+        , NUM_EINSTANCES_WITH_NO_ERESOURCE INTEGER(20)
     
     , CONSTRAINT OLE_BAT_PRCS_JOB_TP1 PRIMARY KEY(JOB_ID)
 
@@ -4602,7 +4608,7 @@ CREATE TABLE OLE_BAT_PRCS_JOB_T
 
 
     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                                     
 , INDEX PRCS_FK_CONSTRAINT (BAT_PRCS_ID )
 
