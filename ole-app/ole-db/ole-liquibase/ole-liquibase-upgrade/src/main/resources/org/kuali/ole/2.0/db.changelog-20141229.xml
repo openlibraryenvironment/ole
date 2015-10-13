@@ -5589,8 +5589,8 @@
         <addColumn catalogName="ole"
                    schemaName="ole"
                    tableName="OLE_BAT_PRCS_JOB_T">
-            <column name="NUM_EINSTANCES_WITH_NO_PLATFORM"   type="INTEGER"/>
-            <column name="NUM_EINSTANCES_WITH_NO_ERESOURCE"   type="INTEGER"/>
+            <column name="NUM_EHOL_WITH_NO_PLAT"   type="INTEGER"/>
+            <column name="NUM_EHOL_WITH_NO_ERES"   type="INTEGER"/>
         </addColumn>
     </changeSet>
 
