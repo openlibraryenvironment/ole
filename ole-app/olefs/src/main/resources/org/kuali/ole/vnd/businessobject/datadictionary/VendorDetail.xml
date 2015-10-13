@@ -1145,6 +1145,7 @@
 				<bean parent="FieldDefinition" p:attributeName="vendorZipCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorContactName" />
 				<bean parent="FieldDefinition" p:attributeName="vendorAddressInternationalProvinceName" />
+                <bean parent="FieldDefinition" p:attributeName="title" />
 				<bean parent="FieldDefinition" p:attributeName="vendorContactEmailAddress" />
 				<bean parent="FieldDefinition" p:attributeName="vendorCountryCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorLine1Address" />
