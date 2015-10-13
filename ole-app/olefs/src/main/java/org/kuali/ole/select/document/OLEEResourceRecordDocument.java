@@ -176,7 +176,6 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private List<OleCopy> copyList = new ArrayList<>();
     private List<OLEEResourcePO> oleERSPOItems = new ArrayList<>();
     private List<OLEEResourcePO> linkedERSPOItems = new ArrayList<>();
-    private List<OLEEResourcePO> eRSPOItems = new ArrayList<>();
     private List<OLEEResourceAccountingLine> accountingLines = new ArrayList<>();
     private OLEEResourceRecordForm form;
     private String status=null;
@@ -1265,14 +1264,6 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
         this.eRSInvoices = eRSInvoices;
     }
 
-    public List<OLEEResourcePO> geteRSPOItems() {
-        return eRSPOItems;
-    }
-
-    public void seteRSPOItems(List<OLEEResourcePO> eRSPOItems) {
-        this.eRSPOItems = eRSPOItems;
-    }
-
     public List<OLEEResourceAccountingLine> getAccountingLines() {
         return accountingLines;
     }
@@ -1578,7 +1569,6 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
         getOleEResourceSearchService().getDefaultCovergeDate(this);
         getOleEResourceSearchService().getDefaultPerpetualAccessDate(this);
         getOleEResourceSearchService().getBannerMessage(this);
-        getOleeResourceHelperService().updateVendorInfo(this);
         getOleEResourceSearchService().updatePlatformProvider(this);
         getOleeResourceHelperService().setAccessInfo(this);
 

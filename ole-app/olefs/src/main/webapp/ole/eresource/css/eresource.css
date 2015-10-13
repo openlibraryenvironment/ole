@@ -312,3 +312,23 @@ div#EResourceInstance_ManageGoKbPopup{
     -moz-border-radius: 3px;
     overflow-y:scroll
 }
+
+.InactiveVendorForHiperLink A:Visited {
+    font-weight: normal;
+    color: red;
+    font-style: italic;
+    background:yellow;
+}
+
+.InactiveVendorForHiperLink A:link {
+    font-weight: normal;
+    color: red;
+    font-style: italic;
+}
+
+.InactiveVendorForHiperLink A:active {
+    font-weight: normal;
+    color: red;
+    font-style: italic;
+    background:yellow;
+}

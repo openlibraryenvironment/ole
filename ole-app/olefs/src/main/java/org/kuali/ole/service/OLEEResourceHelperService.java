@@ -1,5 +1,6 @@
 package org.kuali.ole.service;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
@@ -140,97 +141,77 @@ public class OLEEResourceHelperService {
      */
     public void updateVendorInfo(OLEEResourceRecordDocument oleeResourceRecordDocument) {
 
-        List<OLEEResourceContacts> oleeResourceContactses = new ArrayList<>();
-        Map<String, VendorDetail> vendorDetailMap = new HashMap<>();
+        List<OLEEResourceContacts> oleEResourceContactsList = new ArrayList<>();
+        Set<VendorDetail> vendorDetails = new HashSet<>();
+        Set<String> vendorNumbers = new HashSet<>();
 
         //current vendor of the eResource
-        addVendorDetail(vendorDetailMap, oleeResourceRecordDocument.getVendorId());
-
-        //put the vendors in the vendor map for each po item
-        List<OLEEResourcePO> oleeResourceItemPOs = oleeResourceRecordDocument.geteRSPOItems();
-
-        addPOItemVendors(vendorDetailMap, oleeResourceItemPOs);
-
-        //put the vendors in the vendor map for each po eResource
-        List<OLEEResourcePO> oleeResourcePOs = oleeResourceRecordDocument.getOleERSPOItems();
-
-        addPOItemVendors(vendorDetailMap, oleeResourcePOs);
-
-        //put the vendors in the vendor map for each invoice
-        List<OLEEResourceInvoices> oleERSInvoices = oleeResourceRecordDocument.getOleERSInvoices();
-
-        addInvoiceVendors(vendorDetailMap, oleERSInvoices);
+        vendorNumbers.add(oleeResourceRecordDocument.getVendorId());
 
         //put the vendors in vendor map for child eresources
         List<OLELinkedEresource> oleLinkedEresources = oleeResourceRecordDocument.getOleLinkedEresources();
-
-        addChildEResources(vendorDetailMap, oleLinkedEresources);
-
-
-        //Iterate the map and populate the values in the List<OLEEResourceContacts>
-        Set<String> vendorNumbers = vendorDetailMap.keySet();
-
-        for (String vendorNumber : vendorNumbers) {
-
-            VendorDetail vendorDetail1 = vendorDetailMap.get(vendorNumber);
-
-            StringBuffer vendorNotes = new StringBuffer();
-            //TODO : add the notes, role, format to OLEEResourceContacts
-            for (VendorContact vendorContact : vendorDetail1.getVendorContacts()) {
-                OLEEResourceContacts oleeResourceContacts = new OLEEResourceContacts();
-                List<OLEPhoneNumber> olePhoneNumberList = new ArrayList<>();
-                oleeResourceContacts.setOlePhoneNumbers(olePhoneNumberList);
-                if (StringUtils.isNotBlank(vendorContact.getVendorLine2Address())) {
-                    oleeResourceContacts.setContact(vendorContact.getVendorLine1Address() + "-" + vendorContact.getVendorLine2Address());
-                } else {
-                    oleeResourceContacts.setContact(vendorContact.getVendorLine1Address());
-                }
-                oleeResourceContacts.setEmail(vendorContact.getVendorContactEmailAddress());
-                oleeResourceContacts.setOrganization(vendorContact.getVendorDetail().getVendorName());
-//                oleeResourceContacts.setFormat();
-//                oleeResourceContacts.setRole();
-                oleeResourceContacts.setVendorHeaderGeneratedIdentifier(vendorContact.getVendorHeaderGeneratedIdentifier());
-                oleeResourceContacts.setVendorDetailAssignedIdentifier(vendorContact.getVendorDetailAssignedIdentifier());
-
-                for (VendorContactPhoneNumber vendorContactPhoneNumber : vendorContact.getVendorContactPhoneNumbers()) {
-                    OLEPhoneNumber olePhoneNumber = new OLEPhoneNumber();
-                    olePhoneNumber.setPhoneNumber(vendorContactPhoneNumber.getVendorPhoneNumber());
-                    olePhoneNumber.setPhoneNumberType(vendorContactPhoneNumber.getVendorPhoneType().getVendorPhoneTypeDescription());
-                    olePhoneNumberList.add(olePhoneNumber);
-                }
-                if (oleeResourceContacts.getOlePhoneNumbers() != null && oleeResourceContacts.getOlePhoneNumbers().size() > 0) {
-                    oleeResourceContacts.setPhone(oleeResourceContacts.getOlePhoneNumbers().get(0).getPhoneNumber());
-                }
-
-                if (oleeResourceContacts.getOlePhoneNumbers() != null && oleeResourceContacts.getOlePhoneNumbers().size() > 1) {
-                    oleeResourceContacts.setHasMorePhoneNo(true);
-                }
-                oleeResourceContacts.setOleERSIdentifier(oleeResourceRecordDocument.getOleERSIdentifier());
-                if (vendorDetail1.isActiveIndicator()) {
-                    oleeResourceContactses.add(oleeResourceContacts);
-                }
-
-            }
-
-        }
-        oleeResourceRecordDocument.setOleERSContacts(oleeResourceContactses);
-    }
-
-    private void addVendorDetail(Map<String, VendorDetail> vendorDetailMap, String vendorId) {
-        VendorDetail vendorDetail = getVendorService().getByVendorNumber(vendorId);
-
-        if (vendorDetail == null) {
-            return;
-        }
-        vendorDetailMap.put(vendorDetail.getVendorNumber(), vendorDetail);
-    }
-
-    private void addChildEResources(Map<String, VendorDetail> vendorDetailMap, List<OLELinkedEresource> oleLinkedEresources) {
         for (OLELinkedEresource oleLinkedEresource : oleLinkedEresources) {
             if (oleLinkedEresource.getRelationShipType() != null && oleLinkedEresource.getRelationShipType().equals("child")) {
-                addVendorDetail(vendorDetailMap, oleLinkedEresource.getOleeResourceRecordDocument().getVendorId());
+                vendorNumbers.add(oleLinkedEresource.getOleeResourceRecordDocument().getVendorId());
             }
         }
+
+        vendorDetails.addAll(getVendorDetails(vendorNumbers));
+
+        //put the vendors in the vendor map for each po item
+        List<OLEEResourcePO> oleEResourcePOs = oleeResourceRecordDocument.getOleERSPOItems();
+        for (OLEEResourcePO oleeResourcePO : oleEResourcePOs) {
+            vendorDetails.add(oleeResourcePO.getVendorDetail());
+        }
+
+        //put the vendors in the vendor map for each invoice
+        List<OLEEResourceInvoices> oleEResourceInvoiceList = oleeResourceRecordDocument.getOleERSInvoices();
+        for (OLEEResourceInvoices oleeResourceInvoices : oleEResourceInvoiceList) {
+            vendorDetails.add(oleeResourceInvoices.getVendorDetail());
+        }
+
+        for (VendorDetail vendorDetail : vendorDetails) {
+            if (vendorDetail.getVendorContacts() != null) {
+                for (VendorContact vendorContact : vendorDetail.getVendorContacts()) {
+                    if (vendorContact.isActive()) {
+                        OLEEResourceContacts oleEResourceContacts = new OLEEResourceContacts();
+                        if (vendorContact.getVendorDetail() != null) {
+                            oleEResourceContacts.setOrganization(vendorContact.getVendorDetail().getVendorName());
+                        }
+                        oleEResourceContacts.setContact(vendorContact.getVendorContactName());
+                        oleEResourceContacts.setRole(vendorContact.getVendorContactType().getVendorContactTypeDescription());
+                        oleEResourceContacts.setEmail(vendorContact.getVendorContactEmailAddress());
+                        oleEResourceContacts.setFormat(vendorContact.getFormat());
+                        oleEResourceContacts.setNote(vendorContact.getVendorContactCommentText());
+                        oleEResourceContacts.setVendorContactGeneratedIdentifier(vendorContact.getVendorContactGeneratedIdentifier());
+                        oleEResourceContacts.setVendorHeaderGeneratedIdentifier(vendorContact.getVendorHeaderGeneratedIdentifier());
+                        oleEResourceContacts.setVendorDetailAssignedIdentifier(vendorContact.getVendorDetailAssignedIdentifier());
+                        if (CollectionUtils.isNotEmpty(vendorContact.getVendorContactPhoneNumbers())) {
+                            VendorContactPhoneNumber vendorContactPhoneNumber = vendorContact.getVendorContactPhoneNumbers().get(0);
+                            oleEResourceContacts.setPhone(vendorContactPhoneNumber.getVendorPhoneNumber());
+                            if (vendorContact.getVendorContactPhoneNumbers().size()>1){
+                                oleEResourceContacts.setHasMorePhoneNo(true);
+                            }
+                        }
+                        oleEResourceContacts.setOleERSIdentifier(oleeResourceRecordDocument.getOleERSIdentifier());
+                        oleEResourceContacts.setActiveVendor(vendorDetail.isActiveIndicator());
+                        oleEResourceContactsList.add(oleEResourceContacts);
+                    }
+                }
+            }
+        }
+        oleeResourceRecordDocument.setOleERSContacts(oleEResourceContactsList);
+    }
+
+    private Set<VendorDetail> getVendorDetails(Set<String> vendorNumbers) {
+        Set<VendorDetail> vendorDetails = new HashSet<>();
+        for (String vendorId : vendorNumbers) {
+            VendorDetail vendorDetail = getVendorService().getByVendorNumber(vendorId);
+            if (vendorDetail != null) {
+                vendorDetails.add(vendorDetail);
+            }
+        }
+        return vendorDetails;
     }
 
     private void addInvoiceVendors(Map<String, VendorDetail> vendorDetailMap, List<OLEEResourceInvoices> oleERSInvoices) {

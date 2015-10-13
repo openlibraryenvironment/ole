@@ -1614,6 +1614,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                             } else if (currentYear.compareTo(poCreatedYear) > 1) {
                                 oleeResourcePO.setPaidAmountTwoYearsPreviousFY(olePurchaseOrderItem.getItemInvoicedTotalAmount().intValue());
                             }
+                            oleeResourcePO.setVendorDetail(olePurchaseOrderDocument.getVendorDetail());
                             oleeResourcePOs.add(oleeResourcePO);
                         }
                     }
@@ -1659,6 +1660,8 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                         oleEResInvoice.setInvoiceNote(invoiceNotes.toString());
                     }
                 }
+                oleEResInvoice.setVendorDetail(oleInvoiceDocument.getVendorDetail());
+
                 //accounting lines
                 if (oleInvoiceItem.getSourceAccountingLines() != null && oleInvoiceItem.getSourceAccountingLines().size() > 0) {
                     List<OLEEResourceInvoiceAccountingLine> oleeResourceInvoiceAccountingLineList = new ArrayList<>();

@@ -1,7 +1,7 @@
 package org.kuali.ole.select.document;
 
-import org.kuali.ole.select.businessobject.OlePurchaseOrderItem;
 import org.kuali.ole.sys.OLEConstants;
+import org.kuali.ole.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -30,6 +30,7 @@ public class OLEEResourcePO extends PersistableBusinessObjectBase {
     private String purpose;
     private String poItemId;
     private String poStatus;
+    private VendorDetail vendorDetail;
     private OLEEResourceRecordDocument oleERSDocument;
 
     private BusinessObjectService businessObjectService;
@@ -150,6 +151,14 @@ public class OLEEResourcePO extends PersistableBusinessObjectBase {
         this.poStatus = poStatus;
     }
 
+    public VendorDetail getVendorDetail() {
+        return vendorDetail;
+    }
+
+    public void setVendorDetail(VendorDetail vendorDetail) {
+        this.vendorDetail = vendorDetail;
+    }
+
     public OLEEResourceRecordDocument getOleERSDocument() {
         return oleERSDocument;
     }
@@ -157,4 +166,5 @@ public class OLEEResourcePO extends PersistableBusinessObjectBase {
     public void setOleERSDocument(OLEEResourceRecordDocument oleERSDocument) {
         this.oleERSDocument = oleERSDocument;
     }
+
 }

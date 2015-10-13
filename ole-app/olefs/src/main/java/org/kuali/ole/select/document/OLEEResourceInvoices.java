@@ -3,6 +3,7 @@ package org.kuali.ole.select.document;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.select.bo.OLEEResourceInvoiceAccountingLine;
 import org.kuali.ole.sys.OLEConstants;
+import org.kuali.ole.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -37,6 +38,7 @@ public class OLEEResourceInvoices extends PersistableBusinessObjectBase {
     private OLEEResourceRecordDocument oleERSDocument;
     private OLEEResourcePO oleEResPO;
     private String redirectUrl;
+    private VendorDetail vendorDetail;
     private List<OLEEResourceInvoiceAccountingLine> accountingLines = new ArrayList<>();
 
     public String getOleEResInvoiceId() {
@@ -201,5 +203,13 @@ public class OLEEResourceInvoices extends PersistableBusinessObjectBase {
 
     public void setAccountingLines(List<OLEEResourceInvoiceAccountingLine> accountingLines) {
         this.accountingLines = accountingLines;
+    }
+
+    public VendorDetail getVendorDetail() {
+        return vendorDetail;
+    }
+
+    public void setVendorDetail(VendorDetail vendorDetail) {
+        this.vendorDetail = vendorDetail;
     }
 }

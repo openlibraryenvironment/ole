@@ -1,5 +1,6 @@
 package org.kuali.ole.select.controller;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
@@ -31,6 +32,8 @@ import org.kuali.ole.select.service.impl.OLEAccessActivationServiceImpl;
 import org.kuali.ole.service.*;
 import org.kuali.ole.service.impl.OLEEResourceSearchServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.vnd.businessobject.VendorContact;
+import org.kuali.ole.vnd.businessobject.VendorContactPhoneNumber;
 import org.kuali.ole.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -2420,23 +2423,25 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
     public ModelAndView showMultipleContacts(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
-        String eResourceId = request.getParameter("eResourceId");
-        Map map = new HashMap();
-        map.put("oleERSIdentifier", eResourceId);
-        List<OLEEResourceRecordDocument> oleeResourceRecordDocuments = (List<OLEEResourceRecordDocument>) getBusinessObjectService().findMatching(OLEEResourceRecordDocument.class, map);
-        OLEEResourceRecordDocument oleeResourceRecordDocument = null;
-        if (oleeResourceRecordDocuments != null && oleeResourceRecordDocuments.size() > 0) {
-            oleeResourceRecordDocument = oleeResourceRecordDocuments.get(0);
-            int index = Integer.parseInt(request.getParameter("index"));
-            getOleeResourceHelperService().updateVendorInfo(oleeResourceRecordDocument);
-
-            if (oleeResourceRecordDocument.getOleERSContacts() != null && oleeResourceRecordDocument.getOleERSContacts().size() >= index) {
-                OLEEResourceContacts oleeResourceContacts = oleeResourceRecordDocument.getOleERSContacts().get(index);
-                oleEResourceRecordForm.setVendorNameForContacts(oleeResourceContacts.getOrganization());
-                oleEResourceRecordForm.setPhoneNos(oleeResourceContacts.getOlePhoneNumbers());
+        int vendorContactGeneratedIdentifier = Integer.parseInt(request.getParameter("vendorContactGeneratedIdentifier"));
+        VendorContact vendorContact = getBusinessObjectService().findBySinglePrimaryKey(VendorContact.class, vendorContactGeneratedIdentifier);
+        if (vendorContact != null) {
+            if (vendorContact.getVendorDetail() != null) {
+                oleEResourceRecordForm.setVendorNameForContacts(vendorContact.getVendorDetail().getVendorName());
+            }
+            if (CollectionUtils.isNotEmpty(vendorContact.getVendorContactPhoneNumbers())) {
+                List<OLEPhoneNumber> olePhoneNumberList = new ArrayList<>();
+                for (VendorContactPhoneNumber vendorContactPhoneNumber : vendorContact.getVendorContactPhoneNumbers()) {
+                    OLEPhoneNumber olePhoneNumber = new OLEPhoneNumber();
+                    olePhoneNumber.setPhoneNumber(vendorContactPhoneNumber.getVendorPhoneNumber());
+                    if (vendorContactPhoneNumber.getVendorPhoneType() != null) {
+                        olePhoneNumber.setPhoneNumberType(vendorContactPhoneNumber.getVendorPhoneType().getVendorPhoneTypeDescription());
+                    }
+                    olePhoneNumberList.add(olePhoneNumber);
+                }
+                oleEResourceRecordForm.setPhoneNos(olePhoneNumberList);
             }
         }
-
         return getUIFModelAndView(oleEResourceRecordForm);
     }
 
@@ -3169,6 +3174,22 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             oleeResourceRecordDocument.setPublisherLink(null);
         }
         return super.refresh(form, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=populateContacts")
+    public ModelAndView populateContacts(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
+        if(oleeResourceRecordDocument.getOleERSInstances()!=null && oleeResourceRecordDocument.getOleERSInstances().size()==0){
+            getOleEResourceSearchService().populateInstanceAndEInstance(oleeResourceRecordDocument);
+        }
+        if(oleeResourceRecordDocument.getOleERSIdentifier()!=null){
+            OLEEResourceSearchServiceImpl oleeResourceSearchService = new OLEEResourceSearchServiceImpl();
+            oleeResourceSearchService.getPOInvoiceForERS(oleeResourceRecordDocument);
+        }
+        getOleeResourceHelperService().updateVendorInfo(oleeResourceRecordDocument);
+        return super.navigate(oleEResourceRecordForm, result, request, response);
     }
 }
 

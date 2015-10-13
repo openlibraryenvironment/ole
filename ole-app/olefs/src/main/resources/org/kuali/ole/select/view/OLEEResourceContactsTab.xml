@@ -33,26 +33,21 @@
         <property name="layoutManager.richTable.disableTableSort" value="false" />
         <property name="items">
             <list>
-                <bean id="eResource-Organization" parent="Uif-LinkField" p:href="@{#line.vendorLink}"
-                      p:label="Vendor" p:linkText="@{#line.organization}"  p:target="_blank" />
+                <bean id="eResource-OrganizationActive" parent="Uif-LinkField" p:href="@{#line.vendorLink}"
+                      p:label="Vendor" p:linkText="@{#line.organization}"  p:target="_blank" p:render="@{#line.activeVendor}"/>
+                <bean id="eResource-OrganizationNonActive" parent="Uif-LinkField" p:href="@{#line.vendorLink}"
+                      p:label="Vendor" p:linkText="@{#line.organization}"  p:target="_blank" p:render="@{!#line.activeVendor}" p:cssClasses="InactiveVendorForHiperLink"/>
                 <bean id="eResource-Contact" parent="Uif-DataField" p:propertyName="contact" p:label="Contact"/>
                 <bean id="eResource-Role" parent="Uif-DataField" p:propertyName="role" p:label="Role"/>
-                <!--<bean id="eResource-Phone" parent="Uif-DataField" p:propertyName="phone" p:label="Phone"/>-->
                 <bean parent="Uif-HorizontalFieldGroup" p:label="Phone" p:render="@{#line.hasMorePhoneNo eq true}">
                     <property name="items">
                         <list>
                             <bean id="eResource-Phone1" parent="Uif-DataField" p:propertyName="phone"/>
-                            <!--<bean parent="Uif-ActionLink"-->
-                                  <!--p:actionScript="showPhoneNo('@{#index}');"-->
-                                  <!--p:actionLabel="+"/>-->
-                            <bean  id="MultiplePhoneNumbers" parent="Uif-LinkField" p:href="oleERSController?viewId=MultipleNumbersView&amp;methodToCall=showMultipleContacts&amp;index=@{#index}&amp;eResourceId=@{#line.oleERSIdentifier}" p:linkText="+">
-                                <!--<property name="link.openInDialog" value="true"/>-->
+                            <bean  id="MultiplePhoneNumbers" parent="Uif-LinkField" p:href="oleERSController?viewId=MultipleNumbersView&amp;methodToCall=showMultipleContacts&amp;vendorContactGeneratedIdentifier=@{#line.vendorContactGeneratedIdentifier}" p:linkText="+" p:target="_blank">
                             </bean>
-
                         </list>
                     </property>
                 </bean>
-
                 <bean id="eResource-Phone" parent="Uif-DataField"  p:label="Phone" p:propertyName="phone" p:render="@{#line.hasMorePhoneNo eq false}"/>
                 <bean id="eResource-Email" parent="Uif-DataField" p:propertyName="email" p:label="Email"/>
                 <bean id="eResource-Format" parent="Uif-DataField" p:propertyName="format" p:label="Format"/>

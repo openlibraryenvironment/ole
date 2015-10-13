@@ -1,17 +1,15 @@
 package org.kuali.ole.select.bo;
 
 
-        import org.kuali.ole.sys.OLEConstants;
-        import org.kuali.ole.vnd.businessobject.VendorContact;
-        import org.kuali.ole.vnd.businessobject.VendorDetail;
-        import org.kuali.rice.core.api.config.property.ConfigContext;
-
-        import java.util.ArrayList;
-        import java.util.List;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 /**
  * Created by hemalathas on 12/5/14.
  */
 public class OLEEResourceContacts {
+
     private String organization;
 
     private String contact;
@@ -27,13 +25,19 @@ public class OLEEResourceContacts {
     private String note;
 
     private String vendorLink;
+
+    private int vendorContactGeneratedIdentifier;
+
     private int vendorHeaderGeneratedIdentifier;
+
     private int vendorDetailAssignedIdentifier;
+
     private boolean hasMorePhoneNo = false;
 
-    private List<OLEPhoneNumber> olePhoneNumbers = new ArrayList<>();
+    private boolean activeVendor;
 
     private String oleERSIdentifier;
+
     public String getOrganization() {
         return organization;
     }
@@ -90,6 +94,14 @@ public class OLEEResourceContacts {
         this.note = note;
     }
 
+    public int getVendorContactGeneratedIdentifier() {
+        return vendorContactGeneratedIdentifier;
+    }
+
+    public void setVendorContactGeneratedIdentifier(int vendorContactGeneratedIdentifier) {
+        this.vendorContactGeneratedIdentifier = vendorContactGeneratedIdentifier;
+    }
+
     public int getVendorHeaderGeneratedIdentifier() {
         return vendorHeaderGeneratedIdentifier;
     }
@@ -114,14 +126,6 @@ public class OLEEResourceContacts {
         this.hasMorePhoneNo = hasMorePhoneNo;
     }
 
-    public List<OLEPhoneNumber> getOlePhoneNumbers() {
-        return olePhoneNumbers;
-    }
-
-    public void setOlePhoneNumbers(List<OLEPhoneNumber> olePhoneNumbers) {
-        this.olePhoneNumbers = olePhoneNumbers;
-    }
-
     public String getOleERSIdentifier() {
         return oleERSIdentifier;
     }
@@ -131,13 +135,32 @@ public class OLEEResourceContacts {
     }
 
     public String getVendorLink() {
+        String url = "";
         String oleurl = ConfigContext.getCurrentContextConfig().getProperty("ole.url");
-        String url = oleurl+ "/ole-kr-krad/inquiry?methodToCall=start&amp;dataObjectClassName=org.kuali.ole.vnd.businessobject.VendorDetail&amp;vendorHeaderGeneratedIdentifier=" +vendorHeaderGeneratedIdentifier + "&amp;vendorDetailAssignedIdentifier="
-                +vendorDetailAssignedIdentifier;
+        if (canVendorEdit()) {
+            url = oleurl + "/kr/maintenance.do?businessObjectClassName=org.kuali.ole.vnd.businessobject.VendorDetail&amp;methodToCall=edit&amp;vendorHeaderGeneratedIdentifier=" + vendorHeaderGeneratedIdentifier + "&amp;vendorDetailAssignedIdentifier="
+                    + vendorDetailAssignedIdentifier;
+        } else {
+            url = oleurl + "/kr/inquiry.do?methodToCall=start&amp;businessObjectClassName=org.kuali.ole.vnd.businessobject.VendorDetail&amp;vendorHeaderGeneratedIdentifier=" + vendorHeaderGeneratedIdentifier + "&amp;vendorDetailAssignedIdentifier="
+                    + vendorDetailAssignedIdentifier;
+        }
         return url;
+    }
+
+    private boolean canVendorEdit() {
+        PermissionService service = KimApiServiceLocator.getPermissionService();
+        return service.hasPermission(GlobalVariables.getUserSession().getPrincipalId(), org.kuali.ole.sys.OLEConstants.CoreModuleNamespaces.VENDOR, "Edit Vendor");
     }
 
     public void setVendorLink(String vendorLink) {
         this.vendorLink = vendorLink;
+    }
+
+    public boolean isActiveVendor() {
+        return activeVendor;
+    }
+
+    public void setActiveVendor(boolean activeVendor) {
+        this.activeVendor = activeVendor;
     }
 }
