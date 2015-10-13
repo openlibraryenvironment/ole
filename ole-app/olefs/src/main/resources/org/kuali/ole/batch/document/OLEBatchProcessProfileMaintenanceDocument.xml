@@ -179,7 +179,6 @@
     </bean>
     <bean id="OLEBatchProcessProfileBo-MaintenanceView-bib-MatchPointSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'   or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Delete'}">
         <property name="headerText" value="Bib Match Points" />
-        <!--<property name="instructionalText" value="For ex : 001 ,245 $a, 245 ## $a, 245 04 $a, 245 #4 $a, 245 0# $a"/>-->
         <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileMatchPoint" />
         <property name="propertyName" value="oleBatchProcessProfileBibliographicMatchPointList" />
         <property name="layoutManager.richTable.disableTableSort" value="true" />
@@ -188,6 +187,7 @@
         <property name="items">
             <list>
                 <bean id="MatchPoint_Bib" parent="Uif-InputField" p:propertyName="matchPoint" p:constraintText="For ex : 001 ,245 $a, 245 ## $a, 245 04 $a, 245 #4 $a, 245 0# $a" p:label="Bib Match Point" p:readOnly="@{!#isAddLine}" />
+                <bean id="CascadingMatchPoint_Bib" parent="Uif-InputField" p:propertyName="cascadingMatchPoint"  p:label="Cascading Match Point" p:readOnly="@{!#isAddLine}" p:constraintText="For ex : (GOKb)* ,(OCoLC) * ,ocn* ,*(electronic)"  p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'}"/>
                 <bean id="bibMatchPoint-oleBibMatchPointType" parent="Uif-InputField" p:propertyName="matchPointType" p:defaultValue="bibliographic" p:hidden="true" p:readOnly="@{!#isAddLine}"/>
             </list>
         </property>

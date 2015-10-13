@@ -15,6 +15,7 @@ public class OLEBatchProcessProfileMatchPoint extends PersistableBusinessObjectB
     private String matchPoint;
     private String matchPointType;
     private String batchProcessProfileId;
+    private String cascadingMatchPoint ;
     private OLEBatchProcessProfileBo oleBatchProcessProfileBo;
 
     public String getMatchPointId() {
@@ -55,5 +56,13 @@ public class OLEBatchProcessProfileMatchPoint extends PersistableBusinessObjectB
 
     public void setOleBatchProcessProfileBo(OLEBatchProcessProfileBo oleBatchProcessProfileBo) {
         this.oleBatchProcessProfileBo = oleBatchProcessProfileBo;
+    }
+
+    public String getCascadingMatchPoint() {
+        return cascadingMatchPoint;
+    }
+
+    public void setCascadingMatchPoint(String cascadingMatchPoint) {
+        this.cascadingMatchPoint = cascadingMatchPoint;
     }
 }
