@@ -1,8 +1,11 @@
 package org.kuali.ole.deliver.util;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.ole.batch.util.BatchBibImportUtil;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.*;
+import org.kuali.ole.docstore.common.document.HoldingsTree;
+import org.kuali.ole.docstore.common.document.Item;
 import org.kuali.ole.sys.context.SpringContext;
 
 import java.util.HashMap;
@@ -29,8 +32,14 @@ public class BulkItemUpdateUtil {
         holdings.setId("");
         holdingsTree.setHoldings(holdings);
 
+        List<String> locationLevel = BatchBibImportUtil.getLocationLevel();
+
         for (Iterator<Item> iterator = itemList.iterator(); iterator.hasNext(); ) {
             Item item = iterator.next();
+            if(CollectionUtils.isNotEmpty(locationLevel)) {
+                populateLocationLevels(item,locationLevel);
+            }
+            item.buildLocationLevels((org.kuali.ole.docstore.common.document.content.instance.Item) item.getContentObject());
             item.setOperation(org.kuali.ole.docstore.common.document.DocstoreDocument.OperationType.UPDATE);
             item.serializeContent();
             holdingsTree.getItems().add(item);
@@ -47,6 +56,14 @@ public class BulkItemUpdateUtil {
         }
         Map<String, Map> statusMap = generateResultMapForBibTreeWithItemUuidAndResultType(responseBibTree);
         return statusMap;
+    }
+
+    private void populateLocationLevels(Item item, List<String> locationLevel) {
+        item.setLevel1Location(locationLevel.get(0));
+        item.setLevel2Location(locationLevel.get(1));
+        item.setLevel3Location(locationLevel.get(2));
+        item.setLevel4Location(locationLevel.get(3));
+        item.setLevel5Location(locationLevel.get(4));
     }
 
     private Map<String, Map> generateResultMapForBibTreeWithItemUuidAndResultType(BibTrees bibTrees) {

@@ -1230,4 +1230,23 @@ public class Item
     public void setHoldingsLocationLevel5(String holdingsLocationLevel5) {
         this.holdingsLocationLevel5 = holdingsLocationLevel5;
     }
+
+    public void buildLocationLevels(org.kuali.ole.docstore.common.document.content.instance.Item item) {
+        if (item != null) {
+            if (item.getLocation() != null) {
+                LocationLevel locationLevel = item.getLocation().getLocationLevel();
+                setLocationLevel1(getLocationLevelName(locationLevel, level1Location));
+                setLocationLevel2(getLocationLevelName(locationLevel, level2Location));
+                setLocationLevel3(getLocationLevelName(locationLevel, level3Location));
+                setLocationLevel4(getLocationLevelName(locationLevel, level4Location));
+                setLocationLevel5(getLocationLevelName(locationLevel, level5Location));
+            }
+        }
+    }
+
+    private String getLocationLevelName(LocationLevel locationLevel, String level) {
+        if (locationLevel == null || org.apache.commons.lang.StringUtils.isEmpty(locationLevel.getLevel())) return null;
+        if (locationLevel.getLevel().equalsIgnoreCase(level)) return locationLevel.getName();
+        return getLocationLevelName(locationLevel.getLocationLevel(), level);
+    }
 }

@@ -202,7 +202,7 @@ public class BatchBibImportUtil {
     }
 
 
-    private static List<String> getLocationLevel() {
+    public static List<String> getLocationLevel() {
         List<String> locationLevelName = new ArrayList<>();
         List<OleLocationLevel> locationLevel = (List<OleLocationLevel>) KRADServiceLocator.getBusinessObjectService().findAllOrderBy(OleLocationLevel.class, OLEConstants.LEVEL_ID, true);
         for (OleLocationLevel oleLocationLevel : locationLevel) {
