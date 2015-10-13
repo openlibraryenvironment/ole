@@ -6,7 +6,6 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
-import org.kuali.ole.deliver.notice.OleNoticeContentHandler;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.bo.OleNoticeFieldLabelMapping;
 import org.kuali.ole.describe.bo.OleLocation;
@@ -98,7 +97,7 @@ public class NoticeMailContentFormatterTest {
 
     @Test
     public void generateNoticeHTML() throws Exception {
-        OleNoticeContentHandler oleNoticeContentHandler = new OleNoticeContentHandler();
+        NoticeMailContentFormatter noticeMailContentFormatter =  new OverdueNoticeEmailContentFormatter();
         OleNoticeBo oleNoticeBo = new OleNoticeBo();
         oleNoticeBo.setPatronName("John Doe");
         oleNoticeBo.setPatronAddress("123, High Street, MA - 201231");
@@ -187,7 +186,7 @@ public class NoticeMailContentFormatterTest {
 
         oleNoticeContentConfigurationBo.setOleNoticeFieldLabelMappings(oleNoticeFieldLabelMappings);
 
-        String html = oleNoticeContentHandler.generateHTML(oleNoticeBos, oleNoticeContentConfigurationBo);
+        String html = noticeMailContentFormatter.generateHTML(oleNoticeBos, oleNoticeContentConfigurationBo);
         assertNotNull(html);
         System.out.println(html);
     }

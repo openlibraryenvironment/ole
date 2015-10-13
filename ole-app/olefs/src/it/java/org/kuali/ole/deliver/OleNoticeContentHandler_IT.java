@@ -3,7 +3,8 @@ package org.kuali.ole.deliver;
 import org.junit.Test;
 import org.kuali.ole.OLETestCaseBase;
 import org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory;
-import org.kuali.ole.deliver.notice.OleNoticeContentHandler;
+import org.kuali.ole.deliver.service.NoticeMailContentFormatter;
+import org.kuali.ole.deliver.service.OverdueNoticeEmailContentFormatter;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -47,8 +48,8 @@ public class OleNoticeContentHandler_IT extends OLETestCaseBase {
         OLEDeliverNoticeHistory savedDeliverNoticeHistory = businessObjectService.save(oleDeliverNoticeHistory);
         assertNotNull(savedDeliverNoticeHistory.getId());
 
-        OleNoticeContentHandler oleNoticeContentHandler = new OleNoticeContentHandler();
-        String noticeContent = oleNoticeContentHandler.getNoticeContent("123");
+        NoticeMailContentFormatter noticeMailContentFormatter =  new OverdueNoticeEmailContentFormatter();
+        String noticeContent = noticeMailContentFormatter.getNoticeContent("123");
         System.out.println(noticeContent);
     }
 
