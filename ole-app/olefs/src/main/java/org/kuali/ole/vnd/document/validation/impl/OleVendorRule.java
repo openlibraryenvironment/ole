@@ -75,10 +75,17 @@ public class OleVendorRule extends VendorRule {
         if (vendorDetail.getVendorHeaderGeneratedIdentifier() == null && vendorDetail.getVendorDetailAssignedIdentifier() == null) {
             if (vendorDetails.size() > 0) {
                 putFieldError(VendorPropertyConstants.VENDOR_GOKB_ID, VendorKeyConstants.OLE_VENDOR_GOKB_EXISTS);
+                valid &= false;
             }
         } else {
             if (vendorDetails.size() > 0) {
-                //vendorDetails.get(0).isActiveIndicator()
+                for(VendorDetail detail:vendorDetails){
+                    if(detail.isActiveIndicator() && ! detail.getVendorName().equalsIgnoreCase( vendorDetail.getVendorName())){
+                        putFieldError(VendorPropertyConstants.VENDOR_GOKB_ID, VendorKeyConstants.OLE_VENDOR_GOKB_EXISTS);
+                        valid &= false;
+                    }
+                }
+
             }
         }
         return valid & super.processCustomRouteDocumentBusinessRules(document);
