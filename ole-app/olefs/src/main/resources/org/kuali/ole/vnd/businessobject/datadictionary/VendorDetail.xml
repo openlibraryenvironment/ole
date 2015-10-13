@@ -1155,6 +1155,8 @@
 				<bean parent="FieldDefinition" p:attributeName="vendorCityName" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="vendorStateCode" />
+                <bean parent="FieldDefinition" p:attributeName="format"/>
+                <bean parent="FieldDefinition" p:attributeName="lastVerifiedDate" />
 			</list>
 		</property>
 		<property name="inquiryCollections">
