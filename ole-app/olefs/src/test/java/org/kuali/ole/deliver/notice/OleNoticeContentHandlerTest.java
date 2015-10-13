@@ -5,6 +5,8 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.batch.OleNoticeBo;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.bo.OleNoticeFieldLabelMapping;
+import org.kuali.ole.deliver.service.NoticeMailContentFormatter;
+import org.kuali.ole.deliver.service.OverdueNoticeEmailContentFormatter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +22,7 @@ public class OleNoticeContentHandlerTest {
 
     @Test
     public void generateNoticeHTML() throws Exception {
-        OleNoticeContentHandler oleNoticeContentHandler = new OleNoticeContentHandler();
+        NoticeMailContentFormatter noticeMailContentFormatter =  new OverdueNoticeEmailContentFormatter();
         OleNoticeBo oleNoticeBo = new OleNoticeBo();
         oleNoticeBo.setPatronName("John Doe");
         oleNoticeBo.setPatronAddress("123, High Street, MA - 201231");
@@ -30,6 +32,10 @@ public class OleNoticeContentHandlerTest {
         oleNoticeBo.setTitle("History of Mars");
         oleNoticeBo.setAuthor("Mary Jane");
         oleNoticeBo.setVolumeNumber("v1.0");
+        oleNoticeBo.setCopyNumber("C1.0");
+        oleNoticeBo.setEnumeration("E1");
+        oleNoticeBo.setChronology("CH1");
+        oleNoticeBo.setNoticeSpecificFooterContent("This is the test footer content for notice");
         oleNoticeBo.setDueDateString(new Date().toString());
         oleNoticeBo.setItemShelvingLocation("UC/JRL/GEN");
         oleNoticeBo.setItemCallNumber("X-123");
@@ -113,9 +119,10 @@ public class OleNoticeContentHandlerTest {
 
         oleNoticeContentConfigurationBo.setOleNoticeFieldLabelMappings(oleNoticeFieldLabelMappings);
 
-        String html = oleNoticeContentHandler.generateHTML(oleNoticeBos, oleNoticeContentConfigurationBo);
+        String html = noticeMailContentFormatter.generateHTML(oleNoticeBos, oleNoticeContentConfigurationBo);
         assertNotNull(html);
         System.out.println(html);
     }
+
 
 }
