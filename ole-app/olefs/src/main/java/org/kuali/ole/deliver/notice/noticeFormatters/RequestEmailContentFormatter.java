@@ -1,14 +1,30 @@
 package org.kuali.ole.deliver.notice.noticeFormatters;
 
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
-import org.kuali.ole.OLEConstants;
+import org.apache.lucene.util.CollectionUtil;
+import org.codehaus.plexus.util.FileUtils;
+import org.kuali.ole.deliver.batch.OleNoticeBo;
+import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
+import org.kuali.ole.describe.bo.OleLocation;
 import org.kuali.ole.service.OlePatronHelperService;
 import org.kuali.ole.service.OlePatronHelperServiceImpl;
-import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +34,7 @@ import java.util.Map;
 public abstract class RequestEmailContentFormatter {
     private static final Logger LOG = Logger.getLogger(RequestExpirationEmailContentFormatter.class);
     private OlePatronHelperService olePatronHelperService;
+    private BusinessObjectService businessObjectService;
 
     public OlePatronHelperService getOlePatronHelperService(){
         if(olePatronHelperService==null)
@@ -30,136 +47,149 @@ public abstract class RequestEmailContentFormatter {
     }
 
 
-
-    public String getHeaderContent(String title){
-        StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append("<HTML>");
-        stringBuffer.append("<TITLE>" + title + "</TITLE>");
-        stringBuffer.append("<HEAD></HEAD>");
-        stringBuffer.append("<BODY>");
-
-        return stringBuffer.toString();
-
-    }
-
-
-    private String getPatronName(OlePatronDocument olePatronDocument){
-        String patronName = "";
-        if(olePatronDocument!=null && olePatronDocument.getEntity()!=null && olePatronDocument.getEntity().getNames()!=null && olePatronDocument.getEntity().getNames().get(0)!=null){
-            patronName = olePatronDocument.getEntity().getNames().get(0).getFirstName() + " " + olePatronDocument.getEntity().getNames().get(0).getLastName();
+    public String generateMailContentForPatron(List<OleDeliverRequestBo> oleDeliverRequestBos, OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) {
+        List<OleNoticeBo> noticeBos = initialiseOleNoticeBos(oleDeliverRequestBos, oleNoticeContentConfigurationBo);
+        String noticeHtmlContent = null;
+        if (CollectionUtils.isNotEmpty(noticeBos)) {
+            noticeHtmlContent = generateHTML(noticeBos, oleNoticeContentConfigurationBo);
         }
-        return patronName;
+        return noticeHtmlContent;
     }
 
-    public String getPatronInfo(OlePatronDocument olePatronDocument,Map<String,String> fieldLabelMap) {
-        StringBuffer stringBuffer = new StringBuffer();
+
+
+    public List<OleNoticeBo> initialiseOleNoticeBos(List<OleDeliverRequestBo> oleDeliverRequestBos,OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) {
+        List<OleNoticeBo> oleNoticeBos = new ArrayList<>();
+        if(oleDeliverRequestBos!=null && oleDeliverRequestBos.size()>0){
+            OlePatronDocument olePatron = oleDeliverRequestBos.get(0).getOlePatron();
+            for(OleDeliverRequestBo oleDeliverRequestBo : oleDeliverRequestBos){
+                OleNoticeBo oleNoticeBo = new OleNoticeBo();
+                oleNoticeBo.setTitle(oleNoticeContentConfigurationBo.getNoticeTitle());
+                oleNoticeBo.setNoticeTitle(oleNoticeContentConfigurationBo.getNoticeTitle());
+                oleNoticeBo.setNoticeType(oleNoticeContentConfigurationBo.getNoticeType());
+                oleNoticeBo.setNoticeName(oleNoticeContentConfigurationBo.getNoticeTitle());
+                setPatronInfo(olePatron, oleNoticeBo);
+                setNoticeBodyAndContent(oleNoticeBo, oleNoticeContentConfigurationBo.getNoticeTitle(),
+                        oleNoticeContentConfigurationBo.getNoticeBody(), oleNoticeContentConfigurationBo.getNoticeFooterBody());
+                setItemInfo(oleNoticeBo, oleDeliverRequestBo);
+                setCirculationDeskInfo(oleNoticeBo, oleDeliverRequestBo);
+                setRequestInformation(oleDeliverRequestBo, oleNoticeBo);
+                processCustomNoticeInfo(oleDeliverRequestBo, oleNoticeBo);
+                oleNoticeBos.add(oleNoticeBo);
+            }
+        }
+        return oleNoticeBos;
+    }
+
+    public OleNoticeBo setPatronInfo(OlePatronDocument olePatronDocument,OleNoticeBo oleNoticeBo){
+        String patronName = olePatronDocument.getPatronName();
+        oleNoticeBo.setPatronName(patronName != null ? patronName : "");
+        String preferredAddress = olePatronDocument.getPreferredAddress();
+        oleNoticeBo.setPatronAddress(preferredAddress != null ? preferredAddress : "");
+        String emailAddress = olePatronDocument.getEmail();
+        oleNoticeBo.setPatronEmailAddress(emailAddress !=null ? emailAddress : "");
+        String phoneNumber = olePatronDocument.getPhoneNumber();
+        oleNoticeBo.setPatronPhoneNumber(phoneNumber !=null ? phoneNumber : "");
+        return oleNoticeBo;
+    }
+
+    public  OleNoticeBo setNoticeBodyAndContent(OleNoticeBo oleNoticeBo,String body,String bodyContent,String noticeSpecificFooterContent){
+        oleNoticeBo.setNoticeTitle(body);
+        oleNoticeBo.setNoticeSpecificContent(bodyContent);
+        oleNoticeBo.setNoticeSpecificFooterContent(noticeSpecificFooterContent);
+        return  oleNoticeBo;
+    }
+
+    public void setItemInfo(OleNoticeBo oleNoticeBo,OleDeliverRequestBo oleDeliverRequestBo){
+        oleNoticeBo.setTitle((oleDeliverRequestBo.getTitle() != null ? oleDeliverRequestBo.getTitle() : ""));
+        oleNoticeBo.setAuthor((oleDeliverRequestBo.getAuthor() != null ? oleDeliverRequestBo.getAuthor() : ""));
+        oleNoticeBo.setEnumeration((oleDeliverRequestBo.getEnumeration() != null ? oleDeliverRequestBo.getEnumeration() : ""));
+        oleNoticeBo.setChronology(oleDeliverRequestBo.getChronology() != null ? oleDeliverRequestBo.getChronology() : "");
+        oleNoticeBo.setVolumeNumber((oleDeliverRequestBo.getVolumeNumber() != null ? oleDeliverRequestBo.getAuthor() : ""));
+        oleNoticeBo.setItemCallNumber(oleDeliverRequestBo.getCallNumber() != null ? oleDeliverRequestBo.getCallNumber() : "");
+        oleNoticeBo.setCopyNumber(oleDeliverRequestBo.getCopyNumber() != null ? oleDeliverRequestBo.getCopyNumber() : "");
+        oleNoticeBo.setItemId(oleDeliverRequestBo.getItemId() != null ? oleDeliverRequestBo.getItemId() : "");
+        String locationName = getLocationName(oleDeliverRequestBo.getShelvingLocation());
+        oleNoticeBo.setItemShelvingLocation((locationName != null ? locationName : ""));
+    }
+
+    private void setCirculationDeskInfo(OleNoticeBo oleNoticeBo, OleDeliverRequestBo oleDeliverRequestBo) {
+        OleCirculationDesk olePickUpLocation = oleDeliverRequestBo.getOlePickUpLocation();
+        oleNoticeBo.setCirculationDeskName(olePickUpLocation != null ? olePickUpLocation.getCirculationDeskCode() : "");
+        oleNoticeBo.setCirculationDeskReplyToEmail(olePickUpLocation != null ? olePickUpLocation.getReplyToEmail() : "");
+    }
+
+    private void setRequestInformation(OleDeliverRequestBo oleDeliverRequestBo, OleNoticeBo oleNoticeBo) {
+        oleNoticeBo.setExpiredOnHoldDate(oleDeliverRequestBo.getHoldExpirationDate());
+        oleNoticeBo.setNewDueDate(oleDeliverRequestBo.getNewDueDate());
+        oleNoticeBo.setOriginalDueDate(oleDeliverRequestBo.getOriginalDueDate());
+    }
+
+    protected String getLocationName(String code) {
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("locationCode", code);
+        List<OleLocation> oleLocation = (List<OleLocation>) getBusinessObjectService().findMatching(OleLocation.class, criteria);
+
+        return oleLocation.size() == 1 ? oleLocation.get(0).getLocationName() : "";
+    }
+
+
+    public String generateHTML(List<OleNoticeBo> oleNoticeBos, OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo) {
+        StringWriter htmlContent = new StringWriter();
+        Configuration cfg = new Configuration();
         try {
-            EntityTypeContactInfoBo entityTypeContactInfoBo = getEntityTypeContactInfo(olePatronDocument);
 
-            stringBuffer.append("<HTML>");
-            stringBuffer.append("<TITLE>" + fieldLabelMap.get("noticeTitle") + "</TITLE>");
-            stringBuffer.append("<HEAD></HEAD>");
-            stringBuffer.append("<BODY>");
+            String noticeTemplateDirPath = System.getProperty("notice.template.dir");
+            File noticeTemplateDir = null;
 
-            try {
-                stringBuffer.append("<TABLE></BR></BR><TR><TD>");
-                stringBuffer.append((fieldLabelMap.get(OLEConstants.PATRON_NAME)!=null ? fieldLabelMap.get(OLEConstants.PATRON_NAME):OLEConstants.PATRON_NAME) +":</TD><TD>" + getPatronName(olePatronDocument)  + "</TD></TR><TR><TD>");
-                stringBuffer.append((fieldLabelMap.get(OLEConstants.NOTICE_ADDRESS)!=null ? fieldLabelMap.get(OLEConstants.NOTICE_ADDRESS) :OLEConstants.NOTICE_ADDRESS)+":</TD><TD>" + (getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronPreferredAddress(entityTypeContactInfoBo) : "") + "</TD></TR><TR><TD>");
-                stringBuffer.append((fieldLabelMap.get(OLEConstants.NOTICE_EMAIL)!=null ? fieldLabelMap.get(OLEConstants.NOTICE_EMAIL) :OLEConstants.NOTICE_EMAIL) +":</TD><TD>" + (getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo) : "") + "</TD></TR><TR><TD>");
-
-                stringBuffer.append((fieldLabelMap.get(OLEConstants.NOTICE_PHONE_NUMBER)!=null ? fieldLabelMap.get(OLEConstants.NOTICE_PHONE_NUMBER) : OLEConstants.NOTICE_PHONE_NUMBER) +":</TD><TD>" + (getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? getOlePatronHelperService().getPatronHomePhoneNumber(entityTypeContactInfoBo) : "") + "</TD></TR>");
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(null == noticeTemplateDirPath){
+                noticeTemplateDir = processFTL();
+            } else {
+                noticeTemplateDir = new File(noticeTemplateDirPath);
             }
-            stringBuffer.append("</TABLE>");
+            cfg.setDirectoryForTemplateLoading(noticeTemplateDir);
 
-            stringBuffer.append("<TR><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>");
-            stringBuffer.append("<TABLE width=\"100%\">");
-            stringBuffer.append("<TR><TD><CENTER>" + fieldLabelMap.get("noticeTitle") + "</CENTER></TD></TR>");
-            stringBuffer.append("<TR><TD><p>" + fieldLabelMap.get("noticeBody") + "</p></TD></TR>");
-            stringBuffer.append("<TR><TD>&nbsp;</TD><TD>&nbsp;</TD></TR></TABLE>");
-        } catch (Exception e) {
-            LOG.error("Error---->While generating overdue content for email(Patron Information) ");
+            Template template = cfg.getTemplate("request-notice.ftl");
+
+            Map<String, Object> input = new HashMap<>();
+            input.put("oleNoticeContentConfigurationBo", oleNoticeContentConfigurationBo);
+            input.put("oleNoticeBo", oleNoticeBos.get(0));
+            input.put("oleNoticeBos", oleNoticeBos);
+
+            template.process(input, htmlContent);
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
-        System.out.println(stringBuffer.toString());
-        return stringBuffer.toString();
+
+
+        return htmlContent.toString();
     }
 
-    public String generateRequestMailContentForPatron(List<OleDeliverRequestBo> oleDeliverRequestBos,Map<String,String> fieldLabelMap){
-        StringBuffer stringBuffer = new StringBuffer();
-        //Add header
-        stringBuffer.append(getHeaderContent(fieldLabelMap.get("noticeTitle")));
-        //Add patron info
-        stringBuffer.append(getPatronInfo(oleDeliverRequestBos.get(0).getOlePatron(),fieldLabelMap));
-        for(OleDeliverRequestBo oleDeliverRequestBo : oleDeliverRequestBos){
-            setItemContent(oleDeliverRequestBo,stringBuffer,fieldLabelMap);
+    private File processFTL() throws URISyntaxException, IOException {
+        File noticeTemplateDir;URI noticeTemplateURI = getClass().getResource("request-notice.ftl").toURI();
+        File noticeTemplate = new File(noticeTemplateURI);
+
+        URI itemInfoTemplateURI = getClass().getResource("request-itemInfo.ftl").toURI();
+        File itemInfoTemplate = new File(itemInfoTemplateURI);
+
+        String tempDir = System.getProperty("java.io.tmpdir");
+        File destinationDirectory = new File(tempDir);
+        FileUtils.copyFileToDirectory(noticeTemplate, destinationDirectory);
+        FileUtils.copyFileToDirectory(itemInfoTemplate, destinationDirectory);
+        noticeTemplateDir = destinationDirectory;
+        return noticeTemplateDir;
+    }
+
+    protected abstract void processCustomNoticeInfo(OleDeliverRequestBo oleDeliverRequestBo, OleNoticeBo oleNoticeBo);
+
+    public BusinessObjectService getBusinessObjectService() {
+        if(null == businessObjectService){
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
         }
-        return stringBuffer.toString();
-
+        return businessObjectService;
     }
-
-
-public void setItemContent(OleDeliverRequestBo oleDeliverRequestBo,StringBuffer stringBuffer,Map<String,String> fieldLabelMap){
-    stringBuffer.append("<table>");
-    if(null != getCustomItemHeaderInfo(oleDeliverRequestBo,fieldLabelMap)){
-        stringBuffer.append(getCustomItemHeaderInfo(oleDeliverRequestBo,fieldLabelMap));
-    }
-    stringBuffer.append(generateItemInfoHTML(oleDeliverRequestBo,fieldLabelMap));
-    if(null != getCustomItemFooterInfo(oleDeliverRequestBo,fieldLabelMap)){
-        stringBuffer.append(getCustomItemFooterInfo(oleDeliverRequestBo,fieldLabelMap));
-    }
-    stringBuffer.append("</table>");
-
-}
-
-
-
-    public String generateItemInfoHTML(OleDeliverRequestBo oleDeliverRequestBo,Map<String,String> fieldLabelMap) {
-        StringBuffer stringBuffer = new StringBuffer();
-        try {
-            stringBuffer.append("<TR><TD>");
-            stringBuffer.append((fieldLabelMap.get(OLEConstants.CIRCULATION_LOCATION_LIBRARY_NAME)!=null ?fieldLabelMap.get(OLEConstants.CIRCULATION_LOCATION_LIBRARY_NAME):OLEConstants.CIRCULATION_LOCATION_LIBRARY_NAME) +":</TD><TD>" + (oleDeliverRequestBo.getOlePickUpLocation() != null ? oleDeliverRequestBo.getOlePickUpLocation().getCirculationDeskPublicName() : "") + "</TD></TR><TR><TD>");
-            stringBuffer.append((fieldLabelMap.get(OLEConstants.CIRCULATION_REPLY_TO_EMAIL)!=null ?fieldLabelMap.get(OLEConstants.CIRCULATION_REPLY_TO_EMAIL): OLEConstants.CIRCULATION_REPLY_TO_EMAIL )+":</TD><TD>" + (oleDeliverRequestBo.getOlePickUpLocation() != null ? oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail()!=null ? oleDeliverRequestBo.getOlePickUpLocation().getReplyToEmail() : "" : "") + "</TD></TR><TR><TD>");
-            stringBuffer.append((fieldLabelMap.get(OLEConstants.NOTICE_TITLE)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_TITLE):OLEConstants.NOTICE_TITLE) +":</TD><TD>" + (oleDeliverRequestBo.getTitle() != null ? oleDeliverRequestBo.getTitle() : "") + "</TD></TR><TR><TD>");
-            stringBuffer.append((fieldLabelMap.get(OLEConstants.NOTICE_AUTHOR)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_AUTHOR):OLEConstants.NOTICE_AUTHOR)+":</TD><TD>" + (oleDeliverRequestBo.getAuthor() != null ? oleDeliverRequestBo.getAuthor() : "") + "</TD></TR><TR><TD>");
-            String volume = oleDeliverRequestBo.getEnumeration() != null && !oleDeliverRequestBo.getEnumeration().equals("") ? oleDeliverRequestBo.getEnumeration() : "";
-            String issue = new String(" ");
-            String copyNumber = oleDeliverRequestBo.getCopyNumber() != null && !oleDeliverRequestBo.getCopyNumber().equals("") ? oleDeliverRequestBo.getCopyNumber() : "";
-            String volumeNumber = volume + "/" + issue + "/" + copyNumber;
-            stringBuffer.append((fieldLabelMap.get(OLEConstants.VOLUME_ISSUE_COPY)!=null ?fieldLabelMap.get(OLEConstants.VOLUME_ISSUE_COPY):OLEConstants.VOLUME_ISSUE_COPY)+":</TD><TD>" + (volumeNumber != null ? volumeNumber : "") + "</TD></TR><TR><TD>");
-            stringBuffer.append((fieldLabelMap.get(OLEConstants.LIBRARY_SHELVING_LOCATION)!=null ?fieldLabelMap.get(OLEConstants.LIBRARY_SHELVING_LOCATION):OLEConstants.LIBRARY_SHELVING_LOCATION)+":</TD><TD>" + ( oleDeliverRequestBo.getShelvingLocation()!= null ? oleDeliverRequestBo.getShelvingLocation() : "") + "</TD></TR><TR><TD>");
-            try {
-                String callNumber = "";
-                if (oleDeliverRequestBo.getCallNumber() != null && !oleDeliverRequestBo.getCallNumber().equals("")) {
-                    callNumber = oleDeliverRequestBo.getCallNumber();
-                }
-                stringBuffer.append((fieldLabelMap.get(OLEConstants.NOTICE_CALL_NUMBER)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_CALL_NUMBER):OLEConstants.NOTICE_CALL_NUMBER) +":</TD><TD>" + (callNumber != null ? callNumber : "") + "</TD></TR><TR><TD>");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            stringBuffer.append((fieldLabelMap.get(OLEConstants.NOTICE_ITEM_BARCODE)!=null ?fieldLabelMap.get(OLEConstants.NOTICE_ITEM_BARCODE):OLEConstants.NOTICE_ITEM_BARCODE)+":</TD><TD>" + (oleDeliverRequestBo.getItemId() != null ? oleDeliverRequestBo.getItemId() : "") + "</TD></TR><TR><TD>");
-            stringBuffer.append("<TR><TD>&nbsp;</TD><TD>&nbsp;</TD></TR>");
-
-        } catch (Exception e) {
-            LOG.error("Error---->While generating HTML overdue content  ");
-            if (oleDeliverRequestBo != null) {
-                LOG.error("Error---->Item Barcode " + oleDeliverRequestBo.getItemId());
-            }
-            LOG.error(e.getMessage() + e);
-        }
-        System.out.println(stringBuffer.toString());
-        return stringBuffer.toString();
-    }
-
-    public EntityTypeContactInfoBo getEntityTypeContactInfo(OlePatronDocument olePatronDocument) {
-        if(olePatronDocument!=null && olePatronDocument.getEntity()!=null && olePatronDocument.getEntity().getEntityTypeContactInfos()!=null){
-            return olePatronDocument.getEntity().getEntityTypeContactInfos().get(0);
-        }
-        return null;
-    }
-
-    public abstract String getCustomItemHeaderInfo(OleDeliverRequestBo oleDeliverRequestBo,Map<String,String> fieldLabelMap);
-
-    public abstract String getCustomItemFooterInfo(OleDeliverRequestBo oleDeliverRequestBo,Map<String,String> fieldLabelMap);
-
 }

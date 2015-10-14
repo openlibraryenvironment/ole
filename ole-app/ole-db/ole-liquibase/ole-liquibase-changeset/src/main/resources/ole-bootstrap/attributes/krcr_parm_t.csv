@@ -831,3 +831,4 @@ OLE-DLVR,Deliver,ASR_ITEM_RETRIVED,118,"1","CONFG",csp,This is for configuring A
 "OLE-DLVR","Deliver","DEFAULT_REQUEST_TYPE","OLE7034","1","CONFG","","This parameter value is used for configuring the default request type while placing a request through Request screen.","A","OLE"
 "OLE-DLVR","Deliver","DEFAULT_PICK_UP_LOCATION","OLE7035","1","CONFG","","This parameter value is used for configuring the default pickup location while placing a request through Request screen.","A","OLE"
 "OLE-DLVR","Deliver","GRACE_PERIOD_FOR_NON_WORKING_HOURS","OLE7036","1","CONFG","60-m","This parameter value is used for configuring the grace time for the patron to return item.","A","OLE"
+"OLE-DLVR","Deliver","SEND_ONHOLD_NOTICE_WHILE_CHECKIN","OLE7037","1","CONFG","true","This parameter value is used for configuring the system to send onhold notice while checkin an item.","A","OLE"

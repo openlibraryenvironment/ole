@@ -123,7 +123,8 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         Criteria criteria = new Criteria();
       /*  criteria.addColumnIsNull("ONHLD_NTC_SNT_DT");*/
         criteria.addEqualTo("oleDeliverRequestBo.borrowerQueuePosition", "1");
-        criteria.addEqualTo("noticeType",OLEConstants.ONHOLD_NOTICE);
+        criteria.addIsNull("oleDeliverRequestBo.onHoldNoticeSentDate");
+        criteria.addEqualTo("noticeType", OLEConstants.ONHOLD_NOTICE);
         String pickupLocation = getPickUpLocation();
         if (pickupLocation != null && !pickupLocation.trim().isEmpty()) {
             criteria.addEqualTo("oleDeliverRequestBo.pickUpLocationId", pickupLocation);
@@ -138,6 +139,7 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         Criteria criteria = new Criteria();
        /* criteria.addColumnIsNull("ONHLD_NTC_SNT_DT");*/
         criteria.addEqualTo("oleDeliverRequestBo.borrowerQueuePosition", "1");
+        criteria.addIsNull("oleDeliverRequestBo.onHoldNoticeSentDate");
         criteria.addEqualTo("noticeType",OLEConstants.ONHOLD_NOTICE);
         if (pickupLocation != null && !pickupLocation.trim().isEmpty()) {
             criteria.addEqualTo("oleDeliverRequestBo.pickUpLocationId", pickupLocation);

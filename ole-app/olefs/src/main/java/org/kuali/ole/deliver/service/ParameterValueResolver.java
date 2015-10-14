@@ -33,7 +33,7 @@ public class ParameterValueResolver {
             parameterName) {
         ParameterKey parameterKey = ParameterKey.create(applicationId, namespace, componentId, parameterName);
         Boolean parameterValueAsBoolean = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameterValueAsBoolean(parameterKey);
-        return parameterValueAsBoolean;
+        return parameterValueAsBoolean != null ? parameterValueAsBoolean : false;
     }
 
 }

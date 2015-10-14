@@ -3679,4 +3679,6 @@ public class OLEConstants {
     public static final String ITEM_TYP_CD_VALUE = "ITEM";
     public static final String ITEM_WILL_BE_HELD_UNTIL = "Item Will Be Held until";
 
+    public static final String SEND_ONHOLD_NOTICE_WHILE_CHECKIN = "SEND_ONHOLD_NOTICE_WHILE_CHECKIN";
+
 }

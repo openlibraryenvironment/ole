@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.controller.checkin;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.OLEConstants;
@@ -15,6 +16,8 @@ import org.kuali.ole.deliver.drools.DroolsConstants;
 import org.kuali.ole.deliver.drools.DroolsExchange;
 import org.kuali.ole.deliver.form.CheckinForm;
 import org.kuali.ole.deliver.form.OLEForm;
+import org.kuali.ole.deliver.notice.executors.OnHoldNoticesExecutor;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.deliver.util.*;
 import org.kuali.ole.deliver.util.printSlip.*;
 import org.kuali.ole.docstore.common.document.content.instance.ItemClaimsReturnedRecord;
@@ -29,6 +32,8 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by pvsubrah on 7/22/15.
@@ -282,7 +287,7 @@ public abstract class CheckinBaseController extends CircUtilController {
 
         updateCheckedInItemList(oleForm, itemRecord.getCheckInNote(), oleItemRecordForCirc, oleItemSearch, olePatronDocument);
 
-//        handleOnHoldRequestIfExists(oleItemRecordForCirc);
+        handleOnHoldRequestIfExists(oleItemRecordForCirc);
 
         handleIntransitStatus(oleItemRecordForCirc, oleForm);
 
@@ -438,8 +443,32 @@ public abstract class CheckinBaseController extends CircUtilController {
         OleDeliverRequestBo oleDeliverRequestBo = oleItemRecordForCirc.getOleDeliverRequestBo();
         if (null != oleItemRecordForCirc.getItemStatusToBeUpdatedTo() && oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equalsIgnoreCase(OLEConstants.ITEM_STATUS_ON_HOLD) &&
                 null != oleDeliverRequestBo && oleDeliverRequestBo.getOleDeliverRequestType().getRequestTypeCode().equals("Hold/Hold Request")) {
-            getOnHoldCourtesyNoticeUtil().sendOnHoldNotice(oleItemRecordForCirc.getOleDeliverRequestBo());
+
+            Boolean sendOnHoldNoticeWhileCheckinItem = ParameterValueResolver.getInstance().getParameterAsBoolean(OLEConstants.APPL_ID, OLEConstants
+                    .DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.SEND_ONHOLD_NOTICE_WHILE_CHECKIN);
+            if (sendOnHoldNoticeWhileCheckinItem && oleDeliverRequestBo.getOnHoldNoticeSentDate() == null) {
+
+                OLEDeliverNotice  deliverNoticeToSentMail = getOnHoldNoticeToSendMail(oleDeliverRequestBo);
+
+                if (null != deliverNoticeToSentMail) {
+                    ExecutorService executorService = Executors.newFixedThreadPool(1);
+                    OnHoldNoticesExecutor runnable = new OnHoldNoticesExecutor(Collections.singletonList(deliverNoticeToSentMail));
+                    executorService.execute(runnable);
+                    executorService.shutdown();
+                }
+            }
         }
+    }
+
+    private OLEDeliverNotice getOnHoldNoticeToSendMail(OleDeliverRequestBo oleDeliverRequestBo) {
+        List<OLEDeliverNotice> deliverNotices = oleDeliverRequestBo.getDeliverNotices();
+        for (Iterator<OLEDeliverNotice> iterator = deliverNotices.iterator(); iterator.hasNext(); ) {
+            OLEDeliverNotice oleDeliverNotice = iterator.next();
+            if(oleDeliverNotice.getNoticeType().equalsIgnoreCase(OLEConstants.ONHOLD_NOTICE)){
+                return oleDeliverNotice;
+            }
+        }
+        return null;
     }
 
     public ItemInfoUtil getItemInfoUtil() {

@@ -52,7 +52,6 @@ public class NoticesExecutor_IT {
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(), Mockito.eq("EXP_REQ_BODY"))).thenReturn("Your Request Place on the item 1 is expired");
        // requestExpirationNoticesExecutor.setParameterResolverInstance(parameterValueResolver);
         RequestExpirationEmailContentFormatter noticeRequestExpirationEmailContentFormatter = Mockito.spy(new RequestExpirationEmailContentFormatter());
-        Mockito.when(noticeRequestExpirationEmailContentFormatter.getEntityTypeContactInfo(Mockito.any(OlePatronDocument.class))).thenReturn(new EntityTypeContactInfoBo());
         OlePatronHelperService olePatronHelperService = Mockito.mock(OlePatronHelperService.class);
         try{
         Mockito.when(olePatronHelperService.getPatronHomeEmailId(Mockito.any(EntityTypeContactInfoBo.class))).thenReturn("Mahesh@htcindia.com");
@@ -84,7 +83,6 @@ public class NoticesExecutor_IT {
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(), Mockito.eq("EXP_HOLD_NOTICE_CONTENT"))).thenReturn("The item is kept hold in the circulation desk for you to pick up .since you haven't picked up the book the item is moved to shelf.Place a new Request for that item");
         //holdExpirationNoticesExecutor.setParameterResolverInstance(parameterValueResolver);
         RequestExpirationEmailContentFormatter noticeRequestExpirationEmailContentFormatter = Mockito.spy(new RequestExpirationEmailContentFormatter());
-        Mockito.when(noticeRequestExpirationEmailContentFormatter.getEntityTypeContactInfo(Mockito.any(OlePatronDocument.class))).thenReturn(new EntityTypeContactInfoBo());
         OlePatronHelperService olePatronHelperService = Mockito.mock(OlePatronHelperService.class);
         try{
             Mockito.when(olePatronHelperService.getPatronHomeEmailId(Mockito.any(EntityTypeContactInfoBo.class))).thenReturn("Mahesh@htcindia.com");
@@ -112,7 +110,6 @@ public class NoticesExecutor_IT {
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(), Mockito.eq("ONHOLD_BODY"))).thenReturn("The request you have on the item is available to pick up and the item will be on hold for you till 22nd of june ");
         //holdExpirationNoticesExecutor.setParameterResolverInstance(parameterValueResolver);
         RecallRequestEmailContentFormatter noticeRequestExpirationEmailContentFormatter = Mockito.spy(new RecallRequestEmailContentFormatter());
-        Mockito.when(noticeRequestExpirationEmailContentFormatter.getEntityTypeContactInfo(Mockito.any(OlePatronDocument.class))).thenReturn(new EntityTypeContactInfoBo());
         OlePatronHelperService olePatronHelperService = Mockito.mock(OlePatronHelperService.class);
         try{
             Mockito.when(olePatronHelperService.getPatronHomeEmailId(Mockito.any(EntityTypeContactInfoBo.class))).thenReturn("Mahesh@htcindia.com");
@@ -143,7 +140,6 @@ public class NoticesExecutor_IT {
         Mockito.when(parameterValueResolver.getParameter(Mockito.anyString(),Mockito.anyString(),Mockito.anyString(), Mockito.eq("RECALL_BODY"))).thenReturn("Item is needed by another patron .so kindly return the item before the date specified below");
         //holdExpirationNoticesExecutor.setParameterResolverInstance(parameterValueResolver);
         RecallRequestEmailContentFormatter noticeRequestExpirationEmailContentFormatter = Mockito.spy(new RecallRequestEmailContentFormatter());
-        Mockito.when(noticeRequestExpirationEmailContentFormatter.getEntityTypeContactInfo(Mockito.any(OlePatronDocument.class))).thenReturn(new EntityTypeContactInfoBo());
         OlePatronHelperService olePatronHelperService = Mockito.mock(OlePatronHelperServiceImpl.class);
         noticeRequestExpirationEmailContentFormatter.setOlePatronHelperService(olePatronHelperService);
         try{

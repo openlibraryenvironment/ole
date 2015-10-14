@@ -831,6 +831,19 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
      * @return phoneNumber
      */
     public String getPhoneNumber() {
+        if(null == phoneNumber){
+            List<EntityTypeContactInfoBo> entityTypeContactInfos = getEntity().getEntityTypeContactInfos();
+            if (CollectionUtils.isNotEmpty(entityTypeContactInfos)) {
+                EntityTypeContactInfoBo entityTypeContactInfoBo = entityTypeContactInfos.get(0);
+                if (entityTypeContactInfoBo!=null && entityTypeContactInfoBo.getPhoneNumbers() != null) {
+                    for (int j = 0; j < entityTypeContactInfoBo.getPhoneNumbers().size(); j++) {
+                        if (entityTypeContactInfoBo.getPhoneNumbers().get(j).getPhoneTypeCode().equalsIgnoreCase("HM")) {
+                            phoneNumber = (entityTypeContactInfoBo.getPhoneNumbers().get(j).getPhoneNumber());
+                        }
+                    }
+                }
+            }
+        }
         return phoneNumber;
     }
 
