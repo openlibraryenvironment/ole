@@ -4576,7 +4576,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
     private String convertDateFormatToRegex(String format){
         format = format.replace("\\", "\\\\").replace(".", "\\.").replace("-", "\\-").replace("+", "\\+").replace("(",
                 "\\(").replace(")", "\\)").replace("[", "\\[").replace("]", "\\]").replace("|", "\\|").replace("yyyy",
-                "((19|2[0-9])[0-9]{2})").replace("yy", "([0-9]{2})").replaceAll("M{4,}",
+                "((1|2)[0-9]{3})").replace("yy", "([0-9]{2})").replaceAll("M{4,}",
                 "([@]+)") //"(January|February|March|April|May|June|July|August|September|October|November|December)")
                 .replace("MMM", "([@]{3})") //"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)")
                 .replace("MM", "(0[1-9]|1[012])").replace("M", "(0?[1-9]|1[012])").replace("dd",
