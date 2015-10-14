@@ -37,15 +37,15 @@
             <list>
                 <!-- <bean parent="Uif-DataField" p:propertyName="logTypeId" p:label="Log Type" p:fieldLabel.renderColon="false"/>
                  <bean parent="Uif-DataField" p:propertyName="logTypeId" p:label="Log Type" p:fieldLabel.renderColon="false"/>-->
-                <bean parent="Uif-DataField" p:propertyName="logTypeName" p:label="Log Type" p:fieldLabel.renderColon="false"/>
-                <bean parent="Uif-DataField" p:propertyName="eventTypeName" p:label="Event Type" p:fieldLabel.renderColon="false"/>
-                <bean parent="Uif-DataField" p:propertyName="problemTypeName" p:label="Problem Type" p:fieldLabel.renderColon="false"/>
-                <bean parent="Uif-DataField" p:propertyName="eventNote" p:label="Note" p:fieldLabel.renderColon="false"/>
-                <bean parent="Uif-DataField" p:propertyName="eventUser" p:label="User" p:fieldLabel.renderColon="false"/>
-                <bean parent="Uif-DataField" p:propertyName="eventDate" p:label="Date" p:fieldLabel.renderColon="false"/>
-                <bean parent="Uif-DataField" p:propertyName="eventStatus" p:label="Status" p:fieldLabel.renderColon="false"/>
-                <bean parent="Uif-DataField" p:propertyName="eventResolvedDate" p:label="Date Resolved" p:fieldLabel.renderColon="false"/>
-                <bean parent="Uif-DataField" p:propertyName="eventResolution" p:label="Resolution" p:fieldLabel.renderColon="false"/>
+                <bean parent="Uif-DataField" p:propertyName="logTypeName" p:label="Log Type" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
+                <bean parent="Uif-InputField" p:propertyName="eventTypeName" p:label="Event Type" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
+                <bean parent="Uif-InputField" p:propertyName="problemTypeName" p:label="Problem Type" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
+                <bean parent="Uif-InputField" p:propertyName="eventNote" p:label="Note" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
+                <bean parent="Uif-InputField" p:propertyName="eventUser" p:label="User" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
+                <bean parent="Uif-InputField" p:propertyName="eventDate" p:label="Date" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
+                <bean parent="Uif-InputField" p:propertyName="eventStatus" p:label="Status" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
+                <bean parent="Uif-InputField" p:propertyName="eventResolvedDate" p:label="Date Resolved" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
+                <bean parent="Uif-InputField" p:propertyName="eventResolution" p:label="Resolution" p:fieldLabel.renderColon="false" p:readOnly="@{#line.saveFlag}"/>
                 <bean parent="Uif-VerticalFieldGroup" p:label="Attach File">
                     <property name="items">
                         <list>

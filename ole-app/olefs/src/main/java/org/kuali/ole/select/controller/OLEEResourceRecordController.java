@@ -249,9 +249,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                                         HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm form = (OLEEResourceRecordForm) uifForm;
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        //String selectedCollectionId = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        /*BindingInfo addLineBindingInfo = (BindingInfo) form.getViewPostMetadata().getComponentPostData(
-                selectedCollectionId, UifConstants.PostMetadata.ADD_LINE_BINDING_INFO);*/
         CollectionGroup collectionGroup = uifForm.getPostedView().getViewIndex().getCollectionGroupByPath(
                 selectedCollectionPath);
         String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
@@ -314,6 +311,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) form.getDocument();
         String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         OLEEResourceEventLog oleERSEventLog = oleeResourceRecordDocument.getOleERSEventLogs().get(Integer.parseInt(selectedLineIndex));
+        oleERSEventLog.setSaveFlag(true);
         return super.navigate(form, result, request, response);
     }
 
@@ -466,7 +464,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         boolean titleChange = false;
         if (oleeResourceRecordDocument.getOleERSIdentifier() != null && !oleeResourceRecordDocument.getOleERSIdentifier().isEmpty()) {
             oleeResourceRecordDocument = getOleEResourceSearchService().getNewOleERSDoc(oleeResourceRecordDocument);
-            if (!oleeResourceRecordDocument.getOldTitle().equalsIgnoreCase(oleeResourceRecordDocument.getTitle())) {
+            if ( oleeResourceRecordDocument.getOldTitle()!=null && !oleeResourceRecordDocument.getOldTitle().equalsIgnoreCase(oleeResourceRecordDocument.getTitle())) {
                 titleChange = true;
             }
             if (!oleERSform.isDefaultDatesFlag() && oleERSform.getPageId() != null && oleERSform.getPageId().equalsIgnoreCase("OLEEResourceRecordView-E-ResourceInstanceTab")) {
