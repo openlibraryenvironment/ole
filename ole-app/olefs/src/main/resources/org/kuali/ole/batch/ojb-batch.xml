@@ -376,8 +376,8 @@
         <field-descriptor name="noOfEinstanceDeleted" column="NUM_EINSTANCES_DELETED" jdbc-type="INTEGER" />
         <field-descriptor name="noOfEinstanceCreatedWithOutLink" column="NUM_EINSTANCES_WITH_NO_LINK" jdbc-type="INTEGER" />
         <field-descriptor name="noOfbibsHaveMoreThanOneEinstance" column="NUM_BIBS_GT1_EINSTANCES" jdbc-type="INTEGER" />
-        <field-descriptor name="noOfEHoldingsCreatedWithOutPlatfom" column="NUM_EINSTANCES_WITH_NO_PLATFORM" jdbc-type="INTEGER" />
-        <field-descriptor name="noOfEHoldingsCreatedWithOutEResource" column="NUM_EINSTANCES_WITH_NO_ERESOURCE" jdbc-type="INTEGER" />
+        <field-descriptor name="noOfEHoldingsCreatedWithOutPlatfom" column="NUM_EHOL_WITH_NO_PLAT" jdbc-type="INTEGER" />
+        <field-descriptor name="noOfEHoldingsCreatedWithOutEResource" column="NUM_EHOL_WITH_NO_ERES" jdbc-type="INTEGER" />
 
         <!--<collection-descriptor name="oleBatchProcessScheduleBoList" element-class-ref="org.kuali.ole.batch.bo.OLEBatchProcessScheduleBo"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
