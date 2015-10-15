@@ -4180,20 +4180,21 @@ drop table if exists OLE_BAT_PRCS_PRF_MTCH_POINT_T
 CREATE TABLE OLE_BAT_PRCS_PRF_MTCH_POINT_T
 (
       MATCH_POINT_ID VARCHAR(40)
+        , CAS_MATCH_POINT VARCHAR(40)
         , MATCH_POINT VARCHAR(100)
         , MATCH_POINT_TYPE VARCHAR(40)
         , BAT_PRCS_PRF_ID VARCHAR(40) NOT NULL
         , OBJ_ID VARCHAR(36) NOT NULL
         , VER_NBR DECIMAL(8) default 1 NOT NULL
     
-    , CONSTRAINT OLE_BAT_PRCS_PRF_MTCH_POINTP1 PRIMARY KEY(MATCH_POINT_ID)
+    , CONSTRAINT OLE_BAT_PRCS_PRF_MTCH_POINTP1 PRIMARY KEY(MATCH_POINT_ID,CAS_MATCH_POINT)
 
 
 
 
 
     
-                                                                                                                                                                                                                
+                                                                                                                                                                                                                                    
                                     
 , INDEX BAT_PRF_MTCH_PNT_I (BAT_PRCS_PRF_ID )
 
