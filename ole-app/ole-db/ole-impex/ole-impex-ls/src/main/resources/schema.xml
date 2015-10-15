@@ -2223,6 +2223,7 @@
 
     <table name="OLE_BAT_PRCS_PRF_MTCH_POINT_T">
         <column name="MATCH_POINT_ID" primaryKey="true" size="40" type="VARCHAR"/>
+        <column name="CAS_MATCH_POINT"  primaryKey="true" size="40" type="VARCHAR"/>
         <column name="MATCH_POINT" size="100" type="VARCHAR"/>
         <column name="MATCH_POINT_TYPE" size="40" type="VARCHAR"/>
         <column name="BAT_PRCS_PRF_ID" required="true" size="40" type="VARCHAR"/>
