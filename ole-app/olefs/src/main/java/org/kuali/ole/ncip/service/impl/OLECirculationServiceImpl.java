@@ -615,10 +615,14 @@ public class OLECirculationServiceImpl implements OLECirculationService {
             for (FeeType feeType : feeTypeList) {
                 OLEItemFine oleItemFine = new OLEItemFine();
                 if (feeType.getItemUuid() != null) {
+                    try {
                     item = getDocstoreClientLocator().getDocstoreClient().retrieveItem(feeType.getItemUuid());
                     oleItemFine.setCatalogueId(item.getHolding().getBib().getId());
                     oleItemFine.setTitle(item.getHolding().getBib().getTitle());
                     oleItemFine.setAuthor(item.getHolding().getBib().getAuthor());
+                    } catch (Exception e) {
+                        LOG.error("Exception " +e);
+                    }
                 }
                 oleItemFine.setPatronBillId(olePatronBillPayment.getBillNumber());
                 oleItemFine.setAmount((feeType.getFeeAmount() != null ? feeType.getFeeAmount().bigDecimalValue() : OLEConstants.BIGDECIMAL_DEF_VALUE));
@@ -922,17 +926,8 @@ public class OLECirculationServiceImpl implements OLECirculationService {
               } else {
                   oleCheckedOutItem.setNumberOfOverdueSent("1");
               }
-              Map<String, String> locationMap = getCircDeskLocationResolver().getLocationMap(oleLoanDocument.getItemFullLocation());
-              oleLoanDocument.setItemInstitution(locationMap.get(OLEConstants.ITEM_INSTITUTION));
-              oleLoanDocument.setItemCampus(locationMap.get(OLEConstants.ITEM_CAMPUS));
-              oleLoanDocument.setItemCollection(locationMap.get(OLEConstants.ITEM_COLLECTION));
-              oleLoanDocument.setItemLibrary(locationMap.get(OLEConstants.ITEM_LIBRARY));
-              oleLoanDocument.setItemLocation(locationMap.get(OLEConstants.ITEM_SHELVING));
-              oleLoanDocument.setBorrowerTypeCode(patronType);
-              if(renewableNeeded && renewInfoNeeded){
-
-              int renewalDaysFromPolicy = getRenewalDays(oleCheckedOutItem.getItemType(), oleLoanDocument, patronType, oleLoanDocument.getNumberOfRenewals());
-              oleCheckedOutItem.setNumberOfRenewals(String.valueOf(renewalDaysFromPolicy));
+              if (renewableNeeded && renewInfoNeeded) {
+              oleCheckedOutItem.setNumberOfRenewals(oleLoanDocument.getNumberOfRenewals());
               }
             oleCheckedOutItems.add(oleCheckedOutItem);
           }
