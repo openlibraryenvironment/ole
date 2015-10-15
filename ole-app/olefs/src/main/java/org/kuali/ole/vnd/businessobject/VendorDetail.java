@@ -115,6 +115,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 
     private boolean nonBillable;
     private Integer gokbId;
+    private Integer oldGokbId;
     private String gokbOrganizationStatus;
     
     // jira OLE-3081
@@ -965,6 +966,14 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 
     public void setLinkedToEHoldings(boolean linkedToEHoldings) {
         this.linkedToEHoldings = linkedToEHoldings;
+    }
+
+    public Integer getOldGokbId() {
+        return oldGokbId;
+    }
+
+    public void setOldGokbId(Integer oldGokbId) {
+        this.oldGokbId = oldGokbId;
     }
 }
 

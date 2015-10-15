@@ -45,6 +45,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -267,7 +268,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      * separately. Restriction-related information will be changed based on whether the Vendor Restricted Indicator was changed. If
      * the Tax Number or Tax Type code have changed, the fact will be recorded with a new record in the Tax Change table. Finally
      * the method will call the saveBusinessObject( ) of the super class to save the vendor detail.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#saveBusinessObject()
      */
     @Override
@@ -296,9 +297,8 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
                     vendorDetail.getEventLogs().add(eventLog);
                 }
             }
-            if(vendorDetail.getGokbId()!=null && vendorDetail.getGokbId()!=null){
-                eventLog = new VendorEventLog();
-                eventLog.setNote("GOKb :" + vendorDetail.getGokbId() + " linked to Document" );
+            if(vendorDetail.getGokbId()!=null && vendorDetail.getGokbId() != vendorDetail.getOldGokbId() ){
+                eventLog.setNote("GOKb :" + vendorDetail.getGokbId() + " linked to Document");
                 HashMap organization = new HashMap();
                 organization.put("gokbOrganizationId",vendorDetail.getGokbId());
                 List<OleGokbOrganization> oleGokbOrganizations = (List<OleGokbOrganization>)KRADServiceLocator.getBusinessObjectService().findMatching(OleGokbOrganization.class,organization);
@@ -307,10 +307,9 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
                     alias.setVendorAliasName(oleGokbOrganizations.get(0).getVariantName());
                     alias.setActive(true);
                     vendorDetail.getVendorAliases().add(alias);
-
                 }
+                vendorDetail.getEventLogs().add(eventLog);
             }
-            vendorDetail.getEventLogs().add(eventLog);
         }else if(vendorDetail.getVendorDetailAssignedIdentifier() == null){
             eventLog.setNote("Created Vendor ");
             vendorDetail.getEventLogs().add(eventLog);
@@ -327,6 +326,26 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
         super.saveBusinessObject();
     }
 
+    @Override
+    public void processAfterRetrieve() {
+        VendorDetail vendorDetail = (VendorDetail) getBusinessObject();
+        Map map = new HashMap();
+        map.put("vendorHeaderGeneratedIdentifier", vendorDetail.getVendorHeaderGeneratedIdentifier());
+        List<VendorEventLog> vendorEventLogs = (List<VendorEventLog>) getBusinessObjectService().findMatching(VendorEventLog.class,map);
+        vendorDetail.setEventLogs(vendorEventLogs);
+        super.processAfterRetrieve();
+    }
+
+
+    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+        ArrayList sections = new ArrayList();
+        ((VendorDetail)document.getOldMaintainableObject().getBusinessObject()).setEventLogs(((VendorDetail) document.getNewMaintainableObject().getBusinessObject()).getEventLogs());
+        sections.addAll(this.getCoreSections(document, oldMaintainable));
+        return sections;
+    }
+
+
+
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterEdit()
      */
@@ -342,6 +361,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
         document.setNotes(notes);
         VendorDetail vendorDetail = (VendorDetail) document.getNewMaintainableObject().getBusinessObject();
         if(vendorDetail.getGokbId()!=null){
+            vendorDetail.setOldGokbId(vendorDetail.getGokbId());
         Map hash = new HashMap();
             hash.put("publisherId",vendorDetail.getGokbId());
             List<HoldingsRecord> holdingsRecords = (List<HoldingsRecord>) getBusinessObjectService().findMatching(HoldingsRecord.class,hash);
