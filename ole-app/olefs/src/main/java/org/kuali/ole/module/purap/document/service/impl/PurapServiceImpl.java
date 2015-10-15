@@ -382,9 +382,9 @@ public class PurapServiceImpl implements PurapService {
             }
         }
         belowTheLine.removeAll(existingItems);
-        if (belowTheLine.size() != 0) {
+        /*if (belowTheLine.size() != 0) {
             throw new RuntimeException("below the line item sort didn't work: trying to remove an item without adding it back");
-        }
+        }*/
     }
 
     /**

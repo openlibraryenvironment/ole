@@ -904,7 +904,7 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
         Boolean isItemLevelCredit = null;
         Boolean isAdditionalChargeLevelCredit = null;
         BigDecimal firstPOTotalUnitPrice=BigDecimal.ZERO;
-        for (OleInvoiceItem item : (List<OleInvoiceItem>) inv.getItems()) {
+        for(OleInvoiceItem item : (List<OleInvoiceItem>)inv.getItems()){
             if (item.isDebitItem()  &&
                     (item.getItemListPrice().isNonZero() ||
                     (item.getItemUnitPrice()!=null && item.getItemUnitPrice().compareTo(BigDecimal.ZERO)!=0))){
@@ -1786,15 +1786,6 @@ public class OleInvoiceServiceImpl extends InvoiceServiceImpl implements OleInvo
                 }
             }
 
-            //if (invoiceDocument.getPurchaseOrderDocuments() != null && invoiceDocument.getPurchaseOrderDocuments().size() > 0) {
-            for (OleInvoiceItem invoiceItem : (List<OleInvoiceItem>) invoiceDocument.getItems()) {
-                if (invoiceItem.getItemType().isAdditionalChargeIndicator() && invoiceItem.getItemUnitPrice() != null && invoiceItem.isDebitItem()) {
-                    invoiceItem.setPurchaseOrderIdentifier(poIdentifierForDebit);
-                }
-                if (invoiceItem.getItemType().isAdditionalChargeIndicator() && invoiceItem.getItemUnitPrice() != null && !invoiceItem.isDebitItem()) {
-                    invoiceItem.setPurchaseOrderIdentifier(poIdentifierForCredit);
-                }
-            }
         }else{
             for (OleInvoiceItem invoiceItem : (List<OleInvoiceItem>) invoiceDocument.getItems()) {
                 if (invoiceItem.getItemType().isAdditionalChargeIndicator() && invoiceItem.getItemUnitPrice() != null) {
