@@ -35,7 +35,7 @@
             <list>
                 <bean id="eResource-OrganizationActive" parent="Uif-LinkField" p:href="@{#line.vendorLink}"
                       p:label="Vendor" p:linkText="@{#line.organization}"  p:target="_blank" p:render="@{#line.activeVendor}"/>
-                <bean id="eResource-OrganizationNonActive" parent="Uif-LinkField" p:href="@{#line.vendorLink}"
+                <bean id="eResource-OrganizationInActive" parent="Uif-LinkField" p:href="@{#line.vendorLink}"
                       p:label="Vendor" p:linkText="@{#line.organization}"  p:target="_blank" p:render="@{!#line.activeVendor}" p:cssClasses="InactiveVendorForHiperLink"/>
                 <bean id="eResource-Contact" parent="Uif-DataField" p:propertyName="contact" p:label="Contact"/>
                 <bean id="eResource-Role" parent="Uif-DataField" p:propertyName="role" p:label="Role"/>

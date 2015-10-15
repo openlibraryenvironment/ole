@@ -69,6 +69,8 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
 
     private Integer vendorDetailAssignedIdentifier;
 
+    private boolean activeVendor;
+
     private boolean active;
 
     private String software;
@@ -213,6 +215,14 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
 
     public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
         this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
+    }
+
+    public boolean isActiveVendor() {
+        return activeVendor;
+    }
+
+    public void setActiveVendor(boolean activeVendor) {
+        this.activeVendor = activeVendor;
     }
 
     public boolean isActive() {
@@ -402,6 +412,7 @@ public class OLEPlatformRecordDocument extends OleTransactionalDocumentBase impl
             List<VendorDetail> vendorDetails = (List<VendorDetail>) KRADServiceLocator.getBusinessObjectService().findMatching(VendorDetail.class, vendorMap);
             if (CollectionUtils.isNotEmpty(vendorDetails)) {
                 this.setPlatformProviderName(vendorDetails.get(0).getVendorName());
+                this.setActiveVendor(vendorDetails.get(0).isActiveIndicator());
             }
         }
         if (this.getOlePlatformId() != null) {

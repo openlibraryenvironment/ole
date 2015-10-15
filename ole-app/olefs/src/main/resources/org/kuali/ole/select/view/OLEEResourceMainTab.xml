@@ -4,7 +4,6 @@
     <bean id="OLEEResourceRecordView-E-ResourceRecordTab" parent="E-Res-Uif-DocumentPage">
         <property name="items">
             <list merge="true">
-                <bean id="bannerMessage" parent="Uif-MessageField" p:messageText="@{document.bannerMessage}" p:cssClasses="successMessageClass"/>
                 <ref bean ="Ole-Uif-DocumentPageFooter-MainTab"/>
                 <ref bean="OLEEResourceMainTab-OverviewSection"/>
                 <ref bean="OLEEResourceMainTab-WorkflowSection"/>
@@ -144,7 +143,8 @@
                                                 </bean>
                                             </property>
                                         </bean>
-                                        <bean id="publisherUrl" parent="Uif-LinkField" p:linkText="@{document.publisher}" p:target="_blank" p:href="@{document.publisherLink}" p:label=""/>
+                                        <bean id="activePublisherUrl" parent="Uif-LinkField" p:linkText="@{document.publisher}" p:target="_blank" p:href="@{document.publisherLink}" p:label="" p:render="@{document.activePublisher}"/>
+                                        <bean id="inActivePublisherUrl" parent="Uif-LinkField" p:linkText="@{document.publisher}" p:target="_blank" p:href="@{document.publisherLink}" p:label="" p:render="@{!document.activePublisher}" p:cssClasses="InactiveVendorForHiperLink"/>
                                     </list>
                                 </property>
                             </bean>
@@ -165,7 +165,9 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-LinkField" p:linkText="@{document.vendorName}" p:target="_blank" p:href="@{document.vendorLink}" p:label=" "
-                                              p:render="@{document.documentHeader.workflowDocument.final}"/>
+                                              p:render="@{document.documentHeader.workflowDocument.final and document.activeVendor}"/>
+                                        <bean parent="Uif-LinkField" p:linkText="@{document.vendorName}" p:target="_blank" p:href="@{document.vendorLink}" p:label=" "
+                                              p:render="@{document.documentHeader.workflowDocument.final and !document.activeVendor}" p:cssClasses="InactiveVendorForHiperLink"/>
                                         <bean id="vendorSuggest" parent="Uif-InputField"
                                               p:propertyName="vendorName"
                                               p:label=" "
@@ -186,7 +188,8 @@
                                                 </bean>
                                             </property>
                                         </bean>
-                                        <bean id="vendorUrl" parent="Uif-LinkField" p:linkText="@{document.vendorName}" p:target="_blank" p:href="@{document.vendorLink}" p:label=""/>
+                                        <bean id="activeVendorUrl" parent="Uif-LinkField" p:linkText="@{document.vendorName}" p:target="_blank" p:href="@{document.vendorLink}" p:label="" p:render="@{!document.documentHeader.workflowDocument.final and document.activeVendor}"/>
+                                        <bean id="inActiveVendorUrl" parent="Uif-LinkField" p:linkText="@{document.vendorName}" p:target="_blank" p:href="@{document.vendorLink}" p:label="" p:render="@{!document.documentHeader.workflowDocument.final and !document.activeVendor}" p:cssClasses="InactiveVendorForHiperLink"/>
                                     </list>
                                 </property>
                             </bean>

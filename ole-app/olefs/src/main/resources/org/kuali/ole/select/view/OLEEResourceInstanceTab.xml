@@ -4,6 +4,7 @@
     <bean id="OLEEResourceRecordView-E-ResourceInstanceTab" parent="E-Res-Uif-DocumentPage">
             <property name="items">
             <list>
+                <bean id="bannerMessage" parent="Uif-MessageField" p:messageText="@{document.bannerMessage}" p:cssClasses="successMessageClass"/>
                 <ref bean="OLEEResourceRecordView-InstanceLink"/>
                 <ref bean="OLEEResourceRecordView-Overview"/>
                 <ref bean="OLEEResourceRecordView-InstanceDefault"/>

@@ -111,7 +111,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat(OLEConstants.OLEEResourceRecord.CREATED_DATE_FORMAT);
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(OLEConstants.CHECK_IN_DATE_TIME_FORMAT);
     private static final String PLATFORM_URL_START = "platformRecordController?viewId=OLEPlatformRecordView&methodToCall=docHandler&docId=";
-    private static final String PLATFORM_URL_END = "&command=displayDocSearchView";
+    private static final String PLATFORM_URL_END = "&command=displayDocSearchView&pageId=OLEPlatformRecordView-EventLogTab";
     private static final String HREF_START = "<a  href='";
     private static final String HREF_END = "' target='_blank'>Click</a>";
     private UniversityDateService universityDateService;
@@ -1849,6 +1849,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             List<VendorDetail> vendorDetails = (List<VendorDetail>) getBusinessObjectService().findMatching(VendorDetail.class, vendorMap);
             if (vendorDetails != null && vendorDetails.size() > 0) {
                 oleeResourceRecordDocument.setVendorId(vendorDetails.get(0).getVendorNumber());
+                oleeResourceRecordDocument.setActiveVendor(vendorDetails.get(0).isActiveIndicator());
             } else {
                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(OLEConstants.OLEEResourceRecord.OLEERMAINTAB_OVERVIEW, OLEConstants.OLEEResourceRecord.INVALID_VENDOR);
                 flag = true;
@@ -1863,6 +1864,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             List<VendorDetail> vendorDetails = (List<VendorDetail>) getBusinessObjectService().findMatching(VendorDetail.class, vendorMap);
             if (vendorDetails != null && vendorDetails.size() > 0) {
                 oleeResourceRecordDocument.setPublisherId(vendorDetails.get(0).getVendorNumber());
+                oleeResourceRecordDocument.setActivePublisher(vendorDetails.get(0).isActiveIndicator());
             } else {
                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(OLEConstants.OLEEResourceRecord.OLEERMAINTAB_OVERVIEW, OLEConstants.OLEEResourceRecord.INVALID_PUBLISHER);
                 flag = true;
@@ -3604,25 +3606,33 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
 
     @Override
     public void getBannerMessage(OLEEResourceRecordDocument oleEResourceRecordDocument) {
+        Set<String> platformIds = new HashSet<>();
         String bannerMessage = new String();
         for (OLEEResourceInstance eResourceInstance : oleEResourceRecordDocument.getOleERSInstances()) {
             if (StringUtils.isNotBlank(eResourceInstance.getPlatformId())) {
+                platformIds.add(eResourceInstance.getPlatformId());
+            }
+        }
+        if (platformIds.size() > 0) {
                 Map platformMap = new HashMap();
-                platformMap.put(OLEConstants.OLE_PLATFORM_ID,eResourceInstance.getPlatformId());
-                OLEPlatformRecordDocument olePlatformRecordDocument = getBusinessObjectService().findByPrimaryKey(OLEPlatformRecordDocument.class, platformMap);
+            platformMap.put(OLEConstants.OLE_PLATFORM_ID, platformIds);
+            List<OLEPlatformRecordDocument> olePlatformRecordDocumentList = (List<OLEPlatformRecordDocument>) getBusinessObjectService().findMatching(OLEPlatformRecordDocument.class, platformMap);
+            if (CollectionUtils.isNotEmpty(olePlatformRecordDocumentList)) {
+                for (OLEPlatformRecordDocument olePlatformRecordDocument : olePlatformRecordDocumentList) {
                 if (olePlatformRecordDocument != null) {
                     List<OLEPlatformEventLog> olePlatformEventLogList = olePlatformRecordDocument.getEventLogs();
                     for (OLEPlatformEventLog olePlatformEventLog : olePlatformEventLogList) {
-                        if (StringUtils.isNotBlank(olePlatformEventLog.getLogTypeName()) && olePlatformEventLog.getLogTypeName().equals("Problem")) {
-                            if (StringUtils.isNotBlank(olePlatformEventLog.getEventStatus()) && !olePlatformEventLog.getEventStatus().equals("Resolved")) {
-                                bannerMessage = bannerMessage.concat("NOTICE: " + olePlatformRecordDocument.getName() + " is experiencing a problem "+ makeUrlClickable(olePlatformRecordDocument.getDocumentNumber())+" for more details.");
-                                bannerMessage =bannerMessage.concat(OLEConstants.BREAK);
+                            if (StringUtils.isNotBlank(olePlatformEventLog.getLogTypeId()) && olePlatformEventLog.getLogTypeId().equals("2")) {
+                                if (StringUtils.isNotBlank(olePlatformEventLog.getEventStatus()) && !olePlatformEventLog.getEventStatus().equals("Resolved")) {
+                                    bannerMessage = bannerMessage.concat("NOTICE: " + olePlatformRecordDocument.getName() + " is experiencing a problem " + makeUrlClickable(olePlatformRecordDocument.getDocumentNumber()) + " for more details.");
+                                    bannerMessage = bannerMessage.concat(OLEConstants.BREAK);
                                 break;
                             }
                         }
                     }
                 }
             }
+        }
         }
         oleEResourceRecordDocument.setBannerMessage(bannerMessage);
     }
@@ -4164,7 +4174,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
     }
 
     public String makeUrlClickable(String docId){
-        String url = PLATFORM_URL_START + docId + PLATFORM_URL_END;
+        String url = ConfigContext.getCurrentContextConfig().getProperty("ole.platform.url") + PLATFORM_URL_START + docId + PLATFORM_URL_END;
         return HREF_START + url + HREF_END;
     }
 
@@ -4401,6 +4411,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             if (vendorDetails != null && vendorDetails.size() > 0) {
                 VendorDetail vendorDetail = vendorDetails.get(0);
                 oleeResourceRecordDocument.setPublisherId(vendorDetail.getVendorNumber());
+                oleeResourceRecordDocument.setActivePublisher(vendorDetail.isActiveIndicator());
                 KRADServiceLocatorWeb.getDocumentService().updateDocument(oleeResourceRecordDocument);
             }
             updateEResVendorAssociation(oleeResourceRecordDocument);

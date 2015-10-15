@@ -733,6 +733,7 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
                     olePlatformRecordDocument.setVendorHeaderGeneratedIdentifier(vendorDetails.get(0).getVendorHeaderGeneratedIdentifier());
                     olePlatformRecordDocument.setVendorDetailAssignedIdentifier(vendorDetails.get(0).getVendorDetailAssignedIdentifier());
                     olePlatformRecordDocument.setPlatformProviderName(vendorDetails.get(0).getVendorName());
+                    olePlatformRecordDocument.setActiveVendor(vendorDetails.get(0).isActiveIndicator());
                 }
             }
         }
@@ -786,6 +787,7 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
                             olePlatformRecordDocument.setVendorHeaderGeneratedIdentifier(vendorDetails.get(0).getVendorHeaderGeneratedIdentifier());
                             olePlatformRecordDocument.setVendorDetailAssignedIdentifier(vendorDetails.get(0).getVendorDetailAssignedIdentifier());
                             olePlatformRecordDocument.setPlatformProviderName(vendorDetails.get(0).getVendorName());
+                            olePlatformRecordDocument.setActiveVendor(vendorDetails.get(0).isActiveIndicator());
                         } else {
                             getOleEResourceSearchService().createVendor(oleGokbOrganization.getOrganizationName(), oleGokbOrganization.getGokbOrganizationId(), oleGokbOrganization.getVariantName());
                             Thread.sleep(300);
@@ -818,6 +820,7 @@ public class OLEPlatformRecordController extends OleTransactionalDocumentControl
                 olePlatformRecordDocument.setPlatformProviderMessage("You are about to link this platform to "+olePlatformRecordDocument.getPlatformProviderName()+"  Do you wish to proceed?");
                 olePlatformRecordDocument.setVendorHeaderGeneratedIdentifier(vendorDetails.get(0).getVendorHeaderGeneratedIdentifier());
                 olePlatformRecordDocument.setVendorDetailAssignedIdentifier(vendorDetails.get(0).getVendorDetailAssignedIdentifier());
+                olePlatformRecordDocument.setActiveVendor(vendorDetails.get(0).isActiveIndicator());
             }else {
                 olePlatformRecordForm.setMessage("Invalid Platform Provider " + olePlatformRecordDocument.getPlatformProviderName());
                 olePlatformRecordDocument.setSaveValidationFlag(true);

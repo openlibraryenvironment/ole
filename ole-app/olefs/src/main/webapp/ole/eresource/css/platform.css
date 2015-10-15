@@ -99,3 +99,23 @@ div#OLEPlatformEventLogTab-Event{
     opacity: 0.8;
     z-index: 999;
 }
+
+.InactiveVendorForHiperLink A:Visited {
+    font-weight: normal;
+    color: red;
+    font-style: italic;
+    background:yellow;
+}
+
+.InactiveVendorForHiperLink A:link {
+    font-weight: normal;
+    color: red;
+    font-style: italic;
+}
+
+.InactiveVendorForHiperLink A:active {
+    font-weight: normal;
+    color: red;
+    font-style: italic;
+    background:yellow;
+}

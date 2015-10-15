@@ -568,6 +568,7 @@ public class OLEPlatformServiceImpl implements OLEPlatformService {
             List<VendorDetail> vendorDetails = (List<VendorDetail>) KRADServiceLocator.getBusinessObjectService().findMatching(VendorDetail.class, vendorMap);
             if (vendorDetails != null && vendorDetails.size() > 0) {
                 olePlatformRecordDocument.setVendorId(vendorDetails.get(0).getVendorNumber());
+                olePlatformRecordDocument.setActiveVendor(vendorDetails.get(0).isActiveIndicator());
             } else {
                 olePlatformRecordDocument.setVendorId(null);
                 errorMessage.append("Invalid Platform Provider " + olePlatformRecordDocument.getPlatformProviderName());

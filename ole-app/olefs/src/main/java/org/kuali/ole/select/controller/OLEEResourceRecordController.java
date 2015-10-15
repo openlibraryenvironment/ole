@@ -3103,6 +3103,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
         getOleEResourceSearchService().populateInstanceAndEInstance(oleeResourceRecordDocument);
+        getOleEResourceSearchService().getBannerMessage(oleeResourceRecordDocument);
         return super.navigate(oleEResourceRecordForm, result, request, response);
     }
 
@@ -3135,6 +3136,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         List<VendorDetail> vendorDetails = (List<VendorDetail>)getBusinessObjectService().findMatching(VendorDetail.class,vendorDetailMap);
         if(vendorDetails.size()>0){
             oleeResourceRecordDocument.setVendorId(vendorDetails.get(0).getVendorNumber());
+            oleeResourceRecordDocument.setActiveVendor(vendorDetails.get(0).isActiveIndicator());
         }else{
             oleeResourceRecordDocument.setVendorId(null);
             oleeResourceRecordDocument.setVendorName(null);
@@ -3164,6 +3166,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             List<VendorDetail> vendorDetails = (List<VendorDetail>)getBusinessObjectService().findMatching(VendorDetail.class,vendorDetailMap);
             if(vendorDetails.size()>0){
                 oleeResourceRecordDocument.setPublisherId(vendorDetails.get(0).getVendorNumber());
+                oleeResourceRecordDocument.setActivePublisher(vendorDetails.get(0).isActiveIndicator());
             }else{oleeResourceRecordDocument.setPublisherId(null);
             oleeResourceRecordDocument.setPublisher(null);
             oleeResourceRecordDocument.setPublisherLink(null);

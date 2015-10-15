@@ -65,6 +65,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private String description;
     private String publisher;
     private String publisherId;
+    private boolean activePublisher;
     private Integer gokbIdentifier;
     private String isbn;
     private String ISBN;
@@ -80,6 +81,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private String vendorName;
     private String vendorId;
     private String vendorLink;
+    private boolean activeVendor;
     private String estimatedPrice;
     private BigDecimal orderTypeId;
     private String paymentTypeId;
@@ -605,6 +607,14 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
         this.vendorLink = vendorLink;
     }
 
+    public boolean isActiveVendor() {
+        return activeVendor;
+    }
+
+    public void setActiveVendor(boolean activeVendor) {
+        this.activeVendor = activeVendor;
+    }
+
     public String getStatisticalSearchingCode() {
         return statisticalSearchingCode;
     }
@@ -647,6 +657,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
             vendorMap.put(OLEConstants.OLEEResourceRecord.VENDOR_DETAILED_ASSIGNED_ID, vendorDetailAssignedIdentifier);
             VendorDetail vendorDetailDoc = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorDetail.class, vendorMap);
             if (vendorDetailDoc != null) {
+                this.setActivePublisher(vendorDetailDoc.isActiveIndicator());
                 return vendorDetailDoc.getVendorName();
             }
         }
@@ -663,6 +674,14 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
 
     public void setPublisherId(String publisherId) {
         this.publisherId = publisherId;
+    }
+
+    public boolean isActivePublisher() {
+        return activePublisher;
+    }
+
+    public void setActivePublisher(boolean activePublisher) {
+        this.activePublisher = activePublisher;
     }
 
     public Integer getGokbIdentifier() {
@@ -1071,7 +1090,6 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     public void setSelectFlag(boolean selectFlag) {
         this.selectFlag = selectFlag;
     }
-
     public String getSelectInstance() {
         return selectInstance;
     }
@@ -1339,6 +1357,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
                 VendorDetail vendorDetailDoc = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorDetail.class, vendorMap);
                 if (vendorDetailDoc != null) {
                     this.setVendorName(vendorDetailDoc.getVendorName());
+                    this.setActiveVendor(vendorDetailDoc.isActiveIndicator());
                 }
             }
             /*String accessId = "";
@@ -1480,6 +1499,19 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
                 this.setAccessType(oleAccessType.getOleAccessTypeName());
             }
         }
+        if (StringUtils.isNotBlank(this.getVendorId())) {
+            String[] vendorDetails = this.getVendorId().split("-");
+            Integer vendorHeaderGeneratedIdentifier = vendorDetails.length > 0 ? Integer.parseInt(vendorDetails[0]) : 0;
+            Integer vendorDetailAssignedIdentifier = vendorDetails.length > 1 ? Integer.parseInt(vendorDetails[1]) : 0;
+            Map vendorMap = new HashMap<>();
+            vendorMap.put(OLEConstants.OLEEResourceRecord.VENDOR_HEADER_GEN_ID, vendorHeaderGeneratedIdentifier);
+            vendorMap.put(OLEConstants.OLEEResourceRecord.VENDOR_DETAILED_ASSIGNED_ID, vendorDetailAssignedIdentifier);
+            VendorDetail vendorDetailDoc = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorDetail.class, vendorMap);
+            if (vendorDetailDoc != null) {
+                this.setVendorName(vendorDetailDoc.getVendorName());
+                this.setActiveVendor(vendorDetailDoc.isActiveIndicator());
+            }
+        }
         if (this.getOleAuthenticationType() != null) {
             this.setAuthenticationType(this.getOleAuthenticationType().getOleAuthenticationTypeName());
         } else if (this.getAuthenticationTypeId() != null) {
@@ -1568,7 +1600,6 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
         }
         getOleEResourceSearchService().getDefaultCovergeDate(this);
         getOleEResourceSearchService().getDefaultPerpetualAccessDate(this);
-        getOleEResourceSearchService().getBannerMessage(this);
         getOleEResourceSearchService().updatePlatformProvider(this);
         getOleeResourceHelperService().setAccessInfo(this);
 

@@ -83,7 +83,9 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-LinkField" p:linkText="@{document.platformProviderName}" p:target="_blank" p:href="@{document.vendorLink}" p:label=" "
-                                              p:render="@{document.gokbId ne null or (document.vendorHeaderGeneratedIdentifier ne null and document.vendorDetailAssignedIdentifier ne null)}"/>
+                                              p:render="@{(document.gokbId ne null or (document.vendorHeaderGeneratedIdentifier ne null and document.vendorDetailAssignedIdentifier ne null)) and document.activeVendor}"/>
+                                        <bean parent="Uif-LinkField" p:linkText="@{document.platformProviderName}" p:target="_blank" p:href="@{document.vendorLink}" p:label=" "
+                                              p:render="@{(document.gokbId ne null or (document.vendorHeaderGeneratedIdentifier ne null and document.vendorDetailAssignedIdentifier ne null)) and !document.activeVendor}" p:cssClasses="InactiveVendorForHiperLink"/>
                                         <!--<bean parent="Uif-InputField" p:propertyName="platformProviderName" p:label=" "
                                               p:render="@{!(document.gokbId ne null and !document.editableFlag or document.documentHeader.workflowDocument.final)}">
                                             <property name="quickfinder">
