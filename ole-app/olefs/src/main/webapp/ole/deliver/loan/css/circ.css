@@ -1,0 +1,9 @@
+div.fancybox-wrap, div.fancybox-desktop, div.fancybox-type-html, div.fancybox-opened{
+    width: auto;
+    height: auto;
+    display: block;
+    position: fixed;
+    top: 30px !important;
+    left: 468px;
+    opacity: 1;
+}

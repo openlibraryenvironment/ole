@@ -73,6 +73,11 @@
                 <value>ole/deliver/loan/script/circ.js</value>
             </list>
         </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/deliver/loan/css/circ.css</value>
+            </list>
+        </property>
 
         <property name="formClass" value="org.kuali.ole.deliver.form.CircForm"/>
     </bean>
