@@ -921,12 +921,12 @@
 			<list>
 				<ref bean="VendorDetail-inquirySectionDefinition-vendorDetail" />
 				<ref bean="VendorDetail-inquirySectionDefinition-vendorTransmissionFormat" />
+                <ref bean="VendorDetail-inquirySectionDefinition-searchAlias" />
 				<ref bean="VendorDetail-inquirySectionDefinition-address" />
 				<ref bean="VendorDetail-inquirySectionDefinition-contacts" />
 				<ref bean="VendorDetail-inquirySectionDefinition-supplierDiversities" />
 				<ref
 					bean="VendorDetail-inquirySectionDefinition-shippingSpecialConditions" />
-				<ref bean="VendorDetail-inquirySectionDefinition-searchAlias" />
 				<ref bean="VendorDetail-inquirySectionDefinition-vendorCommodityCodes" />
 				<ref bean="VendorDetail-inquirySectionDefinition-vendorPhoneNumber" />
 				<ref bean="VendorDetail-inquirySectionDefinition-vendorCustomerNumber" />
@@ -945,7 +945,7 @@
 		parent="VendorDetail-inquirySectionDefinition-vendorDetail-parentBean" />
 	<bean id="VendorDetail-inquirySectionDefinition-vendorDetail-parentBean"
 		parent="InquirySectionDefinition" abstract="true">
-		<property name="title" value="Vendor Detail" />
+		<property name="title" value="Vendor" />
 		<property name="numberOfColumns" value="2" />
 		<property name="inquiryFields">
 			<list>
@@ -1121,7 +1121,7 @@
 		parent="VendorDetail-inquirySectionDefinition-contacts-parentBean" />
 	<bean id="VendorDetail-inquirySectionDefinition-contacts-parentBean"
 		parent="InquirySectionDefinition" abstract="true">
-		<property name="title" value="Contacts" />
+		<property name="title" value="Contact" />
 		<property name="numberOfColumns" value="1" />
 		<property name="inquiryFields">
 			<list>
@@ -1204,7 +1204,7 @@
 	<bean
 		id="VendorDetail-inquirySectionDefinition-supplierDiversities-parentBean"
 		parent="InquirySectionDefinition" abstract="true">
-		<property name="title" value="Supplier Diversities" />
+		<property name="title" value="Supplier Diversity" />
 		<property name="numberOfColumns" value="1" />
 		<property name="inquiryFields">
 			<list>
@@ -1279,7 +1279,7 @@
 		parent="VendorDetail-inquirySectionDefinition-searchAlias-parentBean" />
 	<bean id="VendorDetail-inquirySectionDefinition-searchAlias-parentBean"
 		parent="InquirySectionDefinition" abstract="true">
-		<property name="title" value="Search Alias" />
+		<property name="title" value="Variant Name" />
 		<property name="numberOfColumns" value="1" />
 		<property name="inquiryFields">
 			<list>
