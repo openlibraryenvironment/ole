@@ -1,11 +1,16 @@
 package org.kuali.incubator;
 
+import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.SolrInputDocument;
+import org.kuali.ole.docstore.common.exception.DocstoreIndexException;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import java.util.*;
@@ -19,16 +24,14 @@ import java.util.*;
  */
 public class SolrRequestReponseHandler {
 
+    private static final Logger LOG = Logger.getLogger(SolrRequestReponseHandler.class);
+
+    private HttpSolrServer server;
+
     public List retriveResults(String queryString) {
-        HttpSolrServer server = null;
         ArrayList<HashMap<String, Object>> hitsOnPage = new ArrayList<HashMap<String, Object>>();
 
-        try {
-            String serverUrl = ConfigContext.getCurrentContextConfig().getProperty("discovery.url");
-            server = new HttpSolrServer(serverUrl);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        server = getHttpSolrServer();
 
         SolrQuery query = new SolrQuery();
         query.setQuery(queryString);
@@ -55,5 +58,33 @@ public class SolrRequestReponseHandler {
             e.printStackTrace();
         }
         return hitsOnPage;
+    }
+
+    private HttpSolrServer getHttpSolrServer() {
+        if (null == server) {
+            try {
+                String serverUrl = getSolrUrl();
+                server = new HttpSolrServer(serverUrl);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return server;
+    }
+
+    public String getSolrUrl() {
+        return ConfigContext.getCurrentContextConfig().getProperty("discovery.url");
+    }
+
+    public UpdateResponse updateSolr(List<SolrInputDocument> solrInputDocument){
+        UpdateResponse updateResponse = null;
+        try {
+            UpdateResponse response = getHttpSolrServer().add(solrInputDocument);
+            updateResponse = server.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.error("Error while updating document to solr.");
+        }
+        return updateResponse;
     }
 }
