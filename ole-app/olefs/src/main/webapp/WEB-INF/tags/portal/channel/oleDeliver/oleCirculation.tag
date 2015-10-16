@@ -31,6 +31,8 @@
                        url="${ConfigProperties.application.url}/ole-kr-krad/checkincontroller?viewId=checkinView&methodToCall=start"/> <br/>
     <portal:portalLink displayTitle="true" title="Item Search"
                            url="${ConfigProperties.application.url}/ole-kr-krad/deliverItemSearchController?viewId=OLEDeliverItemSearchView&methodToCall=start"/> <br/>
+    <portal:portalLink displayTitle="true" title="Deliver Notices Search"
+                           url="${ConfigProperties.application.url}/ole-kr-krad/deliverNoticeSearchController?viewId=OLEDeliverNoticeSearchView&methodToCall=start"/> <br/>
  <br/>
 </div>
 <channel:portalChannelBottom/>
