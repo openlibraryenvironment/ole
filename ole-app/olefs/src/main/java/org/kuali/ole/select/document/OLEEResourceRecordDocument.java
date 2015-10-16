@@ -40,10 +40,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -167,6 +164,8 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private List<OLEEResourceEventLog> oleERSEventLogs = new ArrayList<OLEEResourceEventLog>();
     private List<OLEEResourceLicense> oleERSLicenseRequests = new ArrayList<OLEEResourceLicense>();
     private List<OLEEResourceInstance> oleERSInstances = new ArrayList<OLEEResourceInstance>();
+    private List<OLEEResourceInstance> oleERSInstancesForSave = new ArrayList<>();
+    private List<OLEEResourceInstance> oleERSInstancesForDelete = new ArrayList<>();
     private List<OLEEResourceInstance> eRSInstances = new ArrayList<OLEEResourceInstance>();
     private List<OLEEResourceInstance> deletedInstances = new ArrayList<OLEEResourceInstance>();
     private List<OLEEResourceInstance> purchaseOrderInstances = new ArrayList<OLEEResourceInstance>();
@@ -1360,17 +1359,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
                     this.setActiveVendor(vendorDetailDoc.isActiveIndicator());
                 }
             }
-            /*String accessId = "";
-            if (this.getAccessLocation() != null  && this.getAccessLocation().size() > 0) {
-                List<String> accessLocationId = this.getAccessLocation();
-                if (accessLocationId.size() > 0) {
-                    for (String accessLocation : accessLocationId) {
-                        accessId += accessLocation;
-                        accessId += OLEConstants.OLEEResourceRecord.ACCESS_LOCATION_SEPARATOR;
-                    }
-                    this.setAccessLocationId(accessId.substring(0, (accessId.lastIndexOf(OLEConstants.OLEEResourceRecord.ACCESS_LOCATION_SEPARATOR))));
-                }
-            }*/
+
             String MobAccessId = "";
             if (this.getMobileAccess() != null  && this.getMobileAccess().size() > 0) {
                 List<String> mobileAccessId = this.getMobileAccess();
@@ -1423,21 +1412,8 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
             LOG.error("Exception during prepareForSave()", e);
             throw new RuntimeException(e);
         }
-//      OLE-3615
-        List<OLEEResourceInstance> oleERSInstances = this.getOleERSInstances();
-        if (oleERSInstances.size() > 0) {
-            for (OLEEResourceInstance oleERSInstance : oleERSInstances) {
-                if (StringUtils.isBlank(oleERSInstance.getSubscriptionStatus()) && StringUtils.isNotBlank(this.getSubscriptionStatus())) {
-                    oleERSInstance.setSubscriptionStatus(this.getSubscriptionStatus());
-                }
-            }
-        }
-        Map statusMap = new HashMap<>();
-        statusMap.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, this.getOleERSIdentifier());
-        OLEEResourceRecordDocument oleERSDoc = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEEResourceRecordDocument.class, statusMap);
-        if (oleERSDoc != null) {
-            status = oleERSDoc.getStatusName();
-        }
+
+
         OLEEResourceEventLog oleEResourceEventLog = new OLEEResourceEventLog();
         if (status == null){
             oleEResourceEventLog.setCurrentTimeStamp();
@@ -2052,5 +2028,31 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
 
     public void setPublisherLink(String publisherLink) {
         this.publisherLink = publisherLink;
+    }
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
+    public List<OLEEResourceInstance> getOleERSInstancesForSave() {
+        return oleERSInstancesForSave;
+    }
+
+    public void setOleERSInstancesForSave(List<OLEEResourceInstance> oleERSInstancesForSave) {
+        this.oleERSInstancesForSave = oleERSInstancesForSave;
+    }
+
+    public List<OLEEResourceInstance> getOleERSInstancesForDelete() {
+        return oleERSInstancesForDelete;
+    }
+
+    public void setOleERSInstancesForDelete(List<OLEEResourceInstance> oleERSInstancesForDelete) {
+        this.oleERSInstancesForDelete = oleERSInstancesForDelete;
     }
 }

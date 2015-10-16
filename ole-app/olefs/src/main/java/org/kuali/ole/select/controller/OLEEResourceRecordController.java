@@ -191,6 +191,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) kualiForm.getDocument();
         oleeResourceRecordDocument.setOldTitle(oleeResourceRecordDocument.getTitle());
+        oleeResourceRecordDocument.setStatus(oleeResourceRecordDocument.getStatusName());
         List<ActionItem> actionItems = (List<ActionItem>) KEWServiceLocator.getActionListService().findByDocumentId(oleeResourceRecordDocument.getDocumentNumber());
         if (actionItems != null && actionItems.size() > 0) {
             for (ActionItem actionItem : actionItems) {
@@ -470,6 +471,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             if (!oleERSform.isDefaultDatesFlag() && oleERSform.getPageId() != null && oleERSform.getPageId().equalsIgnoreCase("OLEEResourceRecordView-E-ResourceInstanceTab")) {
                 if (!oleERSform.isRemoveInstanceFlag()) {
                     try {
+                        getBusinessObjectService().delete(oleeResourceRecordDocument.getOleERSInstancesForDelete());
                         super.reload(oleERSform, result, request, response);
                         getOleEResourceSearchService().populateInstanceAndEInstance(oleeResourceRecordDocument);
                     } catch (Exception e) {
@@ -492,16 +494,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         }
         getOleEResourceSearchService().getPOInvoiceForERS(oleeResourceRecordDocument);
         getOleeResourceHelperService().createOrUpdateAccessWorkflow(oleeResourceRecordDocument, titleChange);
-        if (StringUtils.isNotEmpty(oleeResourceRecordDocument.getOleERSIdentifier())) {
-            try {
-                getDocumentService().updateDocument(oleeResourceRecordDocument);
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.MESSAGE_SAVED);
-            } catch (Exception e) {
-                throw new RiceRuntimeException(
-                        "Exception trying to invoke action Update for document: " + oleeResourceRecordDocument.getDocumentNumber(), e);
-            }
-            return getUIFModelAndView(oleERSform);
-        }
         return super.save(oleERSform, result, request, response);
     }
 
@@ -797,6 +789,8 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         View view = oleEResourceRecordForm.getPostedView();
         view.getViewHelperService().processCollectionDeleteLine(view, oleEResourceRecordForm, selectedCollectionPath,
                 selectedLineIndex);
+        oleEResourceRecordDocument.getOleERSInstancesForDelete().add(oleEResourceRecordDocument.getOleERSInstances().get(selectedLineIndex));
+        getBusinessObjectService().delete(oleEResourceRecordDocument.getOleERSInstancesForDelete());
         oleEResourceRecordDocument.getOleERSInstances().remove(selectedLineIndex);
         return getUIFModelAndView(oleEResourceRecordForm);
     }

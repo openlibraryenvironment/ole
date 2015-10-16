@@ -5469,12 +5469,7 @@
         </collection-descriptor>
         <collection-descriptor name="oleERSInstances" element-class-ref="org.kuali.ole.select.document.OLEEResourceInstance"
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="false" auto-update="object" auto-delete="object" proxy="false">
-            <inverse-foreignkey field-ref="oleERSIdentifier"/>
-        </collection-descriptor>
-        <!--<collection-descriptor name="oleERSPOItems" element-class-ref="org.kuali.ole.select.document.OLEEResourcePO"
-                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+                               auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
             <inverse-foreignkey field-ref="oleERSIdentifier"/>
         </collection-descriptor>
         <collection-descriptor name="oleERSInvoices" element-class-ref="org.kuali.ole.select.document.OLEEResourceInvoices"

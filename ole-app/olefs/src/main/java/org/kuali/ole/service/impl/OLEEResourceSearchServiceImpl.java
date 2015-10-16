@@ -9,8 +9,8 @@ import org.kuali.ole.OLEConstants;
 import org.kuali.ole.coa.businessobject.*;
 import org.kuali.ole.describe.form.WorkEInstanceOlemlForm;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
-import org.kuali.ole.docstore.common.document.EHoldings;
-import org.kuali.ole.docstore.common.document.Holdings;
+import org.kuali.ole.docstore.common.document.*;
+import org.kuali.ole.docstore.common.document.HoldingsTree;
 import org.kuali.ole.docstore.common.document.content.instance.*;
 import org.kuali.ole.docstore.common.document.content.instance.xstream.HoldingOlemlRecordProcessor;
 import org.kuali.ole.docstore.common.document.ids.BibId;
@@ -1262,7 +1262,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                         }
                         oleeResourceInstance.setSubscriptionStatus(oleHoldings.getSubscriptionStatus());
                         oleeResourceInstance.setInstanceTitle(holdings.getBib().getTitle());
-                        getHoldingsField(oleeResourceInstance, oleHoldings);
+                        buildInstanceHolding(oleeResourceInstance, oleHoldings, oleERSDoc);
                         oleeResourceInstance.setInstancePublisher(oleHoldings.getPublisher());
                         if (oleHoldings.getPlatform() != null && StringUtils.isNotBlank(oleHoldings.getPlatform().getPlatformName())) {
                             oleeResourceInstance.setPlatformId(oleHoldings.getPlatform().getPlatformName());
@@ -1401,7 +1401,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                         }
                         oleeResourceInstance.setSubscriptionStatus(oleHoldings.getSubscriptionStatus());
                         oleeResourceInstance.setInstanceTitle(holdings.getBib().getTitle());
-                        getHoldingsField(oleeResourceInstance, oleHoldings);
+                        buildInstanceHolding(oleeResourceInstance, oleHoldings, oleERSDoc);
                         oleeResourceInstance.setInstancePublisher(oleHoldings.getPublisher());
                         if (oleHoldings.getPlatform() != null && StringUtils.isNotBlank(oleHoldings.getPlatform().getPlatformName())) {
                             oleeResourceInstance.setPlatformId(oleHoldings.getPlatform().getPlatformName());
@@ -1687,6 +1687,16 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
 
     public void getHoldingsField(OLEEResourceInstance oleeResourceInstance, OleHoldings oleHoldings) {
         Map<String,String> map=new HashMap();
+        map.put("oleERSIdentifier", oleHoldings.getEResourceId());
+        List<OLEEResourceRecordDocument> oleeResourceRecordDocuments = (List<OLEEResourceRecordDocument>) getBusinessObjectService().findMatching(OLEEResourceRecordDocument.class, map);
+        OLEEResourceRecordDocument oleeResourceRecordDocument =null;
+        if(oleeResourceRecordDocuments.size() > 0){
+            oleeResourceRecordDocument = oleeResourceRecordDocuments.get(0);
+        }
+        buildInstanceHolding(oleeResourceInstance, oleHoldings, oleeResourceRecordDocuments.get(0));
+    }
+
+    private void buildInstanceHolding(OLEEResourceInstance oleeResourceInstance, OleHoldings oleHoldings, OLEEResourceRecordDocument oleeResourceRecordDocument) {
         String start="";
         String end="";
         String holdings = "";
@@ -1695,10 +1705,8 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
         String space = OLEConstants.OLEEResourceRecord.SPACE;
         String separator = getParameter(OLEConstants.OLEEResourceRecord.COVERAGE_DATE_SEPARATOR);
         String commaSeparator = getParameter(OLEConstants.OLEEResourceRecord.COMMA_SEPARATOR) + space;
-        map.put("oleERSIdentifier",oleHoldings.getEResourceId());
-        List<OLEEResourceRecordDocument> oleeResourceRecordDocuments = (List<OLEEResourceRecordDocument>) getBusinessObjectService().findMatching(OLEEResourceRecordDocument.class, map);
-        if (oleeResourceRecordDocuments.size() > 0) {
-            String defaultCoverage = oleeResourceRecordDocuments.get(0).getDefaultCoverage();
+        if(oleeResourceRecordDocument != null) {
+            String defaultCoverage = oleeResourceRecordDocument.getDefaultCoverage();
             if (defaultCoverage != null) {
                 String[] defaultCovDates = defaultCoverage.split("-");
                 String defCovStartDat = defaultCovDates.length > 0 ? defaultCovDates[0] : "";
@@ -1945,41 +1953,68 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
         if (oleeResourceRecordDocument.getOleERSInstances() != null && oleeResourceRecordDocument.getOleERSInstances().size() != 0) {
             List<OLEEResourceInstance> oleeResourceInstanceList =oleeResourceRecordDocument.getOleERSInstances();
             List<OLEEResourceInstance> oleeResourceInstanceDletedList = new ArrayList<>();
-
+            List<org.kuali.ole.docstore.common.document.HoldingsTree> holdingsTreeList = new ArrayList<>();
             for (OLEEResourceInstance oleeResourceInstance : oleeResourceInstanceList) {
                 if (oleeResourceInstance != null) {
-                    HoldingOlemlRecordProcessor holdingOlemlRecordProcessor = new HoldingOlemlRecordProcessor();
-                    if (StringUtils.isNotEmpty(oleeResourceInstance.getInstanceId()) && oleeResourceInstance.getInstanceId() != null) {
-                        String eHoldingsId = oleeResourceInstance.getInstanceId();
+                    if (org.apache.commons.lang.StringUtils.isBlank(oleeResourceInstance.getSubscriptionStatus())
+                            && org.apache.commons.lang.StringUtils.isNotBlank(oleeResourceRecordDocument.getSubscriptionStatus()) ) {
+                        oleeResourceInstance.setSubscriptionStatus(oleeResourceRecordDocument.getSubscriptionStatus());
+                        oleeResourceRecordDocument.getOleERSInstancesForSave().add(oleeResourceInstance);
+                    }
+                    boolean isUpdate = false;
+                    String eHoldingsId = oleeResourceInstance.getInstanceId();
+                    if (StringUtils.isNotEmpty(eHoldingsId)) {
+
                         Holdings holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(eHoldingsId);
                         if (StringUtils.isNotEmpty(holdings.getId())) {
-                            OleHoldings eHoldings = holdingOlemlRecordProcessor.fromXML(holdings.getContent());
-                            eHoldings.setEResourceId(oleeResourceRecordDocument.getOleERSIdentifier());
-                            StatisticalSearchingCode statisticalSearchingCode = new StatisticalSearchingCode();
-                            if (oleeResourceRecordDocument.getOleStatisticalCode() != null) {
-                                statisticalSearchingCode.setCodeValue(oleeResourceRecordDocument.getOleStatisticalCode().getStatisticalSearchingCode());
+                            OleHoldings oleHoldings = (OleHoldings) holdings.deserializeContent(holdings.getContent());
+
+                            if(oleHoldings != null) {
+                                if (StringUtils.isEmpty(oleHoldings.getEResourceId())) {
+                                    oleHoldings.setEResourceId(oleeResourceRecordDocument.getOleERSIdentifier());
+                                    isUpdate = true;
+                                }
+                                StatisticalSearchingCode statisticalSearchingCode = new StatisticalSearchingCode();
+                                if (oleeResourceRecordDocument.getOleStatisticalCode() != null) {
+                                    statisticalSearchingCode.setCodeValue(oleeResourceRecordDocument.getOleStatisticalCode().getStatisticalSearchingCode());
+                                }
+                                if (oleHoldings.getStatisticalSearchingCode() == null &&  statisticalSearchingCode.getCodeValue() != null) {
+                                    oleHoldings.setStatisticalSearchingCode(statisticalSearchingCode);
+                                    isUpdate = true;
+                                }
+                                if (oleHoldings.getHoldingsAccessInformation() == null ) {
+                                    oleHoldings.getHoldingsAccessInformation().setNumberOfSimultaneousUser(oleeResourceRecordDocument.getNumOfSimultaneousUsers());
+                                    oleHoldings.getHoldingsAccessInformation().setAccessLocation(oleeResourceRecordDocument.getAccessLocationId());
+                                    oleHoldings.getHoldingsAccessInformation().setAuthenticationType(oleeResourceRecordDocument.getOleAuthenticationType().getOleAuthenticationTypeName());
+                                    isUpdate = true;
+                                }
+                                buildInstanceHolding(oleeResourceInstance, oleHoldings, oleeResourceRecordDocument);
+                                holdings.setContent(holdings.serializeContent(oleHoldings));
+                                if(isUpdate){
+                                    HoldingsTree holdingsTree = new HoldingsTree();
+                                    holdings.setOperation(DocstoreDocument.OperationType.UPDATE);
+                                    holdingsTree.setHoldings(holdings);
+                                    holdingsTreeList.add(holdingsTree);
+                                }
                             }
-                            if (eHoldings.getStatisticalSearchingCode() == null || eHoldings.getStatisticalSearchingCode().getCodeValue() == null) {
-                                eHoldings.setStatisticalSearchingCode(statisticalSearchingCode);
-                            }
-                            if (eHoldings != null && eHoldings.getHoldingsAccessInformation() == null && oleeResourceRecordDocument != null) {
-                                eHoldings.getHoldingsAccessInformation().setNumberOfSimultaneousUser(oleeResourceRecordDocument.getNumOfSimultaneousUsers());
-                                eHoldings.getHoldingsAccessInformation().setAccessLocation(oleeResourceRecordDocument.getAccessLocationId());
-                                eHoldings.getHoldingsAccessInformation().setAuthenticationType(oleeResourceRecordDocument.getOleAuthenticationType().getOleAuthenticationTypeName());
-                            }
-                            getHoldingsField(oleeResourceInstance, eHoldings);
-                            holdings.setId(eHoldingsId);
-                            holdings.setContent(holdingOlemlRecordProcessor.toXML(eHoldings));
-                            getDocstoreClientLocator().getDocstoreClient().updateHoldings(holdings);
                         } else {
                             oleeResourceInstanceDletedList.add(oleeResourceInstance);
                         }
                         if (CollectionUtils.isNotEmpty(oleeResourceInstanceDletedList)) {
                             oleeResourceRecordDocument.getOleERSInstances().removeAll(oleeResourceInstanceDletedList);
+                            oleeResourceRecordDocument.getOleERSInstancesForDelete().addAll(oleeResourceInstanceDletedList);
+                            oleeResourceRecordDocument.getOleERSInstancesForSave().removeAll(oleeResourceInstanceDletedList);
+                            getBusinessObjectService().save(oleeResourceRecordDocument.getOleERSInstancesForSave());
+                            getBusinessObjectService().delete( oleeResourceRecordDocument.getOleERSInstancesForDelete());
                         }
                     }
                 }
             }
+            BibTrees bibTrees = new BibTrees();
+            BibTree bibTree = new BibTree();
+            bibTree.getHoldingsTrees().addAll(holdingsTreeList);
+            bibTrees.getBibTrees().add(bibTree);
+            getDocstoreClientLocator().getDocstoreClient().processBibTrees(bibTrees);
         }
     }
 
