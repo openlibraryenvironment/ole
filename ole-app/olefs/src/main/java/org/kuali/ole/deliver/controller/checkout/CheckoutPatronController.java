@@ -77,6 +77,7 @@ public class CheckoutPatronController extends CheckoutItemController {
             if (!proxyPatrons) {
                 setProceedWithCheckoutFlag(circForm);
                 circForm.setProxyCheckDone(true);
+                circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
             } else {
                 String overrideParameters = "{closeBtn:false,autoSize : false}";
                 showDialogWithOverrideParameters("proxyListCheckoutDialog", circForm,overrideParameters);
