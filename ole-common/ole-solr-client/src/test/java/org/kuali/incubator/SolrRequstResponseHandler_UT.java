@@ -1,22 +1,11 @@
 package org.kuali.incubator;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.response.UpdateResponse;
-import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.junit.Test;
-import org.kuali.ole.docstore.common.constants.DocstoreConstants;
-import org.kuali.ole.docstore.common.document.Item;
-import org.kuali.ole.docstore.common.document.content.instance.DonorInfo;
-import org.kuali.ole.docstore.common.document.content.instance.Location;
-import org.kuali.ole.docstore.common.document.content.instance.Note;
-import org.kuali.ole.docstore.common.document.content.instance.StatisticalSearchingCode;
-import org.kuali.ole.docstore.common.document.content.instance.xstream.ItemOlemlRecordProcessor;
-import org.kuali.ole.docstore.model.enums.DocCategory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static junit.framework.Assert.assertNotNull;
@@ -74,10 +63,16 @@ public class SolrRequstResponseHandler_UT {
 
     @Test
     public void indexDocumentToSolr(){
-
         SolrInputDocument solrInputDocument  = new SolrInputDocument();
+        solrInputDocument.addField("DocType","Overdue");
+        solrInputDocument.addField("DocFormat","Email");
         solrInputDocument.addField("noticeName","Overdue Notice");
-        solrInputDocument.addField("uniqueId","uniqueId-102");
+        solrInputDocument.addField("patronBarcode","1234");
+        solrInputDocument.addField("itemBarcode","Aq12");
+        solrInputDocument.addField("patronName","John Doe");
+        solrInputDocument.addField("dateSent",new Date());
+        solrInputDocument.addField("deskLocation","UC/JRL/GEN");
+        solrInputDocument.addField("uniqueId","1234");
         SolrRequestReponseHandler solrRequestReponseHandler = new MockSolrRequestResponseHanlder();
         UpdateResponse updateResponse = solrRequestReponseHandler.updateSolr(Collections.singletonList(solrInputDocument));
         assertNotNull(updateResponse);
@@ -86,9 +81,9 @@ public class SolrRequstResponseHandler_UT {
 
     @Test
     public void retriveFromSolr(){
-
         SolrRequestReponseHandler solrQueryManager = new MockSolrRequestResponseHanlder();
-        List list = solrQueryManager.retriveResults("noticeName:Overdue Notice");
+//        List list = solrQueryManager.retriveResults("patronBarcode:\"Overdue Notice\"");
+        List list = solrQueryManager.retriveResults("patronBarcode:\"1234\"");
         assertNotNull(list);
         printResults(list);
     }
