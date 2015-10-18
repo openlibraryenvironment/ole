@@ -68,6 +68,7 @@ public class SolrRequstResponseHandler_UT {
         solrInputDocument.addField("DocFormat","Email");
         solrInputDocument.addField("noticeName","Overdue Notice");
         solrInputDocument.addField("patronBarcode","1234");
+        solrInputDocument.addField("patronId","1234");
         solrInputDocument.addField("itemBarcode","Aq12");
         solrInputDocument.addField("patronName","John Doe");
         solrInputDocument.addField("dateSent",new Date());
