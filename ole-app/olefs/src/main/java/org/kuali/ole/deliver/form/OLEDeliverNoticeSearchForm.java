@@ -18,13 +18,6 @@ public class OLEDeliverNoticeSearchForm extends UifFormBase {
     private Date dateSentTo;
     private String deskLocation;
     private String noticeType;
-    private List<OLECourtesyNotice> oleCourtesyNoticeList = new ArrayList<>();
-    private List<OLEExpiredRequestNotice> oleExpiredRequestNoticeList = new ArrayList<>();
-    private List<OLEOnHoldNotice> oleOnHoldNoticeList = new ArrayList<>();
-    private List<OLEOnHoldCourtesyNotice> oleOnHoldCourtesyNoticeList = new ArrayList<>();
-    private List<OLEOverDueNotice> oleOverDueNoticeList = new ArrayList<>();
-    private List<OLERecallNotice> oleRecallNoticeList = new ArrayList<>();
-    private List<OLEPickupNotice> olePickupNoticeList = new ArrayList<>();
 
     public String getPatronBarcode() {
         return patronBarcode;
@@ -74,59 +67,4 @@ public class OLEDeliverNoticeSearchForm extends UifFormBase {
         this.noticeType = noticeType;
     }
 
-    public List<OLECourtesyNotice> getOleCourtesyNoticeList() {
-        return oleCourtesyNoticeList;
-    }
-
-    public void setOleCourtesyNoticeList(List<OLECourtesyNotice> oleCourtesyNoticeList) {
-        this.oleCourtesyNoticeList = oleCourtesyNoticeList;
-    }
-
-    public List<OLEExpiredRequestNotice> getOleExpiredRequestNoticeList() {
-        return oleExpiredRequestNoticeList;
-    }
-
-    public void setOleExpiredRequestNoticeList(List<OLEExpiredRequestNotice> oleExpiredRequestNoticeList) {
-        this.oleExpiredRequestNoticeList = oleExpiredRequestNoticeList;
-    }
-
-    public List<OLEOnHoldNotice> getOleOnHoldNoticeList() {
-        return oleOnHoldNoticeList;
-    }
-
-    public void setOleOnHoldNoticeList(List<OLEOnHoldNotice> oleOnHoldNoticeList) {
-        this.oleOnHoldNoticeList = oleOnHoldNoticeList;
-    }
-
-    public List<OLEOnHoldCourtesyNotice> getOleOnHoldCourtesyNoticeList() {
-        return oleOnHoldCourtesyNoticeList;
-    }
-
-    public void setOleOnHoldCourtesyNoticeList(List<OLEOnHoldCourtesyNotice> oleOnHoldCourtesyNoticeList) {
-        this.oleOnHoldCourtesyNoticeList = oleOnHoldCourtesyNoticeList;
-    }
-
-    public List<OLEOverDueNotice> getOleOverDueNoticeList() {
-        return oleOverDueNoticeList;
-    }
-
-    public void setOleOverDueNoticeList(List<OLEOverDueNotice> oleOverDueNoticeList) {
-        this.oleOverDueNoticeList = oleOverDueNoticeList;
-    }
-
-    public List<OLERecallNotice> getOleRecallNoticeList() {
-        return oleRecallNoticeList;
-    }
-
-    public void setOleRecallNoticeList(List<OLERecallNotice> oleRecallNoticeList) {
-        this.oleRecallNoticeList = oleRecallNoticeList;
-    }
-
-    public List<OLEPickupNotice> getOlePickupNoticeList() {
-        return olePickupNoticeList;
-    }
-
-    public void setOlePickupNoticeList(List<OLEPickupNotice> olePickupNoticeList) {
-        this.olePickupNoticeList = olePickupNoticeList;
-    }
 }

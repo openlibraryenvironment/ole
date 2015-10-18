@@ -13,13 +13,6 @@
                         <list>
                             <ref bean="deliverNoticeSearchPanel"/>
                             <ref bean="deliverNoticeSearchButtons"/>
-                            <ref bean="RecallNotice-HorizontalBoxSection"/>
-                            <ref bean="OnHoldNotice-HorizontalBoxSection"/>
-                            <ref bean="OnHoldCourtesyNotice-HorizontalBoxSection"/>
-                            <ref bean="OverDueNotice-HorizontalBoxSection"/>
-                            <ref bean="CourtesyNotice-HorizontalBoxSection"/>
-                            <ref bean="ExpiredRequestNotice-HorizontalBoxSection"/>
-                            <ref bean="PickupNotice-HorizontalBoxSection"/>
                         </list>
                     </property>
                 </bean>

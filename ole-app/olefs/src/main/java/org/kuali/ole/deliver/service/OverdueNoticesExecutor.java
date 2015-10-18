@@ -27,6 +27,11 @@ public class OverdueNoticesExecutor extends LoanNoticesExecutor {
     }
 
     @Override
+    protected String getNoticeType() {
+        return OLEConstants.NOTICE_OVERDUE;
+    }
+
+    @Override
     protected void postProcess(List<OleLoanDocument> loanDocuments) {
 
     }

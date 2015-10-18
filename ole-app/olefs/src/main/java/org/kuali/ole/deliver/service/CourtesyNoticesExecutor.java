@@ -1,6 +1,5 @@
 package org.kuali.ole.deliver.service;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jfree.util.Log;
 import org.kuali.ole.OLEConstants;
@@ -8,7 +7,6 @@ import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
-import org.kuali.ole.deliver.notice.bo.OleNoticeFieldLabelMapping;
 import org.kuali.ole.deliver.notice.executors.LoanNoticesExecutor;
 
 import java.sql.Timestamp;
@@ -22,6 +20,11 @@ public class CourtesyNoticesExecutor extends LoanNoticesExecutor {
     private NoticeMailContentFormatter noticeMailContentFormatter;
     public CourtesyNoticesExecutor(List<OleLoanDocument> loanDocuments) {
         super(loanDocuments);
+    }
+
+    @Override
+    protected String getNoticeType() {
+        return OLEConstants.NOTICE_COURTESY;
     }
 
     @Override

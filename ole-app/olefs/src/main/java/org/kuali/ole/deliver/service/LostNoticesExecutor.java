@@ -44,6 +44,11 @@ public class LostNoticesExecutor extends LoanNoticesExecutor {
     }
 
     @Override
+    protected String getNoticeType() {
+        return OLEConstants.NOTICE_LOST;
+    }
+
+    @Override
     protected void postProcess(List<OleLoanDocument> loanDocuments) {
         List<String> itemUUIDS = new ArrayList<String>();
         for (Iterator<OleLoanDocument> iterator = loanDocuments.iterator(); iterator.hasNext(); ) {

@@ -166,6 +166,12 @@ public class OverdueNoticesExecutorTest {
         MockOverdueNoticesExecutor(List<OleLoanDocument> loanDocuments) {
             super(loanDocuments);
         }
+
+        @Override
+        protected String getNoticeType() {
+            return OLEConstants.NOTICE_OVERDUE;
+        }
+
         public void generateAndSendOverdueNoticesToPatron(List<OleLoanDocument> oleLoanDocuments) {
             for (Iterator<OleLoanDocument> iterator = oleLoanDocuments.iterator(); iterator.hasNext(); ) {
                 OleLoanDocument oleLoanDocument = iterator.next();
