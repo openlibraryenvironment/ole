@@ -47,8 +47,8 @@ public class OLEDeliverNoticeSearchController extends UifControllerBase {
 
         for (Iterator iterator = results.iterator(); iterator.hasNext(); ) {
             Map resultsMap = (Map) iterator.next();
-            if(resultsMap.containsKey("patronBarcode")){
-                //TODO: Reterive notice content from the notice table.
+            if(resultsMap.containsKey("patronId")){
+                //TODO: Reterive notice content from the notice table based on patron id.
                 //TODO: Set it on the resuls section.
                 //TODO: Need to provide export options (download/export to word etc..)
             }
@@ -68,8 +68,6 @@ public class OLEDeliverNoticeSearchController extends UifControllerBase {
                 stringBuilder.append(" AND ");
             }
         }
-
-
         return stringBuilder.toString();
     }
 

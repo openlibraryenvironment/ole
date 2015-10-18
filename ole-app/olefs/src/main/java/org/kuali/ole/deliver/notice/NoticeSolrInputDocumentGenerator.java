@@ -18,7 +18,9 @@ public class NoticeSolrInputDocumentGenerator {
         solrInputDocument.addField("DocFormat", "Email");
         solrInputDocument.addField("noticeName", OLEConstants.NOTICE_OVERDUE);
         String patronBarcode = loanDocuments.get(0).getPatronBarcode();
+        String patronId = loanDocuments.get(0).getPatronId();
         solrInputDocument.addField("patronBarcode", patronBarcode);
+        solrInputDocument.addField("patronId", patronId);
         solrInputDocument.addField("dateSent", new Date());
         solrInputDocument.addField("deskLocation", "TODO");
         solrInputDocument.addField("uniqueId", patronBarcode);
