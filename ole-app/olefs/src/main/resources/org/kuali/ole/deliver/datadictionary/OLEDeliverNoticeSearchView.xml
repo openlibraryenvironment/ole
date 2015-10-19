@@ -104,8 +104,12 @@
         </property>
     </bean>
 
-    <bean id="deliverNoticeSearchResults" parent="Uif-LightTableGroup">
+    <bean id="deliverNoticeSearchResults" parent="Uif-Disclosure-TableCollectionSection">
         <property name="propertyName" value="oleDeliverNoticeSearchResult"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.deliver.bo.OLEDeliverNoticeSearchResult" />
         <property name="items">
             <list>
                 <bean id="searchResult-noticeContent" parent="Uif-DataField" p:label="Notice Content" p:propertyName="noticeContent"/>
