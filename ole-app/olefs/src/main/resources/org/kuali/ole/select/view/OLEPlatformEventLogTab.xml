@@ -241,7 +241,7 @@
                       p:required="true"/>
                 <bean id="eventUser" parent="Uif-DataField" p:propertyName="eventUserId" p:label="User"/>
                 <bean id="eventReportedDate" parent="Uif-DataField" p:propertyName="eventReportedDate" p:label="Date"/>
-                <bean id="eventStatus" parent="Uif-InputField" p:propertyName="eventStatus" p:label="Status" p:required="true">
+                <bean id="eventStatus" parent="Uif-InputField" p:propertyName="eventStatus" p:label="Status" p:required="true" p:onChangeScript="enableOrDisableDateResolved();">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"
                               p:disabled="@{#line.logTypeName eq 'Event'}">
@@ -258,7 +258,7 @@
                 <bean id="eventResolvedDate" parent="Uif-InputField" p:propertyName="eventResolvedDate"
                       p:label="Date Resolved">
                     <property name="control">
-                        <bean parent="Uif-DateControl" p:size="10" p:disabled="@{#line.logTypeName eq 'Event'}"/>
+                        <bean parent="Uif-DateControl" p:size="10" p:disabled="@{(#line.logTypeName eq 'Event') or !(#line.eventStatus eq 'Resolved')}"/>
                     </property>
                 </bean>
                 <bean id="eventResolution" parent="Uif-InputField" p:propertyName="eventResolution"
@@ -430,7 +430,7 @@
                 <bean id="filterEventUser" parent="Uif-DataField" p:propertyName="eventUserId" p:label="User"/>
                 <bean id="filterEventReportedDate" parent="Uif-DataField" p:propertyName="eventReportedDate"
                       p:label="Date"/>
-                <bean id="filterEventStatus" parent="Uif-InputField" p:propertyName="eventStatus" p:label="Status" p:required="true">
+                <bean id="filterEventStatus" parent="Uif-InputField" p:propertyName="eventStatus" p:label="Status" p:required="true" p:onChangeScript="enableOrDisableFilteredDateResolved();">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"
                               p:disabled="@{#line.logTypeName eq 'Event'}">
@@ -447,7 +447,7 @@
                 <bean id="filterEventResolvedDate" parent="Uif-InputField" p:propertyName="eventResolvedDate"
                       p:label="Date Resolved">
                     <property name="control">
-                        <bean parent="Uif-DateControl" p:size="10" p:disabled="@{#line.logTypeName eq 'Event'}"/>
+                        <bean parent="Uif-DateControl" p:size="10" p:disabled="@{(#line.logTypeName eq 'Event') or !(#line.eventStatus eq 'Resolved')}"/>
                     </property>
                 </bean>
                 <bean id="filterEventResolution" parent="Uif-InputField" p:propertyName="eventResolution"

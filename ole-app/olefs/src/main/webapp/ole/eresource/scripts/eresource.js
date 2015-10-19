@@ -426,6 +426,7 @@ function selectEventOrProblem() {
                 jq("#eResourceeventResolvedDate_add_control").removeAttr('disabled');
                 jq("#eResourceeventResolvedDate_add_control").datepicker("enable");
                 jq("#eResourceeventResolution_add_control").removeAttr('disabled');
+                enableOrDisableDateResolved();
             }
         }
     })
@@ -459,4 +460,15 @@ function setSpaceField() {
     jq('#eResReviewDashSpaceField').height(navigationBarHeight);
     jq('#eResAdminDataSpaceField').height(navigationBarHeight);
     jq('#eResAccessSpaceField').height(navigationBarHeight);
+}
+
+function enableOrDisableDateResolved(){
+    if(jq('#eResourceeventStatus_add_control').val() === 'Resolved'){
+        jq("#eResourceeventResolvedDate_add_control").removeAttr('disabled');
+        jq("#eResourceeventResolvedDate_add_control").datepicker("enable");
+    } else {
+        jq("#eResourceeventResolvedDate_add_control").val('');
+        jq("#eResourceeventResolvedDate_add_control").attr('disabled','true');
+        jq("#eResourceeventResolvedDate_add_control").datepicker("disable");
+    }
 }

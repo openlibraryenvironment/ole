@@ -126,6 +126,7 @@ function selectEventOrProblem() {
                     jq("#eventResolvedDate_add_control").removeAttr('disabled');
                     jq("#eventResolvedDate_add_control").datepicker("enable");
                     jq("#eventResolution_add_control").removeAttr('disabled');
+                    enableOrDisableDateResolved();
                 }
             }
         }
@@ -150,8 +151,30 @@ function selectFilterEventOrProblem() {
                     jq("#filterEventResolvedDate_add_control").removeAttr('disabled');
                     jq("#filterEventResolvedDate_add_control").datepicker("enable");
                     jq("#filterEventResolution_add_control").removeAttr('disabled');
+                    enableOrDisableFilteredDateResolved();
                 }
             }
         }
     )
+}
+
+function enableOrDisableDateResolved() {
+    if(jq('#eventStatus_add_control').val() === 'Resolved'){
+        jq("#eventResolvedDate_add_control").removeAttr('disabled');
+        jq("#eventResolvedDate_add_control").datepicker("enable");
+    } else {
+        jq("#eventResolvedDate_add_control").val('');
+        jq("#eventResolvedDate_add_control").attr('disabled','true');
+        jq("#eventResolvedDate_add_control").datepicker("disable");
+    }
+}
+function enableOrDisableFilteredDateResolved() {
+    if(jq('#filterEventStatus_add_control').val() === 'Resolved'){
+        jq("#filterEventResolvedDate_add_control").removeAttr('disabled');
+        jq("#filterEventResolvedDate_add_control").datepicker("enable");
+    } else {
+        jq("#filterEventResolvedDate_add_control").val('');
+        jq("#filterEventResolvedDate_add_control").attr('disabled','true');
+        jq("#filterEventResolvedDate_add_control").datepicker("disable");
+    }
 }
