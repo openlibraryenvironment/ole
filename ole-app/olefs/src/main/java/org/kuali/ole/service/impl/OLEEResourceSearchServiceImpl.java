@@ -3779,7 +3779,19 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                 instancePOs.add(instancePO);
             }
         }
-        return instancePOs;
+        List<OLECreatePO> instancePOsWithoutDuplicate = removeDuplicateForPOInstanceAndEResource(instancePOs);
+        return instancePOsWithoutDuplicate;
+    }
+
+
+    private List<OLECreatePO> removeDuplicateForPOInstanceAndEResource(List<OLECreatePO> objectList) {
+        Map avoidingDuplicateMap = new HashMap<>();
+        for (OLECreatePO oleCreatePO : objectList) {
+            avoidingDuplicateMap.put(oleCreatePO.getPoId(),oleCreatePO);
+        }
+        objectList.clear();
+        objectList.addAll((Collection<? extends OLECreatePO>) avoidingDuplicateMap.values());
+        return objectList;
     }
 
     @Override
@@ -3870,7 +3882,8 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             eResourcePO.setPurposeId(purposeId);
             eResources.add(eResourcePO);
         }
-        return eResources;
+        List<OLECreatePO> eResourcePOsWithoutDuplicate =removeDuplicateForPOInstanceAndEResource(eResources);
+        return eResourcePOsWithoutDuplicate;
     }
 
     @Override
