@@ -67,13 +67,13 @@ public class SolrRequstResponseHandler_UT {
         solrInputDocument.addField("DocType","Overdue");
         solrInputDocument.addField("DocFormat","Email");
         solrInputDocument.addField("noticeName","Overdue Notice");
-        solrInputDocument.addField("patronBarcode","1234");
-        solrInputDocument.addField("patronId","1234");
+        solrInputDocument.addField("patronBarcode","53370");
+        solrInputDocument.addField("patronId","53370");
         solrInputDocument.addField("itemBarcode","Aq12");
         solrInputDocument.addField("patronName","John Doe");
         solrInputDocument.addField("dateSent",new Date());
         solrInputDocument.addField("deskLocation","UC/JRL/GEN");
-        solrInputDocument.addField("uniqueId","1234");
+        solrInputDocument.addField("uniqueId","53370");
         SolrRequestReponseHandler solrRequestReponseHandler = new MockSolrRequestResponseHanlder();
         UpdateResponse updateResponse = solrRequestReponseHandler.updateSolr(Collections.singletonList(solrInputDocument));
         assertNotNull(updateResponse);
@@ -84,7 +84,7 @@ public class SolrRequstResponseHandler_UT {
     public void retriveFromSolr(){
         SolrRequestReponseHandler solrQueryManager = new MockSolrRequestResponseHanlder();
 //        List list = solrQueryManager.retriveResults("patronBarcode:\"Overdue Notice\"");
-        List list = solrQueryManager.retriveResults("patronBarcode:\"1234\"");
+        List list = solrQueryManager.retriveResults("patronId:\"53370\"");
         assertNotNull(list);
         printResults(list);
     }

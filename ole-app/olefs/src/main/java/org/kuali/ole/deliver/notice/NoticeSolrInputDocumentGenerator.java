@@ -16,14 +16,14 @@ public class NoticeSolrInputDocumentGenerator {
         SolrInputDocument solrInputDocument = new SolrInputDocument();
         solrInputDocument.addField("DocType", noticeType);
         solrInputDocument.addField("DocFormat", "Email");
-        solrInputDocument.addField("noticeName", OLEConstants.NOTICE_OVERDUE);
+        solrInputDocument.addField("noticeType", OLEConstants.NOTICE_OVERDUE);
         String patronBarcode = loanDocuments.get(0).getPatronBarcode();
         String patronId = loanDocuments.get(0).getPatronId();
         solrInputDocument.addField("patronBarcode", patronBarcode);
         solrInputDocument.addField("patronId", patronId);
         solrInputDocument.addField("dateSent", new Date());
         solrInputDocument.addField("deskLocation", "TODO");
-        solrInputDocument.addField("uniqueId", patronBarcode);
+        solrInputDocument.addField("uniqueId", patronId);
 
         for (Iterator<OleLoanDocument> iterator = loanDocuments.iterator(); iterator.hasNext(); ) {
             OleLoanDocument oleLoanDocument = iterator.next();
