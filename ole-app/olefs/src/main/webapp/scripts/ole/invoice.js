@@ -120,8 +120,9 @@ function selectNoProrate(){
 function save() {
     if(jq("#hdnduplicateSaveFlag_control").val() == 'true') {
         displayDialogWindow("div#OLEInvoice-DuplicationSavePopUp");
-
     }
+    removeDollarSymbol();
+    removeDollarSymbolsForProcessItem();
 }
 
 function closeInvoiceVendorSavePopUp(){
@@ -482,13 +483,16 @@ function removeDollarSymbol() {
     }
 
 function removeDollarSymbolsForProcessItem() {
-    if(document.getElementById('OLEInvoiceView-processItems-currentItems_line0_line0_itemDiscount_control')!=null){
-        var itemDiscount = jq("#OLEInvoiceView-processItems-currentItems_line0_line0_itemDiscount_control").val();
-        itemDiscount = itemDiscount.replace(currencySymbol, "");
-        jq("#OLEInvoiceView-processItems-currentItems_line0_line0_itemDiscount_control").val(itemDiscount);
+    for(var itemSize = 0;itemSize<10;itemSize++) {
+        if (document.getElementById('OLEInvoiceView-processItems-currentItems_line0_line' + itemSize + '_itemDiscount_control') != null) {
+            var itemDiscount = jq("#OLEInvoiceView-processItems-currentItems_line0_line" + itemSize + "_itemDiscount_control").val();
+            itemDiscount = itemDiscount.replace(currencySymbol, "");
+            jq("#OLEInvoiceView-processItems-currentItems_line0_line" + itemSize + "_itemDiscount_control").val(itemDiscount);
+        }
     }
 
 }
+
 
 function onChangeSequenceScript(id) {
     var indexValue = id;
