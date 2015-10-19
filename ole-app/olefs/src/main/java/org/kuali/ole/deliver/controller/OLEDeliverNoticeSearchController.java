@@ -86,8 +86,6 @@ public class OLEDeliverNoticeSearchController extends UifControllerBase {
             if (null != noticeContent) {
                 OLEDeliverNoticeSearchResult oleDeliverNoticeSearchResult = new OLEDeliverNoticeSearchResult();
                 oleDeliverNoticeSearchResult.setNoticeContent(new String(noticeContent));
-                oleDeliverNoticeSearchResult.setDateSentTo(oleDeliverNoticeHistory.getNoticeSentDate());
-                oleDeliverNoticeSearchResult.setNoticeType(oleDeliverNoticeHistory.getNoticeType());
                 oleDeliverNoticeSearchResults.add(oleDeliverNoticeSearchResult);
             }
         }
