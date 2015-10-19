@@ -80,6 +80,12 @@ public class OlePatronDefintionHelper {
     private static final Long PATRON_ADDRESS_SOURCE_VERSION_NUMBER = new Long(1);
     private static final String PATRON_ADDRESS_SOURCE_OBJECT_ID = String.valueOf(UUID.randomUUID());
 
+    private static final String PATRON_PHONE_ID = "1";
+    private static final Long PATRON_PHONE_VERSION_NUMBER = new Long(1);
+
+    private static final String PATRON_EMAIL_ID = "1";
+    private static final Long PATRON_EMAIL_VERSION_NUMBER = new Long(1);
+
     private static final String PATRON_SOURCE_ID = "1";
     private static final String PATRON_SOURCE_CODE = "HR";
     private static final String PATRON_SOURCE_NAME = "Human Resource";
@@ -360,6 +366,175 @@ public class OlePatronDefintionHelper {
                 }).build());
             }
 
+            @Override
+            public List<? extends OleEntityPhoneContract> getOleEntityPhoneBo() {
+                return Arrays.asList(OleEntityPhoneDefinition.Builder.create(new OleEntityPhoneContract() {
+
+                    @Override
+                    public OlePhoneContract getOlePhoneBo() {
+                        return OlePhoneDefinition.Builder.create(new OlePhoneContract() {
+
+
+                            @Override
+                            public String getOlePhoneId() {
+                                return PATRON_PHONE_ID;
+                            }
+
+                            @Override
+                            public String getOlePatronId() {
+                                return PATRON_ID;
+                            }
+
+                            @Override
+                            public String getId() {
+                                return PATRON_PHONE_ID;
+                            }
+
+                            @Override
+                            public String getPhoneSource() {
+                                return PATRON_ADDRESS_SOURCE_ID;
+                            }
+
+                            @Override
+                            public OleAddressSourceContract getOlePhoneSourceBo() {
+                                return OleAddressSourceDefinition.Builder.create(new OleAddressSourceContract() {
+
+
+                                    @Override
+                                    public String getId() {
+                                        return PATRON_ADDRESS_SOURCE_ID;
+                                    }
+
+                                    @Override
+                                    public String getOleAddressSourceId() {
+                                        return PATRON_ADDRESS_SOURCE_ID;
+                                    }
+
+                                    @Override
+                                    public String getOleAddressSourceCode() {
+                                        return PATRON_ADDRESS_SOURCE_CODE;
+                                    }
+
+                                    @Override
+                                    public String getOleAddressSourceName() {
+                                        return PATRON_ADDRESS_SOURCE_NAME;
+                                    }
+
+                                    @Override
+                                    public String getOleAddressSourceDesc() {
+                                        return PATRON_ADDRESS_SOURCE_DESC;
+                                    }
+
+                                    @Override
+                                    public boolean isActive() {
+                                        return ACTIVE;
+                                    }
+
+                                    @Override
+                                    public Long getVersionNumber() {
+                                        return PATRON_ADDRESS_SOURCE_VERSION_NUMBER;
+                                    }
+                                }).build();
+                            }
+
+                            @Override
+                            public Long getVersionNumber() {
+                                return PATRON_PHONE_VERSION_NUMBER;
+                            }
+                        }).build();
+                    }
+                    @Override
+                    public EntityPhoneContract getEntityPhoneBo() {
+                        return ENTITY_TYPE_CONTACT.getPhoneNumbers().get(0);
+                    }
+
+                }).build());
+            }
+
+            @Override
+            public List<? extends OleEntityEmailContract> getOleEntityEmailBo() {
+                return Arrays.asList(OleEntityEmailDefinition.Builder.create(new OleEntityEmailContract() {
+
+                    @Override
+                    public OleEmailContract getOleEmailBo() {
+                        return OleEmailDefinition.Builder.create(new OleEmailContract() {
+
+                            @Override
+                            public String getOleEmailId() {
+                                return PATRON_EMAIL_ID;
+                            }
+
+                            @Override
+                            public String getOlePatronId() {
+                                return PATRON_ID;
+                            }
+
+                            @Override
+                            public String getId() {
+                                return PATRON_EMAIL_ID;
+                            }
+
+                            @Override
+                            public String getEmailSource() {
+                                return PATRON_ADDRESS_SOURCE_ID;
+                            }
+
+                            @Override
+                            public OleAddressSourceContract getOleEmailSourceBo() {
+                                return OleAddressSourceDefinition.Builder.create(new OleAddressSourceContract() {
+
+
+                                    @Override
+                                    public String getId() {
+                                        return PATRON_ADDRESS_SOURCE_ID;
+                                    }
+
+                                    @Override
+                                    public String getOleAddressSourceId() {
+                                        return PATRON_ADDRESS_SOURCE_ID;
+                                    }
+
+                                    @Override
+                                    public String getOleAddressSourceCode() {
+                                        return PATRON_ADDRESS_SOURCE_CODE;
+                                    }
+
+                                    @Override
+                                    public String getOleAddressSourceName() {
+                                        return PATRON_ADDRESS_SOURCE_NAME;
+                                    }
+
+                                    @Override
+                                    public String getOleAddressSourceDesc() {
+                                        return PATRON_ADDRESS_SOURCE_DESC;
+                                    }
+
+                                    @Override
+                                    public boolean isActive() {
+                                        return ACTIVE;
+                                    }
+
+                                    @Override
+                                    public Long getVersionNumber() {
+                                        return PATRON_ADDRESS_SOURCE_VERSION_NUMBER;
+                                    }
+                                }).build();
+                            }
+
+                            @Override
+                            public Long getVersionNumber() {
+                                return PATRON_EMAIL_VERSION_NUMBER;
+                            }
+                        }).build();
+                    }
+
+                    @Override
+                    public EntityEmailContract getEntityEmailBo() {
+                        return ENTITY_TYPE_CONTACT.getEmailAddresses().get(0);
+                    }
+
+                }).build());
+            }
 
 
             @Override
@@ -577,6 +752,156 @@ public class OlePatronDefintionHelper {
                             return PATRON_ADDRESS_VERSION_NUMBER;
                         }
                     }).build());
+            }
+
+            @Override
+            public List<? extends OlePhoneContract> getOlePhones() {
+
+                return Arrays.asList(OlePhoneDefinition.Builder.create(new OlePhoneContract() {
+
+
+                    @Override
+                    public String getOlePhoneId() {
+                        return PATRON_PHONE_ID;
+                    }
+
+                    @Override
+                    public String getOlePatronId() {
+                        return PATRON_ID;
+                    }
+
+                    @Override
+                    public String getId() {
+                        return PATRON_PHONE_ID;
+                    }
+
+                    @Override
+                    public String getPhoneSource() {
+                        return PATRON_ADDRESS_SOURCE_ID;
+                    }
+
+                    @Override
+                    public OleAddressSourceContract getOlePhoneSourceBo() {
+                        return OleAddressSourceDefinition.Builder.create(new OleAddressSourceContract() {
+
+
+                            @Override
+                            public String getId() {
+                                return PATRON_ADDRESS_SOURCE_ID;
+                            }
+
+                            @Override
+                            public String getOleAddressSourceId() {
+                                return PATRON_ADDRESS_SOURCE_ID;
+                            }
+
+                            @Override
+                            public String getOleAddressSourceCode() {
+                                return PATRON_ADDRESS_SOURCE_CODE;
+                            }
+
+                            @Override
+                            public String getOleAddressSourceName() {
+                                return PATRON_ADDRESS_SOURCE_NAME;
+                            }
+
+                            @Override
+                            public String getOleAddressSourceDesc() {
+                                return PATRON_ADDRESS_SOURCE_DESC;
+                            }
+
+                            @Override
+                            public boolean isActive() {
+                                return ACTIVE;
+                            }
+
+                            @Override
+                            public Long getVersionNumber() {
+                                return PATRON_ADDRESS_SOURCE_VERSION_NUMBER;
+                            }
+                        }).build();
+                    }
+
+                    @Override
+                    public Long getVersionNumber() {
+                        return PATRON_PHONE_VERSION_NUMBER;
+                    }
+                }).build());
+            }
+
+            @Override
+            public List<? extends OleEmailContract> getOleEmails() {
+
+                return Arrays.asList(OleEmailDefinition.Builder.create(new OleEmailContract() {
+
+
+                    @Override
+                    public String getOleEmailId() {
+                        return PATRON_EMAIL_ID;
+                    }
+
+                    @Override
+                    public String getOlePatronId() {
+                        return PATRON_ID;
+                    }
+
+                    @Override
+                    public String getId() {
+                        return PATRON_EMAIL_ID;
+                    }
+
+                    @Override
+                    public String getEmailSource() {
+                        return PATRON_ADDRESS_SOURCE_ID;
+                    }
+
+                    @Override
+                    public OleAddressSourceContract getOleEmailSourceBo() {
+                        return OleAddressSourceDefinition.Builder.create(new OleAddressSourceContract() {
+
+
+                            @Override
+                            public String getId() {
+                                return PATRON_ADDRESS_SOURCE_ID;
+                            }
+
+                            @Override
+                            public String getOleAddressSourceId() {
+                                return PATRON_ADDRESS_SOURCE_ID;
+                            }
+
+                            @Override
+                            public String getOleAddressSourceCode() {
+                                return PATRON_ADDRESS_SOURCE_CODE;
+                            }
+
+                            @Override
+                            public String getOleAddressSourceName() {
+                                return PATRON_ADDRESS_SOURCE_NAME;
+                            }
+
+                            @Override
+                            public String getOleAddressSourceDesc() {
+                                return PATRON_ADDRESS_SOURCE_DESC;
+                            }
+
+                            @Override
+                            public boolean isActive() {
+                                return ACTIVE;
+                            }
+
+                            @Override
+                            public Long getVersionNumber() {
+                                return PATRON_ADDRESS_SOURCE_VERSION_NUMBER;
+                            }
+                        }).build();
+                    }
+
+                    @Override
+                    public Long getVersionNumber() {
+                        return PATRON_EMAIL_VERSION_NUMBER;
+                    }
+                }).build());
             }
 
             @Override

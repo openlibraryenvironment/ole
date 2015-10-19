@@ -627,36 +627,38 @@
     </bean>
     <bean id="OlePatronDocument-InquiryView-Phone" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:renderInactiveToggleButton="false">
         <property name="headerText" value="Phone" />
-        <property name="collectionObjectClass" value="org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo" />
-        <property name="propertyName" value="phones" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleEntityPhoneBo" />
+        <property name="propertyName" value="oleEntityPhoneBo" />
         <property name="showInactiveLines" value="true"/>
         <property name="cssClasses" value="@{dataObject.phones.size() eq 0}"/>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="items">
             <list>
-                <bean id="phone_phoneTypeCode" parent="Uif-InputField" p:propertyName="phoneType.name" p:label="Phone Type"/>
-                <bean id="phone_phoneNumber" parent="Uif-InputField" p:propertyName="phoneNumber" p:label="Phone Number"/>
-                <bean id="phone_extensionNumber" parent="Uif-InputField" p:propertyName="extensionNumber" p:label="Extension Number"/>
-                <bean id="phone_countryCode" parent="Uif-InputField" p:propertyName="countryCode" p:label="Country"/>
-                <bean id="phone_defaultValue" parent="Uif-InputField" p:propertyName="defaultValue" p:label="Default"/>
-                <bean id="phone_active" parent="Uif-InputField" p:propertyName="active" p:label="Active" />
+                <bean id="phone_phoneTypeCode" parent="Uif-InputField" p:propertyName="entityPhoneBo.phoneType.name" p:label="Phone Type"/>
+                <bean id="phone_phoneNumberSource" parent="Uif-InputField" p:propertyName="olePhoneBo.phoneSourceName" p:label="Phone Number Source"/>
+                <bean id="phone_phoneNumber" parent="Uif-InputField" p:propertyName="entityPhoneBo.phoneNumber" p:label="Phone Number"/>
+                <bean id="phone_extensionNumber" parent="Uif-InputField" p:propertyName="entityPhoneBo.extensionNumber" p:label="Extension Number"/>
+                <bean id="phone_countryCode" parent="Uif-InputField" p:propertyName="entityPhoneBo.countryCode" p:label="Country"/>
+                <bean id="phone_defaultValue" parent="Uif-InputField" p:propertyName="entityPhoneBo.defaultValue" p:label="Default"/>
+                <bean id="phone_active" parent="Uif-InputField" p:propertyName="entityPhoneBo.active" p:label="Active" />
             </list>
         </property>
     </bean>
 
     <bean id="OlePatronDocument-InquiryView-Email" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="4" p:renderInactiveToggleButton="false">
         <property name="headerText" value="Email" />
-        <property name="collectionObjectClass" value="org.kuali.rice.kim.impl.identity.email.EntityEmailBo" />
-        <property name="propertyName" value="emails" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleEntityEmailBo" />
+        <property name="propertyName" value="oleEntityEmailBo" />
         <property name="showInactiveLines" value="true"/>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="cssClasses" value="@{dataObject.emails.size() eq 0}"/>
         <property name="items">
             <list>
-                <bean id="email_emailTypeCode" parent="Uif-InputField" p:propertyName="emailType.name" p:label="Email Type"/>
-                <bean id="email_emailAddress" parent="Uif-InputField" p:propertyName="emailAddress" p:label="Email"/>
-                <bean id="email_defaultValue" parent="Uif-InputField" p:propertyName="defaultValue"  p:label="Default"/>
-                <bean id="email_active" parent="Uif-InputField" p:propertyName="active" p:label="Active"/>
+                <bean id="email_emailTypeCode" parent="Uif-InputField" p:propertyName="entityEmailBo.emailType.name" p:label="Email Type"/>
+                <bean id="email_emailAddressSource" parent="Uif-InputField" p:propertyName="oleEmailBo.emailSourceName" p:label="Email Address Source"/>
+                <bean id="email_emailAddress" parent="Uif-InputField" p:propertyName="entityEmailBo.emailAddress" p:label="Email"/>
+                <bean id="email_defaultValue" parent="Uif-InputField" p:propertyName="entityEmailBo.defaultValue"  p:label="Default"/>
+                <bean id="email_active" parent="Uif-InputField" p:propertyName="entityEmailBo.active" p:label="Active"/>
             </list>
         </property>
     </bean>

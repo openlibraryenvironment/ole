@@ -115,6 +115,7 @@
     <xs:complexType name="emailAddress">
         <xs:sequence>
             <xs:element name="emailAddressType" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="emailSource" type="xs:string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="emailAddress" type="xs:string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="default" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
             <xs:element name="active" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
@@ -123,6 +124,7 @@
     <xs:complexType name="telephoneNumber">
         <xs:sequence>
             <xs:element name="telephoneNumberType" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="phoneSource" type="xs:string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="telephoneNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="extension" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="country" type="xs:string" minOccurs="0" maxOccurs="1"/>

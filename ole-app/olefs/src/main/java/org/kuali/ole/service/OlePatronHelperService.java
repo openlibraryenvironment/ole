@@ -1,8 +1,6 @@
 package org.kuali.ole.service;
 
-import org.kuali.ole.deliver.bo.OleAddressBo;
-import org.kuali.ole.deliver.bo.OleEntityAddressBo;
-import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.bo.*;
 import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo;
@@ -24,15 +22,23 @@ public interface OlePatronHelperService {
 
     public boolean checkAddressSource(List<OleAddressBo> oleAddresses);
 
-    public boolean checkPhoneMultipleDefault(List<EntityPhoneBo> phoneBoList);
+    public boolean checkPhoneSource(List<OlePhoneBo> olePhones);
+
+    public boolean checkEmailSource(List<OleEmailBo> oleEmails);
+
+    public boolean checkPhoneMultipleDefault(List<OleEntityPhoneBo> phoneBoList);
 
     public boolean checkAddressMultipleDefault(List<OleEntityAddressBo> addrBoList);
 
-    public boolean checkEmailMultipleDefault(List<EntityEmailBo> emailBoList);
+    public boolean checkEmailMultipleDefault(List<OleEntityEmailBo> emailBoList);
 
     public boolean isBorrowerTypeActive(OlePatronDocument olePatronDocument);
 
     public List<OleAddressBo> retrieveOleAddressBo(EntityBo entityBo,OlePatronDocument olePatronDocument);
+
+    public List<OlePhoneBo> retrieveOlePhoneBo(EntityBo entityBo, OlePatronDocument olePatronDocument);
+
+    public List<OleEmailBo> retrieveOleEmailBo(EntityBo entityBo, OlePatronDocument olePatronDocument);
 
     public EntityBo copyAndSaveEntityBo(OlePatronDocument patronDocument);
 

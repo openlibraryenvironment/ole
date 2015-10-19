@@ -15,6 +15,8 @@ public class OLEPatronConstant {
     public static final String BORROWERTYPE_BLANK_ERROR = "Borrower type cannot be blank";
     public static final String ADDRESSTYPE_ERROR = "Address type is not found in the system";
     public static final String ADDRESS_SOURCE_ERROR = "Address Source code is not found in the system";
+    public static final String PHONE_SOURCE_ERROR = "Phone Source code is not found in the system";
+    public static final String EMAIL_SOURCE_ERROR = "Email Source code is not found in the system";
     public static final String ADDRESS_TYPE_BLANK_ERROR = "Address type cannot be blank";
     public static final String STATE_ERROR = "State is not found in the system";
     public static final String COUNTRY_ADDRESS_ERROR = "Country is not found in the system for postal address";
@@ -42,6 +44,8 @@ public class OLEPatronConstant {
     public static final String DUP_PATRON_BARCODE_ERROR = "Duplicate Barcode is found";
     public static final String PATRON_BARCODE_EMPTY = "Barcode is required field";
     public static final String PATRON_ADDRESS_SOURCE_REQUIRED = "Address source is required field";
+    public static final String PATRON_PHONE_SOURCE_REQUIRED = "Phone source is required field";
+    public static final String PATRON_EMAIL_SOURCE_REQUIRED = "Email source is required field";
     public static final String PATRON_FILE_NAME = "samplePatronRecord.xml";
     public static final String PATRON_MULTIPART_FIELD_NAME = "patronFile";
     public static final String PATRON_MULTIPART_CONTENT_TYPE = "text/xml";

@@ -4,18 +4,17 @@ import org.apache.commons.collections.CollectionUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.OLEPropertyConstants;
 import org.kuali.ole.deliver.bo.*;
-import org.kuali.ole.deliver.processor.LoanProcessor;
-import org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.impl.identity.address.EntityAddressBo;
 import org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationBo;
+import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
 import org.kuali.rice.kim.impl.identity.employment.EntityEmploymentBo;
 import org.kuali.rice.kim.impl.identity.entity.EntityBo;
+import org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.krad.datadictionary.exception.UnknownBusinessClassAttributeException;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.ModuleService;
 
@@ -123,6 +122,8 @@ public class OlePatronInquirableImpl extends InquirableImpl {
         //OleEntityAddressBo entityAddressBo = new OleEntityAddressBo();
         EntityAddressBo entityAddress = new EntityAddressBo();
         List<OleEntityAddressBo> oleEntityAddressList = new ArrayList<OleEntityAddressBo>();
+        List<OleEntityPhoneBo> oleEntityPhoneBoList = new ArrayList<>();
+        List<OleEntityEmailBo> oleEntityEmailBoList = new ArrayList<>();
         OlePatronDocument patronDocument = (OlePatronDocument) dataObject;
         if (patronDocument != null) {
             EntityBo kimEnity = patronDocument.getEntity();
@@ -136,14 +137,40 @@ public class OlePatronInquirableImpl extends InquirableImpl {
                     entityAddressBo.setEntityAddressBo(entityAdd);
                     Map addMap = new HashMap();
                     //addMap.put(OLEConstants.OlePatron.OLE_ADDRESS_ID, entityAdd.getId());
-                    addMap.put("id", entityAdd.getId());
-                    OleAddressBo oleAddressBo = getBusinessObjectService().findByPrimaryKey(OleAddressBo.class, addMap);
-                    entityAddressBo.setOleAddressBo(oleAddressBo);
+                    addMap.put(OLEConstants.OlePatron.ENTITY_BO_ID, entityAdd.getId());
+                    List<OleAddressBo> oleAddressBos = (List<OleAddressBo>)getBusinessObjectService().findMatching(OleAddressBo.class, addMap);
+                    if(CollectionUtils.isNotEmpty(oleAddressBos)) {
+                        entityAddressBo.setOleAddressBo(oleAddressBos.get(0));
+                    }
                     oleEntityAddressList.add(entityAddressBo);
                 }
                 patronDocument.setOleEntityAddressBo(oleEntityAddressList);
-                patronDocument.setPhones(kimEnity.getEntityTypeContactInfos().get(0).getPhoneNumbers());
-                patronDocument.setEmails(kimEnity.getEntityTypeContactInfos().get(0).getEmailAddresses());
+                List<EntityPhoneBo> entityPhoneBoList = kimEnity.getEntityTypeContactInfos().get(0).getPhoneNumbers();
+                for(EntityPhoneBo entityPhoneBo : entityPhoneBoList) {
+                    OleEntityPhoneBo oleEntityPhoneBo = new OleEntityPhoneBo();
+                    oleEntityPhoneBo.setEntityPhoneBo(entityPhoneBo);
+                    Map map = new HashMap();
+                    map.put(OLEConstants.OlePatron.ENTITY_BO_ID, entityPhoneBo.getId());
+                    List<OlePhoneBo> olePhoneBos = (List<OlePhoneBo>)getBusinessObjectService().findMatching(OlePhoneBo.class, map);
+                    if(CollectionUtils.isNotEmpty(olePhoneBos)) {
+                        oleEntityPhoneBo.setOlePhoneBo(olePhoneBos.get(0));
+                    }
+                    oleEntityPhoneBoList.add(oleEntityPhoneBo);
+                }
+                patronDocument.setOleEntityPhoneBo(oleEntityPhoneBoList);
+                List<EntityEmailBo> entityEmailBoList = kimEnity.getEntityTypeContactInfos().get(0).getEmailAddresses();
+                for(EntityEmailBo entityEmailBo : entityEmailBoList) {
+                    OleEntityEmailBo oleEntityEmailBo = new OleEntityEmailBo();
+                    oleEntityEmailBo.setEntityEmailBo(entityEmailBo);
+                    Map map = new HashMap();
+                    map.put(OLEConstants.OlePatron.ENTITY_BO_ID, entityEmailBo.getId());
+                    List<OleEmailBo> oleEmailBos = (List<OleEmailBo>)getBusinessObjectService().findMatching(OleEmailBo.class, map);
+                    if(CollectionUtils.isNotEmpty(oleEmailBos)) {
+                        oleEntityEmailBo.setOleEmailBo(oleEmailBos.get(0));
+                    }
+                    oleEntityEmailBoList.add(oleEntityEmailBo);
+                }
+                patronDocument.setOleEntityEmailBo(oleEntityEmailBoList);
                 patronDocument.setPatronAffiliations(getPatronAffiliationFromEntity(kimEnity.getAffiliations(), kimEnity.getEmploymentInformation()));
                 if (patronHome != null) {
                     if (patronHome.equalsIgnoreCase("start"))

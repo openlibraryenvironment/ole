@@ -7,6 +7,7 @@ public class OlePatronEmailAddress {
 
     private String emailAddressType;
     private String emailAddress;
+    private String emailSource;
     private boolean defaults;
     private boolean active;
     /**
@@ -23,6 +24,15 @@ public class OlePatronEmailAddress {
     public void setEmailAddressType(String emailAddressType) {
         this.emailAddressType = emailAddressType;
     }
+
+    public String getEmailSource() {
+        return emailSource;
+    }
+
+    public void setEmailSource(String emailSource) {
+        this.emailSource = emailSource;
+    }
+
     /**
      * Gets the active attribute.
      * @return  Returns the active.

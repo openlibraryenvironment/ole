@@ -9,6 +9,7 @@ public class OlePatronTelePhoneNumber {
     private String telephoneNumber;
     private String extension;
     private String country;
+    private String phoneSource;
     private boolean defaults;
     private boolean active;
     /**
@@ -53,6 +54,15 @@ public class OlePatronTelePhoneNumber {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    public String getPhoneSource() {
+        return phoneSource;
+    }
+
+    public void setPhoneSource(String phoneSource) {
+        this.phoneSource = phoneSource;
+    }
+
     /**
      * Gets the active attribute.
      * @return  Returns the active.

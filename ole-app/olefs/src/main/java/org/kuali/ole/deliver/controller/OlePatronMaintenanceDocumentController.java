@@ -315,18 +315,20 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                 selectedCollectionPath);
         String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
         Object eventObject = ObjectPropertyUtils.getPropertyValue(maintenanceForm, addLinePath);
-        EntityPhoneBo entityPhoneBo = (EntityPhoneBo) eventObject;
+        OleEntityPhoneBo oleEntityPhoneBo = (OleEntityPhoneBo) eventObject;
         boolean isValidPhoneNumber=false;
         if (LOG.isDebugEnabled()) {
             LOG.debug("Validating the Phone Number  Format - ##########, (###)###-#### , ###-###-#### , ### ###-#### , ### ### ####");
         }
-        if (entityPhoneBo.getPhoneNumber().matches("\\d{10}")) isValidPhoneNumber=true;
-        else if (entityPhoneBo.getPhoneNumber().matches("\\d{3}[-]\\d{3}[-]\\d{4}")) isValidPhoneNumber=true;
-        else if (entityPhoneBo.getPhoneNumber().matches("\\d{3}[\\s]\\d{3}[-]\\d{4}")) isValidPhoneNumber=true;
-        else if (entityPhoneBo.getPhoneNumber().matches("\\d{3}[\\s]\\d{3}[\\s]\\d{4}")) isValidPhoneNumber=true;
-        else if (entityPhoneBo.getPhoneNumber().matches("\\(\\d{3}\\)[\\s]\\d{3}[-]\\d{4}")) isValidPhoneNumber=true;
-        else if (entityPhoneBo.getPhoneNumber().matches("^\\+(?:[0-9].?){6,14}[0-9]$")) isValidPhoneNumber=true;
-        else isValidPhoneNumber=false;
+        if(oleEntityPhoneBo != null && oleEntityPhoneBo.getEntityPhoneBo() != null) {
+            if (oleEntityPhoneBo.getEntityPhoneBo().getPhoneNumber().matches("\\d{10}")) isValidPhoneNumber=true;
+            else if (oleEntityPhoneBo.getEntityPhoneBo().getPhoneNumber().matches("\\d{3}[-]\\d{3}[-]\\d{4}")) isValidPhoneNumber=true;
+            else if (oleEntityPhoneBo.getEntityPhoneBo().getPhoneNumber().matches("\\d{3}[\\s]\\d{3}[-]\\d{4}")) isValidPhoneNumber=true;
+            else if (oleEntityPhoneBo.getEntityPhoneBo().getPhoneNumber().matches("\\d{3}[\\s]\\d{3}[\\s]\\d{4}")) isValidPhoneNumber=true;
+            else if (oleEntityPhoneBo.getEntityPhoneBo().getPhoneNumber().matches("\\(\\d{3}\\)[\\s]\\d{3}[-]\\d{4}")) isValidPhoneNumber=true;
+            else if (oleEntityPhoneBo.getEntityPhoneBo().getPhoneNumber().matches("^\\+(?:[0-9].?){6,14}[0-9]$")) isValidPhoneNumber=true;
+            else isValidPhoneNumber=false;
+        }
         if(!isValidPhoneNumber){
             GlobalVariables.getMessageMap().putErrorForSectionId("OlePatronDocument-Phone", OLEConstants.INVALID_PHONE_NUMBER_FORMAT);
         }
@@ -1025,17 +1027,23 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                             KRADServiceLocator.getBusinessObjectService().delete(oleEntityAddressBo.getEntityAddressBo());
                         }
                     }
+                    if(CollectionUtils.isNotEmpty(newOlePatronDocument.getDeletedOleEntityEmailBo())) {
+                        for(OleEntityEmailBo oleEntityEmailBo : newOlePatronDocument.getDeletedOleEntityEmailBo()) {
+                            KRADServiceLocator.getBusinessObjectService().delete(oleEntityEmailBo.getOleEmailBo());
+                            KRADServiceLocator.getBusinessObjectService().delete(oleEntityEmailBo.getEntityEmailBo());
+                        }
+                    }
                     Map<String, String> mapEntityId = new HashMap<String, String>();
                     mapEntityId.put("entityId", newOlePatronDocument.getOlePatronId());
-                    if(newOlePatronDocument.getDeletedEmails().size()>0){
-                        KRADServiceLocator.getBusinessObjectService().delete(newOlePatronDocument.getDeletedEmails());
-                    }
                     List<EntityNameBo> entityNameBos = tempDocument.getEntity().getNames();
                     if (entityNameBos.size() > 0) {
                         KRADServiceLocator.getBusinessObjectService().deleteMatching(EntityNameBo.class,mapEntityId);
                     }
-                    if(newOlePatronDocument.getDeletedPhones().size()>0){
-                        KRADServiceLocator.getBusinessObjectService().delete(newOlePatronDocument.getDeletedPhones());
+                    if(CollectionUtils.isNotEmpty(newOlePatronDocument.getDeletedOleEntityPhoneBo())) {
+                        for(OleEntityPhoneBo oleEntityPhoneBo : newOlePatronDocument.getDeletedOleEntityPhoneBo()) {
+                            KRADServiceLocator.getBusinessObjectService().delete(oleEntityPhoneBo.getOlePhoneBo());
+                            KRADServiceLocator.getBusinessObjectService().delete(oleEntityPhoneBo.getEntityPhoneBo());
+                        }
                     }
                     if(newOlePatronDocument.getDeletedNotes().size()>0){
                         KRADServiceLocator.getBusinessObjectService().delete(newOlePatronDocument.getDeletedNotes());
@@ -1081,6 +1089,10 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
             criteria.put(OLEConstants.OlePatron.PATRON_ID, newOlePatronDocument.getOlePatronId());
             KRADServiceLocator.getBusinessObjectService().deleteMatching(OleAddressBo.class, criteria);
             prepareOleAddressForSave(newOlePatronDocument);
+            KRADServiceLocator.getBusinessObjectService().deleteMatching(OlePhoneBo.class, criteria);
+            prepareOlePhoneForSave(newOlePatronDocument);
+            KRADServiceLocator.getBusinessObjectService().deleteMatching(OleEmailBo.class, criteria);
+            prepareOleEmailForSave(newOlePatronDocument);
         }
         if (KRADConstants.MAINTENANCE_COPY_ACTION.equals(action) || KRADConstants.MAINTENANCE_NEW_ACTION.equals(action)) {
             newOlePatronDocument.setEntity(olePatronHelperService.copyAndSaveEntityBo(newOlePatronDocument));
@@ -1091,6 +1103,18 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
                }
             }
             prepareOleAddressForSave(newOlePatronDocument);
+            for(OleEntityPhoneBo oleEntityPhoneBo : newOlePatronDocument.getOleEntityPhoneBo()) {
+                if(oleEntityPhoneBo.getOlePhoneBo() != null) {
+                    oleEntityPhoneBo.getOlePhoneBo().setOlePhoneId(null);
+                }
+            }
+            prepareOlePhoneForSave(newOlePatronDocument);
+            for(OleEntityEmailBo oleEntityEmailBo : newOlePatronDocument.getOleEntityEmailBo()) {
+                if(oleEntityEmailBo.getOleEmailBo() != null) {
+                    oleEntityEmailBo.getOleEmailBo().setOleEmailId(null);
+                }
+            }
+            prepareOleEmailForSave(newOlePatronDocument);
         }
 
         if(StringUtils.isNotBlank(newOlePatronDocument.getOlePatronId())){
@@ -1549,6 +1573,82 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         }
     }
 
+    private void prepareOlePhoneForSave(OlePatronDocument newOlePatronDocument) {
+        if (newOlePatronDocument.getOleEntityPhoneBo() != null) {
+            newOlePatronDocument.getOlePhones().clear();
+            int i=0;
+            for (OleEntityPhoneBo oleEntityPhoneBo : newOlePatronDocument.getOleEntityPhoneBo()) {
+                if (oleEntityPhoneBo.getEntityPhoneBo().getId() == null) {
+                    if (newOlePatronDocument.getEntity() != null && newOlePatronDocument.getEntity().getEntityTypeContactInfos() != null && newOlePatronDocument.getEntity().getEntityTypeContactInfos().size() > 0) {
+                        EntityTypeContactInfoBo entityTypeContactInfo =  newOlePatronDocument.getEntity().getEntityTypeContactInfos().get(0);
+                        if (CollectionUtils.isNotEmpty(entityTypeContactInfo.getPhoneNumbers()) && entityTypeContactInfo.getPhoneNumbers().size()>i) {
+                            if(oleEntityPhoneBo.getEntityPhoneBo()!=null){
+                               entityTypeContactInfo.getPhoneNumbers().get(i).setDefaultValue(oleEntityPhoneBo.getEntityPhoneBo().isDefaultValue());
+                               entityTypeContactInfo.getPhoneNumbers().get(i).setActive(oleEntityPhoneBo.getEntityPhoneBo().isActive());
+                            }
+                            oleEntityPhoneBo.setEntityPhoneBo(entityTypeContactInfo.getPhoneNumbers().get(i));
+                        }
+                    }
+                }
+                i++;
+            }
+            for (OleEntityPhoneBo oleEntityPhoneBo : newOlePatronDocument.getOleEntityPhoneBo()) {
+                if (oleEntityPhoneBo.getEntityPhoneBo() != null && oleEntityPhoneBo.getEntityPhoneBo().getId() != null) {
+
+                    oleEntityPhoneBo.getOlePhoneBo().setOlePhoneId(KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("OLE_DLVR_PHONE_S").toString());
+
+                    oleEntityPhoneBo.getOlePhoneBo().setId(oleEntityPhoneBo.getEntityPhoneBo().getId());
+                    oleEntityPhoneBo.getOlePhoneBo().setOlePatronId(newOlePatronDocument.getOlePatronId());
+                    oleEntityPhoneBo.getOlePhoneBo().setVersionNumber(null);
+                    oleEntityPhoneBo.getOlePhoneBo().setObjectId(null);
+                    oleEntityPhoneBo.getOlePhoneBo().setPhoneSource(oleEntityPhoneBo.getOlePhoneBo().getPhoneSource());
+                }
+                OlePhoneBo olePhoneBo = (OlePhoneBo) ObjectUtils.deepCopy(oleEntityPhoneBo.getOlePhoneBo());
+                EntityPhoneBo entityPhoneBo = (EntityPhoneBo) ObjectUtils.deepCopy(oleEntityPhoneBo.getEntityPhoneBo());
+                oleEntityPhoneBo.getOlePhoneBo().setEntityPhoneBo(entityPhoneBo);
+                newOlePatronDocument.getOlePhones().add(olePhoneBo);
+            }
+        }
+    }
+
+    private void prepareOleEmailForSave(OlePatronDocument newOlePatronDocument) {
+        if (newOlePatronDocument.getOleEntityEmailBo() != null) {
+            newOlePatronDocument.getOleEmails().clear();
+            int i=0;
+            for (OleEntityEmailBo oleEntityEmailBo : newOlePatronDocument.getOleEntityEmailBo()) {
+                if (oleEntityEmailBo.getEntityEmailBo().getId() == null) {
+                    if (newOlePatronDocument.getEntity() != null && newOlePatronDocument.getEntity().getEntityTypeContactInfos() != null && newOlePatronDocument.getEntity().getEntityTypeContactInfos().size() > 0) {
+                        EntityTypeContactInfoBo entityTypeContactInfo =  newOlePatronDocument.getEntity().getEntityTypeContactInfos().get(0);
+                        if (CollectionUtils.isNotEmpty(entityTypeContactInfo.getEmailAddresses()) && entityTypeContactInfo.getEmailAddresses().size()>i) {
+                            if(oleEntityEmailBo.getEntityEmailBo()!=null){
+                               entityTypeContactInfo.getEmailAddresses().get(i).setDefaultValue(oleEntityEmailBo.getEntityEmailBo().isDefaultValue());
+                               entityTypeContactInfo.getEmailAddresses().get(i).setActive(oleEntityEmailBo.getEntityEmailBo().isActive());
+                            }
+                            oleEntityEmailBo.setEntityEmailBo(entityTypeContactInfo.getEmailAddresses().get(i));
+                        }
+                    }
+                }
+                i++;
+            }
+            for (OleEntityEmailBo oleEntityEmailBo: newOlePatronDocument.getOleEntityEmailBo()) {
+                if (oleEntityEmailBo.getEntityEmailBo() != null && oleEntityEmailBo.getEntityEmailBo().getId() != null) {
+
+                    oleEntityEmailBo.getOleEmailBo().setOleEmailId(KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("OLE_DLVR_EMAIL_S").toString());
+
+                    oleEntityEmailBo.getOleEmailBo().setId(oleEntityEmailBo.getEntityEmailBo().getId());
+                    oleEntityEmailBo.getOleEmailBo().setOlePatronId(newOlePatronDocument.getOlePatronId());
+                    oleEntityEmailBo.getOleEmailBo().setVersionNumber(null);
+                    oleEntityEmailBo.getOleEmailBo().setObjectId(null);
+                    oleEntityEmailBo.getOleEmailBo().setEmailSource(oleEntityEmailBo.getOleEmailBo().getEmailSource());
+                }
+                OleEmailBo oleEmailBo = (OleEmailBo) ObjectUtils.deepCopy(oleEntityEmailBo.getOleEmailBo());
+                EntityEmailBo entityEmailBo = (EntityEmailBo) ObjectUtils.deepCopy(oleEntityEmailBo.getEntityEmailBo());
+                oleEntityEmailBo.getOleEmailBo().setEntityEmailBo(entityEmailBo);
+                newOlePatronDocument.getOleEmails().add(oleEmailBo);
+            }
+        }
+    }
+
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteAddress")
     public ModelAndView deleteAddress(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
@@ -1569,7 +1669,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         MaintenanceDocument document = form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
-        newOlePatronDocument.getDeletedPhones().add(newOlePatronDocument.getPhones().get(Integer.parseInt(selectedLineIndex)));
+        newOlePatronDocument.getDeletedOleEntityPhoneBo().add(newOlePatronDocument.getOleEntityPhoneBo().get(Integer.parseInt(selectedLineIndex)));
         return deleteLine(uifForm, result, request, response);
 
     }
@@ -1582,7 +1682,7 @@ public class OlePatronMaintenanceDocumentController extends MaintenanceDocumentC
         String selectedLineIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         MaintenanceDocument document = form.getDocument();
         OlePatronDocument newOlePatronDocument = (OlePatronDocument) document.getNewMaintainableObject().getDataObject();
-        newOlePatronDocument.getDeletedEmails().add(newOlePatronDocument.getEmails().get(Integer.parseInt(selectedLineIndex)));
+        newOlePatronDocument.getDeletedOleEntityEmailBo().add(newOlePatronDocument.getOleEntityEmailBo().get(Integer.parseInt(selectedLineIndex)));
         return deleteLine(uifForm, result, request, response);
 
     }

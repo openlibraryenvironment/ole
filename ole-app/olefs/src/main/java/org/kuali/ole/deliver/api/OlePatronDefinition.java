@@ -53,6 +53,8 @@ import java.util.List;
         OlePatronDefinition.Elements.NOTES,
         OlePatronDefinition.Elements.LOST_BARCODES,
         OlePatronDefinition.Elements.OLE_ENTITY_ADDRESSES,
+        OlePatronDefinition.Elements.OLE_ENTITY_PHONES,
+        OlePatronDefinition.Elements.OLE_ENTITY_EMAILS,
         OlePatronDefinition.Elements.GENERAL_BLOCK_NOTES,
         OlePatronDefinition.Elements.PATRON_AFFILIATIONS,
         OlePatronDefinition.Elements.OLE_PROXY_PATRON_DOCS,
@@ -60,6 +62,8 @@ import java.util.List;
         OlePatronDefinition.Elements.OLE_SOURCE,
         OlePatronDefinition.Elements.OLE_STATISTICAL_CAT,
         OlePatronDefinition.Elements.OLE_ADDRESSES,
+        OlePatronDefinition.Elements.OLE_PHONES,
+        OlePatronDefinition.Elements.OLE_EMAILS,
         OlePatronDefinition.Elements.OLE_PATRON_LOCAL_IDS,
         CoreConstants.CommonElements.VERSION_NUMBER,
         //CoreConstants.CommonElements.OBJECT_ID,
@@ -128,6 +132,14 @@ public final class OlePatronDefinition extends AbstractDataTransferObject implem
     @XmlElement(name = Elements.OLE_ENTITY_ADDRESS, required = false)
     private final List<OleEntityAddressDefinition> oleEntityAddressBo;
 
+    @XmlElementWrapper(name = Elements.OLE_ENTITY_PHONES, required = false)
+    @XmlElement(name = Elements.OLE_ENTITY_PHONE, required = false)
+    private final List<OleEntityPhoneDefinition> oleEntityPhoneBo;
+
+    @XmlElementWrapper(name = Elements.OLE_ENTITY_EMAILS, required = false)
+    @XmlElement(name = Elements.OLE_ENTITY_EMAIL, required = false)
+    private final List<OleEntityEmailDefinition> oleEntityEmailBo;
+
     @XmlElementWrapper(name = Elements.PATRON_AFFILIATIONS, required = false)
     @XmlElement(name = Elements.PATRON_AFFILIATION, required = false)
     private final List<OlePatronAffiliationDefinition> patronAffiliations;
@@ -139,6 +151,14 @@ public final class OlePatronDefinition extends AbstractDataTransferObject implem
     @XmlElementWrapper(name = Elements.OLE_ADDRESSES, required = false)
     @XmlElement(name = Elements.OLE_ADDRESS, required = false)
     private final List<OleAddressDefinition> oleAddresses;
+
+    @XmlElementWrapper(name = Elements.OLE_PHONES, required = false)
+    @XmlElement(name = Elements.OLE_PHONE, required = false)
+    private final List<OlePhoneDefinition> olePhones;
+
+    @XmlElementWrapper(name = Elements.OLE_EMAILS, required = false)
+    @XmlElement(name = Elements.OLE_EMAIL, required = false)
+    private final List<OleEmailDefinition> oleEmails;
 
     @XmlElement(name = Elements.GENERAL_BLOCK_NOTES, required = false)
     private final String generalBlockNotes;
@@ -188,6 +208,8 @@ public final class OlePatronDefinition extends AbstractDataTransferObject implem
         this.notes = null;
         this.lostBarcodes = null;
         this.oleEntityAddressBo = null;
+        this.oleEntityPhoneBo = null;
+        this.oleEntityEmailBo = null;
         this.patronAffiliations = null;
         this.oleBorrowerType = null;
         this.entity = null;
@@ -197,6 +219,8 @@ public final class OlePatronDefinition extends AbstractDataTransferObject implem
         this.source = null;
         this.statisticalCategory = null;
         this.oleAddresses = null;
+        this.olePhones = null;
+        this.oleEmails = null;
         this.olePatronLocalIds = null;
         this.versionNumber = null;
         //this.objectId = null;
@@ -261,6 +285,20 @@ public final class OlePatronDefinition extends AbstractDataTransferObject implem
             }
         }
 
+        this.oleEntityPhoneBo = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(builder.getOleEntityPhoneBo())) {
+            for(OleEntityPhoneDefinition.Builder oleEntityPhone : builder.getOleEntityPhoneBo()) {
+                this.oleEntityPhoneBo.add(oleEntityPhone.build());
+            }
+        }
+
+        this.oleEntityEmailBo = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(builder.getOleEntityEmailBo())) {
+            for(OleEntityEmailDefinition.Builder oleEntityEmail : builder.getOleEntityEmailBo()) {
+                this.oleEntityEmailBo.add(oleEntityEmail.build());
+            }
+        }
+
         this.patronAffiliations = new ArrayList<OlePatronAffiliationDefinition>();
         if (!CollectionUtils.isEmpty(builder.getPatronAffiliations())) {
             for (OlePatronAffiliationDefinition.Builder oleAffiliation : builder.getPatronAffiliations()) {
@@ -279,6 +317,20 @@ public final class OlePatronDefinition extends AbstractDataTransferObject implem
         if (!CollectionUtils.isEmpty(builder.getOleAddresses())) {
             for (OleAddressDefinition.Builder oleAddress : builder.getOleAddresses()) {
                 this.oleAddresses.add(oleAddress.build());
+            }
+        }
+
+        this.olePhones = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(builder.getOlePhones())) {
+            for(OlePhoneDefinition.Builder olePhone : builder.getOlePhones()) {
+                this.olePhones.add(olePhone.build());
+            }
+        }
+
+        this.oleEmails = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(builder.getOleEmails())) {
+            for(OleEmailDefinition.Builder oleEmail : builder.getOleEmails()) {
+                this.oleEmails.add(oleEmail.build());
             }
         }
 
@@ -371,6 +423,16 @@ public final class OlePatronDefinition extends AbstractDataTransferObject implem
     }
 
     @Override
+    public List<OleEntityPhoneDefinition> getOleEntityPhoneBo() {
+        return this.oleEntityPhoneBo;
+    }
+
+    @Override
+    public List<OleEntityEmailDefinition> getOleEntityEmailBo() {
+        return this.oleEntityEmailBo;
+    }
+
+    @Override
     public List<OlePatronAffiliationDefinition> getPatronAffiliations() {
         return this.patronAffiliations;
     }
@@ -383,6 +445,16 @@ public final class OlePatronDefinition extends AbstractDataTransferObject implem
     @Override
     public List<OleAddressDefinition> getOleAddresses() {
         return this.oleAddresses;
+    }
+
+    @Override
+    public List<OlePhoneDefinition> getOlePhones() {
+        return this.olePhones;
+    }
+
+    @Override
+    public List<OleEmailDefinition> getOleEmails() {
+        return this.oleEmails;
     }
 
     @Override
@@ -469,11 +541,15 @@ public final class OlePatronDefinition extends AbstractDataTransferObject implem
         private OleStatisticalCategoryDefinition.Builder statisticalCategoryBo;
         private Entity.Builder entity;
         private List<OleEntityAddressDefinition.Builder> oleEntityAddressBo;
+        private List<OleEntityPhoneDefinition.Builder> oleEntityPhoneBo;
+        private List<OleEntityEmailDefinition.Builder> oleEntityEmailBo;
         private List<OlePatronAffiliationDefinition.Builder> patronAffiliations;
         private List<OleProxyPatronDefinition.Builder> oleProxyPatronDocuments;
         private List<Builder> olePatronDocuments;
         private List<OlePatronLocalIdentificationDefinition.Builder> olePatronLocalIds;
         private List<OleAddressDefinition.Builder> oleAddresses;
+        private List<OlePhoneDefinition.Builder> olePhones;
+        private List<OleEmailDefinition.Builder> oleEmails;
 
         private Long versionNumber;
         private String objectId;
@@ -581,10 +657,34 @@ public final class OlePatronDefinition extends AbstractDataTransferObject implem
                     builder.oleEntityAddressBo.add(OleEntityAddressDefinition.Builder.create(oleEntityAddressContract));
                 }
             }
+            builder.oleEntityPhoneBo = new ArrayList<OleEntityPhoneDefinition.Builder>();
+            if(!CollectionUtils.isEmpty(contract.getOleEntityPhoneBo())) {
+                for(OleEntityPhoneContract oleEntityPhoneContract : contract.getOleEntityPhoneBo()) {
+                    builder.oleEntityPhoneBo.add(OleEntityPhoneDefinition.Builder.create(oleEntityPhoneContract));
+                }
+            }
+            builder.oleEntityEmailBo = new ArrayList<OleEntityEmailDefinition.Builder>();
+            if(!CollectionUtils.isEmpty(contract.getOleEntityEmailBo())) {
+                for(OleEntityEmailContract oleEntityEmailContract : contract.getOleEntityEmailBo()) {
+                    builder.oleEntityEmailBo.add(OleEntityEmailDefinition.Builder.create(oleEntityEmailContract));
+                }
+            }
             builder.oleAddresses = new ArrayList<OleAddressDefinition.Builder>();
             if (!CollectionUtils.isEmpty(contract.getOleAddresses())) {
                 for (OleAddressContract oleAddressContract : contract.getOleAddresses()) {
                     builder.oleAddresses.add(OleAddressDefinition.Builder.create(oleAddressContract));
+                }
+            }
+            builder.olePhones = new ArrayList<OlePhoneDefinition.Builder>();
+            if(!CollectionUtils.isEmpty(contract.getOlePhones())) {
+                for(OlePhoneContract olePhoneContract : contract.getOlePhones()) {
+                    builder.olePhones.add(OlePhoneDefinition.Builder.create(olePhoneContract));
+                }
+            }
+            builder.oleEmails = new ArrayList<OleEmailDefinition.Builder>();
+            if(!CollectionUtils.isEmpty(contract.getOleEmails())) {
+                for(OleEmailContract oleEmailContract : contract.getOleEmails()) {
+                    builder.oleEmails.add(OleEmailDefinition.Builder.create(oleEmailContract));
                 }
             }
             if (contract.getName() != null && contract.getName().getFirstName() != null) {
@@ -834,6 +934,22 @@ public final class OlePatronDefinition extends AbstractDataTransferObject implem
             this.oleEntityAddressBo = oleEntityAddressBo;
         }
 
+        public List<OleEntityPhoneDefinition.Builder> getOleEntityPhoneBo() {
+            return oleEntityPhoneBo;
+        }
+
+        public void setOleEntityPhoneBo(List<OleEntityPhoneDefinition.Builder> oleEntityPhoneBo) {
+            this.oleEntityPhoneBo = oleEntityPhoneBo;
+        }
+
+        public List<OleEntityEmailDefinition.Builder> getOleEntityEmailBo() {
+            return oleEntityEmailBo;
+        }
+
+        public void setOleEntityEmailBo(List<OleEntityEmailDefinition.Builder> oleEntityEmailBo) {
+            this.oleEntityEmailBo = oleEntityEmailBo;
+        }
+
         public List<OlePatronAffiliationDefinition.Builder> getPatronAffiliations() {
             return patronAffiliations;
         }
@@ -904,6 +1020,22 @@ public final class OlePatronDefinition extends AbstractDataTransferObject implem
 
         public void setOleAddresses(List<OleAddressDefinition.Builder> oleAddresses) {
             this.oleAddresses = oleAddresses;
+        }
+
+        public List<OlePhoneDefinition.Builder> getOlePhones() {
+            return olePhones;
+        }
+
+        public void setOlePhones(List<OlePhoneDefinition.Builder> olePhones) {
+            this.olePhones = olePhones;
+        }
+
+        public List<OleEmailDefinition.Builder> getOleEmails() {
+            return oleEmails;
+        }
+
+        public void setOleEmails(List<OleEmailDefinition.Builder> oleEmails) {
+            this.oleEmails = oleEmails;
         }
 
         @Override
@@ -980,6 +1112,10 @@ public final class OlePatronDefinition extends AbstractDataTransferObject implem
         final static String ENTITY = "entity";
         final static String OLE_ENTITY_ADDRESSES = "oleEntityAddressBo";
         final static String OLE_ENTITY_ADDRESS = "oleEntityAddress";
+        final static String OLE_ENTITY_PHONES = "oleEntityPhoneBo";
+        final static String OLE_ENTITY_PHONE = "oleEntityPhone";
+        final static String OLE_ENTITY_EMAILS = "oleEntityEmailBo";
+        final static String OLE_ENTITY_EMAIL = "oleEntityEmail";
         final static String GENERAL_BLOCK_NOTES = "generalBlockNotes";
         final static String PATRON_AFFILIATIONS = "patronAffiliations";
         final static String PATRON_AFFILIATION = "patronAffiliation";
@@ -991,6 +1127,10 @@ public final class OlePatronDefinition extends AbstractDataTransferObject implem
         final static String OLE_STATISTICAL_CAT = "statisticalCategory";
         final static String OLE_ADDRESSES = "oleAddresses";
         final static String OLE_ADDRESS = "oleAddress";
+        final static String OLE_PHONES = "olePhones";
+        final static String OLE_PHONE = "olePhone";
+        final static String OLE_EMAILS = "oleEmails";
+        final static String OLE_EMAIL = "oleEmail";
         final static String OLE_PATRON_LOCAL_IDS = "olePatronLocalIds";
         final static String OLE_PATRON_LOCAL_ID = "olePatronLocalId";
 

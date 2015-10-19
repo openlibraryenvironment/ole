@@ -114,11 +114,29 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
                 addressList.add(oleEntityAddress.getEntityAddressBo());
             }
         }
+        List<EntityPhoneBo> phoneList = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(patronDocument.getOleEntityPhoneBo())) {
+            for(OleEntityPhoneBo oleEntityPhoneBo : patronDocument.getOleEntityPhoneBo()) {
+                if(oleEntityPhoneBo.getEntityPhoneBo() != null && oleEntityPhoneBo.getEntityPhoneBo().getPhoneType() != null) {
+                    oleEntityPhoneBo.getEntityPhoneBo().setPhoneTypeCode(oleEntityPhoneBo.getEntityPhoneBo().getPhoneType().getCode());
+                }
+                phoneList.add(oleEntityPhoneBo.getEntityPhoneBo());
+            }
+        }
+        List<EntityEmailBo> emailList = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(patronDocument.getOleEntityEmailBo())) {
+            for(OleEntityEmailBo oleEntityEmailBo : patronDocument.getOleEntityEmailBo()) {
+                if(oleEntityEmailBo.getEntityEmailBo() != null && oleEntityEmailBo.getEntityEmailBo().getEmailType() != null) {
+                    oleEntityEmailBo.getEntityEmailBo().setEmailTypeCode(oleEntityEmailBo.getEntityEmailBo().getEmailType().getCode());
+                }
+                emailList.add(oleEntityEmailBo.getEntityEmailBo());
+            }
+        }
         patronDocument.setEmployments(employeeList);
         entityTypes.clear();
         entityType.setAddresses(addressList);
-        entityType.setEmailAddresses(patronDocument.getEmails());
-        entityType.setPhoneNumbers(patronDocument.getPhones());
+        entityType.setEmailAddresses(emailList);
+        entityType.setPhoneNumbers(phoneList);
         entityTypes.add(entityType);
         kimEntity.setEntityTypeContactInfos(entityTypes);
         try {
@@ -208,35 +226,35 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
                 addressList.add(oleEntityAddress.getEntityAddressBo());
             }
         }
-        List<EntityPhoneBo> entityPhoneBos = new ArrayList<EntityPhoneBo>();
-        if (patronDocument.getPhones() != null) {
-            for (EntityPhoneBo entityPhoneBo : patronDocument.getPhones()) {
-                entityPhoneBo.setObjectId(null);
-                entityPhoneBo.setVersionNumber(null);
-                entityPhoneBo.setId(null);
-                if(entityPhoneBo.getPhoneType()!=null){
-                    entityPhoneBo.setPhoneTypeCode(entityPhoneBo.getPhoneType().getCode());
+        List<EntityPhoneBo> entityPhoneBoList = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(patronDocument.getOleEntityPhoneBo())) {
+            for(OleEntityPhoneBo oleEntityPhoneBo : patronDocument.getOleEntityPhoneBo()) {
+                oleEntityPhoneBo.getEntityPhoneBo().setId(null);
+                oleEntityPhoneBo.getEntityPhoneBo().setVersionNumber(null);
+                oleEntityPhoneBo.getEntityPhoneBo().setObjectId(null);
+                oleEntityPhoneBo.getEntityPhoneBo().setEntityId(kimEntity.getId());
+                if(oleEntityPhoneBo.getEntityPhoneBo() != null && oleEntityPhoneBo.getEntityPhoneBo().getPhoneType() != null) {
+                    oleEntityPhoneBo.getEntityPhoneBo().setPhoneTypeCode(oleEntityPhoneBo.getEntityPhoneBo().getPhoneType().getCode());
                 }
-                entityPhoneBo.setEntityId(kimEntity.getId());
-                entityPhoneBos.add(entityPhoneBo);
+                entityPhoneBoList.add(oleEntityPhoneBo.getEntityPhoneBo());
             }
         }
-        List<EntityEmailBo> entityEmailBos = new ArrayList<>();
-        if (patronDocument.getEmails() != null) {
-            for (EntityEmailBo emailBo : patronDocument.getEmails()) {
-                emailBo.setObjectId(null);
-                emailBo.setVersionNumber(null);
-                emailBo.setId(null);
-                if(emailBo.getEmailType()!=null){
-                    emailBo.setEmailTypeCode(emailBo.getEmailType().getCode());
+        List<EntityEmailBo> entityEmailBoList = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(patronDocument.getOleEntityEmailBo())) {
+            for (OleEntityEmailBo oleEntityEmailBo : patronDocument.getOleEntityEmailBo()) {
+                oleEntityEmailBo.getEntityEmailBo().setId(null);
+                oleEntityEmailBo.getEntityEmailBo().setVersionNumber(null);
+                oleEntityEmailBo.getEntityEmailBo().setObjectId(null);
+                oleEntityEmailBo.getEntityEmailBo().setEntityId(kimEntity.getId());
+                if(oleEntityEmailBo.getEntityEmailBo() != null && oleEntityEmailBo.getEntityEmailBo().getEmailType() != null) {
+                    oleEntityEmailBo.getEntityEmailBo().setEmailTypeCode(oleEntityEmailBo.getEntityEmailBo().getEmailType().getCode());
                 }
-                emailBo.setEntityId(kimEntity.getId());
-                entityEmailBos.add(emailBo);
+                entityEmailBoList.add(oleEntityEmailBo.getEntityEmailBo());
             }
         }
         entityType.setAddresses(addressList);
-        entityType.setEmailAddresses(entityEmailBos);
-        entityType.setPhoneNumbers(entityPhoneBos);
+        entityType.setEmailAddresses(entityEmailBoList);
+        entityType.setPhoneNumbers(entityPhoneBoList);
         entityTypes.add(entityType);
         kimEntity.setEntityTypeContactInfos(entityTypes);
         try {
@@ -305,6 +323,96 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
         return oleAddressBos;
     }
 
+    public List<OlePhoneBo> retrieveOlePhoneBo(EntityBo entityBo, OlePatronDocument patronDocument) {
+        List<EntityPhoneBo> phoneBos = new ArrayList<>();
+        List<OleEntityPhoneBo> oleEntityPhoneBos = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(entityBo.getEntityTypeContactInfos())){
+            phoneBos = entityBo.getEntityTypeContactInfos().get(0).getPhoneNumbers();
+        }
+        boolean emptyOleEntityPhone = false;
+        List<OlePhoneBo> olePhoneBos = new ArrayList<>();
+        for (int i = 0; i < phoneBos.size(); i++) {
+            EntityPhoneBo entityPhoneBo = phoneBos.get(i);
+            Map<String, Object> criteria = new HashMap<String, Object>();
+            criteria.put(OLEConstants.OlePatron.ENTITY_BO_ID, entityPhoneBo.getId());
+            OlePhoneBo olePhoneBo = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OlePhoneBo.class, criteria);
+            if (olePhoneBo == null) {
+                olePhoneBo = new OlePhoneBo();
+            }
+            olePhoneBo.setOlePatronId(entityBo.getId());
+            olePhoneBo.setOlePhoneId(KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("OLE_DLVR_PHONE_S").toString());
+            olePhoneBo.setEntityPhoneBo(entityPhoneBo);
+            if (CollectionUtils.isNotEmpty(patronDocument.getOleEntityPhoneBo()) && !emptyOleEntityPhone) {
+                olePhoneBo.setPhoneSource(patronDocument.getOleEntityPhoneBo().get(i).getOlePhoneBo().getPhoneSource());
+                olePhoneBo.setId(patronDocument.getOleEntityPhoneBo().get(i).getOlePhoneBo().getId());
+            }else{
+                emptyOleEntityPhone = true;
+                OleEntityPhoneBo oleEntityPhoneBo = new OleEntityPhoneBo();
+                if(StringUtils.isBlank(olePhoneBo.getId())){
+                    olePhoneBo.setId(entityPhoneBo.getId());
+                    if(CollectionUtils.isNotEmpty(patronDocument.getOlePhones()) && patronDocument.getOlePhones().size() > i && patronDocument.getOlePhones().get(i) != null){
+                        olePhoneBo.setPhoneSource(patronDocument.getOlePhones().get(i).getPhoneSource());
+                    }
+                }
+                oleEntityPhoneBo.setOlePhoneBo(olePhoneBo);
+                oleEntityPhoneBo.setEntityPhoneBo(entityPhoneBo);
+                oleEntityPhoneBos.add(oleEntityPhoneBo);
+            }
+            olePhoneBos.add(olePhoneBo);
+
+        }
+
+        if(emptyOleEntityPhone){
+            patronDocument.setOleEntityPhoneBo(oleEntityPhoneBos);
+        }
+        return olePhoneBos;
+    }
+
+    public List<OleEmailBo> retrieveOleEmailBo(EntityBo entityBo, OlePatronDocument patronDocument) {
+        List<EntityEmailBo> emailBos = new ArrayList<>();
+        List<OleEntityEmailBo> oleEntityEmailBos = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(entityBo.getEntityTypeContactInfos())){
+            emailBos = entityBo.getEntityTypeContactInfos().get(0).getEmailAddresses();
+        }
+        boolean emptyOleEntityEmail = false;
+        List<OleEmailBo> oleEmailBos = new ArrayList<>();
+        for (int i = 0; i < emailBos.size(); i++) {
+            EntityEmailBo entityEmailBo = emailBos.get(i);
+            Map<String, Object> criteria = new HashMap<String, Object>();
+            criteria.put(OLEConstants.OlePatron.ENTITY_BO_ID, entityEmailBo.getId());
+            OleEmailBo oleEmailBo = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OleEmailBo.class, criteria);
+            if (oleEmailBo == null) {
+                oleEmailBo = new OleEmailBo();
+            }
+            oleEmailBo.setOlePatronId(entityBo.getId());
+            oleEmailBo.setOleEmailId(KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("OLE_DLVR_EMAIL_S").toString());
+            oleEmailBo.setEntityEmailBo(entityEmailBo);
+            if (CollectionUtils.isNotEmpty(patronDocument.getOleEntityEmailBo()) && !emptyOleEntityEmail) {
+                oleEmailBo.setEmailSource(patronDocument.getOleEntityEmailBo().get(i).getOleEmailBo().getEmailSource());
+                oleEmailBo.setId(patronDocument.getOleEntityEmailBo().get(i).getOleEmailBo().getId());
+            }else{
+                emptyOleEntityEmail = true;
+                OleEntityEmailBo oleEntityEmailBo = new OleEntityEmailBo();
+                if(StringUtils.isBlank(oleEmailBo.getId())){
+                    oleEmailBo.setId(entityEmailBo.getId());
+                    if(CollectionUtils.isNotEmpty(patronDocument.getOleEmails()) && patronDocument.getOleEmails().size() > i && patronDocument.getOleEmails().get(i) != null){
+                        oleEmailBo.setEmailSource(patronDocument.getOleEmails().get(i).getEmailSource());
+                    }
+                }
+                oleEntityEmailBo.setOleEmailBo(oleEmailBo);
+                oleEntityEmailBo.setEntityEmailBo(entityEmailBo);
+                oleEntityEmailBos.add(oleEntityEmailBo);
+            }
+            oleEmailBos.add(oleEmailBo);
+
+        }
+
+        if(emptyOleEntityEmail){
+            patronDocument.setOleEntityEmailBo(oleEntityEmailBos);
+        }
+        return oleEmailBos;
+    }
+
 
     /**
      * Check whether name entity is present in search criteria
@@ -352,6 +460,22 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
                                     }
                                 }
                             }
+                            List<OlePhoneBo> phoneBos = olePatronDocument.getOlePhones();
+                            if(CollectionUtils.isNotEmpty(phoneBos)) {
+                                for(OlePhoneBo phoneBo : phoneBos) {
+                                    if(StringUtils.isBlank(phoneBo.getPhoneSource())) {
+                                        phoneBo.setPhoneSource(null);
+                                    }
+                                }
+                            }
+                            List<OleEmailBo> emailBos = olePatronDocument.getOleEmails();
+                            if(CollectionUtils.isNotEmpty(emailBos)) {
+                                for(OleEmailBo emailBo : emailBos) {
+                                    if(StringUtils.isBlank(emailBo.getEmailSource())) {
+                                        emailBo.setEmailSource(null);
+                                    }
+                                }
+                            }
                             KRADServiceLocator.getBusinessObjectService().save(olePatronDocument);
                             deleteFlag = true;
                         }
@@ -379,18 +503,41 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
         return valid;
     }
 
+    public boolean checkPhoneSource(List<OlePhoneBo> olePhones) {
+
+        boolean valid = true;
+        for (OlePhoneBo olePhone : olePhones) {
+            if (StringUtils.isBlank(olePhone.getPhoneSource())) {
+                valid = false;
+            }
+        }
+        return valid;
+    }
+
+    public boolean checkEmailSource(List<OleEmailBo> oleEmails) {
+
+        boolean valid = true;
+        for (OleEmailBo oleEmail : oleEmails) {
+            if (StringUtils.isBlank(oleEmail.getEmailSource())) {
+                valid = false;
+            }
+        }
+        return valid;
+    }
+
     /**
      * This method is for checking the entity phone has multiple defaults
      *
      * @param phoneBoList
      * @return true , if the entity phone has only one default in a single patron record, else false
      */
-    public boolean checkPhoneMultipleDefault(List<EntityPhoneBo> phoneBoList) {
+    public boolean checkPhoneMultipleDefault(List<OleEntityPhoneBo> phoneBoList) {
         boolean valid = true;
         boolean isDefaultSet = false;
         int i = 0;
-        for (EntityPhoneBo phone : phoneBoList) {
-            if (phone.isDefaultValue()) {
+        for (OleEntityPhoneBo phone : phoneBoList) {
+            EntityPhoneBo entityPhoneBo = phone.getEntityPhoneBo();
+            if (null != entityPhoneBo && entityPhoneBo.isDefaultValue()) {
                 if (isDefaultSet) {
                     valid = false;
                 } else {
@@ -438,12 +585,13 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
      * @param emailBoList
      * @return true , if the entity email address has only one default in a single patron record, else false
      */
-    public boolean checkEmailMultipleDefault(List<EntityEmailBo> emailBoList) {
+    public boolean checkEmailMultipleDefault(List<OleEntityEmailBo> emailBoList) {
         boolean valid = true;
         boolean isDefaultSet = false;
         int i = 0;
-        for (EntityEmailBo email : emailBoList) {
-            if (email.isDefaultValue()) {
+        for (OleEntityEmailBo email : emailBoList) {
+            EntityEmailBo entityEmailBo = email.getEntityEmailBo();
+            if (null != entityEmailBo && entityEmailBo.isDefaultValue()) {
                 if (isDefaultSet) {
                     valid = false;
                 } else {
@@ -483,21 +631,21 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
     private boolean validateEntityInformation( OlePatronDocument patronDoc) {
         boolean valid = true;
         List<OleEntityAddressBo> addressBoList = patronDoc.getOleEntityAddressBo();
-        List<EntityEmailBo> emailBoList = patronDoc.getEmails();
-        List<EntityPhoneBo> phoneBoList = patronDoc.getPhones();
+        List<OleEntityEmailBo> emailBoList = patronDoc.getOleEntityEmailBo();
+        List<OleEntityPhoneBo> phoneBoList = patronDoc.getOleEntityPhoneBo();
         if (addressBoList.size() == 1) {
             OleEntityAddressBo oleEntityAddressBo = addressBoList.get(0);
             oleEntityAddressBo.getEntityAddressBo().setDefaultValue(true);
         }
-        if (emailBoList.size() == 1) {
-            EntityEmailBo entityEmailBo = emailBoList.get(0);
-            entityEmailBo.setDefaultValue(true);
+        if (CollectionUtils.isNotEmpty(emailBoList) && emailBoList.size() == 1) {
+            OleEntityEmailBo oleEntityEmailBo = emailBoList.get(0);
+            oleEntityEmailBo.getEntityEmailBo().setDefaultValue(true);
         }
-        if (phoneBoList.size() == 1) {
-            EntityPhoneBo entityPhoneBo = phoneBoList.get(0);
-            entityPhoneBo.setDefaultValue(true);
+        if (CollectionUtils.isNotEmpty(phoneBoList) && phoneBoList.size() == 1) {
+            OleEntityPhoneBo oleEntityPhoneBo = phoneBoList.get(0);
+            oleEntityPhoneBo.getEntityPhoneBo().setDefaultValue(true);
         }
-        if (!checkPhoneMultipleDefault(patronDoc.getPhones())) {
+        if (!checkPhoneMultipleDefault(patronDoc.getOleEntityPhoneBo())) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OlePatron.PHONE_SECTION_ID, OLEConstants.OlePatron.ERROR_SELECTION_PREFERRED_PHONE);
             valid &= false;
         }
@@ -505,7 +653,7 @@ public class OlePatronHelperServiceImpl  implements OlePatronHelperService {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OlePatron.ADDRESS_SECTION_ID, OLEConstants.OlePatron.ERROR_SELECTION_PREFERRED_ADDRESS);
             valid &= false;
         }
-        if (!checkEmailMultipleDefault(patronDoc.getEmails())) {
+        if (!checkEmailMultipleDefault(patronDoc.getOleEntityEmailBo())) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OlePatron.EMAIL_SECTION_ID, OLEConstants.OlePatron.ERROR_SELECTION_PREFERRED_EMAIL);
             valid &= false;
         }

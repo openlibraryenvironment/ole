@@ -1,10 +1,9 @@
 package org.kuali.ole.deliver.rule;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.deliver.bo.OleAddressBo;
-import org.kuali.ole.deliver.bo.OleEntityAddressBo;
-import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.bo.*;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
@@ -13,10 +12,7 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.identity.address.EntityAddressBo;
-import org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationBo;
 import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
-import org.kuali.rice.kim.impl.identity.employment.EntityEmploymentBo;
-import org.kuali.rice.kim.impl.identity.entity.EntityBo;
 import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
 import org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo;
 import org.kuali.rice.kim.service.KIMServiceLocatorInternal;
@@ -119,21 +115,21 @@ public class OlePatronDocumentRule extends MaintenanceDocumentRuleBase {
         boolean canOverridePrivacyPreferences = getUIDocumentService().canOverrideEntityPrivacyPreferences(GlobalVariables.getUserSession().getPrincipalId(), null);
         /*if(isCreatingNew || canOverridePrivacyPreferences) {*/
         List<OleEntityAddressBo> addressBoList = patronDoc.getOleEntityAddressBo();
-        List<EntityEmailBo> emailBoList = patronDoc.getEmails();
-        List<EntityPhoneBo> phoneBoList = patronDoc.getPhones();
+        List<OleEntityEmailBo> emailBoList = patronDoc.getOleEntityEmailBo();
+        List<OleEntityPhoneBo> phoneBoList = patronDoc.getOleEntityPhoneBo();
         if (addressBoList.size() == 1) {
             OleEntityAddressBo oleEntityAddressBo = addressBoList.get(0);
             oleEntityAddressBo.getEntityAddressBo().setDefaultValue(true);
         }
-        if (emailBoList.size() == 1) {
-            EntityEmailBo entityEmailBo = emailBoList.get(0);
-            entityEmailBo.setDefaultValue(true);
+        if (CollectionUtils.isNotEmpty(emailBoList) && emailBoList.size() == 1) {
+            OleEntityEmailBo oleEntityEmailBo = emailBoList.get(0);
+            oleEntityEmailBo.getEntityEmailBo().setDefaultValue(true);
         }
-        if (phoneBoList.size() == 1) {
-            EntityPhoneBo entityPhoneBo = phoneBoList.get(0);
-            entityPhoneBo.setDefaultValue(true);
+        if (CollectionUtils.isNotEmpty(phoneBoList) && phoneBoList.size() == 1) {
+            OleEntityPhoneBo oleEntityPhoneBo = phoneBoList.get(0);
+            oleEntityPhoneBo.getEntityPhoneBo().setDefaultValue(true);
         }
-        if (!checkPhoneMultipleDefault(patronDoc.getPhones(), "phones")) {
+        if (!checkPhoneMultipleDefault(patronDoc.getOleEntityPhoneBo(), "oleEntityPhoneBo")) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OlePatron.PHONE_SECTION_ID, OLEConstants.OlePatron.ERROR_SELECTION_PREFERRED_PHONE);
             valid &= false;
         }
@@ -147,7 +143,7 @@ public class OlePatronDocumentRule extends MaintenanceDocumentRuleBase {
             valid &= false;
         }
 
-        if (!checkEmailMultipleDefault(patronDoc.getEmails(), "emails")) {
+        if (!checkEmailMultipleDefault(patronDoc.getOleEntityEmailBo(), "oleEntityEmailBo")) {
             GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OlePatron.EMAIL_SECTION_ID, OLEConstants.OlePatron.ERROR_SELECTION_PREFERRED_EMAIL);
             valid &= false;
         }
@@ -211,12 +207,13 @@ public class OlePatronDocumentRule extends MaintenanceDocumentRuleBase {
      * @param listName
      * @return valid
      */
-    protected boolean checkPhoneMultipleDefault(List<EntityPhoneBo> phoneBoList, String listName) {
+    protected boolean checkPhoneMultipleDefault(List<OleEntityPhoneBo> phoneBoList, String listName) {
         boolean valid = true;
         boolean isDefaultSet = false;
         int i = 0;
-        for (EntityPhoneBo phone : phoneBoList) {
-            if (phone.isDefaultValue()) {
+        for (OleEntityPhoneBo phone : phoneBoList) {
+            EntityPhoneBo entityPhoneBo = phone.getEntityPhoneBo();
+            if (entityPhoneBo != null && entityPhoneBo.isDefaultValue()) {
                 if (isDefaultSet) {
                     this.putFieldError("dataObject." + listName + "[" + i + "].defaultValue", RiceKeyConstants.ERROR_MULTIPLE_DEFAULT_SELETION);
                     valid = false;
@@ -299,12 +296,13 @@ public class OlePatronDocumentRule extends MaintenanceDocumentRuleBase {
      * @param listName
      * @return valid
      */
-    protected boolean checkEmailMultipleDefault(List<EntityEmailBo> emailBoList, String listName) {
+    protected boolean checkEmailMultipleDefault(List<OleEntityEmailBo> emailBoList, String listName) {
         boolean valid = true;
         boolean isDefaultSet = false;
         int i = 0;
-        for (EntityEmailBo email : emailBoList) {
-            if (email.isDefaultValue()) {
+        for (OleEntityEmailBo email : emailBoList) {
+            EntityEmailBo entityEmailBo = email.getEntityEmailBo();
+            if (entityEmailBo != null && entityEmailBo.isDefaultValue()) {
                 if (isDefaultSet) {
                     this.putFieldError("dataObject." + listName + "[" + i + "].defaultValue", OLEConstants.OlePatron.ERROR_PATRON_MULIT_PREFERRED_EMAIL);
                     valid = false;

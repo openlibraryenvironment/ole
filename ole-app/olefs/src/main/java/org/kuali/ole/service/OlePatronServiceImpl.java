@@ -136,7 +136,11 @@ public class OlePatronServiceImpl implements OlePatronService {
             EntityBo kimEntity = olePatronDocument.getEntity();
             EntityBo entity2 = getBusinessObjectService().save(kimEntity);
             List<OleAddressBo> oleAddressBoList = getOlePatronHelperService().retrieveOleAddressBo(entity2,olePatronDocument);
+            List<OlePhoneBo> olePhoneBoList = getOlePatronHelperService().retrieveOlePhoneBo(entity2, olePatronDocument);
+            List<OleEmailBo> oleEmailBoList = getOlePatronHelperService().retrieveOleEmailBo(entity2, olePatronDocument);
             olePatronDocument.setOleAddresses(oleAddressBoList);
+            olePatronDocument.setOlePhones(olePhoneBoList);
+            olePatronDocument.setOleEmails(oleEmailBoList);
             olePatronDocument.setOlePatronId(entity2.getId());
             olePatronDocument.setEntity(kimEntity);
             populateOperatorIdAndTimeStampForNotes(olePatronDocument, false);
@@ -288,6 +292,22 @@ public class OlePatronServiceImpl implements OlePatronService {
                     for(int i=0;i<entityAddresses.size();i++){
                         if (i < oleEntityAddressBos.size()) {
                             oleEntityAddressBos.get(i).setEntityAddressBo(entityAddresses.get(i));
+                        }
+                    }
+
+                    List<OleEntityPhoneBo> oleEntityPhoneBos= newPatronBo.getOleEntityPhoneBo();
+                    List<EntityPhoneBo> entityPhones = kimEntity.getEntityTypeContactInfos().get(0).getPhoneNumbers();
+                    for(int i=0;i<entityPhones.size();i++){
+                        if (i < oleEntityPhoneBos.size()) {
+                            oleEntityPhoneBos.get(i).setEntityPhoneBo(entityPhones.get(i));
+                        }
+                    }
+
+                    List<OleEntityEmailBo> oleEntityEmailBos = newPatronBo.getOleEntityEmailBo();
+                    List<EntityEmailBo> entityEmails = kimEntity.getEntityTypeContactInfos().get(0).getEmailAddresses();
+                    for(int i=0;i<entityEmails.size();i++){
+                        if (i < oleEntityEmailBos.size()) {
+                            oleEntityEmailBos.get(i).setEntityEmailBo(entityEmails.get(i));
                         }
                     }
 /*                    if(oleEntityAddressBos.size() > 0) {

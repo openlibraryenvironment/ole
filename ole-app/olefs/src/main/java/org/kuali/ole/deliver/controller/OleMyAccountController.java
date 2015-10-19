@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.controller;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.api.OlePatronDefinition;
@@ -322,8 +323,6 @@ public class OleMyAccountController extends UifControllerBase {
         OlePatronService olePatronService = new OlePatronServiceImpl();
         OlePatronDocument olePatronDocument = oleMyAccountForm.getOlePatronDocument();
         EntityBo entity = olePatronDocument.getEntity();
-        List<EntityEmailBo> entityEmailBos = entity.getEntityTypeContactInfos().get(0).getEmailAddresses();
-        List<EntityPhoneBo> entityPhoneBos = entity.getEntityTypeContactInfos().get(0).getPhoneNumbers();
         List<EntityAddressBo> entityAddressBos = new ArrayList<EntityAddressBo>();
         EntityAddressBo entityAddressBo = new EntityAddressBo();
         List<OleAddressBo> oleAddressBos = new ArrayList<OleAddressBo>();
@@ -339,11 +338,43 @@ public class OleMyAccountController extends UifControllerBase {
             olePatronDocument.setOleAddresses(oleAddressBos);
             olePatronDocument.setAddresses(entityAddressBos);
         }
+        List<EntityPhoneBo> entityPhoneBos = new ArrayList<>();
+        EntityPhoneBo entityPhoneBo = new EntityPhoneBo();
+        List<OlePhoneBo> olePhoneBos = new ArrayList<>();
+        OlePhoneBo olePhoneBo = new OlePhoneBo();
+        List<OleEntityPhoneBo> oleEntityPhoneBos = olePatronDocument.getOleEntityPhoneBo();
+        if(CollectionUtils.isNotEmpty(oleEntityPhoneBos)) {
+            for(OleEntityPhoneBo oleEntityPhoneBo : oleEntityPhoneBos) {
+                olePhoneBo = oleEntityPhoneBo.getOlePhoneBo();
+                olePhoneBos.add(olePhoneBo);
+                entityPhoneBo = oleEntityPhoneBo.getEntityPhoneBo();
+                entityPhoneBos.add(entityPhoneBo);
+            }
+            olePatronDocument.setOlePhones(olePhoneBos);
+            olePatronDocument.setPhones(entityPhoneBos);
+        }
+        List<EntityEmailBo> entityEmailBos = new ArrayList<>();
+        EntityEmailBo entityEmailBo = new EntityEmailBo();
+        List<OleEmailBo> oleEmailBos = new ArrayList<>();
+        OleEmailBo oleEmailBo = new OleEmailBo();
+        List<OleEntityEmailBo> oleEntityEmailBos = olePatronDocument.getOleEntityEmailBo();
+        if(CollectionUtils.isNotEmpty(oleEntityEmailBos)) {
+            for(OleEntityEmailBo oleEntityEmailBo : oleEntityEmailBos) {
+                oleEmailBo = oleEntityEmailBo.getOleEmailBo();
+                oleEmailBos.add(oleEmailBo);
+                entityEmailBo = oleEntityEmailBo.getEntityEmailBo();
+                entityEmailBos.add(entityEmailBo);
+            }
+            olePatronDocument.setOleEmails(oleEmailBos);
+            olePatronDocument.setEmails(entityEmailBos);
+        }
         boolean addressSource = olePatronHelperService.checkAddressSource(olePatronDocument.getOleAddresses());
-        boolean emailDefault = olePatronHelperService.checkEmailMultipleDefault(entityEmailBos);
-        boolean phoneDefault = olePatronHelperService.checkPhoneMultipleDefault(entityPhoneBos);
+        boolean phoneSource = olePatronHelperService.checkPhoneSource(olePatronDocument.getOlePhones());
+        boolean emailSource = olePatronHelperService.checkEmailSource(olePatronDocument.getOleEmails());
+        boolean emailDefault = olePatronHelperService.checkEmailMultipleDefault(oleEntityEmailBos);
+        boolean phoneDefault = olePatronHelperService.checkPhoneMultipleDefault(oleEntityPhoneBos);
         boolean addressDefault = olePatronHelperService.checkAddressMultipleDefault(oleEntityAddressBos);
-        if (addressSource) {
+        if (addressSource && phoneSource && emailSource) {
             if (emailDefault && phoneDefault && addressDefault) {
                 OlePatronDefinition olePatronDefinition = olePatronService.updatePatron(OlePatronDocument.to(oleMyAccountForm.getOlePatronDocument()));
                 cancel(oleMyAccountForm, result, request, response);
@@ -352,8 +383,16 @@ public class OleMyAccountController extends UifControllerBase {
                 return getUIFModelAndView(oleMyAccountForm);
             }
         } else {
-            oleMyAccountForm.setMessage(OLEConstants.OlePatron.ERROR_ADDRESS_SOURCE_REQUIRED);
-            return getUIFModelAndView(oleMyAccountForm);
+            if(phoneSource) {
+                oleMyAccountForm.setMessage(OLEConstants.OlePatron.ERROR_PHONE_SOURCE_REQUIRED);
+                return getUIFModelAndView(oleMyAccountForm);
+            } else if(emailSource){
+                oleMyAccountForm.setMessage(OLEConstants.OlePatron.ERROR_EMAIL_SOURCE_REQUIRED);
+                return getUIFModelAndView(oleMyAccountForm);
+            } else {
+                oleMyAccountForm.setMessage(OLEConstants.OlePatron.ERROR_ADDRESS_SOURCE_REQUIRED);
+                return getUIFModelAndView(oleMyAccountForm);
+            }
         }
         oleMyAccountForm.setMessage(OLEConstants.OlePatron.SAVE_SUCCESSFUL_MSG);
         //updatePatron(olePatronForm,olePatronDefinition);

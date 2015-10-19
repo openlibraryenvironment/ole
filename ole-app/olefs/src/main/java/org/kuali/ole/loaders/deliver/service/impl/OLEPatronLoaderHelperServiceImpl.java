@@ -244,6 +244,8 @@ public class OLEPatronLoaderHelperServiceImpl implements OLEPatronLoaderHelperSe
     }
 
     private JSONObject populateOlePatronPhone(JSONObject patronJsonObject, OlePatronDocument olePatronDocument) {
+
+        List<OlePhoneBo> olePhoneBoList = olePatronDocument.getOlePhones();
         EntityBo entity = olePatronDocument.getEntity();
         JSONArray phoneJsonArray = new JSONArray();
         try{
@@ -257,6 +259,18 @@ public class OLEPatronLoaderHelperServiceImpl implements OLEPatronLoaderHelperSe
                     phoneJsonObject.put("default", entityPhoneBo.isDefaultValue());
                     phoneJsonObject.put("extensionNumber", entityPhoneBo.getExtensionNumber());
                     phoneJsonObject.put("active", entityPhoneBo.isActive());
+                    for (OlePhoneBo olePhone : olePhoneBoList) {
+                        if (olePhone.getId().equalsIgnoreCase(entityPhoneBo.getId())) {
+                            String phoneSourceId = olePhone.getPhoneSource();
+                            HashMap<String, String> map = new HashMap<String, String>();
+                            map.put("oleAddressSourceId", phoneSourceId);
+                            List<OleAddressSourceBo> phoneSourceList = (List<OleAddressSourceBo>) getBusinessObjectService().findMatching(OleAddressSourceBo.class, map);
+                            if (CollectionUtils.isNotEmpty(phoneSourceList)) {
+                                patronJsonObject.put("phoneSource", phoneSourceList.get(0).getOleAddressSourceCode());
+                            }
+                            break;
+                        }
+                    }
                     phoneJsonArray.put(phoneJsonObject);
                 }
             }
@@ -269,6 +283,8 @@ public class OLEPatronLoaderHelperServiceImpl implements OLEPatronLoaderHelperSe
     }
 
     private JSONObject populateOlePatronEmail(JSONObject patronJsonObject, OlePatronDocument olePatronDocument) {
+
+        List<OleEmailBo> oleEmailBoList = olePatronDocument.getOleEmails();
         EntityBo entity = olePatronDocument.getEntity();
         JSONArray emailJsonArray = new JSONArray();
         try{
@@ -280,6 +296,18 @@ public class OLEPatronLoaderHelperServiceImpl implements OLEPatronLoaderHelperSe
                     emailJsonObject.put("emailAddress", entityEmailBo.getEmailAddress());
                     emailJsonObject.put("active", entityEmailBo.isActive());
                     emailJsonObject.put("default", entityEmailBo.isDefaultValue());
+                    for(OleEmailBo oleEmail : oleEmailBoList) {
+                        if(oleEmail.getId().equalsIgnoreCase(entityEmailBo.getId())) {
+                            String emailSourceId = oleEmail.getEmailSource();
+                            HashMap<String, String> map = new HashMap<>();
+                            map.put("oleAddressSourceId", emailSourceId);
+                            List<OleAddressSourceBo> emailSourceList = (List<OleAddressSourceBo>) getBusinessObjectService().findMatching(OleAddressSourceBo.class, map);
+                            if(CollectionUtils.isNotEmpty(emailSourceList)) {
+                                patronJsonObject.put("emailSource", emailSourceList.get(0).getOleAddressSourceCode());
+                            }
+                            break;
+                        }
+                    }
                     emailJsonArray.put(emailJsonObject);
                 }
                 patronJsonObject.put("email",emailJsonArray);
@@ -549,6 +577,9 @@ public class OLEPatronLoaderHelperServiceImpl implements OLEPatronLoaderHelperSe
                 if(emailJsonObject.has("emailAddressType")){
                     olePatronEmailAddress.setEmailAddressType(getOleLoaderService().getStringValueFromJsonObject(emailJsonObject, "emailAddressType"));
                 }
+                if(emailJsonObject.has("emailSource")){
+                    olePatronEmailAddress.setEmailSource(getOleLoaderService().getStringValueFromJsonObject(emailJsonObject, "emailSource"));
+                }
                 if(emailJsonObject.has("emailAddress")){
                     olePatronEmailAddress.setEmailAddress(getOleLoaderService().getStringValueFromJsonObject(emailJsonObject, "emailAddress"));
                 }
@@ -695,6 +726,9 @@ public class OLEPatronLoaderHelperServiceImpl implements OLEPatronLoaderHelperSe
                 }
                 if(phoneJsonObject.has("default")){
                     olePatronTelePhoneNumber.setDefaults(Boolean.parseBoolean(getOleLoaderService().getStringValueFromJsonObject(phoneJsonObject, "default")));
+                }
+                if(phoneJsonObject.has("phoneSource")){
+                    olePatronTelePhoneNumber.setPhoneSource(getOleLoaderService().getStringValueFromJsonObject(phoneJsonObject, "phoneSource"));
                 }
                 telephoneNumbers.add(olePatronTelePhoneNumber);
             } catch (Exception e) {

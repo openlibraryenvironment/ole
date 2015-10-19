@@ -110,6 +110,18 @@ public class OLEPatronHelper {
             oleAddressBo.setOlePatronId(String.valueOf(id));
             oleAddressBoList.add(oleAddressBo);
         }
+        List<OlePhoneBo> olePhoneBoList = new ArrayList<>();
+        for(OlePhoneBo olePhoneBo : olePatronDocument.getOlePhones()) {
+            olePhoneBo.setOlePhoneId(String.valueOf(id));
+            olePhoneBo.setOlePatronId(String.valueOf(id));
+            olePhoneBoList.add(olePhoneBo);
+        }
+        List<OleEmailBo> oleEmailBoList = new ArrayList<>();
+        for(OleEmailBo oleEmailBo : olePatronDocument.getOleEmails()) {
+            oleEmailBo.setOleEmailId(String.valueOf(id));
+            oleEmailBo.setOlePatronId(String.valueOf(id));
+            oleEmailBoList.add(oleEmailBo);
+        }
 
         /*private List<OlePatronLostBarcode> lostBarcodes = new ArrayList<OlePatronLostBarcode>();
         private OleBorrowerType oleBorrowerType;
@@ -134,6 +146,8 @@ public class OLEPatronHelper {
         olePatronDocument.setOleProxyPatronDocuments(oleProxyPatronDocumentList);
         olePatronDocument.setOlePatronLocalIds(olePatronLocalIdentificationBoList);
         olePatronDocument.setOleAddresses(oleAddressBoList);
+        olePatronDocument.setOlePhones(olePhoneBoList);
+        olePatronDocument.setOleEmails(oleEmailBoList);
         return olePatronDocument;
     }
 }

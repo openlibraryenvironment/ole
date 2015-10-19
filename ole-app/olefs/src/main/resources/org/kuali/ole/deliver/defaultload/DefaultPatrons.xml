@@ -39,6 +39,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>sample55@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -47,12 +48,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7737269999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7737269999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -99,6 +102,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>mample45@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -107,6 +111,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>4024359999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -159,6 +164,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>gample86@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -167,6 +173,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber/>
                 <default>true</default>
                 <active>true</active>
@@ -225,6 +232,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>jample06@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -233,12 +241,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>3123569999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>3123569999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -285,6 +295,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>tample77@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -293,6 +304,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber/>
                 <default>true</default>
                 <active>true</active>
@@ -333,6 +345,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>sample86@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -341,6 +354,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7082979999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -393,6 +407,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>cample01@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -401,12 +416,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>5183709999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>5183709999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -453,6 +470,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>gample24@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -461,6 +479,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7087719999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -501,6 +520,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>fample79@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -509,6 +529,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber/>
                 <default>true</default>
                 <active>true</active>
@@ -561,6 +582,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>jample50@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -569,12 +591,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>6099299999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>6099299999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -621,6 +645,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>tample37@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -629,6 +654,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>0000000000</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -669,6 +695,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>mample22@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -677,6 +704,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7734049999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -717,6 +745,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>wample58@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -725,6 +754,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>2079499999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -765,6 +795,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>rample22@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -773,6 +804,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7738349999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -825,6 +857,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>kample55@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -833,12 +866,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>9204349999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>6082359999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -898,6 +933,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>sample18@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -906,12 +942,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>3479209999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>3479209999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -970,6 +1008,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>tample10@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -978,12 +1017,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>6612299999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>6612299999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -1030,6 +1071,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>vample10@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1038,6 +1080,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>0000000000</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -1078,6 +1121,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>lample11@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1086,6 +1130,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>3522629999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -1138,6 +1183,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>sample53@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1146,12 +1192,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>6127909999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7738349999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -1210,6 +1258,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>kample64@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1218,12 +1267,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>5612229999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>5612229999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -1282,6 +1333,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>tample71@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1290,12 +1342,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>6178889999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>6178889999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -1354,6 +1408,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>mample08@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1362,6 +1417,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber/>
                 <default>true</default>
                 <active>true</active>
@@ -1408,6 +1464,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>bample29@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1416,6 +1473,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7736439999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -1456,6 +1514,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>rample95@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1464,6 +1523,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber/>
                 <default>true</default>
                 <active>true</active>
@@ -1504,6 +1564,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>cample03@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1512,6 +1573,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber/>
                 <default>true</default>
                 <active>true</active>
@@ -1546,6 +1608,7 @@
                 <postalCode>15143</postalCode>
                 <default>true</default>
                 <active>true</active>
+                <deliverAddress>false</deliverAddress>
             </postalAddress>
             <postalAddress>
                 <postalAddressType>CMP</postalAddressType>
@@ -1563,6 +1626,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>wample57@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1571,12 +1635,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>4127419999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>4129139999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -1635,6 +1701,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>wample67@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1643,12 +1710,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>8056109999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>8056109999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -1707,6 +1776,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>wample75@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1715,12 +1785,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>3129209999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7737529999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -1767,6 +1839,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>rample01@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1775,6 +1848,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber/>
                 <default>true</default>
                 <active>true</active>
@@ -1821,6 +1895,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>uample53@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1829,6 +1904,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>8157159999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -1881,6 +1957,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>wample03@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1889,12 +1966,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>2242179999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7738349999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -1954,6 +2033,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>vample92@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -1962,12 +2042,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7738969999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7738969999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -2014,6 +2096,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>bample83@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2022,6 +2105,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>0000000000</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -2062,6 +2146,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>hample92@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2070,6 +2155,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7739609999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -2110,6 +2196,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>zample22@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2118,6 +2205,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>3127309999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -2158,6 +2246,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>zample64@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2166,6 +2255,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>3126709999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -2206,6 +2296,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>wample50@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2214,6 +2305,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>9176569999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -2254,6 +2346,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>zample23@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2262,6 +2355,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>0000000000</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -2302,6 +2396,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>lample97@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2310,6 +2405,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber/>
                 <default>true</default>
                 <active>true</active>
@@ -2362,6 +2458,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>rample79@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2370,12 +2467,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>3302079999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>3302079999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -2422,6 +2521,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>sample47@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2430,6 +2530,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>8018249999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -2470,6 +2571,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>zample19@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2478,6 +2580,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>0000000000</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -2530,6 +2633,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>lample97@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2538,12 +2642,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>9176489999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>9176489999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -2590,6 +2696,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>kample12@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2598,6 +2705,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7732259999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -2638,6 +2746,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>zample18@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2646,6 +2755,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7737529999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -2686,6 +2796,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>hample87@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2694,6 +2805,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>0000000000</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -2746,6 +2858,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>sample08@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2754,12 +2867,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>8605239999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7738349999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -2806,6 +2921,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>lample62@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2814,6 +2930,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>7733319999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
@@ -2866,6 +2983,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>mample25@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2874,12 +2992,14 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>3129279999</telephoneNumber>
                 <default>true</default>
                 <active>true</active>
             </telephoneNumber>
             <telephoneNumber>
                 <telephoneNumberType>CMP</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>3129279999</telephoneNumber>
                 <default>false</default>
                 <active>true</active>
@@ -2926,6 +3046,7 @@
         <emailAddresses>
             <emailAddress>
                 <emailAddressType>HM</emailAddressType>
+                <emailSource>REGL</emailSource>
                 <emailAddress>gample01@uchicago.edu</emailAddress>
                 <default>true</default>
                 <active>true</active>
@@ -2934,6 +3055,7 @@
         <telephoneNumbers>
             <telephoneNumber>
                 <telephoneNumberType>HM</telephoneNumberType>
+                <phoneSource>REGL</phoneSource>
                 <telephoneNumber>0000000000</telephoneNumber>
                 <default>true</default>
                 <active>true</active>

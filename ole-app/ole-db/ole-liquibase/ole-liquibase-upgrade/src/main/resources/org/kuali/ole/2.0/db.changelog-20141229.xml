@@ -4988,4 +4988,176 @@
         </createIndex>
     </changeSet>
 
+
+    <changeSet context="bootstrap" id="OLE_DLVR_PHONE_T">
+        <createTable tableName="OLE_DLVR_PHONE_T">
+            <column name="DLVR_PHONE_ID" type="VARCHAR(36)"/>
+            <column name="OLE_PTRN_ID" type="VARCHAR(36)"/>
+            <column name="ENTITY_PHONE_ID" type="VARCHAR(36)"/>
+            <column name="OLE_PHONE_SRC" type="VARCHAR(40)"/>
+            <column name="OBJ_ID" type="VARCHAR(36)"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_PHONE_T_PK">
+        <addPrimaryKey columnNames="DLVR_PHONE_ID"
+                       constraintName="OLE_DLVR_PHONE_T_PK"
+                       tableName="OLE_DLVR_PHONE_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_PHONE_T_FK">
+        <addForeignKeyConstraint baseColumnNames="OLE_PHONE_SRC"
+                                 baseTableName="OLE_DLVR_PHONE_T"
+                                 constraintName="OLE_DLVR_PHONE_T_FK"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="OLE_DLVR_ADDR_SRC_ID"
+                                 referencedTableName="OLE_DLVR_ADDR_SRC_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_PHONE_T_NOTNULL">
+        <addNotNullConstraint columnDataType="VARCHAR(36)"
+                              columnName="OBJ_ID"
+                              tableName="OLE_DLVR_PHONE_T"/>
+        <addNotNullConstraint columnDataType="DECIMAL(8)"
+                              columnName="VER_NBR"
+                              tableName="OLE_DLVR_PHONE_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_PHONE_T_DEFAULTVAL">
+        <addDefaultValue columnDataType="DECIMAL(8)"
+                         columnName="VER_NBR"
+                         defaultValue="1"
+                         tableName="OLE_DLVR_PHONE_T"/>
+    </changeSet>
+
+    <changeSet id="OLE_DLVR_PHONE_T_INDEX">
+        <createIndex indexName="OLE_DLVR_PHONE_TI1"
+                     tableName="OLE_DLVR_PHONE_T">
+            <column name="ENTITY_PHONE_ID" type="VARCHAR(36)"/>
+        </createIndex>
+        <createIndex indexName="OLE_DLVR_PHONE_TI2"
+                     tableName="OLE_DLVR_PHONE_T">
+            <column name="OLE_PHONE_SRC" type="VARCHAR(40)"/>
+        </createIndex>
+        <createIndex indexName="OLE_DLVR_PHONE_TI3"
+                     tableName="OLE_DLVR_PHONE_T">
+            <column name="OLE_PTRN_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_PHONE_S" dbms="oracle">
+        <createSequence incrementBy="1"
+                        ordered="true"
+                        sequenceName="OLE_DLVR_PHONE_S"
+                        startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_PHONE_S" dbms="mysql">
+        <createTable tableName="OLE_DLVR_PHONE_S">
+            <column name="ID"   type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_PHONE_S_PK" dbms="mysql">
+        <addPrimaryKey columnNames="ID"
+                       constraintName="OLE_DLVR_PHONE_S_PK"
+                       tableName="OLE_DLVR_PHONE_S"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_PHONE_S_AUTO_INCREMENT" dbms="mysql">
+        <addAutoIncrement columnDataType="BIGINT(19)"
+                          columnName="ID"
+                          incrementBy="1"
+                          startWith="1"
+                          tableName="OLE_DLVR_PHONE_S"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_EMAIL_T">
+        <createTable tableName="OLE_DLVR_EMAIL_T">
+            <column name="DLVR_EMAIL_ID" type="VARCHAR(36)"/>
+            <column name="OLE_PTRN_ID" type="VARCHAR(36)"/>
+            <column name="ENTITY_EMAIL_ID" type="VARCHAR(36)"/>
+            <column name="OLE_EMAIL_SRC" type="VARCHAR(40)"/>
+            <column name="OBJ_ID" type="VARCHAR(36)"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_EMAIL_T_PK">
+        <addPrimaryKey columnNames="DLVR_EMAIL_ID"
+                       constraintName="OLE_DLVR_EMAIL_T_PK"
+                       tableName="OLE_DLVR_EMAIL_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_EMAIL_T_FK">
+        <addForeignKeyConstraint baseColumnNames="OLE_EMAIL_SRC"
+                                 baseTableName="OLE_DLVR_EMAIL_T"
+                                 constraintName="OLE_DLVR_EMAIL_T_FK"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="OLE_DLVR_ADDR_SRC_ID"
+                                 referencedTableName="OLE_DLVR_ADDR_SRC_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_EMAIL_T_NOTNULL">
+        <addNotNullConstraint columnDataType="VARCHAR(36)"
+                              columnName="OBJ_ID"
+                              tableName="OLE_DLVR_EMAIL_T"/>
+        <addNotNullConstraint columnDataType="DECIMAL(8)"
+                              columnName="VER_NBR"
+                              tableName="OLE_DLVR_EMAIL_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_EMAIL_T_DEFAULTVAL">
+        <addDefaultValue columnDataType="DECIMAL(8)"
+                         columnName="VER_NBR"
+                         defaultValue="1"
+                         tableName="OLE_DLVR_EMAIL_T"/>
+    </changeSet>
+
+    <changeSet id="OLE_DLVR_EMAIL_T_INDEX">
+        <createIndex indexName="OLE_DLVR_EMAIL_TI1"
+                     tableName="OLE_DLVR_EMAIL_T">
+            <column name="ENTITY_EMAIL_ID" type="VARCHAR(36)"/>
+        </createIndex>
+        <createIndex indexName="OLE_DLVR_EMAIL_TI2"
+                     tableName="OLE_DLVR_EMAIL_T">
+            <column name="OLE_EMAIL_SRC" type="VARCHAR(40)"/>
+        </createIndex>
+        <createIndex indexName="OLE_DLVR_EMAIL_TI3"
+                     tableName="OLE_DLVR_EMAIL_T">
+            <column name="OLE_PTRN_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_EMAIL_S" dbms="oracle">
+        <createSequence incrementBy="1"
+                        ordered="true"
+                        sequenceName="OLE_DLVR_EMAIL_S"
+                        startValue="1"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_EMAIL_S" dbms="mysql">
+        <createTable tableName="OLE_DLVR_EMAIL_S">
+            <column name="ID"   type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_EMAIL_S_PK" dbms="mysql">
+        <addPrimaryKey columnNames="ID"
+                       constraintName="OLE_DLVR_EMAIL_S_PK"
+                       tableName="OLE_DLVR_EMAIL_S"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" id="OLE_DLVR_EMAIL_S_AUTO_INCREMENT" dbms="mysql">
+        <addAutoIncrement columnDataType="BIGINT(19)"
+                          columnName="ID"
+                          incrementBy="1"
+                          startWith="1"
+                          tableName="OLE_DLVR_EMAIL_S"/>
+    </changeSet>
 </databaseChangeLog>

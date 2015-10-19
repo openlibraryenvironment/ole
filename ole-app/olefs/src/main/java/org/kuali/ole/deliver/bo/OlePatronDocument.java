@@ -3,11 +3,8 @@ package org.kuali.ole.deliver.bo;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
-import org.kuali.ole.deliver.OleLoanDocumentsFromSolrBuilder;
 import org.kuali.ole.deliver.api.*;
-import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord;
-import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.address.EntityAddress;
@@ -29,7 +26,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -179,6 +175,12 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private String nameSuffix;
     private OleDeliverRequestBo oleDeliverRequestBo;
     private boolean checkoutForSelf;
+    private List<OleEntityPhoneBo> oleEntityPhoneBo = new ArrayList<>();
+    private List<OleEntityPhoneBo> deletedOleEntityPhoneBo = new ArrayList<>();
+    private List<OlePhoneBo> olePhones = new ArrayList<>();
+    private List<OleEntityEmailBo> oleEntityEmailBo = new ArrayList<>();
+    private List<OleEntityEmailBo> deletedOleEntityEmailBo = new ArrayList<>();
+    private List<OleEmailBo> oleEmails = new ArrayList<>();
 
     public HashMap<String, String> getErrorsAndPermission() {
         return errorsAndPermission;
@@ -409,6 +411,16 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
             }
         }
 
+        if(CollectionUtils.isNotEmpty(immutable.getOleEntityPhoneBo())) {
+            for(OleEntityPhoneDefinition phone : immutable.getOleEntityPhoneBo()) {
+                bo.oleEntityPhoneBo.add(OleEntityPhoneBo.from(phone));
+            }
+        }
+        if(CollectionUtils.isNotEmpty(immutable.getOleEntityEmailBo())) {
+            for(OleEntityEmailDefinition email : immutable.getOleEntityEmailBo()) {
+                bo.oleEntityEmailBo.add(OleEntityEmailBo.from(email));
+            }
+        }
         if (CollectionUtils.isNotEmpty(immutable.getPatronAffiliations())) {
             for (OlePatronAffiliationDefinition affiliation : immutable.getPatronAffiliations()) {
                 bo.patronAffiliations.add(OlePatronAffiliation.from(affiliation));
@@ -428,6 +440,22 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
                     bo.oleAddresses  = new ArrayList<>();
                 }
                 bo.oleAddresses.add(OleAddressBo.from(oleAddress));
+            }
+        }
+        if (CollectionUtils.isNotEmpty(immutable.getOlePhones())) {
+            for (OlePhoneDefinition olePhone : immutable.getOlePhones()) {
+                if(bo.olePhones == null) {
+                    bo.olePhones = new ArrayList<>();
+                }
+                bo.olePhones.add(OlePhoneBo.from(olePhone));
+            }
+        }
+        if (CollectionUtils.isNotEmpty(immutable.getOleEmails())) {
+            for (OleEmailDefinition oleEmail : immutable.getOleEmails()) {
+                if(bo.oleEmails == null) {
+                    bo.oleEmails = new ArrayList<>();
+                }
+                bo.oleEmails.add(OleEmailBo.from(oleEmail));
             }
         }
         if (CollectionUtils.isNotEmpty(immutable.getOlePatronLocalIds())) {
@@ -1631,6 +1659,54 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
 
     public void setLostOperatorId(String lostOperatorId) {
         this.lostOperatorId = lostOperatorId;
+    }
+
+    public List<OleEntityPhoneBo> getOleEntityPhoneBo() {
+        return oleEntityPhoneBo;
+    }
+
+    public void setOleEntityPhoneBo(List<OleEntityPhoneBo> oleEntityPhoneBo) {
+        this.oleEntityPhoneBo = oleEntityPhoneBo;
+    }
+
+    public List<OleEntityPhoneBo> getDeletedOleEntityPhoneBo() {
+        return deletedOleEntityPhoneBo;
+    }
+
+    public void setDeletedOleEntityPhoneBo(List<OleEntityPhoneBo> deletedOleEntityPhoneBo) {
+        this.deletedOleEntityPhoneBo = deletedOleEntityPhoneBo;
+    }
+
+    public List<OlePhoneBo> getOlePhones() {
+        return olePhones;
+    }
+
+    public void setOlePhones(List<OlePhoneBo> olePhones) {
+        this.olePhones = olePhones;
+    }
+
+    public List<OleEntityEmailBo> getOleEntityEmailBo() {
+        return oleEntityEmailBo;
+    }
+
+    public void setOleEntityEmailBo(List<OleEntityEmailBo> oleEntityEmailBo) {
+        this.oleEntityEmailBo = oleEntityEmailBo;
+    }
+
+    public List<OleEntityEmailBo> getDeletedOleEntityEmailBo() {
+        return deletedOleEntityEmailBo;
+    }
+
+    public void setDeletedOleEntityEmailBo(List<OleEntityEmailBo> deletedOleEntityEmailBo) {
+        this.deletedOleEntityEmailBo = deletedOleEntityEmailBo;
+    }
+
+    public List<OleEmailBo> getOleEmails() {
+        return oleEmails;
+    }
+
+    public void setOleEmails(List<OleEmailBo> oleEmails) {
+        this.oleEmails = oleEmails;
     }
 
     public BusinessObjectService getBusinessObjectService() {

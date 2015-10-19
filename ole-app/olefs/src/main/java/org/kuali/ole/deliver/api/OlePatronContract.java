@@ -56,6 +56,10 @@ public interface OlePatronContract extends Versioned, Identifiable {
 
     public List<? extends OleEntityAddressContract> getOleEntityAddressBo();
 
+    public List<? extends OleEntityPhoneContract> getOleEntityPhoneBo();
+
+    public List<? extends OleEntityEmailContract> getOleEntityEmailBo();
+
     public List<? extends OlePatronAffiliationContract> getPatronAffiliations();
 
     public List<? extends OleProxyPatronContract> getOleProxyPatronDocuments();
@@ -71,6 +75,10 @@ public interface OlePatronContract extends Versioned, Identifiable {
     public String getStatisticalCategory();
 
     public List<? extends OleAddressContract> getOleAddresses();
+
+    public List<? extends OlePhoneContract> getOlePhones();
+
+    public List<? extends OleEmailContract> getOleEmails();
 
     public List<? extends OlePatronLocalIdentificationContract> getOlePatronLocalIds();
 }

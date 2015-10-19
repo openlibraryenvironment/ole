@@ -724,6 +724,48 @@
         </index>
     </table>
 
+    <table name="OLE_DLVR_PHONE_T">
+        <column name="DLVR_PHONE_ID" primaryKey="true" size="36" type="VARCHAR"/>
+        <column name="OLE_PTRN_ID" size="36" type="VARCHAR"/>
+        <column name="ENTITY_PHONE_ID" size="36" type="VARCHAR"/>
+        <column name="OLE_PHONE_SRC" size="40" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <foreign-key foreignTable="OLE_DLVR_ADDR_SRC_T" name="ole_dlvr_phone_fk1">
+            <reference foreign="OLE_DLVR_ADDR_SRC_ID" local="OLE_PHONE_SRC"/>
+        </foreign-key>
+        <index name="OLE_DLVR_PHONE_TI1">
+            <index-column name="ENTITY_PHONE_ID"/>
+        </index>
+        <index name="OLE_DLVR_PHONE_TI2">
+            <index-column name="OLE_PHONE_SRC"/>
+        </index>
+        <index name="OLE_DLVR_PHONE_TI3">
+            <index-column name="OLE_PTRN_ID"/>
+        </index>
+    </table>
+
+    <table name="OLE_DLVR_EMAIL_T">
+        <column name="DLVR_EMAIL_ID" primaryKey="true" size="36" type="VARCHAR"/>
+        <column name="OLE_PTRN_ID" size="36" type="VARCHAR"/>
+        <column name="ENTITY_EMAIL_ID" size="36" type="VARCHAR"/>
+        <column name="OLE_EMAIL_SRC" size="40" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <foreign-key foreignTable="OLE_DLVR_ADDR_SRC_T" name="ole_dlvr_email_fk1">
+            <reference foreign="OLE_DLVR_ADDR_SRC_ID" local="OLE_EMAIL_SRC"/>
+        </foreign-key>
+        <index name="OLE_DLVR_EMAIL_TI1">
+            <index-column name="ENTITY_EMAIL_ID"/>
+        </index>
+        <index name="OLE_DLVR_EMAIL_TI2">
+            <index-column name="OLE_EMAIL_SRC"/>
+        </index>
+        <index name="OLE_DLVR_EMAIL_TI3">
+            <index-column name="OLE_PTRN_ID"/>
+        </index>
+    </table>
+
     <table name="OLE_DLVR_BARCD_STAT_T">
         <column default="0" name="DLVR_BARCD_STAT_ID" primaryKey="true"
                 size="8" type="DECIMAL"/>
@@ -3603,6 +3645,8 @@
     <sequence name="OLE_NOTICE_TYPE_CONFIG_S" nextval="7"/>
     <sequence name="OLE_NOTC_FIELD_LABEL_MAPNG_S" nextval="1"/>
     <sequence name="OLE_NOTC_CNTNT_CONFIG_S" nextval="1"/>
+    <sequence name="OLE_DLVR_PHONE_S" nextval="1"/>
+    <sequence name="OLE_DLVR_EMAIL_S" nextval="1"/>
 
 
 

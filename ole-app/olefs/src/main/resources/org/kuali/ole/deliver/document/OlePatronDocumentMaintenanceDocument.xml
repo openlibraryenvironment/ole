@@ -1326,13 +1326,13 @@
 
     <bean id="OlePatronDocument-Phone" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:renderInactiveToggleButton="false" p:componentSecurity.editAuthz="true">
         <property name="headerText" value="Phone" />
-        <property name="collectionObjectClass" value="org.kuali.rice.kim.impl.identity.phone.EntityPhoneBo" />
-        <property name="propertyName" value="phones" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleEntityPhoneBo" />
+        <property name="propertyName" value="oleEntityPhoneBo" />
         <property name="showInactiveLines" value="true"/>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="items">
             <list>
-                <bean id="phoneTypeCode" parent="OlePatron-InputField" p:propertyName="phoneType.code" p:label="Phone Type">
+                <bean id="phoneTypeCode" parent="OlePatron-InputField" p:propertyName="entityPhoneBo.phoneType.code" p:label="Phone Type">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.deliver.keyvalue.OlePhoneTypeKeyValues" />
                     </property>
@@ -1340,7 +1340,20 @@
                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
                     </property>
                 </bean>
-                <bean id="phoneNumber" parent="OlePatron-InputField" p:propertyName="phoneNumber" p:label="Phone Number">
+                <bean id="olePhoneNumberSource" parent="OlePatron-InputField" p:propertyName="olePhoneBo.phoneSource"
+                      p:label="Phone Number Source" p:required="true" p:enableAutoDirectInquiry="false">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleAddressSourceKeyValue"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="enableAutoQuickfinder" value="false" />
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="phoneNumber" parent="OlePatron-InputField" p:propertyName="entityPhoneBo.phoneNumber" p:label="Phone Number">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:maxLength="20"/>
                     </property>
@@ -1348,7 +1361,7 @@
                         <bean parent="AlphaNumericPatternConstraint" p:allowDash="true"/>
                     </property>-->
                 </bean>
-                <bean id="extensionNumber" parent="OlePatron-InputField" p:propertyName="extensionNumber" p:label="Extension Number">
+                <bean id="extensionNumber" parent="OlePatron-InputField" p:propertyName="entityPhoneBo.extensionNumber" p:label="Extension Number">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="8" p:maxLength="8"/>
                     </property>
@@ -1356,7 +1369,7 @@
                         <bean parent="AlphaNumericPatternConstraint" p:allowDash="true"/>
                     </property>
                 </bean>
-                <bean id="countryCode" parent="OlePatron-InputField" p:propertyName="countryCode" p:label="Country">
+                <bean id="countryCode" parent="OlePatron-InputField" p:propertyName="entityPhoneBo.countryCode" p:label="Country">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"  p:cssClasses="fixed-size-200-select"/>
                     </property>
@@ -1364,12 +1377,12 @@
                         <bean class="org.kuali.rice.location.framework.country.CountryValuesFinder"/>
                     </property>
                 </bean>
-                <bean id="phoneNumber_defaultValue" parent="OlePatron-InputField" p:propertyName="defaultValue" p:label="Preferred Number">
+                <bean id="phoneNumber_defaultValue" parent="OlePatron-InputField" p:propertyName="entityPhoneBo.defaultValue" p:label="Preferred Number">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean id="phoneNumber_active" parent="OlePatron-InputField" p:propertyName="active" p:label="Active" p:defaultValue="true">
+                <bean id="phoneNumber_active" parent="OlePatron-InputField" p:propertyName="entityPhoneBo.active" p:label="Active" p:defaultValue="true">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
@@ -1389,13 +1402,13 @@
     </bean>
     <bean id="OlePatronDocument-Email" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="4" p:renderInactiveToggleButton="false" p:componentSecurity.editAuthz="true">
         <property name="headerText" value="Email" />
-        <property name="collectionObjectClass" value="org.kuali.rice.kim.impl.identity.email.EntityEmailBo" />
-        <property name="propertyName" value="emails" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleEntityEmailBo" />
+        <property name="propertyName" value="oleEntityEmailBo" />
         <property name="showInactiveLines" value="true"/>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="items">
             <list>
-                <bean id="emailTypeCode" parent="OlePatron-InputField" p:propertyName="emailType.code" p:label="Email Type">
+                <bean id="emailTypeCode" parent="OlePatron-InputField" p:propertyName="entityEmailBo.emailType.code" p:label="Email Type">
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.deliver.keyvalue.OleEmailTypeKeyValues" />
                     </property>
@@ -1403,7 +1416,20 @@
                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
                     </property>
                 </bean>
-                <bean id="emailAddress" parent="OlePatron-InputField" p:propertyName="emailAddress" p:label="Email"  p:required="true">
+                <bean id="oleEmailAddressSource" parent="OlePatron-InputField" p:propertyName="oleEmailBo.emailSource"
+                      p:label="Email Address Source" p:required="true" p:enableAutoDirectInquiry="false">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleAddressSourceKeyValue"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="enableAutoQuickfinder" value="false" />
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="emailAddress" parent="OlePatron-InputField" p:propertyName="entityEmailBo.emailAddress" p:label="Email"  p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="100" p:maxLength="100" />
                     </property>
@@ -1411,12 +1437,12 @@
                         <bean parent="EmailAddressPatternConstraint" />
                     </property>
                 </bean>
-                <bean id="email_defaultValue" parent="OlePatron-InputField" p:propertyName="defaultValue"  p:label="Preferred Email">
+                <bean id="email_defaultValue" parent="OlePatron-InputField" p:propertyName="entityEmailBo.defaultValue"  p:label="Preferred Email">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean id="email_active" parent="OlePatron-InputField" p:propertyName="active" p:label="Active" p:defaultValue="true">
+                <bean id="email_active" parent="OlePatron-InputField" p:propertyName="entityEmailBo.active" p:label="Active" p:defaultValue="true">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>

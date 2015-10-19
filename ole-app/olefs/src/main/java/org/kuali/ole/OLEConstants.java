@@ -1067,6 +1067,8 @@ public class OLEConstants {
         public static final String SAVE_SUCCESSFUL_MSG = "Successfully saved";
         public static final String ERROR_DEFAULT_MESSAGE = "Either of the address or email or phone must have a default";
         public static final String ERROR_ADDRESS_SOURCE_REQUIRED = "Address Source is required";
+        public static final String ERROR_PHONE_SOURCE_REQUIRED = "Phone Source is required";
+        public static final String ERROR_EMAIL_SOURCE_REQUIRED = "Email Source is required";
         public static final String OLE_PATRON_SERVICE = "olePatronService";
         public static final String OLE_PATRON_MAINTENANCE_DOC_SERVICE = "olePatronMaintenanceDocumentService";
         public static final String CRITERIA_LOOKUP_SERVICE = "criteriaLookupService";
@@ -1108,6 +1110,8 @@ public class OLEConstants {
         public static final String TOTAL_RECORD = " Total record : ";
         public static final String OLE_ADD_SRC_CD = "oleAddressSourceCode";
         public static final String OLE_DLVR_ADD_S = "OLE_DLVR_ADD_S";
+        public static final String OLE_DLVR_PHONE_S = "OLE_DLVR_PHONE_S";
+        public static final String OLE_DLVR_EMAIL_S = "OLE_DLVR_EMAIL_S";
         public static final String PATRON_VIEW_BILLS = "View Bills";
         //patronBill
         public static final String PAY_BILL_PATRON_ID = "patronId";
