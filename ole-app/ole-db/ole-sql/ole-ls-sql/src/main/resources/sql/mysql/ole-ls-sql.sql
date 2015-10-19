@@ -1471,6 +1471,82 @@ CREATE TABLE OLE_DLVR_ADD_T
 
 
 # -----------------------------------------------------------------------
+# OLE_DLVR_PHONE_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_DLVR_PHONE_T
+/
+
+CREATE TABLE OLE_DLVR_PHONE_T
+(
+      DLVR_PHONE_ID VARCHAR(36)
+        , OLE_PTRN_ID VARCHAR(36)
+        , ENTITY_PHONE_ID VARCHAR(36)
+        , OLE_PHONE_SRC VARCHAR(40)
+        , OBJ_ID VARCHAR(36) NOT NULL
+        , VER_NBR DECIMAL(8) default 1 NOT NULL
+    
+    , CONSTRAINT OLE_DLVR_PHONE_TP1 PRIMARY KEY(DLVR_PHONE_ID)
+
+
+
+
+
+    
+                                                                                                                                                                                                                
+                                    
+, INDEX OLE_DLVR_PHONE_TI1 (ENTITY_PHONE_ID )
+    
+                                                                                                                                                                                                                
+                                    
+, INDEX OLE_DLVR_PHONE_TI2 (OLE_PHONE_SRC )
+    
+                                                                                                                                                                                                                
+                                    
+, INDEX OLE_DLVR_PHONE_TI3 (OLE_PTRN_ID )
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
+# OLE_DLVR_EMAIL_T
+# -----------------------------------------------------------------------
+drop table if exists OLE_DLVR_EMAIL_T
+/
+
+CREATE TABLE OLE_DLVR_EMAIL_T
+(
+      DLVR_EMAIL_ID VARCHAR(36)
+        , OLE_PTRN_ID VARCHAR(36)
+        , ENTITY_EMAIL_ID VARCHAR(36)
+        , OLE_EMAIL_SRC VARCHAR(40)
+        , OBJ_ID VARCHAR(36) NOT NULL
+        , VER_NBR DECIMAL(8) default 1 NOT NULL
+    
+    , CONSTRAINT OLE_DLVR_EMAIL_TP1 PRIMARY KEY(DLVR_EMAIL_ID)
+
+
+
+
+
+    
+                                                                                                                                                                                                                
+                                    
+, INDEX OLE_DLVR_EMAIL_TI1 (ENTITY_EMAIL_ID )
+    
+                                                                                                                                                                                                                
+                                    
+, INDEX OLE_DLVR_EMAIL_TI2 (OLE_EMAIL_SRC )
+    
+                                                                                                                                                                                                                
+                                    
+, INDEX OLE_DLVR_EMAIL_TI3 (OLE_PTRN_ID )
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
 # OLE_DLVR_BARCD_STAT_T
 # -----------------------------------------------------------------------
 drop table if exists OLE_DLVR_BARCD_STAT_T
@@ -9052,4 +9128,32 @@ CREATE TABLE OLE_NOTC_CNTNT_CONFIG_S
 ) ENGINE MyISAM
 /
 ALTER TABLE OLE_NOTC_CNTNT_CONFIG_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_DLVR_PHONE_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_DLVR_PHONE_S
+/
+
+CREATE TABLE OLE_DLVR_PHONE_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_DLVR_PHONE_S auto_increment = 1
+/
+
+# -----------------------------------------------------------------------
+# OLE_DLVR_EMAIL_S
+# -----------------------------------------------------------------------
+drop table if exists OLE_DLVR_EMAIL_S
+/
+
+CREATE TABLE OLE_DLVR_EMAIL_S
+(
+	id bigint(19) not null auto_increment, primary key (id) 
+) ENGINE MyISAM
+/
+ALTER TABLE OLE_DLVR_EMAIL_S auto_increment = 1
 /
