@@ -1,5 +1,7 @@
 package org.kuali.ole.select.controller;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.select.bo.OLESearchCondition;
 import org.kuali.ole.select.bo.OLESearchParams;
@@ -7,6 +9,7 @@ import org.kuali.ole.select.document.OLEPlatformRecordDocument;
 import org.kuali.ole.select.form.OLEPlatformSearchForm;
 import org.kuali.ole.service.OLEPlatformService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -19,8 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by chenchulakshmig on 9/9/14.
@@ -84,9 +86,19 @@ public class OLEPlatformSearchController extends UifControllerBase {
                                HttpServletRequest request, HttpServletResponse response) {
         OLEPlatformSearchForm olePlatformSearchForm = (OLEPlatformSearchForm) form;
         List<OLESearchCondition> oleSearchConditionsList = olePlatformSearchForm.getOleSearchParams().getSearchFieldsList();
-        List<OLEPlatformRecordDocument> platformList = new ArrayList<>();
-        platformList = getOlePlatformService().performSearch(oleSearchConditionsList);
-        olePlatformSearchForm.setPlatformDocumentList(platformList);
+        List<OLEPlatformRecordDocument> platformList = getOlePlatformService().performSearch(oleSearchConditionsList);
+        Set<String> platformIds = new HashSet<>();
+        for (OLEPlatformRecordDocument olePlatformRecordDocument : platformList) {
+            if (StringUtils.isNotBlank(olePlatformRecordDocument.getOlePlatformId())) {
+                platformIds.add(olePlatformRecordDocument.getOlePlatformId());
+            }
+        }
+        if (CollectionUtils.isNotEmpty(platformIds)) {
+            Map platformMap = new HashMap<>();
+            platformMap.put("olePlatformId", platformIds);
+            List<OLEPlatformRecordDocument> olePlatformRecordDocumentList = (List<OLEPlatformRecordDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEPlatformRecordDocument.class, platformMap);
+            olePlatformSearchForm.setPlatformDocumentList(olePlatformRecordDocumentList);
+        }
         if (!GlobalVariables.getMessageMap().hasMessages()) {
             if (olePlatformSearchForm.getPlatformDocumentList().size() == 0) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.NO_RECORD_FOUND);

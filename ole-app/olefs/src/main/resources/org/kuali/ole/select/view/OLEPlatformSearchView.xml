@@ -25,6 +25,11 @@
                 </bean>
             </list>
         </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/eresource/css/platform.css</value>
+            </list>
+        </property>
         <property name="formClass" value="org.kuali.ole.select.form.OLEPlatformSearchForm"/>
     </bean>
 
@@ -125,8 +130,9 @@
                 <bean parent="Uif-DataField" p:label="DocID" p:propertyName="documentNumber"/>
                 <bean parent="Uif-DataField" p:label="OLE ID" p:propertyName="olePlatformId"/>
                 <bean parent="Uif-DataField" p:label="GOKb ID" p:propertyName="gokbId"/>
-                <bean parent="Uif-DataField" p:label="Platform Provider" p:propertyName="platformProviderName"/>
-                <bean parent="Uif-DataField" p:label="Status" p:propertyName="statusName"/>
+                <bean parent="Uif-DataField" p:label="Platform Provider" p:propertyName="vendorDetail.vendorName" p:render="@{!(#line.vendorDetail ne null and !#line.vendorDetail.activeIndicator)}"/>
+                <bean parent="Uif-DataField" p:label="Platform Provider" p:propertyName="vendorDetail.vendorName" p:render="@{#line.vendorDetail ne null and !#line.vendorDetail.activeIndicator}" p:cssClasses="InactiveVendor"/>
+                <bean parent="Uif-DataField" p:label="Status" p:propertyName="olePlatformStatus.platformStatusName"/>
             </list>
         </property>
         <property name="renderLineActions" value="false"/>
