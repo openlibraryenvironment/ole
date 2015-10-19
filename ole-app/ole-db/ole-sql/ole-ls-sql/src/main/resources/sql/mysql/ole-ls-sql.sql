@@ -5587,6 +5587,10 @@ CREATE TABLE OLE_DLVR_LOAN_NOTICE_HSTRY_T
 
 
 
+    
+                                                                                                                                                                                                                                                                                                
+                                    
+, INDEX OLE_DLVR_LOAN_NOTICE_HSTRY_TI1 (PTRN_ID )
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
