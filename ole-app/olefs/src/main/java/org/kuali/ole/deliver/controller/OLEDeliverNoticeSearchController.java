@@ -48,52 +48,27 @@ public class OLEDeliverNoticeSearchController extends OLEUifControllerBase {
         String solrQuery = buildSolrQuery(filterFields);
         List results = new SolrRequestReponseHandler().retriveResults(solrQuery);
 
-        for (Iterator iterator = results.iterator(); iterator.hasNext(); ) {
-            Map resultsMap = (Map) iterator.next();
-            if (resultsMap.containsKey("patronId")) {
-                String patronId = (String) resultsMap.get("patronId");
-                if (StringUtils.isNotBlank(patronId)) {
-                    criteriaBuilderForFetchingFromDB(oleDeliverNoticeSearchForm, resultsMap);
-                }
-            }
-        }
+        List<OLEDeliverNoticeSearchResult> oleDeliverNoticeSearchResults = buildSearchResults(results);
+        oleDeliverNoticeSearchForm.setOleDeliverNoticeSearchResult(oleDeliverNoticeSearchResults);
 
         return getUIFModelAndView(oleDeliverNoticeSearchForm);
     }
 
-    private void criteriaBuilderForFetchingFromDB(OLEDeliverNoticeSearchForm oleDeliverNoticeSearchForm, Map resultsMap) {
-        Criteria criteria = new Criteria();
-        if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getPatronBarcode())) {
-            criteria.addEqualTo("patronId", resultsMap.get("patronId"));
-        }
-        if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getNoticeType())) {
-            criteria.addEqualTo("noticeType", resultsMap.get("noticeName"));
-        }
-        if (null != oleDeliverNoticeSearchForm.getDateSentTo() && null != oleDeliverNoticeSearchForm.getDateSentFrom()) {
-            criteria.addBetween("noticeSentDate", oleDeliverNoticeSearchForm.getDateSentFrom(), oleDeliverNoticeSearchForm.getDateSentTo());
-        } else if (null != oleDeliverNoticeSearchForm.getDateSentTo()) {
-            criteria.addLessOrEqualThan("noticeSentDate", oleDeliverNoticeSearchForm.getDateSentTo());
-        } else if (null != oleDeliverNoticeSearchForm.getDateSentFrom()) {
-            criteria.addGreaterOrEqualThan("noticeSentDate", oleDeliverNoticeSearchForm.getDateSentFrom());
-        }
 
-        Collection<Object> oleDeliverNoticeHistories = getLoanDaoOjb().getDeliverNoticeHistory(criteria);
-        if (CollectionUtils.isNotEmpty(oleDeliverNoticeHistories)) {
-            oleDeliverNoticeSearchForm.getOleDeliverNoticeSearchResult().addAll(buildSearchResults(oleDeliverNoticeHistories));
-        }
-    }
-
-    private List<OLEDeliverNoticeSearchResult> buildSearchResults(Collection<Object> oleDeliverNoticeHistories) {
-        List<OLEDeliverNoticeSearchResult> oleDeliverNoticeSearchResults = new ArrayList<>();
-        for (Iterator<Object> iterator = oleDeliverNoticeHistories.iterator(); iterator.hasNext(); ) {
-            OLEDeliverNoticeHistory oleDeliverNoticeHistory = (OLEDeliverNoticeHistory) iterator.next();
-            byte[] noticeContent = oleDeliverNoticeHistory.getNoticeContent();
+    private List<OLEDeliverNoticeSearchResult> buildSearchResults(List notices) {
+        List oleDeliverNoticeSearchResults = new ArrayList<>();
+        for (Iterator<Object> iterator = notices.iterator(); iterator.hasNext(); ) {
+            Map noticeMap = (Map) iterator.next();
+            String noticeContent = (String) noticeMap.get("noticeContent");
             if (null != noticeContent) {
                 OLEDeliverNoticeSearchResult oleDeliverNoticeSearchResult = new OLEDeliverNoticeSearchResult();
-                oleDeliverNoticeSearchResult.setPatronId(oleDeliverNoticeHistory.getPatronId());
-                oleDeliverNoticeSearchResult.setNoticeContent(new String(noticeContent));
-                oleDeliverNoticeSearchResult.setDateSentTo(oleDeliverNoticeHistory.getNoticeSentDate());
-                oleDeliverNoticeSearchResult.setNoticeType(oleDeliverNoticeHistory.getNoticeType());
+                String patronBarcode = (String) noticeMap.get("patronBarcode");
+                Date sentDate = (Date) noticeMap.get("sentDate");
+                String noticeType = (String) noticeMap.get("noticeType");
+                oleDeliverNoticeSearchResult.setPatronId(patronBarcode);
+                oleDeliverNoticeSearchResult.setNoticeContent(noticeContent);
+                oleDeliverNoticeSearchResult.setDateSentTo(sentDate);
+                oleDeliverNoticeSearchResult.setNoticeType(noticeType);
                 oleDeliverNoticeSearchResults.add(oleDeliverNoticeSearchResult);
             }
         }
@@ -151,7 +126,7 @@ public class OLEDeliverNoticeSearchController extends OLEUifControllerBase {
 
     @RequestMapping(params = "methodToCall=showDialogWithNoticeContent")
     public ModelAndView showDialogWithNoticeContent(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                    HttpServletRequest request, HttpServletResponse response) {
+                                                    HttpServletRequest request, HttpServletResponse response) {
         OLEDeliverNoticeSearchForm oleDeliverNoticeSearchForm = (OLEDeliverNoticeSearchForm) form;
         String contentIndex = request.getParameter("contentIndex");
         OLEDeliverNoticeSearchResult oleDeliverNoticeSearchResult = oleDeliverNoticeSearchForm.getOleDeliverNoticeSearchResult().get(Integer.valueOf(contentIndex));

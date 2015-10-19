@@ -125,7 +125,7 @@ public abstract class NoticesExecutor implements Runnable {
         getBusinessObjectService().delete(oleDeliverNotices);
     }
 
-    public void saveOLEDeliverNoticeHistory(List<OLEDeliverNotice> oleDeliverNotices, String mailContent) {
+    public List<OLEDeliverNoticeHistory> saveOLEDeliverNoticeHistory(List<OLEDeliverNotice> oleDeliverNotices, String mailContent) {
         List<OLEDeliverNoticeHistory> oleDeliverNoticeHistoryList = new ArrayList<OLEDeliverNoticeHistory>();
         for (OLEDeliverNotice oleDeliverNotice : oleDeliverNotices) {
             OLEDeliverNoticeHistory oleDeliverNoticeHistory = new OLEDeliverNoticeHistory();
@@ -139,6 +139,8 @@ public abstract class NoticesExecutor implements Runnable {
             oleDeliverNoticeHistoryList.add(oleDeliverNoticeHistory);
         }
         getBusinessObjectService().save(oleDeliverNoticeHistoryList);
+
+        return oleDeliverNoticeHistoryList;
     }
 
     public String getPatronHomeEmailId(EntityTypeContactInfoBo entityTypeContactInfoBo) throws Exception {

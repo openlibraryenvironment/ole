@@ -12,18 +12,19 @@ import java.util.List;
  * Created by pvsubrah on 10/16/15.
  */
 public class NoticeSolrInputDocumentGenerator {
-    public SolrInputDocument getSolrInputDocument(String noticeType, List<OleLoanDocument> loanDocuments) {
+    public SolrInputDocument getSolrInputDocument(String noticeType, String noticeContent, List<OleLoanDocument> loanDocuments) {
         SolrInputDocument solrInputDocument = new SolrInputDocument();
         solrInputDocument.addField("DocType", noticeType);
         solrInputDocument.addField("DocFormat", "Email");
         solrInputDocument.addField("noticeType", OLEConstants.NOTICE_OVERDUE);
-        String patronBarcode = loanDocuments.get(0).getPatronBarcode();
+        solrInputDocument.addField("noticeContent", noticeContent);
+        String patronBarcode = loanDocuments.get(0).getOlePatron().getBarcode();
         String patronId = loanDocuments.get(0).getPatronId();
         solrInputDocument.addField("patronBarcode", patronBarcode);
-        solrInputDocument.addField("patronId", patronId);
-        solrInputDocument.addField("dateSent", new Date());
+        Date dateSent = new Date();
+        solrInputDocument.addField("dateSent", dateSent);
         solrInputDocument.addField("deskLocation", "TODO");
-        solrInputDocument.addField("uniqueId", patronId);
+        solrInputDocument.addField("uniqueId", patronId+ dateSent.getTime());
 
         for (Iterator<OleLoanDocument> iterator = loanDocuments.iterator(); iterator.hasNext(); ) {
             OleLoanDocument oleLoanDocument = iterator.next();

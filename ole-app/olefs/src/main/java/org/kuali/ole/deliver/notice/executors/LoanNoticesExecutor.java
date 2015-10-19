@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.kuali.common.util.CollectionUtils;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
+import org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
 import org.kuali.ole.deliver.notice.NoticeSolrInputDocumentGenerator;
@@ -38,18 +39,18 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
         setOleNoticeContentConfigurationBo();
         //3. generate email content
         String mailContent = generateMailContent(loanDocuments);
-        //4. Index the mail content for solr search
-        getSolrRequestReponseHandler().updateSolr(CollectionUtils.singletonList(new NoticeSolrInputDocumentGenerator().getSolrInputDocument(getNoticeType(), loanDocuments)));
-        //5. Generate notices
+        //4. Generate notices
         List<OLEDeliverNotice> oleDeliverNotices = buildNoticesForDeletion();
-        //6. Save loan document
+        //5. Save loan document
         getBusinessObjectService().save(loanDocuments);
-        //7. Delete notices
+        //6. Delete notices
         deleteNotices(oleDeliverNotices);
-        //8. update notice history
-        saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
-        //9. send mail
+        //7. update notice history
+        List<OLEDeliverNoticeHistory> oleDeliverNoticeHistories = saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
+        //8. send mail
         sendMail(mailContent);
+        //9. Index the mail content for solr search
+        getSolrRequestReponseHandler().updateSolr(CollectionUtils.singletonList(new NoticeSolrInputDocumentGenerator().getSolrInputDocument(getNoticeType(), mailContent, loanDocuments)));
         //10. Post process
         postProcess(loanDocuments);
     }

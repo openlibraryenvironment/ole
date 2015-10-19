@@ -350,10 +350,10 @@ but may be good for SKUs.  Can insert dashes in the wrong place and still match.
             best performance.
         -->
 
-        <field name="noticeName" type="string" indexed="true" stored="true"/>
+        <field name="noticeType" type="string" indexed="true" stored="true"/>
+        <field name="noticeContent" type="string" indexed="true" stored="true"/>
         <field name="patronBarcode" type="string" indexed="true" stored="true"/>
         <field name="itemBarcode" type="string" indexed="true" stored="true" multiValued="true"/>
-        <field name="patronId" type="string" indexed="true" stored="true"/>
         <field name="dateSent" type="date" indexed="true" stored="true"/>
         <field name="deskLocation" type="string" indexed="true" stored="true"/>
 
