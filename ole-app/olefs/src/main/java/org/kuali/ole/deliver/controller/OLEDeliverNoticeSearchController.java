@@ -63,7 +63,7 @@ public class OLEDeliverNoticeSearchController extends OLEUifControllerBase {
             if (null != noticeContent) {
                 OLEDeliverNoticeSearchResult oleDeliverNoticeSearchResult = new OLEDeliverNoticeSearchResult();
                 String patronBarcode = (String) noticeMap.get("patronBarcode");
-                Date sentDate = (Date) noticeMap.get("sentDate");
+                Date sentDate = (Date) noticeMap.get("dateSent");
                 String noticeType = (String) noticeMap.get("noticeType");
                 oleDeliverNoticeSearchResult.setPatronId(patronBarcode);
                 oleDeliverNoticeSearchResult.setNoticeContent(noticeContent);
