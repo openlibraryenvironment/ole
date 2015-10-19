@@ -2003,18 +2003,25 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                         if (CollectionUtils.isNotEmpty(oleeResourceInstanceDletedList)) {
                             oleeResourceRecordDocument.getOleERSInstances().removeAll(oleeResourceInstanceDletedList);
                             oleeResourceRecordDocument.getOleERSInstancesForDelete().addAll(oleeResourceInstanceDletedList);
-                            oleeResourceRecordDocument.getOleERSInstancesForSave().removeAll(oleeResourceInstanceDletedList);
-                            getBusinessObjectService().save(oleeResourceRecordDocument.getOleERSInstancesForSave());
-                            getBusinessObjectService().delete( oleeResourceRecordDocument.getOleERSInstancesForDelete());
                         }
                     }
                 }
             }
-            BibTrees bibTrees = new BibTrees();
-            BibTree bibTree = new BibTree();
-            bibTree.getHoldingsTrees().addAll(holdingsTreeList);
-            bibTrees.getBibTrees().add(bibTree);
-            getDocstoreClientLocator().getDocstoreClient().processBibTrees(bibTrees);
+
+            if (CollectionUtils.isNotEmpty(oleeResourceRecordDocument.getOleERSInstancesForSave())) {
+                getBusinessObjectService().save(oleeResourceRecordDocument.getOleERSInstancesForSave());
+            }
+            if (CollectionUtils.isNotEmpty(oleeResourceRecordDocument.getOleERSInstancesForDelete())) {
+                getBusinessObjectService().delete(oleeResourceRecordDocument.getOleERSInstancesForDelete());
+            }
+
+            if(holdingsTreeList.size()  > 0) {
+                BibTrees bibTrees = new BibTrees();
+                BibTree bibTree = new BibTree();
+                bibTree.getHoldingsTrees().addAll(holdingsTreeList);
+                bibTrees.getBibTrees().add(bibTree);
+                getDocstoreClientLocator().getDocstoreClient().processBibTrees(bibTrees);
+            }
         }
     }
 

@@ -790,7 +790,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         view.getViewHelperService().processCollectionDeleteLine(view, oleEResourceRecordForm, selectedCollectionPath,
                 selectedLineIndex);
         oleEResourceRecordDocument.getOleERSInstancesForDelete().add(oleEResourceRecordDocument.getOleERSInstances().get(selectedLineIndex));
-        getBusinessObjectService().delete(oleEResourceRecordDocument.getOleERSInstancesForDelete());
         oleEResourceRecordDocument.getOleERSInstances().remove(selectedLineIndex);
         return getUIFModelAndView(oleEResourceRecordForm);
     }
