@@ -2983,6 +2983,9 @@
         <column name="NTC_CNTNT" type="CLOB"/>
         <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <index name="OLE_DLVR_LOAN_NOTICE_HSTRY_TI1">
+            <index-column name="PTRN_ID"/>
+        </index>
     </table>
 
 

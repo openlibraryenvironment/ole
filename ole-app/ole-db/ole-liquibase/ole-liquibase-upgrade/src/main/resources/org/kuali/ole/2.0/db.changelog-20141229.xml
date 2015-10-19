@@ -5160,4 +5160,13 @@
                           startWith="1"
                           tableName="OLE_DLVR_EMAIL_S"/>
     </changeSet>
+
+    <changeSet author="ole" id="OLE_DLVR_LOAN_NOTICE_HSTRY_T_INDEX">
+        <createIndex
+                indexName="OLE_DLVR_LOAN_NOTICE_HSTRY_TI1"
+                tableName="OLE_DLVR_LOAN_NOTICE_HSTRY_T">
+            <column name="PTRN_ID" type="VARCHAR(37)"/>
+        </createIndex>
+    </changeSet>
+
 </databaseChangeLog>
