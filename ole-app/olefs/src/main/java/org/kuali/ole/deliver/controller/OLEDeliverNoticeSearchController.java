@@ -59,10 +59,10 @@ public class OLEDeliverNoticeSearchController extends UifControllerBase {
                 String patronId = (String) resultsMap.get("patronId");
                 if (StringUtils.isNotBlank(patronId)) {
                     Map<String, Object> criteriaMap = new HashMap<>();
-                    if (null != oleDeliverNoticeSearchForm.getPatronBarcode()) {
+                    if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getPatronBarcode())) {
                         criteriaMap.put("patronId", patronId);
                     }
-                    if (null != oleDeliverNoticeSearchForm.getNoticeType()) {
+                    if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getNoticeType())) {
                         criteriaMap.put("noticeType", resultsMap.get("noticeName"));
                     }
                     if (null != oleDeliverNoticeSearchForm.getDateSentTo()) {
