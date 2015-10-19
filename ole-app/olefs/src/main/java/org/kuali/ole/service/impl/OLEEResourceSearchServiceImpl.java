@@ -1297,6 +1297,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                         if (StringUtils.isNotEmpty(isbnAndissn)) {
                             isbnAndissn = isbnAndissn.substring(0, isbnAndissn.lastIndexOf(separator));
                         }
+                        oleeResourceInstance.setOleERSIdentifier(oleERSDoc.getOleERSIdentifier());
                         oleeResourceInstance.setIsbn(isbnAndissn);
                         oleeResourceInstance.setStatus(oleHoldings.getAccessStatus());
                         oleeResourceInstance.setSubscriptionStatus(oleHoldings.getSubscriptionStatus());
@@ -1322,6 +1323,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                                 }
                             }
                         }
+                        oleeResourceInstance.setOleERSIdentifier(oleERSDoc.getOleERSIdentifier());
                         oleeResourceInstance.setSubscriptionStatus(oleHoldings.getSubscriptionStatus());
                         oleeResourceInstance.setInstanceTitle(holdings.getBib().getTitle());
                         oleeResourceInstance.setInstancePublisher(holdings.getBib().getPublisher());

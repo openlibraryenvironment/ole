@@ -33,6 +33,7 @@ import org.kuali.ole.docstore.utility.ISBNUtil;
 import org.kuali.ole.select.bo.OLEEditorResponse;
 import org.kuali.ole.select.businessobject.OleCopy;
 import org.kuali.ole.select.businessobject.OleDocstoreResponse;
+import org.kuali.ole.select.document.OLEEResourceInstance;
 import org.kuali.ole.select.document.OLEEResourceRecordDocument;
 import org.kuali.ole.service.OLEEResourceSearchService;
 import org.kuali.ole.sys.context.SpringContext;
@@ -87,6 +88,7 @@ public class OLESearchController extends UifControllerBase {
     private OLEEResourceSearchService oleEResourceSearchService;
     private BrowseService browseService;
     private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
 
     public DocstoreClient getDocstoreLocalClient() {
         if (null == docstoreClient) {
@@ -94,6 +96,14 @@ public class OLESearchController extends UifControllerBase {
         }
         return docstoreClient;
     }
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+        }
+        return businessObjectService;
+    }
+
 
     public BrowseService getBrowseService() {
         if(browseService == null) {
@@ -304,7 +314,7 @@ public class OLESearchController extends UifControllerBase {
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
         OLESearchForm oleSearchForm = (OLESearchForm) form;
         boolean isValid = false;
-        BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService = getBusinessObjectService();
         Map<String, String> map = new HashMap<>();
         List<Integer> resultList = new ArrayList<>();
         for (SearchResultDisplayRow searchResultDisplayRow : oleSearchForm.getSearchResultDisplayRowList()) {
@@ -1338,7 +1348,7 @@ public class OLESearchController extends UifControllerBase {
         if (eResourceId != null && !eResourceId.isEmpty()) {
             Map<String, String> tempId = new HashMap<String, String>();
             tempId.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, eResourceId);
-            OLEEResourceRecordDocument tempDocument = (OLEEResourceRecordDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEEResourceRecordDocument.class, tempId);
+            OLEEResourceRecordDocument tempDocument = (OLEEResourceRecordDocument)getBusinessObjectService().findByPrimaryKey(OLEEResourceRecordDocument.class, tempId);
             try {
                 Person principalPerson = SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 tempDocument.getDocumentHeader().setWorkflowDocument(KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(tempDocument.getDocumentNumber(), principalPerson));
@@ -1347,6 +1357,7 @@ public class OLESearchController extends UifControllerBase {
                         tempDocument.setSelectInstance(OLEConstants.OLEEResourceRecord.LINK_EXIST_INSTANCE);
                         tempDocument.seteInstanceFlag(true);
                         getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber());
+                        getBusinessObjectService().save(tempDocument.getOleERSInstances());
                         getDocumentService().updateDocument(tempDocument);
                     } catch (Exception e) {
                         throw new RiceRuntimeException(
@@ -1562,6 +1573,7 @@ public class OLESearchController extends UifControllerBase {
         }
         bibTree.getBib().setContent(bibMarcRecordProcessor.toXml(bibRecords));
     }
+
 
 
 }

@@ -89,6 +89,15 @@ public class WorkBibMarcEditor extends AbstractEditor implements
     private String tokenId;
     private static WorkBibMarcEditor workBibMarcEditor = new WorkBibMarcEditor();
     private DocstoreClient docstoreClient = getDocstoreLocalClient();
+    private BusinessObjectService businessObjectService;
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+        }
+        return businessObjectService;
+    }
+
 
     public static WorkBibMarcEditor getInstance() {
         return workBibMarcEditor;
@@ -190,7 +199,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                     marcEditorDataFields.add(new MarcEditorDataField());
                 }
                 workBibMarcForm.setDataFields(marcEditorDataFields);
-                BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
+                BusinessObjectService boService = getBusinessObjectService();
                 Map parentCriteria = new HashMap();
                 String bibStatusName = bib.getStatus();
                 parentCriteria.put("bibliographicRecordStatusName", bibStatusName);
@@ -351,7 +360,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         String dateStr = sdf.format(date);
         String user = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
-        BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService = getBusinessObjectService();
         OleBibliographicRecordStatus bibliographicRecordStatus = null;
         if (bibliographicRecordStatusCode != null) {
             Map parentCriteria = new HashMap();
@@ -529,14 +538,14 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                 if (StringUtils.isNotEmpty(bib.getId())) {
                     Map<String, String> tempId = new HashMap<String, String>();
                     tempId.put(OLEConstants.BIB_ID, bib.getId());
-                    List<OLEEResourceInstance> oleERSInstances = (List<OLEEResourceInstance>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEEResourceInstance.class, tempId);
+                    List<OLEEResourceInstance> oleERSInstances = (List<OLEEResourceInstance>)getBusinessObjectService().findMatching(OLEEResourceInstance.class, tempId);
                     if (oleERSInstances.size() > 0) {
                         for (OLEEResourceInstance oleeResourceInstance : oleERSInstances) {
                             if (oleeResourceInstance.getBibId().equals(bib.getId())) {
                                 if (StringUtils.isNotEmpty(oleeResourceInstance.getOleERSIdentifier())) {
                                     Map<String, String> eResId = new HashMap<String, String>();
                                     eResId.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, oleeResourceInstance.getOleERSIdentifier());
-                                    OLEEResourceRecordDocument tempDocument = (OLEEResourceRecordDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEEResourceRecordDocument.class, eResId);
+                                    OLEEResourceRecordDocument tempDocument = (OLEEResourceRecordDocument)getBusinessObjectService().findByPrimaryKey(OLEEResourceRecordDocument.class, eResId);
                                     Person principalPerson = SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPerson().getPrincipalId());
                                     tempDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(tempDocument.getDocumentNumber()));
                                     tempDocument.getDocumentHeader().setWorkflowDocument(KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(tempDocument.getDocumentNumber(), principalPerson));
@@ -555,6 +564,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                                             for(Holdings holdings1:holdings){
                                                 getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber(), holdings1);
                                             }
+                                            getBusinessObjectService().save(tempDocument.getOleERSInstances());
                                             getDocumentService().updateDocument(tempDocument);
                                         } catch (Exception e) {
                                             LOG.error("Exception :", e);
@@ -570,7 +580,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                         if (StringUtils.isNotEmpty(eResourceID)) {
                             Map<String, String> eResId = new HashMap<String, String>();
                             eResId.put(OLEConstants.OLEEResourceRecord.ERESOURCE_IDENTIFIER, eResourceID);
-                            OLEEResourceRecordDocument tempDocument = (OLEEResourceRecordDocument) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEEResourceRecordDocument.class, eResId);
+                            OLEEResourceRecordDocument tempDocument = (OLEEResourceRecordDocument) getBusinessObjectService().findByPrimaryKey(OLEEResourceRecordDocument.class, eResId);
                             Person principalPerson = SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPerson().getPrincipalId());
                             tempDocument.setDocumentHeader(SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(tempDocument.getDocumentNumber()));
                             tempDocument.getDocumentHeader().setWorkflowDocument(KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(tempDocument.getDocumentNumber(), principalPerson));
@@ -580,6 +590,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                                     tempDocument.seteInstanceFlag(true);
                                     processResponseForEResource(holdingsId, bib, tempDocument.getDocumentNumber());
                                     getOleEResourceSearchService().getNewInstance(tempDocument, tempDocument.getDocumentNumber(), holdingsTree.getHoldings());
+                                    getBusinessObjectService().save(tempDocument.getOleERSInstances());
                                     getDocumentService().updateDocument(tempDocument);
                                 } catch (Exception e) {
                                     LOG.error("Exception :", e);
@@ -1079,7 +1090,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
                 workBibMarcForm.setDataFields(
                         getMarcFormDataHandler().buildMarcEditorDataFields(bibMarcRecord.getDataFields()));
                 OleBibliographicRecordStatus bibliographicRecordStatus = null;
-                BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
+                BusinessObjectService boService = getBusinessObjectService();
                 String bibStatusName = bib.getStatus();
 
                 editorForm.setBibStatus(bibStatusName);
@@ -1153,7 +1164,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
         editorForm.setCreatedBy(bibTree.getBib().getCreatedBy());
         editorForm.setCreatedDate(bibTree.getBib().getCreatedOn());
         OleBibliographicRecordStatus bibliographicRecordStatus = null;
-        BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService = getBusinessObjectService();
         if (bibliographicRecordStatusCode != null) {
             Map parentCriteria = new HashMap();
             parentCriteria.put("bibliographicRecordStatusCode", bibliographicRecordStatusCode);
@@ -1596,7 +1607,7 @@ public class WorkBibMarcEditor extends AbstractEditor implements
         if (oleERSIdentifier != null) {
             Map ids = new HashMap();
             ids.put("oleEResourceInstanceId", oleERSIdentifier);
-            OLEEResourceInstance oleeResourceInstance = (OLEEResourceInstance) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLEEResourceInstance.class, ids);
+            OLEEResourceInstance oleeResourceInstance = (OLEEResourceInstance) getBusinessObjectService().findByPrimaryKey(OLEEResourceInstance.class, ids);
             oleeResourceInstances.add(oleeResourceInstance);
         }
         return oleeResourceInstances;
