@@ -78,25 +78,23 @@
         <th style="padding:0;">
             <div align=left>
                 <c:choose>
-                <c:when test="${fullEntryMode}">
-                    <c:if test="${KualiForm.document.documentType !='OLE_CM'}">
-                    <kul:htmlAttributeLabel attributeEntry="${itemAttributes.fundCode}"/>
+                    <c:when test="${fullEntryMode}">
+                        <kul:htmlAttributeLabel attributeEntry="${itemAttributes.fundCode}"/>
 
-                    <kul:htmlControlAttribute
-                            attributeEntry="${itemAttributes.fundCode}"
-                            property="${accountPrefix}fundCode"/>
-                    <kul:lookup
-                            boClassName="org.kuali.ole.coa.businessobject.OleFundCode"
-                            fieldConversions="fundCode:${accountPrefix}fundCode"/>
-            <html:image property="methodToCall.populateAccountingLines.line${count}"
-                        src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
-                        alt="Add" title="Populate Accounting Lines" styleClass="tinybutton"
-                        tabindex="${tabindexOverrideBase + 0}"/></td>
-        </c:if>
+                        <kul:htmlControlAttribute
+                                attributeEntry="${itemAttributes.fundCode}"
+                                property="${accountPrefix}fundCode"/>
+                        <kul:lookup
+                                boClassName="org.kuali.ole.coa.businessobject.OleFundCode"
+                                fieldConversions="fundCode:${accountPrefix}fundCode"/>
+                        <html:image property="methodToCall.populateAccountingLines.line${count}"
+                                    src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
+                                    alt="Add" title="Populate Accounting Lines" styleClass="tinybutton"
+                                    tabindex="${tabindexOverrideBase + 0}"/></td>
 
 
-        </c:when>
-        </c:choose>
+                    </c:when>
+                </c:choose>
             </div>
             <sys-java:accountingLines>
 			    <sys-java:accountingLineGroup newLinePropertyName="${accountPrefix}newSourceLine" collectionPropertyName="${accountPrefix}sourceAccountingLines" collectionItemPropertyName="${accountPrefix}sourceAccountingLine" attributeGroupName="source" />
