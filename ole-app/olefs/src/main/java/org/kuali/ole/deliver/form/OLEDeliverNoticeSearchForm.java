@@ -1,6 +1,7 @@
 package org.kuali.ole.deliver.form;
 
 import org.kuali.ole.batch.bo.*;
+import org.kuali.ole.deliver.bo.OLEDeliverNoticeSearchResult;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class OLEDeliverNoticeSearchForm extends UifFormBase {
     private Date dateSentTo;
     private String deskLocation;
     private String noticeType;
+
+    private List<OLEDeliverNoticeSearchResult> oleDeliverNoticeSearchResult;
 
     public String getPatronBarcode() {
         return patronBarcode;
@@ -67,4 +70,14 @@ public class OLEDeliverNoticeSearchForm extends UifFormBase {
         this.noticeType = noticeType;
     }
 
+    public List<OLEDeliverNoticeSearchResult> getOleDeliverNoticeSearchResult() {
+        if(null == oleDeliverNoticeSearchResult){
+            oleDeliverNoticeSearchResult = new ArrayList<>();
+        }
+        return oleDeliverNoticeSearchResult;
+    }
+
+    public void setOleDeliverNoticeSearchResult(List<OLEDeliverNoticeSearchResult> oleDeliverNoticeSearchResult) {
+        this.oleDeliverNoticeSearchResult = oleDeliverNoticeSearchResult;
+    }
 }

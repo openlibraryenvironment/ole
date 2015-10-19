@@ -1,13 +1,18 @@
 package org.kuali.ole.deliver.controller;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.OLEParameterConstants;
 import org.kuali.ole.batch.bo.*;
 import org.kuali.ole.batch.service.OLEDeliverNoticeService;
+import org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory;
+import org.kuali.ole.deliver.bo.OLEDeliverNoticeSearchResult;
 import org.kuali.ole.deliver.form.OLEDeliverNoticeSearchForm;
 import org.kuali.ole.deliver.processor.LoanProcessor;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.stereotype.Controller;
@@ -27,6 +32,8 @@ import java.util.*;
 @Controller
 @RequestMapping(value = "/deliverNoticeSearchController")
 public class OLEDeliverNoticeSearchController extends UifControllerBase {
+
+    private BusinessObjectService businessObjectService;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -48,6 +55,16 @@ public class OLEDeliverNoticeSearchController extends UifControllerBase {
         for (Iterator iterator = results.iterator(); iterator.hasNext(); ) {
             Map resultsMap = (Map) iterator.next();
             if(resultsMap.containsKey("patronId")){
+
+                String patronId = (String) resultsMap.get("patronId");
+                if (StringUtils.isNotBlank(patronId)) {
+                    Map<String, Object> criteriaMap = new HashMap<>();
+                    criteriaMap.put("patronId", patronId);
+                    List<OLEDeliverNoticeHistory> oleDeliverNoticeHistories = (List<OLEDeliverNoticeHistory>) getBusinessObjectService().findMatching(OLEDeliverNoticeHistory.class, criteriaMap);
+                    if(CollectionUtils.isNotEmpty(oleDeliverNoticeHistories)){
+                        oleDeliverNoticeSearchForm.getOleDeliverNoticeSearchResult().addAll(buildSearchResults(oleDeliverNoticeHistories));
+                    }
+                }
                 //TODO: Reterive notice content from the notice table based on patron id.
                 //TODO: Set it on the resuls section.
                 //TODO: Need to provide export options (download/export to word etc..)
@@ -55,6 +72,17 @@ public class OLEDeliverNoticeSearchController extends UifControllerBase {
         }
 
         return getUIFModelAndView(oleDeliverNoticeSearchForm);
+    }
+
+    private List<OLEDeliverNoticeSearchResult> buildSearchResults(List<OLEDeliverNoticeHistory> oleDeliverNoticeHistories) {
+        List<OLEDeliverNoticeSearchResult> oleDeliverNoticeSearchResults = new ArrayList<>();
+        for (Iterator<OLEDeliverNoticeHistory> iterator = oleDeliverNoticeHistories.iterator(); iterator.hasNext(); ) {
+            OLEDeliverNoticeHistory oleDeliverNoticeHistory = iterator.next();
+            OLEDeliverNoticeSearchResult oleDeliverNoticeSearchResult = new OLEDeliverNoticeSearchResult();
+            oleDeliverNoticeSearchResult.setNoticeContent(new String(oleDeliverNoticeHistory.getNoticeContent()));
+            oleDeliverNoticeSearchResults.add(oleDeliverNoticeSearchResult);
+        }
+        return oleDeliverNoticeSearchResults;
     }
 
     private String buildSolrQuery(Map<String, Object> filterFields) {
@@ -103,5 +131,12 @@ public class OLEDeliverNoticeSearchController extends UifControllerBase {
         oleDeliverNoticeSearchForm.setDeskLocation(null);
         oleDeliverNoticeSearchForm.setNoticeType(null);
         return getUIFModelAndView(oleDeliverNoticeSearchForm);
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        if(null == businessObjectService){
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
+        }
+        return businessObjectService;
     }
 }

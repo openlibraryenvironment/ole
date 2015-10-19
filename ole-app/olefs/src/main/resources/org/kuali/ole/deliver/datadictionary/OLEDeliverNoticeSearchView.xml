@@ -13,6 +13,7 @@
                         <list>
                             <ref bean="deliverNoticeSearchPanel"/>
                             <ref bean="deliverNoticeSearchButtons"/>
+                            <ref bean="deliverNoticeSearchResults"/>
                         </list>
                     </property>
                 </bean>
@@ -99,6 +100,15 @@
                       p:methodToCall="search" p:actionLabel="Search"/>
                 <bean id="notice_clear_button" parent="Uif-SecondaryActionButton"
                       p:methodToCall="clearSearch" p:actionLabel="Clear"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="deliverNoticeSearchResults" parent="Uif-LightTableGroup">
+        <property name="propertyName" value="oleDeliverNoticeSearchResult"/>
+        <property name="items">
+            <list>
+                <bean id="searchResult-noticeContent" parent="Uif-DataField" p:label="Notice Content" p:propertyName="noticeContent"/>
             </list>
         </property>
     </bean>
