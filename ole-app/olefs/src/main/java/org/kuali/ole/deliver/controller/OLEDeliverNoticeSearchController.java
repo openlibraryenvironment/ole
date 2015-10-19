@@ -59,10 +59,20 @@ public class OLEDeliverNoticeSearchController extends UifControllerBase {
                 String patronId = (String) resultsMap.get("patronId");
                 if (StringUtils.isNotBlank(patronId)) {
                     Map<String, Object> criteriaMap = new HashMap<>();
-                    criteriaMap.put("patronId", patronId);
-                    List<OLEDeliverNoticeHistory> oleDeliverNoticeHistories = (List<OLEDeliverNoticeHistory>) getBusinessObjectService().findMatching(OLEDeliverNoticeHistory.class, criteriaMap);
-                    if(CollectionUtils.isNotEmpty(oleDeliverNoticeHistories)){
-                        oleDeliverNoticeSearchForm.getOleDeliverNoticeSearchResult().addAll(buildSearchResults(oleDeliverNoticeHistories));
+                    if (null != oleDeliverNoticeSearchForm.getPatronBarcode()) {
+                        criteriaMap.put("patronId", patronId);
+                    }
+                    if (null != oleDeliverNoticeSearchForm.getNoticeType()) {
+                        criteriaMap.put("noticeType", resultsMap.get("noticeName"));
+                    }
+                    if (null != oleDeliverNoticeSearchForm.getDateSentTo()) {
+                        criteriaMap.put("noticeSentDate", resultsMap.get("dateSent"));
+                    }
+                    if (criteriaMap.size() > 0) {
+                        List<OLEDeliverNoticeHistory> oleDeliverNoticeHistories = (List<OLEDeliverNoticeHistory>) getBusinessObjectService().findMatching(OLEDeliverNoticeHistory.class, criteriaMap);
+                        if(CollectionUtils.isNotEmpty(oleDeliverNoticeHistories)){
+                            oleDeliverNoticeSearchForm.getOleDeliverNoticeSearchResult().addAll(buildSearchResults(oleDeliverNoticeHistories));
+                        }
                     }
                 }
                 //TODO: Reterive notice content from the notice table based on patron id.
