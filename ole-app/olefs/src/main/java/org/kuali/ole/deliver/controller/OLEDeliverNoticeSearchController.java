@@ -53,30 +53,34 @@ public class OLEDeliverNoticeSearchController extends OLEUifControllerBase {
             if (resultsMap.containsKey("patronId")) {
                 String patronId = (String) resultsMap.get("patronId");
                 if (StringUtils.isNotBlank(patronId)) {
-                    Criteria criteria = new Criteria();
-                    if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getPatronBarcode())) {
-                        criteria.addEqualTo("patronId", patronId);
-                    }
-                    if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getNoticeType())) {
-                        criteria.addEqualTo("noticeType", resultsMap.get("noticeName"));
-                    }
-                    if (null != oleDeliverNoticeSearchForm.getDateSentTo() && null != oleDeliverNoticeSearchForm.getDateSentFrom()) {
-                        criteria.addBetween("noticeSentDate", oleDeliverNoticeSearchForm.getDateSentFrom(), oleDeliverNoticeSearchForm.getDateSentTo());
-                    } else if (null != oleDeliverNoticeSearchForm.getDateSentTo()) {
-                        criteria.addLessOrEqualThan("noticeSentDate", oleDeliverNoticeSearchForm.getDateSentTo());
-                    } else if (null != oleDeliverNoticeSearchForm.getDateSentFrom()) {
-                        criteria.addGreaterOrEqualThan("noticeSentDate", oleDeliverNoticeSearchForm.getDateSentFrom());
-                    }
-
-                    Collection<Object> oleDeliverNoticeHistories = getLoanDaoOjb().getDeliverNoticeHistory(criteria);
-                    if (CollectionUtils.isNotEmpty(oleDeliverNoticeHistories)) {
-                        oleDeliverNoticeSearchForm.getOleDeliverNoticeSearchResult().addAll(buildSearchResults(oleDeliverNoticeHistories));
-                    }
+                    criteriaBuilderForFetchingFromDB(oleDeliverNoticeSearchForm, resultsMap);
                 }
             }
         }
 
         return getUIFModelAndView(oleDeliverNoticeSearchForm);
+    }
+
+    private void criteriaBuilderForFetchingFromDB(OLEDeliverNoticeSearchForm oleDeliverNoticeSearchForm, Map resultsMap) {
+        Criteria criteria = new Criteria();
+        if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getPatronBarcode())) {
+            criteria.addEqualTo("patronId", resultsMap.get("patronId"));
+        }
+        if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getNoticeType())) {
+            criteria.addEqualTo("noticeType", resultsMap.get("noticeName"));
+        }
+        if (null != oleDeliverNoticeSearchForm.getDateSentTo() && null != oleDeliverNoticeSearchForm.getDateSentFrom()) {
+            criteria.addBetween("noticeSentDate", oleDeliverNoticeSearchForm.getDateSentFrom(), oleDeliverNoticeSearchForm.getDateSentTo());
+        } else if (null != oleDeliverNoticeSearchForm.getDateSentTo()) {
+            criteria.addLessOrEqualThan("noticeSentDate", oleDeliverNoticeSearchForm.getDateSentTo());
+        } else if (null != oleDeliverNoticeSearchForm.getDateSentFrom()) {
+            criteria.addGreaterOrEqualThan("noticeSentDate", oleDeliverNoticeSearchForm.getDateSentFrom());
+        }
+
+        Collection<Object> oleDeliverNoticeHistories = getLoanDaoOjb().getDeliverNoticeHistory(criteria);
+        if (CollectionUtils.isNotEmpty(oleDeliverNoticeHistories)) {
+            oleDeliverNoticeSearchForm.getOleDeliverNoticeSearchResult().addAll(buildSearchResults(oleDeliverNoticeHistories));
+        }
     }
 
     private List<OLEDeliverNoticeSearchResult> buildSearchResults(Collection<Object> oleDeliverNoticeHistories) {
