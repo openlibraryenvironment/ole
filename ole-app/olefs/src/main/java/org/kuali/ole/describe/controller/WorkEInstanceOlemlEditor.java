@@ -852,6 +852,9 @@ public class WorkEInstanceOlemlEditor
             LOG.error("Exception :", e);
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+        StringBuffer deleteMessage = new StringBuffer();
+        deleteMessage.append("WARNING : The following E-Holdings record will be deleted.\n");
+        editorForm.setDeleteMessage(deleteMessage.toString());
         editorForm.getDocTree().setRootElement(docTree);
         editorForm.setViewId("DeleteViewPage");
         return editorForm;

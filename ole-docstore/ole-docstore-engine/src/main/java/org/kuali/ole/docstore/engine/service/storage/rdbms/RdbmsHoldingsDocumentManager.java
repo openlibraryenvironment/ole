@@ -1634,7 +1634,7 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
         String uuids = null;
         int uuidCount = 0;
         HoldingsTree deletingHoldingsTree = retrieveHoldingsTree(holdingsId, null, null);
-        if (null != deletingHoldingsTree && null != deletingHoldingsTree.getHoldings() && null != deletingHoldingsTree.getItems() &&  deletingHoldingsTree.getItems().size() > 0) {
+        if (null != deletingHoldingsTree && null != deletingHoldingsTree.getHoldings()) {
             if (deletingHoldingsTree.getHoldings().isBoundWithBib()) {
                 DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.BOUND_WITH_DELETE_MESSAGE, DocstoreResources.BOUND_WITH_DELETE_MESSAGE);
                 throw docstoreException;
@@ -1650,14 +1650,16 @@ public class RdbmsHoldingsDocumentManager extends RdbmsAbstarctDocumentManager {
             StringBuilder uuidsSB = new StringBuilder();
             uuidsSB.append(holdingsId).append(DocStoreConstants.COMMA);
             uuidCount++;
-            for (Item item : deletingHoldingsTree.getItems()) {
-                if (null != item && null != item.getId()) {
-                    if (item.isAnalytic()) {
-                        DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.ANALYTIC_DELETE_MESSAGE_ITEM, DocstoreResources.ANALYTIC_DELETE_MESSAGE_ITEM);
-                        throw docstoreException;
+            if (null != deletingHoldingsTree.getItems()) {
+                for (Item item : deletingHoldingsTree.getItems()) {
+                    if (null != item && null != item.getId()) {
+                        if (item.isAnalytic()) {
+                            DocstoreException docstoreException = new DocstoreValidationException(DocstoreResources.ANALYTIC_DELETE_MESSAGE_ITEM, DocstoreResources.ANALYTIC_DELETE_MESSAGE_ITEM);
+                            throw docstoreException;
+                        }
+                        uuidsSB.append(item.getId()).append(DocStoreConstants.COMMA);
+                        uuidCount++;
                     }
-                    uuidsSB.append(item.getId()).append(DocStoreConstants.COMMA);
-                    uuidCount++;
                 }
             }
             uuids = uuidsSB.substring(0, uuidsSB.length() - 1);

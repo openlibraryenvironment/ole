@@ -460,7 +460,7 @@ jq(document).ready(function () {
                         if (canDeleteEInstance == 'true') {
                             return {
                                 "Delete": {
-                                    "label": "   Delete eInstance",
+                                    "label": "   Delete E-Holdings",
                                     "icon": "../krad/images/cancel.png",
                                     "action": function (obj) {
                                         jq("#holdingsItemTree_tree").jstree("deselect_node", jQuery("#holdingsItemTree_tree").jstree("get_selected"));

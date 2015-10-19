@@ -1047,7 +1047,7 @@
                       p:actionLabel="Copy" p:align="right" p:actionEvent="addEInstance"
                       p:componentSecurity.performActionAuthz="true"/>
                 <bean id="EInstanceDelete" parent="Uif-SecondaryActionButton-Small"
-                      p:actionScript="methodToCall('delete');" p:actionLabel="Delete" p:align="right"
+                      p:methodToCall="deleteVerify" p:actionLabel="Delete" p:align="right"
                       p:actionEvent="deleteEInstance" p:componentSecurity.performActionAuthz="true"/>
                 <bean id="EInstanceRestore" parent="Uif-SecondaryActionButton-Small"
                       p:actionScript="methodToCall('load');" p:actionLabel="Restore OLE defaults" p:align="left"
@@ -1070,7 +1070,7 @@
                       p:actionLabel="Copy" p:align="right" p:actionEvent="addEInstance"
                       p:componentSecurity.performActionAuthz="true"/>
                 <bean id="eInstanceDelete" parent="Uif-SecondaryActionButton-Small"
-                      p:actionScript="methodToCall('delete');" p:actionLabel="Delete" p:align="right"
+                      p:methodToCall="deleteVerify" p:actionLabel="Delete" p:align="right"
                       p:actionEvent="deleteEInstance" p:componentSecurity.performActionAuthz="true"/>
             </list>
         </property>
