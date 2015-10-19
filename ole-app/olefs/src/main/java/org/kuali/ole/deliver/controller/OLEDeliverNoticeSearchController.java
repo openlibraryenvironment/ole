@@ -28,7 +28,7 @@ import java.util.*;
  */
 @Controller
 @RequestMapping(value = "/deliverNoticeSearchController")
-public class OLEDeliverNoticeSearchController extends UifControllerBase {
+public class OLEDeliverNoticeSearchController extends OLEUifControllerBase {
 
     private BusinessObjectService businessObjectService;
     private OleLoanDocumentDaoOjb loanDaoOjb;
@@ -42,6 +42,7 @@ public class OLEDeliverNoticeSearchController extends UifControllerBase {
     public ModelAndView search(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) {
         OLEDeliverNoticeSearchForm oleDeliverNoticeSearchForm = (OLEDeliverNoticeSearchForm) form;
+        oleDeliverNoticeSearchForm.reset();
         Map<String, Object> filterFields = buildFilterFields(oleDeliverNoticeSearchForm);
 
         String solrQuery = buildSolrQuery(filterFields);
@@ -85,7 +86,10 @@ public class OLEDeliverNoticeSearchController extends UifControllerBase {
             byte[] noticeContent = oleDeliverNoticeHistory.getNoticeContent();
             if (null != noticeContent) {
                 OLEDeliverNoticeSearchResult oleDeliverNoticeSearchResult = new OLEDeliverNoticeSearchResult();
+                oleDeliverNoticeSearchResult.setPatronId(oleDeliverNoticeHistory.getPatronId());
                 oleDeliverNoticeSearchResult.setNoticeContent(new String(noticeContent));
+                oleDeliverNoticeSearchResult.setDateSentTo(oleDeliverNoticeHistory.getNoticeSentDate());
+                oleDeliverNoticeSearchResult.setNoticeType(oleDeliverNoticeHistory.getNoticeType());
                 oleDeliverNoticeSearchResults.add(oleDeliverNoticeSearchResult);
             }
         }
@@ -137,6 +141,17 @@ public class OLEDeliverNoticeSearchController extends UifControllerBase {
         oleDeliverNoticeSearchForm.setDateSentTo(null);
         oleDeliverNoticeSearchForm.setDeskLocation(null);
         oleDeliverNoticeSearchForm.setNoticeType(null);
+        return getUIFModelAndView(oleDeliverNoticeSearchForm);
+    }
+
+
+    @RequestMapping(params = "methodToCall=showDialogWithNoticeContent")
+    public ModelAndView showDialogWithNoticeContent(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        OLEDeliverNoticeSearchForm oleDeliverNoticeSearchForm = (OLEDeliverNoticeSearchForm) form;
+        String contentIndex = request.getParameter("contentIndex");
+        OLEDeliverNoticeSearchResult oleDeliverNoticeSearchResult = oleDeliverNoticeSearchForm.getOleDeliverNoticeSearchResult().get(Integer.valueOf(contentIndex));
+        showHtmlContentToDialog(oleDeliverNoticeSearchResult.getNoticeContent(), form, "", "Notice Mail Content");
         return getUIFModelAndView(oleDeliverNoticeSearchForm);
     }
 

@@ -80,4 +80,8 @@ public class OLEDeliverNoticeSearchForm extends UifFormBase {
     public void setOleDeliverNoticeSearchResult(List<OLEDeliverNoticeSearchResult> oleDeliverNoticeSearchResult) {
         this.oleDeliverNoticeSearchResult = oleDeliverNoticeSearchResult;
     }
+
+    public void reset(){
+        oleDeliverNoticeSearchResult = new ArrayList<>();
+    }
 }

@@ -104,15 +104,32 @@
         </property>
     </bean>
 
-    <bean id="deliverNoticeSearchResults" parent="Uif-Disclosure-TableCollectionSection">
+    <bean id="deliverNoticeSearchResults" parent="Uif-TableCollectionSection">
         <property name="propertyName" value="oleDeliverNoticeSearchResult"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="collectionObjectClass"
                   value="org.kuali.ole.deliver.bo.OLEDeliverNoticeSearchResult" />
         <property name="items">
             <list>
-                <bean id="searchResult-noticeContent" parent="Uif-DataField" p:label="Notice Content" p:propertyName="noticeContent"/>
+                <bean id="searchResult-patronId" parent="Uif-DataField" p:propertyName="patronId"
+                      p:label="Patron Id"/>
+                <bean id="searchResult-noticeType" parent="Uif-DataField" p:propertyName="noticeType"
+                      p:label="Notice Type"/>
+                <bean id="searchResult-sentDate" parent="Uif-DataField" p:propertyName="dateSentTo"
+                      p:label="Notice Sent Date"/>
+
+                <bean id="searchResult-noticeContentLinkGroup" parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="searchResult-noticeContentLink" parent="Uif-ActionLink" p:actionScript="
+                submitForm('showDialogWithNoticeContent',{contentIndex:'@{#index}'},null,null,null);" p:actionLabel="View Notice Content"/>
+                        </list>
+                    </property>
+                </bean>
+
+
             </list>
         </property>
     </bean>
