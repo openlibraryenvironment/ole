@@ -9,9 +9,6 @@
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'Select', 'MASK_PASSWORD', 'OLEERS178', '1', 'CONFG', 'Y', 'This is for configuring whether password needs to be masked in the Admin Data tab', 'A', 'KUALI')
 /
 
-INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'E-Resource', 'QUANTITY', 'OLE6588', '1', 'CONFG', '1', 'This is for configuring the default quantity while creating the PO through E-Resource', 'A', 'KUALI')
-/
-
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'E-Resource', 'NO_OF_PARTS', 'OLE6589', '1', 'CONFG', '1', 'This is for configuring the default no of parts while creating the PO through E-Resource', 'A', 'KUALI')
 /
 
@@ -105,7 +102,7 @@ INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_
 INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'SEND_ONHOLD_NOTICE_WHILE_CHECKIN', 'OLE7037', '1', 'CONFG', 'true', 'This parameter value is used for configuring the system to send onhold notice while checkin an item.', 'A', 'OLE')
 /
 
-INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_oracle', 'ole', 'org/kuali/ole/2.0/db.changelog-20141229.xml', SYSTIMESTAMP, 1, '7:56931b1e481a9bde04c3181d64463437', 'loadData', '', 'EXECUTED', '3.2.0')
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_oracle', 'ole', 'org/kuali/ole/2.0/db.changelog-20141229.xml', SYSTIMESTAMP, 1, '7:b0747b7a7bc7e2f6b0d9fe411c7cd615', 'loadData', '', 'EXECUTED', '3.2.0')
 /
 
 -- Changeset org/kuali/ole/2.0/db.changelog-20141229.xml::OLE_GOKB_PKG_T::ole
