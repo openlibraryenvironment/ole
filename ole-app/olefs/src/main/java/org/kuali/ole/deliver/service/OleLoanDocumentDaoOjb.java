@@ -506,4 +506,10 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         return new ArrayList<>();
     }
 
+    public Collection<Object> getDeliverNoticeHistory(Criteria criteria) {
+        QueryByCriteria query = QueryFactory.newQuery(OLEDeliverNoticeHistory.class, criteria);
+        Collection results = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return results;
+    }
+
 }
