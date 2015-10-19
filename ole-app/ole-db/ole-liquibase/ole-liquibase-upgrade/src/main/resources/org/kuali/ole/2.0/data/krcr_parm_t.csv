@@ -1,6 +1,5 @@
 NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID
 "OLE-SELECT","Select","MASK_PASSWORD","OLEERS178","1","CONFG","Y","This is for configuring whether password needs to be masked in the Admin Data tab","A","KUALI"
-"OLE-SELECT","E-Resource","QUANTITY","OLE6588","1","CONFG","1","This is for configuring the default quantity while creating the PO through E-Resource","A","KUALI"
 "OLE-SELECT","E-Resource","NO_OF_PARTS","OLE6589","1","CONFG","1","This is for configuring the default no of parts while creating the PO through E-Resource","A","KUALI"
 "OLE-SELECT","E-Resource","LOCATION","OLE6590","1","CONFG","API","This is for configuring the default location while creating the PO through E-Resource","A","KUALI"
 "OLE-SELECT","E-Resource","COST_SOURCE","OLE6591","1","CONFG","EST","This is for configuring the default cost source while creating the PO through E-Resource","A","KUALI"
