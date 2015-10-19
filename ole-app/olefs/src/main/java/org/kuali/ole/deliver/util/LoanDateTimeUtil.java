@@ -30,11 +30,13 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
 
         loanDueDate = getLoanDueDate(loanPeriod);
 
-        if (null != oleCirculationDesk) {
+        if (null != loanDueDate && null != oleCirculationDesk) {
             OleCalendar activeCalendar = getActiveCalendar(loanDueDate, oleCirculationDesk.getCalendarGroupId());
             setActiveCalendar(activeCalendar);
 
-            loanDueDate = calculateDueDate(loanDueDate);
+            if (null != activeCalendar) {
+                loanDueDate = calculateDueDate(loanDueDate);
+            }
         }
 
         return loanDueDate;
@@ -262,7 +264,7 @@ public class LoanDateTimeUtil extends ExceptionDateLoanDateTimeUtil {
     }
 
 
-    private Map<String, Map<String, String>> getOpenAndClosingTimeForTheGivenDayFromWeekList(Date loanDueDate, List<? extends OleBaseCalendarWeek> oleCalendarWeekList) {
+    public Map<String, Map<String, String>> getOpenAndClosingTimeForTheGivenDayFromWeekList(Date loanDueDate, List<? extends OleBaseCalendarWeek> oleCalendarWeekList) {
         int day = loanDueDate.getDay();
         Map<String, Map<String, String>> openingAndClosingTimeMap = new HashMap<>();
         Map<String, String> closingTimeMap = new HashMap<>();

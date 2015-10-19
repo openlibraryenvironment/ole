@@ -1959,7 +1959,7 @@ public class OleLoanDocument extends PersistableBusinessObjectBase implements Co
         } else {
             calculateDateTimeByPeriod = loanDateTimeUtil.calculateDateTimeByPeriod(recallLoanPeriod, getOleCirculationDesk());
         }
-        setLoanDueDate(new Timestamp(calculateDateTimeByPeriod.getTime()));
+        setLoanDueDate((calculateDateTimeByPeriod != null ? new Timestamp(calculateDateTimeByPeriod.getTime()) : null));
     }
 
     public Integer getOverdueFineAmount(OleCirculationPolicyServiceImpl oleCirculationPolicyService) {
