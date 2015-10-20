@@ -1,5 +1,6 @@
 package org.kuali.ole.deliver.notice.solr;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
@@ -22,33 +23,25 @@ public class OleNoticeContentReIndexer {
 
     private SolrRequestReponseHandler solrRequestReponseHandler;
 
-    public UpdateResponse reindexNoticeContent(){
-        UpdateResponse updateResponse = null;
+    public void reindexNoticeContent() {
         List<OLEDeliverNoticeHistory> deliverNoticeHistories = (List<OLEDeliverNoticeHistory>) KRADServiceLocator.getBusinessObjectService().findAll(OLEDeliverNoticeHistory.class);
-        if(CollectionUtils.isNotEmpty(deliverNoticeHistories)){
+        if (CollectionUtils.isNotEmpty(deliverNoticeHistories)) {
             List<SolrInputDocument> solrInputDocuments = buildSolrInputDocuments(deliverNoticeHistories);
-            if(CollectionUtils.isNotEmpty(solrInputDocuments)){
-                int startIndex = 0;
-                int chunkSize = 1000;
-                int endIndex = chunkSize;
-                while(startIndex <= solrInputDocuments.size()){
-                    if(endIndex > solrInputDocuments.size()){
-                        endIndex = solrInputDocuments.size();
-                    }
-                    List<SolrInputDocument> subListInputDocument = solrInputDocuments.subList(startIndex, endIndex);
-                    updateResponse = getSolrRequestReponseHandler().updateSolr(subListInputDocument);
-                    startIndex = startIndex + chunkSize;
-                    endIndex = endIndex + chunkSize;
+            if (CollectionUtils.isNotEmpty(solrInputDocuments)) {
+
+                List<List<SolrInputDocument>> subLists = Lists.partition(solrInputDocuments, 1000);
+                for (Iterator<List<SolrInputDocument>> iterator = subLists.iterator(); iterator.hasNext(); ) {
+                    List<SolrInputDocument> solrInputDocumentList = iterator.next();
+                    getSolrRequestReponseHandler().updateSolr(solrInputDocumentList);
                 }
             }
         }
-        return updateResponse;
     }
 
     private List<SolrInputDocument> buildSolrInputDocuments(List<OLEDeliverNoticeHistory> oleDeliverNoticeHistories) {
         List<SolrInputDocument> solrInputDocuments = new ArrayList<>();
 
-        if(CollectionUtils.isNotEmpty(oleDeliverNoticeHistories)){
+        if (CollectionUtils.isNotEmpty(oleDeliverNoticeHistories)) {
             for (Iterator<OLEDeliverNoticeHistory> iterator = oleDeliverNoticeHistories.iterator(); iterator.hasNext(); ) {
                 OLEDeliverNoticeHistory oleDeliverNoticeHistory = iterator.next();
                 byte[] noticeContent = oleDeliverNoticeHistory.getNoticeContent();
@@ -67,7 +60,7 @@ public class OleNoticeContentReIndexer {
                     solrInputDocument.addField("deskLocation", "TODO");
                     solrInputDocument.addField("uniqueId", patronId + dateSent.getTime());
                     List<String> itemBarcodes = getItemBarcodes(content);
-                    if(CollectionUtils.isNotEmpty(itemBarcodes)){
+                    if (CollectionUtils.isNotEmpty(itemBarcodes)) {
                         for (Iterator<String> stringIterator = itemBarcodes.iterator(); stringIterator.hasNext(); ) {
                             String itemBarcode = stringIterator.next();
                             solrInputDocument.addField("itemBarcode", itemBarcode);
@@ -93,7 +86,7 @@ public class OleNoticeContentReIndexer {
         return solrRequestReponseHandler;
     }
 
-    public List<String> getItemBarcodes(String noticeContent){
+    public List<String> getItemBarcodes(String noticeContent) {
         Document html = Jsoup.parse(noticeContent);
         Element body = html.body();
         Elements tables = body.select("table");
@@ -108,7 +101,7 @@ public class OleNoticeContentReIndexer {
                 Elements tdElements = trElement.select("td");
                 for (Iterator<Element> iterator1 = tdElements.iterator(); iterator1.hasNext(); ) {
                     Element tdElement = iterator1.next();
-                    if(tdElement.text().contains("Item Barcode")){
+                    if (tdElement.text().contains("Item Barcode")) {
                         String itemBarcode = tdElement.parent().child(1).text();
                         itemBarcodes.add(itemBarcode);
                     }

@@ -1,25 +1,21 @@
 package org.kuali.ole.deliver.notice.solr;
 
 import com.google.common.collect.Lists;
-import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.junit.Test;
+import org.kuali.ole.OLETestCaseBase;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
-
 /**
  * Created by sheiksalahudeenm on 10/20/15.
  */
-public class OleNoticeContentReIndexer_IT {
+public class OleNoticeContentReIndexer_IT extends OLETestCaseBase{
 
     @Test
     public void testReindexNoticeContent() throws Exception {
-        UpdateResponse updateResponse = new OleNoticeContentReIndexer().reindexNoticeContent();
-        assertNotNull(updateResponse);
-        System.out.println(updateResponse.getElapsedTime());
+        new OleNoticeContentReIndexer().reindexNoticeContent();
     }
 
     @Test
