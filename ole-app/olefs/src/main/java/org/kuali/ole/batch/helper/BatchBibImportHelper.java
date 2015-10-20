@@ -1298,19 +1298,19 @@ public class BatchBibImportHelper {
         String fieldValue = null;
         SearchParams searchParams = new SearchParams();
         for (OLEBatchProcessProfileMatchPoint matchPoint : bibMatchPointList) {
-            if (BatchBibImportUtil.getBibDataFieldValue(bibRecord, matchPoint.getMatchPoint()) == null) {
-                continue;
-            }
-            fieldValue = BatchBibImportUtil.getBibDataFieldValue(bibRecord, matchPoint.getMatchPoint());
             String cascadingMatchPoint = matchPoint.getCascadingMatchPoint();
-            if (cascadingMatchPoint != null &&  cascadingMatchPoint.contains("*")) {
-                fieldValue = cascadingMatchPoint.replace("*", fieldValue);
-            }
-            if (StringUtils.isNotBlank(fieldValue)) {
-                addSearchCondition(fieldValue, searchParams, matchPoint);
+            List<String>  dataValues =  BatchBibImportUtil.getMatchedDataField(bibRecord, matchPoint.getMatchPoint());
+            for(String dataValue:dataValues){
+                fieldValue = dataValue;
+                if (StringUtils.isNotBlank(fieldValue)) {
+
+                    if (cascadingMatchPoint != null &&  cascadingMatchPoint.contains("*")) {
+                        fieldValue = cascadingMatchPoint.replace("*", fieldValue);
+                    }
+                    addSearchCondition(fieldValue, searchParams, matchPoint);
+                }
             }
         }
-
         if (fieldValue == null) {
           return null;
         }
