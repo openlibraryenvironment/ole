@@ -2,6 +2,7 @@ package org.kuali.ole.deliver.notice.solr;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.jsoup.Jsoup;
@@ -12,6 +13,7 @@ import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.util.*;
@@ -21,6 +23,8 @@ import java.util.*;
  */
 public class OleNoticeContentReIndexer {
 
+    private static final Logger LOG = Logger.getLogger(OleNoticeContentReIndexer.class);
+
     private SolrRequestReponseHandler solrRequestReponseHandler;
 
     public void reindexNoticeContent() {
@@ -29,13 +33,25 @@ public class OleNoticeContentReIndexer {
             List<SolrInputDocument> solrInputDocuments = buildSolrInputDocuments(deliverNoticeHistories);
             if (CollectionUtils.isNotEmpty(solrInputDocuments)) {
 
-                List<List<SolrInputDocument>> subLists = Lists.partition(solrInputDocuments, 1000);
+                List<List<SolrInputDocument>> subLists = Lists.partition(solrInputDocuments, getChunkSize());
                 for (Iterator<List<SolrInputDocument>> iterator = subLists.iterator(); iterator.hasNext(); ) {
                     List<SolrInputDocument> solrInputDocumentList = iterator.next();
                     getSolrRequestReponseHandler().updateSolr(solrInputDocumentList);
                 }
             }
         }
+    }
+
+    private int getChunkSize() {
+        int chunkSize = 1000;
+        String parameter = ParameterValueResolver.getInstance().getParameter(OLEConstants
+                .APPL_ID_OLE, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.CHUNK_SIZE_FOR_NOTICE_CONTENT_REINDEX);
+        try{
+            chunkSize = Integer.parseInt(parameter);
+        }catch (Exception e){
+            LOG.error("Invalid chunk size for Notice content reindexer. So taking chunk size as :" + chunkSize + " default.") ;
+        }
+        return chunkSize;
     }
 
     private List<SolrInputDocument> buildSolrInputDocuments(List<OLEDeliverNoticeHistory> oleDeliverNoticeHistories) {
