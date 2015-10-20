@@ -16,6 +16,8 @@
 package org.kuali.ole.utility;
 
 import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DateTimeUtil {
 
@@ -43,4 +45,34 @@ public class DateTimeUtil {
         return timeTaken;
     }
 
+    public static Date formatDate(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.getTime();
+    }
+
+    public static Date formateDateWithStartTimeOfTheDay(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 00);
+        calendar.set(Calendar.MINUTE, 01);
+        calendar.set(Calendar.SECOND, 01);
+        calendar.set(Calendar.MILLISECOND, 01);
+        Date formatedDate = DateTimeUtil.formatDate(calendar.getTime());
+        return formatedDate;
+    }
+
+    public static Date formateDateWithEndTimeOfTheDay(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 59);
+        Date formatedDate = DateTimeUtil.formatDate(calendar.getTime());
+        return formatedDate;
+    }
+
+
+    
 }

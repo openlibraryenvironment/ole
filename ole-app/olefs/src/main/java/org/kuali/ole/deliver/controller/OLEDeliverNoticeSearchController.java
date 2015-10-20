@@ -3,12 +3,14 @@ package org.kuali.ole.deliver.controller;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.solr.common.util.DateUtil;
 import org.kuali.incubator.SolrRequestReponseHandler;
 import org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory;
 import org.kuali.ole.deliver.bo.OLEDeliverNoticeSearchResult;
 import org.kuali.ole.deliver.form.OLEDeliverNoticeSearchForm;
 import org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.utility.DateTimeUtil;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -21,6 +23,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -95,14 +99,42 @@ public class OLEDeliverNoticeSearchController extends OLEUifControllerBase {
 
         if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getPatronBarcode())) {
             filterFields.put("patronBarcode", oleDeliverNoticeSearchForm.getPatronBarcode());
-        } else if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getItemBarcode())) {
+        }
+
+        if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getItemBarcode())) {
             filterFields.put("itemBarcode", oleDeliverNoticeSearchForm.getItemBarcode());
-        } else if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getNoticeType())) {
+        }
+
+        if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getNoticeType())) {
             filterFields.put("noticeType", oleDeliverNoticeSearchForm.getNoticeType());
-        } else if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getDeskLocation())) {
+        }
+
+        if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getDeskLocation())) {
             filterFields.put("deskLocation", oleDeliverNoticeSearchForm.getDeskLocation());
-        } else if (oleDeliverNoticeSearchForm.getDateSentTo() != null) {
-            filterFields.put("dateSentTo", oleDeliverNoticeSearchForm.getDateSentTo());
+        }
+
+        if (oleDeliverNoticeSearchForm.getDateSentTo() != null && oleDeliverNoticeSearchForm.getDateSentFrom() != null) {
+            Date dateSentFrom = oleDeliverNoticeSearchForm.getDateSentFrom();
+            Date dateSentTo = oleDeliverNoticeSearchForm.getDateSentTo();
+            Date dateWithStartTimeOfTheDay = DateTimeUtil.formateDateWithStartTimeOfTheDay(dateSentFrom);
+            Date dateWithEndTimeOfTheDay = DateTimeUtil.formateDateWithEndTimeOfTheDay(dateSentTo);
+            DateFormat solrThreadLocalDateFormat = DateUtil.getThreadLocalDateFormat();
+            String rangeValues = "[" + solrThreadLocalDateFormat.format(dateWithStartTimeOfTheDay) + " TO " + solrThreadLocalDateFormat.format(dateWithEndTimeOfTheDay.getTime()) + "]";
+            filterFields.put("dateSent", rangeValues);
+        } else if(oleDeliverNoticeSearchForm.getDateSentTo() != null){
+            Date dateSent = oleDeliverNoticeSearchForm.getDateSentTo();
+            Date dateWithStartTimeOfTheDay = DateTimeUtil.formateDateWithStartTimeOfTheDay(dateSent);
+            Date dateWithEndTimeOfTheDay = DateTimeUtil.formateDateWithEndTimeOfTheDay(dateSent);
+            DateFormat solrThreadLocalDateFormat = DateUtil.getThreadLocalDateFormat();
+            String rangeValues = "[" + solrThreadLocalDateFormat.format(dateWithStartTimeOfTheDay) + " TO " + solrThreadLocalDateFormat.format(dateWithEndTimeOfTheDay.getTime()) + "]";
+            filterFields.put("dateSent", rangeValues);
+        }else if(oleDeliverNoticeSearchForm.getDateSentFrom() != null){
+            Date dateSent = oleDeliverNoticeSearchForm.getDateSentFrom();
+            Date dateWithStartTimeOfTheDay = DateTimeUtil.formateDateWithStartTimeOfTheDay(dateSent);
+            Date dateWithEndTimeOfTheDay = DateTimeUtil.formateDateWithEndTimeOfTheDay(new Date());
+            DateFormat solrThreadLocalDateFormat = DateUtil.getThreadLocalDateFormat();
+            String rangeValues = "[" + solrThreadLocalDateFormat.format(dateWithStartTimeOfTheDay) + " TO " + solrThreadLocalDateFormat.format(dateWithEndTimeOfTheDay.getTime()) + "]";
+            filterFields.put("dateSent", rangeValues);
         }
 
         return filterFields;

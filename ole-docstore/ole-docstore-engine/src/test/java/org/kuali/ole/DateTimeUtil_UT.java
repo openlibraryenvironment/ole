@@ -15,10 +15,17 @@
  */
 package org.kuali.ole;
 
+import org.apache.commons.lang.time.DateUtils;
+import org.apache.solr.common.util.DateUtil;
 import org.junit.Test;
 import org.kuali.ole.utility.DateTimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import static junit.framework.Assert.assertNotNull;
 
@@ -52,6 +59,43 @@ public class DateTimeUtil_UT {
         assertNotNull(formattedTime);
         System.out.println(formattedTime);
     }
+
+    @Test
+    public void dateAndTimeFormatTest() throws Exception {
+        Date date = DateUtils.addDays(new Date(), 1);
+        Date dateWithStartTimeOfTheDay = DateTimeUtil.formateDateWithStartTimeOfTheDay(date);
+        assertNotNull(dateWithStartTimeOfTheDay);
+        System.out.println("Date with start time of the day : " + dateWithStartTimeOfTheDay);
+
+        Date dateWithEndTimeOfTheDay = DateTimeUtil.formateDateWithEndTimeOfTheDay(date);
+        assertNotNull(dateWithEndTimeOfTheDay);
+        System.out.println("Date with end time of the day : " + dateWithEndTimeOfTheDay);
+    }
+
+    @Test
+    public void stringToDateTest() throws Exception {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        Date parsedDate = simpleDateFormat.parse("10/20/2015");
+
+        Date dateWithStartTimeOfTheDay = DateTimeUtil.formateDateWithStartTimeOfTheDay(parsedDate);
+        assertNotNull(dateWithStartTimeOfTheDay);
+        System.out.println("Date with start time of the day : " + dateWithStartTimeOfTheDay);
+
+        Date dateWithEndTimeOfTheDay = DateTimeUtil.formateDateWithEndTimeOfTheDay(parsedDate);
+        assertNotNull(dateWithEndTimeOfTheDay);
+        System.out.println("Date with end time of the day : " + dateWithEndTimeOfTheDay);
+
+    }
+
+    @Test
+    public void stringToDateWithSolrDateFormat() throws Exception {
+        DateFormat threadLocalDateFormat = DateUtil.getThreadLocalDateFormat();
+
+        System.out.println("Solr Date Format : " + threadLocalDateFormat.format(new Date()));
+
+    }
+
+
 
     @Test
     public void addOneHour() throws Exception {
