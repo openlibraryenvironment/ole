@@ -162,6 +162,7 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private List<OLEEResourceReqSelComments> reqSelComments = new ArrayList<OLEEResourceReqSelComments>();
     private List<OLEEResourceVariantTitle> oleEResourceVariantTitleList = new ArrayList<OLEEResourceVariantTitle>();
     private List<OLEEResourceEventLog> oleERSEventLogs = new ArrayList<OLEEResourceEventLog>();
+    private List<OLEEResourceEventLog> filterEventLogs = new ArrayList<>();
     private List<OLEEResourceLicense> oleERSLicenseRequests = new ArrayList<OLEEResourceLicense>();
     private List<OLEEResourceInstance> oleERSInstances = new ArrayList<OLEEResourceInstance>();
     private List<OLEEResourceInstance> oleERSInstancesForSave = new ArrayList<>();
@@ -239,6 +240,8 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
     private String workflowStatus;
 
     private String publisherLink;
+
+    private boolean saveValidationFlag;
 
     public String getWorkflowStatus() {
         return workflowStatus;
@@ -2054,5 +2057,21 @@ public class OLEEResourceRecordDocument extends OleTransactionalDocumentBase {
 
     public void setOleERSInstancesForDelete(List<OLEEResourceInstance> oleERSInstancesForDelete) {
         this.oleERSInstancesForDelete = oleERSInstancesForDelete;
+    }
+
+    public List<OLEEResourceEventLog> getFilterEventLogs() {
+        return filterEventLogs;
+    }
+
+    public void setFilterEventLogs(List<OLEEResourceEventLog> filterEventLogs) {
+        this.filterEventLogs = filterEventLogs;
+    }
+
+    public boolean isSaveValidationFlag() {
+        return saveValidationFlag;
+    }
+
+    public void setSaveValidationFlag(boolean saveValidationFlag) {
+        this.saveValidationFlag = saveValidationFlag;
     }
 }

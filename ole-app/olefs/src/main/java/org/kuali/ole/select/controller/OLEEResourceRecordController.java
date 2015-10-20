@@ -3185,6 +3185,55 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         getOleeResourceHelperService().updateVendorInfo(oleeResourceRecordDocument);
         return super.navigate(oleEResourceRecordForm, result, request, response);
     }
+
+    @RequestMapping(params = "methodToCall=filter")
+    public ModelAndView filter(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
+        OLEEResourceRecordForm oleeResourceRecordForm = (OLEEResourceRecordForm) uifForm;
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleeResourceRecordForm.getDocument();
+        oleeResourceRecordDocument.setSaveValidationFlag(false);
+        List<OLEEResourceEventLog> oleEResourceEventLogList = oleeResourceRecordDocument.getOleERSEventLogs();
+        oleEResourceEventLogList = getOleeResourceHelperService().filterByReportedDate(oleeResourceRecordForm.getFilterReportedBeginDate(), oleeResourceRecordForm.getFilterReportedEndDate(), oleEResourceEventLogList);
+        oleEResourceEventLogList = getOleeResourceHelperService().filterByResolvedDate(oleeResourceRecordForm.getFilterResolvedBeginDate(), oleeResourceRecordForm.getFilterResolvedEndDate(), oleEResourceEventLogList);
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(oleeResourceRecordForm.getEventStatus()) && !oleeResourceRecordForm.getEventStatus().equals("All")) {
+            oleEResourceEventLogList = getOleeResourceHelperService().filterByStatus(oleEResourceEventLogList, oleeResourceRecordForm.getEventStatus());
+        }
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(oleeResourceRecordForm.getLogType()) && !oleeResourceRecordForm.getLogType().equals("All")) {
+            oleEResourceEventLogList = getOleeResourceHelperService().filterByLogType(oleEResourceEventLogList, oleeResourceRecordForm.getLogType());
+        }
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(oleeResourceRecordForm.getEventType()) && !oleeResourceRecordForm.getEventType().equals("All")) {
+            oleEResourceEventLogList = getOleeResourceHelperService().filterByEventType(oleEResourceEventLogList, oleeResourceRecordForm.getEventType());
+        }
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(oleeResourceRecordForm.getProblemType()) && !oleeResourceRecordForm.getProblemType().equals("All")) {
+            oleEResourceEventLogList = getOleeResourceHelperService().filterByProblemType(oleEResourceEventLogList, oleeResourceRecordForm.getProblemType());
+        }
+        oleeResourceRecordDocument.setFilterEventLogs(oleEResourceEventLogList);
+        oleeResourceRecordForm.setFilterEventLog(true);
+        return super.navigate(oleeResourceRecordForm, result, request, response);
+    }
+
+
+
+
+
+    @RequestMapping(params = "methodToCall=clearFilter")
+    public ModelAndView clearFilter(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        OLEEResourceRecordForm oleeResourceRecordForm = (OLEEResourceRecordForm) uifForm;
+        OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleeResourceRecordForm.getDocument();
+        oleeResourceRecordDocument.setSaveValidationFlag(false);
+        oleeResourceRecordForm.setEventType(null);
+        oleeResourceRecordForm.setProblemType(null);
+        oleeResourceRecordForm.setLogType(null);
+        oleeResourceRecordForm.setEventStatus(null);
+        oleeResourceRecordForm.setFilterReportedBeginDate(null);
+        oleeResourceRecordForm.setFilterReportedEndDate(null);
+        oleeResourceRecordForm.setFilterResolvedBeginDate(null);
+        oleeResourceRecordForm.setFilterResolvedEndDate(null);
+        oleeResourceRecordDocument.setFilterEventLogs(new ArrayList<OLEEResourceEventLog>());
+        oleeResourceRecordForm.setFilterEventLog(false);
+        return super.navigate(oleeResourceRecordForm, result, request, response);
+    }
 }
 
 

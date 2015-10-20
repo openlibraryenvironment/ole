@@ -4,11 +4,17 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.OLEParameterConstants;
+import org.kuali.ole.alert.bo.ActionListAlertBo;
 import org.kuali.ole.batch.bo.OLEBatchProcessBibDataMappingNew;
 import org.kuali.ole.batch.bo.OLEBatchProcessProfileBo;
 import org.kuali.ole.batch.bo.OLEBatchProcessProfileDataMappingOptionsBo;
 import org.kuali.ole.batch.ingest.OLEBatchGOKBImport;
 import org.kuali.ole.batch.util.BatchBibImportUtil;
+import org.kuali.ole.deliver.batch.OleMailer;
+import org.kuali.ole.deliver.batch.OleNoticeBo;
+import org.kuali.ole.deliver.processor.LoanProcessor;
+import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
 import org.kuali.ole.docstore.common.document.Bib;
 import org.kuali.ole.docstore.common.document.EHoldings;
@@ -34,9 +40,15 @@ import org.kuali.ole.select.gokb.service.impl.GokbLocalServiceImpl;
 import org.kuali.ole.select.gokb.service.impl.GokbRdbmsServiceImpl;
 import org.kuali.ole.select.gokb.util.OleGokbXmlUtil;
 import org.kuali.ole.service.impl.OLEEResourceSearchServiceImpl;
+import org.kuali.ole.service.impl.OleLicenseRequestServiceImpl;
 import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.template.EresourceAlertContentFormatter;
 import org.kuali.ole.vnd.businessobject.*;
 import org.kuali.ole.vnd.document.service.impl.VendorServiceImpl;
+import org.kuali.rice.core.api.mail.EmailBody;
+import org.kuali.rice.core.api.mail.EmailFrom;
+import org.kuali.rice.core.api.mail.EmailSubject;
+import org.kuali.rice.core.api.mail.EmailTo;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
@@ -47,8 +59,13 @@ import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.impl.identity.entity.EntityBo;
+import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -61,8 +78,11 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import java.sql.Timestamp;
+import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Collection;
+import java.util.Date;
 
 import static org.kuali.ole.OLEConstants.*;
 
@@ -82,6 +102,33 @@ public class OLEEResourceHelperService {
 
     private GokbRdbmsService gokbRdbmsService;
     private GokbLocalService gokbLocalService;
+    private OlePatronHelperServiceImpl olePatronHelperService;
+    private EresourceAlertContentFormatter eresourceAlertContentFormatter;
+    private LoanProcessor loanProcessor;
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(OLEConstants.OLEEResourceRecord.CREATED_DATE_FORMAT);
+    public LoanProcessor getLoanProcessor() {
+        if (loanProcessor == null) {
+            loanProcessor = (LoanProcessor)SpringContext.getService("loanProcessor");
+        }
+        return loanProcessor;
+    }
+
+    public EresourceAlertContentFormatter getEresourceAlertContentFormatter() {
+        if(eresourceAlertContentFormatter ==null){
+            eresourceAlertContentFormatter = new EresourceAlertContentFormatter();
+        }
+        return eresourceAlertContentFormatter;
+    }
+
+    public void setEresourceAlertContentFormatter(EresourceAlertContentFormatter eresourceAlertContentFormatter) {
+        this.eresourceAlertContentFormatter = eresourceAlertContentFormatter;
+    }
+
+    public OlePatronHelperService getOlePatronHelperService() {
+        if (olePatronHelperService == null)
+            olePatronHelperService = new OlePatronHelperServiceImpl();
+        return olePatronHelperService;
+    }
 
     public GokbRdbmsService getGokbRdbmsService() {
         if (null == gokbRdbmsService) {
@@ -1929,6 +1976,8 @@ public class OLEEResourceHelperService {
         } else {
             getDocumentService().validateAndPersistDocument((Document) maintenanceDocument, new SaveDocumentEvent(maintenanceDocument));
         }
+        DocumentRouteHeaderValue documentBo = KEWServiceLocator.getRouteHeaderService().getRouteHeader(maintenanceDocument.getDocumentNumber());
+        processNotification(documentBo,oleAccessActivationConfiguration,oleeResourceAccess.geteResourceTitle());
         deleteMaintenanceLock();
     }
 
@@ -1967,6 +2016,7 @@ public class OLEEResourceHelperService {
                 KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
             }
         }
+        processNotification(documentBo,oleAccessActivationConfiguration,oleeResourceAccess.geteResourceTitle());
         deleteMaintenanceLock();
     }
 
@@ -2066,5 +2116,225 @@ public class OLEEResourceHelperService {
             }
         }
 
+    }
+
+
+    public void processNotification(DocumentRouteHeaderValue documentRouteHeaderValue,OLEAccessActivationConfiguration oleAccessActivationConfiguration,String eResourceName){
+        List<Principal> principals = null;
+        String mailId = null;
+        boolean emailNotification = oleAccessActivationConfiguration.isMailNotification();
+        if(oleAccessActivationConfiguration.getRecipientRoleId()==null && oleAccessActivationConfiguration.getRecipientUserId()==null && oleAccessActivationConfiguration.getMailId()==null){
+            updateActionList(documentRouteHeaderValue.getDocumentId(),documentRouteHeaderValue.getDocumentType().getName(),documentRouteHeaderValue.getRoutedByPrincipalId(),oleAccessActivationConfiguration.getMailContent(),documentRouteHeaderValue.getRoutedByPrincipalId());
+        }else if(oleAccessActivationConfiguration.getRecipientRoleId()!=null){
+            principals = getPrincipals(oleAccessActivationConfiguration.getRecipientRoleId());
+            for(Principal principal : principals){
+                if(emailNotification){
+                    mailId= getHomeEmail(principal.getEntityId());
+                    sendMail(mailId,oleAccessActivationConfiguration.getMailContent(),eResourceName);
+                }
+                updateActionList(documentRouteHeaderValue.getDocumentId(),documentRouteHeaderValue.getDocumentType().getName(),principal.getPrincipalId(),oleAccessActivationConfiguration.getMailContent(),GlobalVariables.getUserSession().getPrincipalId());
+
+            }
+        }else if(oleAccessActivationConfiguration.getRecipientUserId()!=null){
+            Collection<String> principalIds = new ArrayList<String>();
+            principalIds.add(oleAccessActivationConfiguration.getRecipientUserId());
+            principals = getPrincipals(principalIds);
+            for(Principal principal : principals){
+                if(emailNotification){
+                    mailId= getHomeEmail(principal.getEntityId());
+                    sendMail(mailId,oleAccessActivationConfiguration.getMailContent(),eResourceName);
+                }
+                updateActionList(documentRouteHeaderValue.getDocumentId(),documentRouteHeaderValue.getDocumentType().getName(),principal.getPrincipalId(),oleAccessActivationConfiguration.getMailContent(),GlobalVariables.getUserSession().getPrincipalId());
+            }
+        }else if(oleAccessActivationConfiguration.getMailId()!=null){
+            if(emailNotification){
+                sendMail(oleAccessActivationConfiguration.getMailId(),oleAccessActivationConfiguration.getMailContent(),eResourceName);
+            }
+
+        }
+
+    }
+
+
+
+
+
+    public void updateActionList(String documentId,String documentTypeName,String receivingUserId,String alertNote,String alertInitiatorId){
+        ActionListAlertBo actionListAlertBo = new ActionListAlertBo();
+        actionListAlertBo.setDocumentId(documentId);
+        actionListAlertBo.setActive(true);
+        actionListAlertBo.setAlertDate(new java.sql.Date(System.currentTimeMillis()));
+        actionListAlertBo.setRecordType(documentTypeName);
+        actionListAlertBo.setTitle(documentTypeName);
+        actionListAlertBo.setNote(alertNote);
+        actionListAlertBo.setAlertUserId(receivingUserId);
+        actionListAlertBo.setAlertInitiatorId(alertInitiatorId);
+        getBusinessObjectService().save(actionListAlertBo);
+    }
+
+
+    public void sendMail(String mailId,String mailContent,String eResourceName){
+        List<OleNoticeBo> oleNoticeBos = new ArrayList<OleNoticeBo>();
+        OleNoticeBo oleNoticeBo = new OleNoticeBo();
+        oleNoticeBos.add(oleNoticeBo);
+        oleNoticeBo.setNoticeTitle("Workflow Completion Alert");
+        oleNoticeBo.setNoticeSpecificContent(mailContent);
+        oleNoticeBo.setNoticeName(eResourceName);
+        String processedMailContent = getEresourceAlertContentFormatter().generateHTML(oleNoticeBos, null);
+        OleMailer oleMailer = GlobalResourceLoader.getService("oleMailer");
+        String fromAddress = ParameterValueResolver.getInstance().getParameter(OLEConstants
+                .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT,OLEParameterConstants.NOTICE_FROM_MAIL);
+        oleMailer.sendEmail(new EmailFrom(fromAddress), new EmailTo(mailId), new EmailSubject("Workflow Completion Alert"), new EmailBody(processedMailContent), true);
+
+    }
+
+
+
+
+
+
+
+
+    public List<Principal> getPrincipals(String roleId){
+        List<Principal> principals = new ArrayList<Principal>();
+        org.kuali.rice.kim.api.role.RoleService roleService = (org.kuali.rice.kim.api.role.RoleService) KimApiServiceLocator.getRoleService();
+        Collection<String> principalIds = new ArrayList<>();
+        if(org.apache.commons.lang3.StringUtils.isNotBlank(roleId)) {
+            Role role = roleService.getRole(roleId);
+            principalIds = (Collection<String>) roleService.getRoleMemberPrincipalIds(role.getNamespaceCode(), role.getName(), new HashMap<String, String>());
+        }
+       principals = getPrincipals(principalIds);
+        return principals;
+    }
+
+
+
+    public List<Principal> getPrincipals(Collection<String> principalIds){
+        List<Principal> principals = new ArrayList<Principal>();
+        List<String> principalList = new ArrayList<String>();
+        IdentityService identityService = KimApiServiceLocator.getIdentityService();
+        if(CollectionUtils.isNotEmpty(principalIds)) {
+            principalList.addAll(principalIds);
+        }
+        principals = identityService.getPrincipals(principalList);
+       return principals;
+    }
+
+
+    public String getHomeEmail(String entityId){
+        String mailId = null;
+        Map<String,String> entityMap =new HashMap<String,String>();
+        entityMap.put("id",entityId);
+        List<EntityBo> entityBos = (List<EntityBo>)getBusinessObjectService().findMatching(EntityBo.class,entityMap);
+        if(entityBos.get(0)!=null && entityBos.get(0).getEntityTypeContactInfos()!=null && entityBos.get(0).getEntityTypeContactInfos().get(0)!=null){
+        EntityTypeContactInfoBo entityTypeContactInfoBo = entityBos.get(0).getEntityTypeContactInfos().get(0);
+       try{
+        mailId= getOlePatronHelperService().getPatronHomeEmailId(entityTypeContactInfoBo);
+       }catch(Exception e){}
+        }
+    return mailId;
+    }
+
+
+    public List<OLEEResourceEventLog> filterByReportedDate(Date beginDate, Date endDate, List<OLEEResourceEventLog> eventLogs){
+        List<OLEEResourceEventLog> oleEResourceEventLogs = new ArrayList<>();
+        try {
+            String begin = null;
+            if (beginDate != null) {
+                begin = dateFormat.format(beginDate);
+            }
+            String end = null;
+            if (endDate != null) {
+                end = dateFormat.format(endDate);
+            }
+            boolean isValid = false;
+            for (OLEEResourceEventLog eventLog : eventLogs) {
+                Date eventReportedDate = eventLog.getEventDate();
+                OleLicenseRequestServiceImpl oleLicenseRequestService = GlobalResourceLoader.getService(OLEConstants.OleLicenseRequest.LICENSE_REQUEST_SERVICE);
+                isValid = oleLicenseRequestService.validateDate(eventReportedDate, begin, end);
+                if (isValid) {
+                    oleEResourceEventLogs.add(eventLog);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return oleEResourceEventLogs;
+
+    }
+
+
+
+    public List<OLEEResourceEventLog> filterByResolvedDate(Date beginDate, Date endDate, List<OLEEResourceEventLog> eventLogs) {
+        List<OLEEResourceEventLog> oleeResourceEventLogs = new ArrayList<>();
+        try {
+            String begin = null;
+            if (beginDate != null) {
+                begin = dateFormat.format(beginDate);
+            }
+            String end = null;
+            if (endDate != null) {
+                end = dateFormat.format(endDate);
+            }
+            boolean isValid = false;
+            for (OLEEResourceEventLog eventLog : eventLogs) {
+                Date eventResolvedDate = eventLog.getEventResolvedDate();
+                OleLicenseRequestServiceImpl oleLicenseRequestService = GlobalResourceLoader.getService(OLEConstants.OleLicenseRequest.LICENSE_REQUEST_SERVICE);
+                isValid = oleLicenseRequestService.validateDate(eventResolvedDate, begin, end);
+                if (isValid) {
+                    oleeResourceEventLogs.add(eventLog);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return oleeResourceEventLogs;
+    }
+
+
+    public List<OLEEResourceEventLog> filterByStatus(List<OLEEResourceEventLog> eventLogs, String status) {
+        List<OLEEResourceEventLog> oleeResourceEventLogs = new ArrayList<>();
+        for (OLEEResourceEventLog oleeResourceEventLog : eventLogs) {
+            if (org.apache.commons.lang3.StringUtils.isNotBlank(oleeResourceEventLog.getEventStatus()) && oleeResourceEventLog.getEventStatus().equals(status)) {
+                oleeResourceEventLogs.add(oleeResourceEventLog);
+            }
+        }
+        return oleeResourceEventLogs;
+    }
+
+
+
+
+
+    public List<OLEEResourceEventLog> filterByLogType(List<OLEEResourceEventLog> eventLogs, String logType) {
+        List<OLEEResourceEventLog> oleeResourceEventLogs = new ArrayList<>();
+        for (OLEEResourceEventLog oleeResourceEventLog : eventLogs) {
+            if (org.apache.commons.lang3.StringUtils.isNotBlank(oleeResourceEventLog.getLogTypeId()) && oleeResourceEventLog.getLogTypeId().equals(logType)) {
+                oleeResourceEventLogs.add(oleeResourceEventLog);
+            }
+        }
+        return oleeResourceEventLogs;
+    }
+
+
+    public List<OLEEResourceEventLog> filterByEventType(List<OLEEResourceEventLog> eventLogs, String eventType) {
+        List<OLEEResourceEventLog> oleeResourceEventLogs = new ArrayList<>();
+        for (OLEEResourceEventLog oleeResourceEventLog : eventLogs) {
+            if (oleeResourceEventLog.getEventTypeId() != null && oleeResourceEventLog.getEventTypeId().equals(eventType)) {
+                oleeResourceEventLogs.add(oleeResourceEventLog);
+            }
+        }
+        return oleeResourceEventLogs;
+    }
+
+
+    public List<OLEEResourceEventLog> filterByProblemType(List<OLEEResourceEventLog> eventLogs, String problemType) {
+        List<OLEEResourceEventLog> oleeResourceEventLogs = new ArrayList<>();
+        for (OLEEResourceEventLog oleeResourceEventLog : eventLogs) {
+            if (org.apache.commons.lang3.StringUtils.isNotBlank(oleeResourceEventLog.getProblemTypeId()) && oleeResourceEventLog.getProblemTypeId().equals(problemType)) {
+                oleeResourceEventLogs.add(oleeResourceEventLog);
+            }
+        }
+        return oleeResourceEventLogs;
     }
 }

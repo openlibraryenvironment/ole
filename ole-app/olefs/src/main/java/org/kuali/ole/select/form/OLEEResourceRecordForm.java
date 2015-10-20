@@ -6,6 +6,7 @@ import org.kuali.ole.select.document.OLEEResourceInstance;
 import org.kuali.ole.select.document.OLEEResourceRecordDocument;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -90,7 +91,15 @@ public class OLEEResourceRecordForm extends TransactionalDocumentFormBase {
     private boolean access ;
     private String profileErrorMessage;
     public boolean canApprove;
-
+    private Timestamp filterReportedBeginDate;
+    private Timestamp filterReportedEndDate;
+    private Timestamp filterResolvedBeginDate;
+    private Timestamp filterResolvedEndDate;
+    private String logType;
+    private String eventType;
+    private String problemType;
+    private String eventStatus;
+    private boolean filterEventLog;
     public boolean isCanApprove() {
         return canApprove;
     }
@@ -634,5 +643,77 @@ public class OLEEResourceRecordForm extends TransactionalDocumentFormBase {
 
     public void setProfileErrorMessage(String profileErrorMessage) {
         this.profileErrorMessage = profileErrorMessage;
+    }
+
+    public Timestamp getFilterReportedBeginDate() {
+        return filterReportedBeginDate;
+    }
+
+    public void setFilterReportedBeginDate(Timestamp filterReportedBeginDate) {
+        this.filterReportedBeginDate = filterReportedBeginDate;
+    }
+
+    public Timestamp getFilterReportedEndDate() {
+        return filterReportedEndDate;
+    }
+
+    public void setFilterReportedEndDate(Timestamp filterReportedEndDate) {
+        this.filterReportedEndDate = filterReportedEndDate;
+    }
+
+    public Timestamp getFilterResolvedBeginDate() {
+        return filterResolvedBeginDate;
+    }
+
+    public void setFilterResolvedBeginDate(Timestamp filterResolvedBeginDate) {
+        this.filterResolvedBeginDate = filterResolvedBeginDate;
+    }
+
+    public Timestamp getFilterResolvedEndDate() {
+        return filterResolvedEndDate;
+    }
+
+    public void setFilterResolvedEndDate(Timestamp filterResolvedEndDate) {
+        this.filterResolvedEndDate = filterResolvedEndDate;
+    }
+
+    public String getLogType() {
+        return logType;
+    }
+
+    public void setLogType(String logType) {
+        this.logType = logType;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
+    public String getProblemType() {
+        return problemType;
+    }
+
+    public void setProblemType(String problemType) {
+        this.problemType = problemType;
+    }
+
+    public String getEventStatus() {
+        return eventStatus;
+    }
+
+    public void setEventStatus(String eventStatus) {
+        this.eventStatus = eventStatus;
+    }
+
+    public boolean isFilterEventLog() {
+        return filterEventLog;
+    }
+
+    public void setFilterEventLog(boolean filterEventLog) {
+        this.filterEventLog = filterEventLog;
     }
 }
