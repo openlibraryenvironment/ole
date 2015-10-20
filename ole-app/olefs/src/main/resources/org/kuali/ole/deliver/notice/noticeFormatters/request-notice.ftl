@@ -8,23 +8,19 @@
 <table>
     </BR></BR>
     <TR>
-        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Patron Name")} </TD>
-        <TD>:</TD>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Patron Name")} :</TD>
         <TD>${oleNoticeBo.patronName}</TD>
     </TR>
     <TR>
-        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Address")} </TD>
-        <TD>:</TD>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Address")} :</TD>
         <TD>${oleNoticeBo.patronAddress}</TD>
     </TR>
     <TR>
-        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("EMAIL")} </TD>
-        <TD>:</TD>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("EMAIL")} :</TD>
         <TD>${oleNoticeBo.patronEmailAddress}</TD>
     </TR>
     <TR>
-        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Phone Number")} </TD>
-        <TD>:</TD>
+        <TD>${oleNoticeContentConfigurationBo.getFieldLabel("Phone Number")} :</TD>
         <TD>${oleNoticeBo.patronPhoneNumber}</TD>
     </TR>
 </table>
