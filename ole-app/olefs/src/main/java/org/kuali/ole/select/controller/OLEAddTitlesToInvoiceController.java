@@ -17,9 +17,14 @@ package org.kuali.ole.select.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.select.businessobject.OlePurchaseOrderItem;
 import org.kuali.ole.select.document.OlePurchaseOrderDocument;
+import org.kuali.ole.select.document.service.OleInvoiceService;
 import org.kuali.ole.select.form.OLEAddTitlesToInvoiceForm;
 import org.kuali.ole.select.service.OLEAddTitlesToInvoiceService;
+import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.ole.vnd.businessobject.OleExchangeRate;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -33,6 +38,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 @Controller
@@ -42,6 +49,7 @@ public class OLEAddTitlesToInvoiceController extends UifControllerBase {
 
     OLEAddTitlesToInvoiceService oleAddTitlesToInvoiceService;
 
+    private OleInvoiceService oleInvoiceService;
 
     public OLEAddTitlesToInvoiceService getOLEAddTitlesToInvoiceService() {
 
@@ -51,6 +59,13 @@ public class OLEAddTitlesToInvoiceController extends UifControllerBase {
     public OLEAddTitlesToInvoiceService getNewOleAddTitlesToInvoiceService() {
         this.oleAddTitlesToInvoiceService = new OLEAddTitlesToInvoiceService();
         return this.oleAddTitlesToInvoiceService;
+    }
+
+    public OleInvoiceService getOleInvoiceService() {
+        if(oleInvoiceService == null) {
+            oleInvoiceService = SpringContext.getBean(OleInvoiceService.class);
+        }
+        return oleInvoiceService;
     }
 
     @Override
@@ -250,6 +265,17 @@ public class OLEAddTitlesToInvoiceController extends UifControllerBase {
         String poId = "";
         boolean isClosedPosExist = false;
         for (OlePurchaseOrderDocument olePurchaseOrderDocument : olePurchaseOrderDocuments) {
+            if (StringUtils.isNotEmpty(oleAddTitlesToInvoiceForm.getForeignInvoiceAmount())) {
+                OleExchangeRate oleExchangeRate = getOleInvoiceService().getExchangeRate(olePurchaseOrderDocuments.get(0).getVendorDetail().getCurrencyTypeId().toString());
+                BigDecimal foreignInvoiceAmount = new BigDecimal(oleAddTitlesToInvoiceForm.getForeignInvoiceAmount());
+                for (OlePurchaseOrderItem olePurchaseOrderItem : (List<OlePurchaseOrderItem>) olePurchaseOrderDocument.getItems()) {
+                    if (olePurchaseOrderItem.getItemTypeCode().equalsIgnoreCase("ITEM")) {
+                        olePurchaseOrderItem.setItemForeignListPrice(new KualiDecimal(foreignInvoiceAmount));
+                    }
+                }
+                BigDecimal invoiceAmont = foreignInvoiceAmount.divide(oleExchangeRate.getExchangeRate(), 2, RoundingMode.HALF_UP);
+                oleAddTitlesToInvoiceForm.setInvoiceAmount(invoiceAmont.toString());
+            }
             if (!getNewOleAddTitlesToInvoiceService().validateStatusOfPurchaseOrderDocument(olePurchaseOrderDocument)) {
                 poId = poId + olePurchaseOrderDocument.getPurapDocumentIdentifier().toString() + ",";
                 isClosedPosExist = true;
