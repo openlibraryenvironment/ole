@@ -43,7 +43,7 @@ public class OleNoticeContentReIndexer {
                     SolrInputDocument solrInputDocument = new SolrInputDocument();
                     solrInputDocument.addField("DocType", oleDeliverNoticeHistory.getNoticeType());
                     solrInputDocument.addField("DocFormat", "Email");
-                    solrInputDocument.addField("noticeType", OLEConstants.NOTICE_OVERDUE);
+                    solrInputDocument.addField("noticeType", oleDeliverNoticeHistory.getNoticeType());
                     solrInputDocument.addField("noticeContent", new String(noticeContent));
                     solrInputDocument.addField("patronBarcode", patronDocument.getBarcode());
                     Date dateSent = oleDeliverNoticeHistory.getNoticeSentDate();
