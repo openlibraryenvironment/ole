@@ -196,10 +196,6 @@ public abstract class NoticeMailContentFormatter {
         return htmlContent.toString();
     }
 
-    private String getBaseFTLTemplate() {
-        return "notice.ftl";
-    }
-
     private File processFTL() throws URISyntaxException, IOException {
         File noticeTemplateDir;
         List<File> templateFiles = new ArrayList<>();
@@ -258,5 +254,9 @@ public abstract class NoticeMailContentFormatter {
         fileNames.add("replacement-bill.ftl");
 
         return fileNames;
+    }
+
+    protected String getBaseFTLTemplate() {
+        return "notice.ftl";
     }
 }
