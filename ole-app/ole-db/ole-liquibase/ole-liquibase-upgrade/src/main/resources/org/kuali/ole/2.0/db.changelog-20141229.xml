@@ -5169,4 +5169,28 @@
         </createIndex>
     </changeSet>
 
+
+    <changeSet context="bootstrap" author="ole" id="OLE_E_RES_ACC_ACT_CONFIG_T_MOD">
+    <addColumn
+            tableName="OLE_E_RES_ACC_ACT_CONFIG_T">
+        <column name="RCPNT_USER_ID" type="VARCHAR(100)"/>
+    </addColumn>
+    <addColumn
+            tableName="OLE_E_RES_ACC_ACT_CONFIG_T">
+        <column name="RCPNT_ROLE_ID" type="VARCHAR(100)"/>
+    </addColumn>
+        <addColumn
+                tableName="OLE_E_RES_ACC_ACT_CONFIG_T">
+            <column name="MAIL_ID" type="VARCHAR(100)"/>
+        </addColumn>
+        <addColumn
+                tableName="OLE_E_RES_ACC_ACT_CONFIG_T">
+            <column name="MAIL_CNTNT" type="VARCHAR(4000)"/>
+        </addColumn>
+        <addColumn
+                tableName="OLE_E_RES_ACC_ACT_CONFIG_T">
+            <column name="MAIL_NOTFCTN" type="VARCHAR(1)" defaultValue="Y"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

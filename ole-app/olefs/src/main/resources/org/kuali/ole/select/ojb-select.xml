@@ -5095,6 +5095,14 @@
         <field-descriptor name="workflowName" column="WRK_FLW_NAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="workflowType" column="WRK_FLW_TYPE" jdbc-type="VARCHAR"/>
         <field-descriptor name="workflowCompletionStatus" column="WRK_FLW_STATUS" jdbc-type="VARCHAR"/>
+
+        <field-descriptor name="recipientUserId" column="RCPNT_USER_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="recipientRoleId" column="RCPNT_ROLE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="mailId" column="MAIL_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="mailContent" column="MAIL_CNTNT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="mailNotification" column="MAIL_NOTFCTN" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+
+
         <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

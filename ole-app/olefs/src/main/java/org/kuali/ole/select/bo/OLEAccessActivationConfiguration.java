@@ -16,6 +16,13 @@ public class OLEAccessActivationConfiguration extends PersistableBusinessObjectB
     private String workflowName;
     private String workflowType;
     private String workflowCompletionStatus;
+    private boolean mailNotification;
+    private String mailId;
+    private String mailContent;
+    private String recipientUserId;
+    private String recipientUserName;
+    private String recipientRoleId;
+    private String recipientRoleName;
     private List<OLEAccessActivationWorkFlow> accessActivationWorkflowList = new ArrayList<OLEAccessActivationWorkFlow>();
     private boolean active;
     private String selector;
@@ -81,5 +88,61 @@ public class OLEAccessActivationConfiguration extends PersistableBusinessObjectB
 
     public void setSelector(String selector) {
         this.selector = selector;
+    }
+
+    public String getMailId() {
+        return mailId;
+    }
+
+    public void setMailId(String mailId) {
+        this.mailId = mailId;
+    }
+
+    public String getMailContent() {
+        return mailContent;
+    }
+
+    public void setMailContent(String mailContent) {
+        this.mailContent = mailContent;
+    }
+
+    public String getRecipientUserId() {
+        return recipientUserId;
+    }
+
+    public void setRecipientUserId(String recipientUserId) {
+        this.recipientUserId = recipientUserId;
+    }
+
+    public String getRecipientUserName() {
+        return recipientUserName;
+    }
+
+    public void setRecipientUserName(String recipientUserName) {
+        this.recipientUserName = recipientUserName;
+    }
+
+    public String getRecipientRoleId() {
+        return recipientRoleId;
+    }
+
+    public void setRecipientRoleId(String recipientRoleId) {
+        this.recipientRoleId = recipientRoleId;
+    }
+
+    public String getRecipientRoleName() {
+        return recipientRoleName;
+    }
+
+    public void setRecipientRoleName(String recipientRoleName) {
+        this.recipientRoleName = recipientRoleName;
+    }
+
+    public boolean isMailNotification() {
+        return mailNotification;
+    }
+
+    public void setMailNotification(boolean mailNotification) {
+        this.mailNotification = mailNotification;
     }
 }

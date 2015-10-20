@@ -32,6 +32,58 @@ jq(document).ready(function() {
             jq("#selectRequest-MaintenanceViews-personName_add").show();
         }
     });
+
+
+
+
+    if(jq("#selectRequest-MaintenanceViews-notifierSelector_control").val() == "Role") {
+        jq("#selectRequest-MaintenanceViews-recipientUserName_control").val("");
+        jq("#selectRequest-MaintenanceViews-recipientUserName_control").hide();
+        jq("#create_mailId_control").val("");
+        jq("#create_mailId_control").hide();
+        jq("#selectRequest-MaintenanceViews-recipientRoleName_control").show();
+    } else if(jq("#selectRequest-MaintenanceViews-notifierSelector_control").val() == "Person") {
+        jq("#selectRequest-MaintenanceViews-recipientRoleName_control").val("");
+        jq("#selectRequest-MaintenanceViews-recipientRoleName_control").hide();
+        jq("#selectRequest-MaintenanceViews-recipientUserName_control").show();
+        jq("#create_mailId_control").val("");
+        jq("#create_mailId_control").hide();
+    } else if(jq("#selectRequest-MaintenanceViews-notifierSelector_control").val() == "mail") {
+        jq("#selectRequest-MaintenanceViews-recipientRoleName_control").val("");
+        jq("#selectRequest-MaintenanceViews-recipientRoleName_control").hide();
+        jq("#selectRequest-MaintenanceViews-recipientUserName_control").val("");
+        jq("#selectRequest-MaintenanceViews-recipientUserName_control").hide();
+        jq("#create_mailId_control").show();
+    }
+
+
+
+    jq("#selectRequest-MaintenanceViews-notifierSelector_control").change(function() {
+        if(jq("#selectRequest-MaintenanceViews-notifierSelector_control").val() == "Role") {
+            jq("#selectRequest-MaintenanceViews-recipientUserName_control").val("");
+            jq("#selectRequest-MaintenanceViews-recipientUserName_control").hide();
+            jq("#create_mailId_control").val("");
+            jq("#create_mailId_control").hide();
+            jq("#selectRequest-MaintenanceViews-recipientRoleName_control").show();
+        } else if(jq("#selectRequest-MaintenanceViews-notifierSelector_control").val() == "Person") {
+            jq("#selectRequest-MaintenanceViews-recipientRoleName_control").val("");
+            jq("#selectRequest-MaintenanceViews-recipientRoleName_control").hide();
+            jq("#selectRequest-MaintenanceViews-recipientUserName_control").show();
+            jq("#create_mailId_control").val("");
+            jq("#create_mailId_control").hide();
+        } else if(jq("#selectRequest-MaintenanceViews-notifierSelector_control").val() == "mail") {
+            jq("#selectRequest-MaintenanceViews-recipientRoleName_control").val("");
+            jq("#selectRequest-MaintenanceViews-recipientRoleName_control").hide();
+            jq("#selectRequest-MaintenanceViews-recipientUserName_control").val("");
+            jq("#selectRequest-MaintenanceViews-recipientUserName_control").hide();
+            jq("#create_mailId_control").show();
+        }
+    });
+
+
+
+
+
 });
 
 function setSelectorValue() {
