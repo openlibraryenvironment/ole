@@ -28,7 +28,18 @@ public class OleNoticeContentReIndexer {
         if(CollectionUtils.isNotEmpty(deliverNoticeHistories)){
             List<SolrInputDocument> solrInputDocuments = buildSolrInputDocuments(deliverNoticeHistories);
             if(CollectionUtils.isNotEmpty(solrInputDocuments)){
-                updateResponse = getSolrRequestReponseHandler().updateSolr(solrInputDocuments);
+                int startIndex = 0;
+                int chunkSize = 1000;
+                int endIndex = chunkSize;
+                while(startIndex <= solrInputDocuments.size()){
+                    if(endIndex > solrInputDocuments.size()){
+                        endIndex = solrInputDocuments.size();
+                    }
+                    List<SolrInputDocument> subListInputDocument = solrInputDocuments.subList(startIndex, endIndex);
+                    updateResponse = getSolrRequestReponseHandler().updateSolr(subListInputDocument);
+                    startIndex = startIndex + chunkSize;
+                    endIndex = endIndex + chunkSize;
+                }
             }
         }
         return updateResponse;
