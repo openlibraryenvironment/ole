@@ -39,13 +39,16 @@ function closeDuplicationApprovalMessage() {
     else if(jq("#hdnAmountExceedsForBlanketApprove_control").val() == 'true'){
         displayDialogWindow("div#MessagePopupSectionForInvoiceAmountExceedsForBlanketApprove");
     }
+    else  if (jq("#hdnBlanketApproveSuccessFlag_control").val() == 'true') {
+        displayDialogWindow("div#OLEInvoice-ConfirmationPopUp");
+    }
     else {
         validateInvoiceSubscriptionBlanketApprove();
     }
 }
 
 jq("#invoice-vendorHeaderIdentifier_control").live("change",function() {
-    jq('#invoiceVendorBtn').click();
+    //jq('#invoiceVendorBtn').click();
     jq("#unsaved_control").val("true");
 });
 function revertCurrencyType(){
@@ -156,6 +159,8 @@ function blanketApprove(){
         jq("#unsaved_control").val(false);
         displayDialogWindow("div#MessagePopupSectionForBlanketApproveInvoiceValidation");
         jq('#mask').fadeOut(300);
+    }else  if (jq("#hdnBlanketApproveSuccessFlag_control").val() == 'true') {
+        displayDialogWindow("div#OLEInvoice-ConfirmationPopUp");
     }
     else{
         validateInvoiceSubscriptionBlanketApprove();
@@ -251,8 +256,27 @@ function validateInvoiceNumber(){
         /*jq('#mask').fadeOut(300);*/
     }
     else{
+        successConfirmation();
+    }
+}
+
+function successConfirmation(){
+    if (jq("#hdnsuccessFlag_control").val() == 'true') {
+        displayDialogWindow("div#OLEInvoice-ConfirmationPopUp");
+    }else{
         unsaved();
     }
+}
+
+function validateInvoiceNo(){
+    if(jq("#hdnduplicateValidationFlag_control").val() == 'true') {
+        displayDialogWindow("div#OLEInvoice-DuplicationValidationPopUp");
+    }
+}
+
+function closevalidateInvoiceNo(){
+    jq("div#OLEInvoice-DuplicationValidationPopUp").fadeOut(300);
+    jq("#mask").fadeOut(300);
 }
 
 function closeInvoiceVendorRoutePopUp(){
@@ -271,10 +295,17 @@ function validateInvoiceAmountBlanketApprove(){
     }
     else{
         if(jq("#unsaved_control").val()=='false'){
-        //    jq("#invoice_close_btn").focus().click();
-            unsaved();
+            successConfirmationBlanketApprove();
         }
 
+    }
+}
+
+function successConfirmationBlanketApprove(){
+    if (jq("#hdnBlanketApproveSuccessFlag_control").val() == 'true') {
+        displayDialogWindow("div#OLEInvoice-ConfirmationPopUp");
+    }else{
+        unsaved();
     }
 }
 
@@ -392,13 +423,42 @@ jq(document).keypress(function(e) {
                 jq("#OleInvoice_POLookup_control").focus();
                 return false;
             }
+        }else{
+            e.preventDefault();
+            jq('#invoice-invoiceDate_control').focus();
         }
     }
 });
 
+jq(window).load(function () {
+    if (jq("#processItemFlag_control").val() == "true") {
+        if (jq("#OLEInvoiceView-processItems-Wrapper span input").attr('style') != null) {
+            jq("#ProcessItemsLink").click();
+        }
+    }
+    var id = jq("#invoice-vendorHeaderIdentifier_control").val();
+    if(id.length > 0){
+        var amount = jq("#invoice-invoiceNumber_control").val();
+        if(amount.length > 0){
+            jq("#invoice-invoiceDate_control").focus();
+        } else{
+            jq("#invoice-invoiceNumber_control").focus();
+        }
+    }else{
+        jq("#invoice-vendorHeaderIdentifier_control").focus();
+    }
+});
+
 jq(document).ready(function(){
-    jq(":input").live("keypress",function(){
+/*    jq(":input").live("keypress",function(){
         jq("#unsaved_control").val("false");
+    });*/
+    jq("#invoice-invoiceNumber_control").live("blur",function() {
+        if(jq("#invoice-invoiceNumber_control").val().length > 0){
+            submitForm('validateInvoiceNumber', null, null, true, function () {
+                validateInvoiceNo();
+            });
+        }
     });
     function unloadPage(){
         if(jq("#unsaved_control").val()=='true'){
