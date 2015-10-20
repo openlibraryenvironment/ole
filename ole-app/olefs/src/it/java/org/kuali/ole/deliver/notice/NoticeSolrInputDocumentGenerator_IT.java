@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by pvsubrah on 10/20/15.
  */
-public class NoticeSolrInputDocumentGeneratorTest {
+public class NoticeSolrInputDocumentGenerator_IT {
 
 
     @Test
@@ -47,7 +47,6 @@ public class NoticeSolrInputDocumentGeneratorTest {
                         String itemBarcode = tdElement.parent().child(1).text();
                         itemBarcodes.add(itemBarcode);
                     }
-                    System.out.println();
                 }
 
             }

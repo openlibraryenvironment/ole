@@ -24,6 +24,7 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
     protected Map<String,String> fieldLabelMap = new HashMap<String,String>();
     protected OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo;
     private SolrRequestReponseHandler solrRequestReponseHandler;
+    private NoticeSolrInputDocumentGenerator noticeSolrInputDocumentGenerator;
 
     public LoanNoticesExecutor(List<OleLoanDocument> loanDocuments) {
         this.loanDocuments = loanDocuments;
@@ -46,13 +47,20 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
         //6. Delete notices
         deleteNotices(oleDeliverNotices);
         //7. update notice history
-        List<OLEDeliverNoticeHistory> oleDeliverNoticeHistories = saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
+        saveOLEDeliverNoticeHistory(oleDeliverNotices, mailContent);
         //8. send mail
         sendMail(mailContent);
         //9. Index the mail content for solr search
-        getSolrRequestReponseHandler().updateSolr(CollectionUtils.singletonList(new NoticeSolrInputDocumentGenerator().getSolrInputDocument(getNoticeType(), mailContent, loanDocuments)));
+        getSolrRequestReponseHandler().updateSolr(CollectionUtils.singletonList(getNoticeSolrInputDocumentGenerator().getSolrInputDocument(getNoticeType(), mailContent, loanDocuments)));
         //10. Post process
         postProcess(loanDocuments);
+    }
+
+    private NoticeSolrInputDocumentGenerator getNoticeSolrInputDocumentGenerator() {
+        if (null == noticeSolrInputDocumentGenerator) {
+            noticeSolrInputDocumentGenerator = new NoticeSolrInputDocumentGenerator();
+        }
+        return noticeSolrInputDocumentGenerator;
     }
 
     private SolrRequestReponseHandler getSolrRequestReponseHandler() {
