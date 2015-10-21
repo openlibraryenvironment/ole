@@ -14,8 +14,8 @@ when
 $n: NoticeInfo(getNoticeType() == DroolsConstants.ITS_LAP_NOTICE_CONFIG)
 $i: ItemRecord(getDueDateTime()!= null)
 then
-$n.addInfo(OLEConstants.COURTESY_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY, "1");
-$n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT, "6");
-$n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE, "2");
-$n.addInfo(OLEConstants.OVERDUE_NOTICE, DroolsConstants.REPLACEMENT_BILL_AMT, "1500");
+$n.addInfo(OLEConstants.NOTICE_COURTESY, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY, "1");
+$n.addInfo(OLEConstants.NOTICE_OVERDUE, DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT, "6");
+$n.addInfo(OLEConstants.NOTICE_OVERDUE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE, "2");
+$n.addInfo(OLEConstants.NOTICE_OVERDUE, DroolsConstants.REPLACEMENT_BILL_AMT, "1500");
  end

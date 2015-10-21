@@ -23,7 +23,7 @@ $i.setItemStatusToBeUpdatedTo("RECENTLY-RETURNED");
 $i.updateCheckinCount();
  end
 
- rule "In transit for Available per staff request"
+ rule "In transit for Availble per staff request"
 agenda-group "checkin-validation-for-loan"
 activation-group "checkin-validation-for-loan"
 when

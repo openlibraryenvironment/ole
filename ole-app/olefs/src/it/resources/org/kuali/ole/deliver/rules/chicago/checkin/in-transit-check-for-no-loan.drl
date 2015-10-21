@@ -8,40 +8,20 @@ import org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.LocationsCheckin
 import org.kuali.ole.deliver.util.DroolsResponse
 import org.kuali.ole.deliver.drools.DroolsConstants
 
-rule "On-Hold for in-transit-for-no-loan with pickup location"
+rule "On-Hold for in-transit-for-no-loan"
 agenda-group "checkin-validation-for-no-loan"
 activation-group "checkin-validation-for-no-loan"
 
 when
 $i: OleItemRecordForCirc(null!= isItemPickupLocationSameAsOperatorCircLoc(),!isItemPickupLocationSameAsOperatorCircLoc(),
-$r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Recall/Hold Request", "Hold/Hold Request", "Page/Hold Request", "Page/Delivery Request",  "ASR Request"),
-$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"),
-$r.getPickUpLocationCode() != null)
+$r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Recall/Hold Request", "Hold/Hold Request", "Page/Hold Request", "ASR Request"),
+$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"))
 
 $d : DroolsResponse()
 
 then
 $i.setItemStatusToBeUpdatedTo("INTRANSIT-FOR-HOLD");
 $d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
-$d.setRuleMatched(true);
-end
-
-rule "On-Hold for in-transit-for-no-loan without pickup location"
-agenda-group "checkin-validation-for-no-loan"
-activation-group "checkin-validation-for-no-loan"
-
-when
-$i: OleItemRecordForCirc(null!= isItemPickupLocationSameAsOperatorCircLoc(),!isItemPickupLocationSameAsOperatorCircLoc(),
-$r:getOleDeliverRequestBo(), null!= $r, $r.getRequestTypeCode() in ("Recall/Hold Request", "Hold/Hold Request", "Page/Hold Request", "Page/Delivery Request",  "ASR Request"),
-$s: getItemStatusRecord(),null != $s, !$s.getCode().equals("INTRANSIT-PER-STAFF-REQUEST"),
-$r.getPickUpLocationCode() == null)
-
-$d : DroolsResponse()
-
-then
-$i.setItemStatusToBeUpdatedTo("INTRANSIT-FOR-HOLD");
-$d.getDroolsExchange().addToContext(DroolsConstants.PRINT_SLIP_FLAG, true);
-$d.getDroolsExchange().addToContext(DroolsConstants.ROUTE_TO_LOCATION_SELECTOR, true);
 $d.setRuleMatched(true);
 end
 

@@ -76,6 +76,7 @@ $d.addErrorMessage("Patron has an invalid activation date");
  then
  $d.addErrorMessage("Patron has overdue fines greater than $50");
  //$p.addErrorsAndPermission("Patron has max amount of overdue fines");
+ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
  end
 
  rule "Check Replacement fine"
@@ -86,6 +87,7 @@ agenda-group "general-checks"
  then
  $d.addErrorMessage("Patron has replacement fees of $150 or more");
  //$p.addErrorsAndPermission("Patron has max amount of replacement fees");
+ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
   end
 
 
@@ -97,6 +99,7 @@ agenda-group "general-checks"
  then
  $d.addErrorMessage("Patron Has Atleast One Item which is over the allowed due limit");
  //$p.addErrorsAndPermission("Patron has max amount of replacement fees");
+ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
   end
 
  rule "Patron Has Atleast One Item which has been recalled and has exceeded the overdue limit"
@@ -105,8 +108,9 @@ agenda-group "general-checks"
  $p: OlePatronDocument(isRecalledAndOverDue(3), getBorrowerTypeCode() not in ("BORDIR") )
  $d: DroolsResponse()
  then
- $d.addErrorMessage("Patron Has Atleast One Item which has been recalled and is overdue");
+ $d.addErrorMessage("Patron has at least one item which has been recalled and is overdue");
  //$p.addErrorsAndPermission("Patron has max amount of replacement fees");
+ $d.addOverridePermissions(DroolsConstants.GENERAL_BLOCK_PERMISSION);
   end
 
 

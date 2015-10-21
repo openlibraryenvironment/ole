@@ -14,7 +14,7 @@ when
 $l: OleLoanDocument()
 
 $p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QDEPT","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER",
-"QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC"))
+"QUNLIM_ACD","QUNLIM_PHD","QUNLIM_NONUC","INDEF_FAC","INDEF_ACD","INDEF_DEPT","INDEF_NONUC","INDEF_TRU","NWU","UIC","CARREL"))
 
 $i: OleItemRecordForCirc(getItemType() in ("stks14"),
 getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd","ASR"),

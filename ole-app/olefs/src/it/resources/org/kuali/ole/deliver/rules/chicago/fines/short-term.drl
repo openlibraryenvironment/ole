@@ -23,7 +23,7 @@ $f: ItemFineRate()
 $i: OleItemRecordForCirc(getItemType() in ("res2","res4","res24","res48","res72"),
 getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"))
 
-$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QNONDEG","QNONUC","QNONUC25","QSTF,","QOTHER",
+$p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER",
 "QUNLIM_ACD","QUNLIM_PHD", "QUNLIM_NONUC","NWU","UIC","ACCESS","QALUM25"))
 
 then
@@ -45,7 +45,7 @@ $f.setInterval("D"); //Options are H-Hours; D-Days
  $i: OleItemRecordForCirc(getItemType() in ("res2","res4","res24","res48","res72"),
  getItemLibraryLocation() in ("JRL","JCL","ASR","DLL","Eck","SSAd"))
 
- $p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QNONDEG","QNONUC","QNONUC25","QSTF,","QOTHER",
+ $p: OlePatronDocument(getBorrowerTypeCode() in ("QCOL","QGRAD","QNONDEG","QNONUC","QNONUC25","QSTF","QOTHER",
  "QUNLIM_ACD","QUNLIM_PHD", "QUNLIM_NONUC","NWU","UIC","ACCESS","QALUM25"))
 
  then
