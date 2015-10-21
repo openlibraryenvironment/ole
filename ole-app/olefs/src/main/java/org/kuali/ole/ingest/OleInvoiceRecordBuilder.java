@@ -158,7 +158,7 @@ public class OleInvoiceRecordBuilder {
                         lineItemOrder.getSupplierReferenceInformation().get(i).getSupplierLineItemReference().size() >0){
                     for(int j=0;j<lineItemOrder.getSupplierReferenceInformation().get(i).getSupplierLineItemReference().size();j++){
                         if(lineItemOrder.getSupplierReferenceInformation().get(i).getSupplierLineItemReference().get(j).getSuppliersOrderLine() != null &&
-                                lineItemOrder.getSupplierReferenceInformation().get(i).getSupplierLineItemReference().get(j).getSuppliersOrderLine().equals("ON")){
+                                (lineItemOrder.getSupplierReferenceInformation().get(i).getSupplierLineItemReference().get(j).getSuppliersOrderLine().equals("ON")||lineItemOrder.getSupplierReferenceInformation().get(i).getSupplierLineItemReference().get(j).getSuppliersOrderLine().equals("LI"))){
                                 try{
                                     if (lineItemOrder.getSupplierReferenceInformation().get(i).getSupplierLineItemReference().get(j).getVendorReferenceNumber() != null &&
                                             isNumeric(lineItemOrder.getSupplierReferenceInformation().get(i).getSupplierLineItemReference().get(j).getVendorReferenceNumber())) {
