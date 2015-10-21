@@ -546,6 +546,12 @@ public abstract class CheckinBaseController extends CircUtilController {
         checkedInItem.setBorrowerType((olePatronDocument != null) ? olePatronDocument.getBorrowerTypeName() : "");
         checkedInItem.setBillName(getBillName(olePatronDocument, oleItemSearch.getItemBarCode()));
         checkedInItem.setItemType(oleItemSearch.getItemType());
+        checkedInItem.setItemForCircRecord(oleItemRecordForCirc);
+
+        Map<String, Object> context = oleForm.getDroolsExchange().getContext();
+        if(context.containsKey(DroolsConstants.PRINT_SLIP_FLAG) && (Boolean)context.get(DroolsConstants.PRINT_SLIP_FLAG)) {
+            checkedInItem.setPrintSlipForEndSession(true);
+        }
         if(oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT )|| oleItemRecordForCirc.getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_IN_TRANSIT_HOLD)) {
             checkedInItem.setRouteToLocation(oleItemRecordForCirc.getRouteToLocation());
         }

@@ -7,6 +7,7 @@ import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleDeliverRequestBo;
 import org.kuali.ole.deliver.bo.OleItemSearch;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.drools.CheckedInItem;
 import org.kuali.ole.deliver.form.CheckinForm;
 import org.kuali.ole.deliver.util.ItemInfoUtil;
 import org.kuali.ole.deliver.util.OleItemRecordForCirc;
@@ -21,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.TestCase.assertNotNull;
 
@@ -61,6 +64,11 @@ public class OlePrintSlipUtilTest {
 
     @Mock
     private OlePatronDocument mockOlePatron;
+    @Mock
+    private List<CheckedInItem> mockCheckedInItemList;
+
+    @Mock
+    private CheckedInItem mockCheckedInItem;
 
     @Before
     public void setUp() throws Exception {
@@ -208,5 +216,79 @@ public class OlePrintSlipUtilTest {
         printSlipUtil.createPdfForPrintingSlip(mockOleItemRecordForCirc, mockResponse);
     }
 
+
+    @Test
+    public void createPdfForEndSessionRegularPrintingSlipTest() throws Exception {
+        OleRegularPrintSlipUtil printSlipUtil = new OnHoldRegularPrintSlipUtil();
+        printSlipUtil.setDocstoreUtil(mockDocstoreUtil);Mockito.when(mockItemSearch.getTitle()).thenReturn("Test");
+        Mockito.when(mockItemSearch.getCallNumber()).thenReturn("c-12");
+        Mockito.when(mockItemSearch.getCopyNumber()).thenReturn("c-123213");
+        Mockito.when(mockOleItemRecordForCirc.getItemUUID()).thenReturn("123");
+        Mockito.when(mockDocstoreUtil.getOleItemSearchList("123")).thenReturn(mockItemSearch);
+        Mockito.when(mockItemRecord.getEffectiveDate()).thenReturn(new Timestamp(System.currentTimeMillis()));
+        Mockito.when(mockOleItemRecordForCirc.getItemRecord()).thenReturn(mockItemRecord);
+        Mockito.when(mockOleItemRecordForCirc.getItemStatusToBeUpdatedTo()).thenReturn(OLEConstants.ITEM_STATUS_ON_HOLD);
+        Mockito.when(mockOleItemRecordForCirc.getOleDeliverRequestBo()).thenReturn(mockOleDeliverRequestBo);
+        Mockito.when(mockOleItemRecordForCirc.getCheckinLocation()).thenReturn(mockOleCirculationDesk);
+        Mockito.when(mockItemRecord.getEffectiveDate()).thenReturn(new Timestamp(System.currentTimeMillis()));
+        Mockito.when(mockItemRecord.getBarCode()).thenReturn("222222");
+        Mockito.when(mockItemInfoUtil.getOleItemRecordForCirc(mockItemRecord, mockOleCirculationDesk)).thenReturn(mockOleItemRecordForCirc);
+        Mockito.when(mockDocstoreUtil.getOleItemSearchList("123")).thenReturn(mockItemSearch);
+        Mockito.when(mockOleCirculationDesk.getCirculationDeskPublicName()).thenReturn("BL Education");
+        Mockito.when(mockOleCirculationDesk.getOnHoldDays()).thenReturn("1");
+        Mockito.when(mockOleCirculationDesk.getHoldFormat()).thenReturn(OLEConstants.RECEIPT_PRINTER);
+        Mockito.when(mockOlePatron.getPatronName()).thenReturn("Adam,Smith");
+        Mockito.when(mockOleDeliverRequestBo.getOlePatron()).thenReturn(mockOlePatron);
+        Mockito.when(mockOleDeliverRequestBo.getHoldExpirationDate()).thenReturn(new Date(System.currentTimeMillis()));
+
+        List<CheckedInItem> checkedInItems = new ArrayList<>();
+        for(int index = 1; index <= 5; index++){
+            Mockito.when(mockCheckedInItem.getItemForCircRecord()).thenReturn(mockOleItemRecordForCirc);
+            checkedInItems.add(mockCheckedInItem);
+        }
+
+        String tempLocation = System.getProperty("java.io.tmpdir");
+        System.out.println("Temp dir : " + tempLocation);
+        FileOutputStream fileOutputStream = new FileOutputStream(tempLocation+ "/regularPrintSlipForEndSession.pdf");
+        printSlipUtil.setOutputStream(fileOutputStream);
+        printSlipUtil.createPdfForEndSessionPrintSlip(checkedInItems, mockResponse);
+    }
+
+    @Test
+    public void createPdfForEndSessionReceiptPrintingSlipTest() throws Exception {
+        OlePrintSlipUtil printSlipUtil = new OnHoldRecieptPrintSlipUtil();
+        printSlipUtil.setDocstoreUtil(mockDocstoreUtil);Mockito.when(mockItemSearch.getTitle()).thenReturn("Test");
+        Mockito.when(mockItemSearch.getCallNumber()).thenReturn("c-12");
+        Mockito.when(mockItemSearch.getCopyNumber()).thenReturn("c-123213");
+        Mockito.when(mockOleItemRecordForCirc.getItemUUID()).thenReturn("123");
+        Mockito.when(mockDocstoreUtil.getOleItemSearchList("123")).thenReturn(mockItemSearch);
+        Mockito.when(mockItemRecord.getEffectiveDate()).thenReturn(new Timestamp(System.currentTimeMillis()));
+        Mockito.when(mockOleItemRecordForCirc.getItemRecord()).thenReturn(mockItemRecord);
+        Mockito.when(mockOleItemRecordForCirc.getItemStatusToBeUpdatedTo()).thenReturn(OLEConstants.ITEM_STATUS_ON_HOLD);
+        Mockito.when(mockOleItemRecordForCirc.getOleDeliverRequestBo()).thenReturn(mockOleDeliverRequestBo);
+        Mockito.when(mockOleItemRecordForCirc.getCheckinLocation()).thenReturn(mockOleCirculationDesk);
+        Mockito.when(mockItemRecord.getEffectiveDate()).thenReturn(new Timestamp(System.currentTimeMillis()));
+        Mockito.when(mockItemRecord.getBarCode()).thenReturn("222222");
+        Mockito.when(mockItemInfoUtil.getOleItemRecordForCirc(mockItemRecord, mockOleCirculationDesk)).thenReturn(mockOleItemRecordForCirc);
+        Mockito.when(mockDocstoreUtil.getOleItemSearchList("123")).thenReturn(mockItemSearch);
+        Mockito.when(mockOleCirculationDesk.getCirculationDeskPublicName()).thenReturn("BL Education");
+        Mockito.when(mockOleCirculationDesk.getOnHoldDays()).thenReturn("1");
+        Mockito.when(mockOleCirculationDesk.getHoldFormat()).thenReturn(OLEConstants.RECEIPT_PRINTER);
+        Mockito.when(mockOlePatron.getPatronName()).thenReturn("Adam,Smith");
+        Mockito.when(mockOleDeliverRequestBo.getOlePatron()).thenReturn(mockOlePatron);
+        Mockito.when(mockOleDeliverRequestBo.getHoldExpirationDate()).thenReturn(new Date(System.currentTimeMillis()));
+
+        List<CheckedInItem> checkedInItems = new ArrayList<>();
+        for(int index = 1; index <= 5; index++){
+            Mockito.when(mockCheckedInItem.getItemForCircRecord()).thenReturn(mockOleItemRecordForCirc);
+            checkedInItems.add(mockCheckedInItem);
+        }
+
+        String tempLocation = System.getProperty("java.io.tmpdir");
+        System.out.println("Temp dir : " + tempLocation);
+        FileOutputStream fileOutputStream = new FileOutputStream(tempLocation+ "/receiptPrintSlipForEndSession.pdf");
+        printSlipUtil.setOutputStream(fileOutputStream);
+        printSlipUtil.createPdfForEndSessionPrintSlip(checkedInItems, mockResponse);
+    }
 
 }

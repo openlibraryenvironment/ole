@@ -25,8 +25,10 @@
     <bean id="checkin-section" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
+                <ref bean="checkIn-EndSessionButton"/>
                 <ref bean="checkinDetailsSection"/>
                 <ref bean="checkInList-HorizontalBoxSection"/>
+                <ref bean="checkIn-EndSessionButton"/>
             </list>
         </property>
     </bean>
@@ -39,5 +41,8 @@
             </list>
         </property>
     </bean>
+
+    <bean id="checkIn-EndSessionButton" parent="checkIn-EndSessionButton-parentBean"/>
+    <bean id="checkIn-EndSessionButton-parentBean" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:27em;width:10%" p:methodToCall="clearSession" p:actionLabel="End Session" />
 
 </beans>

@@ -38,6 +38,8 @@ public class CheckinForm extends OLEForm {
     private String maxSessionTime;
 
     private String routeToLocation;
+    private boolean printOnHoldSlipQueue;
+    private String printFormat;
 
     public String getSelectedCirculationDesk() {
         return selectedCirculationDesk;
@@ -61,13 +63,15 @@ public class CheckinForm extends OLEForm {
         this.itemBarcode = "";
         this.checkedInItem = null;
         setDroolsExchange(null);
-        this.checkedInItemList = null;
+        this.checkedInItemList = new ArrayList<>();
         this.permissionToRemoveNote = false;
         this.setShowPrintSlip(false);
         this.errorMessage = new ErrorMessage();
         this.routeToLocation = null;
+        this.setPrintOnHoldSlipQueue(false);
         this.customDueDateMap = new Date();
         this.customDueDateTime = null;
+        this.printFormat = null;
     }
 
     public void reset() {
@@ -228,5 +232,21 @@ public class CheckinForm extends OLEForm {
 
     public void setNoOfPieces(String noOfPieces) {
         this.noOfPieces = noOfPieces;
+    }
+
+    public boolean isPrintOnHoldSlipQueue() {
+        return printOnHoldSlipQueue;
+    }
+
+    public void setPrintOnHoldSlipQueue(boolean printOnHoldSlipQueue) {
+        this.printOnHoldSlipQueue = printOnHoldSlipQueue;
+    }
+
+    public String getPrintFormat() {
+        return printFormat;
+    }
+
+    public void setPrintFormat(String printFormat) {
+        this.printFormat = printFormat;
     }
 }

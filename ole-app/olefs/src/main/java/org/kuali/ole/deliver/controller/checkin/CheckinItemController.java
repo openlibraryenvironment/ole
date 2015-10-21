@@ -2,11 +2,14 @@ package org.kuali.ole.deliver.controller.checkin;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.ole.OLEConstants;
+import org.kuali.ole.deliver.bo.OleCirculationDesk;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.controller.OLEUifControllerBase;
+import org.kuali.ole.deliver.drools.CheckedInItem;
 import org.kuali.ole.deliver.drools.DroolsConstants;
 import org.kuali.ole.deliver.form.CheckinForm;
 import org.kuali.ole.deliver.keyvalue.CirculationDeskChangeKeyValue;
+import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.service.ParameterValueResolver;
 import org.kuali.ole.deliver.util.DroolsResponse;
 import org.kuali.ole.deliver.util.OleItemRecordForCirc;
@@ -26,10 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by pvsubrah on 7/22/15.
@@ -39,7 +39,15 @@ import java.util.Map;
 public class CheckinItemController extends OLEUifControllerBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CheckinItemController.class);
 
+    private CircDeskLocationResolver circDeskLocationResolver;
     private Map<String, CheckinUIController> checkinUIControllerMap = new HashMap<>();
+
+    private CircDeskLocationResolver getCircDeskLocationResolver() {
+        if (circDeskLocationResolver == null) {
+            circDeskLocationResolver = new CircDeskLocationResolver();
+        }
+        return circDeskLocationResolver;
+    }
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -71,14 +79,23 @@ public class CheckinItemController extends OLEUifControllerBase {
             if (keyValues.isEmpty()) {
                 throw new DocumentAuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "not Authorized", form.getViewId());
             } else {
-                checkinForm.setSelectedCirculationDesk(keyValues.get(0).getValue());
+                checkinForm.setSelectedCirculationDesk(keyValues.get(0).getKey());
                 checkinForm.setPreviouslySelectedCirculationDesk(checkinForm.getSelectedCirculationDesk());
             }
         }
+        setPrintFormatAndHoldSlipQueue(checkinForm);
         String maxTimeoutCount = ParameterValueResolver.getInstance().getParameter(OLEConstants
                 .APPL_ID, OLEConstants.DLVR_NMSPC, OLEConstants.DLVR_CMPNT, OLEConstants.MAX_TIME_CHECK_IN);
         checkinForm.setMaxSessionTime(maxTimeoutCount);
         return super.start(checkinForm, result, request, response);
+    }
+
+    private void setPrintFormatAndHoldSlipQueue(CheckinForm checkinForm) {
+        OleCirculationDesk oleCirculationDesk = getCircDeskLocationResolver().getOleCirculationDesk(checkinForm.getPreviouslySelectedCirculationDesk());
+        if (oleCirculationDesk != null && oleCirculationDesk.isPrintSlip() && oleCirculationDesk.isHoldQueue()) {
+            checkinForm.setPrintFormat(oleCirculationDesk.getHoldFormat());
+            checkinForm.setPrintOnHoldSlipQueue(true);
+        }
     }
 
     private void initCheckinForm(CheckinForm checkinForm) {
@@ -219,7 +236,8 @@ public class CheckinItemController extends OLEUifControllerBase {
         if (null != droolsExchangeContext) {
             if (null != droolsExchangeContext.get(DroolsConstants.ROUTE_TO_LOCATION_SELECTOR)) {
                 routeToLocationProcess(checkinForm, result, request, response);
-            } else if (null != droolsExchangeContext.get(DroolsConstants.PRINT_SLIP_FLAG)) {
+            } else if (null != droolsExchangeContext.get(DroolsConstants.PRINT_SLIP_FLAG) && (!checkinForm.isPrintOnHoldSlipQueue() ||
+                    checkinForm.getCheckedInItem().getItemStatus().contains(OLEConstants.ITEM_STATUS_IN_TRANSIT_HOLD)) ) {
                 printSlip(checkinForm, result, request, response);
             } else if (null != droolsExchangeContext.get(DroolsConstants.AUTO_CHECKOUT)) {
                 autoCheckout(checkinForm, result, request, response);
@@ -258,7 +276,9 @@ public class CheckinItemController extends OLEUifControllerBase {
             oleItemRecordForCirc.setRouteToLocation(routeToLocationValue);
         }
         getCheckinUIController(checkinForm).updateLoanInTransitRecordHistory(checkinForm);
-        printSlip(checkinForm, result, request, response);
+        if(!checkinForm.isPrintOnHoldSlipQueue()) {
+            printSlip(checkinForm, result, request, response);
+        }
         return getUIFModelAndView(checkinForm);
     }
 
@@ -341,6 +361,7 @@ public class CheckinItemController extends OLEUifControllerBase {
         CheckinForm checkinForm = (CheckinForm) form;
         checkinForm.setPreviouslySelectedCirculationDesk(checkinForm.getSelectedCirculationDesk());
         clearUI(form, result, request, response);
+        setPrintFormatAndHoldSlipQueue(checkinForm);
         return getUIFModelAndView(form, "checkinViewPage");
     }
 
@@ -393,9 +414,38 @@ public class CheckinItemController extends OLEUifControllerBase {
     public ModelAndView clearSession(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         CheckinForm checkinForm = (CheckinForm) form;
-        checkinForm.resetAll();
+
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        String circDesk = getCircDesk(principalId);
+        if (org.apache.commons.lang.StringUtils.isNotBlank(circDesk)) {
+            checkinForm.setSelectedCirculationDesk(circDesk);
+        }
+
+        if(checkinForm.isPrintOnHoldSlipQueue() && checkinForm.getCheckedInItemList() != null && checkinForm.getCheckedInItemList().size()>0 &&
+            onHoldItemFound(checkinForm.getCheckedInItemList())){
+            String url = ConfigContext.getCurrentContextConfig().getProperty("ole.fs.url.base") + "/ole-kr-krad/printBillcontroller?viewId=circView&methodToCall=printSlipForEndSession&checkinFormKey=" + checkinForm.getFormKey();
+            showIFrameDialog(url, checkinForm, "submitForm('clearSession',null,null,null,null)");
+        }else{
+            checkinForm.resetAll();
+        }
         checkinUIControllerMap.remove(checkinForm.getFormKey());
         return getUIFModelAndView(checkinForm);
+    }
+
+    private boolean onHoldItemFound(List<CheckedInItem> checkedInItemList) {
+        for (Iterator<CheckedInItem> iterator = checkedInItemList.iterator(); iterator.hasNext(); ) {
+            CheckedInItem checkedInItem = iterator.next();
+            if (org.apache.commons.lang.StringUtils.isNotBlank(checkedInItem.getItemForCircRecord().getItemStatusToBeUpdatedTo()) && checkedInItem.getItemForCircRecord().getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_ON_HOLD)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private String getCircDesk(String principalId) {
+        String circulationDeskId = getCircDeskLocationResolver().getCircDeskForOpertorId(principalId).getCirculationDeskId();
+        return circulationDeskId;
+
     }
 
     private void handleMissingPieceProcess(HttpServletRequest request, HttpServletResponse response, CheckinForm checkinForm, DroolsResponse droolsResponse) {

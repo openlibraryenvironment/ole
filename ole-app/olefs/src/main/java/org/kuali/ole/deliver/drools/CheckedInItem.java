@@ -1,5 +1,7 @@
 package org.kuali.ole.deliver.drools;
 
+import org.kuali.ole.deliver.util.OleItemRecordForCirc;
+
 /**
  * Created by pvsubrah on 7/27/15.
  */
@@ -27,6 +29,8 @@ public class CheckedInItem {
     private String borrowerType;
     private String checkinNote;
     private String itemType;
+    private boolean printSlipForEndSession;
+    private OleItemRecordForCirc itemForCircRecord;
 
     public String getItemBarcode() {
         return itemBarcode;
@@ -202,5 +206,21 @@ public class CheckedInItem {
 
     public void setItemType(String itemType) {
         this.itemType = itemType;
+    }
+
+    public OleItemRecordForCirc getItemForCircRecord() {
+        return itemForCircRecord;
+    }
+
+    public void setItemForCircRecord(OleItemRecordForCirc itemForCircRecord) {
+        this.itemForCircRecord = itemForCircRecord;
+    }
+
+    public boolean isPrintSlipForEndSession() {
+        return printSlipForEndSession;
+    }
+
+    public void setPrintSlipForEndSession(boolean printSlipForEndSession) {
+        this.printSlipForEndSession = printSlipForEndSession;
     }
 }

@@ -1,14 +1,14 @@
 package org.kuali.ole.deliver.util.printSlip;
 
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OleItemSearch;
+import org.kuali.ole.deliver.drools.CheckedInItem;
 import org.kuali.ole.deliver.util.OleItemRecordForCirc;
 import org.kuali.ole.deliver.util.PdfFormatUtil;
 import org.kuali.ole.util.DocstoreUtil;
@@ -16,6 +16,7 @@ import org.kuali.ole.util.DocstoreUtil;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
 
 /**
  * Created by pvsubrah on 9/3/15.
@@ -100,6 +101,48 @@ public abstract class OlePrintSlipUtil {
         }
 
     }
+
+   public void createPdfForEndSessionPrintSlip(java.util.List<CheckedInItem> checkedInItems,HttpServletResponse response){
+
+       LOG.debug("Initialize Receipt pdf Template");
+       try {
+
+           getPdfFormatUtil().populateColorMap();
+           getPdfFormatUtil().populateFontMap();
+           response.setContentType("application/pdf");
+           Document document= getPdfFormatUtil().getDocument(0, 0, 5, 5);
+           document.open();
+           if(null == outputStream){
+               outputStream = response.getOutputStream();
+           }
+           PdfWriter.getInstance(document, outputStream);
+           document.open();
+           for(CheckedInItem checkedInItem : checkedInItems){
+               if(StringUtils.isNotBlank(checkedInItem.getItemForCircRecord().getItemStatusToBeUpdatedTo()) && checkedInItem.getItemForCircRecord().getItemStatusToBeUpdatedTo().equals(OLEConstants.ITEM_STATUS_ON_HOLD)){
+                   this.oleItemRecordForCirc = checkedInItem.getItemForCircRecord();
+                   this.oleItemSearch = getDocstoreUtil().getOleItemSearchList(oleItemRecordForCirc.getItemUUID());
+                   PdfPTable pdfTable = getPdfPTable();
+                   Paragraph paraGraph = new Paragraph();
+                   paraGraph.setAlignment(Element.ALIGN_CENTER);
+                   populateHeader(paraGraph);
+                   paraGraph.add(Chunk.NEWLINE);
+                   populateBody(pdfTable);
+                   populateContentForSlip(pdfTable);
+                   document.add(paraGraph);
+                   document.add(pdfTable);
+                   Paragraph paragraphForSpace = new Paragraph();
+                   paragraphForSpace.add(Chunk.NEWLINE);
+                   document.add(paragraphForSpace);
+               }
+           }
+
+           document.close();
+           outputStream.flush();
+           outputStream.close();
+       } catch (Exception e) {
+           LOG.error("Exception while creating pdf for printing slip", e);
+       }
+   }
 
     private DocstoreUtil getDocstoreUtil() {
         if (null == docstoreUtil) {
