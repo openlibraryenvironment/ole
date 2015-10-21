@@ -18,6 +18,7 @@ import org.kuali.ole.deliver.drools.DroolsConstants;
    $n.addInfo(OLEConstants.RECALL_OVERDUE_NOTICE, DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT, "6");
    $n.addInfo(OLEConstants.RECALL_OVERDUE_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE, "1,2,3,4,5,6,7");
    $n.addInfo(OLEConstants.RECALL_OVERDUE_NOTICE, DroolsConstants.REPLACEMENT_BILL_AMT, "150");
+   $n.setIntervalType("D");
    end
 
 

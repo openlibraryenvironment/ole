@@ -1,6 +1,5 @@
 package org.kuali.ole.deliver.controller.notices;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
@@ -38,7 +37,7 @@ public class CourtseyNoticeDueDateProcessor extends NoticeDueDateProcessor {
                 OLEDeliverNotice courtseyNotice = new OLEDeliverNotice();
                 courtseyNotice.setNoticeType(OLEConstants.COURTESY_NOTICE);
                 courtseyNotice.setNoticeSendType(DroolsConstants.EMAIL);
-                Date dateToSent = DateUtils.addDays(loanDueDate, -intervalToGenerateCourtseyNotice);
+                Date dateToSent = calculateNoticeDueDate(loanDueDate, -intervalToGenerateCourtseyNotice, noticeInfo.getIntervalType());
                 courtseyNotice.setNoticeToBeSendDate(new Timestamp(dateToSent.getTime()));
                 courtseyNotice.setLoanId(loanId);
                 courtseyNotice.setPatronId(oleLoanDocument.getPatronId());

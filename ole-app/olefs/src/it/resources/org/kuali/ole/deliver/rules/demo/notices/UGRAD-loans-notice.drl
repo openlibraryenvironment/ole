@@ -17,4 +17,5 @@ $n: NoticeInfo(getNoticeType() == DroolsConstants.REGULAR_LOANS_NOTICE_CONFIG)
 $i: ItemRecord(getDueDateTime()!= null)
 then
 $n.addInfo(OLEConstants.COURTESY_NOTICE, DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY, "3");
+$n.setIntervalType("D");
  end

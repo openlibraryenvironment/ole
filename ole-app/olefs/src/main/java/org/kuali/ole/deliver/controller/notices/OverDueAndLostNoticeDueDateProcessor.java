@@ -1,6 +1,5 @@
 package org.kuali.ole.deliver.controller.notices;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.OLEDeliverNotice;
@@ -43,7 +42,7 @@ public class OverDueAndLostNoticeDueDateProcessor extends NoticeDueDateProcessor
                         try {
                             Integer interval = Integer.valueOf((String) intervalTokenizer.nextElement());
                             OLEDeliverNotice overdueNotice = new OLEDeliverNotice();
-                            Date dateToSent = DateUtils.addDays(loanDueDate, interval);
+                            Date dateToSent = calculateNoticeDueDate(loanDueDate, interval, noticeInfo.getIntervalType());
                             overdueNotice.setNoticeToBeSendDate(new Timestamp(dateToSent.getTime()));
                             overdueNotice.setNoticeSendType(DroolsConstants.EMAIL);
                             overdueNotice.setNoticeType(OLEConstants.OVERDUE_NOTICE);
@@ -94,7 +93,7 @@ public class OverDueAndLostNoticeDueDateProcessor extends NoticeDueDateProcessor
             overdueMap = noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.RECALL_OVERDUE_NOTICE);
         }
 
-        Date dateToSentLostNotice = DateUtils.addDays(loanDocument.getLoanDueDate(), interval);
+        Date dateToSentLostNotice = calculateNoticeDueDate(loanDocument.getLoanDueDate(), interval, noticeInfo.getIntervalType());
         lostNotice.setNoticeToBeSendDate(new Timestamp(dateToSentLostNotice.getTime()));
         lostNotice.setReplacementFeeAmount(BigDecimal.valueOf(Double.parseDouble((String) overdueMap.get(DroolsConstants
                 .REPLACEMENT_BILL_AMT))));

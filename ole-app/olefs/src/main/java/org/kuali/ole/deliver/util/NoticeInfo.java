@@ -9,6 +9,7 @@ import java.util.Map;
 public class NoticeInfo {
     private String noticeType;
     private Map<String, Map<String,Object>> noticeInfoForTypeMap;
+    private String intervalType;
 
     public void addInfo(String noticeType, String noticeParameter, String noticeValue) {
         if (null == noticeInfoForTypeMap) {
@@ -37,4 +38,11 @@ public class NoticeInfo {
         this.noticeType = noticeType;
     }
 
+    public String getIntervalType() {
+        return intervalType;
+    }
+
+    public void setIntervalType(String intervalType) {
+        this.intervalType = intervalType;
+    }
 }
