@@ -12,9 +12,8 @@ import org.kuali.ole.deliver.bo.OLEDeliverNotice;
 import org.kuali.ole.deliver.bo.OleItemSearch;
 import org.kuali.ole.deliver.bo.OleLoanDocument;
 import org.kuali.ole.deliver.bo.OleNoticeTypeConfiguration;
-import org.kuali.ole.deliver.calendar.service.DateUtil;
+import org.kuali.ole.deliver.controller.notices.*;
 import org.kuali.ole.deliver.drools.CustomAgendaFilter;
-import org.kuali.ole.deliver.drools.DroolsConstants;
 import org.kuali.ole.deliver.drools.DroolsKieEngine;
 import org.kuali.ole.deliver.service.CircDeskLocationResolver;
 import org.kuali.ole.deliver.util.NoticeInfo;
@@ -32,7 +31,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -72,6 +70,8 @@ public class CircUtilController {
     public List<OLEDeliverNotice> processNotices(OleLoanDocument currentLoanDocument, ItemRecord itemRecord) {
         List<OLEDeliverNotice> deliverNotices = new ArrayList<>();
 
+        List<NoticeDueDateProcessor> noticeProcessors = getNoticeProcessors();
+
         HashMap<String, Object> map = new HashMap<>();
         map.put("circPolicyId", currentLoanDocument.getCirculationPolicyId());
         List<OleNoticeTypeConfiguration> oleNoticeTypeConfigurations =
@@ -94,27 +94,14 @@ public class CircUtilController {
             if (null != noticeInfoForTypeMap) {
                 for (Iterator<String> iterator = noticeInfoForTypeMap.keySet().iterator(); iterator.hasNext(); ) {
                     String noticeType = iterator.next();
-                    if (noticeType.equalsIgnoreCase(OLEConstants.COURTESY_NOTICE)) {
-                        processCourtseyNotices(noticeInfo, deliverNotices, currentLoanDocument);
-                    } else if (noticeType.equalsIgnoreCase(OLEConstants.OVERDUE_NOTICE)) {
-                        Integer numOverDueNoticeToBeSent = Integer.parseInt((String) noticeInfo.getNoticeInfoForTypeMap().get
-                                (OLEConstants.OVERDUE_NOTICE).get(DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT));
-                        int count = 0;
-                        for (count = 0; count < numOverDueNoticeToBeSent; count++) {
-                            processOverdueNotices(noticeInfo, deliverNotices, count, currentLoanDocument);
+                    for (Iterator<NoticeDueDateProcessor> objectIterator = noticeProcessors.iterator(); objectIterator.hasNext(); ) {
+                        NoticeDueDateProcessor noticeProcessor = objectIterator.next();
+                        if(noticeProcessor.isInterested(noticeType)){
+                            List<OLEDeliverNotice> oleDeliverNotices = noticeProcessor.generateNotices(noticeInfo, currentLoanDocument);
+                            if(CollectionUtils.isNotEmpty(oleDeliverNotices)){
+                                deliverNotices.addAll(oleDeliverNotices);
+                            }
                         }
-                        processLostNotices(noticeInfo, deliverNotices, count, currentLoanDocument);
-                    } else if (noticeType.equalsIgnoreCase(OLEConstants.RECALL_COURTESY_NOTICE)) {
-                        processCourtseyNotices(noticeInfo, deliverNotices, currentLoanDocument);
-                    } else if (noticeType.equalsIgnoreCase(OLEConstants.RECALL_OVERDUE_NOTICE)) {
-                        Integer numOverDueNoticeToBeSent = Integer.parseInt((String) noticeInfo.getNoticeInfoForTypeMap().get
-                                (OLEConstants.RECALL_OVERDUE_NOTICE).get(DroolsConstants.NUMBER_OF_OVERDUE_NOTICES_TO_BE_SENT));
-                        int count = 0;
-                        for (count = 0; count < numOverDueNoticeToBeSent; count++) {
-                            processOverdueNotices(noticeInfo, deliverNotices, count, currentLoanDocument);
-                        }
-                        processLostNotices(noticeInfo, deliverNotices, count, currentLoanDocument);
-
                     }
                 }
             }
@@ -124,68 +111,6 @@ public class CircUtilController {
         }
 
         return deliverNotices;
-    }
-
-    private void processLostNotices(NoticeInfo noticeInfo, List<OLEDeliverNotice> deliverNotices, int count, OleLoanDocument currentLoanDocument) {
-        OLEDeliverNotice lostNotice = new OLEDeliverNotice();
-        lostNotice.setNoticeType(OLEConstants.NOTICE_LOST);
-        lostNotice.setNoticeSendType(DroolsConstants.EMAIL);
-        lostNotice.setPatronId(currentLoanDocument.getPatronId());
-        Map<String, Object> overdueMap = new HashMap<String, Object>();
-        if (noticeInfo.getNoticeInfoForTypeMap().containsKey(OLEConstants.OVERDUE_NOTICE)) {
-            overdueMap = noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.OVERDUE_NOTICE);
-        } else if (noticeInfo.getNoticeInfoForTypeMap().containsKey(OLEConstants.RECALL_OVERDUE_NOTICE)) {
-            overdueMap = noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.RECALL_OVERDUE_NOTICE);
-        }
-        lostNotice.setNoticeToBeSendDate(calculateNoticeToBeSentDate(Integer.parseInt((String) overdueMap.get(DroolsConstants
-                .INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE)), currentLoanDocument.getLoanDueDate(), count + 1));
-        deliverNotices.add(lostNotice);
-        lostNotice.setReplacementFeeAmount(BigDecimal.valueOf(Double.parseDouble((String) overdueMap.get(DroolsConstants
-                .REPLACEMENT_BILL_AMT))));
-    }
-
-    private void processOverdueNotices(NoticeInfo noticeInfo, List<OLEDeliverNotice> deliverNotices, int count, OleLoanDocument currentLoanDocument) {
-        OLEDeliverNotice overdueNotice = new OLEDeliverNotice();
-        Map<String, Object> overdueMap = new HashMap<String, Object>();
-        if (noticeInfo.getNoticeInfoForTypeMap().containsKey(OLEConstants.OVERDUE_NOTICE)) {
-            overdueMap = noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.OVERDUE_NOTICE);
-        } else if (noticeInfo.getNoticeInfoForTypeMap().containsKey(OLEConstants.RECALL_OVERDUE_NOTICE)) {
-            overdueMap = noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.RECALL_OVERDUE_NOTICE);
-        }
-        overdueNotice.setNoticeToBeSendDate(calculateNoticeToBeSentDate(Integer.parseInt((String) overdueMap.get(DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_OVERDUE)),
-                currentLoanDocument.getLoanDueDate(), count + 1));
-        overdueNotice.setNoticeSendType(DroolsConstants.EMAIL);
-        overdueNotice.setNoticeType(OLEConstants.OVERDUE_NOTICE);
-        overdueNotice.setPatronId(currentLoanDocument.getPatronId());
-        overdueNotice.setLoanId(currentLoanDocument.getLoanId());
-        deliverNotices.add(overdueNotice);
-    }
-
-    private void processCourtseyNotices(NoticeInfo noticeInfo, List<OLEDeliverNotice> deliverNotices, OleLoanDocument currentLoanDocument) {
-        OLEDeliverNotice courtseyNotice = new OLEDeliverNotice();
-        String loanId = currentLoanDocument.getLoanId();
-        courtseyNotice.setNoticeType(OLEConstants.COURTESY_NOTICE);
-        courtseyNotice.setNoticeSendType(DroolsConstants.EMAIL);
-        Map<String, Object> courtesyMap = new HashMap<String, Object>();
-        if (noticeInfo.getNoticeInfoForTypeMap().containsKey(OLEConstants.COURTESY_NOTICE)) {
-            courtesyMap = noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.COURTESY_NOTICE);
-        } else if (noticeInfo.getNoticeInfoForTypeMap().containsKey(OLEConstants.RECALL_COURTESY_NOTICE)) {
-            courtesyMap = noticeInfo.getNoticeInfoForTypeMap().get(OLEConstants.RECALL_COURTESY_NOTICE);
-        }
-
-        courtseyNotice.setNoticeToBeSendDate(calculateNoticeToBeSentDate(-Integer.parseInt((String) courtesyMap.get(DroolsConstants.INTERVAL_TO_GENERATE_NOTICE_FOR_COURTESY)),
-                currentLoanDocument.getLoanDueDate(), 1));
-        courtseyNotice.setLoanId(loanId);
-        courtseyNotice.setPatronId(currentLoanDocument.getPatronId());
-        deliverNotices.add(courtseyNotice);
-    }
-
-    private Timestamp calculateNoticeToBeSentDate(Integer interval, Timestamp dueDate, Integer count) {
-        Timestamp noticeToBeSentDate;
-
-        noticeToBeSentDate = interval != null && dueDate != null ?
-                DateUtil.addDays(dueDate, interval * count) : null;
-        return noticeToBeSentDate;
     }
 
     public ItemRecord getItemRecordByBarcode(String itemBarcode) {
@@ -593,5 +518,14 @@ public class CircUtilController {
         ItemRecord itemRecord = getItemRecordByBarcode(oleLoanDocument.getItemId());
         List<OLEDeliverNotice> oleDeliverNotices = processNotices(oleLoanDocument, itemRecord);
         oleLoanDocument.setDeliverNotices(oleDeliverNotices);
+    }
+
+    private List<NoticeDueDateProcessor> getNoticeProcessors() {
+        List<NoticeDueDateProcessor> noticeProcessors = new ArrayList<>();
+        noticeProcessors.add(new OverDueAndLostNoticeDueDateProcessor());
+        noticeProcessors.add(new RecallOverDueAndLostNoticeDueDateProcessor());
+        noticeProcessors.add(new CourtseyNoticeDueDateProcessor());
+        noticeProcessors.add(new RecallCourtseyNoticeDueDateProcessor());
+        return noticeProcessors;
     }
 }
