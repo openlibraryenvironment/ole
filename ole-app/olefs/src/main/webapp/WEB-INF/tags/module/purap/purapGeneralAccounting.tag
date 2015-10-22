@@ -78,8 +78,9 @@
         <th style="padding:0;">
             <div align=left>
                 <c:choose>
-                    <c:when test="${fullEntryMode}">
-                        <kul:htmlAttributeLabel attributeEntry="${itemAttributes.fundCode}"/>
+                <c:when test="${fullEntryMode}">
+                    <c:if test="${KualiForm.document.documentHeader.workflowDocument.documentTypeName !='OLE_CM'}">
+                    <kul:htmlAttributeLabel attributeEntry="${itemAttributes.fundCode}"/>
 
                         <kul:htmlControlAttribute
                                 attributeEntry="${itemAttributes.fundCode}"
@@ -92,7 +93,7 @@
                                     alt="Add" title="Populate Accounting Lines" styleClass="tinybutton"
                                     tabindex="${tabindexOverrideBase + 0}"/></td>
 
-
+                        </c:if>
                     </c:when>
                 </c:choose>
             </div>
