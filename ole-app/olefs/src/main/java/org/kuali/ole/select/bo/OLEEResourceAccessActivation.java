@@ -1,12 +1,12 @@
 package org.kuali.ole.select.bo;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.select.document.OLEEResourceAccessWorkflow;
 import org.kuali.ole.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +55,9 @@ public class OLEEResourceAccessActivation extends PersistableBusinessObjectBase 
     private boolean workflowNameReadOnly = true;
     private String workflowDescription;
     private boolean adHocUserExists;
+    private String adHocAccessStatus;
+    private String adHocAccessStatusDummy;
+    private List<OLEAdHocRoutingForAccessActivation> oleAdHocRoutingForAccessActivations = new ArrayList<>();
     public OLEEResourceAccessActivation(){
         getEresNotes().add(new OLEEResourceNotes());
     }
@@ -381,5 +384,32 @@ public class OLEEResourceAccessActivation extends PersistableBusinessObjectBase 
 
     public void setMarcRecordUpdateRegularity(String marcRecordUpdateRegularity) {
         this.marcRecordUpdateRegularity = marcRecordUpdateRegularity;
+    }
+
+    public String getAdHocAccessStatus() {
+        if(StringUtils.isNotBlank(getAdHocAccessStatusDummy())) {
+            adHocAccessStatus = adHocAccessStatusDummy;
+        }
+        return adHocAccessStatus;
+    }
+
+    public void setAdHocAccessStatus(String adHocAccessStatus) {
+        this.adHocAccessStatus = adHocAccessStatus;
+    }
+
+    public String getAdHocAccessStatusDummy() {
+        return adHocAccessStatusDummy;
+    }
+
+    public void setAdHocAccessStatusDummy(String adHocAccessStatusDummy) {
+        this.adHocAccessStatusDummy = adHocAccessStatusDummy;
+    }
+
+    public List<OLEAdHocRoutingForAccessActivation> getOleAdHocRoutingForAccessActivations() {
+        return oleAdHocRoutingForAccessActivations;
+    }
+
+    public void setOleAdHocRoutingForAccessActivations(List<OLEAdHocRoutingForAccessActivation> oleAdHocRoutingForAccessActivations) {
+        this.oleAdHocRoutingForAccessActivations = oleAdHocRoutingForAccessActivations;
     }
 }

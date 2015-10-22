@@ -71,6 +71,8 @@
                 <ref bean="OLEEResourceAccess-marcRecords"/>
                 <ref bean="OLEEResourceAccess-Workflow-Description"/>
                 <ref bean="OLEEResourceAccess-Workflow"/>
+                <ref bean="OLEEResourceAccess-AdHocSection"/>
+                <bean parent="Uif-DocumentAdHocRecipientsSection" p:order="40" p:render="false"/>
             </list>
         </property>
         <property name="page.footer">
@@ -120,6 +122,11 @@
                 </property>
             </bean>
         </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ole/eresource/scripts/adHocAccessActivation.js</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="OLEEResourceAccess-access" parent="Uif-Disclosure-VerticalBoxSection" >
@@ -134,15 +141,7 @@
                               p:target="_blank"/>
                         <bean parent="Uif-InputField" p:propertyName="accessStatus" p:readOnly="true"/>
                         <bean parent="Uif-InputField" p:propertyName="dateAccessConfirmed"/>
-                        <bean parent="Uif-InputField" p:propertyName="workflowId" p:label="WorkFlow"
-                              p:enableAutoQuickfinder="false" p:readOnly="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
-                            <property name="optionsFinder">
-                                <bean class="org.kuali.ole.select.keyvalue.OLEEResourceWorkflowConfigKeyValue"/>
-                            </property>
-                            <property name="control">
-                                <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
-                            </property>
-                        </bean>
+                        <bean parent="Uif-DataField" p:propertyName="adHocAccessStatus" p:label="AdHoc Access Status"/>
                         <bean parent="Uif-InputField" p:propertyName="accessLocation" p:label="Access Location"
                               p:enableAutoQuickfinder="false">
                             <property name="optionsFinder">
@@ -152,6 +151,16 @@
                                 <bean parent="Uif-MultiSelectControl" p:size="3"/>
                             </property>
                         </bean>
+                        <bean parent="Uif-InputField" p:propertyName="workflowId" p:label="WorkFlow"
+                              p:enableAutoQuickfinder="false" p:readOnly="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.ole.select.keyvalue.OLEEResourceWorkflowConfigKeyValue"/>
+                            </property>
+                            <property name="control">
+                                <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-InputField" p:propertyName="accessUserName"/>
                         <bean parent="Uif-InputField" p:propertyName="accessTypeId" p:enableAutoQuickfinder="false">
                             <property name="optionsFinder">
                                 <bean class="org.kuali.ole.select.keyvalue.OLEAccessTypeKeyValues"/>
@@ -160,7 +169,7 @@
                                 <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
                             </property>
                         </bean>
-                        <bean parent="Uif-InputField" p:propertyName="accessUserName"/>
+                        <bean parent="Uif-InputField" p:propertyName="accessPassword"/>
                         <bean parent="Uif-InputField" p:propertyName="authenticationTypeId" p:label="Authentication Type" p:enableAutoQuickfinder="false">
                             <property name="optionsFinder">
                                 <bean class="org.kuali.ole.select.keyvalue.OLEAuthenticationTypeKeyValues"/>
@@ -169,7 +178,7 @@
                                 <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
                             </property>
                         </bean>
-                        <bean parent="Uif-InputField" p:propertyName="accessPassword"/>
+                        <bean parent="Uif-InputField" p:propertyName="proxiedURL"/>
                         <bean parent="Uif-InputField" p:propertyName="numOfSimultaneousUsers" p:label="No. of Simultaneous User">
                             <property name="control">
                                 <bean parent="Uif-TextControl" p:size="10" p:maxLength="25"/>
@@ -178,9 +187,6 @@
                                 <bean parent="NumericPatternConstraint"/>
                             </property>
                         </bean>
-                        <bean parent="Uif-InputField" p:propertyName="proxiedURL"/>
-                        <bean parent="Uif-InputField" p:propertyName="proxiedResource"/>
-
                         <bean parent="Uif-InputField" p:propertyName="mobileAccess" p:label="Mobile Access"
                               p:enableAutoQuickfinder="false">
                             <property name="optionsFinder">
@@ -190,6 +196,7 @@
                                 <bean parent="Uif-MultiSelectControl" p:size="3"/>
                             </property>
                         </bean>
+                        <bean parent="Uif-InputField" p:propertyName="proxiedResource"/>
                         <bean parent="Uif-InputField" p:propertyName="mobileAccessNote"/>
                     </list>
                 </property>
@@ -343,6 +350,83 @@
                         </bean>
                     </property>
                 </bean>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-AdHocSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Ad Hoc Recipients" />
+        <property name="items">
+            <list>
+                <bean id="adHocAccessStatus" parent="Uif-InputField" p:propertyName="adHocAccessStatusDummy" p:label="AdHoc Access Status"/>
+                <ref bean="OLEEResourceAccess-AdHocRecipients"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="AdHoc_AddLine" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addAdHocRouteLine" p:actionLabel="Add"
+          p:actionEvent="addLine" p:loadingMessageText="Adding Alert..." p:focusOnIdAfterSubmit="LINE_FIRST"
+          p:performClientSideValidation="true" p:dirtyOnAction="true" p:id="@{#collectionGroup.id}_add" p:successCallback="setAdHocSelectorAfterAdd('true');"/>
+
+    <bean id="OLEEResourceAccess-AdHocRecipients" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value=""/>
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEAdHocRoutingForAccessActivation"/>
+        <property name="propertyName" value="oleAdHocRoutingForAccessActivations"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="adHocRecipientSelector" parent="Uif-InputField"
+                      p:propertyName="adHocRecipientSelector" p:label="AdHoc Recipient Selector" p:readOnly="@{!#isAddLine}" p:onChangeScript="setAdHocSelector();">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropDownSize">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Role" p:value="Role"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Group" p:value="Group"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Person" p:value="Person"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean id="adHocActionRequested" parent="Uif-InputField"
+                      p:propertyName="adHocActionRequested" p:label="AdHoc Action Requested" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropDownSize">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="A" p:value="APPROVE"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean id="adHocRoleName" p:propertyName="adHocRoleName" parent="Uif-InputField" p:label="Role" p:readOnly="@{!#isAddLine}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.impl.role.RoleBo" p:fieldConversions="id:adHocRoleId,name:adHocRoleName"/>
+                    </property>
+                </bean>
+
+                <bean id="adHocGroupName" p:propertyName="adHocGroupName" parent="Uif-InputField" p:label="Group" p:readOnly="@{!#isAddLine}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.impl.group.GroupBo" p:fieldConversions="id:adHocGroupId,name:adHocGroupName"/>
+                    </property>
+                </bean>
+
+                <bean id="adHocPrincipalName" p:propertyName="adHocPrincipalName" parent="Uif-InputField" p:label="Person" p:readOnly="@{!#isAddLine}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+                              p:fieldConversions="principalId:adHocPrincipalId;,principalName:adHocPrincipalName"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="AdHoc_AddLine"/>
             </list>
         </property>
     </bean>

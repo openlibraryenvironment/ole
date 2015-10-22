@@ -30,6 +30,7 @@ public class OLEConstants {
     public static final String ERES_ACCESS_ACTIVATION_CONFIG_ACTION_LINK = "oleAccessActivationConfiguration";
     public static final String OLE_ACCESS_ACTIVATION = "OLEAccessActivationConfigurationMaintenanceDocument-AccessActivationWorkflow";
     public static final String OLE_ALERT_SECTION = "OLE-AlertSection";
+    public static final String OLEERESOURCE_ACCESS_ADHOC_RECIPIENTS = "OLEEResourceAccess-AdHocRecipients";
     public static final String ACCESS_ACTIVATION_CONFIGURATION_CONTROLLER = "oleAccessActivationConfiguration";
     public static final String NO_WORKFLOW_SELECTED = "error.workflow.not.selected";
     public static final String ACCESS_ROLE_ID="id";

@@ -1,8 +1,10 @@
 package org.kuali.ole.select.controller;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.select.bo.OLEAccessActivationWorkFlow;
+import org.kuali.ole.select.bo.OLEAdHocRoutingForAccessActivation;
 import org.kuali.ole.select.bo.OLEEResourceAccessActivation;
 import org.kuali.ole.select.bo.OLEEResourceNotes;
 import org.kuali.ole.select.document.OLEEResourceAccessWorkflow;
@@ -23,9 +25,10 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.impl.group.GroupBo;
+import org.kuali.rice.kim.impl.role.RoleBo;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
-import org.kuali.rice.krad.bo.AdHocRouteWorkgroup;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -44,7 +47,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -130,6 +133,86 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
         return super.navigate(form, result, request, response);
     }
 
+    @RequestMapping(params = "methodToCall=addAdHocRouteLine")
+    public ModelAndView addAdHocRouteLine(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+        MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) form;
+        org.kuali.rice.krad.maintenance.MaintenanceDocument maintenanceDocument = maintenanceDocumentForm.getDocument();
+        OLEEResourceAccessActivation oleeResourceAccessActivation = (OLEEResourceAccessActivation) maintenanceDocument.getNewMaintainableObject().getDataObject();
+        ModelAndView modelAndView = super.addLine(form, result, request, response);
+        OLEAdHocRoutingForAccessActivation oleAdHocRoutingForAccessActivation = oleeResourceAccessActivation.getOleAdHocRoutingForAccessActivations().get(0);
+        oleeResourceAccessActivation.getOleAdHocRoutingForAccessActivations().remove(0);
+        if(OLEConstants.SELECTOR_ROLE.equalsIgnoreCase(oleAdHocRoutingForAccessActivation.getAdHocRecipientSelector())) {
+            oleAdHocRoutingForAccessActivation.setAdHocGroupId(null);
+            oleAdHocRoutingForAccessActivation.setAdHocGroupName(null);
+            oleAdHocRoutingForAccessActivation.setAdHocPrincipalId(null);
+            oleAdHocRoutingForAccessActivation.setAdHocPrincipalName(null);
+            if(!checkAndAddRole(oleAdHocRoutingForAccessActivation)) {
+                return getUIFModelAndView(form);
+            }
+        } else if(OLEConstants.SELECTOR_GROUP.equalsIgnoreCase(oleAdHocRoutingForAccessActivation.getAdHocRecipientSelector())) {
+            oleAdHocRoutingForAccessActivation.setAdHocRoleId(null);
+            oleAdHocRoutingForAccessActivation.setAdHocRoleName(null);
+            oleAdHocRoutingForAccessActivation.setAdHocPrincipalId(null);
+            oleAdHocRoutingForAccessActivation.setAdHocPrincipalName(null);
+            if(!checkAndAddGroup(oleAdHocRoutingForAccessActivation)) {
+                return getUIFModelAndView(form);
+            }
+        } else if(OLEConstants.SELECTOR_PERSON.equalsIgnoreCase(oleAdHocRoutingForAccessActivation.getAdHocRecipientSelector())) {
+            oleAdHocRoutingForAccessActivation.setAdHocRoleId(null);
+            oleAdHocRoutingForAccessActivation.setAdHocRoleName(null);
+            oleAdHocRoutingForAccessActivation.setAdHocGroupId(null);
+            oleAdHocRoutingForAccessActivation.setAdHocGroupName(null);
+            if(!checkAndAddPerson(oleAdHocRoutingForAccessActivation)) {
+                return getUIFModelAndView(form);
+            }
+        }
+        oleeResourceAccessActivation.getOleAdHocRoutingForAccessActivations().add(oleAdHocRoutingForAccessActivation);
+        return getUIFModelAndView(form);
+    }
+
+    private boolean checkAndAddRole(OLEAdHocRoutingForAccessActivation oleAdHocRoutingForAccessActivation) {
+        if(StringUtils.isBlank(oleAdHocRoutingForAccessActivation.getAdHocRoleName())) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLEERESOURCE_ACCESS_ADHOC_RECIPIENTS, OLEConstants.ERROR_EMPTY_ROLE);
+            return false;
+        }
+        RoleBo roleBo = getRoleBo(oleAdHocRoutingForAccessActivation);
+        if(null == roleBo) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLEERESOURCE_ACCESS_ADHOC_RECIPIENTS,OLEConstants.ERROR_INVALID_NAME);
+            return false;
+        }
+        oleAdHocRoutingForAccessActivation.setAdHocRoleId(roleBo.getId());
+        return true;
+    }
+
+    private boolean checkAndAddGroup(OLEAdHocRoutingForAccessActivation oleAdHocRoutingForAccessActivation) {
+        if(StringUtils.isBlank(oleAdHocRoutingForAccessActivation.getAdHocGroupName())) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLEERESOURCE_ACCESS_ADHOC_RECIPIENTS, OLEConstants.ERROR_EMPTY_GROUP);
+            return false;
+        }
+        GroupBo groupBo = getGroupBo(oleAdHocRoutingForAccessActivation);
+        if(null == groupBo) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLEERESOURCE_ACCESS_ADHOC_RECIPIENTS,OLEConstants.ERROR_INVALID_GROUP_NAME);
+            return false;
+        }
+        oleAdHocRoutingForAccessActivation.setAdHocGroupId(groupBo.getId());
+        return true;
+    }
+
+    private boolean checkAndAddPerson(OLEAdHocRoutingForAccessActivation oleAdHocRoutingForAccessActivation) {
+        if(StringUtils.isBlank(oleAdHocRoutingForAccessActivation.getAdHocPrincipalName())) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLEERESOURCE_ACCESS_ADHOC_RECIPIENTS, OLEConstants.ERROR_EMPTY_PERSON);
+            return false;
+        }
+        Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(oleAdHocRoutingForAccessActivation.getAdHocPrincipalName());
+        if(null == person) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(OLEConstants.OLEERESOURCE_ACCESS_ADHOC_RECIPIENTS, OLEConstants.ERROR_INVALID_PERSON_NAME);
+            return false;
+        }
+        oleAdHocRoutingForAccessActivation.setAdHocPrincipalId(person.getPrincipalId());
+        return true;
+    }
+
     @RequestMapping(params = "methodToCall=approve")
     public ModelAndView approve(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -164,6 +247,8 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
             accessConfigMap.put("accessActivationConfigurationId", oleeResourceAccess.getWorkflowId());
             List<OLEAccessActivationWorkFlow> oleAccessActivationWorkFlows = (List<OLEAccessActivationWorkFlow>) KRADServiceLocator.getBusinessObjectService().findMatchingOrderBy(OLEAccessActivationWorkFlow.class, accessConfigMap, "orderNo", true);
             OLEAccessActivationWorkFlow accessActivationWorkFlow = null;
+            oleeResourceAccess.setAdHocAccessStatus("");
+            oleeResourceAccess.setAdHocAccessStatusDummy("");
             if (oleAccessActivationWorkFlows != null && oleAccessActivationWorkFlows.size() > 0) {
                 for (int i = 0; i <= oleAccessActivationWorkFlows.size(); i++) {
                     if (oleeResourceAccess.isAdHocUserExists() || oleAccessActivationWorkFlows.get(i).getStatus().equals(oleeResourceAccess.getAccessStatus())) {
@@ -184,16 +269,7 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
                                 oleeResourceAccess.setAdHocUserExists(false);
                                 oleeResourceAccessWorkflow.setStatus(accessActivationWorkFlow.getStatus());
                                 List<AdHocRouteRecipient> adHocRouteRecipientList = combineAdHocRecipients(form);
-                                for (Principal principal : principals) {
-                                    currentOwnerBuffer.append(principal.getPrincipalName() + ",");
-                                    AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
-                                    adHocRoutePerson.setId(principal.getPrincipalId());
-                                    adHocRoutePerson.setName(principal.getPrincipalName());
-                                    adHocRoutePerson.setActionRequested("A");
-                                    adHocRoutePerson.setdocumentNumber(form.getDocument().getDocumentNumber());
-                                    adHocRoutePerson.setType(0);
-                                    adHocRouteRecipientList.add(adHocRoutePerson);
-                                }
+                                populateAdHocRouteRecipients(maintenanceDocument, currentOwnerBuffer, adHocRouteRecipientList, principals);
                                 if (currentOwnerBuffer.length() > 0) {
                                     oleeResourceAccessWorkflow.setCurrentOwner(currentOwnerBuffer.substring(0, currentOwnerBuffer.length() - 1));
                                 }
@@ -289,16 +365,7 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
                         oleeResourceAccessWorkflow.setStatus(accessActivationWorkFlow.getStatus());
                         found = true;
                         List<AdHocRouteRecipient> adHocRouteRecipientList = new ArrayList<AdHocRouteRecipient>();
-                        for (Principal principal : principals) {
-                            currentOwnerBuffer.append(principal.getPrincipalName() + ",");
-                            AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
-                            adHocRoutePerson.setId(principal.getPrincipalId());
-                            adHocRoutePerson.setName(principal.getPrincipalName());
-                            adHocRoutePerson.setActionRequested("A");
-                            adHocRoutePerson.setdocumentNumber(maintenanceDocument.getDocumentNumber());
-                            adHocRoutePerson.setType(0);
-                            adHocRouteRecipientList.add(adHocRoutePerson);
-                        }
+                        populateAdHocRouteRecipients(maintenanceDocument, currentOwnerBuffer, adHocRouteRecipientList, principals);
                         if (currentOwnerBuffer.length() > 0) {
                             oleeResourceAccessWorkflow.setCurrentOwner(currentOwnerBuffer.substring(0, currentOwnerBuffer.length() - 1));
                         }
@@ -334,48 +401,15 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
     private boolean processAdHocRecipients(DocumentFormBase form, boolean startAccessActivation, OLEEResourceAccessActivation oleEResourceAccess) {
         boolean processedAdHocRecipients = false;
         MaintenanceDocument document = ((MaintenanceDocumentForm) form).getDocument();
-        AdHocRouteWorkgroup adHocRouteWorkgroup;
         StringBuffer currentOwnerBuffer = new StringBuffer();
         List<AdHocRouteRecipient> adHocRouteRecipientList = new ArrayList<>();
-        List<AdHocRouteRecipient> adHocRouteRecipients = combineAdHocRecipients(form);
+        List<OLEAdHocRoutingForAccessActivation> oleAdHocRoutingForAccessActivations = oleEResourceAccess.getOleAdHocRoutingForAccessActivations();
         document.setAdHocRoutePersons(new ArrayList<AdHocRoutePerson>());
-        if (adHocRouteRecipients != null && adHocRouteRecipients.size() > 0) {
-            for (AdHocRouteRecipient adHocRouteRecipient : adHocRouteRecipients) {
-                if (adHocRouteRecipient instanceof AdHocRoutePerson) {
-                    Person person = null;
-                    if (StringUtils.isNotBlank(adHocRouteRecipient.getId())) {
-                        person = getPersonService().getPerson(adHocRouteRecipient.getId());
-                    } else if (StringUtils.isNotBlank(adHocRouteRecipient.getName())) {
-                        person = getPersonService().getPersonByPrincipalName(adHocRouteRecipient.getName());
-                    }
-                    if (person != null) {
-                        currentOwnerBuffer.append(person.getPrincipalName() + ",");
-                        AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
-                        adHocRoutePerson.setId(person.getPrincipalId());
-                        adHocRoutePerson.setName(person.getPrincipalName());
-                        adHocRoutePerson.setActionRequested("A");
-                        adHocRoutePerson.setdocumentNumber(document.getDocumentNumber());
-                        adHocRoutePerson.setType(0);
-                        adHocRouteRecipientList.add(adHocRoutePerson);
-                    }
-                } else if (adHocRouteRecipient instanceof AdHocRouteWorkgroup) {
-                    adHocRouteWorkgroup = (AdHocRouteWorkgroup) adHocRouteRecipient;
-                    List<String> memberIds = KimApiServiceLocator.getGroupService().getMemberPrincipalIds(adHocRouteWorkgroup.getId());
-                    List<Principal> principals = KimApiServiceLocator.getIdentityService().getPrincipals(memberIds);
-                    if (principals != null && principals.size() > 0) {
-                        for (Principal principal : principals) {
-                            currentOwnerBuffer.append(principal.getPrincipalName() + ",");
-                            AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
-                            adHocRoutePerson.setId(principal.getPrincipalId());
-                            adHocRoutePerson.setName(principal.getPrincipalName());
-                            adHocRoutePerson.setActionRequested("A");
-                            adHocRoutePerson.setdocumentNumber(document.getDocumentNumber());
-                            adHocRoutePerson.setType(0);
-                            adHocRouteRecipientList.add(adHocRoutePerson);
-                        }
-                    }
-                }
-            }
+        if (CollectionUtils.isNotEmpty(oleAdHocRoutingForAccessActivations)) {
+            getAdHocRouteRecipientList(document, currentOwnerBuffer, adHocRouteRecipientList, oleAdHocRoutingForAccessActivations);
+            oleEResourceAccess.setAdHocAccessStatus(oleEResourceAccess.getAdHocAccessStatusDummy());
+            oleEResourceAccess.setAdHocAccessStatusDummy("");
+            oleEResourceAccess.setOleAdHocRoutingForAccessActivations(new ArrayList<OLEAdHocRoutingForAccessActivation>());
             if (adHocRouteRecipientList.size() > 0) {
                 processedAdHocRecipients = true;
                 try {
@@ -408,7 +442,7 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
                         getDocumentService().approveDocument(document, "Needed Approval from the members : " + "", adHocRouteRecipientList);
                         List<ActionTakenValue> actionTakenList = (List<ActionTakenValue>) KEWServiceLocator.getActionTakenService().getActionsTaken(document.getDocumentNumber());
                         ActionTakenValue actionTakenValue = (ActionTakenValue) actionTakenList.get(actionTakenList.size() - 1);
-                        actionTakenValue.setAnnotation("Approved Status : " + oleEResourceAccess.getAccessStatus());
+                        actionTakenValue.setAnnotation("Approved AdHoc Status : " + oleEResourceAccess.getAdHocAccessStatus());
                         KEWServiceLocator.getActionTakenService().saveActionTaken(actionTakenValue);
                         KEWServiceLocator.getActionListService().deleteByDocumentId(document.getDocumentNumber());
                     }
@@ -420,6 +454,114 @@ public class OLEEEResourceAccessActivationMaintenanceController extends Maintena
             }
         }
         return processedAdHocRecipients;
+    }
+
+    private void getAdHocRouteRecipientList(MaintenanceDocument document, StringBuffer currentOwnerBuffer, List<AdHocRouteRecipient> adHocRouteRecipientList, List<OLEAdHocRoutingForAccessActivation> oleAdHocRoutingForAccessActivations) {
+        for (OLEAdHocRoutingForAccessActivation oleAdHocRoutingForAccessActivation : oleAdHocRoutingForAccessActivations) {
+            if (OLEConstants.SELECTOR_ROLE.equalsIgnoreCase(oleAdHocRoutingForAccessActivation.getAdHocRecipientSelector())) {
+                List<Principal> principals = new ArrayList<>();
+                Collection collection = getRoleMemberIds(oleAdHocRoutingForAccessActivation);
+                if(CollectionUtils.isNotEmpty(collection)) {
+                    List<String> memberIds = new ArrayList<String>();
+                    memberIds.addAll(collection);
+                    principals = KimApiServiceLocator.getIdentityService().getPrincipals(memberIds);
+                }
+                if(CollectionUtils.isNotEmpty(principals)) {
+                    populateAdHocRouteRecipients(document, currentOwnerBuffer, adHocRouteRecipientList, principals);
+                }
+            } else if (OLEConstants.SELECTOR_GROUP.equalsIgnoreCase(oleAdHocRoutingForAccessActivation.getAdHocRecipientSelector())) {
+                List<Principal> principals = new ArrayList<>();
+                List<String> memberIds = getGroupMemberIds(oleAdHocRoutingForAccessActivation);
+                if(CollectionUtils.isNotEmpty(memberIds)) {
+                    principals = KimApiServiceLocator.getIdentityService().getPrincipals(memberIds);
+                }
+                if(CollectionUtils.isNotEmpty(principals)) {
+                    populateAdHocRouteRecipients(document, currentOwnerBuffer, adHocRouteRecipientList, principals);
+                }
+            } else if (OLEConstants.SELECTOR_PERSON.equalsIgnoreCase(oleAdHocRoutingForAccessActivation.getAdHocRecipientSelector())) {
+                Person person = null;
+                if (StringUtils.isNotBlank(oleAdHocRoutingForAccessActivation.getAdHocPrincipalId())) {
+                    person = getPersonService().getPerson(oleAdHocRoutingForAccessActivation.getAdHocPrincipalId());
+                } else if (StringUtils.isNotBlank(oleAdHocRoutingForAccessActivation.getAdHocPrincipalName())) {
+                    person = getPersonService().getPersonByPrincipalName(oleAdHocRoutingForAccessActivation.getAdHocPrincipalName());
+                }
+                if (person != null) {
+                    currentOwnerBuffer.append(person.getPrincipalName() + ",");
+                    AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
+                    adHocRoutePerson.setId(person.getPrincipalId());
+                    adHocRoutePerson.setName(person.getPrincipalName());
+                    adHocRoutePerson.setActionRequested("A");
+                    adHocRoutePerson.setdocumentNumber(document.getDocumentNumber());
+                    adHocRoutePerson.setType(0);
+                    adHocRouteRecipientList.add(adHocRoutePerson);
+                }
+            }
+        }
+    }
+
+    private Collection getRoleMemberIds(OLEAdHocRoutingForAccessActivation oleAdHocRoutingForAccessActivation) {
+        Collection collection = null;
+        if (StringUtils.isNotBlank(oleAdHocRoutingForAccessActivation.getAdHocRoleId())) {
+            Role role = KimApiServiceLocator.getRoleService().getRole(oleAdHocRoutingForAccessActivation.getAdHocRoleId());
+            if(null != role) {
+                collection = KimApiServiceLocator.getRoleService().getRoleMemberPrincipalIds(role.getNamespaceCode(), role.getName(), new HashMap<String, String>());
+            }
+        } else if (StringUtils.isNotBlank(oleAdHocRoutingForAccessActivation.getAdHocRoleName())) {
+            RoleBo roleBo = getRoleBo(oleAdHocRoutingForAccessActivation);
+            if(null != roleBo) {
+                collection = KimApiServiceLocator.getRoleService().getRoleMemberPrincipalIds(roleBo.getNamespaceCode(), roleBo.getName(), new HashMap<String, String>());
+            }
+        }
+        return collection;
+    }
+
+    private RoleBo getRoleBo(OLEAdHocRoutingForAccessActivation oleAdHocRoutingForAccessActivation) {
+        RoleBo roleBo = null;
+        Map<String, String> map = new HashMap<>();
+        map.put(OLEConstants.ALERT_ROLE_NAME, oleAdHocRoutingForAccessActivation.getAdHocRoleName());
+        List<RoleBo> roleBoList = (List<RoleBo>) KRADServiceLocator.getBusinessObjectService()
+                .findMatching(RoleBo.class, map);
+        if (CollectionUtils.isNotEmpty(roleBoList)) {
+            roleBo = roleBoList.get(0);
+        }
+        return roleBo;
+    }
+
+    private List<String> getGroupMemberIds(OLEAdHocRoutingForAccessActivation oleAdHocRoutingForAccessActivation) {
+        List<String> memberIds = new ArrayList<>();
+        if(StringUtils.isNotBlank(oleAdHocRoutingForAccessActivation.getAdHocGroupId() )) {
+            memberIds = KimApiServiceLocator.getGroupService().getMemberPrincipalIds(oleAdHocRoutingForAccessActivation.getAdHocGroupId());
+        } else if(StringUtils.isNotBlank(oleAdHocRoutingForAccessActivation.getAdHocGroupName())) {
+            GroupBo groupBo = getGroupBo(oleAdHocRoutingForAccessActivation);
+            if(null != groupBo) {
+                memberIds = KimApiServiceLocator.getGroupService().getMemberPrincipalIds(groupBo.getId());
+            }
+        }
+        return memberIds;
+    }
+
+    private GroupBo getGroupBo(OLEAdHocRoutingForAccessActivation oleAdHocRoutingForAccessActivation) {
+        GroupBo groupBo = null;
+        Map<String,String> map = new HashMap<>();
+        map.put(OLEConstants.ALERT_GROUP_NAME, oleAdHocRoutingForAccessActivation.getAdHocGroupName());
+        List<GroupBo> groupBoList = (List<GroupBo>) KRADServiceLocator.getBusinessObjectService().findMatching(GroupBo.class, map);
+        if(CollectionUtils.isNotEmpty(groupBoList)) {
+            groupBo = groupBoList.get(0);
+        }
+        return groupBo;
+    }
+
+    private void populateAdHocRouteRecipients(MaintenanceDocument document, StringBuffer currentOwnerBuffer, List<AdHocRouteRecipient> adHocRouteRecipientList, List<Principal> principals) {
+        for (Principal principal : principals) {
+            currentOwnerBuffer.append(principal.getPrincipalName() + ",");
+            AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
+            adHocRoutePerson.setId(principal.getPrincipalId());
+            adHocRoutePerson.setName(principal.getPrincipalName());
+            adHocRoutePerson.setActionRequested("A");
+            adHocRoutePerson.setdocumentNumber(document.getDocumentNumber());
+            adHocRoutePerson.setType(0);
+            adHocRouteRecipientList.add(adHocRoutePerson);
+        }
     }
 
 }
