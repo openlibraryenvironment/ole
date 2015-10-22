@@ -239,9 +239,10 @@
                 <bean parent="Uif-DataField" p:label="DocID" p:propertyName="documentNumber"/>
                 <bean parent="Uif-DataField" p:label="Identifier" p:propertyName="oleERSIdentifier"/>
                 <bean parent="Uif-DataField" p:label="Gokb Identifier" p:propertyName="gokbIdentifier"/>
-                <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher"/>
+                <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher" p:render="@{#line.activePublisher}"/>
+                <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher" p:render="@{!#line.activePublisher}" p:cssClasses="InactiveVendor"/>
                 <bean parent="Uif-DataField" p:label="Platform Provider Name" p:propertyName="platformProvider"/>
-                <bean parent="Uif-DataField" p:label="Status" p:propertyName="statusName"/>
+                <bean parent="Uif-DataField" p:label="Status" p:propertyName="oleeResourceStatus.oleEResourceStatusName"/>
                 <bean parent="Uif-DataField" p:label="Status Date" p:propertyName="statusDate"/>
             </list>
         </property>
@@ -271,9 +272,10 @@
                 <bean parent="Uif-LinkField" p:label="Name" p:linkText="@{#line.title}" p:target="_blank"
                       p:href="@{#ConfigProperties['ole.eresource.url']}oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.documentNumber}&amp;command=displayDocSearchView"/>
                 <bean parent="Uif-DataField" p:label="Identifier" p:propertyName="oleERSIdentifier"/>
-                <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher"/>
+                <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher" p:render="@{#line.activePublisher}"/>
+                <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher" p:render="@{!#line.activePublisher}" p:cssClasses="InactiveVendor"/>
                 <bean parent="Uif-DataField" p:label="Platform Provider" p:propertyName="platformProvider"/>
-                <bean parent="Uif-DataField" p:label="Status" p:propertyName="statusName"/>
+                <bean parent="Uif-DataField" p:label="Status" p:propertyName="oleeResourceStatus.oleEResourceStatusName"/>
                 <bean parent="Uif-DataField" p:label="Status Date" p:propertyName="statusDate"/>
                 <bean parent="Uif-InputField" p:propertyName="relationshipType" p:label="Link Selected E-Resource As">
                     <property name="control">

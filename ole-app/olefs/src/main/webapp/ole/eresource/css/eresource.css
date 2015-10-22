@@ -332,3 +332,9 @@ div#EResourceInstance_ManageGoKbPopup{
     font-style: italic;
     background:yellow;
 }
+
+.InactiveVendor{
+    font-weight: normal;
+    color: red;
+    font-style: italic;
+}

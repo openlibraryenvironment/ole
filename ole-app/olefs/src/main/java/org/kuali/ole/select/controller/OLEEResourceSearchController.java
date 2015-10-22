@@ -1,5 +1,7 @@
 package org.kuali.ole.select.controller;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.OLEConstants;
 import org.kuali.ole.select.bo.OLESearchCondition;
@@ -8,6 +10,7 @@ import org.kuali.ole.select.document.OLEEResourceRecordDocument;
 import org.kuali.ole.select.form.OLEEResourceSearchForm;
 import org.kuali.ole.service.impl.OLEEResourceSearchServiceImpl;
 import org.kuali.ole.service.impl.OleLicenseRequestServiceImpl;
+import org.kuali.ole.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -87,11 +90,29 @@ public class OLEEResourceSearchController extends UifControllerBase {
             LOG.error("Exception while hitting the docstore time" + e.getMessage());
         }
 
+        Set<String> eResourceIds = new HashSet<>();
         for (OLEEResourceRecordDocument oleEResourceRecordDocument: eresourceList){
-            if (oleEResourceRecordDocument.getOleERSIdentifier()!=null){
-                OLEEResourceRecordDocument document = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(OLEEResourceRecordDocument.class, oleEResourceRecordDocument.getOleERSIdentifier());
-                if (document!=null){
-                    eresourceRecordDocumentList.add(document);
+            if (StringUtils.isNotBlank(oleEResourceRecordDocument.getOleERSIdentifier())){
+                eResourceIds.add(oleEResourceRecordDocument.getOleERSIdentifier());
+            }
+        }
+        if (CollectionUtils.isNotEmpty(eResourceIds)){
+            Map eResourceMap = new HashMap<>();
+            eResourceMap.put("oleERSIdentifier", eResourceIds);
+            eresourceRecordDocumentList = (List<OLEEResourceRecordDocument>) KRADServiceLocator.getBusinessObjectService().findMatching(OLEEResourceRecordDocument.class, eResourceMap);
+            for (OLEEResourceRecordDocument oleeResourceRecordDocument : eresourceRecordDocumentList){
+                if (StringUtils.isNotBlank(oleeResourceRecordDocument.getPublisherId())){
+                    String[] publisherDetails = oleeResourceRecordDocument.getPublisherId().split("-");
+                    Map vendorMap = new HashMap<>();
+                    int vendorHeaderGeneratedIdentifier = publisherDetails.length > 0 ? Integer.parseInt(publisherDetails[0]) : 0;
+                    int vendorDetailAssignedIdentifier = publisherDetails.length > 1 ? Integer.parseInt(publisherDetails[1]) : 0;
+                    vendorMap.put(OLEConstants.OLEEResourceRecord.VENDOR_HEADER_GEN_ID, vendorHeaderGeneratedIdentifier);
+                    vendorMap.put(OLEConstants.OLEEResourceRecord.VENDOR_DETAILED_ASSIGNED_ID, vendorDetailAssignedIdentifier);
+                    VendorDetail vendorDetailDoc = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorDetail.class, vendorMap);
+                    if (vendorDetailDoc != null) {
+                        oleeResourceRecordDocument.setActivePublisher(vendorDetailDoc.isActiveIndicator());
+                        oleeResourceRecordDocument.setPublisher(vendorDetailDoc.getVendorName());
+                    }
                 }
             }
         }
