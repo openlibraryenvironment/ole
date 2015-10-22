@@ -751,13 +751,8 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
 
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) uifForm;
         OLEEResourceRecordDocument oleEResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
-        String selectedCollectionPath = oleEResourceRecordForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        //String selectedCollectionId = uifForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_ID);
-        if (StringUtils.isBlank(selectedCollectionPath)) {
-            throw new RuntimeException(OLEConstants.OLEEResourceRecord.BLANK_SELECTED_INDEX);
-        }
         int selectedLineIndex = -1;
-        String selectedLine = oleEResourceRecordForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        String selectedLine = request.getParameter("lineNumber");
         if (StringUtils.isNotBlank(selectedLine)) {
             OLEEResourceInstance oleERSInstance = oleEResourceRecordDocument.geteRSInstances().get(Integer.parseInt(selectedLine));
             try {
@@ -778,7 +773,6 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             oleEResourceEventLog.setCurrentTimeStamp();
             oleEResourceEventLog.setEventUser(GlobalVariables.getUserSession().getPrincipalName());
             oleEResourceEventLog.setEventNote(oleERSInstance.getInstanceTitle() + OLEConstants.OLEEResourceRecord.INSTANCE_ID_REMOVE_NOTE + oleERSInstance.getInstanceId() + OLEConstants.OLEEResourceRecord.REMOVE_NOTE);
-            //oleEResourceEventLog.setEventType(OLEConstants.OLEEResourceRecord.SYSTEM);
             oleEResourceEventLog.setLogTypeId("3");
             oleEResourceRecordDocument.getOleERSEventLogs().add(oleEResourceEventLog);
         }
@@ -786,11 +780,10 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
             throw new RuntimeException(OLEConstants.OLEEResourceRecord.BLANK_SELECTED_INDEX);
         }
         oleEResourceRecordForm.setRemoveInstanceFlag(true);
-        View view = oleEResourceRecordForm.getPostedView();
-        view.getViewHelperService().processCollectionDeleteLine(view, oleEResourceRecordForm, selectedCollectionPath,
-                selectedLineIndex);
         oleEResourceRecordDocument.getOleERSInstancesForDelete().add(oleEResourceRecordDocument.getOleERSInstances().get(selectedLineIndex));
-        oleEResourceRecordDocument.getOleERSInstances().remove(selectedLineIndex);
+        if (CollectionUtils.isNotEmpty(oleEResourceRecordDocument.getOleERSInstancesForDelete())) {
+            getBusinessObjectService().delete(oleEResourceRecordDocument.getOleERSInstancesForDelete());
+        }
         return getUIFModelAndView(oleEResourceRecordForm);
     }
 
@@ -3094,6 +3087,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
     public ModelAndView loadEHoldings(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) {
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
+        oleEResourceRecordForm.setPageSize("10");
         OLEEResourceRecordDocument oleeResourceRecordDocument = (OLEEResourceRecordDocument) oleEResourceRecordForm.getDocument();
         getOleEResourceSearchService().populateInstanceAndEInstance(oleeResourceRecordDocument);
         getOleEResourceSearchService().getBannerMessage(oleeResourceRecordDocument);
@@ -3234,6 +3228,24 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         oleeResourceRecordForm.setFilterEventLog(false);
         return super.navigate(oleeResourceRecordForm, result, request, response);
     }
+
+    @RequestMapping(params = "methodToCall=newPage")
+    public ModelAndView showNewPage(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        OLEEResourceRecordForm oleeResourceRecordForm = (OLEEResourceRecordForm) form;
+        oleeResourceRecordForm.setPageNumber(request.getParameter("pageNumber"));
+        return getUIFModelAndView(form);
+    }
+
+
+    @RequestMapping(params = "methodToCall=newSize")
+    public ModelAndView showNewPageSize(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) {
+        OLEEResourceRecordForm oleeResourceRecordForm = (OLEEResourceRecordForm) form;
+        oleeResourceRecordForm.setPageSize(request.getParameter("pageSize"));
+        return getUIFModelAndView(form);
+    }
+
 }
 
 

@@ -103,6 +103,8 @@ public class OLEEResourceRecordForm extends TransactionalDocumentFormBase {
     public boolean isCanApprove() {
         return canApprove;
     }
+    private String pageNumber;
+    private String pageSize;
 
     public void setCanApprove(boolean canApprove) {
         this.canApprove = canApprove;
@@ -715,5 +717,21 @@ public class OLEEResourceRecordForm extends TransactionalDocumentFormBase {
 
     public void setFilterEventLog(boolean filterEventLog) {
         this.filterEventLog = filterEventLog;
+    }
+
+    public String getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(String pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    public String getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(String pageSize) {
+        this.pageSize = pageSize;
     }
 }

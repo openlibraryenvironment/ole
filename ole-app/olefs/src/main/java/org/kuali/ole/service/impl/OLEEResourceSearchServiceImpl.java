@@ -2013,9 +2013,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             if (CollectionUtils.isNotEmpty(oleeResourceRecordDocument.getOleERSInstancesForSave())) {
                 getBusinessObjectService().save(oleeResourceRecordDocument.getOleERSInstancesForSave());
             }
-            if (CollectionUtils.isNotEmpty(oleeResourceRecordDocument.getOleERSInstancesForDelete())) {
-                getBusinessObjectService().delete(oleeResourceRecordDocument.getOleERSInstancesForDelete());
-            }
+
 
             if(holdingsTreeList.size()  > 0) {
                 BibTrees bibTrees = new BibTrees();

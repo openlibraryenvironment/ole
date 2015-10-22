@@ -156,6 +156,13 @@ jq(document).ready(function () {
     jq('form').bind('submit', function() {
         unsaved = false;
     });
+    jq("#pageSizeHoldings").live("change", function () {
+        var pageSize = jq("#pageSizeHoldings").val();
+        retrieveComponent('OLEEResourceRecordView-InstanceDetailSection', "newSize", null, {
+            "pageSize":pageSize
+        }, true);
+
+    })
     window.onbeforeunload = unloadPage;
 });
 
@@ -472,3 +479,18 @@ function enableOrDisableDateResolved(){
         jq("#eResourceeventResolvedDate_add_control").datepicker("disable");
     }
 }
+
+function removeLine(lineNumber){
+    submitForm('removeInstance',{lineNumber:lineNumber}, null, true, function(){
+        submitForm('loadEHoldings',null,null,null,null);
+    });
+}
+
+function oleHoldingsPager(linkElement, collectionId) {
+    var link = jQuery(linkElement);
+    if (link.parent().is(kradVariables.ACTIVE_CLASS)) return;
+    retrieveComponent(collectionId, "newPage", null, {
+        "pageNumber": link.data(kradVariables.PAGE_NUMBER_DATA)
+    }, true);
+}
+

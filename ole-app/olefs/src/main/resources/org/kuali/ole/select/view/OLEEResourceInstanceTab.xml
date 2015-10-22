@@ -395,64 +395,26 @@
         </property>
     </bean>
 
-    <bean id="OLEEResourceRecordView-InstanceDetailSection" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="7" >
-        <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceInstance" />
+    <bean id="OLEEResourceRecordView-InstanceDetailSection" parent="Uif-CollectionGroupBase">
         <property name="propertyName" value="eRSInstances" />
-        <property name="layoutManager.renderSequenceField" value="false" />
         <property name="renderAddLine" value="false"/>
-        <property name="layoutManager.richTable.render" value="true"/>
-        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="renderLineActions" value="false"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.select.document.OLEEResourceInstance" />
+        <property name="layoutManager">
+            <bean class="org.kuali.ole.describe.krad.OleEResourceHoldingsTabLayout"
+                  p:template="/WEB-INF/ftl/eResource-Holdings-list.ftl" p:templateName="ole_eResource_search">
+                <property name="pager">
+                    <bean parent="Uif-Pager" p:linkScript="oleHoldingsPager(this,'OLEEResourceRecordView-InstanceDetailSection')" />
+                </property>
+            </bean>
+        </property>
         <property name="items">
             <list>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eHoldings&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
-                      p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'false'}"/>
-                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
-                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=holdings&amp;docId=@{#line.holdingsId}&amp;instanceId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
-                      p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'true'}"/>
-                <bean id="eResource-Name-Url" parent="Uif-LinkField" p:href="@{#ConfigProperties['ole.eresource.url']}oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.eResourceDocNum}&amp;command=displayDocSearchView" p:linkText="@{#line.eResourceName}" p:label="EResource Name" p:target="_blank"/>
-                <bean id="eResource-ISBN" parent="Uif-DataField" p:propertyName="isbn" p:label="ISBN/ISSN"/>
-                <bean id="eResource-Holdings" parent="Uif-DataField" p:propertyName="instanceHoldings" p:label="Holdings"/>
-                <!--<bean id="eResource-url" parent="Uif-DataField" p:propertyName="url" p:label="URL"/>-->
-                <!--<bean id="eResource-PublicDisplayNote" parent="Uif-DataField" p:propertyName="publicDisplayNote" p:label="Public Display"/>-->
-                <bean id="eResource-url" parent="Uif-DataField" p:propertyName="url" p:label="URL" />
-                <bean id="eResource-publicDisplayNote" parent="Uif-DataField" p:propertyName="publicDisplayNote" p:label="Public Note" />
-                <bean id="eResource-publisher" parent="Uif-DataField" p:propertyName="instancePublisher" p:label="Publisher"/>
-                <bean id="eResource-accessStatus" parent="Uif-DataField" p:propertyName="status" p:label="Access Status"/>
-                <bean id="eResource-subscriptionStatus" parent="Uif-DataField" p:propertyName="subscriptionStatus" p:label="Subscription Status"/>
-                <bean id="eResource-platForm" parent="Uif-LinkField" p:linkText="@{#line.platformName}" p:label="Platform" p:target="_blank" p:href="@{#line.redirectUrl}"/>
-                <!--<bean id="Remove" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.removeInstance()}"  p:link.linkText="X"  p:target="_blank"  p:label="Remove"/>-->
-                <bean  id="ManageGokbForInstance" parent="Uif-LinkField" p:href="oleERSController?viewId=OLEEResourceManageGOKBPopUp&amp;methodToCall=getManageGOKbDataOnEIns&amp;lineIndex=@{#index}&amp;eResId=@{#line.oleERSIdentifier}" p:label="Manage gokb">
-                    <property name="lightBox">
-                        <bean parent="Uif-LightBox"/>
-                    </property>
-                </bean>
-
-            </list>
-        </property>
-        <property name="lineActions">
-            <list>
-                <bean id="RemoveLine_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="removeInstance" p:actionLabel="Remove" p:title="Remove E-Holdings" p:render="@{#line.oleERSDocument.oleERSIdentifier eq document.oleERSIdentifier}"/>
-
+                <bean parent="Uif-MessageField" p:messageText=" " />
             </list>
         </property>
     </bean>
-    <!--<bean id="OLEEResourceRecordView-GoKbSection" parent="Uif-Disclosure-VerticalBoxSection">-->
-       <!--<property name="items">-->
-            <!--<list>-->
-                <!--<bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="1"  >-->
-                    <!--<property name="items">-->
-                        <!--<list>-->
-                            <!--<ref bean="EResourceInstance_ManageGoKbPopup"/>-->
-                        <!--</list>-->
-                    <!--</property>-->
-                <!--</bean>-->
-            <!--</list>-->
-        <!--</property>-->
-    <!--</bean>-->
-
-
-
     <bean id="OLEEResourceRecordView-CreateChildE-ResourcePopUp" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
