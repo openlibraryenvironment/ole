@@ -9,10 +9,7 @@ import org.kuali.ole.coa.businessobject.OleFundCodeAccountingLine;
 import org.kuali.ole.module.purap.PurapConstants;
 import org.kuali.ole.module.purap.PurapKeyConstants;
 import org.kuali.ole.module.purap.PurapPropertyConstants;
-import org.kuali.ole.module.purap.businessobject.InvoiceAccount;
-import org.kuali.ole.module.purap.businessobject.InvoiceItem;
-import org.kuali.ole.module.purap.businessobject.PurApAccountingLine;
-import org.kuali.ole.module.purap.businessobject.PurApItem;
+import org.kuali.ole.module.purap.businessobject.*;
 import org.kuali.ole.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.ole.module.purap.document.service.OlePurapService;
 import org.kuali.ole.module.purap.document.service.PurapService;
@@ -3460,24 +3457,60 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
     public ModelAndView populateAccountingLines(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                            HttpServletRequest request, HttpServletResponse response) {
         OLEInvoiceForm oleInvoiceForm = (OLEInvoiceForm) form;
-        OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument)oleInvoiceForm.getDocument();
+        OleInvoiceDocument oleInvoiceDocument = (OleInvoiceDocument) oleInvoiceForm.getDocument();
         String accountingLineIndex = request.getParameter("accountingLineIndex");
-        OleInvoiceItem oleInvoiceItem=(OleInvoiceItem)oleInvoiceDocument.getItem(Integer.parseInt(accountingLineIndex));
-        String fundCode=oleInvoiceItem.getFundCode();
-        if(!StringUtils.isNotBlank(fundCode)){
+        OleInvoiceItem oleInvoiceItem = (OleInvoiceItem) oleInvoiceDocument.getItem(Integer.parseInt(accountingLineIndex));
+        Map fundMap = new HashMap();
+        String fundCode = oleInvoiceItem.getFundCode();
+        if (!StringUtils.isNotBlank(fundCode) && oleInvoiceDocument.getPurchaseOrderDocuments().size() > 0) {
+            OlePurchaseOrderItem olePurchaseOrderItem = ((OlePurchaseOrderItem) oleInvoiceDocument.getPurchaseOrderDocuments().get(0).getItem(Integer.parseInt(accountingLineIndex)));
+            if (olePurchaseOrderItem != null) {
+                fundCode = olePurchaseOrderItem.getFundCode();
+                if (fundCode != null) {
+                    fundMap.put(org.kuali.ole.OLEConstants.OLEEResourceRecord.FUND_CODE, fundCode);
+                    OleFundCode oleFundCode = getBusinessObjectService().findByPrimaryKey(OleFundCode.class, fundMap);
+                    if (oleFundCode == null) {
+                        GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_ITEMS_FUNDCODE,
+                                OleSelectConstant.ERROR_INVOICE_ITEMS_FUNDCODE_INVALID);
+                        return getUIFModelAndView(oleInvoiceForm);
+                    } else {
+                        if (oleFundCode.getOleFundCodeAccountingLineList() != null) {
+                            olePurchaseOrderItem.getSourceAccountingLines().clear();
+                            for (OleFundCodeAccountingLine oleFundCodeAccountingLine : oleFundCode.getOleFundCodeAccountingLineList()) {
+                                PurApAccountingLine purApAccountingLine = new OlePurchaseOrderAccount();
+                                purApAccountingLine.setChartOfAccountsCode(oleFundCodeAccountingLine.getChartCode());
+                                purApAccountingLine.setAccountNumber(oleFundCodeAccountingLine.getAccountNumber());
+                                purApAccountingLine.setSubAccountNumber(oleFundCodeAccountingLine.getSubAccount());
+                                purApAccountingLine.setFinancialObjectCode(oleFundCodeAccountingLine.getObjectCode());
+                                purApAccountingLine.setFinancialSubObjectCode(oleFundCodeAccountingLine.getSubObject());
+                                purApAccountingLine.setProjectCode(oleFundCodeAccountingLine.getProject());
+                                purApAccountingLine.setOrganizationReferenceId(oleFundCodeAccountingLine.getOrgRefId());
+                                purApAccountingLine.setAccountLinePercent(oleFundCodeAccountingLine.getPercentage());
+                                olePurchaseOrderItem.getSourceAccountingLines().add(purApAccountingLine);
+                            }
+                            olePurchaseOrderItem.setFundCode(null);
+                        }
+                    }
+                }
+
+            }
+            return getUIFModelAndView(oleInvoiceForm);
+        }
+        if (!StringUtils.isNotBlank(fundCode)) {
             GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_ITEMS_FUNDCODE,
                     OleSelectConstant.ERROR_INVOICE_ITEMS_FUNDCODE_REQUIRED);
             return getUIFModelAndView(oleInvoiceForm);
-        }else{
-            Map fundMap = new HashMap();
+        } else {
+            fundMap.clear();
             fundMap.put(org.kuali.ole.OLEConstants.OLEEResourceRecord.FUND_CODE, fundCode);
             OleFundCode oleFundCode = getBusinessObjectService().findByPrimaryKey(OleFundCode.class, fundMap);
             if (oleFundCode == null) {
                 GlobalVariables.getMessageMap().putError(OleSelectConstant.INVOICE_ITEMS_FUNDCODE,
                         OleSelectConstant.ERROR_INVOICE_ITEMS_FUNDCODE_INVALID);
                 return getUIFModelAndView(oleInvoiceForm);
-            }else{
+            } else {
                 if (oleFundCode.getOleFundCodeAccountingLineList() != null) {
+                    oleInvoiceItem.getSourceAccountingLines().clear();
                     for (OleFundCodeAccountingLine oleFundCodeAccountingLine : oleFundCode.getOleFundCodeAccountingLineList()) {
                         PurApAccountingLine purApAccountingLine = new InvoiceAccount();
                         purApAccountingLine.setChartOfAccountsCode(oleFundCodeAccountingLine.getChartCode());
@@ -3490,11 +3523,13 @@ public class OLEInvoiceController extends TransactionalDocumentControllerBase {
                         purApAccountingLine.setAccountLinePercent(oleFundCodeAccountingLine.getPercentage());
                         oleInvoiceItem.getSourceAccountingLines().add(purApAccountingLine);
                     }
+                    oleInvoiceItem.setFundCode(null);
                 }
             }
         }
         return getUIFModelAndView(oleInvoiceForm);
     }
+
 
     /*public Integer getIndexNumberFromJsonObject(String sequenceObject) {
         Integer returnValue = null;

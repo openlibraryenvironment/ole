@@ -130,7 +130,7 @@
         <property name="items">
             <list>
                <ref bean="OLEInvoiceView-processItems-invoiceNotes"/>
-                <ref bean="OLEInvoiceView-processItems-accountingLines" />
+                <ref bean="OLEInvoiceCurrentItemAccountingLine-VerticalBoxSection"/>
 
                 <ref bean="OLEInvoiceView-donors"/>
             </list>
@@ -216,12 +216,12 @@
             <list>
                 <bean id="invoiceCurrentItem_fundCode" parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund Code">
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.select.bo.OleVendorAccountInfo"
-                              p:fieldConversions="vendorRefNumber:fundCode"/>
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.OleFundCode"
+                              p:fieldConversions="fundCode:fundCode"/>
                     </property>
                     <property name="control">
                         <!--<bean parent="Uif-TextControl" p:size="15" p:onBlurScript="submitForm('populateAccountingLines',null,null,null,null);" />-->
-                        <bean parent="Uif-TextControl" p:size="15" p:onBlurScript="submitForm('populateAccountingLines',{accountingLineIndex:'@{#index}'},null,null,null);" />
+                        <bean parent="Uif-TextControl" p:size="15" p:onKeyPressScript="if(e.which==13){e.preventDefault();submitForm('populateAccountingLines',{accountingLineIndex:'@{#index}'},null,null,null);};" />
                     </property>
                 </bean>
                 <ref bean="OLEInvoiceView-processItems-accountingLines"/>
@@ -644,6 +644,16 @@
         <property name="items">
             <list>
                 <bean id="additionalItem_description" parent="Uif-MessageField" p:label="Item Type" p:width="50%" p:messageText="@{#line.itemType.itemTypeDescription}"/>
+
+                <bean id="invoiceAdditionalChargeItem_fundCode" parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund Code">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.OleFundCode"
+                              p:fieldConversions="fundCode:fundCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="15" p:onKeyPressScript="if(e.which==13){e.preventDefault();submitForm('populateAccountingLines',{accountingLineIndex:'@{#index}'},null,null,null);};" />
+                    </property>
+                </bean>
 
                 <!--<bean id="additionalItem_originalAmt" parent="Uif-DataField" p:label="Open Qty" p:propertyName="itemUnitPrice"/>
 
