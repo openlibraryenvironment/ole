@@ -394,7 +394,11 @@ public class BatchProcessInvoiceIngest extends AbstractBatchProcess {
                 oleInvoiceItem.setItemType(poItem.getItemType());
 
                 if (itemMap.containsKey("noOfItems")) {
-                    if (itemMap.get("noOfItems") == 1) {
+                    int noOfItems = 0;
+                    if(itemMap.get("noOfItems")!=null){
+                        noOfItems=Integer.parseInt(itemMap.get("noOfItems").toString());
+                    }
+                    if (noOfItems == 1) {
                         oleInvoiceItem.setItemQuantity(new KualiDecimal(invoiceRecord.getQuantity()));
                         oleInvoiceItem.setItemListPrice(new KualiDecimal(invoiceRecord.getListPrice()));
                         oleInvoiceItem.setItemUnitPrice(new BigDecimal(invoiceRecord.getUnitPrice()));
