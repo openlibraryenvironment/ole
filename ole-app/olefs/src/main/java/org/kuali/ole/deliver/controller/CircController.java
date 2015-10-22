@@ -96,7 +96,7 @@ public class CircController extends CheckoutValidationController {
                 circForm.setExistingLoanList(getOleLoanDocumentsFromSolrBuilder().getPatronLoanedItemBySolr
                         (circForm.getPatronDocument().getOlePatronId(), null));
             }
-            circForm.setLightboxScript("jq('#pageSizeExisting').val(" + defaultPageSize + ").attr('selected', 'selected');");
+            circForm.setLightboxScript("jq('#existingLoanItemTable_length').val(" + defaultPageSize + ").attr('selected', 'selected');enableDataTableForExistingLoanedItem();");
         } catch (Exception e) {
             e.printStackTrace();
         }

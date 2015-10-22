@@ -2,7 +2,7 @@
 
     <#if manager.totalLines gt 0>
         <@existing_pagesize manager />
-    <table class="table table-condensed table-bordered uif-tableCollectionLayout dataTable">
+    <table id="existingLoanItemTable" class="table table-condensed table-bordered uif-tableCollectionLayout dataTable">
         <thead>
         <tr>
             <th></th>
@@ -112,7 +112,7 @@
 <#macro existing_pagesize manager>
 <div class="dataTables_length">
     <label>Show
-        <select id="pageSizeExisting">
+        <select id="existingLoanItemTable_length">
             <#list manager.pageSizeOptions as pso>
                 <#if pso.key != '' && manager.pageSize == pso.key?number>
                     <option selected value="${pso.key}">${pso.value}</option>

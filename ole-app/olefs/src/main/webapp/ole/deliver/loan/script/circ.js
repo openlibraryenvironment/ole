@@ -55,9 +55,11 @@ jq("#pageSizeProxy").live("change", function () {
 
 })
 
-jq("#pageSizeExisting").live("change", function () {
-    var pageSize = jq("#pageSizeExisting").val();
-    retrieveComponent('existingLoanItemListSection-HorizontalBoxSection', "newSize", null, {
+jq("#existingLoanItemTable_length").live("change", function () {
+    var pageSize = jq("#existingLoanItemTable_length").val();
+    retrieveComponent('existingLoanItemListSection-HorizontalBoxSection', "newSize", function(){
+        destroyDataTableForExistingLoanAndCreateNewDataTable();
+    } , {
         "pageSize":pageSize
     }, true);
 
@@ -205,3 +207,19 @@ function populateDueDateForAlterDueDateDialog(jsonContentForAlterDueDateDialog){
         });
     }
 }
+
+function enableDataTableForExistingLoanedItem(){
+    var pageSize = jq("#existingLoanItemTable_length").val();
+    jq('#existingLoanItemTable').DataTable( {
+        "bFilter": false,
+        "bLengthChange": false,
+        "iDisplayLength" : pageSize
+    } );
+}
+
+function destroyDataTableForExistingLoanAndCreateNewDataTable(){
+    jq('#existingLoanItemTable').dataTable().fnDestroy();
+    enableDataTableForExistingLoanedItem();
+}
+
+window.onload=enableDataTableForExistingLoanedItem
