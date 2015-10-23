@@ -136,7 +136,6 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
             }
             if (resultSet.get("OLE_NO_COPIES_RCVD")!=null) {
                 olePurchaseOrderItem.setNoOfCopiesReceived(resultSet.get("OLE_NO_COPIES_RCVD").toString());
-                olePurchaseOrderItem.setNoOfCopiesReceived("NAAA");
             }
             if (resultSet.get("OLE_NO_PARTS_RCVD")!=null) {
                 olePurchaseOrderItem.setNoOfPartsReceived(resultSet.get("OLE_NO_PARTS_RCVD").toString());
