@@ -52,8 +52,22 @@ public class OLEAccessActivationServiceImpl implements OLEAccessActivationServic
     @Override
     public OLEAccessActivationConfiguration setRoleAndPersonName(OLEAccessActivationConfiguration oleAccessActivationConfiguration) {
         List<OLEAccessActivationWorkFlow> accessActivationWorkFlowList = oleAccessActivationConfiguration.getAccessActivationWorkflowList();
+        Map<String, Object> oleBoMap = new HashMap<>();
+        if(StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientRoleId())) {
+            oleBoMap.put(OLEConstants.ID, oleAccessActivationConfiguration.getRecipientRoleId());
+            OLERoleBo oleRoleBo = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLERoleBo.class, oleBoMap);
+            if(oleRoleBo != null) {
+                oleAccessActivationConfiguration.setRecipientRoleName(oleRoleBo.getName());
+            }
+        }
+        if(StringUtils.isNotBlank(oleAccessActivationConfiguration.getRecipientUserId())){
+            Person person = KimApiServiceLocator.getPersonService().getPerson(oleAccessActivationConfiguration.getRecipientUserId());
+            if(person !=null){
+                oleAccessActivationConfiguration.setRecipientUserName(person.getPrincipalName());
+            }
+        }
         for (OLEAccessActivationWorkFlow oleAccessActivationWorkFlow : accessActivationWorkFlowList) {
-            Map<String, Object> oleBoMap = new HashMap<>();
+             oleBoMap = new HashMap<>();
             if(StringUtils.isNotBlank(oleAccessActivationWorkFlow.getRoleId())) {
                 oleBoMap.put(OLEConstants.ID, oleAccessActivationWorkFlow.getRoleId());
                 OLERoleBo oleRoleBo = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(OLERoleBo.class, oleBoMap);
