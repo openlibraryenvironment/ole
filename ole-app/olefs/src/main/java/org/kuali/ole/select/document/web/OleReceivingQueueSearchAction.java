@@ -376,7 +376,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
         }
         List<OlePurchaseOrderItem> refreshedPOList = new ArrayList<OlePurchaseOrderItem>();
         for (OlePurchaseOrderItem poItem : oleReceivingQueueSearchDocument.getPurchaseOrderItems()) {
-            Integer poId = poItem.getPurchaseOrder().getPurapDocumentIdentifier();
+            Integer poId = poItem.getOlePurchaseOrderDocument().getPurapDocumentIdentifier();
             refreshedPOList.add(poItem);
             /*if(ObjectUtils.isNull(receivePOStatus.get(poId))){
                 refreshedPOList.add(poItem);
@@ -456,8 +456,8 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
                 if (validateReceivingForProcess(olePurchaseOrderItem)) {
                     isReceivingExist = true;
                     olePurchaseOrderItem.setPoAdded(false);
-                    if (!errorCreatingReceivingForPoIdList.contains(olePurchaseOrderItem.getPurchaseOrder().getPurapDocumentIdentifier().toString())) {
-                        errorCreatingReceivingForPoIdList.add(olePurchaseOrderItem.getPurchaseOrder().getPurapDocumentIdentifier().toString());
+                    if (!errorCreatingReceivingForPoIdList.contains(olePurchaseOrderItem.getOlePurchaseOrderDocument().getPurapDocumentIdentifier().toString())) {
+                        errorCreatingReceivingForPoIdList.add(olePurchaseOrderItem.getOlePurchaseOrderDocument().getPurapDocumentIdentifier().toString());
                     }
                 }
                 /*if (olePurchaseOrderItem.getItemQuantity() != null) {
@@ -507,7 +507,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
         }
         List<OlePurchaseOrderItem> refreshedPOList = new ArrayList<OlePurchaseOrderItem>();
         for (OlePurchaseOrderItem poItem : oleReceivingQueueSearchDocument.getPurchaseOrderItems()) {
-            Integer poId = poItem.getPurchaseOrder().getPurapDocumentIdentifier();
+            Integer poId = poItem.getOlePurchaseOrderDocument().getPurapDocumentIdentifier();
             refreshedPOList.add(poItem);
             /*if (ObjectUtils.isNull(receivePOStatus.get(poId))) {
                 refreshedPOList.add(poItem);
@@ -550,8 +550,8 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
         HashMap<Integer, OlePurchaseOrderItem> poItemMap = new HashMap<Integer, OlePurchaseOrderItem>();
         for (OlePurchaseOrderItem poItem : purchaseOrders) {
             if (poItem.isPoAdded()) {
-                if (ObjectUtils.isNull(poItemMap.get(poItem.getPurchaseOrder().getPurapDocumentIdentifier()))) {
-                    poItemMap.put(poItem.getPurchaseOrder().getPurapDocumentIdentifier(), poItem);
+                if (ObjectUtils.isNull(poItemMap.get(poItem.getOlePurchaseOrderDocument().getPurapDocumentIdentifier()))) {
+                    poItemMap.put(poItem.getOlePurchaseOrderDocument().getPurapDocumentIdentifier(), poItem);
                 }
             }
         }
@@ -658,7 +658,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
         }
         List<OlePurchaseOrderItem> refreshedPOList = new ArrayList<OlePurchaseOrderItem>();
         for (OlePurchaseOrderItem poItem : oleReceivingQueueSearchDocument.getPurchaseOrderItems()) {
-            Integer poId = poItem.getPurchaseOrder().getPurapDocumentIdentifier();
+            Integer poId = poItem.getOlePurchaseOrderDocument().getPurapDocumentIdentifier();
             if (ObjectUtils.isNull(receivePOStatus.get(poId))) {
                 refreshedPOList.add(poItem);
             } else {
