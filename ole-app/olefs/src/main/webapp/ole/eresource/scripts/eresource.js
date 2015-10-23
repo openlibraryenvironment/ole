@@ -69,6 +69,8 @@ jq(document).ready(function () {
         jq("#refreshVendor").focus().click();
     })
 
+    jq("#focusOutControl").attr('disabled','disabled');
+
     jq("input:text").live("click", function () {
         if (jq(this).attr("id") == undefined) {
             if (jq(this).parent().parent().attr("class") == "dataTables_filter") {

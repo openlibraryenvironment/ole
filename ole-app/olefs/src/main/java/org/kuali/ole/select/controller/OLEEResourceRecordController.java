@@ -2528,7 +2528,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                 } else {
                     if (oleFundCode.getOleFundCodeAccountingLineList() != null) {
                         if (oleCreatePO != null) {
-                            oleFundCode.setFundCode(null);
+                            oleCreatePO.setFundCode(null);
                             for (OleFundCodeAccountingLine oleFundCodeAccountingLine : oleFundCode.getOleFundCodeAccountingLineList()) {
                                 OLECretePOAccountingLine oleCretePOAccountingLine = new OLECretePOAccountingLine();
                                 oleCretePOAccountingLine.setChartOfAccountsCode(oleFundCodeAccountingLine.getChartCode());
@@ -2555,33 +2555,24 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
         OLEEResourceRecordForm oleEResourceRecordForm = (OLEEResourceRecordForm) form;
         oleEResourceRecordForm.setPoSuccessMessage(null);
         oleEResourceRecordForm.setPoErrorMessage(null);
-        String selectedCollectionId = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        /*BindingInfo addLineBindingInfo = (BindingInfo) form.getViewPostMetadata().getComponentPostData(
-                selectedCollectionId, UifConstants.PostMetadata.ADD_LINE_BINDING_INFO);*/
-        CollectionGroup collectionGroup = form.getPostedView().getViewIndex().getCollectionGroupByPath(
-                selectedCollectionId);
-        String addLinePath = collectionGroup.getAddLineBindingInfo().getBindingPath();
-        Object eventObject = ObjectPropertyUtils.getPropertyValue(oleEResourceRecordForm, addLinePath);
-        OleFundCode oleFundCode = (OleFundCode) eventObject;
+        List<OLECreatePO> oleCreatePOList = oleEResourceRecordForm.getInstancePOs();
+        OLECreatePO oleCreatePOInstance = oleCreatePOList.get(0);
+        String oleFundCode = oleCreatePOInstance.getFundCode();
         if (oleFundCode != null) {
-            if (StringUtils.isBlank(oleFundCode.getFundCode())) {
+            if (StringUtils.isBlank(oleFundCode)) {
                 oleEResourceRecordForm.setPoErrorMessage("Fund Code is required.");
                 return getUIFModelAndView(oleEResourceRecordForm);
             } else {
                 Map fundMap = new HashMap();
-                fundMap.put(OLEConstants.OLEEResourceRecord.FUND_CODE, oleFundCode.getFundCode());
+                fundMap.put(OLEConstants.OLEEResourceRecord.FUND_CODE, oleFundCode);
                 OleFundCode fundCode = getBusinessObjectService().findByPrimaryKey(OleFundCode.class, fundMap);
                 if (fundCode == null) {
                     oleEResourceRecordForm.setPoErrorMessage("Fund Code is invalid.");
                     return getUIFModelAndView(oleEResourceRecordForm);
                 } else {
                     if (fundCode.getOleFundCodeAccountingLineList() != null) {
-                        Map<String, String> actionParameters = form.getActionParameters();
-                        String mainCollectionIndex = StringUtils.substringBefore(StringUtils.substringAfter(actionParameters.get(UifParameters.SELLECTED_COLLECTION_PATH), "["), "]");
-                        int mainIndex = Integer.parseInt(mainCollectionIndex);
-                        OLECreatePO oleCreatePO = oleEResourceRecordForm.getInstancePOs().get(mainIndex);
-                        if (oleCreatePO != null) {
-                            oleFundCode.setFundCode(null);
+                     if (oleCreatePOInstance != null) {
+                            oleCreatePOInstance.setFundCode(null);
                             for (OleFundCodeAccountingLine oleFundCodeAccountingLine : fundCode.getOleFundCodeAccountingLineList()) {
                                 OLECretePOAccountingLine oleCretePOAccountingLine = new OLECretePOAccountingLine();
                                 oleCretePOAccountingLine.setChartOfAccountsCode(oleFundCodeAccountingLine.getChartCode());
@@ -2592,7 +2583,7 @@ public class OLEEResourceRecordController extends OleTransactionalDocumentContro
                                 oleCretePOAccountingLine.setProjectCode(oleFundCodeAccountingLine.getProject());
                                 oleCretePOAccountingLine.setOrganizationReferenceId(oleFundCodeAccountingLine.getOrgRefId());
                                 oleCretePOAccountingLine.setAccountLinePercent(oleFundCodeAccountingLine.getPercentage());
-                                oleCreatePO.getAccountingLines().add(oleCretePOAccountingLine);
+                                oleCreatePOInstance.getAccountingLines().add(oleCretePOAccountingLine);
                             }
                         }
                     }

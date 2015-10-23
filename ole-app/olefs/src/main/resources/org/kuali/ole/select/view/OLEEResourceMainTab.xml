@@ -621,13 +621,20 @@
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund">
+                            <bean id="eResourceFundCodeLookup" parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.OleFundCode"
                                           p:fieldConversions="fundCode:fundCode"/>
                                 </property>
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="15" p:onBlurScript="submitForm('populateAccountingLines',null,null,null,null);" />
+                                    <bean parent="Uif-TextControl" p:size="15" p:onKeyPressScript="
+                                    if(e.which==13){
+                                       e.preventDefault();
+                                       if(jq('#eResourceFundCodeLookup_control').val() !== ''){
+                                            submitForm('populateAccountingLines',null,null,true,
+                                            function (){jq('#eResourceFundCodeLookup_control').focus();});
+                                        }
+                                     }" />
                                 </property>
                             </bean>
                         </list>

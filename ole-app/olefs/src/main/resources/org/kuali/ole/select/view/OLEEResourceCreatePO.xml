@@ -210,6 +210,7 @@
     <bean id="Uif-E-Res-CreatePO-DocumentPageFooter" parent="Uif-HorizontalFieldGroup">
         <property name="items">
             <list>
+                <bean id="focusOutControl" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create POs" p:style="float:left;margin-left:50em" p:hidden="true"/>
                 <bean id="createPOs" parent="Uif-SecondaryActionButton-Small" p:methodToCall="createPOs" p:actionLabel="Create POs" p:style="float:left;margin-left:50em"/>
                 <bean id="savePoChanges" parent="Uif-SecondaryActionButton-Small" p:methodToCall="savePoChanges" p:actionLabel="Save Changes"/>
                 <bean id="cancel" parent="Uif-SecondaryActionButton-Small" p:actionScript="cancel();" p:actionLabel="Cancel"/>
@@ -255,55 +256,61 @@
     <bean id="showHoldingsMessage" parent="Uif-MessageField" p:messageText="@{confirmationMessageForHoldings}"/>
     <bean id="showEResourceMessage" parent="Uif-MessageField" p:messageText="@{confirmationMessageForEResource}"/>
 
-    <bean id="EResourcePOView-InstanceFund" parent="Uif-Disclosure-TableSubCollection-WithinSection"
-          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;" p:disclosure.defaultOpen="true">
-        <property name="headerText" value="Fund"/>
-        <property name="collectionObjectClass" value="org.kuali.ole.coa.businessobject.OleFundCode"/>
-        <property name="propertyName" value="fundCodes"/>
-        <property name="layoutManager.renderSequenceField" value="false"/>
-        <property name="layoutManager.richTable.templateOptions" value="false"/>
-        <property name="layoutManager.richTable.render" value="false"/>
-        <property name="renderAddLine" value="true"/>
-        <property name="renderLineActions" value="true"/>
+
+    <bean id="EResourcePOView-InstanceFund" parent="Uif-Disclosure-HorizontalBoxSubSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund Code" p:required="true" p:enableAutoDirectInquiry="false">
+                <bean id="createPOForInstanceFundCodeLookup" parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund" p:required="true" p:enableAutoDirectInquiry="false">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.OleFundCode"
-                              p:fieldConversions="fundCode:fundCode"
-                              p:lookupParameters="fundCode:fundCode"/>
+                              p:fieldConversions="fundCode:fundCode"/>
                     </property>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="15" p:maxLength="15"/>
+                        <bean parent="Uif-TextControl" p:size="15" p:maxLength="15" p:onKeyPressScript="
+                                    if(e.which==13){
+                                       e.preventDefault();
+                                       if(jq('#createPOForInstanceFundCodeLookup_line0_control').val() !== ''){
+                                            submitForm('populateAccountingLinesToInstance',null,null,true,
+                                            function (){
+                                            jq('#createPOForInstanceFundCodeLookup_control').focus();});
+                                        }else{
+                                            return false;
+                                        }
+                                     }" />
                     </property>
                 </bean>
             </list>
         </property>
-        <property name="addLineActions">
-            <list>
-                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="populateAccountingLinesToInstance" p:actionLabel="Populate Accounting Lines" p:successCallback="refresh();"/>
-            </list>
-        </property>
-        <property name="lineActions">
-            <list>
-                <bean parent="Uif-DeleteLineAction"/>
-            </list>
-        </property>
     </bean>
+
+
+
 
     <bean id="EResourcePOView-EResourceFund" parent="Uif-Disclosure-HorizontalBoxSubSection">
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                <bean  parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund">
+                            <bean id="createPOForEResourceFundCodeLookup" parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.OleFundCode"
                                           p:fieldConversions="fundCode:fundCode"/>
                                 </property>
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="15" p:onBlurScript="submitForm('populateAccountingLinesForFundCode',null,null,null,null);" />
+                                    <bean parent="Uif-TextControl" p:size="15" p:onKeyPressScript="
+                                    if(e.which==13){
+                                       e.preventDefault();
+                                       if(jq('#createPOForEResourceFundCodeLookup_line0_control').val() !== ''){
+                                            submitForm('populateAccountingLinesForFundCode',null,null,true,
+                                            function (){
+                                            jq('#createPOForEResourceFundCodeLookup_control').focus();
+                                            });
+                                            return false;
+                                        }else{
+                                         return false;
+                                        }
+                                     }" />
                                 </property>
                             </bean>
                         </list>
@@ -424,7 +431,7 @@
         <property name="renderLineActions" value="true"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="chartOfAccountsCode" p:label="Chart Codde" p:required="true">
+                <bean parent="Uif-InputField" p:propertyName="chartOfAccountsCode" p:label="Chart Code" p:required="true">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.Chart"
                               p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode"
