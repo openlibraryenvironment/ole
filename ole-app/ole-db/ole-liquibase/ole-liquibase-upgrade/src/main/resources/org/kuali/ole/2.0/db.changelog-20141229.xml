@@ -5200,4 +5200,11 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="OLE_PRBLM_TYPE_ADD">
+        <addColumn
+                tableName="OLE_PRBLM_TYPE_T">
+            <column name="DEFT_IND"   type="VARCHAR(1)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

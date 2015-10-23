@@ -1,5 +1,6 @@
 package org.kuali.ole.select.keyvalue;
 
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.select.bo.OLEProblemType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -18,13 +19,18 @@ public class OLEProblemTypeKeyValues extends KeyValuesBase {
 
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        Collection<OLEProblemType> oleProblemTypes = KRADServiceLocator.getBusinessObjectService().findAll(OLEProblemType.class);
+        List<KeyValue> keyValuesDefault = new ArrayList<KeyValue>();
+        List<KeyValue> keyValuesNonDefault=new ArrayList<KeyValue>();
+        Collection<OLEProblemType> oleProblemTypes = KRADServiceLocator.getBusinessObjectService().findAllOrderBy(OLEProblemType.class, OLEConstants.OLEProblemType.PRBLM_TYPE_NAME,true);
         for (OLEProblemType oleProblemType : oleProblemTypes) {
             if (oleProblemType.isActive()) {
-                keyValues.add(new ConcreteKeyValue(oleProblemType.getProblemTypeId(), oleProblemType.getProblemTypeName()));
+                if(oleProblemType.isDefaultIndicator())
+                    keyValuesDefault.add(new ConcreteKeyValue(oleProblemType.getProblemTypeId(), oleProblemType.getProblemTypeName()));
+                else
+                    keyValuesNonDefault.add(new ConcreteKeyValue(oleProblemType.getProblemTypeId(), oleProblemType.getProblemTypeName()));
             }
         }
-        return keyValues;
+        keyValuesDefault.addAll(keyValuesNonDefault);
+        return keyValuesDefault;
     }
 }

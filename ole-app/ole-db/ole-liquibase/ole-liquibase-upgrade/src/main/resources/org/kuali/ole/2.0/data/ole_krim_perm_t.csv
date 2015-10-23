@@ -1,3 +1,4 @@
 PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
 OLE10330,OLE10330,1,10,OLE-SYS,Initiate and Edit Fund Code,Authorizes the initiation and edit of Fund code Simple Maintenance documents.,Y
 OLE10500,OLE10500,1,15,OLE-SELECT,Save E-Resource Record,Allows user to Save the E-Resource record.,Y
+OLE10501,OLE10501,1,10,OLE-SYS,Initiate  Problem Type,Authorizes the initiation ofProblem type Simple Maintenance documents.,Y

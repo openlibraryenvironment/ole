@@ -2354,6 +2354,9 @@ public class OLEConstants {
     public static final class OLEProblemType {
         public static final String PRBLM_TYPE_NAME_FIELD = "dataObject.problemTypeName";
         public static final String PRBLM_TYPE_NAME = "problemTypeName";
+
+        public static final String PRBLM_TYPE_DEFAULT_INDICATOR_FIELD = "dataObject.defaultIndicator";
+        public static final String PRBLM_TYPE_DEFAULT_INDICATOR = "defaultIndicator";
     }
 
     public static final class OLEAddTitlesToInvoice {
@@ -3389,7 +3392,9 @@ public class OLEConstants {
         return Collections.unmodifiableList(resultFields);
     }
     public static final String DUPLICATE = "error.duplicate";
+    public static final String ERROR_DEFAULT_IND_DUPLICATE="error.duplicate.defaultIndicator";
     public static final String PLATFORM_SERVICE = "olePlatformService";
+
 
     public static final String CONFIRMATION_MESSAGE_INSTANCE = "<br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Create another PO for this instance? <br/><br/>";
     public static final String CONFIRMATION_MESSAGE_E_RESOURCE = "<br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Create another PO for this E-Resource? <br/><br/>";
