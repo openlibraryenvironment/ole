@@ -3200,7 +3200,6 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                 for(String eholdingVendor : holdingVendors) {
                     vendors.append(eholdingVendor);
                 }
-                vendors.deleteCharAt(vendors.length() - 2);
                 workEInstanceOlemlForm.getExtendedEHoldingFields().setVendorName(vendors.toString());
             }
             if (orderType.length() > 0) {
@@ -3214,12 +3213,20 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                 for(String eholdingOrderType : holdingOrderTypes) {
                     orderTypes.append(eholdingOrderType);
                 }
-                orderTypes.deleteCharAt(orderTypes.length() - 2);
                 workEInstanceOlemlForm.getExtendedEHoldingFields().setOrderType(orderTypes.toString());
             }
             if (orderFormat.length() > 0) {
-                orderFormat.deleteCharAt(orderFormat.length() - 2);
-                workEInstanceOlemlForm.getExtendedEHoldingFields().setOrderFormat(orderFormat.toString());
+                String[] orderFormats = orderFormat.toString().split(",");
+                Set set = new HashSet();
+                for (String orderFormatObject : orderFormats) {
+                    set.add(orderFormatObject.trim());
+                }
+                orderFormats =  (String[]) set.toArray(new String[0]);
+                StringBuffer eholdingOrderFormats = new StringBuffer();
+                for(String eholdingOrderFormat : orderFormats) {
+                    eholdingOrderFormats.append(eholdingOrderFormat);
+                }
+               workEInstanceOlemlForm.getExtendedEHoldingFields().setOrderFormat(eholdingOrderFormats.toString());
             }
             String pos[] = linkedPos.toString().split(",");
             Set set = new HashSet();
@@ -3246,7 +3253,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
                             }
                         }
                     }
-                    currentFYCost = getInvoicedAmount(po.trim());
+                    currentFYCost = currentFYCost.add(getInvoicedAmount(po.trim()));
                 }
 
             }
