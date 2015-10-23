@@ -420,21 +420,21 @@ function selectEventOrProblem() {
     jq("input:radio").live("change",function(){
         if(jq(this).attr("name")=="newCollectionLines['document.oleERSEventLogs'].logTypeId"){
             if(jq(this).attr("value")==1){
-                jq("#eResourceproblemType_add_control").attr('disabled', 'true');
-                jq("#eResourceeventType_add_control").removeAttr('disabled');
+                jq("#EventLogSection_eResourceproblemType_add_control").attr('disabled', 'true');
+                jq("#EventLogSection_eResourceeventType_add_control").removeAttr('disabled');
 
-                jq("#eResourceeventStatus_add_control").attr('disabled', 'true');
-                jq("#eResourceeventResolvedDate_add_control").attr('disabled', 'true');
-                jq("#eResourceeventResolvedDate_add_control").datepicker("disable");
-                jq("#eResourceeventResolution_add_control").attr('disabled', 'true');
+                jq("#EventLogSection_eResourceeventStatus_add_control").attr('disabled', 'true');
+                jq("#EventLogSection_eResourceeventResolvedDate_add_control").attr('disabled', 'true');
+                jq("#EventLogSection_eResourceeventResolvedDate_add_control").datepicker("disable");
+                jq("#EventLogSection_eResourceeventResolution_add_control").attr('disabled', 'true');
             }
             if(jq(this).attr("value")==2){
-                jq("#eResourceproblemType_add_control").removeAttr('disabled');
-                jq("#eResourceeventType_add_control").attr('disabled', 'true');
-                jq("#eResourceeventStatus_add_control").removeAttr('disabled');
-                jq("#eResourceeventResolvedDate_add_control").removeAttr('disabled');
-                jq("#eResourceeventResolvedDate_add_control").datepicker("enable");
-                jq("#eResourceeventResolution_add_control").removeAttr('disabled');
+                jq("#EventLogSection_eResourceproblemType_add_control").removeAttr('disabled');
+                jq("#EventLogSection_eResourceeventType_add_control").attr('disabled', 'true');
+                jq("#EventLogSection_eResourceeventStatus_add_control").removeAttr('disabled');
+                jq("#EventLogSection_eResourceeventResolvedDate_add_control").removeAttr('disabled');
+                jq("#EventLogSection_eResourceeventResolvedDate_add_control").datepicker("enable");
+                jq("#EventLogSection_eResourceeventResolution_add_control").removeAttr('disabled');
                 enableOrDisableDateResolved();
             }
         }
@@ -442,13 +442,13 @@ function selectEventOrProblem() {
 }
 
 function selectEvent(){
-    jq("#eResourcelogType_add_control_0").attr("checked", "true");
-    jq("#eResourceproblemType_add_control").hide()
-    jq("#eResourceproblemType_add_label").hide()
-    jq("#eResourceeventStatus_add_control").attr('disabled', 'true');
-    jq("#eResourceeventResolvedDate_add_control").attr('disabled', 'true');
-    jq("#eResourceeventResolvedDate_add_control").datepicker("enable");
-    jq("#eResourceeventResolution_add_control").attr('disabled', 'true');
+    jq("#EventLogSection_eResourcelogType_add_control_0").attr("checked", "true");
+    jq("#EventLogSection_eResourceproblemType_add_control").hide()
+    jq("#EventLogSection_eResourceproblemType_add_label").hide()
+    jq("#EventLogSection_eResourceeventStatus_add_control").attr('disabled', 'true');
+    jq("#EventLogSection_eResourceeventResolvedDate_add_control").attr('disabled', 'true');
+    jq("#EventLogSection_eResourceeventResolvedDate_add_control").datepicker("enable");
+    jq("#EventLogSection_eResourceeventResolution_add_control").attr('disabled', 'true');
 }
 
 function manageGokbPopup() {
@@ -472,13 +472,13 @@ function setSpaceField() {
 }
 
 function enableOrDisableDateResolved(){
-    if(jq('#eResourceeventStatus_add_control').val() === 'Resolved'){
-        jq("#eResourceeventResolvedDate_add_control").removeAttr('disabled');
-        jq("#eResourceeventResolvedDate_add_control").datepicker("enable");
+    if(jq('#EventLogSection_eResourceeventStatus_add_control').val() === 'Resolved'){
+        jq("#EventLogSection_eResourceeventResolvedDate_add_control").removeAttr('disabled');
+        jq("#EventLogSection_eResourceeventResolvedDate_add_control").datepicker("enable");
     } else {
-        jq("#eResourceeventResolvedDate_add_control").val('');
-        jq("#eResourceeventResolvedDate_add_control").attr('disabled','true');
-        jq("#eResourceeventResolvedDate_add_control").datepicker("disable");
+        jq("#EventLogSection_eResourceeventResolvedDate_add_control").val('');
+        jq("#EventLogSection_eResourceeventResolvedDate_add_control").attr('disabled','true');
+        jq("#EventLogSection_eResourceeventResolvedDate_add_control").datepicker("disable");
     }
 }
 
