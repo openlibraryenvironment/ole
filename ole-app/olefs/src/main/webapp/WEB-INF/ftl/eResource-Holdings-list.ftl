@@ -51,10 +51,12 @@
                  <td>${line.row.status!}</td>
                 <td>${line.row.subscriptionStatus!}</td>
                 <td>
-                    <div>
-                        <a target="_blank"
-                           href="${line.row.redirectUrl}">${line.row.platformName!?html}</a>
-                    </div>
+                    <#if line.row.platformName??>
+                        <div>
+                            <a target="_blank"
+                                href="${line.row.redirectUrl}">${line.row.platformName!?html}</a>
+                        </div>
+                    </#if>
                 </td>
                 <td>
                     <div>
