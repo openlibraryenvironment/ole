@@ -99,6 +99,7 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
     private String poItemLink;
     private DocstoreClientLocator docstoreClientLocator;
     private OleSelectDocumentService oleSelectDocumentService;
+    private List<OlePurchaseOrderItem> olePurchaseOrderItemList;
 
     protected static DocumentService getDocumentService() {
         if (documentService == null) {
@@ -238,6 +239,14 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
 
     public static void setOleCopyHelperService(OleCopyHelperService oleCopyHelperService) {
         OlePurchaseOrderDocument.oleCopyHelperService = oleCopyHelperService;
+    }
+
+    public List<OlePurchaseOrderItem> getOlePurchaseOrderItemList() {
+        return olePurchaseOrderItemList;
+    }
+
+    public void setOlePurchaseOrderItemList(List<OlePurchaseOrderItem> olePurchaseOrderItemList) {
+        this.olePurchaseOrderItemList = olePurchaseOrderItemList;
     }
 
     @Override
@@ -567,7 +576,7 @@ public class OlePurchaseOrderDocument extends PurchaseOrderDocument {
             singleItem.setSingleCopyNumber(singleItem.getCopyList().get(0).getCopyNumber());
         }
         else if (singleItem.getItemQuantity() != null && singleItem.getItemNoOfParts() != null && (singleItem.getItemQuantity().isGreaterThan(new KualiDecimal(1))
-                    || singleItem.getItemNoOfParts().isGreaterThan(new KualiInteger(1)))) {
+                || singleItem.getItemNoOfParts().isGreaterThan(new KualiInteger(1)))) {
             singleItem.setCopies(getOleCopyHelperService().setCopiesToLineItem(singleItem.getCopyList(), singleItem.getItemNoOfParts(), singleItem.getItemTitleId()));
         }
         if(singleItem.getCopyList().size() > 0 && singleItem.getItemTitleId() != null) {

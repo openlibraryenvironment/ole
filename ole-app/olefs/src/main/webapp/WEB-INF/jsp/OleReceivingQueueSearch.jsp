@@ -205,32 +205,37 @@ function setAllReceivingQueueResults(checked) {
      
      <select:oleReceivingQueueSearch />
     <c:set var="counter" value="0" />
-	 <logic:notEmpty name="KualiForm" property="document.purchaseOrders">
+	 <logic:notEmpty name="KualiForm" property="document.purchaseOrderItems">
 	 <c:if test="${KualiForm.document.purchaseOrderDocumentAdded}">
 	 <kul:tab tabTitle="Search Results" defaultOpen="true">
 
 	 <div class="tab-container" align=center>
 		 <display:table class="datatable-100" cellpadding="2" cellspacing="0"
-			 name="${KualiForm.document.purchaseOrders}" pagesize="100"
+			 name="${KualiForm.document.purchaseOrderItems}" pagesize="100"
 			 id="result" excludedParams="*" requestURI="oleReceivingQueueSearch.do" sort="list" defaultsort="2">
 			 <c:set var="itemPrice" value=""/>
 			 <display:column title="Receive">
-				<html:checkbox property="document.purchaseOrders[${result_rowNum-1}].poAdded" />
+				<html:checkbox property="document.purchaseOrderItems[${result_rowNum-1}].poAdded" />
 			 </display:column>
              <display:column sortable="true" title="PO#">
-                 <a href="<c:url value="${ConfigProperties.application.url}${KualiForm.url}=${result.purchaseOrder.documentNumber}" ></c:url>"
+<%--                 <a href="<c:url value="${ConfigProperties.application.url}${KualiForm.url}=${result.purchaseOrder.documentNumber}" ></c:url>"
                     target="_blank"
                     class="showvisit"> <c:out value="${result.purchaseOrder.purapDocumentIdentifier}" />
-                 </a>
-
+                 </a>--%>
+                                                              <a href="<c:url value="${ConfigProperties.application.url}${KualiForm.url}=${result.olePurchaseOrderDocument.documentNumber}" ></c:url>"
+                                                                 target="_blank"
+                                                                 class="showvisit"> <c:out value="${result.olePurchaseOrderDocument.purapDocumentIdentifier}" />
+                                                              </a>
                  <input type="hidden" class="poclass" value="${result.itemIdentifier}" style="display:none">
                  <input type="hidden" class="titleClass" value="${result.docData.itemTitle}" style="display:none">
                  <input type="hidden" class="vendorClass" value="${result.purchaseOrder.vendorName}" style="display:none">
              </display:column>
-             <display:column property="purchaseOrder.vendorName" sortable="true"
-                             title="Vendor Name" >
+<%--             <display:column property="purchaseOrder.vendorName" sortable="true"
+                             title="Vendor Name" >--%>
+                                                          <display:column property="olePurchaseOrderDocument.vendorName" sortable="true"
+                                                                          title="Vendor Name" >
                  <c:set var="bibEditorUrl" value="${result.purchaseOrder.bibeditorViewURL}?docAction=checkOut" />
-                 <c:set var="bibUUID" value="${KualiForm.document.purchaseOrders[counter].bibUUID}" />
+                 <c:set var="bibUUID" value="${KualiForm.document.purchaseOrderItems[counter].bibUUID}" />
                  <c:set var="title" value="${result.purchaseOrder.items[0].itemDescription}" />
                  <c:set var="bibDetails" value="${fn:split(title,',')}"/>
                  <c:set var="docId" value="${fn:split(bibUUID,'-')}"/>
@@ -240,7 +245,7 @@ function setAllReceivingQueueResults(checked) {
              <display:column  comparator="org.kuali.ole.select.businessobject.options.OLEOHQComparator" sortable="true"
                               title="Title" decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator" >
                  <a href="<c:url value="${bibEditorUrl}&Title_display=${bibDetails[0]}&docId=${docId[1]}&uuid=${bibUUID} "></c:url>" target="_blank" class="showvisit">
-                     <c:out value="${KualiForm.document.purchaseOrders[counter].docData.title}"/>
+                     <c:out value="${KualiForm.document.purchaseOrderItems[counter].docData.title}"/>
                      <c:set var="counter" value="${counter+1 }"/>
                  </a>
              </display:column>
@@ -252,10 +257,10 @@ function setAllReceivingQueueResults(checked) {
 				 title="Edition" decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator" />
              <display:column title="Claim">
                  <c:if test="${result.claimFilter}">
-                     <html:checkbox property="document.purchaseOrders[${result_rowNum-1}].claimPoAdded" style="display:block" />
+                     <html:checkbox property="document.purchaseOrderItems[${result_rowNum-1}].claimPoAdded" style="display:block" />
                 </c:if>
                  <c:if test="${!result.claimFilter}">
-                     <html:checkbox property="document.purchaseOrders[${result_rowNum-1}].claimPoAdded" style="display:none" />
+                     <html:checkbox property="document.purchaseOrderItems[${result_rowNum-1}].claimPoAdded" style="display:none" />
                  </c:if>
              </display:column>
 		 	 <display:column property="itemPoQty" sortable="true"

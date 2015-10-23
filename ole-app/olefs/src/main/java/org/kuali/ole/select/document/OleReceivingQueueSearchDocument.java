@@ -17,6 +17,7 @@ package org.kuali.ole.select.document;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.StopWatch;
 import org.joda.time.DateTime;
 import org.kuali.ole.DocumentUniqueIDPrefix;
 import org.kuali.ole.docstore.common.client.DocstoreClientLocator;
@@ -38,6 +39,7 @@ import org.kuali.ole.select.businessobject.*;
 import org.kuali.ole.select.document.service.OleCopyHelperService;
 import org.kuali.ole.select.document.service.OleLineItemReceivingService;
 import org.kuali.ole.select.document.service.OleNoteTypeService;
+import org.kuali.ole.select.document.service.ReceivingQueueDAOService;
 import org.kuali.ole.select.document.service.impl.OleLineItemReceivingServiceImpl;
 import org.kuali.ole.select.lookup.DocData;
 import org.kuali.ole.select.service.OleDocStoreLookupService;
@@ -144,6 +146,20 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
 
     private DateTimeService dateTimeService;
 
+    private PurchaseOrderService purchaseOrderService;
+
+    private BusinessObjectService businessObjectService;
+
+    private ConfigurationService configurationService;
+
+    private ReceivingService receivingService;
+
+    private OleNoteTypeService oleNoteTypeService;
+
+    private List<PurchaseOrderType> purchaseOrderTypeDocumentList = new ArrayList<>();
+
+
+
     public DateTimeService getDateTimeService() {
         if (dateTimeService == null) {
             dateTimeService = SpringContext.getBean(DateTimeService.class);
@@ -151,7 +167,7 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
         return dateTimeService;
     }
 
-    public List<OlePurchaseOrderItem> purchaseOrders = new ArrayList<OlePurchaseOrderItem>(0);
+    public List<OlePurchaseOrderItem> purchaseOrderItems = new ArrayList<OlePurchaseOrderItem>(0);
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OleReceivingQueueSearchDocument.class);
 
@@ -569,21 +585,21 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
     }
 
     /**
-     * Gets the purchaseOrders attribute.
+     * Gets the purchaseOrderItems attribute.
      *
-     * @return Returns the purchaseOrders.
+     * @return Returns the purchaseOrderItems.
      */
-    public List<OlePurchaseOrderItem> getPurchaseOrders() {
-        return purchaseOrders;
+    public List<OlePurchaseOrderItem> getPurchaseOrderItems() {
+        return purchaseOrderItems;
     }
 
     /**
-     * Sets the purchaseOrders attribute value.
+     * Sets the purchaseOrderItems attribute value.
      *
-     * @param purchaseOrders The purchaseOrders to set.
+     * @param purchaseOrderItems The purchaseOrderItems to set.
      */
-    public void setPurchaseOrders(List<OlePurchaseOrderItem> purchaseOrders) {
-        this.purchaseOrders = purchaseOrders;
+    public void setPurchaseOrderItems(List<OlePurchaseOrderItem> purchaseOrderItems) {
+        this.purchaseOrderItems = purchaseOrderItems;
     }
 
     /**
@@ -613,8 +629,8 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
     }
 
     public boolean isPurchaseOrderDocumentAdded() {
-        if (this.purchaseOrders != null) {
-            return this.purchaseOrders.size() > 0;
+        if (this.purchaseOrderItems != null) {
+            return this.purchaseOrderItems.size() > 0;
         } else {
             return false;
         }
@@ -684,7 +700,7 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
             }
             bibIds.clear();
             bibIds.addAll(newBibIds);
-            this.setPurchaseOrders(results);
+            this.setPurchaseOrderItems(results);
         } else {
 
             if (StringUtils.isNotBlank(purchaseOrderNumber)) {
@@ -754,9 +770,92 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
             } catch (Exception e) {
 
             }
-            this.setPurchaseOrders(purchaseOrderItemList);
+            this.setPurchaseOrderItems(purchaseOrderItemList);
         }
 
+    }
+
+    public void receiveingQueueRecordSearchs() {
+        StopWatch searchRecordWatch=new StopWatch();
+        searchRecordWatch.start();
+        Set<String> bibIds = new HashSet<String>();
+        Map<String,DocData> docDataMap = new HashMap<>();
+        List<OlePurchaseOrderItem> purchaseOrderItemList = new ArrayList<>();
+        if ((StringUtils.isNotBlank(this.title) || (StringUtils.isNotBlank(this.standardNumber)))) {
+            List<DocData> docDatas=getDocDatas(this.title, this.standardNumber);
+            for (DocData docData : docDatas) {
+                bibIds.add(docData.getBibIdentifier());
+                docDataMap.put(docData.getBibIdentifier(),docData);
+            }
+            purchaseOrderItemList=getSearchResultsFromQuery(null, bibIds);
+            for(OlePurchaseOrderItem olePurchaseOrderItem:purchaseOrderItemList){
+                olePurchaseOrderItem.setDocData(docDataMap.get(olePurchaseOrderItem.getItemTitleId()));
+            }
+            this.setPurchaseOrderItems(purchaseOrderItemList);
+        } else {
+            purchaseOrderItemList.addAll(getSearchResultsFromQuery(null, bibIds));
+            setBibInformations(purchaseOrderItemList,bibIds);
+            //results.addAll(purchaseOrderItemList);
+            this.setPurchaseOrderItems(purchaseOrderItemList);
+        }
+        searchRecordWatch.stop();
+        System.out.println("searchRecordWatch--------->"+searchRecordWatch.toString());
+    }
+
+    private void setBibInformations(List<OlePurchaseOrderItem> purchaseOrderItemList,Set<String> bibIds){
+        try {
+            if (CollectionUtils.isNotEmpty(bibIds)) {
+                List<Bib> bibs = new ArrayList<>();
+                bibs.addAll(getDocstoreClientLocator().getDocstoreClient().acquisitionSearchRetrieveBibs(new ArrayList<String>(bibIds)));
+                if (bibIds!=null && bibs!=null) {
+                    for (OlePurchaseOrderItem orderItem : purchaseOrderItemList) {
+                        inner:
+                        for (Bib bib : bibs) {
+                            if (bib.getId().equals(orderItem.getItemTitleId())) {
+                                boolean isAllowed = true;
+                                boolean isTitle = true;
+                                boolean isIsbn = true;
+                                if (StringUtils.isNotBlank(this.title)) {
+                                    if (!bib.getTitle().contains(this.title)) {
+                                        isTitle = false;
+                                    }
+                                    isAllowed = false;
+                                }
+                                if (StringUtils.isNotBlank(this.standardNumber)) {
+                                    if (!bib.getIsbn().equals(this.standardNumber)) {
+                                        isIsbn = false;
+                                    }
+                                    isAllowed = false;
+                                }
+                                if (!isAllowed) {
+                                    isAllowed = isIsbn && isTitle;
+                                }
+                                if (isAllowed) {
+                                    DocData docData = new DocData();
+                                    docData.setTitle(bib.getTitle());
+                                    docData.setAuthor(bib.getAuthor());
+                                    docData.setPublisher(bib.getPublisher());
+                                    if(StringUtils.isNotBlank(bib.getIsbn())){
+                                        docData.setIsbn(bib.getIsbn());
+                                    } else {
+                                        docData.setIsbn(bib.getIssn());
+                                    }
+
+                                    docData.setLocalIdentifier(DocumentUniqueIDPrefix.getDocumentId(bib.getId()));
+                                    docData.setBibIdentifier(bib.getId());
+                                    orderItem.setDocData(docData);
+                                    //purchaseOrderItemList.add(orderItem);
+                                    break inner;
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public List<OlePurchaseOrderItem> getSearchResults(String poNumber, Set<String> bibIds, BigDecimal orderTypeId) {
@@ -843,6 +942,88 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
         return results;
     }
 
+    public List<OlePurchaseOrderItem> getSearchResultsFromQuery(String poNumber, Set<String> bibIds) {
+        List<OlePurchaseOrderItem> results = new ArrayList<>();
+        Map<String, Object> queryCriteriaMap = new HashMap<>();
+        queryCriteriaMap.put("bibIds",getBidsString(bibIds));
+        queryCriteriaMap.put("purchaseOrderNumber", purchaseOrderNumber);
+        queryCriteriaMap.put("vendorName", vendorName);
+        queryCriteriaMap.put("claimFilter", claimFilter);
+        //queryCriteria.put("monograph",monograph);
+        queryCriteriaMap.put("standardNumber", standardNumber);
+        queryCriteriaMap.put("purchaseOrderStatus", purchaseOrderStatusDescription);
+        queryCriteriaMap.put("purchaseOrderType", purchaseOrderType);
+        DocumentSearchCriteria.Builder docSearchCriteria = DocumentSearchCriteria.Builder.create();
+        docSearchCriteria.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PO_DOCUMENT);
+        Map<String, List<String>> fixedParameters = new HashMap<>();
+        if (StringUtils.isNotBlank(poNumber))
+            fixedParameters.put("purapDocumentIdentifier", Arrays.asList(poNumber));
+        if (StringUtils.isNotBlank(vendorName)) {
+            fixedParameters.put("vendorName", Arrays.asList(vendorName));
+        }
+        try {
+            String criteriaDate = null;
+            if (ObjectUtils.isNotNull(this.beginDate)) {
+                //criteriaDate=getFormattedDateForQuery(this.beginDate);
+                queryCriteriaMap.put("poCreateFromDate",this.beginDate);
+            }
+            if (ObjectUtils.isNotNull(this.endDate)) {
+                //criteriaDate=getFormattedDateForQuery(this.endDate);
+                queryCriteriaMap.put("poCreateToDate",this.endDate);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String watchName = "searchPO";
+        StopWatch watch = new StopWatch();
+        watch.start();
+        ReceivingQueueDAOService receivingQueueDAOService = SpringContext.getBean(ReceivingQueueDAOService.class);
+        List<OlePurchaseOrderDocument> olePurchaseOrderDocumentList = receivingQueueDAOService.getPODocumentList(queryCriteriaMap);
+        watch.stop();
+        System.out.println(watchName+"--->"+watch.toString());
+        StopWatch forPOWatch = new StopWatch();
+        forPOWatch.start();
+        for(OlePurchaseOrderDocument olePurchaseOrderDocument:olePurchaseOrderDocumentList){
+            for(OlePurchaseOrderItem olePurchaseOrderItem:(List<OlePurchaseOrderItem>)olePurchaseOrderDocument.getItems()){
+                bibIds.add(olePurchaseOrderItem.getItemTitleId());
+                results.add(olePurchaseOrderItem);
+            }
+        }
+        forPOWatch.stop();
+        System.out.println("forPOWatch--->"+forPOWatch.toString());
+        return results;
+    }
+
+    private String getBidsString(Set<String> bibIds){
+        StringBuffer bibIdsString=new StringBuffer();
+        Iterator bibIdIterator = bibIds.iterator();
+        while(bibIdIterator.hasNext()){
+            if(bibIdsString.length()>0){
+                bibIdsString.append(",").append(bibIdIterator.next());
+            }else{
+                bibIdsString.append(bibIdIterator.next());
+            }
+        }
+        if(bibIdsString.length()>0){
+            return bibIdsString.toString();
+        }
+        return null;
+    }
+    private String getFormattedDateForQuery(String dateString){
+        SimpleDateFormat simpleDateFormat = null;
+        String outputDate = null;
+        try {
+            String inputDateFormat = "MM/dd/yyyy";
+            simpleDateFormat = new SimpleDateFormat(inputDateFormat);
+            Date inputDate=simpleDateFormat.parse(dateString);
+            String outputDateFormat = "yyyy-MM-dd";
+            simpleDateFormat = new SimpleDateFormat(outputDateFormat);
+            outputDate = simpleDateFormat.format(inputDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return outputDate;
+    }
     public boolean validatePurchaseOrderItem(OlePurchaseOrderItem olePurchaseOrderItem) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         String dateString = dateFormat.format(new Date());
@@ -933,7 +1114,7 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
 
     public List<DocData> getDocDatas(String title, String isbn) {
         List<DocData> docDatas=new ArrayList<>();
-        int maxLimit = Integer.parseInt(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(OLEConstants.DOCSEARCH_ORDERQUEUE_LIMIT_KEY));
+        int maxLimit = Integer.parseInt(getConfigurationService().getPropertyValueAsString(OLEConstants.DOCSEARCH_ORDERQUEUE_LIMIT_KEY));
         Set<String> itemTitles = new HashSet<>();
         try {
             org.kuali.ole.docstore.common.document.Item item = new ItemOleml();
@@ -1113,12 +1294,12 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
 
             if (tempResult.size() <= 0) {
                 if(!GlobalVariables.getMessageMap().hasInfo()) {
-                GlobalVariables.getMessageMap().putInfo(OleSelectConstant.RECEIVING_QUEUE_SEARCH,
-                        OLEKeyConstants.ERROR_NO_PURCHASEORDERS_FOUND);
+                    GlobalVariables.getMessageMap().putInfo(OleSelectConstant.RECEIVING_QUEUE_SEARCH,
+                            OLEKeyConstants.ERROR_NO_PURCHASEORDERS_FOUND);
                 }
             }
-            this.setPurchaseOrders(removeReceivedTitles(tempResult));
-            if(this.getPurchaseOrders().size()>0){
+            this.setPurchaseOrderItems(removeReceivedTitles(tempResult));
+            if(this.getPurchaseOrderItems().size()>0){
                 GlobalVariables.clear();
             }
         }
@@ -1130,36 +1311,36 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         String dateString = dateFormat.format(new Date());
         List<OlePurchaseOrderItem> result=new ArrayList<OlePurchaseOrderItem>();
-            for(OlePurchaseOrderItem olePurchaseOrderItem:purchaseOrderItems){
-                String actionDateString = olePurchaseOrderItem.getClaimDate()!=null ? dateFormat.format(olePurchaseOrderItem.getClaimDate()) : "";
-                boolean serialPOLink = olePurchaseOrderItem.getCopyList()!=null && olePurchaseOrderItem.getCopyList().size()>0 ? olePurchaseOrderItem.getCopyList().get(0).getSerialReceivingIdentifier()!=null : false ;
-                OlePurchaseOrderDocument olePurchaseOrderDocument = olePurchaseOrderItem.getPurapDocument();
-                Map purchaseOrderTypeIdMap = new HashMap();
-                purchaseOrderTypeIdMap.put("purchaseOrderTypeId", olePurchaseOrderDocument.getPurchaseOrderTypeId());
-                org.kuali.rice.krad.service.BusinessObjectService businessObject = SpringContext.getBean(org.kuali.rice.krad.service.BusinessObjectService.class);
-                List<PurchaseOrderType> purchaseOrderTypeDocumentList = (List) businessObject.findMatching(PurchaseOrderType.class, purchaseOrderTypeIdMap);
-                boolean  continuing = purchaseOrderTypeDocumentList!=null && purchaseOrderTypeDocumentList.size()>0?
-                        purchaseOrderTypeDocumentList.get(0).getPurchaseOrderType().equalsIgnoreCase("Continuing"):false;
-                if(olePurchaseOrderItem.getReceiptStatusId()!=null&&olePurchaseOrderItem.getReceiptStatusId().toString().equalsIgnoreCase((String.valueOf(getReceiptStatusDetails(OLEConstants.PO_RECEIPT_STATUS_FULLY_RECEIVED))))){
-                    GlobalVariables.clear();
-                    GlobalVariables.getMessageMap().putInfo(OleSelectConstant.RECEIVING_QUEUE_SEARCH,
-                            OLEKeyConstants.ERROR_NO_PURCHASEORDERS_FOUND_FOR_FULLY_RECEIVED);
-                }
-                else if(this.isClaimFilter()){
-                    if(!olePurchaseOrderItem.isDoNotClaim() && olePurchaseOrderItem.getClaimDate()!=null && (actionDateString.equalsIgnoreCase(dateString) || olePurchaseOrderItem.getClaimDate().before(new Date()))
-                            && !serialPOLink && !continuing){
-                        olePurchaseOrderItem.setClaimFilter(true);
-                        result.add(olePurchaseOrderItem);
-                    }
-                }else {
-                    if(!olePurchaseOrderItem.isDoNotClaim() && olePurchaseOrderItem.getClaimDate()!=null && (actionDateString.equalsIgnoreCase(dateString) || olePurchaseOrderItem.getClaimDate().before(new Date()))
-                            && !serialPOLink && !continuing){
-                        olePurchaseOrderItem.setClaimFilter(true);
-                    }
+        for(OlePurchaseOrderItem olePurchaseOrderItem:purchaseOrderItems){
+            String actionDateString = olePurchaseOrderItem.getClaimDate()!=null ? dateFormat.format(olePurchaseOrderItem.getClaimDate()) : "";
+            boolean serialPOLink = olePurchaseOrderItem.getCopyList()!=null && olePurchaseOrderItem.getCopyList().size()>0 ? olePurchaseOrderItem.getCopyList().get(0).getSerialReceivingIdentifier()!=null : false ;
+            OlePurchaseOrderDocument olePurchaseOrderDocument = olePurchaseOrderItem.getPurapDocument();
+            Map purchaseOrderTypeIdMap = new HashMap();
+            purchaseOrderTypeIdMap.put("purchaseOrderTypeId", olePurchaseOrderDocument.getPurchaseOrderTypeId());
+            org.kuali.rice.krad.service.BusinessObjectService businessObject = SpringContext.getBean(org.kuali.rice.krad.service.BusinessObjectService.class);
+            List<PurchaseOrderType> purchaseOrderTypeDocumentList = (List) businessObject.findMatching(PurchaseOrderType.class, purchaseOrderTypeIdMap);
+            boolean  continuing = purchaseOrderTypeDocumentList!=null && purchaseOrderTypeDocumentList.size()>0?
+                    purchaseOrderTypeDocumentList.get(0).getPurchaseOrderType().equalsIgnoreCase("Continuing"):false;
+            if(olePurchaseOrderItem.getReceiptStatusId()!=null&&olePurchaseOrderItem.getReceiptStatusId().toString().equalsIgnoreCase((String.valueOf(getReceiptStatusDetails(OLEConstants.PO_RECEIPT_STATUS_FULLY_RECEIVED))))){
+                GlobalVariables.clear();
+                GlobalVariables.getMessageMap().putInfo(OleSelectConstant.RECEIVING_QUEUE_SEARCH,
+                        OLEKeyConstants.ERROR_NO_PURCHASEORDERS_FOUND_FOR_FULLY_RECEIVED);
+            }
+            else if(this.isClaimFilter()){
+                if(!olePurchaseOrderItem.isDoNotClaim() && olePurchaseOrderItem.getClaimDate()!=null && (actionDateString.equalsIgnoreCase(dateString) || olePurchaseOrderItem.getClaimDate().before(new Date()))
+                        && !serialPOLink && !continuing){
+                    olePurchaseOrderItem.setClaimFilter(true);
                     result.add(olePurchaseOrderItem);
                 }
-
+            }else {
+                if(!olePurchaseOrderItem.isDoNotClaim() && olePurchaseOrderItem.getClaimDate()!=null && (actionDateString.equalsIgnoreCase(dateString) || olePurchaseOrderItem.getClaimDate().before(new Date()))
+                        && !serialPOLink && !continuing){
+                    olePurchaseOrderItem.setClaimFilter(true);
+                }
+                result.add(olePurchaseOrderItem);
             }
+
+        }
         return result;
     }
     private List<OlePurchaseOrderItem> removeFullyReceivedPO(List<OlePurchaseOrderItem> purchaseOrderItems){
@@ -1250,7 +1431,7 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
 
     public boolean checkSpecialHandlingNotesExsist(OlePurchaseOrderItem olePurchaseOrderItem,StringBuffer specialNotesPOIDStringBuffer) {
         for (OleNotes poNote : olePurchaseOrderItem.getNotes()) {
-            OleNoteType oleNoteType = SpringContext.getBean(OleNoteTypeService.class).getNoteTypeDetails(
+            OleNoteType oleNoteType = getOleNoteTypeService().getNoteTypeDetails(
                     poNote.getNoteTypeId());
             String noteType = oleNoteType.getNoteType();
             if (noteType.equalsIgnoreCase(OLEConstants.SPECIAL_PROCESSING_INSTRUCTION_NOTE)) {
@@ -1321,7 +1502,7 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
             }
         }*/
         PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(purAppNum);
-        valid &= SpringContext.getBean(ReceivingService.class).canCreateLineItemReceivingDocument(purAppNum, null);
+        valid &= getReceivingService().canCreateLineItemReceivingDocument(purAppNum, null);
         if (this.purchaseOrderStatusDescription != null && valid) {
             if (!purchaseOrderStatusDescription.equalsIgnoreCase(po.getApplicationDocumentStatus())) {
                 valid &= false;
@@ -1484,7 +1665,7 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
                     OleLineItemReceivingItem rlItem = (OleLineItemReceivingItem) item;
                     // Receiving 100pc
                     boolean isPOItemPresent = false;
-                    for (OlePurchaseOrderItem poItem : this.getPurchaseOrders()) {
+                    for (OlePurchaseOrderItem poItem : this.getPurchaseOrderItems()) {
                         if (poItem.isPoAdded()) {
                             if (!isPOItemPresent
                                     && poItem.getItemIdentifier().equals(rlItem.getPurchaseOrderIdentifier())) {
@@ -1735,5 +1916,51 @@ public class OleReceivingQueueSearchDocument extends TransactionalDocumentBase i
         adHocRoutePerson.setId(GlobalVariables.getUserSession().getPrincipalName());
         persons.add(adHocRoutePerson);
         return persons;
+    }
+
+
+    public PurchaseOrderService getPurchaseOrderService() {
+        if(purchaseOrderService == null) {
+            purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
+        }
+        return purchaseOrderService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        if(businessObjectService == null) {
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
+
+    public ReceivingService getReceivingService() {
+        if(receivingService == null) {
+            receivingService = SpringContext.getBean(ReceivingService.class);
+        }
+        return receivingService;
+    }
+
+    public OleNoteTypeService getOleNoteTypeService() {
+        if(oleNoteTypeService == null) {
+            oleNoteTypeService = SpringContext.getBean(OleNoteTypeService.class);
+        }
+        return oleNoteTypeService;
+    }
+
+    public ConfigurationService getConfigurationService() {
+        if(configurationService == null) {
+            configurationService = SpringContext.getBean(ConfigurationService.class);
+        }
+        return configurationService;
+    }
+
+    public List<PurchaseOrderType> getPurchaseOrderTypeDocumentList() {
+        if(purchaseOrderTypeDocumentList.size() == 0) {
+            purchaseOrderTypeDocumentList = (List) getBusinessObjectService().findAll(PurchaseOrderType.class);
+            if(purchaseOrderTypeDocumentList.size() > 0) {
+                return purchaseOrderTypeDocumentList;
+            }
+        }
+        return purchaseOrderTypeDocumentList;
     }
 }

@@ -166,7 +166,7 @@
 
       <bean id="vendorToOleExtractService" class="org.kuali.ole.select.batch.service.impl.VendorToOleExtractServiceImpl"></bean> -->
 
-        <!-- Modified for Jira OLE-2357 starts -->
+    <!-- Modified for Jira OLE-2357 starts -->
 
     <bean id="accountTemporaryRestrictedNotifyJob" parent="unscheduledJobDescriptor">
         <property name="steps">
@@ -183,7 +183,7 @@
     <bean id="oleAccountTemporaryRestrictedStep" class="org.kuali.ole.select.batch.OleAccountTemporaryRestrictedStep" parent="step">
     </bean>
 
-        <!-- Modified for Jira OLE-2357 ends -->
+    <!-- Modified for Jira OLE-2357 ends -->
 
     <bean id="marcInputFileType" class="org.kuali.ole.select.batch.MarcInputFileType">
         <property name="directoryPath">
@@ -579,11 +579,11 @@
       p:serviceInterface="org.kuali.ole.select.service.OleExposedWebService" />
       </property>
       </bean -->
-<!--    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" p:localServiceName="oleExposedWebService" p:service-ref="oleExposedWebService" p:jaxWsService="true" p:serviceNameSpaceURI="http://service.select.ole.kuali.org/" p:busSecurity="false" p:serviceVersion="1.0" />
-        </property>
-    </bean>-->
+    <!--    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+            <property name="serviceDefinition">
+                <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" p:localServiceName="oleExposedWebService" p:service-ref="oleExposedWebService" p:jaxWsService="true" p:serviceNameSpaceURI="http://service.select.ole.kuali.org/" p:busSecurity="false" p:serviceVersion="1.0" />
+            </property>
+        </bean>-->
     <!-- Modified for Jira OLE-2437 ends -->
     <bean id="oleReqPOLoadTransactionsService" parent="oleReqPOLoadTransactionsService-parentBean" />
     <bean id="oleReqPOLoadTransactionsService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.OleReqPOLoadTransactionsServiceImpl">
@@ -743,10 +743,10 @@
         <property name="oleSelectDocumentService" ref="oleSelectDocumentService" />
     </bean>
 
-<!--
-   <bean id="docstoreClient" class="org.kuali.ole.docstore.engine.client.DocstoreLocalClient"/>
-   <bean id="restClient" class="org.kuali.ole.docstore.common.client.DocstoreRestClient"/>
--->
+    <!--
+       <bean id="docstoreClient" class="org.kuali.ole.docstore.engine.client.DocstoreLocalClient"/>
+       <bean id="restClient" class="org.kuali.ole.docstore.common.client.DocstoreRestClient"/>
+    -->
     <bean id="docstoreClientLocator" class="org.kuali.ole.docstore.common.client.DocstoreClientLocator"/>
 
     <!--<bean id="olePurchaseOrderItemLookupable" parent="olePurchaseOrderItemLookupable-parentBean"/>
@@ -774,5 +774,7 @@
     <bean id="olePurchaseOrderBatchService" parent="olePurchaseOrderBatchService-parentBean" />
     <bean id="olePurchaseOrderBatchService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OLEPurchaseOrderBatchServiceImpl"/>
     <bean id="oleSelectDaoOjb" parent="platformAwareDao" class="org.kuali.ole.select.service.OLESelectDaoOjb" />
+
+    <bean id="receivingQueueDAOService" parent="platformAwareDaoJdbc" class="org.kuali.ole.select.document.service.impl.ReceivingQueueDAOServiceimpl" />
 
 </beans>

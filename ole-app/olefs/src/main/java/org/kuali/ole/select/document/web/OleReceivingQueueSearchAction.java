@@ -91,7 +91,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
         boolean isValid = true;
         if ((oleReceivingQueueSearchDocument.getEndDate() != null && !oleReceivingQueueSearchDocument.getEndDate().equalsIgnoreCase(""))) {
             if (!oleReceivingQueueSearchDocument.getEndDate().matches(datePattern)) {
-                oleReceivingQueueSearchDocument.getPurchaseOrders().clear();
+                oleReceivingQueueSearchDocument.getPurchaseOrderItems().clear();
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_SELECT_INVALID_DATE, new String[]{"PO To Date"});
                 isValid = false;
             }
@@ -107,7 +107,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
         }
         if ((oleReceivingQueueSearchDocument.getBeginDate() != null && !oleReceivingQueueSearchDocument.getBeginDate().equalsIgnoreCase(""))) {
             if (!oleReceivingQueueSearchDocument.getBeginDate().matches(datePattern)) {
-                oleReceivingQueueSearchDocument.getPurchaseOrders().clear();
+                oleReceivingQueueSearchDocument.getPurchaseOrderItems().clear();
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_SELECT_INVALID_DATE, new String[]{"PO From Date"});
                 isValid = false;
             }
@@ -133,19 +133,20 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
                 }
             }
             if (!isValidSting) {
-                oleReceivingQueueSearchDocument.getPurchaseOrders().clear();
+                oleReceivingQueueSearchDocument.getPurchaseOrderItems().clear();
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_SELECT_PO_ITM_FORMAT);
                 return mapping.findForward(RiceConstants.MAPPING_BASIC);
             }
         }
         if(purchaseOrderStatus.equalsIgnoreCase(OleSelectConstant.CLOSED)){
-            oleReceivingQueueSearchDocument.getPurchaseOrders().clear();
+            oleReceivingQueueSearchDocument.getPurchaseOrderItems().clear();
             GlobalVariables.getMessageMap().putInfo(OleSelectConstant.RECEIVING_QUEUE_SEARCH,
                     OLEKeyConstants.ERROR_NO_PURCHASEORDERS_FOUND_FOR_CLOSED);
             //return mapping.findForward(RiceConstants.MAPPING_BASIC);
 
         }else{
-        oleReceivingQueueSearchDocument.receiveingQueueRecordSearch();
+            //oleReceivingQueueSearchDocument.receiveingQueueRecordSearch();
+            oleReceivingQueueSearchDocument.receiveingQueueRecordSearchs();
         }
         //request.setAttribute(OLEConstants.OrderQueue.CONSTANTS, (KewApiConstants.class));
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
@@ -183,7 +184,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
         OleReceivingQueueSearchForm oleReceivingQueueSearchForm = (OleReceivingQueueSearchForm) form;
         OleReceivingQueueSearchDocument oleReceivingQueueSearchDocument = (OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument();
-        oleReceivingQueueSearchDocument.setPurchaseOrders(null);
+        oleReceivingQueueSearchDocument.setPurchaseOrderItems(null);
         oleReceivingQueueSearchDocument.setPurchaseOrderNumber(null);
         oleReceivingQueueSearchDocument.setVendorName(null);
         //oleReceivingQueueSearchDocument.setVendor(false);
@@ -234,7 +235,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
     public ActionForward selectAll(ActionMapping mapping, ActionForm form,
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
         OleReceivingQueueSearchForm oleReceivingQueueSearchForm = (OleReceivingQueueSearchForm) form;
-        List<OlePurchaseOrderItem> items = ((OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument()).getPurchaseOrders();
+        List<OlePurchaseOrderItem> items = ((OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument()).getPurchaseOrderItems();
         List<OlePurchaseOrderItem> refreshItems = new ArrayList<OlePurchaseOrderItem>(0);
 
         for (OlePurchaseOrderItem item : items) {
@@ -245,7 +246,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
             refreshItems.add(item);
         }
 
-        ((OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument()).setPurchaseOrders(refreshItems);
+        ((OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument()).setPurchaseOrderItems(refreshItems);
         //request.setAttribute(OLEConstants.OrderQueue.CONSTANTS, KewApiConstants.class.newInstance());
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
@@ -263,7 +264,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
     public ActionForward unselectAll(ActionMapping mapping, ActionForm form,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         OleReceivingQueueSearchForm oleReceivingQueueSearchForm = (OleReceivingQueueSearchForm) form;
-        List<OlePurchaseOrderItem> items = ((OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument()).getPurchaseOrders();
+        List<OlePurchaseOrderItem> items = ((OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument()).getPurchaseOrderItems();
         List<OlePurchaseOrderItem> refreshItems = new ArrayList<OlePurchaseOrderItem>(0);
 
         for (OlePurchaseOrderItem item : items) {
@@ -274,7 +275,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
             refreshItems.add(item);
         }
 
-        ((OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument()).setPurchaseOrders(refreshItems);
+        ((OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument()).setPurchaseOrderItems(refreshItems);
         //request.setAttribute(OLEConstants.OrderQueue.CONSTANTS, KewApiConstants.class.newInstance());
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
@@ -308,14 +309,14 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
         OleLineItemReceivingDocument rlDoc = null;
         // Elimiate duplicate POs from the list
         List<OlePurchaseOrderItem> olePurchaseOrderItems = new ArrayList<OlePurchaseOrderItem>();
-        HashMap<Integer, OlePurchaseOrderItem> selectedPOs = getSelectedPurchaseOrders(oleReceivingQueueSearchDocument.getPurchaseOrders());
+        HashMap<Integer, OlePurchaseOrderItem> selectedPOs = getSelectedPurchaseOrders(oleReceivingQueueSearchDocument.getPurchaseOrderItems());
         if (selectedPOs.size() == 0) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_SELECT_PO_ITM);
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
         boolean isReceivingExist = false;
         List<String> errorCreatingReceivingForPoIdList = new ArrayList<String>();
-        for (OlePurchaseOrderItem olePurchaseOrderItem : oleReceivingQueueSearchDocument.getPurchaseOrders()) {
+        for (OlePurchaseOrderItem olePurchaseOrderItem : oleReceivingQueueSearchDocument.getPurchaseOrderItems()) {
             if (olePurchaseOrderItem.isPoAdded()) {
                 /*boolean isReceivingExisted=false;*/
                 if (validateReceivingForProcess(olePurchaseOrderItem)) {
@@ -352,7 +353,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
                 }*/
             }
         }
-        selectedPOs = getSelectedPurchaseOrders(oleReceivingQueueSearchDocument.getPurchaseOrders());
+        selectedPOs = getSelectedPurchaseOrders(oleReceivingQueueSearchDocument.getPurchaseOrderItems());
         // Map containing PO ID and receive PO status
         HashMap<Integer, Boolean> receivePOStatus = new HashMap<Integer, Boolean>();
         oleReceivingQueueSearchDocument.getReceivingDocumentsList().clear();
@@ -374,7 +375,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
             }
         }
         List<OlePurchaseOrderItem> refreshedPOList = new ArrayList<OlePurchaseOrderItem>();
-        for (OlePurchaseOrderItem poItem : oleReceivingQueueSearchDocument.getPurchaseOrders()) {
+        for (OlePurchaseOrderItem poItem : oleReceivingQueueSearchDocument.getPurchaseOrderItems()) {
             Integer poId = poItem.getPurchaseOrder().getPurapDocumentIdentifier();
             refreshedPOList.add(poItem);
             /*if(ObjectUtils.isNull(receivePOStatus.get(poId))){
@@ -386,7 +387,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
             }*/
         }
 
-        ((OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument()).setPurchaseOrders(refreshedPOList);
+        ((OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument()).setPurchaseOrderItems(refreshedPOList);
 
         LOG.debug("Leaving completeReceiving of OleReceivingQueueSearchDocument");
         String errorCreatingReceivingForPoIds = "";
@@ -403,13 +404,13 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
 
 
     public ActionForward claiming(ActionMapping mapping, ActionForm form,
-                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Inside completeReceiving of OleReceivingQueueSearchDocument");
         OleReceivingQueueSearchForm oleReceivingQueueSearchForm = (OleReceivingQueueSearchForm) form;
         OleReceivingQueueSearchDocument oleReceivingQueueSearchDocument = (OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument();
         // Elimiate duplicate POs from the list
         List<OlePurchaseOrderItem> olePurchaseOrderItems = new ArrayList<OlePurchaseOrderItem>();
-        for (OlePurchaseOrderItem poItem : oleReceivingQueueSearchDocument.getPurchaseOrders()) {
+        for (OlePurchaseOrderItem poItem : oleReceivingQueueSearchDocument.getPurchaseOrderItems()) {
             if (poItem.isPoAdded()) {
                 olePurchaseOrderItems.add(poItem);
             }
@@ -442,7 +443,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
                 .getDocument();
         OleLineItemReceivingDocument rlDoc = null;
         HashMap<Integer, OlePurchaseOrderItem> selectedPOs = getSelectedPurchaseOrders(oleReceivingQueueSearchDocument
-                .getPurchaseOrders());
+                .getPurchaseOrderItems());
         List<OlePurchaseOrderItem> olePurchaseOrderItems = new ArrayList<OlePurchaseOrderItem>();
         if (selectedPOs.size() == 0) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, OLEConstants.ERROR_SELECT_PO_ITM);
@@ -450,7 +451,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
         }
         boolean isReceivingExist = false;
         List<String> errorCreatingReceivingForPoIdList = new ArrayList<String>();
-        for (OlePurchaseOrderItem olePurchaseOrderItem : oleReceivingQueueSearchDocument.getPurchaseOrders()) {
+        for (OlePurchaseOrderItem olePurchaseOrderItem : oleReceivingQueueSearchDocument.getPurchaseOrderItems()) {
             if (olePurchaseOrderItem.isPoAdded()) {
                 if (validateReceivingForProcess(olePurchaseOrderItem)) {
                     isReceivingExist = true;
@@ -483,7 +484,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
                 }*/
             }
         }
-        selectedPOs = getSelectedPurchaseOrders(oleReceivingQueueSearchDocument.getPurchaseOrders());
+        selectedPOs = getSelectedPurchaseOrders(oleReceivingQueueSearchDocument.getPurchaseOrderItems());
         // Map containing PO ID and receive PO status
         HashMap<Integer, Boolean> receivePOStatus = new HashMap<Integer, Boolean>();
         boolean isInfoMsg = false;
@@ -505,7 +506,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
             }
         }
         List<OlePurchaseOrderItem> refreshedPOList = new ArrayList<OlePurchaseOrderItem>();
-        for (OlePurchaseOrderItem poItem : oleReceivingQueueSearchDocument.getPurchaseOrders()) {
+        for (OlePurchaseOrderItem poItem : oleReceivingQueueSearchDocument.getPurchaseOrderItems()) {
             Integer poId = poItem.getPurchaseOrder().getPurapDocumentIdentifier();
             refreshedPOList.add(poItem);
             /*if (ObjectUtils.isNull(receivePOStatus.get(poId))) {
@@ -522,7 +523,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
             return dest;
         }
         ((OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument())
-                .setPurchaseOrders(refreshedPOList);
+                .setPurchaseOrderItems(refreshedPOList);
 
         LOG.debug("Leaving completeReceiving of OleReceivingQueueSearchDocument");
         String errorCreatingReceivingForPoIds = "";
@@ -635,7 +636,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
         OleReceivingQueueSearchDocument oleReceivingQueueSearchDocument = (OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument();
         OleLineItemReceivingDocument rlDoc = null;
         // Elimiate duplicate POs from the list
-        HashMap<Integer, OlePurchaseOrderItem> selectedPOs = getSelectedPurchaseOrders(oleReceivingQueueSearchDocument.getPurchaseOrders());
+        HashMap<Integer, OlePurchaseOrderItem> selectedPOs = getSelectedPurchaseOrders(oleReceivingQueueSearchDocument.getPurchaseOrderItems());
         // Map containing PO ID and receive PO status
         HashMap<Integer, Boolean> receivePOStatus = new HashMap<Integer, Boolean>();
         boolean isInfoMsg = false;
@@ -656,7 +657,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
             }
         }
         List<OlePurchaseOrderItem> refreshedPOList = new ArrayList<OlePurchaseOrderItem>();
-        for (OlePurchaseOrderItem poItem : oleReceivingQueueSearchDocument.getPurchaseOrders()) {
+        for (OlePurchaseOrderItem poItem : oleReceivingQueueSearchDocument.getPurchaseOrderItems()) {
             Integer poId = poItem.getPurchaseOrder().getPurapDocumentIdentifier();
             if (ObjectUtils.isNull(receivePOStatus.get(poId))) {
                 refreshedPOList.add(poItem);
@@ -667,7 +668,7 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
             }
         }
 
-        ((OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument()).setPurchaseOrders(refreshedPOList);
+        ((OleReceivingQueueSearchDocument) oleReceivingQueueSearchForm.getDocument()).setPurchaseOrderItems(refreshedPOList);
 
         LOG.debug("Leaving receiveAndPay of OleReceivingQueueSearchDocument");
 
