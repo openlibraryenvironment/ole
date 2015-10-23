@@ -109,7 +109,7 @@ public class OleVendorRule extends VendorRule {
                 {
                     aliasList.add(vendorAlias.getVendorAliasType().getAliasType());
                 } else{
-                    putFieldError(VendorPropertyConstants.VENDOR_SEARCH_ALIASES, VendorKeyConstants.OLE_VENDOR_DUPLICATE_ALIAS_NAME);
+                    putFieldError(VendorPropertyConstants.VENDOR_SEARCH_ALIASES, VendorKeyConstants.OLE_VENDOR_DUPLICATE_VARIANT_NAME);
                     valid &= false;
                 }
             }

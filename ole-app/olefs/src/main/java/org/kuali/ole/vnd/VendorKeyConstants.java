@@ -91,7 +91,7 @@ public class VendorKeyConstants {
     // Vendor Exclude
     public static final String MESSAGE_BATCH_UPLOAD_VENDOR_EXCLUDE = "message.batchUpload.title.vendor.exclude";
 
-    public static final String OLE_VENDOR_DUPLICATE_ALIAS_NAME = "error.vendor.duplicate.alias.name";
+    public static final String OLE_VENDOR_DUPLICATE_VARIANT_NAME = "error.vendor.duplicate.variant.name";
     public static final String OLE_VENDOR_EMPTY_NAME = "error.vendor.empty.name";
     public static final String OLE_VENDOR_DUPLICATE_TRANS_FORMAT = "error.vendor.duplicate.trans.format";
     public static final String OLE_VENDOR_ADDRESS = "error.vendor.no.address";

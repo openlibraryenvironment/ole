@@ -4320,6 +4320,7 @@ public class OLEEResourceSearchServiceImpl implements OLEEResourceSearchService 
             if (org.apache.commons.lang.StringUtils.isNotBlank(variantName)) {
                 VendorAlias vendorAlias = new VendorAlias();
                 vendorAlias.setVendorAliasName(variantName);
+                vendorAlias.setGokbVendorAliasInd(true);
                 vendorAlias.setVendorAliasType(new AliasType());
                 vendorAlias.setActive(true);
                 vendorDetail.getVendorAliases().add(vendorAlias);

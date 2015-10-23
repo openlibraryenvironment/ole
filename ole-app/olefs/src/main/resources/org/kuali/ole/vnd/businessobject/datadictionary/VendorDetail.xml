@@ -121,7 +121,7 @@
 					p:elementLabel="Phone Numbers" />
 		        <bean parent="CollectionDefinition" p:name="vendorCustomerNumbers" p:label="Acquisition Unit Vendor Accounts" p:shortLabel="Acquisition Unit Vendor Accounts" p:elementLabel="Acquisition Unit Vendor Accounts"/>
 				<bean parent="CollectionDefinition" p:name="vendorAliases"
-					p:label="Search Alias" p:shortLabel="Search Alias" p:elementLabel="Search Alias" />
+					p:label="Variant Name" p:shortLabel="Variant Name" p:elementLabel="Variant Name" />
 				<!-- RICE20 : boNotes is no longer part of the main class - this will need to be replaced somehow
 				<bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes"
 					p:shortLabel="Notes" p:elementLabel="Notes" />
@@ -733,8 +733,8 @@
 	<bean id="VendorDetail-vendorAliasesAsString-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="vendorAliasesAsString" />
     	<property name="forceUppercase" value="true" />
-   		<property name="label" value="Search Alias" />
-    	<property name="shortLabel" value="Search Alias" />
+   		<property name="label" value="Variant Name" />
+    	<property name="shortLabel" value="Variant Name" />
     	<property name="maxLength" value="45" />
     	<property name="validationPattern" >
       		<ref bean="AnyCharacterWithWhitespaceValidation" />
@@ -920,8 +920,8 @@
 		<property name="inquirySections">
 			<list>
 				<ref bean="VendorDetail-inquirySectionDefinition-vendorDetail" />
-				<ref bean="VendorDetail-inquirySectionDefinition-vendorTransmissionFormat" />
                 <ref bean="VendorDetail-inquirySectionDefinition-searchAlias" />
+                <ref bean="VendorDetail-inquirySectionDefinition-vendorTransmissionFormat" />
 				<ref bean="VendorDetail-inquirySectionDefinition-address" />
 				<ref bean="VendorDetail-inquirySectionDefinition-contacts" />
 				<ref bean="VendorDetail-inquirySectionDefinition-supplierDiversities" />

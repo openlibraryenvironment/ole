@@ -477,6 +477,7 @@
 <class-descriptor class="org.kuali.ole.vnd.businessobject.VendorAlias" table="PUR_VNDR_ALIAS_T">
     <field-descriptor name="vendorAliasId" column="OLE_PUR_VNDR_ALIAS_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="OLE_PUR_VNDR_ALIAS_ID_SEQ"/>
     <field-descriptor name="vendorAliasName" column="VNDR_ALIAS_NM" jdbc-type="VARCHAR"  index="true"/>
+    <field-descriptor name="gokbVendorAliasInd" column="GOKB_VNDR_ALIAS_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
     <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
     <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

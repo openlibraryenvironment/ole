@@ -1,6 +1,26 @@
 var lookupSrc;
 var datePickerSrc;
 jq(window).load(function() {
+
+    jq("div#tab-VariantName-div table tbody tr td table tbody tr").each(function () {
+        if (jq(this).text().contains("Gokb Vendor Variant Ind")) {
+            jq(this).remove();
+            return false;
+        }
+    });
+
+    jq("div#tab-VariantName-div table tbody tr td div table tbody").each(function (index) {
+        if (jq("input[id='document.newMaintainableObject.vendorAliases[" + index + "].gokbVendorAliasInd']").val() == 'Yes') {
+            jq("input[id='document.newMaintainableObject.vendorAliases[" + index + "].vendorAliasName']").attr("disabled", true);
+        }
+        jq(this).find('tr').each(function () {
+            if (jq(this).text().contains("Gokb Vendor Variant Ind")) {
+                jq(this).remove();
+                return false;
+            }
+        });
+    });
+
     if(sessionStorage.getItem("lookupSrc") == null){
         lookupSrc=jq("input[title='Search Payment Method']").attr("src");
         sessionStorage.setItem("lookupSrc", lookupSrc);
@@ -12,13 +32,9 @@ jq(window).load(function() {
     if(jq("input[id='document.newMaintainableObject.gokbId']").val().length != 0){
         jq("input[id='document.newMaintainableObject.gokbId']").attr("disabled", true);
         jq("input[id='document.newMaintainableObject.vendorName']").attr("disabled", true);
-        jq("input[id='document.newMaintainableObject.add.vendorAliases.vendorAliasName']").attr("disabled", true);
-        jq("input[id='document.newMaintainableObject.add.vendorAliases.vendorAliasType.aliasType']").attr("disabled", true);
     }else{
         jq("input[id='document.newMaintainableObject.gokbId']").attr("disabled", false);
         jq("input[id='document.newMaintainableObject.vendorName']").attr("disabled", false);
-        jq("input[id='document.newMaintainableObject.add.vendorAliases.vendorAliasName']").attr("disabled", false);
-        jq("input[id='document.newMaintainableObject.add.vendorAliases.vendorAliasType.aliasType']").attr("disabled", false);
     }
     var linked = jq("input[id='document.newMaintainableObject.linkedToEHoldings']").val();
     if(linked =="Yes"){

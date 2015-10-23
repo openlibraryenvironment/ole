@@ -297,14 +297,15 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
                     vendorDetail.getEventLogs().add(eventLog);
                 }
             }
-            if(vendorDetail.getGokbId()!=null && vendorDetail.getGokbId() != vendorDetail.getOldGokbId() ){
+            if(vendorDetail.getGokbId()!=null && !vendorDetail.getGokbId().equals(vendorDetail.getOldGokbId())){
                 eventLog.setNote("GOKb :" + vendorDetail.getGokbId() + " linked to Document");
                 HashMap organization = new HashMap();
                 organization.put("gokbOrganizationId",vendorDetail.getGokbId());
                 List<OleGokbOrganization> oleGokbOrganizations = (List<OleGokbOrganization>)KRADServiceLocator.getBusinessObjectService().findMatching(OleGokbOrganization.class,organization);
-                if(vendorDetail.getVendorAliases().size()==0){
+                if(org.apache.commons.collections.CollectionUtils.isNotEmpty(oleGokbOrganizations) && StringUtils.isNotBlank(oleGokbOrganizations.get(0).getVariantName())){
                     VendorAlias alias = new VendorAlias();
                     alias.setVendorAliasName(oleGokbOrganizations.get(0).getVariantName());
+                    alias.setGokbVendorAliasInd(true);
                     alias.setActive(true);
                     vendorDetail.getVendorAliases().add(alias);
                 }

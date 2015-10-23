@@ -5193,4 +5193,11 @@
         </addColumn>
     </changeSet>
 
+    <changeSet context="bootstrap" author="ole" id="GOKB_VNDR_ALIAS_IND_ADD">
+        <addColumn
+                tableName="PUR_VNDR_ALIAS_T">
+            <column name="GOKB_VNDR_ALIAS_IND" type="VARCHAR(1)" defaultValue="N"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

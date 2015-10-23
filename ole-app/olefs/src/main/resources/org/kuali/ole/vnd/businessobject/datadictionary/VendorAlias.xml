@@ -9,7 +9,8 @@
       <list>
         <ref bean="VendorAlias-vendorAliasId"/>
         <ref bean="VendorAlias-vendorAliasName"/>
-        <ref bean="VendorAlias-vendorAliasTypeId"/> 
+        <ref bean="VendorAlias-gokbVendorAliasInd"/>
+        <ref bean="VendorAlias-vendorAliasTypeId"/>
         <ref bean="VendorAlias-vendorAliasType.aliasType"/>
         <ref bean="VendorAlias-newCollectionRecord"/>
         <ref bean="VendorAlias-vendorHeaderGeneratedIdentifier"/>
@@ -52,6 +53,19 @@
       <bean parent="TextControlDefinition" p:size="45"/>
     </property>
   </bean>
+
+    <bean id="VendorAlias-gokbVendorAliasInd" parent="VendorAlias-gokbVendorAliasInd-parentBean"/>
+    <bean id="VendorAlias-gokbVendorAliasInd-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="gokbVendorAliasInd"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Gokb Vendor Variant Ind"/>
+        <property name="maxLength" value="1"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Gokb Vendor Variant Ind"/>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+    </bean>
   
   <bean id="VendorAlias-vendorAliasTypeId" parent="VendorAlias-vendorAliasTypeId-parentBean"/>
   

@@ -24,8 +24,8 @@
     <property name="maintainableSections">
       <list>
         <ref bean="VendorMaintenanceDocument-Vendor"/>
-        <ref bean="VendorMaintenanceDocument-TransmissionFormat"/>
         <ref bean="VendorMaintenanceDocument-SearchAlias"/>
+        <ref bean="VendorMaintenanceDocument-TransmissionFormat"/>
         <ref bean="VendorMaintenanceDocument-Address"/>
         <ref bean="VendorMaintenanceDocument-Contact"/>
         <ref bean="VendorMaintenanceDocument-SupplierDiversity"/>
@@ -491,6 +491,7 @@
           <property name="maintainableFields">
             <list>
               <bean parent="MaintainableFieldDefinition" p:name="vendorAliasName"  p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="gokbVendorAliasInd"/>
               <bean parent="MaintainableFieldDefinition" p:name="vendorAliasTypeId" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="vendorAliasType.aliasType" p:overrideLookupClass="org.kuali.ole.vnd.businessobject.AliasType" p:overrideFieldConversions="aliasTypeId:vendorAliasTypeId" />
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>

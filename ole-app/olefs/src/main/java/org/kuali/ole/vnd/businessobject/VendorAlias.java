@@ -26,6 +26,7 @@ public class VendorAlias extends PersistableBusinessObjectBase implements Mutabl
 
     private Integer vendorAliasId;
     private String vendorAliasName;
+    private boolean gokbVendorAliasInd;
     private Integer vendorDetailAssignedIdentifier;
     private Integer vendorHeaderGeneratedIdentifier;
     private Integer vendorAliasTypeId;
@@ -126,8 +127,11 @@ public class VendorAlias extends PersistableBusinessObjectBase implements Mutabl
         this.vendorAliasId = vendorAliasId;
     }
 
-  
-  
+    public boolean isGokbVendorAliasInd() {
+        return gokbVendorAliasInd;
+    }
 
-    
+    public void setGokbVendorAliasInd(boolean gokbVendorAliasInd) {
+        this.gokbVendorAliasInd = gokbVendorAliasInd;
+    }
 }
