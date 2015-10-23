@@ -61,7 +61,7 @@ rule "Activation Date for Patron"
 rule "Check All Charges"
   agenda-group "general-checks"
   when
-  $p: OlePatronDocument(getAllCharges() > 49 )
+  $p: OlePatronDocument(getAllCharges("OVR_DUE","REPL_FEE") > 49 )
   $d : DroolsResponse()
   then
   $d.addErrorMessage("Patron's overall charges are $50 or more");
