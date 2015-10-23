@@ -15341,6 +15341,7 @@ drop table if exists PUR_VNDR_ALIAS_T
 CREATE TABLE PUR_VNDR_ALIAS_T
 (
       VNDR_ALIAS_NM VARCHAR(4000)
+        , GOKB_VNDR_ALIAS_IND VARCHAR(1) default 'N'
         , VNDR_HDR_GNRTD_ID DECIMAL(10)
         , VNDR_DTL_ASND_ID DECIMAL(10)
         , OBJ_ID VARCHAR(36) NOT NULL
@@ -15357,7 +15358,7 @@ CREATE TABLE PUR_VNDR_ALIAS_T
 
 
     
-                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                        
                                     
 , INDEX PUR_VNDR_ALIAS_TI1 (VNDR_HDR_GNRTD_ID )
 
