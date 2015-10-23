@@ -66,6 +66,7 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
                     entityAddressBo = new OleEntityAddressBo();
                     Map addMap = new HashMap();
                     addMap.put(OLEConstants.OlePatron.ENTITY_BO_ID, entityAdd.getId());
+                    addMap.put(OLEConstants.OlePatron.PATRON_ID, olePatron.getId());
                     oleAddressBos = (List<OleAddressBo>) getBusinessObjectService().findMatching(OleAddressBo.class, addMap);
                     if(CollectionUtils.isNotEmpty(oleAddressBos)){
                         entityAddressBo.setOleAddressBo(oleAddressBos.get(0));
@@ -79,6 +80,7 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
                     entityPhoneBo = new OleEntityPhoneBo();
                     Map map = new HashMap();
                     map.put(OLEConstants.OlePatron.ENTITY_BO_ID, entityPhone.getId());
+                    map.put(OLEConstants.OlePatron.PATRON_ID, olePatron.getId());
                     olePhoneBos = (List<OlePhoneBo>) getBusinessObjectService().findMatching(OlePhoneBo.class, map);
                     if(CollectionUtils.isNotEmpty(olePhoneBos)) {
                         entityPhoneBo.setOlePhoneBo(olePhoneBos.get(0));
@@ -92,6 +94,7 @@ public class OlePatronMaintenanceImpl extends MaintainableImpl {
                     entityEmailBo = new OleEntityEmailBo();
                     Map map = new HashMap();
                     map.put(OLEConstants.OlePatron.ENTITY_BO_ID, entityEmail.getId());
+                    map.put(OLEConstants.OlePatron.PATRON_ID, olePatron.getId());
                     oleEmailBos = (List<OleEmailBo>) getBusinessObjectService().findMatching(OleEmailBo.class, map);
                     if(CollectionUtils.isNotEmpty(oleEmailBos)) {
                         entityEmailBo.setOleEmailBo(oleEmailBos.get(0));

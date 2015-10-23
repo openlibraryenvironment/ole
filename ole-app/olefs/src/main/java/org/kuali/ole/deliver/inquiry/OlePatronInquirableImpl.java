@@ -138,6 +138,7 @@ public class OlePatronInquirableImpl extends InquirableImpl {
                     Map addMap = new HashMap();
                     //addMap.put(OLEConstants.OlePatron.OLE_ADDRESS_ID, entityAdd.getId());
                     addMap.put(OLEConstants.OlePatron.ENTITY_BO_ID, entityAdd.getId());
+                    addMap.put(OLEConstants.OlePatron.PATRON_ID, patronDocument.getId());
                     List<OleAddressBo> oleAddressBos = (List<OleAddressBo>)getBusinessObjectService().findMatching(OleAddressBo.class, addMap);
                     if(CollectionUtils.isNotEmpty(oleAddressBos)) {
                         entityAddressBo.setOleAddressBo(oleAddressBos.get(0));
@@ -151,6 +152,7 @@ public class OlePatronInquirableImpl extends InquirableImpl {
                     oleEntityPhoneBo.setEntityPhoneBo(entityPhoneBo);
                     Map map = new HashMap();
                     map.put(OLEConstants.OlePatron.ENTITY_BO_ID, entityPhoneBo.getId());
+                    map.put(OLEConstants.OlePatron.PATRON_ID, patronDocument.getId());
                     List<OlePhoneBo> olePhoneBos = (List<OlePhoneBo>)getBusinessObjectService().findMatching(OlePhoneBo.class, map);
                     if(CollectionUtils.isNotEmpty(olePhoneBos)) {
                         oleEntityPhoneBo.setOlePhoneBo(olePhoneBos.get(0));
@@ -164,6 +166,7 @@ public class OlePatronInquirableImpl extends InquirableImpl {
                     oleEntityEmailBo.setEntityEmailBo(entityEmailBo);
                     Map map = new HashMap();
                     map.put(OLEConstants.OlePatron.ENTITY_BO_ID, entityEmailBo.getId());
+                    map.put(OLEConstants.OlePatron.PATRON_ID, patronDocument.getId());
                     List<OleEmailBo> oleEmailBos = (List<OleEmailBo>)getBusinessObjectService().findMatching(OleEmailBo.class, map);
                     if(CollectionUtils.isNotEmpty(oleEmailBos)) {
                         oleEntityEmailBo.setOleEmailBo(oleEmailBos.get(0));
