@@ -1,6 +1,8 @@
 package org.kuali.ole.utility.callnumber;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.solrmarc.callnum.AbstractCallNumber;
 import org.solrmarc.callnum.CallNumber;
 
@@ -12,7 +14,7 @@ import org.solrmarc.callnum.CallNumber;
  * To change this template use File | Settings | File Templates.
  */
 public class SuDocCallNumber extends AbstractCallNumber implements CallNumber {
-
+    private static final Logger Log = LoggerFactory.getLogger(SuDocCallNumber.class);
     /**
      * regular expression string for complete SuDoc classification
      * Splits the based on continuous numbers and alphabets
@@ -30,11 +32,14 @@ public class SuDocCallNumber extends AbstractCallNumber implements CallNumber {
         return ourInstance;
     }
 
-
     @Override
     public void parse(String call) {
-        this.rawCallNum = call;
-        this.parse();
+        try {
+            this.rawCallNum = call;
+            this.parse();
+        } catch (Exception e) {
+            Log.error("SuDoc Call Number Exception" + e);
+        }
     }
 
     @Override
