@@ -175,6 +175,7 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
     private String nameSuffix;
     private OleDeliverRequestBo oleDeliverRequestBo;
     private boolean checkoutForSelf;
+    private List<OlePatronNotes> olePatronUserNotes = new ArrayList<>();
     private List<OleEntityPhoneBo> oleEntityPhoneBo = new ArrayList<>();
     private List<OleEntityPhoneBo> deletedOleEntityPhoneBo = new ArrayList<>();
     private List<OlePhoneBo> olePhones = new ArrayList<>();
@@ -2000,6 +2001,23 @@ public class OlePatronDocument extends PersistableBusinessObjectBase implements 
 
     public void setCheckoutForSelf(boolean checkoutForSelf) {
         this.checkoutForSelf = checkoutForSelf;
+    }
+
+    public List<OlePatronNotes> getOlePatronUserNotes() {
+        List<OlePatronNotes> olePatronUserNoteList = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(this.getNotes())) {
+            for(OlePatronNotes olePatronNotes : this.getNotes()) {
+                if(olePatronNotes.getOlePatronNoteType() != null && (OLEConstants.USER).equalsIgnoreCase(olePatronNotes.getOlePatronNoteType().getPatronNoteTypeCode())) {
+                    olePatronUserNoteList.add(olePatronNotes);
+                }
+            }
+            this.olePatronUserNotes = olePatronUserNoteList;
+        }
+        return olePatronUserNotes;
+    }
+
+    public void setOlePatronUserNotes(List<OlePatronNotes> olePatronUserNotes) {
+        this.olePatronUserNotes = olePatronUserNotes;
     }
 
     @Override

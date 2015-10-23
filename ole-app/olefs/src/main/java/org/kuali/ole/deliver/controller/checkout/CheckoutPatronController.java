@@ -1,9 +1,11 @@
 package org.kuali.ole.deliver.controller.checkout;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jfree.util.Log;
 import org.kuali.ole.deliver.bo.OlePatronDocument;
+import org.kuali.ole.deliver.bo.OlePatronNotes;
 import org.kuali.ole.deliver.controller.PatronLookupCircUIController;
 import org.kuali.ole.deliver.drools.DroolsConstants;
 import org.kuali.ole.deliver.drools.DroolsExchange;
@@ -11,6 +13,7 @@ import org.kuali.ole.deliver.form.CircForm;
 import org.kuali.ole.deliver.util.DroolsResponse;
 import org.kuali.ole.deliver.util.OlePatronRecordUtil;
 import org.kuali.ole.utility.OleStopWatch;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by hemalathas on 6/21/15.
@@ -85,7 +90,9 @@ public class CheckoutPatronController extends CheckoutItemController {
         } else {
             setProceedWithCheckoutFlag(circForm);
         }
-        if(circForm.isProxyCheckDone() && circForm.isAutoCheckout()){
+        if(circForm.isProxyCheckDone() && checkForPatronUserNotes(circForm.getDroolsExchange())) {
+            showDialog("patronUserNotesDialog", circForm, request, response);
+        } else if(circForm.isProxyCheckDone() && circForm.isAutoCheckout()){
             return lookupItemAndSaveLoan(circForm,result,request,response);
         }
         return getUIFModelAndView(form);
@@ -102,10 +109,42 @@ public class CheckoutPatronController extends CheckoutItemController {
             showDialog("ptrnValidationErrorMessageDialog", circForm, request, response);
         } else {
             setProceedWithCheckoutFlag(circForm);
-            if(circForm.isProxyCheckDone() && circForm.isAutoCheckout()){
+            if(circForm.isProxyCheckDone() && checkForPatronUserNotes(circForm.getDroolsExchange())) {
+                showDialog("patronUserNotesDialog", circForm, request, response);
+            } else if(circForm.isProxyCheckDone() && circForm.isAutoCheckout()){
                 return lookupItemAndSaveLoan(circForm,result,request,response);
             }
         }
+        return getUIFModelAndView(circForm);
+    }
+
+    @RequestMapping(params = "methodToCall=deletePatronUserNotes")
+    public ModelAndView deletePatronUserNotes(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CircForm circForm = (CircForm) form;
+        DroolsExchange droolsExchange = new DroolsExchange();
+        droolsExchange.addToContext("circForm", circForm);
+        List<OlePatronNotes> olePatronNotesList = new ArrayList<>();
+        OlePatronDocument olePatronDocument = getPatronLookupCircUIController().getPatronDocument(droolsExchange);
+        for(OlePatronNotes olePatronNotes : olePatronDocument.getOlePatronUserNotes()) {
+            if(olePatronNotes.isSelected()) {
+                olePatronNotesList.add(olePatronNotes);
+            }
+        }
+        if(CollectionUtils.isNotEmpty(olePatronNotesList)) {
+            KRADServiceLocator.getBusinessObjectService().delete(olePatronNotesList);
+        }
+        return getUIFModelAndView(circForm);
+    }
+
+    @RequestMapping(params = "methodToCall=postPatronUserNotes")
+    public ModelAndView postPatronUserNotes(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CircForm circForm = (CircForm) form;
+        if(circForm.isAutoCheckout()) {
+            return lookupItemAndSaveLoan(circForm, result, request, response);
+        }
+        circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
         return getUIFModelAndView(circForm);
     }
 
@@ -120,6 +159,15 @@ public class CheckoutPatronController extends CheckoutItemController {
         circForm.getErrorMessage().setErrorCode(null);
         circForm.getErrorMessage().setErrorMessage(null);
         circForm.setLightboxScript("jq('#checkoutItem_control').focus();");
+    }
+
+    public boolean checkForPatronUserNotes(DroolsExchange droolsExchange) {
+        boolean hasNotes = false;
+        OlePatronDocument olePatronDocument = getPatronLookupCircUIController().getPatronDocument(droolsExchange);
+        if (CollectionUtils.isNotEmpty(olePatronDocument.getOlePatronUserNotes())) {
+            hasNotes = true;
+        }
+        return hasNotes;
     }
 
     @RequestMapping(params = "methodToCall=close")

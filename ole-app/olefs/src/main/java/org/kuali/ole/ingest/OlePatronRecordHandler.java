@@ -199,6 +199,7 @@ public class OlePatronRecordHandler {
         xStream.omitField(OlePatronDocument.class, "addressVerified");
         xStream.omitField(OlePatronDocument.class, "checkoutForSelf");
         xStream.omitField(OlePatronDocument.class, "showBillUrlsFlag");
+        xStream.omitField(OlePatronDocument.class, "olePatronUserNotes");
         xStream.omitField(OlePatronDocument.class, "oleEntityPhoneBo");
         xStream.omitField(OlePatronDocument.class, "deletedOleEntityPhoneBo");
         xStream.omitField(OlePatronDocument.class, "olePhones");

@@ -65,6 +65,7 @@
                 <bean id="checkoutClaimsReturnDialog" parent="checkoutClaimsReturnNoteDialog"/>
                 <bean id="checkoutMissingPieceDialog" parent="checkoutMissingPieceNoteDialog"/>
                 <bean id="checkoutDamagedItemDialog" parent="checkoutDamagedItemNoteDialog"/>
+                <bean id="patronUserNotesDialog" parent="patronUserNotesDisplayDialog"/>
             </list>
         </property>
 
