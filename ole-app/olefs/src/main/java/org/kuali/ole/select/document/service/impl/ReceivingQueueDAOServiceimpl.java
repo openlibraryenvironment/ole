@@ -143,6 +143,8 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
             }
             if(resultSet.get("OLE_REQ_RCPT_STATUS_ID")!=null){
                 olePurchaseOrderItem.setReceiptStatusId(Integer.parseInt(resultSet.get("OLE_REQ_RCPT_STATUS_ID").toString()));
+            }
+            if(resultSet.get("REPSTATCD")!=null){
                 if(resultSet.get("REPSTATCD").toString().equals(org.kuali.ole.sys.OLEConstants.PO_RECEIPT_STATUS_FULLY_RECEIVED)){
                     GlobalVariables.clear();
                     GlobalVariables.getMessageMap().putInfo(OleSelectConstant.RECEIVING_QUEUE_SEARCH,
