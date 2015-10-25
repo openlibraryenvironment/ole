@@ -40,6 +40,7 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
                 "WHERE PO.FDOC_NBR=DHR.DOC_HDR_ID AND PO.OLE_PO_TYPE_ID=POTYP.OLE_PO_TYPE_ID AND PO.FDOC_NBR=POITM.FDOC_NBR  " +
                 "AND PO.FDOC_NBR NOT IN (SELECT NOTE.FDOC_NBR FROM OLE_PUR_PO_ITM_NTE_T NOTE,OLE_NTE_TYP_T NOTETYPE WHERE NOTETYPE.OLE_NTE_TYP_ID=NOTE.OLE_NTE_TYP_ID " +
                 "AND NOTETYPE.OLE_NTE_TYPE='Special Processing Instruction Note') " +
+                "AND PO.PO_ID NOT IN (SELECT PO_ID FROM PUR_RCVNG_LN_T RCV,KREW_DOC_HDR_T RDHR WHERE RCV.PO_ID=PO.PO_ID AND RCV.FDOC_NBR=RDHR.DOC_HDR_ID AND RDHR.DOC_HDR_STAT_CD NOT IN ('E','X','F')) " +
                 "AND POITM.ITM_TYP_CD='ITEM' " +
                 "AND PO.PO_CUR_IND='Y' " +
                 getQueryCriteriaString(criteria,"bibIds")+
@@ -149,7 +150,7 @@ public class ReceivingQueueDAOServiceimpl extends PlatformAwareDaoBaseJdbc imple
                 }
             }
             olePurchaseOrderItem.setItemPoQty(new KualiInteger(new Double(resultSet.get("ITM_ORD_QTY").toString()).intValue()));
-            olePurchaseOrderItem.setPoAdded(true);
+            //olePurchaseOrderItem.setPoAdded(true);
             //olePurchaseOrderItem.setItemQuantity(new KualiDecimal(resultSet.get("ITM_ORD_QTY").toString()));
             olePurchaseOrderItemList.add(olePurchaseOrderItem);
             olePurchaseOrderDocument.setOlePurchaseOrderItemList(olePurchaseOrderItemList);
