@@ -128,10 +128,10 @@ public class OleRecallDueDateTypeService extends ActionTypeServiceBase {
                 }
 
 
-                getOleDeliverNoticeHelperService().generateDeliverNoticesUsingKRMSValues(deliverNotices,recallDueDate,"CourtesyNotice",null,
+                getOleDeliverNoticeHelperService().generateDeliverNoticesUsingKRMSValues(deliverNotices,recallDueDate,"Courtesy Notice",null,
                         numberOfOverdueToBeSent,courtesyNoticeInterval,null);
 
-                getOleDeliverNoticeHelperService().generateDeliverNoticesUsingKRMSValues(deliverNotices,recallDueDate,"OverdueNotice",null,
+                getOleDeliverNoticeHelperService().generateDeliverNoticesUsingKRMSValues(deliverNotices,recallDueDate,"Overdue Notice",null,
                         numberOfOverdueToBeSent,courtesyNoticeInterval,replacementBill);
 
                 environment.getEngineResults().setAttribute("deliverNotices",deliverNotices);

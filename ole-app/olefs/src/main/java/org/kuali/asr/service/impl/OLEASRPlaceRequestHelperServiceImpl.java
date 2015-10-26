@@ -1680,10 +1680,10 @@ public class OLEASRPlaceRequestHelperServiceImpl {
                     /*if(notice.equalsIgnoreCase(OLEConstants.NOTICE_HOLD_COURTESY)){
                         oleNoticeBo = getExpiredHoldNotice(oleLoanDocument);
                     } else */
-                        if (notice.equalsIgnoreCase(OLEConstants.NOTICE_OVERDUE)) {
+                        if (notice.equalsIgnoreCase(OLEConstants.OVERDUE_NOTICE)) {
                             oleNoticeBo = getOverdueNotice(oleLoanDocument);
                             noticeType = noticeType == null ? loanProcessor.getParameter(OLEParameterConstants.OVERDUE_NOTICE_TYPE) : noticeType;
-                        } else if (notice.equalsIgnoreCase(OLEConstants.NOTICE_COURTESY) && olePatronDocument.isCourtesyNotice() && !oleLoanDocument.isCourtesyNoticeFlag()) {
+                        } else if (notice.equalsIgnoreCase(OLEConstants.COURTESY_NOTICE) && olePatronDocument.isCourtesyNotice() && !oleLoanDocument.isCourtesyNoticeFlag()) {
                             oleNoticeBo = getCourtesyNotice(oleLoanDocument);
                             noticeType = noticeType == null ? loanProcessor.getParameter(OLEParameterConstants.COURTESY_NOTICE_TYPE) : noticeType;
                         }
@@ -1933,7 +1933,7 @@ public class OLEASRPlaceRequestHelperServiceImpl {
         oleNoticeBo.setPatronAddress(getPatronPreferredAddress(entityTypeContactInfoBo) != null ? getPatronPreferredAddress(entityTypeContactInfoBo) : "");
         oleNoticeBo.setPatronEmailAddress(getPatronHomeEmailId(entityTypeContactInfoBo) != null ? getPatronHomeEmailId(entityTypeContactInfoBo) : "");
         oleNoticeBo.setPatronPhoneNumber(getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? getPatronHomePhoneNumber(entityTypeContactInfoBo) : "");
-        oleNoticeBo.setNoticeName(OLEConstants.NOTICE_COURTESY);
+        oleNoticeBo.setNoticeName(OLEConstants.COURTESY_NOTICE);
         oleNoticeBo.setNoticeSpecificContent(LoanUtil.getLoanUtil().getProperty(OLEConstants.OleDeliverRequest.COURTESY_NOTICE_CONTENT));
        /* oleNoticeBo.setTitle((String) bibInformation.get(OLEConstants.TITLE) != null ? (String) bibInformation.get(OLEConstants.TITLE) : "");
         oleNoticeBo.setAuthor((String) bibInformation.get(OLEConstants.AUTHOR) != null ? (String) bibInformation.get(OLEConstants.AUTHOR) : "");*/
@@ -1970,7 +1970,7 @@ public class OLEASRPlaceRequestHelperServiceImpl {
         oleNoticeBo.setPatronAddress(getPatronPreferredAddress(entityTypeContactInfoBo) != null ? getPatronPreferredAddress(entityTypeContactInfoBo) : "");
         oleNoticeBo.setPatronEmailAddress(getPatronHomeEmailId(entityTypeContactInfoBo) != null ? getPatronHomeEmailId(entityTypeContactInfoBo) : "");
         oleNoticeBo.setPatronPhoneNumber(getPatronHomePhoneNumber(entityTypeContactInfoBo) != null ? getPatronHomePhoneNumber(entityTypeContactInfoBo) : "");
-        oleNoticeBo.setNoticeName(OLEConstants.NOTICE_OVERDUE);
+        oleNoticeBo.setNoticeName(OLEConstants.OVERDUE_NOTICE);
         oleNoticeBo.setNoticeSpecificContent(LoanUtil.getLoanUtil().getProperty(OLEConstants.OleDeliverRequest.OVERDUE_NOTICE_CONTENT));
         oleNoticeBo.setTitle(item.getHolding().getBib().getTitle());
         oleNoticeBo.setAuthor(item.getHolding().getBib().getAuthor());

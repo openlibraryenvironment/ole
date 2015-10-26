@@ -224,7 +224,7 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         Criteria criteria = new Criteria();
         Date fromDate = DateUtil.addDays(new Timestamp(System.currentTimeMillis()), -1);
         Date toDate = DateUtil.addDays(new Timestamp(System.currentTimeMillis()), 1);
-        if (noticeType.equals(OLEConstants.NOTICE_OVERDUE)) {
+        if (noticeType.equals(OLEConstants.OVERDUE_NOTICE)) {
             List<String> noticeTypes = new ArrayList<>();
             noticeTypes.add(noticeType);
             noticeTypes.add(OLEConstants.NOTICE_LOST);
@@ -246,9 +246,9 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         if (loanIds.size() > 0) {
             Criteria criteria = new Criteria();
             criteria.addColumnIn("LOAN_TRAN_ID", loanIds);
-            if (noticeType.equals(OLEConstants.NOTICE_OVERDUE) || noticeType.equals(OLEConstants.NOTICE_LOST)) {
+            if (noticeType.equals(OLEConstants.OVERDUE_NOTICE) || noticeType.equals(OLEConstants.NOTICE_LOST)) {
                 criteria.addLessOrEqualThan("loanDueDate", new Timestamp(System.currentTimeMillis()));
-            } else if (noticeType.equals(OLEConstants.NOTICE_COURTESY)) {
+            } else if (noticeType.equals(OLEConstants.COURTESY_NOTICE)) {
                 criteria.addGreaterOrEqualThan("loanDueDate", new Timestamp(System.currentTimeMillis()));
             }
             QueryByCriteria query = QueryFactory.newQuery(OleLoanDocument.class, criteria);
@@ -329,14 +329,14 @@ public class OleLoanDocumentDaoOjb extends PlatformAwareDaoBaseOjb {
         //get existing overdue notice
         criteria = new Criteria();
         QueryByCriteria noticeOverdueQuery = QueryFactory.newQuery(OLEDeliverNotice.class, criteria, true);
-        criteria.addEqualTo("noticeType", OLEConstants.NOTICE_OVERDUE);
+        criteria.addEqualTo("noticeType", OLEConstants.OVERDUE_NOTICE);
         Collection loanOverdueNoticeResultSet = getPersistenceBrokerTemplate().getCollectionByQuery(noticeOverdueQuery);
         List<OLEDeliverNotice> oleOverDueDeliverNoticeList = new ArrayList(loanOverdueNoticeResultSet);
 
         //get existing courtesy notice
         criteria = new Criteria();
         QueryByCriteria noticeCourtesyQuery = QueryFactory.newQuery(OLEDeliverNotice.class, criteria, true);
-        criteria.addEqualTo("noticeType", OLEConstants.NOTICE_COURTESY);
+        criteria.addEqualTo("noticeType", OLEConstants.COURTESY_NOTICE);
         Collection loanCourtesyNoticeResultSet = getPersistenceBrokerTemplate().getCollectionByQuery(noticeCourtesyQuery);
         List<OLEDeliverNotice> oleCourtesyDeliverNoticeList = new ArrayList(loanCourtesyNoticeResultSet);
 

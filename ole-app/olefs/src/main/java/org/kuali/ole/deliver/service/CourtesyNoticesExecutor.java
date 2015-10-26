@@ -24,7 +24,7 @@ public class CourtesyNoticesExecutor extends LoanNoticesExecutor {
 
     @Override
     protected String getNoticeType() {
-        return OLEConstants.NOTICE_COURTESY;
+        return OLEConstants.COURTESY_NOTICE;
     }
 
     @Override

@@ -121,9 +121,9 @@ public class NoticeMailContentFormatterTest {
 
         OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
         oleNoticeContentConfigurationBo.setActive(true);
-        oleNoticeContentConfigurationBo.setNoticeName("OverdueNotice");
-        oleNoticeContentConfigurationBo.setNoticeTitle("OverdueNotice");
-        oleNoticeContentConfigurationBo.setNoticeType("OverdueNotice");
+        oleNoticeContentConfigurationBo.setNoticeName("Overdue Notice");
+        oleNoticeContentConfigurationBo.setNoticeTitle("Overdue Notice");
+        oleNoticeContentConfigurationBo.setNoticeType("Overdue Notice");
 
         ArrayList<OleNoticeFieldLabelMapping> oleNoticeFieldLabelMappings = new ArrayList<>();
 
@@ -197,9 +197,9 @@ public class NoticeMailContentFormatterTest {
         NoticeMailContentFormatter noticeMailContentFormatter = new MockOverdueNoticeEmailContentFormatter();
         OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
         oleNoticeContentConfigurationBo.setActive(true);
-        oleNoticeContentConfigurationBo.setNoticeName("OverdueNotice");
-        oleNoticeContentConfigurationBo.setNoticeTitle("OverdueNotice");
-        oleNoticeContentConfigurationBo.setNoticeType("OverdueNotice");
+        oleNoticeContentConfigurationBo.setNoticeName("Overdue Notice");
+        oleNoticeContentConfigurationBo.setNoticeTitle("Overdue Notice");
+        oleNoticeContentConfigurationBo.setNoticeType("Overdue Notice");
         oleNoticeContentConfigurationBo.setNoticeBody("This is a test notice. Please ingore!");
 
         ArrayList<OleNoticeFieldLabelMapping> oleNoticeFieldLabelMappings = new ArrayList<>();
@@ -307,9 +307,9 @@ public class NoticeMailContentFormatterTest {
         NoticeMailContentFormatter noticeMailContentFormatter = new MockLostNoticeEmailContentFormatter();
         OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
         oleNoticeContentConfigurationBo.setActive(true);
-        oleNoticeContentConfigurationBo.setNoticeName("OverdueNotice");
-        oleNoticeContentConfigurationBo.setNoticeTitle("OverdueNotice");
-        oleNoticeContentConfigurationBo.setNoticeType("OverdueNotice");
+        oleNoticeContentConfigurationBo.setNoticeName("Overdue Notice");
+        oleNoticeContentConfigurationBo.setNoticeTitle("Overdue Notice");
+        oleNoticeContentConfigurationBo.setNoticeType("Overdue Notice");
         oleNoticeContentConfigurationBo.setNoticeBody("This is a test notice. Please ingore!");
 
         ArrayList<OleNoticeFieldLabelMapping> oleNoticeFieldLabelMappings = new ArrayList<>();

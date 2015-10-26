@@ -32,7 +32,7 @@ public class OleDeliverBatchService_IT extends KFSTestCaseBase {
     oleNoticeBo.setCirculationDeskName("MockCirDeskName");
     oleNoticeBo.setCirculationDeskPhoneNumber("MockCirPhoneNum");
     oleNoticeBo.setDueDate(new Date());
-    oleNoticeBo.setNoticeName("OverdueNotice");
+    oleNoticeBo.setNoticeName("Overdue Notice");
     oleNoticeBo.setPatronAddress("MockPatronAdd");
     oleNoticeBo.setPatronEmailAddress("MockPatronEmailAdd");
     oleNoticeBo.setPatronName("MockPatronName");
@@ -46,7 +46,7 @@ public class OleDeliverBatchService_IT extends KFSTestCaseBase {
     oleNoticeBo1.setCirculationDeskName("MockCirDeskName1");
     oleNoticeBo1.setCirculationDeskPhoneNumber("MockCirPhoneNum1");
     oleNoticeBo1.setDueDate(new Date());
-    oleNoticeBo1.setNoticeName("OverdueNotice");
+    oleNoticeBo1.setNoticeName("Overdue Notice");
     oleNoticeBo1.setPatronAddress("MockPatronAdd1");
     oleNoticeBo1.setPatronEmailAddress("MockPatronEmailAdd1");
     oleNoticeBo1.setPatronName("MockPatronName1");
@@ -60,7 +60,7 @@ public class OleDeliverBatchService_IT extends KFSTestCaseBase {
     oleNoticeBo3.setCirculationDeskName("MockCirDeskName");
     oleNoticeBo3.setCirculationDeskPhoneNumber("MockCirPhoneNum3");
     oleNoticeBo3.setDueDate(new Date());
-    oleNoticeBo3.setNoticeName("OverdueNotice");
+    oleNoticeBo3.setNoticeName("Overdue Notice");
     oleNoticeBo3.setPatronAddress("MockPatronAdd3");
     oleNoticeBo3.setPatronEmailAddress("MockPatronEmailAdd3");
     oleNoticeBo3.setPatronName("MockPatronName3");
@@ -104,7 +104,7 @@ public class OleDeliverBatchService_IT extends KFSTestCaseBase {
         oleNoticeBo.setCirculationDeskPhoneNumber("MockCirPhoneNum");
         oleNoticeBo.setItemCallNumber("MockCall");
         oleNoticeBo.setDueDate(new Date());
-        oleNoticeBo.setNoticeName("OverdueNotice");
+        oleNoticeBo.setNoticeName("Overdue Notice");
         oleNoticeBo.setPatronAddress("MockPatronAdd");
         oleNoticeBo.setPatronEmailAddress("MockPatronEmailAdd");
         oleNoticeBo.setPatronName("MockPatronName");
@@ -119,7 +119,7 @@ public class OleDeliverBatchService_IT extends KFSTestCaseBase {
         oleNoticeBo1.setCirculationDeskPhoneNumber("MockCirPhoneNum1");
         oleNoticeBo1.setItemCallNumber("MockCall1");
         oleNoticeBo1.setDueDate(new Date());
-        oleNoticeBo1.setNoticeName("OverdueNotice");
+        oleNoticeBo1.setNoticeName("Overdue Notice");
         oleNoticeBo1.setPatronAddress("MockPatronAdd1");
         oleNoticeBo1.setPatronEmailAddress("MockPatronEmailAdd1");
         oleNoticeBo1.setPatronName("MockPatronName1");
@@ -134,7 +134,7 @@ public class OleDeliverBatchService_IT extends KFSTestCaseBase {
         oleNoticeBo3.setCirculationDeskPhoneNumber("MockCirPhoneNum3");
         oleNoticeBo3.setDueDate(new Date());
         oleNoticeBo3.setItemCallNumber("MockCall3");
-        oleNoticeBo3.setNoticeName("OverdueNotice");
+        oleNoticeBo3.setNoticeName("Overdue Notice");
         oleNoticeBo3.setPatronAddress("MockPatronAdd3");
         oleNoticeBo3.setPatronEmailAddress("MockPatronEmailAdd3");
         oleNoticeBo3.setPatronName("MockPatronName3");

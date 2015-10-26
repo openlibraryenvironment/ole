@@ -50,9 +50,9 @@ public class OleNoticeContentHandlerTest {
 
         OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo = new OleNoticeContentConfigurationBo();
         oleNoticeContentConfigurationBo.setActive(true);
-        oleNoticeContentConfigurationBo.setNoticeName("OverdueNotice");
-        oleNoticeContentConfigurationBo.setNoticeTitle("OverdueNotice");
-        oleNoticeContentConfigurationBo.setNoticeType("OverdueNotice");
+        oleNoticeContentConfigurationBo.setNoticeName("Overdue Notice");
+        oleNoticeContentConfigurationBo.setNoticeTitle("Overdue Notice");
+        oleNoticeContentConfigurationBo.setNoticeType("Overdue Notice");
 
         ArrayList<OleNoticeFieldLabelMapping> oleNoticeFieldLabelMappings = new ArrayList<>();
 

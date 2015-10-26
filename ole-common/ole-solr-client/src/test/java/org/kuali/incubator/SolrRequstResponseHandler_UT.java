@@ -73,7 +73,7 @@ public class SolrRequstResponseHandler_UT {
         SolrInputDocument solrInputDocument = new SolrInputDocument();
         solrInputDocument.addField("DocType", "Overdue");
         solrInputDocument.addField("DocFormat", "Email");
-        solrInputDocument.addField("noticeType", "OverdueNotice");
+        solrInputDocument.addField("noticeType", "Overdue Notice");
         solrInputDocument.addField("noticeContent", stringBuilder.toString());
         String patronBarcode = "53370";
         solrInputDocument.addField("patronBarcode", patronBarcode);

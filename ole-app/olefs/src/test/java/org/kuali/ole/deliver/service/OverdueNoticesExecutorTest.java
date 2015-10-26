@@ -169,7 +169,7 @@ public class OverdueNoticesExecutorTest {
 
         @Override
         protected String getNoticeType() {
-            return OLEConstants.NOTICE_OVERDUE;
+            return OLEConstants.OVERDUE_NOTICE;
         }
 
         public void generateAndSendOverdueNoticesToPatron(List<OleLoanDocument> oleLoanDocuments) {

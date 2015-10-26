@@ -289,7 +289,7 @@ public class OLEDeliverNoticeHelperServiceImpl implements OLEDeliverNoticeHelper
 
         Integer lostCount = 0;
 
-        if(noticeType!= null && noticeType.equalsIgnoreCase(OLEConstants.NOTICE_COURTESY)){
+        if(noticeType!= null && noticeType.equalsIgnoreCase(OLEConstants.COURTESY_NOTICE)){
             OLEDeliverNotice courtesyNotice = new OLEDeliverNotice();
             courtesyNotice.setNoticeType(noticeType);
             if(noticeFormat!=null && !noticeFormat.trim().isEmpty()){
@@ -308,7 +308,7 @@ public class OLEDeliverNoticeHelperServiceImpl implements OLEDeliverNoticeHelper
             courtesyNotice.setNoticeToBeSendDate(noticeToBeSentDate);
             deliverNotices.add(courtesyNotice);
         }
-        else if(noticeType!= null && noticeType.equalsIgnoreCase(OLEConstants.NOTICE_OVERDUE)){
+        else if(noticeType!= null && noticeType.equalsIgnoreCase(OLEConstants.OVERDUE_NOTICE)){
             if(numberOfOverdueToBeSent!=null)
                 for(int i = 1; i<= Integer.parseInt(numberOfOverdueToBeSent);i++ ){
                     OLEDeliverNotice overdueNotice = new OLEDeliverNotice();

@@ -2127,8 +2127,6 @@ public class OLEConstants {
     public static final String COURTESY_NOTICE = "Courtesy Notice";
     public static final String HOLD_EXP_COURTESY_NOTICE = "Expired Hold  Notice";
     public static final String OVERDUE_NOTICE = "Overdue Notice";
-    public static final String NOTICE_OVERDUE = "OverdueNotice";
-    public static final String NOTICE_COURTESY = "CourtesyNotice";
     public static final String NOTICE_HOLD_COURTESY = "HoldCourtesyNotice";
     public static final String NOTICE_RECALL = "RecallNotice";
     public static final String PICKUP_NOTICE = "Pickup Notice";

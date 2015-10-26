@@ -322,7 +322,7 @@ public class OleDeliverNoticeService {
                 paraGraph = new Paragraph();
                 paraGraph.add(Chunk.NEWLINE);
                 document.add(paraGraph);
-            } else if (noticeBo.getNoticeName().equals("OverdueNotice")) {
+            } else if (noticeBo.getNoticeName().equals("Overdue Notice")) {
                 pdfTable = new PdfPTable(3);
 
                 pdfTable.addCell(getPdfPCellInJustified("Item was due"));

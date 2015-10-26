@@ -177,7 +177,7 @@ public class OleDeliverBatchServiceImpl {
 
         stringBuffer.append("<TR><TD>Call Number :</TD><TD>" +(noticeBo.getItemCallNumber()!=null ? noticeBo.getItemCallNumber() : "") + "</TD></TR>");
         stringBuffer.append("<TR><TD>Item Barcode :</TD><TD>" +(noticeBo.getItemId()!=null ? noticeBo.getItemId() : "") + "</TD></TR>");
-        if (noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_OVERDUE)) {
+        if (noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.OVERDUE_NOTICE)) {
             stringBuffer.append("<TR><TD>Item was due :</TD><TD>" +( noticeBo.getDueDate()!=null ? sdf.format(noticeBo.getDueDate()).toString() : "" )+ "</TD></TR>");
         }
         if (noticeBo.getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_RECALL)) {
@@ -201,7 +201,7 @@ public class OleDeliverBatchServiceImpl {
             if (!noticeBoList.get(courtesy).getNoticeName().equalsIgnoreCase(OLEConstants.CANCELLATION_NOTICE)) {
                 stringBuffer.append("<TR><TD>Volume/Issue/Copy Number :</TD><TD>" + (noticeBoList.get(courtesy).getVolumeIssueCopyNumber() != null ? noticeBoList.get(courtesy).getVolumeIssueCopyNumber() : "") + "</TD></TR>");
             }
-            if (noticeBoList.get(courtesy).getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_OVERDUE)) {
+            if (noticeBoList.get(courtesy).getNoticeName().equalsIgnoreCase(OLEConstants.OVERDUE_NOTICE)) {
                 stringBuffer.append("<TR><TD>Item was due :</TD><TD>" + (noticeBoList.get(courtesy).getDueDate() != null ? sdf.format(noticeBoList.get(courtesy).getDueDate()).toString() : "") + "</TD></TR>");
             }
             stringBuffer.append("<TR><TD>Library shelving location :</TD><TD>" + (itemShelvingLocationName(noticeBoList.get(courtesy).getItemShelvingLocation()) != null ? itemShelvingLocationName(noticeBoList.get(courtesy).getItemShelvingLocation()) : "") + "</TD></TR>");
@@ -256,7 +256,7 @@ public class OleDeliverBatchServiceImpl {
         List<OleNoticeBo> expiredRequiredNoticeList = new ArrayList<OleNoticeBo>();
         Map smsMap = new HashMap();
         for (int temp = 0; temp < noticeBo.size(); temp++) {
-            if (noticeBo.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_OVERDUE)) {
+            if (noticeBo.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.OVERDUE_NOTICE)) {
                 overDueNoticeList.add(noticeBo.get(temp));
             }
             if (noticeBo.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_ONHOLD)) {
@@ -376,7 +376,7 @@ public class OleDeliverBatchServiceImpl {
         List<OleNoticeBo> cancellationNoticeList = new ArrayList<OleNoticeBo>();
 
         for (int temp = 0; temp < noticeBo.size(); temp++) {
-            if (noticeBo.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_OVERDUE)) {
+            if (noticeBo.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.OVERDUE_NOTICE)) {
                 overDueNoticeList.add(noticeBo.get(temp));
             }
             if (noticeBo.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_ONHOLD)) {
@@ -391,7 +391,7 @@ public class OleDeliverBatchServiceImpl {
             if (noticeBo.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.OleDeliverRequest.EXPIRED_REQUEST)) {
                 expiredRequiredNoticeList.add(noticeBo.get(temp));
             }
-            if (noticeBo.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_COURTESY)) {
+            if (noticeBo.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.COURTESY_NOTICE)) {
                 courtesyNoticeList.add(noticeBo.get(temp));
             }
             if (noticeBo.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.CANCELLATION_NOTICE)) {
@@ -491,7 +491,7 @@ public class OleDeliverBatchServiceImpl {
             List<OleNoticeBo> courtesyNoticeList = new ArrayList<OleNoticeBo>();
 
             for (int temp = 0; temp < noticeBoList.size(); temp++) {
-                if (noticeBoList.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_OVERDUE)) {
+                if (noticeBoList.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.OVERDUE_NOTICE)) {
                     overDueNoticeList.add(noticeBoList.get(temp));
                 }
                 if (noticeBoList.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_ONHOLD)) {
@@ -506,7 +506,7 @@ public class OleDeliverBatchServiceImpl {
                 if (noticeBoList.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.OleDeliverRequest.EXPIRED_REQUEST)) {
                     expiredRequiredNoticeList.add(noticeBoList.get(temp));
                 }
-                if (noticeBoList.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.NOTICE_COURTESY)) {
+                if (noticeBoList.get(temp).getNoticeName().equalsIgnoreCase(OLEConstants.COURTESY_NOTICE)) {
                     courtesyNoticeList.add(noticeBoList.get(temp));
                 }
             }
@@ -1220,7 +1220,7 @@ public class OleDeliverBatchServiceImpl {
             paraGraph = new Paragraph();
             paraGraph.add(Chunk.NEWLINE);
             document.add(paraGraph);
-        } else if (noticeBo.getNoticeName().equals("OverdueNotice")) {
+        } else if (noticeBo.getNoticeName().equals("Overdue Notice")) {
             if (LOG.isDebugEnabled()){
                 LOG.debug("OverdueNotice Footer Content : " + noticeBo.getNoticeName() + noticeBo.getItemId());
             }
@@ -1395,7 +1395,7 @@ public class OleDeliverBatchServiceImpl {
             paraGraph = new Paragraph();
             paraGraph.add(Chunk.NEWLINE);
             document.add(paraGraph);
-            if (noticeBo.getNoticeName().equals("OverdueNotice")) {
+            if (noticeBo.getNoticeName().equals("Overdue Notice")) {
                 if (LOG.isDebugEnabled()){
                     LOG.debug("OverdueNotice Footer Content : " + noticeBo.getNoticeName() + noticeBo.getItemId());
                 }
