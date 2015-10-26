@@ -83,10 +83,14 @@ public abstract class NoticeMailContentFormatter {
     }
 
     public OleNoticeBo setPatronInfo(OlePatronDocument olePatronDocument, OleNoticeBo oleNoticeBo) {
-        oleNoticeBo.setPatronName(olePatronDocument.getPatronName() != null ? olePatronDocument.getPatronName() : "");
-        oleNoticeBo.setPatronAddress(olePatronDocument.getPreferredAddress() != null ? olePatronDocument.getPreferredAddress() : "");
-        oleNoticeBo.setPatronEmailAddress(olePatronDocument.getEmailAddress() != null ? olePatronDocument.getEmailAddress() : "");
-        oleNoticeBo.setPatronPhoneNumber(olePatronDocument.getPhoneNumber() != null ? olePatronDocument.getPhoneNumber() : "");
+        String patronName = olePatronDocument.getPatronName();
+        String preferredAddress = olePatronDocument.getPreferredAddress();
+        String email = olePatronDocument.getEmail();
+        String phoneNumber = olePatronDocument.getPhoneNumber();
+        oleNoticeBo.setPatronName(patronName != null ? patronName : "");
+        oleNoticeBo.setPatronAddress(preferredAddress != null ? preferredAddress: "");
+        oleNoticeBo.setPatronEmailAddress(email != null ? email : "");
+        oleNoticeBo.setPatronPhoneNumber(phoneNumber != null ? phoneNumber : "");
         return oleNoticeBo;
     }
 

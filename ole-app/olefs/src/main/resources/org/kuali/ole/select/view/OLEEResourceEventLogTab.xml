@@ -240,7 +240,7 @@
             <list>
                 <bean id="FilterEventLogSection_eResourcelogType" parent="Uif-InputField" p:propertyName="logTypeId"
                       p:label="Please choose a type of Event log entry" p:required="true"
-                      p:enableAutoQuickfinder="false" p:onClickScript="selectEventOrProblem()" >
+                      p:enableAutoQuickfinder="false" p:onClickScript="selectFilterEventOrProblem()" >
                     <property name="optionsFinder">
                         <bean class="org.kuali.ole.select.keyvalue.OLELogTypeKeyValues" />
                     </property>
@@ -268,7 +268,7 @@
                 </bean>
                 <bean id="FilterEventLogSection_eResourceeventNote" parent="Uif-InputField" p:propertyName="eventNote" p:label="Note" p:required="true"/>
                 <bean id="FilterEventLogSection_eResourceeventStatus" parent="Uif-InputField" p:propertyName="eventStatus" p:label="Status"
-                      p:enableAutoQuickfinder="false" p:required="true" p:onChangeScript="enableOrDisableDateResolved();">
+                      p:enableAutoQuickfinder="false" p:required="true" p:onChangeScript="enableOrDisableFilteredDateResolved();">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select" p:disabled="@{#line.logTypeName eq 'Event'}">
                             <property name="options">

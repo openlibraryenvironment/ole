@@ -441,6 +441,34 @@ function selectEventOrProblem() {
     })
 }
 
+
+
+
+
+function selectFilterEventOrProblem() {
+    jq("input:radio").live("change",function(){
+        if(jq(this).attr("name")=="newCollectionLines['document.filterEventLogs'].logTypeId"){
+            if(jq(this).attr("value")==1){
+                jq("#FilterEventLogSection_eResourceproblemType_add_control").attr('disabled', 'true');
+                jq("#FilterEventLogSection_eResourceeventType_add_control").removeAttr('disabled');
+                jq("#FilterEventLogSection_eResourceeventStatus_add_control").attr('disabled', 'true');
+                jq("#FilterEventLogSection_eResourceeventResolvedDate_add_control").attr('disabled', 'true');
+                jq("#FilterEventLogSection_eResourceeventResolvedDate_add_control").datepicker("disable");
+                jq("#FilterEventLogSection_eResourceeventResolution_add_control").attr('disabled', 'true');
+            }
+            if(jq(this).attr("value")==2){
+                jq("#FilterEventLogSection_eResourceproblemType_add_control").removeAttr('disabled');
+                jq("#FilterEventLogSection_eResourceeventType_add_control").attr('disabled', 'true');
+                jq("#FilterEventLogSection_eResourceeventStatus_add_control").removeAttr('disabled');
+                jq("#FilterEventLogSection_eResourceeventResolvedDate_add_control").removeAttr('disabled');
+                jq("#FilterEventLogSection_eResourceeventResolvedDate_add_control").datepicker("enable");
+                jq("#FilterEventLogSection_eResourceeventResolution_add_control").removeAttr('disabled');
+                enableOrDisableFilteredDateResolved();
+            }
+        }
+    })
+}
+
 function selectEvent(){
     jq("#EventLogSection_eResourcelogType_add_control_0").attr("checked", "true");
     jq("#EventLogSection_eResourceproblemType_add_control").hide()
@@ -479,6 +507,20 @@ function enableOrDisableDateResolved(){
         jq("#EventLogSection_eResourceeventResolvedDate_add_control").val('');
         jq("#EventLogSection_eResourceeventResolvedDate_add_control").attr('disabled','true');
         jq("#EventLogSection_eResourceeventResolvedDate_add_control").datepicker("disable");
+    }
+}
+
+
+
+
+function enableOrDisableFilteredDateResolved(){
+    if(jq('#FilterEventLogSection_eResourceeventStatus_add_control').val() === 'Resolved'){
+        jq("#FilterEventLogSection_eResourceeventResolvedDate_add_control").removeAttr('disabled');
+        jq("#FilterEventLogSection_eResourceeventResolvedDate_add_control").datepicker("enable");
+    } else {
+        jq("#FilterEventLogSection_eResourceeventResolvedDate_add_control").val('');
+        jq("#FilterEventLogSection_eResourceeventResolvedDate_add_control").attr('disabled','true');
+        jq("#FilterEventLogSection_eResourceeventResolvedDate_add_control").datepicker("disable");
     }
 }
 
