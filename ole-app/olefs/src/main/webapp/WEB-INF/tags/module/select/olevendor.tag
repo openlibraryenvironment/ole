@@ -101,7 +101,7 @@
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorAliasName}" /></div>
                 </th>
-                <td align=left valign=middle class="datacell">
+                <td align=left valign=middle class="datacell" onkeypress="setVendorDetails(event)">
                     <kul:htmlControlAttribute
                             attributeEntry="${documentAttributes.vendorAliasName}" property="document.vendorAliasName"
                             readOnly="${(readOnlyForPREQ) or not (fullEntryMode or amendmentEntry) or (lockB2BEntry and (displayRequisitionFields or displayPurchaseOrderFields))}" tabindexOverride="${tabindexOverrideBase + 0}"/>
@@ -624,4 +624,12 @@
 
     </div>
 </kul:tab>
+<script type="text/javascript">
+    function setVendorDetails(event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            document.getElementsByName('methodToCall.selectVendor')[0].click();
+        }
+    }
+</script>
 

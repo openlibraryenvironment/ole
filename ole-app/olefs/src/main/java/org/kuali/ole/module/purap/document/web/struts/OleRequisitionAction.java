@@ -557,6 +557,7 @@ public class OleRequisitionAction extends RequisitionAction {
         OleRequisitionForm rqForm = (OleRequisitionForm) form;
         OleRequisitionDocument document = (OleRequisitionDocument) rqForm.getDocument();
         document.setPurchaseOrderTransmissionMethodCode(OleSelectConstant.METHOD_OF_PO_TRANSMISSION_NOPR);
+        document.setVendorEnterKeyEvent(false);
         return forward;
     }
     // end for jira OLE-2177.

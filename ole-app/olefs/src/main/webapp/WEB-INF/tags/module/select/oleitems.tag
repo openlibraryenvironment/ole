@@ -197,8 +197,8 @@
 
     <th colspan="1" rowspan="1">&nbsp;Bib Info:</th>
     <td colspan="2" class="infoline">
-        <input type="radio" name="AttachBib" onclick="hideLinkToBibImage();"/>&nbsp;new bib&nbsp;
-        <input type="radio" name="AttachBib" onclick="hideCreateNewImage();"/>&nbsp;existing bib&nbsp;
+        <input id="attachNewBibId" type="radio" name="AttachBib" onclick="hideLinkToBibImage();"/>&nbsp;new bib&nbsp;
+        <input id="attachExistingBibId" type="radio" name="AttachBib" onclick="hideCreateNewImage();"/>&nbsp;existing bib&nbsp;
     </td>
     <td colspan="2" class="infoline" id="holdingOptions">
         <input type="radio" id="printOption" name="linkToOrderOption" checked="true"/>&nbsp;print holdings&nbsp;
@@ -1936,6 +1936,10 @@ attributeEntry="${itemAttributes.itemLocation}" width="10%"/>
         else {
             return 'ELECTRONIC';
         }
+    }
+
+    function getItemCount() {
+        return ${ctr};
     }
 
 </script>
