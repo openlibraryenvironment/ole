@@ -69,16 +69,6 @@
                     </property>
                 </bean>
 
-                <bean id="deliverNoticeSearch-deskLocation" parent="Uif-InputField" p:propertyName="deskLocation"
-                      p:label="Desk Location">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.ole.deliver.keyvalue.OLECirculationDeskChangeKeyValue"/>
-                    </property>
-                </bean>
-
                 <bean id="deliverNoticeSearch-noticeType" parent="Uif-InputField" p:propertyName="noticeType"
                       p:label="Notice Type">
                     <property name="optionsFinder">

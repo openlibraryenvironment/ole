@@ -109,10 +109,6 @@ public class OLEDeliverNoticeSearchController extends OLEUifControllerBase {
             filterFields.put("noticeType", oleDeliverNoticeSearchForm.getNoticeType());
         }
 
-        if (StringUtils.isNotBlank(oleDeliverNoticeSearchForm.getDeskLocation())) {
-            filterFields.put("deskLocation", oleDeliverNoticeSearchForm.getDeskLocation());
-        }
-
         if (oleDeliverNoticeSearchForm.getDateSentTo() != null && oleDeliverNoticeSearchForm.getDateSentFrom() != null) {
             Date dateSentFrom = oleDeliverNoticeSearchForm.getDateSentFrom();
             Date dateSentTo = oleDeliverNoticeSearchForm.getDateSentTo();
@@ -150,7 +146,6 @@ public class OLEDeliverNoticeSearchController extends OLEUifControllerBase {
         oleDeliverNoticeSearchForm.setItemBarcode(null);
         oleDeliverNoticeSearchForm.setDateSentFrom(null);
         oleDeliverNoticeSearchForm.setDateSentTo(null);
-        oleDeliverNoticeSearchForm.setDeskLocation(null);
         oleDeliverNoticeSearchForm.setNoticeType(null);
         return getUIFModelAndView(oleDeliverNoticeSearchForm);
     }

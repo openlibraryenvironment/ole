@@ -80,7 +80,6 @@ public class SolrRequstResponseHandler_UT {
         solrInputDocument.addField("itemBarcode", "Aq12");
         Date dateSent = new Date();
         solrInputDocument.addField("dateSent", dateSent);
-        solrInputDocument.addField("deskLocation", "UC/JRL/GEN");
         solrInputDocument.addField("uniqueId", patronBarcode + dateSent.getTime());
         SolrRequestReponseHandler solrRequestReponseHandler = new MockSolrRequestResponseHanlder();
         UpdateResponse updateResponse = solrRequestReponseHandler.updateSolr(Collections.singletonList(solrInputDocument));

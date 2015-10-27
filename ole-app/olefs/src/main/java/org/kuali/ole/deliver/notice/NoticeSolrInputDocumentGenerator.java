@@ -23,7 +23,6 @@ public class NoticeSolrInputDocumentGenerator {
         solrInputDocument.addField("patronBarcode", patronBarcode);
         Date dateSent = new Date();
         solrInputDocument.addField("dateSent", dateSent);
-        solrInputDocument.addField("deskLocation", "TODO");
         solrInputDocument.addField("uniqueId", patronId+ dateSent.getTime());
 
         for (Iterator<OleLoanDocument> iterator = loanDocuments.iterator(); iterator.hasNext(); ) {

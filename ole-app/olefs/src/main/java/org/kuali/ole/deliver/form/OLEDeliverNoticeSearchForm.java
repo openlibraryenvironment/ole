@@ -17,7 +17,6 @@ public class OLEDeliverNoticeSearchForm extends UifFormBase {
     private String itemBarcode;
     private Date dateSentFrom;
     private Date dateSentTo;
-    private String deskLocation;
     private String noticeType;
 
     private List<OLEDeliverNoticeSearchResult> oleDeliverNoticeSearchResult;
@@ -52,14 +51,6 @@ public class OLEDeliverNoticeSearchForm extends UifFormBase {
 
     public void setDateSentTo(Date dateSentTo) {
         this.dateSentTo = dateSentTo;
-    }
-
-    public String getDeskLocation() {
-        return deskLocation;
-    }
-
-    public void setDeskLocation(String deskLocation) {
-        this.deskLocation = deskLocation;
     }
 
     public String getNoticeType() {

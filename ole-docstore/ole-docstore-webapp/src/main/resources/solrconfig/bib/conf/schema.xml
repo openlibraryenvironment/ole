@@ -355,7 +355,6 @@ but may be good for SKUs.  Can insert dashes in the wrong place and still match.
         <field name="patronBarcode" type="string" indexed="true" stored="true"/>
         <field name="itemBarcode" type="string" indexed="true" stored="true" multiValued="true"/>
         <field name="dateSent" type="date" indexed="true" stored="true"/>
-        <field name="deskLocation" type="string" indexed="true" stored="true"/>
 
         <!-- ::START:: Fields common to all Doc Types -->
         <field name="id" type="string" indexed="true" stored="true"/>

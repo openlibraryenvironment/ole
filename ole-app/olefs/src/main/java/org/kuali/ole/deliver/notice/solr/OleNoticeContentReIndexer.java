@@ -73,7 +73,6 @@ public class OleNoticeContentReIndexer {
                     solrInputDocument.addField("patronBarcode", patronDocument.getBarcode());
                     Date dateSent = oleDeliverNoticeHistory.getNoticeSentDate();
                     solrInputDocument.addField("dateSent", dateSent);
-                    solrInputDocument.addField("deskLocation", "TODO");
                     solrInputDocument.addField("uniqueId", patronId + dateSent.getTime());
                     List<String> itemBarcodes = getItemBarcodes(content);
                     if (CollectionUtils.isNotEmpty(itemBarcodes)) {
