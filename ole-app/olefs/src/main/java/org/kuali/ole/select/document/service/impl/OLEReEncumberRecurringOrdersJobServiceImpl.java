@@ -64,13 +64,15 @@ public class OLEReEncumberRecurringOrdersJobServiceImpl extends PlatformAwareDao
     java.sql.Date date = new java.sql.Date(getDateTimeService().getCurrentTimestamp().getTime());
     List<String> entriesList = new ArrayList<>();
     Integer fiscalYear;
-    String fromDate = getParameter(OLEConstants.FROM_DATE);
-    String toDate = getParameter(OLEConstants.TO_DATE);
+    String fromDate;
+    String toDate;
 
 
     @Override
     public void retrieveReEncumberRecuringOrders() {
 
+        fromDate = getParameter(OLEConstants.FROM_DATE);
+        toDate = getParameter(OLEConstants.TO_DATE);
         String paramaterValue = getParameter(OLEConstants.REENCUMBER_RECURRING_ORDERS);
         String[] value = paramaterValue.split(",");
         List<String> entriesList = new ArrayList<>();
@@ -89,8 +91,6 @@ public class OLEReEncumberRecurringOrdersJobServiceImpl extends PlatformAwareDao
 
     public List<Map<String, Object>> executeQueryForPoOption() {
 
-        fromDate = getParameter(OLEConstants.FROM_DATE);
-        toDate = getParameter(OLEConstants.TO_DATE);
         String dbVendor = ConfigContext.getCurrentContextConfig().getProperty(OLEConstants.DB_VENDOR);
         if (dbVendor.equals(OLEConstants.MYSQL) && fromDate != null && toDate != null) {
             String formattedFromDateForMySQL = formatDateForMySQL(fromDate);
