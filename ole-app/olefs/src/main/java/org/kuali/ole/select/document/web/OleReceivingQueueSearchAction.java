@@ -322,8 +322,8 @@ public class OleReceivingQueueSearchAction extends KualiTransactionalDocumentAct
                 if (validateReceivingForProcess(olePurchaseOrderItem)) {
                     isReceivingExist = true;
                     olePurchaseOrderItem.setPoAdded(false);
-                    if (!errorCreatingReceivingForPoIdList.contains(olePurchaseOrderItem.getPurchaseOrder().getPurapDocumentIdentifier().toString())) {
-                        errorCreatingReceivingForPoIdList.add(olePurchaseOrderItem.getPurchaseOrder().getPurapDocumentIdentifier().toString());
+                    if (!errorCreatingReceivingForPoIdList.contains(olePurchaseOrderItem.getOlePurchaseOrderDocument().getPurapDocumentIdentifier().toString())) {
+                        errorCreatingReceivingForPoIdList.add(olePurchaseOrderItem.getOlePurchaseOrderDocument().getPurapDocumentIdentifier().toString());
                     }
                 }
                 /*if (!isReceivingExisted) {
