@@ -37,6 +37,18 @@ public class OLEBatchBibImportStatistics {
     private List<BibMarcRecord> bibMarcRecordList = new ArrayList<BibMarcRecord>();
     private List bibImportChunkRecordsList = new ArrayList(0);
     private StringBuilder errorBuilder = new StringBuilder();
+    private List<BibMarcRecord> matchedBibMarc = new ArrayList<>();
+    private List<BibMarcRecord> nonMatchedBibMarc = new ArrayList<>();
+    private List<String> matchedBibIds = new ArrayList<>();
+    private List<String> noMatchFoundBibs = new ArrayList<>();
+    private List<BibMarcRecord> matchedHoldingsMarc = new ArrayList<>();
+    private List<BibMarcRecord> nonMatchedHoldingsMarc = new ArrayList<>();
+    private List<String> matchedHoldingsIds = new ArrayList<>();
+    private List<String> noMatchFoundHoldings = new ArrayList<>();
+    private List<BibMarcRecord> matchedItemMarc = new ArrayList<>();
+    private List<BibMarcRecord> nonMatchedItemMarc = new ArrayList<>();
+    private List<String> matchedItemIds = new ArrayList<>();
+    private List<String> noMatchFoundItem = new ArrayList<>();
 
     private List<BibMarcRecord> moreThanOneHoldingsMatched = new ArrayList<BibMarcRecord>();
     private List<BibMarcRecord> moreThanOneItemMatched = new ArrayList<BibMarcRecord>();
@@ -239,6 +251,103 @@ public class OLEBatchBibImportStatistics {
 
     public void setNoOfEHoldingsCreatedWithOutEResource(int noOfEHoldingsCreatedWithOutEResource) {
         this.noOfEHoldingsCreatedWithOutEResource = noOfEHoldingsCreatedWithOutEResource;
+    }
+
+    public List<BibMarcRecord> getMatchedBibMarc() {
+        return matchedBibMarc;
+    }
+
+    public void setMatchedBibMarc(List<BibMarcRecord> matchedBibMarc) {
+        this.matchedBibMarc = matchedBibMarc;
+    }
+
+    public List<BibMarcRecord> getNonMatchedBibMarc() {
+        return nonMatchedBibMarc;
+    }
+
+    public void setNonMatchedBibMarc(List<BibMarcRecord> nonMatchedBibMarc) {
+        this.nonMatchedBibMarc = nonMatchedBibMarc;
+    }
+
+
+    public List<String> getMatchedBibIds() {
+        return matchedBibIds;
+    }
+
+    public void setMatchedBibIds(List<String> matchedBibIds) {
+        this.matchedBibIds = matchedBibIds;
+    }
+
+    public List<String> getNoMatchFoundBibs() {
+        return noMatchFoundBibs;
+    }
+
+    public void setNoMatchFoundBibs(List<String> noMatchFoundBibs) {
+        this.noMatchFoundBibs = noMatchFoundBibs;
+    }
+
+    public List<BibMarcRecord> getMatchedHoldingsMarc() {
+        return matchedHoldingsMarc;
+    }
+
+    public void setMatchedHoldingsMarc(List<BibMarcRecord> matchedHoldingsMarc) {
+        this.matchedHoldingsMarc = matchedHoldingsMarc;
+    }
+
+    public List<BibMarcRecord> getNonMatchedHoldingsMarc() {
+        return nonMatchedHoldingsMarc;
+    }
+
+    public void setNonMatchedHoldingsMarc(List<BibMarcRecord> nonMatchedHoldingsMarc) {
+        this.nonMatchedHoldingsMarc = nonMatchedHoldingsMarc;
+    }
+
+    public List<String> getMatchedHoldingsIds() {
+        return matchedHoldingsIds;
+    }
+
+    public void setMatchedHoldingsIds(List<String> matchedHoldingsIds) {
+        this.matchedHoldingsIds = matchedHoldingsIds;
+    }
+
+    public List<String> getNoMatchFoundHoldings() {
+        return noMatchFoundHoldings;
+    }
+
+    public void setNoMatchFoundHoldings(List<String> noMatchFoundHoldings) {
+        this.noMatchFoundHoldings = noMatchFoundHoldings;
+    }
+
+    public List<BibMarcRecord> getMatchedItemMarc() {
+        return matchedItemMarc;
+    }
+
+    public void setMatchedItemMarc(List<BibMarcRecord> matchedItemMarc) {
+        this.matchedItemMarc = matchedItemMarc;
+    }
+
+    public List<BibMarcRecord> getNonMatchedItemMarc() {
+        return nonMatchedItemMarc;
+    }
+
+    public void setNonMatchedItemMarc(List<BibMarcRecord> nonMatchedItemMarc) {
+        this.nonMatchedItemMarc = nonMatchedItemMarc;
+    }
+
+    public List<String> getMatchedItemIds() {
+        return matchedItemIds;
+    }
+
+    public void setMatchedItemIds(List<String> matchedItemIds) {
+        this.matchedItemIds = matchedItemIds;
+    }
+
+    public List<String> getNoMatchFoundItem() {
+        return noMatchFoundItem;
+    }
+
+    public void setNoMatchFoundItem(List<String> noMatchFoundItem) {
+        this.noMatchFoundItem = noMatchFoundItem;
     }
 
     @Override

@@ -214,15 +214,68 @@ public class BatchProcessBibImport extends AbstractBatchProcess {
             createBatchMismatchFile(bibImportStatistics.getMisMatchMarcRecords().toString(), OLEConstants.OLEBatchProcess.RECORDS_CREATED_WITH_MORE_THAN_ONE_LINK);
         }
 
-        if (bibImportStatistics.getMoreThanOneHoldingsMatched().size() > 0) {
-            bibImportStatistics.setMisMatchMarcRecords(new StringBuffer(new BibMarcRecordProcessor().generateXML(bibImportStatistics.getMoreThanOneHoldingsMatched())));
-            createBatchMismatchFile(bibImportStatistics.getMisMatchMarcRecords().toString(), OLEConstants.OLEBatchProcess.HOLDINGS_MATCHED_MORE_THAN_ONE);
+        if (bibImportStatistics.getNonMatchedBibMarc().size() > 0) {
+            bibImportStatistics.setMisMatchMarcRecords(new StringBuffer(new BibMarcRecordProcessor().generateXML(bibImportStatistics.getNonMatchedBibMarc())));
+            createBatchMismatchFile(bibImportStatistics.getMisMatchMarcRecords().toString(), OLEConstants.OLEBatchProcess.BIBS_NO_MATCHED);
         }
 
-        if (bibImportStatistics.getMoreThanOneItemMatched().size() > 0) {
-            bibImportStatistics.setMisMatchMarcRecords(new StringBuffer(new BibMarcRecordProcessor().generateXML(bibImportStatistics.getMoreThanOneItemMatched())));
-            createBatchMismatchFile(bibImportStatistics.getMisMatchMarcRecords().toString(), OLEConstants.OLEBatchProcess.ITEMS_MATCHED_MORE_THAN_ONE);
+        if (bibImportStatistics.getNonMatchedHoldingsMarc().size() > 0) {
+            bibImportStatistics.setMisMatchMarcRecords(new StringBuffer(new BibMarcRecordProcessor().generateXML(bibImportStatistics.getNonMatchedHoldingsMarc())));
+            createBatchMismatchFile(bibImportStatistics.getMisMatchMarcRecords().toString(), OLEConstants.OLEBatchProcess.HOLDINGS_NO_MATCHED);
         }
+
+        if (bibImportStatistics.getNonMatchedItemMarc().size() > 0) {
+            bibImportStatistics.setMisMatchMarcRecords(new StringBuffer(new BibMarcRecordProcessor().generateXML(bibImportStatistics.getNonMatchedItemMarc())));
+            createBatchMismatchFile(bibImportStatistics.getMisMatchMarcRecords().toString(), OLEConstants.OLEBatchProcess.ITEMS_NO_MATCHED);
+        }
+
+
+        if (bibImportStatistics.getMatchedBibMarc().size() > 0) {
+            bibImportStatistics.setMisMatchMarcRecords(new StringBuffer(new BibMarcRecordProcessor().generateXML(bibImportStatistics.getMatchedBibMarc())));
+            createBatchMismatchFile(bibImportStatistics.getMisMatchMarcRecords().toString(), OLEConstants.OLEBatchProcess.BIBS_MATCHED);
+        }
+
+        if (bibImportStatistics.getMatchedHoldingsMarc().size() > 0) {
+            bibImportStatistics.setMisMatchMarcRecords(new StringBuffer(new BibMarcRecordProcessor().generateXML(bibImportStatistics.getMatchedHoldingsMarc())));
+            createBatchMismatchFile(bibImportStatistics.getMisMatchMarcRecords().toString(), OLEConstants.OLEBatchProcess.HOLDINGS_MATCHED);
+        }
+
+        if (bibImportStatistics.getMatchedItemMarc().size() > 0) {
+            bibImportStatistics.setMisMatchMarcRecords(new StringBuffer(new BibMarcRecordProcessor().generateXML(bibImportStatistics.getMatchedItemMarc())));
+            createBatchMismatchFile(bibImportStatistics.getMisMatchMarcRecords().toString(), OLEConstants.OLEBatchProcess.ITEMS_MATCHED);
+        }
+
+        int size = bibImportStatistics.getMatchedBibIds().size();
+
+        if (size > 0) {
+            createFile(bibImportStatistics.getMatchedBibIds().toArray(new String[size]), OLEConstants.OLEBatchProcess.MATCHED_BIB_IDS_FILE_NAME);
+        }
+
+        size = bibImportStatistics.getMatchedHoldingsIds().size();
+        if (size > 0) {
+            createFile(bibImportStatistics.getMatchedHoldingsIds().toArray(new String[size]), OLEConstants.OLEBatchProcess.MATCHED_HOLDINGS_IDS_FILE_NAME);
+        }
+
+        size = bibImportStatistics.getMatchedItemIds().size();
+        if (size > 0) {
+            createFile(bibImportStatistics.getMatchedItemIds().toArray(new String[size]), OLEConstants.OLEBatchProcess.MATCHED_ITEM_IDS_FILE_NAME);
+        }
+
+        size = bibImportStatistics.getNoMatchFoundBibs().size();
+        if (size > 0) {
+            createFile(bibImportStatistics.getNoMatchFoundBibs().toArray(new String[size]), OLEConstants.OLEBatchProcess.NO_MATCHED_BIB_FILE_NAME);
+        }
+
+        size = bibImportStatistics.getNoMatchFoundHoldings().size();
+        if (size > 0) {
+            createFile(bibImportStatistics.getNoMatchFoundHoldings().toArray(new String[size]), OLEConstants.OLEBatchProcess.NO_MATCHED_HOLDINGS_FILE_NAME);
+        }
+
+        size = bibImportStatistics.getNoMatchFoundItem().size();
+        if (size > 0) {
+            createFile(bibImportStatistics.getNoMatchFoundItem().toArray(new String[size]), OLEConstants.OLEBatchProcess.NO_MATCHED_ITEM_FILE_NAME);
+        }
+
     }
 
 

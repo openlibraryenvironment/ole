@@ -707,6 +707,19 @@ public class OLEConstants {
         public static final String RECORDS_CREATED_WITH_MORE_THAN_ONE_LINK = "_BibFileWithMoreThanOneLinkElement_";
         public static final String HOLDINGS_MATCHED_MORE_THAN_ONE = "_MoreThanOneHoldingsMatched_";
         public static final String ITEMS_MATCHED_MORE_THAN_ONE = "_MoreThanOneItemMatched_";
+        public static final String BIBS_MATCHED = "_BibMatched_";
+        public static final String HOLDINGS_MATCHED = "_HoldingsMatched_";
+        public static final String ITEMS_MATCHED = "_ItemsMatched_";
+        public static final String BIBS_NO_MATCHED = "_No_BibMatched_";
+        public static final String HOLDINGS_NO_MATCHED = "_No_HoldingsMatched_";
+        public static final String ITEMS_NO_MATCHED = "_No_ItemsMatched_";
+        public static final String MATCHED_BIB_IDS_FILE_NAME = "_Matched_Bibs.txt";
+        public static final String MATCHED_HOLDINGS_IDS_FILE_NAME = "_Matched_Holdings.txt";
+        public static final String MATCHED_ITEM_IDS_FILE_NAME = "_Matched_Holdingss.txt";
+        public static final String  NO_MATCHED_BIB_FILE_NAME = "_NO_Matched_Bibs.txt";
+        public static final String  NO_MATCHED_HOLDINGS_FILE_NAME = "_NO_Matched_Holdings.txt";
+        public static final String  NO_MATCHED_ITEM_FILE_NAME = "_NO_Matched_Items.txt";
+
         public static final String OPERATION_INGEST = "ingest";
         public static final String LEVEL_CODE = "levelCode";
         public static final String LEVEL_NAME = "levelName";
@@ -721,6 +734,7 @@ public class OLEConstants {
         public static final String OLE_BATCH_PRIORITY = "error.same.priority";
 
         public static final String MORE_THAN_ONE_MATCHING_FOUND_FROM_EXISTING_RECORD = "More than one matching found from existing record";
+        public static final String NO_MATCHING_RECORD = "No matching record";
         public static final String MATCHING_POINT_BIB = "Matching point in incoming file does not have any value to perform matching";
         public static final String PROCESS_FAILURE = "Failed to process bib trees";
         public static final String NO_MATCH_DISCARD_BIB = "Bib discarded";

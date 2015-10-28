@@ -119,6 +119,7 @@ public class BatchBibImportHelper {
                             bib.setMessage(OLEConstants.OLEBatchProcess.NO_MATCH_DISCARD_BIB);
                             bibTree.setBib(bib);
                         }
+                        bibImportStatistics.getNonMatchedBibMarc().add(bibRecord);
                     } else {
                         // Match found
                         if (matchingProfile.isBibMatched_addBib()) {
@@ -154,6 +155,8 @@ public class BatchBibImportHelper {
 
                             }
                         }
+                        bibImportStatistics.getMatchedBibMarc().add(bibRecord);
+                        bibImportStatistics.getMatchedBibIds().add(matchedBib.getId());
                     }
                 } catch (DocstoreException e) {
                     Bib bib = new Bib();
@@ -350,7 +353,7 @@ public class BatchBibImportHelper {
                 setHoldingsTreeOperations(holdingsTreesList, DocstoreDocument.OperationType.CREATE, DocstoreDocument.OperationType.CREATE);
                 holdingsTrees.addAll(holdingsTreesList);
             }
-
+            bibImportStatistics.getNonMatchedHoldingsMarc().add(bibRecord);
         } else {
             HoldingsTree holdingsTree = new HoldingsTree();
             if (matchingProfile.isHoldingsMatched_addHoldings()) {
@@ -387,7 +390,7 @@ public class BatchBibImportHelper {
                     processItem(bibRecord, matchedHoldings.getId(), oleBatchBibImportDataObjects, profile, matchingProfile, matchedHoldings, holdingsTree);
                 }
             }
-
+            bibImportStatistics.getMatchedHoldingsMarc().add(bibRecord);
 
         }
 
@@ -402,6 +405,7 @@ public class BatchBibImportHelper {
                 // Setting Operation type as create
                 setHoldingsTreeOperations(holdingsTrees, DocstoreDocument.OperationType.CREATE, DocstoreDocument.OperationType.CREATE);
             }
+            bibImportStatistics.getNonMatchedHoldingsMarc().add(bibRecord);
         } else {
             if (matchingProfile.isHoldingsMatched_addHoldings()) {
                 // Add Holdings
@@ -419,6 +423,7 @@ public class BatchBibImportHelper {
                 holdingsTree.setHoldings(matchedHoldings);
                 holdingsTrees.add(holdingsTree);
             }
+            bibImportStatistics.getMatchedHoldingsMarc().add(bibRecord);
         }
         return holdingsTrees;
     }
@@ -663,7 +668,12 @@ public class BatchBibImportHelper {
                 }
 
             }
-
+             if(matchedItem == null){
+                 bibImportStatistics.getNonMatchedItemMarc().add(bibRecord);
+             } else {
+                 bibImportStatistics.getMatchedItemMarc().add(bibRecord);
+                 bibImportStatistics.getMatchedItemIds().add(matchedItem.getId());
+             }
         }
     }
 
@@ -1297,6 +1307,8 @@ public class BatchBibImportHelper {
         List<OLEBatchProcessProfileMatchPoint> bibMatchPointList = BatchBibImportUtil.buildMatchPointListByDataType(profile.getOleBatchProcessProfileMatchPointList(), DocType.BIB.getCode());
         String fieldValue = null;
         SearchParams searchParams = new SearchParams();
+        StringBuilder matchBuiderForReport = new StringBuilder();
+        matchBuiderForReport.append("For Title - " + BatchBibImportUtil.getTitle(bibRecord) +"  -  ");
         for (OLEBatchProcessProfileMatchPoint matchPoint : bibMatchPointList) {
             String cascadingMatchPoint = matchPoint.getCascadingMatchPoint();
             List<String>  dataValues =  BatchBibImportUtil.getMatchedDataField(bibRecord, matchPoint.getMatchPoint());
@@ -1308,6 +1320,7 @@ public class BatchBibImportHelper {
                         fieldValue = cascadingMatchPoint.replace("*", fieldValue);
                     }
                     addSearchCondition(fieldValue, searchParams, matchPoint);
+                    matchBuiderForReport.append(matchPoint.getMatchPoint()+" : "+fieldValue +" - ");
                 }
             }
         }
@@ -1325,7 +1338,14 @@ public class BatchBibImportHelper {
         }
 
         if (searchResults.size() > 1) {
+            matchBuiderForReport.append("-"+OLEConstants.OLEBatchProcess.MORE_THAN_ONE_MATCHING_FOUND_FROM_EXISTING_RECORD);
+            bibImportStatistics.getNoMatchFoundBibs().add(matchBuiderForReport.toString());
             throw new DocstoreSearchException(OLEConstants.OLEBatchProcess.MORE_THAN_ONE_MATCHING_FOUND_FROM_EXISTING_RECORD);
+        }
+
+        if (searchResults.size() == 0) {
+            matchBuiderForReport.append("-"+OLEConstants.OLEBatchProcess.NO_MATCHING_RECORD);
+            bibImportStatistics.getNoMatchFoundBibs().add(matchBuiderForReport.toString());
         }
 
         if (searchResults.size() == 1) {
@@ -1394,7 +1414,9 @@ public class BatchBibImportHelper {
      */
     private Holdings findMatchingForPHoldingsAndEholdings(String bibId, DataField dataField, List<OLEBatchProcessProfileMatchPoint> holdingsMatchPointList, String docType) {
         SearchParams searchParams = new SearchParams();
+        StringBuilder matchPointString = new StringBuilder("For Bib Id :"+bibId+" and  Holdings match points -");
         for (OLEBatchProcessProfileMatchPoint matchPoint : holdingsMatchPointList) {
+            matchPointString.append(matchPoint.getMatchPoint()+" - ");
             String fieldValue = null;
             //Checking  for field value in Holdings constants
             fieldValue = getFieldValueFromConstantsOrDefaults(matchPoint, OLEConstants.OLEBatchProcess.CONSTANT, docType);
@@ -1439,7 +1461,11 @@ public class BatchBibImportHelper {
         }
 
         if (searchResults.size() > 1) {
+            bibImportStatistics.getNoMatchFoundHoldings().add(matchPointString.toString()+" - "+OLEConstants.OLEBatchProcess.MORE_THAN_ONE_MATCHING_FOUND_FROM_EXISTING_RECORD);
             throw new DocstoreSearchException(OLEConstants.OLEBatchProcess.MORE_THAN_ONE_MATCHING_FOUND_FROM_EXISTING_RECORD);
+        }
+        if(searchResults.size() == 0){
+            bibImportStatistics.getNoMatchFoundHoldings().add(matchPointString.toString()+" - "+OLEConstants.OLEBatchProcess.NO_MATCHING_RECORD);
         }
 
         if (searchResults.size() == 1) {
@@ -1447,6 +1473,7 @@ public class BatchBibImportHelper {
                 Holdings holdings = new Holdings();
 
                 String holdingsId = searchResults.get(0).getSearchResultFields().get(0).getFieldValue();
+                bibImportStatistics.getMatchedBibIds().add(holdingsId);
                 try {
                     holdings = getDocstoreClientLocator().getDocstoreClient().retrieveHoldings(holdingsId);
                 } catch (Exception e) {
@@ -1521,9 +1548,10 @@ public class BatchBibImportHelper {
         List<OLEBatchProcessProfileMatchPoint> itemMatchPointList = BatchBibImportUtil.buildMatchPointListByDataType(profile.getOleBatchProcessProfileMatchPointList(), DocType.ITEM.getCode());
 
         SearchParams searchParams = new SearchParams();
-
+        StringBuilder matchPointString = new StringBuilder("For Holdings Id :"+holdingId+" and  Item match points -");
 
         for (OLEBatchProcessProfileMatchPoint matchPoint : itemMatchPointList) {
+            matchPointString.append(matchPoint.getMatchPoint());
             String fieldValue = null;
             //Checking  for field value in Item constants
             fieldValue = getFieldValueFromConstantsOrDefaults(matchPoint, OLEConstants.OLEBatchProcess.CONSTANT, DocType.ITEM.getCode());
@@ -1568,7 +1596,12 @@ public class BatchBibImportHelper {
         }
 
         if (searchResults.size() > 1) {
+            bibImportStatistics.getNoMatchFoundItem().add(matchPointString.toString() + " - " + OLEConstants.OLEBatchProcess.MORE_THAN_ONE_MATCHING_FOUND_FROM_EXISTING_RECORD);
             throw new DocstoreSearchException(OLEConstants.OLEBatchProcess.MORE_THAN_ONE_MATCHING_FOUND_FROM_EXISTING_RECORD);
+        }
+
+        if (searchResults.size() == 0) {
+            bibImportStatistics.getNoMatchFoundItem().add(matchPointString.toString() + " - " + OLEConstants.OLEBatchProcess.NO_MATCHING_RECORD);
         }
 
         if (searchResults.size() == 1) {

@@ -810,26 +810,11 @@ public class BatchProcessBibImportServiceImpl implements BatchProcessBibImportSe
         if (StringUtils.isNotEmpty(failureMessage)) {
             BibMarcRecord bibMarcRecord = bibMarcRecords.get(recordNumber);
             oleBatchbibImportStatistics.getMismatchRecordList().add(bibMarcRecord);
-            oleBatchbibImportStatistics.getErrorBuilder().append("Record #" + ++recordNumber).append(" :  For Title - " + getTitle(bibMarcRecord) +"  -  ");
+            oleBatchbibImportStatistics.getErrorBuilder().append("Record #" + ++recordNumber).append(" :  For Title - " + BatchBibImportUtil.getTitle(bibMarcRecord) +"  -  ");
             oleBatchbibImportStatistics.getErrorBuilder().append(failureMessage).append(System.lineSeparator());
         }
     }
 
-    private String getTitle(BibMarcRecord bibMarcRecord) {
-        String title = null;
-        for (DataField dataField : bibMarcRecord.getDataFields()) {
-            if (dataField.getTag().equals("245")) {
-                for (SubField subfield : dataField.getSubFields()) {
-                    if (subfield.getCode().equalsIgnoreCase("a")) {
-                        title = subfield.getValue();
-                        break;
-                    }
-                }
-
-            }
-        }
-        return title;
-    }
 
     @Override
     public List<OrderBibMarcRecord> saveOderBatch(List<OrderBibMarcRecord> orderBibMarcRecords, OLEBatchBibImportDataObjects oleBatchBibImportDataObjects, OLEBatchBibImportStatistics bibImportStatistics) {

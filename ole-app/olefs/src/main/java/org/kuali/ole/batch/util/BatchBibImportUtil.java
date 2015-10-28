@@ -563,4 +563,21 @@ public class BatchBibImportUtil {
         }
         return dataFieldList;
     }
+
+    public static String getTitle(BibMarcRecord bibMarcRecord) {
+        String title = null;
+        for (DataField dataField : bibMarcRecord.getDataFields()) {
+            if (dataField.getTag().equals("245")) {
+                for (SubField subfield : dataField.getSubFields()) {
+                    if (subfield.getCode().equalsIgnoreCase("a")) {
+                        title = subfield.getValue();
+                        break;
+                    }
+                }
+
+            }
+        }
+        return title;
+    }
+
 }

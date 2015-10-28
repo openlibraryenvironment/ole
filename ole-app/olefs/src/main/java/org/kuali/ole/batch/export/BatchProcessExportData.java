@@ -906,7 +906,7 @@ public class BatchProcessExportData extends AbstractBatchProcess {
                     }
                     if (deleted.length() > 0 && deleted != "") {
                         String ids[] = deleted.split(",");
-                        createFile(ids);
+                        createFile(ids,OLEConstants.OLEBatchProcess.DELETED_BIB_IDS_FILE_NAME);
                     }
                     if (job.getTotalNoOfRecords() != null) {
                         job.setTotalNoOfRecords(String.valueOf(Integer.valueOf(job.getTotalNoOfRecords()) + response.getTotalRecordCount()));

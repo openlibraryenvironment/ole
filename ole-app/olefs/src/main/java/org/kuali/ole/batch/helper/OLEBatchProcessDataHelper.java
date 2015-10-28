@@ -389,19 +389,6 @@ public class OLEBatchProcessDataHelper {
 
     }
 
-    public void createFile(String[] content, String batchProcessType, String batchFileName, String jobId) throws Exception {
-        String fileLocation = getBatchProcessFilePath(batchProcessType) + jobId + "/";
-        File file = new File(fileLocation);
-        if (!file.isDirectory()) {
-            file.mkdir();
-        }
-        BufferedWriter out = new BufferedWriter(new FileWriter(fileLocation + batchFileName));
-        for (String id : content) {
-            out.write(id);
-            out.newLine();
-        }
-        out.close();
-    }
 
     /**
      * Delete the upload file in the batch process type dirctory
@@ -503,22 +490,28 @@ public class OLEBatchProcessDataHelper {
         }
     }
 
-   /* public void setRecordNumber(BibliographicRecord record, String localId) {
-        List<ControlField> controlFieldList = record.getControlfields();
-        for (ControlField cf : controlFieldList) {
-            if (cf.getTag().equals("001")) {
-                cf.setValue(localId);
-                break;
-            }
-
-        }
-    }*/
-
     public void createBatchBibImportFailureFile(String failureRecordData, String batchProcessType, String batchFileName, String jobId) throws Exception {
         String fileLocation = getBatchProcessFilePath(batchProcessType,jobId);
         String filePath = fileLocation + FileSystems.getDefault().getSeparator() + batchFileName;
         createMarcRecord(failureRecordData, filePath);
     }
+
+    public void createFile(String[] content, String batchProcessType, String batchFileName, String jobId) throws Exception {
+        String fileLocation = getBatchProcessFilePath(batchProcessType,jobId);
+        String filePath = fileLocation + FileSystems.getDefault().getSeparator() + batchFileName;
+        File fileToWrite = new File(filePath);
+        if (!fileToWrite.exists()) {
+            fileToWrite.getParentFile().mkdirs();
+            fileToWrite.createNewFile();
+        }
+        BufferedWriter out = new BufferedWriter(new FileWriter(filePath ,true));
+        for (String id : content) {
+            out.write(id);
+            out.newLine();
+        }
+        out.close();
+    }
+
 
     public void createMarcRecord(String marcRecordContent, String filePath) throws Exception {
         File fileToWrite = new File(filePath);
