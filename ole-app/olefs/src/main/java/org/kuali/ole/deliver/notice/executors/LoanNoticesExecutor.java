@@ -51,7 +51,9 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
         //8. send mail
         sendMail(mailContent);
         //9. Index the mail content for solr search
-        getSolrRequestReponseHandler().updateSolr(CollectionUtils.singletonList(getNoticeSolrInputDocumentGenerator().getSolrInputDocument(getNoticeType(), mailContent, loanDocuments)));
+        getSolrRequestReponseHandler().updateSolr(CollectionUtils.singletonList(
+                getNoticeSolrInputDocumentGenerator().getSolrInputDocument(
+                        buildMapForIndexToSolr(getNoticeType(), mailContent, loanDocuments))));
         //10. Post process
         postProcess(loanDocuments);
     }
@@ -89,6 +91,28 @@ public abstract class LoanNoticesExecutor extends NoticesExecutor {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private Map buildMapForIndexToSolr(String noticeType, String noticeContent, List<OleLoanDocument> oleLoanDocuments) {
+        Map parameterMap = new HashMap();
+        parameterMap.put("DocType", noticeType);
+        parameterMap.put("DocFormat", "Email");
+        parameterMap.put("noticeType", noticeType);
+        parameterMap.put("noticeContent", noticeContent);
+        String patronBarcode = oleLoanDocuments.get(0).getOlePatron().getBarcode();
+        String patronId = oleLoanDocuments.get(0).getOlePatron().getOlePatronId();
+        parameterMap.put("patronBarcode", patronBarcode);
+        Date dateSent = new Date();
+        parameterMap.put("dateSent", dateSent);
+        parameterMap.put("uniqueId", patronId + dateSent.getTime());
+        List<String> itemBarcodes = new ArrayList<>();
+        for (Iterator<OleLoanDocument> iterator = oleLoanDocuments.iterator(); iterator.hasNext(); ) {
+            OleLoanDocument oleLoanDocument = iterator.next();
+            String itemBarcode = oleLoanDocument.getItemId();
+            itemBarcodes.add(itemBarcode);
+        }
+        parameterMap.put("itemBarcodes",itemBarcodes);
+        return parameterMap;
     }
 
     protected abstract void postProcess(List<OleLoanDocument> loanDocuments);

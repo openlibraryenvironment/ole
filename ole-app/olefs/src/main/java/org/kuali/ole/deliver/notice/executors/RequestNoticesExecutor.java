@@ -3,7 +3,10 @@ package org.kuali.ole.deliver.notice.executors;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.incubator.SolrRequestReponseHandler;
+import org.kuali.ole.OLEConstants;
 import org.kuali.ole.deliver.bo.*;
+import org.kuali.ole.deliver.notice.NoticeSolrInputDocumentGenerator;
 import org.kuali.ole.deliver.notice.bo.OleNoticeContentConfigurationBo;
 import org.kuali.ole.deliver.notice.noticeFormatters.RequestEmailContentFormatter;
 import org.kuali.ole.deliver.service.NoticesExecutor;
@@ -24,6 +27,8 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
 
 
     protected OleNoticeContentConfigurationBo oleNoticeContentConfigurationBo;
+    private NoticeSolrInputDocumentGenerator noticeSolrInputDocumentGenerator;
+    private SolrRequestReponseHandler solrRequestReponseHandler;
 
     public void setRequestEmailContentFormatter(RequestEmailContentFormatter requestEmailContentFormatter) {
         this.requestEmailContentFormatter = requestEmailContentFormatter;
@@ -117,7 +122,19 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
     }
 
 
+    private NoticeSolrInputDocumentGenerator getNoticeSolrInputDocumentGenerator() {
+        if (null == noticeSolrInputDocumentGenerator) {
+            noticeSolrInputDocumentGenerator = new NoticeSolrInputDocumentGenerator();
+        }
+        return noticeSolrInputDocumentGenerator;
+    }
 
+    private SolrRequestReponseHandler getSolrRequestReponseHandler() {
+        if (null == solrRequestReponseHandler) {
+            solrRequestReponseHandler = new SolrRequestReponseHandler();
+        }
+        return solrRequestReponseHandler;
+    }
 
     @Override
     public void run() {
@@ -135,7 +152,11 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
 
             deleteNotices(filteredDeliverNotices);
 
-            saveOLEDeliverNoticeHistory(filteredDeliverNotices,mailContent);
+            saveOLEDeliverNoticeHistory(filteredDeliverNotices, mailContent);
+
+            getSolrRequestReponseHandler().updateSolr(org.kuali.common.util.CollectionUtils.singletonList(
+                    getNoticeSolrInputDocumentGenerator().getSolrInputDocument(
+                            buildMapForIndexToSolr(getType(),mailContent, deliverRequestBos))));
 
             postProcess();
         }
@@ -143,8 +164,27 @@ public abstract class RequestNoticesExecutor extends NoticesExecutor {
 
     }
 
-
-
+    private Map buildMapForIndexToSolr(String noticeType, String noticeContent, List<OleDeliverRequestBo> oleDeliverRequestBos) {
+        Map parameterMap = new HashMap();
+        parameterMap.put("DocType", noticeType);
+        parameterMap.put("DocFormat", "Email");
+        parameterMap.put("noticeType", noticeType);
+        parameterMap.put("noticeContent", noticeContent);
+        String patronBarcode = oleDeliverRequestBos.get(0).getOlePatron().getBarcode();
+        String patronId = oleDeliverRequestBos.get(0).getOlePatron().getOlePatronId();
+        parameterMap.put("patronBarcode", patronBarcode);
+        Date dateSent = new Date();
+        parameterMap.put("dateSent", dateSent);
+        parameterMap.put("uniqueId", patronId+ dateSent.getTime());
+        List<String> itemBarcodes = new ArrayList<>();
+        for (Iterator<OleDeliverRequestBo> iterator = oleDeliverRequestBos.iterator(); iterator.hasNext(); ) {
+            OleDeliverRequestBo oleDeliverRequestBo = iterator.next();
+            String itemBarcode = oleDeliverRequestBo.getItemId();
+            itemBarcodes.add(itemBarcode);
+        }
+        parameterMap.put("itemBarcodes",itemBarcodes);
+        return parameterMap;
+    }
 
 
 }
